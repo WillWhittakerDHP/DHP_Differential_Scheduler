@@ -1,4 +1,4 @@
-# DHP_Differential_Scheduler
+no# DHP_Differential_Scheduler
 
 I am an independent home inspector and currently available automated schedulers do not meet my business needs. 
 
@@ -659,6 +659,7 @@ For each appointment time block:
     Scheduling fee to save space
     Option for agents to request a discount
     Discount coupons
+    Quote Package producer for clients
 ### APIs
     Chat bot
     Inspection software platforms integrations
