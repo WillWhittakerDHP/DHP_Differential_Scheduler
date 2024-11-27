@@ -12,10 +12,10 @@ Long story short: manual scheduling wastes time, hiring someone to do this is ex
 
 Therefore:
 
-  AS a solo business owner with sophisticated service offerings
-  I WANT a single-page scheduling application connected to Google and MLS APIs
-  SO THAT I can control and adjust a complex set of available services and restraints 
-  AND SO THAT users can easily schedule services that meet their needs with minimal engagement.
+    AS a solo business owner with sophisticated service offerings
+    I WANT a single-page scheduling application connected to Google and MLS APIs
+    SO THAT I can control and adjust a complex set of available services and restraints 
+    AND SO THAT users can easily schedule services that meet their needs with minimal engagement.
 
 ## User Story
 ### General Page
@@ -510,147 +510,156 @@ Create an inspection, meaning that we collect the appropriate information and fo
 If fetch fails… email will?
 
 ## Acceptance Criteria
-  Application uses a mobile-first design
-  Application uses the Google and MLS APIs to retrieve calendar and property data
-  Application uses a database to store service information and a record of scheduled/completed services
-  Application uses Typescript and React features to accommodate future editing and enhancements
-  Application stores calendar availability and appointment information in state
-  Application uses a layout/styling library with accessible and consistent design and color scheme (Consider using Vuexy, animations, and React component libraries)
+
+    Application uses a mobile-first design
+    Application uses the Google and MLS APIs to retrieve calendar and property data
+    Application uses a database to store service information and a record of scheduled/completed services
+    Application uses Typescript and React features to accommodate future editing and enhancements
+    Application stores calendar availability and appointment information in state
+    Application uses a layout/styling library with accessible and consistent design and color scheme (Consider using Vuexy, animations, and React component libraries)
 
 ## State, Database, and Type suggestions
 ### Appointment State Settings
-  User: 											User { Type , Participant }
-  Participants:								{ firstName , lastName , email }
-  Quote Only: 								boolean
-  Service Information: 				Service { Type , Add Services , Availability Options  , Fees }
-  Property Information: 			Property { Above Grade Sq ft , Below Grade Sq ft , Bedroom# , Bathroom# , Foundation Type }	
-  Location: 									{ Number , Street , Apt , City , State , Zip }
-  Differential Scheduling: 		boolean
-  Time Basis: 								string
-  Time Blocks:								Duration[]
-  Available Time Slots:				TimeSlot
-  Available Dates:						Date
-  Selected Start Time: 				Time
-  Earliest Report Completion:	Time
+
+    User:                         User { Type , Participant }
+    Participants:	              { firstName , lastName , email }
+    Quote Only:                   boolean
+    Service Information:          Service { Type , Add Services , Availability Options  , Fees }
+    Property Information:         Property { Above Grade Sq ft , Below Grade Sq ft , Bedroom# , Bathroom# , Foundation Type }	
+    Location:                     { Number , Street , Apt , City , State , Zip }
+    Differential Scheduling:      boolean
+    Time Basis:                   string
+    Time Blocks:				  Duration[]
+    Available Time Slots:		  TimeSlot
+    Available Dates:			  Date
+    Selected Start Time: 		  Time
+    Earliest Report Completion:	  Time
 
 ### Service Settings Variables from the Services Database
-  Title:											string
-  Active/Inactive:						boolean
-  Differential Scheduling:		boolean
-  User Availability:					string
-  Descriptions: 							string{ buyerDescription , agentDescription , ownerDescription }
-  Availability Options:				string[]
-  Additional Services:				string[]
-  Time Blocks:								Duration[]
-  Events for Calendar Push:		Events[]
-  Examples:
-    Buyer’s Inspection:
-    Walk & Talk:
-    Home Maintenance Planning:
-    Pre-sale Walkthrough:
+    Title:                      string
+    Active/Inactive:            boolean
+    Differential Scheduling:	boolean
+    User Availability:          string
+    Descriptions:               string{ buyerDescription , agentDescription , ownerDescription }
+    Availability Options:       string[]
+    Additional Services:        string[]
+    Time Blocks:                Duration[]
+    Events for Calendar Push:   Events[]
+    Examples:
+      Buyer’s Inspection:
+      Walk & Talk:
+      Home Maintenance Planning:
+      Pre-sale Walkthrough:
 
 ### Additional Service Settings Variables from the Services Database
-  Title:											string
-  Service Availability:				string
-  Descriptions: 							string { buyerDescription , agentDescription , ownerDescription }
-  Time Blocks:								Duration[]
-    Examples:
-    Blue Tape:
-    Radon:
-    Reinspection:
+    Title:                  string
+    Service Availability:	string
+    Descriptions:           string { buyerDescription , agentDescription , ownerDescription }
+    Time Blocks:            Duration[]
+      Examples:
+      Blue Tape:
+      Radon:
+      Reinspection:
 
 ### Availability Options Variables from the Services Database:
-  Title:												string
-  Service Availability:					string
-  Descriptions: 								string { buyerDescription , agentDescription , ownerDescription }
-  Time Blocks:									Duration[]
-  Differential Override:				boolean
-  Examples:
-    Minimize Time On-site: offsiteReportWriting = onsite , !onsite , earliestReportCompletion
-    Additional Client Time: clientPresentation*(variable)
-    Client will not be present: clientPresentation*0
-    First-time buyers: clientPresentation*(variable):
+    Title:                  string
+    Service Availability:   string
+    Descriptions:           string { buyerDescription , agentDescription , ownerDescription }
+    Time Blocks:            Duration[]
+    Differential Override:  boolean
+    Examples:
+      Minimize Time On-site: offsiteReportWriting = onsite , !onsite , earliestReportCompletion
+      Additional Client Time: clientPresentation*(variable)
+      Client will not be present: clientPresentation*0
+      First-time buyers: clientPresentation*(variable):
 
 ### Types:
-  TimeSlot:			{ startTime , endTime , availability }
-  Duration:			{ 
-                  Type (buffer , driveTime , onSite , offSite) 
-                  Action (before , after) (fromHome , fromPrevious , toNext , driveTimeTotal) (earlyArrival , dataCollection , reportWriting , clientPresentation , onSiteTotal) (reportWriting , virtualPresentation , offSiteTotal) 
-                  FeeCalculators [ rateTime , baseTime , rateFee , baseFee ]
+    TimeSlot: { 
+                startTime , endTime , availability 
                 }
-  Events:				{ 	
-                  User (Buyer , Agents , Owners , Inspectors),
-                  Appointment Info (Active/Inactive , Title , correspondingTimeBlock)
-                  GoogleStuff (Availability , Permissions) 
+    
+    Duration: { 
+                Type (buffer , driveTime , onSite , offSite) 
+                Action (before , after) (fromHome , fromPrevious , toNext , driveTimeTotal) (earlyArrival , dataCollection , reportWriting , clientPresentation , onSiteTotal) (reportWriting , virtualPresentation , offSiteTotal) 
+                FeeCalculators [ rateTime , baseTime , rateFee , baseFee ]
+                }
+    
+    Events:   { 	
+                User (Buyer , Agents , Owners , Inspectors),
+                Appointment Info (Active/Inactive , Title , correspondingTimeBlock)
+                GoogleStuff (Availability , Permissions) 
                 }
 
 ### When naming variables and types, use the names from these APIs as the model
 #### Google Fetch constants:
-URLs of the calendars from which to read “busy” times
-URL of the calendar to which you should write events
-Home Address { Number, Street, Apt, City, State, Zip }
+    URLs of the calendars from which to read “busy” times
+    URL of the calendar to which you should write events
+    Home Address { Number, Street, Apt, City, State, Zip }
 
 #### Google Fetch variables
-  Unavailable or available times
-Location of busy events
-Drive time to appointment from busy event
-Drive time to appointment from home
-Drive time from appointment to next busy event
+      Unavailable or available times
+    Location of busy events
+    Drive time to appointment from busy event
+    Drive time to appointment from home
+    Drive time from appointment to next busy event
 
 #### MLS Fetch variables:
-Home type: 
-Single Family, Detached, Semi-detached, Condo, Co-op, Townhouse, Multi-family
-Foundation type:
-  Basement, Crawlspace, Slab-on-Grade, Piers, etc
-Accessory dwelling units:
-  Above grade square foot
-Below grade square foot
-Number of Bedrooms/Bathrooms 
+    Home type: 
+    Single Family, Detached, Semi-detached, Condo, Co-op, Townhouse, Multi-family
+    Foundation type:
+      Basement, Crawlspace, Slab-on-Grade, Piers, etc
+    Accessory dwelling units:
+      Above grade square foot
+    Below grade square foot
+    Number of Bedrooms/Bathrooms 
 
 #### Spectora API Fields:
-  ???
+    ???
 
 ## Calculator:
 For each appointment time block: 
-1. Add all bases for the service and each additional service and option, 
-2. Multiply all rates for the service and each additional service and option, 
-3. Multiply the total rate by property sqft, 
-4. Then add bases to rate*sqft,
-5. Round up to the nearest :15
+  1. Add all bases for the service and each additional service and option, 
+  2. Multiply all rates for the service and each additional service and option, 
+  3. Multiply the total rate by property sqft, 
+  4. Then add bases to rate*sqft,
+  5. Round up to the nearest :15
 
 ## Future Features:
 ### Scheduling Functions
-  Rescheduling
-  Multiday inspections
-  Report Review Second Calendar Date
-  Offer Zoom presentation
-  Logins for admins and agents that auto-populate certain information
-  Admin and some agents can create appointment offers that do not have all information completed, like time Selected, client info, additional services and must be accessed via a limited login (link, email address entry)
-  Time first instead of date first: “What days can I start at 11?” instead of “When can I start on the 5th?”
-  Calendar POP new appointments scheduled in weekPlus
-  Lunchhour
+    Rescheduling
+    Multiday inspections
+    Report Review Second Calendar Date
+    Offer Zoom presentation
+    Logins for admins and agents that auto-populate certain information
+    Admin and some agents can create appointment offers that do not have all information completed, like time Selected, client info, additional services and must be accessed via a limited login (link, email address entry)
+    Time first instead of date first: “What days can I start at 11?” instead of “When can I start on the 5th?”
+    Calendar POP new appointments scheduled in weekPlus
+    Lunchhour
 ### Admin Functions
-  Embeddable widget
-  (i) information tags
-  Active/Inactive/Test settings for Services, Additional Services, and Availability Options
-  Required/Additional info types: only names are required for additional participants, ccemail, bccemail, phone number, brokerage, photo, permissions, “add profile”, password, log-in with google/facebook/etc
-  Pertinent Information for Event Settings
-  Additional inspectors
-  Additional calendars 
-  Business Settings: Fee Settings, Unit Settings (Room Number, Sqft, Zip-code), Drive billing ( Drivetime, drivetime minus, no drive time, mileage, mileage minus, no mileage
-  User type refinement
-  Admin Sub-type: (Inspector {Trainee, Full, Senior}, and Office)
-  Buyer User Sub-Type: {Buyer, Additional Buyer, Combined Buyer ⇒ !Buyer && !Additional Buyer} 
-  Owner User Sub-types: {Owner, Combined Owner ⇒ !Owner, Seller, Combined Seller ⇒ ! Seller, Trust/LLC ⇒ Trust Signatory}
-  Agent User Sub-types: {Client’s Agent, Additional Agent, Transaction Manager, Brokerage/Team ⇒ Additional Agents, Team Member}
+    Embeddable widget
+    (i) information tags
+    Active/Inactive/Test settings for Services, Additional Services, and Availability Options
+    Required/Additional info types: only names are required for additional participants, ccemail, bccemail, phone number, brokerage, photo, permissions, “add profile”, password, log-in with google/facebook/etc
+    Pertinent Information for Event Settings
+    Additional inspectors
+    Additional calendars 
+    Business Settings: Fee Settings, Unit Settings (Room Number, Sqft, Zip-code), Drive billing ( Drivetime, drivetime minus, no drive time, mileage, mileage minus, no mileage
+    User type refinement
+    Admin Sub-type: (Inspector {Trainee, Full, Senior}, and Office)
+    Buyer User Sub-Type: {Buyer, Additional Buyer, Combined Buyer ⇒ !Buyer && !Additional Buyer} 
+    Owner User Sub-types: {Owner, Combined Owner ⇒ !Owner, Seller, Combined Seller ⇒ ! Seller, Trust/LLC ⇒ Trust Signatory}
+    Agent User Sub-types: {Client’s Agent, Additional Agent, Transaction Manager, Brokerage/Team ⇒ Additional Agents, Team Member}
 ### Agent Features
-  Count down to save a space
-  Scheduling fee to save space
-  Option for agents to request a discount
-  Discount coupons
+    Count down to save a space
+    Scheduling fee to save space
+    Option for agents to request a discount
+    Discount coupons
 ### APIs
-  Chat bot
-  Other inspection software platforms
-  Payment processing
-  CRM
-  Agreement signatures
+    Chat bot
+    Other inspection software platforms
+    Payment processing
+    CRM
+    Agreement signatures
+
+## Link to Mock-up scheduler
+  https://warm-cat-f0d5bd.netlify.app/pages/wizard-examples/scheduler/
