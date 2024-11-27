@@ -19,7 +19,7 @@ Therefore:
 
 ## User Story
 ### General Page
-![The app displays a header, nav bar, content section, and footer.](./Assets/PreviousExamples/ServiceSelectionTop.png)
+![The app displays a header, nav bar, content section, and footer.](./src/assets/PreviousExamples/ServiceSelectionTop.png)
 
   WHEN a user loads the application,
   THEN they are presented with a page containing a header, a side navigation bar, a Content Section, and a footer
@@ -44,7 +44,7 @@ Therefore:
 
 ### User Pages
 #### Service Selection
-![The service selection page prompts the user to select a set of available services, select a service, and add services if wanted.](./Assets/PreviousExamples/ServiceSelectionBottom.png)
+![The service selection page prompts the user to select a set of available services, select a service, and add services if wanted.](./src/assets/Assets/PreviousExamples/ServiceSelectionBottom.png)
 
   WHEN a user is presented with the Service Selection page,
   THEN they see a row of Active cards/buttons indicating each possible User Type, including a small icon, a name for the User Type, and a short (character limited) description explaining the characteristics of each User Type
@@ -69,7 +69,7 @@ Therefore:
 
 
 #### Property Details
-![The property information page collects and prepares information about the property where they inspection will occur.](./Assets/PreviousExamples/PropertyInformation.png)
+![The property information page collects and prepares information about the property where they inspection will occur.](./src/assets/Assets/PreviousExamples/PropertyInformation.png)
   WHEN a user is presented with the Property Details page,
   THEN they see a row of cards/buttons indicating each possible Property Type, including a small icon, a name for the Property Type, a blank space, and an Active “Previous” button just above the footer
 
@@ -104,7 +104,7 @@ Therefore:
   THEN they see the Appointment Availability page in the Content Section
 
 #### Appointment Availability
-![The appointment availability page displays an interface that allows clients to customize their service and select available times.](./Assets/PreviousExamples/AppointmentAvailabilityStandard.png)
+![The appointment availability page displays an interface that allows clients to customize their service and select available times.](./src/assets/Assets/PreviousExamples/AppointmentAvailabilityStandard.png)
   WHEN a user sees the Appointment Availability page,
   THEN on the left, they see a Title above a calendar from which they can select dates, and on the right, they see (from top to bottom) (1)-a Time Basis Selection field (if Differential Scheduling is a service type setting), (2)-an Available Times button field, (3)-a lateral pair of bars representing Differential Arrival Times (if Differential Scheduling is a service type setting), and (4)-a field to select for Scheduling Options that affect availability (conditional on service type settings)
 
@@ -121,7 +121,7 @@ Therefore:
 ##### Appointment Selection Field
     WHEN the user looks at the Appointment Selection field,
     THEN they see the (1) Time Basis Selection field, (2a or 2b) the Appointment Selection Buttons, the (3) Time On-Site Graph, and the (4) Availability Options–Depending on the Service Type Settings
-![The differential instance of the appointment availability page allows clients to see what is happening with differential scheduling.](./Assets/PreviousExamples/AppointmentAvailabilityClient.png)
+![The differential instance of the appointment availability page allows clients to see what is happening with differential scheduling.](./src/assets/Assets/PreviousExamples/AppointmentAvailabilityClient.png)
 ###### (1) Time Basis Selector – When Service Type is Differential Scheduling is TRUE
     WHEN the user looks at the Time Basis Selector field,
     THEN they see an explanatory text field, and two buttons-one labeled “Client” and the other labeled “Inspector” which are both Active in their own colors by default
@@ -181,7 +181,7 @@ Therefore:
 
     WHEN the user selects a new Date from the calendar AFTER selecting a time ,
     THEN they trigger an Appointment Selection Field Refresh, where the Selected button is de-selected and the Appointment Selection Buttons re-populate with times representing all possible start times for time slots for that Date which would accommodate their appointments, (where available time slots are Active and unavailable time slots are Inactive).
-![The appointment availability page displays an interface that allows clients to customize their service.](./Assets/PreviousExamples/AppointmentAvailabilityInspector.png)
+![The appointment availability page displays an interface that allows clients to customize their service.](./src/assets/Assets/PreviousExamples/AppointmentAvailabilityInspector.png)
 ##### (3) Time On-Site Graph – Appearance Conditional on Service Type Settings and Availability Options
 
     WHEN the user looks at the Time On-Site Graph and Differential Scheduling is a setting for their service type,
@@ -248,7 +248,7 @@ Therefore:
     THEN at the end of that card the user sees in bold type the phrase: ‘Earliest Report Completion Time: {earliestReportCompletionTime}’
 
 #### Contact Information
-![The appointment availability page displays an interface to gather necessary information for each participant.](./Assets/PreviousExamples/ContactInformation.png)
+![The appointment availability page displays an interface to gather necessary information for each participant.](./src/assets/Assets/PreviousExamples/ContactInformation.png)
   WHEN the user looks at the contact information page,
   THEN they see a column of contact information cards for each required participant and buttons for adding additional participants cards, as listed in the Service Type Settings
   WHEN the user looks at any required contact card,
@@ -268,7 +268,7 @@ Therefore:
 
 
 #### Confirmation
-![The appointment availability page displays an interface to summarize and confirm their service.](./Assets/PreviousExamples/Confirmation.png)
+![The appointment availability page displays an interface to summarize and confirm their service.](./src/assets/Assets/PreviousExamples/Confirmation.png)
   WHEN the user looks at the confirmation page,
   THEN the user see a left column with a title and service details and a right column with an invoice card
   WHEN the user looks at the left column,
