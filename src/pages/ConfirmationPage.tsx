@@ -1,7 +1,9 @@
-const ConfirmationPage = () => {
+/*const ConfirmationPage = () => {
     return 
-}
-
+}*/
+const ConfirmationPage: React.FC = () => {
+    return <div>Confirmation page</div>;
+};
 
 
 

@@ -15,9 +15,7 @@ const Nav = () => {
           <h2>
             <Link
               to='/'
-              className={currentPage === '/' ? 'nav-link active' : 'nav-link'}
-            >
-              SCHEDULER
+              className={currentPage === '/' ? 'nav-link active' : 'nav-link'}>
             </Link>
           </h2>
         </li>
