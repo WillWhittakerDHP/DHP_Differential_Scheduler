@@ -1,4 +1,4 @@
-no# DHP_Differential_Scheduler
+# DHP_Differential_Scheduler
 
 I am an independent home inspector and currently available automated schedulers do not meet my business needs. 
 
