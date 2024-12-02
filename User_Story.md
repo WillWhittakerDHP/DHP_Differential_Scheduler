@@ -661,6 +661,7 @@ For each appointment time block:
     Scheduling fee to save space
     Option for agents to request a discount
     Discount coupons
+    Quote Package producer for clients
 ### APIs
     Chat bot
     Inspection software platforms integrations
