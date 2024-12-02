@@ -640,6 +640,8 @@ For each appointment time block:
     Time first instead of date first: “What days can I start at 11?” instead of “When can I start on the 5th?”
     Calendar POP new appointments scheduled in weekPlus
     Lunchhour
+    "How can I fit it in on ${Monday}?" button
+    "Book Next Available" button
 ### Admin Functions
     Embeddable widget
     (i) information tags
@@ -659,6 +661,7 @@ For each appointment time block:
     Scheduling fee to save space
     Option for agents to request a discount
     Discount coupons
+    Quote Package producer for clients
 ### APIs
     Chat bot
     Inspection software platforms integrations

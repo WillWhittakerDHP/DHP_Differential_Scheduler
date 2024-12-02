@@ -6,7 +6,8 @@ CREATE DATABASE calculation_variables_db;
 CREATE TABLE user_types(
   user_type_id SERIAL PRIMARY KEY,
   user_type VARCHAR(10) NOT NULL,
-  user_description VARCHAR(50) NOT NULL
+  user_description VARCHAR(50) NOT NULL,
+  visibility BOOLEAN
 );
 
 CREATE TABLE dwelling_types(
