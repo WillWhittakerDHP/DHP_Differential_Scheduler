@@ -2,10 +2,11 @@ DO $$
 DECLARE
 BEGIN
 
-INSERT INTO user_types (user_type, user_description)
-VALUES  ('Buyer', 'Buyer _description'), 
-        ('Agent', 'Agent _description'), 
-        ('Owner', 'Agent _description');
+INSERT INTO user_types (user_type, user_description, visibility)
+VALUES  ('Buyer', 'Buyer _description', true), 
+        ('Agent', 'Agent _description', true), 
+        ('Owner', 'Owner _description', true),
+        ('Inspector', 'inspector _description', false);
 
 INSERT INTO dwelling_types (dwelling_type, 
 buyer_description, agent_description, owner_description, data_collection_base_time, data_collection_rate_over_base_time, data_collection_base_fee, data_collection_rate_over_base_fee, 
