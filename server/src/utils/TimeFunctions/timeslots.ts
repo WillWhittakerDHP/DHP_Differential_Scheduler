@@ -1,4 +1,6 @@
 //Logic. Time Slotter will take a window of time in hours or minutes and then break them into 15 minute windows.
+// Limitations:
+// I built this class assuming everything will lie within a 24 hour clock. The code doesn't stop you from going over 24 hours and I don't know how that will translate to Javascript Date object. But, you will still get 15 minute time intervals and appropriate (although strange) over 24 hour times. 
 
 // Clock Time represent a 24 hour clock.
 interface ClockTime {
