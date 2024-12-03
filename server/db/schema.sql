@@ -116,6 +116,7 @@ CREATE TABLE additional_services(
 
 CREATE TABLE availability_options(
   availability_option_id SERIAL PRIMARY KEY,
+  
   title VARCHAR(100) not NULL,
   
   can_be_scheduled BOOLEAN,

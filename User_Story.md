@@ -501,7 +501,6 @@ Therefore:
     Output
       Unavailable times
       Addresses of events during unavailable times
-      Home Address { Number, Street, Apt, City, State, Zip }
     Failure:
       ?If the fetch fails, direct the user to text me directly
   Fetch for events
@@ -551,8 +550,7 @@ Therefore:
 ## State, Database, and Type suggestions
 ### Appointment State Settings
 
-    User:                         User { Type , Participant }
-    Participants:	              { firstName , lastName , email }
+    User:                         User { ParticipantType, firstName , lastName , email }
     Quote Only:                   boolean
     Service Information:          Service { Type , Add Services , Availability Options  , Fees }
     Property Information:         Property { Above Grade Sq ft , Below Grade Sq ft , Bedroom# , Bathroom# , Foundation Type }	
