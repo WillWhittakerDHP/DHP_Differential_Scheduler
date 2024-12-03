@@ -15,7 +15,8 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        index: true,
+        //index: true,
+        path: '/AvailavilityPage',
         element: <AvailavilityPage />,
       },
       {
@@ -41,4 +42,5 @@ const router = createBrowserRouter([
 const rootElement = document.getElementById('root');
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
-}
+};
+

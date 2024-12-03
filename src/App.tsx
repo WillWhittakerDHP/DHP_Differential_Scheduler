@@ -1,17 +1,16 @@
 import { Outlet } from 'react-router-dom';
 import Nav from './components/Nav.tsx';
-import './App.css'
 
 
-function App() {
+const App = () => {
   return (
-    <>
+    <div>
       <Nav />
-      <main>
-        <Outlet />
-      </main>
-    </>
+      <div className="main-content">
+        <Outlet /> {/* This will render the child routes */}
+      </div>
+    </div>
   );
-}
+};
 
 export default App;
