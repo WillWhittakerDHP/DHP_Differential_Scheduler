@@ -1,4 +1,4 @@
-SELECT * FROM services;
+-- SELECT * FROM services;
 
 -- JOIN manager ON employees.manager = employees.employee_id;
 -- SELECT concat(first_name, ' ', last_name) AS "Name", departments.department_name AS "Department"

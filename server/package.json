@@ -4,6 +4,9 @@
   "description": "",
   "main": "server.js",
   "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "scripts": {
     "build": "npx tsc",
     "start": "npm run build && node dist/server.js --ignore client",
@@ -16,9 +19,6 @@
     "ext": "ts,json,js",
     "exec": "npx tsc && node dist/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
