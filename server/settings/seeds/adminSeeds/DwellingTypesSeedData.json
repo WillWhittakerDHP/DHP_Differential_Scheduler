@@ -1,7 +1,0 @@
-[
-  {"dwelling_type_name": "Condo", "ui_description_set": 2},
-  {"dwelling_type_name": "Co-op", "ui_description_set": 3}, 
-  {"dwelling_type_name": "Townhouse", "ui_description_set": 4}, 
-  {"dwelling_type_name": "Single Family", "ui_description_set": 5}, 
-  {"dwelling_type_name": "Multi Family", "ui_description_set": 6}
-]
