@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css'
 
 import App from './App.tsx'
-import AvailavilityPage from './pages/AvailavilityPage.tsx';
+import AvailabilityPage from './pages/AvailabilityPage.tsx';
 import ConfirmationPage from './pages/ConfirmationPage.tsx';
 import ParticipantInformationPage from './pages/ParticipantInformationPage.tsx';
 import PropertyInformationPage from './pages/PropertyInformationPage.tsx';
@@ -15,25 +15,24 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        //index: true,
-        path: '/AvailavilityPage',
-        element: <AvailavilityPage />,
-      },
-      {
-        path: '/ConfirmationPage',
-        element: <ConfirmationPage />,
-      },
-      {
-        path: '/ParticipantInformationPage',
-        element: <ParticipantInformationPage />,
+        path: '/ServiceSelectionPage',
+        element: <ServiceSelectionPage />,
       },
       {
         path: '/PropertyInformationPage',
         element: <PropertyInformationPage />,
       },
       {
-        path: '/ServiceSelectionPage',
-        element: <ServiceSelectionPage />,
+        path: '/AvailabilityPage',
+        element: <AvailabilityPage />,
+      },
+      {
+        path: '/ParticipantInformationPage',
+        element: <ParticipantInformationPage />,
+      },
+      {
+        path: '/ConfirmationPage',
+        element: <ConfirmationPage />,
       },
     ],
   },

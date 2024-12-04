@@ -6,29 +6,13 @@ const Nav = () => {
 
   return (
     <div className="sidebar">
-      <Link
-        to='/AvailavilityPage'
+        <Link
+        to='/ServiceSelectionPage'
         className={
-          currentPage === '/AvailavilityPage' ? 'nav-link active' : 'nav-link'
+          currentPage === '/ServiceSelectionPage' ? 'nav-link active' : 'nav-link'
         }
       >
-        Availability Page
-      </Link>
-      <Link
-        to='/ConfirmationPage'
-        className={
-          currentPage === '/ConfirmationPage' ? 'nav-link active' : 'nav-link'
-        }
-      >
-        Confirmation Page
-      </Link>
-      <Link
-        to='/ParticipantInformationPage'
-        className={
-          currentPage === '/ParticipantInformationPage' ? 'nav-link active' : 'nav-link'
-        }
-      >
-        Participant Information Page
+        Service Selection
       </Link>
       <Link
         to='/PropertyInformationPage'
@@ -36,15 +20,31 @@ const Nav = () => {
           currentPage === '/PropertyInformationPage' ? 'nav-link active' : 'nav-link'
         }
       >
-        Property Information Page
+        Property Details
       </Link>
       <Link
-        to='/ServiceSelectionPage'
+        to='/AvailabilityPage'
         className={
-          currentPage === '/ServiceSelectionPage' ? 'nav-link active' : 'nav-link'
+          currentPage === '/AvailabilityPage' ? 'nav-link active' : 'nav-link'
         }
       >
-        Service Selection Page
+        Appointment Availability 
+      </Link>
+      <Link
+        to='/ParticipantInformationPage'
+        className={
+          currentPage === '/ParticipantInformationPage' ? 'nav-link active' : 'nav-link'
+        }
+      >
+        Personal Information 
+      </Link>
+      <Link
+        to='/ConfirmationPage'
+        className={
+          currentPage === '/ConfirmationPage' ? 'nav-link active' : 'nav-link'
+        }
+      >
+        Summary 
       </Link>
     </div>
   );

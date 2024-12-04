@@ -3,7 +3,7 @@ import React from 'react';
 
 
 
-const AvailavilityPage: React.FC = () => {
+const AvailabilityPage: React.FC = () => {
     return (
         <div className="layout">
             <div className="availability-content">
@@ -13,4 +13,4 @@ const AvailavilityPage: React.FC = () => {
     );
 };
 
-export default AvailavilityPage;
+export default AvailabilityPage;
