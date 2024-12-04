@@ -74,7 +74,7 @@ button:focus-visible {
 }
 
 .sidebar .nav-link.active {
-  background-color: #007bff; /* Active link background */
+  background-color: #646cff; /* Active link background */
   color: white; /* Active link text color */
 }
 
