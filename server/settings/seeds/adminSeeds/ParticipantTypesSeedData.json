@@ -1,0 +1,6 @@
+[
+  {"participant_type": "Buyer", "participant_description": "I am buying a home", "visibility": true}, 
+  {"participant_type": "Agent", "participant_description": "My Client is buying a home", "visibility": true}, 
+  {"participant_type": "Owner", "participant_description": "I own a home", "visibility": true},
+  {"participant_type": "Inspector'", "participant_description": "This is me!", "visibility": false}
+]
