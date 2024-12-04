@@ -38,6 +38,29 @@ div {
   color: grey;
 }
 
+form {
+  display: block;
+  margin-top: 0em;
+  unicode-bidi: isolate;
+}
+
+.input-container {
+  display: flex; /* Enable Flexbox */
+  justify-content: space-around; /* Space out the input elements */
+  align-items: flex-start; /* Align items vertically centered */
+}
+
+.input-container input {
+  flex: 0; /* Allow inputs to grow and take equal space */
+  margin: 2 60px; /* Add some space between inputs */
+  background-color: #f8f9fa;
+  color: #1a1a1a;
+  width: 250px; 
+  border-radius: 10px; 
+  padding: 10px; 
+  border: 1px solid #ccc;  
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
