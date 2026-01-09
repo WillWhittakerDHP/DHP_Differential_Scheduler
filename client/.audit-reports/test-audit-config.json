@@ -1,0 +1,11 @@
+{
+  "$comment": "Configuration for test-audit.mjs exception handling",
+  "$schema": "Allowlist for intentional/necessary test audit patterns",
+  
+  "allowlist": {
+    "patterns": [],
+    "specific": []
+  },
+  
+  "$note": "Test audit currently uses built-in isTestFile() and isSourceFile() functions for filtering. This config file is reserved for future exception handling if needed."
+}

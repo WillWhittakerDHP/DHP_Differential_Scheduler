@@ -1,0 +1,398 @@
+<script setup lang="ts">
+/**
+ * SelectionCard Component
+ * 
+ * LEARNING: Component that handles parent card rendering with dependent options
+ * WHY: Simplified architecture - dependent options render inside card border as checkbox list
+ * PATTERN: Self-contained component that renders parent card and dependent options within border
+ * 
+ * Features:
+ * - Renders parent card with radio/checkbox selection
+ * - Renders dependent options as checkbox list inside card border (when expanded)
+ * - Auto-expands when parent is selected
+ * - Manages its own expansion state
+ * - Handles selection (radio/checkbox for parent, multi-select checkboxes for dependent options)
+ */
+
+import { ref, computed, watch } from 'vue'
+import CardButton from '@/components/admin/generic/CardButton.vue'
+import { Icon } from '@iconify/vue'
+import DependentInstanceCheckboxList from './DependentInstanceCheckboxList.vue'
+import type { 
+  SelectionCardItem, 
+  SelectionCardConfig
+} from './types/selectionCardTypes'
+import { useSelectionCard } from '@/composables/useSelectionCard'
+import { useSelectionCardConfig } from '@/composables/booking/useSelectionCardConfig'
+import { useSelectionCardState } from '@/composables/booking/useSelectionCardState'
+import { useSelectionCardHandlers } from '@/composables/booking/useSelectionCardHandlers'
+import { useSelectionCardStyles } from '@/composables/booking/useSelectionCardStyles'
+import { useSelectionCardComponent } from '@/composables/booking/useSelectionCardComponent'
+
+/**
+ * LEARNING: Component props interface
+ * Session 1.3.9.4: Simplified - removed isParent, nestedConfig
+ * WHY: Component separation - SelectionCard handles only parent cards
+ */
+interface Props {
+  item: SelectionCardItem
+  config: SelectionCardConfig
+  modelValue?: string | null | string[] // Support both radio and checkbox
+  nestedChildSelections?: string[] // Array of selected nested child IDs
+  isExpanded?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: null,
+  nestedChildSelections: () => []
+  // Note: isExpanded intentionally has no default to distinguish controlled vs uncontrolled
+})
+
+/**
+ * LEARNING: Component emits
+ * Session 1.3.9.4: Added update:nestedChildSelections for nested child updates
+ */
+interface Emits {
+  (e: 'update:modelValue', value: string | null | string[]): void
+  (e: 'update:nestedChildSelections', childIds: string[]): void
+  (e: 'update:number', payload: { itemId: string; number: number | null }): void
+  (e: 'toggle-expansion'): void
+}
+
+const emit = defineEmits<Emits>()
+
+// Local expansion state (only used if not controlled by parent)
+const localExpanded = ref(false)
+
+const isExpandedState = computed(() => {
+  return props.isExpanded !== undefined ? props.isExpanded : localExpanded.value
+})
+
+// LEARNING: Use selection card config composable
+// WHY: Extracts config merging logic from component to composable
+// PATTERN: Composable provides config with defaults
+const { configWithDefaults } = useSelectionCardConfig({
+  config: computed(() => props.config)
+})
+
+// LEARNING: Use selection card state composable
+// WHY: Extracts state management logic from component to composable
+// PATTERN: Composable provides selection state management
+const {
+  activeStatePlugin,
+  isSelected
+} = useSelectionCardState({
+  item: computed(() => props.item),
+  modelValue: computed(() => props.modelValue),
+  configWithDefaults,
+  emit: (event: 'update:modelValue', value: string | null | string[]) => {
+    emit(event, value)
+  }
+})
+
+
+// LEARNING: Use selection card styles composable
+// WHY: Extracts CSS class computation logic from component to composable
+// PATTERN: Composable provides computed class strings
+const {
+  cardClasses,
+  controlClasses,
+  contentContainerClasses
+} = useSelectionCardStyles({
+  configWithDefaults,
+  isSelected
+})
+
+// LEARNING: Use selection card component composable
+// WHY: Extracts component rendering logic from component to composable
+// PATTERN: Composable provides component name and props
+const {
+  selectionComponentName,
+  selectionComponentProps
+} = useSelectionCardComponent({
+  item: computed(() => props.item),
+  configWithDefaults,
+  isSelected,
+  controlClasses
+})
+
+/**
+ * LEARNING: Use selection card composable for core logic
+ * WHY: Moves data transformation logic out of component to prevent recursion
+ * PATTERN: Composable handles visibleChildren filtering and core selection logic
+ */
+const selectionCardComposable = useSelectionCard({
+  item: computed(() => props.item),
+  modelValue: computed(() => props.modelValue),
+  config: configWithDefaults,
+  nestedChildSelections: computed(() => props.nestedChildSelections),
+  isExpanded: computed(() => props.isExpanded)
+})
+
+// LEARNING: Extract computed properties from composable
+// WHY: Component uses composable's computed values
+// PATTERN: Destructure composable return values for use in template
+const {
+  visibleChildren,
+  hasChildren
+} = selectionCardComposable
+
+// LEARNING: Use selection card handlers composable
+// WHY: Extracts handler logic from component to composable
+// PATTERN: Composable provides handler functions
+const {
+  handleSelection,
+  handleParentClick,
+  toggleExpansion
+} = useSelectionCardHandlers({
+  item: computed(() => props.item),
+  modelValue: computed(() => props.modelValue),
+  nestedChildSelections: computed(() => props.nestedChildSelections),
+  activeStatePlugin,
+  isSelected,
+  emit,
+  isExpanded: computed(() => props.isExpanded),
+  localExpanded
+})
+
+
+/**
+ * LEARNING: Auto-expand when parent card is selected
+ * WHY: Dependent options should appear automatically when parent is selected
+ * PATTERN: Watch isSelected and trigger expansion (only for uncontrolled state)
+ * NOTE: When used in SelectionCardGroup, expansion is controlled and auto-expand
+ *       is handled by useSelectionCardGroupState composable
+ */
+watch(isSelected, (newValue) => {
+  if (newValue && hasChildren.value && props.isExpanded === undefined) {
+    // Only auto-expand if expansion is uncontrolled (not passed from parent)
+    // When controlled, parent (SelectionCardGroup) handles auto-expansion
+    localExpanded.value = true
+  }
+}, { immediate: true })
+
+/**
+ * LEARNING: Handle number input updates for allowMultiple items
+ * WHY: When allowMultiple is true, user can specify quantity to multiply fees
+ * PATTERN: Convert string/number to number | null and emit to parent
+ */
+const handleNumberUpdate = (value: string | number | null) => {
+  const numValue = typeof value === 'string' ? (value === '' ? null : parseInt(value, 10)) : value
+  const finalValue = numValue === null || isNaN(numValue as number) ? null : numValue
+  
+  // Emit event to parent (SelectionCardGroup) to update wizard state
+  emit('update:number', { itemId: props.item.id, number: finalValue })
+}
+</script>
+
+<template>
+  <!-- LEARNING: SelectionCard with explicit state management -->
+  <!-- WHY: Removed VRadioGroup wrapper for better reactivity and configurability -->
+  <!-- PATTERN: SelectionCard wrapper contains parent card with dependent options inside border -->
+  <!-- Refactor: Dependent options now render inside card border as checkbox list -->
+  <div class="selection-card-wrapper">
+    <!-- LEARNING: Parent Card with dynamic selection component -->
+    <!-- WHY: Selection component is rendered dynamically based on config -->
+    <!-- PATTERN: VLabel wraps card content, selection component rendered inside -->
+      <VLabel
+        :class="cardClasses"
+        :style="{ minHeight: configWithDefaults.appearance.minHeight }"
+        @click="handleParentClick"
+      >
+      <!-- LEARNING: Dynamic selection component -->
+      <!-- WHY: Allows VRadio, VCheckbox, or custom components based on config -->
+      <!-- PATTERN: Use component :is with computed component name and props -->
+      <component
+        v-if="configWithDefaults.controlPosition !== 'hidden' && selectionComponentName !== 'custom'"
+        :is="selectionComponentName"
+        v-bind="selectionComponentProps"
+        @click.stop="handleSelection"
+      />
+      
+      <!-- Expansion indicator -->
+      <CardButton
+        v-if="hasChildren"
+        type="expansion"
+        :expanded="isExpandedState"
+        position="top-right"
+        :stacked="false"
+        @click.stop="toggleExpansion"
+      />
+      
+      <!-- Card content -->
+      <div :class="contentContainerClasses" style="order: 0;">
+        <slot name="icon" :item="item">
+          <Icon
+            v-if="configWithDefaults.appearance.showIcon && item.icon && (configWithDefaults.layout === 'row' || item.icon !== 'tabler-circle')"
+            :icon="item.icon"
+            width="40"
+            height="40"
+            class="mb-2"
+            style="color: rgb(var(--v-theme-on-surface));"
+          />
+        </slot>
+        
+        <slot name="title" :item="item">
+          <h6 class="text-h6 mb-2">
+            {{ item.name }}
+          </h6>
+        </slot>
+        
+        <slot name="description" :item="item">
+          <p
+            v-if="configWithDefaults.appearance.showDescription && item.description"
+            class="text-body-2 mb-0 text-medium-emphasis description-text"
+            :class="{ 'ms-4': configWithDefaults.layout === 'stack' && configWithDefaults.controlPosition === 'left' }"
+          >
+            {{ item.description }}
+          </p>
+        </slot>
+        
+        <slot :item="item" />
+        
+        <!-- LEARNING: Number input for allowMultiple items -->
+        <!-- WHY: When allowMultiple is true, show number input to specify quantity -->
+        <!-- PATTERN: Conditional rendering based on item.allowMultiple, only when selected -->
+        <VTextField
+          v-if="item.allowMultiple && isSelected"
+          :model-value="(item as { number?: number | null }).number ?? null"
+          type="number"
+          min="1"
+          label="Quantity"
+          density="compact"
+          variant="outlined"
+          class="mt-2"
+          style="max-width: 120px;"
+          @update:model-value="handleNumberUpdate"
+          @click.stop
+        />
+        
+        <!-- LEARNING: Dependent instance options rendered INSIDE card border -->
+        <!-- WHY: Checkbox list appears within the card, not outside -->
+        <!-- PATTERN: Render DependentInstanceCheckboxList when expanded and has children -->
+        <DependentInstanceCheckboxList
+          v-if="hasChildren && isExpandedState"
+          :options="visibleChildren"
+          :model-value="nestedChildSelections"
+          @update:model-value="emit('update:nestedChildSelections', $event)"
+        />
+      </div>
+    </VLabel>
+  </div>
+</template>
+
+<style scoped lang="scss">
+// LEARNING: SelectionCard wrapper
+// WHY: Simple wrapper for card layout
+// PATTERN: Flex column layout
+.selection-card-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+// LEARNING: Selection card base styling
+.selection-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  
+  // LEARNING: Bordered variant styling
+  &.selection-card-bordered {
+    border: 1px solid rgb(var(--v-theme-on-surface-variant));
+    background-color: rgb(var(--v-theme-surface));
+    border-radius: 4px;
+    
+    &:hover {
+      border-color: rgb(var(--v-theme-primary));
+      background-color: rgba(var(--v-theme-primary), 0.04);
+    }
+  }
+  
+  // LEARNING: Radio button styling
+  .v-radio {
+    margin-block-end: -0.25rem;
+    
+    :deep(.v-selection-control__wrapper) {
+      margin-inline-start: 0;
+    }
+    
+    :deep(.v-selection-control__input) {
+      opacity: 1;
+    }
+    
+    :deep(input:checked ~ .v-selection-control__wrapper) {
+      opacity: 1;
+      
+      .v-radio__icon {
+        color: rgb(var(--v-theme-primary));
+      }
+    }
+  }
+  
+  // LEARNING: Active state styling for selected card
+  &.active {
+    border-color: rgb(var(--v-theme-primary));
+    background-color: rgba(var(--v-theme-primary), 0.08);
+    box-shadow: 0 2px 8px rgba(var(--v-theme-primary), 0.2);
+    
+    .v-radio {
+      :deep(.v-selection-control__input) {
+        opacity: 1;
+      }
+    }
+  }
+  
+  // LEARNING: Content container with width constraints
+  .content-container {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    
+    h6 {
+      display: block !important;
+      white-space: normal !important;
+      word-break: normal !important;
+      width: 100%;
+    }
+  }
+  
+  // LEARNING: Description text wrapping
+  .description-text {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    hyphens: auto;
+    white-space: normal !important;
+    overflow: visible;
+    display: block;
+    line-height: 1.5;
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+}
+
+// LEARNING: Left-aligned radio button layout
+.selection-card-left-radio {
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  
+  .content-container {
+    flex: 1;
+  }
+}
+</style>
+

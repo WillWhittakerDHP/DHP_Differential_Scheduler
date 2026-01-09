@@ -1,0 +1,251 @@
+/**
+ * Block Instance Utilities
+ * 
+ * LEARNING: Generic utilities for working with block instances
+ * WHY: Replaces hardcoded block shape name references with dynamic filtering
+ * PATTERN: Generic functions that accept block shape IDs or filter by properties
+ */
+
+import type { BlockInstanceEntity } from '@/types/entities'
+import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import type { GlobalEntity } from '@/types/entities'
+import type { BookingBlockInstance, BookingData, BookingBlockShape } from '@/utils/transformers/globalToBookingTransformer'
+import type { BlockShapeType } from '@/constants/blockShapeTypes'
+import { findById } from '@/utils/collections/findById'
+
+/**
+ * Get block instances by block shape ID from GlobalData
+ * LEARNING: Generic function to filter block instances by block shape ID
+ * WHY: Replaces hardcoded block shape name filtering with ID-based filtering
+ * 
+ * @param globalData - GlobalData containing all entities
+ * @param blockShapeId - Block shape ID to filter by
+ * @returns Array of BlockInstance entities matching the block shape ID
+ */
+export function getBlockInstancesByShapeId(
+  globalData: GlobalData,
+  blockShapeId: string
+): BlockInstanceEntity[] {
+  const blockInstances = (globalData.entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
+  return blockInstances.filter(
+    instance => instance.blockShapeRef === blockShapeId
+  ) as BlockInstanceEntity[]
+}
+
+/**
+ * Get block instances by block shape ID from BookingData
+ * LEARNING: Generic function to filter block instances by block shape ID
+ * WHY: Works with booking-optimized data structure
+ * 
+ * @param bookingData - BookingData containing block instances
+ * @param blockShapeId - Block shape ID to filter by
+ * @returns Array of BookingBlockInstance entities matching the block shape ID
+ */
+export function getBlockInstancesByShapeIdFromBooking(
+  bookingData: BookingData,
+  blockShapeId: string
+): BookingBlockInstance[] {
+  return bookingData.blockInstances.filter(
+    instance => instance.blockShapeRef === blockShapeId
+  )
+}
+
+/**
+ * Find block instance by ID and block shape ID
+ * LEARNING: Validates block instance matches expected block shape
+ * WHY: Prevents matching wrong block types (e.g., baseService ID in userTypeBlockId field)
+ * 
+ * @param bookingData - BookingData containing block instances
+ * @param id - Block instance ID to find
+ * @param blockShapeId - Expected block shape ID
+ * @returns BookingBlockInstance if found and matches block shape, null otherwise
+ */
+export function findBlockInstanceByIdAndShapeId(
+  bookingData: BookingData,
+  id: string | null | undefined,
+  blockShapeId: string | null | undefined
+): BookingBlockInstance | null {
+  if (!id || !bookingData || !blockShapeId) return null
+  
+  const blockInstance = findById(bookingData.blockInstances, id)
+  if (!blockInstance) {
+    return null
+  }
+  
+  if (blockInstance.blockShapeRef !== blockShapeId) {
+    return null
+  }
+  
+  return blockInstance
+}
+
+/**
+ * Get state control block shapes from BookingData
+ * LEARNING: Filters block shapes by type === 'user' for explicit semantic typing
+ * WHY: Type provides stable semantic identification independent of properties
+ * PATTERN: Use type-based filtering for state control blocks (user type)
+ * NOTE: Falls back to constituable: false for backward compatibility during migration
+ * 
+ * @param bookingData - BookingData containing block shapes
+ * @returns Array of BookingBlockShape entities where type === 'user' (or constituable is false as fallback)
+ */
+export function getStateControlBlockShapes(
+  bookingData: BookingData
+): BookingBlockShape[] {
+  // LEARNING: Defensive read for tests/edge-cases where bookingData may be partially constructed.
+  // WHY: Some transformers/tests intentionally pass "empty" booking data objects.
+  const blockShapes = bookingData.blockShapes ?? []
+  
+  // LEARNING: Prefer type-based filtering, fallback to constituable for migration period
+  // WHY: Type is explicit semantic identifier, constituable is property-based
+  const filtered = blockShapes.filter(
+    blockShape => {
+      // Prefer type if available (new approach)
+      if (blockShape.type === 'user') {
+        return blockShape.active
+      }
+      // Fallback to constituable for backward compatibility
+      return blockShape.constituable === false && blockShape.active
+    }
+  )
+  
+  return filtered
+}
+
+/**
+ * Get state control block instances from BookingData
+ * LEARNING: Gets all block instances that belong to state control block shapes
+ * WHY: State control blocks are identified by property (constituable: false)
+ * 
+ * @param bookingData - BookingData containing block instances and block shapes
+ * @returns Array of BookingBlockInstance entities that belong to state control block shapes
+ */
+export function getStateControlBlockInstances(
+  bookingData: BookingData
+): BookingBlockInstance[] {
+  const stateControlBlockShapes = getStateControlBlockShapes(bookingData)
+  const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
+
+  const blockInstances = bookingData.blockInstances ?? []
+  
+  const filtered = blockInstances.filter(
+    instance => stateControlBlockShapeIds.has(instance.blockShapeRef) && instance.active
+  )
+  
+  return filtered
+}
+
+/**
+ * Get block shape ID by name from BookingData
+ * LEARNING: Helper to find block shape ID by name (for migration/fallback)
+ * WHY: Temporary bridge function until all code uses ID-based filtering
+ * NOTE: Prefer using block shape IDs directly instead of name lookups
+ * 
+ * @param bookingData - BookingData containing block shapes
+ * @param name - Block shape name to find
+ * @returns Block shape ID if found, null otherwise
+ */
+export function getBlockShapeIdByName(
+  bookingData: BookingData,
+  name: string
+): string | null {
+  const blockShapes = bookingData.blockShapes ?? []
+  const blockShape = blockShapes.find(
+    bs => bs.name === name
+  )
+  return blockShape?.id ?? null
+}
+
+/**
+ * Get block instances by block shape name from BookingData
+ * LEARNING: Helper to filter block instances by block shape name (for migration/fallback)
+ * WHY: Temporary bridge function until all code uses ID-based filtering
+ * NOTE: Prefer using getBlockInstancesByShapeIdFromBooking with block shape ID
+ * 
+ * @param bookingData - BookingData containing block instances and block shapes
+ * @param name - Block shape name to filter by
+ * @returns Array of BookingBlockInstance entities matching the block shape name
+ */
+export function getBlockInstancesByShapeName(
+  bookingData: BookingData,
+  name: string
+): BookingBlockInstance[] {
+  const blockShapeId = getBlockShapeIdByName(bookingData, name)
+  if (!blockShapeId) {
+    return []
+  }
+  return getBlockInstancesByShapeIdFromBooking(bookingData, blockShapeId)
+}
+
+/**
+ * Get block shape ID by type from BookingData
+ * LEARNING: Stable type-based lookup for block shape ID
+ * WHY: Type is immutable semantic identifier, independent of display name
+ * PATTERN: Use type instead of name for reliable filtering
+ * 
+ * @param bookingData - BookingData containing block shapes
+ * @param type - Block shape type to find ('user', 'service', 'property', 'option')
+ * @returns Block shape ID if found, null otherwise
+ */
+export function getBlockShapeIdByType(
+  bookingData: BookingData,
+  type: BlockShapeType
+): string | null {
+  const blockShapes = bookingData.blockShapes ?? []
+  const blockShape = blockShapes.find(
+    bs => bs.type === type && bs.active
+  )
+  return blockShape?.id ?? null
+}
+
+/**
+ * Get block instances by block shape type from BookingData
+ * LEARNING: Stable type-based filtering for block instances
+ * WHY: Type is immutable semantic identifier, independent of display name
+ * PATTERN: Use type instead of name for reliable filtering
+ * 
+ * @param bookingData - BookingData containing block instances and block shapes
+ * @param type - Block shape type to filter by ('user', 'service', 'property', 'option')
+ * @returns Array of BookingBlockInstance entities matching the block shape type
+ */
+export function getBlockInstancesByType(
+  bookingData: BookingData,
+  type: BlockShapeType
+): BookingBlockInstance[] {
+  const blockShapeId = getBlockShapeIdByType(bookingData, type)
+  if (!blockShapeId) {
+    return []
+  }
+  return getBlockInstancesByShapeIdFromBooking(bookingData, blockShapeId)
+}
+
+/**
+ * Get state control block instance options for select components
+ * LEARNING: Generates options array from state control block instances
+ * WHY: Provides formatted options for UI components (selects, dropdowns)
+ * PATTERN: Map entities to option format with title and value
+ * 
+ * @param globalData - GlobalData containing all entities
+ * @returns Array of state control block instance options with title and value
+ */
+export function getStateControlBlockInstanceOptions(
+  globalData: GlobalData
+): Array<{ title: string; value: string | null }> {
+  const blockShapes = (globalData.entities.blockShape || []) as GlobalEntity<'blockShape'>[]
+  const stateControlBlockShapes = blockShapes.filter(bs => bs.constituable === false && bs.active)
+  const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
+  
+  const blockInstances = (globalData.entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
+  const stateControlBlockInstances = blockInstances.filter(
+    instance => stateControlBlockShapeIds.has(instance.blockShapeRef) && instance.active
+  )
+  
+  return [
+    { title: 'Generic', value: null },
+    ...stateControlBlockInstances.map(blockInstance => ({
+      title: blockInstance.name.charAt(0).toUpperCase() + blockInstance.name.slice(1), // Capitalize first letter
+      value: blockInstance.id
+    }))
+  ]
+}
+

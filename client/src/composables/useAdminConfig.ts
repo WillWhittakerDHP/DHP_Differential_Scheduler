@@ -1,0 +1,293 @@
+/**
+ * LEARNING: Admin Config Composable for Vue
+ * 
+ * WHY: Provides access to admin configuration built specifically for Vue
+ *      This allows Vue components to dynamically generate fields based on configs
+ * 
+ * PATTERN: Composable that provides reactive access to Vue admin config
+ * 
+ * COMPARISON: React uses direct import of adminConfig. Vue uses composable pattern
+ *             for reactive access and better integration with Vue's reactivity system.
+ */
+
+import { computed, type ComputedRef } from 'vue'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { FormFieldConfig, FormFieldConfigMap } from '@/types/entity/formFields'
+import type { DisplayFieldConfigMap } from '@/configs/field/display/fullFieldDisplayConfig'
+import type { InstanceConfig } from '@/configs/adminConfig'
+
+// Import Vue admin config (not React client)
+import { getAdminConfig, rebuildAdminConfig, type AdminConfig } from '../configs/adminConfig'
+
+// LEARNING: Cache computed refs to avoid creating duplicate computeds for the same entityKey/fieldKey
+// WHY: Each call to getFormFieldConfig creates a new computed, even though config is cached
+// PATTERN: Use WeakMap for automatic garbage collection when keys are no longer referenced
+const formFieldConfigCache = new Map<
+  string,
+  ComputedRef<FormFieldConfig<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined>
+>()
+const displayFieldConfigCache = new Map<string, ComputedRef<unknown>>()
+const entityFormFieldConfigCache = new Map<string, ComputedRef<FormFieldConfigMap[GlobalEntityKey]>>()
+const entityDisplayFieldConfigCache = new Map<string, ComputedRef<Record<string, unknown>>>()
+const instanceConfigCache = new Map<string, ComputedRef<InstanceConfig[GlobalEntityKey]>>()
+
+// Helper to create cache key
+const createCacheKey = (entityKey: string, fieldKey?: string): string => {
+  return fieldKey ? `${entityKey}:${fieldKey}` : entityKey
+}
+
+/**
+ * Clear all caches (for testing)
+ * LEARNING: Module-level caches persist across tests, causing stale state
+ * WHY: Tests need to start with fresh caches to ensure isolation
+ */
+export function _clearCache(): void {
+  formFieldConfigCache.clear()
+  displayFieldConfigCache.clear()
+  entityFormFieldConfigCache.clear()
+  entityDisplayFieldConfigCache.clear()
+  instanceConfigCache.clear()
+}
+
+/**
+ * Admin config composable
+ * 
+ * LEARNING: Provides reactive access to admin configuration
+ * WHY: Components need to read field configs to determine field types and rendering
+ * PATTERN: Composable that returns computed values for reactive access
+ */
+export function useAdminConfig() {
+  /**
+   * LEARNING: Get admin config (lazy initialized)
+   * WHY: Config is built once and cached
+   * PATTERN: Direct access to singleton config instance
+   * FIX: Cache the config reference to avoid calling getAdminConfig() on every computed access
+   *      Since the config is a singleton and doesn't change, we can get it once and reuse it
+   */
+  let cachedConfig: AdminConfig | null = null
+  const getConfig = (): AdminConfig => {
+    // FIX: Only call getAdminConfig() once, then reuse the cached reference
+    //      This prevents excessive calls to getAdminConfig() which was logging 98+ times
+    if (!cachedConfig) {
+      try {
+        cachedConfig = getAdminConfig()
+      } catch (error) {
+        // Return empty config as fallback
+        cachedConfig = {
+          displayFieldConfig: {} as DisplayFieldConfigMap,
+          formFieldConfig: {} as FormFieldConfigMap,
+          instanceConfig: {} as InstanceConfig
+        }
+      }
+    }
+    return cachedConfig!
+  }
+
+  /**
+   * LEARNING: Rebuild admin config after field keys are loaded
+   * WHY: Dynamic fields need to be included in field configs
+   * PATTERN: Call rebuild when FIELD_KEYS are initialized
+   */
+  const rebuildConfig = (): void => {
+    rebuildAdminConfig()
+  }
+
+  /**
+   * LEARNING: Get form field config for a specific entity and field
+   * WHY: InputRenderer needs to know field type (primitive vs select)
+   * PATTERN: Type-safe accessor with computed for reactive access, cached to avoid duplicate computeds
+   */
+  const getFormFieldConfig = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+    entityKey: GE,
+    fieldKey: FieldKey
+  ): ComputedRef<FormFieldConfig<GE, FieldKey> | undefined> => {
+    const cacheKey = createCacheKey(String(entityKey), String(fieldKey))
+    
+    // Return cached computed if it exists
+    if (formFieldConfigCache.has(cacheKey)) {
+      return formFieldConfigCache.get(cacheKey) as ComputedRef<FormFieldConfig<GE, FieldKey> | undefined>
+    }
+    
+    // Create new computed and cache it
+    const computedRef = computed(() => {
+      try {
+        const config = getConfig()
+        const entityConfig = config?.formFieldConfig?.[entityKey]
+        if (!entityConfig) {
+          return undefined
+        }
+        return entityConfig[fieldKey as GlobalFieldKey<GE>] as FormFieldConfig<GE, FieldKey> | undefined
+      } catch (error) {
+        return undefined
+      }
+    })
+    
+    formFieldConfigCache.set(cacheKey, computedRef)
+    return computedRef
+  }
+
+  /**
+   * LEARNING: Get all form field configs for an entity
+   * WHY: DynamicFormInputs needs to iterate over all fields
+   * PATTERN: Return computed object with all field configs, cached to avoid duplicate computeds
+   */
+  const getEntityFormFieldConfig = <GE extends GlobalEntityKey>(
+    entityKey: GE
+  ): ComputedRef<FormFieldConfigMap[GE]> => {
+    const cacheKey = createCacheKey(String(entityKey))
+    
+    // Return cached computed if it exists
+    if (entityFormFieldConfigCache.has(cacheKey)) {
+      return entityFormFieldConfigCache.get(cacheKey)! as ComputedRef<FormFieldConfigMap[GE]>
+    }
+    
+    // Create new computed and cache it
+    const computedRef = computed(() => {
+      try {
+        const config = getConfig()
+        return (config?.formFieldConfig?.[entityKey] || {}) as FormFieldConfigMap[GE]
+      } catch (error) {
+        return {} as FormFieldConfigMap[GE]
+      }
+    })
+    
+    entityFormFieldConfigCache.set(cacheKey, computedRef as ComputedRef<FormFieldConfigMap[GlobalEntityKey]>)
+    return computedRef
+  }
+
+  /**
+   * LEARNING: Get display field config for a specific entity and field
+   * WHY: InputRenderer needs display config for labels, placeholders, etc.
+   * PATTERN: Type-safe accessor with computed for reactive access, cached to avoid duplicate computeds
+   */
+  const getDisplayFieldConfig = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+    entityKey: GE,
+    fieldKey: FieldKey
+  ): ComputedRef<unknown> => {
+    const cacheKey = createCacheKey(String(entityKey), String(fieldKey))
+    
+    // Return cached computed if it exists
+    if (displayFieldConfigCache.has(cacheKey)) {
+      return displayFieldConfigCache.get(cacheKey)!
+    }
+    
+    // Create new computed and cache it
+    const computedRef = computed(() => {
+      const config = getConfig()
+      return config?.displayFieldConfig?.[entityKey]?.[fieldKey as GlobalFieldKey<GE>]
+    })
+    
+    displayFieldConfigCache.set(cacheKey, computedRef)
+    return computedRef
+  }
+
+  /**
+   * LEARNING: Get all display field configs for an entity
+   * WHY: DynamicFormInputs needs display configs for all fields
+   * PATTERN: Return computed object with all display configs, cached to avoid duplicate computeds
+   */
+  const getEntityDisplayFieldConfig = <GE extends GlobalEntityKey>(
+    entityKey: GE
+  ): ComputedRef<Record<string, unknown>> => {
+    const cacheKey = createCacheKey(String(entityKey))
+    
+    // Return cached computed if it exists
+    if (entityDisplayFieldConfigCache.has(cacheKey)) {
+      return entityDisplayFieldConfigCache.get(cacheKey)!
+    }
+    
+    // Create new computed and cache it
+    const computedRef = computed(() => {
+      try {
+        const config = getConfig()
+        return config?.displayFieldConfig?.[entityKey] || {}
+      } catch (error) {
+        return {}
+      }
+    })
+    
+    entityDisplayFieldConfigCache.set(cacheKey, computedRef)
+    return computedRef
+  }
+
+  /**
+   * LEARNING: Get instance config for an entity
+   * WHY: Need to know which fields to omit, inline, stack, etc.
+   * PATTERN: Type-safe accessor with computed for reactive access, cached to avoid duplicate computeds
+   */
+  const getInstanceConfig = <GE extends GlobalEntityKey>(
+    entityKey: GE
+  ): ComputedRef<InstanceConfig[GE]> => {
+    const cacheKey = createCacheKey(String(entityKey))
+    
+    // Return cached computed if it exists
+    if (instanceConfigCache.has(cacheKey)) {
+      return instanceConfigCache.get(cacheKey)! as ComputedRef<InstanceConfig[GE]>
+    }
+    
+    // Create new computed and cache it
+    const computedRef = computed(() => {
+      try {
+        const config = getConfig()
+        return (config?.instanceConfig?.[entityKey] || { titleField: 'name' }) as InstanceConfig[GE]
+      } catch (error) {
+        return { titleField: 'name' } as InstanceConfig[GE]
+      }
+    })
+    
+    instanceConfigCache.set(cacheKey, computedRef as ComputedRef<InstanceConfig[GlobalEntityKey]>)
+    return computedRef
+  }
+
+  /**
+   * LEARNING: Check if a field is primitive (has primitiveInput config)
+   * WHY: InputRenderer needs to determine field type
+   * PATTERN: Check config structure to determine field type
+   */
+  const isPrimitiveField = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+    entityKey: GE,
+    fieldKey: FieldKey
+  ): ComputedRef<boolean> => {
+    return computed(() => {
+      try {
+        const fieldConfig = getFormFieldConfig(entityKey, fieldKey).value
+        return !!fieldConfig?.primitiveInput
+      } catch (error) {
+        return false
+      }
+    })
+  }
+
+  /**
+   * LEARNING: Check if a field is a select field (has relationshipSelect or typeSelect config)
+   * WHY: InputRenderer needs to determine field type
+   * PATTERN: Check config structure to determine field type
+   */
+  const isSelectField = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+    entityKey: GE,
+    fieldKey: FieldKey
+  ): ComputedRef<boolean> => {
+    return computed(() => {
+      try {
+        const fieldConfig = getFormFieldConfig(entityKey, fieldKey).value
+        return !!(fieldConfig?.relationshipSelect || fieldConfig?.typeSelect)
+      } catch (error) {
+        return false
+      }
+    })
+  }
+
+  return {
+    getConfig,
+    rebuildConfig,
+    getFormFieldConfig,
+    getEntityFormFieldConfig,
+    getDisplayFieldConfig,
+    getEntityDisplayFieldConfig,
+    getInstanceConfig,
+    isPrimitiveField,
+    isSelectField
+  }
+}
+

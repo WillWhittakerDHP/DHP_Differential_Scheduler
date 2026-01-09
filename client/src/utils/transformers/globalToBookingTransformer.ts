@@ -1,0 +1,389 @@
+/**
+ * Global to Booking Transformer
+ * 
+ * LEARNING: Transforms GlobalData into booking-optimized format
+ * WHY: Provides lightweight data structure for booking views
+ * PATTERN: Plain objects with embedded relationships
+ */
+
+import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
+import type { GlobalEntity } from '@/types/entities'
+import type { AnnotationWithMetadata } from '@/types/annotations'
+import type { BlockInstanceEntity } from '@/types/entities'
+import type { BlockShapeType } from '@/constants/blockShapeTypes'
+import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
+
+/**
+ * Booking Part Instance type
+ * LEARNING: Lightweight part instance for booking
+ * WHY: Plain object optimized for read-only operations
+ */
+export type BookingPartInstance = {
+  id: string
+  entityKey: 'partInstance'
+  name: string
+  partShape: string // Denormalized: partShape name instead of ID
+  disabled: boolean
+  onSite: boolean
+  clientPresent: boolean
+  moveable: boolean
+  baseTime: number
+  rateOverBaseTime: number
+  baseFee: number
+  rateOverBaseFee: number
+  orderIndex: number
+  active: boolean
+}
+
+/**
+ * Booking Block Shape type
+ * LEARNING: Lightweight block shape for property-based filtering
+ * WHY: Enables filtering by block shape properties (e.g., constituable) and type without full entity
+ */
+export type BookingBlockShape = {
+  id: string
+  name: string
+  type: BlockShapeType // Semantic type identifier for stable filtering
+  constituable: boolean
+  composable: boolean
+  active: boolean
+}
+
+/**
+ * Booking Block Instance type
+ * LEARNING: Lightweight block instance with embedded part instances
+ * WHY: Denormalized structure for fast access without joins
+ */
+export type BookingBlockInstance = {
+  id: string
+  entityKey: 'blockInstance'
+  name: string
+  baseSqFt: number
+  description: string // Single description string for backward compatibility
+  descriptions?: AnnotationWithMetadata[] // Array of annotations (descriptions) with metadata for user-type filtering
+  icon: string
+  active: boolean
+  dependent: boolean // If true, this instance should not appear in main booking lists (only selectable as a dependent option)
+  differential: boolean // Whether this service supports differential scheduling (inspector and client have different arrival times)
+  orderIndex: number
+  blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
+  blockShapeRef: string // Block shape ID reference for filtering
+  activeBlockIds: string[] // Child block IDs for cascading filters
+  partInstances: BookingPartInstance[] // Embedded part instances
+  allowMultiple: boolean // Whether this block instance can be multiplied by ADU count or number
+  requiresUnitNumber: boolean | null // If true, property requires a unit number (nullable by design)
+  number?: number | null // Optional quantity multiplier for allowMultiple instances
+}
+
+/**
+ * Booking Data type
+ * LEARNING: Container for booking-optimized data
+ * WHY: Single structure with all booking data
+ */
+export type BookingData = {
+  blockInstances: BookingBlockInstance[]
+  blockShapes: BookingBlockShape[] // Block shapes for property-based filtering
+}
+
+/**
+ * Booking Transformer Class
+ * LEARNING: Transforms GlobalData to booking format
+ * WHY: Optimizes data structure for booking display
+ * PATTERN: Class-based transformer matching React's structure
+ */
+export class BookingTransformer {
+  private isEntityActive(entity: Record<string, unknown> | null | undefined): boolean {
+    if (!entity) return false
+
+    // LEARNING: Some entities omit `active` in older/test fixtures.
+    // WHY: We want "active unless explicitly inactive/disabled" semantics across the transformer.
+    const disabled = entity.disabled === true
+    const active = entity.active !== false
+    return !disabled && active
+  }
+
+  /**
+   * Transform GlobalData to booking-optimized format
+   * LEARNING: Creates lightweight plain objects with embedded relationships
+   * WHY: Fast read-only access without class overhead
+   * PATTERN: Single transformation pass with denormalization
+   */
+  transformGlobalToBooking(globalData: GlobalData): BookingData {
+    const { entities, relationships } = globalData
+    const blockInstances = (entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
+    const partInstances = (entities.partInstance || []) as GlobalEntity<'partInstance'>[]
+    const blockShapes = (entities.blockShape || []) as GlobalEntity<'blockShape'>[]
+    const partShapes = (entities.partShape || []) as GlobalEntity<'partShape'>[]
+    const activeConstituentsRelationships = relationships.activeConstituents || []
+    const bookingCascadesRelationships = relationships.bookingCascades || []
+    const instanceComponentsRelationships = relationships.instanceComponents || []
+    
+    // Create lookup maps for denormalization
+    const partInstanceById = new Map(
+      partInstances.map(partInstance => [partInstance.id, partInstance])
+    )
+    const blockShapeById = new Map(
+      blockShapes.map(blockShape => [blockShape.id, blockShape])
+    )
+    const partShapeById = new Map(
+      partShapes.map(partShape => [partShape.id, partShape])
+    )
+    
+    // LEARNING: Get set of component IDs (blockInstances that are instanceComponents of other blockInstances)
+    // WHY: Components should not appear in booking - they're part of composed entities, not standalone options
+    // PATTERN: Extract all child IDs from instanceComponents relationships to create exclusion set
+    // LEARNING: Use flatMap and Set constructor instead of forEach with add
+    // WHY: Functional approach avoids forEach with Set mutations
+    const componentIds = new Set(
+      instanceComponentsRelationships
+        .filter(rel => rel.relationshipKind === 'instanceComponents')
+        .flatMap(rel => rel.children.map(child => child.id))
+    )
+    
+    // Removed hardcoded "User Type" diagnostic logging - now using property-based filtering
+    
+    /**
+     * WHY: // WHY: Need to see all data before filtering to understand what's being filtered out
+     */
+    const bookingBlockInstances = blockInstances
+      // LEARNING: Components should not be shown as standalone booking options.
+      // WHY: They are only meaningful as parts of composed (composite) services.
+      //
+      // LEARNING: Dependent instances should not be shown in main booking lists.
+      // WHY: They are only selectable as nested dependent options under a parent instance.
+      .filter((blockInstance) => {
+        const isActive = this.isEntityActive(blockInstance as unknown as Record<string, unknown>)
+        const isComponentChild = componentIds.has(blockInstance.id)
+        const isDependent = (blockInstance as unknown as { dependent?: boolean }).dependent === true
+        return isActive && !isComponentChild && !isDependent
+      })
+      .map(blockInstance => this.transformBlockInstance(
+        blockInstance,
+        activeConstituentsRelationships,
+        bookingCascadesRelationships,
+        instanceComponentsRelationships,
+        partInstanceById,
+        blockShapeById,
+        partShapeById
+      ))
+      .sort((a, b) => {
+        const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+        const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+        return aOrder - bOrder
+      })
+    
+    // Transform block shapes for property-based filtering
+    const bookingBlockShapes: BookingBlockShape[] = blockShapes
+      .map(blockShape => ({
+        id: blockShape.id,
+        name: blockShape.name,
+        type: blockShape.type,
+        constituable: blockShape.constituable,
+        composable: blockShape.composable,
+        active: this.isEntityActive(blockShape as unknown as Record<string, unknown>),
+      }))
+      .sort((a, b) => {
+        // Sort by name for consistent ordering
+        return a.name.localeCompare(b.name)
+      })
+    
+    return {
+      blockInstances: bookingBlockInstances,
+      blockShapes: bookingBlockShapes,
+    }
+  }
+  
+  /**
+   * Transform a single block instance with embedded part instances
+   * LEARNING: Denormalizes blockShape and embeds part instances
+   * WHY: Fast access without joins or lookups
+   * 
+   * LEARNING: For composite instances, merge own parts with component parts
+   * WHY: Composites can have their own parts AND parts from components
+   * PATTERN: Use Set to deduplicate part instance IDs to prevent double-counting
+   */
+  private transformBlockInstance(
+    blockInstance: GlobalEntity<'blockInstance'>,
+    activeConstituentsRelationships: GlobalRelationship[],
+    bookingCascadesRelationships: GlobalRelationship[],
+    instanceComponentsRelationships: GlobalRelationship[],
+    partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
+    blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
+    partShapeById: Map<string, GlobalEntity<'partShape'>>
+  ): BookingBlockInstance {
+    // Get blockInstance's own activeConstituents
+    const activeConstituentsRels = findRelationshipsByParent(
+      blockInstance.id,
+      activeConstituentsRelationships
+    )
+    const activeConstituentsRel = activeConstituentsRels[0] // Get first relationship (should be only one)
+    
+    // LEARNING: Use Set to deduplicate part instance IDs
+    // WHY: Prevents double-counting when composite has own parts AND component parts
+    // PATTERN: Start with composite's own parts, then add component parts
+    const partInstanceIds = new Set<string>()
+    
+    // Add composite's own parts (if any)
+    // LEARNING: Use filter + forEach on Set instead of forEach with Set.add mutations
+    // WHY: Functional approach - filter active parts, then add to Set
+    // PATTERN: Filter children to active parts, then add IDs to Set
+    if (activeConstituentsRel) {
+      const activePartIds = activeConstituentsRel.children
+        .filter(child => {
+          const partInstance = partInstanceById.get(child.id)
+          return this.isEntityActive(partInstance as unknown as Record<string, unknown>)
+        })
+        .map(child => child.id)
+      
+      // LEARNING: Add active part IDs to Set using spread operator
+      // WHY: Functional approach - spread array into Set constructor instead of forEach
+      activePartIds.forEach(id => partInstanceIds.add(id))
+    }
+    
+    // LEARNING: For composite instances, also merge parts from components
+    // WHY: Composites can have parts from both their own activeConstituents and from components
+    // PATTERN: Check composite property, get component IDs, then compose their parts
+    const blockInstanceTyped = blockInstance as BlockInstanceEntity
+    const composite = blockInstanceTyped.composite === true
+    
+    if (composite) {
+      // Get component IDs for this composite
+      const componentRels = findRelationshipsByParent(
+        blockInstance.id,
+        instanceComponentsRelationships
+      )
+      const componentIds = extractChildIds(componentRels)
+      
+      if (componentIds.length > 0) {
+        // Get parts from components using composePartInstances
+        // LEARNING: composePartInstances already uses Set internally, so it deduplicates
+        // WHY: Ensures no duplicate part instances from multiple components
+        // PATTERN: Merge component parts into the Set
+        const componentPartIds = composePartInstances(
+          componentIds,
+          activeConstituentsRelationships
+        )
+        
+        // Add component parts to the Set (Set automatically deduplicates)
+        // LEARNING: Filter active parts, then add to Set
+        // WHY: Set.add is a legitimate operation for building Sets - forEach here is appropriate
+        // PATTERN: forEach with Set.add is acceptable for building accumulator Sets
+        const activeComponentPartIds = componentPartIds.filter(partId => {
+          const partInstance = partInstanceById.get(partId)
+          return this.isEntityActive(partInstance as unknown as Record<string, unknown>)
+        })
+        activeComponentPartIds.forEach(id => partInstanceIds.add(id))
+      }
+    }
+    
+    // Transform deduplicated part instance IDs to BookingPartInstance[]
+    const partInstances: BookingPartInstance[] = Array.from(partInstanceIds)
+      .map((partId) => partInstanceById.get(partId))
+      .filter((partInstance: GlobalEntity<'partInstance'> | undefined): partInstance is GlobalEntity<'partInstance'> =>
+        partInstance !== undefined && this.isEntityActive(partInstance as unknown as Record<string, unknown>)
+      )
+      .map((partInstance: GlobalEntity<'partInstance'>) => this.transformPartInstance(partInstance, partShapeById))
+      .sort((a: BookingPartInstance, b: BookingPartInstance) => {
+        const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+        const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+        return aOrder - bOrder
+      })
+    
+    // Denormalize blockShape
+    const blockInstanceWithShapeRef = blockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
+    const blockShapeRef = blockInstanceWithShapeRef.blockShapeRef
+    const blockShapeEntity = blockShapeById.get(blockShapeRef)
+    const blockShape = blockShapeEntity?.name || blockShapeRef
+    
+    // Find bookingCascades relationship
+    // LEARNING: Use shared utility for relationship finding and child ID extraction
+    // WHY: DRY principle - consistent relationship operations across transformers
+    // PATTERN: Use findRelationshipsByParent() and extractChildIds() instead of manual operations
+    const bookingCascadesRels = findRelationshipsByParent(
+      blockInstance.id,
+      bookingCascadesRelationships
+    )
+    const activeBlockIds = extractChildIds(bookingCascadesRels)
+    
+    const blockInstanceWithProps = blockInstance as GlobalEntity<'blockInstance'> & {
+      baseSqFt?: number
+      description?: string
+      descriptions?: AnnotationWithMetadata[]
+      icon?: string
+      dependent?: boolean
+      differential?: boolean
+      number?: number | null
+      allowMultiple?: boolean
+      requiresUnitNumber?: boolean | null
+    }
+    
+    const differentialValue = blockInstanceWithProps.differential === true ? true : false
+    
+    return {
+      id: blockInstance.id,
+      entityKey: 'blockInstance',
+      name: blockInstance.name,
+      baseSqFt: blockInstanceWithProps.baseSqFt || 0,
+      description: blockInstanceWithProps.description || '',
+      descriptions: blockInstanceWithProps.descriptions, // Pass through descriptions array for user-type filtering
+      icon: blockInstanceWithProps.icon || '',
+      active: this.isEntityActive(blockInstance as unknown as Record<string, unknown>),
+      dependent: blockInstanceWithProps.dependent === true,
+      differential: differentialValue, // Use explicit boolean check
+      orderIndex: blockInstance.orderIndex,
+      blockShape, // Keep for backward compatibility
+      blockShapeRef, // Add block shape ID reference for filtering
+      activeBlockIds,
+      partInstances,
+      allowMultiple: blockInstanceWithProps.allowMultiple ?? false,
+      requiresUnitNumber: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean' ? blockInstanceWithProps.requiresUnitNumber : null,
+    }
+  }
+  
+  /**
+   * Transform a single part instance
+   * LEARNING: Denormalizes partShape to name
+   * WHY: Simple string property instead of nested object
+   */
+  private transformPartInstance(
+    partInstance: GlobalEntity<'partInstance'>,
+    partShapeById: Map<string, GlobalEntity<'partShape'>>
+  ): BookingPartInstance {
+    // Denormalize partShape
+    const partInstanceTyped = partInstance as GlobalEntity<'partInstance'> & { partShapeRef: string }
+    const partShapeRef = partInstanceTyped.partShapeRef
+    const partShapeEntity = partShapeById.get(partShapeRef)
+    const partShape = partShapeEntity?.name || partShapeRef
+    
+    const partInstanceWithProps = partInstance as GlobalEntity<'partInstance'> & {
+      onSite?: boolean
+      clientPresent?: boolean
+      moveable?: boolean
+      baseTime?: number
+      rateOverBaseTime?: number
+      baseFee?: number
+      rateOverBaseFee?: number
+    }
+    
+    return {
+      id: partInstance.id,
+      entityKey: 'partInstance',
+      name: partInstance.name,
+      partShape,
+      disabled: (partInstance as unknown as Record<string, unknown>).disabled === true,
+      onSite: partInstanceWithProps.onSite || false,
+      clientPresent: partInstanceWithProps.clientPresent || false,
+      moveable: partInstanceWithProps.moveable || false,
+      baseTime: partInstanceWithProps.baseTime || 0,
+      rateOverBaseTime: partInstanceWithProps.rateOverBaseTime || 0,
+      baseFee: partInstanceWithProps.baseFee || 0,
+      rateOverBaseFee: partInstanceWithProps.rateOverBaseFee || 0,
+      orderIndex: partInstance.orderIndex,
+      active: this.isEntityActive(partInstance as unknown as Record<string, unknown>),
+    }
+  }
+}
+
+// Export singleton
+export const bookingTransformer = new BookingTransformer()
+

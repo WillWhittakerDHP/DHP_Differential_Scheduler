@@ -1,0 +1,150 @@
+/**
+ * Wizard State Types
+ * 
+ * LEARNING: TypeScript types for booking wizard state
+ * WHY: Provides type safety for wizard state management
+ * PATTERN: Define types for wizard state and return type of useBookingWizard composable
+ * 
+ * Phase 1.3.1: Wizard State Management Refactoring
+ */
+
+import type { BookingBlockInstance, BookingData } from '@/utils/transformers/globalToBookingTransformer'
+import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import type { AppointmentResponse } from '@/types/appointment'
+import type { ComputedRef } from 'vue'
+
+/**
+ * Wizard State Interface
+ * LEARNING: Defines the structure of wizard state
+ * WHY: Ensures type safety when accessing wizard state
+ * PATTERN: Interface matching the state structure in useBookingWizard
+ */
+export interface WizardState {
+  /** Currently selected state control block (dynamically determined from constituable: false block shapes) */
+  selectedUserTypeBlock: BookingBlockInstance | null
+  /** Array of selected services (multi-select) */
+  selectedServices: BookingBlockInstance[]
+  /** Array of selected availability options */
+  selectedOptionTypeBlocks: BookingBlockInstance[]
+  /** Array of selected property type blocks (multi-select) */
+  selectedPropertyTypeBlocks: BookingBlockInstance[]
+  /** Whether user only wants a quote (not booking) */
+  isQuoteMode: boolean
+}
+
+/**
+ * Wizard Selection Methods Interface
+ * LEARNING: Defines methods for updating wizard state
+ * WHY: Provides type safety for wizard state mutations
+ * PATTERN: Interface matching the methods in useBookingWizard
+ */
+export interface WizardSelectionMethods {
+  /** Select user type and clear dependent selections */
+  selectUserTypeBlock: (block: BookingBlockInstance | null, skipCascade?: boolean) => void
+  /** Toggle service selection (multi-select) */
+  toggleService: (block: BookingBlockInstance, skipCascade?: boolean) => void
+  /** Toggle availability option selection */
+  toggleOptionTypeBlock: (block: BookingBlockInstance) => void
+  /** Toggle property type block selection (multi-select) */
+  togglePropertyTypeBlock: (block: BookingBlockInstance) => void
+  /** Load appointment data into wizard state */
+  loadAppointment: (appointment: AppointmentResponse) => WizardStateData | null
+  /** Reset wizard state */
+  resetWizard: () => void
+}
+
+/**
+ * Wizard Computed Properties Interface
+ * LEARNING: Defines computed properties for filtered options
+ * WHY: Provides type safety for accessing filtered wizard options
+ * PATTERN: Interface matching the computed properties in useBookingWizard
+ */
+export interface WizardComputedProperties {
+  /** Available user types (all visible user types) */
+  availableUserTypeBlocks: ComputedRef<BookingBlockInstance[]>
+  /** Available services (filtered by selected user type) */
+  availableServices: ComputedRef<BookingBlockInstance[]>
+  /** Available availability options (filtered by selected services) */
+  availableOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
+  /** Available property type blocks (filtered by selected services) */
+  availablePropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
+  
+  /** Error messages for cascade filtering */
+  servicesCascadeError: ComputedRef<string | null>
+  availabilityOptionsCascadeError: ComputedRef<string | null>
+  propertyTypesCascadeError: ComputedRef<string | null>
+  
+  /** Accumulation computed properties for duration calculations */
+  accServices: ComputedRef<BookingBlockInstance[]>
+  accProperty: ComputedRef<BookingBlockInstance[]>
+  accAvailability: ComputedRef<BookingBlockInstance[]>
+}
+
+/**
+ * Use Booking Wizard Return Type
+ * LEARNING: Complete return type for useBookingWizard composable
+ * WHY: Provides full type safety when using the composable
+ * PATTERN: Combines state, methods, and computed properties
+ */
+export type UseBookingWizardReturn = {
+  // State (reactive refs)
+  selectedUserTypeBlock: import('vue').Ref<BookingBlockInstance | null>
+  selectedServices: import('vue').Ref<BookingBlockInstance[]>
+  selectedOptionTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
+  selectedPropertyTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
+  isQuoteMode: import('vue').Ref<boolean>
+} & WizardSelectionMethods & WizardComputedProperties & {
+  // Internal (for debugging/waiting)
+  bookingData: ComputedRef<BookingData | null>
+}
+
+/**
+ * Availability Step Data Interface
+ * LEARNING: Type for availability step form data
+ * WHY: Provides type safety for availability step data collection
+ * PATTERN: Interface matching the structure used in AvailabilityStep component
+ */
+export interface AvailabilityStepData {
+  selectedDate: { start: string | null; end: string | null }
+  selectedTimeSlots: Array<{ time: string; duration: number }> | null
+}
+
+/**
+ * Property Details Step Data Interface
+ * LEARNING: Type for property details step form data
+ * WHY: Provides type safety for property details step data collection
+ * PATTERN: Interface matching the structure used in PropertyDetailsStep component
+ */
+export interface PropertyDetailsStepData {
+  address: string
+  unit: string
+  city: string
+  state: string
+  zipCode: string
+  propertySize: number | null
+  numberOfUnits: number | null
+  mlsNumber: string
+  squareFootage: number | null
+  bedrooms: number | null
+  bathrooms: number | null
+  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
+  additionalUnits: number | null
+}
+
+/**
+ * Contacts Step Data Interface
+ * LEARNING: Type for contacts step form data
+ * WHY: Provides type safety for contacts step data collection
+ * PATTERN: Interface matching the structure used in ContactsStep component
+ */
+export interface ContactsStepData {
+  clientInfo: { firstName: string; lastName: string; email: string }
+  agentInfo: { firstName: string; lastName: string; email: string }
+  anotherClientInfo: { firstName: string; lastName: string; email: string }
+  transactionManagerInfo: { firstName: string; lastName: string; email: string }
+  sellerInfo: { firstName: string; lastName: string; email: string }
+  showAnotherClient: boolean
+  showTransactionManager: boolean
+  showSeller: boolean
+}
+

@@ -1,0 +1,43 @@
+{
+  "$comment": "Configuration for typecheck-audit.mjs",
+  
+  "weights": {
+    "severityByCodePrefix": {
+      "TS23": 10,
+      "TS24": 10,
+      "TS27": 9,
+      "TS18": 8,
+      "TS70": 7,
+      "TS61": 3
+    },
+    "blastRadiusPerFile": 2,
+    "repetitionPerOccurrence": 1,
+    "unsafeCastPerHit": 2,
+    "suppressionPerHit": 3
+  },
+  "priorities": {
+    "p0MinSeverityScore": 18,
+    "p1MinSeverityScore": 10
+  },
+  "smells": {
+    "unsafeCasts": [
+      "\\\\bas\\\\s+any\\\\b",
+      "\\\\bas\\\\s+unknown\\\\s+as\\\\b",
+      "\\\\bRecord<\\\\s*string\\\\s*,\\\\s*unknown\\\\s*>\\\\b"
+    ],
+    "suppressions": [
+      "@ts-ignore",
+      "@ts-expect-error",
+      "eslint-disable",
+      "tslint:disable"
+    ]
+  },
+  
+  "allowlist": {
+    "$comment": "Exception handling for intentional/known type issues",
+    "patterns": [],
+    "specific": []
+  }
+}
+
+

@@ -1,0 +1,40 @@
+{
+  "$comment": "Configuration for loop-mutation-audit.mjs exception handling",
+  "$schema": "Allowlist for intentional/necessary loop mutations",
+  
+  "allowlist": {
+    "patterns": [
+      {
+        "glob": "**/__tests__/**",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded from mutation scanning"
+      },
+      {
+        "glob": "**/*.test.*",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded from mutation scanning"
+      },
+      {
+        "glob": "**/*.spec.*",
+        "ruleIds": ["*"],
+        "reason": "Spec files excluded from mutation scanning"
+      },
+      {
+        "glob": "**/@core/**",
+        "ruleIds": ["*"],
+        "reason": "Core library files excluded from mutation scanning"
+      },
+      {
+        "glob": "**/@layouts/**",
+        "ruleIds": ["*"],
+        "reason": "Layout library files excluded from mutation scanning"
+      },
+      {
+        "glob": "**/composables/**/*.ts",
+        "ruleIds": ["push", "assignProp"],
+        "reason": "Vue composables often need to mutate reactive state within loops - this is the Vue reactive pattern"
+      }
+    ],
+    "specific": []
+  }
+}

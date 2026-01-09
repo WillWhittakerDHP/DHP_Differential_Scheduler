@@ -1,0 +1,86 @@
+/**
+ * LEARNING: PartInstance Primitive Fields - Field definitions for partInstance entity
+ * WHY: Defines which fields are primitive (text, number, boolean) for partInstance
+ * PATTERN: Spreads baseEntityFields and adds entity-specific fields
+ */
+
+import type { GlobalFieldKey } from '../../../../constants/primitives'
+import { PrimitiveTypeEnum, PrimitiveModeEnum } from '../../../../types/entity/formDataEnums'
+import type { PrimitiveFormField } from '../../../../types/entity/formFields'
+import { baseEntityFields } from './baseEntityFields'
+
+export const partInstancePrimitiveFields = {
+  ...baseEntityFields,
+  
+  name: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Input,
+    placeholder: "Enter name",
+    globalField: "name",
+    expandable: true, // ✅ Title fields are expandable
+  },
+
+  orderIndex: {
+    primitiveType: PrimitiveTypeEnum.Number,
+    primitiveMode: PrimitiveModeEnum.Hidden,
+    placeholder: "This Field Should Be Hidden",
+    globalField: "orderIndex",
+  },
+
+  active: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Active",
+    globalField: "active",
+  },
+  
+  onSite: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "On Site",
+    globalField: "onSite",
+  },
+  
+  clientPresent: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Client Present",
+    globalField: "clientPresent",
+  },
+  
+  moveable: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Moveable",
+    globalField: "moveable",
+  },
+  
+  baseTime: {
+    primitiveType: PrimitiveTypeEnum.Number,
+    primitiveMode: PrimitiveModeEnum.Number,
+    placeholder: "Base Time",
+    globalField: "baseTime",
+  },
+  
+  rateOverBaseTime: {
+    primitiveType: PrimitiveTypeEnum.Number,
+    primitiveMode: PrimitiveModeEnum.Number,
+    placeholder: "Rate Over Base Time",
+    globalField: "rateOverBaseTime",
+  },
+  
+  baseFee: {
+    primitiveType: PrimitiveTypeEnum.Number,
+    primitiveMode: PrimitiveModeEnum.Number,
+    placeholder: "Base Fee",
+    globalField: "baseFee",
+  },
+  
+  rateOverBaseFee: {
+    primitiveType: PrimitiveTypeEnum.Number,
+    primitiveMode: PrimitiveModeEnum.Number,
+    placeholder: "Rate Over Base Fee",
+    globalField: "rateOverBaseFee",
+  },
+} satisfies Partial<Record<GlobalFieldKey<"partInstance">, PrimitiveFormField<"partInstance">>>;
+

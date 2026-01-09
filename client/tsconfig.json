@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Path aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@themeConfig": ["./themeConfig.ts"],
+      "@layouts/*": ["./src/@layouts/*"],
+      "@layouts": ["./src/@layouts"],
+      "@core/*": ["./src/@core/*"],
+      "@core": ["./src/@core"],
+      "@images/*": ["./src/assets/images/*"],
+      "@styles/*": ["./src/assets/styles/*"],
+      "vue-i18n": ["./src/shims/vue-i18n"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "auto-imports.d.ts",
+    "components.d.ts",
+    "vite-env.d.ts"
+  ],
+  "exclude": [
+    "src/**/__tests__/**",
+    "src/**/*.test.*",
+    "src/**/*.spec.*",
+    "src/@core/libs/chartjs/**"
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+

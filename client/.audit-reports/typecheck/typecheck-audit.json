@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-01-09T15:50:33.361Z",
+  "scope": {
+    "command": "node_modules/.bin/vue-tsc -b --pretty false",
+    "cwd": ""
+  },
+  "exitCode": 0,
+  "command": "node_modules/.bin/vue-tsc -b --pretty false",
+  "exceptionSummary": {
+    "totalAllowed": 0,
+    "totalRequiresReview": 0,
+    "bySource": {
+      "inline": 0,
+      "pattern": 0,
+      "specific": 0
+    }
+  },
+  "errors": [],
+  "allowedErrors": [],
+  "pools": [],
+  "files": []
+}

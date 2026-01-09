@@ -1,0 +1,28 @@
+/**
+ * Vue Query Plugin - Integration with Vuexy plugin system
+ * 
+ * LEARNING: Vuexy plugin system integration
+ * WHY: Integrates Vue Query with Vuexy's plugin registration
+ * PATTERN: Export default function that registers Vue Query with app
+ * NOTE: QueryClient will be created in main.ts and passed here
+ */
+
+import type { App } from 'vue'
+import { VueQueryPlugin } from '@tanstack/vue-query'
+import type { QueryClient } from '@tanstack/vue-query'
+
+// QueryClient instance will be passed from main.ts
+let queryClientInstance: QueryClient | null = null
+
+export function setQueryClient(instance: QueryClient) {
+  queryClientInstance = instance
+}
+
+export default function (app: App) {
+  if (queryClientInstance) {
+    app.use(VueQueryPlugin, {
+      queryClient: queryClientInstance,
+    })
+  }
+}
+

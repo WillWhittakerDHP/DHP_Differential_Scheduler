@@ -1,0 +1,45 @@
+{
+  "$comment": "Configuration for hardcoding-audit.mjs exception handling",
+  "$schema": "Allowlist for intentional/necessary hardcoding patterns",
+  
+  "allowlist": {
+    "patterns": [
+      {
+        "glob": "**/__tests__/**",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded from hardcoding scanning"
+      },
+      {
+        "glob": "**/*.test.*",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded from hardcoding scanning"
+      },
+      {
+        "glob": "**/*.spec.*",
+        "ruleIds": ["*"],
+        "reason": "Spec files excluded from hardcoding scanning"
+      },
+      {
+        "glob": "**/@core/**",
+        "ruleIds": ["*"],
+        "reason": "Core library files excluded from hardcoding scanning"
+      },
+      {
+        "glob": "**/@layouts/**",
+        "ruleIds": ["*"],
+        "reason": "Layout library files excluded from hardcoding scanning"
+      },
+      {
+        "glob": "**/constants/**/*.ts",
+        "ruleIds": ["entityKeyString", "caseString", "magicLabel"],
+        "reason": "Constants files are the canonical source for hardcoded values - this is by design"
+      },
+      {
+        "glob": "**/transformers/**/*.ts",
+        "ruleIds": ["entityKeyString"],
+        "reason": "API transformers necessarily reference entity keys for type-safe mapping"
+      }
+    ],
+    "specific": []
+  }
+}

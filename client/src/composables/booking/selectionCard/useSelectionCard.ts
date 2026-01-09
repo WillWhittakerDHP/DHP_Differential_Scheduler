@@ -1,0 +1,165 @@
+/**
+ * Selection Card Composable (booking domain)
+ *
+ * WHY: This composable is booking-specific (it imports booking selection card types), so it lives under
+ * `src/composables/booking/` to keep domains isolated.
+ */
+
+import { computed, isRef, ref, type Ref, type ComputedRef } from 'vue'
+import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
+import { mergeSelectionCardConfigWithDefaults } from '@/utils/booking/selectionCardConfig'
+import { getVisibleSelectionCardChildren, shouldSelectionCardExpand } from '@/utils/booking/selectionCardChildren'
+import { updateNestedChildSelections } from '@/utils/booking/selectionCardHandlers'
+
+export interface UseSelectionCardOptions {
+  item: Ref<SelectionCardItem> | SelectionCardItem
+  modelValue: Ref<string | null | string[]>
+  config: Ref<SelectionCardConfig> | SelectionCardConfig
+  nestedChildSelections?: Ref<string[]>
+  isExpanded?: Ref<boolean>
+}
+
+export interface UseSelectionCardReturn {
+  isSelected: Ref<boolean>
+  visibleChildren: Ref<SelectionCardItem[]>
+  hasChildren: Ref<boolean>
+
+  handleSelection: () => void
+  toggleExpansion: () => void
+  isNestedChildSelected: (childId: string) => boolean
+  handleNestedChildUpdate: (childId: string, selected: boolean) => void
+}
+
+export function useSelectionCard(options: UseSelectionCardOptions): UseSelectionCardReturn {
+  const {
+    item: itemOption,
+    modelValue: modelValueOption,
+    config: configOption,
+    nestedChildSelections: nestedChildSelectionsOption,
+    isExpanded: isExpandedOption,
+  } = options
+
+  const item = isRef(itemOption) ? itemOption : ref(itemOption)
+  const modelValue = isRef(modelValueOption) ? modelValueOption : ref(modelValueOption)
+  const config = isRef(configOption) ? configOption : ref(configOption)
+  const nestedChildSelections = nestedChildSelectionsOption || ref<string[]>([])
+  const isExpanded = isExpandedOption || ref(false)
+
+  const localExpanded = ref(false)
+
+  const configWithDefaults = computed<SelectionCardConfig>(() => {
+    return mergeSelectionCardConfigWithDefaults(config.value)
+  })
+
+  const isSelected = computed(() => {
+    if (Array.isArray(modelValue.value)) {
+      return modelValue.value.includes(item.value.id)
+    }
+    return modelValue.value === item.value.id
+  })
+
+  const visibleChildren = computed((): SelectionCardItem[] => {
+    return getVisibleSelectionCardChildren({
+      item: item.value,
+      config: configWithDefaults.value,
+    })
+  })
+
+  const hasChildren = computed(() => {
+    return item.value.composite === true && visibleChildren.value.length > 0
+  })
+
+  const handleSelection = (): void => {
+    // Emitting is handled by parent components; this composable exposes the logic hook.
+    return
+  }
+
+  const toggleExpansion = (): void => {
+    if (isExpanded.value !== undefined) {
+      return
+    }
+    localExpanded.value = !localExpanded.value
+  }
+
+  const isNestedChildSelected = (childId: string): boolean => {
+    return nestedChildSelections.value.includes(childId)
+  }
+
+  const handleNestedChildUpdate = (childId: string, selected: boolean): void => {
+    const updated = updateNestedChildSelections({
+      current: nestedChildSelections.value || [],
+      childId,
+      selected,
+    })
+
+    void updated
+  }
+
+  return {
+    isSelected,
+    visibleChildren,
+    hasChildren,
+    handleSelection,
+    toggleExpansion,
+    isNestedChildSelected,
+    handleNestedChildUpdate,
+  }
+}
+
+export interface UseSelectionCardGroupOptions {
+  items: Ref<SelectionCardItem[]> | SelectionCardItem[]
+  modelValue: Ref<string | string[] | null> | ComputedRef<string | string[] | null>
+  config?: Ref<SelectionCardConfig> | SelectionCardConfig
+}
+
+export interface UseSelectionCardGroupReturn {
+  shouldExpand: (item: SelectionCardItem) => boolean
+  toggleCardExpansion: (itemId: string) => void
+  handleNestedSelection: (itemId: string, componentIds: string[]) => void
+}
+
+export function useSelectionCardGroup(options: UseSelectionCardGroupOptions): UseSelectionCardGroupReturn {
+  const { items: itemsOption, modelValue: modelValueOption, config: configOption } = options
+
+  // items is normalized to ref for consistent API, used for group-level operations
+  const _items = isRef(itemsOption) ? itemsOption : ref(itemsOption)
+  const modelValue = isRef(modelValueOption) ? modelValueOption : ref(modelValueOption)
+  const config = configOption ? (isRef(configOption) ? configOption : ref(configOption)) : ref(undefined)
+  void _items // Available for future group operations
+
+  const expandedCardIds = ref<string[]>([])
+  const nestedSelections = ref<Record<string, string[]>>({})
+
+  const configWithDefaults = computed<SelectionCardConfig>(() => {
+    return mergeSelectionCardConfigWithDefaults(config.value)
+  })
+
+  const shouldExpand = (item: SelectionCardItem): boolean => {
+    return shouldSelectionCardExpand({
+      item,
+      config: configWithDefaults.value,
+    })
+  }
+
+  const toggleCardExpansion = (itemId: string): void => {
+    const index = expandedCardIds.value.indexOf(itemId)
+    if (index > -1) {
+      expandedCardIds.value.splice(index, 1)
+    } else {
+      expandedCardIds.value.push(itemId)
+    }
+  }
+
+  const handleNestedSelection = (itemId: string, componentIds: string[]): void => {
+    nestedSelections.value[itemId] = componentIds
+    void modelValue
+  }
+
+  return {
+    shouldExpand,
+    toggleCardExpansion,
+    handleNestedSelection,
+  }
+}
+
+

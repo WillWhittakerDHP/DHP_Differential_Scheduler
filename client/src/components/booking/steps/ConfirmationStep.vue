@@ -1,0 +1,295 @@
+<script setup lang="ts">
+/**
+ * ConfirmationStep Component
+ * 
+ * LEARNING: Final step for confirming appointment details and pricing
+ * WHY: Displays summary of all selections and calculated fees
+ * PATTERN: Uses composable to aggregate wizard state and step data
+ */
+
+import { inject, type Ref } from 'vue'
+import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
+import { isDevModeEnabled } from '@/utils/env/devMode'
+
+// LEARNING: Inject wizard instance from parent
+// WHY: Need access to wizard selections for summary display
+// PATTERN: Use inject to get provided wizard instance
+const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+if (!wizard) {
+  throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
+}
+
+// LEARNING: Inject step data from other steps
+// WHY: Need property and availability data for summary display
+// PATTERN: Inject provided step data refs
+interface AvailabilityStepData {
+  selectedDate: { start: string | null; end: string | null }
+  selectedTimeSlots: Array<{ time: string; duration: number }> | null
+}
+
+interface PropertyDetailsStepData {
+  address: string
+  unit: string
+  city: string
+  state: string
+  zipCode: string
+  propertySize: number | null
+  numberOfUnits: number | null
+  mlsNumber: string
+  squareFootage: number | null
+  bedrooms: number | null
+  bathrooms: number | null
+  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
+  additionalUnits: number | null
+}
+
+const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
+const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
+
+// VERIFY: Ensure injected stepData maintains reactivity
+if (isDevModeEnabled()) {
+  console.log('[ConfirmationStep] Injected propertyDetailsStepData:', {
+    exists: !!propertyDetailsStepData,
+    isRef: propertyDetailsStepData ? 'value' in propertyDetailsStepData : false,
+    additionalUnits: propertyDetailsStepData?.value?.additionalUnits
+  })
+}
+
+// LEARNING: Use confirmation step data composable
+// WHY: Extracts data aggregation and fee calculation logic from component to composable
+// PATTERN: Composable aggregates wizard state and step data, calculates fees
+const {
+  summaryData,
+  priceData
+} = useConfirmationStepData({
+  wizard: {
+    selectedServices: wizard.selectedServices,
+    selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
+    selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
+    selectedUserTypeBlock: wizard.selectedUserTypeBlock
+  },
+  propertyDetailsStepData,
+  availabilityStepData
+})
+</script>
+
+<template>
+  <VRow>
+    <!-- Left Column: Summary Table -->
+    <VCol cols="12" md="6">
+      <h4 class="text-h4 mb-4">
+        Almost done! 🚀
+      </h4>
+      
+      <p class="text-body-1 text-medium-emphasis mb-10">
+        Confirm your deal details information and submit to create it.
+      </p>
+      
+      <!-- LEARNING: VTable for summary data display -->
+      <!-- WHY: Provides structured table layout for key-value pairs -->
+      <!-- PATTERN: Table with tbody containing rows of label-value pairs -->
+      <VTable class="summary-table">
+        <tbody>
+          <tr>
+            <td>
+              <span class="text-body-2 font-weight-medium text-medium-emphasis">
+                Service Type
+              </span>
+            </td>
+            <td>
+              <span class="text-body-2 text-medium-emphasis">
+                {{ summaryData.serviceType }}
+              </span>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>
+              <span class="text-body-2 font-weight-medium text-medium-emphasis">
+                Property Type
+              </span>
+            </td>
+            <td>
+              <span class="text-body-2 text-medium-emphasis">
+                {{ summaryData.propertyType }}
+              </span>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>
+              <span class="text-body-2 font-weight-medium text-medium-emphasis">
+                Address
+              </span>
+            </td>
+            <td>
+              <span class="text-body-2 text-medium-emphasis">
+                {{ summaryData.address }}
+              </span>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>
+              <span class="text-body-2 font-weight-medium text-medium-emphasis">
+                Square Footage
+              </span>
+            </td>
+            <td>
+              <span class="text-body-2 text-medium-emphasis">
+                {{ summaryData.squareFootage }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </VTable>
+    </VCol>
+
+    <!-- Right Column: Price Breakdown Card -->
+    <VCol cols="12" md="6">
+      <!-- LEARNING: VCard with multiple sections for price breakdown -->
+      <!-- WHY: Provides structured card layout with dividers between sections -->
+      <!-- PATTERN: Card with VCardText sections separated by VDivider -->
+      <VCard variant="outlined">
+        <!-- Total Fee Display -->
+        <VCardText class="bg-surface">
+          <div class="d-flex flex-column pa-5">
+            <h6 class="text-h6 mb-4">
+              Your total fee is:
+            </h6>
+            
+            <!-- LEARNING: Large price display with currency -->
+            <!-- WHY: Prominently displays the main total fee -->
+            <!-- PATTERN: Flex layout with separate typography elements for currency, amount, and unit -->
+            <div class="d-flex align-end justify-end">
+              <h6 class="text-h6 align-self-end">$&nbsp;</h6>
+              <h1 class="text-h1 font-weight-bold price-display">
+                {{ priceData.totalFee }}
+              </h1>
+              <h6 class="text-h6">&nbsp;{{ priceData.currency }}</h6>
+            </div>
+          </div>
+        </VCardText>
+        
+        <VDivider />
+        
+        <!-- Price Details -->
+        <VCardText>
+          <h6 class="text-h6 mb-4">
+            Price Details
+          </h6>
+          
+          <div class="d-flex flex-column gap-2">
+            <!-- LEARNING: Price detail rows with space-between layout -->
+            <!-- WHY: Shows individual price components clearly -->
+            <!-- PATTERN: Flex row with justify-space-between for label-value pairs -->
+            <div class="d-flex justify-space-between align-center mb-2">
+              <span class="text-body-1">Bag Total</span>
+              <span class="text-body-1 text-medium-emphasis">
+                ${{ priceData.bagTotal.toFixed(2) }}
+              </span>
+            </div>
+            
+            <div class="d-flex justify-space-between align-center mb-2">
+              <span class="text-body-1">Coupon Discount</span>
+              <VBtn
+                variant="text"
+                color="primary"
+                size="small"
+                class="text-h6"
+                style="text-decoration: none;"
+                @click.prevent
+              >
+                Apply Coupon
+              </VBtn>
+            </div>
+            
+            <div class="d-flex justify-space-between align-center mb-2">
+              <span class="text-body-1">Order Total</span>
+              <span class="text-body-1 text-medium-emphasis">
+                ${{ priceData.orderTotal.toFixed(2) }}
+              </span>
+            </div>
+            
+            <!-- LEARNING: Delivery charges with strikethrough and free badge -->
+            <!-- WHY: Shows original price crossed out with "Free" indicator -->
+            <!-- PATTERN: Flex layout with strikethrough text and VChip badge -->
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-body-1">Delivery Charges</span>
+              <div class="d-flex align-center">
+                <span class="text-body-2 text-decoration-line-through text-disabled mr-2">
+                  ${{ priceData.deliveryCharges.toFixed(2) }}
+                </span>
+                <VChip
+                  rounded
+                  size="small"
+                  color="success"
+                  variant="tonal"
+                >
+                  Free
+                </VChip>
+              </div>
+            </div>
+          </div>
+        </VCardText>
+        
+        <VDivider />
+        
+        <!-- Final Total -->
+        <VCardText class="final-total-section">
+          <div class="d-flex justify-space-between align-center">
+            <span class="text-body-1 font-weight-medium">
+              Total
+            </span>
+            <span class="text-body-1 font-weight-medium">
+              ${{ priceData.finalTotal.toFixed(2) }}
+            </span>
+          </div>
+        </VCardText>
+      </VCard>
+    </VCol>
+  </VRow>
+</template>
+
+<style scoped lang="scss">
+// LEARNING: Custom table styling matching Jose's design exactly
+// WHY: Removes default table borders and adjusts padding to match Jose's spacing
+// PATTERN: Deep selector to style VTable internals with exact spacing (0.75 spacing units)
+:deep(.summary-table) {
+  tbody {
+    tr {
+      td {
+        border-bottom: none;
+        vertical-align: top;
+        padding: 6px 0; // Equivalent to theme.spacing(0.75)
+        
+        &:first-child {
+          padding-left: 0;
+        }
+        
+        &:last-child {
+          padding-right: 0;
+        }
+      }
+    }
+  }
+}
+
+// LEARNING: Large price display styling matching Jose's design
+// WHY: Makes the total fee prominently displayed with exact font size
+// PATTERN: Custom font size for large number display (3.75rem)
+.price-display {
+  line-height: 1;
+  font-size: 3.75rem !important;
+}
+
+// LEARNING: Final total section padding matching Jose's design
+// WHY: Matches Jose's py: 3.5 spacing exactly
+// PATTERN: Custom padding class (3.5 spacing units = 28px)
+.final-total-section {
+  padding-top: 28px !important; // theme.spacing(3.5)
+  padding-bottom: 28px !important; // theme.spacing(3.5)
+}
+</style>
+

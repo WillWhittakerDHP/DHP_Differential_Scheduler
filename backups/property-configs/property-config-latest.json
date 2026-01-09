@@ -1,0 +1,1092 @@
+{
+  "version": "1.0",
+  "backupDate": "2025-10-26T19:04:19.795Z",
+  "properties": [
+    {
+      "id": "d6b5a79f-9f59-4088-b305-3377c89e3d9a",
+      "name": "allowMultipleBlocks",
+      "displayName": "Allow Multiple Blocks",
+      "dataType": "boolean",
+      "backendFieldName": "allow_multiple_blocks",
+      "defaultValue": "false",
+      "validationRules": {
+        "helpText": "Allow multiple block instances"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Whether multiple blocks are allowed",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "8c3e1a02-ae39-475f-9b7a-55651c29cd99",
+      "name": "allowMultipleParts",
+      "displayName": "Allow Multiple Parts",
+      "dataType": "boolean",
+      "backendFieldName": "allow_multiple_parts",
+      "defaultValue": "false",
+      "validationRules": {
+        "helpText": "Allow multiple part instances"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Whether multiple parts are allowed",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "20df18b8-a2ac-4a62-b68f-d8f8daa4ad95",
+      "name": "baseFee",
+      "displayName": "Base Fee",
+      "dataType": "number",
+      "backendFieldName": "base_fee",
+      "defaultValue": "0",
+      "validationRules": {
+        "min": 0,
+        "step": 0.01,
+        "helpText": "Base fee in dollars"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Base fee amount",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "8f25a149-7dba-4386-acf8-0e250670d890",
+      "name": "baseSqFt",
+      "displayName": "Base Square Feet",
+      "dataType": "number",
+      "backendFieldName": "base_sq_ft",
+      "defaultValue": "0",
+      "validationRules": {
+        "min": 0,
+        "step": 0.01,
+        "helpText": "Base square footage"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Base square footage for block profile",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "a11d7327-ad81-4ed5-a6a9-a44422c2734e",
+      "name": "baseTime",
+      "displayName": "Base Time",
+      "dataType": "number",
+      "backendFieldName": "base_time",
+      "defaultValue": "0",
+      "validationRules": {
+        "min": 0,
+        "step": 0.25,
+        "helpText": "Base time in hours"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Base time required in hours",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "465fad72-cd94-4c2d-ad0e-7b1c1934b8c9",
+      "name": "blockType",
+      "displayName": "Block Type",
+      "dataType": "reference",
+      "backendFieldName": "block_type_ref",
+      "defaultValue": "\"\"",
+      "validationRules": {
+        "helpText": "Select block type",
+        "referenceField": "id",
+        "referenceEntity": "blockType"
+      },
+      "isRequired": true,
+      "isSystemProperty": false,
+      "description": "Reference to parent block type",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "8846f95a-8e88-409f-b239-48ec31decf21",
+      "name": "clientPresent",
+      "displayName": "Client Present",
+      "dataType": "boolean",
+      "backendFieldName": "client_present",
+      "defaultValue": "false",
+      "validationRules": {
+        "helpText": "Requires client presence"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Whether client must be present",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "4b9d0db3-3d25-4f61-af9d-4793fc3537da",
+      "name": "description",
+      "displayName": "Description",
+      "dataType": "string",
+      "backendFieldName": "description",
+      "defaultValue": "\"\"",
+      "validationRules": {
+        "maxLength": 1000,
+        "placeholder": "Enter description"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Detailed description",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+      "name": "disabled",
+      "displayName": "Disabled",
+      "dataType": "boolean",
+      "backendFieldName": "disabled",
+      "defaultValue": "false",
+      "validationRules": {
+        "helpText": "Disable this entity"
+      },
+      "isRequired": false,
+      "isSystemProperty": true,
+      "description": "Whether this entity is disabled",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "96b64d92-19ed-412d-8944-70a6d1c13e49",
+      "name": "icon",
+      "displayName": "Icon",
+      "dataType": "string",
+      "backendFieldName": "icon",
+      "defaultValue": "\"\"",
+      "validationRules": {
+        "maxLength": 50,
+        "placeholder": "icon-name"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Icon identifier for UI",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "b3ce798b-e541-4799-b789-3e14bfd873df",
+      "name": "moveable",
+      "displayName": "Moveable",
+      "dataType": "boolean",
+      "backendFieldName": "moveable",
+      "defaultValue": "false",
+      "validationRules": {
+        "helpText": "Can be rescheduled"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Whether part can be moved in schedule",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+      "name": "name",
+      "displayName": "Name",
+      "dataType": "string",
+      "backendFieldName": "name",
+      "defaultValue": "\"\"",
+      "validationRules": {
+        "maxLength": 255,
+        "minLength": 1,
+        "placeholder": "Enter name"
+      },
+      "isRequired": true,
+      "isSystemProperty": true,
+      "description": "Display name for the entity",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "87f3752a-5862-45da-b8d7-bbc080f7c45a",
+      "name": "onSite",
+      "displayName": "On Site",
+      "dataType": "boolean",
+      "backendFieldName": "on_site",
+      "defaultValue": "false",
+      "validationRules": {
+        "helpText": "Performed on-site"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Whether work is done on-site",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+      "name": "orderIndex",
+      "displayName": "Order Index",
+      "dataType": "number",
+      "backendFieldName": "order_index",
+      "defaultValue": "0",
+      "validationRules": {
+        "min": 0,
+        "step": 1,
+        "helpText": "Controls display order"
+      },
+      "isRequired": false,
+      "isSystemProperty": true,
+      "description": "Numerical order for sorting",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "8a0069fe-8149-47d8-8a7a-d8be4b948371",
+      "name": "partType",
+      "displayName": "Part Type",
+      "dataType": "reference",
+      "backendFieldName": "part_type_ref",
+      "defaultValue": "\"\"",
+      "validationRules": {
+        "helpText": "Select part type",
+        "referenceField": "id",
+        "referenceEntity": "partType"
+      },
+      "isRequired": true,
+      "isSystemProperty": false,
+      "description": "Reference to parent part type",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "4e851aca-491e-4f9b-b2b3-58f8c66f9e99",
+      "name": "rateOverBaseFee",
+      "displayName": "Rate Over Base Fee",
+      "dataType": "number",
+      "backendFieldName": "rate_over_base_fee",
+      "defaultValue": "0",
+      "validationRules": {
+        "min": 0,
+        "step": 0.01,
+        "helpText": "Additional fee rate"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Rate of additional fee per unit",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "cdc6af7f-d802-46b4-96cb-02eef1e6711e",
+      "name": "rateOverBaseTime",
+      "displayName": "Rate Over Base Time",
+      "dataType": "number",
+      "backendFieldName": "rate_over_base_time",
+      "defaultValue": "0",
+      "validationRules": {
+        "min": 0,
+        "step": 0.01,
+        "helpText": "Additional time rate"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Rate of additional time per unit",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    },
+    {
+      "id": "5fd8022c-b2a5-4b90-b1d8-9a79184c34d5",
+      "name": "testProperty",
+      "displayName": "Test Property",
+      "dataType": "boolean",
+      "backendFieldName": "test_property",
+      "defaultValue": "true",
+      "validationRules": {
+        "placeholder": "this is just a test"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": null,
+      "createdAt": "2025-10-26T22:10:56.180Z",
+      "updatedAt": "2025-10-26T22:10:56.180Z"
+    },
+    {
+      "id": "9b407908-22b6-47e9-a399-15e8c3f37db1",
+      "name": "visibility",
+      "displayName": "Visibility",
+      "dataType": "boolean",
+      "backendFieldName": "visibility",
+      "defaultValue": "true",
+      "validationRules": {
+        "helpText": "Show in selection lists"
+      },
+      "isRequired": false,
+      "isSystemProperty": false,
+      "description": "Whether this block profile is visible",
+      "createdAt": "2025-10-20T03:29:01.291Z",
+      "updatedAt": "2025-10-20T03:29:01.291Z"
+    }
+  ],
+  "entityMappings": [
+    {
+      "id": "318b16fb-3895-4583-b003-35d2342c3e9d",
+      "entityKey": "blockProfile",
+      "propertyDefinitionId": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+      "isActive": true,
+      "orderIndex": 0,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+      "property_definition": {
+        "id": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+        "name": "name",
+        "displayName": "Name",
+        "dataType": "string",
+        "backendFieldName": "name",
+        "defaultValue": "\"\"",
+        "validationRules": {
+          "maxLength": 255,
+          "minLength": 1,
+          "placeholder": "Enter name"
+        },
+        "isRequired": true,
+        "isSystemProperty": true,
+        "description": "Display name for the entity",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "0f4b0cf2-b713-4b00-8196-32cade7a3ef9",
+      "entityKey": "blockProfile",
+      "propertyDefinitionId": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+      "isActive": true,
+      "orderIndex": 1,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+      "property_definition": {
+        "id": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+        "name": "orderIndex",
+        "displayName": "Order Index",
+        "dataType": "number",
+        "backendFieldName": "order_index",
+        "defaultValue": "0",
+        "validationRules": {
+          "min": 0,
+          "step": 1,
+          "helpText": "Controls display order"
+        },
+        "isRequired": false,
+        "isSystemProperty": true,
+        "description": "Numerical order for sorting",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "3d7031a4-9d6c-4636-9046-6c8e47744b07",
+      "entityKey": "blockProfile",
+      "propertyDefinitionId": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+      "isActive": true,
+      "orderIndex": 2,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+      "property_definition": {
+        "id": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+        "name": "disabled",
+        "displayName": "Disabled",
+        "dataType": "boolean",
+        "backendFieldName": "disabled",
+        "defaultValue": "false",
+        "validationRules": {
+          "helpText": "Disable this entity"
+        },
+        "isRequired": false,
+        "isSystemProperty": true,
+        "description": "Whether this entity is disabled",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "49e52537-9926-480c-b1a2-7b38672de03d",
+      "entityKey": "blockProfile",
+      "propertyDefinitionId": "8f25a149-7dba-4386-acf8-0e250670d890",
+      "isActive": true,
+      "orderIndex": 3,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "8f25a149-7dba-4386-acf8-0e250670d890",
+      "property_definition": {
+        "id": "8f25a149-7dba-4386-acf8-0e250670d890",
+        "name": "baseSqFt",
+        "displayName": "Base Square Feet",
+        "dataType": "number",
+        "backendFieldName": "base_sq_ft",
+        "defaultValue": "0",
+        "validationRules": {
+          "min": 0,
+          "step": 0.01,
+          "helpText": "Base square footage"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Base square footage for block profile",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "2651eba7-168d-4284-b757-981ea784510c",
+      "entityKey": "blockProfile",
+      "propertyDefinitionId": "9b407908-22b6-47e9-a399-15e8c3f37db1",
+      "isActive": true,
+      "orderIndex": 4,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "9b407908-22b6-47e9-a399-15e8c3f37db1",
+      "property_definition": {
+        "id": "9b407908-22b6-47e9-a399-15e8c3f37db1",
+        "name": "visibility",
+        "displayName": "Visibility",
+        "dataType": "boolean",
+        "backendFieldName": "visibility",
+        "defaultValue": "true",
+        "validationRules": {
+          "helpText": "Show in selection lists"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Whether this block profile is visible",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "907fa57a-bfdf-4544-bd29-f1c5e8fa0843",
+      "entityKey": "blockProfile",
+      "propertyDefinitionId": "4b9d0db3-3d25-4f61-af9d-4793fc3537da",
+      "isActive": true,
+      "orderIndex": 5,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "4b9d0db3-3d25-4f61-af9d-4793fc3537da",
+      "property_definition": {
+        "id": "4b9d0db3-3d25-4f61-af9d-4793fc3537da",
+        "name": "description",
+        "displayName": "Description",
+        "dataType": "string",
+        "backendFieldName": "description",
+        "defaultValue": "\"\"",
+        "validationRules": {
+          "maxLength": 1000,
+          "placeholder": "Enter description"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Detailed description",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "c6af25ab-17c7-4183-b796-aad2c6003763",
+      "entityKey": "blockProfile",
+      "propertyDefinitionId": "96b64d92-19ed-412d-8944-70a6d1c13e49",
+      "isActive": true,
+      "orderIndex": 6,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "96b64d92-19ed-412d-8944-70a6d1c13e49",
+      "property_definition": {
+        "id": "96b64d92-19ed-412d-8944-70a6d1c13e49",
+        "name": "icon",
+        "displayName": "Icon",
+        "dataType": "string",
+        "backendFieldName": "icon",
+        "defaultValue": "\"\"",
+        "validationRules": {
+          "maxLength": 50,
+          "placeholder": "icon-name"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Icon identifier for UI",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "552e2eb5-ac8e-4234-b54e-1336ff0e4a09",
+      "entityKey": "blockProfile",
+      "propertyDefinitionId": "465fad72-cd94-4c2d-ad0e-7b1c1934b8c9",
+      "isActive": true,
+      "orderIndex": 7,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "465fad72-cd94-4c2d-ad0e-7b1c1934b8c9",
+      "property_definition": {
+        "id": "465fad72-cd94-4c2d-ad0e-7b1c1934b8c9",
+        "name": "blockType",
+        "displayName": "Block Type",
+        "dataType": "reference",
+        "backendFieldName": "block_type_ref",
+        "defaultValue": "\"\"",
+        "validationRules": {
+          "helpText": "Select block type",
+          "referenceField": "id",
+          "referenceEntity": "blockType"
+        },
+        "isRequired": true,
+        "isSystemProperty": false,
+        "description": "Reference to parent block type",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "6a5d7cfc-8616-407d-a452-75335369b8f1",
+      "entityKey": "blockProfile",
+      "propertyDefinitionId": "5fd8022c-b2a5-4b90-b1d8-9a79184c34d5",
+      "isActive": true,
+      "orderIndex": 10,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-26T22:27:26.524Z",
+      "property_definition_id": "5fd8022c-b2a5-4b90-b1d8-9a79184c34d5",
+      "property_definition": {
+        "id": "5fd8022c-b2a5-4b90-b1d8-9a79184c34d5",
+        "name": "testProperty",
+        "displayName": "Test Property",
+        "dataType": "boolean",
+        "backendFieldName": "test_property",
+        "defaultValue": "true",
+        "validationRules": {
+          "placeholder": "this is just a test"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": null,
+        "createdAt": "2025-10-26T22:10:56.180Z",
+        "updatedAt": "2025-10-26T22:10:56.180Z"
+      }
+    },
+    {
+      "id": "b3778c7c-0666-4fad-8523-df12386ece6e",
+      "entityKey": "blockType",
+      "propertyDefinitionId": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+      "isActive": true,
+      "orderIndex": 0,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+      "property_definition": {
+        "id": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+        "name": "name",
+        "displayName": "Name",
+        "dataType": "string",
+        "backendFieldName": "name",
+        "defaultValue": "\"\"",
+        "validationRules": {
+          "maxLength": 255,
+          "minLength": 1,
+          "placeholder": "Enter name"
+        },
+        "isRequired": true,
+        "isSystemProperty": true,
+        "description": "Display name for the entity",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "ce7a09aa-11a7-473c-a433-def3092cade2",
+      "entityKey": "blockType",
+      "propertyDefinitionId": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+      "isActive": true,
+      "orderIndex": 1,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+      "property_definition": {
+        "id": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+        "name": "orderIndex",
+        "displayName": "Order Index",
+        "dataType": "number",
+        "backendFieldName": "order_index",
+        "defaultValue": "0",
+        "validationRules": {
+          "min": 0,
+          "step": 1,
+          "helpText": "Controls display order"
+        },
+        "isRequired": false,
+        "isSystemProperty": true,
+        "description": "Numerical order for sorting",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "5f6029fe-8f04-47f9-a25f-dea4bf29cb54",
+      "entityKey": "blockType",
+      "propertyDefinitionId": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+      "isActive": true,
+      "orderIndex": 2,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+      "property_definition": {
+        "id": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+        "name": "disabled",
+        "displayName": "Disabled",
+        "dataType": "boolean",
+        "backendFieldName": "disabled",
+        "defaultValue": "false",
+        "validationRules": {
+          "helpText": "Disable this entity"
+        },
+        "isRequired": false,
+        "isSystemProperty": true,
+        "description": "Whether this entity is disabled",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "0d6a2417-9c16-4e96-b737-722923a850ce",
+      "entityKey": "blockType",
+      "propertyDefinitionId": "8c3e1a02-ae39-475f-9b7a-55651c29cd99",
+      "isActive": true,
+      "orderIndex": 3,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "8c3e1a02-ae39-475f-9b7a-55651c29cd99",
+      "property_definition": {
+        "id": "8c3e1a02-ae39-475f-9b7a-55651c29cd99",
+        "name": "allowMultipleParts",
+        "displayName": "Allow Multiple Parts",
+        "dataType": "boolean",
+        "backendFieldName": "allow_multiple_parts",
+        "defaultValue": "false",
+        "validationRules": {
+          "helpText": "Allow multiple part instances"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Whether multiple parts are allowed",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "405c0848-5b1a-47f4-ba54-b4b152529eb7",
+      "entityKey": "blockType",
+      "propertyDefinitionId": "d6b5a79f-9f59-4088-b305-3377c89e3d9a",
+      "isActive": true,
+      "orderIndex": 4,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "d6b5a79f-9f59-4088-b305-3377c89e3d9a",
+      "property_definition": {
+        "id": "d6b5a79f-9f59-4088-b305-3377c89e3d9a",
+        "name": "allowMultipleBlocks",
+        "displayName": "Allow Multiple Blocks",
+        "dataType": "boolean",
+        "backendFieldName": "allow_multiple_blocks",
+        "defaultValue": "false",
+        "validationRules": {
+          "helpText": "Allow multiple block instances"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Whether multiple blocks are allowed",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "404f3329-8338-413e-8da9-88c50e92ddfc",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+      "isActive": true,
+      "orderIndex": 0,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+      "property_definition": {
+        "id": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+        "name": "name",
+        "displayName": "Name",
+        "dataType": "string",
+        "backendFieldName": "name",
+        "defaultValue": "\"\"",
+        "validationRules": {
+          "maxLength": 255,
+          "minLength": 1,
+          "placeholder": "Enter name"
+        },
+        "isRequired": true,
+        "isSystemProperty": true,
+        "description": "Display name for the entity",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "72ca3675-dfea-4c84-81b0-22130fbee26e",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+      "isActive": true,
+      "orderIndex": 1,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+      "property_definition": {
+        "id": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+        "name": "orderIndex",
+        "displayName": "Order Index",
+        "dataType": "number",
+        "backendFieldName": "order_index",
+        "defaultValue": "0",
+        "validationRules": {
+          "min": 0,
+          "step": 1,
+          "helpText": "Controls display order"
+        },
+        "isRequired": false,
+        "isSystemProperty": true,
+        "description": "Numerical order for sorting",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "0828cfb3-be43-4496-9c6a-7b18b88f394b",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+      "isActive": true,
+      "orderIndex": 2,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+      "property_definition": {
+        "id": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+        "name": "disabled",
+        "displayName": "Disabled",
+        "dataType": "boolean",
+        "backendFieldName": "disabled",
+        "defaultValue": "false",
+        "validationRules": {
+          "helpText": "Disable this entity"
+        },
+        "isRequired": false,
+        "isSystemProperty": true,
+        "description": "Whether this entity is disabled",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "6a6722a3-0f49-482b-981f-cd7a57db66d9",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "8a0069fe-8149-47d8-8a7a-d8be4b948371",
+      "isActive": true,
+      "orderIndex": 3,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "8a0069fe-8149-47d8-8a7a-d8be4b948371",
+      "property_definition": {
+        "id": "8a0069fe-8149-47d8-8a7a-d8be4b948371",
+        "name": "partType",
+        "displayName": "Part Type",
+        "dataType": "reference",
+        "backendFieldName": "part_type_ref",
+        "defaultValue": "\"\"",
+        "validationRules": {
+          "helpText": "Select part type",
+          "referenceField": "id",
+          "referenceEntity": "partType"
+        },
+        "isRequired": true,
+        "isSystemProperty": false,
+        "description": "Reference to parent part type",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "7983a3fb-3853-455e-901d-8999cdc9bd2f",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "87f3752a-5862-45da-b8d7-bbc080f7c45a",
+      "isActive": true,
+      "orderIndex": 4,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "87f3752a-5862-45da-b8d7-bbc080f7c45a",
+      "property_definition": {
+        "id": "87f3752a-5862-45da-b8d7-bbc080f7c45a",
+        "name": "onSite",
+        "displayName": "On Site",
+        "dataType": "boolean",
+        "backendFieldName": "on_site",
+        "defaultValue": "false",
+        "validationRules": {
+          "helpText": "Performed on-site"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Whether work is done on-site",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "b907575d-e88c-454c-949e-e9175adc2f18",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "8846f95a-8e88-409f-b239-48ec31decf21",
+      "isActive": true,
+      "orderIndex": 5,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "8846f95a-8e88-409f-b239-48ec31decf21",
+      "property_definition": {
+        "id": "8846f95a-8e88-409f-b239-48ec31decf21",
+        "name": "clientPresent",
+        "displayName": "Client Present",
+        "dataType": "boolean",
+        "backendFieldName": "client_present",
+        "defaultValue": "false",
+        "validationRules": {
+          "helpText": "Requires client presence"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Whether client must be present",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "2c1acd7a-9222-40a3-853d-8eb709e2cb80",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "b3ce798b-e541-4799-b789-3e14bfd873df",
+      "isActive": true,
+      "orderIndex": 6,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "b3ce798b-e541-4799-b789-3e14bfd873df",
+      "property_definition": {
+        "id": "b3ce798b-e541-4799-b789-3e14bfd873df",
+        "name": "moveable",
+        "displayName": "Moveable",
+        "dataType": "boolean",
+        "backendFieldName": "moveable",
+        "defaultValue": "false",
+        "validationRules": {
+          "helpText": "Can be rescheduled"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Whether part can be moved in schedule",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "9763f7b5-5a6d-4104-8826-d572e393e4fa",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "a11d7327-ad81-4ed5-a6a9-a44422c2734e",
+      "isActive": true,
+      "orderIndex": 7,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "a11d7327-ad81-4ed5-a6a9-a44422c2734e",
+      "property_definition": {
+        "id": "a11d7327-ad81-4ed5-a6a9-a44422c2734e",
+        "name": "baseTime",
+        "displayName": "Base Time",
+        "dataType": "number",
+        "backendFieldName": "base_time",
+        "defaultValue": "0",
+        "validationRules": {
+          "min": 0,
+          "step": 0.25,
+          "helpText": "Base time in hours"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Base time required in hours",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "19350336-d3fb-47c2-b393-e1fd64f995f7",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "cdc6af7f-d802-46b4-96cb-02eef1e6711e",
+      "isActive": true,
+      "orderIndex": 8,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "cdc6af7f-d802-46b4-96cb-02eef1e6711e",
+      "property_definition": {
+        "id": "cdc6af7f-d802-46b4-96cb-02eef1e6711e",
+        "name": "rateOverBaseTime",
+        "displayName": "Rate Over Base Time",
+        "dataType": "number",
+        "backendFieldName": "rate_over_base_time",
+        "defaultValue": "0",
+        "validationRules": {
+          "min": 0,
+          "step": 0.01,
+          "helpText": "Additional time rate"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Rate of additional time per unit",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "09c76080-575f-4718-a4cf-60a5d1c8297e",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "20df18b8-a2ac-4a62-b68f-d8f8daa4ad95",
+      "isActive": true,
+      "orderIndex": 9,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "20df18b8-a2ac-4a62-b68f-d8f8daa4ad95",
+      "property_definition": {
+        "id": "20df18b8-a2ac-4a62-b68f-d8f8daa4ad95",
+        "name": "baseFee",
+        "displayName": "Base Fee",
+        "dataType": "number",
+        "backendFieldName": "base_fee",
+        "defaultValue": "0",
+        "validationRules": {
+          "min": 0,
+          "step": 0.01,
+          "helpText": "Base fee in dollars"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Base fee amount",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "d489f5fb-c3b7-4e62-8ae2-9c9ee8374434",
+      "entityKey": "partProfile",
+      "propertyDefinitionId": "4e851aca-491e-4f9b-b2b3-58f8c66f9e99",
+      "isActive": true,
+      "orderIndex": 10,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "4e851aca-491e-4f9b-b2b3-58f8c66f9e99",
+      "property_definition": {
+        "id": "4e851aca-491e-4f9b-b2b3-58f8c66f9e99",
+        "name": "rateOverBaseFee",
+        "displayName": "Rate Over Base Fee",
+        "dataType": "number",
+        "backendFieldName": "rate_over_base_fee",
+        "defaultValue": "0",
+        "validationRules": {
+          "min": 0,
+          "step": 0.01,
+          "helpText": "Additional fee rate"
+        },
+        "isRequired": false,
+        "isSystemProperty": false,
+        "description": "Rate of additional fee per unit",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "c20ebd68-d997-406e-a7e8-54321b3843dc",
+      "entityKey": "partType",
+      "propertyDefinitionId": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+      "isActive": true,
+      "orderIndex": 0,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+      "property_definition": {
+        "id": "f2e5f0ab-fcac-4acb-919a-c5293ff39312",
+        "name": "name",
+        "displayName": "Name",
+        "dataType": "string",
+        "backendFieldName": "name",
+        "defaultValue": "\"\"",
+        "validationRules": {
+          "maxLength": 255,
+          "minLength": 1,
+          "placeholder": "Enter name"
+        },
+        "isRequired": true,
+        "isSystemProperty": true,
+        "description": "Display name for the entity",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "1d6aade6-a08e-4ef5-bce9-76283d66d6d8",
+      "entityKey": "partType",
+      "propertyDefinitionId": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+      "isActive": true,
+      "orderIndex": 1,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+      "property_definition": {
+        "id": "78a9e748-99b0-46f2-ad4e-f1419bd89cda",
+        "name": "orderIndex",
+        "displayName": "Order Index",
+        "dataType": "number",
+        "backendFieldName": "order_index",
+        "defaultValue": "0",
+        "validationRules": {
+          "min": 0,
+          "step": 1,
+          "helpText": "Controls display order"
+        },
+        "isRequired": false,
+        "isSystemProperty": true,
+        "description": "Numerical order for sorting",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    },
+    {
+      "id": "d2cb8c5e-00b9-4669-9296-23028fccde25",
+      "entityKey": "partType",
+      "propertyDefinitionId": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+      "isActive": true,
+      "orderIndex": 2,
+      "entitySpecificConfig": {},
+      "createdAt": "2025-10-20T03:29:01.298Z",
+      "property_definition_id": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+      "property_definition": {
+        "id": "d6e8ce6b-b1a3-48d3-a975-ac72fda46c88",
+        "name": "disabled",
+        "displayName": "Disabled",
+        "dataType": "boolean",
+        "backendFieldName": "disabled",
+        "defaultValue": "false",
+        "validationRules": {
+          "helpText": "Disable this entity"
+        },
+        "isRequired": false,
+        "isSystemProperty": true,
+        "description": "Whether this entity is disabled",
+        "createdAt": "2025-10-20T03:29:01.291Z",
+        "updatedAt": "2025-10-20T03:29:01.291Z"
+      }
+    }
+  ]
+}

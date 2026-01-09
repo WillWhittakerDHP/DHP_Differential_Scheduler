@@ -1,0 +1,60 @@
+{
+  "$comment": "Configuration for duplication-audit.mjs exception handling",
+  "$schema": "Allowlist for intentional/necessary duplication patterns",
+  
+  "allowlist": {
+    "patterns": [
+      {
+        "glob": "**/__tests__/**",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded from duplication scanning"
+      },
+      {
+        "glob": "**/*.test.*",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded from duplication scanning"
+      },
+      {
+        "glob": "**/*.spec.*",
+        "ruleIds": ["*"],
+        "reason": "Spec files excluded from duplication scanning"
+      },
+      {
+        "glob": "**/@core/**",
+        "ruleIds": ["*"],
+        "reason": "Core library files excluded from duplication scanning"
+      },
+      {
+        "glob": "**/@layouts/**",
+        "ruleIds": ["*"],
+        "reason": "Layout library files excluded from duplication scanning"
+      },
+      {
+        "glob": "**/configs/field/form/selectableFieldConfig.ts",
+        "ruleIds": ["*"],
+        "reason": "Config files with intentional duplication - similar structures for different entity types"
+      },
+      {
+        "glob": "**/configs/field/display/selectableDisplayConfig.ts",
+        "ruleIds": ["*"],
+        "reason": "Config files with intentional duplication - similar structures for different entity types"
+      },
+      {
+        "glob": "**/configs/field/form/appliedForm/**",
+        "ruleIds": ["*"],
+        "reason": "Config files with intentional duplication - similar structures for different entity types"
+      },
+      {
+        "glob": "**/configs/field/display/appliedDisplay/**",
+        "ruleIds": ["*"],
+        "reason": "Config files with intentional duplication - similar structures for different entity types"
+      },
+      {
+        "glob": "**/types/entity/formFields.ts",
+        "ruleIds": ["*"],
+        "reason": "Type definition files - duplication between types and configs is intentional"
+      }
+    ],
+    "specific": []
+  }
+}

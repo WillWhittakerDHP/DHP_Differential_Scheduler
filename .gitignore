@@ -1,0 +1,14 @@
+node_modules
+dist
+.env.*
+*.log
+coverage
+
+# Ignore dated property configuration backups
+backups/property-configs/property-config-*.json
+
+# Track the latest backup
+!backups/property-configs/property-config-latest.json
+
+# Ignore .cursor nested git repository (synced separately)
+.cursor/.git

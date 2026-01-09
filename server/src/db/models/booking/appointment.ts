@@ -1,0 +1,263 @@
+import {
+  Model,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+  ForeignKey,
+  Sequelize,
+} from 'sequelize';
+
+/**
+ * Block Instance Snapshot Type
+ * LEARNING: Represents a snapshot of block instance data at booking time
+ * WHY: Preserves pricing/names for historical accuracy
+ */
+export interface BlockInstanceSnapshot {
+  id: string
+  name: string
+  icon: string
+  baseSqFt: number
+  allowMultiple: boolean
+  differential: boolean
+  partInstances: Array<{
+    id: string
+    name: string
+    baseFee: number
+    baseTime: number
+    rateOverBaseFee: number
+    rateOverBaseTime: number
+  }>
+}
+
+export class Appointment extends Model<
+  InferAttributes<Appointment>,
+  InferCreationAttributes<Appointment>
+> {
+  declare id: CreationOptional<string>;
+  declare propertyVersionId: ForeignKey<string>; // References normalized property_versions table
+  declare userTypeId: ForeignKey<string> | null;
+  declare selectedServiceIds: string[] | null; // JSONB array - replaces baseServiceId
+  declare serviceQuantities: Record<string, number> | null; // JSONB object - quantity multipliers for services
+  declare selectedPropertyIds: string[] | null; // JSONB array - replaces selectedDwellingAdjustmentIds (Property block shape)
+  declare propertyQuantities: Record<string, number> | null; // JSONB object - quantity multipliers for property type blocks
+  declare selectedOptionIds: string[] | null; // JSONB array - replaces selectedAvailabilityOptions (Option block shape)
+  declare optionQuantities: Record<string, number> | null; // JSONB object - quantity multipliers for availability options
+  declare serviceSnapshots: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected services at booking time
+  declare propertySnapshots: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected property type blocks at booking time
+  declare optionSnapshots: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected availability options at booking time
+  declare selectedDate: Date | null;
+  declare selectedDateRangeEnd: Date | null;
+  declare selectedTimeSlots: Array<Record<string, unknown>> | null;
+  declare isQuoteMode: boolean;
+  declare quotePdfUrl: string | null;
+  /**
+   * Appointment status workflow:
+   * - started: Non-quote mode appointment creation in progress
+   * - held: Time slots held for clients who paid booking fee (TODO: implement booking fee logic)
+   * - rescheduling: Non-quote mode rescheduling in progress
+   * - quoted: Quote mode appointment creation in progress
+   * - submitted: Submitted through app, awaiting confirmation (TODO: implement confirmation routine)
+   * - confirmed: Submitted and confirmed
+   * - cancelled: Soft-delete, still reschedulable
+   * - deleted: Hard-delete
+   */
+  declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancelled' | 'deleted';
+  declare clientId: ForeignKey<string> | null;
+  declare agentId: ForeignKey<string> | null;
+  /** Tracks which user engaged/interacted with the scheduler to create this appointment */
+  declare scheduledById: ForeignKey<string> | null;
+  declare additionalContacts: Array<Record<string, unknown>> | null;
+  declare propertyDetails: Record<string, unknown> | null;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+}
+
+export function AppointmentFactory(sequelize: Sequelize) {
+  Appointment.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+      },
+      propertyVersionId: {
+        type: DataTypes.UUID,
+        allowNull: false, // Required - references normalized property_versions table
+        field: 'property_version_id',
+        references: {
+          model: 'property_versions',
+          key: 'id',
+        },
+      },
+      userTypeId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'user_type_id',
+        references: {
+          model: 'block_instances',
+          key: 'id',
+        },
+      },
+      selectedServiceIds: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'selected_service_ids',
+        comment: 'Array of block instance IDs for selected services (replaces base_service_id)',
+      },
+      serviceQuantities: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'service_quantities',
+        comment: 'Quantity multipliers for selected services (item_id -> quantity mapping)',
+      },
+      selectedPropertyIds: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'selected_property_ids',
+        comment: 'Array of block instance IDs for selected property type blocks (Property block shape)',
+      },
+      propertyQuantities: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'property_quantities',
+        comment: 'Quantity multipliers for selected property type blocks (item_id -> quantity mapping)',
+      },
+      selectedOptionIds: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'selected_option_ids',
+        comment: 'Array of block instance IDs for selected availability options (Option block shape)',
+      },
+      optionQuantities: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'option_quantities',
+        comment: 'Quantity multipliers for selected availability options (item_id -> quantity mapping)',
+      },
+      serviceSnapshots: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'service_snapshots',
+        comment: 'Snapshots of selected services at booking time (preserves pricing/names)',
+      },
+      propertySnapshots: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'property_snapshots',
+        comment: 'Snapshots of selected property type blocks at booking time (preserves pricing/names)',
+      },
+      optionSnapshots: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'option_snapshots',
+        comment: 'Snapshots of selected availability options at booking time (preserves pricing/names)',
+      },
+      selectedDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+        field: 'selected_date',
+      },
+      selectedDateRangeEnd: {
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+        field: 'selected_date_range_end',
+      },
+      selectedTimeSlots: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'selected_time_slots',
+      },
+      isQuoteMode: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'is_quote_mode',
+      },
+      quotePdfUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: 'quote_pdf_url',
+      },
+      /**
+       * Appointment status workflow:
+       * - started: Non-quote mode appointment creation in progress
+       * - held: Time slots held for clients who paid booking fee (TODO: implement booking fee logic)
+       * - rescheduling: Non-quote mode rescheduling in progress
+       * - quoted: Quote mode appointment creation in progress
+       * - submitted: Submitted through app, awaiting confirmation (TODO: implement confirmation routine)
+       * - confirmed: Submitted and confirmed
+       * - cancelled: Soft-delete, still reschedulable
+       * - deleted: Hard-delete
+       */
+      status: {
+        type: DataTypes.ENUM('started', 'held', 'rescheduling', 'quoted', 'submitted', 'confirmed', 'cancelled', 'deleted'),
+        allowNull: false,
+        defaultValue: 'started',
+      },
+      clientId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'client_id',
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      agentId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'agent_id',
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      /** Tracks which user engaged/interacted with the scheduler to create this appointment */
+      scheduledById: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'scheduled_by_id',
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      additionalContacts: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'additional_contacts',
+      },
+      propertyDetails: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'property_details',
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'created_at',
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'updated_at',
+      },
+    },
+    {
+      sequelize,
+      timestamps: false,
+      underscored: false,
+      schema: 'public',
+      modelName: 'appointment',
+      tableName: 'appointments',
+      freezeTableName: true,
+    }
+  );
+
+  return Appointment;
+}
+

@@ -1,0 +1,53 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "description": "Root package for Vue client and server apps",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production npm run build:prod && cross-env NODE_ENV=production npm run client:build && cross-env NODE_ENV=production npm run server",
+    "start:dev": "cross-env NODE_ENV=development npm run build && cross-env NODE_ENV=development concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\" --names \"server,client\" --prefix-colors \"blue,green\"",
+    "start:dev:testing": "cross-env NODE_ENV=development npm run build && cross-env NODE_ENV=development concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\" \"wait-on tcp:3001 && npm run client:test:watch\" --names \"server,client,tests\" --prefix-colors \"blue,green,yellow\"",
+    "typecheck:audit": "npm --prefix client run typecheck:audit",
+    "typecheck:summary": "npm --prefix client run typecheck:summary",
+    "typecheck:run": "npm --prefix client run typecheck:run",
+    "audit:test": "npm --prefix client run audit:test",
+    "audit:test:summary": "npm --prefix client run audit:test:summary",
+    "audit:test:cleanup": "npm --prefix client run audit:test:cleanup",
+    "audit:test:generate": "npm --prefix client run audit:test:generate",
+    "audit:test:generate:api": "npm --prefix client run audit:test:generate:api",
+    "audit:test:ai": "npm --prefix client run audit:test:ai",
+    "kill:ports": "kill-port 3000 3001 3002 3003 3004 3005 3006 3007 3008 3009 5173 || true",
+    "restart:dev": "npm run kill:ports && sleep 1 && npm run start:dev",
+    "server": "npm --prefix server start",
+    "server:dev": "npm --prefix server run dev",
+    "server:refresh": "npm --prefix server run dev",
+    "install": "npm install --prefix server && npm install --prefix client",
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "client:dev": "npm --prefix client run dev",
+    "client:build": "npm --prefix client run build",
+    "client:test": "npm --prefix client run test",
+    "client:test:watch": "npm --prefix client run test:watch",
+    "build": "cross-env NODE_ENV=development npm --prefix server run build",
+    "build:prod": "cross-env NODE_ENV=production npm --prefix server run build",
+    "seed": "npm --prefix server run seed",
+    "migrate": "npm --prefix server run migrate",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "dayjs": "^1.11.13",
+    "express": "^4.21.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.16",
+    "@types/node": "^18.19.74",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "kill-port": "^2.0.1",
+    "vitest": "^3.1.2",
+    "wait-on": "^7.2.0"
+  }
+}
