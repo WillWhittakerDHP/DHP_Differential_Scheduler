@@ -122,7 +122,7 @@ function createGlobalInstance() {
     getGlobalEntityById,
     getGlobalData,
     globalData,
-    // Session 1.4.9: Expose loading and error states for derived composables
+    // Session 1.4.7: Expose loading and error states for derived composables
     isLoading: globalDataQuery.isLoading,
     error: globalDataQuery.error,
     refetch: () => globalDataQuery.refetch(), // Expose refetch to manually refresh cache

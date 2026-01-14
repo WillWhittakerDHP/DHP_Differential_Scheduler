@@ -5,7 +5,7 @@
  * WHY: Provides unified CRUD operations for business entities
  * PATTERN: Mirrors globalDataCollections/useGlobalDataCollectionCrud.ts
  * 
- * Session 1.4.9: Created as part of data flow consolidation
+ * Session 1.4.7: Created as part of data flow consolidation
  */
 
 import type { BusinessDataCollectionCrudComposableReturn, BusinessDataCollectionCrudConfig } from './types'

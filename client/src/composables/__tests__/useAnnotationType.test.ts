@@ -5,7 +5,7 @@
  * Tests annotation type CRUD operations and queries.
  * Phase 7: Config Composables
  * 
- * Session 1.4.9: Updated to test globalData cache pattern
+ * Session 1.4.7: Updated to test globalData cache pattern
  * - useAnnotationTypes now reads from globalData.annotationTypes
  * - Mutations use refetchQueries(['globalData']) instead of invalidateQueries(['annotationTypes'])
  */
@@ -153,7 +153,7 @@ describe('useAnnotationType', () => {
 
       await mutation.mutateAsync({ name: 'newType' })
 
-      // Session 1.4.9: Use refetchQueries for consistency with globalData pattern
+      // Session 1.4.7: Use refetchQueries for consistency with globalData pattern
       expect(mockQueryClient.refetchQueries).toHaveBeenCalledWith({
         queryKey: ['globalData'],
       })
@@ -198,7 +198,7 @@ describe('useAnnotationType', () => {
         data: { name: 'updatedType' },
       })
 
-      // Session 1.4.9: Use refetchQueries for consistency with globalData pattern
+      // Session 1.4.7: Use refetchQueries for consistency with globalData pattern
       expect(mockQueryClient.refetchQueries).toHaveBeenCalledWith({
         queryKey: ['globalData'],
       })
@@ -235,7 +235,7 @@ describe('useAnnotationType', () => {
 
       await mutation.mutateAsync('type-1')
 
-      // Session 1.4.9: Use refetchQueries for consistency with globalData pattern
+      // Session 1.4.7: Use refetchQueries for consistency with globalData pattern
       expect(mockQueryClient.refetchQueries).toHaveBeenCalledWith({
         queryKey: ['globalData'],
       })

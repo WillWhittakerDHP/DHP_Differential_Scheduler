@@ -5,7 +5,7 @@
  * WHY: Separates query concerns from mutation logic
  * PATTERN: Mirrors globalDataCollections/useGlobalDataCollectionQuery.ts
  * 
- * Session 1.4.9: Created as part of data flow consolidation
+ * Session 1.4.7: Created as part of data flow consolidation
  */
 
 import { computed, type ComputedRef } from 'vue'

@@ -1,7 +1,7 @@
 # Cache Architecture - Data Flow Alignment
 
-**Created:** Session 1.4.9  
-**Last Updated:** 2026-01-09
+**Created:** Session 1.4.7  
+**Last Updated:** 2026-01-14
 
 ---
 
@@ -47,13 +47,13 @@ This document describes the cache architecture for the Differential Scheduler ap
 
 ## Why Two Caches?
 
-### Problem (Before Session 1.4.9)
+### Problem (Before Session 1.4.7)
 - All data was fetched together in `globalData`
 - Editing an appointment would invalidate `globalData`
 - This caused refetching of ALL entities, relationships, annotations
 - Slow refresh, unnecessary network requests
 
-### Solution (Session 1.4.9)
+### Solution (Session 1.4.7)
 - **Separation of concerns**: Configuration data stays stable; business data changes often
 - **Granular invalidation**: Editing an appointment only refetches `businessData`
 - **Better performance**: Configuration data doesn't get refetched unnecessarily
@@ -214,7 +214,7 @@ useBusiness()
 - Added appointments, properties, users to globalData
 - All data in single cache
 
-### Session 1.4.9 (Separation)
+### Session 1.4.7 (Separation)
 - Created BusinessData cache for appointments, properties, users
 - Moved annotationTypes to globalData (configuration data)
 - Created useBusinessDataCollectionCrud pattern
@@ -226,5 +226,5 @@ useBusiness()
 
 - **Phase 1.4 Handoff**: `../phases/phase-1.4-handoff.md`
 - **Feature Plan**: `../feature-plan.md`
-- **Session 1.4.9 Log**: `../sessions/session-1.4.9-log.md`
+- **Session 1.4.7 Log**: `../sessions/session-1.4.7-log.md`
 

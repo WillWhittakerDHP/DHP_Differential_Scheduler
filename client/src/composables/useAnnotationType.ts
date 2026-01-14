@@ -5,7 +5,7 @@
  * WHY: AnnotationTypes are NOT in ENTITY_KEYS, so they need their own composable
  * PATTERN: Similar to useEntityCrud but specific to annotation types
  * 
- * Session 1.4.9: Refactored to read from globalData cache
+ * Session 1.4.7: Refactored to read from globalData cache
  * WHY: AnnotationTypes are configuration data, should be in globalData with other config
  * PATTERN: Read from globalData, invalidate ['globalData'] on mutations using refetchQueries
  */
@@ -32,7 +32,7 @@ export type UseAnnotationTypesReturn = {
  * WHY: Unified cache management for all configuration data
  * PATTERN: Returns query-like object for backward compatibility with consumers
  * 
- * Session 1.4.9: Refactored to read from globalData.annotationTypes
+ * Session 1.4.7: Refactored to read from globalData.annotationTypes
  */
 export function useAnnotationTypes(): UseAnnotationTypesReturn {
   const { globalData, isLoading, error } = useGlobal()

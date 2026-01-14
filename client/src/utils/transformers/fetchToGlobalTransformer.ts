@@ -46,7 +46,7 @@ export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
  * WHY: Annotations are configuration data that changes infrequently
  * PATTERN: Keep annotations in globalData as they're part of configuration
  * 
- * Session 1.4.9: Added annotationTypes to globalData cache
+ * Session 1.4.7: Added annotationTypes to globalData cache
  * WHY: AnnotationTypes are configuration data (like blockShape), not business data
  * PATTERN: Keep all configuration data together in globalData for unified cache management
  */
@@ -56,7 +56,7 @@ export type GlobalData = {
   // NOTE: instanceComponents are now stored in relationships.instanceComponents as GlobalRelationship[]
   // Session 1.4.6: Annotations added to globalData cache (configuration data)
   annotations?: Annotation[]
-  // Session 1.4.9: AnnotationTypes added to globalData cache (configuration data)
+  // Session 1.4.7: AnnotationTypes added to globalData cache (configuration data)
   annotationTypes?: AnnotationType[]
 }
 
@@ -182,7 +182,7 @@ export class GlobalTransformer {
       // NOTE: Annotations, annotation types, and assignments fetched in parallel
       // ARCHITECTURAL REFACTOR: Removed business entity fetching (appointments, properties, users)
       // WHY: Business entities use separate cache key ['businessData'] and are fetched by useBusiness composable
-      // Session 1.4.9: Added annotation types to parallel fetch (configuration data belongs in globalData)
+      // Session 1.4.7: Added annotation types to parallel fetch (configuration data belongs in globalData)
       const [annotationsResponse, annotationTypesResponse, assignmentsResponse] = await Promise.all([
         apiClient.get<Record<string, unknown>[]>(getAnnotationEndpoint()),
         apiClient.get<AnnotationType[]>(getAnnotationTypeEndpoint()),
@@ -212,7 +212,7 @@ export class GlobalTransformer {
       // WHY: Helps debug missing data and ensures all expected types are present
       // PATTERN: Log counts for each data type in dev mode
       
-      // Session 1.4.9: Extract annotation types from response
+      // Session 1.4.7: Extract annotation types from response
       const fetchedAnnotationTypes = annotationTypesResponse.data
       
       return {
@@ -265,7 +265,7 @@ export class GlobalTransformer {
   }): GlobalData {
     // Session 1.4.6: Extract annotations from staged data
     const fetchedAnnotations = staged.fetchedAnnotations || []
-    // Session 1.4.9: Extract annotation types from staged data
+    // Session 1.4.7: Extract annotation types from staged data
     const fetchedAnnotationTypes = staged.fetchedAnnotationTypes || []
     
     // Attach instanceComponents arrays to entities (for backward compatibility)
@@ -370,7 +370,7 @@ export class GlobalTransformer {
       // NOTE: instanceComponents are now in relationships.instanceComponents
       // Session 1.4.6: Include annotations in globalData (configuration data)
       annotations: fetchedAnnotations,
-      // Session 1.4.9: Include annotation types in globalData (configuration data)
+      // Session 1.4.7: Include annotation types in globalData (configuration data)
       annotationTypes: fetchedAnnotationTypes,
     }
   }

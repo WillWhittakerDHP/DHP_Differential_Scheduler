@@ -5,7 +5,7 @@
  * WHY: Provides reactive user mutations with error handling
  * PATTERN: Vue Query useMutation for data mutations
  * 
- * Session 1.4.9: Refactored to use BusinessData cache
+ * Session 1.4.7: Refactored to use BusinessData cache
  * ARCHITECTURAL DECISION: Business entities use ['businessData'] cache key
  * - Keeps business data changes from invalidating static configuration data
  * - Uses optimistic updates + refetchQueries for cache consistency
@@ -32,7 +32,7 @@ type UpdateByIdPayload = {
  * WHY: Centralizes user API logic with reactive state management
  * PATTERN: Uses useBusinessDataCollectionCrud for standardized CRUD operations
  * 
- * Session 1.4.9: Refactored to use BusinessData cache with optimistic + refetchQueries pattern
+ * Session 1.4.7: Refactored to use BusinessData cache with optimistic + refetchQueries pattern
  */
 type UseUserReturn = {
   create: UseMutationReturnType<UserResponse, unknown, UserRequest, unknown>

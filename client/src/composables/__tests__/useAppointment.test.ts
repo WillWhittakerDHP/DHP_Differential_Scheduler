@@ -5,7 +5,7 @@
  * Tests appointment CRUD operations, queries, and cache invalidation.
  * Phase 5: High Priority Composables
  * 
- * Session 1.4.9: Updated to test BusinessData cache pattern
+ * Session 1.4.7: Updated to test BusinessData cache pattern
  * ARCHITECTURAL CHANGE: Business entities now use ['businessData'] cache key
  * - Uses optimistic updates + refetchQueries pattern
  * - Reads from businessData.appointments
@@ -151,7 +151,7 @@ describe('useAppointment', () => {
         selectedDate: new Date().toISOString().split('T')[0],
       })
       
-      // Session 1.4.9: Optimistic update + refetchQueries pattern
+      // Session 1.4.7: Optimistic update + refetchQueries pattern
       expect(mockQueryClient.setQueryData).toHaveBeenCalled()
       expect(mockQueryClient.refetchQueries).toHaveBeenCalledWith({ queryKey: ['businessData'] })
     })

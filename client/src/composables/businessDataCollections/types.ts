@@ -5,7 +5,7 @@
  * WHY: Type safety for business entity (appointment, property, user) operations
  * PATTERN: Mirrors globalDataCollections/types.ts structure
  * 
- * Session 1.4.9: Created as part of data flow consolidation
+ * Session 1.4.7: Created as part of data flow consolidation
  */
 
 import type { ComputedRef } from 'vue'

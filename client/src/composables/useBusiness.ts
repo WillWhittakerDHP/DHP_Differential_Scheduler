@@ -5,7 +5,7 @@
  * WHY: Unified cache for business entities that change frequently
  * PATTERN: Mirrors useGlobal composable for consistency
  * 
- * Session 1.4.9: Created as part of data flow consolidation
+ * Session 1.4.7: Created as part of data flow consolidation
  * ARCHITECTURAL DECISION: Business entities use separate ['businessData'] cache key
  * - Keeps business data changes from invalidating static configuration data
  * - Uses optimistic updates + refetchQueries for cache consistency
