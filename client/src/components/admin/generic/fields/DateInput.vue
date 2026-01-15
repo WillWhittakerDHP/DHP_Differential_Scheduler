@@ -45,7 +45,7 @@ import AppDateTimePicker from '@/@core/components/app-form-elements/AppDateTimeP
 import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
-import { useFieldValue } from '../../../../composables/useFieldValue'
+import { useFieldInputSetup } from '@/composables/admin/useFieldInputSetup'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -58,31 +58,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { fieldContext } = props
 
-// LEARNING: Use unified field value composable
-// WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
-// PATTERN: Always use useFieldValue for accessing field values
-const fieldValue = useFieldValue(fieldContext)
-
-const handleChange = (value: string) => {
-  fieldContext.setValue(value)
-}
-
-const handleFocus = () => {
-  fieldContext.setFocus(true)
-}
-
-const handleBlur = async () => {
-  fieldContext.setFocus(false)
-  
-  const isValid = await fieldContext.validate()
-  
-  if (isValid) {
-    try {
-      await fieldContext.save()
-    } catch (error) {
-      // Auto-save failed
-    }
-  }
-}
+// FIX: Use shared field input setup from composable
+const { fieldValue, handleChange, handleFocus, handleBlur } = useFieldInputSetup(fieldContext)
 </script>
 

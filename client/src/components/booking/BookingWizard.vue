@@ -21,6 +21,7 @@ import { useAppointmentDataCollection } from '@/composables/booking/useAppointme
 import { useWizardDisplay } from '@/composables/booking/useWizardDisplay'
 import { useWizardStepContent } from '@/composables/booking/useWizardStepContent'
 import { useWizardSubmission } from '@/composables/booking/useWizardSubmission'
+import { useThemeMode } from '@/composables/useThemeMode'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { transformAppointmentToWizard } from '@/utils/transformers/appointmentToWizardTransformer'
 import { WIZARD_STEPS } from '@/configs/wizardSteps'
@@ -250,6 +251,12 @@ const {
 // PATTERN: Composable provides step content component mapping
 const { getStepContent } = useWizardStepContent()
 
+// LEARNING: Use theme mode composable for quote mode theme switching
+// WHY: Provides reactive theme colors and updates CSS variables when quote mode changes
+// PATTERN: Composable watches isQuoteMode and updates theme colors automatically
+// NOTE: Pass wizard instance directly since we have it in scope
+useThemeMode(wizard)
+
 // LEARNING: Computed property for quote mode state
 // WHY: Provides reactive access to quote mode for UI color changes
 // PATTERN: Computed property that reads from wizard state
@@ -377,7 +384,7 @@ const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Prom
     }
     
     // Transform appointment to wizard state
-    const wizardState = transformAppointmentToWizard(appointment, bookingData.value)
+    const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)
     
     // Populate wizard state refs (skip cascade to avoid clearing dependent selections)
     // Use spread operators to ensure Vue detects array changes
@@ -567,7 +574,7 @@ const handleResetWizard = (): void => {
               </VCol>
               <VCol v-if="isDevMode && loadedAppointmentId" cols="auto" class="mr-2">
                 <VBtn
-                  color="warning"
+                  color="secondary"
                   variant="outlined"
                   size="small"
                   prepend-icon="tabler-refresh"
@@ -632,31 +639,63 @@ const handleResetWizard = (): void => {
 .booking-wizard {
   height: 100%;
   
-  // LEARNING: Quote mode color variables
+  // LEARNING: Quote mode color variables (20% less vibrant)
   // WHY: Defines quote mode color palette as CSS custom properties
   // PATTERN: CSS variables that override Vuetify theme variables when quote mode is active
-  // Updated: Changed to green palette matching intensity of primary/warning colors
-  --quote-mode-primary: 40, 199, 111; // #28C76F (vibrant green, matches success color intensity)
-  --quote-mode-primary-darken-1: 36, 179, 100; // #24B364 (darker green)
-  --quote-mode-secondary: 40, 199, 111; // Use same green for secondary
+  // Colors: Primary-quote (#33BF78), Secondary-quote (#BD7832), Warning-quote (#E6465A)
+  --quote-mode-primary: 51, 191, 120; // #33BF78 (green, 20% less vibrant)
+  --quote-mode-primary-darken-1: 45, 168, 102; // #2DA866 (darker green)
+  --quote-mode-secondary: 189, 120, 50; // #BD7832 (orange-brown, green - 120°, 20% less vibrant)
+  --quote-mode-secondary-darken-1: 168, 104, 42; // #A8682A (darker orange-brown)
+  --quote-mode-warning: 230, 70, 90; // #E6465A (different red, 20% less vibrant)
+  --quote-mode-warning-darken-1: 207, 62, 80; // #CF3E50 (darker red)
   --quote-mode-on-primary: 255, 255, 255; // White text on green
+  --quote-mode-on-secondary: 255, 255, 255; // White text on orange-brown
+  --quote-mode-on-warning: 255, 255, 255; // White text on red
+  
+  // LEARNING: Inactive color variables for appointment slot buttons
+  // WHY: Provides muted colors for non-selected appointment slots
+  // PATTERN: Lighter versions of active colors (80% white + 20% color)
+  // Normal mode inactive colors
+  --inactive-primary: 227, 225, 252; // #E3E1FC (light purple, 80% white + 20% #7367F0)
+  --inactive-secondary: 255, 236, 217; // #FFECD9 (light orange, 80% white + 20% #FF9F43)
+  
+  // Quote mode inactive colors
+  --quote-mode-inactive-primary: 214, 242, 228; // #D6F2E4 (light green, 80% white + 20% #33BF78)
+  --quote-mode-inactive-secondary: 242, 228, 214; // #F2E4D6 (light orange-brown, 80% white + 20% #BD7832)
   
   // LEARNING: Override Vuetify theme variables when quote mode is active
-  // WHY: All components using primary/secondary colors automatically use quote mode colors
+  // WHY: All components using primary/secondary/warning colors automatically use quote mode colors
   // PATTERN: CSS variable override at component root level with :deep() to ensure cascading
-  // FIX: Use :deep() to ensure CSS variables cascade to Vuetify child components
+  // NOTE: useThemeMode composable also updates document root CSS variables for global scope
   &.quote-mode-active {
     --v-theme-primary: var(--quote-mode-primary);
     --v-theme-primary-darken-1: var(--quote-mode-primary-darken-1);
     --v-theme-secondary: var(--quote-mode-secondary);
+    --v-theme-secondary-darken-1: var(--quote-mode-secondary-darken-1);
+    --v-theme-warning: var(--quote-mode-warning);
+    --v-theme-warning-darken-1: var(--quote-mode-warning-darken-1);
     --v-theme-on-primary: var(--quote-mode-on-primary);
+    --v-theme-on-secondary: var(--quote-mode-on-secondary);
+    --v-theme-on-warning: var(--quote-mode-on-warning);
+    
+    // Update inactive colors for quote mode
+    --inactive-primary: var(--quote-mode-inactive-primary);
+    --inactive-secondary: var(--quote-mode-inactive-secondary);
     
     // Ensure variables cascade to all child elements (including Vuetify components)
     :deep(*) {
       --v-theme-primary: var(--quote-mode-primary);
       --v-theme-primary-darken-1: var(--quote-mode-primary-darken-1);
       --v-theme-secondary: var(--quote-mode-secondary);
+      --v-theme-secondary-darken-1: var(--quote-mode-secondary-darken-1);
+      --v-theme-warning: var(--quote-mode-warning);
+      --v-theme-warning-darken-1: var(--quote-mode-warning-darken-1);
       --v-theme-on-primary: var(--quote-mode-on-primary);
+      --v-theme-on-secondary: var(--quote-mode-on-secondary);
+      --v-theme-on-warning: var(--quote-mode-on-warning);
+      --inactive-primary: var(--quote-mode-inactive-primary);
+      --inactive-secondary: var(--quote-mode-inactive-secondary);
     }
   }
   

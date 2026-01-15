@@ -76,7 +76,6 @@ const defaultConfig: SelectionCardConfig = {
   controlPosition: 'left',
   appearance: {
     showIcon: false,
-    showDescription: true,
     showBorder: true,
     cardPadding: 'pa-4',
     minHeight: 'auto'
@@ -210,15 +209,6 @@ const contentClasses = computed(() => {
         </span>
       </slot>
       
-      <!-- Description slot or default -->
-      <slot name="description" :item="item">
-        <span
-          v-if="mergedConfig.appearance.showDescription && item.description"
-          class="text-body-2 text-medium-emphasis mt-1"
-        >
-          {{ item.description }}
-        </span>
-      </slot>
       
       <!-- Default slot for additional content -->
       <slot :item="item" />

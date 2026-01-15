@@ -16,11 +16,21 @@ import { useExpansionState } from '@/composables/admin/useExpansionState'
 import { useEntityTabState } from '@/composables/admin/useEntityTabState'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import StatusButton from '@/components/admin/generic/StatusButton.vue'
 import AnnotationTypeCard from '../components/AnnotationTypeCard.vue'
-import { getDefaultEntityValues } from '@/utils/entityDefaults'
-import { useAnnotationTypes, useUpdateAnnotationType, useCreateAnnotationType } from '@/composables/useAnnotationType'
-import { useNotification } from '@/composables/useNotification'
+import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
+import { PART_SHAPE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
+import { useUpdateAnnotationType } from '@/composables/useAnnotationType'
+import { useStatusButtonValue } from '@/composables/admin/useStatusButtonValue'
+import { useStatusButtonHandlers } from '@/composables/admin/useStatusButtonHandlers'
+import { useShapeCreation } from '@/composables/admin/useShapeCreation'
+import { useShapeSaveHandlers } from '@/composables/admin/useShapeSaveHandlers'
+import { useShapeDeletion } from '@/composables/admin/useShapeDeletion'
+import { useAnnotationTypeFiltering } from '@/composables/admin/useAnnotationTypeFiltering'
+import { useMetadataModalHandlers } from '@/composables/admin/useMetadataModalHandlers'
+import { useStatusButtonFields } from '@/composables/admin/useStatusButtonFields'
 
 // NOTE: useEntityDisplay removed - display names handled by useShapeDisplayNames
 
@@ -66,133 +76,137 @@ const expansionStateComposable = useExpansionState()
 const { expandedEntities: expandedShapes, isPanelExpanded } = expansionStateComposable
 
 /**
- * LEARNING: Notification composable for success/error messages
+ * LEARNING: Use metadata modal handlers composable
+ * WHY: All modal logic moved to composable - component is pure rendering
  */
-const { success } = useNotification()
+const {
+  partInstanceMetadataModalOpen,
+  togglePartInstanceMetadataModal,
+  handlePartInstanceMetadataSaved
+} = useMetadataModalHandlers()
 
 /**
- * LEARNING: Inline creation state for all shape types
- * WHY: Instead of dialogs, show inline EntityCards for creating new entities
- * PATTERN: Boolean flags and initial values for each entity type
+ * LEARNING: Status button fields type for blockShape entities
+ * WHY: Config-driven approach - booleans with renderAs: 'statusButton' render as clickable VChips
+ * PATTERN: Categorize fields and extract status buttons for panel title rendering
  */
-const isCreatingBlockShape = ref(false)
-const isCreatingPartShape = ref(false)
-const isCreatingAnnotationType = ref(false)
-const newBlockShapeInitialValues = ref<GlobalEntity<'blockShape'> | null>(null)
-const newPartShapeInitialValues = ref<GlobalEntity<'partShape'> | null>(null)
-const newAnnotationTypeName = ref('')
+type BlockShapeStatusButtonField = Omit<StatusButtonField, 'key'> & { key: GlobalFieldKey<'blockShape'> }
+type PartShapeStatusButtonField = Omit<StatusButtonField, 'key'> & { key: GlobalFieldKey<'partShape'> }
 
 /**
- * LEARNING: Create annotation type mutation
+ * LEARNING: Status button fields come from metadata ONLY
+ * WHY: `/admin-input-metadata` is the source of truth for which fields exist + how they render
+ * PATTERN: Fetch entity-type metadata once, then derive a shared status button list for all shapes
+ *
+ * NOTE: For shapes, metadata is global (shared across all BlockShapes / all PartShapes),
+ * so we only need any one entity instance to bootstrap the metadata query.
  */
-const createAnnotationTypeMutation = useCreateAnnotationType()
+const anyBlockShapeForMetadata = computed<GlobalEntity<'blockShape'> | null>(() => blockShapesList.value[0] ?? null)
+const { fieldMetadata: blockShapeFieldMetadata } = useEntityMetadata('blockShape', anyBlockShapeForMetadata)
+
+const blockShapeStatusButtonFields = computed((): BlockShapeStatusButtonField[] => {
+  const categorized = categorizeFieldsBySection([], undefined, {
+    fieldMetadata: blockShapeFieldMetadata.value
+  })
+
+  return categorized.statusButtonFields.map((f) => ({
+    ...f,
+    key: f.key as GlobalFieldKey<'blockShape'>,
+  }))
+})
 
 /**
- * LEARNING: Function to start inline BlockShape creation
+ * LEARNING: PartShape status button fields come from metadata ONLY
+ * WHY: `/admin-input-metadata` is the source of truth for PartShape rendering
  */
-const createBlockShape = () => {
-  const defaults = getDefaultEntityValues('blockShape')
-  newBlockShapeInitialValues.value = {
-    ...defaults,
-    id: `new-${Date.now()}` as string,
-  } as GlobalEntity<'blockShape'>
-  isCreatingBlockShape.value = true
-  expandedShapes.value = ['new-blockShape', ...expandedShapes.value]
-}
+const anyPartShapeForMetadata = computed<GlobalEntity<'partShape'> | null>(() => partShapesList.value[0] ?? null)
+const { fieldMetadata: partShapeFieldMetadata } = useEntityMetadata('partShape', anyPartShapeForMetadata)
+
+const partShapeStatusButtonFields = computed((): PartShapeStatusButtonField[] => {
+  const categorized = categorizeFieldsBySection([], undefined, {
+    fieldMetadata: partShapeFieldMetadata.value
+  })
+
+  return categorized.statusButtonFields.map((f) => ({
+    ...f,
+    key: f.key as GlobalFieldKey<'partShape'>,
+  }))
+})
 
 /**
- * LEARNING: Function to start inline PartShape creation
+ * LEARNING: Use status button value helper
+ * WHY: Value extraction logic moved to composable
  */
-const createPartShape = () => {
-  const defaults = getDefaultEntityValues('partShape')
-  newPartShapeInitialValues.value = {
-    ...defaults,
-    id: `new-${Date.now()}` as string,
-  } as GlobalEntity<'partShape'>
-  isCreatingPartShape.value = true
-  expandedShapes.value = ['new-partShape', ...expandedShapes.value]
-}
+const getStatusButtonBooleanValue = useStatusButtonValue.getStatusButtonBooleanValue
 
 /**
- * LEARNING: Function to start inline AnnotationType creation
+ * LEARNING: Use status button handlers composables
+ * WHY: Handler creation and click logic moved to composables
  */
-const createAnnotationType = () => {
-  newAnnotationTypeName.value = ''
-  isCreatingAnnotationType.value = true
-  expandedShapes.value = ['new-annotationType', ...expandedShapes.value]
-}
+const blockShapeStatusButtonHandlersComposable = useStatusButtonHandlers({
+  filteredEntities: filteredBlockShapes,
+  entityKey: 'blockShape'
+})
+const {
+  handleStatusButtonClick: handleBlockShapeStatusButtonClick
+} = blockShapeStatusButtonHandlersComposable
+
+const partShapeStatusButtonHandlersComposable = useStatusButtonHandlers({
+  filteredEntities: filteredPartShapes,
+  entityKey: 'partShape'
+})
+const {
+  handleStatusButtonClick: handlePartShapeStatusButtonClick
+} = partShapeStatusButtonHandlersComposable
 
 /**
- * LEARNING: Handle BlockShape creation save
+ * LEARNING: Use shape creation composable
+ * WHY: Creation logic moved to composable
  */
-const handleBlockShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>) => {
-  isCreatingBlockShape.value = false
-  newBlockShapeInitialValues.value = null
-  expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
-}
+const shapeCreation = useShapeCreation({ expandedShapes })
+const {
+  isCreatingBlockShape,
+  isCreatingPartShape,
+  isCreatingAnnotationType,
+  newBlockShapeInitialValues,
+  newPartShapeInitialValues,
+  newAnnotationTypeName,
+  createBlockShape,
+  createPartShape,
+  createAnnotationType
+} = shapeCreation
 
 /**
- * LEARNING: Handle BlockShape creation cancel
+ * LEARNING: Use shape save handlers composable
+ * WHY: Save and cancel handlers moved to composable
  */
-const handleBlockShapeCancelled = () => {
-  isCreatingBlockShape.value = false
-  newBlockShapeInitialValues.value = null
-  expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
-}
+const shapeSaveHandlers = useShapeSaveHandlers({
+  expandedShapes,
+  isCreatingBlockShape,
+  isCreatingPartShape,
+  isCreatingAnnotationType,
+  newBlockShapeInitialValues,
+  newPartShapeInitialValues,
+  newAnnotationTypeName
+})
+const {
+  handleBlockShapeCreated,
+  handleBlockShapeCancelled,
+  handlePartShapeCreated,
+  handlePartShapeCancelled,
+  handleAnnotationTypeCreate,
+  handleAnnotationTypeCancelled,
+  handleExistingShapeSaved
+} = shapeSaveHandlers
 
 /**
- * LEARNING: Handle PartShape creation save
+ * LEARNING: Use annotation type filtering composable
+ * WHY: Filtering logic moved to composable
  */
-const handlePartShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>) => {
-  isCreatingPartShape.value = false
-  newPartShapeInitialValues.value = null
-  expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-}
-
-/**
- * LEARNING: Handle PartShape creation cancel
- */
-const handlePartShapeCancelled = () => {
-  isCreatingPartShape.value = false
-  newPartShapeInitialValues.value = null
-  expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-}
-
-/**
- * LEARNING: Handle AnnotationType creation save
- */
-const handleAnnotationTypeCreate = async () => {
-  if (!newAnnotationTypeName.value.trim()) return
-  
-  try {
-    await createAnnotationTypeMutation.mutateAsync({ name: newAnnotationTypeName.value.trim() })
-    success('Annotation type created successfully')
-    isCreatingAnnotationType.value = false
-    newAnnotationTypeName.value = ''
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
-  } catch (error) {
-    // Failed to create annotation type
-  }
-}
-
-/**
- * LEARNING: Handle AnnotationType creation cancel
- */
-const handleAnnotationTypeCancelled = () => {
-  isCreatingAnnotationType.value = false
-  newAnnotationTypeName.value = ''
-  expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
-}
-
-/**
- * LEARNING: Fetch annotation types
- * WHY: Get all annotation types for display
- * PATTERN: useQuery hook from Vue Query
- */
-// LEARNING: Avoid destructuring `data = []` from vue-query (creates a union that breaks `.value` access).
-const annotationTypesQuery = useAnnotationTypes()
-const annotationTypes = computed(() => annotationTypesQuery.data.value ?? [])
-const isLoadingAnnotationTypes = computed(() => annotationTypesQuery.isLoading.value)
+const {
+  annotationTypes,
+  isLoadingAnnotationTypes
+} = useAnnotationTypeFiltering()
 
 /**
  * LEARNING: Update annotation type mutation
@@ -308,70 +322,20 @@ const _isMounted = blockShapesMounted
 
 
 /**
- * WHY: Event handler for deleting BlockShape
-WHY: EntityCard already handles deletion internally, this is just a notification handler
-PATTERN: No-op handler - EntityCard handles all deletion logic including confirmation
-NOTE: EntityCard emits 'delete' event after successful deletion for parent awareness
+ * LEARNING: Use shape deletion composable
+ * WHY: Deletion handlers moved to composable
  */
-function handleDeleteBlockShape(_id: string) {
-  // EntityCard already handled the deletion - this is just for parent awareness
-  // Vue Query will automatically refetch and update the UI
-}
-
-/**
- * WHY: Event handler for deleting PartShape
-WHY: EntityCard already handles deletion internally, this is just a notification handler
-PATTERN: No-op handler - EntityCard handles all deletion logic including confirmation
-NOTE: EntityCard emits 'delete' event after successful deletion for parent awareness
- */
-function handleDeletePartShape(_id: string) {
-  // EntityCard already handled the deletion - this is just for parent awareness
-  // Vue Query will automatically refetch and update the UI
-}
-
-/**
- * LEARNING: Computed property for filtered annotation types
- * WHY: Filters annotation types by search term
- * PATTERN: Computed property with data transformation
- * LEARNING: Add guards to handle undefined/edge cases during component transitions
- * WHY: Prevents errors when Vue is rendering/unmounting components during VWindow transitions
- */
-const filteredAnnotationTypes = computed(() => {
-  // LEARNING: Guard against undefined annotationTypes during transitions
-  // WHY: Prevents errors when component is mounting/unmounting
-  // PATTERN: Check that annotationTypes is an array before spreading
-  if (!Array.isArray(annotationTypes.value)) {
-    return []
-  }
-  
-  return [...annotationTypes.value]
-})
+const {
+  handleDeleteBlockShape,
+  handleDeletePartShape,
+  handleDeleteAnnotationType
+} = useShapeDeletion()
 
 // LEARNING: isPanelExpanded is now provided by useExpansionState composable
 
 // LEARNING: Removed manual form and context creation
 // WHY: EntityCard handles all form and context creation through DynamicFormInputs
 // PATTERN: Trust the unified system - EntityCard creates its own form and contexts internally
-
-/**
- * WHY: Event handler for deleting AnnotationType
-WHY: AnnotationTypeCard handles deletion internally, this is just a notification handler
-PATTERN: No-op handler - card handles all deletion logic
- */
-function handleDeleteAnnotationType(_id: string) {
-  // AnnotationTypeCard already handled the deletion - this is just for parent awareness
-  // Vue Query will automatically refetch and update the UI
-}
-
-/**
- * LEARNING: Handle save on existing Shape - collapse the card
- * WHY: User expects card to collapse after saving changes
- * PATTERN: Remove entity ID from expandedShapes to collapse the panel
- */
-function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
-  // Collapse the card by removing from expanded list
-  expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
-}
 </script>
 
 <template>
@@ -389,7 +353,7 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
         🧩 Part ({{ filteredPartShapes.length }})
       </VTab>
       <VTab value="annotationTypes">
-        🏷️ Annotations ({{ filteredAnnotationTypes.length }})
+        🏷️ Annotations ({{ annotationTypes.length }})
       </VTab>
     </VTabs>
     
@@ -451,7 +415,6 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
                 :entity="newBlockShapeInitialValues!"
                 :is-new="true"
                 :expanded="true"
-                :hide-title-field="true"
                 @saved="handleBlockShapeCreated"
                 @cancelled="handleBlockShapeCancelled"
               />
@@ -474,6 +437,24 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
                 <!-- PATTERN: Show static entity name - editing happens in expanded content below -->
                 <!-- NOTE: This avoids timing issues and follows unified system pattern -->
                 <span>{{ blockShapeDisplayNames.get(String(blockShape.id)) || blockShape.name || `BlockShape ${blockShape.id}` }}</span>
+                
+                <!-- LEARNING: Config-driven status buttons for blockShape entities -->
+                <!-- WHY: Boolean fields with renderAs: 'statusButton' render as clickable VChips -->
+                <!-- PATTERN: Render status buttons in panel title based on adminConfig -->
+                <div 
+                  v-if="blockShapeStatusButtonFields.length > 0"
+                  class="d-flex align-center gap-1 flex-wrap ms-auto"
+                  style="pointer-events: auto"
+                >
+                  <StatusButton
+                    v-for="statusField in blockShapeStatusButtonFields"
+                    :key="statusField.key"
+                    :label="statusField.label"
+                    :color="statusField.color"
+                    :is-active="getStatusButtonBooleanValue('blockShape', blockShape, statusField.key)"
+                    @click="(event) => handleBlockShapeStatusButtonClick(String(blockShape.id), statusField.key, event)"
+                  />
+                </div>
               </div>
             </template>
             
@@ -482,7 +463,6 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
                 entity-key="blockShape"
                 :entity="blockShape"
                 :expanded="isPanelExpanded(String(blockShape.id))"
-                :hide-title-field="true"
                 @saved="handleExistingShapeSaved"
                 @delete="handleDeleteBlockShape"
               />
@@ -510,13 +490,26 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
       <VWindowItem key="partShapes" value="partShapes">
         <div class="d-flex justify-space-between align-center mb-4">
           <h3 class="text-h6">Part</h3>
-          <VBtn
-            color="primary"
-            prepend-icon="tabler-plus"
-            @click="createPartShape"
-          >
-            Create Part Shape
-          </VBtn>
+          <div class="d-flex gap-2">
+            <!-- LEARNING: Global button to configure all PartInstance fields -->
+            <!-- WHY: Single config applies to all PartInstances regardless of their PartShape -->
+            <!-- PATTERN: Global config modal triggered from section header -->
+            <VBtn
+              :variant="partInstanceMetadataModalOpen ? 'flat' : 'outlined'"
+              :color="partInstanceMetadataModalOpen ? 'primary' : 'default'"
+              prepend-icon="tabler-settings"
+              @click="togglePartInstanceMetadataModal"
+            >
+              Metadata Edit
+            </VBtn>
+            <VBtn
+              color="primary"
+              prepend-icon="tabler-plus"
+              @click="createPartShape"
+            >
+              Create Part Shape
+            </VBtn>
+          </div>
         </div>
         
         <!--
@@ -553,7 +546,6 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
                 :entity="newPartShapeInitialValues!"
                 :is-new="true"
                 :expanded="true"
-                :hide-title-field="true"
                 @saved="handlePartShapeCreated"
                 @cancelled="handlePartShapeCancelled"
               />
@@ -576,6 +568,24 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
                 <!-- PATTERN: Show static entity name - editing happens in expanded content below -->
                 <!-- NOTE: This avoids timing issues and follows unified system pattern -->
                 <span>{{ partShapeDisplayNames.get(String(partShape.id)) || partShape.name || `PartShape ${partShape.id}` }}</span>
+                
+                <!-- LEARNING: Config-driven status buttons for partShape entities -->
+                <!-- WHY: Boolean fields with renderAs: 'statusButton' render as clickable VChips -->
+                <!-- PATTERN: Render status buttons in panel title based on adminConfig -->
+                <div 
+                  v-if="partShapeStatusButtonFields.length > 0"
+                  class="d-flex align-center gap-1 flex-wrap ms-auto"
+                  style="pointer-events: auto"
+                >
+                  <StatusButton
+                    v-for="statusField in partShapeStatusButtonFields"
+                    :key="statusField.key"
+                    :label="statusField.label"
+                    :color="statusField.color"
+                    :is-active="getStatusButtonBooleanValue('partShape', partShape, statusField.key)"
+                    @click="(event) => handlePartShapeStatusButtonClick(String(partShape.id), statusField.key, event)"
+                  />
+                </div>
               </div>
             </template>
             
@@ -584,7 +594,6 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
                 entity-key="partShape"
                 :entity="partShape"
                 :expanded="isPanelExpanded(String(partShape.id))"
-                :hide-title-field="true"
                 @saved="handleExistingShapeSaved"
                 @delete="handleDeletePartShape"
               />
@@ -682,7 +691,7 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
             
             <!-- Existing AnnotationTypes - inline edit using AnnotationTypeCard -->
             <VExpansionPanel
-              v-for="annotationType in filteredAnnotationTypes"
+              v-for="annotationType in annotationTypes"
               :key="annotationType.id"
               :value="String(annotationType.id)"
             >
@@ -718,6 +727,20 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
         </div>
       </VWindowItem>
     </VWindow>
+    
+    <!--
+      LEARNING: Global PartInstance Metadata Configuration Modal
+      WHY: Single modal for configuring all PartInstance field definitions globally
+      PATTERN: Global config modal triggered from section header, field definitions only mode
+    -->
+    <MetadataEditModal
+      v-model="partInstanceMetadataModalOpen"
+      entity-key="partShape"
+      :entity="{ id: PART_SHAPE_GLOBAL_CONFIG_ID } as GlobalEntity<'partShape'>"
+      mode="global"
+      entity-name="Part Instance Fields (Global)"
+      @saved="handlePartInstanceMetadataSaved"
+    />
   </div>
 </template>
 

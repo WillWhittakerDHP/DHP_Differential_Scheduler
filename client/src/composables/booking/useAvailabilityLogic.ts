@@ -8,9 +8,10 @@
 
 import { computed, watch, ref, type Ref, type ComputedRef } from 'vue'
 import { matchLoadedTimeSlots as matchLoadedTimeSlotsUtil } from '@/utils/booking/timeSlotMatching'
-import type { TimeSlot } from '@/types/appointment'
+import type { TimeSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
 
 /**
  * Property details structure
@@ -64,6 +65,14 @@ export interface SelectedTimeSlot {
 }
 
 /**
+ * Appointment slots per day structure
+ */
+export interface AppointmentSlotsPerDay {
+  date: string
+  appointmentSlots: AppointmentSlots
+}
+
+/**
  * useAvailabilityLogic composable return type
  */
 export interface UseAvailabilityLogicReturn {
@@ -71,11 +80,12 @@ export interface UseAvailabilityLogicReturn {
   propertyDetails: ComputedRef<PropertyDetails | null>
   accumulatedBlockInstances: ComputedRef<BookingBlockInstance[]>
   timeSlotsPerDay: Ref<TimeSlotsPerDay[]>
+  appointmentSlotsPerDay: Ref<AppointmentSlotsPerDay[]>
   selectedDateSingle: ComputedRef<string | null>
-  currentTimeSlots: ComputedRef<TimeSlot[]>
+  currentAppointmentSlots: ComputedRef<TimeSlot[]>
   isDifferentialService: ComputedRef<boolean>
   selectedTimeSlots: ComputedRef<SelectedTimeSlot[] | null>
-  matchLoadedTimeSlots: (loadedSlots: Array<{ time: string }>, availableSlots: TimeSlot[], inspectorTimeSlot: Ref<TimeSlot | null>, clientTimeSlot: Ref<TimeSlot | null>) => void
+  matchLoadedTimeSlots: (loadedSlots: Array<{ time: string }>, availableSlots: TimeSlot[], inspectorAppointmentSlot: Ref<TimeSlot | null>, clientAppointmentSlot: Ref<TimeSlot | null>) => void
 }
 
 /**
@@ -151,13 +161,31 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   const timeSlotsPerDay = ref<TimeSlotsPerDay[]>([])
 
   /**
-   * LEARNING: Watch timeSlots and selectedDate to populate timeSlotsPerDay
-   * WHY: Transforms API response into component's expected format
-   * PATTERN: Watch API response, transform and group by date
+   * LEARNING: AppointmentSlots structure for normalized time slot support
+   * WHY: Supports complex differential scheduling with normalized positions
+   * PATTERN: Ref that watches timeSlots and selectedDate, transforms into AppointmentSlots per day
    */
-  watch([timeSlots, selectedDate], ([slots, date]) => {
+  const appointmentSlotsPerDay = ref<AppointmentSlotsPerDay[]>([])
+
+  /**
+   * LEARNING: Computed property to check if service supports differential scheduling
+   * WHY: Determines whether to show Inspector/Client toggle
+   * PATTERN: Check if any selected service has differential === true
+   */
+  const isDifferentialService = computed(() => {
+    const selectedServices = wizard.selectedServices.value
+    return selectedServices.some(s => s.differential === true)
+  })
+
+  /**
+   * LEARNING: Watch timeSlots and selectedDate to populate timeSlotsPerDay and appointmentSlotsPerDay
+   * WHY: Transforms API response into component's expected format and generates AppointmentSlots
+   * PATTERN: Watch API response, transform and group by date, generate AppointmentSlots for each slot
+   */
+  watch([timeSlots, selectedDate, accumulatedBlockInstances], ([slots, date, blockInstances]) => {
     if (!slots || slots.length === 0 || !date?.start) {
       timeSlotsPerDay.value = []
+      appointmentSlotsPerDay.value = []
       return
     }
 
@@ -168,7 +196,7 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       // LEARNING: Extract date in local timezone, not UTC
       // WHY: Slots are created with local time hours, so we need to extract date in local time to match
       // PATTERN: Use local date methods instead of toISOString() which uses UTC
-      const slotDateObj = new Date(slot.slotStart)
+      const slotDateObj = new Date(slot.startTime)
       const year = slotDateObj.getFullYear()
       const month = String(slotDateObj.getMonth() + 1).padStart(2, '0')
       const day = String(slotDateObj.getDate()).padStart(2, '0')
@@ -191,6 +219,31 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
         clientTimeSlots: slots
       }
     })
+
+    // LEARNING: Generate AppointmentSlots for each date
+    // WHY: Provides normalized AppointmentSlots structure for complex time slot UI
+    // PATTERN: For each date, generate AppointmentSlots for each time slot position
+    appointmentSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
+      // LEARNING: Generate AppointmentSlots for each slot position
+      // WHY: Each available slot position needs normalized AppointmentSlots
+      // PATTERN: Map over slots, calculate AppointmentSlots for each slot start time
+      const appointmentSlotsForDate: AppointmentSlots = []
+      
+      slots.forEach((slot, index) => {
+        const calculatedSlots = calculateAppointmentSlots(blockInstances, slot.startTime)
+        // Normalize orderIndex to match slot position
+        const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
+          ...calculatedSlot,
+          orderIndex: index
+        })))
+        appointmentSlotsForDate.push(...normalized)
+      })
+      
+      return {
+        date,
+        appointmentSlots: normalizeAppointmentSlotsByOrderIndex(appointmentSlotsForDate)
+      }
+    })
   }, { immediate: true })
 
   /**
@@ -206,12 +259,12 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Computed property for current time slots
-   * WHY: Shows time slots for selected date (from timeSlotsPerDay structure)
-   * PATTERN: Get time slots from timeSlotsPerDay array based on selected date
+   * LEARNING: Computed property for current appointment slots
+   * WHY: Shows appointment slots for selected date (from timeSlotsPerDay structure)
+   * PATTERN: Get appointment slots from timeSlotsPerDay array based on selected date
    * NOTE: startTimeType filtering is handled in component since it's UI state
    */
-  const currentTimeSlots = computed(() => {
+  const currentAppointmentSlots = computed(() => {
     if (!selectedDate.value.start) {
       return []
     }
@@ -224,16 +277,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     
     // Return inspector time slots (component will filter by startTimeType if needed)
     return daySlots.inspectorTimeSlots
-  })
-
-  /**
-   * LEARNING: Computed property to check if service supports differential scheduling
-   * WHY: Determines whether to show Inspector/Client toggle
-   * PATTERN: Check if any selected service has differential === true
-   */
-  const isDifferentialService = computed(() => {
-    const selectedServices = wizard.selectedServices.value
-    return selectedServices.some(s => s.differential === true)
   })
 
   /**
@@ -260,18 +303,18 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
     if (inspectorTimeSlot) {
       timeSlots.push({
-        time: inspectorTimeSlot.slotStart,
+        time: inspectorTimeSlot.startTime,
         duration: onSiteTotal
       })
     }
 
     // LEARNING: Add client time slot if different from inspector time slot
     // WHY: Differential scheduling may have separate client time
-    // PATTERN: Compare TimeSlot objects by slotStart
+    // PATTERN: Compare TimeSlot objects by startTime
     if (clientTimeSlot && 
-        clientTimeSlot.slotStart !== inspectorTimeSlot.slotStart) {
+        clientTimeSlot.startTime !== inspectorTimeSlot.startTime) {
       timeSlots.push({
-        time: clientTimeSlot.slotStart,
+        time: clientTimeSlot.startTime,
         duration: presentationDuration
       })
     }
@@ -294,11 +337,18 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     propertyDetails,
     accumulatedBlockInstances,
     timeSlotsPerDay,
+    appointmentSlotsPerDay,
     selectedDateSingle,
-    currentTimeSlots,
+    currentAppointmentSlots,
     isDifferentialService,
     selectedTimeSlots,
     matchLoadedTimeSlots
   }
 }
 
+/**
+ * @deprecated Use AppointmentSlotsPerDay instead
+ */
+export interface AppointmentTimesPerDay extends AppointmentSlotsPerDay {
+  appointmentTimes: AppointmentSlots
+}

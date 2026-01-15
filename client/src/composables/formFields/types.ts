@@ -6,6 +6,7 @@ import type { GlobalEntityId } from '@/types/entities'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { useAdminConfig } from '@/composables/useAdminConfig'
 import type { FieldsByLayout } from '@/utils/forms/layoutFieldCategorization'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
 
 /**
  * Form Fields Composable Options
@@ -14,10 +15,15 @@ export interface UseFormFieldsOptions {
   entityKey: GlobalEntityKey
   entityId: Ref<GlobalEntityId>
   form?: Ref<FormContext | undefined>
-  visibleFields: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  /**
+   * LEARNING: Metadata is the source of truth for field rendering (labels/required/renderAs/inputConfig)
+   * WHY: Removes reliance on legacy adminConfig formFieldConfig for rendering decisions
+   * PATTERN: Pass the already-fetched metadata (EntityCard fetches it once) to avoid duplicate queries
+   */
+  fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>
   inlineFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
   stackedFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  omitFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
   adminConfig?: ReturnType<typeof useAdminConfig>
 }
 

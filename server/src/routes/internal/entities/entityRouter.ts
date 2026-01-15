@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { Attributes, Model } from 'sequelize';
 import { getEntityConfig, isValidEntityType } from '../../../config/entityRegistry.js';
-import { BlockInstance } from '../../../config/app.js';
+import { BlockInstance, PartInstance, ActiveConstituent } from '../../../config/app.js';
 import { 
   fetchAll, 
   fetchById, 
@@ -12,6 +12,7 @@ import {
   bulkPatch 
 } from '../../helpers/dataController.js';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
+import { createBlockInstanceVersionIfReferenced } from '../../../services/instanceVersioning.js';
 
 const router = Router();
 
@@ -185,13 +186,42 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
     return;
   }
   
+  const entityId = req.params.id;
+  
   try {
-    const updatedCount = await updateRecord(entityConfig.model, req.params.id, req.body);
+    // CRITICAL: For block instances, capture old state BEFORE update for versioning
+    if (req.params.entityType === 'blockInstance') {
+      const oldInstance = await BlockInstance.findByPk(entityId, {
+        include: [
+          {
+            model: PartInstance,
+            as: 'active_constituent_part_instances',
+            through: {
+              where: { disabled: false },
+            },
+          }
+        ]
+      });
+      
+      if (!oldInstance) {
+        res.status(404).json({ 
+          error: `${entityConfig.displayName} not found`,
+          id: entityId
+        });
+        return;
+      }
+      
+      // Create version with OLD data if referenced by appointments
+      await createBlockInstanceVersionIfReferenced(entityId, oldInstance);
+    }
+    
+    // Perform the update
+    const updatedCount = await updateRecord(entityConfig.model, entityId, req.body);
     
     if (updatedCount === 0) {
       res.status(404).json({ 
         error: `${entityConfig.displayName} not found`,
-        id: req.params.id
+        id: entityId
       });
       return;
     }
@@ -229,6 +259,74 @@ router.patch('/:entityType/order_index', async (req: Request, res: Response): Pr
     console.error('[EntityRouter] Error:', error);
     res.status(500).json({ 
       error: `Failed to update ${entityConfig.displayName}s`,
+      details: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * PATCH /entities/:entityType/bulk
+ * Bulk update multiple entities with partial field updates
+ * 
+ * LEARNING: Bulk partial update endpoint for efficient multi-entity updates
+ * WHY: More efficient than individual PATCH requests (1 request vs N requests)
+ * PATTERN: Similar to order_index bulk endpoint but handles versioning for block instances
+ * 
+ * Request body: Array of { id: string, ...fields } objects
+ * 
+ * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
+ */
+router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<void> => {
+  const { entityConfig } = req;
+  if (!entityConfig) {
+    res.status(500).json({ error: 'Entity configuration missing' });
+    return;
+  }
+  
+  try {
+    const updates = req.body;
+    
+    // Validate request body is an array
+    if (!Array.isArray(updates)) {
+      res.status(400).json({ 
+        error: 'Request body must be an array of update objects',
+        details: 'Expected format: [{ id: string, ...fields }]'
+      });
+      return;
+    }
+    
+    // CRITICAL: For block instances, capture old state BEFORE update for versioning
+    if (req.params.entityType === 'blockInstance') {
+      // Fetch old instances with part instances for versioning
+      const blockInstanceIds = updates.map((update: { id: string }) => update.id);
+      
+      for (const blockInstanceId of blockInstanceIds) {
+        const oldInstance = await BlockInstance.findByPk(blockInstanceId, {
+          include: [
+            {
+              model: PartInstance,
+              as: 'active_constituent_part_instances',
+              through: {
+                where: { disabled: false },
+              },
+            }
+          ]
+        });
+        
+        if (oldInstance) {
+          // Create version with OLD data if referenced by appointments
+          await createBlockInstanceVersionIfReferenced(blockInstanceId, oldInstance);
+        }
+      }
+    }
+    
+    // Perform the bulk update
+    const updatedCount = await bulkPatch(entityConfig.model, updates);
+    res.json({ updated: updatedCount });
+  } catch (error) {
+    console.error('[EntityRouter] Error:', error);
+    res.status(500).json({ 
+      error: `Failed to bulk update ${entityConfig.displayName}s`,
       details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
@@ -403,13 +501,32 @@ router.delete('/:entityType/:id', async (req: Request, res: Response): Promise<v
     return;
   }
   
+  const entityId = req.params.id;
+  
   try {
-    const deletedCount = await deleteRecord(entityConfig.model, req.params.id);
+    // CRITICAL: For block instances, capture old state BEFORE delete for versioning
+    if (req.params.entityType === 'blockInstance') {
+      const oldInstance = await BlockInstance.findByPk(entityId);
+      
+      if (!oldInstance) {
+        res.status(404).json({ 
+          error: `${entityConfig.displayName} not found`,
+          id: entityId
+        });
+        return;
+      }
+      
+      // Create version with OLD data if referenced by appointments
+      await createBlockInstanceVersionIfReferenced(entityId, oldInstance);
+    }
+    
+    // Perform the delete
+    const deletedCount = await deleteRecord(entityConfig.model, entityId);
     
     if (deletedCount === 0) {
       res.status(404).json({ 
         error: `${entityConfig.displayName} not found`,
-        id: req.params.id
+        id: entityId
       });
       return;
     }

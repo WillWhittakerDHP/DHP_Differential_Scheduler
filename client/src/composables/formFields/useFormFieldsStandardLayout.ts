@@ -4,10 +4,9 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 
 type UseFormFieldsStandardLayoutOptions = {
-  visibleFields: Ref<GlobalFieldKey<GlobalEntityKey>[]>
+  fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]>
   inlineFieldsConfig: Ref<GlobalFieldKey<GlobalEntityKey>[]>
   stackedFieldsConfig: Ref<GlobalFieldKey<GlobalEntityKey>[]>
-  omitFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]>
   getReadyFields: (fields: GlobalFieldKey<GlobalEntityKey>[]) => GlobalFieldKey<GlobalEntityKey>[]
 }
 
@@ -21,22 +20,21 @@ export type UseFormFieldsStandardLayoutReturn = {
 /**
  * Query/state module: unified layout breakdown for ALL entity types.
  * 
- * LEARNING: Removed regularFields - fields not in inlineFields or stackedFields are hidden via omitFields
- * WHY: All fields must be explicitly categorized in config (inlineFields, stackedFields, or omitFields)
- *      No implicit "regular" category - fields are either inline, stacked, or hidden
- * PATTERN: Single unified layout mechanism for all entity types
+ * LEARNING: Field visibility comes from metadata, not config
+ * WHY: Metadata is the single source of truth for which fields should render
+ * PATTERN: Fields with visibility: 'hidden' in metadata won't render
  */
 export function useFormFieldsStandardLayout(
   options: UseFormFieldsStandardLayoutOptions
 ): UseFormFieldsStandardLayoutReturn {
   const inlineFields = computed(() => {
-    const fields = options.visibleFields.value || []
+    const fields = options.fieldKeys.value || []
     const config = options.inlineFieldsConfig.value || []
     return filterFieldsInConfigOrder(fields, config)
   })
 
   const stackedFields = computed(() => {
-    const fields = options.visibleFields.value || []
+    const fields = options.fieldKeys.value || []
     const config = options.stackedFieldsConfig.value || []
     return filterFieldsInConfigOrder(fields, config)
   })

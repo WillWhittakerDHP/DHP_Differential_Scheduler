@@ -35,29 +35,13 @@ export interface PriceData {
   finalTotal: number
 }
 
+import type { AvailabilityStepData } from '@/types/wizardStepData'
+import type { PropertyDetailsStepData } from '@/types/wizard'
+
 /**
  * Step data interfaces (matching BookingWizard.vue)
+ * FIX: Use shared types from wizardStepData.ts and wizard.ts
  */
-interface AvailabilityStepData {
-  selectedDate: { start: string | null; end: string | null }
-  selectedTimeSlots: Array<{ time: string; duration: number }> | null
-}
-
-interface PropertyDetailsStepData {
-  address: string
-  unit: string
-  city: string
-  state: string
-  zipCode: string
-  propertySize: number | null
-  numberOfUnits: number | null
-  mlsNumber: string
-  squareFootage: number | null
-  bedrooms: number | null
-  bathrooms: number | null
-  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-  additionalUnits: number | null
-}
 
 /**
  * useConfirmationStepData composable parameters

@@ -8,17 +8,39 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-01-09T15:50:33.361Z**
+- Generated at: **2026-01-14T02:10:11.138Z**
 - Command: `node_modules/.bin/vue-tsc -b --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **1**
+- **Errors requiring review: 26**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **22**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P0 | `TS2345-ts2345-arg-globalentity-partshapeentity-null-undefined` | 26 | 2 | 2 | 0 | 0 |
+| P0 | `TS7053-ts7053-element-implicitly-has-an-any-type-because-expression-of-type-globalfieldkey-blockinstance-blockshape-partinstanc` | 18 | 2 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-computedref-blockinstance-blockshape-partinstance-partshape-ref` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-computedref-undefined-globalfieldkey-ref-globalfieldkey` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-number-null-undefined-partinstancebulkeditdata-undefined` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-activeconstituents-blockinstanceentity` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-value` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-value-blockinstancestatusbuttonfield` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2345-ts2345-arg-blockshapeentity-partshapeentity-null-null` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2345-ts2345-arg-globalfieldkey-keyof-blockinstanceentity` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2345-ts2345-arg-globalfieldkey-keyof-partinstanceentity` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-composable-does-not-exist-in-type-record-keyof-blockinstance` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS6133-ts6133-getblockshapefieldmetadata-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
+| P1 | `TS6133-ts6133-getpartshapefieldmetadata-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
+| P1 | `TS18048-ts18048-blockshapeproperties-is-possibly-undefined` | 11 | 1 | 1 | 0 | 0 |
+| P1 | `TS18048-ts18048-vls-ctx-parententity-is-possibly-undefined` | 11 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-computed-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-fieldmetadataentry-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-ge-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-globalfieldkey-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-statusbuttonfield-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6196-ts6196-subpaneltype-is-declared-but-never-used` | 6 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -29,3 +51,99 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `src/components/admin/generic/EntityCard.vue`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@25:42 'StatusButtonField' is declared but its value is never read.
+TS6133@26:1 'getPartShapeFieldMetadata' is declared but its value is never read.
+TS6133@27:1 'getBlockShapeFieldMetadata' is declared but its value is never read.
+TS2345@386:40 Argument of type 'BlockShapeEntity | PartShapeEntity | null' is not assignable to parameter of type 'null'.
+```
+
+### `src/composables/admin/useStatusButtonFields.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@21:1 'GlobalFieldKey' is declared but its value is never read.
+TS6133@102:45 'GE' is declared but its value is never read.
+TS18048@274:29 'blockShapeProperties' is possibly 'undefined'.
+TS2339@274:50 Property 'value' does not exist on type '{ constituable?: boolean | undefined; composable?: boolean | undefined; composite?: boolean | undefined; }'.
+```
+
+### `src/views/admin/tabs/InstancesTab.vue`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS7053@897:43 Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.
+TS7053@901:55 Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.
+TS2345@954:78 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">' is not assignable to parameter of type 'keyof BlockInstanceEntity'.
+TS2339@1038:59 Property 'value' does not exist on type 'BlockInstanceStatusButtonField'.
+```
+
+### `src/components/admin/generic/collections/PartsCollection.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS18048@15:27 '__VLS_ctx.parentEntity' is possibly 'undefined'.
+TS2322@16:8 Type 'number | null | undefined' is not assignable to type 'PartInstanceBulkEditData | undefined'.
+TS2345@82:114 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">' is not assignable to parameter of type 'keyof PartInstanceEntity'.
+```
+
+### `src/components/admin/BlockShapeEditModal.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@184:3 'getBlockShapeFieldMetadata' is declared but its value is never read.
+TS2353@224:3 Object literal may only specify known properties, and 'composable' does not exist in type 'Record<keyof BlockInstanceEntity, FieldMetadataEntry>'.
+```
+
+### `src/components/admin/generic/fields/InputRenderer.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@107:3 Type 'ComputedRef<"blockInstance" | "blockShape" | "partInstance" | "partShape" | undefined>' is not assignable to type '"blockInstance" | "blockShape" | "partInstance" | "partShape" | Ref<"blockInstance" | "blockShape" | "partInstance" | "partShape", "blockInstance" | "blockShape" | "partInstance" | "partShape">'.
+TS2322@108:3 Type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | undefined>' is not assignable to type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | Ref<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">, GlobalFieldKey<...>>'.
+```
+
+### `src/components/admin/PartInstanceBulkEditModal.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@135:81 Property 'activeConstituents' does not exist on type 'BlockInstanceEntity'.
+TS2345@161:51 Argument of type 'GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.
+```
+
+### `src/composables/admin/usePartInstanceBulkEdit.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@15:15 'computed' is declared but its value is never read.
+TS2345@159:55 Argument of type 'GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.
+```
+
+### `src/utils/forms/fieldSectionCategorization.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6196@1:30 'SubPanelType' is declared but never used.
+TS6133@8:43 'FieldMetadataEntry' is declared but its value is never read.
+```
+
+### `src/components/admin/PartShapeEditModal.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@182:3 'getPartShapeFieldMetadata' is declared but its value is never read.
+```

@@ -111,14 +111,11 @@ export function useInstanceComponents(
     
     const globalData = getGlobalData()
     if (!globalData) return []
-    
-    const selectedUserTypeBlockId = selectedUserTypeBlock.value?.id || null
-    
+
     return extractInstanceComponents({
       serviceId: blockInstance.id,
       instanceComponentsRelationships,
-      getGlobalEntityById: getGlobalEntityByIdOrNull,
-      selectedUserTypeBlockId
+      getGlobalEntityById: getGlobalEntityByIdOrNull
     })
   })
 

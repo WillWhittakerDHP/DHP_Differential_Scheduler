@@ -10,7 +10,7 @@
  * - Connects to useBookingWizard for services
  * - Uses stack layout for vertical list display
  * - Single-select behavior (radio-like) - selecting one deselects others
- * - Maps display properties (icons, user-type-specific descriptions)
+ * - Maps display properties (icons)
  * - Supports dependent instance options (nested children)
  * 
  * Session: Generic SelectionCard Refactor (2026-01-09)
@@ -21,7 +21,6 @@ import SelectionCardGroup from '../SelectionCardGroup.vue'
 import type { SelectionCardConfig } from '../types/selectionCardTypes'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
-import { useInstanceDescriptions } from '@/composables/booking/useInstanceDescriptions'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
 
 /**
@@ -57,17 +56,10 @@ const emit = defineEmits<Emits>()
 // LEARNING: Get wizard instance for state management
 const wizard = useBookingWizard()
 
-// LEARNING: Use instance descriptions for user-type-specific filtering
-const { getFilteredDescription } = useInstanceDescriptions({
-  instances: computed(() => wizard.availableServices.value),
-  selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)
-})
-
-// LEARNING: Use instance display for icon/description mapping
+// LEARNING: Use instance display for icon mapping
 const { instancesWithDisplay } = useInstanceDisplay({
   instances: computed(() => wizard.availableServices.value),
-  selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value),
-  getFilteredDescription
+  selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)
 })
 
 // LEARNING: Use instance selection config for layout

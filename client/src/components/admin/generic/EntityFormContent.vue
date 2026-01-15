@@ -11,10 +11,11 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityId } from '@/types/entities'
 import DynamicForm from './DynamicForm.vue'
-import InputRenderer from './fields/InputRenderer.vue'
-import { useFieldVisibility } from '@/composables/admin/useFieldVisibility'
+import FieldRenderer from './fields/FieldRenderer.vue'
+import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFormFields } from '@/composables/formFields/useFormFields'
 import { useAdminConfig } from '@/composables/useAdminConfig'
+import { useAdmin } from '@/composables/useAdmin'
 import type { FormContext } from 'vee-validate'
 
 interface Props {
@@ -29,12 +30,6 @@ interface Props {
    */
   modalMode?: boolean
   /**
-   * LEARNING: Additional fields to omit
-   * WHY: Allows parent to hide specific fields (e.g., blockShapeRef in blockInstance cards, name/active when rendered separately)
-   * PATTERN: Array of field keys to exclude from rendering
-   */
-  additionalOmittedFields?: GlobalFieldKey<GlobalEntityKey>[]
-  /**
    * LEARNING: Toggle rendering vs context-only
    * WHY: EntityCard uses contexts but renders its own layout
    * PATTERN: Keep rendering defaulted to true for backward compatibility
@@ -44,7 +39,6 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   modalMode: false,
-  additionalOmittedFields: () => [],
   renderLayout: true
 })
 
@@ -71,21 +65,61 @@ watch(() => props.entityId, (newId) => {
 
 const adminConfig = useAdminConfig()
 
-/**
- * LEARNING: Use field visibility composable for field filtering logic
- * WHY: Moves field visibility logic out of component into reusable composable
- * PATTERN: Composable handles allFieldKeys, omittedFields, titleField, visibleFields, and field configs
- */
-const fieldVisibilityComposable = useFieldVisibility({
-  entityKey: props.entityKey,
-  entityId: computed(() => currentEntityId.value),
-  modalMode: props.modalMode || false,
-  additionalOmittedFields: props.additionalOmittedFields || []
+// LEARNING: Get metadata directly - no intermediate composable
+// WHY: Metadata is the single source of truth, extract keys directly
+const adminComp = useAdmin()
+const entity = computed(() => {
+  if (!props.entityId) return null
+  try {
+    return adminComp.getEntity(props.entityKey, props.entityId) as import('@/types/entities').GlobalEntity<typeof props.entityKey> | null
+  } catch {
+    return null
+  }
 })
 
-// NOTE: Field visibility values are consumed by useFormFields composable below
-// We keep the composable reference to pass its properties to formFields
-void fieldVisibilityComposable
+const { fieldMetadata } = useEntityMetadata(props.entityKey, entity)
+
+// LEARNING: Get field keys immediately from entity object, merge with metadata when available
+// WHY: Field keys are static properties of the entity - they don't change, so get them immediately
+//      Metadata tells us HOW to render fields, but field keys come from the entity itself
+// PATTERN: Extract keys from entity immediately, use metadata for rendering config (not for key discovery)
+const fieldKeys = computed(() => {
+  // LEARNING: Get keys from entity object immediately - they're always available
+  // WHY: Entity object has all field keys as properties, no need to wait for metadata
+  // PATTERN: Extract keys from entity, filter out non-field properties and system fields
+  const entityValue = entity.value
+  const entityKeys = entityValue ? Object.keys(entityValue).filter(key => {
+    // Filter out non-field properties that shouldn't be rendered
+    // LEARNING: Exclude system fields (createdAt, updatedAt) and special fields (annotations)
+    // WHY: System fields are managed by database, annotations handled separately via AnnotationsField
+    // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
+    const systemFields = ['id', 'entityKey', 'orderIndex', 'createdAt', 'updatedAt', 'annotations']
+    return !systemFields.includes(key)
+  }) as GlobalFieldKey<typeof props.entityKey>[] : []
+  
+  // LEARNING: If metadata is available, use it as source of truth for which fields to include
+  // WHY: Metadata might have additional fields or filter out some fields
+  // PATTERN: Prefer metadata keys if available, otherwise use entity keys
+  if (fieldMetadata.value && Object.keys(fieldMetadata.value).length > 0) {
+    return Object.keys(fieldMetadata.value) as GlobalFieldKey<typeof props.entityKey>[]
+  }
+  
+  // LEARNING: Fallback to entity keys if metadata not yet loaded
+  // WHY: Don't wait for metadata - field keys are available immediately from entity
+  // PATTERN: Use entity keys immediately, metadata will update when it loads
+  return entityKeys
+})
+
+// LEARNING: Get layout config from instanceConfig (temporary until metadata provides layout)
+const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
+const inlineFieldsConfig = computed(() => {
+  const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
+  return (config?.inlineFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+})
+const stackedFieldsConfig = computed(() => {
+  const config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
+  return (config?.stackedFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+})
 
 /**
  * LEARNING: Use form fields composable for unified layout-based rendering
@@ -98,10 +132,10 @@ const formFields = useFormFields({
   entityKey: props.entityKey,
   entityId: currentEntityId,
   form: formRefForComposable,
-  visibleFields: fieldVisibilityComposable.visibleFields,
-  inlineFieldsConfig: fieldVisibilityComposable.inlineFieldsConfig,
-  stackedFieldsConfig: fieldVisibilityComposable.stackedFieldsConfig,
-  omitFieldsConfig: fieldVisibilityComposable.omittedFields,
+  fieldKeys,
+  fieldMetadata,
+  inlineFieldsConfig,
+  stackedFieldsConfig,
   adminConfig
 })
 
@@ -116,7 +150,7 @@ const {
 
 /**
  * LEARNING: Helper function to get field context
- * WHY: Need to render fields using InputRenderer
+ * WHY: Need to render fields using FieldRenderer
  * PATTERN: Use formFields composable's getFieldContext for consistency
  */
 const getFieldContextFromFormFields = (fieldKey: GlobalFieldKey<GlobalEntityKey>) => {
@@ -175,7 +209,6 @@ defineExpose({
         :entity-id="entityId"
         :form="form"
         :modal-mode="modalMode"
-        :additional-omitted-fields="additionalOmittedFields"
       />
     </div>
     
@@ -196,7 +229,7 @@ defineExpose({
           :md="readyInlineFields.length > 2 ? 4 : readyInlineFields.length > 1 ? 6 : 12"
           :lg="readyInlineFields.length > 3 ? 3 : readyInlineFields.length > 2 ? 4 : readyInlineFields.length > 1 ? 6 : 12"
         >
-          <InputRenderer
+          <FieldRenderer
             :field-context="getFieldContextFromFormFields(fieldKey)!"
             :show-label="true"
           />
@@ -207,7 +240,7 @@ defineExpose({
       <!-- WHY: Fields configured as stackedFields appear vertically stacked -->
       <!-- PATTERN: Each field in its own div with spacing -->
       <div v-for="fieldKey in (readyStackedFields || [])" :key="String(fieldKey)" class="mb-4">
-        <InputRenderer
+        <FieldRenderer
           :field-context="getFieldContextFromFormFields(fieldKey)!"
           :show-label="true"
         />

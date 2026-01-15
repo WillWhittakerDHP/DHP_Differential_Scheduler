@@ -42,9 +42,11 @@ import {
 function createSlot(startHour: number, startMin: number, endHour: number, endMin: number): TimeSlot {
   const start = new Date(2026, 0, 9, startHour, startMin, 0)
   const end = new Date(2026, 0, 9, endHour, endMin, 0)
+  const duration = (endHour * 60 + endMin) - (startHour * 60 + startMin)
   return {
     slotStart: start.toISOString(),
     slotEnd: end.toISOString(),
+    duration,
   }
 }
 
@@ -224,9 +226,9 @@ describe('timeFormatting', () => {
 
     it('should return earliest date from slots', () => {
       const slots: TimeSlot[] = [
-        { slotStart: '2026-01-15T09:00:00Z', slotEnd: '2026-01-15T10:00:00Z' },
-        { slotStart: '2026-01-10T09:00:00Z', slotEnd: '2026-01-10T10:00:00Z' },
-        { slotStart: '2026-01-12T09:00:00Z', slotEnd: '2026-01-12T10:00:00Z' },
+        { slotStart: '2026-01-15T09:00:00Z', slotEnd: '2026-01-15T10:00:00Z', duration: 60 },
+        { slotStart: '2026-01-10T09:00:00Z', slotEnd: '2026-01-10T10:00:00Z', duration: 60 },
+        { slotStart: '2026-01-12T09:00:00Z', slotEnd: '2026-01-12T10:00:00Z', duration: 60 },
       ]
       
       const result = getFirstAvailabilityDate(slots)
@@ -242,7 +244,7 @@ describe('timeFormatting', () => {
 
     it('should work with MaybeRef (ref wrapper)', () => {
       const slotsRef = ref<TimeSlot[]>([
-        { slotStart: '2026-01-20T09:00:00Z', slotEnd: '2026-01-20T10:00:00Z' },
+        { slotStart: '2026-01-20T09:00:00Z', slotEnd: '2026-01-20T10:00:00Z', duration: 60 },
       ])
       
       const result = getFirstAvailabilityDate(slotsRef)
@@ -252,7 +254,7 @@ describe('timeFormatting', () => {
 
     it('should work with MaybeRef (plain array)', () => {
       const slots: TimeSlot[] = [
-        { slotStart: '2026-01-20T09:00:00Z', slotEnd: '2026-01-20T10:00:00Z' },
+        { slotStart: '2026-01-20T09:00:00Z', slotEnd: '2026-01-20T10:00:00Z', duration: 60 },
       ]
       
       const result = getFirstAvailabilityDate(slots)
@@ -262,7 +264,7 @@ describe('timeFormatting', () => {
 
     it('should handle single slot', () => {
       const slots: TimeSlot[] = [
-        { slotStart: '2026-02-01T14:00:00Z', slotEnd: '2026-02-01T15:00:00Z' },
+        { slotStart: '2026-02-01T14:00:00Z', slotEnd: '2026-02-01T15:00:00Z', duration: 60 },
       ]
       
       const result = getFirstAvailabilityDate(slots)
@@ -272,8 +274,8 @@ describe('timeFormatting', () => {
 
     it('should handle slots on same day', () => {
       const slots: TimeSlot[] = [
-        { slotStart: '2026-01-15T14:00:00Z', slotEnd: '2026-01-15T15:00:00Z' },
-        { slotStart: '2026-01-15T09:00:00Z', slotEnd: '2026-01-15T10:00:00Z' },
+        { slotStart: '2026-01-15T14:00:00Z', slotEnd: '2026-01-15T15:00:00Z', duration: 60 },
+        { slotStart: '2026-01-15T09:00:00Z', slotEnd: '2026-01-15T10:00:00Z', duration: 60 },
       ]
       
       const result = getFirstAvailabilityDate(slots)

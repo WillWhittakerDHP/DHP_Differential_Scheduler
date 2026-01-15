@@ -77,6 +77,7 @@ export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entit
     updateWithComponentCheck,
     remove: actions.remove,
     patchOrderIndex: actions.patchOrderIndex,
+    patchBulk: actions.patchBulk,
     refetch: actions.refetch,
 
     // Component methods

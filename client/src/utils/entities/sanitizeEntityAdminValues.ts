@@ -19,9 +19,9 @@ export function sanitizeEntityAdminValues(
 
   // Existing boolean field map (copied from legacy `useEntityCrud`)
   const booleanFields: Record<GlobalEntityKey, string[]> = {
-    blockShape: ['composable', 'constituable', 'disabled', 'active', 'dependent', 'visible'],
+    blockShape: ['composable', 'constituable', 'disabled', 'dependent', 'visible'],
     blockInstance: ['visible', 'active', 'dependent', 'disabled'],
-    partShape: ['active', 'dependent', 'visible'],
+    partShape: ['dependent', 'visible'],
     partInstance: ['onSite', 'clientPresent', 'moveable', 'disabled', 'active', 'dependent', 'visible'],
   }
 
@@ -39,7 +39,7 @@ export function sanitizeEntityAdminValues(
   const numberFields: Record<GlobalEntityKey, string[]> = {
     blockShape: [],
     blockInstance: ['baseSqFt'],
-    partShape: ['active', 'dependent', 'visible'],
+    partShape: [],
     partInstance: ['baseFee', 'rateOverBaseFee', 'baseTime', 'rateOverBaseTime'],
   }
 

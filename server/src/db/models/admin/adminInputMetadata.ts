@@ -1,0 +1,206 @@
+/**
+ * LEARNING: Admin Input Metadata Model
+ * WHY: Unified model for admin input metadata (replaces ShapeFieldMetadata + ShapeLayoutConfig)
+ * PATTERN: Single table stores both canonical and layout properties
+ */
+
+import {
+  Model,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+  Sequelize,
+} from 'sequelize';
+
+export class AdminInputMetadata extends Model<
+  InferAttributes<AdminInputMetadata>,
+  InferCreationAttributes<AdminInputMetadata>
+> {
+  declare id: CreationOptional<string>;
+  declare entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance';
+  declare entityId: string;
+  declare fieldKey: string;
+  // Canonical properties
+  declare dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+  declare label: string;
+  declare isRequired: boolean;
+  // Layout/rendering properties
+  declare visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
+  declare layout: 'inline' | 'stacked';
+  declare displayOrder: number;
+  declare section: CreationOptional<string | null>;
+  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect';
+  declare statusButtonColor: CreationOptional<string | null>;
+  declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
+  declare bulkEdit: boolean;
+  // Input configuration (for select/multiselect/reference fields)
+  declare inputConfig: CreationOptional<Record<string, unknown> | null>;
+  // Inheritance
+  declare inheritsFromEntityType: CreationOptional<'blockShape' | 'partShape' | null>;
+  declare inheritsFromEntityId: CreationOptional<string | null>;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+}
+
+export function AdminInputMetadataFactory(sequelize: Sequelize) {
+  AdminInputMetadata.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+      },
+      entityType: {
+        type: DataTypes.ENUM('blockShape', 'partShape', 'blockInstance', 'partInstance'),
+        allowNull: false,
+        field: 'entity_type',
+        comment: 'Entity type for this metadata entry',
+      },
+      entityId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        field: 'entity_id',
+        comment: 'Entity ID or sentinel UUID for global configs',
+      },
+      fieldKey: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: 'field_key',
+        comment: 'Field name/key (e.g., name, active, composable)',
+      },
+      // Canonical properties
+      dataType: {
+        type: DataTypes.ENUM('string', 'number', 'boolean', 'array', 'reference'),
+        allowNull: false,
+        field: 'data_type',
+        comment: 'Field data type',
+      },
+      label: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        comment: 'Human-readable label',
+      },
+      isRequired: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'is_required',
+        comment: 'Whether field is required',
+      },
+      // Layout/rendering properties
+      visibility: {
+        type: DataTypes.ENUM('titleRow', 'staticAsTitle', 'expandedDirect', 'expandedPanel', 'hidden', 'notConfigured'),
+        allowNull: false,
+        defaultValue: 'notConfigured',
+        comment: 'Field visibility setting',
+      },
+      layout: {
+        type: DataTypes.ENUM('inline', 'stacked'),
+        allowNull: false,
+        defaultValue: 'stacked',
+        comment: 'Layout within section',
+      },
+      displayOrder: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 999, // High number = "not configured" (appears last)
+        field: 'display_order',
+        comment: 'Display order (lower = first). 999 = not configured.',
+      },
+      section: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: 'Optional section/group name',
+      },
+      renderAs: {
+        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect'),
+        allowNull: false,
+        defaultValue: 'text',
+        field: 'render_as',
+        comment: 'How to render the field (control type + statusButton + iconSelect)',
+      },
+      statusButtonColor: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: 'status_button_color',
+        comment: 'Color for statusButton rendering (Vuetify color name)',
+      },
+      panel: {
+        type: DataTypes.ENUM('none', 'parts', 'relationships', 'annotations'),
+        allowNull: false,
+        defaultValue: 'none',
+        comment: 'Panel name for expandedPanel visibility',
+      },
+      bulkEdit: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'bulk_edit',
+        comment: 'Whether field can be bulk edited',
+      },
+      inputConfig: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'input_config',
+        comment: 'Input configuration for select/multiselect/reference fields (target entity/relationship, selectMode, groupByKey, etc.)',
+      },
+      // Inheritance
+      inheritsFromEntityType: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: 'inherits_from_entity_type',
+        comment: 'For instances: parent entity type (blockShape or partShape)',
+      },
+      inheritsFromEntityId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'inherits_from_entity_id',
+        comment: 'For instances: parent entity ID (shape ID)',
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'created_at',
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'updated_at',
+      },
+    },
+    {
+      sequelize,
+      indexes: [
+        {
+          unique: true,
+          fields: ['entity_type', 'entity_id', 'field_key'],
+          name: 'admin_input_metadata_entity_field_unique',
+        },
+        {
+          fields: ['entity_type', 'entity_id'],
+          name: 'admin_input_metadata_entity_idx',
+        },
+        {
+          fields: ['field_key'],
+          name: 'admin_input_metadata_field_key_idx',
+        },
+        {
+          fields: ['inherits_from_entity_type', 'inherits_from_entity_id'],
+          name: 'admin_input_metadata_inheritance_idx',
+        },
+      ],
+      timestamps: false,
+      underscored: true,
+      schema: 'public',
+      modelName: 'admin_input_metadata',
+      tableName: 'admin_input_metadata',
+      freezeTableName: true,
+    }
+  );
+
+  return AdminInputMetadata;
+}

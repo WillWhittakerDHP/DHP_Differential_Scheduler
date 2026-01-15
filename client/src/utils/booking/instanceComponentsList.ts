@@ -14,11 +14,10 @@ type GetActiveComponentsRelationships = (serviceId: string) => ActiveComponentRe
 
 export function getInstanceComponentsForService(params: {
   service: BookingBlockInstance
-  selectedUserTypeBlockId: string | null
   getGlobalEntityById: GetGlobalEntityById
   getActiveComponentsRelationships: GetActiveComponentsRelationships
 }): ComponentItem[] {
-  const { service, selectedUserTypeBlockId, getGlobalEntityById, getActiveComponentsRelationships } = params
+  const { service, getGlobalEntityById, getActiveComponentsRelationships } = params
 
   if (
     !isServiceComposable({
@@ -38,7 +37,6 @@ export function getInstanceComponentsForService(params: {
     serviceId: service.id,
     instanceComponentsRelationships,
     getGlobalEntityById,
-    selectedUserTypeBlockId,
   })
 }
 

@@ -9,11 +9,11 @@
     :aria-checked="String(isActive)"
     :aria-label="`Toggle ${label}`"
     :aria-disabled="String(disabled)"
-    @click.stop.prevent="handleClick"
-    @mousedown.stop.prevent
-    @mouseup.stop.prevent
-    @touchstart.stop.prevent
-    @touchend.stop.prevent
+    @click.stop="handleClick"
+    @mousedown.stop
+    @mouseup.stop
+    @touchstart.stop
+    @touchend.stop
   >
     {{ label }}
   </VChip>
@@ -41,9 +41,9 @@ const props = withDefaults(defineProps<Props>(), {
 
 const chipStyle = computed(() => {
   if (props.disabled) {
-    return 'cursor: not-allowed; position: relative; z-index: 1; pointer-events: none; opacity: 0.6;'
+    return 'cursor: not-allowed; position: relative; z-index: 10; pointer-events: none; opacity: 0.6;'
   }
-  return 'cursor: pointer; position: relative; z-index: 1; pointer-events: auto'
+  return 'cursor: pointer; position: relative; z-index: 10; pointer-events: auto'
 })
 
 /**

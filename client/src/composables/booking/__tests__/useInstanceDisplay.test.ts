@@ -7,7 +7,6 @@
  * What it covers:
  * - instancesWithDisplay: Computed instances with icons and descriptions
  * - Custom getFilteredDescription: Description filtering callback
- * - useServiceDisplay: Legacy backward-compatible export
  * 
  * How it works:
  * - Tests icon mapping delegation to utility function
@@ -30,7 +29,6 @@ import { describe, it, expect, vi } from 'vitest'
 import { computed, ref, nextTick } from 'vue'
 import {
   useInstanceDisplay,
-  useServiceDisplay,
 } from '../useInstanceDisplay'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
@@ -217,19 +215,6 @@ describe('useInstanceDisplay', () => {
       const { instancesWithDisplay } = useInstanceDisplay({ instances })
       
       expect(instancesWithDisplay.value).toHaveLength(3)
-    })
-  })
-
-  describe('useServiceDisplay (legacy)', () => {
-    it('should provide same functionality as useInstanceDisplay', () => {
-      const instances = computed(() => [
-        createInstance('i1', { icon: 'home', description: 'Test desc' }),
-      ])
-      
-      const { instancesWithDisplay } = useServiceDisplay({ instances })
-      
-      expect(instancesWithDisplay.value).toHaveLength(1)
-      expect(instancesWithDisplay.value[0].description).toBe('Test desc')
     })
   })
 })

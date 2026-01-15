@@ -19,17 +19,18 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     entityKey,
     entityId,
     form: providedForm,
-    visibleFields,
+    fieldKeys,
+    fieldMetadata,
     inlineFieldsConfig = ref<GlobalFieldKey<GlobalEntityKey>[]>([]),
     stackedFieldsConfig = ref<GlobalFieldKey<GlobalEntityKey>[]>([]),
-    omitFieldsConfig,
     adminConfig: providedAdminConfig,
   } = options
 
   const context = useFormFieldsContext({
     entityKey,
     entityId,
-    visibleFields,
+    fieldKeys,
+    fieldMetadata,
     form: providedForm,
     adminConfig: providedAdminConfig,
   })
@@ -39,15 +40,22 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   const getReadyFields = (
     fields: GlobalFieldKey<GlobalEntityKey>[]
   ): GlobalFieldKey<GlobalEntityKey>[] => {
-    return fields.filter((fieldKey) => !!context.getFieldContext(fieldKey as GlobalFieldKey<typeof entityKey>))
+    return fields.filter((fieldKey) => {
+      const fieldKeyStr = String(fieldKey)
+      // LEARNING: Field must have both context AND metadata to be ready
+      // WHY: FieldRenderer needs metadata to determine input type (renderAs, inputConfig, etc.)
+      // PATTERN: Check both context existence and metadata existence
+      const hasContext = !!context.getFieldContext(fieldKey as GlobalFieldKey<typeof entityKey>)
+      const hasMetadata = fieldMetadata?.value && fieldKeyStr in fieldMetadata.value
+      return hasContext && hasMetadata
+    })
   }
 
   const categorizeFieldsByLayout = (fields: GlobalFieldKey<GlobalEntityKey>[]) => {
     return categorizeFieldsByLayoutPure(
       fields,
       inlineFieldsConfig.value || [],
-      stackedFieldsConfig.value || [],
-      omitFieldsConfig?.value
+      stackedFieldsConfig.value || []
     )
   }
 
@@ -55,10 +63,9 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   // WHY: No special cases - blockInstance uses same layout mechanism as all other entities
   // PATTERN: Single code path for all entities
   const standardLayout = useFormFieldsStandardLayout({
-    visibleFields,
+    fieldKeys,
     inlineFieldsConfig,
     stackedFieldsConfig,
-    omitFieldsConfig,
     getReadyFields,
   })
 
@@ -90,7 +97,7 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   }
 
   // LEARNING: Should show part instances (for blockInstance)
-  // WHY: Used to conditionally show PartInstancesNestedSection
+  // WHY: Used to conditionally show PartsCollection
   // PATTERN: Computed property that checks blockShape constituable property
   const shouldShowPartInstances = computed(() => {
     if (entityKey !== 'blockInstance') {

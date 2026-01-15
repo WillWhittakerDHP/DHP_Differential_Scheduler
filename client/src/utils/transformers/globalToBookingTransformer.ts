@@ -33,6 +33,7 @@ export type BookingPartInstance = {
   rateOverBaseFee: number
   orderIndex: number
   active: boolean
+  zeroOutPart: boolean
 }
 
 /**
@@ -46,7 +47,6 @@ export type BookingBlockShape = {
   type: BlockShapeType // Semantic type identifier for stable filtering
   constituable: boolean
   composable: boolean
-  active: boolean
 }
 
 /**
@@ -59,7 +59,6 @@ export type BookingBlockInstance = {
   entityKey: 'blockInstance'
   name: string
   baseSqFt: number
-  description: string // Single description string for backward compatibility
   descriptions?: AnnotationWithMetadata[] // Array of annotations (descriptions) with metadata for user-type filtering
   icon: string
   active: boolean
@@ -180,7 +179,6 @@ export class BookingTransformer {
         type: blockShape.type,
         constituable: blockShape.constituable,
         composable: blockShape.composable,
-        active: this.isEntityActive(blockShape as unknown as Record<string, unknown>),
       }))
       .sort((a, b) => {
         // Sort by name for consistent ordering
@@ -237,7 +235,11 @@ export class BookingTransformer {
       
       // LEARNING: Add active part IDs to Set using spread operator
       // WHY: Functional approach - spread array into Set constructor instead of forEach
-      activePartIds.forEach(id => partInstanceIds.add(id))
+      // FIX: Use for...of instead of forEach for side effects (Set.add)
+      // Note: Set.add in forEach is acceptable for building accumulator Sets, but for...of is preferred for side effects
+      for (const id of activePartIds) {
+        partInstanceIds.add(id)
+      }
     }
     
     // LEARNING: For composite instances, also merge parts from components
@@ -266,13 +268,16 @@ export class BookingTransformer {
         
         // Add component parts to the Set (Set automatically deduplicates)
         // LEARNING: Filter active parts, then add to Set
-        // WHY: Set.add is a legitimate operation for building Sets - forEach here is appropriate
-        // PATTERN: forEach with Set.add is acceptable for building accumulator Sets
+        // WHY: Set.add is a legitimate operation for building Sets - use for...of for side effects
+        // PATTERN: for...of with Set.add is acceptable for building accumulator Sets (side effects)
+        // FIX: Use for...of instead of forEach for side effects (Set.add)
         const activeComponentPartIds = componentPartIds.filter(partId => {
           const partInstance = partInstanceById.get(partId)
           return this.isEntityActive(partInstance as unknown as Record<string, unknown>)
         })
-        activeComponentPartIds.forEach(id => partInstanceIds.add(id))
+        for (const id of activeComponentPartIds) {
+          partInstanceIds.add(id)
+        }
       }
     }
     
@@ -307,7 +312,6 @@ export class BookingTransformer {
     
     const blockInstanceWithProps = blockInstance as GlobalEntity<'blockInstance'> & {
       baseSqFt?: number
-      description?: string
       descriptions?: AnnotationWithMetadata[]
       icon?: string
       dependent?: boolean
@@ -324,7 +328,6 @@ export class BookingTransformer {
       entityKey: 'blockInstance',
       name: blockInstance.name,
       baseSqFt: blockInstanceWithProps.baseSqFt || 0,
-      description: blockInstanceWithProps.description || '',
       descriptions: blockInstanceWithProps.descriptions, // Pass through descriptions array for user-type filtering
       icon: blockInstanceWithProps.icon || '',
       active: this.isEntityActive(blockInstance as unknown as Record<string, unknown>),
@@ -363,6 +366,7 @@ export class BookingTransformer {
       rateOverBaseTime?: number
       baseFee?: number
       rateOverBaseFee?: number
+      zeroOutPart?: boolean
     }
     
     return {
@@ -380,6 +384,7 @@ export class BookingTransformer {
       rateOverBaseFee: partInstanceWithProps.rateOverBaseFee || 0,
       orderIndex: partInstance.orderIndex,
       active: this.isEntityActive(partInstance as unknown as Record<string, unknown>),
+      zeroOutPart: partInstanceWithProps.zeroOutPart || false,
     }
   }
 }

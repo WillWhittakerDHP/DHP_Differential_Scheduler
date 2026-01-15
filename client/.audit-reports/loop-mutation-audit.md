@@ -12,44 +12,44 @@ Exception handling:
 
 ## Summary
 
-- Total files scanned: **338**
-- **Requiring review: 827**
-- Allowed (with justification): 366 (inline: 0, pattern: 366, specific: 0)
+- Total files scanned: **375**
+- **Requiring review: 953**
+- Allowed (with justification): 395 (inline: 0, pattern: 395, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | forEach | for-loops | push/splice/sort/reverse | assign | forEach→mutation hits | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/components/booking/BookingWizard.vue` | 100 | 0 | 0 | 8 | 42 | 0 | 0 |
-| `src/utils/transformers/globalToBookingTransformer.ts` | 64 | 2 | 0 | 3 | 12 | 4 | 0 |
-| `src/views/admin/tabs/InstancesTab.vue` | 62 | 6 | 4 | 0 | 22 | 1 | 0 |
-| `src/views/admin/tabs/ShapesTab.vue` | 58 | 0 | 0 | 0 | 29 | 0 | 0 |
+| `src/views/admin/tabs/ShapesTab.vue` | 64 | 2 | 0 | 0 | 31 | 0 | 0 |
+| `src/views/admin/tabs/InstancesTab.vue` | 56 | 8 | 4 | 0 | 18 | 1 | 0 |
+| `src/utils/forms/fieldSectionCategorization.ts` | 50 | 0 | 2 | 2 | 22 | 0 | 0 |
+| `src/components/booking/steps/AvailabilityStep.vue` | 47 | 1 | 0 | 0 | 15 | 2 | 0 |
 | `src/utils/transformers/relationshipTransformers.ts` | 46 | 4 | 4 | 2 | 17 | 0 | 0 |
 | `src/views/admin/tabs/BusinessControlsTab.vue` | 45 | 0 | 1 | 0 | 22 | 0 | 0 |
+| `src/views/admin/tabs/ShapesSubTab.vue` | 44 | 0 | 0 | 0 | 22 | 0 | 0 |
 | `src/utils/transformers/annotationTransformers.ts` | 43 | 3 | 0 | 1 | 11 | 2 | 0 |
+| `src/components/admin/generic/collections/PartsCollection.vue` | 42 | 2 | 0 | 2 | 6 | 3 | 0 |
 | `src/main.ts` | 42 | 4 | 0 | 0 | 3 | 4 | 0 |
 | `src/views/admin/tabs/components/PropertiesTable.vue` | 42 | 0 | 0 | 0 | 21 | 0 | 0 |
 | `src/configs/adminConfig.ts` | 41 | 1 | 0 | 2 | 2 | 4 | 0 |
-| `src/views/admin/tabs/ShapesSubTab.vue` | 40 | 0 | 0 | 0 | 20 | 0 | 0 |
-| `src/utils/forms/fieldSectionCategorization.ts` | 38 | 0 | 2 | 2 | 16 | 0 | 0 |
 | `src/components/admin/component/ComponentDistributionModal.vue` | 37 | 1 | 0 | 0 | 6 | 3 | 0 |
+| `src/components/admin/PartInstanceBulkEditModal.vue` | 36 | 2 | 0 | 0 | 5 | 3 | 0 |
+| `src/utils/transformers/globalToBookingTransformer.ts` | 34 | 0 | 4 | 3 | 12 | 0 | 0 |
 | `src/views/admin/tabs/components/AppointmentsTable.vue` | 32 | 0 | 0 | 0 | 16 | 0 | 0 |
+| `src/components/booking/TimeSlotGrid.vue` | 31 | 1 | 0 | 1 | 2 | 3 | 0 |
+| `src/components/admin/generic/EntityCard.vue` | 30 | 0 | 0 | 0 | 15 | 0 | 0 |
+| `src/components/admin/generic/EntityCardSubPanels.vue` | 30 | 0 | 0 | 6 | 9 | 0 | 0 |
 | `src/utils/transformers/componentAggregator.ts` | 30 | 2 | 8 | 3 | 7 | 0 | 0 |
+| `src/utils/booking/confirmationStepData.ts` | 28 | 2 | 0 | 6 | 3 | 1 | 0 |
 | `src/types/admin/AdminEntity.ts` | 26 | 0 | 0 | 0 | 13 | 0 | 0 |
+| `src/utils/booking/appointmentSlotBuilder.ts` | 26 | 0 | 0 | 1 | 12 | 0 | 0 |
+| `src/utils/booking/appointmentTimeCalculations.ts` | 26 | 0 | 0 | 3 | 10 | 0 | 0 |
 | `src/utils/transformers/fetchToGlobalTransformer.ts` | 26 | 0 | 2 | 1 | 11 | 0 | 0 |
 | `src/utils/transformers/globalToAdminTransformer.ts` | 25 | 3 | 0 | 0 | 3 | 2 | 0 |
-| `src/components/booking/steps/AvailabilityStep.vue` | 24 | 0 | 0 | 0 | 12 | 0 | 0 |
-| `src/components/admin/generic/EntityCardSubPanels.vue` | 22 | 0 | 0 | 5 | 6 | 0 | 0 |
 | `src/utils/booking/selectionCardStyles.ts` | 22 | 0 | 0 | 7 | 4 | 0 | 0 |
 | `src/utils/optimistic/annotationAssignmentsOptimistic.ts` | 22 | 0 | 0 | 3 | 8 | 0 | 0 |
 | `src/composables/componentEntity/useComponentEntityActions.ts` | 21 | 1 | 0 | 0 | 4 | 2 | 2 |
-| `src/views/admin/tabs/components/UsersTable.vue` | 20 | 0 | 0 | 0 | 10 | 0 | 0 |
-| `src/components/admin/generic/CardButton.vue` | 18 | 0 | 0 | 3 | 6 | 0 | 0 |
-| `src/components/booking/IndependentSelectCard.vue` | 18 | 0 | 0 | 5 | 4 | 0 | 0 |
-| `src/components/booking/steps/PropertyDetailsStep.vue` | 18 | 0 | 0 | 0 | 9 | 0 | 0 |
-| `src/composables/booking/useStepValidation.ts` | 16 | 0 | 12 | 0 | 4 | 0 | 2 |
-| `src/views/admin/entities/BlockShapeForm.vue` | 16 | 0 | 0 | 1 | 7 | 0 | 0 |
-| `src/views/admin/entities/PartShapeForm.vue` | 16 | 0 | 0 | 1 | 7 | 0 | 0 |
 
 ## Action signals (heuristic)
 
@@ -58,23 +58,21 @@ Exception handling:
 
 ## Per-file forEach→mutation hits (highest signal)
 
-### `src/utils/transformers/globalToBookingTransformer.ts`
-
-- hits: 4
-
-```
-forEach@240 -> assignProp@247
-forEach@275 -> sort@286
-forEach@275 -> assignProp@287
-forEach@275 -> assignProp@288
-```
-
 ### `src/views/admin/tabs/InstancesTab.vue`
 
 - hits: 1
 
 ```
-forEach@112 -> assignProp@122
+forEach@116 -> assignProp@126
+```
+
+### `src/components/booking/steps/AvailabilityStep.vue`
+
+- hits: 2
+
+```
+forEach@190 -> assignProp@200
+forEach@190 -> assignProp@201
 ```
 
 ### `src/utils/transformers/annotationTransformers.ts`
@@ -84,6 +82,16 @@ forEach@112 -> assignProp@122
 ```
 forEach@297 -> assignProp@318
 forEach@313 -> assignProp@318
+```
+
+### `src/components/admin/generic/collections/PartsCollection.vue`
+
+- hits: 3
+
+```
+forEach@308 -> assignProp@310
+forEach@308 -> assignIndex@312
+forEach@308 -> assignProp@320
 ```
 
 ### `src/main.ts`
@@ -102,10 +110,10 @@ forEach@70 -> assignProp@75
 - hits: 4
 
 ```
-forEach@62 -> assignProp@63
-forEach@62 -> assignProp@64
-forEach@62 -> push@65
-forEach@62 -> push@67
+forEach@92 -> assignProp@96
+forEach@92 -> assignProp@97
+forEach@92 -> push@98
+forEach@92 -> push@100
 ```
 
 ### `src/components/admin/component/ComponentDistributionModal.vue`
@@ -116,6 +124,34 @@ forEach@62 -> push@67
 forEach@173 -> assignIndex@174
 forEach@173 -> assignIndex@175
 forEach@173 -> assignProp@184
+```
+
+### `src/components/admin/PartInstanceBulkEditModal.vue`
+
+- hits: 3
+
+```
+forEach@194 -> assignIndex@197
+forEach@194 -> assignIndex@199
+forEach@239 -> assignIndex@247
+```
+
+### `src/components/booking/TimeSlotGrid.vue`
+
+- hits: 3
+
+```
+forEach@105 -> assignProp@111
+forEach@105 -> assignProp@124
+forEach@105 -> push@125
+```
+
+### `src/utils/booking/confirmationStepData.ts`
+
+- hits: 1
+
+```
+forEach@51 -> push@57
 ```
 
 ### `src/utils/transformers/globalToAdminTransformer.ts`
@@ -141,7 +177,7 @@ forEach@144 -> assignIndex@146
 - hits: 1
 
 ```
-forEach@351 -> sort@372
+forEach@383 -> sort@404
 ```
 
 ### `src/composables/admin/useEntityGrouping.ts`
@@ -169,156 +205,190 @@ Legend: `ruleId@lineNumber: line`
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=8, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=42
 
 ```
-assignProp@150: if (activeStep.value === 1) {
-push@178: if (!hasPropertyTypeBlock) missingFields.push('property type')
-push@183: if (!data.address || data.address.trim().length < 3) missingFields.push('address')
-push@184: if (!data.city || data.city.trim().length < 2) missingFields.push('city')
-push@185: if (!data.state) missingFields.push('state')
-push@186: if (!data.zipCode || !/^\d{5}(-\d{4})?$/.test(data.zipCode)) missingFields.push('zip code')
-push@187: if (!data.propertySize || data.propertySize < 1) missingFields.push('property size')
-push@194: missingFields.push('number of units')
-push@198: missingFields.push('address', 'city', 'state', 'zip code', 'property size')
-assignProp@207: } else if (activeStep.value === 2) {
-assignProp@214: } else if (activeStep.value === 3) {
-assignProp@262: wizard.isQuoteMode.value = !wizard.isQuoteMode.value
-assignProp@351: isLoadingAppointment.value = true
-assignProp@361: selectedAppointmentId.value = appointment.id
-assignProp@367: selectedAppointmentId.value = appointment.id
-assignProp@385: wizard.selectedServices.value = [...wizardState.services]
-assignProp@386: wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
-assignProp@387: wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
-assignProp@388: wizard.isQuoteMode.value = wizardState.isQuoteMode
-assignProp@391: loadedWizardState.value = wizardState
-assignProp@392: loadedAppointmentId.value = appointment.id
-assignProp@395: propertyDetailsStepData.value = wizardState.propertyDetails
-assignProp@396: contactsStepData.value = {
-assignProp@399: anotherClientInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'anotherClient') || { firstName: '', lastName: '', email: '' },
-assignProp@400: transactionManagerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'transactionManager') || { firstName: '', lastName: '', email: '' },
-assignProp@401: sellerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'seller') || { firstName: '', lastName: '', email: '' },
-assignProp@402: showAnotherClient: wizardState.contacts.additionalContacts.some(c => c.role === 'anotherClient'),
-assignProp@403: showTransactionManager: wizardState.contacts.additionalContacts.some(c => c.role === 'transactionManager'),
-assignProp@404: showSeller: wizardState.contacts.additionalContacts.some(c => c.role === 'seller')
-assignProp@416: activeStep.value = 2
-assignProp@420: selectedAppointmentId.value = null
-assignProp@425: isLoadingAppointment.value = false
-assignProp@465: wizard.selectedServices.value = []
-assignProp@466: wizard.selectedPropertyTypeBlocks.value = []
-assignProp@467: wizard.selectedOptionTypeBlocks.value = []
-assignProp@468: wizard.isQuoteMode.value = false
-assignProp@470: loadedWizardState.value = null
-assignProp@471: loadedAppointmentId.value = null
-assignProp@472: selectedAppointmentId.value = null
-assignProp@475: propertyDetailsStepData.value = null
-assignProp@476: contactsStepData.value = null
-assignProp@477: availabilityStepData.value = null
-assignProp@480: propertyDetailsStepValid.value = false
-assignProp@481: propertyDetailsStepValidate.value = null
-assignProp@482: propertyDetailsFieldErrors.value = {}
-assignProp@483: contactsStepValid.value = false
-assignProp@484: contactsStepValidate.value = null
-assignProp@485: availabilityStepValid.value = false
-assignProp@486: availabilityStepValidate.value = null
-assignProp@489: activeStep.value = 0
-```
-
-### `src/utils/transformers/globalToBookingTransformer.ts`
-
-- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=3, reverse=0, assignIndex=0, assignProp=12
-
-```
-assignProp@100: const disabled = entity.disabled === true
-assignProp@139: .filter(rel => rel.relationshipKind === 'instanceComponents')
-assignProp@157: const isDependent = (blockInstance as unknown as { dependent?: boolean }).dependent === true
-sort@169: .sort((a, b) => {
-assignProp@170: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-assignProp@171: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-sort@185: .sort((a, b) => {
-forEach@240: activePartIds.forEach(id => partInstanceIds.add(id))
-assignProp@247: const composite = blockInstanceTyped.composite === true
-forEach@275: activeComponentPartIds.forEach(id => partInstanceIds.add(id))
-sort@286: .sort((a: BookingPartInstance, b: BookingPartInstance) => {
-assignProp@287: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-assignProp@288: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-assignProp@320: const differentialValue = blockInstanceWithProps.differential === true ? true : false
-assignProp@331: dependent: blockInstanceWithProps.dependent === true,
-assignProp@339: requiresUnitNumber: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean' ? blockInstanceWithProps.requiresUnitNumber : null,
-assignProp@373: disabled: (partInstance as unknown as Record<string, unknown>).disabled === true,
-```
-
-### `src/views/admin/tabs/InstancesTab.vue`
-
-- counts: forEach=6, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=22
-
-```
-forEach@112: rel.children.forEach((child) => {
-assignProp@122: return (instance as BlockInstanceEntityWithFlags).dependent === true
-assignProp@144: expandedBlockShapes.value = expandedBlockShapes.value.filter(id => id !== String(entity.id))
-forEach@189: blockInstancesByShape.value.forEach((instances, blockShapeId) => {
-forEach@200: blockInstancesByShape.value.forEach((instances, blockShapeId) => {
-assignProp@352: newBlockInstanceInitialValues.value = newInitialValuesMap
-assignProp@356: isCreatingBlockInstance.value = newCreatingMap
-assignProp@359: expandedInstances.value = [`new-${blockShapeRef}`, ...expandedInstances.value]
-forLoop@371: for (const delay of delays) {
-forOf@371: for (const delay of delays) {
-forLoop@387: for (const selector of selectors) {
-forOf@387: for (const selector of selectors) {
-assignProp@394: if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-assignProp@427: isCreatingBlockInstance.value = newCreatingMap
-assignProp@431: newBlockInstanceInitialValues.value = newInitialValuesMap
-assignProp@434: expandedInstances.value = expandedInstances.value.filter(id => id !== `new-${blockShapeRef}`)
-assignProp@447: isCreatingBlockInstance.value = newCreatingMap
-assignProp@451: newBlockInstanceInitialValues.value = newInitialValuesMap
-assignProp@454: expandedInstances.value = expandedInstances.value.filter(id => id !== `new-${blockShapeRef}`)
-delete@458: * LEARNING: Handle delete BlockInstance event
-assignProp@474: expandedInstances.value = expandedInstances.value.filter(id => id !== String(entity.id))
-assignProp@489: activeTab.value = tabValue
-forEach@499: instancesMap.forEach((instances, blockShapeId) => {
-forEach@572: containers.forEach((container, blockShapeId) => {
-assignProp@632: isMounted.value = true
-assignProp@641: isMounted.value = false
-forEach@643: groupDragInstances.value.forEach(_instance => {
-assignProp@790: v-model.number="getBulkEditBaseSqFt(String(blockShape.id)).value"
-assignProp@835: panelsRef.value = el as ComponentPublicInstance | HTMLElement | null
-assignProp@922: @click.stop.prevent="handleStatusButtonClick(instance, statusField.key, $event)"
-assignProp@1012: @click.stop.prevent="handleStatusButtonClick(instance, statusField.key, $event)"
-assignProp@1046: (blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length === 0 &&
-assignProp@1047: (groupedInstancesByShape.get(String(blockShape.id)) || []).length === 0
+assignProp@151: if (activeStep.value === 1) {
+push@179: if (!hasPropertyTypeBlock) missingFields.push('property type')
+push@184: if (!data.address || data.address.trim().length < 3) missingFields.push('address')
+push@185: if (!data.city || data.city.trim().length < 2) missingFields.push('city')
+push@186: if (!data.state) missingFields.push('state')
+push@187: if (!data.zipCode || !/^\d{5}(-\d{4})?$/.test(data.zipCode)) missingFields.push('zip code')
+push@188: if (!data.propertySize || data.propertySize < 1) missingFields.push('property size')
+push@195: missingFields.push('number of units')
+push@199: missingFields.push('address', 'city', 'state', 'zip code', 'property size')
+assignProp@208: } else if (activeStep.value === 2) {
+assignProp@215: } else if (activeStep.value === 3) {
+assignProp@269: wizard.isQuoteMode.value = !wizard.isQuoteMode.value
+assignProp@358: isLoadingAppointment.value = true
+assignProp@368: selectedAppointmentId.value = appointment.id
+assignProp@374: selectedAppointmentId.value = appointment.id
+assignProp@392: wizard.selectedServices.value = [...wizardState.services]
+assignProp@393: wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
+assignProp@394: wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
+assignProp@395: wizard.isQuoteMode.value = wizardState.isQuoteMode
+assignProp@398: loadedWizardState.value = wizardState
+assignProp@399: loadedAppointmentId.value = appointment.id
+assignProp@402: propertyDetailsStepData.value = wizardState.propertyDetails
+assignProp@403: contactsStepData.value = {
+assignProp@406: anotherClientInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'anotherClient') || { firstName: '', lastName: '', email: '' },
+assignProp@407: transactionManagerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'transactionManager') || { firstName: '', lastName: '', email: '' },
+assignProp@408: sellerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'seller') || { firstName: '', lastName: '', email: '' },
+assignProp@409: showAnotherClient: wizardState.contacts.additionalContacts.some(c => c.role === 'anotherClient'),
+assignProp@410: showTransactionManager: wizardState.contacts.additionalContacts.some(c => c.role === 'transactionManager'),
+assignProp@411: showSeller: wizardState.contacts.additionalContacts.some(c => c.role === 'seller')
+assignProp@423: activeStep.value = 2
+assignProp@427: selectedAppointmentId.value = null
+assignProp@432: isLoadingAppointment.value = false
+assignProp@472: wizard.selectedServices.value = []
+assignProp@473: wizard.selectedPropertyTypeBlocks.value = []
+assignProp@474: wizard.selectedOptionTypeBlocks.value = []
+assignProp@475: wizard.isQuoteMode.value = false
+assignProp@477: loadedWizardState.value = null
+assignProp@478: loadedAppointmentId.value = null
+assignProp@479: selectedAppointmentId.value = null
+assignProp@482: propertyDetailsStepData.value = null
+assignProp@483: contactsStepData.value = null
+assignProp@484: availabilityStepData.value = null
+assignProp@487: propertyDetailsStepValid.value = false
+assignProp@488: propertyDetailsStepValidate.value = null
+assignProp@489: propertyDetailsFieldErrors.value = {}
+assignProp@490: contactsStepValid.value = false
+assignProp@491: contactsStepValidate.value = null
+assignProp@492: availabilityStepValid.value = false
+assignProp@493: availabilityStepValidate.value = null
+assignProp@496: activeStep.value = 0
 ```
 
 ### `src/views/admin/tabs/ShapesTab.vue`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=29
+- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=31
 
 ```
-assignProp@95: newBlockShapeInitialValues.value = {
-assignProp@99: isCreatingBlockShape.value = true
-assignProp@100: expandedShapes.value = ['new-blockShape', ...expandedShapes.value]
-assignProp@108: newPartShapeInitialValues.value = {
-assignProp@112: isCreatingPartShape.value = true
-assignProp@113: expandedShapes.value = ['new-partShape', ...expandedShapes.value]
-assignProp@120: newAnnotationTypeName.value = ''
-assignProp@121: isCreatingAnnotationType.value = true
-assignProp@122: expandedShapes.value = ['new-annotationType', ...expandedShapes.value]
-assignProp@129: isCreatingBlockShape.value = false
-assignProp@130: newBlockShapeInitialValues.value = null
-assignProp@131: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
-assignProp@138: isCreatingBlockShape.value = false
-assignProp@139: newBlockShapeInitialValues.value = null
-assignProp@140: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
-assignProp@147: isCreatingPartShape.value = false
-assignProp@148: newPartShapeInitialValues.value = null
-assignProp@149: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-assignProp@156: isCreatingPartShape.value = false
-assignProp@157: newPartShapeInitialValues.value = null
-assignProp@158: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-assignProp@170: isCreatingAnnotationType.value = false
-assignProp@171: newAnnotationTypeName.value = ''
-assignProp@172: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
-assignProp@182: isCreatingAnnotationType.value = false
-assignProp@183: newAnnotationTypeName.value = ''
-assignProp@184: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
-assignProp@373: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
-assignProp@663: @keyup.enter="handleAnnotationTypeCreate"
+assignProp@100: partInstanceFieldsModalOpen.value = !partInstanceFieldsModalOpen.value
+assignProp@111: partInstanceFieldsModalOpen.value = false
+forEach@181: blockShapes.forEach((blockShape) => {
+forEach@198: partShapes.forEach((partShape) => {
+assignProp@255: newBlockShapeInitialValues.value = {
+assignProp@259: isCreatingBlockShape.value = true
+assignProp@260: expandedShapes.value = ['new-blockShape', ...expandedShapes.value]
+assignProp@268: newPartShapeInitialValues.value = {
+assignProp@272: isCreatingPartShape.value = true
+assignProp@273: expandedShapes.value = ['new-partShape', ...expandedShapes.value]
+assignProp@280: newAnnotationTypeName.value = ''
+assignProp@281: isCreatingAnnotationType.value = true
+assignProp@282: expandedShapes.value = ['new-annotationType', ...expandedShapes.value]
+assignProp@289: isCreatingBlockShape.value = false
+assignProp@290: newBlockShapeInitialValues.value = null
+assignProp@291: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
+assignProp@298: isCreatingBlockShape.value = false
+assignProp@299: newBlockShapeInitialValues.value = null
+assignProp@300: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
+assignProp@307: isCreatingPartShape.value = false
+assignProp@308: newPartShapeInitialValues.value = null
+assignProp@309: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+assignProp@316: isCreatingPartShape.value = false
+assignProp@317: newPartShapeInitialValues.value = null
+assignProp@318: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+assignProp@330: isCreatingAnnotationType.value = false
+assignProp@331: newAnnotationTypeName.value = ''
+assignProp@332: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
+assignProp@342: isCreatingAnnotationType.value = false
+assignProp@343: newAnnotationTypeName.value = ''
+assignProp@344: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
+assignProp@533: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
+assignProp@872: @keyup.enter="handleAnnotationTypeCreate"
+```
+
+### `src/views/admin/tabs/InstancesTab.vue`
+
+- counts: forEach=8, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=18
+
+```
+forEach@116: rel.children.forEach((child) => {
+assignProp@126: return (instance as BlockInstanceEntityWithFlags).dependent === true
+assignProp@167: expandedBlockShapes.value = expandedBlockShapes.value.filter(id => id !== String(entity.id))
+forEach@284: instancesMap.forEach((instances) => {
+forEach@285: instances.forEach((instance) => {
+forEach@334: blockInstancesByShape.value.forEach((instances, blockShapeId) => {
+forEach@345: blockInstancesByShape.value.forEach((instances, blockShapeId) => {
+assignProp@414: newBlockInstanceInitialValues.value = newInitialValuesMap
+assignProp@418: isCreatingBlockInstance.value = newCreatingMap
+assignProp@421: expandedInstances.value = [`new-${blockShapeRef}`, ...expandedInstances.value]
+forLoop@433: for (const delay of delays) {
+forOf@433: for (const delay of delays) {
+forLoop@449: for (const selector of selectors) {
+forOf@449: for (const selector of selectors) {
+assignProp@456: if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+assignProp@489: isCreatingBlockInstance.value = newCreatingMap
+assignProp@493: newBlockInstanceInitialValues.value = newInitialValuesMap
+assignProp@496: expandedInstances.value = expandedInstances.value.filter(id => id !== `new-${blockShapeRef}`)
+assignProp@509: isCreatingBlockInstance.value = newCreatingMap
+assignProp@513: newBlockInstanceInitialValues.value = newInitialValuesMap
+assignProp@516: expandedInstances.value = expandedInstances.value.filter(id => id !== `new-${blockShapeRef}`)
+delete@520: * LEARNING: Handle delete BlockInstance event
+assignProp@554: activeTab.value = tabValue
+forEach@564: instancesMap.forEach((instances, blockShapeId) => {
+forEach@637: containers.forEach((container, blockShapeId) => {
+assignProp@697: isMounted.value = true
+assignProp@706: isMounted.value = false
+forEach@708: groupDragInstances.value.forEach(_instance => {
+assignProp@867: panelsRef.value = el as ComponentPublicInstance | HTMLElement | null
+assignProp@1066: (blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length === 0 &&
+assignProp@1067: (groupedInstancesByShape.get(String(blockShape.id)) || []).length === 0
+```
+
+### `src/utils/forms/fieldSectionCategorization.ts`
+
+- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=2, reverse=0, assignIndex=2, assignProp=20
+
+```
+assignProp@177: if (meta.visibility === 'hidden' || meta.visibility === 'notConfigured') {
+assignProp@180: if (meta.visibility === 'expandedDirect' && !isExpanded) {
+assignProp@183: if (meta.visibility === 'expandedPanel' && !isExpanded) {
+assignProp@187: return meta.renderAs === 'statusButton'
+sort@195: .sort((a, b) => a.order - b.order)
+assignProp@197: result.statusButtonFields = statusButtonFieldsWithOrder
+assignProp@214: if (fieldMeta.visibility === 'hidden' || fieldMeta.visibility === 'notConfigured') {
+assignProp@217: if (fieldMeta.visibility === 'expandedDirect' && !isExpanded) {
+assignProp@220: if (fieldMeta.visibility === 'expandedPanel' && !isExpanded) {
+assignProp@229: if (fieldMeta.renderAs === 'statusButton') {
+assignProp@230: const isExpandedOnly = fieldMeta.visibility === 'expandedDirect' || fieldMeta.visibility === 'expandedPanel'
+assignProp@243: if (fieldMeta.visibility === 'alwaysVisible') {
+assignProp@246: } else if (fieldMeta.visibility === 'expandedDirect') {
+assignProp@248: if (fieldMeta.layout === 'inline') {
+assignProp@253: } else if (fieldMeta.visibility === 'expandedPanel') {
+sort@281: .sort((a, b) => {
+assignIndex@282: const [aOrder] = a.split('::')
+assignIndex@283: const [bOrder] = b.split('::')
+assignProp@290: result.headerFields = normalize(categorized.headerEntries)
+assignProp@291: result.directInlineFields = normalize(categorized.directInlineEntries)
+assignProp@292: result.directStackedFields = normalize(categorized.directStackedEntries)
+assignProp@293: result.subPanelFields = {
+assignProp@336: return config?.primitiveInput?.primitiveType === PrimitiveTypeEnum.Boolean
+assignProp@346: .filter(([, meta]) => meta.renderAs === 'statusButton')
+forLoop@354: for (const fieldKey of booleanFields) {
+forOf@354: for (const fieldKey of booleanFields) {
+```
+
+### `src/components/booking/steps/AvailabilityStep.vue`
+
+- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=15
+
+```
+assignProp@78: return selectedServices.some(s => s.differential === true)
+assignProp@131: timeSlotsWrapper.value = timeSlots as ComputedRef<TimeSlot[]>
+assignProp@146: if (instances.length === 0) {
+assignProp@154: if (!bi.partInstances || bi.partInstances.length === 0) return sum
+assignProp@157: return partSum + (part.onSite === true ? (part.baseTime || 0) : 0)
+assignProp@186: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
+forEach@190: daySlots.inspectorTimeSlots.forEach(slot => {
+assignProp@200: if (startTimeType.value === 'inspector') return 'onSite'
+assignProp@201: if (startTimeType.value === 'client') return 'clientPresent'
+assignProp@258: parentAvailabilityStepData.value = newData
+assignProp@267: parentAvailabilityStepValid.value = newValid
+assignProp@274: parentAvailabilityStepValidate.value = validateForm
+assignProp@381: appointmentSlotOrderIndex.value = buttonIndex
+assignProp@392: startTimeType.value = type
+assignProp@457: <div v-if="appointmentSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
+assignProp@509: <div v-else-if="wizard.availableOptionTypeBlocks.value.length === 0" class="text-body-1 text-medium-emphasis py-4">
 ```
 
 ### `src/utils/transformers/relationshipTransformers.ts`
@@ -385,6 +455,35 @@ assignProp@189: <VForm v-else @submit.prevent="saveSettings">
 assignProp@273: v-model.number="formData.leadTime"
 ```
 
+### `src/views/admin/tabs/ShapesSubTab.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=22
+
+```
+assignProp@84: partInstanceFieldsModalOpen.value = !partInstanceFieldsModalOpen.value
+assignProp@95: partInstanceFieldsModalOpen.value = false
+assignProp@118: newPartShapeInitialValues.value = {
+assignProp@122: isCreatingPartShape.value = true
+assignProp@123: expandedShapes.value = ['new-partShape', ...expandedShapes.value]
+assignProp@130: newAnnotationShapeName.value = ''
+assignProp@131: isCreatingAnnotationShape.value = true
+assignProp@132: expandedShapes.value = ['new-annotationShape', ...expandedShapes.value]
+assignProp@139: isCreatingPartShape.value = false
+assignProp@140: newPartShapeInitialValues.value = null
+assignProp@141: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+assignProp@148: isCreatingPartShape.value = false
+assignProp@149: newPartShapeInitialValues.value = null
+assignProp@150: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+assignProp@162: isCreatingAnnotationShape.value = false
+assignProp@163: newAnnotationShapeName.value = ''
+assignProp@164: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
+assignProp@174: isCreatingAnnotationShape.value = false
+assignProp@175: newAnnotationShapeName.value = ''
+assignProp@176: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
+assignProp@320: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
+assignProp@518: @keyup.enter="handleAnnotationShapeCreate"
+```
+
 ### `src/utils/transformers/annotationTransformers.ts`
 
 - counts: forEach=3, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=11
@@ -405,6 +504,24 @@ forEach@297: annotations.forEach(annotation => {
 forEach@313: assignments.forEach(assignment => {
 assignProp@318: : annotations.find(a => a.id === assignment.annotationId)
 forEach@341: entityAnnotationsMap.forEach((anns, entityId) => {
+```
+
+### `src/components/admin/generic/collections/PartsCollection.vue`
+
+- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=1, sort=0, reverse=0, assignIndex=1, assignProp=5
+
+```
+assignProp@51: @click.stop="() => {
+push@59: currentExpanded.push(id)
+splice@61: currentExpanded.splice(index, 1)
+assignProp@151: v-if="validPartShapes.length === 0"
+assignProp@284: bulkEditModeRef.value = value
+forEach@308: Object.entries(data).forEach(([fieldKey, value]) => {
+assignProp@310: if (metadata?.bulkEdit === true) {
+assignIndex@312: filteredData[fieldKey] = value as number | null | undefined
+assignProp@320: bulkEditData.value = filteredData as PartInstanceBulkEditData
+forEach@331: instances.forEach((instance) => {
+delete@372: * LEARNING: Handle delete PartInstance event
 ```
 
 ### `src/main.ts`
@@ -455,65 +572,11 @@ delete@404: Are you sure you want to delete this property? This action cannot be
 - counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=2, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
 
 ```
-forEach@62: Object.entries(fields).forEach(([key, meta]) => {
-assignProp@63: if (meta.section === 'direct') {
-assignProp@64: if (meta.layout === 'inline') {
-push@65: inlineFields.push(key)
-push@67: stackedFields.push(key)
-```
-
-### `src/views/admin/tabs/ShapesSubTab.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=20
-
-```
-assignProp@91: newPartShapeInitialValues.value = {
-assignProp@95: isCreatingPartShape.value = true
-assignProp@96: expandedShapes.value = ['new-partShape', ...expandedShapes.value]
-assignProp@103: newAnnotationShapeName.value = ''
-assignProp@104: isCreatingAnnotationShape.value = true
-assignProp@105: expandedShapes.value = ['new-annotationShape', ...expandedShapes.value]
-assignProp@112: isCreatingPartShape.value = false
-assignProp@113: newPartShapeInitialValues.value = null
-assignProp@114: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-assignProp@121: isCreatingPartShape.value = false
-assignProp@122: newPartShapeInitialValues.value = null
-assignProp@123: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-assignProp@135: isCreatingAnnotationShape.value = false
-assignProp@136: newAnnotationShapeName.value = ''
-assignProp@137: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
-assignProp@147: isCreatingAnnotationShape.value = false
-assignProp@148: newAnnotationShapeName.value = ''
-assignProp@149: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
-assignProp@293: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
-assignProp@478: @keyup.enter="handleAnnotationShapeCreate"
-```
-
-### `src/utils/forms/fieldSectionCategorization.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=2, reverse=0, assignIndex=2, assignProp=14
-
-```
-assignProp@59: result.directStackedFields = [...visibleFields]
-assignProp@69: .filter(([, meta]) => meta.renderAs === 'statusButton')
-sort@76: .sort((a, b) => a.order - b.order)
-assignProp@79: result.statusButtonFields = statusButtonFieldsWithOrder
-assignProp@95: if (meta.renderAs === 'statusButton') {
-assignProp@102: if (meta.section === 'header') {
-assignProp@104: } else if (meta.section === 'direct') {
-assignProp@105: if (meta.layout === 'inline') {
-assignProp@110: } else if (meta.section === 'subPanel' && meta.panel) {
-sort@134: .sort((a, b) => {
-assignIndex@135: const [aOrder] = a.split('::')
-assignIndex@136: const [bOrder] = b.split('::')
-assignProp@143: result.headerFields = normalize(categorized.headerEntries)
-assignProp@144: result.directInlineFields = normalize(categorized.directInlineEntries)
-assignProp@145: result.directStackedFields = normalize(categorized.directStackedEntries)
-assignProp@146: result.subPanelFields = {
-assignProp@189: return config?.primitiveInput?.primitiveType === PrimitiveTypeEnum.Boolean
-assignProp@199: .filter(([, meta]) => meta.renderAs === 'statusButton')
-forLoop@207: for (const fieldKey of booleanFields) {
-forOf@207: for (const fieldKey of booleanFields) {
+forEach@92: Object.entries(fields).forEach(([key, meta]) => {
+assignProp@96: if (meta.visibility === 'expandedDirect') {
+assignProp@97: if (meta.layout === 'inline') {
+push@98: inlineFields.push(key)
+push@100: stackedFields.push(key)
 ```
 
 ### `src/components/admin/component/ComponentDistributionModal.vue`
@@ -528,6 +591,46 @@ forEach@173: preview.value.forEach((item) => {
 assignIndex@174: distributionValues[item.componentId] = distributionValues[item.componentId] ?? {}
 assignIndex@175: distributionValues[item.componentId][props.propertyKey] = item.newValue
 assignProp@184: isDistributing.value = false
+```
+
+### `src/components/admin/PartInstanceBulkEditModal.vue`
+
+- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=2
+
+```
+assignProp@141: if (instances.length === 0) return null
+assignProp@166: return metadata?.bulkEdit === true
+forEach@194: bulkEditEnabledFields.value.forEach(field => {
+assignIndex@197: (template as Record<string, unknown>)[field] = value ?? null
+assignIndex@199: (template as Record<string, unknown>)[field] = null
+forEach@239: bulkEditEnabledFields.value.forEach(field => {
+assignIndex@247: (bulkEditData as Record<string, number>)[field] = numericValue
+```
+
+### `src/utils/transformers/globalToBookingTransformer.ts`
+
+- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=3, reverse=0, assignIndex=0, assignProp=12
+
+```
+assignProp@100: const disabled = entity.disabled === true
+assignProp@139: .filter(rel => rel.relationshipKind === 'instanceComponents')
+assignProp@157: const isDependent = (blockInstance as unknown as { dependent?: boolean }).dependent === true
+sort@169: .sort((a, b) => {
+assignProp@170: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+assignProp@171: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+sort@184: .sort((a, b) => {
+forLoop@241: for (const id of activePartIds) {
+forOf@241: for (const id of activePartIds) {
+assignProp@250: const composite = blockInstanceTyped.composite === true
+forLoop@279: for (const id of activeComponentPartIds) {
+forOf@279: for (const id of activeComponentPartIds) {
+sort@292: .sort((a: BookingPartInstance, b: BookingPartInstance) => {
+assignProp@293: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+assignProp@294: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+assignProp@326: const differentialValue = blockInstanceWithProps.differential === true ? true : false
+assignProp@337: dependent: blockInstanceWithProps.dependent === true,
+assignProp@345: requiresUnitNumber: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean' ? blockInstanceWithProps.requiresUnitNumber : null,
+assignProp@380: disabled: (partInstance as unknown as Record<string, unknown>).disabled === true,
 ```
 
 ### `src/views/admin/tabs/components/AppointmentsTable.vue`
@@ -553,6 +656,66 @@ delete@645: - 'cancelled' vs 'deleted': Implement business rules for soft delete
 assignProp@647: <template #item.status="{ item }">
 assignProp@667: <template #item.actions="{ item }">
 delete@717: Are you sure you want to delete this appointment? This action cannot be undone.
+```
+
+### `src/components/booking/TimeSlotGrid.vue`
+
+- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
+
+```
+forEach@105: props.appointmentSlots.forEach(appointmentSlot => {
+assignProp@111: if (props.timeBasis === 'client' && props.isDifferentialService) {
+assignProp@124: const orderIndex = typeof appointmentSlot.orderIndex === 'number' ? appointmentSlot.orderIndex : 0
+push@125: slots.push({ slot, orderIndex })
+```
+
+### `src/components/admin/generic/EntityCard.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=15
+
+```
+delete@129: * PATTERN: Composable handles entity name, success message, and delete title
+assignProp@241: props.entityKey === 'blockInstance' ? ['blockShapeRef'] : []
+assignProp@286: const instanceShape = (props.entityKey === 'blockInstance' || props.entityKey === 'partInstance')
+assignProp@318: constituable: blockShapeEntity.constituable === true,
+assignProp@319: composable: blockShapeEntity.composable === true,
+assignProp@320: composite: (blockInstance as GlobalEntity<'blockInstance'>).composite === true
+assignProp@330: const blockShape = (props.entityKey === 'blockInstance' && instanceShape)
+assignProp@337: const partShape = (props.entityKey === 'partInstance' && instanceShape)
+assignProp@359: if (props.entityKey === 'blockInstance' || props.entityKey === 'partInstance') {
+assignProp@360: const shape = props.entityKey === 'blockInstance' ? blockShape : partShape
+assignProp@361: const shapeType = props.entityKey === 'blockInstance' ? 'BlockShape' : 'PartShape'
+assignProp@362: const getMetadataFn = props.entityKey === 'blockInstance'
+assignProp@369: shapeRef: props.entityKey === 'blockInstance'
+assignProp@380: fieldMetadataIsNull: shape.fieldMetadata === null,
+assignProp@381: fieldMetadataIsUndefined: shape.fieldMetadata === undefined,
+assignProp@410: if (props.entityKey === 'partInstance') {
+delete@429: * WHY: Gets entity name for display in title and delete dialog
+delete@437: * LEARNING: Use entity card actions composable for save/reset/delete handlers
+delete@533: * LEARNING: Computed property for delete dialog title
+delete@534: * WHY: Provides entity-type-specific delete dialog title
+```
+
+### `src/components/admin/generic/EntityCardSubPanels.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=6, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=9
+
+```
+assignProp@75: if (items.length === 0) return ''
+assignProp@99: const entity = entities.find(e => e.id === id)
+assignProp@116: if (!Array.isArray(activeConstituents) || activeConstituents.length === 0) return ''
+assignProp@159: if (instance && typeof instance.toggleBulkEditMode === 'function') {
+push@169: expandedPanels.value.push('parts')
+assignProp@183: if (props.entityKey === 'blockInstance') {
+push@190: relationshipTypes.push('Booking Cascades')
+push@193: relationshipTypes.push(`${blockShapeName.value} Components`)
+push@196: relationshipTypes.push(`Dependent ${blockShapeName.value} Options`)
+assignProp@198: } else if (props.entityKey === 'blockShape') {
+push@203: relationshipTypes.push('Valid Cascades')
+push@206: relationshipTypes.push('Valid Part Shapes')
+assignProp@236: v-if="props.entityKey === 'blockInstance'"
+assignProp@241: @click.stop="togglePartsBulkEditMode"
+assignProp@250: v-if="String(fieldKey) === 'activeConstituents' && props.entityKey === 'blockInstance'"
 ```
 
 ### `src/utils/transformers/componentAggregator.ts`
@@ -582,6 +745,24 @@ assignProp@183: if (components.length === 0) {
 assignProp@220: const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)
 ```
 
+### `src/utils/booking/confirmationStepData.ts`
+
+- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=6, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+
+```
+assignProp@39: return categoryParts.some(part => part.zeroOutPart === true)
+forEach@51: blockInstance.partInstances.forEach(part => {
+push@57: partsByCategory.get(category)!.push(part)
+forEach@64: partsByCategory.forEach((categoryParts, category) => {
+assignProp@102: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
+assignProp@106: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
+push@111: if (prop.address) addressParts.push(prop.address)
+push@112: if (prop.unit) addressParts.push(`#${prop.unit}`)
+push@113: if (prop.city) addressParts.push(prop.city)
+push@114: if (prop.state) addressParts.push(prop.state)
+push@115: if (prop.zipCode) addressParts.push(prop.zipCode)
+```
+
 ### `src/types/admin/AdminEntity.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=10
@@ -602,25 +783,65 @@ assignIndex@211: this[fieldKey as string] = value
 assignProp@212: this.isDirty = true
 ```
 
+### `src/utils/booking/appointmentSlotBuilder.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=12
+
+```
+assignProp@69: return sumDuration(parts, part => part.onSite === true)
+assignProp@76: return sumDuration(parts, part => part.clientPresent === true)
+assignProp@83: return sumDuration(parts, part => part.moveable === true)
+push@104: grouped.get(category)!.push(part)
+assignProp@117: return categoryParts.some(part => part.zeroOutPart === true)
+assignProp@127: if (!blockInstances || blockInstances.length === 0) {
+assignProp@149: if (allParts.length === 0) {
+assignProp@187: if (categoryParts.length === 0) return null
+assignProp@197: onSite: categoryParts.some(part => part.onSite === true),
+assignProp@198: clientPresent: categoryParts.some(part => part.clientPresent === true),
+assignProp@199: moveable: categoryParts.some(part => part.moveable === true)
+assignProp@219: part => part.onSite === true && part.clientPresent === false
+assignProp@257: if (!categoryShape || categoryShape.duration === 0) return null
+```
+
+### `src/utils/booking/appointmentTimeCalculations.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=2, reverse=0, assignIndex=0, assignProp=10
+
+```
+push@31: grouped.get(category)!.push(part)
+assignProp@44: return categoryParts.some(part => part.zeroOutPart === true)
+assignProp@91: if (!blockInstances || blockInstances.length === 0) {
+assignProp@105: if (allParts.length === 0) {
+sort@112: const sortedParts = [...allParts].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0))
+assignProp@146: const onSiteParts = nonZeroedParts.filter(part => part.onSite === true)
+assignProp@162: onSite: categoryParts.some(part => part.onSite === true),
+assignProp@163: clientPresent: categoryParts.some(part => part.clientPresent === true),
+assignProp@164: moveable: categoryParts.some(part => part.moveable === true)
+assignProp@225: if (!appointmentSlots || appointmentSlots.length === 0) {
+sort@233: const sorted = [...appointmentSlots].sort((a, b) => {
+assignProp@234: const aIndex = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+assignProp@235: const bIndex = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+```
+
 ### `src/utils/transformers/fetchToGlobalTransformer.ts`
 
 - counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=5, assignProp=6
 
 ```
-sort@139: const sortedEntities = [...transformedEntities].sort((a, b) => {
-assignIndex@150: acc[entityKey] = normalizedEntities
-assignIndex@178: const [annotationsResponse, assignmentsResponse] = await Promise.all([
-assignProp@192: id: typeof raw.id === 'string' ? raw.id : '',
-assignProp@193: blockInstanceId: typeof raw.blockInstanceId === 'string' ? raw.blockInstanceId : (typeof raw.block_instance_id === 'string' ? raw.block_instance_id : ''),
-assignProp@194: annotationId: typeof raw.annotationId === 'string' ? raw.annotationId : (typeof raw.annotation_id === 'string' ? raw.annotation_id : ''),
-assignProp@264: rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
-assignIndex@279: acc[entityKey] = entityList.map(entity => {
-assignProp@320: const defaultAnnotation = annotations.find(ann => ann.isDefault === true)
-assignProp@322: ?? annotations.find(ann => ann.userTypeBlock === null)
-assignIndex@344: acc[relType] = transformApiRelationships(staged.fetchedRelationships, relType, entitiesWithAnnotations)
-forLoop@374: for (const [frontendKey, value] of Object.entries(entity)) {
-forOf@374: for (const [frontendKey, value] of Object.entries(entity)) {
-assignIndex@379: result[frontendKey] = value
+sort@146: const sortedEntities = [...transformedEntities].sort((a, b) => {
+assignIndex@157: acc[entityKey] = normalizedEntities
+assignIndex@186: const [annotationsResponse, annotationTypesResponse, assignmentsResponse] = await Promise.all([
+assignProp@201: id: typeof raw.id === 'string' ? raw.id : '',
+assignProp@202: blockInstanceId: typeof raw.blockInstanceId === 'string' ? raw.blockInstanceId : (typeof raw.block_instance_id === 'string' ? raw.block_instance_id : ''),
+assignProp@203: annotationId: typeof raw.annotationId === 'string' ? raw.annotationId : (typeof raw.annotation_id === 'string' ? raw.annotation_id : ''),
+assignProp@281: rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
+assignIndex@296: acc[entityKey] = entityList.map(entity => {
+assignProp@337: const defaultAnnotation = annotations.find(ann => ann.isDefault === true)
+assignProp@339: ?? annotations.find(ann => ann.userTypeBlock === null)
+assignIndex@361: acc[relType] = transformApiRelationships(staged.fetchedRelationships, relType, entitiesWithAnnotations)
+forLoop@393: for (const [frontendKey, value] of Object.entries(entity)) {
+forOf@393: for (const [frontendKey, value] of Object.entries(entity)) {
+assignIndex@398: result[frontendKey] = value
 ```
 
 ### `src/utils/transformers/globalToAdminTransformer.ts`
@@ -634,43 +855,6 @@ assignIndex@159: (plainObject as AdminObject<GE>)[relKey] = relationshipValue
 forEach@197: Object.entries(relationshipMappings).forEach(([relType, propName]) => {
 assignIndex@201: (entity as Partial<GlobalEntity<GE>>)[propName as keyof GlobalEntity<GE>] = [] as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
 assignIndex@223: (entity as Partial<GlobalEntity<GE>>)[propName as keyof GlobalEntity<GE>] = childIds as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
-```
-
-### `src/components/booking/steps/AvailabilityStep.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=12
-
-```
-assignProp@75: return selectedServices.some(s => s.differential === true)
-assignProp@129: timeSlotsWrapper.value = timeSlots as ComputedRef<TimeSlot[]>
-assignProp@191: parentAvailabilityStepData.value = newData
-assignProp@200: parentAvailabilityStepValid.value = newValid
-assignProp@207: parentAvailabilityStepValidate.value = validateForm
-assignProp@240: startTimeType.value = startTimeType.value === type ? null : type
-assignProp@249: return startTimeType.value === 'inspector' ? 'selected' : 'active'
-assignProp@254: return startTimeType.value === 'client' ? 'selected' : 'active'
-assignProp@336: <div v-if="currentTimeSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
-assignProp@411: {{ wizard.selectedServices.value.length === 1
-assignProp@438: <div v-if="currentTimeSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
-assignProp@491: <div v-else-if="wizard.availableOptionTypeBlocks.value.length === 0" class="text-body-1 text-medium-emphasis py-4">
-```
-
-### `src/components/admin/generic/EntityCardSubPanels.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=5, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
-
-```
-assignProp@54: const blockShape = blockShapes.value.find(bs => bs.id === entity.blockShapeRef)
-assignProp@71: if (items.length === 0) return ''
-assignProp@95: const entity = entities.find(e => e.id === id)
-assignProp@112: if (!Array.isArray(activeConstituents) || activeConstituents.length === 0) return ''
-assignProp@129: if (props.entityKey === 'blockInstance') {
-push@136: relationshipTypes.push('Booking Cascades')
-push@139: relationshipTypes.push(`${blockShapeName.value} Components`)
-push@142: relationshipTypes.push(`Dependent ${blockShapeName.value} Options`)
-assignProp@144: } else if (props.entityKey === 'blockShape') {
-push@149: relationshipTypes.push('Valid Cascades')
-push@152: relationshipTypes.push('Valid Part Shapes')
 ```
 
 ### `src/utils/booking/selectionCardStyles.ts`
@@ -755,6 +939,22 @@ assignProp@164: if (props.type === 'expansion') {
 push@165: classes.push('card-button-expansion')
 ```
 
+### `src/components/admin/PartInstanceFieldsConfigModal.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=7
+
+```
+assignProp@60: v-if="getFieldMetadata(field)?.renderAs === 'statusButton'"
+assignProp@121: v-if="getFieldMetadata(field)?.renderAs === 'statusButton'"
+assignIndex@289: localFieldMetadata.value[field] = {
+assignIndex@304: (localFieldMetadata.value[field] as unknown as Record<string, unknown>)[property] = value
+assignProp@331: localFieldMetadata.value = first.fieldMetadata
+assignProp@336: localFieldMetadata.value = {}
+assignProp@339: localFieldMetadata.value = {}
+assignProp@349: isSaving.value = true
+assignProp@369: isSaving.value = false
+```
+
 ### `src/components/booking/IndependentSelectCard.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=5, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
@@ -776,15 +976,31 @@ assignProp@234: @click.stop="handleCheckboxClick"
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=9
 
 ```
-assignProp@186: parentPropertyDetailsStepData.value = newData
-assignProp@195: parentPropertyDetailsStepValid.value = newValid
-assignProp@202: parentPropertyDetailsStepValidate.value = validateForm
-assignProp@206: parentPropertyDetailsFieldErrors.value = newErrors
-assignProp@231: <div v-else-if="wizard.availablePropertyTypeBlocks.value.length === 0" class="text-body-2 text-medium-emphasis mb-6">
-assignProp@331: v-model.number="formData.propertySize.value"
-assignProp@369: v-model.number="formData.bedrooms.value"
-assignProp@378: v-model.number="formData.bathrooms.value"
-assignProp@398: v-model.number="formData.numberOfUnits.value"
+assignProp@187: parentPropertyDetailsStepData.value = newData
+assignProp@196: parentPropertyDetailsStepValid.value = newValid
+assignProp@203: parentPropertyDetailsStepValidate.value = validateForm
+assignProp@207: parentPropertyDetailsFieldErrors.value = newErrors
+assignProp@232: <div v-else-if="wizard.availablePropertyTypeBlocks.value.length === 0" class="text-body-2 text-medium-emphasis mb-6">
+assignProp@335: v-model.number="formData.propertySize.value"
+assignProp@373: v-model.number="formData.bedrooms.value"
+assignProp@382: v-model.number="formData.bathrooms.value"
+assignProp@402: v-model.number="formData.numberOfUnits.value"
+```
+
+### `src/components/booking/TimeOnSiteGraph.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=9
+
+```
+assignProp@49: const currentType = props.startTimeType === 'onSite' ? 'inspector' : 'client'
+assignProp@71: return props.startTimeType === 'onSite' ? 'selected' : 'active'
+assignProp@76: return props.startTimeType === 'clientPresent' ? 'selected' : 'active'
+assignProp@100: if (props.startTimeType === 'onSite') return 'Showing inspector times'
+assignProp@101: if (props.startTimeType === 'clientPresent') return 'Showing client times'
+assignProp@141: @keydown.enter="handleBarClick('inspector')"
+assignProp@142: @keydown.space.prevent="handleBarClick('inspector')"
+assignProp@159: @keydown.enter="handleBarClick('client')"
+assignProp@160: @keydown.space.prevent="handleBarClick('client')"
 ```
 
 ### `src/composables/booking/useStepValidation.ts`
@@ -808,6 +1024,52 @@ forLoop@114: for (const rule of fieldRules) {
 forOf@114: for (const rule of fieldRules) {
 forLoop@123: for (const validator of Object.values(customValidators)) {
 forOf@123: for (const validator of Object.values(customValidators)) {
+```
+
+### `src/composables/entityCrud/useEntityCrudActions.ts`
+
+- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=2, assignProp=1
+
+```
+delete@80: delete backendPayload.id
+assignProp@111: const entityExists = currentEntities.some((e) => e.id === data.id)
+assignIndex@191: updatedEntities[entityIndex] = {
+assignIndex@235: updatedEntities[entityIndex] = mergedEntity
+delete@348: // LEARNING: Rollback optimistic delete on error
+delete@349: // WHY: If delete fails, restore previous cache state
+forEach@383: updates.forEach(({ id, orderIndex }) => {
+sort@404: const sortedEntities = [...updatedEntities].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+forEach@471: updates.forEach(({ id, ...fields }) => {
+```
+
+### `src/utils/booking/timeSlotMatching.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
+
+```
+assignProp@101: if (loadedSlots.length === 0 || availableSlots.length === 0) return
+assignProp@107: inspectorAppointmentSlotRef.value = inspectorMatch
+assignProp@115: clientAppointmentSlotRef.value = clientMatch
+assignProp@135: if (loadedSlots.length === 0 || availableSlots.length === 0) {
+assignProp@165: return appointmentSlots.find(slot => slot.orderIndex === orderIndex)
+assignProp@232: if (loadedSlots.length === 0 || appointmentSlots.length === 0) return
+assignProp@245: inspectorAppointmentSlotRef.value = inspectorMatch
+assignProp@272: clientAppointmentSlotRef.value = clientMatch
+```
+
+### `src/utils/transformers/appointmentToWizardTransformer.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
+
+```
+assignProp@159: if (!ids || !bookingData || ids.length === 0) return []
+assignProp@199: const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
+assignProp@259: ? stateControlBlocks.find(block => block.id === userTypeId)
+assignProp@299: service => service.blockShapeRef === serviceBlockShapeId
+assignProp@326: const currentInstance = servicesFound.find(s => s.id === version.id) || null
+assignProp@345: property => property.blockShapeRef === propertyBlockShapeId
+assignProp@363: const currentInstance = propertyTypeBlocksFound.find(p => p.id === version.id) || null
+assignProp@392: const currentInstance = optionTypeBlocksFound.find(o => o.id === version.id) || null
 ```
 
 ### `src/views/admin/entities/BlockShapeForm.vue`
@@ -840,19 +1102,32 @@ assignProp@106: isSubmitting.value = false
 push@111: router.push({ name: 'part-types-list' })
 ```
 
-### `src/composables/entityCrud/useEntityCrudActions.ts`
+### `src/components/admin/BlockShapeEditModal.vue`
 
-- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=2, assignProp=1
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
 
 ```
-delete@75: delete backendPayload.id
-assignProp@106: const entityExists = currentEntities.some((e) => e.id === data.id)
-assignIndex@186: updatedEntities[entityIndex] = {
-assignIndex@219: updatedEntities[entityIndex] = transformedResponse as GlobalEntity<GlobalEntityTypeKey>
-delete@316: // LEARNING: Rollback optimistic delete on error
-delete@317: // WHY: If delete fails, restore previous cache state
-forEach@351: updates.forEach(({ id, orderIndex }) => {
-sort@372: const sortedEntities = [...updatedEntities].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+assignProp@62: v-if="getFieldMetadata(field)?.renderAs === 'statusButton'"
+assignProp@90: v-if="getFieldMetadata(field)?.visibility === 'expandedDirect'"
+assignProp@102: v-if="getFieldMetadata(field)?.visibility === 'expandedPanel'"
+assignProp@136: v-if="getFieldMetadata(field)?.renderAs === 'statusButton'"
+assignProp@317: fieldMetadata.value = currentBlockShape.fieldMetadata
+assignProp@321: fieldMetadata.value = {}
+assignProp@342: fieldMetadata.value = wrapper.value.fieldMetadata || {}
+```
+
+### `src/components/admin/PartShapeEditModal.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
+
+```
+assignProp@60: v-if="getFieldMetadata(field)?.renderAs === 'statusButton'"
+assignProp@88: v-if="getFieldMetadata(field)?.visibility === 'expandedDirect'"
+assignProp@100: v-if="getFieldMetadata(field)?.visibility === 'expandedPanel'"
+assignProp@134: v-if="getFieldMetadata(field)?.renderAs === 'statusButton'"
+assignProp@303: fieldMetadata.value = currentPartShape.fieldMetadata
+assignProp@307: fieldMetadata.value = {}
+assignProp@328: fieldMetadata.value = wrapper.value.fieldMetadata || {}
 ```
 
 ### `src/layouts/components/NavSearchBar.vue`
@@ -877,24 +1152,10 @@ assignProp@153: v-if="configStore.appContentLayoutNav === 'vertical'"
 assignProp@31: instance => instance.blockShapeRef === blockShapeId
 assignProp@49: instance => instance.blockShapeRef === blockShapeId
 assignProp@104: if (blockShape.type === 'user') {
-assignProp@108: return blockShape.constituable === false && blockShape.active
+assignProp@108: return blockShape.constituable === false
 assignProp@154: bs => bs.name === name
-assignProp@196: bs => bs.type === type && bs.active
-assignProp@235: const stateControlBlockShapes = blockShapes.filter(bs => bs.constituable === false && bs.active)
-```
-
-### `src/utils/booking/confirmationStepData.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=5, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
-
-```
-assignProp@58: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
-assignProp@62: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
-push@67: if (prop.address) addressParts.push(prop.address)
-push@68: if (prop.unit) addressParts.push(`#${prop.unit}`)
-push@69: if (prop.city) addressParts.push(prop.city)
-push@70: if (prop.state) addressParts.push(prop.state)
-push@71: if (prop.zipCode) addressParts.push(prop.zipCode)
+assignProp@196: bs => bs.type === type
+assignProp@235: const stateControlBlockShapes = blockShapes.filter(bs => bs.constituable === false)
 ```
 
 ### `src/utils/timeSlotCalculations.ts`
@@ -902,15 +1163,15 @@ push@71: if (prop.zipCode) addressParts.push(prop.zipCode)
 - counts: forEach=0, forLoop=2, forOf=0, forIn=0, while=1, push=1, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=2
 
 ```
-assignProp@25: if (!blockInstances || blockInstances.length === 0) {
-assignProp@34: if (!blockInstance.partInstances || blockInstance.partInstances.length === 0) {
-assignIndex@111: const [year, month, day] = datePart.split('-').map(Number)
-while@135: while (currentDate < endDate) {
-assignIndex@145: const [startHour, startMinute] = dayHours.start.split(':').map(Number)
-assignIndex@146: const [endHour, endMinute] = dayHours.end.split(':').map(Number)
-forLoop@151: for (let hour = startHour; hour <= endHour; hour++) {
-forLoop@153: for (let minute = (hour === startHour ? startMinute : 0); minute < maxMinute; minute += settings.minuteIncrement) {
-push@184: slots.push({
+assignProp@46: if (!blockInstances || blockInstances.length === 0) {
+assignProp@55: if (!blockInstance.partInstances || blockInstance.partInstances.length === 0) {
+assignIndex@132: const [year, month, day] = datePart.split('-').map(Number)
+while@156: while (currentDate < endDate) {
+assignIndex@166: const [startHour, startMinute] = dayHours.start.split(':').map(Number)
+assignIndex@167: const [endHour, endMinute] = dayHours.end.split(':').map(Number)
+forLoop@172: for (let hour = startHour; hour <= endHour; hour++) {
+forLoop@174: for (let minute = (hour === startHour ? startMinute : 0); minute < maxMinute; minute += settings.minuteIncrement) {
+push@205: slots.push({
 ```
 
 ### `src/views/admin/components/AnnotationTypeCard.vue`
@@ -947,20 +1208,6 @@ forLoop@101: for (const node of mutation.addedNodes) {
 forOf@101: for (const node of mutation.addedNodes) {
 ```
 
-### `src/components/admin/PartInstancesNestedSection.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
-
-```
-delete@107: * LEARNING: Handle delete PartInstance event
-assignProp@169: v-model.number="bulkEditData.baseTime"
-assignProp@176: v-model.number="bulkEditData.rateOverBaseTime"
-assignProp@183: v-model.number="bulkEditData.baseFee"
-assignProp@190: v-model.number="bulkEditData.rateOverBaseFee"
-assignProp@255: @click.stop="toggleStatusButton(getPartInstanceForShape(String(partShape.id))!, statusField.key)"
-assignProp@325: v-if="validPartShapes.length === 0"
-```
-
 ### `src/components/booking/SelectionCard.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
@@ -972,23 +1219,6 @@ assignProp@209: @click.stop="handleSelection"
 assignProp@219: @click.stop="toggleExpansion"
 assignProp@226: v-if="configWithDefaults.appearance.showIcon && item.icon && (configWithDefaults.layout === 'row' || item.icon !== 'tabler-circle')"
 assignProp@245: :class="{ 'ms-4': configWithDefaults.layout === 'stack' && configWithDefaults.controlPosition === 'left' }"
-```
-
-### `src/composables/booking/useAppointmentDataCollection.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=3, splice=0, sort=0, reverse=0, assignIndex=6, assignProp=1
-
-```
-assignProp@112: if (wizard.selectedServices.value.length === 0) {
-push@189: additionalContactIds.push({ id: createdAnotherClient.id, role: 'anotherClient' })
-push@201: additionalContactIds.push({ id: createdTransactionManager.id, role: 'transactionManager' })
-push@213: additionalContactIds.push({ id: createdSeller.id, role: 'seller' })
-assignIndex@258: acc[service.id] = number
-assignIndex@266: acc[property.id] = number
-assignIndex@274: acc[option.id] = number
-assignIndex@284: acc[service.id] = blockInstanceToSnapshot(service)
-assignIndex@289: acc[property.id] = blockInstanceToSnapshot(property)
-assignIndex@294: acc[option.id] = blockInstanceToSnapshot(option)
 ```
 
 ### `src/utils/annotationUtils.ts`
@@ -1024,12 +1254,12 @@ assignIndex@53: sanitizedEntity[fieldName] = isNaN(parsed) ? 0 : parsed
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
 
 ```
-assignProp@99: if (merged.orderIndex === null || merged.orderIndex === undefined) {
-assignProp@100: merged.orderIndex = defaults.orderIndex ?? 0
-assignProp@130: if (result.name === undefined) {
-assignProp@131: result.name = ''
-assignProp@137: if (result.orderIndex === null || result.orderIndex === undefined) {
-assignProp@138: result.orderIndex = 0
+assignProp@97: if (merged.orderIndex === null || merged.orderIndex === undefined) {
+assignProp@98: merged.orderIndex = defaults.orderIndex ?? 0
+assignProp@128: if (result.name === undefined) {
+assignProp@129: result.name = ''
+assignProp@135: if (result.orderIndex === null || result.orderIndex === undefined) {
+assignProp@136: result.orderIndex = 0
 ```
 
 ### `src/composables/admin/useEntityGrouping.ts`
@@ -1053,18 +1283,6 @@ assignIndex@152: manualValues.value[componentId] = getCurrentValue(componentId)
 assignProp@167: distributionStrategy.value = 'proportional'
 assignProp@169: manualValues.value = {}
 assignProp@180: if (distributionStrategy.value === 'manual') {
-```
-
-### `src/components/admin/generic/fields/TextInput.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
-
-```
-assignProp@36: :autofocus="entityCardSaveContext?.isNew && fieldContext.fieldKey === 'name'"
-assignProp@53: :autofocus="entityCardSaveContext?.isNew && fieldContext.fieldKey === 'name'"
-assignProp@58: @keydown.enter="handleEnterKey"
-assignProp@216: if (target && 'blur' in target && typeof target.blur === 'function') {
-assignProp@232: if (target && 'blur' in target && typeof target.blur === 'function') {
 ```
 
 ### `src/layouts/components/UserProfile.vue`
@@ -1146,10 +1364,10 @@ assignProp@116: return blockShapeWithComposable.composable === true
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@123: return selected?.id === item.id
-assignProp@127: return selectedArray.some(b => b.id === item.id)
-assignProp@154: const isCurrentlySelected = selectedArray.length === 1 && selectedArray[0]?.id === item.id
-assignProp@169: const isCurrentlySelected = selectedArray.some(b => b.id === item.id)
+assignProp@70: return selectedArray.some(b => b.id === item.id)
+assignProp@74: return selected?.id === item.id
+assignProp@102: const isCurrentlySelected = selectedArray.length === 1 && selectedArray[0]?.id === item.id
+assignProp@117: const isCurrentlySelected = selectedArray.some(b => b.id === item.id)
 ```
 
 ### `src/composables/admin/useSelectHandlers.ts`
@@ -1171,26 +1389,15 @@ assignProp@283: isUpdatingProgrammatically.value = true
 assignProp@289: isUpdatingProgrammatically.value = false
 ```
 
-### `src/utils/booking/timeSlotMatching.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
-
-```
-assignProp@101: if (loadedSlots.length === 0 || availableSlots.length === 0) return
-assignProp@107: inspectorTimeSlotRef.value = inspectorMatch
-assignProp@115: clientTimeSlotRef.value = clientMatch
-assignProp@135: if (loadedSlots.length === 0 || availableSlots.length === 0) {
-```
-
 ### `src/utils/differentialScheduling.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@22: if (!service?.partInstances || service.partInstances.length === 0) return 0
-assignProp@27: const onSiteParts = service.partInstances.filter(pi => pi.onSite === true)
-assignProp@51: if (!service?.partInstances || service.partInstances.length === 0) return 0
-assignProp@57: .filter(pi => pi.clientPresent === true)
+assignProp@24: if (!service?.partInstances || service.partInstances.length === 0) return 0
+assignProp@29: const onSiteParts = service.partInstances.filter(pi => pi.onSite === true)
+assignProp@53: if (!service?.partInstances || service.partInstances.length === 0) return 0
+assignProp@59: .filter(pi => pi.clientPresent === true)
 ```
 
 ### `src/utils/orderIndexUtils.ts`
@@ -1202,17 +1409,6 @@ sort@39: return [...entities].sort((a, b) => {
 splice@59: const [movedItem] = reordered.splice(fromIndex, 1)
 assignIndex@59: const [movedItem] = reordered.splice(fromIndex, 1)
 splice@60: reordered.splice(toIndex, 0, movedItem)
-```
-
-### `src/utils/transformers/appointmentToWizardTransformer.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
-
-```
-assignProp@131: if (!ids || !bookingData || ids.length === 0) return []
-assignProp@165: ? stateControlBlocks.find(block => block.id === userTypeId)
-assignProp@192: service => service.blockShapeRef === serviceBlockShapeId
-assignProp@232: property => property.blockShapeRef === propertyBlockShapeId
 ```
 
 ### `src/utils/transformers/composePropertyValue.ts`
@@ -1282,16 +1478,6 @@ assignProp@164: expandedCardIds.value = newExpandedIds
 assignProp@169: previousSelectedIds.value = [...selectedIds]
 ```
 
-### `src/components/admin/generic/collections/NestedCollection.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-assignProp@33: v-else-if="availableSlots.length === 0"
-assignProp@142: if (!Array.isArray(validConstituents) || validConstituents.length === 0) {
-assignProp@182: if (props.childEntityKey === 'partInstance' && child.entityKey === 'partInstance') {
-```
-
 ### `src/components/admin/generic/fields/AnnotationsField.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
@@ -1312,16 +1498,6 @@ assignProp@158: showPicker.value = true
 assignProp@167: showPicker.value = false
 ```
 
-### `src/components/admin/generic/fields/NumberInput.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-assignProp@24: @keydown.enter="handleEnterKey"
-assignProp@128: if (target && 'blur' in target && typeof target.blur === 'function') {
-assignProp@144: if (target && 'blur' in target && typeof target.blur === 'function') {
-```
-
 ### `src/components/admin/generic/fields/SelectInputs.vue`
 
 - counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
@@ -1331,6 +1507,16 @@ assignProp@244: return fieldContext.entityKey === 'blockShape' && fieldContext.f
 forLoop@312: for (const opt of optionsArray) {
 forOf@312: for (const opt of optionsArray) {
 assignProp@322: if (item.title === String(item.value) && matchingOption) {
+```
+
+### `src/components/admin/generic/fields/TextInput.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+
+```
+assignProp@36: :autofocus="entityCardSaveContext?.isNew && fieldContext.fieldKey === 'name'"
+assignProp@53: :autofocus="entityCardSaveContext?.isNew && fieldContext.fieldKey === 'name'"
+assignProp@58: @keydown.enter="handleEnterKey"
 ```
 
 ### `src/components/booking/steps/ContactsStep.vue`
@@ -1344,6 +1530,38 @@ assignProp@95: parentContactsStepValidate.value = validateForm
 delete@200: <!-- PATTERN: Conditional rendering with delete button -->
 delete@255: <!-- PATTERN: Conditional rendering with delete button -->
 delete@310: <!-- PATTERN: Conditional rendering with delete button -->
+```
+
+### `src/composables/booking/useAppointmentDataCollection.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=3, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=1
+
+```
+assignProp@100: if (wizard.selectedServices.value.length === 0) {
+push@177: additionalContactIds.push({ id: createdAnotherClient.id, role: 'anotherClient' })
+push@189: additionalContactIds.push({ id: createdTransactionManager.id, role: 'transactionManager' })
+push@201: additionalContactIds.push({ id: createdSeller.id, role: 'seller' })
+assignIndex@246: acc[service.id] = number
+assignIndex@254: acc[property.id] = number
+assignIndex@262: acc[option.id] = number
+```
+
+### `src/composables/booking/useAvailableStartTimes.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=1, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=6
+
+```
+assignProp@43: internalSettings.value = external
+assignProp@48: isLoading.value = true
+assignProp@52: internalSettings.value = settings
+assignProp@53: error.value = null
+assignProp@55: error.value = err instanceof Error ? err : new Error('Failed to load availability settings')
+assignProp@58: isLoading.value = false
+assignIndex@81: const [year, month, day] = datePart.split('-').map(Number)
+assignIndex@95: const [startHour, startMinute] = dayHours.start.split(':').map(Number)
+assignIndex@96: const [endHour, endMinute] = dayHours.end.split(':').map(Number)
+while@136: while (currentMinutes < dayEndMinutes) {
+push@152: startTimes.push(slotDate.toISOString())
 ```
 
 ### `src/composables/booking/useWizardNumberUpdate.ts`
@@ -1361,13 +1579,12 @@ assignIndex@65: wizard.selectedOptionTypeBlocks.value[optionIndex] = {
 
 ### `src/composables/useFieldMetadata.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=1
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=0
 
 ```
 assignIndex@92: let fieldType: FieldMetadata['fieldType'] = 'text'
-assignProp@233: acc.helpText = v
-assignIndex@246: acc[key] = v
-assignIndex@257: acc[key] = v
+assignIndex@252: acc[key] = v
+assignIndex@256: acc[key] = v
 ```
 
 ### `src/composables/useFormValidation.ts`
@@ -1440,6 +1657,16 @@ assignProp@64: // if (error.response?.status === 401) {
 assignProp@66: //   window.location.href = '/login'
 ```
 
+### `src/utils/appointmentFieldFormatters.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+
+```
+assignProp@44: const property = properties.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)
+assignProp@66: const user = users.find(u => u.id === value)
+assignProp@80: const user = users.find(u => u.id === value)
+```
+
 ### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts`
 
 - counts: forEach=0, forLoop=2, forOf=1, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=7
@@ -1457,20 +1684,6 @@ assignProp@461: if (apiError.response?.status === 400) {
 assignProp@481: const existingUserTypeBlock = annotationsWithMetadata.find((a) => a.userTypeBlock === newUserTypeBlock)
 assignProp@511: if (apiError.response?.status === 400) {
 assignProp@552: const annotation = annotationsWithMetadata.find((a) => a.id === annotationId)
-```
-
-### `src/components/admin/generic/EntityCard.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
-
-```
-delete@108: * PATTERN: Composable handles entity name, success message, and delete title
-assignProp@186: props.entityKey === 'blockInstance' ? ['blockShapeRef'] : []
-delete@223: * WHY: Gets entity name for display in title and delete dialog
-delete@231: * LEARNING: Use entity card actions composable for save/reset/delete handlers
-delete@276: * LEARNING: Computed property for delete dialog title
-delete@277: * WHY: Provides entity-type-specific delete dialog title
-assignProp@450: @click.stop.prevent="toggleStatusButton(field.key, $event)"
 ```
 
 ### `src/components/admin/generic/fields/IconPicker.vue`
@@ -1496,8 +1709,8 @@ splice@74: current.splice(index, 1)
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
 
 ```
-assignProp@108: <div v-else-if="wizardStateSelector.length === 0" class="text-body-1 text-medium-emphasis py-4">
-assignProp@159: <div v-else-if="wizard.availableServices.value.length === 0" class="text-body-1 text-medium-emphasis py-4">
+assignProp@123: <div v-else-if="wizardStateSelector.length === 0" class="text-body-1 text-medium-emphasis py-4">
+assignProp@174: <div v-else-if="wizard.availableServices.value.length === 0" class="text-body-1 text-medium-emphasis py-4">
 ```
 
 ### `src/components/booking/wrappers/ServiceSelectCards.vue`
@@ -1522,14 +1735,13 @@ assignProp@158: map.set(String(blockShape.id), blockShape.constituable === false
 assignProp@211: activeTab.value = String(shapes[0].id)
 ```
 
-### `src/composables/admin/usePartInstancesNestedSectionModel.ts`
+### `src/composables/admin/usePartInstanceCollection.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=2, sort=0, reverse=0, assignIndex=0, assignProp=1
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=2, sort=0, reverse=0, assignIndex=0, assignProp=0
 
 ```
-assignProp@79: return blockShape.value.constituable === true
-splice@177: expandedPlaceholders.value.splice(index, 1)
-splice@193: expandedPlaceholders.value.splice(index, 1)
+splice@174: expandedPlaceholders.value.splice(index, 1)
+splice@190: expandedPlaceholders.value.splice(index, 1)
 ```
 
 ### `src/composables/booking/selectionCard/useSelectionCard.ts`
@@ -1603,6 +1815,24 @@ while@180: while (matchingPartInstances.some((pp) => (pp as GlobalEntity<'partIn
 assignProp@180: while (matchingPartInstances.some((pp) => (pp as GlobalEntity<'partInstance'>).name === `${baseName}-${number}`)) {
 ```
 
+### `src/utils/booking/availabilityStepData.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=2, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+```
+push@27: slots.push({
+push@36: slots.push({
+```
+
+### `src/utils/booking/partShapeTimeSlotMapping.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
+
+```
+assignProp@87: if (partInstance.clientPresent === true) {
+assignProp@92: if (partInstance.onSite === true) {
+```
+
 ### `src/utils/booking/selectionCardChildren.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
@@ -1617,8 +1847,8 @@ assignProp@37: const composite = item.composite === true
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@32: return slot1.slotStart === slot2.slotStart && slot1.slotEnd === slot2.slotEnd
-sort@70: .sort()
+assignProp@38: return slot1.startTime === slot2.startTime && slot1.endTime === slot2.endTime
+sort@87: .sort()
 ```
 
 ### `src/utils/transformers/entityTransformers.ts`
@@ -1687,6 +1917,30 @@ assignProp@146: currentEntityId.value = newId
 assignProp@68: currentEntityId.value = newId
 ```
 
+### `src/components/admin/generic/fields/NumberInput.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
+
+```
+assignProp@24: @keydown.enter="handleEnterKey"
+```
+
+### `src/components/admin/generic/StatusButton.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
+
+```
+assignProp@10: @click.stop.prevent="handleClick"
+```
+
+### `src/components/admin/InstanceBulkEditModal.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
+
+```
+assignProp@185: bulkEditData.baseSqFt = Number(blockInstanceFormValues.baseSqFt)
+```
+
 ### `src/components/booking/plugins/localStatePlugin.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
@@ -1708,7 +1962,7 @@ assignProp@137: <VRow v-if="configWithDefaults.layout === 'row'">
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@84: const userTypeBlock = wizard.availableUserTypeBlocks.value.find(ut => ut.id === id)
+assignProp@93: const userTypeBlock = wizard.availableUserTypeBlocks.value.find(ut => ut.id === id)
 ```
 
 ### `src/composables/admin/useAnnotationMetadata.ts`
@@ -1758,6 +2012,27 @@ forEach@40: blockShapes.forEach(blockShape => {
 forEach@50: partShapes.forEach(partShape => {
 ```
 
+### `src/composables/booking/useAvailabilityLogic.ts`
+
+- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=4, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
+
+```
+assignProp@177: return selectedServices.some(s => s.differential === true)
+assignProp@186: if (!slots || slots.length === 0 || !date?.start) {
+assignProp@187: timeSlotsPerDay.value = []
+assignProp@188: appointmentSlotsPerDay.value = []
+forEach@195: slots.forEach(slot => {
+push@207: slotsByDate.get(slotDate)!.push(slot)
+assignProp@211: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
+assignProp@226: appointmentSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
+forEach@232: slots.forEach((slot, index) => {
+push@239: appointmentSlotsForDate.push(...normalized)
+assignProp@257: selectedDate.value = { start: value, end: null }
+assignProp@273: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
+push@305: timeSlots.push({
+push@316: timeSlots.push({
+```
+
 ### `src/composables/booking/useBlockInstanceSelection.ts`
 
 - counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
@@ -1784,15 +2059,31 @@ sort@127: return instances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ??
 
 ### `src/composables/booking/useResponsiveGrid.ts`
 
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
+- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
 
 ```
 assignProp@130: if (containerWidth.value === 0) {
-assignProp@172: containerWidth.value = initialWidth
-forLoop@176: for (const entry of entries) {
-forOf@176: for (const entry of entries) {
-assignProp@177: containerWidth.value = entry.contentRect.width
-assignProp@189: containerWidth.value = delayedWidth
+assignProp@211: containerWidth.value = measuredWidth
+forLoop@222: for (const entry of entries) {
+forOf@222: for (const entry of entries) {
+assignProp@244: containerWidth.value = newWidth
+```
+
+### `src/composables/booking/useTimeSlotCalculations.ts`
+
+- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
+
+```
+assignProp@77: return categoryParts.some(part => part.zeroOutPart === true)
+forEach@89: parts.forEach(part => {
+push@95: partsByCategory.get(category)!.push(part)
+forEach@100: partsByCategory.forEach((categoryParts, category) => {
+assignProp@118: if (wizard.selectedServices.value.length === 0) return 0
+assignProp@122: if (!service?.partInstances || service.partInstances.length === 0) return total
+assignProp@131: const onSiteParts = nonZeroedParts.filter(pi => pi.onSite === true)
+assignProp@152: if (wizard.selectedServices.value.length === 0) return 0
+assignProp@156: if (!service?.partInstances || service.partInstances.length === 0) return total
+assignProp@163: .filter(pi => pi.clientPresent === true)
 ```
 
 ### `src/composables/booking/useWizardNavigation.ts`
@@ -1831,30 +2122,30 @@ assignIndex@96: updatedEntities[entityIndex] = {
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=1, sort=0, reverse=0, assignIndex=0, assignProp=22
 
 ```
-assignProp@63: selectedUserTypeBlock.value = block
-assignProp@66: selectedServices.value = []
-assignProp@67: selectedOptionTypeBlocks.value = []
-assignProp@68: selectedPropertyTypeBlocks.value = []
-assignProp@84: if (selectedServices.value.length === 1 && selectedServices.value[0].id === block.id) {
-assignProp@85: selectedServices.value = []
-assignProp@88: selectedServices.value = [block]
-assignProp@92: selectedOptionTypeBlocks.value = []
-assignProp@93: selectedPropertyTypeBlocks.value = []
-assignProp@104: if (selectedPropertyTypeBlocks.value.length === 1 && selectedPropertyTypeBlocks.value[0]?.id === block.id) {
-assignProp@106: selectedPropertyTypeBlocks.value = []
-assignProp@111: selectedPropertyTypeBlocks.value = [block]
-assignProp@121: const index = selectedOptionTypeBlocks.value.findIndex(b => b.id === block.id)
-splice@123: selectedOptionTypeBlocks.value.splice(index, 1)
-push@125: selectedOptionTypeBlocks.value.push(block)
-assignProp@172: selectedServices.value = wizardStateData.services || []
-assignProp@173: selectedPropertyTypeBlocks.value = wizardStateData.propertyTypeBlocks || []
-assignProp@174: selectedOptionTypeBlocks.value = wizardStateData.optionTypeBlocks
-assignProp@175: isQuoteMode.value = wizardStateData.isQuoteMode || false
-assignProp@194: selectedUserTypeBlock.value = null
-assignProp@195: selectedServices.value = []
-assignProp@196: selectedPropertyTypeBlocks.value = []
-assignProp@197: selectedOptionTypeBlocks.value = []
-assignProp@198: isQuoteMode.value = false
+assignProp@69: selectedUserTypeBlock.value = block
+assignProp@72: selectedServices.value = []
+assignProp@73: selectedOptionTypeBlocks.value = []
+assignProp@74: selectedPropertyTypeBlocks.value = []
+assignProp@90: if (selectedServices.value.length === 1 && selectedServices.value[0].id === block.id) {
+assignProp@91: selectedServices.value = []
+assignProp@94: selectedServices.value = [block]
+assignProp@98: selectedOptionTypeBlocks.value = []
+assignProp@99: selectedPropertyTypeBlocks.value = []
+assignProp@110: if (selectedPropertyTypeBlocks.value.length === 1 && selectedPropertyTypeBlocks.value[0]?.id === block.id) {
+assignProp@112: selectedPropertyTypeBlocks.value = []
+assignProp@117: selectedPropertyTypeBlocks.value = [block]
+assignProp@127: const index = selectedOptionTypeBlocks.value.findIndex(b => b.id === block.id)
+splice@129: selectedOptionTypeBlocks.value.splice(index, 1)
+push@131: selectedOptionTypeBlocks.value.push(block)
+assignProp@178: selectedServices.value = wizardStateData.services || []
+assignProp@179: selectedPropertyTypeBlocks.value = wizardStateData.propertyTypeBlocks || []
+assignProp@180: selectedOptionTypeBlocks.value = wizardStateData.optionTypeBlocks
+assignProp@181: isQuoteMode.value = wizardStateData.isQuoteMode || false
+assignProp@200: selectedUserTypeBlock.value = null
+assignProp@201: selectedServices.value = []
+assignProp@202: selectedPropertyTypeBlocks.value = []
+assignProp@203: selectedOptionTypeBlocks.value = []
+assignProp@207: isQuoteMode.value = false
 ```
 
 ### `src/composables/useNotification.ts`
@@ -1964,12 +2255,12 @@ forOf@29: for (const target of targets) {
 assignIndex@21: updated[index] = next
 ```
 
-### `src/utils/transformers/snapshotToBookingInstance.ts`
+### `src/utils/transformers/fetchToBusinessTransformer.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=0
 
 ```
-assignProp@41: const snapshotPart = snapshot.partInstances.find(sp => sp.id === currentPart.id)
+assignIndex@54: const [appointmentsResponse, propertiesResponse, usersResponse] = await Promise.all([
 ```
 
 ### `src/views/admin/tabs/DataManagementTab.vue`
@@ -1985,44 +2276,26 @@ assignProp@29: currentSubTab.value = tab
 - counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@148: if (Object.keys(editData).length === 0) {
-forEach@175: map.forEach((_instances, blockShapeId) => {
-```
-
-### `src/composables/booking/useAvailabilityLogic.ts`
-
-- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=3, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
-
-```
-assignProp@159: if (!slots || slots.length === 0 || !date?.start) {
-assignProp@160: timeSlotsPerDay.value = []
-forEach@167: slots.forEach(slot => {
-push@179: slotsByDate.get(slotDate)!.push(slot)
-assignProp@183: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
-assignProp@204: selectedDate.value = { start: value, end: null }
-assignProp@220: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
-assignProp@236: return selectedServices.some(s => s.differential === true)
-push@262: timeSlots.push({
-push@273: timeSlots.push({
+assignProp@153: if (Object.keys(editData).length === 0) {
+forEach@191: map.forEach((_instances, blockShapeId) => {
 ```
 
 ### `src/composables/booking/useWizardFilteredOptions.ts`
 
-- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=11
+- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=10
 
 ```
 assignProp@49: if (parents.length === 0) {
 forEach@66: allActiveBlockIds.forEach(id => allowedIds.add(id))
 assignProp@69: if (allowedIds.size === 0) {
 assignProp@85: selected => !cascadedInstances.some(instance => instance.id === selected.id)
-assignProp@140: if (allStateControlInstances.length === 0) return []
-assignProp@225: if (result.instances.length === 0) {
-assignProp@230: instance => instance.blockShapeRef === optionBlockShapeId && instance.active
-assignProp@238: instance => instance.blockShapeRef === optionBlockShapeId
-assignProp@241: if (selectedServices.value.length > 0 && filtered.length === 0 && result.instances.length > 0) {
-assignProp@246: const shape = bookingData.value?.blockShapes.find(bs => bs.id === inst.blockShapeRef)
-assignProp@281: if (!bookingData.value || result.instances.length === 0) {
-assignProp@297: instance => instance.blockShapeRef === propertyTypeBlockShapeId
+assignProp@128: if (allStateControlInstances.length === 0) return []
+assignProp@213: if (result.instances.length === 0) {
+assignProp@218: instance => instance.blockShapeRef === optionBlockShapeId && instance.active
+assignProp@226: instance => instance.blockShapeRef === optionBlockShapeId
+assignProp@229: if (selectedServices.value.length > 0 && filtered.length === 0 && result.instances.length > 0) {
+assignProp@271: if (!bookingData.value || result.instances.length === 0) {
+assignProp@287: instance => instance.blockShapeRef === propertyTypeBlockShapeId
 ```
 
 ### `src/composables/booking/useWizardSubmission.ts`
@@ -2049,7 +2322,7 @@ forEach@58: Object.entries(computedChanges).forEach(([key, value]) => {
 
 ```
 assignProp@51: return formInstance.values !== undefined && formInstance.values !== null && typeof formInstance.values === 'object'
-forEach@102: fieldsToCreate.forEach((fieldKey) => {
+forEach@110: fieldsToCreate.forEach((fieldKey) => {
 ```
 
 ### `src/composables/useAdmin.ts`
@@ -2105,12 +2378,6 @@ assignProp@204: instanceCallSites.length = 0
 
 - (no matches)
 
-### `src/components/admin/generic/fields/NestedCollectionField.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
 ### `src/components/admin/generic/fields/PrimitiveInputs.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -2135,13 +2402,25 @@ assignProp@204: instanceCallSites.length = 0
 
 - (no matches)
 
+### `src/components/booking/AppointmentSlotGrid.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
 ### `src/components/booking/steps/ConfirmationStep.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
 - (no matches)
 
-### `src/components/booking/TimeSlotGrid.vue`
+### `src/components/booking/TimeBasisButtonGrid.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/components/booking/TimeBasisSelector.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
@@ -2181,13 +2460,9 @@ assignProp@16: if (!current || current.length === 0) return -1
 
 ### `src/composables/admin/tables/useAppointmentsTableModel.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
-```
-assignProp@56: const property = properties.value.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)
-assignProp@68: const user = users.value.find(u => u.id === value)
-assignProp@75: const user = users.value.find(u => u.id === value)
-```
+- (no matches)
 
 ### `src/composables/admin/tables/useCrudDataTableModel.ts`
 
@@ -2210,6 +2485,12 @@ assignProp@169: deletingId.value = null
 ```
 
 ### `src/composables/admin/tables/usePropertiesTableModel.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/composables/admin/tables/useTableModelHelpers.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
@@ -2320,6 +2601,12 @@ assignProp@254: showDeleteDialog.value = false
 
 - (no matches)
 
+### `src/composables/admin/useEntityCardSaveState.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
 ### `src/composables/admin/useEntityDisplay.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -2384,6 +2671,39 @@ delete@170: * WHY: Component needs delete function with confirmation
 
 - (no matches)
 
+### `src/composables/admin/useFieldInputHandlers.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
+
+```
+assignProp@78: if (target && 'blur' in target && typeof target.blur === 'function') {
+assignProp@92: if (target && 'blur' in target && typeof target.blur === 'function') {
+```
+
+### `src/composables/admin/useFieldInputSetup.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/composables/admin/useFieldMetadataUpdate.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=11
+
+```
+assignProp@48: if (Object.keys(updates).length === 0) {
+assignProp@59: if (newEntry.visibility === 'expandedPanel' && !newEntry.panel) {
+assignProp@60: newEntry.panel = 'parts' // Required when visibility is expandedPanel
+assignProp@62: newEntry.panel = 'none' // Must be none for non-panel visibility
+assignProp@66: newEntry.layout = 'inline' // Layout only applies to expandedDirect
+assignProp@74: fieldVisibilityConfig.value = {
+assignProp@96: if (updatedEntry.visibility === 'expandedPanel' && !updatedEntry.panel) {
+assignProp@97: updatedEntry.panel = 'parts' // Required when visibility is expandedPanel
+assignProp@99: updatedEntry.panel = 'none' // Must be none for non-panel visibility
+assignProp@103: updatedEntry.layout = 'inline' // Layout only applies to expandedDirect
+assignProp@107: fieldVisibilityConfig.value = {
+```
+
 ### `src/composables/admin/useFieldTypeDetermination.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
@@ -2394,13 +2714,16 @@ assignProp@159: // RelationshipSelectModeEnum.Nested = "nested" (lowercase)
 
 ### `src/composables/admin/useFieldVisibility.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
 
 ```
-assignProp@199: isConstituable = blockShape.constituable === true
-assignProp@204: isComposite = blockInstance.composite === true
-assignProp@209: isConstituable = blockShape.constituable === true
-assignProp@210: isComposable = blockShape.composable === true
+assignProp@217: isConstituable = blockShape.constituable === true
+assignProp@222: isComposite = blockInstance.composite === true
+assignProp@227: isConstituable = blockShape.constituable === true
+assignProp@228: isComposable = blockShape.composable === true
+assignProp@280: shape ? { constituable: (shape as import('@/types/entities').BlockShapeEntity).constituable === true } : undefined
+assignProp@290: if (fieldMeta?.visibility === 'hidden' || fieldMeta?.visibility === 'notConfigured') {
+assignProp@297: if (!isExpanded.value && (fieldMeta?.visibility === 'expandedDirect' || fieldMeta?.visibility === 'expandedPanel')) {
 ```
 
 ### `src/composables/admin/useFormElementPatching.ts`
@@ -2419,6 +2742,17 @@ assignProp@101: searchTerm.value = ''
 assignProp@105: selectedIcon.value = currentIconValue || null
 ```
 
+### `src/composables/admin/useInstanceShape.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
+
+```
+assignProp@108: fieldMetadataIsNull: shape.fieldMetadata === null,
+assignProp@109: fieldMetadataIsUndefined: shape.fieldMetadata === undefined,
+assignProp@118: fieldMetadataIsNull: sampleBlockShape.fieldMetadata === null,
+assignProp@119: fieldMetadataIsUndefined: sampleBlockShape.fieldMetadata === undefined,
+```
+
 ### `src/composables/admin/useNestedCollectionField.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
@@ -2432,14 +2766,15 @@ assignProp@138: if (fieldContext.entityKey === 'partInstance') return 'partShape
 
 ### `src/composables/admin/usePartInstanceBulkEdit.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
 
 ```
-assignProp@102: bulkEditMode.value = !bulkEditMode.value
-assignProp@105: bulkEditData.value = {}
-assignProp@118: if (instances.length === 0) {
-assignProp@123: if (Object.keys(bulkEditData.value).length === 0) {
-assignProp@137: bulkEditData.value = {}
+assignProp@105: bulkEditMode.value = !bulkEditMode.value
+assignProp@108: bulkEditData.value = {
+assignProp@128: if (instances.length === 0) {
+assignProp@166: return metadata?.bulkEdit === true
+assignProp@195: if (Object.keys(fieldsToUpdate).length === 0) {
+assignProp@216: bulkEditData.value = {}
 ```
 
 ### `src/composables/admin/usePartInstanceForm.ts`
@@ -2494,6 +2829,26 @@ assignProp@516: if (config && 'filterOptions' in config && typeof config.filterO
 
 - (no matches)
 
+### `src/composables/admin/useStatusButtonFields.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
+
+```
+assignProp@156: if ('value' in providedEntity && typeof providedEntity.value === 'object') {
+assignProp@205: if ('value' in providedBlockShapeProperties && typeof providedBlockShapeProperties.value === 'object') {
+assignProp@232: constituable: blockShapeEntity.constituable === true,
+assignProp@233: composable: blockShapeEntity.composable === true,
+assignProp@234: composite: blockInstance.composite === true
+```
+
+### `src/composables/admin/useStatusButtonToggle.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+```
+delete@98: // WHY: Prevents clicks from propagating to parent elements (expansion panels, delete buttons, etc.)
+```
+
 ### `src/composables/booking/selectionCard/index.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -2535,14 +2890,41 @@ assignProp@70: localModelValue.value = Array.isArray(newVal) ? newVal[0] ?? null
 
 - (no matches)
 
-### `src/composables/booking/useAvailabilityDefaults.ts`
+### `src/composables/booking/useAppointmentSlots.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@167: selectedDate.value = {
-assignProp@182: if (isDifferential && startTimeType.value === null) {
-assignProp@183: startTimeType.value = 'client'
+assignProp@81: if (instances.length === 0) {
+assignProp@105: if (times.length === 0) {
+assignProp@130: return appointmentSlots.value.find(s => s.buttonIndex === index) ?? null
+assignProp@138: const slot = appointmentSlots.value.find(s => s.buttonIndex === buttonIndex)
+```
+
+### `src/composables/booking/useAppointmentTimes.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
+
+```
+assignProp@100: if (instances.length === 0) return 0
+assignProp@104: const firstService = instances.find(instance => instance.differential === true) || instances[0]
+assignProp@117: if (!startTime || slots.length === 0) {
+assignProp@141: if (!startTime || slots.length === 0 || !isDifferential) {
+assignProp@172: const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)
+assignProp@194: const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)
+```
+
+### `src/composables/booking/useAvailabilityDefaults.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
+
+```
+assignProp@131: set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
+assignProp@143: set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
+assignProp@201: selectedDate.value = {
+assignProp@218: startTimeType.value = 'nonDifferential'
+assignProp@221: if (startTimeType.value === 'nonDifferential') {
+assignProp@222: startTimeType.value = 'client'
 ```
 
 ### `src/composables/booking/useAvailabilityStepData.ts`
@@ -2553,28 +2935,13 @@ assignProp@183: startTimeType.value = 'client'
 
 ### `src/composables/booking/useAvailabilityUI.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=18
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
 
 ```
-assignProp@71: if (startTimeType.value === null) {
-assignProp@76: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
-assignProp@81: return startTimeType.value === 'inspector' ? daySlots.inspectorTimeSlots : daySlots.clientTimeSlots
-assignProp@100: if (startTimeType.value === null) {
-assignProp@103: return startTimeType.value === 'inspector' ? inspectorTimeSlot.value : clientTimeSlot.value
-assignProp@110: inspectorTimeSlot.value = value
-assignProp@114: if (startTimeType.value === null) {
-assignProp@117: if (startTimeType.value === 'inspector') {
-assignProp@118: inspectorTimeSlot.value = value
-assignProp@120: clientTimeSlot.value = value
-assignProp@135: if (currentSlot && currentSlot.slotStart === slot.slotStart && currentSlot.slotEnd === slot.slotEnd) {
-assignProp@136: selectedTimeSlot.value = null
-assignProp@138: selectedTimeSlot.value = slot
-delete@203: delete newErrors.selectedDate
-assignProp@204: fieldErrors.value = newErrors
-assignProp@208: fieldErrors.value = {
-assignProp@215: fieldErrors.value = {
-assignProp@227: viewportWidth.value = window.innerWidth
-assignProp@233: viewportWidth.value = window.innerWidth
+delete@113: delete newErrors.selectedDate
+assignProp@114: fieldErrors.value = newErrors
+assignProp@118: fieldErrors.value = {
+assignProp@125: fieldErrors.value = {
 ```
 
 ### `src/composables/booking/useAvailabilityValidation.ts`
@@ -2675,14 +3042,11 @@ assignProp@108: if (!instanceComponentsRelationships || instanceComponentsRelati
 
 ### `src/composables/booking/usePropertyDetailsLogic.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
 
 ```
-assignProp@116: return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)
-assignProp@148: return blockShapeWithComposable.composable === true
-assignProp@191: return ann.userTypeBlock === selectedUserTypeBlockId || ann.userTypeBlock === null
-assignProp@195: const userTypeBlockSpecific = matchingDescriptions.find(ann => ann.userTypeBlock === selectedUserTypeBlockId)
-assignProp@196: const defaultDesc = matchingDescriptions.find(ann => ann.isDefault === true)
+assignProp@86: return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)
+assignProp@118: return blockShapeWithComposable.composable === true
 ```
 
 ### `src/composables/booking/usePropertyFormState.ts`
@@ -2696,24 +3060,24 @@ assignProp@196: const defaultDesc = matchingDescriptions.find(ann => ann.isDefau
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=18
 
 ```
-assignProp@67: if (newVal !== null && formData.propertySize.value === null) {
-assignProp@68: formData.propertySize.value = newVal
-assignProp@78: if (newVal !== null && formData.numberOfUnits.value === null) {
-assignProp@79: formData.numberOfUnits.value = newVal
-assignProp@94: formData.address.value = typeof details.address === 'string' ? details.address : ''
-assignProp@95: formData.unit.value = typeof details.unit === 'string' ? details.unit : ''
-assignProp@96: formData.city.value = typeof details.city === 'string' ? details.city : ''
-assignProp@97: formData.state.value = typeof details.state === 'string' ? details.state : ''
-assignProp@98: formData.zipCode.value = typeof details.zipCode === 'string' ? details.zipCode : ''
-assignProp@99: formData.mlsNumber.value = typeof details.mlsNumber === 'string' ? details.mlsNumber : ''
-assignProp@102: formData.propertySize.value = typeof details.propertySize === 'number' ? details.propertySize : null
-assignProp@103: formData.numberOfUnits.value = typeof details.numberOfUnits === 'number' ? details.numberOfUnits : null
-assignProp@104: formData.squareFootage.value = typeof details.squareFootage === 'number' ? details.squareFootage : null
-assignProp@105: formData.bedrooms.value = typeof details.bedrooms === 'number' ? details.bedrooms : null
-assignProp@106: formData.bathrooms.value = typeof details.bathrooms === 'number' ? details.bathrooms : null
-assignProp@107: formData.additionalUnits.value = typeof details.additionalUnits === 'number' ? details.additionalUnits : null
-assignProp@110: formData.foundationAccess.value = typeof details.foundationAccess === 'string' &&
-assignProp@111: (details.foundationAccess === 'basement' || details.foundationAccess === 'crawlspace' || details.foundationAccess === 'slab')
+assignProp@51: if (newVal !== null && formData.propertySize.value === null) {
+assignProp@52: formData.propertySize.value = newVal
+assignProp@62: if (newVal !== null && formData.numberOfUnits.value === null) {
+assignProp@63: formData.numberOfUnits.value = newVal
+assignProp@78: formData.address.value = typeof details.address === 'string' ? details.address : ''
+assignProp@79: formData.unit.value = typeof details.unit === 'string' ? details.unit : ''
+assignProp@80: formData.city.value = typeof details.city === 'string' ? details.city : ''
+assignProp@81: formData.state.value = typeof details.state === 'string' ? details.state : ''
+assignProp@82: formData.zipCode.value = typeof details.zipCode === 'string' ? details.zipCode : ''
+assignProp@83: formData.mlsNumber.value = typeof details.mlsNumber === 'string' ? details.mlsNumber : ''
+assignProp@86: formData.propertySize.value = typeof details.propertySize === 'number' ? details.propertySize : null
+assignProp@87: formData.numberOfUnits.value = typeof details.numberOfUnits === 'number' ? details.numberOfUnits : null
+assignProp@88: formData.squareFootage.value = typeof details.squareFootage === 'number' ? details.squareFootage : null
+assignProp@89: formData.bedrooms.value = typeof details.bedrooms === 'number' ? details.bedrooms : null
+assignProp@90: formData.bathrooms.value = typeof details.bathrooms === 'number' ? details.bathrooms : null
+assignProp@91: formData.additionalUnits.value = typeof details.additionalUnits === 'number' ? details.additionalUnits : null
+assignProp@94: formData.foundationAccess.value = typeof details.foundationAccess === 'string' &&
+assignProp@95: (details.foundationAccess === 'basement' || details.foundationAccess === 'crawlspace' || details.foundationAccess === 'slab')
 ```
 
 ### `src/composables/booking/usePropertyTypeBlockConfig.ts`
@@ -2721,7 +3085,7 @@ assignProp@111: (details.foundationAccess === 'basement' || details.foundationAc
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@101: visibleComponents: item.instanceComponents.filter((comp: ComponentItem) => comp.active === true).map((comp: ComponentItem) => ({
+assignProp@108: visibleComponents: item.instanceComponents.filter((comp: ComponentItem) => comp.active === true).map((comp: ComponentItem) => ({
 ```
 
 ### `src/composables/booking/usePropertyTypeBlockSelection.ts`
@@ -2798,17 +3162,12 @@ assignProp@82: baseRules.numberOfUnits = [
 
 - (no matches)
 
-### `src/composables/booking/useTimeSlotCalculations.ts`
+### `src/composables/booking/useTimeBasisHandler.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@74: if (wizard.selectedServices.value.length === 0) return 0
-assignProp@78: if (!service?.partInstances || service.partInstances.length === 0) return total
-assignProp@83: const onSiteParts = service.partInstances.filter(pi => pi.onSite === true)
-assignProp@103: if (wizard.selectedServices.value.length === 0) return 0
-assignProp@107: if (!service?.partInstances || service.partInstances.length === 0) return total
-assignProp@110: .filter(pi => pi.clientPresent === true)
+assignProp@38: if (props.startTimeType === type) {
 ```
 
 ### `src/composables/booking/useWizardStepContent.ts`
@@ -2818,6 +3177,36 @@ assignProp@110: .filter(pi => pi.clientPresent === true)
 - (no matches)
 
 ### `src/composables/booking/useWizardValidation.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/composables/businessDataCollections/index.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/composables/businessDataCollections/types.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/composables/businessDataCollections/useBusinessDataCollectionActions.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
@@ -2841,6 +3230,15 @@ assignProp@101: if (bp.id === composerId) return false
 assignProp@111: return components.some((ac) => ac.childId === entityId && !ac.disabled)
 assignProp@118: const component = components.find((ac) => ac.childId === entityId && !ac.disabled)
 assignProp@152: if (components.length === 0) return []
+```
+
+### `src/composables/dataCollections/useDataCollectionActions.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
+
+```
+assignProp@87: item.id === updatedItem.id ? updatedItem : item
+assignProp@112: item.id === patchedItem.id ? patchedItem : item
 ```
 
 ### `src/composables/entityCrud/index.ts`
@@ -2881,8 +3279,8 @@ assignProp@152: if (components.length === 0) return []
 assignProp@32: state.isFocused.value = focused
 assignProp@36: state.isValidating.value = true
 assignProp@41: state.isValidating.value = false
-assignProp@70: if (axiosError.response?.status === 404) {
-assignProp@123: if (axiosErr?.response?.status === 409) {
+assignProp@71: if (axiosError.response?.status === 404) {
+assignProp@124: if (axiosErr?.response?.status === 409) {
 ```
 
 ### `src/composables/fieldContext/useFieldContextState.ts`
@@ -2981,8 +3379,8 @@ assignProp@88: constituable: blockShape.constituable === true,
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-while@200: while ((appointmentsQuery.isLoading.value || appointmentsQuery.isFetching.value) && attempts < maxAttempts) {
-assignProp@207: if (!appointmentsQuery.data.value || appointmentsQuery.data.value.length === 0) {
+while@99: while (isLoading.value && attempts < maxAttempts) {
+assignProp@106: if (!businessData.value || businessData.value.appointments.length === 0) {
 ```
 
 ### `src/composables/useAvailability.ts`
@@ -3005,6 +3403,12 @@ push@48: instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
 assignProp@126: (window as WindowWithDebug).__useBookingDebug = {
 assignProp@133: instanceCallSites.length = 0
 ```
+
+### `src/composables/useBusiness.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
 
 ### `src/composables/useComponentEntity.ts`
 
@@ -3048,8 +3452,8 @@ assignProp@133: instanceCallSites.length = 0
 
 ```
 push@51: instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
-assignProp@158: (window as WindowWithDebug).__useGlobalDebug = {
-assignProp@165: instanceCallSites.length = 0
+assignProp@161: (window as WindowWithDebug).__useGlobalDebug = {
+assignProp@168: instanceCallSites.length = 0
 ```
 
 ### `src/composables/useLayoutLoading.ts`
@@ -3087,6 +3491,12 @@ assignProp@92: showProgress.value = false
 
 - (no matches)
 
+### `src/composables/useThemeMode.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
 ### `src/composables/useTimeFormatting.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -3100,6 +3510,12 @@ assignProp@92: showProgress.value = false
 - (no matches)
 
 ### `src/configs/availabilitySettings.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/configs/blockShapeFieldVisibility.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
@@ -3178,6 +3594,12 @@ assignProp@92: showProgress.value = false
 - (no matches)
 
 ### `src/configs/field/form/selectableFieldConfig.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/configs/partShapeFieldVisibility.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
@@ -3387,6 +3809,12 @@ assignProp@92: showProgress.value = false
 
 - (no matches)
 
+### `src/types/propertyForm.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
 ### `src/types/relationships.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -3423,6 +3851,12 @@ assignProp@92: showProgress.value = false
 
 - (no matches)
 
+### `src/types/wizardStepData.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
 ### `src/utils/admin/entityDisplayText.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -3430,12 +3864,6 @@ assignProp@92: showProgress.value = false
 - (no matches)
 
 ### `src/utils/autocomplete.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `src/utils/booking/availabilityStepData.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
@@ -3501,6 +3929,12 @@ assignProp@92: showProgress.value = false
 
 - (no matches)
 
+### `src/utils/fieldMetadata/fieldMetadataOptions.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
 ### `src/utils/forms/layoutFieldCategorization.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -3537,7 +3971,7 @@ assignProp@92: showProgress.value = false
 
 - (no matches)
 
-### `src/utils/transformers/blockInstanceToSnapshot.ts`
+### `src/utils/wizardStateFieldConfig.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 

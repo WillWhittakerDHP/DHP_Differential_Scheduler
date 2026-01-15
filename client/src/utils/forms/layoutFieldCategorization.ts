@@ -22,26 +22,21 @@ export function filterFieldsInConfigOrder<FieldKey extends string>(
 /**
  * Split a list of fields into inline/stacked/hidden using layout configs.
  * 
- * LEARNING: Changed from inline/stacked/regular to inline/stacked/hidden
- * WHY: Fields not explicitly in inlineFields or stackedFields should be treated as hidden (via omitFields)
- *      No implicit "regular" category - all fields must be explicitly categorized
+ * LEARNING: Field visibility comes from metadata, not config
+ * WHY: Metadata is the single source of truth for which fields should render
  * PATTERN: Fields not in inlineFields or stackedFields are categorized as hidden
  */
 export function categorizeFieldsByLayout(
   fields: readonly string[],
   inlineConfig: readonly string[],
-  stackedConfig: readonly string[],
-  omitFieldsConfig?: readonly string[]
+  stackedConfig: readonly string[]
 ): FieldsByLayout {
   const inlineSet = new Set(inlineConfig.map(String))
   const stackedSet = new Set(stackedConfig.map(String))
-  // omitFieldsConfig is available for filtering if needed in future
-  void omitFieldsConfig
 
   const inline = fields.filter((fieldKey) => inlineSet.has(String(fieldKey)))
   const stacked = fields.filter((fieldKey) => stackedSet.has(String(fieldKey)))
   // Fields not in inlineFields or stackedFields are categorized as hidden
-  // These should already be filtered out via omitFields, but we categorize them here for clarity
   const hidden = fields.filter((fieldKey) => {
     const fieldKeyStr = String(fieldKey)
     return !inlineSet.has(fieldKeyStr) && !stackedSet.has(fieldKeyStr)

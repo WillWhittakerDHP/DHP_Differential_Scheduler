@@ -6,7 +6,7 @@
   BENEFITS: DRY, configurable, testable, easier to maintain
 -->
 <script setup lang="ts">
-import { ref, computed, provide, watch, watchEffect, type Ref } from 'vue'
+import { ref, computed, provide, watch, watchEffect, toRef, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
 import { useEntityCardActions } from '@/composables/admin/useEntityCardActions'
 import { useEntityDisplay } from '@/composables/admin/useEntityDisplay'
@@ -17,18 +17,17 @@ import { useFormFields } from '@/composables/formFields/useFormFields'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import InputRenderer from './fields/InputRenderer.vue'
+import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
-import StatusButton from './StatusButton.vue'
-import { categorizeFieldsBySection } from '@/utils/forms/fieldSectionCategorization'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useRelationshipMetadata } from '@/composables/admin/useRelationshipMetadata'
 import { useStatusButtonToggle } from '@/composables/admin/useStatusButtonToggle'
-import { useStatusButtonFields } from '@/composables/admin/useStatusButtonFields'
+import { useFieldLocation } from '@/composables/admin/useFieldLocation'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
 import { useGlobal } from '@/composables/useGlobal'
 import { useNotification } from '@/composables/useNotification'
+import { VExpansionPanel, VExpansionPanels, VCard } from 'vuetify/components'
 
 /**
  * LEARNING: Disable automatic attribute inheritance
@@ -60,11 +59,11 @@ interface Props<GE extends GlobalEntityKey> {
    */
   expanded?: boolean
   /**
-   * LEARNING: Hide title field prop
-   * WHY: When true, hides the titleField section (used when titleField is rendered in parent component like VExpansionPanels)
-   * PATTERN: Optional prop defaults to false - titleField is shown by default
+   * LEARNING: Whether EntityCard should wrap itself in VExpansionPanel
+   * WHY: When true (default), EntityCard is self-contained with its own expand/collapse. When false (modals), renders without wrapper
+   * PATTERN: Optional prop defaults to true for self-contained behavior
    */
-  hideTitleField?: boolean
+  useExpansionPanel?: boolean
   /**
    * LEARNING: Optional form instance prop
    * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
@@ -93,9 +92,9 @@ interface Props<GE extends GlobalEntityKey> {
 
 const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
   expanded: true,
-  hideTitleField: false,
   isNew: false,
-  disableAutoSave: false
+  disableAutoSave: false,
+  useExpansionPanel: true
 })
 
 /**
@@ -113,12 +112,34 @@ const emit = defineEmits<Emits>()
 
 
 /**
- * LEARNING: Expansion state - computed from expanded prop
+ * LEARNING: Expansion state - track from expanded prop reactively
  * WHY: Title field should be read-only when collapsed, editable when expanded
- * PATTERN: Use computed property that reads from expanded prop (defaults to true for backward compatibility)
- * NOTE: When used in VExpansionPanels, parent passes expansion state. When standalone, defaults to expanded.
+ * PATTERN: Use computed that tracks expanded prop, with watch to ensure reactivity
+ * NOTE: When useExpansionPanel=true, parent VExpansionPanels controls expansion via v-model
+ * FIX: For staticAsTitle fields, read-only should be false when expanded (editable), true when collapsed (read-only)
+ *      Logic: :read-only="!isExpanded" means:
+ *        - When isExpanded=false (collapsed) → read-only=true (read-only) ✓
+ *        - When isExpanded=true (expanded) → read-only=false (editable) ✓
  */
-const isExpanded = computed(() => props.expanded ?? true)
+// LEARNING: Track expansion state using internal ref + watch
+// WHY: props.expanded is passed as function call (isPanelExpanded), not reactive computed, so we need to watch it
+// PATTERN: Use ref to track state, watch prop to update ref when it changes
+const internalExpanded = ref(props.expanded ?? true)
+
+// LEARNING: Watch expanded prop to sync internal state
+// WHY: When parent VExpansionPanels updates expansion state, props.expanded changes, but computed doesn't track function calls
+// PATTERN: Watch prop and update internal ref - this ensures reactivity
+watch(() => props.expanded, (newValue) => {
+  const expanded = newValue ?? true
+  internalExpanded.value = expanded
+}, { immediate: true })
+
+// LEARNING: Use internal ref for expansion state
+// WHY: Internal ref is updated by watch, ensuring reactivity when prop changes
+// PATTERN: Computed reads from reactive ref
+const isExpanded = computed(() => {
+  return internalExpanded.value
+})
 
 /**
  * LEARNING: Use entity display composable for display name and messages
@@ -196,39 +217,84 @@ if (!props.form && !props.isNew) {
   let lastEntityId = String(props.entity.id)
   
   watch(storeEntity, (newStoreEntity, oldStoreEntity) => {
-    if (!newStoreEntity) return
+    console.log('[EntityCard] storeEntity watch triggered', {
+      entityKey: props.entityKey,
+      entityId: props.entity.id,
+      newStoreEntity: !!newStoreEntity,
+      oldStoreEntity: !!oldStoreEntity,
+      newEntityName: newStoreEntity?.name,
+      oldEntityName: oldStoreEntity?.name,
+      isSameReference: newStoreEntity === oldStoreEntity,
+      isPropsEntity: newStoreEntity === props.entity
+    })
+    
+    if (!newStoreEntity) {
+      console.log('[EntityCard] Skipping reset - no entity')
+      return
+    }
     
     const newEntityId = String(newStoreEntity.id)
     const entityIdChanged = newEntityId !== lastEntityId
     
-    // LEARNING: Only reset form when entity ID actually changes
-    // WHY: Prevents resetting form when entity reference changes but ID is the same
-    //      (e.g., modal open/close, store refetch with same data)
-    //      This prevents losing user edits when modal opens/closes
-    // PATTERN: Compare IDs, not object references
+    console.log('[EntityCard] Entity check', {
+      newEntityId,
+      lastEntityId,
+      entityIdChanged
+    })
+    
+    // LEARNING: Reset form when entity loads or changes (per vee-validate best practices)
+    // WHY: resetForm updates both current values AND initial values for all fields
+    //      This ensures fields get correct values when entity loads from store
+    // PATTERN: Use resetForm to update form values when entity changes
+    // NOTE: Only reset when entity ID changes to prevent overwriting user edits
     if (entityIdChanged) {
+      console.log('[EntityCard] Resetting form - entity ID changed', {
+        from: lastEntityId,
+        to: newEntityId,
+        entityValues: Object.keys(newStoreEntity)
+      })
       lastEntityId = newEntityId
       form.resetForm({
         values: {
           ...newStoreEntity,
         }
       })
+      console.log('[EntityCard] Form reset complete', {
+        formValues: Object.keys(form.values || {})
+      })
       return
     }
     
     // LEARNING: Also reset if entity was missing and now exists (initial load)
     // WHY: When entity first loads from store, we should initialize form
-    // PATTERN: Check if old entity was null/undefined
-    if (!oldStoreEntity && newStoreEntity) {
+    // PATTERN: Check if old entity was null/undefined or if this is first run (immediate: true)
+    if (!oldStoreEntity || (oldStoreEntity === props.entity && newStoreEntity !== props.entity)) {
+      // LEARNING: Use resetForm to update both current values AND initial values (per vee-validate docs)
+      // WHY: resetForm updates all fields that are part of the form, even if they were created before
+      //      It sets both current values and new initial values for future resets
+      // PATTERN: Call resetForm with values to update all fields
       form.resetForm({
         values: {
           ...newStoreEntity,
         }
       })
+      
+      // LEARNING: Also use setValues to ensure fields sync immediately
+      // WHY: Some fields might not update from resetForm if they were created before resetForm
+      //      setValues explicitly updates form.values which fields should read from reactively
+      // PATTERN: Use both resetForm (for initial values) and setValues (for current values)
+      form.setValues({
+        ...newStoreEntity,
+      })
+    } else {
+      console.log('[EntityCard] Skipping reset - entity already initialized', {
+        entityId: newEntityId,
+        entityName: newStoreEntity.name
+      })
     }
     // NOTE: If entity ID hasn't changed and entity already existed, don't reset
     //       This prevents overwriting user edits when modal opens/closes or store refetches
-  }, { immediate: false })
+  }, { immediate: true }) // Run immediately to initialize form when component mounts
 }
 const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
 
@@ -286,10 +352,10 @@ const isMetadataLoading = computed(() => {
 // WHY: Gate warnings until metadata is fully loaded and can be meaningfully displayed
 // PATTERN: Check both metadata sources are loaded and merged metadata has keys
 const isMetadataReady = computed(() => {
-  if (isMetadataLoading.value) return false
+  const isLoading = isMetadataLoading.value
   const metadata = composedFieldMetadata.value
-  // Metadata is ready when we have keys (even if empty, that's still "ready")
-  return metadata !== undefined && Object.keys(metadata).length >= 0
+  const isReady = !isLoading && metadata !== undefined && Object.keys(metadata).length >= 0
+  return isReady
 })
 
 // LEARNING: Get field keys immediately from entity object, merge with metadata when available
@@ -323,17 +389,39 @@ const fieldKeys = computed(() => {
   return entityKeys
 })
 
-// LEARNING: Get layout config from instanceConfig (temporary until metadata provides layout)
-// WHY: Layout hints (inlineFields, stackedFields) still come from config for now
-// PATTERN: Read directly from instanceConfig
+// LEARNING: Derive layout config from metadata layout property
+// WHY: Metadata is the single source of truth for field layout - each field has layout: 'inline' | 'stacked'
+// PATTERN: Extract field keys from metadata where layout matches, sorted by displayOrder
 const inlineFieldsConfig = computed(() => {
-  const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
-  return (config?.inlineFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+  if (!composedFieldMetadata.value) {
+    // Fallback to adminConfig during migration period
+    const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
+    return (config?.inlineFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+  }
+  
+  // LEARNING: Get all fields with layout: 'inline' from metadata, sorted by displayOrder
+  // WHY: Metadata is the source of truth for layout
+  // PATTERN: Filter by layout property, sort by displayOrder
+  return Object.entries(composedFieldMetadata.value)
+    .filter(([_, meta]) => meta.layout === 'inline')
+    .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
+    .map(([fieldKey]) => fieldKey as GlobalFieldKey<GlobalEntityKey>)
 })
 
 const stackedFieldsConfig = computed(() => {
-  const config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
-  return (config?.stackedFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+  if (!composedFieldMetadata.value) {
+    // Fallback to adminConfig during migration period
+    const config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
+    return (config?.stackedFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+  }
+  
+  // LEARNING: Get all fields with layout: 'stacked' from metadata, sorted by displayOrder
+  // WHY: Metadata is the source of truth for layout
+  // PATTERN: Filter by layout property, sort by displayOrder
+  return Object.entries(composedFieldMetadata.value)
+    .filter(([_, meta]) => meta.layout === 'stacked')
+    .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
+    .map(([fieldKey]) => fieldKey as GlobalFieldKey<GlobalEntityKey>)
 })
 
 /**
@@ -356,6 +444,13 @@ const formFields = useFormFields({
 
 const { getFieldContext: originalGetFieldContext } = formFields
 
+/**
+ * LEARNING: Computed property for form readiness
+ * WHY: Template needs access to isFormReady, but it's nested in formFields object
+ * PATTERN: Create computed property that accesses formFields.isFormReady
+ */
+const isFormReady = computed(() => formFields.isFormReady.value)
+
 const { warning: showWarning } = useNotification()
 
 /**
@@ -374,14 +469,6 @@ const getFieldContext = (fieldKey: GlobalFieldKey<GlobalEntityKey>) => {
   // WHY: Suppress warnings during async loading - wait until metadata can be meaningfully displayed
   // PATTERN: Gate warnings on isMetadataReady and !isPending
   if (!context && !isPending && isMetadataReady.value) {
-    const errorMessage = `[EntityCard] Missing fieldContext for field "${String(fieldKey)}" on ${props.entityKey} (${props.entity.id}). Field must be configured in /admin-input-metadata or /admin-relationship-metadata before rendering.`
-    console.warn(errorMessage, {
-      entityKey: props.entityKey,
-      entityId: props.entity.id,
-      fieldKey: String(fieldKey),
-      fieldKeys: fieldKeys.value.map(f => String(f)),
-      metadataKeys: Object.keys(composedFieldMetadata.value || {})
-    })
     showWarning(`Field "${String(fieldKey)}" is missing configuration. Check /admin-input-metadata or /admin-relationship-metadata.`, 6000)
   }
 
@@ -391,15 +478,16 @@ const getFieldContext = (fieldKey: GlobalFieldKey<GlobalEntityKey>) => {
 /**
  * LEARNING: Track fields missing contexts for UI display
  * WHY: Show which fields are missing contexts in the UI
- * PATTERN: Computed property that filters categorized fields by missing contexts
+ * PATTERN: Computed property that filters fields by location and missing contexts
  */
 const fieldsMissingContexts = computed(() => {
+  const locations = fieldLocation.fieldsByLocation.value
   const allCategorizedFields = [
-    ...categorizedFields.value.directFields.inline,
-    ...categorizedFields.value.directFields.stacked,
-    ...categorizedFields.value.subPanelFields.parts,
-    ...categorizedFields.value.subPanelFields.relationships,
-    ...categorizedFields.value.subPanelFields.annotations
+    ...locations.directInline,
+    ...locations.directStacked,
+    ...locations.subPanels.parts,
+    ...locations.subPanels.relationships,
+    ...locations.subPanels.annotations
   ]
   
   return allCategorizedFields.filter(fieldKey => !getFieldContext(fieldKey))
@@ -443,6 +531,23 @@ const blockShapeProperties = computed(() => {
   }
 })
 
+/**
+ * LEARNING: Use field location dispatcher for location assignment
+ * WHY: Single source of truth for WHERE fields render based on metadata
+ * PATTERN: Composable that determines field locations from metadata + context
+ */
+const fieldLocation = useFieldLocation({
+  fieldKeys: computed(() => fieldKeys.value as GlobalFieldKey<GlobalEntityKey>[]),
+  fieldMetadata: composedFieldMetadata,
+  isExpanded: computed(() => props.expanded ?? true)
+})
+
+/**
+ * LEARNING: Computed property for categorized fields (backward compatibility)
+ * WHY: Template still references categorizedFields, so we provide it from location dispatcher
+ * PATTERN: Map fieldsByLocation to old categorizedFields structure
+ * NOTE: This maintains backward compatibility while using new location dispatcher internally
+ */
 const categorizedFields = computed(() => {
   // LEARNING: Guard against metadata still loading
   // WHY: Don't trigger "not configured" error while metadata is still fetching
@@ -456,20 +561,40 @@ const categorizedFields = computed(() => {
     }
   }
   
-  const fieldsConfig = instanceConfig.value?.fields
+  const locations = fieldLocation.fieldsByLocation.value
   
-  // LEARNING: Categorize using unified fieldMetadata (passed explicitly)
-  // WHY: Pass all fields from metadata, categorization handles visibility filtering
-  const result = categorizeFieldsBySection(
-    fieldKeys.value as GlobalFieldKey<GlobalEntityKey>[], 
-    fieldsConfig,
-    {
-      blockShapeProperties: blockShapeProperties.value,
-      fieldMetadata: composedFieldMetadata.value
-    }
-  )
-  
-  return result
+  // LEARNING: Map new location structure to old categorizedFields structure
+  // WHY: Maintain backward compatibility with existing template code
+  // PATTERN: Transform fieldsByLocation to match old categorizeFieldsBySection output
+  return {
+    directFields: {
+      inline: locations.directInline,
+      stacked: locations.directStacked
+    },
+    subPanelFields: {
+      parts: locations.subPanels.parts,
+      relationships: locations.subPanels.relationships,
+      annotations: locations.subPanels.annotations
+    },
+    // LEARNING: Status button fields are those with renderAs: 'statusButton' in title row location
+    // WHY: Status buttons appear in title row (titleRow) AND can appear in form body
+    // PATTERN: Extract status buttons from title row fields (they're titleRow with renderAs: 'statusButton')
+    statusButtonFields: locations.titleRow
+      .filter(fieldKey => {
+        const meta = composedFieldMetadata.value[String(fieldKey)]
+        return meta?.renderAs === 'statusButton'
+      })
+      .map(fieldKey => {
+        const meta = composedFieldMetadata.value[String(fieldKey)]
+        return {
+          key: fieldKey,
+          label: meta?.label || String(fieldKey).charAt(0).toUpperCase() + String(fieldKey).slice(1),
+          color: meta?.statusButtonColor || 'default',
+          order: meta?.displayOrder ?? 0
+        }
+      })
+      .sort((a, b) => a.order - b.order)
+  }
 })
 
 /**
@@ -587,24 +712,11 @@ const deleteDialogTitle = computed(() => {
 })
 
 /**
- * LEARNING: Config-driven status button fields
- * WHY: Replaces hardcoded boolean flags with config-driven approach from adminConfig
- * PATTERN: Extract statusButtonFields from field categorization, same pattern as InstancesTab.vue
- * 
- * Styling:
- * - TRUE: variant="flat" (solid color)
- * - FALSE: variant="outlined" (border-only, same color)
+ * LEARNING: Title row fields from composable - NO filtering
+ * WHY: Composable returns all title row fields - component renders based on metadata directly
+ * PATTERN: Use composable's titleRowFields - read metadata in template to determine rendering
  */
-// LEARNING: Use composable for status button fields
-// WHY: Single source of truth for status button field logic
-// PATTERN: Composable handles all the complexity of getting status buttons from config
-// NOTE: Composable will look up blockShape/partShape reactively from entity, so we don't pass them
-const { statusButtonFields } = useStatusButtonFields({
-  entityKey: props.entityKey,
-  entity: computed(() => props.entity),
-  blockShapeProperties: blockShapeProperties, // Pass computed ref - composable will unwrap it
-  isExpanded: computed(() => props.expanded ?? true)
-})
+const titleRowFields = fieldLocation.titleRowFields
 
 /**
  * LEARNING: Use reusable status button toggle composable
@@ -633,45 +745,279 @@ const handleContainerClick = (_event: Event): void => {
 }
 
 /**
- * LEARNING: Expose methods for parent components
- * WHY: VExpansionPanels might need access to name field context (though currently not used)
- * PATTERN: Expose getFieldContext function directly
+ * LEARNING: Handle title row clicks - prevent expansion panel from intercepting status button clicks
+ * WHY: Status buttons are in title row, but clicks should toggle buttons, not expand panel
+ * PATTERN: Stop propagation for clicks on title row (status buttons handle their own clicks)
+ */
+const handleTitleRowClick = (event: Event): void => {
+  // LEARNING: Only stop propagation if click is on status button area
+  // WHY: Allow clicks on name field to expand panel, but prevent clicks on status buttons from expanding
+  // PATTERN: Check if click target is a status button or its parent, then stop propagation
+  const target = event.target as HTMLElement
+  const isStatusButton = target.closest('.v-chip') || target.closest('[role="switch"]')
+  
+  if (isStatusButton) {
+    // Status button click - let it handle the click, don't expand panel
+    event.stopPropagation()
+  }
+  // Otherwise, allow default behavior (expand/collapse panel)
+}
+
+/**
+ * LEARNING: Expose methods and state for parent components (minimal API)
+ * WHY: EntityCard is now self-contained, but some parent components may need form access
+ * PATTERN: Expose only what's needed for external access (form, readiness state)
  */
 defineExpose({
   getFieldContext,
   getNameFieldContext: () => getFieldContext('name'),
-  form
+  form,
+  // LEARNING: Expose readiness state for parent components (if needed for other purposes)
+  // WHY: Some parent components may need to check readiness for non-rendering purposes
+  // PATTERN: Expose computed properties for external access
+  isMetadataReady,
+  isFormReady: formFields.isFormReady
+  // NOTE: titleRowFields and composedFieldMetadata no longer exposed - EntityCard renders them internally
 })
 </script>
 
 <template>
   <!--
-    LEARNING: EntityCard content without nested card wrapper
-    WHY: Parent VExpansionPanel already provides card structure, avoid card-within-card
-    PATTERN: Render content directly - title field, form fields, and buttons
-    NOTE: Parent VExpansionPanel handles expansion, so we always show content when parent expands
+    LEARNING: Self-contained EntityCard with optional VExpansionPanel wrapper
+    WHY: EntityCard owns its rendering - title row, expand/collapse, and content
+    PATTERN: When useExpansionPanel=true, wraps in VExpansionPanel. When false (modals), renders content directly.
+    NOTE: When used inside parent VExpansionPanels, EntityCard renders as VExpansionPanel. When standalone, renders content directly.
   -->
-  <div class="entity-card-content">
-    <!-- LEARNING: Config-driven status button fields - only show when NOT in expansion panel wrapper -->
-    <!-- WHY: When hideTitleField is true, flags are rendered in parent's panel title instead -->
-    <!-- PATTERN: Separate row for status buttons that renders when not using wrapper component -->
-    <div 
-      v-if="!hideTitleField && statusButtonFields.length > 0" 
-      class="d-flex align-center gap-1 flex-wrap mb-4"
-      @click="handleContainerClick"
-    >
-      <!-- Config-driven status buttons using reusable StatusButton component -->
-      <StatusButton
-        v-for="field in statusButtonFields"
-        :key="field.key"
-        :label="field.label"
-        :color="field.color"
-        :is-active="field.value"
-        @click="(event) => statusButtonToggle.toggleStatusButton(field.key, event)"
-      />
-      <!-- NOTE: Annotation chips removed per user request - annotations shown in Annotations panel instead -->
-    </div>
+  <VExpansionPanel
+    v-if="props.useExpansionPanel"
+    :value="String(entity.id)"
+  >
+    <template #title>
+      <div 
+        class="d-flex align-center gap-2 flex-grow-1"
+        @click="handleTitleRowClick"
+      >
+        <!-- LEARNING: Render name field left-justified in panel title -->
+        <!-- WHY: Name field should be on the left side of the title row -->
+        <!-- PATTERN: Render name field first, then status buttons on the right -->
+        <template v-if="titleRowFields.length > 0 && isFormReady">
+          <!-- LEARNING: staticAsTitle fields render first, left-justified -->
+          <!-- WHY: Name field should be on the left side of the title row, always first -->
+          <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
+          <div class="flex-grow-1 d-flex align-center gap-2">
+            <template
+              v-for="fieldKey in titleRowFields"
+              :key="fieldKey"
+            >
+              <FieldRenderer
+                v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'"
+                :field-context="getFieldContext(fieldKey)"
+                :show-label="false"
+                :field-metadata="composedFieldMetadata"
+                :read-only="!isExpanded"
+              />
+            </template>
+          </div>
+          
+          <!-- LEARNING: Other titleRow fields render after, right-justified -->
+          <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
+          <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
+          <div class="d-flex align-center gap-2 ms-auto">
+            <template
+              v-for="fieldKey in titleRowFields"
+              :key="fieldKey"
+            >
+              <FieldRenderer
+                v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'"
+                :field-context="getFieldContext(fieldKey)"
+                :show-label="false"
+                :field-metadata="composedFieldMetadata"
+              />
+            </template>
+          </div>
+        </template>
+        <!-- Fallback to entity name if fields not ready -->
+        <span v-else class="flex-grow-1">{{ entityName }}</span>
+      </div>
+    </template>
     
+    <template #text>
+      <!-- LEARNING: Wrap content in VCard for visual containment -->
+      <!-- WHY: Provides clear visual boundary so buttons appear contained within EntityCard -->
+      <!-- PATTERN: VCard wrapper ensures all content (fields and buttons) is visually contained -->
+      <!-- NOTE: VCard with elevation provides clear visual boundary for buttons -->
+      <VCard variant="elevated" elevation="2" class="entity-card-wrapper ma-0">
+        <VCardText class="entity-card-content pa-4">
+                <!-- LEARNING: Warning for fields missing contexts -->
+          <!-- WHY: Fail visibly - show which fields are missing contexts -->
+          <!-- PATTERN: VAlert component for error display -->
+          <VAlert
+            v-if="fieldsMissingContexts.length > 0"
+            type="warning"
+            variant="tonal"
+            class="mb-4"
+          >
+            <strong>Missing Field Contexts:</strong> The following fields are configured in metadata but don't have contexts yet:
+            <ul class="mt-2 mb-0">
+              <li v-for="fieldKey in fieldsMissingContexts" :key="fieldKey">
+                {{ String(fieldKey) }}
+              </li>
+            </ul>
+            <div class="text-caption mt-2">
+              This usually means the field contexts are still being created. If this persists, check that the field is properly configured in /admin-input-metadata.
+            </div>
+          </VAlert>
+
+          <!-- LEARNING: Direct fields (panel: 'none') rendered in card content -->
+          <!-- WHY: Fields without panel assignment render in main card area -->
+          <!-- PATTERN: Organized by layout (inline vs stacked) from metadata -->
+          <VRow v-if="categorizedFields.directFields.inline.length > 0" class="mb-4">
+            <VCol
+              v-for="fieldKey in categorizedFields.directFields.inline"
+              :key="fieldKey"
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <FieldRenderer
+                v-if="getFieldContext(fieldKey)"
+                :field-context="getFieldContext(fieldKey)!"
+                :show-label="true"
+                :field-metadata="composedFieldMetadata"
+              />
+              <VAlert
+                v-else
+                type="warning"
+                variant="tonal"
+                density="compact"
+              >
+                Field "{{ String(fieldKey) }}" is missing context
+              </VAlert>
+            </VCol>
+          </VRow>
+
+          <div v-for="fieldKey in categorizedFields.directFields.stacked" :key="fieldKey" class="mb-4">
+            <FieldRenderer
+              v-if="getFieldContext(fieldKey)"
+              :field-context="getFieldContext(fieldKey)!"
+              :show-label="true"
+              :field-metadata="composedFieldMetadata"
+            />
+            <VAlert
+              v-else
+              type="warning"
+              variant="tonal"
+              density="compact"
+            >
+              Field "{{ String(fieldKey) }}" is missing context
+            </VAlert>
+          </div>
+
+          <EntityCardSubPanels
+            :entity-key="entityKey"
+            :entity-id="entity.id"
+            :entity="entity"
+            :form="form"
+            :sub-panel-fields="categorizedFields.subPanelFields"
+            :get-field-context="getFieldContext"
+            :field-metadata="composedFieldMetadata"
+          />
+          
+          <!--
+            LEARNING: Action buttons for form operations
+            WHY: Provides Undo, Save, and Delete/Cancel actions
+            PATTERN: Buttons at bottom of form fields with proper spacing
+            NOTE: Shows Cancel instead of Delete when in new entity mode
+          -->
+          <div class="d-flex align-center justify-end mt-4 pt-4" style="border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));">
+            <VBtn
+              v-if="!props.isNew"
+              variant="outlined"
+              prepend-icon="tabler-undo"
+              :disabled="!unifiedSaveState.canSave.value"
+              @click="handleUndo"
+              class="mr-2"
+            >
+              Undo
+            </VBtn>
+            <VBtn
+              color="primary"
+              prepend-icon="tabler-device-floppy"
+              :disabled="props.isNew ? false : !unifiedSaveState.canSave.value"
+              @click="handleSave"
+              class="mr-2"
+            >
+              Save
+            </VBtn>
+            <!-- Delete button for existing entities -->
+            <VBtn
+              v-if="!props.isNew"
+              color="error"
+              prepend-icon="tabler-trash"
+              @click="handleDeleteClick"
+            >
+              Delete
+            </VBtn>
+            <!-- Cancel button for new entities -->
+            <VBtn
+              v-else
+              variant="outlined"
+              prepend-icon="tabler-x"
+              @click="handleCancel"
+            >
+              Cancel
+            </VBtn>
+          </div>
+        </VCardText>
+      </VCard>
+    </template>
+  </VExpansionPanel>
+
+  <!--
+    LEARNING: Fallback: Render content directly when useExpansionPanel=false (modals)
+    WHY: Modals don't need VExpansionPanel wrapper, just render content directly
+    PATTERN: Conditional rendering based on useExpansionPanel prop
+  -->
+  <div v-else class="entity-card-content">
+    <!-- LEARNING: Title row fields render at top when not using expansion panel -->
+    <!-- WHY: TitleRow fields should still be visible even without expansion panel -->
+    <div v-if="titleRowFields.length > 0 && isFormReady" class="d-flex align-center gap-2 mb-4">
+      <!-- LEARNING: staticAsTitle fields render first, left-justified -->
+      <!-- WHY: Name field should be on the left side of the title row, always first -->
+      <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
+      <div class="flex-grow-1 d-flex align-center gap-2">
+        <template
+          v-for="fieldKey in titleRowFields"
+          :key="fieldKey"
+        >
+          <FieldRenderer
+            v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'"
+            :field-context="getFieldContext(fieldKey)"
+            :show-label="false"
+            :field-metadata="composedFieldMetadata"
+            :read-only="!isExpanded"
+          />
+        </template>
+      </div>
+      
+      <!-- LEARNING: Other titleRow fields render after, right-justified -->
+      <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
+      <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
+      <div class="d-flex align-center gap-2 ms-auto">
+        <template
+          v-for="fieldKey in titleRowFields"
+          :key="fieldKey"
+        >
+          <FieldRenderer
+            v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'"
+            :field-context="getFieldContext(fieldKey)"
+            :show-label="false"
+            :field-metadata="composedFieldMetadata"
+          />
+        </template>
+      </div>
+    </div>
+
     <!-- LEARNING: Warning for fields missing contexts -->
     <!-- WHY: Fail visibly - show which fields are missing contexts -->
     <!-- PATTERN: VAlert component for error display -->
@@ -703,7 +1049,7 @@ defineExpose({
         sm="6"
         md="4"
       >
-        <InputRenderer
+        <FieldRenderer
           v-if="getFieldContext(fieldKey)"
           :field-context="getFieldContext(fieldKey)!"
           :show-label="true"
@@ -721,7 +1067,7 @@ defineExpose({
     </VRow>
 
     <div v-for="fieldKey in categorizedFields.directFields.stacked" :key="fieldKey" class="mb-4">
-      <InputRenderer
+      <FieldRenderer
         v-if="getFieldContext(fieldKey)"
         :field-context="getFieldContext(fieldKey)!"
         :show-label="true"
@@ -778,7 +1124,7 @@ defineExpose({
         v-if="!props.isNew"
         color="error"
         prepend-icon="tabler-trash"
-        @click="handleDeleteClick"
+        @click="handleDelete"
       >
         Delete
       </VBtn>
@@ -786,14 +1132,13 @@ defineExpose({
       <VBtn
         v-else
         variant="outlined"
-        prepend-icon="tabler-x"
         @click="handleCancel"
       >
         Cancel
       </VBtn>
     </div>
   </div>
-  
+
   <!--
     LEARNING: Delete Confirmation Dialog
     WHY: Provides confirmation before deleting entity

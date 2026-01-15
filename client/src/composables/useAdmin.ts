@@ -14,6 +14,8 @@ import { GlobalEntityKey } from '@/constants/entities'
 import { adminTransformer } from '@/utils/transformers/globalToAdminTransformer'
 import type { AdminObject } from '@/utils/transformers/globalToAdminTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { getEntityTypeForMetadata, getMetadataEntityId, getInheritanceSource } from '@/utils/entities/entityTypeMapping'
 
 // DIAGNOSTICS: Track instance creation
 let instanceCount = 0
@@ -152,6 +154,62 @@ function createAdminInstance() {
     }
   })
   
+  /**
+   * Get metadata for an entity (synchronous, from GlobalData)
+   * LEARNING: Reads metadata from GlobalData transformation, handles inheritance automatically
+   * WHY: Metadata should be available as early and reliably as entities (same pattern as getEntity)
+   * PATTERN: Synchronous function that reads from transformed GlobalData, handles instance inheritance
+   * 
+   * @param entityKey - Entity key (blockShape, partShape, blockInstance, partInstance)
+   * @param entity - Entity object (GlobalEntity or AdminObject, used to determine metadata ID and inheritance)
+   * @returns Record<fieldKey, FieldMetadataEntry> - combined input + relationship metadata
+   */
+  function getMetadata<GE extends GlobalEntityKey>(
+    entityKey: GE,
+    entity: AdminObject<GE> | import('@/types/entities').GlobalEntity<GE>
+  ): Record<string, FieldMetadataEntry> {
+    const data = globalData?.value
+    if (!data || !data.metadata) {
+      return {}
+    }
+    
+    const entityType = getEntityTypeForMetadata(entityKey)
+    if (!entityType) {
+      return {}
+    }
+    
+    const metadataId = getMetadataEntityId(entityKey, entity as import('@/types/entities').GlobalEntity<GE>)
+    if (!metadataId) {
+      return {}
+    }
+    
+    // Get input metadata
+    const inputMetadata = data.metadata.inputMetadata?.[entityType]?.[metadataId] || {}
+    
+    // Get relationship metadata
+    const relationshipMetadata = data.metadata.relationshipMetadata?.[entityType]?.[metadataId] || {}
+    
+    // Combine input and relationship metadata
+    const combinedMetadata = { ...inputMetadata, ...relationshipMetadata }
+    
+    // LEARNING: Handle inheritance for instance entities
+    // WHY: Instance entities inherit metadata from their shape
+    // PATTERN: Merge shape metadata with instance metadata (instance overrides shape)
+    if (entityType === 'blockInstance' || entityType === 'partInstance') {
+      const inheritanceSource = getInheritanceSource(entityKey, entity as import('@/types/entities').GlobalEntity<GE>)
+      if (inheritanceSource) {
+        const shapeInputMetadata = data.metadata.inputMetadata?.[inheritanceSource.entityType]?.[inheritanceSource.entityId] || {}
+        const shapeRelationshipMetadata = data.metadata.relationshipMetadata?.[inheritanceSource.entityType]?.[inheritanceSource.entityId] || {}
+        const shapeMetadata = { ...shapeInputMetadata, ...shapeRelationshipMetadata }
+        
+        // Merge: shape metadata first, then instance metadata (instance overrides)
+        return { ...shapeMetadata, ...combinedMetadata }
+      }
+    }
+    
+    return combinedMetadata
+  }
+  
   
   return {
     getEntity,
@@ -160,6 +218,7 @@ function createAdminInstance() {
     getEntityMap,
     getGlobalEntities, // Keep for backward compatibility
     getGlobalEntityById, // Keep for backward compatibility
+    getMetadata,
     adminData,
   }
 }

@@ -1,12 +1,12 @@
 /**
  * useNestedCollectionField Composable
  * 
- * LEARNING: Parses relationshipSelect config and determines display conditions
+ * LEARNING: Parses relationshipSelect config from metadata and determines display conditions
  * WHY: Extracts config parsing logic from NestedCollectionField component
  * PATTERN: Composable that provides config-derived values and display validation
  * 
  * Features:
- * - Parse relationshipSelect config
+ * - Parse relationshipSelect config from metadata.inputConfig
  * - Determine child entity key
  * - Determine relationship key
  * - Determine options field key
@@ -15,12 +15,13 @@
 
 import { computed } from 'vue'
 import { useAdmin } from '@/composables/useAdmin'
-import { useAdminConfig } from '@/composables/useAdminConfig'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
+import { useEntityMetadata } from './useEntityMetadata'
+import type { RelationshipFieldType } from '@/types/entity/formFields'
 
 /**
  * useNestedCollectionField composable
@@ -33,76 +34,149 @@ export function useNestedCollectionField<
   GF extends GlobalFieldKey<GE>
 >(fieldContext: FieldContextType<GE, GF>) {
   const adminComp = useAdmin()
-  const adminConfig = useAdminConfig()
-
+  
   /**
-   * Get form field config for this field
-   * LEARNING: Read config from adminConfig
-   * WHY: Contains relationshipSelect config with nested field settings
-   * PATTERN: Computed property that reads from adminConfig
+   * LEARNING: Get entity for metadata fetch
+   * WHY: useEntityMetadata needs entity to determine entityId
+   * PATTERN: Get entity from admin store using entityKey and entityId
    */
-  const fieldConfig = computed(() => {
+  const entity = computed(() => {
     try {
-      return adminConfig.getFormFieldConfig(fieldContext.entityKey, fieldContext.fieldKey).value
-    } catch (error) {
-      return undefined
+      return adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
+    } catch {
+      return null
     }
   })
-
+  
   /**
-   * Extract select config (relationshipSelect)
-   * LEARNING: Read relationshipSelect config from field config
-   * WHY: Contains nested field configuration (childEntityKey, optionsFieldKey, etc.)
-   * PATTERN: Computed property that extracts relationshipSelect
+   * LEARNING: Fetch field metadata from /admin-input-metadata
+   * WHY: Metadata is the source of truth for field configuration, including inputConfig
+   * PATTERN: Use useEntityMetadata composable to fetch metadata
    */
-  const selectConfig = computed(() => {
-    const config = fieldConfig.value
-    if (!config) {
+  const { fieldMetadata } = useEntityMetadata(
+    fieldContext.entityKey,
+    entity
+  )
+  
+  /**
+   * LEARNING: Get field metadata entry for this field
+   * WHY: Contains inputConfig with nested select behavior configuration
+   * PATTERN: Read from metadata Record by fieldKey
+   */
+  const fieldMetadataEntry = computed(() => {
+    if (!fieldMetadata.value) {
       return undefined
     }
-    return config?.relationshipSelect
+    return fieldMetadata.value[String(fieldContext.fieldKey)]
   })
 
   /**
-   * Get child entity key from config
+   * LEARNING: Extract select config from metadata.inputConfig - NO FALLBACKS
+   * WHY: inputConfig stores relationshipSelect config for nested fields (selectMode: 'nested')
+   * PATTERN: Read inputConfig from metadata entry, fail explicitly if missing
+   */
+  const selectConfig = computed<RelationshipFieldType<GE>>(() => {
+    const meta = fieldMetadataEntry.value
+    
+    // LEARNING: NO FALLBACKS - inputConfig is required for nested fields
+    // WHY: Nested fields must have inputConfig configured in metadata
+    // PATTERN: Fail explicitly when inputConfig is missing
+    if (!meta) {
+      throw new Error(
+        `[useNestedCollectionField] Missing FieldMetadataEntry for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Field must be configured in /admin-input-metadata.`
+      )
+    }
+    
+    if (!meta.inputConfig) {
+      throw new Error(
+        `[useNestedCollectionField] Missing inputConfig in FieldMetadataEntry for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Nested fields (renderAs: select/multiselect/reference with selectMode: nested) must have inputConfig configured.`
+      )
+    }
+    
+    // LEARNING: For nested fields, inputConfig should be RelationshipFieldType with targetMode: 'relationship'
+    // WHY: Nested fields use relationship selects, not type selects
+    // PATTERN: Cast inputConfig to RelationshipFieldType (backend validates structure)
+    const config = meta.inputConfig as RelationshipFieldType<GE>
+    
+    // LEARNING: Verify this is a relationship select (not type select)
+    // WHY: Nested fields only work with relationship selects
+    // PATTERN: Fail explicitly if targetMode is not 'relationship'
+    if (config.targetMode !== 'relationship') {
+      throw new Error(
+        `[useNestedCollectionField] Invalid targetMode in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Nested fields must have targetMode: 'relationship', got: ${config.targetMode}.`
+      )
+    }
+    
+    return config
+  })
+
+  /**
+   * Get child entity key from config - NO FALLBACKS
    * LEARNING: Extract candidateChildKey from config
    * WHY: Determines which entity type to display (e.g., "partInstance" for activeConstituents)
-   * PATTERN: Read candidateChildKey from config
+   * PATTERN: Read candidateChildKey from config, fail if missing
    */
-  const childEntityKey = computed<GlobalEntityKey | undefined>(() => {
+  const childEntityKey = computed<GlobalEntityKey>(() => {
     const config = selectConfig.value
-    if (!config) {
-      return undefined
+    
+    // LEARNING: NO FALLBACKS - candidateChildKey is required
+    // WHY: Nested fields must specify which entity type to display
+    // PATTERN: Fail explicitly when candidateChildKey is missing
+    if (!config.candidateChildKey) {
+      throw new Error(
+        `[useNestedCollectionField] Missing candidateChildKey in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Nested fields must have candidateChildKey configured.`
+      )
     }
-    return 'candidateChildKey' in config ? config.candidateChildKey as GlobalEntityKey : undefined
+    
+    return config.candidateChildKey as GlobalEntityKey
   })
 
   /**
-   * Get relationship key from config
+   * Get relationship key from config - NO FALLBACKS
    * LEARNING: Extract targetKey from config
    * WHY: Determines which relationship field to use (e.g., "activeConstituents")
-   * PATTERN: Read targetKey from config
+   * PATTERN: Read targetKey from config, fail if missing
    */
-  const relationshipKey = computed<string | undefined>(() => {
+  const relationshipKey = computed<string>(() => {
     const config = selectConfig.value
-    if (!config) {
-      return undefined
+    
+    // LEARNING: NO FALLBACKS - targetKey is required
+    // WHY: Nested fields must specify which relationship field to use
+    // PATTERN: Fail explicitly when targetKey is missing
+    if (!config.targetKey) {
+      throw new Error(
+        `[useNestedCollectionField] Missing targetKey in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Nested fields must have targetKey configured.`
+      )
     }
-    return 'targetKey' in config ? config.targetKey as string : undefined
+    
+    return config.targetKey as string
   })
 
   /**
-   * Get options field key from config
-   * LEARNING: Extract optionsFieldKey from config, default to "validConstituents"
+   * Get options field key from config - NO DEFAULTS
+   * LEARNING: Extract optionsFieldKey from config
    * WHY: Determines which field on parent type contains valid options (e.g., "validConstituents")
-   * PATTERN: Read optionsFieldKey from config with fallback
+   * PATTERN: Read optionsFieldKey from config, fail if missing
    */
   const optionsFieldKey = computed<string>(() => {
     const config = selectConfig.value
-    if (!config) {
-      return 'validConstituents'
+    
+    // LEARNING: NO DEFAULTS - optionsFieldKey must be explicitly configured
+    // WHY: Nested fields must specify which field contains valid options
+    // PATTERN: Fail explicitly when optionsFieldKey is missing
+    if (!config.optionsFieldKey) {
+      throw new Error(
+        `[useNestedCollectionField] Missing optionsFieldKey in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Nested fields must have optionsFieldKey configured (e.g., 'validConstituents').`
+      )
     }
-    return 'optionsFieldKey' in config && config.optionsFieldKey ? config.optionsFieldKey as string : 'validConstituents'
+    
+    return config.optionsFieldKey as string
   })
 
   /**
@@ -188,29 +262,52 @@ export function useNestedCollectionField<
   })
 
   /**
-   * Default expanded state
+   * Default expanded state - NO DEFAULTS
    * LEARNING: Controls whether nested collection is expanded by default
-   * WHY: Can be configured per field if needed
-   * PATTERN: Computed property with default value
+   * WHY: Should be configured in metadata if needed
+   * PATTERN: Read from metadata, undefined if not configured (no default)
    */
-  const defaultExpanded = computed<boolean>(() => {
-    return false // Default to collapsed
+  const defaultExpanded = computed<boolean | undefined>(() => {
+    const meta = fieldMetadataEntry.value
+    // LEARNING: NO DEFAULTS - expanded state should be explicitly configured
+    // WHY: If not configured, return undefined (not false)
+    // PATTERN: Return undefined if not in metadata
+    return (meta as { defaultExpanded?: boolean })?.defaultExpanded
   })
 
   /**
-   * Function to get child's parent ID
+   * Function to get child's parent ID - NO DEFAULTS
    * LEARNING: Check if child ID is in parent's relationship array
    * WHY: Determines if a child entity belongs to this parent
-   * PATTERN: Function that checks relationship array
+   * PATTERN: Function that checks relationship array, fails if required data missing
    */
   const getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {
-    if (!parentEntity.value || !relationshipKey.value) return ''
+    // LEARNING: NO FALLBACKS - parentEntity and relationshipKey are required
+    // WHY: Cannot determine parent ID without parent entity and relationship key
+    // PATTERN: Fail explicitly when required data is missing
+    if (!parentEntity.value) {
+      throw new Error(
+        `[useNestedCollectionField] Missing parentEntity for ${String(fieldContext.entityKey)}.${String(fieldContext.entityId)}. ` +
+        `Cannot determine child parent ID.`
+      )
+    }
+    
+    if (!relationshipKey.value) {
+      throw new Error(
+        `[useNestedCollectionField] Missing relationshipKey for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Cannot determine child parent ID.`
+      )
+    }
     
     // For activeConstituents relationship, check if child ID is in parent's activeConstituents array
     const parentRelationshipIds = getEntityFieldValue(parentEntity.value, String(relationshipKey.value))
     if (Array.isArray(parentRelationshipIds) && parentRelationshipIds.includes(child.id)) {
       return parentEntity.value.id
     }
+    
+    // LEARNING: NO DEFAULT - return empty string if child is not in relationship
+    // WHY: Child might not belong to this parent - empty string indicates no relationship
+    // PATTERN: Return empty string (not a default, indicates absence of relationship)
     return ''
   }
 

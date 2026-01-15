@@ -1,4 +1,4 @@
-import type { TimeSlot } from '@/types/appointment'
+import type { AppointmentSlot } from '@/types/appointment'
 
 export interface SelectedTimeSlot {
   time: string
@@ -12,36 +12,34 @@ export interface AvailabilityStepData {
 
 type BuildSelectedTimeSlotsParams = {
   selectedDateStart: string | null
-  inspectorTimeSlot: TimeSlot | null
-  clientTimeSlot: TimeSlot | null
-  onSiteTotal: number
-  presentationDuration: number
+  selectedSlot: AppointmentSlot | null
 }
 
 export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): SelectedTimeSlot[] | null {
-  if (!params.inspectorTimeSlot || !params.selectedDateStart) {
+  if (!params.selectedSlot || !params.selectedDateStart) {
     return null
   }
 
-  const baseSlots: SelectedTimeSlot[] = [
-    {
-      time: params.inspectorTimeSlot.slotStart,
-      duration: params.onSiteTotal,
-    },
-  ]
+  const slots: SelectedTimeSlot[] = []
 
-  const shouldAddClientSlot =
-    !!params.clientTimeSlot && params.clientTimeSlot.slotStart !== params.inspectorTimeSlot.slotStart
+  // Add onSite slot (inspector)
+  if (params.selectedSlot.totalOnSite) {
+    slots.push({
+      time: params.selectedSlot.totalOnSite.startTime,
+      duration: params.selectedSlot.totalOnSite.duration,
+    })
+  }
 
-  return shouldAddClientSlot
-    ? [
-        ...baseSlots,
-        {
-          time: params.clientTimeSlot!.slotStart,
-          duration: params.presentationDuration,
-        },
-      ]
-    : baseSlots
+  // Add clientPresent slot if different from onSite
+  if (params.selectedSlot.totalClientPresent && 
+      params.selectedSlot.totalClientPresent.startTime !== params.selectedSlot.totalOnSite?.startTime) {
+    slots.push({
+      time: params.selectedSlot.totalClientPresent.startTime,
+      duration: params.selectedSlot.totalClientPresent.duration,
+    })
+  }
+
+  return slots.length > 0 ? slots : null
 }
 
 export function buildAvailabilityStepData(params: {

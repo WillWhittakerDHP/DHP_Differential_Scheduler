@@ -182,18 +182,6 @@
         </VExpansionPanel>
       </VExpansionPanels>
     </div>
-
-    <VCardActions class="pa-0 mt-4">
-      <VSpacer />
-      <VBtn
-        color="primary"
-        variant="elevated"
-        :loading="isSaving"
-        @click="handleSave"
-      >
-        Save Configuration
-      </VBtn>
-    </VCardActions>
   </div>
 </template>
 
@@ -435,7 +423,9 @@ async function handleSave() {
 
 // Options for form fields
 const visibilityOptions = [
-  { title: 'Always Visible', value: 'alwaysVisible' },
+  { title: 'Not Configured', value: 'notConfigured' },
+  { title: 'Title Row', value: 'titleRow' },
+  { title: 'Static As Title', value: 'staticAsTitle' },
   { title: 'Expanded Direct', value: 'expandedDirect' },
   { title: 'Expanded Panel', value: 'expandedPanel' },
   { title: 'Hidden', value: 'hidden' },
@@ -473,4 +463,10 @@ const colorOptions = [
   { title: 'Secondary', value: 'secondary' },
   { title: 'Purple', value: 'purple' },
 ] as const
+
+// Expose save functionality to parent component
+defineExpose({
+  save: handleSave,
+  isSaving
+})
 </script>

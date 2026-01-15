@@ -6,8 +6,8 @@
  * PATTERN: Composable that provides select configuration and derived properties
  * 
  * This composable handles:
- * - Field config retrieval from adminConfig
- * - Select config extraction (relationshipSelect or typeSelect)
+ * - Field metadata retrieval from /admin-input-metadata
+ * - Select config extraction from metadata.inputConfig (relationshipSelect or typeSelect)
  * - Select mode determination (single, multiple, nested)
  * - Option entity key determination
  * - Option label key determination
@@ -16,10 +16,11 @@
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import { useAdminConfig } from '@/composables/useAdminConfig'
+import { useAdmin } from '@/composables/useAdmin'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 import type { FieldContextType } from '@/composables/useFieldContext'
+import { useEntityMetadata } from './useEntityMetadata'
 
 /**
  * Select Config Composable Options
@@ -36,12 +37,7 @@ export interface UseSelectConfigOptions {
  */
 export interface UseSelectConfigReturn {
   /**
-   * Form field config for this field
-   */
-  fieldConfig: ComputedRef<ReturnType<typeof useAdminConfig>['getFormFieldConfig'] extends (...args: any[]) => { value: infer T } ? T : never>
-  
-  /**
-   * Select config (relationshipSelect or typeSelect)
+   * Select config (relationshipSelect or typeSelect) from metadata.inputConfig
    */
   selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
   
@@ -83,32 +79,72 @@ export function useSelectConfig(
 ): UseSelectConfigReturn {
   const { fieldContext } = options
   
-  const adminConfig = useAdminConfig()
-
+  const admin = useAdmin()
+  
   /**
-   * LEARNING: Get form field config for this field
-   * WHY: Contains relationshipSelect or typeSelect config
-   * PATTERN: Read from adminConfig using entityKey and fieldKey
+   * LEARNING: Get entity for metadata fetch
+   * WHY: useEntityMetadata needs entity to determine entityId
+   * PATTERN: Get entity from admin store using entityKey and entityId
    */
-  const fieldConfig = computed(() => {
+  const entity = computed(() => {
     try {
-      return adminConfig.getFormFieldConfig(fieldContext.entityKey, fieldContext.fieldKey).value
-    } catch (error) {
+      return admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
+    } catch {
+      return null
+    }
+  })
+  
+  /**
+   * LEARNING: Fetch field metadata from /admin-input-metadata
+   * WHY: Metadata is the source of truth for field configuration, including inputConfig
+   * PATTERN: Use useEntityMetadata composable to fetch metadata
+   */
+  const { fieldMetadata } = useEntityMetadata(
+    fieldContext.entityKey,
+    entity
+  )
+  
+  /**
+   * LEARNING: Get field metadata entry for this field
+   * WHY: Contains inputConfig with select behavior configuration
+   * PATTERN: Read from metadata Record by fieldKey
+   */
+  const fieldMetadataEntry = computed(() => {
+    if (!fieldMetadata.value) {
       return undefined
     }
+    return fieldMetadata.value[String(fieldContext.fieldKey)]
   })
 
   /**
-   * LEARNING: Extract select config (relationshipSelect or typeSelect)
-   * WHY: Determines select behavior (options, filtering, etc.)
-   * PATTERN: Check for relationshipSelect first, then typeSelect
+   * LEARNING: Extract select config from metadata.inputConfig - NO FALLBACKS
+   * WHY: inputConfig stores select behavior (relationshipSelect or typeSelect) for select/multiselect/reference fields
+   * PATTERN: Read inputConfig from metadata entry, fail explicitly if missing
    */
-  const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> | undefined => {
-    const config = fieldConfig.value
-    if (!config) {
-      return undefined
+  const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> => {
+    const meta = fieldMetadataEntry.value
+    
+    // LEARNING: NO FALLBACKS - inputConfig is required for select fields
+    // WHY: Select fields must have inputConfig configured in metadata
+    // PATTERN: Fail explicitly when inputConfig is missing
+    if (!meta) {
+      throw new Error(
+        `[useSelectConfig] Missing FieldMetadataEntry for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Field must be configured in /admin-input-metadata.`
+      )
     }
-    return config?.relationshipSelect || config?.typeSelect
+    
+    if (!meta.inputConfig) {
+      throw new Error(
+        `[useSelectConfig] Missing inputConfig in FieldMetadataEntry for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Select fields (renderAs: select/multiselect/reference) must have inputConfig configured.`
+      )
+    }
+    
+    // LEARNING: inputConfig should match RelationshipFieldType or VirtualFieldType structure
+    // WHY: Backend stores select config as JSONB matching the frontend type structure
+    // PATTERN: Cast inputConfig to select config type (backend validates structure)
+    return meta.inputConfig as RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey>
   })
 
   /**
@@ -126,18 +162,25 @@ export function useSelectConfig(
   })
 
   /**
-   * LEARNING: Determine if select is multiple from config
+   * LEARNING: Determine if select is multiple from config - NO DEFAULTS
    * WHY: Config determines selectMode (single, multiple, required, nested)
-   * PATTERN: Check selectMode in config using enum values
-   * NOTE: "Nested" mode also allows multiple selections (like activeConstituents)
+   * PATTERN: Read selectMode from config, fail if missing
    */
   const isMultiple = computed(() => {
     const config = selectConfig.value
-    if (!config) return false
+    
+    // LEARNING: NO DEFAULTS - selectMode must be explicitly configured
+    // WHY: selectMode determines select behavior - missing is a configuration error
+    // PATTERN: Fail explicitly when selectMode is missing
+    if (!config.selectMode) {
+      throw new Error(
+        `[useSelectConfig] Missing selectMode in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Select fields must have selectMode configured in inputConfig.`
+      )
+    }
     
     // Check selectMode using enum values - Multiple or Nested means multi-select
-    const selectMode = config?.selectMode
-    return selectMode === RelationshipSelectModeEnum.Multiple || selectMode === RelationshipSelectModeEnum.Nested
+    return config.selectMode === RelationshipSelectModeEnum.Multiple || config.selectMode === RelationshipSelectModeEnum.Nested
   })
 
   /**
@@ -156,45 +199,67 @@ export function useSelectConfig(
   })
 
   /**
-   * LEARNING: Determine optionEntityKey from config
+   * LEARNING: Determine optionEntityKey from config - NO FALLBACKS
    * WHY: Config determines which entity type to fetch options from
-   * PATTERN: Read candidateChildKey or selectedChildKey from config
+   * PATTERN: Read candidateChildKey or targetKey from config, fail if missing
    */
   const optionEntityKey = computed(() => {
     const config = selectConfig.value
-    if (!config) return fieldContext.entityKey
     
-    // LEARNING: Use `targetMode` as a discriminant to avoid impossible narrowing (never)
-    // WHY: `candidateChildKey/selectedChildKey/selectType` exist on BOTH config variants, so checking them
-    //      doesn't narrow and can even confuse TS control-flow analysis.
+    // LEARNING: NO FALLBACKS - optionEntityKey must be explicitly configured
+    // WHY: Select fields must specify which entity type to fetch options from
+    // PATTERN: Fail explicitly when required config properties are missing
     if (config.targetMode === 'property') {
+      if (!config.targetKey) {
+        throw new Error(
+          `[useSelectConfig] Missing targetKey in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+          `Type select fields (targetMode: property) must have targetKey configured.`
+        )
+      }
       return config.targetKey
     }
-    return config.candidateChildKey as GlobalEntityKey
     
-    return fieldContext.entityKey
+    if (!config.candidateChildKey) {
+      throw new Error(
+        `[useSelectConfig] Missing candidateChildKey in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Relationship select fields (targetMode: relationship) must have candidateChildKey configured.`
+      )
+    }
+    
+    return config.candidateChildKey as GlobalEntityKey
   })
 
   /**
-   * LEARNING: Determine optionLabelKey for entity name access
-   * WHY: Configurable label key allows flexibility, defaults to 'name' to match React pattern
-   * PATTERN: Use 'name' as default, could be configured from config in future
-   * SPECIAL CASE: Annotations use 'text' field instead of 'name'
+   * LEARNING: Determine optionLabelKey for entity name access - NO DEFAULTS
+   * WHY: Label key should be explicitly configured in inputConfig
+   * PATTERN: Read from config, fail if missing (except special case for annotations)
    */
   const optionLabelKey = computed(() => {
-    // LEARNING: Annotations use 'text' field for display
+    const config = selectConfig.value
+    
+    // LEARNING: Special case for annotations - they use 'text' field
     // WHY: Annotation entity has 'text' field, not 'name' field
-    // PATTERN: Check if DescriptionSelect and use 'text', otherwise use 'name'
+    // PATTERN: Hardcoded exception for this known case
     if (isDescriptionSelect.value) {
       return 'text'
     }
-    // Default to 'name' to match React implementation
-    // Could be configured from selectConfig in future if needed
-    return 'name'
+    
+    // LEARNING: NO DEFAULTS - optionLabelKey should be configured in inputConfig
+    // WHY: Different entity types might use different label fields
+    // PATTERN: Read from config, fail if missing
+    if ('optionLabelKey' in config && config.optionLabelKey) {
+      return config.optionLabelKey as string
+    }
+    
+    // LEARNING: For now, fail if not configured (no default to 'name')
+    // WHY: Ensures explicit configuration - prevents silent fallbacks
+    throw new Error(
+      `[useSelectConfig] Missing optionLabelKey in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+      `Select fields must have optionLabelKey configured (e.g., 'name' or 'text').`
+    )
   })
 
   return {
-    fieldConfig,
     selectConfig,
     isDescriptionSelect,
     isMultiple,

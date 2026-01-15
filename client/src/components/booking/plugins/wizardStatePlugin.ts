@@ -6,34 +6,13 @@
  * PATTERN: Plugin that reads/writes to wizard composable
  */
 
-import { inject, type ComputedRef } from 'vue'
+import { inject } from 'vue'
 import type { StatePlugin, SelectionCardItem } from '../types/selectionCardTypes'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { WIZARD_FIELD_CONFIGS, type WizardInstance, type WizardStateField } from '@/utils/wizardStateFieldConfig'
 
-/**
- * Wizard composable return type
- * LEARNING: Type for useBookingWizard return value
- * WHY: Type-safe access to wizard methods and state
- * Session 1.3.9.3: Updated to use arrays for multi-select
- */
-type WizardInstance = {
-  selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null>
-  selectedServices: ComputedRef<BookingBlockInstance[]>
-  selectedPropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
-  selectedOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
-  selectUserTypeBlock: (block: BookingBlockInstance | null) => void
-  toggleService: (block: BookingBlockInstance) => void
-  togglePropertyTypeBlock: (block: BookingBlockInstance) => void
-  toggleOptionTypeBlock: (block: BookingBlockInstance) => void
-}
-
-/**
- * Wizard state field type
- * LEARNING: Which wizard field to use for state
- * WHY: Allows plugin to work with different wizard fields
- * Session 1.3.9.3: Updated field names for multi-select
- */
-export type WizardStateField = 'userTypeBlock' | 'services' | 'propertyTypeBlocks' | 'optionTypeBlocks'
+// Re-export WizardStateField for external use
+export type { WizardStateField }
 
 /**
  * Create a wizard state plugin
@@ -52,60 +31,27 @@ export function createWizardStatePlugin(field: WizardStateField): StatePlugin | 
     return null
   }
   
-  // Get the appropriate wizard field based on field parameter
-  // Session 1.3.9.3: Updated to handle arrays for multi-select fields
+  // FIX: Use config-driven field configuration instead of switch statements
+  const fieldConfig = WIZARD_FIELD_CONFIGS[field]
+  
   const getSelectedArray = (): BookingBlockInstance[] => {
-    switch (field) {
-      case 'services':
-        return wizard.selectedServices.value
-      case 'propertyTypeBlocks':
-        return wizard.selectedPropertyTypeBlocks.value
-      case 'optionTypeBlocks':
-        return wizard.selectedOptionTypeBlocks.value
-      default:
-        return []
-    }
+    return fieldConfig.getSelectedArray(wizard)
   }
   
   const getSelectedValue = (): BookingBlockInstance | null => {
-    if (field === 'userTypeBlock') {
-      return wizard.selectedUserTypeBlock.value
-    }
-    return null // Array fields handled separately
+    return fieldConfig.getSelectedValue(wizard)
   }
   
   const toggleInArray = (block: BookingBlockInstance): void => {
-    switch (field) {
-      case 'services':
-        wizard.toggleService(block)
-        break
-      case 'propertyTypeBlocks':
-        wizard.togglePropertyTypeBlock(block)
-        break
-      case 'optionTypeBlocks':
-        wizard.toggleOptionTypeBlock(block)
-        break
-    }
+    fieldConfig.toggleInArray(wizard, block)
   }
   
   const setSelectedValue = (block: BookingBlockInstance | null): void => {
-    if (field === 'userTypeBlock') {
-      wizard.selectUserTypeBlock(block)
-    }
-    // Array fields use toggle methods, not set methods
+    fieldConfig.setSelectedValue(wizard, block)
   }
   
-  const watchSource = (): ComputedRef<BookingBlockInstance[] | BookingBlockInstance | null> => {
-    switch (field) {
-      case 'userTypeBlock':
-        return wizard.selectedUserTypeBlock
-      case 'services':
-        return wizard.selectedServices
-      case 'propertyTypeBlocks':
-        return wizard.selectedPropertyTypeBlocks
-      case 'optionTypeBlocks':
-        return wizard.selectedOptionTypeBlocks
-    }
+  const watchSource = () => {
+    return fieldConfig.watchSource(wizard)
   }
   
   return {
@@ -118,13 +64,14 @@ export function createWizardStatePlugin(field: WizardStateField): StatePlugin | 
      * Session 1.3.9.3: Updated to handle arrays for multi-select fields
      */
     getValue: (item: SelectionCardItem): boolean => {
-      if (field === 'userTypeBlock') {
-        const selected = getSelectedValue()
-        return selected?.id === item.id
-      } else {
+      if (fieldConfig.isArray) {
         // Array fields: check if item.id is in the array
         const selectedArray = getSelectedArray()
         return selectedArray.some(b => b.id === item.id)
+      } else {
+        // Single-select field: check if item.id matches selected value
+        const selected = getSelectedValue()
+        return selected?.id === item.id
       }
     },
     
@@ -137,14 +84,15 @@ export function createWizardStatePlugin(field: WizardStateField): StatePlugin | 
     setValue: (item: SelectionCardItem, value: boolean | string | null): void => {
       const blockInstance = item as unknown as BookingBlockInstance
       
-      if (field === 'userTypeBlock') {
+      if (!fieldConfig.isArray) {
         // Single-select: set or clear
         if (value === true || value === item.id) {
           setSelectedValue(blockInstance)
         } else {
           setSelectedValue(null)
         }
-      } else if (field === 'services' || field === 'propertyTypeBlocks') {
+      } else if (fieldConfig.singleSelectUI) {
+        // FIX: Use config-driven single-select UI behavior instead of hardcoded field checks
         // Services: single-select UI (replace array, not toggle)
         // PropertyTypeBlocks: single-select UI (radio behavior)
         // If selecting the same service, deselect it (empty array)

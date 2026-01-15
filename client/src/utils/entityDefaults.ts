@@ -38,7 +38,6 @@ export function getEntityDisplayName(entityKey: GlobalEntityKey): string {
 const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<GlobalEntityKey>>> = {
   blockShape: {
     orderIndex: 0, // Required NOT NULL field
-    active: true,
     dependent: false,
     composable: false, // Boolean field must have explicit default
     constituable: false, // Boolean field must have explicit default
@@ -48,7 +47,6 @@ const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<Glo
     active: true,
     dependent: false,
     composite: false, // Boolean field must have explicit default
-    description: '',
     baseSqFt: 0,
   },
   partInstance: {
@@ -65,7 +63,6 @@ const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<Glo
   },
   partShape: {
     orderIndex: 0, // Required NOT NULL field
-    active: true,
     dependent: false,
   },
 }

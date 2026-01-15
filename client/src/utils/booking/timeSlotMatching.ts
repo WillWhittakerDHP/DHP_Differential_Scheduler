@@ -11,7 +11,7 @@
  */
 
 import type { Ref } from 'vue'
-import type { TimeSlot } from '@/types/appointment'
+import type { TimeSlot, TimeRange, AppointmentSlots } from '@/types/appointment'
 
 /**
  * Extract time string (HH:mm) from various time formats
@@ -64,7 +64,7 @@ export function findMatchingTimeSlot(
   if (!normalizedTime) return undefined
   
   return availableSlots.find(slot => {
-    const slotTimeString = extractTimeString(slot.slotStart)
+    const slotTimeString = extractTimeString(slot.startTime)
     return slotTimeString === normalizedTime
   })
 }
@@ -89,14 +89,14 @@ export interface LoadedTimeSlot {
  * 
  * @param loadedSlots - Array of loaded time slots from saved appointment
  * @param availableSlots - Array of currently available TimeSlot objects
- * @param inspectorTimeSlotRef - Ref to update with matched inspector slot
- * @param clientTimeSlotRef - Ref to update with matched client slot
+ * @param inspectorAppointmentSlotRef - Ref to update with matched inspector appointment slot
+ * @param clientAppointmentSlotRef - Ref to update with matched client appointment slot
  */
 export function matchLoadedTimeSlots(
   loadedSlots: LoadedTimeSlot[],
   availableSlots: TimeSlot[],
-  inspectorTimeSlotRef: Ref<TimeSlot | null>,
-  clientTimeSlotRef: Ref<TimeSlot | null>
+  inspectorAppointmentSlotRef: Ref<TimeSlot | null>,
+  clientAppointmentSlotRef: Ref<TimeSlot | null>
 ): void {
   if (loadedSlots.length === 0 || availableSlots.length === 0) return
 
@@ -104,7 +104,7 @@ export function matchLoadedTimeSlots(
   if (loadedSlots.length > 0) {
     const inspectorMatch = findMatchingTimeSlot(loadedSlots[0].time, availableSlots)
     if (inspectorMatch) {
-      inspectorTimeSlotRef.value = inspectorMatch
+      inspectorAppointmentSlotRef.value = inspectorMatch
     }
   }
 
@@ -112,7 +112,7 @@ export function matchLoadedTimeSlots(
   if (loadedSlots.length > 1) {
     const clientMatch = findMatchingTimeSlot(loadedSlots[1].time, availableSlots)
     if (clientMatch) {
-      clientTimeSlotRef.value = clientMatch
+      clientAppointmentSlotRef.value = clientMatch
     }
   }
 }
@@ -145,4 +145,177 @@ export function matchLoadedTimeSlotsImmutable(
     : null
 
   return { inspectorSlot, clientSlot }
+}
+
+/**
+ * Find AppointmentSlot by orderIndex
+ * 
+ * LEARNING: Locates AppointmentSlot at a specific normalized position
+ * WHY: AppointmentSlots are normalized by orderIndex for consistent UI positioning
+ * PATTERN: Find AppointmentSlot with matching orderIndex
+ * 
+ * @param appointmentSlots - Array of AppointmentSlot objects
+ * @param orderIndex - Normalized order index to find
+ * @returns Matching AppointmentSlot or undefined if not found
+ */
+export function findAppointmentSlotByOrderIndex(
+  appointmentSlots: AppointmentSlots,
+  orderIndex: number
+): import('@/types/appointment').AppointmentSlot | undefined {
+  return appointmentSlots.find(slot => slot.orderIndex === orderIndex)
+}
+
+/**
+ * Match loaded time slot to AppointmentSlot by orderIndex
+ * 
+ * LEARNING: Matches loaded time slot to AppointmentSlot based on normalized position
+ * WHY: For AppointmentSlots, matching is by position (orderIndex) rather than exact time
+ * PATTERN: Find AppointmentSlot at orderIndex, extract TimeSlot based on perspective
+ * 
+ * @param loadedSlot - Loaded time slot from saved appointment
+ * @param appointmentSlots - Array of AppointmentSlot objects
+ * @param orderIndex - Normalized order index to match
+ * @param timeBasis - Time perspective ('inspector' | 'client' | 'nonDifferential')
+ * @returns Matching TimeSlot or undefined if no match found
+ */
+export function findMatchingAppointmentSlot(
+  loadedSlot: LoadedTimeSlot,
+  appointmentSlots: AppointmentSlots,
+  orderIndex: number,
+  timeBasis: 'inspector' | 'client' | 'nonDifferential'
+): TimeSlot | TimeRange | undefined {
+  const appointmentSlot = findAppointmentSlotByOrderIndex(appointmentSlots, orderIndex)
+  if (!appointmentSlot) return undefined
+
+  // LEARNING: Extract TimeSlot or TimeRange based on time perspective
+  // WHY: Different perspectives show different times at the same position
+  // PATTERN: Prefer TimeSlot (clientPresentation, dataCollection), fallback to TimeRange (totalTime, totalOnSite)
+  let slot: TimeSlot | TimeRange | null = null
+  
+  if (timeBasis === 'client') {
+    slot = appointmentSlot.clientPresentation || appointmentSlot.totalTime
+  } else {
+    slot = appointmentSlot.dataCollection || appointmentSlot.totalTime || appointmentSlot.totalOnSite
+  }
+
+  if (!slot) return undefined
+
+  // LEARNING: Verify the slot time matches loaded time
+  // WHY: Ensure we're matching the correct slot even when position matches
+  // PATTERN: Compare time strings
+  const loadedTimeString = extractTimeString(loadedSlot.time)
+  const slotTimeString = extractTimeString(slot.startTime)
+  
+  return loadedTimeString === slotTimeString ? slot : undefined
+}
+
+/**
+ * Match loaded time slots to AppointmentSlots by orderIndex
+ * 
+ * LEARNING: Matches loaded slots to AppointmentSlots based on normalized positions
+ * WHY: For AppointmentSlots structure, matching is by orderIndex (position) rather than exact time
+ * PATTERN: Match first loaded slot to first AppointmentSlot (orderIndex 0), second to second, etc.
+ * 
+ * @param loadedSlots - Array of loaded time slots from saved appointment
+ * @param appointmentSlots - Array of AppointmentSlot objects
+ * @param inspectorAppointmentSlotRef - Ref to update with matched inspector appointment slot
+ * @param clientAppointmentSlotRef - Ref to update with matched client appointment slot
+ * @param timeBasis - Current time perspective ('inspector' | 'client' | 'nonDifferential')
+ */
+export function matchLoadedTimeSlotsToAppointmentSlots(
+  loadedSlots: LoadedTimeSlot[],
+  appointmentSlots: AppointmentSlots,
+  inspectorAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
+  clientAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
+  timeBasis: 'inspector' | 'client' | 'nonDifferential' = 'nonDifferential'
+): void {
+  if (loadedSlots.length === 0 || appointmentSlots.length === 0) return
+
+  // LEARNING: Match first slot to inspector (orderIndex 0)
+  // WHY: First loaded slot represents inspector start time
+  // PATTERN: Find AppointmentSlot at orderIndex 0, extract inspector perspective TimeSlot
+  if (loadedSlots.length > 0) {
+    const inspectorMatch = findMatchingAppointmentSlot(
+      loadedSlots[0],
+      appointmentSlots,
+      0,
+      timeBasis === 'nonDifferential' ? 'inspector' : timeBasis
+    )
+    if (inspectorMatch) {
+      inspectorAppointmentSlotRef.value = inspectorMatch
+    }
+  }
+
+  // LEARNING: Match second slot to client (orderIndex 0 or 1, depending on structure)
+  // WHY: Second loaded slot represents client start time (if different from inspector)
+  // PATTERN: Try orderIndex 0 first (same position, different time), then orderIndex 1
+  if (loadedSlots.length > 1) {
+    // Try matching at same orderIndex first (differential - same position, different time)
+    let clientMatch = findMatchingAppointmentSlot(
+      loadedSlots[1],
+      appointmentSlots,
+      0,
+      'client'
+    )
+    
+    // If no match at orderIndex 0, try orderIndex 1 (different position)
+    if (!clientMatch && appointmentSlots.length > 1) {
+      clientMatch = findMatchingAppointmentSlot(
+        loadedSlots[1],
+        appointmentSlots,
+        1,
+        'client'
+      )
+    }
+    
+    if (clientMatch) {
+      clientAppointmentSlotRef.value = clientMatch
+    }
+  }
+}
+
+/**
+ * @deprecated Use findAppointmentSlotByOrderIndex instead
+ */
+export function findAppointmentTimeByOrderIndex(
+  appointmentSlots: AppointmentSlots,
+  orderIndex: number
+): import('@/types/appointment').AppointmentSlot | undefined {
+  return findAppointmentSlotByOrderIndex(appointmentSlots, orderIndex)
+}
+
+/**
+ * @deprecated Use findMatchingAppointmentSlot instead
+ */
+export function findMatchingAppointmentTimeSlot(
+  loadedSlot: LoadedTimeSlot,
+  appointmentSlots: AppointmentSlots,
+  orderIndex: number,
+  timeBasis: 'inspector' | 'client' | null
+): TimeSlot | TimeRange | undefined {
+  return findMatchingAppointmentSlot(
+    loadedSlot,
+    appointmentSlots,
+    orderIndex,
+    timeBasis === null ? 'nonDifferential' : timeBasis
+  )
+}
+
+/**
+ * @deprecated Use matchLoadedTimeSlotsToAppointmentSlots instead
+ */
+export function matchLoadedTimeSlotsToAppointmentTimes(
+  loadedSlots: LoadedTimeSlot[],
+  appointmentSlots: AppointmentSlots,
+  inspectorAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
+  clientAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
+  timeBasis: 'inspector' | 'client' | null = null
+): void {
+  return matchLoadedTimeSlotsToAppointmentSlots(
+    loadedSlots,
+    appointmentSlots,
+    inspectorAppointmentSlotRef,
+    clientAppointmentSlotRef,
+    timeBasis === null ? 'nonDifferential' : timeBasis
+  )
 }

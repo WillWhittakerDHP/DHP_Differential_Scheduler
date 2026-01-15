@@ -184,7 +184,7 @@ export function categorizeFieldsBySection(
       return acc
     }
     
-    // LEARNING: Status button fields appear in BOTH header (via statusButtonFields) AND form fields
+    // LEARNING: Status button fields appear in BOTH title row (via statusButtonFields) AND form fields
     // WHY: Status buttons should render as status button chips in both locations
     // PATTERN: Include status buttons in regular categorization so they render in form fields too
     // NOTE: They'll also appear in statusButtonFields array for header rendering

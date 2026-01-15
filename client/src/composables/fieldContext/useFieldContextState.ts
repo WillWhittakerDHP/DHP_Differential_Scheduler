@@ -1,4 +1,4 @@
-import { computed, ref, toRaw, type Ref, type ComputedRef } from 'vue'
+import { computed, ref, toRaw, watch, type Ref, type ComputedRef } from 'vue'
 import { useField, useForm, type FieldOptions } from 'vee-validate'
 import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -6,8 +6,6 @@ import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId } from '@/types/entities'
 import { usePrimitiveMutation } from '@/composables/useEntity'
 import { useAdmin } from '@/composables/useAdmin'
-import { getFieldMetadata } from '@/composables/useFieldMetadata'
-import type { RenderLogger } from '@/utils/renderLogger'
 import { useComponentEntity } from '@/composables/useComponentEntity'
 import type { FieldDisplayConfig, FieldValidationRules } from './types'
 
@@ -16,7 +14,6 @@ export type UseFieldContextStateOptions<GE extends GlobalEntityKey, FieldKey ext
   displayConfig?: Partial<FieldDisplayConfig<GE, FieldKey>>
   validationRules?: FieldValidationRules
   initialValue?: ValidAdminValue
-  logger?: RenderLogger
 }
 
 export type UseFieldContextStateReturn<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
@@ -73,7 +70,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     displayConfig: providedDisplayConfig = {},
     validationRules: providedValidationRules = {},
     initialValue: explicitInitialValue,
-    logger,
   } = options || {}
 
   const isTempEntity = computed(() => {
@@ -119,62 +115,33 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
   const formInstance = form || useForm()
 
   const getInitialValue = (): ValidAdminValue => {
+    // LEARNING: Explicit initialValue takes precedence (per vee-validate pattern)
+    // WHY: If caller provides explicit initialValue, use it
     if (explicitInitialValue !== undefined) {
-      if (logger) {
-        logger.logData(`Initial value resolution for ${String(fieldKey)}`, {
-          source: 'explicitInitialValue',
-          value: explicitInitialValue,
-        })
-      }
       return explicitInitialValue
     }
 
+    // LEARNING: Read from form's values (per vee-validate best practices)
+    // WHY: Fields should get initial values from form, not directly from entity
+    //      When form.resetForm() is called, it updates form.values, and fields should read from there
+    // PATTERN: Check form.values first (form handles initial values via resetForm)
     if (formInstance && formInstance.values) {
       const formValues = formInstance.values
       if (formValues && typeof formValues === 'object') {
         const formValue = (formValues as Record<string, unknown>)[String(fieldKey)]
         if (formValue !== undefined && formValue !== null) {
-          if (logger) {
-            logger.logData(`Initial value resolution for ${String(fieldKey)}`, {
-              source: 'form.values',
-              formValue,
-              entityValue: entityValue.value,
-              using: 'formValue',
-            })
-          }
           return formValue as ValidAdminValue
         }
       }
     }
 
-    const storeValue = entityValue.value
-    
-    if (logger) {
-      logger.logData(`Initial value resolution for ${String(fieldKey)}`, {
-        source: 'entityValue (store)',
-        formValue:
-          formInstance?.values && typeof formInstance.values === 'object'
-            ? (formInstance.values as Record<string, ValidAdminValue>)[String(fieldKey)]
-            : undefined,
-        entityValue: storeValue,
-        using: 'entityValue',
-      })
-    }
-    return storeValue
+    // LEARNING: Fallback to entityValue only if form doesn't have the value
+    // WHY: This handles cases where field is created before form is initialized
+    //      But form.resetForm() should update form.values, so this is just a fallback
+    return entityValue.value
   }
 
   const initialValue = getInitialValue()
-
-  if (logger) {
-    logger.logStep(`Initial value resolved for ${String(fieldKey)}`, {
-      initialValue,
-      hasForm: !!formInstance,
-      formHasValue:
-        formInstance?.values && typeof formInstance.values === 'object'
-          ? (formInstance.values as Record<string, ValidAdminValue>)[String(fieldKey)] !== undefined
-          : false,
-    })
-  }
 
   const validationRulesObject = (() => {
     const rules: Partial<FieldValidationRules> = {}
@@ -214,24 +181,11 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     validateOnValueUpdate: true,
   }
 
-  const { value, errorMessage, meta, handleChange, validate: validateField } = useField<ValidAdminValue>(
+  const { value, errorMessage, meta, handleChange, setValue: setFieldValue, validate: validateField } = useField<ValidAdminValue>(
     fieldKey as string,
     rules,
     fieldOptions
   )
-
-  if (logger) {
-    logger.logStep(`useField created for ${String(fieldKey)}`, {
-      initialValue: value.value,
-      hasRules: hasRules,
-      formProvided: !!formInstance,
-      valueIsRef: value && typeof value === 'object' && 'value' in value,
-      valueType: typeof value,
-      valueKeys: value && typeof value === 'object' ? Object.keys(value) : [],
-      valueValue: value?.value,
-      valueValueType: typeof value?.value,
-    })
-  }
 
   const error = computed(() => errorMessage.value)
   const isValid = computed(() => meta.valid)
@@ -239,22 +193,41 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
   const isValidating = ref(false)
   const isFocused = ref(false)
 
-  const fieldMetadata = getFieldMetadata(entityKey, fieldKey)
-  const isDisabled = ref(providedDisplayConfig.disabled ?? fieldMetadata.disabled ?? false)
+  // LEARNING: NO FALLBACKS - displayConfig must be complete from metadata
+  // WHY: Metadata is the single source of truth - missing config is a configuration error
+  // PATTERN: Fail explicitly when required properties are missing
+  const hasProvidedLabel = providedDisplayConfig.label !== undefined && providedDisplayConfig.label !== null
+  const hasProvidedFieldType = providedDisplayConfig.fieldType !== undefined && providedDisplayConfig.fieldType !== null
 
-  const displayConfig: FieldDisplayConfig<GE, FieldKey> = {
-    label: providedDisplayConfig.label ?? fieldMetadata.label,
-    placeholder: providedDisplayConfig.placeholder ?? fieldMetadata.placeholder,
-    helpText: providedDisplayConfig.helpText ?? fieldMetadata.helpText,
-    required: providedDisplayConfig.required ?? fieldMetadata.required ?? false,
-    disabled: providedDisplayConfig.disabled ?? fieldMetadata.disabled ?? false,
-    readOnly: providedDisplayConfig.readOnly ?? fieldMetadata.readOnly ?? false,
-    fieldType: providedDisplayConfig.fieldType ?? fieldMetadata.fieldType,
-    displayOrder: providedDisplayConfig.displayOrder ?? 0,
+  if (!hasProvidedLabel || !hasProvidedFieldType) {
+    const error = new Error(
+      `[useFieldContextState] Missing required displayConfig for ${String(entityKey)}.${String(fieldKey)}. ` +
+      `Expected label and fieldType from metadata. Field must be configured in /admin-input-metadata.`
+    )
+    console.error(error)
+    throw error
   }
 
+  // LEARNING: NO DEFAULTS - use provided values directly
+  // WHY: Metadata is authoritative - if property doesn't exist, it's undefined (not a default)
+  // PATTERN: Use providedDisplayConfig properties directly, no fallbacks
+  const isDisabled = ref(providedDisplayConfig.disabled === true) // Explicit boolean, no default
+
+  const displayConfig: FieldDisplayConfig<GE, FieldKey> = {
+    label: providedDisplayConfig.label!,
+    placeholder: providedDisplayConfig.placeholder, // No default - undefined if not provided
+    helpText: providedDisplayConfig.helpText, // No default - undefined if not provided
+    required: providedDisplayConfig.required === true, // Explicit boolean, no default
+    disabled: providedDisplayConfig.disabled === true, // Explicit boolean, no default
+    readOnly: providedDisplayConfig.readOnly === true, // Explicit boolean, no default
+    fieldType: providedDisplayConfig.fieldType!,
+    displayOrder: providedDisplayConfig.displayOrder, // No default - undefined if not provided
+  }
+
+  // LEARNING: NO DEFAULTS - validation rules come from metadata or are undefined
+  // WHY: Validation rules should be explicitly configured, not defaulted
+  // PATTERN: Use providedValidationRules directly, no default required: false
   const validationRules: FieldValidationRules = {
-    required: false,
     ...providedValidationRules,
   }
 
@@ -262,6 +235,34 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
   const { mutateAsync: patchFieldAsync } = usePrimitiveMutation(entityKey)
 
   const toPlainValue = (raw: unknown): unknown => toRaw(raw)
+
+  // LEARNING: Sync entityValue to field value when entity loads (per vee-validate best practices)
+  // WHY: If entity loads after field creation, initialValue might be empty but entityValue has data
+  //      resetForm in EntityCard.vue should handle this, but as a fallback we sync here
+  // PATTERN: Use setValue for programmatic updates from store (per vee-validate docs)
+  // NOTE: Only sync if field isn't dirty to avoid overwriting user edits
+  watch(
+    () => entityValue.value,
+    (newEntityValue) => {
+      // LEARNING: Only sync if field is not dirty (user hasn't edited it)
+      // WHY: Don't overwrite user edits - if user has edited the field, keep their value
+      // PATTERN: Check isDirty before syncing (per vee-validate best practices)
+      if (meta.dirty) {
+        return
+      }
+      
+      // LEARNING: Only sync if value actually changed
+      // WHY: Avoid unnecessary updates and potential infinite loops
+      // PATTERN: Compare current field value with new entity value
+      if (value.value !== newEntityValue) {
+        // LEARNING: Use setValue for programmatic updates (per vee-validate docs)
+        // WHY: setValue properly updates the field value and triggers reactivity
+        // PATTERN: Call setValue with the new value from store
+        setFieldValue(newEntityValue)
+      }
+    },
+    { immediate: true } // Run immediately to sync when field is created and when entityValue changes
+  )
 
   return {
     fieldKey,
@@ -278,6 +279,7 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     isValid,
     isDirty,
     validateField,
+    setValue: setFieldValue,
     handleChange: (nextValue: ValidAdminValue) => handleChange(nextValue),
     isValidating,
     isFocused,

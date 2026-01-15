@@ -1,22 +1,1085 @@
 {
-  "generatedAt": "2026-01-09T15:50:33.361Z",
+  "generatedAt": "2026-01-14T02:10:11.138Z",
   "scope": {
     "command": "node_modules/.bin/vue-tsc -b --pretty false",
     "cwd": ""
   },
-  "exitCode": 0,
+  "exitCode": 1,
   "command": "node_modules/.bin/vue-tsc -b --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 26,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "file": "src/components/admin/BlockShapeEditModal.vue",
+      "line": 184,
+      "col": 3,
+      "code": "TS6133",
+      "message": "'getBlockShapeFieldMetadata' is declared but its value is never read.",
+      "raw": "src/components/admin/BlockShapeEditModal.vue(184,3): error TS6133: 'getBlockShapeFieldMetadata' is declared but its value is never read.",
+      "repoPath": "src/components/admin/BlockShapeEditModal.vue"
+    },
+    {
+      "file": "src/components/admin/BlockShapeEditModal.vue",
+      "line": 224,
+      "col": 3,
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'composable' does not exist in type 'Record<keyof BlockInstanceEntity, FieldMetadataEntry>'.",
+      "raw": "src/components/admin/BlockShapeEditModal.vue(224,3): error TS2353: Object literal may only specify known properties, and 'composable' does not exist in type 'Record<keyof BlockInstanceEntity, FieldMetadataEntry>'.",
+      "repoPath": "src/components/admin/BlockShapeEditModal.vue"
+    },
+    {
+      "file": "src/components/admin/generic/collections/PartsCollection.vue",
+      "line": 15,
+      "col": 27,
+      "code": "TS18048",
+      "message": "'__VLS_ctx.parentEntity' is possibly 'undefined'.",
+      "raw": "src/components/admin/generic/collections/PartsCollection.vue(15,27): error TS18048: '__VLS_ctx.parentEntity' is possibly 'undefined'.",
+      "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
+    },
+    {
+      "file": "src/components/admin/generic/collections/PartsCollection.vue",
+      "line": 16,
+      "col": 8,
+      "code": "TS2322",
+      "message": "Type 'number | null | undefined' is not assignable to type 'PartInstanceBulkEditData | undefined'.",
+      "raw": "src/components/admin/generic/collections/PartsCollection.vue(16,8): error TS2322: Type 'number | null | undefined' is not assignable to type 'PartInstanceBulkEditData | undefined'.",
+      "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
+    },
+    {
+      "file": "src/components/admin/generic/collections/PartsCollection.vue",
+      "line": 82,
+      "col": 114,
+      "code": "TS2345",
+      "message": "Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof PartInstanceEntity'.",
+      "raw": "src/components/admin/generic/collections/PartsCollection.vue(82,114): error TS2345: Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof PartInstanceEntity'.",
+      "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
+    },
+    {
+      "file": "src/components/admin/generic/EntityCard.vue",
+      "line": 25,
+      "col": 42,
+      "code": "TS6133",
+      "message": "'StatusButtonField' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/EntityCard.vue(25,42): error TS6133: 'StatusButtonField' is declared but its value is never read.",
+      "repoPath": "src/components/admin/generic/EntityCard.vue"
+    },
+    {
+      "file": "src/components/admin/generic/EntityCard.vue",
+      "line": 26,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'getPartShapeFieldMetadata' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/EntityCard.vue(26,1): error TS6133: 'getPartShapeFieldMetadata' is declared but its value is never read.",
+      "repoPath": "src/components/admin/generic/EntityCard.vue"
+    },
+    {
+      "file": "src/components/admin/generic/EntityCard.vue",
+      "line": 27,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'getBlockShapeFieldMetadata' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/EntityCard.vue(27,1): error TS6133: 'getBlockShapeFieldMetadata' is declared but its value is never read.",
+      "repoPath": "src/components/admin/generic/EntityCard.vue"
+    },
+    {
+      "file": "src/components/admin/generic/EntityCard.vue",
+      "line": 386,
+      "col": 40,
+      "code": "TS2345",
+      "message": "Argument of type 'BlockShapeEntity | PartShapeEntity | null' is not assignable to parameter of type 'null'.",
+      "raw": "src/components/admin/generic/EntityCard.vue(386,40): error TS2345: Argument of type 'BlockShapeEntity | PartShapeEntity | null' is not assignable to parameter of type 'null'.",
+      "repoPath": "src/components/admin/generic/EntityCard.vue"
+    },
+    {
+      "file": "src/components/admin/generic/fields/InputRenderer.vue",
+      "line": 107,
+      "col": 3,
+      "code": "TS2322",
+      "message": "Type 'ComputedRef<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | undefined>' is not assignable to type '\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | Ref<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\", \"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">'.",
+      "raw": "src/components/admin/generic/fields/InputRenderer.vue(107,3): error TS2322: Type 'ComputedRef<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | undefined>' is not assignable to type '\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | Ref<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\", \"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">'.",
+      "repoPath": "src/components/admin/generic/fields/InputRenderer.vue"
+    },
+    {
+      "file": "src/components/admin/generic/fields/InputRenderer.vue",
+      "line": 108,
+      "col": 3,
+      "code": "TS2322",
+      "message": "Type 'ComputedRef<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | undefined>' is not assignable to type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | Ref<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">, GlobalFieldKey<...>>'.",
+      "raw": "src/components/admin/generic/fields/InputRenderer.vue(108,3): error TS2322: Type 'ComputedRef<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | undefined>' is not assignable to type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | Ref<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">, GlobalFieldKey<...>>'.",
+      "repoPath": "src/components/admin/generic/fields/InputRenderer.vue"
+    },
+    {
+      "file": "src/components/admin/PartInstanceBulkEditModal.vue",
+      "line": 135,
+      "col": 81,
+      "code": "TS2339",
+      "message": "Property 'activeConstituents' does not exist on type 'BlockInstanceEntity'.",
+      "raw": "src/components/admin/PartInstanceBulkEditModal.vue(135,81): error TS2339: Property 'activeConstituents' does not exist on type 'BlockInstanceEntity'.",
+      "repoPath": "src/components/admin/PartInstanceBulkEditModal.vue"
+    },
+    {
+      "file": "src/components/admin/PartInstanceBulkEditModal.vue",
+      "line": 161,
+      "col": 51,
+      "code": "TS2345",
+      "message": "Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.",
+      "raw": "src/components/admin/PartInstanceBulkEditModal.vue(161,51): error TS2345: Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.",
+      "repoPath": "src/components/admin/PartInstanceBulkEditModal.vue"
+    },
+    {
+      "file": "src/components/admin/PartShapeEditModal.vue",
+      "line": 182,
+      "col": 3,
+      "code": "TS6133",
+      "message": "'getPartShapeFieldMetadata' is declared but its value is never read.",
+      "raw": "src/components/admin/PartShapeEditModal.vue(182,3): error TS6133: 'getPartShapeFieldMetadata' is declared but its value is never read.",
+      "repoPath": "src/components/admin/PartShapeEditModal.vue"
+    },
+    {
+      "file": "src/composables/admin/usePartInstanceBulkEdit.ts",
+      "line": 15,
+      "col": 15,
+      "code": "TS6133",
+      "message": "'computed' is declared but its value is never read.",
+      "raw": "src/composables/admin/usePartInstanceBulkEdit.ts(15,15): error TS6133: 'computed' is declared but its value is never read.",
+      "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts"
+    },
+    {
+      "file": "src/composables/admin/usePartInstanceBulkEdit.ts",
+      "line": 159,
+      "col": 55,
+      "code": "TS2345",
+      "message": "Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.",
+      "raw": "src/composables/admin/usePartInstanceBulkEdit.ts(159,55): error TS2345: Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.",
+      "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts"
+    },
+    {
+      "file": "src/composables/admin/useStatusButtonFields.ts",
+      "line": 21,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'GlobalFieldKey' is declared but its value is never read.",
+      "raw": "src/composables/admin/useStatusButtonFields.ts(21,1): error TS6133: 'GlobalFieldKey' is declared but its value is never read.",
+      "repoPath": "src/composables/admin/useStatusButtonFields.ts"
+    },
+    {
+      "file": "src/composables/admin/useStatusButtonFields.ts",
+      "line": 102,
+      "col": 45,
+      "code": "TS6133",
+      "message": "'GE' is declared but its value is never read.",
+      "raw": "src/composables/admin/useStatusButtonFields.ts(102,45): error TS6133: 'GE' is declared but its value is never read.",
+      "repoPath": "src/composables/admin/useStatusButtonFields.ts"
+    },
+    {
+      "file": "src/composables/admin/useStatusButtonFields.ts",
+      "line": 274,
+      "col": 29,
+      "code": "TS18048",
+      "message": "'blockShapeProperties' is possibly 'undefined'.",
+      "raw": "src/composables/admin/useStatusButtonFields.ts(274,29): error TS18048: 'blockShapeProperties' is possibly 'undefined'.",
+      "repoPath": "src/composables/admin/useStatusButtonFields.ts"
+    },
+    {
+      "file": "src/composables/admin/useStatusButtonFields.ts",
+      "line": 274,
+      "col": 50,
+      "code": "TS2339",
+      "message": "Property 'value' does not exist on type '{ constituable?: boolean | undefined; composable?: boolean | undefined; composite?: boolean | undefined; }'.",
+      "raw": "src/composables/admin/useStatusButtonFields.ts(274,50): error TS2339: Property 'value' does not exist on type '{ constituable?: boolean | undefined; composable?: boolean | undefined; composite?: boolean | undefined; }'.",
+      "repoPath": "src/composables/admin/useStatusButtonFields.ts"
+    },
+    {
+      "file": "src/utils/forms/fieldSectionCategorization.ts",
+      "line": 1,
+      "col": 30,
+      "code": "TS6196",
+      "message": "'SubPanelType' is declared but never used.",
+      "raw": "src/utils/forms/fieldSectionCategorization.ts(1,30): error TS6196: 'SubPanelType' is declared but never used.",
+      "repoPath": "src/utils/forms/fieldSectionCategorization.ts"
+    },
+    {
+      "file": "src/utils/forms/fieldSectionCategorization.ts",
+      "line": 8,
+      "col": 43,
+      "code": "TS6133",
+      "message": "'FieldMetadataEntry' is declared but its value is never read.",
+      "raw": "src/utils/forms/fieldSectionCategorization.ts(8,43): error TS6133: 'FieldMetadataEntry' is declared but its value is never read.",
+      "repoPath": "src/utils/forms/fieldSectionCategorization.ts"
+    },
+    {
+      "file": "src/views/admin/tabs/InstancesTab.vue",
+      "line": 897,
+      "col": 43,
+      "code": "TS7053",
+      "message": "Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.",
+      "raw": "src/views/admin/tabs/InstancesTab.vue(897,43): error TS7053: Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.",
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+    },
+    {
+      "file": "src/views/admin/tabs/InstancesTab.vue",
+      "line": 901,
+      "col": 55,
+      "code": "TS7053",
+      "message": "Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.",
+      "raw": "src/views/admin/tabs/InstancesTab.vue(901,55): error TS7053: Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.",
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+    },
+    {
+      "file": "src/views/admin/tabs/InstancesTab.vue",
+      "line": 954,
+      "col": 78,
+      "code": "TS2345",
+      "message": "Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof BlockInstanceEntity'.",
+      "raw": "src/views/admin/tabs/InstancesTab.vue(954,78): error TS2345: Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof BlockInstanceEntity'.",
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+    },
+    {
+      "file": "src/views/admin/tabs/InstancesTab.vue",
+      "line": 1038,
+      "col": 59,
+      "code": "TS2339",
+      "message": "Property 'value' does not exist on type 'BlockInstanceStatusButtonField'.",
+      "raw": "src/views/admin/tabs/InstancesTab.vue(1038,59): error TS2339: Property 'value' does not exist on type 'BlockInstanceStatusButtonField'.",
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+    }
+  ],
   "allowedErrors": [],
-  "pools": [],
-  "files": []
+  "pools": [
+    {
+      "poolId": "TS2345-ts2345-arg-globalentity-partshapeentity-null-undefined",
+      "groupKey": "TS2345::arg:GlobalEntity<...>=>PartShapeEntity | null | undefined",
+      "errorCount": 2,
+      "fileCount": 2,
+      "severityScore": 20,
+      "blastRadiusScore": 4,
+      "repetitionScore": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 26,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/PartInstanceBulkEditModal.vue",
+          "line": 161,
+          "col": 51,
+          "code": "TS2345",
+          "message": "Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'."
+        },
+        {
+          "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts",
+          "line": 159,
+          "col": 55,
+          "code": "TS2345",
+          "message": "Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'."
+        }
+      ],
+      "priority": "P0"
+    },
+    {
+      "poolId": "TS7053-ts7053-element-implicitly-has-an-any-type-because-expression-of-type-globalfieldkey-blockinstance-blockshape-partinstanc",
+      "groupKey": "TS7053::Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 0 more ...; isComposer?: boolean | un...",
+      "errorCount": 2,
+      "fileCount": 1,
+      "severityScore": 14,
+      "blastRadiusScore": 2,
+      "repetitionScore": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 18,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 897,
+          "col": 43,
+          "code": "TS7053",
+          "message": "Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'."
+        },
+        {
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 901,
+          "col": 55,
+          "code": "TS7053",
+          "message": "Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'."
+        }
+      ],
+      "priority": "P0"
+    },
+    {
+      "poolId": "TS2322-ts2322-assign-computedref-blockinstance-blockshape-partinstance-partshape-ref",
+      "groupKey": "TS2322::assign:ComputedRef<...>=>\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | Ref<...>",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/fields/InputRenderer.vue",
+          "line": 107,
+          "col": 3,
+          "code": "TS2322",
+          "message": "Type 'ComputedRef<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | undefined>' is not assignable to type '\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | Ref<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\", \"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2322-ts2322-assign-computedref-undefined-globalfieldkey-ref-globalfieldkey",
+      "groupKey": "TS2322::assign:ComputedRef<...> | undefined>=>GlobalFieldKey<...> | Ref<...>, GlobalFieldKey<...>>",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/fields/InputRenderer.vue",
+          "line": 108,
+          "col": 3,
+          "code": "TS2322",
+          "message": "Type 'ComputedRef<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | undefined>' is not assignable to type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | Ref<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">, GlobalFieldKey<...>>'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2322-ts2322-assign-number-null-undefined-partinstancebulkeditdata-undefined",
+      "groupKey": "TS2322::assign:number | null | undefined=>PartInstanceBulkEditData | undefined",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/collections/PartsCollection.vue",
+          "line": 16,
+          "col": 8,
+          "code": "TS2322",
+          "message": "Type 'number | null | undefined' is not assignable to type 'PartInstanceBulkEditData | undefined'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2339-ts2339-prop-activeconstituents-blockinstanceentity",
+      "groupKey": "TS2339::prop:activeConstituents@BlockInstanceEntity",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/PartInstanceBulkEditModal.vue",
+          "line": 135,
+          "col": 81,
+          "code": "TS2339",
+          "message": "Property 'activeConstituents' does not exist on type 'BlockInstanceEntity'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2339-ts2339-prop-value",
+      "groupKey": "TS2339::prop:value@{...}",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useStatusButtonFields.ts",
+          "line": 274,
+          "col": 50,
+          "code": "TS2339",
+          "message": "Property 'value' does not exist on type '{ constituable?: boolean | undefined; composable?: boolean | undefined; composite?: boolean | undefined; }'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2339-ts2339-prop-value-blockinstancestatusbuttonfield",
+      "groupKey": "TS2339::prop:value@BlockInstanceStatusButtonField",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 1038,
+          "col": 59,
+          "code": "TS2339",
+          "message": "Property 'value' does not exist on type 'BlockInstanceStatusButtonField'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2345-ts2345-arg-blockshapeentity-partshapeentity-null-null",
+      "groupKey": "TS2345::arg:BlockShapeEntity | PartShapeEntity | null=>null",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/EntityCard.vue",
+          "line": 386,
+          "col": 40,
+          "code": "TS2345",
+          "message": "Argument of type 'BlockShapeEntity | PartShapeEntity | null' is not assignable to parameter of type 'null'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2345-ts2345-arg-globalfieldkey-keyof-blockinstanceentity",
+      "groupKey": "TS2345::arg:GlobalFieldKey<...>=>keyof BlockInstanceEntity",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 954,
+          "col": 78,
+          "code": "TS2345",
+          "message": "Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof BlockInstanceEntity'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2345-ts2345-arg-globalfieldkey-keyof-partinstanceentity",
+      "groupKey": "TS2345::arg:GlobalFieldKey<...>=>keyof PartInstanceEntity",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/collections/PartsCollection.vue",
+          "line": 82,
+          "col": 114,
+          "code": "TS2345",
+          "message": "Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof PartInstanceEntity'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2353-ts2353-object-literal-may-only-specify-known-properties-and-composable-does-not-exist-in-type-record-keyof-blockinstance",
+      "groupKey": "TS2353::Object literal may only specify known properties, and 'composable' does not exist in type 'Record<keyof BlockInstanceEntity, FieldMetadataEntry>'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/BlockShapeEditModal.vue",
+          "line": 224,
+          "col": 3,
+          "code": "TS2353",
+          "message": "Object literal may only specify known properties, and 'composable' does not exist in type 'Record<keyof BlockInstanceEntity, FieldMetadataEntry>'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS6133-ts6133-getblockshapefieldmetadata-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getBlockShapeFieldMetadata' is declared but its value is never read.",
+      "errorCount": 2,
+      "fileCount": 2,
+      "severityScore": 6,
+      "blastRadiusScore": 4,
+      "repetitionScore": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 12,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/BlockShapeEditModal.vue",
+          "line": 184,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'getBlockShapeFieldMetadata' is declared but its value is never read."
+        },
+        {
+          "repoPath": "src/components/admin/generic/EntityCard.vue",
+          "line": 27,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'getBlockShapeFieldMetadata' is declared but its value is never read."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS6133-ts6133-getpartshapefieldmetadata-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getPartShapeFieldMetadata' is declared but its value is never read.",
+      "errorCount": 2,
+      "fileCount": 2,
+      "severityScore": 6,
+      "blastRadiusScore": 4,
+      "repetitionScore": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 12,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/EntityCard.vue",
+          "line": 26,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'getPartShapeFieldMetadata' is declared but its value is never read."
+        },
+        {
+          "repoPath": "src/components/admin/PartShapeEditModal.vue",
+          "line": 182,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'getPartShapeFieldMetadata' is declared but its value is never read."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS18048-ts18048-blockshapeproperties-is-possibly-undefined",
+      "groupKey": "TS18048::'blockShapeProperties' is possibly 'undefined'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 8,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 11,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useStatusButtonFields.ts",
+          "line": 274,
+          "col": 29,
+          "code": "TS18048",
+          "message": "'blockShapeProperties' is possibly 'undefined'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS18048-ts18048-vls-ctx-parententity-is-possibly-undefined",
+      "groupKey": "TS18048::'__VLS_ctx.parentEntity' is possibly 'undefined'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 8,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 11,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/collections/PartsCollection.vue",
+          "line": 15,
+          "col": 27,
+          "code": "TS18048",
+          "message": "'__VLS_ctx.parentEntity' is possibly 'undefined'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS6133-ts6133-computed-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'computed' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts",
+          "line": 15,
+          "col": 15,
+          "code": "TS6133",
+          "message": "'computed' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-fieldmetadataentry-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'FieldMetadataEntry' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/forms/fieldSectionCategorization.ts",
+          "line": 8,
+          "col": 43,
+          "code": "TS6133",
+          "message": "'FieldMetadataEntry' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-ge-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'GE' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useStatusButtonFields.ts",
+          "line": 102,
+          "col": 45,
+          "code": "TS6133",
+          "message": "'GE' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-globalfieldkey-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'GlobalFieldKey' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useStatusButtonFields.ts",
+          "line": 21,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'GlobalFieldKey' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-statusbuttonfield-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'StatusButtonField' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/EntityCard.vue",
+          "line": 25,
+          "col": 42,
+          "code": "TS6133",
+          "message": "'StatusButtonField' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6196-ts6196-subpaneltype-is-declared-but-never-used",
+      "groupKey": "TS6196::'SubPanelType' is declared but never used.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/forms/fieldSectionCategorization.ts",
+          "line": 1,
+          "col": 30,
+          "code": "TS6196",
+          "message": "'SubPanelType' is declared but never used."
+        }
+      ],
+      "priority": "P2"
+    }
+  ],
+  "files": [
+    {
+      "repoPath": "src/components/admin/generic/EntityCard.vue",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/EntityCard.vue",
+          "line": 25,
+          "col": 42,
+          "code": "TS6133",
+          "message": "'StatusButtonField' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/EntityCard.vue(25,42): error TS6133: 'StatusButtonField' is declared but its value is never read.",
+          "repoPath": "src/components/admin/generic/EntityCard.vue"
+        },
+        {
+          "file": "src/components/admin/generic/EntityCard.vue",
+          "line": 26,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'getPartShapeFieldMetadata' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/EntityCard.vue(26,1): error TS6133: 'getPartShapeFieldMetadata' is declared but its value is never read.",
+          "repoPath": "src/components/admin/generic/EntityCard.vue"
+        },
+        {
+          "file": "src/components/admin/generic/EntityCard.vue",
+          "line": 27,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'getBlockShapeFieldMetadata' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/EntityCard.vue(27,1): error TS6133: 'getBlockShapeFieldMetadata' is declared but its value is never read.",
+          "repoPath": "src/components/admin/generic/EntityCard.vue"
+        },
+        {
+          "file": "src/components/admin/generic/EntityCard.vue",
+          "line": 386,
+          "col": 40,
+          "code": "TS2345",
+          "message": "Argument of type 'BlockShapeEntity | PartShapeEntity | null' is not assignable to parameter of type 'null'.",
+          "raw": "src/components/admin/generic/EntityCard.vue(386,40): error TS2345: Argument of type 'BlockShapeEntity | PartShapeEntity | null' is not assignable to parameter of type 'null'.",
+          "repoPath": "src/components/admin/generic/EntityCard.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/admin/useStatusButtonFields.ts",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/admin/useStatusButtonFields.ts",
+          "line": 21,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'GlobalFieldKey' is declared but its value is never read.",
+          "raw": "src/composables/admin/useStatusButtonFields.ts(21,1): error TS6133: 'GlobalFieldKey' is declared but its value is never read.",
+          "repoPath": "src/composables/admin/useStatusButtonFields.ts"
+        },
+        {
+          "file": "src/composables/admin/useStatusButtonFields.ts",
+          "line": 102,
+          "col": 45,
+          "code": "TS6133",
+          "message": "'GE' is declared but its value is never read.",
+          "raw": "src/composables/admin/useStatusButtonFields.ts(102,45): error TS6133: 'GE' is declared but its value is never read.",
+          "repoPath": "src/composables/admin/useStatusButtonFields.ts"
+        },
+        {
+          "file": "src/composables/admin/useStatusButtonFields.ts",
+          "line": 274,
+          "col": 29,
+          "code": "TS18048",
+          "message": "'blockShapeProperties' is possibly 'undefined'.",
+          "raw": "src/composables/admin/useStatusButtonFields.ts(274,29): error TS18048: 'blockShapeProperties' is possibly 'undefined'.",
+          "repoPath": "src/composables/admin/useStatusButtonFields.ts"
+        },
+        {
+          "file": "src/composables/admin/useStatusButtonFields.ts",
+          "line": 274,
+          "col": 50,
+          "code": "TS2339",
+          "message": "Property 'value' does not exist on type '{ constituable?: boolean | undefined; composable?: boolean | undefined; composite?: boolean | undefined; }'.",
+          "raw": "src/composables/admin/useStatusButtonFields.ts(274,50): error TS2339: Property 'value' does not exist on type '{ constituable?: boolean | undefined; composable?: boolean | undefined; composite?: boolean | undefined; }'.",
+          "repoPath": "src/composables/admin/useStatusButtonFields.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 897,
+          "col": 43,
+          "code": "TS7053",
+          "message": "Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.",
+          "raw": "src/views/admin/tabs/InstancesTab.vue(897,43): error TS7053: Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.",
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+        },
+        {
+          "file": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 901,
+          "col": 55,
+          "code": "TS7053",
+          "message": "Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.",
+          "raw": "src/views/admin/tabs/InstancesTab.vue(901,55): error TS7053: Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.",
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+        },
+        {
+          "file": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 954,
+          "col": 78,
+          "code": "TS2345",
+          "message": "Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof BlockInstanceEntity'.",
+          "raw": "src/views/admin/tabs/InstancesTab.vue(954,78): error TS2345: Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof BlockInstanceEntity'.",
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+        },
+        {
+          "file": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 1038,
+          "col": 59,
+          "code": "TS2339",
+          "message": "Property 'value' does not exist on type 'BlockInstanceStatusButtonField'.",
+          "raw": "src/views/admin/tabs/InstancesTab.vue(1038,59): error TS2339: Property 'value' does not exist on type 'BlockInstanceStatusButtonField'.",
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/generic/collections/PartsCollection.vue",
+      "errorCount": 3,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/collections/PartsCollection.vue",
+          "line": 15,
+          "col": 27,
+          "code": "TS18048",
+          "message": "'__VLS_ctx.parentEntity' is possibly 'undefined'.",
+          "raw": "src/components/admin/generic/collections/PartsCollection.vue(15,27): error TS18048: '__VLS_ctx.parentEntity' is possibly 'undefined'.",
+          "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
+        },
+        {
+          "file": "src/components/admin/generic/collections/PartsCollection.vue",
+          "line": 16,
+          "col": 8,
+          "code": "TS2322",
+          "message": "Type 'number | null | undefined' is not assignable to type 'PartInstanceBulkEditData | undefined'.",
+          "raw": "src/components/admin/generic/collections/PartsCollection.vue(16,8): error TS2322: Type 'number | null | undefined' is not assignable to type 'PartInstanceBulkEditData | undefined'.",
+          "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
+        },
+        {
+          "file": "src/components/admin/generic/collections/PartsCollection.vue",
+          "line": 82,
+          "col": 114,
+          "code": "TS2345",
+          "message": "Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof PartInstanceEntity'.",
+          "raw": "src/components/admin/generic/collections/PartsCollection.vue(82,114): error TS2345: Argument of type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'keyof PartInstanceEntity'.",
+          "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/BlockShapeEditModal.vue",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/BlockShapeEditModal.vue",
+          "line": 184,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'getBlockShapeFieldMetadata' is declared but its value is never read.",
+          "raw": "src/components/admin/BlockShapeEditModal.vue(184,3): error TS6133: 'getBlockShapeFieldMetadata' is declared but its value is never read.",
+          "repoPath": "src/components/admin/BlockShapeEditModal.vue"
+        },
+        {
+          "file": "src/components/admin/BlockShapeEditModal.vue",
+          "line": 224,
+          "col": 3,
+          "code": "TS2353",
+          "message": "Object literal may only specify known properties, and 'composable' does not exist in type 'Record<keyof BlockInstanceEntity, FieldMetadataEntry>'.",
+          "raw": "src/components/admin/BlockShapeEditModal.vue(224,3): error TS2353: Object literal may only specify known properties, and 'composable' does not exist in type 'Record<keyof BlockInstanceEntity, FieldMetadataEntry>'.",
+          "repoPath": "src/components/admin/BlockShapeEditModal.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/generic/fields/InputRenderer.vue",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/fields/InputRenderer.vue",
+          "line": 107,
+          "col": 3,
+          "code": "TS2322",
+          "message": "Type 'ComputedRef<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | undefined>' is not assignable to type '\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | Ref<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\", \"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">'.",
+          "raw": "src/components/admin/generic/fields/InputRenderer.vue(107,3): error TS2322: Type 'ComputedRef<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | undefined>' is not assignable to type '\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | Ref<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\", \"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">'.",
+          "repoPath": "src/components/admin/generic/fields/InputRenderer.vue"
+        },
+        {
+          "file": "src/components/admin/generic/fields/InputRenderer.vue",
+          "line": 108,
+          "col": 3,
+          "code": "TS2322",
+          "message": "Type 'ComputedRef<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | undefined>' is not assignable to type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | Ref<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">, GlobalFieldKey<...>>'.",
+          "raw": "src/components/admin/generic/fields/InputRenderer.vue(108,3): error TS2322: Type 'ComputedRef<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | undefined>' is not assignable to type 'GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\"> | Ref<GlobalFieldKey<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">, GlobalFieldKey<...>>'.",
+          "repoPath": "src/components/admin/generic/fields/InputRenderer.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/PartInstanceBulkEditModal.vue",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/PartInstanceBulkEditModal.vue",
+          "line": 135,
+          "col": 81,
+          "code": "TS2339",
+          "message": "Property 'activeConstituents' does not exist on type 'BlockInstanceEntity'.",
+          "raw": "src/components/admin/PartInstanceBulkEditModal.vue(135,81): error TS2339: Property 'activeConstituents' does not exist on type 'BlockInstanceEntity'.",
+          "repoPath": "src/components/admin/PartInstanceBulkEditModal.vue"
+        },
+        {
+          "file": "src/components/admin/PartInstanceBulkEditModal.vue",
+          "line": 161,
+          "col": 51,
+          "code": "TS2345",
+          "message": "Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.",
+          "raw": "src/components/admin/PartInstanceBulkEditModal.vue(161,51): error TS2345: Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.",
+          "repoPath": "src/components/admin/PartInstanceBulkEditModal.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/admin/usePartInstanceBulkEdit.ts",
+          "line": 15,
+          "col": 15,
+          "code": "TS6133",
+          "message": "'computed' is declared but its value is never read.",
+          "raw": "src/composables/admin/usePartInstanceBulkEdit.ts(15,15): error TS6133: 'computed' is declared but its value is never read.",
+          "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts"
+        },
+        {
+          "file": "src/composables/admin/usePartInstanceBulkEdit.ts",
+          "line": 159,
+          "col": 55,
+          "code": "TS2345",
+          "message": "Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.",
+          "raw": "src/composables/admin/usePartInstanceBulkEdit.ts(159,55): error TS2345: Argument of type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.",
+          "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/forms/fieldSectionCategorization.ts",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/forms/fieldSectionCategorization.ts",
+          "line": 1,
+          "col": 30,
+          "code": "TS6196",
+          "message": "'SubPanelType' is declared but never used.",
+          "raw": "src/utils/forms/fieldSectionCategorization.ts(1,30): error TS6196: 'SubPanelType' is declared but never used.",
+          "repoPath": "src/utils/forms/fieldSectionCategorization.ts"
+        },
+        {
+          "file": "src/utils/forms/fieldSectionCategorization.ts",
+          "line": 8,
+          "col": 43,
+          "code": "TS6133",
+          "message": "'FieldMetadataEntry' is declared but its value is never read.",
+          "raw": "src/utils/forms/fieldSectionCategorization.ts(8,43): error TS6133: 'FieldMetadataEntry' is declared but its value is never read.",
+          "repoPath": "src/utils/forms/fieldSectionCategorization.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/PartShapeEditModal.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/PartShapeEditModal.vue",
+          "line": 182,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'getPartShapeFieldMetadata' is declared but its value is never read.",
+          "raw": "src/components/admin/PartShapeEditModal.vue(182,3): error TS6133: 'getPartShapeFieldMetadata' is declared but its value is never read.",
+          "repoPath": "src/components/admin/PartShapeEditModal.vue"
+        }
+      ]
+    }
+  ]
 }

@@ -15,7 +15,6 @@ export class PartShape extends Model<
   declare id: CreationOptional<string>;
   declare orderIndex: CreationOptional<number>;
   declare name: string;
-  declare active: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -37,11 +36,6 @@ export function PartShapeFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: true,
         unique: true,
-      },
-      active: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
       },
       createdAt: {
         type: DataTypes.DATE,

@@ -20,7 +20,6 @@ export class BlockShape extends Model<
   declare type: 'user' | 'service' | 'property' | 'option';
   declare composable: boolean;
   declare constituable: boolean;
-  declare active: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -61,11 +60,6 @@ export function BlockShapeFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-      },
-      active: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
       },
       createdAt: {
         type: DataTypes.DATE,

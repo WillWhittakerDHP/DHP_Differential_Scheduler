@@ -24,6 +24,7 @@ export class PartInstance extends Model<
   declare baseTime: number;
   declare rateOverBaseTime: number;
   declare active: boolean;
+  declare zeroOutPart: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -85,6 +86,11 @@ export function PartInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
+      },
+      zeroOutPart: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         type: DataTypes.DATE,

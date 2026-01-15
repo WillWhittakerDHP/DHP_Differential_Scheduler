@@ -7,30 +7,18 @@
  */
 
 import type { Ref } from 'vue'
-import type { AppointmentRequest, AppointmentStatus, BlockInstanceSnapshot } from '@/types/appointment'
+import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'
 import type { PropertyRequest } from '@/types/property'
 import type { UserRequest } from '@/types/user'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { blockInstanceToSnapshot } from '@/utils/transformers/blockInstanceToSnapshot'
+
+import type { PropertyDetailsData } from '@/types/propertyForm'
 
 /**
  * Property details step data structure
+ * FIX: Use shared PropertyDetailsData type from propertyForm.ts
  */
-export interface PropertyDetailsStepData {
-  address: string
-  unit: string
-  city: string
-  state: string
-  zipCode: string
-  propertySize: number | null
-  numberOfUnits: number | null
-  mlsNumber: string
-  squareFootage: number | null
-  bedrooms: number | null
-  bathrooms: number | null
-  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-  additionalUnits: number | null
-}
+export type PropertyDetailsStepData = PropertyDetailsData
 
 /**
  * Contacts step data structure
@@ -276,26 +264,9 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         return acc
       }, {} as Record<string, number>)
 
-      // Step 8: Capture snapshots of selected items
-      // LEARNING: Store snapshots of block instances at booking time for historical accuracy
-      // WHY: Preserves pricing/names even if admin updates services later
-      // PATTERN: Transform each selected item to snapshot format
-      const serviceSnapshots = wizard.selectedServices.value.reduce((acc, service) => {
-        acc[service.id] = blockInstanceToSnapshot(service)
-        return acc
-      }, {} as Record<string, BlockInstanceSnapshot>)
-      
-      const propertySnapshots = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {
-        acc[property.id] = blockInstanceToSnapshot(property)
-        return acc
-      }, {} as Record<string, BlockInstanceSnapshot>)
-      
-      const optionTypeBlockSnapshots = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {
-        acc[option.id] = blockInstanceToSnapshot(option)
-        return acc
-      }, {} as Record<string, BlockInstanceSnapshot>)
-
-      // Build complete appointment request
+      // Step 8: Build complete appointment request
+      // LEARNING: Snapshots are now created server-side when appointment is created
+      // WHY: Centralizes versioning logic and ensures consistency
       const appointmentData: AppointmentRequest = {
         propertyVersionId, // Use propertyVersionId (new field)
         userTypeBlockId: wizard.selectedUserTypeBlock.value?.id || null,
@@ -309,9 +280,6 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
           ? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)
           : null,
         optionQuantities: Object.keys(optionTypeBlockQuantities).length > 0 ? optionTypeBlockQuantities : null,
-        serviceSnapshots: Object.keys(serviceSnapshots).length > 0 ? serviceSnapshots : null,
-        propertySnapshots: Object.keys(propertySnapshots).length > 0 ? propertySnapshots : null,
-        optionSnapshots: Object.keys(optionTypeBlockSnapshots).length > 0 ? optionTypeBlockSnapshots : null,
         selectedDate,
         selectedDateRangeEnd,
         selectedTimeSlots,

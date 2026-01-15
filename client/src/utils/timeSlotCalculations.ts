@@ -12,6 +12,27 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 
 /**
+ * Round duration up to the nearest 15-minute increment
+ * LEARNING: Ceiling function for time durations
+ * WHY: Ensures appointment durations align with standard time increments
+ * PATTERN: Use Math.ceil to round up, then multiply by increment
+ * 
+ * @param duration - Duration in minutes
+ * @param increment - Increment in minutes (default: 15)
+ * @returns Duration rounded up to nearest increment
+ * 
+ * Examples:
+ * - roundUpToIncrement(37) -> 45 (rounds 37 up to 45)
+ * - roundUpToIncrement(90) -> 90 (already on increment)
+ * - roundUpToIncrement(91) -> 105 (rounds 91 up to 105)
+ * - roundUpToIncrement(400) -> 405 (rounds 400 up to 405)
+ */
+export function roundUpToIncrement(duration: number, increment: number = 15): number {
+  if (duration <= 0) return increment
+  return Math.ceil(duration / increment) * increment
+}
+
+/**
  * Calculate duration from accumulated block instances
  * LEARNING: Sums all baseTime values from partInstances across all selected block instances
  * WHY: Duration includes time from base service, property type blocks, and availability options
@@ -182,9 +203,12 @@ export async function generateTimeSlots(
         // PATTERN: Multiple conditions must be met to add slot
         if (!isBusy && !extendsPastHours) {
           slots.push({
-            slotStart: slotStart.toISOString(),
-            slotEnd: slotEnd.toISOString(),
-            duration
+            startTime: slotStart.toISOString(),
+            endTime: slotEnd.toISOString(),
+            duration,
+            onSite: false,
+            clientPresent: false,
+            moveable: false
           })
         }
       }

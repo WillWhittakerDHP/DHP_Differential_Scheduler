@@ -12,7 +12,7 @@
  * - Manage selectedDate, startTimeType, inspectorTimeSlot, clientTimeSlot state
  */
 
-import { ref, watch, type Ref, type ComputedRef } from 'vue'
+import { ref, computed, watch, type Ref, type ComputedRef } from 'vue'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { matchLoadedTimeSlots } from '@/utils/booking/timeSlotMatching'
 import type { TimeSlot } from '@/types/appointment'
@@ -48,19 +48,28 @@ export interface UseAvailabilityDefaultsReturn {
   selectedDate: Ref<{ start: string | null; end: string | null }>
   
   /**
-   * Start time type (inspector, client, or null for neither selected)
+   * Start time type (inspector, client, or nonDifferential for non-differential services)
    */
-  startTimeType: Ref<'inspector' | 'client' | null>
+  startTimeType: Ref<'inspector' | 'client' | 'nonDifferential'>
   
   /**
-   * Inspector time slot
+   * Appointment slot order index (position in availability grid)
+   * LEARNING: Single orderIndex that persists across perspective changes
+   * WHY: Same button regardless of inspector/client view - only display time and color change
    */
-  inspectorTimeSlot: Ref<TimeSlot | null>
+  appointmentSlotOrderIndex: Ref<number | null>
   
   /**
-   * Client time slot
+   * Inspector order index (backward compatibility)
+   * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility
    */
-  clientTimeSlot: Ref<TimeSlot | null>
+  inspectorOrderIndex: Ref<number | null>
+  
+  /**
+   * Client order index (backward compatibility)
+   * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility
+   */
+  clientOrderIndex: Ref<number | null>
 }
 
 /**
@@ -95,27 +104,44 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   /**
    * Start time type state
    * LEARNING: Tracks whether to show inspector or client time slots
-   * WHY: Differential services need separate inspector/client views
-   * PATTERN: ref for string literal union type with null for "neither selected" state
-   * USER_STORY: Both buttons Active by default (neither Selected), toggle between Selected/Active
+   * WHY: Differential services need separate inspector/client views, non-differential always uses 'nonDifferential'
+   * PATTERN: ref for string literal union type - 'nonDifferential' for non-differential services, 'inspector' | 'client' for differential
    */
-  const startTimeType = ref<'inspector' | 'client' | null>(null)
+  const startTimeType = ref<'inspector' | 'client' | 'nonDifferential'>('nonDifferential')
 
   /**
-   * Inspector time slot state
-   * LEARNING: Tracks selected inspector time slot
-   * WHY: Need reactive state for time slot selection
-   * PATTERN: ref for TimeSlot or null
+   * Appointment slot order index state
+   * LEARNING: Tracks selected appointment slot by orderIndex (position in availability grid)
+   * WHY: Selection persists across perspective changes - same button, only display time and color change
+   * PATTERN: ref for number (orderIndex) or null
+   * NOTE: For differential services, inspector and client may see different times at same position,
+   *       but it's the same appointment slot button. Selection state persists when switching perspectives.
    */
-  const inspectorTimeSlot = ref<TimeSlot | null>(null)
+  const appointmentSlotOrderIndex = ref<number | null>(null)
 
   /**
-   * Client time slot state
-   * LEARNING: Tracks selected client time slot
-   * WHY: Need reactive state for time slot selection
-   * PATTERN: ref for TimeSlot or null
+   * Inspector order index state (backward compatibility)
+   * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
+   * WHY: Step data may need separate inspector/client TimeSlots, but selection uses single orderIndex
+   * PATTERN: Writable computed ref that syncs with appointmentSlotOrderIndex
+   * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
    */
-  const clientTimeSlot = ref<TimeSlot | null>(null)
+  const inspectorOrderIndex = computed({
+    get: () => appointmentSlotOrderIndex.value,
+    set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
+  }) as Ref<number | null>
+
+  /**
+   * Client order index state (backward compatibility)
+   * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
+   * WHY: Step data may need separate inspector/client TimeSlots, but selection uses single orderIndex
+   * PATTERN: Writable computed ref that syncs with appointmentSlotOrderIndex
+   * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
+   */
+  const clientOrderIndex = computed({
+    get: () => appointmentSlotOrderIndex.value,
+    set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
+  }) as Ref<number | null>
 
   /**
    * Watch loaded wizard state for time slot matching (but don't set date)
@@ -130,22 +156,30 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   }, { immediate: true })
 
   /**
-   * Watch both loaded wizard state and time slots to populate time slot selections
+   * Watch both loaded wizard state and time slots to populate order index selections
    * LEARNING: Enables validation to pass when appointment is loaded with time slots
-   * WHY: When appointment is loaded, match time slots from appointment to available slots
-   * PATTERN: Use helper function to match loaded time slots
+   * WHY: When appointment is loaded, match time slots from appointment to available slots and store orderIndex
+   * PATTERN: Use helper function to match loaded time slots, then find orderIndex
+   * NOTE: For now, we still use TimeSlot matching but will need to update to orderIndex-based matching
+   * TODO: Update to use orderIndex-based matching when AppointmentSlots are available
    */
   watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
     if (newState?.availability?.selectedTimeSlots && 
         newState.availability.selectedTimeSlots.length > 0 &&
         availableSlots && 
         availableSlots.length > 0) {
+      // Temporary: Use TimeSlot matching for now, will be updated to orderIndex matching
+      // This requires AppointmentSlots to be available, which will be handled in useAvailabilityUI
+      // For now, we'll match by time and find the orderIndex in the UI layer
+      const tempInspectorSlot = ref<TimeSlot | null>(null)
+      const tempClientSlot = ref<TimeSlot | null>(null)
       matchLoadedTimeSlots(
         newState.availability.selectedTimeSlots,
         availableSlots,
-        inspectorTimeSlot,
-        clientTimeSlot
+        tempInspectorSlot,
+        tempClientSlot
       )
+      // Note: orderIndex matching will be handled in useAvailabilityUI when AppointmentSlots are available
     }
   }, { immediate: true })
 
@@ -173,22 +207,29 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   }, { immediate: true })
 
   /**
-   * Watch isDifferentialService to auto-select startTimeType for differential services
-   * LEARNING: Auto-selects 'client' view when differential service is detected
-   * WHY: Ensures time slots are visible immediately for differential services without requiring manual button click
-   * PATTERN: Watch isDifferentialService, set startTimeType to 'client' when service is differential and no selection exists
+   * Watch isDifferentialService to auto-select startTimeType
+   * LEARNING: Auto-selects 'nonDifferential' for non-differential services, 'client' for differential services
+   * WHY: Ensures valid state is always selected and time slots are visible immediately
+   * PATTERN: Watch isDifferentialService, set startTimeType accordingly
    */
   watch(isDifferentialService, (isDifferential) => {
-    if (isDifferential && startTimeType.value === null) {
-      startTimeType.value = 'client'
+    if (!isDifferential) {
+      // Non-differential services always use 'nonDifferential'
+      startTimeType.value = 'nonDifferential'
+    } else {
+      // Differential services default to 'client' view
+      if (startTimeType.value === 'nonDifferential') {
+        startTimeType.value = 'client'
+      }
     }
   }, { immediate: true })
 
   return {
     selectedDate,
     startTimeType,
-    inspectorTimeSlot,
-    clientTimeSlot,
+    appointmentSlotOrderIndex,
+    inspectorOrderIndex,
+    clientOrderIndex,
   }
 }
 

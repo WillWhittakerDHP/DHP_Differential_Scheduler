@@ -2,12 +2,15 @@
  * useAvailabilityUI Composable
  * 
  * LEARNING: Extracts UI-specific logic from AvailabilityStep component
- * WHY: Moves time slot selection, responsive layout, and date handling logic to composable
+ * WHY: Moves responsive layout and date handling logic to composable
  * PATTERN: Composable that provides UI state management and handlers
+ * 
+ * NOTE: Appointment slot selection logic has moved to useAppointmentSlots composable.
+ * This composable now only handles responsive layout and date validation.
  */
 
-import { computed, ref, onMounted, onUnmounted, type Ref, type ComputedRef } from 'vue'
-import type { TimeSlot } from '@/types/appointment'
+import { computed, type Ref, type ComputedRef } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useFormValidation } from '@/composables/useFormValidation'
 
 /**
@@ -15,12 +18,7 @@ import { useFormValidation } from '@/composables/useFormValidation'
  */
 export interface UseAvailabilityUIParams {
   selectedDate: Ref<{ start: string | null; end: string | null }>
-  inspectorTimeSlot: Ref<TimeSlot | null>
-  clientTimeSlot: Ref<TimeSlot | null>
-  startTimeType: Ref<'inspector' | 'client' | null>
-  isDifferentialService: ComputedRef<boolean>
-  timeSlotsPerDay: Ref<Array<{ date: string; inspectorTimeSlots: TimeSlot[]; clientTimeSlots: TimeSlot[] }>>
-  baseCurrentTimeSlots: ComputedRef<TimeSlot[]>
+  selectedButtonIndex: Ref<number | null>
   fieldErrors: Ref<Record<string, string>>
 }
 
@@ -28,10 +26,7 @@ export interface UseAvailabilityUIParams {
  * useAvailabilityUI composable return type
  */
 export interface UseAvailabilityUIReturn {
-  currentTimeSlots: ComputedRef<TimeSlot[]>
-  selectedTimeSlot: ComputedRef<TimeSlot | null>
-  shouldMoveGridBelow: ComputedRef<boolean>
-  handleTimeSlotClick: (slot: TimeSlot) => void
+  shouldShowGridInline: ComputedRef<boolean> // LEARNING: Renamed from shouldMoveGridBelow - true when grid should be inline (side-by-side)
   handleDateChange: (value: string | Date | string[] | Date[] | null) => void
 }
 
@@ -39,130 +34,45 @@ export interface UseAvailabilityUIReturn {
  * useAvailabilityUI composable
  * 
  * LEARNING: Provides UI state management and handlers for availability step
- * WHY: Extracts UI logic from component to composable
+ * WHY: Extracts responsive layout and date handling logic from component to composable
  * PATTERN: Composable that returns reactive computed properties and handler functions
+ * 
+ * NOTE: Appointment slot selection is now handled by useAppointmentSlots composable.
+ * This composable focuses on responsive layout and date validation.
+ * 
+ * LEARNING: Uses Vuetify's useDisplay() composable for responsive breakpoints
+ * WHY: Trusts Vuetify's breakpoint system instead of custom viewport calculations
+ * PATTERN: Mobile-first responsive design - stack below sm breakpoint (600px)
  */
 export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabilityUIReturn {
   const {
-    selectedDate,
-    inspectorTimeSlot,
-    clientTimeSlot,
-    startTimeType,
-    isDifferentialService,
-    timeSlotsPerDay,
-    baseCurrentTimeSlots,
     fieldErrors
   } = params
 
   const { dateNotInPast } = useFormValidation()
+  
+  /**
+   * LEARNING: Use Vuetify's display composable for responsive breakpoints
+   * WHY: Leverages Vuetify's built-in breakpoint system
+   */
+  const { width, smAndUp } = useDisplay()
 
   /**
-   * LEARNING: Computed property for current time slots (filtered by startTimeType)
-   * WHY: Shows time slots for selected date based on Inspector/Client selection
-   * PATTERN: Filter baseCurrentTimeSlots by startTimeType for differential services
-   * USER_STORY: When neither selector is active (null), show empty state
+   * LEARNING: Computed property to determine if grid should be inline (side-by-side with calendar)
+   * WHY: Check if there's actually enough space for calendar + grid side-by-side
+   * PATTERN: Calculate minimum width needed and compare to viewport width
    */
-  const currentTimeSlots = computed(() => {
-    if (!isDifferentialService.value) {
-      return baseCurrentTimeSlots.value
-    }
+  const shouldShowGridInline = computed(() => {
+    // Calendar has fixed width ~328px, grid needs at least 1 column (140px) + padding
+    // Plus gap between columns (~16px) and padding
+    const CALENDAR_WIDTH = 328
+    const GRID_MIN_WIDTH = 140 + 20 // button width + padding
+    const COLUMN_GAP = 16 // Vuetify default gap
+    const MIN_TOTAL_WIDTH = CALENDAR_WIDTH + GRID_MIN_WIDTH + COLUMN_GAP
     
-    // When neither selector is active, show empty state
-    if (startTimeType.value === null) {
-      return []
-    }
-    
-    // For differential services, filter by startTimeType
-    const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
-    if (!daySlots) {
-      return []
-    }
-    
-    return startTimeType.value === 'inspector' ? daySlots.inspectorTimeSlots : daySlots.clientTimeSlots
-  })
-
-  /**
-   * LEARNING: Computed property for selected time slot
-   * WHY: Tracks which time slot is selected based on Inspector/Client mode
-   * PATTERN: Computed ref based on startTimeType
-   * NOTE: For non-differential services, always use inspector mode
-   * USER_STORY: When startTimeType is null, return null (no selection)
-   */
-  const selectedTimeSlot = computed({
-    get: (): TimeSlot | null => {
-      // LEARNING: For non-differential services, always use inspector mode
-      // WHY: Non-differential services don't have separate inspector/client times
-      // PATTERN: Check isDifferentialService, default to inspector mode
-      if (!isDifferentialService.value) {
-        return inspectorTimeSlot.value
-      }
-      // When neither selector is active, return null
-      if (startTimeType.value === null) {
-        return null
-      }
-      return startTimeType.value === 'inspector' ? inspectorTimeSlot.value : clientTimeSlot.value
-    },
-    set: (value: TimeSlot | null) => {
-      // LEARNING: For non-differential services, always set inspector time slot
-      // WHY: Non-differential services don't have separate inspector/client times
-      // PATTERN: Check isDifferentialService, set appropriate time slot
-      if (!isDifferentialService.value) {
-        inspectorTimeSlot.value = value
-        return
-      }
-      // When neither selector is active, don't set time slot
-      if (startTimeType.value === null) {
-        return
-      }
-      if (startTimeType.value === 'inspector') {
-        inspectorTimeSlot.value = value
-      } else {
-        clientTimeSlot.value = value
-      }
-    },
-  })
-
-  /**
-   * LEARNING: Handler for time slot selection
-   * WHY: Updates selected time slot based on Inspector/Client mode
-   * PATTERN: Function that sets the appropriate ref with TimeSlot object
-   */
-  const handleTimeSlotClick = (slot: TimeSlot): void => {
-    // LEARNING: Toggle selection - deselect if same slot clicked
-    // WHY: Allows users to deselect time slot by clicking again
-    // PATTERN: Compare slots, set to null if same, otherwise set to new slot
-    const currentSlot = selectedTimeSlot.value
-    if (currentSlot && currentSlot.slotStart === slot.slotStart && currentSlot.slotEnd === slot.slotEnd) {
-      selectedTimeSlot.value = null
-    } else {
-      selectedTimeSlot.value = slot
-    }
-  }
-
-  /**
-   * LEARNING: Viewport width tracking for responsive layout
-   * WHY: Detects when space is insufficient for side-by-side layout
-   * PATTERN: Ref to track viewport width, window resize event listener
-   */
-  const viewportWidth = ref<number>(typeof window !== 'undefined' ? window.innerWidth : 0)
-
-  /**
-   * LEARNING: Window resize handler reference for cleanup
-   * WHY: Stores handler function reference for proper cleanup
-   */
-  let resizeHandler: (() => void) | null = null
-
-  /**
-   * LEARNING: Computed property to detect when space is too narrow
-   * WHY: Determines when to move grid below calendar (full-width row fallback)
-   * PATTERN: Check viewport width against breakpoint threshold
-   * NOTE: Uses 600px breakpoint (sm breakpoint) - when below this, move grid to new row
-   */
-  const shouldMoveGridBelow = computed(() => {
-    // LEARNING: Move grid below calendar when viewport is too narrow
-    // WHY: Ensures grid is usable even when side-by-side layout doesn't fit
-    // PATTERN: Check if viewport width is below sm breakpoint (600px)
-    return viewportWidth.value < 600
+    // Show inline if viewport is wide enough OR if sm+ breakpoint (Vuetify handles layout)
+    // Use sm+ breakpoint as fallback since Vuetify grid handles the actual layout
+    return width.value >= MIN_TOTAL_WIDTH || smAndUp.value
   })
 
   /**
@@ -219,39 +129,8 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
     }
   }
 
-  onMounted(() => {
-    // LEARNING: Set up window resize listener to track viewport width
-    // WHY: Enables responsive layout that adapts to window size changes
-    // PATTERN: Window resize event listener, cleanup on unmount
-    if (typeof window !== 'undefined') {
-      viewportWidth.value = window.innerWidth
-      
-      // LEARNING: Window resize event listener
-      // WHY: Updates viewport width when window is resized
-      // PATTERN: Add event listener, store handler for cleanup
-      resizeHandler = () => {
-        viewportWidth.value = window.innerWidth
-      }
-      window.addEventListener('resize', resizeHandler)
-    }
-  })
-
-  onUnmounted(() => {
-    // LEARNING: Cleanup window resize event listener
-    // WHY: Prevents memory leaks when component unmounts
-    // PATTERN: Remove event listener if handler exists
-    if (resizeHandler && typeof window !== 'undefined') {
-      window.removeEventListener('resize', resizeHandler)
-      resizeHandler = null
-    }
-  })
-
   return {
-    currentTimeSlots,
-    selectedTimeSlot,
-    shouldMoveGridBelow,
-    handleTimeSlotClick,
+    shouldShowGridInline,
     handleDateChange
   }
 }
-

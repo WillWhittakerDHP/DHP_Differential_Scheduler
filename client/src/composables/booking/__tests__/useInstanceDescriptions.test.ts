@@ -7,7 +7,6 @@
  * What it covers:
  * - getFilteredDescription: Helper function for filtering descriptions
  * - instancesWithDescriptions: Computed instances with filtered descriptions
- * - useServiceDescriptions: Legacy backward-compatible export
  * 
  * How it works:
  * - Tests computed property reactivity with user type changes
@@ -28,7 +27,6 @@ import { describe, it, expect } from 'vitest'
 import { computed, ref, nextTick } from 'vue'
 import {
   useInstanceDescriptions,
-  useServiceDescriptions,
 } from '../useInstanceDescriptions'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
@@ -306,27 +304,6 @@ describe('useInstanceDescriptions', () => {
       
       expect(instancesWithDescriptions.value[0].description).toBe('Service 1 Buyer')
       expect(instancesWithDescriptions.value[1].description).toBe('Service 2 Buyer')
-    })
-  })
-
-  describe('useServiceDescriptions (legacy)', () => {
-    it('should provide same functionality as useInstanceDescriptions', () => {
-      const instances = computed(() => [
-        createInstance('i1', {
-          descriptions: [
-            { text: 'Buyer desc', userTypeBlock: 'buyer', isDefault: false },
-          ],
-        }),
-      ])
-      const selectedUserTypeBlock = computed(() => createUserTypeBlock('Buyer'))
-      
-      const { instancesWithDescriptions, getFilteredDescription } = useServiceDescriptions({
-        instances,
-        selectedUserTypeBlock,
-      })
-      
-      expect(instancesWithDescriptions.value[0].description).toBe('Buyer desc')
-      expect(typeof getFilteredDescription).toBe('function')
     })
   })
 })

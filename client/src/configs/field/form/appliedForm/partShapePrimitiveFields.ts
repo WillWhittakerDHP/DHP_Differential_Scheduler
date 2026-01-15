@@ -27,12 +27,5 @@ export const partShapePrimitiveFields = {
     globalField: "orderIndex",
   },
 
-  active: {
-    primitiveType: PrimitiveTypeEnum.Boolean,
-    primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "Active",
-    globalField: "active",
-  },
-
 } satisfies Partial<Record<GlobalFieldKey<"partShape">, PrimitiveFormField<"partShape">>>;
 

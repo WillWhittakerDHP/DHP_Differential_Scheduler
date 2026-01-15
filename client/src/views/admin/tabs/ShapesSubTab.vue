@@ -18,6 +18,8 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import AnnotationTypeCard from '../components/AnnotationTypeCard.vue'
+import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
+import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import { useAnnotationTypes, useUpdateAnnotationType, useCreateAnnotationType } from '@/composables/useAnnotationType'
 import { useNotification } from '@/composables/useNotification'
@@ -25,33 +27,35 @@ import { useNotification } from '@/composables/useNotification'
 // NOTE: useEntityDisplay removed - display names handled by useShapeDisplayNames
 
 /**
- * LEARNING: Use entity filtering composable for PartShape
+ * LEARNING: Use entity filtering composable for PartShape and BlockShape
  * WHY: Extracts filtering and sorting logic from component to generic composable
  * PATTERN: Generic composable provides filtered and sorted entity arrays
  */
 const { filteredEntities: filteredPartShapes } = useEntityFiltering('partShape')
+const { filteredEntities: filteredBlockShapes } = useEntityFiltering('blockShape')
 
 /**
  * LEARNING: Use shape display names composable
  * WHY: Extracts display names map logic from component to composable
  * PATTERN: Composable provides computed maps of entity IDs to display names
  */
-const { partShapeDisplayNames } = useShapeDisplayNames()
+const { partShapeDisplayNames, blockShapeDisplayNames } = useShapeDisplayNames()
 
 /**
- * LEARNING: Entity CRUD composable for PartShape
+ * LEARNING: Entity CRUD composable for PartShape and BlockShape
  * WHY: Provides orderIndex operations for drag-and-drop and update operations for title field
  * PATTERN: useEntityCrud composable wraps Vue Query mutations
  * NOTE: EntityCard handles deletion internally, so we only need patchOrderIndex and update here
  */
 const { patchOrderIndex: patchPartShapeOrderIndex } = useEntityCrud('partShape')
+const { patchOrderIndex: patchBlockShapeOrderIndex } = useEntityCrud('blockShape')
 
 /**
  * LEARNING: Reactive tab state management
- * WHY: Tracks which tab is currently active (partShapes or annotationShapes)
+ * WHY: Tracks which tab is currently active (blockShapes, partShapes, or annotationShapes)
  * PATTERN: ref for reactive primitive values
  */
-const activeTab = ref('partShapes')
+const activeTab = ref('blockShapes')
 
 // NOTE: Search functionality removed - no longer needed
 
@@ -67,6 +71,62 @@ const { expandedEntities: expandedShapes, isPanelExpanded } = expansionStateComp
  * LEARNING: Notification composable for success/error messages
  */
 const { success } = useNotification()
+
+/**
+ * LEARNING: Track if the global BlockShape metadata modal is open
+ * WHY: Single modal for configuring all BlockShape field definitions globally
+ * PATTERN: Simple boolean ref for single modal state
+ */
+const blockShapeMetadataModalOpen = ref(false)
+
+/**
+ * LEARNING: Toggle global BlockShape metadata modal
+ * WHY: Opens/closes the modal for configuring all BlockShape field definitions
+ */
+const toggleBlockShapeMetadataModal = (): void => {
+  blockShapeMetadataModalOpen.value = !blockShapeMetadataModalOpen.value
+}
+
+/**
+ * LEARNING: Track if the global PartShape metadata modal is open
+ * WHY: Single modal for configuring all PartShape field definitions globally
+ * PATTERN: Simple boolean ref for single modal state
+ */
+const partShapeMetadataModalOpen = ref(false)
+
+/**
+ * LEARNING: Toggle global PartShape metadata modal
+ * WHY: Opens/closes the modal for configuring all PartShape field definitions
+ */
+const togglePartShapeMetadataModal = (): void => {
+  partShapeMetadataModalOpen.value = !partShapeMetadataModalOpen.value
+}
+
+/**
+ * LEARNING: Track if the global PartInstance metadata modal is open
+ * WHY: Single modal for configuring all PartInstance field definitions globally
+ * PATTERN: Simple boolean ref for single modal state
+ */
+const partInstanceMetadataModalOpen = ref(false)
+
+/**
+ * LEARNING: Toggle global PartInstance metadata modal
+ * WHY: Opens/closes the modal for configuring all PartInstance field definitions
+ */
+const togglePartInstanceMetadataModal = (): void => {
+  partInstanceMetadataModalOpen.value = !partInstanceMetadataModalOpen.value
+}
+
+/**
+ * LEARNING: Handle PartInstance metadata saved
+ * WHY: Close modal after saving field definitions
+ */
+const handlePartInstanceMetadataSaved = () => {
+  // LEARNING: MetadataEditModal emits 'saved' with no parameters
+  // WHY: Modal doesn't need to pass entity back, just signals that save completed
+  // PATTERN: Handler matches emit signature (no parameters)
+  partInstanceMetadataModalOpen.value = false
+}
 
 /**
  * LEARNING: Inline creation state for shape types
@@ -302,6 +362,9 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
       PATTERN: v-model binds to reactive ref for two-way data binding
     -->
     <VTabs v-model="activeTab" class="mb-4">
+      <VTab value="blockShapes">
+        🧱 Block ({{ filteredBlockShapes.length }})
+      </VTab>
       <VTab value="partShapes">
         🧩 Part ({{ filteredPartShapes.length }})
       </VTab>
@@ -321,17 +384,74 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
       PATTERN: Use stable keys matching the value prop for proper component tracking
     -->
     <VWindow v-model="activeTab">
+      <!-- BlockShapes Tab Content -->
+      <VWindowItem key="blockShapes" value="blockShapes">
+        <div class="d-flex justify-space-between align-center mb-4">
+          <h3 class="text-h6">Block</h3>
+          <div class="d-flex gap-2">
+            <!-- LEARNING: Global button to configure all BlockShape fields -->
+            <!-- WHY: Single config applies to all BlockShapes globally -->
+            <!-- PATTERN: Global config modal triggered from section header -->
+            <VBtn
+              :variant="blockShapeMetadataModalOpen ? 'flat' : 'outlined'"
+              :color="blockShapeMetadataModalOpen ? 'primary' : 'default'"
+              prepend-icon="tabler-settings"
+              @click="toggleBlockShapeMetadataModal"
+            >
+              Metadata Edit
+            </VBtn>
+          </div>
+        </div>
+        
+        <!--
+          LEARNING: BlockShapes list display
+          WHY: Shows all BlockShapes for metadata configuration reference
+          PATTERN: Simple list display (no drag-and-drop needed for metadata editing)
+        -->
+        <VAlert
+          type="info"
+          variant="tonal"
+          class="mt-4"
+        >
+          Configure BlockShape field metadata (composable, constituable, validCascades, validConstituents) using the Metadata Edit button above.
+        </VAlert>
+      </VWindowItem>
+      
       <!-- PartShapes Tab Content -->
       <VWindowItem key="partShapes" value="partShapes">
         <div class="d-flex justify-space-between align-center mb-4">
           <h3 class="text-h6">Part</h3>
-          <VBtn
-            color="primary"
-            prepend-icon="tabler-plus"
-            @click="createPartShape"
-          >
-            Create Part Shape
-          </VBtn>
+          <div class="d-flex gap-2">
+            <!-- LEARNING: Global button to configure all PartShape fields -->
+            <!-- WHY: Shape-level field configuration -->
+            <!-- PATTERN: Global config modal triggered from section header -->
+            <VBtn
+              :variant="partShapeMetadataModalOpen ? 'flat' : 'outlined'"
+              :color="partShapeMetadataModalOpen ? 'primary' : 'default'"
+              prepend-icon="tabler-settings"
+              @click="togglePartShapeMetadataModal"
+            >
+              Shape Fields
+            </VBtn>
+            <!-- LEARNING: Global button to configure all PartInstance fields -->
+            <!-- WHY: Instance-level field configuration (zeroOutPart, onSite, etc.) -->
+            <!-- PATTERN: Global config modal triggered from section header -->
+            <VBtn
+              :variant="partInstanceMetadataModalOpen ? 'flat' : 'outlined'"
+              :color="partInstanceMetadataModalOpen ? 'primary' : 'default'"
+              prepend-icon="tabler-settings"
+              @click="togglePartInstanceMetadataModal"
+            >
+              Instance Fields
+            </VBtn>
+            <VBtn
+              color="primary"
+              prepend-icon="tabler-plus"
+              @click="createPartShape"
+            >
+              Create Part Shape
+            </VBtn>
+          </div>
         </div>
         
         <!--
@@ -349,62 +469,35 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
             v-if="isCreatingPartShape || partShapesList.length > 0"
           >
           <!-- Inline creation card -->
-          <VExpansionPanel
+          <!-- LEARNING: EntityCard is now self-contained with its own VExpansionPanel -->
+          <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields -->
+          <!-- PATTERN: Use EntityCard directly - no need for parent VExpansionPanel wrapper -->
+          <!-- NOTE: For new instances, use useExpansionPanel=false since they're always expanded -->
+          <EntityCard
             v-if="isCreatingPartShape"
             key="new-partShape"
-            value="new-partShape"
+            entity-key="partShape"
+            :entity="newPartShapeInitialValues!"
+            :is-new="true"
+            :expanded="true"
+            :use-expansion-panel="false"
             class="new-shape-card"
-          >
-            <template #title>
-              <div class="d-flex align-center gap-2 flex-grow-1">
-                <VIcon icon="tabler-plus" size="small" color="primary" />
-                <span class="text-primary font-weight-medium">New PartShape</span>
-              </div>
-            </template>
-            
-            <template #text>
-              <EntityCard
-                entity-key="partShape"
-                :entity="newPartShapeInitialValues!"
-                :is-new="true"
-                :expanded="true"
-                :hide-title-field="true"
-                @saved="handlePartShapeCreated"
-                @cancelled="handlePartShapeCancelled"
-              />
-            </template>
-          </VExpansionPanel>
+            @saved="handlePartShapeCreated"
+            @cancelled="handlePartShapeCancelled"
+          />
           
           <!-- Existing PartShapes -->
-          <VExpansionPanel
+          <EntityCard
             v-for="partShape in partShapesList"
             :key="String(partShape.id)"
-            :value="String(partShape.id)"
-            class="draggable-part-shape"
+            :class="`draggable-part-shape`"
             :data-drag-id="String(partShape.id)"
-          >
-            <template #title>
-              <div class="d-flex align-center gap-2 flex-grow-1">
-                <VIcon icon="tabler-grip-vertical" class="drag-handle" size="small" />
-                <!-- LEARNING: Always show static name in expansion panel title -->
-                <!-- WHY: Name field editing happens in EntityCard content, not in panel title -->
-                <!-- PATTERN: Show static entity name - editing happens in expanded content below -->
-                <!-- NOTE: This avoids timing issues and follows unified system pattern -->
-                <span>{{ partShapeDisplayNames.get(String(partShape.id)) || partShape.name || `PartShape ${partShape.id}` }}</span>
-              </div>
-            </template>
-            
-            <template #text>
-              <EntityCard
-                entity-key="partShape"
-                :entity="partShape"
-                :expanded="isPanelExpanded(String(partShape.id))"
-                :hide-title-field="true"
-                @saved="handleExistingShapeSaved"
-                @delete="handleDeletePartShape"
-              />
-            </template>
-          </VExpansionPanel>
+            entity-key="partShape"
+            :entity="partShape"
+            :expanded="isPanelExpanded(String(partShape.id))"
+            @saved="handleExistingShapeSaved"
+            @delete="handleDeletePartShape"
+          />
           </VExpansionPanels>
           
           <!--
@@ -533,6 +626,48 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
         </div>
       </VWindowItem>
     </VWindow>
+    
+    <!--
+      LEARNING: Global BlockShape Metadata Configuration Modal
+      WHY: Single modal for configuring all BlockShape field definitions globally
+      PATTERN: Global config modal triggered from section header, field definitions only mode
+    -->
+    <MetadataEditModal
+      v-model="blockShapeMetadataModalOpen"
+      entity-key="blockShape"
+      :entity="{ id: BLOCK_SHAPE_GLOBAL_CONFIG_ID } as GlobalEntity<'blockShape'>"
+      mode="global"
+      entity-name="Block Shape Fields (Global)"
+      @saved="() => blockShapeMetadataModalOpen = false"
+    />
+    
+    <!--
+      LEARNING: Global PartShape Metadata Configuration Modal
+      WHY: Single modal for configuring all PartShape field definitions globally
+      PATTERN: Global config modal triggered from section header, field definitions only mode
+    -->
+    <MetadataEditModal
+      v-model="partShapeMetadataModalOpen"
+      entity-key="partShape"
+      :entity="{ id: PART_SHAPE_GLOBAL_CONFIG_ID } as GlobalEntity<'partShape'>"
+      mode="global"
+      entity-name="Part Shape Fields (Global)"
+      @saved="() => partShapeMetadataModalOpen = false"
+    />
+    
+    <!--
+      LEARNING: Global PartInstance Metadata Configuration Modal
+      WHY: Single modal for configuring all PartInstance field definitions globally
+      PATTERN: Global config modal triggered from section header, field definitions only mode
+    -->
+    <MetadataEditModal
+      v-model="partInstanceMetadataModalOpen"
+      entity-key="partInstance"
+      :entity="{ id: PART_INSTANCE_GLOBAL_CONFIG_ID, entityKey: 'partInstance' } as GlobalEntity<'partInstance'>"
+      mode="global"
+      entity-name="Part Instance Fields (Global)"
+      @saved="handlePartInstanceMetadataSaved"
+    />
   </div>
 </template>
 

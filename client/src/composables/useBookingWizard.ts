@@ -11,6 +11,7 @@
  */
 
 import { ref } from 'vue'
+import { useStorage } from '@vueuse/core'
 import { useBooking } from './useBooking'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentResponse } from '@/types/appointment'
@@ -48,7 +49,12 @@ export function useBookingWizard(): UseBookingWizardReturn {
   const selectedServices = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedBaseService
   const selectedOptionTypeBlocks = ref<BookingBlockInstance[]>([])
   const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedPropertyTypeBlock
-  const isQuoteMode = ref<boolean>(false)
+  
+  // LEARNING: Quote mode with localStorage persistence
+  // WHY: Persists quote mode across page reloads and navigation
+  // PATTERN: Use useStorage from VueUse for reactive localStorage binding
+  // NOTE: When loading appointments, this will be overridden with appointment's quote mode
+  const isQuoteMode = useStorage<boolean>('booking-wizard-quote-mode', false)
 
   /**
    * Select user type and clear dependent selections
@@ -155,14 +161,14 @@ export function useBookingWizard(): UseBookingWizardReturn {
    * @param appointment - Appointment response from API
    * @returns Wizard state data for populating form fields
    */
-  const loadAppointment = (appointment: AppointmentResponse): WizardStateData | null => {
+  const loadAppointment = async (appointment: AppointmentResponse): Promise<WizardStateData | null> => {
     if (!bookingData.value) {
       return null
     }
 
     try {
       // Transform appointment to wizard state
-      const wizardStateData = transformAppointmentToWizard(appointment, bookingData.value)
+      const wizardStateData = await transformAppointmentToWizard(appointment, bookingData.value)
       
       /**
        * WHY: // WHY: Prevents clearing selections before they're all set, which causes cards to vanish
@@ -195,6 +201,9 @@ export function useBookingWizard(): UseBookingWizardReturn {
     selectedServices.value = []
     selectedPropertyTypeBlocks.value = []
     selectedOptionTypeBlocks.value = []
+    // LEARNING: Reset quote mode - useStorage will automatically sync to localStorage
+    // WHY: Clears quote mode when resetting wizard
+    // PATTERN: Setting value will update localStorage via useStorage
     isQuoteMode.value = false
   }
 

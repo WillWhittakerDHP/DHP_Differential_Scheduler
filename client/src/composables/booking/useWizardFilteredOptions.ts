@@ -1,4 +1,4 @@
-import { computed, type ComputedRef, type Ref } from 'vue'
+import { computed, type Ref } from 'vue'
 import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { getStateControlBlockInstances, getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
@@ -99,22 +99,10 @@ export type UseWizardFilteredOptionsParams = {
   selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
 }
 
-export type UseWizardFilteredOptionsReturn = {
-  availableUserTypeBlocks: ComputedRef<BookingBlockInstance[]>
-  availableServices: ComputedRef<BookingBlockInstance[]>
-  availableOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
-  availablePropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
-  
-  // Error states for cascade filtering
-  servicesCascadeError: ComputedRef<string | null>
-  availabilityOptionsCascadeError: ComputedRef<string | null>
-  propertyTypesCascadeError: ComputedRef<string | null>
+import type { WizardComputedProperties } from '@/types/wizard'
 
-  // Accumulation aliases used by duration calculations
-  accServices: ComputedRef<BookingBlockInstance[]>
-  accProperty: ComputedRef<BookingBlockInstance[]>
-  accAvailability: ComputedRef<BookingBlockInstance[]>
-}
+// FIX: Use shared WizardComputedProperties type from wizard.ts
+export type UseWizardFilteredOptionsReturn = WizardComputedProperties
 
 /**
  * Booking wizard selection flow filters.
@@ -243,7 +231,9 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
         totalCascadeResults: result.instances.length,
         optionBlockShapeId,
         cascadeInstanceTypes: result.instances.map(inst => {
-          const shape = bookingData.value?.blockShapes.find(bs => bs.id === inst.blockShapeRef)
+          // LEARNING: Convert both IDs to strings for consistent comparison
+          // WHY: Ensures type-safe comparison (UUIDs might be strings or numbers)
+          const shape = bookingData.value?.blockShapes.find(bs => String(bs.id) === String(inst.blockShapeRef))
           return shape ? `${inst.name} (${shape.name}, type: ${shape.type})` : `${inst.name} (unknown shape)`
         })
       })

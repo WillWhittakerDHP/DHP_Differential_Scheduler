@@ -85,11 +85,111 @@ export const APPOINTMENT_STATUSES: AppointmentStatus[] = [
   'deleted',
 ];
 
-export interface TimeSlot {
-  slotStart: string; // ISO date string
-  slotEnd: string; // ISO date string
-  duration: number; // Duration in minutes
+/**
+ * TimeRange: Pure time range (no characteristics)
+ * Used for totals and display
+ */
+export interface TimeRange {
+  startTime: string    // ISO date string
+  endTime: string      // ISO date string
+  duration: number     // minutes
 }
+
+/**
+ * TimeSlot: Time range with part characteristics
+ * Used for category-specific slots
+ */
+export interface TimeSlot extends TimeRange {
+  onSite: boolean
+  clientPresent: boolean
+  moveable: boolean
+}
+
+
+/**
+ * TimeSlotKind: Valid category keys for AppointmentShape/Slot
+ * Matches PartShape categories
+ */
+export type TimeSlotKind =
+  | 'earlyArrival'
+  | 'dataCollection'
+  | 'reportWriting'
+  | 'clientPresentation'
+
+/**
+ * PerspectiveKey: Keys for deriving display times
+ * Logic names (not UI labels)
+ */
+export type PerspectiveKey = 'onSite' | 'clientPresent' | 'nonDifferential'
+
+/**
+ * CategoryShape: Duration and flags for a category (no times)
+ * Used within AppointmentShape
+ */
+export interface CategoryShape {
+  duration: number      // minutes
+  onSite: boolean       // OR of all parts in category
+  clientPresent: boolean
+  moveable: boolean
+}
+
+/**
+ * AppointmentShape: Time-independent structure (durations + characteristics)
+ * Calculated once from block instances, then applied to each available start time
+ * 
+ * This is the "what does this appointment look like?" answer
+ */
+export interface AppointmentShape {
+  // Category shapes (duration + flags, no times)
+  earlyArrival: CategoryShape | null
+  dataCollection: CategoryShape | null
+  reportWriting: CategoryShape | null
+  clientPresentation: CategoryShape | null
+  
+  // Precomputed total durations (in minutes)
+  totalOnSiteDuration: number        // Sum of parts where onSite === true
+  totalClientPresentDuration: number // Sum of parts where clientPresent === true
+  totalMoveableDuration: number      // Sum of parts where moveable === true
+  totalDuration: number              // Sum of all parts
+  
+  // Offset for perspective calculation (in minutes)
+  // Duration of parts where onSite=true AND clientPresent=false
+  // Client arrives at: startTime + clientStartOffset
+  clientStartOffset: number
+}
+
+/**
+ * AppointmentSlot: Shape applied to a specific start time
+ * Contains actual TimeRanges with start/end times
+ * 
+ * This is the "when does this appointment happen?" answer
+ */
+export interface AppointmentSlot {
+  buttonIndex: number  // UI grid position (0-based)
+  
+  // Category-specific TimeSlots (shape applied to startTime)
+  earlyArrival: TimeSlot | null
+  dataCollection: TimeSlot | null
+  reportWriting: TimeSlot | null
+  clientPresentation: TimeSlot | null
+  
+  // Precomputed totals (all share same endTime, different startTime)
+  totalOnSite: TimeRange | null        // Inspector's view
+  totalClientPresent: TimeRange | null // Client's view
+  totalMoveable: TimeRange | null      // Moveable parts
+  totalTime: TimeRange | null          // Full appointment
+  
+  // Index signature for dynamic category access
+  [key: string]: TimeSlot | TimeRange | null | number
+}
+
+/**
+ * AppointmentSlots type - array of AppointmentSlot objects
+ * LEARNING: Represents all time slots for an appointment
+ * WHY: Provides consistent structure for multiple appointment slots
+ * PATTERN: Array of AppointmentSlot objects
+ */
+export type AppointmentSlots = AppointmentSlot[]
 
 /**
  * AvailabilityRequest interface for API request
@@ -162,10 +262,13 @@ export interface AppointmentRequest {
   selectedOptionTypeBlocks?: string[] | null; // Deprecated, use selectedOptionIds
   selectedOptionIds?: string[] | null; // JSONB array - replaces selectedOptionTypeBlocks (Option block shape)
   optionQuantities?: Record<string, number> | null; // JSONB object - quantity multipliers for availability options
-  serviceSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected services at booking time
-  propertySnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected property type blocks at booking time
+  serviceSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected services at booking time (deprecated - use serviceSnapshotIds)
+  propertySnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected property type blocks at booking time (deprecated - use propertySnapshotIds)
   optionTypeBlockSnapshots?: Record<string, BlockInstanceSnapshot> | null; // Deprecated, use optionSnapshots
-  optionSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected availability options at booking time
+  optionSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected availability options at booking time (deprecated - use optionSnapshotIds)
+  serviceSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected services
+  propertySnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected property type blocks
+  optionSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected availability options
   selectedDate?: string | null; // ISO date string (DATEONLY)
   selectedDateRangeEnd?: string | null; // ISO date string (DATEONLY)
   selectedTimeSlots?: Array<{ time: string; duration: number }> | null;
@@ -250,10 +353,13 @@ export interface AppointmentResponse {
   selectedOptionTypeBlocks?: string[] | null; // Deprecated, use selectedOptionIds
   selectedOptionIds?: string[] | null; // JSONB array - replaces selectedOptionTypeBlocks (Option block shape)
   optionQuantities?: Record<string, number> | null; // JSONB object - quantity multipliers for availability options
-  serviceSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected services at booking time
-  propertySnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected property type blocks at booking time
+  serviceSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected services at booking time (deprecated - use serviceSnapshotIds)
+  propertySnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected property type blocks at booking time (deprecated - use propertySnapshotIds)
   optionTypeBlockSnapshots?: Record<string, BlockInstanceSnapshot> | null; // Deprecated, use optionSnapshots
-  optionSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected availability options at booking time
+  optionSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected availability options at booking time (deprecated - use optionSnapshotIds)
+  serviceSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected services
+  propertySnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected property type blocks
+  optionSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected availability options
   selectedDate?: string | null;
   selectedDateRangeEnd?: string | null;
   selectedTimeSlots?: Array<Record<string, unknown>> | null;

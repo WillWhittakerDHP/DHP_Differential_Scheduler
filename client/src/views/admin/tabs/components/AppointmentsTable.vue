@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { APPOINTMENT_STATUSES } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
+import { getStatusColor, getRoleColor } from '@/composables/admin/tables/useAppointmentHelpers'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
 
@@ -45,6 +46,9 @@ const {
   properties,
   users,
   getDisplayValue,
+  getPropertyById,
+  getUserById,
+  getPropertyTypeNames,
 } = useAppointmentsTableModel()
 
 /**
@@ -69,102 +73,24 @@ const headers = [
 ]
 
 /**
- * LEARNING: Helper to find property by ID for tooltip display
- * WHY: Retrieves full property data for tooltip content
- */
-function getPropertyById(propertyVersionId: string | null | undefined): PropertyResponse | undefined {
-  if (!propertyVersionId) return undefined
-  return properties.value.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)
-}
-
-/**
- * LEARNING: Helper to find user by ID for tooltip display
- * WHY: Retrieves full user data for tooltip content
- */
-function getUserById(userId: string | null | undefined): UserResponse | undefined {
-  if (!userId) return undefined
-  return users.value.find(u => u.id === userId)
-}
-
-/**
- * LEARNING: Helper to derive property type names for display
- * WHY: Appointments should show the property type(s) now that properties are normalized
- * PATTERN: Look up the property by propertyVersionId and join its type names
- */
-function getPropertyTypeNames(propertyVersionId: string | null | undefined): string {
-  const property = getPropertyById(propertyVersionId)
-  if (!property?.propertyTypes || property.propertyTypes.length === 0) return '—'
-
-  const names = property.propertyTypes
-    .map(pt => pt.blockInstance?.name)
-    .filter(Boolean)
-
-  return names.length ? names.join(', ') : '—'
-}
-
-/**
  * LEARNING: Navigate to Properties tab
- * WHY: Allows users to click on property address to navigate to property details
+ * WHY: Simple event handler - acceptable to keep in component
+ * PATTERN: Simple wrapper that emits event
  */
-function navigateToProperties(): void {
+const navigateToProperties = (): void => {
   emit('navigate-to-tab', 'properties')
 }
 
 /**
  * LEARNING: Navigate to Users tab
- * WHY: Allows users to click on user names to navigate to user details
+ * WHY: Simple event handler - acceptable to keep in component
+ * PATTERN: Simple wrapper that emits event
  */
-function navigateToUsers(): void {
+const navigateToUsers = (): void => {
   emit('navigate-to-tab', 'users')
 }
 
-/**
- * LEARNING: Format null/undefined display value
- * WHY: Consistent display of empty values
- * NOTE: Currently unused but available for future use
- */
- 
-// @ts-expect-error - Unused function kept for future use
-function _formatNullValue(value: unknown): string {
-  if (value === null || value === undefined) return '—'
-  return String(value)
-}
-
-/**
- * LEARNING: Status color mapping function
- * WHY: Provides visual distinction between different appointment statuses
- * PATTERN: Color coding for status workflow stages
- */
-function getStatusColor(status: string): string {
-  const colorMap: Record<string, string> = {
-    started: 'blue',
-    held: 'purple',
-    rescheduling: 'orange',
-    quoted: 'cyan',
-    submitted: 'amber',
-    confirmed: 'success',
-    cancelled: 'error',
-    deleted: 'grey',
-  }
-  return colorMap[status] || 'default'
-}
-
-/**
- * LEARNING: User role color mapping function
- * WHY: Provides visual distinction between different user roles in Scheduled By column
- * PATTERN: Color coding for user types
- */
-function getRoleColor(role: string | undefined): string {
-  if (!role) return 'default'
-  const colorMap: Record<string, string> = {
-    client: 'primary',
-    agent: 'info',
-    transaction_manager: 'warning',
-    seller: 'secondary',
-    inspector: 'success',
-  }
-  return colorMap[role] || 'default'
-}
+// Helper functions moved to useAppointmentHelpers composable
 </script>
 
 <template>

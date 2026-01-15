@@ -14,7 +14,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useAdmin } from '@/composables/useAdmin'
-import { useAdminConfig } from '@/composables/useAdminConfig'
 import apiClient, { getRelationshipByParentChildEndpoint } from '@/utils/api'
 import type { QueryClient } from '@tanstack/vue-query'
 import type { RelationshipFieldType } from '@/types/entity/formFields'
@@ -39,22 +38,20 @@ export async function cleanupInvalidActiveRelationships(
   newValidChildIds: GlobalEntityId[],
   queryClient: QueryClient
 ): Promise<void> {
-  const adminConfig = useAdminConfig()
+  // LEARNING: This function is deprecated - formFieldConfig no longer exists
+  // WHY: formFieldConfig has been removed in favor of metadata-only approach
+  // PATTERN: dependencyImpact configuration needs to be added to metadata schema
+  // TODO: Add dependencyImpact to metadata schema and reimplement this function
+  throw new Error(
+    `[cleanupInvalidActiveRelationships] DEPRECATED: This function uses formFieldConfig which has been removed. ` +
+    `dependencyImpact configuration needs to be added to metadata schema. ` +
+    `Relationship cleanup for ${validRelationshipKey} on ${entityKey} is currently disabled.`
+  )
+  
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  // Dead code below - kept for reference when reimplementing with metadata
   const adminComp = useAdmin()
-  
-  /**
-   * WHY: // WHY: getAdminConfig() returns raw config, useAdminConfig() provides the composable with methods
-   * PATTERN: // PATTERN: Use composable pattern for accessing config in Vue
-   */
-  const formFieldConfig = adminConfig.getFormFieldConfig(entityKey, validRelationshipKey as unknown as GlobalFieldKey<GlobalEntityKey>).value
-  if (!formFieldConfig || !('relationshipSelect' in formFieldConfig)) {
-    return // No config or not a relationship select field
-  }
-  
-  // LEARNING: Type assertion needed because FormFieldConfig type is simplified
-  // WHY: The actual config has dependencyImpact but the type definition doesn't include it
-  // PATTERN: Cast to RelationshipFieldType which includes dependencyImpact
-  const config = formFieldConfig.relationshipSelect as RelationshipFieldType<GlobalEntityKey, GlobalRelationshipKey>
+  const config = null as any
   if (!config || !config.dependencyImpact) {
     return // No dependency impact configured
   }

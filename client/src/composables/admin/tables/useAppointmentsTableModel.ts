@@ -7,6 +7,7 @@ import type { AppointmentRequest, AppointmentResponse } from '@/types/appointmen
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
 import { useCrudDataTableModel, type CrudDataTableModel } from './useCrudDataTableModel'
+import { getAppointmentFieldFormatter } from '@/utils/appointmentFieldFormatters'
 
 export interface AppointmentsTableModel extends CrudDataTableModel<
   AppointmentResponse,
@@ -16,6 +17,9 @@ export interface AppointmentsTableModel extends CrudDataTableModel<
   properties: ComputedRef<PropertyResponse[]>
   users: ComputedRef<UserResponse[]>
   getDisplayValue: (appointment: AppointmentResponse, field: string) => string
+  getPropertyById: (propertyVersionId: string | null | undefined) => PropertyResponse | undefined
+  getUserById: (userId: string | null | undefined) => UserResponse | undefined
+  getPropertyTypeNames: (propertyVersionId: string | null | undefined) => string
 }
 
 /**
@@ -41,60 +45,45 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     return Array.isArray(data) ? data : []
   })
 
-  const formatNullValue = (value: unknown): string => {
-    if (value === null || value === undefined) return '—'
-    if (typeof value === 'object') return JSON.stringify(value)
-    return String(value)
-  }
-
+  // FIX: Use config-driven field formatters instead of repeated field checks
   const getDisplayValue = (appointment: AppointmentResponse, field: string): string => {
     const value = (appointment as unknown as Record<string, unknown>)[field]
+    const formatter = getAppointmentFieldFormatter(field)
+    return formatter(appointment, value, properties.value, users.value)
+  }
 
-    if ((field === 'propertyVersionId' || field === 'propertyId') && value) {
-      const propertyVersionId = appointment.propertyVersionId || appointment.propertyId
-      if (propertyVersionId) {
-        const property = properties.value.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)
-        if (property) return `${property.address}, ${property.city}, ${property.state}`
-      }
-      if (appointment.propertyVersion?.address) {
-        const addr = appointment.propertyVersion.address
-        return `${addr.address}, ${addr.city}, ${addr.state}`
-      }
-      return String(value)
-    }
+  /**
+   * LEARNING: Helper to find property by ID for tooltip display
+   * WHY: Retrieves full property data for tooltip content
+   */
+  const getPropertyById = (propertyVersionId: string | null | undefined): PropertyResponse | undefined => {
+    if (!propertyVersionId) return undefined
+    return properties.value.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)
+  }
 
-    // Handle user-related fields (clientId, agentId)
-    if ((field === 'clientId' || field === 'agentId') && value) {
-      const user = users.value.find(u => u.id === value)
-      return user ? `${user.firstName} ${user.lastName}` : String(value)
-    }
+  /**
+   * LEARNING: Helper to find user by ID for tooltip display
+   * WHY: Retrieves full user data for tooltip content
+   */
+  const getUserById = (userId: string | null | undefined): UserResponse | undefined => {
+    if (!userId) return undefined
+    return users.value.find(u => u.id === userId)
+  }
 
-    // Handle scheduledById - shows role in cell, name in tooltip
-    // LEARNING: User requested role in cell to quickly see who type scheduled
-    if (field === 'scheduledById' && value) {
-      const user = users.value.find(u => u.id === value)
-      return user ? user.userRole : String(value)
-    }
+  /**
+   * LEARNING: Helper to derive property type names for display
+   * WHY: Appointments should show the property type(s) now that properties are normalized
+   * PATTERN: Look up the property by propertyVersionId and join its type names
+   */
+  const getPropertyTypeNames = (propertyVersionId: string | null | undefined): string => {
+    const property = getPropertyById(propertyVersionId)
+    if (!property?.propertyTypes || property.propertyTypes.length === 0) return '—'
 
-    /**
-     * LEARNING: Default status changed from 'draft' to 'started'
-     * WHY: New status workflow uses 'started' for appointments in creation
-     */
-    if (field === 'status') return String(value || 'started')
+    const names = property.propertyTypes
+      .map(pt => pt.blockInstance?.name)
+      .filter(Boolean)
 
-    if (field === 'selectedDate' && value) return new Date(String(value)).toLocaleDateString()
-
-    if (field === 'selectedTimeSlots' && value) {
-      return Array.isArray(value) ? `${value.length} slot(s)` : formatNullValue(value)
-    }
-
-    if (field === 'selectedOptionTypeBlocks' && value) {
-      return Array.isArray(value) ? `${value.length} option(s)` : formatNullValue(value)
-    }
-
-    if (field === 'propertyDetails' || field === 'additionalContacts') return formatNullValue(value)
-
-    return formatNullValue(value)
+    return names.length ? names.join(', ') : '—'
   }
 
   const model = useCrudDataTableModel<AppointmentResponse, AppointmentRequest, Partial<AppointmentRequest>>({
@@ -150,6 +139,9 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     properties,
     users,
     getDisplayValue,
+    getPropertyById,
+    getUserById,
+    getPropertyTypeNames,
   }
 }
 

@@ -1,7 +1,7 @@
 /**
  * USEINSTANCESELECTIONSTATE TESTS
  * 
- * Unit tests for useInstanceSelectionState and useServiceSelectionState composables.
+ * Unit tests for useInstanceSelectionState composable.
  * Tests v-model bridges for single and multi-select block instance selection.
  * 
  * Coverage:
@@ -9,16 +9,13 @@
  * - selectedIds computed (multi-select v-model bridge)
  * - Getter returns correct IDs
  * - Setter calls toggleSelection with resolved instances
- * - Legacy useServiceSelectionState compatibility
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref, computed } from 'vue'
 import { 
   useInstanceSelectionState, 
-  useServiceSelectionState,
   type UseInstanceSelectionStateParams,
-  type GenericWizardInstance,
 } from '../useInstanceSelectionState'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
@@ -179,87 +176,6 @@ describe('useInstanceSelectionState', () => {
       // Setting values should not throw
       expect(() => { selectedId.value = 'block-1' }).not.toThrow()
       expect(() => { selectedIds.value = ['block-1'] }).not.toThrow()
-    })
-  })
-})
-
-describe('useServiceSelectionState (legacy)', () => {
-  // Test fixtures
-  const mockUserTypeBlocks: BookingBlockInstance[] = [
-    { id: 'ut-1', name: 'User Type 1' } as BookingBlockInstance,
-    { id: 'ut-2', name: 'User Type 2' } as BookingBlockInstance,
-  ]
-
-  const mockServices: BookingBlockInstance[] = [
-    { id: 'service-1', name: 'Service 1' } as BookingBlockInstance,
-    { id: 'service-2', name: 'Service 2' } as BookingBlockInstance,
-  ]
-
-  let mockWizard: GenericWizardInstance
-
-  beforeEach(() => {
-    vi.clearAllMocks()
-    mockWizard = {
-      selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
-      availableUserTypeBlocks: ref(mockUserTypeBlocks),
-      selectedServices: ref<BookingBlockInstance[]>([]),
-      availableServices: ref(mockServices),
-      selectUserTypeBlock: vi.fn(),
-      toggleService: vi.fn(),
-    }
-  })
-
-  describe('selectedUserTypeBlockId', () => {
-    it('should return null when no user type is selected', () => {
-      const { selectedUserTypeBlockId } = useServiceSelectionState({ wizard: mockWizard })
-      expect(selectedUserTypeBlockId.value).toBeNull()
-    })
-
-    it('should return selected user type ID', () => {
-      mockWizard.selectedUserTypeBlock.value = mockUserTypeBlocks[0]
-      
-      const { selectedUserTypeBlockId } = useServiceSelectionState({ wizard: mockWizard })
-      expect(selectedUserTypeBlockId.value).toBe('ut-1')
-    })
-
-    it('should call selectUserTypeBlock when setting ID', () => {
-      const { selectedUserTypeBlockId } = useServiceSelectionState({ wizard: mockWizard })
-      selectedUserTypeBlockId.value = 'ut-2'
-
-      expect(mockWizard.selectUserTypeBlock).toHaveBeenCalledWith(mockUserTypeBlocks[1])
-    })
-
-    it('should call selectUserTypeBlock with null when setting null ID', () => {
-      mockWizard.selectedUserTypeBlock.value = mockUserTypeBlocks[0]
-      
-      const { selectedUserTypeBlockId } = useServiceSelectionState({ wizard: mockWizard })
-      selectedUserTypeBlockId.value = null
-
-      expect(mockWizard.selectUserTypeBlock).toHaveBeenCalledWith(null)
-    })
-  })
-
-  describe('selectedServiceIds', () => {
-    it('should return empty array when no services selected', () => {
-      const { selectedServiceIds } = useServiceSelectionState({ wizard: mockWizard })
-      expect(selectedServiceIds.value).toEqual([])
-    })
-
-    it('should return array of selected service IDs', () => {
-      mockWizard.selectedServices.value = [mockServices[0], mockServices[1]]
-      
-      const { selectedServiceIds } = useServiceSelectionState({ wizard: mockWizard })
-      expect(selectedServiceIds.value).toEqual(['service-1', 'service-2'])
-    })
-
-    it('should clear and toggle services when setting IDs', () => {
-      const { selectedServiceIds } = useServiceSelectionState({ wizard: mockWizard })
-      selectedServiceIds.value = ['service-1', 'service-2']
-
-      // Should toggle each service with skipCascade=true
-      expect(mockWizard.toggleService).toHaveBeenCalledTimes(2)
-      expect(mockWizard.toggleService).toHaveBeenCalledWith(mockServices[0], true)
-      expect(mockWizard.toggleService).toHaveBeenCalledWith(mockServices[1], true)
     })
   })
 })

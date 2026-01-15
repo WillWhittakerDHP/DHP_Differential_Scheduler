@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-09T11:05:32.859Z",
+  "generatedAt": "2026-01-14T01:52:12.643Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -12,6 +12,13 @@
   },
   "overlap": {
     "duplicateExportNames": [
+      {
+        "fn": "useAppointmentSlots",
+        "paths": [
+          "src/composables/booking/useAppointmentSlots.ts",
+          "src/composables/booking/useAppointmentTimes.ts"
+        ]
+      },
       {
         "fn": "useServiceDisplay",
         "paths": [
@@ -27,9 +34,308 @@
         ]
       }
     ],
-    "overlappingReturnShapes": []
+    "overlappingReturnShapes": [
+      {
+        "sig": "create|fetchAll|fetchById|patch|remove|update",
+        "paths": [
+          "src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts",
+          "src/composables/globalDataCollections/useGlobalDataCollectionCrud.ts",
+          "src/composables/useProperty.ts",
+          "src/composables/useUser.ts"
+        ]
+      }
+    ]
   },
   "files": [
+    {
+      "id": "src__composables__entityCrud__useEntityCrudActions.ts",
+      "repoPath": "src/composables/entityCrud/useEntityCrudActions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudActions.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 17,
+        "await": 12,
+        "vueQuery": 7,
+        "map": 8,
+        "reduce": 0,
+        "filter": 1,
+        "sort": 1,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 2,
+          "line": "import { useMutation, useQueryClient } from '@tanstack/vue-query'"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 49,
+          "line": "const queryClient = useQueryClient()"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 53,
+          "line": "const isLoading = computed((): boolean => false)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 54,
+          "line": "const error = computed((): unknown | undefined => undefined)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 56,
+          "line": "const refetch = async (): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 57,
+          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 60,
+          "line": "const createMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, Partial<GlobalEntity<GlobalEntityTypeKey>>, { previousData?: GlobalData }>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 61,
+          "line": "mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 65,
+          "line": "currentEntities.length > 0 ? Math.max(...currentEntities.map((e) => e.orderIndex ?? 0)) : -1"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 89,
+          "line": "const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 94,
+          "line": "onMutate: async () => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 98,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 146,
+          "line": "const updateMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, { previousData?: GlobalData }>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 147,
+          "line": "mutationFn: async ({"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 163,
+          "line": "const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 166,
+          "line": "onMutate: async (variables) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 170,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 273,
+          "line": "const deleteMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 274,
+          "line": "mutationFn: async (id: GlobalEntityId) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 276,
+          "line": "await apiClient.delete(deleteEndpoint)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 279,
+          "line": "onMutate: async (id) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 283,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 291,
+          "line": "const filteredEntities = currentEntities.filter((e) => String(e.id) !== String(id))"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 296,
+          "line": "const normalizedEntities = filteredEntities.map((entity, index) => ({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 312,
+          "line": "onSuccess: async () => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 328,
+          "line": "const normalizedUpdates = remainingEntities.map((entity, index) => ({"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 334,
+          "line": "const backendPayload = normalizedUpdates.map(({ id, orderIndex }) => ({"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 339,
+          "line": "// Fire and forget - don't await, don't refetch"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 357,
+          "line": "const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 358,
+          "line": "mutationFn: async (updates: OrderIndexUpdate): Promise<void> => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 360,
+          "line": "const backendPayload = updates.map(({ id, orderIndex }) => ({"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 364,
+          "line": "await apiClient.patch(orderIndexEndpoint, backendPayload)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 366,
+          "line": "onMutate: async (updates) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 370,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 390,
+          "line": "const updatedEntities = currentEntities.map((entity) => {"
+        },
+        {
+          "ruleId": "sort",
+          "lineNumber": 404,
+          "line": "const sortedEntities = [...updatedEntities].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 435,
+          "line": "const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>, { previousData?: GlobalData }>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 436,
+          "line": "mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>): Promise<void> => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 443,
+          "line": "const backendPayload = updates.map(({ id, ...fields }) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 452,
+          "line": "await apiClient.patch(bulkPatchEndpoint, backendPayload)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 454,
+          "line": "onMutate: async (updates) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 458,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 479,
+          "line": "const updatedEntities = currentEntities.map((entity) => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 524,
+          "line": "create: async (entity) => createMutation.mutateAsync(entity),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 525,
+          "line": "update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 526,
+          "line": "remove: async (id) => deleteMutation.mutateAsync(id),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 527,
+          "line": "patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 528,
+          "line": "patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),"
+        }
+      ],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "@/constants/entities",
+        "@/constants/primitives",
+        "@/types/entities",
+        "@/utils/api",
+        "@/utils/entities/sanitizeEntityAdminValues",
+        "@/utils/entityDefaults",
+        "@/utils/env/devMode",
+        "@/utils/logger",
+        "@/utils/transformers/entityTransformers",
+        "@/utils/transformers/fetchToGlobalTransformer",
+        "@tanstack/vue-query",
+        "vue"
+      ],
+      "returnKeys": [],
+      "complexityScore": 48,
+      "suggestions": [
+        {
+          "kind": "split_candidate",
+          "priority": "P0",
+          "message": "High complexity score. Consider splitting into `useXxxState` + `useXxxActions` + `useXxxQuery` and keeping the SFC-facing API thin."
+        }
+      ]
+    },
     {
       "id": "src__composables__admin__annotationAssignments__useAnnotationAssignmentsActions.ts",
       "repoPath": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts",
@@ -312,951 +618,6 @@
       ]
     },
     {
-      "id": "src__composables__entityCrud__useEntityCrudActions.ts",
-      "repoPath": "src/composables/entityCrud/useEntityCrudActions.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudActions.ts",
-      "counts": {
-        "computed": 2,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 14,
-        "await": 10,
-        "vueQuery": 6,
-        "map": 6,
-        "reduce": 0,
-        "filter": 1,
-        "sort": 1,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 2,
-          "line": "import { useMutation, useQueryClient } from '@tanstack/vue-query'"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 44,
-          "line": "const queryClient = useQueryClient()"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 48,
-          "line": "const isLoading = computed((): boolean => false)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 49,
-          "line": "const error = computed((): unknown | undefined => undefined)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 51,
-          "line": "const refetch = async (): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 52,
-          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 55,
-          "line": "const createMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, Partial<GlobalEntity<GlobalEntityTypeKey>>, { previousData?: GlobalData }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 56,
-          "line": "mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 60,
-          "line": "currentEntities.length > 0 ? Math.max(...currentEntities.map((e) => e.orderIndex ?? 0)) : -1"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 84,
-          "line": "const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 89,
-          "line": "onMutate: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 93,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 141,
-          "line": "const updateMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, { previousData?: GlobalData }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 142,
-          "line": "mutationFn: async ({"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 158,
-          "line": "const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 161,
-          "line": "onMutate: async (variables) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 165,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 241,
-          "line": "const deleteMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 242,
-          "line": "mutationFn: async (id: GlobalEntityId) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 244,
-          "line": "await apiClient.delete(deleteEndpoint)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 247,
-          "line": "onMutate: async (id) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 251,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 259,
-          "line": "const filteredEntities = currentEntities.filter((e) => String(e.id) !== String(id))"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 264,
-          "line": "const normalizedEntities = filteredEntities.map((entity, index) => ({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 280,
-          "line": "onSuccess: async () => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 296,
-          "line": "const normalizedUpdates = remainingEntities.map((entity, index) => ({"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 302,
-          "line": "const backendPayload = normalizedUpdates.map(({ id, orderIndex }) => ({"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 307,
-          "line": "// Fire and forget - don't await, don't refetch"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 325,
-          "line": "const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 326,
-          "line": "mutationFn: async (updates: OrderIndexUpdate): Promise<void> => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 328,
-          "line": "const backendPayload = updates.map(({ id, orderIndex }) => ({"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 332,
-          "line": "await apiClient.patch(orderIndexEndpoint, backendPayload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 334,
-          "line": "onMutate: async (updates) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 338,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 358,
-          "line": "const updatedEntities = currentEntities.map((entity) => {"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 372,
-          "line": "const sortedEntities = [...updatedEntities].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 407,
-          "line": "create: async (entity) => createMutation.mutateAsync(entity),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 408,
-          "line": "update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 409,
-          "line": "remove: async (id) => deleteMutation.mutateAsync(id),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 410,
-          "line": "patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),"
-        }
-      ],
-      "exportUseFunctions": [],
-      "importSpecifiers": [
-        "@/constants/entities",
-        "@/constants/primitives",
-        "@/types/entities",
-        "@/utils/api",
-        "@/utils/entities/sanitizeEntityAdminValues",
-        "@/utils/entityDefaults",
-        "@/utils/env/devMode",
-        "@/utils/logger",
-        "@/utils/transformers/entityTransformers",
-        "@/utils/transformers/fetchToGlobalTransformer",
-        "@tanstack/vue-query",
-        "vue"
-      ],
-      "returnKeys": [],
-      "complexityScore": 40,
-      "suggestions": [
-        {
-          "kind": "split_candidate",
-          "priority": "P0",
-          "message": "High complexity score. Consider splitting into `useXxxState` + `useXxxActions` + `useXxxQuery` and keeping the SFC-facing API thin."
-        }
-      ]
-    },
-    {
-      "id": "src__composables__useAppointment.ts",
-      "repoPath": "src/composables/useAppointment.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAppointment.ts",
-      "counts": {
-        "computed": 6,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 10,
-        "await": 12,
-        "vueQuery": 9,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 2,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 6,
-          "line": "* PATTERN: Vue Query useMutation for data mutations"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 16,
-          "line": "import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 35,
-          "line": "* PATTERN: Vue Query useQuery for reads, useMutation for writes"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 56,
-          "line": "const queryClient = useQueryClient()"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 60,
-          "line": "const appointmentsQuery = useQuery<AppointmentResponse[]>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 62,
-          "line": "queryFn: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 63,
-          "line": "const response = await apiClient.get<AppointmentResponse[]>(getAppointmentEndpoint())"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 71,
-          "line": "data: computed(() => appointmentsQuery.data.value || []),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 72,
-          "line": "isLoading: computed(() => appointmentsQuery.isLoading.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 73,
-          "line": "error: computed(() => appointmentsQuery.error.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 77,
-          "line": "const item = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 84,
-          "line": "isLoading: computed(() => appointmentsQuery.isLoading.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 85,
-          "line": "error: computed(() => appointmentsQuery.error.value),"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 90,
-          "line": "const create = useMutation<AppointmentResponse, unknown, AppointmentRequest, { previousAppointments?: AppointmentResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 91,
-          "line": "mutationFn: async (payload: AppointmentRequest): Promise<AppointmentResponse> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 92,
-          "line": "const response = await apiClient.post<AppointmentResponse>(getAppointmentEndpoint(), payload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 95,
-          "line": "onMutate: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 96,
-          "line": "await queryClient.cancelQueries({ queryKey: appointmentsKey })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 116,
-          "line": "const update = useMutation<AppointmentResponse, unknown, UpdateByIdPayload, { previousAppointments?: AppointmentResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 117,
-          "line": "mutationFn: async (payload: UpdateByIdPayload): Promise<AppointmentResponse> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 118,
-          "line": "const response = await apiClient.put<AppointmentResponse>("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 124,
-          "line": "onMutate: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 125,
-          "line": "await queryClient.cancelQueries({ queryKey: appointmentsKey })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 143,
-          "line": "const patch = useMutation<AppointmentResponse, unknown, UpdateByIdPayload, { previousAppointments?: AppointmentResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 144,
-          "line": "mutationFn: async (payload: UpdateByIdPayload): Promise<AppointmentResponse> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 145,
-          "line": "const response = await apiClient.patch<AppointmentResponse>("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 151,
-          "line": "onMutate: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 152,
-          "line": "await queryClient.cancelQueries({ queryKey: appointmentsKey })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 170,
-          "line": "const remove = useMutation<void, unknown, string, { previousAppointments?: AppointmentResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 171,
-          "line": "mutationFn: async (id: string): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 172,
-          "line": "await apiClient.delete(getAppointmentByIdEndpoint(id))"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 174,
-          "line": "onMutate: async (id) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 175,
-          "line": "await queryClient.cancelQueries({ queryKey: appointmentsKey })"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 189,
-          "line": "const fetchRandom = async (): Promise<AppointmentResponse | null> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 201,
-          "line": "await new Promise(resolve => setTimeout(resolve, 100))"
-        },
-        {
-          "ruleId": "timers",
-          "lineNumber": 201,
-          "line": "await new Promise(resolve => setTimeout(resolve, 100))"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 208,
-          "line": "await queryClient.refetchQueries({ queryKey: ['appointments'] })"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 210,
-          "line": "await new Promise(resolve => setTimeout(resolve, 500))"
-        },
-        {
-          "ruleId": "timers",
-          "lineNumber": 210,
-          "line": "await new Promise(resolve => setTimeout(resolve, 500))"
-        }
-      ],
-      "exportUseFunctions": [
-        "useAppointment"
-      ],
-      "importSpecifiers": [
-        "@/types/appointment",
-        "@/utils/api",
-        "@/utils/collections/appendIfMissingById",
-        "@/utils/collections/findById",
-        "@/utils/collections/pickRandomItem",
-        "@/utils/optimistic/listByIdOptimistic",
-        "@tanstack/vue-query",
-        "vue"
-      ],
-      "returnKeys": [
-        "data",
-        "error",
-        "isLoading"
-      ],
-      "complexityScore": 39,
-      "suggestions": [
-        {
-          "kind": "split_candidate",
-          "priority": "P0",
-          "message": "High complexity score. Consider splitting into `useXxxState` + `useXxxActions` + `useXxxQuery` and keeping the SFC-facing API thin."
-        }
-      ]
-    },
-    {
-      "id": "src__composables__useProperty.ts",
-      "repoPath": "src/composables/useProperty.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useProperty.ts",
-      "counts": {
-        "computed": 6,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 9,
-        "await": 9,
-        "vueQuery": 9,
-        "map": 2,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 6,
-          "line": "* PATTERN: Vue Query useMutation for data mutations"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 15,
-          "line": "import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 33,
-          "line": "* PATTERN: Vue Query useQuery for reads, useMutation for writes"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 53,
-          "line": "const queryClient = useQueryClient()"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 76,
-          "line": "const propertiesQuery = useQuery<PropertyResponse[]>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 78,
-          "line": "queryFn: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 79,
-          "line": "const response = await apiClient.get<PropertyResponse[]>(getPropertyEndpoint())"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 87,
-          "line": "data: computed(() => propertiesQuery.data.value || []),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 88,
-          "line": "isLoading: computed(() => propertiesQuery.isLoading.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 89,
-          "line": "error: computed(() => propertiesQuery.error.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 93,
-          "line": "const item = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 100,
-          "line": "isLoading: computed(() => propertiesQuery.isLoading.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 101,
-          "line": "error: computed(() => propertiesQuery.error.value),"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 106,
-          "line": "const create = useMutation<PropertyResponse, unknown, PropertyRequest, { previousProperties?: PropertyResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 107,
-          "line": "mutationFn: async (payload: PropertyRequest): Promise<PropertyResponse> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 108,
-          "line": "const response = await apiClient.post<PropertyResponse>(getPropertyEndpoint(), payload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 111,
-          "line": "onMutate: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 112,
-          "line": "await queryClient.cancelQueries({ queryKey: propertiesKey })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 130,
-          "line": "const update = useMutation<PropertyResponse, unknown, UpdateByIdPayload, { previousProperties?: PropertyResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 131,
-          "line": "mutationFn: async (payload: UpdateByIdPayload): Promise<PropertyResponse> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 132,
-          "line": "const response = await apiClient.put<PropertyResponse>("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 138,
-          "line": "onMutate: async (variables) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 139,
-          "line": "await queryClient.cancelQueries({ queryKey: propertiesKey })"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 144,
-          "line": "return current.map((property) =>"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 167,
-          "line": "const patch = useMutation<PropertyResponse, unknown, UpdateByIdPayload, { previousProperties?: PropertyResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 168,
-          "line": "mutationFn: async (payload: UpdateByIdPayload): Promise<PropertyResponse> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 169,
-          "line": "const response = await apiClient.patch<PropertyResponse>("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 175,
-          "line": "onMutate: async (variables) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 176,
-          "line": "await queryClient.cancelQueries({ queryKey: propertiesKey })"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 181,
-          "line": "return current.map((property) =>"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 204,
-          "line": "const remove = useMutation<void, unknown, string, { previousProperties?: PropertyResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 205,
-          "line": "mutationFn: async (id: string): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 206,
-          "line": "await apiClient.delete(getPropertyByIdEndpoint(id))"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 208,
-          "line": "onMutate: async (id) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 209,
-          "line": "await queryClient.cancelQueries({ queryKey: propertiesKey })"
-        }
-      ],
-      "exportUseFunctions": [
-        "useProperty"
-      ],
-      "importSpecifiers": [
-        "@/types/property",
-        "@/utils/api",
-        "@/utils/collections/appendIfMissingById",
-        "@/utils/collections/findById",
-        "@/utils/optimistic/listByIdOptimistic",
-        "@tanstack/vue-query",
-        "vue"
-      ],
-      "returnKeys": [
-        "data",
-        "error",
-        "isLoading"
-      ],
-      "complexityScore": 35,
-      "suggestions": [
-        {
-          "kind": "split_candidate",
-          "priority": "P0",
-          "message": "High complexity score. Consider splitting into `useXxxState` + `useXxxActions` + `useXxxQuery` and keeping the SFC-facing API thin."
-        }
-      ]
-    },
-    {
-      "id": "src__composables__useUser.ts",
-      "repoPath": "src/composables/useUser.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useUser.ts",
-      "counts": {
-        "computed": 6,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 9,
-        "await": 9,
-        "vueQuery": 9,
-        "map": 2,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 6,
-          "line": "* PATTERN: Vue Query useMutation for data mutations"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 15,
-          "line": "import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 33,
-          "line": "* PATTERN: Vue Query useQuery for reads, useMutation for writes"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 53,
-          "line": "const queryClient = useQueryClient()"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 67,
-          "line": "const usersQuery = useQuery<UserResponse[]>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 69,
-          "line": "queryFn: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 70,
-          "line": "const response = await apiClient.get<UserResponse[]>(getUserEndpoint())"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 78,
-          "line": "data: computed(() => usersQuery.data.value || []),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 79,
-          "line": "isLoading: computed(() => usersQuery.isLoading.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 80,
-          "line": "error: computed(() => usersQuery.error.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 84,
-          "line": "const item = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 91,
-          "line": "isLoading: computed(() => usersQuery.isLoading.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 92,
-          "line": "error: computed(() => usersQuery.error.value),"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 97,
-          "line": "const create = useMutation<UserResponse, unknown, UserRequest, { previousUsers?: UserResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 98,
-          "line": "mutationFn: async (payload: UserRequest): Promise<UserResponse> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 99,
-          "line": "const response = await apiClient.post<UserResponse>(getUserEndpoint(), payload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 102,
-          "line": "onMutate: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 103,
-          "line": "await queryClient.cancelQueries({ queryKey: usersKey })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 121,
-          "line": "const update = useMutation<UserResponse, unknown, UpdateByIdPayload, { previousUsers?: UserResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 122,
-          "line": "mutationFn: async (payload: UpdateByIdPayload): Promise<UserResponse> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 123,
-          "line": "const response = await apiClient.put<UserResponse>("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 129,
-          "line": "onMutate: async (variables) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 130,
-          "line": "await queryClient.cancelQueries({ queryKey: usersKey })"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 135,
-          "line": "return current.map((user) =>"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 156,
-          "line": "const patch = useMutation<UserResponse, unknown, UpdateByIdPayload, { previousUsers?: UserResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 157,
-          "line": "mutationFn: async (payload: UpdateByIdPayload): Promise<UserResponse> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 158,
-          "line": "const response = await apiClient.patch<UserResponse>("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 164,
-          "line": "onMutate: async (variables) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 165,
-          "line": "await queryClient.cancelQueries({ queryKey: usersKey })"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 170,
-          "line": "return current.map((user) =>"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 191,
-          "line": "const remove = useMutation<void, unknown, string, { previousUsers?: UserResponse[] }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 192,
-          "line": "mutationFn: async (id: string): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 193,
-          "line": "await apiClient.delete(getUserByIdEndpoint(id))"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 195,
-          "line": "onMutate: async (id) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 196,
-          "line": "await queryClient.cancelQueries({ queryKey: usersKey })"
-        }
-      ],
-      "exportUseFunctions": [
-        "useUser"
-      ],
-      "importSpecifiers": [
-        "@/types/user",
-        "@/utils/api",
-        "@/utils/collections/appendIfMissingById",
-        "@/utils/collections/findById",
-        "@/utils/optimistic/listByIdOptimistic",
-        "@tanstack/vue-query",
-        "vue"
-      ],
-      "returnKeys": [
-        "data",
-        "error",
-        "isLoading"
-      ],
-      "complexityScore": 35,
-      "suggestions": [
-        {
-          "kind": "split_candidate",
-          "priority": "P0",
-          "message": "High complexity score. Consider splitting into `useXxxState` + `useXxxActions` + `useXxxQuery` and keeping the SFC-facing API thin."
-        }
-      ]
-    },
-    {
       "id": "src__composables__componentEntity__useComponentEntityActions.ts",
       "repoPath": "src/composables/componentEntity/useComponentEntityActions.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/componentEntity/useComponentEntityActions.ts",
@@ -1441,6 +802,177 @@
         "data"
       ],
       "complexityScore": 29,
+      "suggestions": [
+        {
+          "kind": "split_candidate",
+          "priority": "P1",
+          "message": "Moderate complexity score. Consider separating query/mutations from derived state and formatting."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__dataCollections__useDataCollectionActions.ts",
+      "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/dataCollections/useDataCollectionActions.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 8,
+        "await": 8,
+        "vueQuery": 6,
+        "map": 2,
+        "reduce": 0,
+        "filter": 1,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 11,
+          "line": "import { useMutation, useQueryClient } from '@tanstack/vue-query'"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 51,
+          "line": "const queryClient = useQueryClient()"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 53,
+          "line": "const create = useMutation<CollectionItem, unknown, CreatePayload, unknown>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 54,
+          "line": "mutationFn: async (payload: CreatePayload): Promise<CollectionItem> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 55,
+          "line": "const response = await apiClient.post<CollectionItem>(config.endpoints.listEndpoint(), payload)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 58,
+          "line": "onSuccess: async (createdItem: CollectionItem) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 69,
+          "line": "await queryClient.refetchQueries({ queryKey })"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 73,
+          "line": "const update = useMutation<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 74,
+          "line": "mutationFn: async (payload: UpdateByIdPayload<UpdatePayload>): Promise<CollectionItem> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 75,
+          "line": "const response = await apiClient.put<CollectionItem>("
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 81,
+          "line": "onSuccess: async (updatedItem: CollectionItem) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 86,
+          "line": "const updatedCollection = currentCollection.map(item =>"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 94,
+          "line": "await queryClient.refetchQueries({ queryKey })"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 98,
+          "line": "const patch = useMutation<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 99,
+          "line": "mutationFn: async (payload: UpdateByIdPayload<UpdatePayload>): Promise<CollectionItem> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 100,
+          "line": "const response = await apiClient.patch<CollectionItem>("
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 106,
+          "line": "onSuccess: async (patchedItem: CollectionItem) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 111,
+          "line": "const updatedCollection = currentCollection.map(item =>"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 119,
+          "line": "await queryClient.refetchQueries({ queryKey })"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 123,
+          "line": "const remove = useMutation<void, unknown, string, unknown>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 124,
+          "line": "mutationFn: async (id: string): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 125,
+          "line": "await apiClient.delete(config.endpoints.byIdEndpoint(id))"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 127,
+          "line": "onSuccess: async (_result, deletedId) => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 132,
+          "line": "const updatedCollection = currentCollection.filter(item => item.id !== deletedId)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 138,
+          "line": "await queryClient.refetchQueries({ queryKey })"
+        }
+      ],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "../businessDataCollections/types",
+        "@/utils/api",
+        "@/utils/collections/appendIfMissingById",
+        "@tanstack/vue-query"
+      ],
+      "returnKeys": [
+        "create",
+        "patch",
+        "remove",
+        "update"
+      ],
+      "complexityScore": 25,
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -1841,102 +1373,102 @@
         },
         {
           "ruleId": "await",
-          "lineNumber": 66,
+          "lineNumber": 67,
           "line": "await apiClient.get(verifyEndpoint)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 91,
+          "lineNumber": 92,
           "line": "const isValidResult = await validate()"
         },
         {
           "ruleId": "map",
-          "lineNumber": 102,
+          "lineNumber": 103,
           "line": "const oldComponentIds = new Set(currentComponents.map((ea) => ea.childId))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 107,
+          "lineNumber": 108,
           "line": "? new Set(plainValue.map((v: unknown) => String(v)))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 112,
+          "lineNumber": 113,
           "line": "const toAdd = Array.from(newComponentIds).filter((id) => !oldComponentIds.has(id))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 113,
+          "lineNumber": 114,
           "line": "const toRemove = Array.from(oldComponentIds).filter((id) => !newComponentIds.has(id))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 116,
+          "lineNumber": 117,
           "line": "...toAdd.map((componentId, index) =>"
         },
         {
           "ruleId": "map",
-          "lineNumber": 129,
+          "lineNumber": 130,
           "line": "...toRemove.map((componentId) =>"
         },
         {
           "ruleId": "await",
-          "lineNumber": 137,
+          "lineNumber": 138,
           "line": "await Promise.all(promises)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 152,
+          "lineNumber": 153,
           "line": "? currentValue.map((v) => String(v))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 160,
+          "lineNumber": 161,
           "line": "? plainValue.map((v) => String(v))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 166,
+          "lineNumber": 167,
           "line": "const toAdd = newValues.filter((v) => !oldValues.includes(v))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 167,
+          "lineNumber": 168,
           "line": "const toRemove = oldValues.filter((v) => !newValues.includes(v))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 170,
+          "lineNumber": 171,
           "line": "...toAdd.map((childId) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 177,
+          "lineNumber": 178,
           "line": "...toRemove.map((childId) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 183,
+          "lineNumber": 184,
           "line": "await Promise.all(promises)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 187,
+          "lineNumber": 188,
           "line": "const { cleanupInvalidActiveRelationships } = await import('@/utils/dependencyCleanup')"
         },
         {
           "ruleId": "await",
-          "lineNumber": 188,
+          "lineNumber": 189,
           "line": "await cleanupInvalidActiveRelationships("
         },
         {
           "ruleId": "await",
-          "lineNumber": 202,
+          "lineNumber": 203,
           "line": "await state.queryClient.refetchQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "await",
-          "lineNumber": 219,
+          "lineNumber": 220,
           "line": "await state.patchFieldAsync(patchPayload)"
         }
       ],
@@ -1962,163 +1494,6 @@
         "validate"
       ],
       "complexityScore": 23,
-      "suggestions": [
-        {
-          "kind": "split_candidate",
-          "priority": "P1",
-          "message": "Moderate complexity score. Consider separating query/mutations from derived state and formatting."
-        }
-      ]
-    },
-    {
-      "id": "src__composables__globalDataCollections__useGlobalDataCollectionActions.ts",
-      "repoPath": "src/composables/globalDataCollections/useGlobalDataCollectionActions.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/globalDataCollections/useGlobalDataCollectionActions.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 8,
-        "await": 8,
-        "vueQuery": 6,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 1,
-          "line": "import { useMutation, useQueryClient } from '@tanstack/vue-query'"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 26,
-          "line": "const queryClient = useQueryClient()"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 28,
-          "line": "const create = useMutation<CollectionItem, unknown, CreatePayload, unknown>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 29,
-          "line": "mutationFn: async (payload: CreatePayload): Promise<CollectionItem> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 30,
-          "line": "const response = await apiClient.post<CollectionItem>(config.endpoints.listEndpoint(), payload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 33,
-          "line": "onSuccess: async (createdItem: CollectionItem) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 45,
-          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 49,
-          "line": "const update = useMutation<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 50,
-          "line": "mutationFn: async (payload: UpdateByIdPayload<UpdatePayload>): Promise<CollectionItem> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 51,
-          "line": "const response = await apiClient.put<CollectionItem>("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 57,
-          "line": "onSuccess: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 58,
-          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 62,
-          "line": "const patch = useMutation<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 63,
-          "line": "mutationFn: async (payload: UpdateByIdPayload<UpdatePayload>): Promise<CollectionItem> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 64,
-          "line": "const response = await apiClient.patch<CollectionItem>("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 70,
-          "line": "onSuccess: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 71,
-          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 75,
-          "line": "const remove = useMutation<void, unknown, string, unknown>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 76,
-          "line": "mutationFn: async (id: string): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 77,
-          "line": "await apiClient.delete(config.endpoints.byIdEndpoint(id))"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 79,
-          "line": "onSuccess: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 80,
-          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
-        }
-      ],
-      "exportUseFunctions": [],
-      "importSpecifiers": [
-        "./types",
-        "@/utils/api",
-        "@/utils/collections/appendIfMissingById",
-        "@/utils/transformers/fetchToGlobalTransformer",
-        "@tanstack/vue-query"
-      ],
-      "returnKeys": [
-        "create",
-        "patch",
-        "remove",
-        "update"
-      ],
-      "complexityScore": 22,
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -2633,15 +2008,15 @@
       "repoPath": "src/composables/useAnnotationType.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAnnotationType.ts",
       "counts": {
-        "computed": 0,
+        "computed": 1,
         "ref": 0,
         "reactive": 0,
         "watch": 0,
         "watchEffect": 0,
         "lifecycle": 0,
-        "async": 4,
-        "await": 7,
-        "vueQuery": 8,
+        "async": 6,
+        "await": 6,
+        "vueQuery": 7,
         "map": 0,
         "reduce": 0,
         "filter": 0,
@@ -2653,98 +2028,103 @@
       "matches": [
         {
           "ruleId": "vueQuery",
-          "lineNumber": 9,
-          "line": "import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'"
+          "lineNumber": 14,
+          "line": "import { useMutation, useQueryClient } from '@tanstack/vue-query'"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 40,
+          "line": "const data = computed(() => globalData.value?.annotationTypes ?? [])"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 17,
-          "line": "return useQuery({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 19,
-          "line": "queryFn: async (): Promise<AnnotationType[]> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 21,
-          "line": "const response = await apiClient.get<AnnotationType[]>(getAnnotationTypeEndpoint())"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 35,
+          "lineNumber": 57,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 37,
+          "lineNumber": 59,
           "line": "return useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 38,
+          "lineNumber": 60,
           "line": "mutationFn: async (data: { name: string }): Promise<AnnotationType> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 39,
+          "lineNumber": 61,
           "line": "const response = await apiClient.post<AnnotationType>(getAnnotationTypeEndpoint(), data)"
         },
         {
+          "ruleId": "async",
+          "lineNumber": 64,
+          "line": "onSuccess: async () => {"
+        },
+        {
           "ruleId": "await",
-          "lineNumber": 40,
-          "line": "await queryClient.invalidateQueries({ queryKey: ['annotationTypes'] })"
+          "lineNumber": 65,
+          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 50,
+          "lineNumber": 78,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 52,
+          "lineNumber": 80,
           "line": "return useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 53,
+          "lineNumber": 81,
           "line": "mutationFn: async ({ id, data }: { id: string; data: { name: string } }): Promise<AnnotationType> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 54,
+          "lineNumber": 82,
           "line": "const response = await apiClient.put<AnnotationType>(getAnnotationTypeByIdEndpoint(id), data)"
         },
         {
+          "ruleId": "async",
+          "lineNumber": 85,
+          "line": "onSuccess: async () => {"
+        },
+        {
           "ruleId": "await",
-          "lineNumber": 55,
-          "line": "await queryClient.invalidateQueries({ queryKey: ['annotationTypes'] })"
+          "lineNumber": 86,
+          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 65,
+          "lineNumber": 99,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 67,
+          "lineNumber": 101,
           "line": "return useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 68,
+          "lineNumber": 102,
           "line": "mutationFn: async (id: string): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 69,
+          "lineNumber": 103,
           "line": "await apiClient.delete(getAnnotationTypeByIdEndpoint(id))"
         },
         {
+          "ruleId": "async",
+          "lineNumber": 105,
+          "line": "onSuccess: async () => {"
+        },
+        {
           "ruleId": "await",
-          "lineNumber": 70,
-          "line": "await queryClient.invalidateQueries({ queryKey: ['annotationTypes'] })"
+          "lineNumber": 106,
+          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
         }
       ],
       "exportUseFunctions": [
@@ -2754,13 +2134,25 @@
         "useUpdateAnnotationType"
       ],
       "importSpecifiers": [
+        "./useGlobal",
         "@/types/annotations",
         "@/utils/api",
-        "@tanstack/vue-query"
+        "@tanstack/vue-query",
+        "vue"
       ],
-      "returnKeys": [],
-      "complexityScore": 19,
-      "suggestions": []
+      "returnKeys": [
+        "data",
+        "error",
+        "isLoading"
+      ],
+      "complexityScore": 20,
+      "suggestions": [
+        {
+          "kind": "split_candidate",
+          "priority": "P1",
+          "message": "Moderate complexity score. Consider separating query/mutations from derived state and formatting."
+        }
+      ]
     },
     {
       "id": "src__composables__admin__useInstanceGrouping.ts",
@@ -2901,267 +2293,6 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__booking__useAvailabilityUI.ts",
-      "repoPath": "src/composables/booking/useAvailabilityUI.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityUI.ts",
-      "counts": {
-        "computed": 3,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 3,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 12,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 9,
-          "line": "import { computed, ref, onMounted, onUnmounted, type Ref, type ComputedRef } from 'vue'"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 65,
-          "line": "const currentTimeSlots = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 91,
-          "line": "const selectedTimeSlot = computed({"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 145,
-          "line": "* PATTERN: Ref to track viewport width, window resize event listener"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 147,
-          "line": "const viewportWidth = ref<number>(typeof window !== 'undefined' ? window.innerWidth : 0)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 161,
-          "line": "const shouldMoveGridBelow = computed(() => {"
-        },
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 222,
-          "line": "onMounted(() => {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 223,
-          "line": "// LEARNING: Set up window resize listener to track viewport width"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 224,
-          "line": "// WHY: Enables responsive layout that adapts to window size changes"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 226,
-          "line": "if (typeof window !== 'undefined') {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 227,
-          "line": "viewportWidth.value = window.innerWidth"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 230,
-          "line": "// WHY: Updates viewport width when window is resized"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 233,
-          "line": "viewportWidth.value = window.innerWidth"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 235,
-          "line": "window.addEventListener('resize', resizeHandler)"
-        },
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 239,
-          "line": "onUnmounted(() => {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 240,
-          "line": "// LEARNING: Cleanup window resize event listener"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 243,
-          "line": "if (resizeHandler && typeof window !== 'undefined') {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 244,
-          "line": "window.removeEventListener('resize', resizeHandler)"
-        }
-      ],
-      "exportUseFunctions": [
-        "useAvailabilityUI"
-      ],
-      "importSpecifiers": [
-        "@/composables/useFormValidation",
-        "@/types/appointment",
-        "vue"
-      ],
-      "returnKeys": [
-        "currentTimeSlots",
-        "handleTimeSlotClick",
-        "selectedTimeSlot",
-        "shouldMoveGridBelow"
-      ],
-      "complexityScore": 18,
-      "suggestions": [
-        {
-          "kind": "side_effects",
-          "priority": "P0",
-          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
-        }
-      ]
-    },
-    {
-      "id": "src__composables__booking__useAppointmentDataCollection.ts",
-      "repoPath": "src/composables/booking/useAppointmentDataCollection.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentDataCollection.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 1,
-        "await": 6,
-        "vueQuery": 0,
-        "map": 4,
-        "reduce": 6,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "async",
-          "lineNumber": 110,
-          "line": "const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 149,
-          "line": "const createdProperty = await createProperty.mutateAsync(propertyData)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 163,
-          "line": "const createdClient = await createUser.mutateAsync(clientUserData)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 174,
-          "line": "const createdAgent = await createUser.mutateAsync(agentUserData)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 188,
-          "line": "const createdAnotherClient = await createUser.mutateAsync(anotherClientData)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 200,
-          "line": "const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 212,
-          "line": "const createdSeller = await createUser.mutateAsync(sellerData)"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 241,
-          "line": "? additionalContactIds.map(({ id, role }) => ({"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 255,
-          "line": "const serviceQuantities = wizard.selectedServices.value.reduce((acc, service) => {"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 263,
-          "line": "const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 271,
-          "line": "const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 283,
-          "line": "const serviceSnapshots = wizard.selectedServices.value.reduce((acc, service) => {"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 288,
-          "line": "const propertySnapshots = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 293,
-          "line": "const optionTypeBlockSnapshots = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 302,
-          "line": "selectedServiceIds: wizard.selectedServices.value.map(s => s.id),"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 305,
-          "line": "? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 309,
-          "line": "? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)"
-        }
-      ],
-      "exportUseFunctions": [
-        "useAppointmentDataCollection"
-      ],
-      "importSpecifiers": [
-        "@/types/appointment",
-        "@/types/property",
-        "@/types/user",
-        "@/utils/transformers/blockInstanceToSnapshot",
-        "@/utils/transformers/globalToBookingTransformer",
-        "vue"
-      ],
-      "returnKeys": [],
-      "complexityScore": 17,
-      "suggestions": []
-    },
-    {
       "id": "src__composables__booking__useWizardFilteredOptions.ts",
       "repoPath": "src/composables/booking/useWizardFilteredOptions.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardFilteredOptions.ts",
@@ -3196,97 +2327,97 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 134,
+          "lineNumber": 122,
           "line": "const availableUserTypeBlocks = computed((): BookingBlockInstance[] => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 149,
+          "lineNumber": 137,
           "line": "allStateControlInstances.reduce((map, instance) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 172,
+          "lineNumber": 160,
           "line": "const availableServices = computed((): BookingBlockInstance[] => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 182,
+          "lineNumber": 170,
           "line": "const servicesCascadeError = computed((): string | null => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 199,
+          "lineNumber": 187,
           "line": "const availableAvailabilityOptions = computed((): BookingBlockInstance[] => {"
         },
         {
           "ruleId": "console",
-          "lineNumber": 218,
+          "lineNumber": 206,
           "line": "console.warn('[useWizardFilteredOptions] Option block shape (type=\"option\") not found')"
         },
         {
           "ruleId": "console",
-          "lineNumber": 227,
+          "lineNumber": 215,
           "line": "console.warn('[useWizardFilteredOptions] No cascade results from selected services. Falling back to all Option blocks.')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 229,
+          "lineNumber": 217,
           "line": "return bookingData.value.blockInstances.filter("
         },
         {
           "ruleId": "filter",
-          "lineNumber": 237,
+          "lineNumber": 225,
           "line": "const filtered = result.instances.filter("
         },
         {
           "ruleId": "console",
-          "lineNumber": 242,
+          "lineNumber": 230,
           "line": "console.warn('[useWizardFilteredOptions] Cascade results filtered out - no Option blocks found in cascade results', {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 245,
+          "lineNumber": 233,
           "line": "cascadeInstanceTypes: result.instances.map(inst => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 255,
+          "lineNumber": 245,
           "line": "const availabilityOptionsCascadeError = computed((): string | null => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 272,
+          "lineNumber": 262,
           "line": "const availablePropertyTypeBlocks = computed((): BookingBlockInstance[] => {"
         },
         {
           "ruleId": "console",
-          "lineNumber": 291,
+          "lineNumber": 281,
           "line": "console.warn('[useWizardFilteredOptions] Property block shape (type=\"property\") not found')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 296,
+          "lineNumber": 286,
           "line": "return result.instances.filter("
         },
         {
           "ruleId": "computed",
-          "lineNumber": 301,
+          "lineNumber": 291,
           "line": "const propertyTypesCascadeError = computed((): string | null => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 311,
+          "lineNumber": 301,
           "line": "const accServices = computed((): BookingBlockInstance[] => selectedServices.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 312,
+          "lineNumber": 302,
           "line": "const accProperty = computed((): BookingBlockInstance[] => selectedPropertyTypeBlocks.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 313,
+          "lineNumber": 303,
           "line": "const accAvailability = computed((): BookingBlockInstance[] => selectedAvailabilityOptions.value)"
         }
       ],
@@ -3295,6 +2426,7 @@
       ],
       "importSpecifiers": [
         "@/constants/blockShapeTypes",
+        "@/types/wizard",
         "@/utils/blockInstanceUtils",
         "@/utils/transformers/globalToBookingTransformer",
         "vue"
@@ -3663,6 +2795,115 @@
         "typeName",
         "userTypeBlock"
       ],
+      "complexityScore": 14,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__booking__useAppointmentDataCollection.ts",
+      "repoPath": "src/composables/booking/useAppointmentDataCollection.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentDataCollection.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 6,
+        "vueQuery": 0,
+        "map": 4,
+        "reduce": 3,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 98,
+          "line": "const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 137,
+          "line": "const createdProperty = await createProperty.mutateAsync(propertyData)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 151,
+          "line": "const createdClient = await createUser.mutateAsync(clientUserData)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 162,
+          "line": "const createdAgent = await createUser.mutateAsync(agentUserData)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 176,
+          "line": "const createdAnotherClient = await createUser.mutateAsync(anotherClientData)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 188,
+          "line": "const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 200,
+          "line": "const createdSeller = await createUser.mutateAsync(sellerData)"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 229,
+          "line": "? additionalContactIds.map(({ id, role }) => ({"
+        },
+        {
+          "ruleId": "reduce",
+          "lineNumber": 243,
+          "line": "const serviceQuantities = wizard.selectedServices.value.reduce((acc, service) => {"
+        },
+        {
+          "ruleId": "reduce",
+          "lineNumber": 251,
+          "line": "const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {"
+        },
+        {
+          "ruleId": "reduce",
+          "lineNumber": 259,
+          "line": "const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 273,
+          "line": "selectedServiceIds: wizard.selectedServices.value.map(s => s.id),"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 276,
+          "line": "? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 280,
+          "line": "? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAppointmentDataCollection"
+      ],
+      "importSpecifiers": [
+        "@/types/appointment",
+        "@/types/property",
+        "@/types/propertyForm",
+        "@/types/user",
+        "@/utils/transformers/globalToBookingTransformer",
+        "vue"
+      ],
+      "returnKeys": [],
       "complexityScore": 14,
       "suggestions": []
     },
@@ -4345,6 +3586,209 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__useAppointment.ts",
+      "repoPath": "src/composables/useAppointment.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAppointment.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 3,
+        "vueQuery": 3,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 2,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 6,
+          "line": "* PATTERN: Vue Query useMutation for data mutations"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 16,
+          "line": "import { useQueryClient } from '@tanstack/vue-query'"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 58,
+          "line": "const queryClient = useQueryClient()"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 82,
+          "line": "isLoading: computed(() => isLoading.value),"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 83,
+          "line": "error: computed(() => error.value),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 93,
+          "line": "const fetchRandom = async (): Promise<AppointmentResponse | null> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 100,
+          "line": "await new Promise(resolve => setTimeout(resolve, 100))"
+        },
+        {
+          "ruleId": "timers",
+          "lineNumber": 100,
+          "line": "await new Promise(resolve => setTimeout(resolve, 100))"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 107,
+          "line": "await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 109,
+          "line": "await new Promise(resolve => setTimeout(resolve, 500))"
+        },
+        {
+          "ruleId": "timers",
+          "lineNumber": 109,
+          "line": "await new Promise(resolve => setTimeout(resolve, 500))"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAppointment"
+      ],
+      "importSpecifiers": [
+        "./businessDataCollections/useBusinessDataCollectionCrud",
+        "./useBusiness",
+        "@/types/appointment",
+        "@/utils/api",
+        "@/utils/collections/pickRandomItem",
+        "@/utils/transformers/fetchToBusinessTransformer",
+        "@tanstack/vue-query",
+        "vue"
+      ],
+      "returnKeys": [
+        "create",
+        "fetchAll",
+        "fetchById",
+        "fetchRandom",
+        "patch",
+        "remove",
+        "update"
+      ],
+      "complexityScore": 11,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__useBusiness.ts",
+      "repoPath": "src/composables/useBusiness.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useBusiness.ts",
+      "counts": {
+        "computed": 6,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 1,
+        "vueQuery": 3,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 15,
+          "line": "import { useQuery, useQueryClient } from '@tanstack/vue-query'"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 43,
+          "line": "const queryClient = useQueryClient()"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 45,
+          "line": "const businessQuery = useQuery<BusinessData>({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 53,
+          "line": "businessData: computed(() => businessQuery.data.value),"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 54,
+          "line": "isLoading: computed(() => businessQuery.isLoading.value),"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 55,
+          "line": "error: computed(() => businessQuery.error.value),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 56,
+          "line": "refetch: async () => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 57,
+          "line": "await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 71,
+          "line": "return computed(() => businessData.value?.appointments ?? [])"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 83,
+          "line": "return computed(() => businessData.value?.properties ?? [])"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 95,
+          "line": "return computed(() => businessData.value?.users ?? [])"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAppointments",
+        "useBusiness",
+        "useProperties",
+        "useUsers"
+      ],
+      "importSpecifiers": [
+        "@/utils/transformers/fetchToBusinessTransformer",
+        "@tanstack/vue-query",
+        "vue"
+      ],
+      "returnKeys": [
+        "businessData",
+        "error",
+        "isLoading",
+        "refetch"
+      ],
+      "complexityScore": 11,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useDragAndDrop.ts",
       "repoPath": "src/composables/admin/useDragAndDrop.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useDragAndDrop.ts",
@@ -4538,6 +3982,105 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useStatusButtonFields.ts",
+      "repoPath": "src/composables/admin/useStatusButtonFields.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useStatusButtonFields.ts",
+      "counts": {
+        "computed": 10,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 1,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 138,
+          "line": "const isExpanded = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 148,
+          "line": "const instanceConfig = computed(() => adminConfig.getInstanceConfig(entityKey).value || {})"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 149,
+          "line": "const fieldsConfig = computed(() => providedFieldsConfig ?? instanceConfig.value?.fields)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 154,
+          "line": "const entity = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 168,
+          "line": "entityId: computed(() => entity.value!.id)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 174,
+          "line": "const blockShape = computed((): import('@/types/entities').BlockShapeEntity | null => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 186,
+          "line": "const partShape = computed((): import('@/types/entities').PartShapeEntity | null => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 201,
+          "line": "const blockShapeProperties = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 241,
+          "line": "const statusButtonFields = computed((): StatusButtonFieldWithValue[] => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 257,
+          "line": "// PATTERN: Call warning function when statusButtonFields are computed (runs reactively)"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 282,
+          "line": "return categorized.statusButtonFields.map((field) => {"
+        }
+      ],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "./useInstanceShape",
+        "@/composables/useAdminConfig",
+        "@/composables/useGlobal",
+        "@/constants/entities",
+        "@/constants/primitives",
+        "@/types/entities",
+        "@/utils/env/devMode",
+        "@/utils/forms/fieldSectionCategorization",
+        "vue"
+      ],
+      "returnKeys": [
+        "composable",
+        "composite",
+        "constituable"
+      ],
+      "complexityScore": 11,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__booking__selectionCard__useSelectionCard.ts",
       "repoPath": "src/composables/booking/selectionCard/useSelectionCard.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/selectionCard/useSelectionCard.ts",
@@ -4640,6 +4183,311 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__booking__useAppointmentTimes.ts",
+      "repoPath": "src/composables/booking/useAppointmentTimes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentTimes.ts",
+      "counts": {
+        "computed": 7,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 2,
+        "reduce": 0,
+        "filter": 2,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 52,
+          "line": "const blockInstancesRef = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 56,
+          "line": "const baseStartTimeRef = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 67,
+          "line": "const isDifferentialServiceRef = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 82,
+          "line": "const appointmentSlots = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 98,
+          "line": "const onSiteTotal = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 113,
+          "line": "const inspectorTimeSlots = computed(() => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 124,
+          "line": "return slots.map(appointmentSlot => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 128,
+          "line": "}).filter((slot): slot is TimeSlot => slot !== null)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 136,
+          "line": "const clientTimeSlots = computed(() => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 154,
+          "line": "return slots.map(appointmentSlot => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 158,
+          "line": "}).filter((slot): slot is TimeSlot => slot !== null)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAppointmentSlots",
+        "useAppointmentTimes"
+      ],
+      "importSpecifiers": [
+        "@/types/appointment",
+        "@/utils/booking/appointmentTimeCalculations",
+        "@/utils/differentialScheduling",
+        "@/utils/transformers/globalToBookingTransformer",
+        "vue"
+      ],
+      "returnKeys": [
+        "appointmentSlots",
+        "clientTimeSlots",
+        "getInspectorTimeSlot",
+        "inspectorTimeSlots"
+      ],
+      "complexityScore": 11,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__booking__useResponsiveGrid.ts",
+      "repoPath": "src/composables/booking/useResponsiveGrid.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useResponsiveGrid.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 3,
+        "async": 1,
+        "await": 1,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 3,
+        "timers": 1,
+        "console": 2
+      },
+      "matches": [
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 14,
+          "line": "import { ref, computed, onMounted, onUnmounted, nextTick, type Ref } from 'vue'"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 128,
+          "line": "const buttonGridColumns = computed(() => {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 156,
+          "line": "console.log('[useResponsiveGrid] Column calculation:', {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 178,
+          "line": "const isSingleColumn = computed(() => {"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 181,
+          "line": "const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 600"
+        },
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 191,
+          "line": "onMounted(async () => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 191,
+          "line": "onMounted(async () => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 192,
+          "line": "await nextTick()"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 204,
+          "line": "const computedStyle = window.getComputedStyle(gridRef.value)"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 227,
+          "line": "const computedStyle = window.getComputedStyle(gridRef.value!)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 232,
+          "line": "console.log('[useResponsiveGrid] ResizeObserver update:', {"
+        },
+        {
+          "ruleId": "timers",
+          "lineNumber": 252,
+          "line": "setTimeout(() => {"
+        },
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 265,
+          "line": "onUnmounted(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useResponsiveGrid"
+      ],
+      "importSpecifiers": [
+        "vue"
+      ],
+      "returnKeys": [
+        "buttonGridColumns",
+        "containerWidth"
+      ],
+      "complexityScore": 11,
+      "suggestions": [
+        {
+          "kind": "side_effects",
+          "priority": "P0",
+          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__booking__useTimeSlotCalculations.ts",
+      "repoPath": "src/composables/booking/useTimeSlotCalculations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useTimeSlotCalculations.ts",
+      "counts": {
+        "computed": 3,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 5,
+        "filter": 3,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "filter",
+          "lineNumber": 106,
+          "line": "return parts.filter(part => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 117,
+          "line": "const onSiteTotal = computed(() => {"
+        },
+        {
+          "ruleId": "reduce",
+          "lineNumber": 121,
+          "line": "return wizard.selectedServices.value.reduce((total, service) => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 131,
+          "line": "const onSiteParts = nonZeroedParts.filter(pi => pi.onSite === true)"
+        },
+        {
+          "ruleId": "reduce",
+          "lineNumber": 132,
+          "line": "const onSiteSum = onSiteParts.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)"
+        },
+        {
+          "ruleId": "reduce",
+          "lineNumber": 142,
+          "line": "return total + nonZeroedParts.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 151,
+          "line": "const presentationDuration = computed(() => {"
+        },
+        {
+          "ruleId": "reduce",
+          "lineNumber": 155,
+          "line": "return wizard.selectedServices.value.reduce((total, service) => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 163,
+          "line": ".filter(pi => pi.clientPresent === true)"
+        },
+        {
+          "ruleId": "reduce",
+          "lineNumber": 164,
+          "line": ".reduce((sum, pi) => sum + (pi.baseTime || 0), 0)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 174,
+          "line": "const timeOnSiteBlocks = computed(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useTimeSlotCalculations"
+      ],
+      "importSpecifiers": [
+        "@/composables/useTimeFormatting",
+        "@/types/appointment",
+        "@/utils/booking/partShapeTimeSlotMapping",
+        "@/utils/transformers/globalToBookingTransformer",
+        "vue"
+      ],
+      "returnKeys": [
+        "duration",
+        "inspector",
+        "label",
+        "timeBlock"
+      ],
+      "complexityScore": 11,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__useComponentDistribution.ts",
       "repoPath": "src/composables/useComponentDistribution.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useComponentDistribution.ts",
@@ -4737,6 +4585,98 @@
         "newValue"
       ],
       "complexityScore": 11,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useFieldVisibility.ts",
+      "repoPath": "src/composables/admin/useFieldVisibility.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldVisibility.ts",
+      "counts": {
+        "computed": 9,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 1,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 108,
+          "line": "// PATTERN: Wrap boolean in computed() if needed, otherwise use ComputedRef directly"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 110,
+          "line": "? computed(() => isExpandedOption)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 121,
+          "line": "const formFieldConfig = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 134,
+          "line": "const instanceConfig = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 147,
+          "line": "const allFieldKeys = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 183,
+          "line": "const titleField = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 202,
+          "line": "const visibleFields = computed(() => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 238,
+          "line": "const visible = keys.filter("
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 316,
+          "line": "const inlineFieldsConfig = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 326,
+          "line": "const stackedFieldsConfig = computed(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useFieldVisibility"
+      ],
+      "importSpecifiers": [
+        "../useAdmin",
+        "../useAdminConfig",
+        "./useInstanceShape",
+        "@/configs/blockShapeFieldVisibility",
+        "@/configs/partShapeFieldVisibility",
+        "@/constants/entities",
+        "@/constants/primitives",
+        "@/types/entities",
+        "vue"
+      ],
+      "returnKeys": [],
+      "complexityScore": 10,
       "suggestions": []
     },
     {
@@ -4927,115 +4867,22 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__booking__useResponsiveGrid.ts",
-      "repoPath": "src/composables/booking/useResponsiveGrid.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useResponsiveGrid.ts",
+      "id": "src__composables__booking__useAvailabilityLogic.ts",
+      "repoPath": "src/composables/booking/useAvailabilityLogic.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityLogic.ts",
       "counts": {
-        "computed": 2,
+        "computed": 6,
         "ref": 0,
         "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 3,
-        "async": 1,
-        "await": 1,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 1,
-        "timers": 2,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 14,
-          "line": "import { ref, computed, onMounted, onUnmounted, nextTick, type Ref } from 'vue'"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 128,
-          "line": "const buttonGridColumns = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 151,
-          "line": "const isSingleColumn = computed(() => {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 154,
-          "line": "const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 600"
-        },
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 164,
-          "line": "onMounted(async () => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 164,
-          "line": "onMounted(async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 165,
-          "line": "await nextTick()"
-        },
-        {
-          "ruleId": "timers",
-          "lineNumber": 184,
-          "line": "// PATTERN: Use setTimeout to check width again after layout"
-        },
-        {
-          "ruleId": "timers",
-          "lineNumber": 185,
-          "line": "setTimeout(() => {"
-        },
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 201,
-          "line": "onUnmounted(() => {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useResponsiveGrid"
-      ],
-      "importSpecifiers": [
-        "vue"
-      ],
-      "returnKeys": [
-        "buttonGridColumns",
-        "containerWidth"
-      ],
-      "complexityScore": 10,
-      "suggestions": [
-        {
-          "kind": "side_effects",
-          "priority": "P0",
-          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
-        }
-      ]
-    },
-    {
-      "id": "src__composables__booking__useTimeSlotCalculations.ts",
-      "repoPath": "src/composables/booking/useTimeSlotCalculations.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useTimeSlotCalculations.ts",
-      "counts": {
-        "computed": 3,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
+        "watch": 1,
         "watchEffect": 0,
         "lifecycle": 0,
         "async": 0,
         "await": 0,
         "vueQuery": 0,
-        "map": 0,
-        "reduce": 5,
-        "filter": 2,
+        "map": 3,
+        "reduce": 0,
+        "filter": 0,
         "sort": 0,
         "dom": 0,
         "timers": 0,
@@ -5044,69 +4891,72 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 73,
-          "line": "const onSiteTotal = computed(() => {"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 77,
-          "line": "return wizard.selectedServices.value.reduce((total, service) => {"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 83,
-          "line": "const onSiteParts = service.partInstances.filter(pi => pi.onSite === true)"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 84,
-          "line": "const onSiteSum = onSiteParts.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 94,
-          "line": "return total + service.partInstances.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)"
+          "lineNumber": 112,
+          "line": "const dateRangeForApi = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 102,
-          "line": "const presentationDuration = computed(() => {"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 106,
-          "line": "return wizard.selectedServices.value.reduce((total, service) => {"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 110,
-          "line": ".filter(pi => pi.clientPresent === true)"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 111,
-          "line": ".reduce((sum, pi) => sum + (pi.baseTime || 0), 0)"
+          "lineNumber": 131,
+          "line": "const propertyDetails = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 121,
-          "line": "const timeOnSiteBlocks = computed(() => {"
+          "lineNumber": 147,
+          "line": "const accumulatedBlockInstances = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 175,
+          "line": "const isDifferentialService = computed(() => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 185,
+          "line": "watch([timeSlots, selectedDate, accumulatedBlockInstances], ([slots, date, blockInstances]) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 211,
+          "line": "timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 226,
+          "line": "appointmentSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 235,
+          "line": "const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 254,
+          "line": "const selectedDateSingle = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 267,
+          "line": "const currentAppointmentSlots = computed(() => {"
         }
       ],
       "exportUseFunctions": [
-        "useTimeSlotCalculations"
+        "useAvailabilityLogic"
       ],
       "importSpecifiers": [
-        "@/composables/useTimeFormatting",
         "@/types/appointment",
+        "@/utils/booking/appointmentTimeCalculations",
+        "@/utils/booking/timeSlotMatching",
+        "@/utils/transformers/appointmentToWizardTransformer",
         "@/utils/transformers/globalToBookingTransformer",
         "vue"
       ],
       "returnKeys": [
-        "duration",
-        "inspector",
-        "label",
-        "timeBlock"
+        "additionalUnits",
+        "bathrooms",
+        "bedrooms",
+        "foundationAccess",
+        "squareFootage"
       ],
       "complexityScore": 10,
       "suggestions": []
@@ -5310,11 +5160,11 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__admin__usePartInstancesNestedSectionModel.ts",
-      "repoPath": "src/composables/admin/usePartInstancesNestedSectionModel.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartInstancesNestedSectionModel.ts",
+      "id": "src__composables__admin__usePartInstanceCollection.ts",
+      "repoPath": "src/composables/admin/usePartInstanceCollection.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartInstanceCollection.ts",
       "counts": {
-        "computed": 4,
+        "computed": 3,
         "ref": 0,
         "reactive": 0,
         "watch": 0,
@@ -5354,32 +5204,27 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 71,
-          "line": "const blockShape = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 77,
+          "lineNumber": 73,
           "line": "const shouldShowPartInstances = computed(() => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 148,
-          "line": "const handleNewPartInstanceSaved = async (partShapeId: string): Promise<void> => {"
+          "lineNumber": 147,
+          "line": "const handleNewPartInstanceSaved = async ("
         },
         {
           "ruleId": "await",
-          "lineNumber": 160,
+          "lineNumber": 158,
           "line": "await createActiveConstituentsRelationship({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 166,
+          "lineNumber": 164,
           "line": "await Promise.all(["
         }
       ],
       "exportUseFunctions": [
-        "usePartInstancesNestedSectionModel"
+        "usePartInstanceCollection"
       ],
       "importSpecifiers": [
         "@/composables/admin/usePartInstanceBulkEdit",
@@ -5395,7 +5240,7 @@
       "returnKeys": [
         "id"
       ],
-      "complexityScore": 9,
+      "complexityScore": 8,
       "suggestions": []
     },
     {
@@ -5575,167 +5420,108 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__admin__useFieldVisibility.ts",
-      "repoPath": "src/composables/admin/useFieldVisibility.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldVisibility.ts",
+      "id": "src__composables__booking__useAvailableStartTimes.ts",
+      "repoPath": "src/composables/booking/useAvailableStartTimes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailableStartTimes.ts",
       "counts": {
-        "computed": 7,
-        "ref": 0,
+        "computed": 1,
+        "ref": 1,
         "reactive": 0,
         "watch": 0,
-        "watchEffect": 0,
+        "watchEffect": 1,
         "lifecycle": 0,
-        "async": 0,
-        "await": 0,
+        "async": 1,
+        "await": 1,
         "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 1,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 103,
-          "line": "const formFieldConfig = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 116,
-          "line": "const instanceConfig = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 129,
-          "line": "const allFieldKeys = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 165,
-          "line": "const titleField = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 184,
-          "line": "const visibleFields = computed(() => {"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 216,
-          "line": "const visible = keys.filter("
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 266,
-          "line": "const inlineFieldsConfig = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 276,
-          "line": "const stackedFieldsConfig = computed(() => {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useFieldVisibility"
-      ],
-      "importSpecifiers": [
-        "../useAdmin",
-        "../useAdminConfig",
-        "@/constants/entities",
-        "@/constants/primitives",
-        "@/types/entities",
-        "vue"
-      ],
-      "returnKeys": [],
-      "complexityScore": 8,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useAvailabilityLogic.ts",
-      "repoPath": "src/composables/booking/useAvailabilityLogic.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityLogic.ts",
-      "counts": {
-        "computed": 6,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 1,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 1,
+        "map": 3,
         "reduce": 0,
         "filter": 0,
         "sort": 0,
         "dom": 0,
         "timers": 0,
-        "console": 0
+        "console": 4
       },
       "matches": [
         {
-          "ruleId": "computed",
-          "lineNumber": 102,
-          "line": "const dateRangeForApi = computed(() => {"
+          "ruleId": "ref",
+          "lineNumber": 30,
+          "line": "const isLoading = ref(false)"
+        },
+        {
+          "ruleId": "watchEffect",
+          "lineNumber": 38,
+          "line": "watchEffect(async () => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 38,
+          "line": "watchEffect(async () => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 51,
+          "line": "const settings = await getAvailabilitySettings()"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 56,
+          "line": "console.error('Error loading availability settings:', err)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 121,
-          "line": "const propertyDetails = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 137,
-          "line": "const accumulatedBlockInstances = computed(() => {"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 158,
-          "line": "watch([timeSlots, selectedDate], ([slots, date]) => {"
+          "lineNumber": 65,
+          "line": "const availableStartTimes = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 183,
-          "line": "timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {"
+          "lineNumber": 81,
+          "line": "const [year, month, day] = datePart.split('-').map(Number)"
         },
         {
-          "ruleId": "computed",
-          "lineNumber": 201,
-          "line": "const selectedDateSingle = computed({"
+          "ruleId": "console",
+          "lineNumber": 90,
+          "line": "console.warn(`[useAvailableStartTimes] No business hours for day ${dayOfWeek}`)"
         },
         {
-          "ruleId": "computed",
-          "lineNumber": 214,
-          "line": "const currentTimeSlots = computed(() => {"
+          "ruleId": "map",
+          "lineNumber": 95,
+          "line": "const [startHour, startMinute] = dayHours.start.split(':').map(Number)"
         },
         {
-          "ruleId": "computed",
-          "lineNumber": 234,
-          "line": "const isDifferentialService = computed(() => {"
+          "ruleId": "map",
+          "lineNumber": 96,
+          "line": "const [endHour, endMinute] = dayHours.end.split(':').map(Number)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 102,
+          "line": "console.error('[useAvailableStartTimes] Invalid time format:', {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 116,
+          "line": "console.error('[useAvailableStartTimes] End time must be after start time:', {"
         }
       ],
       "exportUseFunctions": [
-        "useAvailabilityLogic"
+        "useAvailableStartTimes"
       ],
       "importSpecifiers": [
-        "@/types/appointment",
-        "@/utils/booking/timeSlotMatching",
-        "@/utils/transformers/appointmentToWizardTransformer",
-        "@/utils/transformers/globalToBookingTransformer",
+        "@/configs/availabilitySettings",
         "vue"
       ],
       "returnKeys": [
-        "additionalUnits",
-        "bathrooms",
-        "bedrooms",
-        "foundationAccess",
-        "squareFootage"
+        "availableStartTimes",
+        "isLoading"
       ],
       "complexityScore": 8,
-      "suggestions": []
+      "suggestions": [
+        {
+          "kind": "logging",
+          "priority": "P2",
+          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
+        }
+      ]
     },
     {
       "id": "src__composables__useLoadingIndicator.ts",
@@ -5816,6 +5602,93 @@
       ],
       "complexityScore": 8,
       "suggestions": []
+    },
+    {
+      "id": "src__composables__useThemeMode.ts",
+      "repoPath": "src/composables/useThemeMode.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useThemeMode.ts",
+      "counts": {
+        "computed": 4,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 1,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 3,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 30,
+          "line": "const isQuoteMode = computed(() => wizard?.isQuoteMode.value ?? false)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 35,
+          "line": "const currentPrimary = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 39,
+          "line": "const currentSecondary = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 43,
+          "line": "const currentWarning = computed(() => {"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 49,
+          "line": "// PATTERN: Watch computed property and update document root CSS variables"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 50,
+          "line": "watch(isQuoteMode, (isActive) => {"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 51,
+          "line": "if (typeof document !== 'undefined') {"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 52,
+          "line": "const root = document.documentElement"
+        }
+      ],
+      "exportUseFunctions": [
+        "useThemeMode"
+      ],
+      "importSpecifiers": [
+        "@/plugins/vuetify/theme",
+        "@/types/wizard",
+        "vue",
+        "vuetify"
+      ],
+      "returnKeys": [
+        "currentPrimary",
+        "currentSecondary",
+        "isQuoteMode"
+      ],
+      "complexityScore": 8,
+      "suggestions": [
+        {
+          "kind": "side_effects",
+          "priority": "P0",
+          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
+        }
+      ]
     },
     {
       "id": "src__composables__entityCrud__usePrimitiveMutation.ts",
@@ -5958,7 +5831,7 @@
         },
         {
           "ruleId": "dom",
-          "lineNumber": 158,
+          "lineNumber": 161,
           "line": "(window as WindowWithDebug).__useGlobalDebug = {"
         }
       ],
@@ -6052,6 +5925,166 @@
       ],
       "returnKeys": [
         "handleDragEnd"
+      ],
+      "complexityScore": 7,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useFieldInputHandlers.ts",
+      "repoPath": "src/composables/admin/useFieldInputHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldInputHandlers.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 5,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 36,
+          "line": "const handleBlur = async (): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 46,
+          "line": "const isValid = await fieldContext.validate()"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 50,
+          "line": "await fieldContext.save()"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 57,
+          "line": "const handleEnterKey = async (event: KeyboardEvent): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 62,
+          "line": "const isValid = await fieldContext.validate()"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 73,
+          "line": "await entityCardSaveContext.handleSave()"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 87,
+          "line": "await fieldContext.save()"
+        }
+      ],
+      "exportUseFunctions": [
+        "useFieldInputHandlers"
+      ],
+      "importSpecifiers": [
+        "@/components/admin/generic/entityCardConstants",
+        "@/composables/useFieldContext",
+        "@/constants/entities",
+        "@/constants/primitives"
+      ],
+      "returnKeys": [
+        "handleBlur",
+        "handleFocus"
+      ],
+      "complexityScore": 7,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useInstanceShape.ts",
+      "repoPath": "src/composables/admin/useInstanceShape.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceShape.ts",
+      "counts": {
+        "computed": 6,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 1,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 2
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 44,
+          "line": "const entityIdRef = typeof entityId === 'string' ? computed(() => entityId) : entityId"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 49,
+          "line": "const instance = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 56,
+          "line": "const shapeRef = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 69,
+          "line": "const blockShape = computed((): import('@/types/entities').BlockShapeEntity | null => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 86,
+          "line": "const partShape = computed((): import('@/types/entities').PartShapeEntity | null => {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 101,
+          "line": "console.log(`[useInstanceShape] PartShape ${shape.id} vs BlockShape comparison:`, {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 126,
+          "line": "console.warn(`[useInstanceShape] PartShape not found for shapeRef: ${shapeRef.value}`, {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 127,
+          "line": "availablePartShapes: globalData.value?.entities?.partShape?.map(ps => ({ id: ps.id, name: ps.name })) || []"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 143,
+          "line": "const shape = computed(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useInstanceShape"
+      ],
+      "importSpecifiers": [
+        "@/composables/useAdmin",
+        "@/composables/useGlobal",
+        "@/types/entities",
+        "vue"
+      ],
+      "returnKeys": [
+        "blockShape",
+        "partShape"
       ],
       "complexityScore": 7,
       "suggestions": []
@@ -6360,22 +6393,22 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__booking__usePropertyDetailsLogic.ts",
-      "repoPath": "src/composables/booking/usePropertyDetailsLogic.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/usePropertyDetailsLogic.ts",
+      "id": "src__composables__formFields__useFormFieldsContext.ts",
+      "repoPath": "src/composables/formFields/useFormFieldsContext.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/formFields/useFormFieldsContext.ts",
       "counts": {
-        "computed": 3,
+        "computed": 2,
         "ref": 0,
         "reactive": 0,
-        "watch": 0,
+        "watch": 1,
         "watchEffect": 0,
-        "lifecycle": 0,
+        "lifecycle": 3,
         "async": 0,
         "await": 0,
         "vueQuery": 0,
-        "map": 2,
+        "map": 0,
         "reduce": 0,
-        "filter": 2,
+        "filter": 1,
         "sort": 0,
         "dom": 0,
         "timers": 0,
@@ -6383,59 +6416,62 @@
       },
       "matches": [
         {
-          "ruleId": "computed",
-          "lineNumber": 115,
-          "line": "const requiresUnitNumber = computed(() => {"
+          "ruleId": "lifecycle",
+          "lineNumber": 1,
+          "line": "import { computed, getCurrentInstance, onBeforeUnmount, ref, watch, type Ref, type ComputedRef } from 'vue'"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 119,
-          "line": "const isMultiFamily = computed(() => {"
+          "lineNumber": 44,
+          "line": "const currentEntityId = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 155,
-          "line": "const propertyTypeBlocksWithComponents = computed(() => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 156,
-          "line": "return wizard.availablePropertyTypeBlocks.value.map(adjustment => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 167,
-          "line": ".map(ac => {"
+          "lineNumber": 48,
+          "line": "const isFormReady = computed(() => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 190,
-          "line": "const matchingDescriptions = componentWithAnnotations.annotations.filter(ann => {"
+          "lineNumber": 59,
+          "line": "return fields.filter((fieldKey) => !fieldContextCache.value.has(String(fieldKey)))"
         },
         {
-          "ruleId": "filter",
-          "lineNumber": 216,
-          "line": ".filter((component): component is NonNullable<typeof component> => component !== null)"
+          "ruleId": "lifecycle",
+          "lineNumber": 120,
+          "line": "// PATTERN: Store watch stop function and call it in onBeforeUnmount, check getCurrentInstance() in callback"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 121,
+          "line": "const stopWatch = watch([fieldsNeedingContexts, isFormReady], () => {"
+        },
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 132,
+          "line": "onBeforeUnmount(() => {"
         }
       ],
       "exportUseFunctions": [
-        "usePropertyDetailsLogic"
+        "useFormFieldsContext"
       ],
       "importSpecifiers": [
-        "@/composables/useComponentEntity",
-        "@/composables/useGlobal",
+        "@/composables/useAdminConfig",
+        "@/composables/useFieldContext",
+        "@/composables/useFieldMetadata",
+        "@/constants/entities",
+        "@/constants/primitives",
         "@/types/entities",
-        "@/utils/iconMapper",
-        "@/utils/transformers/appointmentToWizardTransformer",
-        "@/utils/transformers/globalToBookingTransformer",
+        "vee-validate",
         "vue"
       ],
       "returnKeys": [
-        "active",
-        "description",
-        "icon",
-        "id",
-        "name"
+        "adminConfig",
+        "currentEntityId",
+        "fieldContextCache",
+        "fieldsNeedingContexts",
+        "formInstance",
+        "getFieldContext",
+        "isFormReady"
       ],
       "complexityScore": 7,
       "suggestions": []
@@ -6593,78 +6629,6 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__admin__usePartInstanceBulkEdit.ts",
-      "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartInstanceBulkEdit.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 1,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 1,
-        "await": 1,
-        "vueQuery": 2,
-        "map": 1,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 16,
-          "line": "import { useQueryClient } from '@tanstack/vue-query'"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 78,
-          "line": "const queryClient = useQueryClient()"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 87,
-          "line": "const bulkEditMode = ref(false)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 114,
-          "line": "const applyPartInstanceBulkEdit = async (): Promise<void> => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 129,
-          "line": "const updatePromises = instances.map(instance =>"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 133,
-          "line": "await Promise.all(updatePromises)"
-        }
-      ],
-      "exportUseFunctions": [
-        "usePartInstanceBulkEdit"
-      ],
-      "importSpecifiers": [
-        "../useEntity",
-        "../useNotification",
-        "@/types/entities",
-        "@tanstack/vue-query",
-        "vue"
-      ],
-      "returnKeys": [
-        "bulkEditData",
-        "bulkEditMode",
-        "toggleBulkEditMode"
-      ],
-      "complexityScore": 6,
-      "suggestions": []
-    },
-    {
       "id": "src__composables__admin__tables__useAppointmentsTableModel.ts",
       "repoPath": "src/composables/admin/tables/useAppointmentsTableModel.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/useAppointmentsTableModel.ts",
@@ -6689,32 +6653,32 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 102,
+          "lineNumber": 54,
           "line": "itemsSource: computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 107,
+          "lineNumber": 59,
           "line": "isLoadingSource: computed(() => fetchAll.isLoading.value),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 108,
+          "lineNumber": 60,
           "line": "errorSource: computed(() => fetchAll.error.value),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 109,
+          "lineNumber": 61,
           "line": "createItem: async (payload) => create.mutateAsync(payload),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 110,
+          "lineNumber": 62,
           "line": "updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 111,
+          "lineNumber": 63,
           "line": "deleteItem: async (id) => remove.mutateAsync(id),"
         }
       ],
@@ -6730,7 +6694,7 @@
         "@/types/appointment",
         "@/types/property",
         "@/types/user",
-        "draft",
+        "@/utils/appointmentFieldFormatters",
         "vue"
       ],
       "returnKeys": [
@@ -6823,144 +6787,148 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__admin__tables__usePropertiesTableModel.ts",
-      "repoPath": "src/composables/admin/tables/usePropertiesTableModel.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/usePropertiesTableModel.ts",
+      "id": "src__composables__admin__usePartInstanceBulkEdit.ts",
+      "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartInstanceBulkEdit.ts",
       "counts": {
-        "computed": 3,
-        "ref": 0,
+        "computed": 0,
+        "ref": 1,
         "reactive": 0,
         "watch": 0,
         "watchEffect": 0,
         "lifecycle": 0,
-        "async": 3,
-        "await": 0,
+        "async": 1,
+        "await": 1,
         "vueQuery": 0,
-        "map": 0,
+        "map": 1,
         "reduce": 0,
-        "filter": 0,
+        "filter": 2,
         "sort": 0,
         "dom": 0,
         "timers": 0,
-        "console": 0
+        "console": 13
       },
       "matches": [
         {
-          "ruleId": "computed",
-          "lineNumber": 26,
-          "line": "itemsSource: computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 30,
-          "line": "isLoadingSource: computed(() => fetchAll.isLoading.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 31,
-          "line": "errorSource: computed(() => fetchAll.error.value),"
+          "ruleId": "ref",
+          "lineNumber": 89,
+          "line": "const bulkEditMode = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 32,
-          "line": "createItem: async (payload) => create.mutateAsync(payload),"
+          "lineNumber": 122,
+          "line": "const applyPartInstanceBulkEdit = async (): Promise<void> => {"
         },
         {
-          "ruleId": "async",
-          "lineNumber": 33,
-          "line": "updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),"
+          "ruleId": "console",
+          "lineNumber": 123,
+          "line": "console.log('[usePartInstanceBulkEdit] applyPartInstanceBulkEdit called')"
         },
         {
-          "ruleId": "async",
-          "lineNumber": 34,
-          "line": "deleteItem: async (id) => remove.mutateAsync(id),"
+          "ruleId": "console",
+          "lineNumber": 126,
+          "line": "console.log('[usePartInstanceBulkEdit] instances count:', instances.length)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 129,
+          "line": "console.log('[usePartInstanceBulkEdit] No PartInstances to update')"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 138,
+          "line": "console.log('[usePartInstanceBulkEdit] bulkEditData.value:', bulkEditData.value)"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 164,
+          "line": "const bulkEditEnabledFields = Object.keys(fieldMetadata).filter(fieldKey => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 173,
+          "line": "Object.entries(bulkEditData.value).filter(([fieldKey, value]) => {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 180,
+          "line": "console.warn(`[usePartInstanceBulkEdit] Field ${fieldKey} is not enabled for bulk edit, excluding from update`)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 186,
+          "line": "console.warn(`[usePartInstanceBulkEdit] Field ${fieldKey} does not have bulkEdit: true, excluding from update`)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 192,
+          "line": "console.log('[usePartInstanceBulkEdit] fieldsToUpdate:', fieldsToUpdate)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 193,
+          "line": "console.log('[usePartInstanceBulkEdit] fieldsToUpdate keys:', Object.keys(fieldsToUpdate))"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 196,
+          "line": "console.log('[usePartInstanceBulkEdit] No changes to apply - fieldsToUpdate is empty')"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 201,
+          "line": "const updates = instances.map(instance => ({"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 205,
+          "line": "console.log('[usePartInstanceBulkEdit] updates array:', updates)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 210,
+          "line": "console.log('[usePartInstanceBulkEdit] Calling patchBulk...')"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 211,
+          "line": "await patchBulk(updates)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 212,
+          "line": "console.log('[usePartInstanceBulkEdit] patchBulk completed successfully')"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 218,
+          "line": "console.error('[usePartInstanceBulkEdit] Error in applyPartInstanceBulkEdit:', err)"
         }
       ],
       "exportUseFunctions": [
-        "usePropertiesTableModel"
+        "usePartInstanceBulkEdit"
       ],
       "importSpecifiers": [
-        "./useCrudDataTableModel",
-        "@/composables/useNotification",
-        "@/composables/useProperty",
-        "@/types/property",
+        "../useEntity",
+        "../useGlobal",
+        "../useNotification",
+        "@/configs/partShapeFieldVisibility",
+        "@/types/entities",
         "vue"
       ],
       "returnKeys": [
-        "formatNullValue"
+        "bulkEditData",
+        "bulkEditMode",
+        "toggleBulkEditMode"
       ],
       "complexityScore": 6,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__admin__tables__useUsersTableModel.ts",
-      "repoPath": "src/composables/admin/tables/useUsersTableModel.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/useUsersTableModel.ts",
-      "counts": {
-        "computed": 3,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 3,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
+      "suggestions": [
         {
-          "ruleId": "computed",
-          "lineNumber": 26,
-          "line": "itemsSource: computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 30,
-          "line": "isLoadingSource: computed(() => fetchAll.isLoading.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 31,
-          "line": "errorSource: computed(() => fetchAll.error.value),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 32,
-          "line": "createItem: async (payload) => create.mutateAsync(payload),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 33,
-          "line": "updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 34,
-          "line": "deleteItem: async (id) => remove.mutateAsync(id),"
+          "kind": "logging",
+          "priority": "P2",
+          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
         }
-      ],
-      "exportUseFunctions": [
-        "useUsersTableModel"
-      ],
-      "importSpecifiers": [
-        "./useCrudDataTableModel",
-        "@/composables/useNotification",
-        "@/composables/useUser",
-        "@/types/user",
-        "vue"
-      ],
-      "returnKeys": [
-        "formatNullValue"
-      ],
-      "complexityScore": 6,
-      "suggestions": []
+      ]
     },
     {
       "id": "src__composables__admin__useSelectFieldValue.ts",
@@ -7035,6 +7003,80 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__booking__useAvailabilityDefaults.ts",
+      "repoPath": "src/composables/booking/useAvailabilityDefaults.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityDefaults.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 4,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 129,
+          "line": "const inspectorOrderIndex = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 141,
+          "line": "const clientOrderIndex = computed({"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 153,
+          "line": "watch(loadedWizardState, () => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 166,
+          "line": "watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 195,
+          "line": "watch(timeSlots, (slots) => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 215,
+          "line": "watch(isDifferentialService, (isDifferential) => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAvailabilityDefaults"
+      ],
+      "importSpecifiers": [
+        "@/composables/useTimeFormatting",
+        "@/types/appointment",
+        "@/utils/booking/timeSlotMatching",
+        "@/utils/transformers/appointmentToWizardTransformer",
+        "vue"
+      ],
+      "returnKeys": [
+        "appointmentSlotOrderIndex",
+        "clientOrderIndex",
+        "inspectorOrderIndex",
+        "selectedDate",
+        "startTimeType"
+      ],
+      "complexityScore": 6,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__booking__usePropertyFormState.ts",
       "repoPath": "src/composables/booking/usePropertyFormState.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/usePropertyFormState.ts",
@@ -7092,11 +7134,141 @@
         "usePropertyFormState"
       ],
       "importSpecifiers": [
-        "./usePropertyFormWatchers",
+        "@/types/propertyForm",
         "vue"
       ],
       "returnKeys": [],
       "complexityScore": 6,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__tables__usePropertiesTableModel.ts",
+      "repoPath": "src/composables/admin/tables/usePropertiesTableModel.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/usePropertiesTableModel.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 3,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 22,
+          "line": "isLoadingSource: computed(() => fetchAll.isLoading.value),"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 23,
+          "line": "errorSource: computed(() => fetchAll.error.value),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 24,
+          "line": "createItem: async (payload) => create.mutateAsync(payload),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 25,
+          "line": "updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 26,
+          "line": "deleteItem: async (id) => remove.mutateAsync(id),"
+        }
+      ],
+      "exportUseFunctions": [
+        "usePropertiesTableModel"
+      ],
+      "importSpecifiers": [
+        "./useCrudDataTableModel",
+        "./useTableModelHelpers",
+        "@/composables/useNotification",
+        "@/composables/useProperty",
+        "@/types/property"
+      ],
+      "returnKeys": [
+        "formatNullValue"
+      ],
+      "complexityScore": 5,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__tables__useUsersTableModel.ts",
+      "repoPath": "src/composables/admin/tables/useUsersTableModel.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/useUsersTableModel.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 3,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 22,
+          "line": "isLoadingSource: computed(() => fetchAll.isLoading.value),"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 23,
+          "line": "errorSource: computed(() => fetchAll.error.value),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 24,
+          "line": "createItem: async (payload) => create.mutateAsync(payload),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 25,
+          "line": "updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 26,
+          "line": "deleteItem: async (id) => remove.mutateAsync(id),"
+        }
+      ],
+      "exportUseFunctions": [
+        "useUsersTableModel"
+      ],
+      "importSpecifiers": [
+        "./useCrudDataTableModel",
+        "./useTableModelHelpers",
+        "@/composables/useNotification",
+        "@/composables/useUser",
+        "@/types/user"
+      ],
+      "returnKeys": [
+        "formatNullValue"
+      ],
+      "complexityScore": 5,
       "suggestions": []
     },
     {
@@ -7187,7 +7359,7 @@
         "sort": 0,
         "dom": 0,
         "timers": 0,
-        "console": 0
+        "console": 9
       },
       "matches": [
         {
@@ -7196,23 +7368,68 @@
           "line": "const applyBulkEdit = async (blockShapeId: string): Promise<void> => {"
         },
         {
-          "ruleId": "map",
+          "ruleId": "console",
+          "lineNumber": 144,
+          "line": "console.log('[useInstanceBulkEdit] applyBulkEdit called for blockShapeId:', blockShapeId)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 147,
+          "line": "console.log('[useInstanceBulkEdit] instances count:', instances.length)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 150,
+          "line": "console.log('[useInstanceBulkEdit] editData:', editData)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 151,
+          "line": "console.log('[useInstanceBulkEdit] editData keys:', Object.keys(editData))"
+        },
+        {
+          "ruleId": "console",
           "lineNumber": 154,
-          "line": "const updatePromises = instances.map(instance =>"
+          "line": "console.log('[useInstanceBulkEdit] No changes to apply - editData is empty')"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 162,
+          "line": "const updates = instances.map(instance => ({"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 166,
+          "line": "console.log('[useInstanceBulkEdit] updates array:', updates)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 171,
+          "line": "console.log('[useInstanceBulkEdit] Calling patchBulk...')"
         },
         {
           "ruleId": "await",
-          "lineNumber": 158,
-          "line": "await Promise.all(updatePromises)"
+          "lineNumber": 172,
+          "line": "await patchBulk(updates)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 173,
+          "line": "console.log('[useInstanceBulkEdit] patchBulk completed successfully')"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 179,
+          "line": "console.error('[useInstanceBulkEdit] Error in applyBulkEdit:', err)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 174,
+          "lineNumber": 190,
           "line": "watch(blockInstancesByShape, (map) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 178,
+          "lineNumber": 194,
           "line": "bulkEditBaseSqFtComputeds.value.set(blockShapeId, computed({"
         }
       ],
@@ -7233,7 +7450,13 @@
         "toggleBulkEditMode"
       ],
       "complexityScore": 5,
-      "suggestions": []
+      "suggestions": [
+        {
+          "kind": "logging",
+          "priority": "P2",
+          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
+        }
+      ]
     },
     {
       "id": "src__composables__admin__useSelectFormAssociation.ts",
@@ -7294,6 +7517,153 @@
       "returnKeys": [],
       "complexityScore": 5,
       "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useStatusButtonToggle.ts",
+      "repoPath": "src/composables/admin/useStatusButtonToggle.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useStatusButtonToggle.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 1,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 1,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 49,
+          "line": "const entityIdRef = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 57,
+          "line": "const entityRef = computed(() => {"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 73,
+          "line": "const pendingToggles = ref(new Set<string>())"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 75,
+          "line": "const toggleStatusButton = async ("
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 125,
+          "line": "await mutateAsync({"
+        }
+      ],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "../entityCrud/usePrimitiveMutation",
+        "../useGlobal",
+        "@/constants/entities",
+        "@/constants/primitives",
+        "@/types/entities",
+        "vue"
+      ],
+      "returnKeys": [],
+      "complexityScore": 5,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__booking__useAppointmentSlots.ts",
+      "repoPath": "src/composables/booking/useAppointmentSlots.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentSlots.ts",
+      "counts": {
+        "computed": 4,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 1,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 3
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 78,
+          "line": "const appointmentShape = computed(() => {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 89,
+          "line": "console.error('Error building appointment shape:', error)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 97,
+          "line": "const appointmentSlots = computed(() => {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 100,
+          "line": "console.log('[useAppointmentSlots] No shape, returning empty slots')"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 112,
+          "line": "const slots = times.map((time, index) => {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 120,
+          "line": "console.error('Error applying shape to times:', error)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 126,
+          "line": "const selectedSlot = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 147,
+          "line": "const graphBars = computed(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAppointmentSlots"
+      ],
+      "importSpecifiers": [
+        "@/types/appointment",
+        "@/utils/booking/appointmentSlotBuilder",
+        "@/utils/transformers/globalToBookingTransformer",
+        "vue"
+      ],
+      "returnKeys": [
+        "onSite"
+      ],
+      "complexityScore": 5,
+      "suggestions": [
+        {
+          "kind": "logging",
+          "priority": "P2",
+          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
+        }
+      ]
     },
     {
       "id": "src__composables__booking__useContactsStepData.ts",
@@ -7545,69 +7915,6 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__booking__useAvailabilityDefaults.ts",
-      "repoPath": "src/composables/booking/useAvailabilityDefaults.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityDefaults.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 4,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "watch",
-          "lineNumber": 127,
-          "line": "watch(loadedWizardState, () => {"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 138,
-          "line": "watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 161,
-          "line": "watch(timeSlots, (slots) => {"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 181,
-          "line": "watch(isDifferentialService, (isDifferential) => {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useAvailabilityDefaults"
-      ],
-      "importSpecifiers": [
-        "@/composables/useTimeFormatting",
-        "@/types/appointment",
-        "@/utils/booking/timeSlotMatching",
-        "@/utils/transformers/appointmentToWizardTransformer",
-        "vue"
-      ],
-      "returnKeys": [
-        "clientTimeSlot",
-        "inspectorTimeSlot",
-        "selectedDate",
-        "startTimeType"
-      ],
-      "complexityScore": 4,
-      "suggestions": []
-    },
-    {
       "id": "src__composables__booking__useInstanceDisplay.ts",
       "repoPath": "src/composables/booking/useInstanceDisplay.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useInstanceDisplay.ts",
@@ -7665,22 +7972,22 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__formFields__useFormFieldsContext.ts",
-      "repoPath": "src/composables/formFields/useFormFieldsContext.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/formFields/useFormFieldsContext.ts",
+      "id": "src__composables__booking__usePropertyDetailsLogic.ts",
+      "repoPath": "src/composables/booking/usePropertyDetailsLogic.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/usePropertyDetailsLogic.ts",
       "counts": {
-        "computed": 2,
+        "computed": 3,
         "ref": 0,
         "reactive": 0,
-        "watch": 1,
+        "watch": 0,
         "watchEffect": 0,
         "lifecycle": 0,
         "async": 0,
         "await": 0,
         "vueQuery": 0,
-        "map": 0,
+        "map": 1,
         "reduce": 0,
-        "filter": 1,
+        "filter": 0,
         "sort": 0,
         "dom": 0,
         "timers": 0,
@@ -7689,46 +7996,100 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 44,
-          "line": "const currentEntityId = computed(() => {"
+          "lineNumber": 85,
+          "line": "const requiresUnitNumber = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 48,
-          "line": "const isFormReady = computed(() => {"
+          "lineNumber": 89,
+          "line": "const isMultiFamily = computed(() => {"
         },
         {
-          "ruleId": "filter",
-          "lineNumber": 59,
-          "line": "return fields.filter((fieldKey) => !fieldContextCache.value.has(String(fieldKey)))"
+          "ruleId": "computed",
+          "lineNumber": 125,
+          "line": "const propertyTypeBlocksWithComponents = computed(() => {"
         },
         {
-          "ruleId": "watch",
-          "lineNumber": 110,
-          "line": "watch([fieldsNeedingContexts, isFormReady], () => {"
+          "ruleId": "map",
+          "lineNumber": 126,
+          "line": "return wizard.availablePropertyTypeBlocks.value.map(adjustment => {"
         }
       ],
       "exportUseFunctions": [
-        "useFormFieldsContext"
+        "usePropertyDetailsLogic"
       ],
       "importSpecifiers": [
-        "@/composables/useAdminConfig",
-        "@/composables/useFieldContext",
-        "@/composables/useFieldMetadata",
-        "@/constants/entities",
-        "@/constants/primitives",
+        "@/composables/useComponentEntity",
+        "@/composables/useGlobal",
         "@/types/entities",
-        "vee-validate",
+        "@/types/propertyForm",
+        "@/utils/instanceComponentUtils",
+        "@/utils/transformers/appointmentToWizardTransformer",
+        "@/utils/transformers/globalToBookingTransformer",
         "vue"
       ],
       "returnKeys": [
-        "adminConfig",
-        "currentEntityId",
-        "fieldContextCache",
-        "fieldsNeedingContexts",
-        "formInstance",
-        "getFieldContext",
-        "isFormReady"
+        "composite",
+        "instanceComponents"
+      ],
+      "complexityScore": 4,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__businessDataCollections__useBusinessDataCollectionQuery.ts",
+      "repoPath": "src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts",
+      "counts": {
+        "computed": 4,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 39,
+          "line": "const list = computed((): CollectionItem[] => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 46,
+          "line": "const isLoading = computed((): boolean => businessIsLoading.value)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 47,
+          "line": "const error = computed((): unknown | undefined => businessError.value ?? undefined)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 56,
+          "line": "const item = computed((): CollectionItem | undefined => {"
+        }
+      ],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "./types",
+        "@/composables/useBusiness",
+        "@/utils/collections/findById",
+        "vue"
+      ],
+      "returnKeys": [
+        "data",
+        "error",
+        "isLoading"
       ],
       "complexityScore": 4,
       "suggestions": []
@@ -7905,6 +8266,186 @@
         "@tanstack/vue-query"
       ],
       "returnKeys": [],
+      "complexityScore": 3,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__useProperty.ts",
+      "repoPath": "src/composables/useProperty.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useProperty.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 1,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 6,
+          "line": "* PATTERN: Vue Query useMutation for data mutations"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 78,
+          "line": "isLoading: computed(() => isLoading.value),"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 79,
+          "line": "error: computed(() => error.value),"
+        }
+      ],
+      "exportUseFunctions": [
+        "useProperty"
+      ],
+      "importSpecifiers": [
+        "./businessDataCollections/useBusinessDataCollectionCrud",
+        "./useBusiness",
+        "@/types/property",
+        "@/utils/api",
+        "@/utils/transformers/fetchToBusinessTransformer",
+        "@tanstack/vue-query",
+        "vue"
+      ],
+      "returnKeys": [
+        "create",
+        "fetchAll",
+        "fetchById",
+        "patch",
+        "remove",
+        "update"
+      ],
+      "complexityScore": 3,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__useUser.ts",
+      "repoPath": "src/composables/useUser.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useUser.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 1,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 6,
+          "line": "* PATTERN: Vue Query useMutation for data mutations"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 78,
+          "line": "isLoading: computed(() => isLoading.value),"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 79,
+          "line": "error: computed(() => error.value),"
+        }
+      ],
+      "exportUseFunctions": [
+        "useUser"
+      ],
+      "importSpecifiers": [
+        "./businessDataCollections/useBusinessDataCollectionCrud",
+        "./useBusiness",
+        "@/types/user",
+        "@/utils/api",
+        "@/utils/transformers/fetchToBusinessTransformer",
+        "@tanstack/vue-query",
+        "vue"
+      ],
+      "returnKeys": [
+        "create",
+        "fetchAll",
+        "fetchById",
+        "patch",
+        "remove",
+        "update"
+      ],
+      "complexityScore": 3,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useEntityCardSaveState.ts",
+      "repoPath": "src/composables/admin/useEntityCardSaveState.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityCardSaveState.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 1,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 66,
+          "line": "const statusButtonChanges = ref(new Set<string>())"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 73,
+          "line": "const canSave = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 84,
+          "line": "const hasChanges = computed(() => canSave.value)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useEntityCardSaveState"
+      ],
+      "importSpecifiers": [
+        "@/constants/entities",
+        "vee-validate",
+        "vue"
+      ],
+      "returnKeys": [
+        "canSave",
+        "hasChanges",
+        "markStatusButtonChanged",
+        "resetSaveState"
+      ],
       "complexityScore": 3,
       "suggestions": []
     },
@@ -8089,32 +8630,32 @@
       "matches": [
         {
           "ruleId": "watch",
-          "lineNumber": 148,
+          "lineNumber": 132,
           "line": "watch("
         },
         {
           "ruleId": "console",
-          "lineNumber": 151,
+          "lineNumber": 135,
           "line": "console.log('[useConfirmationStepData] additionalUnits changed:', {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 160,
+          "lineNumber": 144,
           "line": "watch("
         },
         {
           "ruleId": "console",
-          "lineNumber": 165,
+          "lineNumber": 149,
           "line": "console.log('[useConfirmationStepData] priceData recalculated:', {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 175,
+          "lineNumber": 159,
           "line": "watch("
         },
         {
           "ruleId": "console",
-          "lineNumber": 178,
+          "lineNumber": 162,
           "line": "console.log('[useConfirmationStepData] propertyDetailsStepData.value changed:', {"
         }
       ],
@@ -8122,6 +8663,8 @@
         "useConfirmationStepData"
       ],
       "importSpecifiers": [
+        "@/types/wizard",
+        "@/types/wizardStepData",
         "@/utils/booking/confirmationStepData",
         "@/utils/env/devMode",
         "@/utils/transformers/globalToBookingTransformer",
@@ -8276,17 +8819,17 @@
       "matches": [
         {
           "ruleId": "watch",
-          "lineNumber": 66,
+          "lineNumber": 50,
           "line": "watch(() => formData.squareFootage.value, (newVal) => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 77,
+          "lineNumber": 61,
           "line": "watch(() => formData.additionalUnits.value, (newVal) => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 90,
+          "lineNumber": 74,
           "line": "watch(loadedWizardState, (newState) => {"
         }
       ],
@@ -8294,6 +8837,7 @@
         "usePropertyFormWatchers"
       ],
       "importSpecifiers": [
+        "@/types/propertyForm",
         "@/utils/transformers/appointmentToWizardTransformer",
         "vue"
       ],
@@ -8326,17 +8870,17 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 76,
+          "lineNumber": 79,
           "line": "const rowSelectionConfig = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 101,
+          "lineNumber": 108,
           "line": "visibleComponents: item.instanceComponents.filter((comp: ComponentItem) => comp.active === true).map((comp: ComponentItem) => ({"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 101,
+          "lineNumber": 108,
           "line": "visibleComponents: item.instanceComponents.filter((comp: ComponentItem) => comp.active === true).map((comp: ComponentItem) => ({"
         }
       ],
@@ -8346,6 +8890,7 @@
       "importSpecifiers": [
         "./usePropertyDetailsLogic",
         "@/components/booking/types/selectionCardTypes",
+        "@/utils/booking/selectionCardGroupConfig",
         "vue"
       ],
       "returnKeys": [
@@ -8528,6 +9073,85 @@
           "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
         }
       ]
+    },
+    {
+      "id": "src__composables__useBookingWizard.ts",
+      "repoPath": "src/composables/useBookingWizard.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useBookingWizard.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 1,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 1,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 46,
+          "line": "// PATTERN: Use ref for single values, ref([]) for arrays"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 164,
+          "line": "const loadAppointment = async (appointment: AppointmentResponse): Promise<WizardStateData | null> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 171,
+          "line": "const wizardStateData = await transformAppointmentToWizard(appointment, bookingData.value)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useBookingWizard"
+      ],
+      "importSpecifiers": [
+        "./useBooking",
+        "@/composables/booking/useWizardFilteredOptions",
+        "@/types/appointment",
+        "@/types/wizard",
+        "@/utils/transformers/appointmentToWizardTransformer",
+        "@/utils/transformers/globalToBookingTransformer",
+        "@vueuse/core",
+        "vue"
+      ],
+      "returnKeys": [
+        "accAvailability",
+        "accProperty",
+        "accServices",
+        "availabilityOptionsCascadeError",
+        "availableOptionTypeBlocks",
+        "availablePropertyTypeBlocks",
+        "availableServices",
+        "availableUserTypeBlocks",
+        "bookingData",
+        "isQuoteMode",
+        "loadAppointment",
+        "propertyTypesCascadeError",
+        "resetWizard",
+        "selectUserTypeBlock",
+        "selectedOptionTypeBlocks",
+        "selectedPropertyTypeBlocks",
+        "selectedServices",
+        "selectedUserTypeBlock",
+        "servicesCascadeError",
+        "toggleOptionTypeBlock",
+        "togglePropertyTypeBlock",
+        "toggleService"
+      ],
+      "complexityScore": 3,
+      "suggestions": []
     },
     {
       "id": "src__composables__useAnnotations.ts",
@@ -9458,6 +10082,43 @@
       ]
     },
     {
+      "id": "src__composables__admin__tables__useTableModelHelpers.ts",
+      "repoPath": "src/composables/admin/tables/useTableModelHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/useTableModelHelpers.ts",
+      "counts": {
+        "computed": 1,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 29,
+          "line": "return computed(() => {"
+        }
+      ],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "vue"
+      ],
+      "returnKeys": [],
+      "complexityScore": 1,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useDialogFormState.ts",
       "repoPath": "src/composables/admin/useDialogFormState.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useDialogFormState.ts",
@@ -9580,6 +10241,49 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__booking__useAvailabilityUI.ts",
+      "repoPath": "src/composables/booking/useAvailabilityUI.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityUI.ts",
+      "counts": {
+        "computed": 1,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 65,
+          "line": "const shouldShowGridInline = computed(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAvailabilityUI"
+      ],
+      "importSpecifiers": [
+        "@/composables/useFormValidation",
+        "vue",
+        "vuetify"
+      ],
+      "returnKeys": [
+        "shouldShowGridInline"
+      ],
+      "complexityScore": 1,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__booking__useAvailabilityValidation.ts",
       "repoPath": "src/composables/booking/useAvailabilityValidation.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityValidation.ts",
@@ -9604,7 +10308,7 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 57,
+          "lineNumber": 60,
           "line": "selectedDate: computed(() => selectedDate.value.start)"
         }
       ],
@@ -9785,74 +10489,6 @@
         "vue"
       ],
       "returnKeys": [],
-      "complexityScore": 1,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__useBookingWizard.ts",
-      "repoPath": "src/composables/useBookingWizard.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useBookingWizard.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 1,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "ref",
-          "lineNumber": 45,
-          "line": "// PATTERN: Use ref for single values, ref([]) for arrays"
-        }
-      ],
-      "exportUseFunctions": [
-        "useBookingWizard"
-      ],
-      "importSpecifiers": [
-        "./useBooking",
-        "@/composables/booking/useWizardFilteredOptions",
-        "@/types/appointment",
-        "@/types/wizard",
-        "@/utils/transformers/appointmentToWizardTransformer",
-        "@/utils/transformers/globalToBookingTransformer",
-        "vue"
-      ],
-      "returnKeys": [
-        "accAvailability",
-        "accProperty",
-        "accServices",
-        "availabilityOptionsCascadeError",
-        "availableOptionTypeBlocks",
-        "availablePropertyTypeBlocks",
-        "availableServices",
-        "availableUserTypeBlocks",
-        "bookingData",
-        "isQuoteMode",
-        "loadAppointment",
-        "propertyTypesCascadeError",
-        "resetWizard",
-        "selectUserTypeBlock",
-        "selectedOptionTypeBlocks",
-        "selectedPropertyTypeBlocks",
-        "selectedServices",
-        "selectedUserTypeBlock",
-        "servicesCascadeError",
-        "toggleOptionTypeBlock",
-        "togglePropertyTypeBlock",
-        "toggleService"
-      ],
       "complexityScore": 1,
       "suggestions": []
     },
@@ -10093,6 +10729,95 @@
       "returnKeys": [
         "expandedEntities"
       ],
+      "complexityScore": 0,
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__admin__useFieldInputSetup.ts",
+      "repoPath": "src/composables/admin/useFieldInputSetup.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldInputSetup.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [
+        "useFieldInputSetup"
+      ],
+      "importSpecifiers": [
+        "@/components/admin/generic/entityCardConstants",
+        "@/composables/admin/useFieldInputHandlers",
+        "@/composables/useFieldContext",
+        "@/composables/useFieldValue",
+        "@/constants/entities",
+        "@/constants/primitives",
+        "vue"
+      ],
+      "returnKeys": [
+        "fieldValue",
+        "handleChange",
+        "handleFocus"
+      ],
+      "complexityScore": 0,
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__admin__useFieldMetadataUpdate.ts",
+      "repoPath": "src/composables/admin/useFieldMetadataUpdate.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldMetadataUpdate.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [
+        "useFieldMetadataUpdate"
+      ],
+      "importSpecifiers": [
+        "@/configs/blockShapeFieldVisibility",
+        "vue"
+      ],
+      "returnKeys": [],
       "complexityScore": 0,
       "suggestions": [
         {
@@ -10751,6 +11476,43 @@
       ]
     },
     {
+      "id": "src__composables__booking__useTimeBasisHandler.ts",
+      "repoPath": "src/composables/booking/useTimeBasisHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useTimeBasisHandler.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [
+        "useTimeBasisHandler"
+      ],
+      "importSpecifiers": [],
+      "returnKeys": [],
+      "complexityScore": 0,
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
       "id": "src__composables__booking__useWizardStepContent.ts",
       "repoPath": "src/composables/booking/useWizardStepContent.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardStepContent.ts",
@@ -10821,6 +11583,172 @@
         "vue"
       ],
       "returnKeys": [],
+      "complexityScore": 0,
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__businessDataCollections__index.ts",
+      "repoPath": "src/composables/businessDataCollections/index.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/businessDataCollections/index.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "./types",
+        "./useBusinessDataCollectionActions",
+        "./useBusinessDataCollectionCrud",
+        "./useBusinessDataCollectionQuery"
+      ],
+      "returnKeys": [],
+      "complexityScore": 0,
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__businessDataCollections__types.ts",
+      "repoPath": "src/composables/businessDataCollections/types.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/businessDataCollections/types.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "@/utils/transformers/fetchToBusinessTransformer",
+        "@tanstack/vue-query",
+        "vue"
+      ],
+      "returnKeys": [],
+      "complexityScore": 0,
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__businessDataCollections__useBusinessDataCollectionActions.ts",
+      "repoPath": "src/composables/businessDataCollections/useBusinessDataCollectionActions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/businessDataCollections/useBusinessDataCollectionActions.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "./types",
+        "@/composables/dataCollections/useDataCollectionActions",
+        "@/composables/useBusiness",
+        "@/utils/transformers/fetchToBusinessTransformer",
+        "@tanstack/vue-query"
+      ],
+      "returnKeys": [],
+      "complexityScore": 0,
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__businessDataCollections__useBusinessDataCollectionCrud.ts",
+      "repoPath": "src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "./types",
+        "./useBusinessDataCollectionActions",
+        "./useBusinessDataCollectionQuery"
+      ],
+      "returnKeys": [
+        "create",
+        "fetchAll",
+        "fetchById",
+        "patch",
+        "remove",
+        "update"
+      ],
       "complexityScore": 0,
       "suggestions": [
         {
@@ -11215,6 +12143,46 @@
       ]
     },
     {
+      "id": "src__composables__globalDataCollections__useGlobalDataCollectionActions.ts",
+      "repoPath": "src/composables/globalDataCollections/useGlobalDataCollectionActions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/globalDataCollections/useGlobalDataCollectionActions.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "./types",
+        "@/composables/dataCollections/useDataCollectionActions",
+        "@/utils/transformers/fetchToGlobalTransformer",
+        "@tanstack/vue-query"
+      ],
+      "returnKeys": [],
+      "complexityScore": 0,
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
       "id": "src__composables__globalDataCollections__useGlobalDataCollectionCrud.ts",
       "repoPath": "src/composables/globalDataCollections/useGlobalDataCollectionCrud.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/globalDataCollections/useGlobalDataCollectionCrud.ts",
@@ -11536,6 +12504,7 @@
         "useTimeFormatting"
       ],
       "importSpecifiers": [
+        "@/types/appointment",
         "@/utils/time/timeFormatting"
       ],
       "returnKeys": [

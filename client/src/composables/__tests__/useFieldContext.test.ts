@@ -54,17 +54,6 @@ vi.mock('@tanstack/vue-query', () => ({
   })),
 }))
 
-vi.mock('../useFieldMetadata', () => ({
-  getFieldMetadata: vi.fn(() => ({
-    label: 'Test Field',
-    placeholder: 'Enter test field',
-    fieldType: 'text',
-    required: false,
-    disabled: false,
-    readOnly: false,
-  })),
-}))
-
 vi.mock('../useComponentEntity', () => ({
   useComponentEntity: vi.fn(() => ({
     getComponents: vi.fn(() => []),
@@ -95,6 +84,7 @@ vi.mock('vee-validate', () => ({
 describe('useFieldContext', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.spyOn(console, 'error').mockImplementation(() => undefined)
     mockUseField.mockReturnValue({
       value: ref('initial'),
       errorMessage: ref(undefined),
@@ -161,8 +151,10 @@ describe('useFieldContext', () => {
       const context = useFieldContext('name', 'blockInstance', 'block-1')
       
       expect(context.displayConfig).toBeDefined()
-      expect(context.displayConfig.label).toBe('Test Field')
-      expect(context.displayConfig.placeholder).toBe('Enter test field')
+      // LEARNING: When upstream metadata isn't provided, FieldContext logs an explicit error
+      // and falls back to simple defaults (no legacy config lookup).
+      expect(context.displayConfig.label).toBe('name')
+      expect(context.displayConfig.placeholder).toBe('Enter name')
     })
 
     it('should merge provided display config overrides', () => {

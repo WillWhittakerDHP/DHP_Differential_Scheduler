@@ -119,6 +119,16 @@ export function getOrderIndexEndpoint(entityKey: string): string {
 }
 
 /**
+ * Bulk PATCH API endpoint
+ * LEARNING: Endpoint for bulk partial updates to multiple entities
+ * WHY: Allows efficient bulk updates (1 request vs N requests)
+ * PATTERN: Returns endpoint path for bulk PATCH operations
+ */
+export function getBulkPatchEndpoint(entityKey: string): string {
+  return `/entities/${entityKey}/bulk`
+}
+
+/**
  * Annotation API endpoints
  * LEARNING: Endpoints for AnnotationInstance CRUD and ActiveAnnotation management
  * WHY: AnnotationInstances are NOT in ENTITY_KEYS, so they need their own endpoints
@@ -161,6 +171,24 @@ export function getAnnotationTypeByIdEndpoint(id: string): string {
 }
 
 /**
+ * Admin Input Metadata API endpoints
+ * LEARNING: Endpoints for unified admin input metadata (replaces shape layout config endpoints)
+ * WHY: Single endpoint for all entity types, handles inheritance automatically
+ */
+export function getAdminInputMetadataEndpoint(entityType: string, entityId: string): string {
+  return `/admin-input-metadata/${entityType}/${entityId}`
+}
+
+/**
+ * Admin Relationship Metadata API endpoints
+ * LEARNING: Endpoints for unified admin relationship metadata
+ * WHY: Single endpoint for all entity types, handles inheritance automatically
+ */
+export function getAdminRelationshipMetadataEndpoint(entityType: string, entityId: string): string {
+  return `/admin-relationship-metadata/${entityType}/${entityId}`
+}
+
+/**
  * Availability API endpoints
  * LEARNING: Endpoints for fetching available time slots
  * WHY: Provides type-safe endpoint construction for availability API
@@ -182,6 +210,10 @@ export function getAppointmentEndpoint(): string {
 
 export function getAppointmentByIdEndpoint(id: string): string {
   return `/appointments/${id}`
+}
+
+export function getAppointmentVersionsEndpoint(id: string): string {
+  return `/appointments/${id}/versions`
 }
 
 /**

@@ -95,7 +95,18 @@ const statusButtonColor = computed(() => {
 // WHY: Status buttons should save immediately when clicked (good UX)
 // PATTERN: Toggle value and save on click
 const handleClick = async (event: Event) => {
+  // LEARNING: Stop propagation to prevent VExpansionPanel from intercepting click
+  // WHY: Status buttons are in VExpansionPanel title, need to prevent panel expansion
+  // PATTERN: Stop propagation and prevent default
   event.stopPropagation()
+  event.preventDefault()
+  
+  // LEARNING: Check if field is disabled or readonly
+  // WHY: Don't allow toggling if field is disabled or readonly
+  // PATTERN: Early return if field cannot be edited
+  if (fieldContext.displayConfig.disabled || fieldContext.displayConfig.readOnly) {
+    return
+  }
   
   // Toggle the value
   const newValue = !fieldValue.value

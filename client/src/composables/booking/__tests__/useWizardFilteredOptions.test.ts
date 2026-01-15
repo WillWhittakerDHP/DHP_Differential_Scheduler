@@ -54,14 +54,12 @@ function createBookingBlockShape(
   options: {
     name?: string
     type?: string
-    active?: boolean
   } = {}
 ): BookingBlockShape {
   return {
     id,
     name: options.name || `Shape ${id}`,
     type: options.type || 'service',
-    active: options.active !== undefined ? options.active : true,
   }
 }
 

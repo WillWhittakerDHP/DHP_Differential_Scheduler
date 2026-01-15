@@ -14,6 +14,8 @@ import type { GlobalEntity, GlobalEntityId, BlockInstanceEntity } from '@/types/
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { FetchedRelationship } from '@/types/relationships'
 import type { Annotation, AnnotationType } from '@/types/annotations'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_INSTANCE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID, type EntityMetadataType } from '@/utils/entities/entityTypeMapping'
 import { transformApiEntity } from './entityTransformers'
 import { transformApiRelationships } from './relationshipTransformers'
 import { transformApiAnnotation, groupAnnotationsByEntity } from './annotationTransformers'
@@ -49,6 +51,11 @@ export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
  * Session 1.4.7: Added annotationTypes to globalData cache
  * WHY: AnnotationTypes are configuration data (like blockShape), not business data
  * PATTERN: Keep all configuration data together in globalData for unified cache management
+ * 
+ * Session 1.4.8: Added metadata to globalData cache
+ * WHY: Metadata is configuration data that should be available as early and reliably as entities
+ * PATTERN: Fetch metadata alongside entities in GlobalTransformer, transform in adminTransformer
+ * Structure: metadata.inputMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
  */
 export type GlobalData = {
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
@@ -58,6 +65,13 @@ export type GlobalData = {
   annotations?: Annotation[]
   // Session 1.4.7: AnnotationTypes added to globalData cache (configuration data)
   annotationTypes?: AnnotationType[]
+  // Session 1.4.8: Metadata added to globalData cache (configuration data)
+  // Structure: metadata.inputMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+  // Structure: metadata.relationshipMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+  metadata?: {
+    inputMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
+    relationshipMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
+  }
 }
 
 
@@ -127,6 +141,8 @@ export class GlobalTransformer {
       isDefault: boolean
       annotation?: Annotation
     }>
+    fetchedInputMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
+    fetchedRelationshipMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
   }> {
     try {
       // LEARNING: Fetch all entities in parallel using same processor pattern
@@ -215,12 +231,74 @@ export class GlobalTransformer {
       // Session 1.4.7: Extract annotation types from response
       const fetchedAnnotationTypes = annotationTypesResponse.data
       
+      // LEARNING: Fetch metadata in parallel (shapes + global instance configs)
+      // WHY: Metadata is configuration data that should be available as early as entities
+      // PATTERN: Fetch all metadata types in parallel using Promise.all
+      // NOTE: Only fetch global configs (shapes use sentinel UUIDs, instances use global sentinel UUIDs)
+      const metadataEntityTypes: EntityMetadataType[] = ['blockShape', 'partShape', 'blockInstance', 'partInstance']
+      const metadataConfigIds: Record<EntityMetadataType, string> = {
+        blockShape: BLOCK_SHAPE_GLOBAL_CONFIG_ID,
+        partShape: PART_SHAPE_GLOBAL_CONFIG_ID,
+        blockInstance: BLOCK_INSTANCE_GLOBAL_CONFIG_ID,
+        partInstance: PART_INSTANCE_GLOBAL_CONFIG_ID
+      }
+      
+      // Fetch input metadata and relationship metadata in parallel
+      const inputMetadataPromises = metadataEntityTypes.map(async (entityType) => {
+        const entityId = metadataConfigIds[entityType]
+        const endpoint = getAdminInputMetadataEndpoint(entityType, entityId)
+        try {
+          const response = await apiClient.get<Record<string, FieldMetadataEntry>>(endpoint)
+          return { entityType, entityId, metadata: response.data || {} }
+        } catch (error) {
+          console.warn(`[GlobalTransformer] Failed to fetch input metadata for ${entityType}/${entityId}:`, error)
+          return { entityType, entityId, metadata: {} }
+        }
+      })
+      
+      const relationshipMetadataPromises = metadataEntityTypes.map(async (entityType) => {
+        const entityId = metadataConfigIds[entityType]
+        const endpoint = getAdminRelationshipMetadataEndpoint(entityType, entityId)
+        try {
+          const response = await apiClient.get<Record<string, FieldMetadataEntry>>(endpoint)
+          return { entityType, entityId, metadata: response.data || {} }
+        } catch (error) {
+          console.warn(`[GlobalTransformer] Failed to fetch relationship metadata for ${entityType}/${entityId}:`, error)
+          return { entityType, entityId, metadata: {} }
+        }
+      })
+      
+      const [inputMetadataResults, relationshipMetadataResults] = await Promise.all([
+        Promise.all(inputMetadataPromises),
+        Promise.all(relationshipMetadataPromises)
+      ])
+      
+      // Structure: fetchedInputMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+      const fetchedInputMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>> = {}
+      inputMetadataResults.forEach(({ entityType, entityId, metadata }) => {
+        if (!fetchedInputMetadata[entityType]) {
+          fetchedInputMetadata[entityType] = {}
+        }
+        fetchedInputMetadata[entityType][entityId] = metadata
+      })
+      
+      // Structure: fetchedRelationshipMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+      const fetchedRelationshipMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>> = {}
+      relationshipMetadataResults.forEach(({ entityType, entityId, metadata }) => {
+        if (!fetchedRelationshipMetadata[entityType]) {
+          fetchedRelationshipMetadata[entityType] = {}
+        }
+        fetchedRelationshipMetadata[entityType][entityId] = metadata
+      })
+      
       return {
         fetchedEntities,
         fetchedRelationships,
         fetchedAnnotations,
         fetchedAnnotationTypes,
-        fetchedAnnotationAssignments
+        fetchedAnnotationAssignments,
+        fetchedInputMetadata,
+        fetchedRelationshipMetadata
       }
     } catch (_error) {
       return {
@@ -233,7 +311,9 @@ export class GlobalTransformer {
         fetchedRelationships: [],
         fetchedAnnotations: [],
         fetchedAnnotationTypes: [],
-        fetchedAnnotationAssignments: []
+        fetchedAnnotationAssignments: [],
+        fetchedInputMetadata: {},
+        fetchedRelationshipMetadata: {}
       }
     }
   }
@@ -262,11 +342,16 @@ export class GlobalTransformer {
       isDefault: boolean
       annotation?: Annotation
     }>
+    fetchedInputMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
+    fetchedRelationshipMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
   }): GlobalData {
     // Session 1.4.6: Extract annotations from staged data
     const fetchedAnnotations = staged.fetchedAnnotations || []
     // Session 1.4.7: Extract annotation types from staged data
     const fetchedAnnotationTypes = staged.fetchedAnnotationTypes || []
+    // Session 1.4.8: Extract metadata from staged data
+    const fetchedInputMetadata = staged.fetchedInputMetadata || {}
+    const fetchedRelationshipMetadata = staged.fetchedRelationshipMetadata || {}
     
     // Attach instanceComponents arrays to entities (for backward compatibility)
     // LEARNING: This metadata helps identify composers, but components are computed from relationships
@@ -331,25 +416,15 @@ export class GlobalTransformer {
       // Type assertion: we know this is blockInstance, so it's BlockInstanceEntity
       const blockInstanceEntity = blockInstance as BlockInstanceEntity
       if (annotations && annotations.length > 0) {
-        // LEARNING: Select default description for backward compatibility
-        // WHY: Existing code expects description string property
-        // PATTERN: Prioritize default, then generic, then first annotation
-        const defaultAnnotation = annotations.find(ann => ann.isDefault === true)
-        const selectedAnnotation = defaultAnnotation 
-          ?? annotations.find(ann => ann.userTypeBlock === null)
-          ?? annotations[0]
-        
         return {
           ...blockInstanceEntity,
-          annotations,
-          description: selectedAnnotation?.text || ''
+          annotations
         }
       } else {
-        // No annotations, ensure empty array and empty description
+        // No annotations, ensure empty array
         return {
           ...blockInstanceEntity,
-          annotations: [],
-          description: ''
+          annotations: []
         }
       }
     })
@@ -372,6 +447,12 @@ export class GlobalTransformer {
       annotations: fetchedAnnotations,
       // Session 1.4.7: Include annotation types in globalData (configuration data)
       annotationTypes: fetchedAnnotationTypes,
+      // Session 1.4.8: Include metadata in globalData (configuration data)
+      // Structure: metadata.inputMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+      metadata: {
+        inputMetadata: fetchedInputMetadata,
+        relationshipMetadata: fetchedRelationshipMetadata
+      }
     }
   }
 

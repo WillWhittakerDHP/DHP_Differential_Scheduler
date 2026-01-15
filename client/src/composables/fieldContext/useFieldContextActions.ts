@@ -53,8 +53,9 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
 
     const entityIdString = String(state.entityId)
     const isTempEntity = entityIdString.startsWith('new-')
+    const isPlaceholderEntity = entityIdString === '00000000-0000-0000-0000-000000000000'
 
-    if (isTempEntity) {
+    if (isTempEntity || isPlaceholderEntity) {
       return
     }
 
@@ -248,7 +249,7 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
   const getValue = (): ValidAdminValue => state.value.value
 
   const setValue = (newValue: ValidAdminValue): void => {
-    state.handleChange(newValue)
+    state.setValue(newValue) // Use the actual setValue from useField (per vee-validate docs)
   }
 
   return {

@@ -9,12 +9,13 @@
  */
 
 import type { AppointmentResponse } from '@/types/appointment'
-import type { BookingBlockInstance } from './globalToBookingTransformer'
+import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
 import { findById } from '@/utils/collections/findById'
 import { findBlockInstanceByIdAndShapeId, getBlockShapeIdByType, getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
-import { mergeSnapshotWithCurrent } from './snapshotToBookingInstance'
+import apiClient from '@/utils/api'
+import { getAppointmentVersionsEndpoint } from '@/utils/api'
 
 /**
  * Wizard state data structure
@@ -73,6 +74,33 @@ export interface WizardStateData {
   
   // Quote mode
   isQuoteMode: boolean
+}
+
+/**
+ * Version data structure from API
+ * LEARNING: Matches server-side version format
+ */
+interface VersionBlockInstance {
+  id: string // blockInstanceId
+  name: string
+  icon: string
+  baseSqFt: number
+  allowMultiple: boolean
+  differential: boolean
+  partInstances: Array<{
+    id: string // partInstanceId
+    name: string
+    baseFee: number
+    baseTime: number
+    rateOverBaseFee: number
+    rateOverBaseTime: number
+  }>
+}
+
+interface AppointmentVersionsResponse {
+  services: VersionBlockInstance[]
+  properties: VersionBlockInstance[]
+  options: VersionBlockInstance[]
 }
 
 /**
@@ -138,6 +166,72 @@ function findBlockInstancesByIds(
 }
 
 /**
+ * Transform version data to BookingBlockInstance format
+ * LEARNING: Versions are complete immutable records, but need metadata from current instance
+ * WHY: Versions contain versioned fields, but BookingBlockInstance needs additional metadata
+ * PATTERN: Merge version data with current instance metadata
+ */
+function transformVersionToBookingInstance(
+  version: VersionBlockInstance,
+  currentInstance: BookingBlockInstance | null,
+  bookingData: BookingData
+): BookingBlockInstance {
+  // FIX: bookingData parameter is kept for API consistency but not currently used in this function
+  void bookingData
+  // Use current instance as base if available, otherwise create minimal structure
+  const base: Partial<BookingBlockInstance> = currentInstance || {
+    id: version.id,
+    entityKey: 'blockInstance' as const,
+    description: '',
+    active: true,
+    dependent: false,
+    orderIndex: 0,
+    blockShape: '',
+    blockShapeRef: '',
+    activeBlockIds: [],
+    partInstances: [],
+    requiresUnitNumber: null,
+  }
+
+  // Transform part instances from version format to BookingPartInstance format
+  const partInstances: BookingPartInstance[] = version.partInstances.map(pi => {
+    // Try to find matching part instance from current instance for metadata
+    const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
+    
+    return {
+      id: pi.id,
+      entityKey: 'partInstance' as const,
+      name: pi.name || '',
+      baseFee: pi.baseFee,
+      baseTime: pi.baseTime,
+      rateOverBaseFee: pi.rateOverBaseFee,
+      rateOverBaseTime: pi.rateOverBaseTime,
+      // Use current part metadata if available, otherwise defaults
+      onSite: currentPart?.onSite ?? true,
+      clientPresent: currentPart?.clientPresent ?? false,
+      moveable: currentPart?.moveable ?? false,
+      active: currentPart?.active ?? true,
+      orderIndex: currentPart?.orderIndex ?? 0,
+      partShape: currentPart?.partShape || '',
+      disabled: false, // BookingPartInstance requires disabled field
+      zeroOutPart: currentPart?.zeroOutPart ?? false, // BookingPartInstance requires zeroOutPart field
+    }
+  })
+
+  // Override with version data (these are the versioned fields)
+  return {
+    ...base,
+    id: version.id,
+    name: version.name,
+    icon: version.icon || '',
+    baseSqFt: version.baseSqFt || 0,
+    allowMultiple: version.allowMultiple,
+    differential: version.differential,
+    partInstances,
+  } as BookingBlockInstance
+}
+
+/**
  * Transform appointment response to wizard state data
  * LEARNING: Main transformer function that maps appointment to wizard state
  * WHY: Enables loading appointment data into wizard for testing
@@ -147,20 +241,19 @@ function findBlockInstancesByIds(
  * @param bookingData - Scheduler data containing block instances
  * @returns Wizard state data ready to populate wizard
  */
-export function transformAppointmentToWizard(
+export async function transformAppointmentToWizard(
   appointment: AppointmentResponse,
   bookingData: BookingData
-): WizardStateData {
+): Promise<WizardStateData> {
   
   /**
    * WHY: Prevents matching wrong block types (e.g., baseService ID in userTypeId field)
    * LEARNING: Use property-based filtering for state control blocks (constituable: false)
    * PATTERN: Find state control block instances, then match by ID
    * VERIFICATION: Log warning if UUID doesn't resolve to correct block type
-   * NOTE: Check both userTypeId (actual API field) and userTypeBlockId (backward compatibility)
    */
   const stateControlBlocks = getStateControlBlockInstances(bookingData)
-  const userTypeId = appointment.userTypeId || appointment.userTypeBlockId
+  const userTypeId = appointment.userTypeId
   const userTypeBlock = userTypeId
     ? stateControlBlocks.find(block => block.id === userTypeId)
     : null
@@ -178,8 +271,21 @@ export function transformAppointmentToWizard(
   
   const userTypeBlockResult = userTypeBlock || null
   
+  // Fetch versions if snapshotIds exist
+  let versionsData: AppointmentVersionsResponse | null = null
+  if (appointment.serviceSnapshotIds || appointment.propertySnapshotIds || appointment.optionSnapshotIds) {
+    try {
+      const versionsResponse = await apiClient.get<AppointmentVersionsResponse>(
+        getAppointmentVersionsEndpoint(appointment.id)
+      )
+      versionsData = versionsResponse.data
+    } catch (error) {
+      console.error('[AppointmentTransformer] Failed to fetch versions:', error)
+      throw error
+    }
+  }
+
   // Session 1.3.9.3: Updated to handle array of service IDs
-  // NOTE: baseServiceId doesn't exist in the codebase - removed fallback
   const serviceIds = appointment.selectedServiceIds || []
   
   // Find Service block shape ID by type (stable semantic identifier)
@@ -211,16 +317,21 @@ export function transformAppointmentToWizard(
     }
   }
   
-  // LEARNING: Merge snapshots with current instances for historical accuracy
-  // WHY: Preserves pricing/names at booking time
-  // PATTERN: Use snapshot if available, otherwise use current instance
-  const services = servicesFound.map(service => 
-    mergeSnapshotWithCurrent(service, appointment.serviceSnapshots?.[service.id])
-  )
+  // Use versions if available, otherwise use current instances directly
+  let services: BookingBlockInstance[]
+  if (versionsData?.services && versionsData.services.length > 0) {
+    // Use versions (complete immutable records)
+    services = versionsData.services.map(version => {
+      const currentInstance = servicesFound.find(s => s.id === version.id) || null
+      return transformVersionToBookingInstance(version, currentInstance, bookingData)
+    })
+  } else {
+    // No versions - use current instances directly
+    services = servicesFound
+  }
   
   // Session 1.3.9.3: Updated to handle array of property type block IDs
-  // Support backward compatibility: check new field first (selectedPropertyIds), then old (selectedPropertyTypeBlockIds), then legacy (propertyTypeBlockId)
-  const propertyTypeBlockIds = appointment.selectedPropertyIds || appointment.selectedPropertyTypeBlockIds || (appointment.propertyTypeBlockId ? [appointment.propertyTypeBlockId] : [])
+  const propertyTypeBlockIds = appointment.selectedPropertyIds || []
   
   // Find Property block shape ID by type (stable semantic identifier)
   const propertyBlockShapeId = getBlockShapeIdByType(bookingData, BLOCK_SHAPE_TYPES.PROPERTY)
@@ -242,13 +353,20 @@ export function transformAppointmentToWizard(
     }
   }
   
-  // LEARNING: Merge snapshots with current instances for historical accuracy
-  const propertyTypeBlocks = propertyTypeBlocksFound.map(property =>
-    mergeSnapshotWithCurrent(property, appointment.propertySnapshots?.[property.id])
-  )
+  // Use versions if available, otherwise use current instances directly
+  let propertyTypeBlocks: BookingBlockInstance[]
+  if (versionsData?.properties && versionsData.properties.length > 0) {
+    // Use versions
+    propertyTypeBlocks = versionsData.properties.map(version => {
+      const currentInstance = propertyTypeBlocksFound.find(p => p.id === version.id) || null
+      return transformVersionToBookingInstance(version, currentInstance, bookingData)
+    })
+  } else {
+    // No versions - use current instances directly
+    propertyTypeBlocks = propertyTypeBlocksFound
+  }
   
-  // Support backward compatibility: check new field first (selectedOptionIds), then old (selectedOptionTypeBlocks)
-  const optionTypeBlockIds = appointment.selectedOptionIds || appointment.selectedOptionTypeBlocks || []
+  const optionTypeBlockIds = appointment.selectedOptionIds || []
   const optionTypeBlocksFound = findBlockInstancesByIds(
     bookingData,
     optionTypeBlockIds
@@ -263,17 +381,22 @@ export function transformAppointmentToWizard(
     }
   }
   
-  // LEARNING: Merge snapshots with current instances for historical accuracy
-  // Support backward compatibility: check new field first (optionSnapshots), then old (optionTypeBlockSnapshots)
-  const optionSnapshots = appointment.optionSnapshots || appointment.optionTypeBlockSnapshots
-  const optionTypeBlocks = optionTypeBlocksFound.map(option =>
-    mergeSnapshotWithCurrent(option, optionSnapshots?.[option.id])
-  )
+  // Use versions if available, otherwise use current instances directly
+  let optionTypeBlocks: BookingBlockInstance[]
+  if (versionsData?.options && versionsData.options.length > 0) {
+    // Use versions
+    optionTypeBlocks = versionsData.options.map(version => {
+      const currentInstance = optionTypeBlocksFound.find(o => o.id === version.id) || null
+      return transformVersionToBookingInstance(version, currentInstance, bookingData)
+    })
+  } else {
+    // No versions - use current instances directly
+    optionTypeBlocks = optionTypeBlocksFound
+  }
   
-  // Map property data (from propertyVersion relationship or propertyDetails)
-  // LEARNING: Updated to use new three-table structure (propertyVersion → address + propertyDetails)
-  // WHY: Supports new property structure while maintaining backward compatibility
-  // FIX: Properly extract property details from propertyVersion relationship to prevent [object Object] display
+  // Map property data (from propertyVersion relationship)
+  // LEARNING: Uses new three-table structure (propertyVersion → address + propertyDetails)
+  // WHY: Property data is stored in normalized propertyVersion structure
   const propertyVersion = appointment.propertyVersion
   const address = propertyVersion?.address
   const propertyDetailsArray = propertyVersion?.propertyDetails
@@ -282,10 +405,6 @@ export function transformAppointmentToWizard(
   const propertyDetailsRecord = Array.isArray(propertyDetailsArray)
     ? propertyDetailsArray[0] // Use first/latest property details
     : propertyDetailsArray ?? null
-  
-  // Fallback to deprecated property only if propertyVersion doesn't exist
-  const legacyProperty = !propertyVersion ? appointment.property : null
-  const legacyPropertyDetails = Array.isArray(legacyProperty) ? legacyProperty[0] : legacyProperty
   
   // LEARNING: Helper to safely extract string values from nested objects
   // WHY: Prevents [object Object] from appearing in form fields when objects are stored instead of primitives
@@ -308,24 +427,24 @@ export function transformAppointmentToWizard(
     return null
   }
   
-  // Property details extraction - prioritize propertyVersion, fallback to legacy property
+  // Property details extraction from propertyVersion structure
   const propertyDetails = {
-    // Address fields from propertyVersion.address (or legacy property)
-    address: address?.address ?? legacyProperty?.address ?? '',
-    unit: address?.unit ?? legacyProperty?.unit ?? '',
-    city: address?.city ?? legacyProperty?.city ?? '',
-    state: address?.state ?? legacyProperty?.state ?? '',
-    zipCode: address?.zipCode ?? legacyProperty?.zipCode ?? '',
+    // Address fields from propertyVersion.address
+    address: address?.address ?? '',
+    unit: address?.unit ?? '',
+    city: address?.city ?? '',
+    state: address?.state ?? '',
+    zipCode: address?.zipCode ?? '',
     
-    // Property details from propertyVersion.propertyDetails[0] (or legacy property)
-    propertySize: propertyDetailsRecord?.squareFootage ?? legacyPropertyDetails?.squareFootage ?? null,
-    numberOfUnits: propertyDetailsRecord?.additionalUnits ?? legacyPropertyDetails?.additionalUnits ?? null,
-    mlsNumber: extractString(propertyDetailsRecord?.mlsNumber ?? legacyPropertyDetails?.mlsNumber),
-    squareFootage: propertyDetailsRecord?.squareFootage ?? legacyPropertyDetails?.squareFootage ?? null,
-    bedrooms: propertyDetailsRecord?.bedrooms ?? legacyPropertyDetails?.bedrooms ?? null,
-    bathrooms: propertyDetailsRecord?.bathrooms ?? legacyPropertyDetails?.bathrooms ?? null,
-    foundationAccess: extractFoundationAccess(propertyDetailsRecord?.foundationAccess ?? legacyPropertyDetails?.foundationAccess),
-    additionalUnits: propertyDetailsRecord?.additionalUnits ?? legacyPropertyDetails?.additionalUnits ?? null,
+    // Property details from propertyVersion.propertyDetails[0]
+    propertySize: propertyDetailsRecord?.squareFootage ?? null,
+    numberOfUnits: propertyDetailsRecord?.additionalUnits ?? null,
+    mlsNumber: extractString(propertyDetailsRecord?.mlsNumber),
+    squareFootage: propertyDetailsRecord?.squareFootage ?? null,
+    bedrooms: propertyDetailsRecord?.bedrooms ?? null,
+    bathrooms: propertyDetailsRecord?.bathrooms ?? null,
+    foundationAccess: extractFoundationAccess(propertyDetailsRecord?.foundationAccess),
+    additionalUnits: propertyDetailsRecord?.additionalUnits ?? null,
   }
   
   // Map contact data (from relationships or additionalContacts)

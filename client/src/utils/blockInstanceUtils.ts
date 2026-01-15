@@ -102,10 +102,10 @@ export function getStateControlBlockShapes(
     blockShape => {
       // Prefer type if available (new approach)
       if (blockShape.type === 'user') {
-        return blockShape.active
+        return true
       }
       // Fallback to constituable for backward compatibility
-      return blockShape.constituable === false && blockShape.active
+      return blockShape.constituable === false
     }
   )
   
@@ -193,7 +193,7 @@ export function getBlockShapeIdByType(
 ): string | null {
   const blockShapes = bookingData.blockShapes ?? []
   const blockShape = blockShapes.find(
-    bs => bs.type === type && bs.active
+    bs => bs.type === type
   )
   return blockShape?.id ?? null
 }
@@ -232,7 +232,7 @@ export function getStateControlBlockInstanceOptions(
   globalData: GlobalData
 ): Array<{ title: string; value: string | null }> {
   const blockShapes = (globalData.entities.blockShape || []) as GlobalEntity<'blockShape'>[]
-  const stateControlBlockShapes = blockShapes.filter(bs => bs.constituable === false && bs.active)
+  const stateControlBlockShapes = blockShapes.filter(bs => bs.constituable === false)
   const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
   
   const blockInstances = (globalData.entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]

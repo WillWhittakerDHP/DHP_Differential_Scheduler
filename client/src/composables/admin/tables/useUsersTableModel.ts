@@ -1,8 +1,8 @@
-import { computed } from 'vue'
 import { useUser } from '@/composables/useUser'
 import { useNotification } from '@/composables/useNotification'
 import type { UserRequest, UserResponse } from '@/types/user'
 import { useCrudDataTableModel, type CrudDataTableModel } from './useCrudDataTableModel'
+import { formatNullValue, createItemsSource } from './useTableModelHelpers'
 
 export interface UsersTableModel extends CrudDataTableModel<
   UserResponse,
@@ -16,17 +16,9 @@ export function useUsersTableModel(): UsersTableModel {
   const { success, error } = useNotification()
   const { fetchAll, create, update, remove } = useUser()
 
-  const formatNullValue = (value: unknown): string => {
-    if (value === null || value === undefined) return '—'
-    return String(value)
-  }
-
   const model = useCrudDataTableModel<UserResponse, UserRequest, Partial<UserRequest>>({
     entityLabel: 'User',
-    itemsSource: computed(() => {
-      const data = fetchAll.data.value
-      return Array.isArray(data) ? data : []
-    }),
+    itemsSource: createItemsSource(fetchAll.data),
     isLoadingSource: computed(() => fetchAll.isLoading.value),
     errorSource: computed(() => fetchAll.error.value),
     createItem: async (payload) => create.mutateAsync(payload),

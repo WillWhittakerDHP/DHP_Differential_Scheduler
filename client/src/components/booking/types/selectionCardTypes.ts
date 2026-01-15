@@ -8,7 +8,6 @@ PATTERN: Shared types for configuration-first architecture
 export interface ComponentItem {
   id: string
   name: string
-  description?: string
   icon?: string
   active: boolean
 }
@@ -21,7 +20,6 @@ export interface ComponentItem {
 export interface SelectionCardItem {
   id: string
   name: string
-  description?: string
   icon?: string
   composite?: boolean
   instanceComponents?: ComponentItem[]
@@ -141,7 +139,6 @@ export interface SelectionCardConfig {
    */
   appearance: {
     showIcon: boolean
-    showDescription: boolean
     showBorder: boolean
     cardPadding: string
     minHeight: string

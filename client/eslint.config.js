@@ -225,6 +225,61 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
+
+  // View-only component rules
+  // LEARNING: These rules enforce separation of concerns by preventing logic in presentation components
+  // WHY: Keeps components focused on rendering, moving business logic to composables
+  // PATTERN: Apply stricter rules to components that should be view-only (adjust file patterns as needed)
+  // RESOURCE: https://eslint.vuejs.org/rules/no-restricted-syntax.html
+  {
+    files: [
+      '**/*.view.vue',           // Files ending in .view.vue
+      '**/presentation/**/*.vue', // Components in presentation/ directories
+      // Add more patterns here as needed, e.g.:
+      // '**/components/ui/**/*.vue',  // UI-only components
+      // '**/components/display/**/*.vue',  // Display components
+    ],
+    rules: {
+      // Prevent method calls in template expressions
+      // WHY: View-only components should display data, not execute logic
+      'vue/no-restricted-syntax': [
+        'error',
+        {
+          selector: 'VElement > VExpressionContainer CallExpression',
+          message: 'View-only components should not call methods in templates. Move logic to composables.',
+        },
+        {
+          selector: 'VElement[directive] > VExpressionContainer CallExpression',
+          message: 'View-only components should not call methods in directive expressions. Move logic to composables.',
+        },
+        {
+          selector: 'VElement[directive] VExpressionContainer CallExpression',
+          message: 'View-only components should not call methods in directives. Move logic to composables.',
+        },
+      ],
+      
+      // Prevent this usage in templates
+      // WHY: Forces explicit property access, making dependencies clearer
+      'vue/this-in-template': 'error',
+      
+      // Flag unused methods/computed as errors
+      // WHY: Helps catch logic that shouldn't be in view-only components
+      'vue/no-unused-properties': [
+        'error',
+        {
+          groups: ['methods', 'computed'],
+        },
+      ],
+      
+      // Prevent async logic in computed properties
+      // WHY: Async logic should be in composables, not components
+      'vue/no-async-in-computed-properties': 'error',
+      
+      // Prevent computed properties referenced in data
+      // WHY: Reduces complexity and intermixing of logic
+      'vue/no-computed-properties-in-data': 'error',
+    },
+  },
   
   // Ignore patterns
   {

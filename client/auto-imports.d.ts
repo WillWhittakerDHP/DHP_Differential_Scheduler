@@ -6,10 +6,12 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const APPOINTMENT_FIELD_FORMATTERS: typeof import('./src/utils/appointmentFieldFormatters').APPOINTMENT_FIELD_FORMATTERS
   const AUTCOMPLETE_OFF: typeof import('./src/utils/autocomplete').AUTCOMPLETE_OFF
   const BUSINESS_DATA_QUERY_KEY: typeof import('./src/composables/useBusiness').BUSINESS_DATA_QUERY_KEY
   const EffectScope: typeof import('vue').EffectScope
   const RENDER_LOGGER_KEY: typeof import('./src/utils/renderLoggerKeys').RENDER_LOGGER_KEY
+  const WIZARD_FIELD_CONFIGS: typeof import('./src/utils/wizardStateFieldConfig').WIZARD_FIELD_CONFIGS
   const _clearCache: typeof import('./src/composables/useAdminConfig')._clearCache
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const alphaDashValidator: typeof import('./src/@core/utils/validators').alphaDashValidator
@@ -21,6 +23,7 @@ declare global {
   const betweenValidator: typeof import('./src/@core/utils/validators').betweenValidator
   const calculateClientPresenceDuration: typeof import('./src/utils/differentialScheduling').calculateClientPresenceDuration
   const calculateClientStartTime: typeof import('./src/utils/differentialScheduling').calculateClientStartTime
+  const calculateClientStartTimeFromInspector: typeof import('./src/utils/differentialScheduling').calculateClientStartTimeFromInspector
   const calculateDurationFromBlockInstances: typeof import('./src/utils/timeSlotCalculations').calculateDurationFromBlockInstances
   const calculateDurationFromPartInstances: typeof import('./src/utils/timeSlotCalculations').calculateDurationFromPartInstances
   const calculateInspectorStartTime: typeof import('./src/utils/differentialScheduling').calculateInspectorStartTime
@@ -69,6 +72,8 @@ declare global {
   const formatDateToMonthShort: typeof import('./src/@core/utils/formatters').formatDateToMonthShort
   const generateTimeSlots: typeof import('./src/utils/timeSlotCalculations').generateTimeSlots
   const getActivePinia: typeof import('pinia').getActivePinia
+  const getAdminInputMetadataEndpoint: typeof import('./src/utils/api').getAdminInputMetadataEndpoint
+  const getAdminRelationshipMetadataEndpoint: typeof import('./src/utils/api').getAdminRelationshipMetadataEndpoint
   const getAnnotationAssignmentsEndpoint: typeof import('./src/utils/api').getAnnotationAssignmentsEndpoint
   const getAnnotationByIdEndpoint: typeof import('./src/utils/api').getAnnotationByIdEndpoint
   const getAnnotationEndpoint: typeof import('./src/utils/api').getAnnotationEndpoint
@@ -77,6 +82,8 @@ declare global {
   const getAnnotationsForUserTypeBlock: typeof import('./src/utils/annotationUtils').getAnnotationsForUserTypeBlock
   const getAppointmentByIdEndpoint: typeof import('./src/utils/api').getAppointmentByIdEndpoint
   const getAppointmentEndpoint: typeof import('./src/utils/api').getAppointmentEndpoint
+  const getAppointmentFieldFormatter: typeof import('./src/utils/appointmentFieldFormatters').getAppointmentFieldFormatter
+  const getAppointmentVersionsEndpoint: typeof import('./src/utils/api').getAppointmentVersionsEndpoint
   const getAvailabilityEndpoint: typeof import('./src/utils/api').getAvailabilityEndpoint
   const getAvailableUserTypeBlocksForAnnotation: typeof import('./src/utils/annotationUtils').getAvailableUserTypeBlocksForAnnotation
   const getAvailableUserTypeBlocksForDescription: typeof import('./src/utils/descriptionValidation').getAvailableUserTypeBlocksForDescription
@@ -90,7 +97,9 @@ declare global {
   const getBlockInstancesByType: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByType
   const getBlockShapeIdByName: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByName
   const getBlockShapeIdByType: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByType
+  const getBulkPatchEndpoint: typeof import('./src/utils/api').getBulkPatchEndpoint
   const getCalendarAvailability: typeof import('./src/utils/timeSlotCalculations').getCalendarAvailability
+  const getComposedFormConfigEndpoint: typeof import('./src/utils/api').getComposedFormConfigEndpoint
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
@@ -110,6 +119,11 @@ declare global {
   const getRelationshipByIdEndpoint: typeof import('./src/utils/api').getRelationshipByIdEndpoint
   const getRelationshipByParentChildEndpoint: typeof import('./src/utils/api').getRelationshipByParentChildEndpoint
   const getRelationshipEndpoint: typeof import('./src/utils/api').getRelationshipEndpoint
+  const getShapeFieldMetadataByIdEndpoint: typeof import('./src/utils/api').getShapeFieldMetadataByIdEndpoint
+  const getShapeFieldMetadataEndpoint: typeof import('./src/utils/api').getShapeFieldMetadataEndpoint
+  const getShapeLayoutConfigByIdEndpoint: typeof import('./src/utils/api').getShapeLayoutConfigByIdEndpoint
+  const getShapeLayoutConfigByShapeEndpoint: typeof import('./src/utils/api').getShapeLayoutConfigByShapeEndpoint
+  const getShapeLayoutConfigEndpoint: typeof import('./src/utils/api').getShapeLayoutConfigEndpoint
   const getStateControlBlockInstanceOptions: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockInstanceOptions
   const getStateControlBlockInstances: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockInstances
   const getStateControlBlockShapes: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockShapes
@@ -199,6 +213,7 @@ declare global {
   const resolveRef: typeof import('@vueuse/core').resolveRef
   const resolveVuetifyTheme: typeof import('./src/@core/utils/vuetify').resolveVuetifyTheme
   const rgbaToHex: typeof import('./src/@core/utils/colorConverter').rgbaToHex
+  const roundUpToIncrement: typeof import('./src/utils/timeSlotCalculations').roundUpToIncrement
   const setActivePinia: typeof import('pinia').setActivePinia
   const setMapStoreSuffix: typeof import('pinia').setMapStoreSuffix
   const shallowReactive: typeof import('vue').shallowReactive
@@ -217,6 +232,8 @@ declare global {
   const toRef: typeof import('vue').toRef
   const toRefs: typeof import('vue').toRefs
   const toValue: typeof import('vue').toValue
+  const transformToClientPerspective: typeof import('./src/utils/differentialScheduling').transformToClientPerspective
+  const transformToInspectorPerspective: typeof import('./src/utils/differentialScheduling').transformToInspectorPerspective
   const triggerRef: typeof import('vue').triggerRef
   const tryOnBeforeMount: typeof import('@vueuse/core').tryOnBeforeMount
   const tryOnBeforeUnmount: typeof import('@vueuse/core').tryOnBeforeUnmount
@@ -403,6 +420,7 @@ declare global {
   const useTextDirection: typeof import('@vueuse/core').useTextDirection
   const useTextSelection: typeof import('@vueuse/core').useTextSelection
   const useTextareaAutosize: typeof import('@vueuse/core').useTextareaAutosize
+  const useThemeMode: typeof import('./src/composables/useThemeMode').useThemeMode
   const useThrottle: typeof import('@vueuse/core').useThrottle
   const useThrottleFn: typeof import('@vueuse/core').useThrottleFn
   const useThrottledRefHistory: typeof import('@vueuse/core').useThrottledRefHistory
@@ -474,9 +492,6 @@ declare global {
   export type { UseEntityFormOptions, UseEntityFormReturn } from './src/composables/useEntityForm'
   import('./src/composables/useEntityForm')
   // @ts-ignore
-  export type { FieldMetadata } from './src/composables/useFieldMetadata'
-  import('./src/composables/useFieldMetadata')
-  // @ts-ignore
   export type { ValidationRule, ValidationResult } from './src/composables/useFormValidation'
   import('./src/composables/useFormValidation')
   // @ts-ignore
@@ -495,8 +510,11 @@ declare global {
   export type { UseSelectionCardOptions, UseSelectionCardReturn, UseSelectionCardGroupOptions, UseSelectionCardGroupReturn } from './src/composables/useSelectionCard'
   import('./src/composables/useSelectionCard')
   // @ts-ignore
-  export type { UseTimeFormattingReturn, TimeSlot } from './src/composables/useTimeFormatting'
+  export type { UseTimeFormattingReturn, TimeRange, TimeSlot } from './src/composables/useTimeFormatting'
   import('./src/composables/useTimeFormatting')
+  // @ts-ignore
+  export type { FieldFormatter } from './src/utils/appointmentFieldFormatters'
+  import('./src/utils/appointmentFieldFormatters')
   // @ts-ignore
   export type { AutocompleteValue } from './src/utils/autocomplete'
   import('./src/utils/autocomplete')
@@ -504,8 +522,8 @@ declare global {
   export type { LogLevel, AppLogger, Logger } from './src/utils/logger'
   import('./src/utils/logger')
   // @ts-ignore
-  export type { RenderLogger } from './src/utils/renderLogger'
-  import('./src/utils/renderLogger')
+  export type { WizardInstance, WizardStateField, WizardFieldConfig } from './src/utils/wizardStateFieldConfig'
+  import('./src/utils/wizardStateFieldConfig')
 }
 
 // for vue template auto import
@@ -513,10 +531,11 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
+    readonly APPOINTMENT_FIELD_FORMATTERS: UnwrapRef<typeof import('./src/utils/appointmentFieldFormatters')['APPOINTMENT_FIELD_FORMATTERS']>
     readonly AUTCOMPLETE_OFF: UnwrapRef<typeof import('./src/utils/autocomplete')['AUTCOMPLETE_OFF']>
     readonly BUSINESS_DATA_QUERY_KEY: UnwrapRef<typeof import('./src/composables/useBusiness')['BUSINESS_DATA_QUERY_KEY']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly RENDER_LOGGER_KEY: UnwrapRef<typeof import('./src/utils/renderLoggerKeys')['RENDER_LOGGER_KEY']>
+    readonly WIZARD_FIELD_CONFIGS: UnwrapRef<typeof import('./src/utils/wizardStateFieldConfig')['WIZARD_FIELD_CONFIGS']>
     readonly _clearCache: UnwrapRef<typeof import('./src/composables/useAdminConfig')['_clearCache']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly alphaDashValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['alphaDashValidator']>
@@ -528,13 +547,13 @@ declare module 'vue' {
     readonly betweenValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['betweenValidator']>
     readonly calculateClientPresenceDuration: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateClientPresenceDuration']>
     readonly calculateClientStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateClientStartTime']>
+    readonly calculateClientStartTimeFromInspector: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateClientStartTimeFromInspector']>
     readonly calculateDurationFromBlockInstances: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['calculateDurationFromBlockInstances']>
     readonly calculateDurationFromPartInstances: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['calculateDurationFromPartInstances']>
     readonly calculateInspectorStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateInspectorStartTime']>
     readonly calculateOnSiteTotal: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateOnSiteTotal']>
     readonly calculatePropertyAdjustments: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculatePropertyAdjustments']>
     readonly cleanupInvalidActiveRelationships: UnwrapRef<typeof import('./src/utils/dependencyCleanup')['cleanupInvalidActiveRelationships']>
-    readonly clearMetadataCache: UnwrapRef<typeof import('./src/composables/useFieldMetadata')['clearMetadataCache']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
     readonly computedEager: UnwrapRef<typeof import('@vueuse/core')['computedEager']>
@@ -551,7 +570,6 @@ declare module 'vue' {
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly createReactiveFn: UnwrapRef<typeof import('@vueuse/core')['createReactiveFn']>
     readonly createRef: UnwrapRef<typeof import('@vueuse/core')['createRef']>
-    readonly createRenderLogger: UnwrapRef<typeof import('./src/utils/renderLogger')['createRenderLogger']>
     readonly createReusableTemplate: UnwrapRef<typeof import('@vueuse/core')['createReusableTemplate']>
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
@@ -574,6 +592,8 @@ declare module 'vue' {
     readonly formatDateToMonthShort: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDateToMonthShort']>
     readonly generateTimeSlots: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['generateTimeSlots']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
+    readonly getAdminInputMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminInputMetadataEndpoint']>
+    readonly getAdminRelationshipMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminRelationshipMetadataEndpoint']>
     readonly getAnnotationAssignmentsEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationAssignmentsEndpoint']>
     readonly getAnnotationByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationByIdEndpoint']>
     readonly getAnnotationEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationEndpoint']>
@@ -582,6 +602,8 @@ declare module 'vue' {
     readonly getAnnotationsForUserTypeBlock: UnwrapRef<typeof import('./src/utils/annotationUtils')['getAnnotationsForUserTypeBlock']>
     readonly getAppointmentByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentByIdEndpoint']>
     readonly getAppointmentEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentEndpoint']>
+    readonly getAppointmentFieldFormatter: UnwrapRef<typeof import('./src/utils/appointmentFieldFormatters')['getAppointmentFieldFormatter']>
+    readonly getAppointmentVersionsEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentVersionsEndpoint']>
     readonly getAvailabilityEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAvailabilityEndpoint']>
     readonly getAvailableUserTypeBlocksForAnnotation: UnwrapRef<typeof import('./src/utils/annotationUtils')['getAvailableUserTypeBlocksForAnnotation']>
     readonly getBlockInstanceAnnotationEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBlockInstanceAnnotationEndpoint']>
@@ -592,6 +614,7 @@ declare module 'vue' {
     readonly getBlockInstancesByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockInstancesByType']>
     readonly getBlockShapeIdByName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByName']>
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
+    readonly getBulkPatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBulkPatchEndpoint']>
     readonly getCalendarAvailability: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getCalendarAvailability']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
@@ -600,7 +623,6 @@ declare module 'vue' {
     readonly getEntityByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityByIdEndpoint']>
     readonly getEntityDisplayName: UnwrapRef<typeof import('./src/utils/entityDefaults')['getEntityDisplayName']>
     readonly getEntityEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityEndpoint']>
-    readonly getFieldMetadata: UnwrapRef<typeof import('./src/composables/useFieldMetadata')['getFieldMetadata']>
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getOrderIndexEndpoint']>
     readonly getPropertyByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyByIdEndpoint']>
@@ -695,6 +717,7 @@ declare module 'vue' {
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveVuetifyTheme: UnwrapRef<typeof import('./src/@core/utils/vuetify')['resolveVuetifyTheme']>
     readonly rgbaToHex: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['rgbaToHex']>
+    readonly roundUpToIncrement: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['roundUpToIncrement']>
     readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
     readonly setMapStoreSuffix: UnwrapRef<typeof import('pinia')['setMapStoreSuffix']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
@@ -713,6 +736,8 @@ declare module 'vue' {
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
+    readonly transformToClientPerspective: UnwrapRef<typeof import('./src/utils/differentialScheduling')['transformToClientPerspective']>
+    readonly transformToInspectorPerspective: UnwrapRef<typeof import('./src/utils/differentialScheduling')['transformToInspectorPerspective']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
     readonly tryOnBeforeUnmount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeUnmount']>
@@ -893,6 +918,7 @@ declare module 'vue' {
     readonly useTextDirection: UnwrapRef<typeof import('@vueuse/core')['useTextDirection']>
     readonly useTextSelection: UnwrapRef<typeof import('@vueuse/core')['useTextSelection']>
     readonly useTextareaAutosize: UnwrapRef<typeof import('@vueuse/core')['useTextareaAutosize']>
+    readonly useThemeMode: UnwrapRef<typeof import('./src/composables/useThemeMode')['useThemeMode']>
     readonly useThrottle: UnwrapRef<typeof import('@vueuse/core')['useThrottle']>
     readonly useThrottleFn: UnwrapRef<typeof import('@vueuse/core')['useThrottleFn']>
     readonly useThrottledRefHistory: UnwrapRef<typeof import('@vueuse/core')['useThrottledRefHistory']>

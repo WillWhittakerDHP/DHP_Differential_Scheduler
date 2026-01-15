@@ -12,7 +12,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import { AdminEntity } from '@/types/admin/AdminEntity'
-import { getAdminConfig } from '@/configs/adminConfig'
 import { findRelationshipsByParent, extractChildIds } from './relationshipTransformers'
 /**
  * AdminObject type - Enhanced GlobalEntity with relationships and validated properties
@@ -114,25 +113,15 @@ export class AdminTransformer {
     const emptyDisplayConfig = { primitives: {}, relationships: {}, layout: {} } as AdminEntity<GE>['displayConfig']
     const adminEntity = new AdminEntity(entityWithKey, emptyDisplayConfig)
     
-    // Get field names from formFieldConfig instead of displayConfig
-    const adminConfig = getAdminConfig()
-    const formFieldConfig = adminConfig?.formFieldConfig?.[entityKey] || {}
-    const fieldNames = Object.keys(formFieldConfig) as GlobalFieldKey<GE>[]
+    // LEARNING: Field validation removed - metadata-driven approach
+    // WHY: formFieldConfig has been deprecated, metadata is the single source of truth
+    // PATTERN: Trust entity data from server, no client-side field validation needed
+    // NOTE: Field metadata from /admin-input-metadata API controls what fields are visible/editable
     
-    // Validate fields using AdminEntity methods
-    // Ensure all fields from formFieldConfig exist
-    fieldNames.forEach(fieldKey => {
-      if (!adminEntity.hasField(fieldKey)) {
-        // Field doesn't exist - get valid value (with default fallback)
-        const validValue = adminEntity.getValidAdminValue(fieldKey)
-        adminEntity.setField(fieldKey, validValue)
-      }
-    })
-    
-    // LEARNING: Preserve all original entity properties, not just formFieldConfig properties
+    // LEARNING: Preserve all original entity properties
     // WHY: Tests expect all entity properties (name, orderIndex, baseTime, baseFee, etc.) to be preserved
-    // PATTERN: Start with original entity, merge validated properties from AdminEntity, then add relationships
-    const plainObjectFromConfig = adminEntity.toPlainObject(formFieldConfig)
+    // PATTERN: Use all entity properties, no field filtering
+    const plainObjectFromConfig = adminEntity.toPlainObject({})
     
     // LEARNING: Merge original entity properties with validated properties from AdminEntity
     // WHY: Ensures all original properties are preserved, while validated properties override defaults

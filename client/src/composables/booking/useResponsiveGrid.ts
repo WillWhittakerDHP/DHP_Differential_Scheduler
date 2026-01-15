@@ -98,11 +98,11 @@ export function useResponsiveGrid(
 ): UseResponsiveGridReturn {
   const {
     gridRef,
-    minColumns = 2,
+    minColumns = 1, // LEARNING: Default to 1 column minimum to allow single-column layout when space is tight
     maxColumns = 8,
     buttonMinWidth = 80,
     gap = 10,
-    padding = 32
+    padding = 20 // LEARNING: Match actual CSS padding (10px each side = 20px total)
   } = options
   
   /**
@@ -123,7 +123,7 @@ export function useResponsiveGrid(
    * LEARNING: Computed property for dynamic button grid columns
    * WHY: Calculates optimal column count based on available width
    * PATTERN: Computed that calculates columns from width, button size, gap, and padding
-   * NOTE: No longer returns 1 for small widths - single-column mode is handled separately via viewport check
+   * NOTE: Relies on ResizeObserver to measure actual container width from Vuetify grid
    */
   const buttonGridColumns = computed(() => {
     // Return minimum columns if container width is not yet measured
@@ -131,16 +131,43 @@ export function useResponsiveGrid(
       return minColumns
     }
     
-    const calculatedColumns = Math.floor((containerWidth.value - padding) / (buttonMinWidth + gap))
+    // LEARNING: Calculate available width for buttons
+    // WHY: containerWidth.value is already contentRect.width (excludes padding), so use it directly
+    // PATTERN: contentRect.width gives us the content area width where buttons are placed
+    const availableWidth = containerWidth.value
     
-    // Clamp to min/max range (no single-column fallback here)
-    return Math.max(
+    // LEARNING: Calculate how many columns fit
+    // WHY: Each column needs buttonMinWidth + gap space
+    // PATTERN: Floor division to get whole columns that fit
+    const calculatedColumns = Math.floor(availableWidth / (buttonMinWidth + gap))
+    
+    // LEARNING: Ensure at least minColumns, at most maxColumns
+    // WHY: Respect min/max constraints while using calculated value
+    const result = Math.max(
       minColumns,
       Math.min(
         maxColumns,
         calculatedColumns
       )
     )
+    
+    // LEARNING: Debug logging to understand column calculation
+    // WHY: Need to verify container width measurement and calculation formula
+    console.log('[useResponsiveGrid] Column calculation:', {
+      containerWidth: containerWidth.value,
+      availableWidth,
+      padding,
+      buttonMinWidth,
+      gap,
+      columnWidth: buttonMinWidth + gap,
+      calculatedColumns,
+      result,
+      minColumns,
+      maxColumns,
+      formula: `Math.floor(${availableWidth} / (${buttonMinWidth} + ${gap})) = ${calculatedColumns}`
+    })
+    
+    return result
   })
   
   /**
@@ -163,34 +190,71 @@ export function useResponsiveGrid(
    */
   onMounted(async () => {
     await nextTick()
-    if (gridRef.value) {
-      // LEARNING: Initial width measurement as fallback
-      // WHY: ResizeObserver might not fire immediately, so get initial width
-      // PATTERN: Use getBoundingClientRect() for initial measurement
-      const initialWidth = gridRef.value.getBoundingClientRect().width
-      if (initialWidth > 0) {
-        containerWidth.value = initialWidth
-      }
+    
+    // LEARNING: Wait for layout to complete before measuring
+    // WHY: Element might not be fully laid out immediately after mount
+    // PATTERN: Use requestAnimationFrame to ensure layout is complete
+    const measureWidth = () => {
+      if (!gridRef.value) return
       
-      resizeObserver = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          containerWidth.value = entry.contentRect.width
+      // LEARNING: Use getBoundingClientRect for initial measurement
+      // WHY: Need content width (excluding padding) to match contentRect behavior
+      // PATTERN: Get element width and subtract padding to get content area width
+      const rect = gridRef.value.getBoundingClientRect()
+      const computedStyle = window.getComputedStyle(gridRef.value)
+      const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0
+      const paddingRight = parseFloat(computedStyle.paddingRight) || 0
+      const measuredWidth = rect.width - paddingLeft - paddingRight // Content width excluding padding
+      
+      // Only update if we get a valid width (greater than 0)
+      if (measuredWidth > 0) {
+        containerWidth.value = measuredWidth
+      }
+    }
+    
+    // Measure after layout completes
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        measureWidth()
+        
+        if (gridRef.value) {
+          resizeObserver = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+              // LEARNING: Use borderBoxSize for total element width, then subtract padding
+              // WHY: borderBoxSize gives us the full element width including padding
+              // PATTERN: Get total width and subtract padding to get content area width
+              const borderBoxWidth = entry.borderBoxSize?.[0]?.inlineSize ?? entry.contentRect.width
+              const computedStyle = window.getComputedStyle(gridRef.value!)
+              const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0
+              const paddingRight = parseFloat(computedStyle.paddingRight) || 0
+              const newWidth = borderBoxWidth - paddingLeft - paddingRight
+              
+              console.log('[useResponsiveGrid] ResizeObserver update:', {
+                borderBoxWidth,
+                paddingLeft,
+                paddingRight,
+                contentWidth: newWidth,
+                contentRectWidth: entry.contentRect.width,
+                contentBoxSize: entry.contentBoxSize?.[0]?.inlineSize,
+                oldWidth: containerWidth.value
+              })
+              
+              // Only update if width is valid (greater than 0)
+              if (newWidth > 0) {
+                containerWidth.value = newWidth
+              }
+            }
+          })
+          resizeObserver.observe(gridRef.value)
+          
+          // LEARNING: Additional check after a delay to catch late layout changes
+          // WHY: Some layouts take multiple frames to settle
+          setTimeout(() => {
+            measureWidth()
+          }, 200)
         }
       })
-      resizeObserver.observe(gridRef.value)
-      
-      // LEARNING: Additional check after a short delay
-      // WHY: Parent container might not be fully laid out yet
-      // PATTERN: Use setTimeout to check width again after layout
-      setTimeout(() => {
-        if (gridRef.value) {
-          const delayedWidth = gridRef.value.getBoundingClientRect().width
-          if (delayedWidth > 0 && delayedWidth !== containerWidth.value) {
-            containerWidth.value = delayedWidth
-          }
-        }
-      }, 100)
-    }
+    })
   })
   
   /**

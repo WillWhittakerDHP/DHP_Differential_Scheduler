@@ -3,6 +3,8 @@ import { PartShapeFactory } from "./admin/part_shape.js";
 import { PartInstanceFactory } from "./booking/part_instance.js";
 import { BlockShapeFactory } from "./admin/block_shape.js";
 import { BlockInstanceFactory } from "./booking/block_instance.js";
+import { BlockInstanceVersionFactory } from "./booking/block_instance_version.js";
+import { PartInstanceVersionFactory } from "./booking/part_instance_version.js";
 import { ValidCascadeFactory } from "./admin/valid_cascade.js";
 import { ValidConstituentFactory } from "./admin/valid_constituent.js";
 import { DependentInstanceOptionFactory } from "./booking/dependent_instance_option.js";
@@ -20,6 +22,8 @@ import { PropertyVersionTypeFactory } from "./booking/property_version_type.js";
 import { UserFactory } from "./participantModels/Users.js";
 import { AppointmentFactory } from "./booking/appointment.js";
 import { BusinessSettingsFactory } from "./admin/business_settings.js";
+import { AdminInputMetadataFactory } from "./admin/adminInputMetadata.js";
+import { AdminRelationshipMetadataFactory } from "./admin/adminRelationshipMetadata.js";
 
 export function initializeModels(sequelize: Sequelize) {
   // 1️⃣ Define Part Models First
@@ -29,6 +33,10 @@ export function initializeModels(sequelize: Sequelize) {
   // 2️⃣ Define Block Models Next
   const BlockShape = BlockShapeFactory(sequelize);
   const BlockInstance = BlockInstanceFactory(sequelize);
+  
+  // 2️⃣.5 Define Version Models
+  const BlockInstanceVersion = BlockInstanceVersionFactory(sequelize);
+  const PartInstanceVersion = PartInstanceVersionFactory(sequelize);
   
   // 3️⃣ Define Valid Relationships (Admin Side)
   // Cascade: Vertical hierarchy (different shapes, e.g., user_shape → service)
@@ -73,6 +81,10 @@ export function initializeModels(sequelize: Sequelize) {
   // 7️⃣ Define Admin Configuration Models
   // BusinessSettings: Admin-configurable business logic settings (availability settings, etc.)
   const BusinessSettings = BusinessSettingsFactory(sequelize);
+  // AdminInputMetadata: Unified admin input metadata for all entity types
+  const AdminInputMetadata = AdminInputMetadataFactory(sequelize);
+  // AdminRelationshipMetadata: Relationship field metadata for all entity types
+  const AdminRelationshipMetadata = AdminRelationshipMetadataFactory(sequelize);
 
   // 🔗 Shape → Instance Relationships
   PartShape.hasMany(PartInstance, { foreignKey: 'part_shape_ref', as: 'part_instances' });
@@ -199,13 +211,26 @@ export function initializeModels(sequelize: Sequelize) {
   // Note: selected_service_ids and selected_dwelling_adjustment_ids are now JSONB arrays
   // Relationships for these are handled via JSONB array lookups, not FK relationships
 
+  // 🔄 Version Relationships (BlockInstanceVersion → PartInstanceVersion)
+  BlockInstanceVersion.hasMany(PartInstanceVersion, { 
+    foreignKey: 'block_instance_version_id', 
+    as: 'partInstanceVersions' 
+  });
+  PartInstanceVersion.belongsTo(BlockInstanceVersion, { 
+    foreignKey: 'block_instance_version_id', 
+    as: 'blockInstanceVersion' 
+  });
+
   return { 
     PartInstance, PartShape, 
     BlockInstance, BlockShape, 
+    BlockInstanceVersion, PartInstanceVersion,
     ValidCascade, ValidConstituent, DependentInstanceOption,
     BookingCascade, ActiveConstituent, InstanceComponent,
     AnnotationShape, AnnotationInstance, ActiveAnnotation,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
     BusinessSettings,
+    AdminInputMetadata,
+    AdminRelationshipMetadata
   };
 }

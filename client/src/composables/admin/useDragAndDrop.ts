@@ -105,16 +105,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
   const isMounted = ref(false)
 
   /**
-   * LEARNING: Store drag instance for cleanup
-   * WHY: Need to clean up drag instance on unmount
-   * PATTERN: Store instance reference
-   * NOTE: Currently unused but kept for future cleanup implementation
-   */
-   
-  // @ts-expect-error - Unused variable kept for future cleanup implementation
-  let _dragInstance: ReturnType<typeof dragAndDrop> | null = null
-
-  /**
    * LEARNING: Store watcher stop function for cleanup
    * WHY: Vue's watch() returns a stop function that must be called to prevent memory leaks
    * PATTERN: Store stop function in ref to call it in onBeforeUnmount
@@ -148,10 +138,9 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
           // Create a ref for the actual DOM element
           const panelsRef = ref(panelsEl)
           
-          // Clean up previous instance if it exists (recreate on change)
-          _dragInstance = null
-          
-          _dragInstance = dragAndDrop({
+          // Set up drag-and-drop instance
+          // NOTE: @formkit/drag-and-drop handles cleanup automatically when DOM elements are removed
+          dragAndDrop({
             parent: panelsRef,
             values: entityIds,
             group,
@@ -191,9 +180,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
     
     // Stop watchers immediately (they might trigger during transition if not stopped first)
     watcherStop.value?.()
-    
-    // Clear drag instance to prevent DOM manipulation during unmount
-    _dragInstance = null
   })
 
   /**

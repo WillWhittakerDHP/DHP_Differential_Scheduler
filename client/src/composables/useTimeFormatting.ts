@@ -5,7 +5,7 @@
  * This composable remains as a stable import point for existing call sites.
  */
 
-import type { TimeSlot } from '@/utils/time/timeFormatting'
+import type { TimeRange, TimeSlot } from '@/types/appointment'
 import {
   areSlotsEqual,
   formatDuration,
@@ -14,14 +14,19 @@ import {
   getTodayDate,
 } from '@/utils/time/timeFormatting'
 
-export type { TimeSlot }
+export type { TimeRange, TimeSlot }
 
 export interface UseTimeFormattingReturn {
-  formatTimeRange: (slot: TimeSlot) => string
-  areSlotsEqual: (slot1: TimeSlot | null, slot2: TimeSlot | null) => boolean
+  formatTimeRange: (range: TimeRange | TimeSlot) => string
+  areSlotsEqual: (
+    slot1: TimeRange | TimeSlot | null, 
+    slot2: TimeRange | TimeSlot | null
+  ) => boolean
   formatDuration: (minutes: number) => string
   getTodayDate: () => string
-  getFirstAvailabilityDate: (timeSlots: TimeSlot[] | { value: TimeSlot[] }) => string
+  getFirstAvailabilityDate: (
+    timeSlots: (TimeRange | TimeSlot)[] | { value: (TimeRange | TimeSlot)[] }
+  ) => string
 }
 
 export function useTimeFormatting(): UseTimeFormattingReturn {

@@ -6,8 +6,8 @@
  * PATTERN: Composable that provides computed properties for step data and transformations
  */
 
-import { computed, type Ref, type ComputedRef } from 'vue'
-import type { TimeSlot } from '@/types/appointment'
+import { computed, type Ref } from 'vue'
+import type { AppointmentSlot } from '@/types/appointment'
 import {
   buildAvailabilityStepData,
   buildSelectedTimeSlots,
@@ -22,10 +22,7 @@ export type { SelectedTimeSlot, AvailabilityStepData }
  */
 export interface UseAvailabilityStepDataParams {
   selectedDate: Ref<{ start: string | null; end: string | null }>
-  inspectorTimeSlot: Ref<TimeSlot | null>
-  clientTimeSlot: Ref<TimeSlot | null>
-  onSiteTotal: ComputedRef<number>
-  presentationDuration: ComputedRef<number>
+  selectedSlot: Ref<AppointmentSlot | null>
 }
 
 /**
@@ -46,24 +43,18 @@ export interface UseAvailabilityStepDataReturn {
 export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): UseAvailabilityStepDataReturn {
   const {
     selectedDate,
-    inspectorTimeSlot,
-    clientTimeSlot,
-    onSiteTotal,
-    presentationDuration
+    selectedSlot
   } = params
 
   /**
    * LEARNING: Transform selected time slots to API format
-   * WHY: Converts TimeSlot objects to ISO timestamps with duration for API
-   * PATTERN: Computed that transforms TimeSlot objects to API format
+   * WHY: Converts AppointmentSlot totals to ISO timestamps with duration for API
+   * PATTERN: Computed that transforms AppointmentSlot to API format
    */
   const selectedTimeSlots = computed<SelectedTimeSlot[] | null>(() => {
     return buildSelectedTimeSlots({
       selectedDateStart: selectedDate.value.start,
-      inspectorTimeSlot: inspectorTimeSlot.value,
-      clientTimeSlot: clientTimeSlot.value,
-      onSiteTotal: onSiteTotal.value,
-      presentationDuration: presentationDuration.value,
+      selectedSlot: selectedSlot.value,
     })
   })
 
