@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { ValidCascade, ValidConstituent, DependentInstanceOption, BookingCascade, ActiveConstituent, InstanceComponent, BlockInstance, BlockShape } from '../../../config/app.js';
+import { ValidCascade, ValidPart, DependentInstanceOption, BookingCascade, ActivePart, InstanceComponent, BlockInstance, BlockShape } from '../../../config/app.js';
 import { Model, ModelStatic } from 'sequelize';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
 
@@ -7,7 +7,7 @@ const router = Router();
 
 /**
  * Relationship kind configuration
- * LEARNING: RelationshipKind represents the type of relationship (validCascades, validConstituents, etc.)
+ * LEARNING: RelationshipKind represents the type of relationship (validCascades, validParts, etc.)
  * WHY: Clear naming - "kind" distinguishes relationship types from entity structure types
  * PATTERN: Type alias for relationship discriminator values
  * 
@@ -21,7 +21,7 @@ const router = Router();
  * - activeComponents → serviceComponents → instanceComponents (Instance Components) (2026-01-07)
  * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions (Dependent Instance Options) (2026-01-09)
  */
-type RelationshipKind = 'validCascades' | 'validConstituents' | 'dependentInstanceOptions' | 'bookingCascades' | 'activeConstituents' | 'instanceComponents';
+type RelationshipKind = 'validCascades' | 'validParts' | 'dependentInstanceOptions' | 'bookingCascades' | 'activeParts' | 'instanceComponents';
 
 interface RelationshipConfig {
   model: ModelStatic<Model>;
@@ -31,13 +31,13 @@ interface RelationshipConfig {
 }
 
 // Verify models are available
-if (!ValidCascade || !ValidConstituent || !DependentInstanceOption || !BookingCascade || !ActiveConstituent || !InstanceComponent) {
+if (!ValidCascade || !ValidPart || !DependentInstanceOption || !BookingCascade || !ActivePart || !InstanceComponent) {
   console.error('[RelationshipRouter] Missing models:', {
     ValidCascade: !!ValidCascade,
-    ValidConstituent: !!ValidConstituent,
+    ValidPart: !!ValidPart,
     DependentInstanceOption: !!DependentInstanceOption,
     BookingCascade: !!BookingCascade,
-    ActiveConstituent: !!ActiveConstituent,
+    ActivePart: !!ActivePart,
     InstanceComponent: !!InstanceComponent
   });
 }
@@ -49,9 +49,9 @@ const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
     parentEntity: 'blockShape',
     childEntity: 'blockShape'
   },
-  validConstituents: {
-    model: ValidConstituent,
-    displayName: 'Valid Constituent',
+  validParts: {
+    model: ValidPart,
+    displayName: 'Valid Part',
     parentEntity: 'blockShape',
     childEntity: 'partShape'
   },
@@ -67,9 +67,9 @@ const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
     parentEntity: 'blockInstance',
     childEntity: 'blockInstance'
   },
-  activeConstituents: {
-    model: ActiveConstituent,
-    displayName: 'Active Constituent',
+  activeParts: {
+    model: ActivePart,
+    displayName: 'Active Part',
     parentEntity: 'blockInstance',
     childEntity: 'partInstance'
   },

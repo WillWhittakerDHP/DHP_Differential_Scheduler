@@ -55,7 +55,11 @@ export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
  * Session 1.4.8: Added metadata to globalData cache
  * WHY: Metadata is configuration data that should be available as early and reliably as entities
  * PATTERN: Fetch metadata alongside entities in GlobalTransformer, transform in adminTransformer
- * Structure: metadata.inputMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+ * Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+ * 
+ * Session 1.4.9: Renamed inputMetadata to primitiveMetadata to align with entity data pattern
+ * WHY: Matches displayConfig.primitives pattern, prevents key collisions with relationship metadata
+ * PATTERN: Keep primitive and relationship metadata separate until final merge point
  */
 export type GlobalData = {
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
@@ -66,10 +70,11 @@ export type GlobalData = {
   // Session 1.4.7: AnnotationTypes added to globalData cache (configuration data)
   annotationTypes?: AnnotationType[]
   // Session 1.4.8: Metadata added to globalData cache (configuration data)
-  // Structure: metadata.inputMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
-  // Structure: metadata.relationshipMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+  // Session 1.4.9: Renamed inputMetadata to primitiveMetadata to align with entity data pattern
+  // Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+  // Structure: metadata.relationshipMetadata[entityType][entityId] = Record<relationshipKey, FieldMetadataEntry>
   metadata?: {
-    inputMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
+    primitiveMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
     relationshipMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
   }
 }
@@ -141,7 +146,7 @@ export class GlobalTransformer {
       isDefault: boolean
       annotation?: Annotation
     }>
-    fetchedInputMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
+    fetchedPrimitiveMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
     fetchedRelationshipMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
   }> {
     try {
@@ -177,7 +182,7 @@ export class GlobalTransformer {
       // LEARNING: Fetch all relationships in parallel using same processor pattern
       // WHY: Consistent parallel fetching pattern across all data types
       // PATTERN: map() → Promise.all() for parallel execution
-      // NOTE: All 6 relationship types (validCascades, validConstituents, dependentInstanceOptions, bookingCascades, activeConstituents, instanceComponents) fetched in parallel
+      // NOTE: All 6 relationship types (validCascades, validParts, dependentInstanceOptions, bookingCascades, activeParts, instanceComponents) fetched in parallel
       const relationshipPromises = (Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]).map(async (relationshipKey) => {
         const endpoint = getRelationshipEndpoint(relationshipKey)
         const response = await apiClient.get<Record<string, unknown>[]>(endpoint)
@@ -243,15 +248,15 @@ export class GlobalTransformer {
         partInstance: PART_INSTANCE_GLOBAL_CONFIG_ID
       }
       
-      // Fetch input metadata and relationship metadata in parallel
-      const inputMetadataPromises = metadataEntityTypes.map(async (entityType) => {
+      // Fetch primitive metadata and relationship metadata in parallel
+      const primitiveMetadataPromises = metadataEntityTypes.map(async (entityType) => {
         const entityId = metadataConfigIds[entityType]
-        const endpoint = getAdminInputMetadataEndpoint(entityType, entityId)
+        const endpoint = getAdminPrimitiveMetadataEndpoint(entityType, entityId)
         try {
           const response = await apiClient.get<Record<string, FieldMetadataEntry>>(endpoint)
           return { entityType, entityId, metadata: response.data || {} }
         } catch (error) {
-          console.warn(`[GlobalTransformer] Failed to fetch input metadata for ${entityType}/${entityId}:`, error)
+          console.warn(`[GlobalTransformer] Failed to fetch primitive metadata for ${entityType}/${entityId}:`, error)
           return { entityType, entityId, metadata: {} }
         }
       })
@@ -268,21 +273,21 @@ export class GlobalTransformer {
         }
       })
       
-      const [inputMetadataResults, relationshipMetadataResults] = await Promise.all([
-        Promise.all(inputMetadataPromises),
+      const [primitiveMetadataResults, relationshipMetadataResults] = await Promise.all([
+        Promise.all(primitiveMetadataPromises),
         Promise.all(relationshipMetadataPromises)
       ])
       
-      // Structure: fetchedInputMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
-      const fetchedInputMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>> = {}
-      inputMetadataResults.forEach(({ entityType, entityId, metadata }) => {
-        if (!fetchedInputMetadata[entityType]) {
-          fetchedInputMetadata[entityType] = {}
+      // Structure: fetchedPrimitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+      const fetchedPrimitiveMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>> = {}
+      primitiveMetadataResults.forEach(({ entityType, entityId, metadata }) => {
+        if (!fetchedPrimitiveMetadata[entityType]) {
+          fetchedPrimitiveMetadata[entityType] = {}
         }
-        fetchedInputMetadata[entityType][entityId] = metadata
+        fetchedPrimitiveMetadata[entityType][entityId] = metadata
       })
       
-      // Structure: fetchedRelationshipMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+      // Structure: fetchedRelationshipMetadata[entityType][entityId] = Record<relationshipKey, FieldMetadataEntry>
       const fetchedRelationshipMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>> = {}
       relationshipMetadataResults.forEach(({ entityType, entityId, metadata }) => {
         if (!fetchedRelationshipMetadata[entityType]) {
@@ -297,7 +302,7 @@ export class GlobalTransformer {
         fetchedAnnotations,
         fetchedAnnotationTypes,
         fetchedAnnotationAssignments,
-        fetchedInputMetadata,
+        fetchedPrimitiveMetadata,
         fetchedRelationshipMetadata
       }
     } catch (_error) {
@@ -312,7 +317,7 @@ export class GlobalTransformer {
         fetchedAnnotations: [],
         fetchedAnnotationTypes: [],
         fetchedAnnotationAssignments: [],
-        fetchedInputMetadata: {},
+        fetchedPrimitiveMetadata: {},
         fetchedRelationshipMetadata: {}
       }
     }
@@ -342,7 +347,7 @@ export class GlobalTransformer {
       isDefault: boolean
       annotation?: Annotation
     }>
-    fetchedInputMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
+    fetchedPrimitiveMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
     fetchedRelationshipMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
   }): GlobalData {
     // Session 1.4.6: Extract annotations from staged data
@@ -350,7 +355,8 @@ export class GlobalTransformer {
     // Session 1.4.7: Extract annotation types from staged data
     const fetchedAnnotationTypes = staged.fetchedAnnotationTypes || []
     // Session 1.4.8: Extract metadata from staged data
-    const fetchedInputMetadata = staged.fetchedInputMetadata || {}
+    // Session 1.4.9: Renamed inputMetadata to primitiveMetadata
+    const fetchedPrimitiveMetadata = staged.fetchedPrimitiveMetadata || {}
     const fetchedRelationshipMetadata = staged.fetchedRelationshipMetadata || {}
     
     // Attach instanceComponents arrays to entities (for backward compatibility)
@@ -448,9 +454,11 @@ export class GlobalTransformer {
       // Session 1.4.7: Include annotation types in globalData (configuration data)
       annotationTypes: fetchedAnnotationTypes,
       // Session 1.4.8: Include metadata in globalData (configuration data)
-      // Structure: metadata.inputMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+      // Session 1.4.9: Renamed inputMetadata to primitiveMetadata to align with entity data pattern
+      // Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+      // Structure: metadata.relationshipMetadata[entityType][entityId] = Record<relationshipKey, FieldMetadataEntry>
       metadata: {
-        inputMetadata: fetchedInputMetadata,
+        primitiveMetadata: fetchedPrimitiveMetadata,
         relationshipMetadata: fetchedRelationshipMetadata
       }
     }

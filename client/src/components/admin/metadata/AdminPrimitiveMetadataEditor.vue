@@ -1,10 +1,11 @@
 <!--
-  LEARNING: Admin Input Metadata Editor
-  WHY: Single unified editor for rendering configuration in admin_input_metadata
+  LEARNING: Admin Primitive Metadata Editor
+  WHY: Single unified editor for rendering configuration in admin_primitive_metadata
+        Renamed from AdminInputMetadataEditor to align with entity data pattern
   PATTERN: Rendering-only editor - only shows rendering configuration fields
 -->
 <template>
-  <div class="admin-input-metadata-editor">
+  <div class="admin-primitive-metadata-editor">
     <div class="mb-4">
       <h3 class="text-h6 mb-2">Field Rendering Configuration</h3>
       <p class="text-body-2 text-medium-emphasis">
@@ -167,6 +168,28 @@
                   :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
                   @update:model-value="(value) => updateFieldRendering(fieldKey, { statusButtonColor: value })"
                 />
+                
+                <!-- Input Config (for select/multiselect/reference/partsCollection) -->
+                <VTextarea
+                  v-if="['select', 'multiselect', 'reference', 'partsCollection'].includes(getEffectiveFieldMetadata(fieldKey)?.renderAs ?? '')"
+                  :model-value="getEffectiveFieldMetadata(fieldKey)?.inputConfig ? JSON.stringify(getEffectiveFieldMetadata(fieldKey)!.inputConfig, null, 2) : ''"
+                  label="Input Config (JSON)"
+                  density="compact"
+                  variant="outlined"
+                  placeholder='{"targetMode": "relationship", "targetKey": "...", "candidateChildKey": "..."}'
+                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
+                  :hint="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'partsCollection' ? 'Required: candidateChildKey, targetKey (optionsFieldKey is hardcoded to validParts)' : 'Required for select/multiselect/reference fields'"
+                  persistent-hint
+                  rows="4"
+                  @update:model-value="(value) => {
+                    try {
+                      const parsed = value ? JSON.parse(value) : null
+                      updateFieldRendering(fieldKey, { inputConfig: parsed })
+                    } catch (e) {
+                      // Invalid JSON - don't update
+                    }
+                  }"
+                />
 
                 <!-- Bulk Edit -->
                 <VCheckbox
@@ -188,7 +211,9 @@
 <script setup lang="ts">
 import { computed, ref, reactive } from 'vue'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
-import { useAdminInputMetadataMutations } from '@/composables/admin/useAdminInputMetadataMutations'
+import { useAdminPrimitiveMetadataMutations } from '@/composables/admin/useAdminPrimitiveMetadataMutations'
+import { useAdminRelationshipMetadataMutations } from '@/composables/admin/useAdminRelationshipMetadataMutations'
+import { useRelationshipMetadata } from '@/composables/admin/useRelationshipMetadata'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -202,6 +227,7 @@ import {
   BLOCK_INSTANCE_GLOBAL_CONFIG_ID
 } from '@/utils/entities/entityTypeMapping'
 import { useAdminConfig } from '@/composables/useAdminConfig'
+import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 
 interface Props {
   entityKey: GlobalEntityKey
@@ -272,7 +298,7 @@ const { fieldMetadata, isLoading, error, refetch: refetchMetadata } = useEntityM
 )
 
 // Mutations composable for saving/deleting
-const { saveFieldRendering, deleteFieldOverride, isSaving } = useAdminInputMetadataMutations()
+const { saveFieldRendering, deleteFieldOverride, isSaving } = useAdminPrimitiveMetadataMutations()
 
 // Track pending changes (for instance override mode)
 const pendingOverrides = ref<Set<string>>(new Set())
@@ -389,7 +415,7 @@ function updateFieldRendering(fieldKey: string, updates: Partial<import('@/types
 // Save all changes
 async function handleSave() {
   if (!entityType.value || !entityId.value) {
-    console.error('[AdminInputMetadataEditor] Cannot save: invalid entityType or entityId')
+    console.error('[AdminPrimitiveMetadataEditor] Cannot save: invalid entityType or entityId')
     return
   }
 
@@ -412,12 +438,11 @@ async function handleSave() {
     pendingOverrides.value.clear()
     pendingDeletes.value.clear()
 
-    // Refetch metadata to get the latest saved values
-    await refetchMetadata()
-
+    // Emit saved event
     emit('saved')
-  } catch (err) {
-    console.error('[AdminInputMetadataEditor] Error saving configuration:', err)
+  } catch (error) {
+    console.error('[AdminPrimitiveMetadataEditor] Error saving metadata:', error)
+    throw error
   }
 }
 
@@ -451,6 +476,7 @@ const renderAsOptions = [
   { title: 'Reference', value: 'reference' },
   { title: 'Status Button', value: 'statusButton' },
   { title: 'Icon Select', value: 'iconSelect' },
+  { title: 'Parts Collection', value: 'partsCollection' },
 ] as const
 
 const colorOptions = [
@@ -467,6 +493,6 @@ const colorOptions = [
 // Expose save functionality to parent component
 defineExpose({
   save: handleSave,
-  isSaving
+  isSaving,
 })
 </script>

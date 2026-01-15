@@ -30,7 +30,7 @@ export class AdminRelationshipMetadata extends Model<
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
   declare section: CreationOptional<string | null>;
-  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect';
+  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
@@ -68,7 +68,7 @@ export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'relationship_key',
-        comment: 'Relationship name/key (e.g., activeConstituents, validCascades)',
+        comment: 'Relationship name/key (e.g., activeParts, validCascades)',
       },
       // Canonical properties
       dataType: {

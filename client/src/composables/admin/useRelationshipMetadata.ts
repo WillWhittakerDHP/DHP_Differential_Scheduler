@@ -3,7 +3,7 @@
  * WHY: Single composable for relationship field metadata, handles inheritance automatically
  * PATTERN: Parallel to useEntityMetadata but for relationship fields
  * 
- * This composable fetches relationship metadata (activeConstituents, validCascades, etc.)
+ * This composable fetches relationship metadata (activeParts, validCascades, etc.)
  * and merges it into the field metadata flow so relationship fields can be rendered.
  */
 

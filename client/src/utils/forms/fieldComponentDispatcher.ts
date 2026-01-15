@@ -6,16 +6,14 @@
  * PATTERN: Pure function that determines component type from metadata
  * 
  * This utility handles:
- * - Component type determination (icon, primitive, nested, annotations, select)
- * - RenderAs-based type checking (iconSelect, text, number, statusButton, select, multiselect, reference)
- * - InputConfig-based type checking (nested mode for select fields)
+ * - Component type determination (icon, primitive, partsCollection, annotations, select)
+ * - RenderAs-based type checking (iconSelect, text, number, statusButton, select, multiselect, reference, partsCollection)
  * - Special case handling (annotations field)
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
-import { RelationshipSelectModeEnum } from '@/types/entity/formDataEnums'
 
 /**
  * Field component types with reasons
@@ -25,7 +23,7 @@ import { RelationshipSelectModeEnum } from '@/types/entity/formDataEnums'
 export type FieldComponent =
   | { type: 'icon'; reason: 'iconSelect' } // Renders IconInput component
   | { type: 'primitive'; reason: 'text' | 'number' | 'statusButton' } // Renders PrimitiveInputs component
-  | { type: 'nested'; reason: 'nestedCollection' } // Renders PartsCollection component
+  | { type: 'partsCollection'; reason: 'partsCollection' } // Renders PartsCollection component
   | { type: 'annotations'; reason: 'annotationsField' } // Renders AnnotationsField component
   | { type: 'select'; reason: 'select' | 'multiselect' | 'reference' } // Renders SelectInputs component
   | { type: 'unknown'; reason: 'notConfigured' | 'invalidRenderAs' } // Unknown/invalid field
@@ -42,10 +40,9 @@ export type FieldComponent =
  * 2. Check for annotations field → annotations component
  * 3. Check renderAs for iconSelect → icon component
  * 4. Check renderAs for text/number/statusButton → primitive component
- * 5. Check renderAs for select/multiselect/reference:
- *    - Check inputConfig.selectMode for nested → nested component
- *    - Otherwise → select component
- * 6. Unknown renderAs → unknown component
+ * 5. Check renderAs for partsCollection → partsCollection component
+ * 6. Check renderAs for select/multiselect/reference → select component
+ * 7. Unknown renderAs → unknown component
  */
 export function getFieldComponent<GE extends GlobalEntityKey>(
   fieldKey: GlobalFieldKey<GE>,
@@ -81,19 +78,19 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
   if (primitiveRenderAs.includes(renderAs)) {
     return { type: 'primitive', reason: renderAs }
   }
+  // LEARNING: Check for partsCollection renderAs (declarative partsCollection)
+  // WHY: PartsCollection is now explicitly declared via renderAs, not inferred from selectMode
+  // PATTERN: Check renderAs for 'partsCollection' directly
+  if (renderAs === 'partsCollection') {
+    return { type: 'partsCollection', reason: 'partsCollection' }
+  }
 
   // LEARNING: Check for select-like fields (select, multiselect, reference)
-  // WHY: These fields may render as SelectInputs or PartsCollection depending on selectMode
-  // PATTERN: Check renderAs first, then check inputConfig for nested mode
+  // WHY: These fields render as SelectInputs component
+  // PATTERN: Check renderAs for select/multiselect/reference
   const selectRenderAs: Array<FieldMetadataEntry['renderAs']> = ['select', 'multiselect', 'reference']
   if (selectRenderAs.includes(renderAs)) {
-    // LEARNING: Check for nested collection mode
-    // WHY: Nested fields use PartsCollection component instead of SelectInputs
-    // PATTERN: Check inputConfig.selectMode for 'nested'
-    const selectMode = (inputConfig as { selectMode?: string } | null | undefined)?.selectMode
-    if (selectMode === 'nested' || selectMode === RelationshipSelectModeEnum.Nested) {
-      return { type: 'nested', reason: 'nestedCollection' }
-    }
+    // Use SelectInputs component
     // Otherwise, use SelectInputs component
     return { type: 'select', reason: renderAs }
   }

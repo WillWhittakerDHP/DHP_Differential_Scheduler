@@ -44,7 +44,19 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
   const { warning: showWarning } = useNotification()
   const appInstance = getCurrentInstance()?.appContext.app
 
-  const formInstance = providedForm ? (providedForm.value || useForm()) : useForm()
+  // LEARNING: Wait for provided form to be ready instead of creating fallback empty form
+  // WHY: Creating fallback form causes fields to register with empty form instance, losing initial values
+  // PATTERN: Use computed to reactively access provided form, create new form only if none provided
+  // NOTE: useForm() must be called during setup, so we create it once if no form provided
+  const fallbackForm = providedForm ? undefined : useForm()
+  const formInstance = computed<FormContext | undefined>(() => {
+    if (providedForm) {
+      // Wait for provided form to be ready - return undefined if not ready yet
+      return providedForm.value || undefined
+    }
+    // Use fallback form if no form was provided
+    return fallbackForm
+  })
 
   const fieldContextCache = ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>(new Map()) as unknown as Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
 
@@ -64,25 +76,18 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
   })
 
   const isFormReady = computed(() => {
-    if (!formInstance) {
-      console.warn(`[useFormFieldsContext] Form instance is null:`, { entityKey, entityId: currentEntityId.value })
+    const currentFormInstance = formInstance.value
+    if (!currentFormInstance) {
+      // Form not ready yet - wait for providedForm.value to be set
       return false
     }
-    if (providedForm?.value) {
-      const hasValues = formInstance.values !== undefined && formInstance.values !== null && typeof formInstance.values === 'object'
-      if (!hasValues) {
-        console.warn(`[useFormFieldsContext] Form not ready - values not initialized:`, {
-          entityKey,
-          entityId: currentEntityId.value,
-          hasFormInstance: !!formInstance,
-          hasProvidedForm: !!providedForm?.value,
-          formValuesType: typeof formInstance.values,
-          formValues: formInstance.values
-        })
-      }
-      return hasValues
-    }
-    return true
+    // LEARNING: Form is ready if it has a values object
+    // WHY: Form.values will be populated by resetForm in EntityCard, we just need the form instance
+    // PATTERN: Check if form has values object - it will be populated by resetForm
+    const hasValuesObject = currentFormInstance.values !== undefined && 
+                           currentFormInstance.values !== null && 
+                           typeof currentFormInstance.values === 'object'
+    return hasValuesObject
   })
 
   // LEARNING: Computed to check if metadata is ready (both input and relationship metadata loaded)
@@ -288,12 +293,17 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
           throw new Error(`[useFormFieldsContext] Lost component instance while creating context for ${fieldKey}`)
         }
 
+        const currentFormInstance = formInstance.value
+        if (!currentFormInstance) {
+          throw new Error(`[useFormFieldsContext] Form instance not ready for field ${fieldKey}`)
+        }
+
         const fieldContext = useFieldContext(
           fieldKey as GlobalFieldKey<typeof entityKey>,
           entityKey,
           entityIdValue,
           {
-            form: formInstance,
+            form: currentFormInstance,
             displayConfig: getFieldDisplayConfig(fieldKey),
             logger: undefined,
           }
@@ -321,12 +331,13 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
 
   const createContextsForFields = (): void => {
     if (!isFormReady.value) {
+      const currentFormInstance = formInstance.value
       console.warn(`[useFormFieldsContext] Cannot create contexts - form not ready:`, {
         entityKey,
         entityId: currentEntityId.value,
-        hasFormInstance: !!formInstance,
+        hasFormInstance: !!currentFormInstance,
         providedFormValue: !!providedForm?.value,
-        formValues: formInstance?.values
+        formValues: currentFormInstance?.values
       })
       return
     }
@@ -373,9 +384,13 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     return context as unknown as FieldContextType<GE, FieldKey>
   }
 
+  // LEARNING: Return form instance - use provided form when ready, otherwise fallback
+  // WHY: Return type expects FormContext, so we need to ensure one is always available
+  // PATTERN: Return the form instance (provided when ready, or fallback if none provided)
+  // NOTE: Field contexts wait for isFormReady before registering, so this is safe
   return {
     adminConfig,
-    formInstance,
+    formInstance: (formInstance.value || fallbackForm)!,
     currentEntityId,
     isFormReady,
     fieldContextCache,

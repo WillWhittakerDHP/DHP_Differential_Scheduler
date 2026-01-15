@@ -113,7 +113,7 @@ export class BookingTransformer {
     const partInstances = (entities.partInstance || []) as GlobalEntity<'partInstance'>[]
     const blockShapes = (entities.blockShape || []) as GlobalEntity<'blockShape'>[]
     const partShapes = (entities.partShape || []) as GlobalEntity<'partShape'>[]
-    const activeConstituentsRelationships = relationships.activeConstituents || []
+    const activePartsRelationships = relationships.activeParts || []
     const bookingCascadesRelationships = relationships.bookingCascades || []
     const instanceComponentsRelationships = relationships.instanceComponents || []
     
@@ -158,7 +158,7 @@ export class BookingTransformer {
       })
       .map(blockInstance => this.transformBlockInstance(
         blockInstance,
-        activeConstituentsRelationships,
+        activePartsRelationships,
         bookingCascadesRelationships,
         instanceComponentsRelationships,
         partInstanceById,
@@ -202,19 +202,19 @@ export class BookingTransformer {
    */
   private transformBlockInstance(
     blockInstance: GlobalEntity<'blockInstance'>,
-    activeConstituentsRelationships: GlobalRelationship[],
+    activePartsRelationships: GlobalRelationship[],
     bookingCascadesRelationships: GlobalRelationship[],
     instanceComponentsRelationships: GlobalRelationship[],
     partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
     blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
     partShapeById: Map<string, GlobalEntity<'partShape'>>
   ): BookingBlockInstance {
-    // Get blockInstance's own activeConstituents
-    const activeConstituentsRels = findRelationshipsByParent(
+    // Get blockInstance's own activeParts
+    const activePartsRels = findRelationshipsByParent(
       blockInstance.id,
-      activeConstituentsRelationships
+      activePartsRelationships
     )
-    const activeConstituentsRel = activeConstituentsRels[0] // Get first relationship (should be only one)
+    const activePartsRel = activePartsRels[0] // Get first relationship (should be only one)
     
     // LEARNING: Use Set to deduplicate part instance IDs
     // WHY: Prevents double-counting when composite has own parts AND component parts
@@ -225,8 +225,8 @@ export class BookingTransformer {
     // LEARNING: Use filter + forEach on Set instead of forEach with Set.add mutations
     // WHY: Functional approach - filter active parts, then add to Set
     // PATTERN: Filter children to active parts, then add IDs to Set
-    if (activeConstituentsRel) {
-      const activePartIds = activeConstituentsRel.children
+    if (activePartsRel) {
+      const activePartIds = activePartsRel.children
         .filter(child => {
           const partInstance = partInstanceById.get(child.id)
           return this.isEntityActive(partInstance as unknown as Record<string, unknown>)
@@ -243,7 +243,7 @@ export class BookingTransformer {
     }
     
     // LEARNING: For composite instances, also merge parts from components
-    // WHY: Composites can have parts from both their own activeConstituents and from components
+    // WHY: Composites can have parts from both their own activeParts and from components
     // PATTERN: Check composite property, get component IDs, then compose their parts
     const blockInstanceTyped = blockInstance as BlockInstanceEntity
     const composite = blockInstanceTyped.composite === true
@@ -263,7 +263,7 @@ export class BookingTransformer {
         // PATTERN: Merge component parts into the Set
         const componentPartIds = composePartInstances(
           componentIds,
-          activeConstituentsRelationships
+          activePartsRelationships
         )
         
         // Add component parts to the Set (Set automatically deduplicates)

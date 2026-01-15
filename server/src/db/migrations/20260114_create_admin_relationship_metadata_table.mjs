@@ -91,7 +91,7 @@ export default {
       relationship_key: {
         type: Sequelize.STRING,
         allowNull: false,
-        comment: 'Relationship name/key (e.g., activeConstituents, validCascades)',
+        comment: 'Relationship name/key (e.g., activeParts, validCascades)',
       },
       data_type: {
         type: Sequelize.ENUM('string', 'number', 'boolean', 'array', 'reference'),

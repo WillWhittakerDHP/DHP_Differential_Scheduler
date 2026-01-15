@@ -24,7 +24,7 @@
 
         <!-- LEARNING: EntityCard with only bulkEdit fields visible -->
         <!-- WHY: Uses EntityCard for consistency, but filters metadata to show only bulkEdit fields -->
-        <!-- PATTERN: Filter metadata to only include fields where bulkEdit: true in PartShape metadata -->
+        <!-- PATTERN: Filter metadata to only include fields where bulkEdit: true -->
         <!-- NOTE: Hide EntityCard's action buttons with CSS, use modal's Apply button instead -->
         <div class="bulk-edit-entity-card">
           <!--
@@ -109,20 +109,13 @@ const { globalData } = useGlobal()
 const { entities: partInstances } = useEntityCrud('partInstance')
 
 /**
- * LEARNING: Get PartInstance metadata
- * WHY: Need PartInstance metadata to filter based on PartShape bulkEdit flags
- * PATTERN: Use metadata keys exclusively
+ * LEARNING: Get first PartInstance for this BlockInstance to extract partShapeRef
+ * WHY: Need partShapeRef to create templateEntity for metadata fetching
+ * PATTERN: Get first PartInstance, extract partShapeRef from it
  */
-const { fieldMetadata: partInstanceMetadata } = useEntityMetadata('partInstance', computed(() => null))
-
-/**
- * LEARNING: Get PartShape from first PartInstance for this BlockInstance
- * WHY: Bulk edit uses PartShape.fieldMetadata to determine bulk edit enabled fields
- * PATTERN: Get first PartInstance, then get its PartShape
- */
-const partShapeForBulkEdit = computed(() => {
-  // Get PartInstances for this BlockInstance via relationships.activeConstituents
-  const relationships = globalData.value?.relationships?.activeConstituents ?? []
+const firstPartInstanceForMetadata = computed(() => {
+  // Get PartInstances for this BlockInstance via relationships.activeParts
+  const relationships = globalData.value?.relationships?.activeParts ?? []
   const constituentIds = new Set(
     relationships
       .filter(rel => String(rel.parent.id) === String(props.blockInstanceId))
@@ -133,78 +126,104 @@ const partShapeForBulkEdit = computed(() => {
   
   if (instances.length === 0) return null
   
-  // Get PartShape from first PartInstance
-  const firstInstance = instances[0]
-  if (!firstInstance.partShapeRef) return null
-  
-  return (globalData.value?.entities?.partShape?.find(
-    ps => String(ps.id) === String(firstInstance.partShapeRef)
-  ) as import('@/types/entities').PartShapeEntity | undefined) || null
+  return instances[0]
 })
 
-// LEARNING: Fetch field metadata for bulk edit using unified system
-// WHY: Need to check which fields have bulkEdit: true
-// PATTERN: Use useEntityMetadata with PartShape entity
-const { fieldMetadata: bulkEditFieldMetadata } = useEntityMetadata(
-  'partShape',
-  partShapeForBulkEdit
-)
+/**
+ * LEARNING: Get partShapeRef from first PartInstance
+ * WHY: Need partShapeRef to create templateEntity for metadata fetching (PartInstance metadata inherits from PartShape)
+ * PATTERN: Extract partShapeRef from first PartInstance, fallback to empty string if none exists
+ */
+const partShapeRef = computed(() => {
+  const firstInstance = firstPartInstanceForMetadata.value
+  return firstInstance?.partShapeRef || ''
+})
 
 /**
- * LEARNING: Filter PartInstance metadata to only include fields with bulkEdit: true
- * WHY: Bulk edit modals should only show fields enabled for bulk edit in PartShape metadata
- * PATTERN: Filter metadata before passing to EntityCard
+ * LEARNING: Template entity for bulk edit form
+ * WHY: EntityCard needs an entity object, but we don't want to save it
+ * PATTERN: Use a placeholder UUID that will fail gracefully when field blur tries to save
+ * NOTE: Field blur will try to save, but since this ID doesn't exist, it will fail safely
+ * NOTE: Defined early so it can be used by useEntityMetadata below
+ * FIX: Create templateEntity FIRST with partShapeRef (like InstanceBulkEditModal does with blockShapeRef)
+ */
+const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
+  try {
+    const editData = props.bulkEditData || {}
+    // Guard against missing partShapeRef
+    if (!partShapeRef.value) {
+      // Return a minimal entity that will be replaced when partShapeRef is available
+      return {
+        id: '00000000-0000-0000-0000-000000000000',
+        entityKey: 'partInstance',
+        name: '',
+        partShapeRef: '',
+        orderIndex: 0,
+        baseTime: editData.baseTime,
+        rateOverBaseTime: editData.rateOverBaseTime,
+        baseFee: editData.baseFee,
+        rateOverBaseFee: editData.rateOverBaseFee
+      } as unknown as GlobalEntity<'partInstance'>
+    }
+    
+    // FIX: Type conversion needed because object literal doesn't match all required properties
+    const entity = {
+      id: '00000000-0000-0000-0000-000000000000', // Placeholder UUID that doesn't exist
+      entityKey: 'partInstance',
+      name: '',
+      partShapeRef: partShapeRef.value,
+      orderIndex: 0,
+      baseTime: editData.baseTime,
+      rateOverBaseTime: editData.rateOverBaseTime,
+      baseFee: editData.baseFee,
+      rateOverBaseFee: editData.rateOverBaseFee
+    } as unknown as GlobalEntity<'partInstance'>
+    
+    return entity
+  } catch (error) {
+    console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
+    // Return a safe fallback
+    return {
+      id: '00000000-0000-0000-0000-000000000000',
+      entityKey: 'partInstance',
+      name: '',
+      partShapeRef: partShapeRef.value || '',
+      orderIndex: 0,
+      baseTime: undefined,
+      rateOverBaseTime: undefined,
+      baseFee: undefined,
+      rateOverBaseFee: undefined
+    } as unknown as GlobalEntity<'partInstance'>
+  }
+})
+
+/**
+ * LEARNING: Get metadata and filter to only include bulkEdit fields
+ * WHY: Metadata is the single source of truth - filter at metadata level
+ * PATTERN: Only include fields where bulkEdit: true in metadata
  */
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
+const { fieldMetadata: partInstanceMetadata } = useEntityMetadata('partInstance', templateEntity)
+
+/**
+ * LEARNING: Filter metadata to only include fields with bulkEdit: true
+ * WHY: Bulk edit modals should only show fields enabled for bulk edit
+ * PATTERN: Filter metadata before passing to EntityCard
+ */
 const filteredMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
-  const partInstanceMeta = partInstanceMetadata.value
-  const partShapeMeta = bulkEditFieldMetadata.value
-  
-  if (!partInstanceMeta || Object.keys(partInstanceMeta).length === 0) {
-    return {}
-  }
-  
-  if (!partShapeMeta || Object.keys(partShapeMeta).length === 0) {
+  const metadata = partInstanceMetadata.value
+  if (!metadata || Object.keys(metadata).length === 0) {
     return {}
   }
   
   const filtered: Record<string, FieldMetadataEntry> = {}
-  Object.entries(partInstanceMeta).forEach(([fieldKey, fieldMeta]) => {
-    // Only include if PartShape metadata has bulkEdit: true for this field
-    const partShapeFieldMeta = partShapeMeta[fieldKey]
-    if (partShapeFieldMeta?.bulkEdit === true) {
+  Object.entries(metadata).forEach(([fieldKey, fieldMeta]) => {
+    if (fieldMeta.bulkEdit === true) {
       filtered[fieldKey] = fieldMeta
     }
   })
   
   return filtered
-})
-
-/**
- * LEARNING: Create template entity with ONLY id and bulk edit enabled fields
- * WHY: If form only has fields we want, we don't need sanitization workarounds
- * PATTERN: Minimal entity - only id and bulk-editable fields, nothing else
- * FIX: Remove entityKey, name, partShapeRef, orderIndex - these aren't bulk-editable and shouldn't be in form/payload
- */
-const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
-  const editData = props.bulkEditData || {}
-  const template: Partial<GlobalEntity<'partInstance'>> = {
-    id: '00000000-0000-0000-0000-000000000000', // Placeholder UUID
-    // LEARNING: Only include id - don't include entityKey, name, partShapeRef, orderIndex
-    // WHY: These fields aren't bulk-editable and shouldn't be in the form/payload
-  }
-  
-  // Only include fields that are in filtered metadata (have bulkEdit: true)
-  Object.keys(filteredMetadata.value).forEach(field => {
-    const value = editData[field as keyof PartInstanceBulkEditData]
-    if (value !== undefined) {
-      (template as Record<string, unknown>)[field] = value ?? null
-    } else {
-      (template as Record<string, unknown>)[field] = null
-    }
-  })
-  
-  return template as GlobalEntity<'partInstance'>
 })
 
 function updateModelValue(value: boolean) {
@@ -236,9 +255,7 @@ function handleApply() {
   
   // Extract only fields that have bulkEdit: true and have values
   const bulkEditData: PartInstanceBulkEditData = {}
-  const partShapeMeta = bulkEditFieldMetadata.value
   Object.keys(filteredMetadata.value).forEach(field => {
-    // FIX: formValues is a generic form values object, need type assertion for field access
     const value = (formValues as Record<string, unknown>)[field]
     // Only include if value is not null, undefined, or empty string
     if (value !== null && value !== undefined && value !== '') {

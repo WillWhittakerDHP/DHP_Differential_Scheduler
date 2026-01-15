@@ -79,13 +79,13 @@ interface Props {
   modelValue?: boolean
   blockShapeId: string
   blockShapeName: string
-  bulkEditData?: { baseSqFt?: number }
+  bulkEditData?: Record<string, number | null | undefined>
   instanceCount: number
 }
 
 interface Emits {
   (e: 'update:modelValue', value: boolean): void
-  (e: 'confirm', bulkEditData: { baseSqFt?: number }): void
+  (e: 'confirm', bulkEditData: Record<string, number | null | undefined>): void
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -211,7 +211,7 @@ function handleEntityCardSaved() {
 /**
  * LEARNING: Handle Apply button click
  * WHY: Extract form values from EntityCard and emit as bulk edit data
- * PATTERN: Access EntityCard's exposed form instance to get current values
+ * PATTERN: Dynamically extract fields from filteredMetadata (declarative, no hardcoded field names)
  */
 function handleApply() {
   if (!entityCardRef.value?.form) {
@@ -219,17 +219,22 @@ function handleApply() {
   }
   
   const formValues = entityCardRef.value.form.values
-  const bulkEditData: { baseSqFt?: number } = {}
   
-  // LEARNING: Type assertion for form values
-  // WHY: form.values is typed as Record<string, unknown>, but we know it contains blockInstance fields including baseSqFt
-  // PATTERN: Assert type to access baseSqFt property safely
-  const blockInstanceFormValues = formValues as Record<string, unknown> & { baseSqFt?: number | string | null }
-  
-  // Extract baseSqFt if it has a value
-  if (blockInstanceFormValues.baseSqFt !== null && blockInstanceFormValues.baseSqFt !== undefined && blockInstanceFormValues.baseSqFt !== '') {
-    bulkEditData.baseSqFt = Number(blockInstanceFormValues.baseSqFt)
-  }
+  // LEARNING: Extract only fields that have bulkEdit: true and have values
+  // WHY: Use filteredMetadata as source of truth for which fields to extract
+  // PATTERN: Iterate over filteredMetadata keys, extract values from form
+  const bulkEditData: Record<string, number | null | undefined> = {}
+  Object.keys(filteredMetadata.value).forEach(field => {
+    const value = (formValues as Record<string, unknown>)[field]
+    // Only include if value is not null, undefined, or empty string
+    if (value !== null && value !== undefined && value !== '') {
+      // Convert to number for numeric fields
+      const numericValue = Number(value)
+      if (!isNaN(numericValue)) {
+        bulkEditData[field] = numericValue
+      }
+    }
+  })
   
   emit('confirm', bulkEditData)
   updateModelValue(false)

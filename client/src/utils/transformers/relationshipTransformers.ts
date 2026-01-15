@@ -43,7 +43,7 @@ export function transformApiRelationships(
   // LEARNING: Filter relationships by kind FIRST to avoid processing wrong relationship types
   // WHY: fetchedRelationships contains ALL relationship types mixed together from the API
   //      Without filtering, we'd try to resolve child_ids from wrong relationship types
-  //      (e.g., validConstituents child_ids would be looked up in blockShape instead of partShape)
+  //      (e.g., validParts child_ids would be looked up in blockShape instead of partShape)
   // PATTERN: Filter by kind before processing to ensure we only process the correct relationship type
   const filteredRelationships = fetchedRelationships.filter(
     rel => rel.kind === relationshipKey
@@ -374,12 +374,12 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
  * 
  * LEARNING: When composing block instances, compose all part instances from all composed blocks
  * WHY: Composer should show all part instances from all component blocks
- * PATTERN: Merge activeConstituents relationships from all composed blocks
+ * PATTERN: Merge activeParts relationships from all composed blocks
  * 
  * ARCHITECTURAL CHANGE: Now works with GlobalRelationship[] instead of ActiveComponent[]
  * 
  * @param composedBlockIds - Array of composed block instance IDs
- * @param relationships - GlobalRelationship[] for activeConstituents
+ * @param relationships - GlobalRelationship[] for activeParts
  * @returns Array of part instance IDs
  */
 export function composePartInstances(
@@ -388,9 +388,9 @@ export function composePartInstances(
 ): string[] {
   const allPartInstanceIds = new Set<string>()
   
-  // Filter to activeConstituents relationships
+  // Filter to activeParts relationships
   const constituentRelationships = relationships.filter(
-    rel => rel.relationshipKind === 'activeConstituents'
+    rel => rel.relationshipKind === 'activeParts'
   )
   
   for (const blockId of composedBlockIds) {
@@ -399,7 +399,7 @@ export function composePartInstances(
       rel => rel.parent.id === blockId
     )
     
-    // Collect all part instance IDs from this block's activeConstituents
+    // Collect all part instance IDs from this block's activeParts
     blockRelationships.forEach(rel => {
       rel.children.forEach(partInstance => {
         allPartInstanceIds.add(partInstance.id)

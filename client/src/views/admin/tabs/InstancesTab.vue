@@ -121,9 +121,10 @@ const {
  * LEARNING: Handle bulk edit modal confirm event
  * WHY: Simple wrapper that updates bulk edit data and applies changes
  * PATTERN: Simple event handler - acceptable to keep in component as it's just a wrapper
+ * NOTE: Accepts generic Record type to match modal's declarative field extraction
  */
-const handleBulkEditConfirm = (blockShapeId: string, data: { baseSqFt?: number }): void => {
-  bulkEditData.value.set(blockShapeId, data)
+const handleBulkEditConfirm = (blockShapeId: string, data: Record<string, number | null | undefined>): void => {
+  bulkEditData.value.set(blockShapeId, data as { baseSqFt?: number })
   applyBulkEdit(blockShapeId)
 }
 

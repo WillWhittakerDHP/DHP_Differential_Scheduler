@@ -7,7 +7,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
-import { ValidConstituent } from './valid_constituent';
+import { ValidPart } from './valid_part';
 import { ValidCascade } from './valid_cascade';
 
 export class BlockShape extends Model<
@@ -24,9 +24,9 @@ export class BlockShape extends Model<
   declare updatedAt: CreationOptional<Date>;
 
   // ✅ Add valid children types
-  declare valid_constituents?: ValidConstituent[];
+  declare valid_parts?: ValidPart[];
   declare valid_cascades?: ValidCascade[];
-  declare default_constituents?: ValidConstituent[];
+  declare default_parts?: ValidPart[];
 }
 
 export function BlockShapeFactory(sequelize: Sequelize) {

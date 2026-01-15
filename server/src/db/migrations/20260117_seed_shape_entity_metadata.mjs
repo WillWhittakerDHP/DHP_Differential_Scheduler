@@ -105,28 +105,10 @@ export default {
         defaultValue: null,
         displayOrder: 3,
       },
-      {
-        fieldKey: 'validCascades',
-        dataType: 'reference',
-        controlType: 'reference',
-        label: 'Valid Cascades',
-        helpText: null,
-        isRequired: false,
-        validationRules: null,
-        defaultValue: null,
-        displayOrder: 4,
-      },
-      {
-        fieldKey: 'validConstituents',
-        dataType: 'reference',
-        controlType: 'reference',
-        label: 'Valid Constituents',
-        helpText: null,
-        isRequired: false,
-        validationRules: null,
-        defaultValue: null,
-        displayOrder: 5,
-      },
+      // LEARNING: validCascades and validParts are relationship fields, not primitive fields
+      // WHY: They are defined in RELATIONSHIP_KEYS and should only exist in admin_relationship_metadata
+      // PATTERN: Relationship fields should NEVER be seeded in primitive metadata migrations
+      // NOTE: These fields are seeded via 20260114_seed_admin_relationship_metadata_block_shape.mjs
     ];
 
     // PartShape fields (entity_type='partShape')
@@ -241,10 +223,10 @@ export default {
         let panel = 'none';
         if (field.fieldKey === 'name') {
           visibility = 'titleRow';
-        } else if (field.fieldKey === 'validCascades' || field.fieldKey === 'validConstituents') {
-          visibility = 'expandedPanel';
-          panel = field.fieldKey === 'validCascades' ? 'relationships' : 'relationships';
         }
+        // LEARNING: validCascades and validParts are relationship fields - they should not be in this migration
+        // WHY: Relationship fields are handled in admin_relationship_metadata, not primitive metadata
+        // PATTERN: Only primitive fields should have layout configs created here
 
         await queryInterface.bulkInsert('entity_layout_config', [{
           id: uuidv4(),

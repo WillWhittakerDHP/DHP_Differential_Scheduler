@@ -111,8 +111,8 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       return;
     }
 
-    // Validate inputConfig - required for select/multiselect/reference fields
-    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference') {
+    // Validate inputConfig - required for select/multiselect/reference/partsCollection fields
+    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'partsCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
         res.status(400).json({
           error: 'Missing inputConfig',

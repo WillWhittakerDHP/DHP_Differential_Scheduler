@@ -34,9 +34,11 @@ export function useFieldValue<GE extends GlobalEntityKey, FieldKey extends Globa
   // PATTERN: Directly access fieldContext.value.value to establish reactivity dependency
   // NOTE: According to vee-validate docs and FieldContextType, fieldContext.value is always Ref<ValidAdminValue>
   return computed(() => {
-    // LEARNING: fieldContext.value is always a Ref<ValidAdminValue> from vee-validate
-    // WHY: useField returns a Ref, so fieldContext.value is always a Ref
-    // PATTERN: Always access .value to get the actual value and establish reactivity tracking
+    // LEARNING: Handle Vue's Ref unwrapping when fieldContext is passed as prop
+    // WHY: Vue may unwrap Refs when passed as props, so fieldContext.value might be:
+    //      1. A Ref object with .value property (normal case from vee-validate)
+    //      2. The actual value directly (Vue unwrapped it when passed as prop)
+    // PATTERN: Check if fieldContext.value is a Ref or already the value
     const valueRef = fieldContext.value
     
     // If valueRef is undefined or null, return empty string
@@ -44,12 +46,20 @@ export function useFieldValue<GE extends GlobalEntityKey, FieldKey extends Globa
       return '' as ValidAdminValue
     }
     
-    // LEARNING: fieldContext.value is always a Ref from vee-validate
-    // WHY: Type system guarantees it, and vee-validate always returns Refs
-    // PATTERN: Always access .value to get the actual value and track reactivity
-    // NOTE: This ensures Vue's reactivity system tracks changes to the field value
-    const actualValue = valueRef.value
-    
+    // Check if valueRef is a Ref (has .value property) or already unwrapped
+    let actualValue: ValidAdminValue
+    const isRefLike = typeof valueRef === 'object' && valueRef !== null && 'value' in valueRef
+    if (isRefLike) {
+      // It's a Ref, access .value to get the actual value (preserves reactivity)
+      actualValue = (valueRef as { value: ValidAdminValue }).value
+    } else {
+      // Vue unwrapped it, use directly (but we've lost reactivity - this shouldn't happen)
+      // FIX: This case indicates the Ref was unwrapped, which breaks reactivity
+      const formValues = fieldContext.formInstance?.values as Record<string, unknown> | undefined
+      const formValue = formValues ? formValues[String(fieldContext.fieldKey)] : undefined
+      actualValue = (formValue ?? valueRef) as ValidAdminValue
+    }
+
     // Return empty string if value is undefined/null
     return (actualValue ?? '') as ValidAdminValue
   }) as Ref<ValidAdminValue>

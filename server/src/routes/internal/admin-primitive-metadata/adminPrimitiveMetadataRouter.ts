@@ -1,20 +1,21 @@
 /**
- * LEARNING: Admin Input Metadata Router
- * WHY: Unified API for admin input metadata (replaces shapeLayoutConfigRouter)
+ * LEARNING: Admin Primitive Metadata Router
+ * WHY: Unified API for admin primitive metadata (renamed from AdminInputMetadataRouter)
+ *      Aligns with entity data pattern: primitives + relationships
  * PATTERN: Single router handles all entity types without special casing
  * NOTE: Supports inheritance - instance entities inherit from shapes
  */
 
 import { Router, Request, Response } from 'express';
-import { AdminInputMetadata } from '../../../db/models/admin/adminInputMetadata.js';
+import { AdminPrimitiveMetadata } from '../../../db/models/admin/adminPrimitiveMetadata.js';
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js';
-import { getAdminInputMetadata } from '../../../utils/adminInputMetadataComposer.js';
+import { getAdminPrimitiveMetadata } from '../../../utils/adminPrimitiveMetadataComposer.js';
 
 const router = Router();
 
 /**
- * GET /admin-input-metadata/:entityType/:entityId
- * Get metadata for an entity (with inheritance for instances)
+ * GET /admin-primitive-metadata/:entityType/:entityId
+ * Get primitive metadata for an entity (with inheritance for instances)
  * Returns merged metadata: instance overrides + inherited shape metadata
  */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
@@ -31,7 +32,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
     }
 
     // Use composer to get metadata (handles inheritance)
-    const metadata = await getAdminInputMetadata(
+    const metadata = await getAdminPrimitiveMetadata(
       entityType as 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
       entityId
     );
@@ -58,7 +59,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
     }
 
     // TEMP: Debug logging to trace returned metadata keys
-    console.log('[AdminInputMetadataRouter] Returning metadata', {
+    console.log('[AdminPrimitiveMetadataRouter] Returning metadata', {
       entityType,
       entityId,
       returnedKeys: Object.keys(metadataRecord),
@@ -66,17 +67,17 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 
     res.json(metadataRecord);
   } catch (error) {
-    console.error('[AdminInputMetadataRouter] Error fetching metadata:', error);
+    console.error('[AdminPrimitiveMetadataRouter] Error fetching metadata:', error);
     res.status(500).json({
-      error: 'Failed to fetch metadata',
+      error: 'Failed to fetch primitive metadata',
       details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 });
 
 /**
- * POST /admin-input-metadata/:entityType/:entityId
- * Create or update metadata for an entity
+ * POST /admin-primitive-metadata/:entityType/:entityId
+ * Create or update primitive metadata for an entity
  * Body: { fieldKey, dataType, label, isRequired, visibility, layout, displayOrder, section?, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
  */
 router.post('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
@@ -127,8 +128,8 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       return;
     }
 
-    // Validate inputConfig - required for select/multiselect/reference fields
-    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference') {
+    // Validate inputConfig - required for select/multiselect/reference/partsCollection fields
+    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'partsCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
         res.status(400).json({
           error: 'Missing inputConfig',
@@ -139,7 +140,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     }
 
     // Check if entry already exists
-    const existing = await AdminInputMetadata.findOne({
+    const existing = await AdminPrimitiveMetadata.findOne({
       where: {
         entityType: entityType as any,
         entityId: entityId,
@@ -169,7 +170,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       res.json(existing);
     } else {
       // Create new entry
-      const metadata = await AdminInputMetadata.create({
+      const metadata = await AdminPrimitiveMetadata.create({
         entityType: entityType as any,
         entityId: entityId,
         fieldKey,
@@ -192,17 +193,17 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       res.status(201).json(metadata);
     }
   } catch (error) {
-    console.error('[AdminInputMetadataRouter] Error creating/updating metadata:', error);
+    console.error('[AdminPrimitiveMetadataRouter] Error creating/updating metadata:', error);
     res.status(500).json({
-      error: 'Failed to create/update metadata',
+      error: 'Failed to create/update primitive metadata',
       details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 });
 
 /**
- * DELETE /admin-input-metadata/:entityType/:entityId/:fieldKey
- * Delete metadata for a specific field
+ * DELETE /admin-primitive-metadata/:entityType/:entityId/:fieldKey
+ * Delete primitive metadata for a specific field
  */
 router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Response): Promise<void> => {
   try {
@@ -217,7 +218,7 @@ router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Resp
       return;
     }
 
-    const metadata = await AdminInputMetadata.findOne({
+    const metadata = await AdminPrimitiveMetadata.findOne({
       where: {
         entityType: entityType as any,
         entityId: entityId,
@@ -227,7 +228,7 @@ router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Resp
 
     if (!metadata) {
       res.status(404).json({
-        error: 'Metadata not found',
+        error: 'Primitive metadata not found',
         entityType,
         entityId,
         fieldKey,
@@ -239,9 +240,9 @@ router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Resp
 
     res.status(204).send();
   } catch (error) {
-    console.error('[AdminInputMetadataRouter] Error deleting metadata:', error);
+    console.error('[AdminPrimitiveMetadataRouter] Error deleting metadata:', error);
     res.status(500).json({
-      error: 'Failed to delete metadata',
+      error: 'Failed to delete primitive metadata',
       details: error instanceof Error ? error.message : 'Unknown error',
     });
   }

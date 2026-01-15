@@ -6,7 +6,7 @@
  * 
  * Panel Title Format: "Parts: PartName1, PartName2 +X more" or "Parts" if empty
  */
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, nextTick } from 'vue'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import PartsCollection from './collections/PartsCollection.vue'
 import type { GlobalEntity } from '@/types/entities'
@@ -16,6 +16,7 @@ import type { FormContext } from 'vee-validate'
 import { useEntityCrud } from '@/composables/useEntity'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 
 interface SubPanelFields {
   parts: Array<GlobalFieldKey<GlobalEntityKey>>
@@ -115,37 +116,34 @@ function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInsta
  * PATTERN: Extract IDs from form values, resolve to names, format as truncated list
  */
 const partsSummary = computed((): string => {
-  // For blockInstance, parts come from activeConstituents (part instances that are components)
+  // For blockInstance, parts come from activeParts (part instances that are components)
   // For other entities, parts might be empty
   if (props.entityKey !== 'blockInstance') return ''
   
-  const activeConstituents = props.form.values.activeConstituents
-  if (!Array.isArray(activeConstituents) || activeConstituents.length === 0) return ''
+  const activeParts = props.form.values.activeParts
+  if (!Array.isArray(activeParts) || activeParts.length === 0) return ''
   
-  // activeConstituents are partInstance IDs that are components of this instance
-  const names = getEntityNames(activeConstituents, 'partInstance')
+  // activeParts are partInstance IDs that are components of this instance
+  const names = getEntityNames(activeParts, 'partInstance')
   return formatTruncatedList(names)
 })
 
 /**
- * LEARNING: Check if a field is nested based on metadata
+ * LEARNING: Check if a field is partsCollection based on metadata
  * WHY: Need to determine if field should render PartsCollection directly (for bulk edit access) or FieldRenderer
- * PATTERN: Use useFieldComponent to check component type from metadata
+ * PATTERN: Use getFieldComponent() as single source of truth for component type determination
  */
-function isNestedField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
+function isPartsCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
   if (!props.fieldMetadata) return false
   
   const fieldMeta = props.fieldMetadata[String(fieldKey)]
   if (!fieldMeta) return false
   
-  // LEARNING: Check if field has nested selectMode
-  // WHY: Nested fields have renderAs: select/multiselect/reference with inputConfig.selectMode: 'nested'
-  // PATTERN: Use fieldComponentDispatcher logic - check renderAs and inputConfig
-  const selectRenderAs: Array<FieldMetadataEntry['renderAs']> = ['select', 'multiselect', 'reference']
-  if (!selectRenderAs.includes(fieldMeta.renderAs)) return false
-  
-  const selectMode = (fieldMeta.inputConfig as { selectMode?: string } | null | undefined)?.selectMode
-  return selectMode === 'nested' || selectMode === 'Nested'
+  // LEARNING: Use getFieldComponent() as single source of truth
+  // WHY: getFieldComponent() determines component type from metadata, supporting renderAs: 'partsCollection'
+  // PATTERN: Check component type from dispatcher instead of duplicating logic
+  const componentType = getFieldComponent(fieldKey, fieldMeta)
+  return componentType.type === 'partsCollection'
 }
 
 // Ref to PartsCollection component to access exposed bulk edit methods
@@ -181,11 +179,24 @@ const partsBulkEditMode = computed(() => {
 })
 
 const togglePartsBulkEditMode = () => {
-  // FIX: Add safety check - ensure ref and method exist before calling
-  // WHY: PartsCollection might not be mounted yet
-  const instance = getPartsCollectionInstance()
-  if (instance && typeof instance.toggleBulkEditMode === 'function') {
-    instance.toggleBulkEditMode()
+  // FIX: Expand panel first if not expanded, then toggle bulk edit mode
+  // WHY: PartsCollection is only mounted when panel is expanded, so we need to expand it first
+  // PATTERN: Ensure panel is expanded, wait for nextTick for component to mount, then toggle
+  if (!expandedPanels.value.includes('parts')) {
+    expandedPanels.value.push('parts')
+    // Wait for next tick to ensure PartsCollection is mounted
+    nextTick(() => {
+      const instance = getPartsCollectionInstance()
+      if (instance && typeof instance.toggleBulkEditMode === 'function') {
+        instance.toggleBulkEditMode()
+      }
+    })
+  } else {
+    // Panel is already expanded, PartsCollection should be mounted
+    const instance = getPartsCollectionInstance()
+    if (instance && typeof instance.toggleBulkEditMode === 'function') {
+      instance.toggleBulkEditMode()
+    }
   }
 }
 
@@ -225,13 +236,13 @@ const relationshipsSummary = computed((): string => {
     }
   } else if (props.entityKey === 'blockShape') {
     const cascades = Array.isArray(formValues.validCascades) ? formValues.validCascades : []
-    const constituents = Array.isArray(formValues.validConstituents) ? formValues.validConstituents : []
+    const parts = Array.isArray(formValues.validParts) ? formValues.validParts : []
     
     if (cascades.length > 0) {
       relationshipTypes.push('Valid Cascades')
     }
-    if (constituents.length > 0) {
-      relationshipTypes.push('Valid Part Shapes')
+    if (parts.length > 0) {
+      relationshipTypes.push('Valid Parts')
     }
   }
   
@@ -274,11 +285,11 @@ const relationshipsSummary = computed((): string => {
       </template>
       <template #text>
         <div v-for="fieldKey in subPanelFields.parts" :key="fieldKey" class="mb-4">
-          <!-- LEARNING: For nested fields that need bulk edit access, render PartsCollection directly with ref -->
+          <!-- LEARNING: For partsCollection fields that need bulk edit access, render PartsCollection directly with ref -->
           <!-- WHY: Bulk edit button in panel title needs access to PartsCollection's exposed methods -->
-          <!-- PATTERN: Check component type from metadata - if nested, render PartsCollection with ref; otherwise use FieldRenderer -->
+          <!-- PATTERN: Check component type from metadata - if partsCollection, render PartsCollection with ref; otherwise use FieldRenderer -->
           <PartsCollection
-            v-if="isNestedField(fieldKey)"
+            v-if="isPartsCollectionField(fieldKey)"
             ref="partsCollectionRef"
             :field-context="props.getFieldContext(fieldKey)!"
           />

@@ -1,6 +1,6 @@
 import { Op, Model } from 'sequelize';
 import type { InferAttributes } from 'sequelize';
-import { BlockInstance, PartInstance, Appointment, BlockInstanceVersion, PartInstanceVersion, ActiveConstituent } from '../config/app.js';
+import { BlockInstance, PartInstance, Appointment, BlockInstanceVersion, PartInstanceVersion, ActivePart } from '../config/app.js';
 
 /**
  * Instance Versioning Service
@@ -73,13 +73,13 @@ async function createVersionFromInstance(
     differential: instanceData.differential,
   });
 
-  // Get part instances for this block instance via ActiveConstituent
-  // Use the belongsToMany relationship through ActiveConstituent
+  // Get part instances for this block instance via ActivePart
+  // Use the belongsToMany relationship through ActivePart
   const blockInstanceWithParts = await BlockInstance.findByPk(instanceData.id, {
     include: [
       {
         model: PartInstance,
-        as: 'active_constituent_part_instances',
+        as: 'active_part_part_instances',
         through: {
           where: { disabled: false },
         },
@@ -89,7 +89,7 @@ async function createVersionFromInstance(
 
   // Create part instance versions
   // Type assertion needed because Sequelize includes don't preserve exact types
-  const partInstances = (blockInstanceWithParts as any)?.active_constituent_part_instances as InstanceType<typeof PartInstance>[] | undefined;
+  const partInstances = (blockInstanceWithParts as any)?.active_part_part_instances as InstanceType<typeof PartInstance>[] | undefined;
   
   if (partInstances && partInstances.length > 0) {
     await PartInstanceVersion.bulkCreate(
@@ -158,7 +158,7 @@ export async function createBlockInstanceVersion(
     include: [
       {
         model: PartInstance,
-        as: 'active_constituent_part_instances',
+        as: 'active_part_part_instances',
         through: {
           where: { disabled: false },
         },

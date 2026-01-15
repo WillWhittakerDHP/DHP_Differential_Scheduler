@@ -9,7 +9,7 @@ import { animations, handleEnd, performTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { useEntityDragHandlers } from './useEntityDragHandlers'
 import { useEntityTabState } from './useEntityTabState'
-import { getPanelsElement } from './useDragAndDropHelpers'
+import { getPanelsElement, countDraggableNodes, createMultiClassDraggableChecker } from './useDragAndDropHelpers'
 import type { GlobalEntity } from '@/types/entities'
 
 export interface UseInstanceDragAndDropOptions {
@@ -146,15 +146,54 @@ export function useInstanceDragAndDrop(
             groupDragInstances.value.delete(blockShapeId)
           }
           
+          // LEARNING: Only initialize drag-and-drop if there are values
+          // WHY: Prevents "number of enabled nodes does not match number of values" error
+          //      when DOM nodes haven't been created yet or values array is empty
+          // PATTERN: Check values array length before initializing drag-and-drop
+          const instanceIdsArray = instanceIds.value
+          if (!instanceIdsArray || instanceIdsArray.length === 0) return
+          
+          // LEARNING: Verify DOM nodes exist and match values count
+          // WHY: Prevents "number of enabled nodes does not match number of values" error
+          //      when drag-and-drop initializes before DOM nodes are rendered
+          // PATTERN: Count draggable nodes and ensure they match values array length
+          const draggableClasses = [`draggable-instance-${blockShapeId}`, 'draggable-instance-item']
+          // LEARNING: Create draggable checker function to ensure consistency
+          // WHY: Use the same logic for counting nodes and determining draggability
+          // PATTERN: Reuse the same checker function for both validation and drag-and-drop config
+          const isDraggableChecker = createMultiClassDraggableChecker(draggableClasses)
+          const enabledNodesCount = countDraggableNodes(panelsEl, isDraggableChecker)
+          
+          if (enabledNodesCount !== instanceIdsArray.length) {
+            // LEARNING: Wait for DOM to render before initializing
+            // WHY: DOM nodes haven't been created yet, need to wait for next render cycle
+            // PATTERN: Skip initialization and let watcher retry on next update
+            return
+          }
+          
           groupDragInstances.value.set(blockShapeId, dragAndDrop({
             parent: panelsRefForDrag,
-            values: instanceIds,
+            values: instanceIds, // LEARNING: Pass Ref, not plain array
+            // WHY: FormKit drag-and-drop needs a Ref to reactively track changes
+            // PATTERN: Pass the Ref directly, not the .value
             group: `blockInstances-${blockShapeId}`,
             draggable: (child) => {
               if (!child) return false
-              return child.classList?.contains('v-expansion-panel') && 
-                     (child.classList?.contains(`draggable-instance-${blockShapeId}`) ||
-                      child.classList?.contains('draggable-instance-item'))
+              
+              // LEARNING: Find the .v-expansion-panel element (child or its ancestor)
+              // WHY: The child might be a nested element (button, text, etc.) inside the panel
+              // PATTERN: Check if child itself is a panel, otherwise find closest ancestor
+              const childEl = child as HTMLElement
+              const panelElement = childEl.classList?.contains('v-expansion-panel') 
+                ? childEl 
+                : childEl.closest?.('.v-expansion-panel') as HTMLElement | null
+              
+              if (!panelElement) return false
+              
+              // LEARNING: Use the same checker logic as node counting
+              // WHY: Ensures consistency between validation and actual drag behavior
+              // PATTERN: Reuse the same checker function
+              return isDraggableChecker(panelElement)
             },
             plugins: [animations()],
             performTransfer: (state, data) => {

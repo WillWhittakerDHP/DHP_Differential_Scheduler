@@ -163,7 +163,7 @@ export function useSelectConfig(
 
   /**
    * LEARNING: Determine if select is multiple from config - NO DEFAULTS
-   * WHY: Config determines selectMode (single, multiple, required, nested)
+   * WHY: Config determines selectMode (single, multiple, required)
    * PATTERN: Read selectMode from config, fail if missing
    */
   const isMultiple = computed(() => {
@@ -179,8 +179,8 @@ export function useSelectConfig(
       )
     }
     
-    // Check selectMode using enum values - Multiple or Nested means multi-select
-    return config.selectMode === RelationshipSelectModeEnum.Multiple || config.selectMode === RelationshipSelectModeEnum.Nested
+    // Check selectMode using enum values - Multiple means multi-select
+    return config.selectMode === RelationshipSelectModeEnum.Multiple
   })
 
   /**

@@ -15,7 +15,6 @@
 import { ref, computed, type ComputedRef } from 'vue'
 import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
-import { useGlobal } from '../useGlobal'
 import type { GlobalEntity } from '@/types/entities'
 import { useEntityMetadata } from './useEntityMetadata'
 
@@ -89,25 +88,20 @@ export function usePartInstanceBulkEdit(
 
   const { patchBulk } = useEntityCrud('partInstance')
   const { success, error: showError } = useNotification()
-  const { globalData } = useGlobal()
 
-  // LEARNING: Get PartShape entity from first PartInstance for fetching field metadata
-  // WHY: Need PartShape entity to fetch metadata via unified composable
-  // PATTERN: Computed property that extracts PartShape entity from first instance
-  const partShapeForBulkEdit = computed(() => {
-    const firstInstance = existingPartInstances.value[0]
-    if (!firstInstance?.partShapeRef) return null
-    return globalData.value?.entities?.partShape?.find(
-      ps => String(ps.id) === String(firstInstance.partShapeRef)
-    ) as import('@/types/entities').PartShapeEntity | undefined || null
+  // LEARNING: Get first PartInstance for metadata fetching
+  // WHY: Use PartInstance metadata (which inherits from PartShape) to match what modal uses
+  // PATTERN: Use PartInstance entity instead of PartShape for consistency with modal
+  const firstPartInstanceForMetadata = computed(() => {
+    return existingPartInstances.value[0] || null
   })
 
   // LEARNING: Fetch field metadata using unified system
   // WHY: Need to check which fields have bulkEdit: true
-  // PATTERN: Use useEntityMetadata with PartShape entity
+  // PATTERN: Use useEntityMetadata with PartInstance entity (matches modal)
   const { fieldMetadata: bulkEditFieldMetadata } = useEntityMetadata(
-    'partShape',
-    partShapeForBulkEdit
+    'partInstance',
+    firstPartInstanceForMetadata
   )
 
   /**
@@ -149,43 +143,17 @@ export function usePartInstanceBulkEdit(
    * PATTERN: Single bulk PATCH request instead of N individual PUT requests
    */
   const applyPartInstanceBulkEdit = async (): Promise<void> => {
-    console.log('[usePartInstanceBulkEdit] applyPartInstanceBulkEdit called')
     try {
       const instances = existingPartInstances.value
-      console.log('[usePartInstanceBulkEdit] instances count:', instances.length)
       
       if (instances.length === 0) {
-        console.log('[usePartInstanceBulkEdit] No PartInstances to update')
         showError('No PartInstances to update')
         return
       }
       
-      // LEARNING: Build array of { id, ...fields } updates for bulk PATCH
-      // WHY: Bulk PATCH endpoint expects array of updates, one per entity
-      // PATTERN: Map instances to update objects with id and bulkEditData fields
-      // Filter out null values and fields without bulkEdit: true - only include fields that have actual values and are enabled for bulk edit
-      console.log('[usePartInstanceBulkEdit] bulkEditData.value:', bulkEditData.value)
-      
-      // LEARNING: Get PartShape from first PartInstance to check bulkEdit property
-      // WHY: Bulk edit uses PartShape.fieldMetadata (per-PartShape, not global)
-      // PATTERN: Get first PartInstance, then get its PartShape
-      const firstInstance = instances[0]
-      if (!firstInstance.partShapeRef) {
-        showError('PartInstance missing partShapeRef')
-        return
-      }
-      
-      const partShape = globalData.value?.entities?.partShape?.find(
-        ps => String(ps.id) === String(firstInstance.partShapeRef)
-      ) || null
-      
-      if (!partShape) {
-        showError('PartShape not found')
-        return
-      }
-      
-      // Get PartShape field metadata to check bulkEdit property using new system
-      // WHY: Already fetched at top level via composable, read from reactive ref
+      // LEARNING: Use PartInstance metadata already fetched at top level
+      // WHY: bulkEditFieldMetadata uses PartInstance which inherits from PartShape
+      // PATTERN: Read from reactive ref, no need to look up PartShape separately
       const fieldMetadata = bulkEditFieldMetadata.value
       
       // LEARNING: Get list of fields that are enabled for bulk edit
@@ -201,29 +169,21 @@ export function usePartInstanceBulkEdit(
       // 2. Are in the bulkEditEnabledFields list (have bulkEdit: true in config)
       const fieldsToUpdate = Object.fromEntries(
         Object.entries(bulkEditData.value).filter(([fieldKey, value]) => {
-          // Must have a value
           if (value === null || value === undefined) {
             return false
           }
-          // Must be in the list of bulk edit enabled fields
           if (!bulkEditEnabledFields.includes(fieldKey)) {
-            console.warn(`[usePartInstanceBulkEdit] Field ${fieldKey} is not enabled for bulk edit, excluding from update`)
             return false
           }
-          // Double-check metadata has bulkEdit: true
           const metadata = fieldMetadata[fieldKey]
           if (metadata?.bulkEdit !== true) {
-            console.warn(`[usePartInstanceBulkEdit] Field ${fieldKey} does not have bulkEdit: true, excluding from update`)
             return false
           }
           return true
         })
       )
-      console.log('[usePartInstanceBulkEdit] fieldsToUpdate:', fieldsToUpdate)
-      console.log('[usePartInstanceBulkEdit] fieldsToUpdate keys:', Object.keys(fieldsToUpdate))
       
       if (Object.keys(fieldsToUpdate).length === 0) {
-        console.log('[usePartInstanceBulkEdit] No changes to apply - fieldsToUpdate is empty')
         showError('No changes to apply')
         return
       }
@@ -232,14 +192,11 @@ export function usePartInstanceBulkEdit(
         id: instance.id,
         ...fieldsToUpdate,
       }))
-      console.log('[usePartInstanceBulkEdit] updates array:', updates)
       
       // LEARNING: Single bulk PATCH request instead of N individual PUT requests
       // WHY: More efficient (1 request vs N requests), semantically correct (PATCH for partial updates)
       // PATTERN: Use patchBulk mutation for bulk updates
-      console.log('[usePartInstanceBulkEdit] Calling patchBulk...')
       await patchBulk(updates)
-      console.log('[usePartInstanceBulkEdit] patchBulk completed successfully')
       success(`Updated ${instances.length} PartInstance(s)`)
       
       // Clear bulk edit data (reset to empty object since fields are now config-driven)
@@ -267,22 +224,25 @@ export function usePartInstanceBulkEdit(
    * FIX: Filter data to only include fields with bulkEdit: true from config to prevent non-bulk-edit fields from being cleared
    */
   const handleBulkEditConfirm = (data: PartInstanceBulkEditData): void => {
-    // LEARNING: Use field metadata from new system
-    // WHY: Config is fetched via useEntityMetadata composable
-    // PATTERN: Read from reactive fieldMetadata computed property
+    // LEARNING: Trust the data from modal since it's already filtered by PartInstance metadata
+    // WHY: Modal already filters based on PartInstance metadata with bulkEdit: true
+    // PATTERN: Use data directly, but validate against metadata as safety check
     const fieldMetadata = bulkEditFieldMetadata.value
     
-    // Only include fields that have bulkEdit: true in config
+    // Only include fields that have bulkEdit: true in config (safety check)
     const filteredData: PartInstanceBulkEditData = {}
     Object.entries(data).forEach(([fieldKey, value]) => {
       const metadata = fieldMetadata[fieldKey]
       if (metadata?.bulkEdit === true) {
-        // FIX: PartInstanceBulkEditData accepts number | null | undefined
         filteredData[fieldKey] = value as number | null | undefined
       }
     })
     
-    // FIX: Ensure type compatibility - PartInstanceBulkEditData allows undefined, but assignment needs explicit type
+    if (Object.keys(filteredData).length === 0) {
+      showError('No valid fields to update')
+      return
+    }
+    
     bulkEditData.value = filteredData as PartInstanceBulkEditData
     applyPartInstanceBulkEdit()
   }

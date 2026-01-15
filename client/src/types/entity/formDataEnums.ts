@@ -40,10 +40,10 @@ enum RelationshipSelectTypeEnum {
   BlockShapeSelect = "blockShapeSelect",
   PartShapeSelect = "partShapeSelect",
   ValidCascadeSelect = "validCascadeSelect",
-  ValidConstituentSelect = "validConstituentSelect",
+  ValidPartSelect = "validPartSelect",
   DependentInstanceOptionSelect = "dependentInstanceOptionSelect",
   BookingCascadeSelect = "bookingCascadeSelect",
-  ActiveConstituentSelect = "activeConstituentSelect",
+  ActivePartSelect = "activePartSelect",
   InstanceComponentSelect = "instanceComponentSelect",
   DescriptionSelect = "descriptionSelect", // LEARNING: Annotations are NOT in RELATIONSHIP_KEYS, handled specially (enum name kept for backward compatibility)
 }

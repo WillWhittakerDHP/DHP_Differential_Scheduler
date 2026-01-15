@@ -16,6 +16,7 @@ import type { AdminObject } from '@/utils/transformers/globalToAdminTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { getEntityTypeForMetadata, getMetadataEntityId, getInheritanceSource } from '@/utils/entities/entityTypeMapping'
+import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 
 // DIAGNOSTICS: Track instance creation
 let instanceCount = 0
@@ -159,10 +160,11 @@ function createAdminInstance() {
    * LEARNING: Reads metadata from GlobalData transformation, handles inheritance automatically
    * WHY: Metadata should be available as early and reliably as entities (same pattern as getEntity)
    * PATTERN: Synchronous function that reads from transformed GlobalData, handles instance inheritance
+   *          Aligns with AdminObject pattern - keeps primitives and relationships separate until merge
    * 
    * @param entityKey - Entity key (blockShape, partShape, blockInstance, partInstance)
    * @param entity - Entity object (GlobalEntity or AdminObject, used to determine metadata ID and inheritance)
-   * @returns Record<fieldKey, FieldMetadataEntry> - combined input + relationship metadata
+   * @returns Record<fieldKey, FieldMetadataEntry> - combined primitive + relationship metadata
    */
   function getMetadata<GE extends GlobalEntityKey>(
     entityKey: GE,
@@ -183,14 +185,51 @@ function createAdminInstance() {
       return {}
     }
     
-    // Get input metadata
-    const inputMetadata = data.metadata.inputMetadata?.[entityType]?.[metadataId] || {}
+    // Get primitive metadata (renamed from inputMetadata)
+    const primitiveMetadata = data.metadata.primitiveMetadata?.[entityType]?.[metadataId] || {}
     
     // Get relationship metadata
     const relationshipMetadata = data.metadata.relationshipMetadata?.[entityType]?.[metadataId] || {}
     
-    // Combine input and relationship metadata
-    const combinedMetadata = { ...inputMetadata, ...relationshipMetadata }
+    // LEARNING: Align with AdminObject pattern - keep primitives and relationships separate
+    // WHY: Prevents key collisions, matches regular entity data structure (displayConfig.primitives vs displayConfig.relationships)
+    // PATTERN: Separate until final merge, like displayConfig.primitives vs displayConfig.relationships
+    
+    // Check for conflicts before merging (fail visibly)
+    const relationshipKeys = Object.keys(RELATIONSHIP_KEYS) as Array<keyof typeof RELATIONSHIP_KEYS>
+    const conflicts = relationshipKeys.filter(relKey => {
+      const relKeyStr = String(relKey)
+      return primitiveMetadata[relKeyStr] !== undefined && relationshipMetadata[relKeyStr] !== undefined
+    })
+    
+    if (conflicts.length > 0) {
+      console.error(
+        `[useAdmin.getMetadata] Key collision detected between primitive and relationship metadata for ${entityType}/${metadataId}:`,
+        conflicts
+      )
+      console.error(
+        `[useAdmin.getMetadata] Collision details:`,
+        {
+          primitiveKeys: Object.keys(primitiveMetadata),
+          relationshipKeys: Object.keys(relationshipMetadata),
+          conflictingKeys: conflicts,
+          primitiveValues: conflicts.reduce((acc, key) => {
+            acc[key] = primitiveMetadata[String(key)]
+            return acc
+          }, {} as Record<string, unknown>),
+          relationshipValues: conflicts.reduce((acc, key) => {
+            acc[key] = relationshipMetadata[String(key)]
+            return acc
+          }, {} as Record<string, unknown>),
+        }
+      )
+      // Optionally: throw error or handle gracefully
+      // For now, log error and continue (relationship overwrites primitive on conflict)
+    }
+    
+    // Merge: relationship metadata overwrites primitive metadata on conflict (matches transformer behavior)
+    // This matches how AdminTransformer attaches relationships as explicit fields
+    const combinedMetadata = { ...primitiveMetadata, ...relationshipMetadata }
     
     // LEARNING: Handle inheritance for instance entities
     // WHY: Instance entities inherit metadata from their shape
@@ -198,9 +237,9 @@ function createAdminInstance() {
     if (entityType === 'blockInstance' || entityType === 'partInstance') {
       const inheritanceSource = getInheritanceSource(entityKey, entity as import('@/types/entities').GlobalEntity<GE>)
       if (inheritanceSource) {
-        const shapeInputMetadata = data.metadata.inputMetadata?.[inheritanceSource.entityType]?.[inheritanceSource.entityId] || {}
+        const shapePrimitiveMetadata = data.metadata.primitiveMetadata?.[inheritanceSource.entityType]?.[inheritanceSource.entityId] || {}
         const shapeRelationshipMetadata = data.metadata.relationshipMetadata?.[inheritanceSource.entityType]?.[inheritanceSource.entityId] || {}
-        const shapeMetadata = { ...shapeInputMetadata, ...shapeRelationshipMetadata }
+        const shapeMetadata = { ...shapePrimitiveMetadata, ...shapeRelationshipMetadata }
         
         // Merge: shape metadata first, then instance metadata (instance overrides)
         return { ...shapeMetadata, ...combinedMetadata }

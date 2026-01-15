@@ -123,15 +123,21 @@ const effectiveFieldContext = computed(() => {
   // WHY: Vue tracks object references - creating new objects ensures reactivity
   // PATTERN: Create new displayConfig object with readOnly override, then new fieldContext object
   // NOTE: This ensures Vue detects the change in nested displayConfig.readOnly property
+  // FIX: Preserve Refs when spreading - don't unwrap value Ref
   const originalDisplayConfig = fieldContext.value.displayConfig
   const newDisplayConfig: typeof originalDisplayConfig = {
     ...originalDisplayConfig,
     readOnly: readOnlyValue
   }
   
+  // LEARNING: Preserve Refs when creating new fieldContext object
+  // WHY: Spreading preserves object structure, but we need to ensure value Ref is preserved
+  // PATTERN: Copy all properties - value Ref should be preserved by spread
+  // NOTE: JavaScript spread doesn't unwrap Refs, so value should remain a Ref
   return {
     ...fieldContext.value,
     displayConfig: newDisplayConfig
+    // NOTE: value Ref is preserved by spread - no need to explicitly set it
   }
 })
 
@@ -199,7 +205,7 @@ const fieldComponent = useFieldComponent({
 const componentMap: Record<FieldComponent['type'], Component | null> = {
   icon: IconInput,
   primitive: PrimitiveInputs,
-  nested: PartsCollection,
+  partsCollection: PartsCollection,
   annotations: AnnotationsField,
   select: SelectInputs,
   unknown: null

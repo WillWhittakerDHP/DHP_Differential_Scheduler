@@ -35,7 +35,6 @@ export type RelationshipFieldType<
   selectMode: RelationshipSelectModeEnum;
   groupByKey?: ChildFieldKey;
   placeholder?: string;
-  optionsFieldKey?: string;
   modeToggle?: {
     enabled: boolean;
     controlField: string;
@@ -135,24 +134,23 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
         placeholder: "Which block instances are children of this block instance?",
       },
             
-      activeConstituents: {
+      activeParts: {
         targetMode: "relationship",
-        targetKey: "activeConstituents",
-        globalField: "activeConstituents" as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>,
+        targetKey: "activeParts",
+        globalField: "activeParts" as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>,
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: ENTITY_KEY_PART_INSTANCE,
-        selectedChildPath: ["activeConstituents"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
+        selectedChildPath: ["activeParts"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                 
         candidateParentPath: ["blockShapeRef"],             
         candidateChildKey: ENTITY_KEY_PART_INSTANCE,
         candidateChildPath: [],                          
 
-        selectType: RelationshipSelectTypeEnum.ActiveConstituentSelect,
+        selectType: RelationshipSelectTypeEnum.ActivePartSelect,
         selectMode: RelationshipSelectModeEnum.Nested,
         placeholder: "Which part instances are used by this block instance?",
-        optionsFieldKey: "validConstituents", // Field on blockShape containing valid part shapes
       },
 
       dependentInstanceOptions: {
@@ -245,28 +243,28 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
         }
       },
 
-      validConstituents: {
+      validParts: {
         targetMode: "relationship",
-        targetKey: "validConstituents",
-        globalField: "validConstituents" as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE>,
+        targetKey: "validParts",
+        globalField: "validParts" as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE>,
 
         selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildKey: ENTITY_KEY_PART_SHAPE,
-        selectedChildPath: ["validConstituents"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE>[],
+        selectedChildPath: ["validParts"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateParentPath: [],                         
         candidateChildKey: ENTITY_KEY_PART_SHAPE,
         candidateChildPath: [],                           
 
-        selectType: RelationshipSelectTypeEnum.ValidConstituentSelect,
+        selectType: RelationshipSelectTypeEnum.ValidPartSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         placeholder: "Which part shapes are valid as children?",
         
         // 🆕 Dependency impact configuration
         dependencyImpact: {
           affectedEntityKey: ENTITY_KEY_PART_INSTANCE,
-          affectedField: "activeConstituents",
+          affectedField: "activeParts",
           linkingField: "partShapeRef", 
           displayNames: {
             removedItems: "Part Shapes",

@@ -9,7 +9,7 @@
  */
 
 import { initSequelize } from '../db/index.js';
-import { AdminInputMetadata } from '../db/models/admin/adminInputMetadata.js';
+import { AdminPrimitiveMetadata } from '../db/models/admin/adminPrimitiveMetadata.js';
 
 // Sentinel UUIDs for global configs (matches client constants)
 const BLOCK_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000001';
@@ -51,21 +51,21 @@ const SELECT_CONFIGS = {
       groupByKey: "blockShapeRef",
       placeholder: "Which block instances are children of this block instance?",
     },
-    activeConstituents: {
+    activeParts: {
       targetMode: "relationship",
-      targetKey: "activeConstituents",
-      globalField: "activeConstituents",
+      targetKey: "activeParts",
+      globalField: "activeParts",
       selectedParentKey: "blockInstance",
       selectedChildKey: "partInstance",
-      selectedChildPath: ["activeConstituents"],
+      selectedChildPath: ["activeParts"],
       candidateParentKey: "blockShape",
       candidateParentPath: ["blockShapeRef"],
       candidateChildKey: "partInstance",
       candidateChildPath: [],
-      selectType: "ActiveConstituentSelect",
+      selectType: "ActivePartSelect",
       selectMode: "Nested",
       placeholder: "Which part instances are used by this block instance?",
-      optionsFieldKey: "validConstituents",
+      optionsFieldKey: "validParts",
     },
     dependentInstanceOptions: {
       targetMode: "relationship",
@@ -139,23 +139,23 @@ const SELECT_CONFIGS = {
         },
       },
     },
-    validConstituents: {
+    validParts: {
       targetMode: "relationship",
-      targetKey: "validConstituents",
-      globalField: "validConstituents",
+      targetKey: "validParts",
+      globalField: "validParts",
       selectedParentKey: "blockShape",
       selectedChildKey: "partShape",
-      selectedChildPath: ["validConstituents"],
+      selectedChildPath: ["validParts"],
       candidateParentKey: "blockShape",
       candidateParentPath: [],
       candidateChildKey: "partShape",
       candidateChildPath: [],
-      selectType: "ValidConstituentSelect",
+      selectType: "ValidPartSelect",
       selectMode: "Multiple",
       placeholder: "Which part shapes are valid as children?",
       dependencyImpact: {
         affectedEntityKey: "partInstance",
-        affectedField: "activeConstituents",
+        affectedField: "activeParts",
         linkingField: "partShapeRef",
         displayNames: {
           removedItems: "Part Shapes",
@@ -225,7 +225,7 @@ async function backfillInputConfig() {
       for (const [fieldKey, selectConfig] of Object.entries(fieldConfigs)) {
         try {
           // Find existing metadata entry
-          const metadataEntry = await AdminInputMetadata.findOne({
+          const metadataEntry = await AdminPrimitiveMetadata.findOne({
             where: {
               entityType: entityType,
               entityId: entityId,

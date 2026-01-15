@@ -35,7 +35,7 @@ export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entit
   }
 
   function isComputedProperty(propertyKey: string): boolean {
-    const computedProperties = ['baseFee', 'baseTime', 'rateOverBaseFee', 'rateOverBaseTime', 'activeConstituents']
+    const computedProperties = ['baseFee', 'baseTime', 'rateOverBaseFee', 'rateOverBaseTime', 'activeParts']
     return computedProperties.includes(propertyKey)
   }
 

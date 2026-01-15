@@ -24,7 +24,7 @@ import { isDevModeEnabled } from '@/utils/env/devMode'
  * WHY: Encapsulates all relationship operations in one composable
  * PATTERN: Composable that wraps Vue Query hooks
  * 
- * @param relationshipKey - The relationship type key (validCascades, validConstituents, bookingCascades, activeConstituents, dependentInstanceOptions, instanceComponents)
+ * @param relationshipKey - The relationship type key (validCascades, validParts, bookingCascades, activeParts, dependentInstanceOptions, instanceComponents)
  * @returns CRUD operations and relationship list
  */
 export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationshipKey: RK) {

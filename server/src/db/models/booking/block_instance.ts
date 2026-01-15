@@ -8,7 +8,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
-import { ActiveConstituent } from './active_constituent';
+import { ActivePart } from './active_part';
 import { BookingCascade } from './booking_cascade';
 
 export class BlockInstance extends Model<
@@ -32,7 +32,7 @@ export class BlockInstance extends Model<
   declare updatedAt: CreationOptional<Date>;
 
   // ✅ Add valid children
-  declare activeConstituents?: ActiveConstituent[];
+  declare activeParts?: ActivePart[];
   declare bookingCascades?: BookingCascade[];
 }
 

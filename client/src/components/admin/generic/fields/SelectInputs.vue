@@ -138,7 +138,7 @@ const { fieldContext } = props
 const rawFieldValue = useFieldValue(fieldContext)
 
 // LEARNING: Use admin composable to get entities with relationships attached
-// WHY: AdminEntity has relationships (validCascades, validConstituents) attached, raw GlobalEntity doesn't
+// WHY: AdminEntity has relationships (validCascades, validParts) attached, raw GlobalEntity doesn't
 // PATTERN: Use admin store/composable for admin interface operations
 const adminComp = useAdmin()
 

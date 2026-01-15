@@ -236,6 +236,7 @@ useUpdateAnnotationType()
  * PATTERN: Template refs for container divs that wrap VExpansionPanels
  */
 const partShapesContainer = ref<HTMLElement | null>(null)
+const blockShapesContainer = ref<HTMLElement | null>(null)
 const annotationShapesContainer = ref<HTMLElement | null>(null)
 
 /**
@@ -244,6 +245,7 @@ const annotationShapesContainer = ref<HTMLElement | null>(null)
  * PATTERN: Create refs that point to the actual DOM container elements (not component instances)
  */
 const partShapesPanelsContainer = ref<HTMLElement | null>(null)
+const blockShapesPanelsContainer = ref<HTMLElement | null>(null)
 const annotationShapesPanelsContainer = ref<HTMLElement | null>(null)
 
 // LEARNING: getPanelsElement moved to useDragAndDrop composable
@@ -255,6 +257,7 @@ const annotationShapesPanelsContainer = ref<HTMLElement | null>(null)
  * PATTERN: ref arrays that sync with computed filtered results
  */
 const partShapesList = ref<GlobalEntity<'partShape'>[]>([])
+const blockShapesList = ref<GlobalEntity<'blockShape'>[]>([])
 
 /**
  * LEARNING: Reactive ID arrays for drag-and-drop
@@ -262,6 +265,7 @@ const partShapesList = ref<GlobalEntity<'partShape'>[]>([])
  * PATTERN: ref arrays of entity IDs that stay in sync with entity arrays
  */
 const partShapeIds = ref<string[]>([])
+const blockShapeIds = ref<string[]>([])
 
 // LEARNING: Filtered shapes and display names moved to composables
 // WHY: Extracted to composables for better organization
@@ -276,12 +280,24 @@ const partShapesDragHandlers = useEntityDragHandlers({
   patchOrderIndex: patchPartShapeOrderIndex
 })
 
+const blockShapesDragHandlers = useEntityDragHandlers({
+  entityIds: blockShapeIds,
+  entityList: blockShapesList,
+  filteredEntities: filteredBlockShapes,
+  patchOrderIndex: patchBlockShapeOrderIndex
+})
+
 // LEARNING: Use entity tab state composable for array syncing watchers
 // WHY: Extracts watcher logic from component to generic composable
 // PATTERN: Generic composable handles array syncing watchers
 useEntityTabState({
   filteredEntities: filteredPartShapes,
   dragHandlers: partShapesDragHandlers
+})
+
+useEntityTabState({
+  filteredEntities: filteredBlockShapes,
+  dragHandlers: blockShapesDragHandlers
 })
 
 // LEARNING: Use drag-and-drop composables
@@ -298,6 +314,17 @@ const { isMounted: _partShapesMounted } = useDragAndDrop({
   draggableClass: 'draggable-part-shape'
 })
 
+const { isMounted: _blockShapesMounted } = useDragAndDrop({
+  containerRef: blockShapesContainer,
+  panelsContainerRef: blockShapesPanelsContainer,
+  entityIds: blockShapeIds,
+  entityList: blockShapesList,
+  filteredEntities: filteredBlockShapes,
+  dragEndHandler: blockShapesDragHandlers.handleDragEnd,
+  group: 'blockShapes',
+  draggableClass: 'draggable-block-shape'
+})
+
 /**
  * WHY: Event handler for deleting PartShape
 WHY: EntityCard already handles deletion internally, this is just a notification handler
@@ -305,6 +332,17 @@ PATTERN: No-op handler - EntityCard handles all deletion logic including confirm
 NOTE: EntityCard emits 'delete' event after successful deletion for parent awareness
  */
 function handleDeletePartShape(_id: string) {
+  // EntityCard already handled the deletion - this is just for parent awareness
+  // Vue Query will automatically refetch and update the UI
+}
+
+/**
+ * LEARNING: Event handler for deleting BlockShape
+ * WHY: EntityCard already handles deletion internally, this is just a notification handler
+ * PATTERN: No-op handler - EntityCard handles all deletion logic including confirmation
+ * NOTE: EntityCard emits 'delete' event after successful deletion for parent awareness
+ */
+function handleDeleteBlockShape(_id: string) {
   // EntityCard already handled the deletion - this is just for parent awareness
   // Vue Query will automatically refetch and update the UI
 }
@@ -404,17 +442,47 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
         </div>
         
         <!--
-          LEARNING: BlockShapes list display
-          WHY: Shows all BlockShapes for metadata configuration reference
-          PATTERN: Simple list display (no drag-and-drop needed for metadata editing)
+          LEARNING: VExpansionPanels for grouped display with drag-and-drop
+          WHY: Provides expandable/collapsible cards for BlockShapes that can be reordered
+          PATTERN: v-model binds to expandedShapes array, multiple allows multiple expanded cards
+          LEARNING: Use blockShapesList for drag-and-drop (mutable array)
+          LEARNING: Wrap in div for drag-and-drop parent container
         -->
-        <VAlert
-          type="info"
-          variant="tonal"
-          class="mt-4"
-        >
-          Configure BlockShape field metadata (composable, constituable, validCascades, validConstituents) using the Metadata Edit button above.
-        </VAlert>
+        <div ref="blockShapesContainer" class="drag-drop-container">
+          <VExpansionPanels 
+            ref="blockShapesPanelsContainer"
+            v-model="expandedShapes" 
+            multiple 
+            v-if="blockShapesList.length > 0"
+          >
+            <!-- Existing BlockShapes -->
+            <EntityCard
+              v-for="blockShape in blockShapesList"
+              :key="String(blockShape.id)"
+              :class="`draggable-block-shape`"
+              :data-drag-id="String(blockShape.id)"
+              entity-key="blockShape"
+              :entity="blockShape"
+              :expanded="isPanelExpanded(String(blockShape.id))"
+              @saved="handleExistingShapeSaved"
+              @delete="handleDeleteBlockShape"
+            />
+          </VExpansionPanels>
+          
+          <!--
+            LEARNING: Empty state display
+            WHY: Provides feedback when no results match search or no data exists
+            PATTERN: Conditional rendering with v-else
+          -->
+          <VAlert
+            v-else
+            type="info"
+            variant="tonal"
+            class="mt-4"
+          >
+            No BlockShapes found. BlockShapes are created automatically when BlockInstances are created.
+          </VAlert>
+        </div>
       </VWindowItem>
       
       <!-- PartShapes Tab Content -->
@@ -700,6 +768,15 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
 }
 
 .draggable-part-shape:hover {
+  opacity: 0.8;
+}
+
+.draggable-block-shape {
+  transition: transform 0.2s;
+  cursor: move;
+}
+
+.draggable-block-shape:hover {
   opacity: 0.8;
 }
 

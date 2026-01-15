@@ -7,7 +7,7 @@
 
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { createBlockInstance, createPartInstance, createBlockShape, createPartShape } from './entityFactory'
-import { createActiveConstituentsRel, createActiveComponentsRel } from './relationshipFactory'
+import { createActivePartsRel, createActiveComponentsRel } from './relationshipFactory'
 
 /**
  * Create an empty GlobalData object
@@ -21,11 +21,11 @@ export function createEmptyGlobalData(): GlobalData {
       partShape: [],
     },
     relationships: {
-      activeConstituents: [],
+      activeParts: [],
       bookingCascades: [],
       instanceComponents: [],
       validCascades: [],
-      validConstituents: [],
+      validParts: [],
       dependentInstanceOptions: [],
     },
   }
@@ -72,13 +72,13 @@ export function createAtomicBlockGlobalData() {
       partShape: [partShape1, partShape2],
     },
     relationships: {
-      activeConstituents: [
-        createActiveConstituentsRel(blockInstance.id, [partInstance1.id, partInstance2.id]),
+      activeParts: [
+        createActivePartsRel(blockInstance.id, [partInstance1.id, partInstance2.id]),
       ],
       bookingCascades: [],
       instanceComponents: [],
       validCascades: [],
-      validConstituents: [],
+      validParts: [],
       dependentInstanceOptions: [],
     },
   }
@@ -145,16 +145,16 @@ export function createCompositeBlockGlobalData() {
       partShape: [partShape1, partShape2, partShape3],
     },
     relationships: {
-      activeConstituents: [
-        createActiveConstituentsRel(component1.id, [part1.id]),
-        createActiveConstituentsRel(component2.id, [part2.id, part3.id]),
+      activeParts: [
+        createActivePartsRel(component1.id, [part1.id]),
+        createActivePartsRel(component2.id, [part2.id, part3.id]),
       ],
       bookingCascades: [],
       instanceComponents: [
         createActiveComponentsRel(composite.id, [component1.id, component2.id]),
       ],
       validCascades: [],
-      validConstituents: [],
+      validParts: [],
       dependentInstanceOptions: [],
     },
   }
@@ -183,8 +183,8 @@ export function createMultipleBlocksGlobalData(count: number = 3) {
     })
   })
   
-  const activeConstituents = blockInstances.map((block, i) =>
-    createActiveConstituentsRel(block.id, [partInstances[i].id])
+  const activeParts = blockInstances.map((block, i) =>
+    createActivePartsRel(block.id, [partInstances[i].id])
   )
   
   return {
@@ -195,11 +195,11 @@ export function createMultipleBlocksGlobalData(count: number = 3) {
       partShape: [partShape],
     },
     relationships: {
-      activeConstituents,
+      activeParts,
       bookingCascades: [],
       instanceComponents: [],
       validCascades: [],
-      validConstituents: [],
+      validParts: [],
       dependentInstanceOptions: [],
     },
   }
@@ -246,14 +246,14 @@ export function createGlobalDataWithDisabledEntities() {
       partShape: [partShape],
     },
     relationships: {
-      activeConstituents: [
-        createActiveConstituentsRel(enabledBlock.id, [enabledPart.id, disabledPart.id]),
-        createActiveConstituentsRel(disabledBlock.id, [enabledPart.id]),
+      activeParts: [
+        createActivePartsRel(enabledBlock.id, [enabledPart.id, disabledPart.id]),
+        createActivePartsRel(disabledBlock.id, [enabledPart.id]),
       ],
       bookingCascades: [],
       instanceComponents: [],
       validCascades: [],
-      validConstituents: [],
+      validParts: [],
       dependentInstanceOptions: [],
     },
   }

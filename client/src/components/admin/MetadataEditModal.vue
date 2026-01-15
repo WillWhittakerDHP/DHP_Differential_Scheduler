@@ -24,7 +24,7 @@
       </VCardTitle>
 
       <VCardText class="pa-6">
-        <AdminInputMetadataEditor
+        <AdminPrimitiveMetadataEditor
           ref="editorRef"
           :entity-key="entityKey"
           :entity="entity"
@@ -46,7 +46,7 @@
           color="primary"
           variant="elevated"
           :loading="editorRef?.isSaving"
-          @click="editorRef?.save()"
+          @click="handleSave"
         >
           Save Configuration
         </VBtn>
@@ -57,9 +57,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import AdminInputMetadataEditor from './metadata/AdminInputMetadataEditor.vue'
+import AdminPrimitiveMetadataEditor from './metadata/AdminPrimitiveMetadataEditor.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { useNotification } from '@/composables/useNotification'
+import type { AxiosError } from 'axios'
 
 interface Props {
   modelValue: boolean
@@ -86,8 +88,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<Emits>()
 
+// Notification composable for error handling
+const { error: showError } = useNotification()
+
 // Template ref for editor component
-const editorRef = ref<InstanceType<typeof AdminInputMetadataEditor> | null>(null)
+const editorRef = ref<InstanceType<typeof AdminPrimitiveMetadataEditor> | null>(null)
 
 // Computed modal title
 const modalTitle = computed(() => {
@@ -107,5 +112,42 @@ function updateModelValue(value: boolean) {
 
 function handleSaved() {
   emit('saved')
+}
+
+/**
+ * LEARNING: Handle save with proper error handling
+ * WHY: Prevents unhandled promise rejections and shows user-friendly error messages
+ * PATTERN: Async handler with try-catch, extracts meaningful error messages from AxiosError
+ */
+async function handleSave(): Promise<void> {
+  if (!editorRef.value) {
+    showError('Editor not available')
+    return
+  }
+
+  try {
+    await editorRef.value.save()
+  } catch (err) {
+    console.error('[MetadataEditModal] Error saving metadata:', err)
+    
+    // LEARNING: Extract meaningful error message from AxiosError
+    // WHY: AxiosError contains response data with server error messages
+    // PATTERN: Check for AxiosError and extract response message if available
+    let errorMessage = 'Failed to save metadata configuration'
+    
+    if (err && typeof err === 'object' && 'isAxiosError' in err) {
+      const axiosError = err as AxiosError<{ message?: string; error?: string }>
+      if (axiosError.response?.data) {
+        const data = axiosError.response.data
+        errorMessage = data.message || data.error || errorMessage
+      } else if (axiosError.message) {
+        errorMessage = axiosError.message
+      }
+    } else if (err instanceof Error) {
+      errorMessage = err.message
+    }
+    
+    showError(errorMessage)
+  }
 }
 </script>

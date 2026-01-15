@@ -201,8 +201,8 @@ describe('useFieldValue', () => {
     })
 
     it('should handle array values', () => {
-      const fieldContext: FieldContextType<'blockInstance', 'activeConstituents'> = {
-        fieldKey: 'activeConstituents',
+      const fieldContext: FieldContextType<'blockInstance', 'activeParts'> = {
+        fieldKey: 'activeParts',
         entityKey: 'blockInstance',
         entityId: 'block-1',
         value: ref(['part-1', 'part-2']),
@@ -213,7 +213,7 @@ describe('useFieldValue', () => {
         isDisabled: ref(false),
         isFocused: ref(false),
         displayConfig: {
-          label: 'Active Constituents',
+          label: 'Active Parts',
           placeholder: '',
         },
         validationRules: {},

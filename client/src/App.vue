@@ -9,7 +9,6 @@
     <!-- ℹ️ This is required to set the background color of active nav link based on currently active global theme's primary -->
     <VApp :style="`--v-global-theme-primary: ${hexToRgb(global.current.value.colors.primary)}`">
       <RouterView />
-      <ScrollToTop />
       <AppNotification />
     </VApp>
   </VLocaleProvider>
@@ -21,12 +20,11 @@
  * 
  * LEARNING: Root component with Vuexy layout system
  * WHY: Provides app-level structure, theme, and router outlet
- * PATTERN: Uses Vuexy's VApp, VLocaleProvider, and ScrollToTop components
+ * PATTERN: Uses Vuexy's VApp and VLocaleProvider components
  * COMPARISON: React App.tsx. Vue App.vue with Vuexy components
  */
 
 import { useTheme } from 'vuetify'
-import ScrollToTop from '@core/components/ScrollToTop.vue'
 import AppNotification from '@/components/AppNotification.vue'
 import initCore from '@core/initCore'
 import { initConfigStore, useConfigStore } from '@core/stores/config'

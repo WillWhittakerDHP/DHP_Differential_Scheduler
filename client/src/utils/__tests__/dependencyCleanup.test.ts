@@ -196,13 +196,13 @@ describe('dependencyCleanup', () => {
       expect(mockAdmin.getEntity).toHaveBeenCalledWith('blockInstance', 'block-2')
     })
 
-    it('should handle validConstituents relationship type', async () => {
+    it('should handle validParts relationship type', async () => {
       mockAdminConfig.getFormFieldConfig.mockReturnValue({
         value: {
           relationshipSelect: {
             dependencyImpact: {
               affectedEntityKey: 'blockInstance',
-              affectedField: 'activeConstituents',
+              affectedField: 'activeParts',
               linkingField: 'blockShapeRef',
             },
           },
@@ -212,7 +212,7 @@ describe('dependencyCleanup', () => {
       const affectedEntity = {
         id: 'block-1',
         blockShapeRef: 'shape-1',
-        activeConstituents: ['part-1'],
+        activeParts: ['part-1'],
       }
       
       const childEntity = {
@@ -226,12 +226,12 @@ describe('dependencyCleanup', () => {
       await cleanupInvalidActiveRelationships(
         'blockShape',
         'shape-1',
-        'validConstituents',
+        'validParts',
         ['part-shape-1'],
         mockQueryClient
       )
       
-      // Should check partShapeRef for validConstituents
+      // Should check partShapeRef for validParts
       expect(mockAdmin.getEntity).toHaveBeenCalledWith('partInstance', 'part-1')
     })
 

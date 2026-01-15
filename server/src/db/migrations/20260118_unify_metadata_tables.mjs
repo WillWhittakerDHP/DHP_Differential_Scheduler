@@ -260,7 +260,30 @@ export default {
         metadataArray = canonicalMetadataResult;
       }
       
+      // LEARNING: Relationship keys should NOT be migrated to primitive metadata
+      // WHY: Relationship keys belong in admin_relationship_metadata, not admin_primitive_metadata
+      // PATTERN: Filter out relationship keys before migrating to prevent key collisions
+      const relationshipKeys = [
+        'validCascades',
+        'validParts',
+        'bookingCascades',
+        'activeParts',
+        'instanceComponents',
+        'dependentInstanceOptions',
+        // Old names that might have been used before renaming
+        'activeConstituents', // Old name for activeParts
+        'validConstituents', // Old name for validParts
+      ];
+      
       for (const meta of metadataArray) {
+        // LEARNING: Skip relationship keys - they should not be in primitive metadata
+        // WHY: Relationship keys belong in admin_relationship_metadata table only
+        // PATTERN: Filter relationship keys before inserting into primitive metadata
+        if (relationshipKeys.includes(meta.field_key)) {
+          console.log(`⏭️  Skipping relationship key ${meta.field_key} - belongs in admin_relationship_metadata`);
+          continue;
+        }
+        
         // Map entity_type to sentinel UUID
         const entityId = meta.entity_type === 'blockShape' 
           ? BLOCK_SHAPE_GLOBAL_CONFIG_ID 

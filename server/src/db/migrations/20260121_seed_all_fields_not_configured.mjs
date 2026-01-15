@@ -43,8 +43,8 @@ export default {
       }
       
       // Array/reference fields
-      const arrayFields = ['activeConstituents', 'bookingCascades', 'instanceComponents', 
-        'dependentInstanceOptions', 'validCascades', 'validConstituents'];
+      const arrayFields = ['activeParts', 'bookingCascades', 'instanceComponents', 
+        'dependentInstanceOptions', 'validCascades', 'validParts'];
       if (arrayFields.includes(fieldKey)) {
         return 'array';
       }
@@ -81,10 +81,10 @@ export default {
         { fieldKey: 'requiresUnitNumber', dataType: 'boolean' },
         { fieldKey: 'dependent', dataType: 'boolean' },
         { fieldKey: 'visible', dataType: 'boolean' },
-        { fieldKey: 'activeConstituents', dataType: 'array' },
-        { fieldKey: 'bookingCascades', dataType: 'array' },
-        { fieldKey: 'instanceComponents', dataType: 'array' },
-        { fieldKey: 'dependentInstanceOptions', dataType: 'array' },
+        // LEARNING: Relationship fields should NOT be seeded in primitive metadata
+        // WHY: activeParts (activeConstituents), bookingCascades, instanceComponents, 
+        //      and dependentInstanceOptions are defined in RELATIONSHIP_KEYS
+        // PATTERN: Relationship fields should only exist in admin_relationship_metadata
       ],
       partInstance: [
         { fieldKey: 'name', dataType: 'string' },
@@ -103,8 +103,9 @@ export default {
         { fieldKey: 'type', dataType: 'string' },
         { fieldKey: 'composable', dataType: 'boolean' },
         { fieldKey: 'constituable', dataType: 'boolean' },
-        { fieldKey: 'validCascades', dataType: 'array' },
-        { fieldKey: 'validConstituents', dataType: 'array' },
+        // LEARNING: validCascades and validParts are relationship fields, not primitive fields
+        // WHY: They are defined in RELATIONSHIP_KEYS and should only exist in admin_relationship_metadata
+        // PATTERN: Relationship fields should NEVER be seeded in primitive metadata migrations
       ],
       partShape: [
         { fieldKey: 'name', dataType: 'string' },

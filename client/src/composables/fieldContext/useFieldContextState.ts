@@ -1,4 +1,4 @@
-import { computed, ref, toRaw, watch, type Ref, type ComputedRef } from 'vue'
+import { computed, ref, toRaw, type Ref, type ComputedRef } from 'vue'
 import { useField, useForm, type FieldOptions } from 'vee-validate'
 import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -236,33 +236,10 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
 
   const toPlainValue = (raw: unknown): unknown => toRaw(raw)
 
-  // LEARNING: Sync entityValue to field value when entity loads (per vee-validate best practices)
-  // WHY: If entity loads after field creation, initialValue might be empty but entityValue has data
-  //      resetForm in EntityCard.vue should handle this, but as a fallback we sync here
-  // PATTERN: Use setValue for programmatic updates from store (per vee-validate docs)
-  // NOTE: Only sync if field isn't dirty to avoid overwriting user edits
-  watch(
-    () => entityValue.value,
-    (newEntityValue) => {
-      // LEARNING: Only sync if field is not dirty (user hasn't edited it)
-      // WHY: Don't overwrite user edits - if user has edited the field, keep their value
-      // PATTERN: Check isDirty before syncing (per vee-validate best practices)
-      if (meta.dirty) {
-        return
-      }
-      
-      // LEARNING: Only sync if value actually changed
-      // WHY: Avoid unnecessary updates and potential infinite loops
-      // PATTERN: Compare current field value with new entity value
-      if (value.value !== newEntityValue) {
-        // LEARNING: Use setValue for programmatic updates (per vee-validate docs)
-        // WHY: setValue properly updates the field value and triggers reactivity
-        // PATTERN: Call setValue with the new value from store
-        setFieldValue(newEntityValue)
-      }
-    },
-    { immediate: true } // Run immediately to sync when field is created and when entityValue changes
-  )
+  // LEARNING: Field-level watch removed - use form-level methods instead
+  // WHY: Vee-Validate automatically syncs useField() instances when resetForm() or setFieldValue() is called
+  //      Form-level syncing in EntityCard handles all field updates using Vee-Validate's built-in API
+  // PATTERN: Let form manage all field syncing, fields just react to form state
 
   return {
     fieldKey,

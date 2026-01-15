@@ -32,9 +32,9 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'blockShape' as GlobalEntityKey,
   },
-  validConstituents: {
-    backendName: 'valid_constituents',
-    frontendKey: 'validConstituents',
+  validParts: {
+    backendName: 'valid_parts',
+    frontendKey: 'validParts',
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'partShape' as GlobalEntityKey,
   },
@@ -50,9 +50,9 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'blockInstance' as GlobalEntityKey,
   },
-  activeConstituents: {
-    backendName: 'active_constituents',
-    frontendKey: 'activeConstituents',
+  activeParts: {
+    backendName: 'active_parts',
+    frontendKey: 'activeParts',
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'partInstance' as GlobalEntityKey,
   },

@@ -10,14 +10,14 @@ import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 
 /**
- * Create an activeConstituents relationship (blockInstance -> partInstances)
+ * Create an activeParts relationship (blockInstance -> partInstances)
  */
-export function createActiveConstituentsRel(
+export function createActivePartsRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'activeConstituents'> {
+): GlobalRelationship<'activeParts'> {
   return {
-    relationshipKind: 'activeConstituents',
+    relationshipKind: 'activeParts',
     parent: { id: parentId, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>,
     children: childIds.map(id => ({ id, entityKey: 'partInstance' } as GlobalEntity<'partInstance'>)),
   }
@@ -52,14 +52,14 @@ export function createActiveCascadesRel(
 }
 
 /**
- * Create a validConstituents relationship (blockShape -> partShapes)
+ * Create a validParts relationship (blockShape -> partShapes)
  */
-export function createValidConstituentsRel(
+export function createValidPartsRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'validConstituents'> {
+): GlobalRelationship<'validParts'> {
   return {
-    relationshipKind: 'validConstituents',
+    relationshipKind: 'validParts',
     parent: { id: parentId, entityKey: 'blockShape' } as GlobalEntity<'blockShape'>,
     children: childIds.map(id => ({ id, entityKey: 'partShape' } as GlobalEntity<'partShape'>)),
   }
@@ -120,13 +120,13 @@ export function createCompositeRelationships(
 ) {
   const instanceComponents = createActiveComponentsRel(compositeBlockId, componentIds)
   
-  const activeConstituents = componentIds.map(componentId =>
-    createActiveConstituentsRel(componentId, partIdsByComponent[componentId] || [])
+  const activeParts = componentIds.map(componentId =>
+    createActivePartsRel(componentId, partIdsByComponent[componentId] || [])
   )
   
   return {
     instanceComponents,
-    activeConstituents,
+    activeParts,
   }
 }
 

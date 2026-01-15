@@ -53,7 +53,7 @@ export function getComponentConfig(entityType: EntityType): ComponentConfig | un
         baseFee: 'sum',
         baseTime: 'sum',
         rateOverBaseFee: 'sum',
-        activeConstituents: 'merge', // Merge all part instances from composed blocks
+        activeParts: 'merge', // Merge all part instances from composed blocks
         onSite: 'every', // All must be true
         clientPresent: 'every', // All must be true
         name: 'first', // Use first particle's name
@@ -90,7 +90,7 @@ export type ComponentStrategy = 'sum' | 'merge' | 'first' | 'every' | 'custom';
 export interface ComponentConfig {
   enabled: boolean;
   componentRules?: Record<string, ComponentStrategy>;
-  // Property-specific component strategies (e.g., baseFee: 'sum', activeConstituents: 'merge', onSite: 'every')
+  // Property-specific component strategies (e.g., baseFee: 'sum', activeParts: 'merge', onSite: 'every')
 }
 
 /**

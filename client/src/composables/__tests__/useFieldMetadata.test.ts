@@ -50,7 +50,7 @@ describe('getFieldMetadata', () => {
         },
       })
       
-      const metadata = getFieldMetadata('blockInstance', 'activeConstituents')
+      const metadata = getFieldMetadata('blockInstance', 'activeParts')
       
       expect(metadata.fieldType).toBe('multiselect')
     })

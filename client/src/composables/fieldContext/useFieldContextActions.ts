@@ -183,7 +183,7 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
 
         await Promise.all(promises)
 
-        if (relationshipKey === 'validCascades' || relationshipKey === 'validConstituents') {
+        if (relationshipKey === 'validCascades' || relationshipKey === 'validParts') {
           try {
             const { cleanupInvalidActiveRelationships } = await import('@/utils/dependencyCleanup')
             await cleanupInvalidActiveRelationships(
@@ -223,6 +223,14 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
         if (['blockInstance', 'blockShape'].includes(state.entityKey)) {
           state.queryClient.invalidateQueries({ queryKey: ['schedulerAdmin'] })
         }
+        
+        // LEARNING: After save, the store is updated optimistically
+        // WHY: The watch on entityValue in useFieldContextState will sync the field value
+        //      when it detects the store has updated and values match
+        //      The watch on storeEntity in EntityCard will reset the form when values change
+        // PATTERN: Let the reactive watches handle syncing - no need to manually reset here
+        // NOTE: Optimistic update happens synchronously in onMutate, so store is updated immediately
+        //      The watches will detect the change and sync accordingly
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)

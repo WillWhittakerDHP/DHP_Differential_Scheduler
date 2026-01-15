@@ -49,7 +49,11 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
       try {
         await fieldContext.save()
       } catch (error) {
-        // Auto-save failed
+        console.error('[FIELD-SAVE] Field save failed', {
+          fieldKey: String(fieldContext.fieldKey),
+          entityId: String(fieldContext.entityId),
+          error
+        })
       }
     }
   }

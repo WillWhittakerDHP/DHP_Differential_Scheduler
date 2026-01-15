@@ -85,11 +85,11 @@ export interface UseFieldComponentReturn {
   isPrimitive: Ref<boolean>
   
   /**
-   * @deprecated Use componentType.value.type === 'nested' instead
-   * LEARNING: Whether field is nested collection type
+   * @deprecated Use componentType.value.type === 'partsCollection' instead
+   * LEARNING: Whether field is partsCollection type
    * WHY: Kept for backward compatibility, but prefer componentType
    */
-  isNested: Ref<boolean>
+  isPartsCollection: Ref<boolean>
   
   /**
    * @deprecated Use componentType.value.type === 'annotations' instead
@@ -229,12 +229,12 @@ export function useFieldComponent(
   })
   
   /**
-   * LEARNING: Whether field is nested collection type
-   * WHY: Nested fields use PartsCollection component
-   * PATTERN: Determined from dispatcher: component.type === 'nested'
+   * LEARNING: Whether field is partsCollection type
+   * WHY: PartsCollection fields use PartsCollection component
+   * PATTERN: Determined from dispatcher: component.type === 'partsCollection'
    */
-  const isNested = computed(() => {
-    return componentType.value.type === 'nested'
+  const isPartsCollection = computed(() => {
+    return componentType.value.type === 'partsCollection'
   })
   
   /**
@@ -261,7 +261,7 @@ export function useFieldComponent(
     // Deprecated: Keep for backward compatibility
     isIcon,
     isPrimitive,
-    isNested,
+    isPartsCollection,
     isAnnotations,
     isSelect
   }

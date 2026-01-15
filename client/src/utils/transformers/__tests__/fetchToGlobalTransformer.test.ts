@@ -109,7 +109,7 @@ describe('GlobalTransformer', () => {
         fetchedRelationships: [
           {
             id: 'rel-1',
-            kind: 'activeConstituents',
+            kind: 'activeParts',
             parent_id: 'block-1',
             parent_kind: 'blockInstance',
             child_id: 'part-1',
@@ -118,7 +118,7 @@ describe('GlobalTransformer', () => {
           },
           {
             id: 'rel-2',
-            kind: 'activeConstituents',
+            kind: 'activeParts',
             parent_id: 'block-1',
             parent_kind: 'blockInstance',
             child_id: 'part-2',
@@ -132,9 +132,9 @@ describe('GlobalTransformer', () => {
       
       const result = transformer.hydrate(staged)
       
-      expect(result.relationships.activeConstituents).toHaveLength(1)
-      expect(result.relationships.activeConstituents[0].parent.id).toBe('block-1')
-      expect(result.relationships.activeConstituents[0].children).toHaveLength(2)
+      expect(result.relationships.activeParts).toHaveLength(1)
+      expect(result.relationships.activeParts[0].parent.id).toBe('block-1')
+      expect(result.relationships.activeParts[0].children).toHaveLength(2)
     })
     
     it('should handle missing entity references', () => {
@@ -148,7 +148,7 @@ describe('GlobalTransformer', () => {
         fetchedRelationships: [
           {
             id: 'rel-1',
-            kind: 'activeConstituents',
+            kind: 'activeParts',
             parent_id: 'nonexistent-block',
             parent_kind: 'blockInstance',
             child_id: 'nonexistent-part',
@@ -163,7 +163,7 @@ describe('GlobalTransformer', () => {
       const result = transformer.hydrate(staged)
       
       // Should skip relationships with missing entities
-      expect(result.relationships.activeConstituents).toHaveLength(0)
+      expect(result.relationships.activeParts).toHaveLength(0)
     })
   })
   

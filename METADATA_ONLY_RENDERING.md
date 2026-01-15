@@ -22,12 +22,12 @@ flowchart TD
   FieldContext --> InputRenderer[InputRenderer]
   
   FieldContext --> useFieldTypeDetermination[useFieldTypeDetermination]
-  useFieldTypeDetermination --> isPrimitive[isPrimitive/isSelect/isNested]
+  useFieldTypeDetermination --> isPrimitive[isPrimitive/isSelect/isPartsCollection]
   
   FieldContext --> useSelectConfig[useSelectConfig]
-  FieldContext --> useNestedCollectionField[useNestedCollectionField]
+  FieldContext --> usePartsCollectionField[usePartsCollectionField]
   useSelectConfig --> metadata.inputConfig[metadata.inputConfig]
-  useNestedCollectionField --> metadata.inputConfig
+  usePartsCollectionField --> metadata.inputConfig
 ```
 
 ## Key Components
@@ -46,7 +46,7 @@ flowchart TD
 - **`useFormFieldsContext`**: Creates FieldContext with `displayConfig` derived from metadata
 - **`useFieldTypeDetermination`**: Determines input component type from `metadata.renderAs` + `metadata.inputConfig`
 - **`useSelectConfig`**: Reads select config from `metadata.inputConfig` (not `adminConfig.getFormFieldConfig`)
-- **`useNestedCollectionField`**: Reads nested config from `metadata.inputConfig`
+- **`usePartsCollectionField`**: Reads partsCollection config from `metadata.inputConfig`
 
 ### Field Context Creation
 
@@ -69,7 +69,7 @@ displayConfig: {
 Field type is derived from metadata:
 
 - `renderAs: 'statusButton'` → Status button (rendered in panel title)
-- `renderAs: 'select'|'multiselect'|'reference'` + `inputConfig.selectMode === 'nested'` → PartsCollection
+- `renderAs: 'partsCollection'` → PartsCollection (declarative nested collection)
 - `renderAs: 'select'|'multiselect'|'reference'` → SelectInputs
 - `renderAs: 'text'` + `dataType: 'boolean'` → BooleanInput
 - `renderAs: 'text'` + `dataType: 'number'` → NumberInput
@@ -107,7 +107,7 @@ Form field configs are now metadata-only. Use /admin-input-metadata and metadata
 - [x] Client: Make `useStatusButtonFields` metadata-only
 - [x] Client: Make `useFormFieldsContext` build `displayConfig` from metadata
 - [x] Client: Make `useSelectConfig` read from `metadata.inputConfig`
-- [x] Client: Make `useNestedCollectionField` read from `metadata.inputConfig`
+- [x] Client: Make `usePartsCollectionField` read from `metadata.inputConfig`
 - [x] Client: Make `buildFormFieldConfig` return empty configs
 - [x] Client: Add dev guards to deprecated `getFormFieldConfig` functions
 - [x] Client: Archive primitive/selectable config files
@@ -121,7 +121,7 @@ To verify metadata-only rendering:
 
 1. **Check status buttons**: `partShape.active` should render as status button when configured in metadata
 2. **Check select fields**: Select fields should read config from `metadata.inputConfig`
-3. **Check nested fields**: Nested fields (like `activeConstituents`) should read config from `metadata.inputConfig`
+3. **Check partsCollection fields**: PartsCollection fields (like `activeParts`) should read config from `metadata.inputConfig`
 4. **Check dev warnings**: In dev mode, accessing `getFormFieldConfig` should log warnings
 
 ## Next Steps

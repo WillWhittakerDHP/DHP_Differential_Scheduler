@@ -22,9 +22,9 @@ import { findRelationshipsByParent, extractChildIds } from './relationshipTransf
 export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
   // Relationship arrays attached during transformation
   validCascades?: GlobalEntityId[]
-  validConstituents?: GlobalEntityId[]
+  validParts?: GlobalEntityId[]
   bookingCascades?: GlobalEntityId[]
-  activeConstituents?: GlobalEntityId[]
+  activeParts?: GlobalEntityId[]
 }
 
 /**
@@ -132,10 +132,10 @@ export class AdminTransformer {
     } as AdminObject<GE>
     
     // LEARNING: Ensure relationships are included even if not in formFieldConfig
-    // WHY: Relationships (validCascades, validConstituents, etc.) are attached as properties but may not be in formFieldConfig
+    // WHY: Relationships (validCascades, validParts, etc.) are attached as properties but may not be in formFieldConfig
     // PATTERN: Explicitly include relationship arrays if they exist on the entity
     //          Use type-safe property access - check if property exists before accessing
-    const relationshipKeys = ['validCascades', 'validConstituents', 'bookingCascades', 'activeConstituents', 'instanceComponents'] as const
+    const relationshipKeys = ['validCascades', 'validParts', 'bookingCascades', 'activeParts', 'instanceComponents'] as const
     relationshipKeys.forEach(relKey => {
       // LEARNING: Type-safe property access - check if property exists before accessing
       // WHY: entityWithKey is typed as GlobalEntity<GE> but has AdminObject<GE> properties after attachRelationshipData
@@ -157,7 +157,7 @@ export class AdminTransformer {
   /**
    * Attach relationship data to entity
    * LEARNING: Extracts child IDs from GlobalRelationship[] and attaches as arrays
-   * WHY: Select fields need relationship arrays (validCascades, validConstituents, bookingCascades, activeConstituents) attached
+   * WHY: Select fields need relationship arrays (validCascades, validParts, bookingCascades, activeParts) attached
    * PATTERN: Find relationships where entity is parent → Extract child IDs → Attach as array property
    * 
    * LEARNING: Always initializes relationship arrays (even if empty) for consistency
@@ -176,9 +176,9 @@ export class AdminTransformer {
     // Map relationship types to entity properties
     const relationshipMappings = {
       validCascades: 'validCascades',
-      validConstituents: 'validConstituents', 
+      validParts: 'validParts', 
       bookingCascades: 'bookingCascades',
-      activeConstituents: 'activeConstituents',
+      activeParts: 'activeParts',
       instanceComponents: 'instanceComponents'
     }
 

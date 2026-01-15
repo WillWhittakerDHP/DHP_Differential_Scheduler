@@ -96,7 +96,7 @@ export async function seedBasicTestData() {
   // WHY: TypeScript doesn't know about model instance properties
   // PATTERN: Use 'as any' cast to access model properties in test setup
   await Relationship.create({
-    relationshipKind: 'activeConstituents',
+    relationshipKind: 'activeParts',
     parentId: (blockInstance1 as any).id,
     parentEntityKey: 'blockInstance',
     childId: (partInstance1 as any).id,
@@ -104,7 +104,7 @@ export async function seedBasicTestData() {
   })
   
   await Relationship.create({
-    relationshipKind: 'activeConstituents',
+    relationshipKind: 'activeParts',
     parentId: (blockInstance1 as any).id,
     parentEntityKey: 'blockInstance',
     childId: (partInstance2 as any).id,

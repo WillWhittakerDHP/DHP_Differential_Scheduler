@@ -20,8 +20,8 @@ type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInsta
 // PATTERN: Explicitly map entity types to their valid relationship keys
 // NOTE: Using string literals here because TypeScript type system needs literal types, not typeof constants
 type ValidRelationshipKeys<GE extends GlobalEntityKey> = 
-  GE extends "blockShape" ? "validCascades" | "validConstituents" :
-  GE extends "blockInstance" ? "bookingCascades" | "activeConstituents" | "instanceComponents" | "dependentInstanceOptions" :
+  GE extends "blockShape" ? "validCascades" | "validParts" :
+  GE extends "blockInstance" ? "bookingCascades" | "activeParts" | "instanceComponents" | "dependentInstanceOptions" :
   never;
 
 // LEARNING: Union type that includes both field keys, valid relationship keys, and annotation keys
@@ -210,21 +210,21 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         },
       },
             
-      activeConstituents: {
+      activeParts: {
         targetMode: "relationship",
-        targetKey: "activeConstituents",
-        globalField: "activeConstituents",
+        targetKey: "activeParts",
+        globalField: "activeParts",
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: ENTITY_KEY_PART_INSTANCE,
-        selectedChildPath: ["activeConstituents"],
+        selectedChildPath: ["activeParts"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                 
         candidateParentPath: ["blockShapeRef"],             
         candidateChildKey: ENTITY_KEY_PART_INSTANCE,
         candidateChildPath: [],                          
 
-        selectType: RelationshipSelectTypeEnum.ActiveConstituentSelect,
+        selectType: RelationshipSelectTypeEnum.ActivePartSelect,
         selectMode: RelationshipSelectModeEnum.Nested,
         
         // Display properties
@@ -357,21 +357,21 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         },
       },
 
-      validConstituents: {
+      validParts: {
         targetMode: "relationship",
-        targetKey: "validConstituents",
-        globalField: "validConstituents",
+        targetKey: "validParts",
+        globalField: "validParts",
 
         selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildKey: ENTITY_KEY_PART_SHAPE,
-        selectedChildPath: ["validConstituents"],
+        selectedChildPath: ["validParts"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateParentPath: [],                         
         candidateChildKey: ENTITY_KEY_PART_SHAPE,
         candidateChildPath: [],                           
 
-        selectType: RelationshipSelectTypeEnum.ValidConstituentSelect,
+        selectType: RelationshipSelectTypeEnum.ValidPartSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
         // Display properties

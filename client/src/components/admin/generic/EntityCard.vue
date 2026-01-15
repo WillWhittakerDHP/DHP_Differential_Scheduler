@@ -6,7 +6,7 @@
   BENEFITS: DRY, configurable, testable, easier to maintain
 -->
 <script setup lang="ts">
-import { ref, computed, provide, watch, watchEffect, toRef, type Ref } from 'vue'
+import { ref, computed, provide, watch, watchEffect, toRef, nextTick, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
 import { useEntityCardActions } from '@/composables/admin/useEntityCardActions'
 import { useEntityDisplay } from '@/composables/admin/useEntityDisplay'
@@ -196,10 +196,22 @@ const form = props.form || useForm({
   // WHY: Store entity has relationships attached via adminTransformer, props.entity might not
   // PATTERN: Get entity from store (useAdmin().getEntity()) instead of props.entity
   // NOTE: useForm initializes form.values synchronously, so form.values will be available immediately
+  // FIX: Use storeEntity if available, fallback to props.entity to ensure values always exist
   initialValues: {
-    ...storeEntity.value,
+    ...(storeEntity.value || props.entity),
   }
 })
+
+// LEARNING: Explicitly set form values to ensure they're available immediately
+// WHY: Vee-Validate might not populate form.values immediately from initialValues
+//      Setting values explicitly ensures form.values is populated before field contexts are created
+// PATTERN: Use setValues to populate form.values synchronously
+if (!props.form) {
+  const initialEntity = storeEntity.value || props.entity
+  form.setValues({
+    ...initialEntity,
+  })
+}
 
 /**
  * LEARNING: Sync form values when store entity updates
@@ -213,62 +225,36 @@ const form = props.form || useForm({
  * PATTERN: Compare entity IDs, not object references, to avoid unnecessary resets
  */
 if (!props.form && !props.isNew) {
-  // Track last entity ID to detect actual entity changes
+  // Track last entity ID and last reset values to detect actual changes
   let lastEntityId = String(props.entity.id)
+  let lastResetValues: Record<string, unknown> | null = null
   
   watch(storeEntity, (newStoreEntity, oldStoreEntity) => {
-    console.log('[EntityCard] storeEntity watch triggered', {
-      entityKey: props.entityKey,
-      entityId: props.entity.id,
-      newStoreEntity: !!newStoreEntity,
-      oldStoreEntity: !!oldStoreEntity,
-      newEntityName: newStoreEntity?.name,
-      oldEntityName: oldStoreEntity?.name,
-      isSameReference: newStoreEntity === oldStoreEntity,
-      isPropsEntity: newStoreEntity === props.entity
-    })
-    
     if (!newStoreEntity) {
-      console.log('[EntityCard] Skipping reset - no entity')
       return
     }
     
     const newEntityId = String(newStoreEntity.id)
     const entityIdChanged = newEntityId !== lastEntityId
+    const isInitialLoad = !oldStoreEntity
+    const storeEntityJustLoaded = oldStoreEntity === props.entity && newStoreEntity !== props.entity
     
-    console.log('[EntityCard] Entity check', {
-      newEntityId,
-      lastEntityId,
-      entityIdChanged
-    })
-    
-    // LEARNING: Reset form when entity loads or changes (per vee-validate best practices)
-    // WHY: resetForm updates both current values AND initial values for all fields
-    //      This ensures fields get correct values when entity loads from store
-    // PATTERN: Use resetForm to update form values when entity changes
-    // NOTE: Only reset when entity ID changes to prevent overwriting user edits
-    if (entityIdChanged) {
-      console.log('[EntityCard] Resetting form - entity ID changed', {
-        from: lastEntityId,
-        to: newEntityId,
-        entityValues: Object.keys(newStoreEntity)
-      })
+    // LEARNING: Reset form ONLY when:
+    // 1. Entity ID changes (different entity)
+    // 2. Initial load (oldStoreEntity is falsy)
+    // 3. Store entity just loaded (was props.entity, now is store entity)
+    // WHY: For same entity with changed values, use form.setFieldValue() for individual fields
+    //      This uses Vee-Validate's built-in form-level API instead of field-level watches
+    // PATTERN: Reset on entity ID change/initial load, use setFieldValue for individual field updates
+    const shouldReset = entityIdChanged || isInitialLoad || storeEntityJustLoaded
+
+    if (shouldReset) {
+      // LEARNING: Reset form when entity ID changes or on initial load
+      // WHY: resetForm updates all fields and sets initial values for future resets
+      // PATTERN: Use resetForm for entity changes, setFieldValue for individual field updates
       lastEntityId = newEntityId
-      form.resetForm({
-        values: {
-          ...newStoreEntity,
-        }
-      })
-      console.log('[EntityCard] Form reset complete', {
-        formValues: Object.keys(form.values || {})
-      })
-      return
-    }
-    
-    // LEARNING: Also reset if entity was missing and now exists (initial load)
-    // WHY: When entity first loads from store, we should initialize form
-    // PATTERN: Check if old entity was null/undefined or if this is first run (immediate: true)
-    if (!oldStoreEntity || (oldStoreEntity === props.entity && newStoreEntity !== props.entity)) {
+      lastResetValues = { ...newStoreEntity }
+      
       // LEARNING: Use resetForm to update both current values AND initial values (per vee-validate docs)
       // WHY: resetForm updates all fields that are part of the form, even if they were created before
       //      It sets both current values and new initial values for future resets
@@ -278,23 +264,38 @@ if (!props.form && !props.isNew) {
           ...newStoreEntity,
         }
       })
+    } else if (oldStoreEntity) {
+      // LEARNING: Store entity changed but same ID - use form.setFieldValue() for individual fields
+      // WHY: Vee-Validate automatically syncs useField() instances when setFieldValue() is called
+      //      This is more efficient than resetting the entire form and uses Vee-Validate's built-in API
+      // PATTERN: Compare old vs new to find changed fields, then use setFieldValue for each
+      // NOTE: Only sync fields that exist in the form (check form.values) to avoid calling setFieldValue for non-form fields
+      const formFieldKeys = form.values ? Object.keys(form.values) : []
+      const changedFields = Object.keys(newStoreEntity).filter(key => {
+        // Only check fields that exist in the form
+        if (!formFieldKeys.includes(key)) {
+          return false
+        }
+        const oldValue = oldStoreEntity[key]
+        const newValue = newStoreEntity[key]
+        return JSON.stringify(oldValue) !== JSON.stringify(newValue)
+      })
       
-      // LEARNING: Also use setValues to ensure fields sync immediately
-      // WHY: Some fields might not update from resetForm if they were created before resetForm
-      //      setValues explicitly updates form.values which fields should read from reactively
-      // PATTERN: Use both resetForm (for initial values) and setValues (for current values)
-      form.setValues({
-        ...newStoreEntity,
-      })
-    } else {
-      console.log('[EntityCard] Skipping reset - entity already initialized', {
-        entityId: newEntityId,
-        entityName: newStoreEntity.name
-      })
+      if (changedFields.length > 0) {
+        // LEARNING: Use Vee-Validate's form.setFieldValue() for each changed field
+        // WHY: setFieldValue() automatically syncs the corresponding useField() instance
+        //      This is the correct Vee-Validate method for programmatic field updates
+        //      Only call setFieldValue for fields that exist in the form (already filtered above)
+        // PATTERN: Use form-level API instead of field-level watches, filter to form fields only
+        changedFields.forEach(fieldKey => {
+          form.setFieldValue(fieldKey, newStoreEntity[fieldKey])
+        })
+      }
+      
+      // Update lastResetValues for next comparison
+      lastResetValues = { ...newStoreEntity }
     }
-    // NOTE: If entity ID hasn't changed and entity already existed, don't reset
-    //       This prevents overwriting user edits when modal opens/closes or store refetches
-  }, { immediate: true }) // Run immediately to initialize form when component mounts
+  }, { immediate: true, deep: true }) // Run immediately and watch deeply for value changes
 }
 const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
 
@@ -308,7 +309,7 @@ const fetchedMetadata = useEntityMetadata(
 )
 
 // LEARNING: Fetch relationship metadata separately and merge with field metadata
-// WHY: Relationship fields (activeConstituents, validCascades, etc.) are not on entity objects
+// WHY: Relationship fields (activeParts, validCascades, etc.) are not on entity objects
 //      but need metadata for rendering configuration
 // PATTERN: Fetch relationship metadata and merge into unified metadata map
 const fetchedRelationshipMetadata = useRelationshipMetadata(
@@ -321,14 +322,10 @@ const fetchedRelationshipMetadata = useRelationshipMetadata(
 // PATTERN: Merge relationship metadata using relationship keys as field keys
 const composedFieldMetadata = computed(() => {
   if (props.fieldMetadata) {
-    // If filtered metadata is provided via prop, merge relationship metadata into it
-    const merged = { ...props.fieldMetadata }
-    const relationshipMeta = fetchedRelationshipMetadata.relationshipMetadata.value
-    for (const [relationshipKey, entry] of Object.entries(relationshipMeta)) {
-      // Merge relationship metadata as field metadata (using relationshipKey as fieldKey)
-      merged[relationshipKey] = entry
-    }
-    return merged
+    // LEARNING: When filtered metadata is provided, use it as-is
+    // WHY: Parent components (like bulk edit modals) have already filtered to desired fields
+    // PATTERN: Don't merge relationship metadata - parent controls which fields to show
+    return props.fieldMetadata
   }
   
   // Merge fetched field metadata with relationship metadata
@@ -358,35 +355,28 @@ const isMetadataReady = computed(() => {
   return isReady
 })
 
-// LEARNING: Get field keys immediately from entity object, merge with metadata when available
-// WHY: Field keys are static properties of the entity - they don't change, so get them immediately
-//      Metadata tells us HOW to render fields, but field keys come from the entity itself
-// PATTERN: Extract keys from entity immediately, use metadata for rendering config (not for key discovery)
+// LEARNING: Get field keys from metadata exclusively - no fallbacks
+// WHY: Metadata is the single source of truth for which fields to render
+// PATTERN: Use metadata keys only - fail explicitly if metadata is not available
 const fieldKeys = computed(() => {
-  // LEARNING: Get keys from entity object immediately - they're always available
-  // WHY: Entity object has all field keys as properties, no need to wait for metadata
-  // PATTERN: Extract keys from entity, filter out non-field properties and system fields
-  const entityKeys = Object.keys(props.entity).filter(key => {
-    // Filter out non-field properties that shouldn't be rendered
-    // LEARNING: Exclude system fields (createdAt, updatedAt) and special fields (annotations)
-    // WHY: System fields are managed by database, annotations handled separately via AnnotationsField
-    // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
-    const systemFields = ['id', 'entityKey', 'orderIndex', 'createdAt', 'updatedAt', 'annotations']
-    return !systemFields.includes(key)
-  }) as GlobalFieldKey<GlobalEntityKey>[]
+  // LEARNING: When fieldMetadata prop is provided, use it exclusively
+  // WHY: Parent components (like bulk edit modals) pass filtered metadata
+  // PATTERN: If prop provided, use those keys only - no fallback to entity keys
+  if (props.fieldMetadata && Object.keys(props.fieldMetadata).length > 0) {
+    return Object.keys(props.fieldMetadata) as GlobalFieldKey<GlobalEntityKey>[]
+  }
   
-  // LEARNING: If metadata is available, use it as source of truth for which fields to include
-  // WHY: Metadata might have additional fields (including relationship fields) or filter out some fields
-  // PATTERN: Prefer metadata keys if available, otherwise use entity keys
-  // NOTE: Relationship fields are included in metadata but not on entity object
+  // LEARNING: Use composedFieldMetadata as exclusive source of truth
+  // WHY: Metadata determines which fields to render - no fallback to entity object
+  // PATTERN: Fail explicitly if metadata is not available rather than falling back to entity keys
   if (composedFieldMetadata.value && Object.keys(composedFieldMetadata.value).length > 0) {
     return Object.keys(composedFieldMetadata.value) as GlobalFieldKey<GlobalEntityKey>[]
   }
   
-  // LEARNING: Fallback to entity keys if metadata not yet loaded
-  // WHY: Don't wait for metadata - field keys are available immediately from entity
-  // PATTERN: Use entity keys immediately, metadata will update when it loads
-  return entityKeys
+  // LEARNING: Fail explicitly - return empty array if no metadata available
+  // WHY: No fallbacks - metadata must be available for fields to render
+  // PATTERN: Return empty array to fail visibly rather than silently falling back
+  return [] as GlobalFieldKey<GlobalEntityKey>[]
 })
 
 // LEARNING: Derive layout config from metadata layout property
@@ -662,12 +652,52 @@ const unifiedSaveState = useEntityCardSaveState({
 })
 
 /**
- * LEARNING: Wrapped save handler that resets unified save state after save
+ * LEARNING: Wrapped save handler that resets unified save state and form after save
  * WHY: After successful save, we need to reset both form and status button change tracking
- * PATTERN: Wrap original handleSave, call resetSaveState after successful save
+ *      Also need to reset form with updated entity values from store
+ * PATTERN: Wrap original handleSave, reset form with store entity, then reset save state
  */
 const handleSave = async (): Promise<void> => {
   await _handleSave()
+  
+  // LEARNING: Reset form with updated entity values from store after save
+  // WHY: After save, entity is updated in store, form should reflect the saved values
+  // PATTERN: Wait for next tick to ensure store is updated, then get entity and reset form
+  // NOTE: Vue Query mutations update cache, but we wait a tick to ensure propagation
+  await nextTick()
+  
+  if (!props.isNew) {
+    const savedEntity = admin.getEntity(props.entityKey, props.entity.id)
+    if (savedEntity) {
+      console.log('[FORM-RESET] Resetting form after full save', {
+        entityKey: String(props.entityKey),
+        entityId: String(props.entity.id),
+        entityName: savedEntity.name,
+        sampleValues: {
+          name: (savedEntity as { name?: unknown }).name,
+          id: savedEntity.id
+        }
+      })
+      
+      // Reset form with saved entity values to ensure fields display updated values
+      form.resetForm({
+        values: {
+          ...savedEntity,
+        }
+      })
+      // Also use setValues to ensure fields sync immediately
+      form.setValues({
+        ...savedEntity,
+      })
+      
+    } else {
+      console.warn('[FORM-RESET] Saved entity not found in store after save', {
+        entityKey: String(props.entityKey),
+        entityId: String(props.entity.id)
+      })
+    }
+  }
+  
   // Reset unified save state after successful save
   unifiedSaveState.resetSaveState()
 }
@@ -791,6 +821,7 @@ defineExpose({
   <VExpansionPanel
     v-if="props.useExpansionPanel"
     :value="String(entity.id)"
+    :class="$attrs.class"
   >
     <template #title>
       <div 

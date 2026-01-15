@@ -22,7 +22,7 @@ export default {
       { fieldKey: 'requiresUnitNumber', dataType: 'boolean', controlType: 'toggle', label: 'Requires Unit Number', isRequired: false, displayOrder: 6 },
       { fieldKey: 'baseSqFt', dataType: 'number', controlType: 'number', label: 'Base Sq Ft', isRequired: false, displayOrder: 7 },
       { fieldKey: 'icon', dataType: 'string', controlType: 'text', label: 'Icon', isRequired: false, displayOrder: 8 },
-      { fieldKey: 'activeConstituents', dataType: 'array', controlType: 'reference', label: 'Active Constituents', isRequired: false, displayOrder: 9 },
+      { fieldKey: 'activeParts', dataType: 'array', controlType: 'reference', label: 'Active Parts', isRequired: false, displayOrder: 9 },
       { fieldKey: 'instanceComponents', dataType: 'array', controlType: 'reference', label: 'Instance Components', isRequired: false, displayOrder: 10 },
       { fieldKey: 'bookingCascades', dataType: 'array', controlType: 'reference', label: 'Booking Cascades', isRequired: false, displayOrder: 11 },
       { fieldKey: 'dependentInstanceOptions', dataType: 'array', controlType: 'reference', label: 'Dependent Instance Options', isRequired: false, displayOrder: 12 },

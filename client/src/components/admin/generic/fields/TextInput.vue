@@ -78,7 +78,7 @@
  *            SelectInputs.vue pattern. App components handle labels internally.
  */
 
-import { computed, inject, toRef } from 'vue'
+import { computed, inject, toRef, unref, type Ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { AUTCOMPLETE_OFF } from '../../../../utils/autocomplete'
 import BaseInput from './BaseInput.vue'
@@ -132,14 +132,23 @@ const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_C
  */
 const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
 
-// LEARNING: Use unified field value composable
-// WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
-// PATTERN: Always use useFieldValue for accessing field values
-// NOTE: fieldContext is computed, so we pass fieldContext.value
+// LEARNING: Access field value directly from context.value
+// WHY: context.value is a Ref<ValidAdminValue> from vee-validate's useField
+//      When passed as prop, Vue may unwrap it, so we handle both cases
+// PATTERN: Access context.value directly - if it's a Ref, access .value; if unwrapped, use directly
+// FIX: Handle Vue's prop unwrapping - context.value may be unwrapped to the actual value
 const fieldValue = computed(() => {
   const context = fieldContext.value
-  if (!context) return '' as ValidAdminValue
-  return useFieldValue(context).value
+  if (!context) {
+    return '' as ValidAdminValue
+  }
+  
+  // LEARNING: Access value using useFieldValue composable which handles Ref unwrapping
+  // WHY: useFieldValue is designed to handle Vue's Ref unwrapping when fieldContext is passed as prop
+  // PATTERN: Use useFieldValue composable which properly handles both Ref and unwrapped cases
+  // NOTE: This is the correct way to access field values - it handles all edge cases
+  const val = useFieldValue(context).value
+  return val as ValidAdminValue
 })
 
 // LEARNING: Computed property to reactively track readOnly state

@@ -16,6 +16,12 @@ export interface PartInstanceCollectionModel {
 
   blockInstance: ComputedRef<GlobalEntity<'blockInstance'> | undefined>
   shouldShowPartInstances: ComputedRef<boolean>
+  
+  /**
+   * LEARNING: Options field key from metadata
+   * WHY: Exposed for debugging and potential future use
+   */
+  optionsFieldKey: ComputedRef<string>
 
   // Inline creation support (EntityCard-based)
   expandedPlaceholders: Ref<string[]>
@@ -44,19 +50,29 @@ export interface PartInstanceCollectionModel {
  * UPDATED: Added inline creation support with expandable placeholder cards
  * WHY: User requested inline creation instead of dialog for better UX
  * PATTERN: Expandable cards with form inputs, save creates entity + relationship
+ * 
+ * UPDATED: Made metadata-driven with optionsFieldKey parameter
+ * WHY: Removes hardcoded field names, uses metadata-driven approach
+ * PATTERN: Accept optionsFieldKey from metadata and pass to usePartInstanceData
  */
-export function usePartInstanceCollection(blockInstanceId: ComputedRef<string>): PartInstanceCollectionModel {
+export function usePartInstanceCollection(
+  blockInstanceId: ComputedRef<string>,
+  optionsFieldKey: ComputedRef<string>
+): PartInstanceCollectionModel {
   const { getGlobalEntityById } = useGlobal()
   const queryClient = useQueryClient()
   const { success: _notifySuccess, error: notifyError } = useNotification()
   // NOTE: notifySuccess not used after refactor - EntityCard shows its own success messages
 
-  const { create: createActiveConstituentsRelationship } = useRelationshipCrud('activeConstituents')
+  const { create: createActivePartsRelationship } = useRelationshipCrud('activeParts')
   const { create: _createPartInstance } = useEntityCrud('partInstance')
   // NOTE: createPartInstance is available but EntityCard handles entity creation
   // We only need to create the relationship after EntityCard saves
 
-  const partInstanceData = usePartInstanceData({ blockInstanceId })
+  const partInstanceData = usePartInstanceData({ 
+    blockInstanceId,
+    optionsFieldKey
+  })
   const {
     validPartShapes,
     existingPartInstances: existingPartInstancesRef,
@@ -157,7 +173,7 @@ export function usePartInstanceCollection(blockInstanceId: ComputedRef<string>):
       
       // Use the entity passed from the saved event instead of looking it up
       // This avoids timing issues where getPartInstanceForShape might not find it yet
-      await createActiveConstituentsRelationship({
+      await createActivePartsRelationship({
         parent_id: blockInstanceEntity.id,
         child_id: createdEntity.id,
       })
@@ -166,7 +182,7 @@ export function usePartInstanceCollection(blockInstanceId: ComputedRef<string>):
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['blockInstance'] }),
         queryClient.invalidateQueries({ queryKey: ['partInstance'] }),
-        queryClient.invalidateQueries({ queryKey: ['activeConstituents'] }),
+        queryClient.invalidateQueries({ queryKey: ['activeParts'] }),
         queryClient.invalidateQueries({ queryKey: ['globalData'] }),
       ])
 
@@ -218,6 +234,7 @@ export function usePartInstanceCollection(blockInstanceId: ComputedRef<string>):
     getPartShapeName,
     blockInstance,
     shouldShowPartInstances,
+    optionsFieldKey,
     // Inline creation (EntityCard-based)
     expandedPlaceholders,
     getNewPartInstanceEntity,

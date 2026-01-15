@@ -6,10 +6,10 @@ import { BlockInstanceFactory } from "./booking/block_instance.js";
 import { BlockInstanceVersionFactory } from "./booking/block_instance_version.js";
 import { PartInstanceVersionFactory } from "./booking/part_instance_version.js";
 import { ValidCascadeFactory } from "./admin/valid_cascade.js";
-import { ValidConstituentFactory } from "./admin/valid_constituent.js";
+import { ValidPartFactory } from "./admin/valid_part.js";
 import { DependentInstanceOptionFactory } from "./booking/dependent_instance_option.js";
 import { BookingCascadeFactory } from "./booking/booking_cascade.js";
-import { ActiveConstituentFactory } from "./booking/active_constituent.js";
+import { ActivePartFactory } from "./booking/active_part.js";
 import { InstanceComponentFactory } from "./booking/instance_component.js";
 import { AnnotationInstanceFactory } from "./booking/annotation_instance.js";
 import { ActiveAnnotationFactory } from "./booking/active_annotation.js";
@@ -22,7 +22,7 @@ import { PropertyVersionTypeFactory } from "./booking/property_version_type.js";
 import { UserFactory } from "./participantModels/Users.js";
 import { AppointmentFactory } from "./booking/appointment.js";
 import { BusinessSettingsFactory } from "./admin/business_settings.js";
-import { AdminInputMetadataFactory } from "./admin/adminInputMetadata.js";
+import { AdminPrimitiveMetadataFactory } from "./admin/adminPrimitiveMetadata.js";
 import { AdminRelationshipMetadataFactory } from "./admin/adminRelationshipMetadata.js";
 
 export function initializeModels(sequelize: Sequelize) {
@@ -41,16 +41,16 @@ export function initializeModels(sequelize: Sequelize) {
   // 3️⃣ Define Valid Relationships (Admin Side)
   // Cascade: Vertical hierarchy (different shapes, e.g., user_shape → service)
   const ValidCascade = ValidCascadeFactory(sequelize);
-  // Constituent: Block → Part relationships (math dimension)
-  const ValidConstituent = ValidConstituentFactory(sequelize);
+  // Part: Block → Part relationships (math dimension)
+  const ValidPart = ValidPartFactory(sequelize);
   // Dependent Instance Option: Instance-level valid dependent option relationships (blockInstance → blockInstance)
   const DependentInstanceOption = DependentInstanceOptionFactory(sequelize);
 
   // 4️⃣ Define Active Relationships (Booking Side)
   // Booking Cascade: Vertical hierarchy (different shapes, e.g., user_instance → service_instance)
   const BookingCascade = BookingCascadeFactory(sequelize);
-  // Constituent: Block → Part relationships (math dimension)
-  const ActiveConstituent = ActiveConstituentFactory(sequelize);
+  // Part: Block → Part relationships (math dimension)
+  const ActivePart = ActivePartFactory(sequelize);
   // Instance Component: Option component relationships (blockInstance → blockInstance)
   const InstanceComponent = InstanceComponentFactory(sequelize);
 
@@ -81,8 +81,8 @@ export function initializeModels(sequelize: Sequelize) {
   // 7️⃣ Define Admin Configuration Models
   // BusinessSettings: Admin-configurable business logic settings (availability settings, etc.)
   const BusinessSettings = BusinessSettingsFactory(sequelize);
-  // AdminInputMetadata: Unified admin input metadata for all entity types
-  const AdminInputMetadata = AdminInputMetadataFactory(sequelize);
+  // AdminPrimitiveMetadata: Unified admin primitive metadata for all entity types (renamed from AdminInputMetadata)
+  const AdminPrimitiveMetadata = AdminPrimitiveMetadataFactory(sequelize);
   // AdminRelationshipMetadata: Relationship field metadata for all entity types
   const AdminRelationshipMetadata = AdminRelationshipMetadataFactory(sequelize);
 
@@ -97,9 +97,9 @@ export function initializeModels(sequelize: Sequelize) {
   BlockShape.hasMany(ValidCascade, { foreignKey: 'parent_id', as: 'valid_cascades' });
   ValidCascade.belongsTo(BlockShape, { foreignKey: 'child_id', as: 'valid_cascade_shape' });
 
-  // 🔄 Valid Constituent Relationships (BlockShape → PartShape)
-  BlockShape.hasMany(ValidConstituent, { foreignKey: 'parent_id', as: 'valid_constituents' });
-  ValidConstituent.belongsTo(PartShape, { foreignKey: 'child_id', as: 'valid_constituent_shape' });
+  // 🔄 Valid Part Relationships (BlockShape → PartShape)
+  BlockShape.hasMany(ValidPart, { foreignKey: 'parent_id', as: 'valid_parts' });
+  ValidPart.belongsTo(PartShape, { foreignKey: 'child_id', as: 'valid_part_shape' });
 
   // 🔄 Dependent Instance Option Relationships (BlockInstance → BlockInstance)
   BlockInstance.hasMany(DependentInstanceOption, { foreignKey: 'parent_id', as: 'dependent_instance_options' });
@@ -109,20 +109,20 @@ export function initializeModels(sequelize: Sequelize) {
   BlockInstance.hasMany(BookingCascade, { foreignKey: 'parent_id', as: 'booking_cascades' });
   BookingCascade.belongsTo(BlockInstance, { foreignKey: 'child_id', as: 'booking_cascade_instance' });
 
-  // 🔄 Active Constituent Relationships (BlockInstance → PartInstance)
-  BlockInstance.hasMany(ActiveConstituent, { foreignKey: 'parent_id', as: 'active_constituents' });
-  ActiveConstituent.belongsTo(BlockInstance, { foreignKey: 'parent_id', as: 'active_constituent_block_instance' });
-  ActiveConstituent.belongsTo(PartInstance, { foreignKey: 'child_id', as: 'active_constituent_part_instance' });
+  // 🔄 Active Part Relationships (BlockInstance → PartInstance)
+  BlockInstance.hasMany(ActivePart, { foreignKey: 'parent_id', as: 'active_parts' });
+  ActivePart.belongsTo(BlockInstance, { foreignKey: 'parent_id', as: 'active_part_block_instance' });
+  ActivePart.belongsTo(PartInstance, { foreignKey: 'child_id', as: 'active_part_part_instance' });
 
   // 🔄 Instance Component Relationships (BlockInstance → BlockInstance)
   BlockInstance.hasMany(InstanceComponent, { foreignKey: 'parent_id', as: 'instance_components' });
   InstanceComponent.belongsTo(BlockInstance, { foreignKey: 'child_id', as: 'instance_component_instance' });
 
   BlockInstance.belongsToMany(PartInstance, {
-    through: ActiveConstituent,
+    through: ActivePart,
     foreignKey: "parent_id",
     otherKey: "child_id",
-    as: "active_constituent_part_instances",
+    as: "active_part_part_instances",
   });
 
   // 📝 Annotation Relationships (BlockInstance ↔ AnnotationInstance)
@@ -225,12 +225,12 @@ export function initializeModels(sequelize: Sequelize) {
     PartInstance, PartShape, 
     BlockInstance, BlockShape, 
     BlockInstanceVersion, PartInstanceVersion,
-    ValidCascade, ValidConstituent, DependentInstanceOption,
-    BookingCascade, ActiveConstituent, InstanceComponent,
+    ValidCascade, ValidPart, DependentInstanceOption,
+    BookingCascade, ActivePart, InstanceComponent,
     AnnotationShape, AnnotationInstance, ActiveAnnotation,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
     BusinessSettings,
-    AdminInputMetadata,
+    AdminPrimitiveMetadata,
     AdminRelationshipMetadata
   };
 }

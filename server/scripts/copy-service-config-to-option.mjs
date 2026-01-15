@@ -80,18 +80,18 @@ async function copyServiceConfigToOption() {
     const optionConfig = verifyRows[0].field_visibility_config
     console.log('\n📋 Option config after update:', JSON.stringify(optionConfig, null, 2))
 
-    // Compare activeConstituents specifically
-    const serviceActiveConstituents = serviceConfig?.fieldMetadata?.activeConstituents
-    const optionActiveConstituents = optionConfig?.fieldMetadata?.activeConstituents
+    // Compare activeParts specifically
+    const serviceActiveParts = serviceConfig?.fieldMetadata?.activeParts
+    const optionActiveParts = optionConfig?.fieldMetadata?.activeParts
 
-    console.log('\n🔍 Comparing activeConstituents:')
-    console.log('   Service:', JSON.stringify(serviceActiveConstituents, null, 2))
-    console.log('   Option: ', JSON.stringify(optionActiveConstituents, null, 2))
+    console.log('\n🔍 Comparing activeParts:')
+    console.log('   Service:', JSON.stringify(serviceActiveParts, null, 2))
+    console.log('   Option: ', JSON.stringify(optionActiveParts, null, 2))
 
-    if (JSON.stringify(serviceActiveConstituents) === JSON.stringify(optionActiveConstituents)) {
-      console.log('✅ activeConstituents configurations match!')
+    if (JSON.stringify(serviceActiveParts) === JSON.stringify(optionActiveParts)) {
+      console.log('✅ activeParts configurations match!')
     } else {
-      console.log('⚠️  activeConstituents configurations do not match')
+      console.log('⚠️  activeParts configurations do not match')
     }
 
     await sequelize.close()

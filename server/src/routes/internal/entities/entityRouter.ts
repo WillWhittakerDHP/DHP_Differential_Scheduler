@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { Attributes, Model } from 'sequelize';
 import { getEntityConfig, isValidEntityType } from '../../../config/entityRegistry.js';
-import { BlockInstance, PartInstance, ActiveConstituent } from '../../../config/app.js';
+import { BlockInstance, PartInstance, ActivePart } from '../../../config/app.js';
 import { 
   fetchAll, 
   fetchById, 
@@ -305,7 +305,7 @@ router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<v
           include: [
             {
               model: PartInstance,
-              as: 'active_constituent_part_instances',
+              as: 'active_part_part_instances',
               through: {
                 where: { disabled: false },
               },

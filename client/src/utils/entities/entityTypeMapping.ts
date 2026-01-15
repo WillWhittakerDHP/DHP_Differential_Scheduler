@@ -11,7 +11,7 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
 /**
- * Entity metadata type - used for admin_input_metadata table
+ * Entity metadata type - used for admin_primitive_metadata table
  */
 export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
 

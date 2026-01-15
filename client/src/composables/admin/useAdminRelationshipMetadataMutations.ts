@@ -1,44 +1,41 @@
 /**
- * LEARNING: Admin Input Metadata Mutations Composable
- * WHY: Provides mutations for saving/deleting admin input metadata
+ * LEARNING: Admin Relationship Metadata Mutations Composable
+ * WHY: Provides mutations for saving/deleting admin relationship metadata
  * PATTERN: Vue Query mutations with proper cache invalidation
  * 
  * This composable handles:
- * - Saving field rendering configuration (POST with full entry)
- * - Deleting field overrides (DELETE)
+ * - Saving relationship field rendering configuration (POST with full entry)
+ * - Deleting relationship field overrides (DELETE)
  * - Invalidating Vue Query cache after mutations
  */
 
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import apiClient, { getAdminInputMetadataEndpoint } from '@/utils/api'
+import apiClient, { getAdminRelationshipMetadataEndpoint } from '@/utils/api'
 import type { EntityMetadataType, FieldMetadataEntry } from '@/types/entityMetadata'
-import { useAdminConfig } from '@/composables/useAdminConfig'
-import type { GlobalEntityKey } from '@/constants/entities'
 
 /**
- * Save field rendering configuration
+ * Save relationship field rendering configuration
  * Merges rendering updates with existing canonical fields and POSTs full entry
  * 
  * @param entityType - Entity type (blockShape, partShape, blockInstance, partInstance)
  * @param entityId - Entity ID (sentinel UUID for shapes, actual ID for instances)
- * @param fieldKey - Field key to update
+ * @param relationshipKey - Relationship key to update (e.g., 'activeParts')
  * @param renderingUpdates - Rendering field updates (visibility, layout, displayOrder, etc.)
  */
-export function useAdminInputMetadataMutations() {
+export function useAdminRelationshipMetadataMutations() {
   const queryClient = useQueryClient()
-  const adminConfig = useAdminConfig()
 
-  const saveFieldRenderingMutation = useMutation({
+  const saveRelationshipFieldRenderingMutation = useMutation({
     mutationFn: async ({
       entityType,
       entityId,
-      fieldKey,
+      relationshipKey,
       renderingUpdates,
       existingMetadata,
     }: {
       entityType: EntityMetadataType
       entityId: string
-      fieldKey: string
+      relationshipKey: string
       renderingUpdates: Partial<FieldMetadataEntry>
       existingMetadata: FieldMetadataEntry | undefined
     }) => {
@@ -47,9 +44,9 @@ export function useAdminInputMetadataMutations() {
       // PATTERN: Fail explicitly if existingMetadata is missing
       if (!existingMetadata) {
         throw new Error(
-          `[useAdminInputMetadataMutations] Missing existingMetadata for ${entityType}.${fieldKey}. ` +
+          `[useAdminRelationshipMetadataMutations] Missing existingMetadata for ${entityType}.${relationshipKey}. ` +
           `Cannot create new metadata entry without canonical fields. ` +
-          `Fields must be configured in /admin-input-metadata before updating rendering config.`
+          `Fields must be configured in /admin-relationship-metadata before updating rendering config.`
         )
       }
 
@@ -61,7 +58,7 @@ export function useAdminInputMetadataMutations() {
       }
 
       const fullEntry: {
-        fieldKey: string
+        relationshipKey: string
         dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference'
         label: string
         isRequired: boolean
@@ -73,10 +70,11 @@ export function useAdminInputMetadataMutations() {
         statusButtonColor?: string | null
         panel: FieldMetadataEntry['panel']
         bulkEdit: boolean
+        inputConfig?: Record<string, unknown> | null
         inheritsFromEntityType?: 'blockShape' | 'partShape' | null
         inheritsFromEntityId?: string | null
       } = {
-        fieldKey,
+        relationshipKey,
         // Canonical fields (from existing metadata or derived)
         dataType: canonicalFields.dataType,
         label: canonicalFields.label,
@@ -90,11 +88,17 @@ export function useAdminInputMetadataMutations() {
         statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
         panel: renderingUpdates.panel ?? existingMetadata.panel,
         bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
+        // LEARNING: Include inputConfig from updates or existing metadata
+        // WHY: inputConfig is required for select/multiselect/reference/partsCollection fields
+        // PATTERN: Preserve inputConfig when updating rendering config
+        inputConfig: renderingUpdates.inputConfig !== undefined 
+          ? renderingUpdates.inputConfig 
+          : existingMetadata.inputConfig ?? null,
         inheritsFromEntityType: existingMetadata.inheritsFromEntityType ?? null,
         inheritsFromEntityId: existingMetadata.inheritsFromEntityId ?? null,
       }
 
-      const endpoint = getAdminInputMetadataEndpoint(entityType, entityId)
+      const endpoint = getAdminRelationshipMetadataEndpoint(entityType, entityId)
       const response = await apiClient.post(endpoint, fullEntry)
       return response.data
     },
@@ -107,26 +111,30 @@ export function useAdminInputMetadataMutations() {
         predicate: (query) => {
           const queryKey = query.queryKey
           return (
-            queryKey[0] === 'adminInputMetadata' &&
+            queryKey[0] === 'adminRelationshipMetadata' &&
             queryKey[1] === variables.entityType &&
             queryKey[2] === variables.entityId
           )
         },
       })
+      // Also invalidate GlobalData cache since metadata is part of GlobalData
+      queryClient.invalidateQueries({
+        queryKey: ['globalData'],
+      })
     },
   })
 
-  const deleteFieldOverrideMutation = useMutation({
+  const deleteRelationshipFieldOverrideMutation = useMutation({
     mutationFn: async ({
       entityType,
       entityId,
-      fieldKey,
+      relationshipKey,
     }: {
       entityType: EntityMetadataType
       entityId: string
-      fieldKey: string
+      relationshipKey: string
     }) => {
-      const endpoint = `${getAdminInputMetadataEndpoint(entityType, entityId)}/${fieldKey}`
+      const endpoint = `${getAdminRelationshipMetadataEndpoint(entityType, entityId)}/${relationshipKey}`
       await apiClient.delete(endpoint)
     },
     onSuccess: (_, variables) => {
@@ -138,54 +146,58 @@ export function useAdminInputMetadataMutations() {
         predicate: (query) => {
           const queryKey = query.queryKey
           return (
-            queryKey[0] === 'adminInputMetadata' &&
+            queryKey[0] === 'adminRelationshipMetadata' &&
             queryKey[1] === variables.entityType &&
             queryKey[2] === variables.entityId
           )
         },
+      })
+      // Also invalidate GlobalData cache since metadata is part of GlobalData
+      queryClient.invalidateQueries({
+        queryKey: ['globalData'],
       })
     },
   })
 
   return {
     /**
-     * Save field rendering configuration
+     * Save relationship field rendering configuration
      * Merges rendering updates with existing canonical fields
      */
-    saveFieldRendering: async (
+    saveRelationshipFieldRendering: async (
       entityType: EntityMetadataType,
       entityId: string,
-      fieldKey: string,
+      relationshipKey: string,
       renderingUpdates: Partial<FieldMetadataEntry>,
       existingMetadata?: FieldMetadataEntry
     ) => {
-      return saveFieldRenderingMutation.mutateAsync({
+      return saveRelationshipFieldRenderingMutation.mutateAsync({
         entityType,
         entityId,
-        fieldKey,
+        relationshipKey,
         renderingUpdates,
         existingMetadata,
       })
     },
 
     /**
-     * Delete field override (instanceOverride mode only)
+     * Delete relationship field override (instanceOverride mode only)
      */
-    deleteFieldOverride: async (
+    deleteRelationshipFieldOverride: async (
       entityType: EntityMetadataType,
       entityId: string,
-      fieldKey: string
+      relationshipKey: string
     ) => {
-      return deleteFieldOverrideMutation.mutateAsync({
+      return deleteRelationshipFieldOverrideMutation.mutateAsync({
         entityType,
         entityId,
-        fieldKey,
+        relationshipKey,
       })
     },
 
     /**
      * Loading state for save operation
      */
-    isSaving: saveFieldRenderingMutation.isPending || deleteFieldOverrideMutation.isPending,
+    isSaving: saveRelationshipFieldRenderingMutation.isPending || deleteRelationshipFieldOverrideMutation.isPending,
   }
 }

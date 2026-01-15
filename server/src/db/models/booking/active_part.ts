@@ -9,18 +9,18 @@ import {
 } from 'sequelize';
 
 /**
- * ValidConstituent Model
+ * ActivePart Model
  * 
- * Represents valid constituent relationships between block shapes and part shapes.
- * Constituent relationships are Block → Part relationships (math dimension).
+ * Represents active part relationships between block instances and part instances.
+ * Part relationships are Block → Part relationships (math dimension).
  * 
- * LEARNING: Constituent relationships enable block-part composition
- * WHY: Block shapes need to define which part shapes can be constituents of them
- * PATTERN: Through table for many-to-many constituent relationships between block shapes and part shapes
+ * LEARNING: Active part relationships enable runtime block-part composition
+ * WHY: Block instances need to define which part instances are parts of them at runtime
+ * PATTERN: Through table for many-to-many part relationships between block instances and part instances
  */
-export class ValidConstituent extends Model<
-  InferAttributes<ValidConstituent>,
-  InferCreationAttributes<ValidConstituent>
+export class ActivePart extends Model<
+  InferAttributes<ActivePart>,
+  InferCreationAttributes<ActivePart>
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
@@ -33,8 +33,8 @@ export class ValidConstituent extends Model<
   declare updatedAt: CreationOptional<Date>;
 }
 
-export function ValidConstituentFactory(sequelize: Sequelize) {
-  ValidConstituent.init(
+export function ActivePartFactory(sequelize: Sequelize) {
+  ActivePart.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -45,26 +45,26 @@ export function ValidConstituentFactory(sequelize: Sequelize) {
       kind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "validConstituents";
+          return "activeParts";
         }
       },
       parent_kind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "blockShape";
+          return "blockInstance";
         }
       },
       child_kind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "partShape";
+          return "partInstance";
         }
-      },      
+      },  
       parent_id: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'block_shapes',
+          model: 'block_instances',
           key: 'id',
         },
       },
@@ -72,7 +72,7 @@ export function ValidConstituentFactory(sequelize: Sequelize) {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'part_shapes',
+          model: 'part_instances',
           key: 'id',
         },
       },
@@ -96,8 +96,8 @@ export function ValidConstituentFactory(sequelize: Sequelize) {
       timestamps: false,
       underscored: true,
       schema: 'public',
-      modelName: 'valid_constituent',
-      tableName: 'valid_constituents',
+      modelName: 'active_part',
+      tableName: 'active_parts',
       indexes: [
         {
           unique: true,
@@ -108,6 +108,5 @@ export function ValidConstituentFactory(sequelize: Sequelize) {
     }
   );
 
-  return ValidConstituent;
+  return ActivePart;
 }
-

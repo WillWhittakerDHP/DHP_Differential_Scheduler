@@ -56,12 +56,12 @@ export const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB
 export const { 
   PartShape, PartInstance, BlockShape, BlockInstance, 
   BlockInstanceVersion, PartInstanceVersion,
-  ValidCascade, ValidConstituent, DependentInstanceOption,
-  BookingCascade, ActiveConstituent, InstanceComponent,
+  ValidCascade, ValidPart, DependentInstanceOption,
+  BookingCascade, ActivePart, InstanceComponent,
   AnnotationShape, AnnotationInstance, ActiveAnnotation,
   Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
   BusinessSettings,
-  AdminInputMetadata
+  AdminPrimitiveMetadata
 } = initializeModels(sequelize);
 
 // ✅ Database Connection - Migrations handle schema
@@ -93,10 +93,10 @@ export default {
   BlockInstanceVersion,
   PartInstanceVersion,
   ValidCascade,
-  ValidConstituent,
+  ValidPart,
   DependentInstanceOption,
   BookingCascade,
-  ActiveConstituent,
+  ActivePart,
   InstanceComponent,
   AnnotationShape,
   AnnotationInstance,
@@ -109,5 +109,5 @@ export default {
   User,
   Appointment,
   BusinessSettings,
-  AdminInputMetadata,
+  AdminPrimitiveMetadata,
 };

@@ -1,6 +1,6 @@
 <!--
   LEARNING: PartsCollection component renders part instances for a block instance
-  WHY: Specialized component for activeConstituents field - displays part instances only
+  WHY: Specialized component for activeParts field - displays part instances only
   PATTERN: Direct rendering of EntityCard without wrapper component, matching InstancesTab pattern
 -->
 <template>
@@ -96,7 +96,7 @@
     
     <!--
       LEARNING: Empty state when no valid PartShapes exist
-      WHY: Provides feedback when BlockShape has no validConstituents configured
+      WHY: Provides feedback when BlockShape has no validParts configured
       PATTERN: Conditional rendering with v-if
     -->
     <VAlert
@@ -105,7 +105,7 @@
       variant="tonal"
       class="mt-2"
     >
-      No valid PartShapes configured for this BlockShape. Configure validConstituents on the BlockShape to add PartInstances.
+      No valid PartShapes configured for this BlockShape. Configure validParts on the BlockShape to add PartInstances.
     </VAlert>
   </div>
 </template>
@@ -114,7 +114,7 @@
 /**
  * LEARNING: PartsCollection component - specialized for part instances only
  * 
- * WHY: Renders part instances within a block instance (activeConstituents field)
+ * WHY: Renders part instances within a block instance (activeParts field)
  *      Uses EntityCard directly, matching the pattern used by InstancesTab for BlockInstances
  * 
  * PATTERN: Direct rendering of EntityCard component, exposes bulk edit state to parent
@@ -130,7 +130,7 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { useGlobal } from '@/composables/useGlobal'
 import type { FieldContextType } from '@/composables/useFieldContext'
-import { useNestedCollectionField } from '@/composables/admin/useNestedCollectionField'
+import { usePartsCollectionField } from '@/composables/admin/usePartsCollectionField'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { usePartInstanceMetadataPreload } from '@/composables/admin/usePartInstanceMetadataPreload'
 import { usePartInstanceDeletion } from '@/composables/admin/usePartInstanceDeletion'
@@ -143,19 +143,22 @@ interface Props {
 
 const props = defineProps<Props>()
 
-// Use composable for nested collection field logic
-const nestedField = useNestedCollectionField(props.fieldContext)
+// Use composable for partsCollection field logic
+const partsCollectionField = usePartsCollectionField(props.fieldContext)
 
-// Extract parent entity from composable
-const { parentEntity } = nestedField
+// Extract parent entity and optionsFieldKey from composable
+const { parentEntity, optionsFieldKey } = partsCollectionField
 
 const { globalData } = useGlobal()
 
-const model = usePartInstanceCollection(computed(() => {
-  const parent = parentEntity.value
-  if (!parent) return ''
-  return parent.id
-}))
+const model = usePartInstanceCollection(
+  computed(() => {
+    const parent = parentEntity.value
+    if (!parent) return ''
+    return parent.id
+  }),
+  optionsFieldKey
+)
 const {
   validPartShapes,
   existingPartInstances,

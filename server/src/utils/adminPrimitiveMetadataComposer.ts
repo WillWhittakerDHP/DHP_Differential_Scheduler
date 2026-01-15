@@ -1,11 +1,12 @@
 /**
- * LEARNING: Admin Input Metadata Composer Utility
- * WHY: Fetches and merges admin input metadata with inheritance support
+ * LEARNING: Admin Primitive Metadata Composer Utility
+ * WHY: Fetches and merges admin primitive metadata with inheritance support
+ *      Renamed from adminInputMetadataComposer to align with entity data pattern
  * PATTERN: Unified fetching for all entity types, handles instance inheritance
- * NOTE: Replaces shapeFieldComposer with simplified, unified approach
+ * NOTE: Aligns with displayConfig.primitives pattern from regular entity data
  */
 
-import { AdminInputMetadata } from '../db/models/admin/adminInputMetadata.js';
+import { AdminPrimitiveMetadata } from '../db/models/admin/adminPrimitiveMetadata.js';
 import { QueryTypes, Op } from 'sequelize';
 
 /**
@@ -20,7 +21,7 @@ export interface FieldMetadataEntry {
   layout: 'inline' | 'stacked';
   displayOrder: number;
   section: string | null;
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect';
+  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
   statusButtonColor?: string | null;
   panel: 'none' | 'parts' | 'relationships' | 'annotations';
   bulkEdit: boolean;
@@ -30,19 +31,19 @@ export interface FieldMetadataEntry {
 }
 
 /**
- * Get admin input metadata for an entity
+ * Get admin primitive metadata for an entity
  * Handles inheritance: instance entities inherit from their shape, with instance overrides
  * 
  * @param entityType - Entity type: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
  * @param entityId - Entity ID or sentinel UUID for global configs
  * @returns Array of field metadata entries
  */
-export async function getAdminInputMetadata(
+export async function getAdminPrimitiveMetadata(
   entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
   entityId: string
 ): Promise<FieldMetadataEntry[]> {
   // Fetch metadata for this entity
-  const entityMetadata = await AdminInputMetadata.findAll({
+  const entityMetadata = await AdminPrimitiveMetadata.findAll({
     where: {
       entityType: entityType,
       entityId: entityId,
@@ -112,7 +113,7 @@ export async function getAdminInputMetadata(
         ? BLOCK_INSTANCE_GLOBAL_CONFIG_ID 
         : PART_INSTANCE_GLOBAL_CONFIG_ID;
       
-      const fallbackMetadata = await AdminInputMetadata.findAll({
+      const fallbackMetadata = await AdminPrimitiveMetadata.findAll({
         where: {
           entityType: entityType,
           entityId: fallbackEntityId,

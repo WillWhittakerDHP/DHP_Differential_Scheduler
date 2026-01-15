@@ -1,7 +1,9 @@
 /**
- * LEARNING: Admin Input Metadata Model
- * WHY: Unified model for admin input metadata (replaces ShapeFieldMetadata + ShapeLayoutConfig)
- * PATTERN: Single table stores both canonical and layout properties
+ * LEARNING: Admin Primitive Metadata Model
+ * WHY: Unified model for admin primitive metadata (renamed from AdminInputMetadata)
+ *      Aligns with entity data pattern: primitives + relationships
+ * PATTERN: Single table stores both canonical and layout properties for primitive fields
+ *          Matches displayConfig.primitives pattern from regular entity data
  */
 
 import {
@@ -13,9 +15,9 @@ import {
   Sequelize,
 } from 'sequelize';
 
-export class AdminInputMetadata extends Model<
-  InferAttributes<AdminInputMetadata>,
-  InferCreationAttributes<AdminInputMetadata>
+export class AdminPrimitiveMetadata extends Model<
+  InferAttributes<AdminPrimitiveMetadata>,
+  InferCreationAttributes<AdminPrimitiveMetadata>
 > {
   declare id: CreationOptional<string>;
   declare entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance';
@@ -30,7 +32,7 @@ export class AdminInputMetadata extends Model<
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
   declare section: CreationOptional<string | null>;
-  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect';
+  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
@@ -43,8 +45,8 @@ export class AdminInputMetadata extends Model<
   declare updatedAt: CreationOptional<Date>;
 }
 
-export function AdminInputMetadataFactory(sequelize: Sequelize) {
-  AdminInputMetadata.init(
+export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {
+  AdminPrimitiveMetadata.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -56,7 +58,7 @@ export function AdminInputMetadataFactory(sequelize: Sequelize) {
         type: DataTypes.ENUM('blockShape', 'partShape', 'blockInstance', 'partInstance'),
         allowNull: false,
         field: 'entity_type',
-        comment: 'Entity type for this metadata entry',
+        comment: 'Entity type for this primitive metadata entry',
       },
       entityId: {
         type: DataTypes.UUID,
@@ -68,7 +70,7 @@ export function AdminInputMetadataFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'field_key',
-        comment: 'Field name/key (e.g., name, active, composable)',
+        comment: 'Primitive field name/key (e.g., name, active, composable)',
       },
       // Canonical properties
       dataType: {
@@ -115,11 +117,11 @@ export function AdminInputMetadataFactory(sequelize: Sequelize) {
         comment: 'Optional section/group name',
       },
       renderAs: {
-        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect'),
+        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect', 'partsCollection'),
         allowNull: false,
         defaultValue: 'text',
         field: 'render_as',
-        comment: 'How to render the field (control type + statusButton + iconSelect)',
+        comment: 'How to render the field (control type + statusButton + iconSelect + partsCollection)',
       },
       statusButtonColor: {
         type: DataTypes.STRING,
@@ -178,29 +180,29 @@ export function AdminInputMetadataFactory(sequelize: Sequelize) {
         {
           unique: true,
           fields: ['entity_type', 'entity_id', 'field_key'],
-          name: 'admin_input_metadata_entity_field_unique',
+          name: 'admin_primitive_metadata_entity_field_unique',
         },
         {
           fields: ['entity_type', 'entity_id'],
-          name: 'admin_input_metadata_entity_idx',
+          name: 'admin_primitive_metadata_entity_idx',
         },
         {
           fields: ['field_key'],
-          name: 'admin_input_metadata_field_key_idx',
+          name: 'admin_primitive_metadata_field_key_idx',
         },
         {
           fields: ['inherits_from_entity_type', 'inherits_from_entity_id'],
-          name: 'admin_input_metadata_inheritance_idx',
+          name: 'admin_primitive_metadata_inheritance_idx',
         },
       ],
       timestamps: false,
       underscored: true,
       schema: 'public',
-      modelName: 'admin_input_metadata',
-      tableName: 'admin_input_metadata',
+      modelName: 'admin_primitive_metadata',
+      tableName: 'admin_primitive_metadata',
       freezeTableName: true,
     }
   );
 
-  return AdminInputMetadata;
+  return AdminPrimitiveMetadata;
 }

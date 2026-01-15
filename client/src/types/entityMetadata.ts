@@ -1,6 +1,7 @@
 /**
  * LEARNING: Entity Metadata Types
- * WHY: Unified type definitions for admin input metadata
+ * WHY: Unified type definitions for admin primitive metadata
+ *      Renamed from "input metadata" to "primitive metadata" to align with entity data pattern
  * PATTERN: Single type system for all entity types (shapes and instances)
  * 
  * This replaces the separate ShapeFieldMetadata and ShapeLayoutConfig types
@@ -8,7 +9,7 @@
  */
 
 /**
- * Entity metadata type - used for admin_input_metadata table
+ * Entity metadata type - used for admin_primitive_metadata table
  */
 export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
 
@@ -31,7 +32,7 @@ export interface FieldMetadataEntry {
   layout: 'inline' | 'stacked'
   displayOrder: number
   section: string | null
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect'
+  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection'
   statusButtonColor?: string
   panel: 'none' | 'parts' | 'relationships' | 'annotations'
   bulkEdit: boolean

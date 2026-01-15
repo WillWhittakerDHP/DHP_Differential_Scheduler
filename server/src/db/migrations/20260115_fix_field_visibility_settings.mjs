@@ -68,7 +68,7 @@ export default {
     // WHY: Relationship fields should appear in the Relationships panel
     // PATTERN: Update relationship fields separately with panel assignment
     const blockInstanceRelationshipFields = [
-      'activeConstituents',
+      'activeParts',
       'bookingCascades',
       'instanceComponents',
       'dependentInstanceOptions',
@@ -187,7 +187,7 @@ export default {
       'differential',
       'allowMultiple',
       'dependent',
-      'activeConstituents',
+      'activeParts',
       'bookingCascades',
       'instanceComponents',
       'dependentInstanceOptions',

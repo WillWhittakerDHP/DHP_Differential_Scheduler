@@ -8,7 +8,7 @@ import { UserRouter } from "./users/userRouter.js";
 import { AppointmentRouter } from "./appointments/appointmentRouter.js";
 import { AvailabilityRouter } from "./availabilityRouter.js";
 import { BusinessSettingsRouter } from "./businessSettingsRouter.js";
-import adminInputMetadataRouter from "./admin-input-metadata/adminInputMetadataRouter.js";
+import adminPrimitiveMetadataRouter from "./admin-primitive-metadata/adminPrimitiveMetadataRouter.js";
 import adminRelationshipMetadataRouter from "./admin-relationship-metadata/adminRelationshipMetadataRouter.js";
 
 const router = Router();
@@ -36,8 +36,10 @@ router.use('/availability', AvailabilityRouter);
 // ✅ Business settings CRUD routes
 router.use('/business-settings', BusinessSettingsRouter);
 
-// ✅ Admin input metadata CRUD routes (unified metadata for all entity types)
-router.use('/admin-input-metadata', adminInputMetadataRouter);
+// ✅ Admin primitive metadata CRUD routes (unified primitive metadata for all entity types)
+// NOTE: Keeping /admin-input-metadata path for backward compatibility, but using new router internally
+router.use('/admin-input-metadata', adminPrimitiveMetadataRouter);
+router.use('/admin-primitive-metadata', adminPrimitiveMetadataRouter);
 
 // ✅ Admin relationship metadata CRUD routes (relationship field metadata for all entity types)
 router.use('/admin-relationship-metadata', adminRelationshipMetadataRouter);

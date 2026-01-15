@@ -2,7 +2,7 @@
  * Dependency Cleanup Utility
  * 
  * LEARNING: Automatically cleans up invalid active relationships when valid relationships change
- * WHY: When validCascades/validConstituents change on a blockShape, invalid bookingCascades/activeConstituents
+ * WHY: When validCascades/validParts change on a blockShape, invalid bookingCascades/activeParts
  *      relationships may exist that reference removed valid relationships
  * PATTERN: Check dependencyImpact config and clean up affected relationships
  * 
@@ -76,7 +76,7 @@ export async function cleanupInvalidActiveRelationships(
   // PATTERN: Use API client directly for relationship deletion, queryClient passed as parameter
   const activeRelationshipKey = affectedField as GlobalRelationshipKey
   
-  // Create Set for O(1) lookup of valid child IDs (these are blockShape/partShape IDs from validCascades/validConstituents)
+  // Create Set for O(1) lookup of valid child IDs (these are blockShape/partShape IDs from validCascades/validParts)
   const validChildIdsSet = new Set(newValidChildIds.map(id => String(id)))
   
     // For each affected entity, check its active relationships and remove invalid ones
@@ -89,7 +89,7 @@ export async function cleanupInvalidActiveRelationships(
     }
     
     // LEARNING: Determine child entity type and typeRef key based on relationship type
-    // WHY: validCascades → blockInstance (check blockShapeRef), validConstituents → partInstance (check partShapeRef)
+    // WHY: validCascades → blockInstance (check blockShapeRef), validParts → partInstance (check partShapeRef)
     // PATTERN: Map relationship key to child entity type
     const childEntityKey = validRelationshipKey === 'validCascades' ? 'blockInstance' as GlobalEntityKey : 'partInstance' as GlobalEntityKey
     const typeRefKey = childEntityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'

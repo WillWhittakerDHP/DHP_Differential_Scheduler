@@ -56,6 +56,7 @@ const { fieldContext } = props
 // PATTERN: Always use useFieldValue for accessing field values
 const rawFieldValue = useFieldValue(fieldContext)
 
+
 // LEARNING: Handle inverted logic for constituable field (displayed as "State Control")
 // WHY: constituable: false = State Control ON, constituable: true = State Control OFF
 // PATTERN: Invert value for display when fieldKey is 'constituable'
@@ -63,6 +64,7 @@ const isInverted = computed(() => String(fieldContext.fieldKey) === 'constituabl
 const fieldValue = computed(() => {
   return isInverted.value ? !rawFieldValue.value : rawFieldValue.value
 })
+
 
 // LEARNING: Fetch metadata to get statusButtonColor
 // WHY: StatusButton needs color from metadata (defaults to 'default' if not configured)
@@ -116,7 +118,7 @@ const handleClick = async (event: Event) => {
   // PATTERN: Invert value before setting if this is the constituable field
   const actualValue = isInverted.value ? !newValue : newValue
   fieldContext.setValue(actualValue)
-  
+
   // Immediate save for boolean fields
   try {
     const isValid = await fieldContext.validate()
