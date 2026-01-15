@@ -41,10 +41,11 @@ export type FieldComponent =
  * 3. Check renderAs for iconSelect → icon component
  * 4. Check renderAs for text/number/statusButton → primitive component
  * 5. Check renderAs for partsCollection → partsCollection component
- * 6. Check renderAs for select/multiselect/reference → select component
+ * 6. Check renderAs for select/multiselect/reference → select component (with enum select exception)
  * 7. Unknown renderAs → unknown component
  */
 export function getFieldComponent<GE extends GlobalEntityKey>(
+  entityKey: GE,
   fieldKey: GlobalFieldKey<GE>,
   fieldMetadata: FieldMetadataEntry | undefined
 ): FieldComponent {
@@ -88,10 +89,28 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
   // LEARNING: Check for select-like fields (select, multiselect, reference)
   // WHY: These fields render as SelectInputs component
   // PATTERN: Check renderAs for select/multiselect/reference
+  // NOTE: Enum selects (e.g., blockShape.type) don't require inputConfig - they use hardcoded options
   const selectRenderAs: Array<FieldMetadataEntry['renderAs']> = ['select', 'multiselect', 'reference']
   if (selectRenderAs.includes(renderAs)) {
-    // Use SelectInputs component
-    // Otherwise, use SelectInputs component
+    // LEARNING: Check for enum selects - they don't require inputConfig
+    // WHY: Enum selects (e.g., blockShape.type, partShape.type) use hardcoded options, not inputConfig
+    // PATTERN: Check entityKey and fieldKey to identify known enum selects
+    const isEnumSelect = String(fieldKey) === 'type' && 
+      (entityKey === 'blockShape' || entityKey === 'partShape')
+    
+    // LEARNING: Enum selects don't require inputConfig - they use hardcoded options
+    // WHY: blockShape.type and partShape.type are enums with fixed values
+    // PATTERN: Return 'select' type for enum selects even without inputConfig
+    if (isEnumSelect) {
+      return { type: 'select', reason: renderAs }
+    }
+    
+    // LEARNING: Non-enum select fields require inputConfig - fail gracefully if missing
+    // WHY: SelectInputs component needs inputConfig to determine select behavior (relationship/type select config)
+    // PATTERN: Return unknown if inputConfig is missing, preventing render error
+    if (!inputConfig) {
+      return { type: 'unknown', reason: 'invalidRenderAs' }
+    }
     return { type: 'select', reason: renderAs }
   }
 

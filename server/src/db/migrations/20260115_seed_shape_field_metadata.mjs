@@ -22,10 +22,10 @@ export default {
       { fieldKey: 'requiresUnitNumber', dataType: 'boolean', controlType: 'toggle', label: 'Requires Unit Number', isRequired: false, displayOrder: 6 },
       { fieldKey: 'baseSqFt', dataType: 'number', controlType: 'number', label: 'Base Sq Ft', isRequired: false, displayOrder: 7 },
       { fieldKey: 'icon', dataType: 'string', controlType: 'text', label: 'Icon', isRequired: false, displayOrder: 8 },
-      { fieldKey: 'activeParts', dataType: 'array', controlType: 'reference', label: 'Active Parts', isRequired: false, displayOrder: 9 },
-      { fieldKey: 'instanceComponents', dataType: 'array', controlType: 'reference', label: 'Instance Components', isRequired: false, displayOrder: 10 },
-      { fieldKey: 'bookingCascades', dataType: 'array', controlType: 'reference', label: 'Booking Cascades', isRequired: false, displayOrder: 11 },
-      { fieldKey: 'dependentInstanceOptions', dataType: 'array', controlType: 'reference', label: 'Dependent Instance Options', isRequired: false, displayOrder: 12 },
+      // LEARNING: Relationship fields should NOT be seeded in primitive metadata
+      // WHY: activeParts, instanceComponents, bookingCascades, and dependentInstanceOptions
+      //      are defined in RELATIONSHIP_KEYS and should only exist in admin_relationship_metadata
+      // PATTERN: Relationship fields should only exist in admin_relationship_metadata
     ];
 
     // Part instance field definitions
@@ -35,10 +35,11 @@ export default {
       { fieldKey: 'clientPresent', dataType: 'boolean', controlType: 'toggle', label: 'Client Present', isRequired: false, displayOrder: 3 },
       { fieldKey: 'moveable', dataType: 'boolean', controlType: 'toggle', label: 'Moveable', isRequired: false, displayOrder: 4 },
       { fieldKey: 'zeroOutPart', dataType: 'boolean', controlType: 'toggle', label: 'Zero Out Part', isRequired: false, displayOrder: 5 },
-      { fieldKey: 'baseFee', dataType: 'number', controlType: 'number', label: 'Base Fee', isRequired: false, displayOrder: 6 },
-      { fieldKey: 'rateOverBaseFee', dataType: 'number', controlType: 'number', label: 'Rate Over Base Fee', isRequired: false, displayOrder: 7 },
-      { fieldKey: 'baseTime', dataType: 'number', controlType: 'number', label: 'Base Time', isRequired: false, displayOrder: 8 },
-      { fieldKey: 'rateOverBaseTime', dataType: 'number', controlType: 'number', label: 'Rate Over Base Time', isRequired: false, displayOrder: 9 },
+      { fieldKey: 'differentialOverride', dataType: 'boolean', controlType: 'toggle', label: 'Differential Override', isRequired: false, displayOrder: 6 },
+      { fieldKey: 'baseFee', dataType: 'number', controlType: 'number', label: 'Base Fee', isRequired: false, displayOrder: 7 },
+      { fieldKey: 'rateOverBaseFee', dataType: 'number', controlType: 'number', label: 'Rate Over Base Fee', isRequired: false, displayOrder: 8 },
+      { fieldKey: 'baseTime', dataType: 'number', controlType: 'number', label: 'Base Time', isRequired: false, displayOrder: 9 },
+      { fieldKey: 'rateOverBaseTime', dataType: 'number', controlType: 'number', label: 'Rate Over Base Time', isRequired: false, displayOrder: 10 },
     ];
 
     // Insert block fields

@@ -34,6 +34,7 @@ export type BookingPartInstance = {
   orderIndex: number
   active: boolean
   zeroOutPart: boolean
+  differentialOverride?: boolean // When true, forces non-differential UI behavior
 }
 
 /**
@@ -367,6 +368,7 @@ export class BookingTransformer {
       baseFee?: number
       rateOverBaseFee?: number
       zeroOutPart?: boolean
+      differentialOverride?: boolean
     }
     
     return {
@@ -385,6 +387,7 @@ export class BookingTransformer {
       orderIndex: partInstance.orderIndex,
       active: this.isEntityActive(partInstance as unknown as Record<string, unknown>),
       zeroOutPart: partInstanceWithProps.zeroOutPart || false,
+      differentialOverride: partInstanceWithProps.differentialOverride,
     }
   }
 }

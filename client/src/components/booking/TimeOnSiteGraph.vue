@@ -8,7 +8,7 @@
  * 
  * Features:
  * - Differential service: Two stacked bars (inspector full width, client right-justified half width)
- * - Non-differential service: Single bar with service name and duration
+ * - Non-differential services: Not shown (component only renders for differential services)
  * - Bar states: Selected/Active based on time basis selector
  * - Responsive design with touch-friendly sizing
  */
@@ -162,16 +162,6 @@ const showStateLabel = computed(() => {
       <span v-if="clientTimeDisplay" class="bar-text">{{ clientTimeDisplay }}</span>
     </div>
   </div>
-  
-  <!-- LEARNING: Non-Differential Service - Single bar outline -->
-  <!-- WHY: Shows single time bar outline for non-differential services -->
-  <!-- PATTERN: Single bar outline with text -->
-  <div v-else-if="selectedServices.length > 0" class="time-on-site-graph">
-    <div v-if="graphBars.onSite" class="time-bar single-service-bar filled">
-      <span v-if="inspectorTimeDisplay" class="bar-text">{{ inspectorTimeDisplay }}</span>
-      <span v-else class="bar-text">Select a Time Slot</span>
-    </div>
-  </div>
 </template>
 
 <style scoped lang="scss">
@@ -256,10 +246,6 @@ const showStateLabel = computed(() => {
     background-color: rgba(var(--v-theme-secondary), 0.15);
   }
   
-  &.single-service-bar {
-    background-color: rgba(var(--v-theme-secondary), 0.1);
-  }
-  
   .bar-text {
     opacity: 1;
     font-weight: 600;
@@ -281,15 +267,6 @@ const showStateLabel = computed(() => {
   max-width: 50%; // Ensure it doesn't exceed half of parent
   margin-left: auto; // Right-justify
   box-sizing: border-box; // Include border in width calculation
-}
-
-// LEARNING: Single service bar - Full width outline
-// WHY: Full width bar outline for non-differential services
-.single-service-bar {
-  width: 100%;
-  max-width: 100%; // Ensure it doesn't exceed parent
-  box-sizing: border-box; // Include border in width calculation
-  border-color: rgba(var(--v-theme-secondary), 0.4);
 }
 
 // LEARNING: Clickable bar styling

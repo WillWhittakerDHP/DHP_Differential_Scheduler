@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import InstancesTab from './tabs/InstancesTab.vue'
+import ShapesTab from './tabs/ShapesTab.vue'
 import DataManagementTab from './tabs/DataManagementTab.vue'
 import BusinessControlsTab from './tabs/BusinessControlsTab.vue'
 import { useAdmin } from '@/composables/useAdmin'
@@ -37,6 +38,7 @@ const currentTab = ref('instances')
     -->
     <VTabs v-model="currentTab">
       <VTab value="instances">Instances</VTab>
+      <VTab value="shapes">Shapes</VTab>
       <VTab value="data">APPOINTMENTS</VTab>
       <VTab value="business">AVAILABILITY</VTab>
     </VTabs>
@@ -54,6 +56,9 @@ const currentTab = ref('instances')
     <VWindow v-model="currentTab">
       <VWindowItem key="instances" value="instances">
         <InstancesTab />
+      </VWindowItem>
+      <VWindowItem key="shapes" value="shapes">
+        <ShapesTab />
       </VWindowItem>
       <VWindowItem key="data" value="data">
         <DataManagementTab />

@@ -525,11 +525,13 @@ const blockShapeProperties = computed(() => {
  * LEARNING: Use field location dispatcher for location assignment
  * WHY: Single source of truth for WHERE fields render based on metadata
  * PATTERN: Composable that determines field locations from metadata + context
+ * FIX: Use internal isExpanded computed (synced via watch) instead of props.expanded directly
+ *      This ensures field location updates reactively when expansion state changes
  */
 const fieldLocation = useFieldLocation({
   fieldKeys: computed(() => fieldKeys.value as GlobalFieldKey<GlobalEntityKey>[]),
   fieldMetadata: composedFieldMetadata,
-  isExpanded: computed(() => props.expanded ?? true)
+  isExpanded: isExpanded
 })
 
 /**
@@ -873,12 +875,10 @@ defineExpose({
     </template>
     
     <template #text>
-      <!-- LEARNING: Wrap content in VCard for visual containment -->
-      <!-- WHY: Provides clear visual boundary so buttons appear contained within EntityCard -->
-      <!-- PATTERN: VCard wrapper ensures all content (fields and buttons) is visually contained -->
-      <!-- NOTE: VCard with elevation provides clear visual boundary for buttons -->
-      <VCard variant="elevated" elevation="2" class="entity-card-wrapper ma-0">
-        <VCardText class="entity-card-content pa-4">
+      <!-- LEARNING: VExpansionPanel already provides card styling, so use div instead of nested VCard -->
+      <!-- WHY: VExpansionPanel has card-like appearance, adding VCard inside creates "card within card" visual issue -->
+      <!-- PATTERN: Use div wrapper when useExpansionPanel=true, VCard wrapper when useExpansionPanel=false -->
+      <div class="entity-card-content pa-4">
                 <!-- LEARNING: Warning for fields missing contexts -->
           <!-- WHY: Fail visibly - show which fields are missing contexts -->
           <!-- PATTERN: VAlert component for error display -->
@@ -999,8 +999,7 @@ defineExpose({
               Cancel
             </VBtn>
           </div>
-        </VCardText>
-      </VCard>
+      </div>
     </template>
   </VExpansionPanel>
 

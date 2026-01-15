@@ -25,6 +25,7 @@ export class PartInstance extends Model<
   declare rateOverBaseTime: number;
   declare active: boolean;
   declare zeroOutPart: boolean;
+  declare differentialOverride: CreationOptional<boolean | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -91,6 +92,11 @@ export function PartInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      differentialOverride: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: null,
       },
       createdAt: {
         type: DataTypes.DATE,

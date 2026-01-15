@@ -22,6 +22,10 @@ function createBookingBlockInstance(
   options: {
     name?: string
     differential?: boolean
+    partInstances?: Array<{
+      id?: string
+      differentialOverride?: boolean
+    }>
   } = {}
 ): BookingBlockInstance {
   return {
@@ -38,7 +42,24 @@ function createBookingBlockInstance(
     blockShape: 'Test Shape',
     blockShapeRef: 'shape-1',
     activeBlockIds: [],
-    partInstances: [],
+    partInstances: options.partInstances?.map((part, index) => ({
+      id: part.id || `part-${index}`,
+      entityKey: 'partInstance' as const,
+      name: `Part ${index}`,
+      partShape: 'test-shape',
+      disabled: false,
+      onSite: false,
+      clientPresent: false,
+      moveable: false,
+      baseTime: 0,
+      rateOverBaseTime: 0,
+      baseFee: 0,
+      rateOverBaseFee: 0,
+      orderIndex: index,
+      active: true,
+      zeroOutPart: false,
+      differentialOverride: part.differentialOverride,
+    })) || [],
     allowMultiple: false,
     requiresUnitNumber: null,
   }
@@ -534,6 +555,125 @@ describe('useAvailabilityLogic', () => {
       ]
       
       expect(isDifferentialService.value).toBe(true)
+    })
+  })
+
+  describe('isEffectivelyDifferential', () => {
+    it('should return false when service is not differential', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', { differential: false }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(false)
+    })
+
+    it('should return true when service is differential and no override', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', { differential: true }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(true)
+    })
+
+    it('should return false when service is differential but has override in service part', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', {
+          differential: true,
+          partInstances: [{ differentialOverride: true }],
+        }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(false)
+    })
+
+    it('should return false when service is differential but has override in option', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', { differential: true }),
+      ]
+      wizard.selectedOptionTypeBlocks.value = [
+        createBookingBlockInstance('option-1', {
+          differential: false,
+          partInstances: [{ differentialOverride: true }],
+        }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(false)
+    })
+
+    it('should return true when service is differential and override is false', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', {
+          differential: true,
+          partInstances: [{ differentialOverride: false }],
+        }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(true)
+    })
+
+    it('should be reactive to service and option changes', () => {
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(false)
+
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', { differential: true }),
+      ]
+      expect(isEffectivelyDifferential.value).toBe(true)
+
+      wizard.selectedOptionTypeBlocks.value = [
+        createBookingBlockInstance('option-1', {
+          differential: false,
+          partInstances: [{ differentialOverride: true }],
+        }),
+      ]
+      expect(isEffectivelyDifferential.value).toBe(false)
     })
   })
 

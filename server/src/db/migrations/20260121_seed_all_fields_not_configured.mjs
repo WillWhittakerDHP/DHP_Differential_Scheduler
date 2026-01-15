@@ -31,7 +31,7 @@ export default {
       // Boolean fields
       const booleanFields = ['active', 'composite', 'differential', 'composable', 'constituable', 
         'allowMultiple', 'requiresUnitNumber', 'dependent', 'visible', 'onSite', 'clientPresent', 
-        'moveable', 'zeroOutPart'];
+        'moveable', 'zeroOutPart', 'differentialOverride'];
       if (booleanFields.includes(fieldKey)) {
         return 'boolean';
       }
@@ -97,6 +97,7 @@ export default {
         { fieldKey: 'rateOverBaseTime', dataType: 'number' },
         { fieldKey: 'active', dataType: 'boolean' },
         { fieldKey: 'zeroOutPart', dataType: 'boolean' },
+        { fieldKey: 'differentialOverride', dataType: 'boolean' },
       ],
       blockShape: [
         { fieldKey: 'name', dataType: 'string' },

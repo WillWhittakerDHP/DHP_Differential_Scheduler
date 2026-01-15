@@ -207,17 +207,18 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   }, { immediate: true })
 
   /**
-   * Watch isDifferentialService to auto-select startTimeType
+   * Watch isDifferentialService (now represents effective differential state) to auto-select startTimeType
    * LEARNING: Auto-selects 'nonDifferential' for non-differential services, 'client' for differential services
    * WHY: Ensures valid state is always selected and time slots are visible immediately
-   * PATTERN: Watch isDifferentialService, set startTimeType accordingly
+   * PATTERN: Watch isDifferentialService (which now represents effective differential state), set startTimeType accordingly
+   * NOTE: isDifferentialService parameter now represents effective differential state (considering overrides)
    */
-  watch(isDifferentialService, (isDifferential) => {
-    if (!isDifferential) {
-      // Non-differential services always use 'nonDifferential'
+  watch(isDifferentialService, (isEffectivelyDifferential) => {
+    if (!isEffectivelyDifferential) {
+      // Non-differential services (or overridden to non-differential) always use 'nonDifferential'
       startTimeType.value = 'nonDifferential'
     } else {
-      // Differential services default to 'client' view
+      // Effectively differential services default to 'client' view
       if (startTimeType.value === 'nonDifferential') {
         startTimeType.value = 'client'
       }

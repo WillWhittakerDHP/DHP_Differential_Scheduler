@@ -351,7 +351,10 @@ export function derivePerspective(
       result = slot.totalClientPresent ?? slot.totalTime
       break
     case 'nonDifferential':
-      result = slot.totalTime
+      // LEARNING: Show on-site time for non-differential (same as inspector view)
+      // WHY: Non-differential services should show inspector times on buttons, not total appointment time
+      // PATTERN: Use totalOnSite with fallback to totalTime if null
+      result = slot.totalOnSite ?? slot.totalTime
       break
     default:
       result = null

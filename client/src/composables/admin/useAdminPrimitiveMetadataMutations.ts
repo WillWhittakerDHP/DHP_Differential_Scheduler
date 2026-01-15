@@ -92,12 +92,39 @@ export function useAdminPrimitiveMetadataMutations() {
         statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
         panel: renderingUpdates.panel ?? existingMetadata.panel,
         bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
-        // LEARNING: Include inputConfig from updates or existing metadata
-        // WHY: inputConfig is required for select/multiselect/reference/partsCollection fields
-        // PATTERN: Preserve inputConfig when updating rendering config
-        inputConfig: renderingUpdates.inputConfig !== undefined 
-          ? renderingUpdates.inputConfig 
-          : existingMetadata.inputConfig ?? null,
+        // LEARNING: Wrap inputConfig in FormFieldConfig structure before sending
+        // WHY: inputConfig should follow FormFieldConfig pattern with relationshipSelect or typeSelect properties
+        // PATTERN: Wrap select configs in FormFieldConfig structure, preserve null for non-select fields
+        inputConfig: (() => {
+          const rawInputConfig = renderingUpdates.inputConfig !== undefined 
+            ? renderingUpdates.inputConfig 
+            : existingMetadata.inputConfig ?? null
+          
+          // If no inputConfig, return null (for non-select fields)
+          if (!rawInputConfig) {
+            return null
+          }
+          
+          // If already in FormFieldConfig format, return as-is
+          const config = rawInputConfig as Record<string, unknown>
+          if ('relationshipSelect' in config || 'typeSelect' in config || 'primitiveInput' in config) {
+            return rawInputConfig
+          }
+          
+          // Wrap direct select config in FormFieldConfig structure
+          // Check targetMode to determine if it's relationshipSelect or typeSelect
+          if ('targetMode' in config) {
+            const targetMode = config.targetMode as string
+            if (targetMode === 'relationship') {
+              return { relationshipSelect: config }
+            } else if (targetMode === 'property') {
+              return { typeSelect: config }
+            }
+          }
+          
+          // If we can't determine the type, return as-is (backward compatibility)
+          return rawInputConfig
+        })(),
         inheritsFromEntityType: existingMetadata.inheritsFromEntityType ?? null,
         inheritsFromEntityId: existingMetadata.inheritsFromEntityId ?? null,
       }

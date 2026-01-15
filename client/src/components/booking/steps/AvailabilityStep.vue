@@ -70,12 +70,29 @@ const timeSlotsForLogic = computed(() => {
   return wrapper.value
 }) as ComputedRef<TimeSlot[]>
 
-// LEARNING: Compute isDifferentialService before useAvailabilityDefaults
-// WHY: useAvailabilityDefaults needs isDifferentialService to auto-select startTimeType
-// PATTERN: Computed property that checks if any selected service has differential === true
-const isDifferentialServiceForDefaults = computed(() => {
+// LEARNING: Compute effective differential state before useAvailabilityDefaults
+// WHY: useAvailabilityDefaults needs effective differential state (considering overrides) to auto-select startTimeType
+// PATTERN: Check if service is differential AND no part has differentialOverride: true
+const isEffectivelyDifferentialForDefaults = computed(() => {
   const selectedServices = wizard.selectedServices.value
-  return selectedServices.some(s => s.differential === true)
+  const selectedOptions = wizard.selectedOptionTypeBlocks.value
+  
+  // Check if any service is differential
+  const isDifferential = selectedServices.some(s => s.differential === true)
+  if (!isDifferential) return false
+  
+  // Check if any part has differentialOverride: true
+  const serviceHasOverride = selectedServices.some(service =>
+    service.partInstances?.some(part => part.differentialOverride === true)
+  )
+  const optionHasOverride = selectedOptions.some(option =>
+    option.partInstances?.some(part => part.differentialOverride === true)
+  )
+  
+  // If override exists, force non-differential
+  if (serviceHasOverride || optionHasOverride) return false
+  
+  return true
 })
 
 // LEARNING: Use availability defaults composable for state management and defaulting
@@ -89,7 +106,7 @@ const {
 } = useAvailabilityDefaults({
   loadedWizardState,
   timeSlots: timeSlotsForDefaults,
-  isDifferentialService: isDifferentialServiceForDefaults
+  isDifferentialService: isEffectivelyDifferentialForDefaults
 })
 
 // LEARNING: Use availability logic composable
@@ -103,7 +120,8 @@ const {
   propertyDetails,
   timeSlotsPerDay,
   selectedDateSingle,
-  isDifferentialService
+  isDifferentialService,
+  isEffectivelyDifferential
 } = useAvailabilityLogic({
   selectedDate,
   propertyDetailsStepData,
@@ -220,7 +238,7 @@ const {
   timeSlotDurations,
   selectedButtonIndex,
   perspective,
-  isDifferentialService
+  isDifferentialService: isEffectivelyDifferential
 })
 
 // LEARNING: Use availability step data composable
@@ -425,7 +443,7 @@ const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
           <!-- WHY: Always visible, shows time breakdown for selected date/time -->
           <!-- PATTERN: Interactive bars that control perspective selection -->
           <TimeOnSiteGraph
-            :is-differential-service="isDifferentialService"
+            :is-differential-service="isEffectivelyDifferential"
             :graph-bars="graphBars"
             :selected-services="wizard.selectedServices.value"
             :start-time-type="perspective"
@@ -455,7 +473,7 @@ const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
           <!-- WHY: Trust Vuetify's grid system instead of conditional rendering -->
           <!-- USER_STORY: Show empty state when no slots available -->
           <div v-if="appointmentSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
-            <span v-if="isDifferentialService && startTimeType === 'nonDifferential'">
+            <span v-if="isEffectivelyDifferential && startTimeType === 'nonDifferential'">
               Click on the Inspector or Client bars below the calendar to view available times.
             </span>
             <span v-else>

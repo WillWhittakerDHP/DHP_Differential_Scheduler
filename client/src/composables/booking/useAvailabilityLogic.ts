@@ -84,6 +84,7 @@ export interface UseAvailabilityLogicReturn {
   selectedDateSingle: ComputedRef<string | null>
   currentAppointmentSlots: ComputedRef<TimeSlot[]>
   isDifferentialService: ComputedRef<boolean>
+  isEffectivelyDifferential: ComputedRef<boolean>
   selectedTimeSlots: ComputedRef<SelectedTimeSlot[] | null>
   matchLoadedTimeSlots: (loadedSlots: Array<{ time: string }>, availableSlots: TimeSlot[], inspectorAppointmentSlot: Ref<TimeSlot | null>, clientAppointmentSlot: Ref<TimeSlot | null>) => void
 }
@@ -175,6 +176,41 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   const isDifferentialService = computed(() => {
     const selectedServices = wizard.selectedServices.value
     return selectedServices.some(s => s.differential === true)
+  })
+
+  /**
+   * LEARNING: Check if any part instance has differentialOverride: true
+   * WHY: Allows explicit override of differential behavior
+   * PATTERN: Check all selected services and option type blocks for parts with differentialOverride
+   */
+  const hasDifferentialOverride = computed(() => {
+    // Check selected services
+    const serviceHasOverride = wizard.selectedServices.value.some(service =>
+      service.partInstances?.some(part => part.differentialOverride === true)
+    )
+    
+    // Check selected option type blocks (e.g., "No Client Presentation" option)
+    const optionHasOverride = wizard.selectedOptionTypeBlocks.value.some(option =>
+      option.partInstances?.some(part => part.differentialOverride === true)
+    )
+    
+    return serviceHasOverride || optionHasOverride
+  })
+
+  /**
+   * LEARNING: Effective differential state for UI rendering
+   * WHY: Service may be differential but overridden by selected options
+   * PATTERN: Returns false if service is not differential OR if override exists
+   * 
+   * Logic:
+   * - If service.differential === false → return false (non-differential)
+   * - If service.differential === true AND any part has differentialOverride === true → return false (overridden to non-differential)
+   * - If service.differential === true AND no override → return true (differential)
+   */
+  const isEffectivelyDifferential = computed(() => {
+    if (!isDifferentialService.value) return false
+    if (hasDifferentialOverride.value) return false
+    return true
   })
 
   /**
@@ -341,6 +377,7 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     selectedDateSingle,
     currentAppointmentSlots,
     isDifferentialService,
+    isEffectivelyDifferential,
     selectedTimeSlots,
     matchLoadedTimeSlots
   }

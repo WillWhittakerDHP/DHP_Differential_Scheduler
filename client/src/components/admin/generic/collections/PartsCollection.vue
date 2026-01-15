@@ -23,76 +23,68 @@
       LEARNING: Render PartInstances for each valid PartShape
       WHY: Shows all valid PartShapes with EntityCard for both existing and new PartInstances
       PATTERN: Loop through validPartShapes, use EntityCard with appropriate props
+      FIX: VExpansionPanels must be OUTSIDE v-for to avoid group context issues
     -->
-    <template
-      v-for="partShape in validPartShapes"
-      :key="String(partShape.id)"
+    <VExpansionPanels
+      v-model="expandedPartInstances"
+      multiple
     >
-      <div class="part-instance-item mb-2">
-        <!--
-          LEARNING: Render VExpansionPanels for existing PartInstance
-          WHY: Uses config-driven status buttons in panel title, EntityCard in content
-          PATTERN: Same pattern as InstancesTab - config drives appearance
-        -->
-        <template v-if="getPartInstanceForShape(String(partShape.id))">
-          <!-- LEARNING: EntityCard is now self-contained with its own VExpansionPanel -->
-          <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields -->
-          <!-- PATTERN: Use EntityCard directly - no need for parent VExpansionPanel wrapper -->
-          <!-- NOTE: EntityCard handles expansion state internally, syncs with expandedPartInstances via v-model on VExpansionPanels -->
-          <VExpansionPanels
-            v-model="expandedPartInstances"
-            multiple
-          >
-            <EntityCard
-              :key="String(getPartInstanceForShape(String(partShape.id))!.id)"
-              entity-key="partInstance"
-              :entity="getPartInstanceForShape(String(partShape.id))!"
-              :expanded="isPanelExpanded(String(getPartInstanceForShape(String(partShape.id))!.id))"
-              @delete="handleDeletePartInstance"
-            />
-          </VExpansionPanels>
-        </template>
-      
-        <!--
-          LEARNING: Render inline EntityCard for new PartInstance (placeholder)
-          WHY: Uses EntityCard with isNew=true instead of hardcoded form fields
-          PATTERN: Create temporary entity, pass to EntityCard - same component for create and edit
-        -->
-        <VExpansionPanels
-          v-else
-          v-model="expandedPlaceholders"
-          multiple
+      <template
+        v-for="partShape in validPartShapes"
+        :key="String(partShape.id)"
+      >
+        <!-- Existing PartInstance -->
+        <EntityCard
+          v-if="getPartInstanceForShape(String(partShape.id))"
+          :key="String(getPartInstanceForShape(String(partShape.id))!.id)"
+          entity-key="partInstance"
+          :entity="getPartInstanceForShape(String(partShape.id))!"
+          :expanded="isPanelExpanded(String(getPartInstanceForShape(String(partShape.id))!.id))"
+          @delete="handleDeletePartInstance"
+        />
+      </template>
+    </VExpansionPanels>
+
+    <!-- Placeholder cards for new PartInstances -->
+    <VExpansionPanels
+      v-model="expandedPlaceholders"
+      multiple
+    >
+      <template
+        v-for="partShape in validPartShapes"
+        :key="`placeholder-${String(partShape.id)}`"
+      >
+        <VExpansionPanel
+          v-if="!getPartInstanceForShape(String(partShape.id))"
+          :value="String(partShape.id)"
+          class="add-part-instance-card"
         >
-          <VExpansionPanel
-            :value="String(partShape.id)"
-            class="add-part-instance-card"
-          >
-            <template #title>
-              <div class="d-flex align-center gap-2 flex-grow-1">
-                <VIcon icon="tabler-plus" size="small" class="text-primary" />
-                <span>{{ getPartShapeName(String(partShape.id)) }}</span>
-                <span class="text-caption text-medium-emphasis ml-2">Click to create part instance</span>
-              </div>
-            </template>
-            
-            <template #text>
-              <!-- LEARNING: EntityCard with isNew=true for creation -->
-              <!-- WHY: Same component handles both create and edit - config drives fields -->
-              <!-- PATTERN: Pass temporary entity with new-{id} prefix, EntityCard handles the rest -->
-              <!-- FIX: Pass created entity from saved event to handler to avoid timing issues -->
-              <EntityCard
-                entity-key="partInstance"
-                :entity="getNewPartInstanceEntity(String(partShape.id))"
-                :expanded="true"
-                :is-new="true"
-                @saved="(entity) => handleNewPartInstanceSaved(String(partShape.id), entity as import('@/types/entities').PartInstanceEntity)"
-                @cancelled="handleNewPartInstanceCancelled(String(partShape.id))"
-              />
-            </template>
-          </VExpansionPanel>
-        </VExpansionPanels>
-      </div>
-    </template>
+          <template #title>
+            <div class="d-flex align-center gap-2 flex-grow-1">
+              <VIcon icon="tabler-plus" size="small" class="text-primary" />
+              <span>{{ getPartShapeName(String(partShape.id)) }}</span>
+              <span class="text-caption text-medium-emphasis ml-2">Click to create part instance</span>
+            </div>
+          </template>
+          
+          <template #text>
+            <!-- LEARNING: EntityCard with isNew=true for creation -->
+            <!-- WHY: Same component handles both create and edit - config drives fields -->
+            <!-- PATTERN: Pass temporary entity with new-{id} prefix, EntityCard handles the rest -->
+            <!-- FIX: Pass created entity from saved event to handler to avoid timing issues -->
+            <EntityCard
+              entity-key="partInstance"
+              :entity="getNewPartInstanceEntity(String(partShape.id))"
+              :expanded="true"
+              :is-new="true"
+              :use-expansion-panel="false"
+              @saved="(entity) => handleNewPartInstanceSaved(String(partShape.id), entity as import('@/types/entities').PartInstanceEntity)"
+              @cancelled="handleNewPartInstanceCancelled(String(partShape.id))"
+            />
+          </template>
+        </VExpansionPanel>
+      </template>
+    </VExpansionPanels>
     
     <!--
       LEARNING: Empty state when no valid PartShapes exist

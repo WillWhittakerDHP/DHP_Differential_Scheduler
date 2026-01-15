@@ -10,7 +10,6 @@ import { ref, computed, watch, watchEffect, type Ref, type ComponentPublicInstan
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
-import ShapesSubTab from './ShapesSubTab.vue'
 import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'
 import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
 import { useInstanceGrouping } from '@/composables/admin/useInstanceGrouping'
@@ -31,7 +30,7 @@ import { useFormFields } from '@/composables/formFields/useFormFields'
 
 /**
  * LEARNING: Reactive active tab state
- * WHY: Tracks which tab is currently active (BlockShape ID or 'shapes')
+ * WHY: Tracks which tab is currently active (BlockShape ID)
  * PATTERN: ref for reactive string value
  */
 const activeTab = ref<string>('')
@@ -225,13 +224,6 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
         @click="handleTabClick(String(blockShape.id))"
       >
         {{ blockShape.name }} ({{ blockInstancesCountByShape.get(String(blockShape.id)) || 0 }})
-      </VTab>
-      <VTab
-        value="shapes"
-        class="shapes-tab"
-        @click="handleTabClick('shapes')"
-      >
-        Shapes
       </VTab>
     </VTabs>
     
@@ -462,11 +454,6 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
           
         </div>
       </VWindowItem>
-      
-      <!-- Shapes Tab Content -->
-      <VWindowItem key="shapes" value="shapes">
-        <ShapesSubTab />
-      </VWindowItem>
     </VWindow>
     
     <!--
@@ -564,16 +551,6 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
 
 .instances-tabs-container :deep(.v-tab) {
   flex: 0 1 auto;
-}
-
-.shapes-tab {
-  margin-left: auto;
-  background-color: rgba(var(--v-theme-secondary), 0.1);
-  border-radius: 4px 4px 0 0;
-}
-
-.shapes-tab:hover {
-  background-color: rgba(var(--v-theme-secondary), 0.15);
 }
 
 .instances-tabs-container :deep(.v-tabs) {

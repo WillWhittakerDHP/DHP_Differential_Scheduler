@@ -107,10 +107,24 @@ export function useInstanceCreation(
           }
           
           if (inputElement) {
-            // Focus and select the input
-            inputElement.focus()
-            if (inputElement instanceof HTMLInputElement && inputElement.select) {
-              inputElement.select()
+            // LEARNING: Check if document already has focus before attempting autofocus
+            // WHY: Prevents "Autofocus processing was blocked" browser warning
+            // PATTERN: Only focus if no element currently has focus, or if it's safe to change focus
+            const activeElement = document.activeElement
+            const isSafeToFocus = !activeElement || 
+              activeElement === document.body || 
+              activeElement.tagName === 'BODY' ||
+              (activeElement instanceof HTMLElement && activeElement.tabIndex === -1)
+            
+            if (isSafeToFocus) {
+              try {
+                inputElement.focus()
+                if (inputElement instanceof HTMLInputElement && inputElement.select) {
+                  inputElement.select()
+                }
+              } catch (error) {
+                // Focus failed (e.g., element not visible yet) - ignore
+              }
             }
             return
           }

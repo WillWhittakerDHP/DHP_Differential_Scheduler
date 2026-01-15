@@ -105,6 +105,7 @@ export default {
       'clientPresent',
       'moveable',
       'zeroOutPart',
+      'differentialOverride',
     ];
 
     await queryInterface.sequelize.query(
@@ -221,6 +222,7 @@ export default {
       'clientPresent',
       'moveable',
       'zeroOutPart',
+      'differentialOverride',
     ];
 
     await queryInterface.sequelize.query(

@@ -8,39 +8,42 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-01-14T02:10:11.138Z**
+- Generated at: **2026-01-15T22:09:05.467Z**
 - Command: `node_modules/.bin/vue-tsc -b --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 26**
+- **Errors requiring review: 126**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **22**
+- Pools: **91**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2345-ts2345-arg-globalentity-partshapeentity-null-undefined` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS7053-ts7053-element-implicitly-has-an-any-type-because-expression-of-type-globalfieldkey-blockinstance-blockshape-partinstanc` | 18 | 2 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-computedref-blockinstance-blockshape-partinstance-partshape-ref` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-computedref-undefined-globalfieldkey-ref-globalfieldkey` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-number-null-undefined-partinstancebulkeditdata-undefined` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2339-ts2339-prop-activeconstituents-blockinstanceentity` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2339-ts2339-prop-value` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2339-ts2339-prop-value-blockinstancestatusbuttonfield` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-blockshapeentity-partshapeentity-null-null` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-globalfieldkey-keyof-blockinstanceentity` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-globalfieldkey-keyof-partinstanceentity` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-composable-does-not-exist-in-type-record-keyof-blockinstance` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS6133-ts6133-getblockshapefieldmetadata-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
-| P1 | `TS6133-ts6133-getpartshapefieldmetadata-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
-| P1 | `TS18048-ts18048-blockshapeproperties-is-possibly-undefined` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18048-ts18048-vls-ctx-parententity-is-possibly-undefined` | 11 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-computed-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-fieldmetadataentry-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-ge-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-globalfieldkey-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-statusbuttonfield-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6196-ts6196-subpaneltype-is-declared-but-never-used` | 6 | 1 | 1 | 0 | 0 |
+| P0 | `TS2724-ts2724-types-entities-has-no-exported-member-named-globalentitykey-did-you-mean-globalentity` | 72 | 6 | 6 | 0 | 0 |
+| P0 | `TS2345-ts2345-arg-computedref-null-undefined-mayberef` | 39 | 3 | 3 | 0 | 0 |
+| P0 | `TS2307-ts2307-cannot-find-module-constants-entities-or-its-corresponding-type-declarations` | 37 | 3 | 2 | 0 | 0 |
+| P0 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-showdescription-does-not-exist-in-type-showicon-boolean-show` | 37 | 3 | 2 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-fieldcomponent` | 35 | 3 | 1 | 0 | 0 |
+| P0 | `TS6133-ts6133-globalfieldkey-is-declared-but-its-value-is-never-read` | 33 | 5 | 5 | 0 | 1 |
+| P0 | `TS2322-ts2322-assign-string-undefined-string` | 26 | 2 | 2 | 0 | 0 |
+| P0 | `TS7053-ts7053-element-implicitly-has-an-any-type-because-expression-of-type-string-can-t-be-used-to-index-type-blockinstanceent` | 26 | 3 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-entityid-never` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-entitytype-never` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS6133-ts6133-adminconfig-is-declared-but-its-value-is-never-read` | 24 | 4 | 4 | 0 | 0 |
+| P0 | `TS6133-ts6133-watcheffect-is-declared-but-its-value-is-never-read` | 24 | 4 | 4 | 0 | 0 |
+| P0 | `TS2554-ts2554-expected-0-arguments-but-got-0` | 18 | 2 | 2 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-bookingblockinstance-partial` | 16 | 1 | 1 | 0 | 1 |
+| P1 | `TS2551-ts2551-property-description-does-not-exist-on-type-bookingblockinstance-did-you-mean-descriptions` | 16 | 2 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-appliedform-blockinstanceprimitivefields-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-appliedform-blockshapeprimitivefields-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-appliedform-partinstanceprimitivefields-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-appliedform-partshapeprimitivefields-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-composables-admin-usepartinstancemetadatapreload-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-configs-field-display-fullfielddisplayconfig-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-constants-annotations-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-constants-primitives-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-constants-relationships-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-types-entity-formdataenums-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -52,65 +55,197 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/components/admin/generic/EntityCard.vue`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@25:42 'StatusButtonField' is declared but its value is never read.
-TS6133@26:1 'getPartShapeFieldMetadata' is declared but its value is never read.
-TS6133@27:1 'getBlockShapeFieldMetadata' is declared but its value is never read.
-TS2345@386:40 Argument of type 'BlockShapeEntity | PartShapeEntity | null' is not assignable to parameter of type 'null'.
-```
-
-### `src/composables/admin/useStatusButtonFields.ts`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@21:1 'GlobalFieldKey' is declared but its value is never read.
-TS6133@102:45 'GE' is declared but its value is never read.
-TS18048@274:29 'blockShapeProperties' is possibly 'undefined'.
-TS2339@274:50 Property 'value' does not exist on type '{ constituable?: boolean | undefined; composable?: boolean | undefined; composite?: boolean | undefined; }'.
-```
-
 ### `src/views/admin/tabs/InstancesTab.vue`
 
-- errors: 4, unsafeCasts: 0, suppressions: 0
+- errors: 13, unsafeCasts: 0, suppressions: 0
 
 ```
-TS7053@897:43 Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.
-TS7053@901:55 Element implicitly has an 'any' type because expression of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">' can't be used to index type '{ blockShapeRef: string; baseSqFt: number; active: boolean; composite?: boolean | undefined; annotations?: { id: string; text: string; type: string; userTypeBlock: UserTypeBlock; annotationType?: { ...; } | undefined; orderIndex: number; isDefault: boolean; }[] | undefined; ... 11 more ...; isComposer?: boolean | un...'.
-TS2345@954:78 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">' is not assignable to parameter of type 'keyof BlockInstanceEntity'.
-TS2339@1038:59 Property 'value' does not exist on type 'BlockInstanceStatusButtonField'.
+TS6133@9:15 'computed' is declared but its value is never read.
+TS6133@9:25 'watch' is declared but its value is never read.
+TS6133@9:32 'watchEffect' is declared but its value is never read.
+TS6133@9:50 'Ref' is declared but its value is never read.
+TS6133@20:1 'GlobalFieldKey' is declared but its value is never read.
+TS6133@28:1 'FieldMetadataEntry' is declared but its value is never read.
+TS6133@29:1 'useFormFields' is declared but its value is never read.
+TS6133@97:7 'globalData' is declared but its value is never read.
+TS6133@162:3 'blockInstanceIdsMap' is declared but its value is never read.
+TS6133@165:3 'groupDragHandlers' is declared but its value is never read.
+TS6133@166:3 'groupDragInstances' is declared but its value is never read.
+TS6133@167:3 'isMounted' is declared but its value is never read.
+TS2322@170:3 Type '(updates: OrderIndexUpdate) => Promise<void>' is not assignable to type '(id: string, orderIndex: number) => Promise<void>'.
+```
+
+### `src/components/admin/generic/EntityCard.vue`
+
+- errors: 11, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@9:41 'watchEffect' is declared but its value is never read.
+TS6133@9:54 'toRef' is declared but its value is never read.
+TS6133@30:27 'VExpansionPanels' is declared but its value is never read.
+TS6133@230:7 'lastResetValues' is declared but its value is never read.
+TS7053@279:26 Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'BlockInstanceEntity | BlockShapeEntity | PartInstanceEntity | PartShapeEntity'.
+TS7053@280:26 Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'BlockInstanceEntity | BlockShapeEntity | PartInstanceEntity | PartShapeEntity'.
+TS2349@291:16 This expression is not callable.
+TS7053@291:40 Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'BlockInstanceEntity | BlockShapeEntity | PartInstanceEntity | PartShapeEntity'.
+TS6133@493:7 'blockShapeProperties' is declared but its value is never read.
+TS6133@762:7 'statusButtonToggle' is declared but its value is never read.
+TS6133@775:7 'handleContainerClick' is declared but its value is never read.
 ```
 
 ### `src/components/admin/generic/collections/PartsCollection.vue`
 
+- errors: 10, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@115:20 'ref' is declared but its value is never read.
+TS6133@115:25 'watchEffect' is declared but its value is never read.
+TS6133@116:1 'ComponentPublicInstance' is declared but its value is never read.
+TS6133@121:1 'GlobalEntity' is declared but its value is never read.
+TS6133@127:1 'usePartInstanceMetadataPreload' is declared but its value is never read.
+TS2307@127:48 Cannot find module '@/composables/admin/usePartInstanceMetadataPreload' or its corresponding type declarations.
+TS6133@130:1 'FieldMetadataEntry' is declared but its value is never read.
+TS6133@164:3 'applyPartInstanceBulkEdit' is declared but its value is never read.
+TS6133@193:7 'bulkEditFieldMetadata' is declared but its value is never read.
+TS6133@229:7 'togglePartInstanceExpansion' is declared but its value is never read.
+```
+
+### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
+
+- errors: 6, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@31:16 Property 'message' does not exist on type 'never'.
+TS6133@215:1 'useAdminRelationshipMetadataMutations' is declared but its value is never read.
+TS6133@216:1 'useRelationshipMetadata' is declared but its value is never read.
+TS6133@230:1 'RELATIONSHIP_KEYS' is declared but its value is never read.
+TS6133@246:7 'adminConfig' is declared but its value is never read.
+TS6133@295:51 'refetchMetadata' is declared but its value is never read.
+```
+
+### `src/configs/field/form/_archived/primitiveFieldConfig.ts`
+
+- errors: 6, unsafeCasts: 0, suppressions: 0
+
+```
+TS2307@7:38 Cannot find module '../../../constants/entities' or its corresponding type declarations.
+TS2307@8:41 Cannot find module '../../../types/entity/formFields' or its corresponding type declarations.
+TS2307@9:46 Cannot find module './appliedForm/blockInstancePrimitiveFields' or its corresponding type declarations.
+TS2307@10:43 Cannot find module './appliedForm/blockShapePrimitiveFields' or its corresponding type declarations.
+TS2307@11:45 Cannot find module './appliedForm/partInstancePrimitiveFields' or its corresponding type declarations.
+TS2307@12:42 Cannot find module './appliedForm/partShapePrimitiveFields' or its corresponding type declarations.
+```
+
+### `src/configs/field/form/_archived/selectableFieldConfig.ts`
+
+- errors: 6, unsafeCasts: 0, suppressions: 0
+
+```
+TS2307@7:38 Cannot find module '../../../constants/entities' or its corresponding type declarations.
+TS2307@8:116 Cannot find module '../../../constants/entities' or its corresponding type declarations.
+TS2307@9:37 Cannot find module '../../../constants/primitives' or its corresponding type declarations.
+TS2307@10:44 Cannot find module '../../../constants/relationships' or its corresponding type declarations.
+TS2307@11:42 Cannot find module '../../../constants/annotations' or its corresponding type declarations.
+TS2307@12:88 Cannot find module '../../../types/entity/formDataEnums' or its corresponding type declarations.
+```
+
+### `src/composables/useAdmin.ts`
+
+- errors: 5, unsafeCasts: 0, suppressions: 0
+
+```
+TS2769@238:54 No overload matches this call.
+TS2339@240:92 Property 'entityType' does not exist on type 'never'.
+TS2339@240:124 Property 'entityId' does not exist on type 'never'.
+TS2339@241:98 Property 'entityType' does not exist on type 'never'.
+TS2339@241:130 Property 'entityId' does not exist on type 'never'.
+```
+
+### `src/components/admin/generic/fields/FieldRenderer.vue`
+
 - errors: 3, unsafeCasts: 0, suppressions: 0
 
 ```
-TS18048@15:27 '__VLS_ctx.parentEntity' is possibly 'undefined'.
-TS2322@16:8 Type 'number | null | undefined' is not assignable to type 'PartInstanceBulkEditData | undefined'.
-TS2345@82:114 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">' is not assignable to parameter of type 'keyof PartInstanceEntity'.
+TS6133@56:34 'watchEffect' is declared but its value is never read.
+TS2322@196:3 Type 'ComputedRef<AdminObject<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | null | undefined>' is not assignable to type 'GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | ComputedRef<GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | null> | Ref<...> | null | undefined'.
+TS2322@197:3 Type 'ComputedRef<Record<string, FieldMetadataEntry> | undefined>' is not assignable to type 'ComputedRef<Record<string, FieldMetadataEntry>> | Ref<Record<string, FieldMetadataEntry>, Record<string, FieldMetadataEntry>> | undefined'.
 ```
 
-### `src/components/admin/BlockShapeEditModal.vue`
+### `src/components/admin/generic/fields/TextInput.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@81:35 'unref' is declared but its value is never read.
+TS6133@81:47 'Ref' is declared but its value is never read.
+TS2554@232:45 Expected 1 arguments, but got 0.
+```
+
+### `src/composables/_archived/useFieldMetadata.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2307@11:32 Cannot find module './useAdminConfig' or its corresponding type declarations.
+TS2307@12:82 Cannot find module '../types/entity/formDataEnums' or its corresponding type declarations.
+TS2307@15:41 Cannot find module '../configs/field/display/fullFieldDisplayConfig' or its corresponding type declarations.
+```
+
+### `src/composables/admin/useEntityCardReadiness.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2459@8:15 Module '"@/constants/primitives"' declares 'GlobalEntityKey' locally, but it is not exported.
+TS6133@10:1 'ComponentPublicInstance' is declared but its value is never read.
+TS2322@53:3 Type 'FieldContextType<"blockInstance" | "blockShape" | "partInstance" | "partShape", GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">> | undefined' is not assignable to type 'FieldContextType<GE, GlobalFieldKey<GE>> | undefined'.
+```
+
+### `src/composables/formFields/useFormFieldsContext.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2367@156:9 This comparison appears to be unintentional because the types '"string" | "array" | "reference"' and '"date"' have no overlap.
+TS2322@252:7 Type 'string | undefined' is not assignable to type 'string'.
+TS2353@308:13 Object literal may only specify known properties, and 'logger' does not exist in type 'UseFieldContextStateOptions<"blockInstance" | "blockShape" | "partInstance" | "partShape", GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">>'.
+```
+
+### `src/utils/forms/fieldComponentDispatcher.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@80:5 Type '{ type: "primitive"; reason: "number" | "text" | "select" | "reference" | "multiselect" | "statusButton" | "partsCollection"; }' is not assignable to type 'FieldComponent'.
+TS2322@105:7 Type '{ type: "select"; reason: "number" | "text" | "select" | "reference" | "multiselect" | "statusButton"; }' is not assignable to type 'FieldComponent'.
+TS2322@114:5 Type '{ type: "select"; reason: "number" | "text" | "select" | "reference" | "multiselect" | "statusButton"; }' is not assignable to type 'FieldComponent'.
+```
+
+### `src/components/admin/generic/fields/BooleanInput.vue`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@184:3 'getBlockShapeFieldMetadata' is declared but its value is never read.
-TS2353@224:3 Object literal may only specify known properties, and 'composable' does not exist in type 'Record<keyof BlockInstanceEntity, FieldMetadataEntry>'.
+TS2322@15:8 Type 'ValidAdminValue' is not assignable to type 'boolean'.
+TS2345@86:3 Argument of type 'ComputedRef<AdminObject<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | null | undefined>' is not assignable to parameter of type 'MaybeRef<BlockInstanceEntity | BlockShapeEntity | PartInstanceEntity | PartShapeEntity | null>'.
 ```
 
-### `src/components/admin/generic/fields/InputRenderer.vue`
+### `src/components/admin/generic/fields/PrimitiveInputs.vue`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2322@107:3 Type 'ComputedRef<"blockInstance" | "blockShape" | "partInstance" | "partShape" | undefined>' is not assignable to type '"blockInstance" | "blockShape" | "partInstance" | "partShape" | Ref<"blockInstance" | "blockShape" | "partInstance" | "partShape", "blockInstance" | "blockShape" | "partInstance" | "partShape">'.
-TS2322@108:3 Type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | undefined>' is not assignable to type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | Ref<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape">, GlobalFieldKey<...>>'.
+TS2367@22:77 This comparison appears to be unintentional because the types '"number" | "select" | "reference" | "multiselect" | "iconSelect" | "partsCollection"' and '"text"' have no overlap.
+TS2345@114:3 Argument of type 'ComputedRef<AdminObject<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | null | undefined>' is not assignable to parameter of type 'MaybeRef<BlockInstanceEntity | BlockShapeEntity | PartInstanceEntity | PartShapeEntity | null>'.
+```
+
+### `src/components/admin/InstanceBulkEditModal.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@76:1 'GlobalFieldKey' is declared but its value is never read.
+TS6133@97:7 'adminConfig' is declared but its value is never read.
 ```
 
 ### `src/components/admin/PartInstanceBulkEditModal.vue`
@@ -118,32 +253,287 @@ TS2322@108:3 Type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2339@135:81 Property 'activeConstituents' does not exist on type 'BlockInstanceEntity'.
-TS2345@161:51 Argument of type 'GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.
+TS6133@77:1 'GlobalFieldKey' is declared but its value is never read.
+TS6133@106:7 'adminConfig' is declared but its value is never read.
 ```
 
-### `src/composables/admin/usePartInstanceBulkEdit.ts`
+### `src/composables/admin/useAdminPrimitiveMetadataMutations.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@15:15 'computed' is declared but its value is never read.
-TS2345@159:55 Argument of type 'GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape">' is not assignable to parameter of type 'PartShapeEntity | null | undefined'.
+TS6133@17:1 'GlobalEntityKey' is declared but its value is never read.
+TS6133@30:9 'adminConfig' is declared but its value is never read.
 ```
 
-### `src/utils/forms/fieldSectionCategorization.ts`
+### `src/composables/admin/useShapeCreation.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6196@1:30 'SubPanelType' is declared but never used.
-TS6133@8:43 'FieldMetadataEntry' is declared but its value is never read.
+TS2724@9:29 '"@/types/entities"' has no exported member named 'GlobalEntityKey'. Did you mean 'GlobalEntity'?
+TS6196@9:29 'GlobalEntityKey' is declared but never used.
 ```
 
-### `src/components/admin/PartShapeEditModal.vue`
+### `src/composables/admin/useShapeSaveHandlers.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@7:10 'ref' is declared but its value is never read.
+TS2724@10:29 '"@/types/entities"' has no exported member named 'GlobalEntityKey'. Did you mean 'GlobalEntity'?
+```
+
+### `src/composables/fieldContext/useFieldContextState.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@218:5 Type 'string | undefined' is not assignable to type 'string'.
+TS2353@259:5 Object literal may only specify known properties, and 'setValue' does not exist in type 'UseFieldContextStateReturn<GE, FieldKey>'.
+```
+
+### `src/composables/usePartInstanceData.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@54:28 Property 'optionsFieldKey' does not exist on type 'UsePartInstanceDataOptions'.
+TS6133@62:9 'optionsFieldKeyRef' is declared but its value is never read.
+```
+
+### `src/utils/booking/serviceDescriptions.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2551@5:20 Property 'description' does not exist on type 'BookingBlockInstance'. Did you mean 'descriptions'?
+TS2551@13:20 Property 'description' does not exist on type 'BookingBlockInstance'. Did you mean 'descriptions'?
+```
+
+### `src/utils/booking/serviceSelectionConfigBuilders.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2353@40:7 Object literal may only specify known properties, and 'showDescription' does not exist in type '{ showIcon: boolean; showBorder: boolean; cardPadding: string; minHeight: string; }'.
+TS2353@74:7 Object literal may only specify known properties, and 'showDescription' does not exist in type '{ showIcon: boolean; showBorder: boolean; cardPadding: string; minHeight: string; }'.
+```
+
+### `src/utils/dependencyCleanup.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 1
+
+```
+TS6133@14:1 'GlobalFieldKey' is declared but its value is never read.
+TS6133@19:1 'RelationshipFieldType' is declared but its value is never read.
+```
+
+### `src/views/admin/tabs/components/AppointmentsTable.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@16:1 'PropertyResponse' is declared but its value is never read.
+TS6133@17:1 'UserResponse' is declared but its value is never read.
+```
+
+### `src/components/admin/generic/EntityCardSubPanels.vue`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@182:3 'getPartShapeFieldMetadata' is declared but its value is never read.
+TS2554@145:25 Expected 3 arguments, but got 2.
+```
+
+### `src/components/booking/steps/AvailabilityStep.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@123:3 'isDifferentialService' is declared but its value is never read.
+```
+
+### `src/composables/admin/useAnnotationTypeFiltering.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2694@11:59 Namespace '"/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/entities"' has no exported member 'AnnotationTypeEntity'.
+```
+
+### `src/composables/admin/useDragAndDropHelpers.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@8:1 'isRef' is declared but its value is never read.
+```
+
+### `src/composables/admin/useFieldComponent.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2345@156:5 Argument of type '"blockInstance" | "blockShape" | "partInstance" | "partShape" | undefined' is not assignable to parameter of type '"blockInstance" | "blockShape" | "partInstance" | "partShape"'.
+```
+
+### `src/composables/admin/useInstanceDragAndDrop.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@91:11 Type '(id: string, orderIndex: number) => Promise<void>' is not assignable to type 'PatchOrderIndex'.
+```
+
+### `src/composables/admin/useInstanceSaveHandlers.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2724@7:29 '"@/types/entities"' has no exported member named 'GlobalEntityKey'. Did you mean 'GlobalEntity'?
+```
+
+### `src/composables/admin/usePartInstanceCollection.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2353@74:5 Object literal may only specify known properties, and 'optionsFieldKey' does not exist in type 'UsePartInstanceDataOptions'.
+```
+
+### `src/composables/admin/usePartsCollectionField.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2345@58:5 Argument of type 'ComputedRef<AdminObject<GE> | null | undefined>' is not assignable to parameter of type 'MaybeRef<GlobalEntity<GE> | null>'.
+```
+
+### `src/composables/admin/useSelectConfig.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2345@109:5 Argument of type 'ComputedRef<AdminObject<"blockInstance" | "blockShape" | "partInstance" | "partShape"> | null | undefined>' is not assignable to parameter of type 'MaybeRef<BlockInstanceEntity | BlockShapeEntity | PartInstanceEntity | PartShapeEntity | null>'.
+```
+
+### `src/composables/admin/useStatusButtonFields.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2724@10:29 '"@/types/entities"' has no exported member named 'GlobalEntityKey'. Did you mean 'GlobalEntity'?
+```
+
+### `src/composables/admin/useStatusButtonHandlers.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2724@9:29 '"@/types/entities"' has no exported member named 'GlobalEntityKey'. Did you mean 'GlobalEntity'?
+```
+
+### `src/composables/admin/useStatusButtonValue.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2724@7:29 '"@/types/entities"' has no exported member named 'GlobalEntityKey'. Did you mean 'GlobalEntity'?
+```
+
+### `src/composables/booking/useDependentInstanceOptions.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2561@133:11 Object literal may only specify known properties, but 'description' does not exist in type 'BookingBlockInstance'. Did you mean to write 'descriptions'?
+```
+
+### `src/composables/booking/useInstanceComponents.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@68:20 'selectedUserTypeBlock' is declared but its value is never read.
+```
+
+### `src/composables/booking/useInstanceComponentsList.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2353@58:7 Object literal may only specify known properties, and 'selectedUserTypeBlockId' does not exist in type '{ service: BookingBlockInstance; getGlobalEntityById: GetGlobalEntityById; getActiveComponentsRelationships: GetActiveComponentsRelationships; }'.
+```
+
+### `src/composables/booking/useInstanceDisplay.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@76:5 'selectedUserTypeBlock' is declared but its value is never read.
+```
+
+### `src/composables/fieldContext/useFieldContextActions.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@260:11 Property 'setValue' does not exist on type 'UseFieldContextStateReturn<GE, FieldKey>'.
+```
+
+### `src/composables/useAdminConfig.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@19:1 'isDevModeEnabled' is declared but its value is never read.
+```
+
+### `src/utils/booking/selectionCardChildren.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@22:27 Property 'description' does not exist on type 'ComponentItem'.
+```
+
+### `src/utils/booking/selectionCardConfig.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2353@14:5 Object literal may only specify known properties, and 'showDescription' does not exist in type '{ showIcon: boolean; showBorder: boolean; cardPadding: string; minHeight: string; }'.
+```
+
+### `src/utils/forms/fieldLocationDispatcher.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@58:3 'fieldKey' is declared but its value is never read.
+```
+
+### `src/utils/transformers/appointmentToWizardTransformer.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 1
+
+```
+TS2322@185:5 Type 'BookingBlockInstance | { id: string; entityKey: "blockInstance"; description: string; active: true; dependent: false; orderIndex: number; blockShape: string; blockShapeRef: string; activeBlockIds: never[]; partInstances: never[]; requiresUnitNumber: null; }' is not assignable to type 'Partial<BookingBlockInstance>'.
+```
+
+### `src/utils/transformers/globalToAdminTransformer.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@12:1 'GlobalFieldKey' is declared but its value is never read.
+```
+
+### `src/views/admin/tabs/ShapesTab.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6198@42:7 All destructured elements are unused.
 ```

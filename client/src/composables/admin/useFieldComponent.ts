@@ -182,7 +182,7 @@ export function useFieldComponent(
   /**
    * LEARNING: Determine component type using dispatcher
    * WHY: Single source of truth - use dispatcher for all component type decisions
-   * PATTERN: Call pure dispatcher function with fieldKey and metadata
+   * PATTERN: Call pure dispatcher function with entityKey, fieldKey and metadata
    */
   const componentType = computed(() => {
     if (!fieldKeyRef.value) {
@@ -196,7 +196,18 @@ export function useFieldComponent(
       })
       return result
     }
-    const result = getFieldComponent(fieldKeyRef.value, fieldMetadataEntry.value)
+    if (!entityKeyRef.value) {
+      const result = { type: 'unknown' as const, reason: 'notConfigured' as const }
+      console.warn('[useFieldComponent] Unknown component type - missing entityKey', {
+        location: 'useFieldComponent.ts',
+        entityKey: entityKeyRef.value,
+        fieldKey: fieldKeyRef.value,
+        fieldMetadataEntry: fieldMetadataEntry.value,
+        reason: result.reason
+      })
+      return result
+    }
+    const result = getFieldComponent(entityKeyRef.value, fieldKeyRef.value, fieldMetadataEntry.value)
     if (result.type === 'unknown') {
       console.warn('[useFieldComponent] Unknown component type determined', {
         location: 'useFieldComponent.ts',

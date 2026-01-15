@@ -512,13 +512,66 @@
 
 ---
 
-## Initial UI Setup Phase (Sessions 1.4.7-1.4.9)
+## Admin Panel Field Improvements (Session 1.4.8)
 
-### Session 1.4.7: Card Functionality and Button Connections
+### Session 1.4.8: Admin Panel Field Rendering and Value Sync Improvements
+
+**Status:** ✅ Complete  
+**Priority:** High (Admin panel reliability)  
+**Dependencies:** Session 1.4.7 (Data Flow Consolidation - BusinessData Cache Architecture) ✅ Complete
+
+**Goal:** Fix admin panel field metadata rendering issues, replace toggle switches with status buttons, and refactor field value synchronization to use vee-validate's setValue API.
+
+**Key Accomplishments:**
+
+1. **Field Metadata Rendering Fixes**
+   - ✅ Fixed EntityCard template bug (removed `.value` from computed refs)
+   - ✅ Fixed "Unknown input type" warnings
+   - ✅ Updated AdminPrimitiveMetadataEditor (removed obsolete 'toggle', added 'iconSelect')
+
+2. **Status Button Implementation**
+   - ✅ Replaced BooleanInput toggle switches with StatusButton chips
+   - ✅ Added disabled prop support for read-only scenarios
+   - ✅ Better visual feedback with text labels (Active/Inactive)
+
+3. **Field Value Sync Refactoring**
+   - ✅ Updated `useFieldContextState` to use vee-validate `setValue` API
+   - ✅ Changed watch to use `setValue` instead of `handleChange` for store sync
+   - ✅ Updated EntityCard watch with `immediate: true` and `setValues` after `resetForm`
+
+4. **Database and API Updates**
+   - ✅ Created migrations for `differential_override` columns
+   - ✅ Enhanced admin metadata routers
+   - ✅ Updated part_instance model
+
+**Key Files Modified:**
+- `client/src/components/admin/generic/EntityCard.vue`
+- `client/src/components/admin/AdminPrimitiveMetadataEditor.vue`
+- `client/src/composables/fieldContext/useFieldContextState.ts`
+- `client/src/utils/forms/fieldComponentDispatcher.ts`
+- `server/src/db/migrations/20260115_add_differential_override_*.mjs`
+- `server/src/routes/internal/admin-*-metadata/*.ts`
+
+**Success Criteria:**
+- ✅ EntityCard template rendering fixed (no .value in templates)
+- ✅ "Unknown input type" warnings eliminated
+- ✅ Toggle switches replaced with StatusButton chips
+- ✅ Field value sync using setValue API
+- ✅ Database migrations created for new fields
+- ✅ All modified components working correctly
+
+**Related Documents:**
+- **Session Log**: `../sessions/session-1.4.8-log.md`
+
+---
+
+## Initial UI Setup Phase (Sessions 1.4.9-1.4.11)
+
+### Session 1.4.9: Card Functionality and Button Connections
 
 **Status:** Not Started  
 **Priority:** High (Foundation for wizard functionality)  
-**Dependencies:** Session 1.4.6 (Add Annotations to GlobalData and Create useAnnotations Composable) ✅ Complete
+**Dependencies:** Session 1.4.8 (Admin Panel Field Rendering and Value Sync Improvements) ✅ Complete
 
 **Goal:** Ensure all selection cards work correctly and all buttons are connected to their proper data sources. Verify composables and components are functional in draft state.
 
@@ -569,15 +622,15 @@
 - ✅ No broken card selections or button handlers
 
 **Related Documents:**
-- **Session Log**: `../sessions/session-1.4.7-log.md` (to be created)
+- **Session Log**: `../sessions/session-1.4.9-log.md`
 
 ---
 
-### Session 1.4.8: Complete ContactsStep and Add Property Confirmation Modal
+### Session 1.4.10: Complete ContactsStep and Add Property Confirmation Modal
 
 **Status:** Not Started  
 **Priority:** High (Complete wizard step functionality)  
-**Dependencies:** Session 1.4.7 (Card Functionality and Button Connections) ⏳ Not Started
+**Dependencies:** Session 1.4.9 (Card Functionality and Button Connections) ⏳ Not Started
 
 **Goal:** Finish ContactsStep setup and add property details confirmation modal. Enable navigation to step 3 (ContactsStep).
 
@@ -634,15 +687,15 @@
 - ✅ Step data persists correctly
 
 **Related Documents:**
-- **Session Log**: `../sessions/session-1.4.8-log.md` (to be created)
+- **Session Log**: `../sessions/session-1.4.10-log.md`
 
 ---
 
-### Session 1.4.9: Complete ConfirmationStep and Enable Navigation to Step 4
+### Session 1.4.11: Complete ConfirmationStep and Enable Navigation to Step 4
 
 **Status:** Not Started  
 **Priority:** High (Complete wizard flow)  
-**Dependencies:** Session 1.4.8 (Complete ContactsStep and Add Property Confirmation Modal) ⏳ Not Started
+**Dependencies:** Session 1.4.10 (Complete ContactsStep and Add Property Confirmation Modal) ⏳ Not Started
 
 **Goal:** Remove hardcoded values from ConfirmationStep and enable navigation to final step. Test end-to-end wizard flow.
 
@@ -705,11 +758,11 @@
 - ✅ All wizard selections display correctly in summary
 
 **Related Documents:**
-- **Session Log**: `../sessions/session-1.4.9-log.md` (to be created)
+- **Session Log**: `../sessions/session-1.4.11-log.md`
 
 ---
 
-### Session 1.4.7 (Renumbered): Data Flow Consolidation - BusinessData Cache Architecture
+### Session 1.4.7: Data Flow Consolidation - BusinessData Cache Architecture
 
 **Status:** ✅ Complete  
 **Priority:** High (Architectural improvement)  
@@ -813,13 +866,11 @@
 
 ---
 
-### Session 1.4.10: Database Rebuild with Comprehensive Seed Data
+### Session 1.4.12: Database Rebuild with Comprehensive Seed Data
 
 **Status:** Not Started  
 **Priority:** High (Required for UAT)  
-**Dependencies:** Session 1.4.9 (Complete ConfirmationStep and Enable Navigation to Step 4) ⏳ Not Started
-
-**Note:** This session was originally numbered 1.4.7 and has been renumbered to 1.4.10.
+**Dependencies:** Session 1.4.11 (Complete ConfirmationStep and Enable Navigation to Step 4) ⏳ Not Started
 
 **Goal:** Rebuild database with proper seed data for all Phase 1.3 and 1.4 changes. Manually populate database via admin panel and booking wizard, then regenerate all seed scripts based on the actual database state.
 
@@ -1030,13 +1081,11 @@
 
 ---
 
-### Session 1.4.11: Comprehensive User Acceptance Testing (Phase Gate)
+### Session 1.4.13: Comprehensive User Acceptance Testing (Phase Gate)
 
 **Status:** Not Started  
 **Priority:** Critical (Gate to Phase 1.5 - Must pass before proceeding)  
-**Dependencies:** Session 1.4.10 (Database Rebuild with Comprehensive Seed Data) ⏳ Not Started
-
-**Note:** This session was originally numbered 1.4.8 and has been renumbered to 1.4.11.
+**Dependencies:** Session 1.4.12 (Database Rebuild with Comprehensive Seed Data) ⏳ Not Started
 
 **Goal:** Execute comprehensive user acceptance testing covering all booking wizard and admin panel features. Document all findings with severity ratings. Ensure system is production-ready and gate criteria are met before advancing to Phase 1.5.
 
@@ -1207,7 +1256,7 @@ The comprehensive test checklist in `feature-plan.md` Phase 1.4 Session 2 covers
 **Related Documents:**
 - **Feature Plan**: `../feature-plan.md` (Phase 1.4 Session 2 - comprehensive test checklist)
 - **Phase 1.3 Handoff**: `phase-1.3-handoff.md` (schema changes reference)
-- **Phase 1.4 Session 1.4.10 Log**: `../sessions/session-1.4.10-log.md` (seed data created)
+- **Phase 1.4 Session 1.4.12 Log**: `../sessions/session-1.4.12-log.md` (seed data created)
 
 ---
 
@@ -1271,12 +1320,12 @@ The comprehensive test checklist in `feature-plan.md` Phase 1.4 Session 2 covers
 
 ## Next Phase
 
-**Ready for:** Phase 1.5 - Business Rules & Validation (only after Phase 1.4 Session 1.4.11 gate criteria met)
+**Ready for:** Phase 1.5 - Business Rules & Validation (only after Phase 1.4 Session 1.4.13 gate criteria met)
 
 ---
 
 **Phase Status:** In Progress  
-**Current Session:** 1.4.7 (Renumbered) ✅ Complete  
-**Next Session:** Session 1.4.7 - Card Functionality and Button Connections  
-**Last Updated:** 2026-01-09
+**Current Session:** 1.4.8 ✅ Complete  
+**Next Session:** Session 1.4.9 - Card Functionality and Button Connections  
+**Last Updated:** 2026-01-15
 

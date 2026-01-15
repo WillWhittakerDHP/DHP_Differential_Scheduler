@@ -12,14 +12,459 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **274**
-- Groups (window=10 lines, minOccurrences=2): **0**
+- Files scanned: **289**
+- Groups (window=10 lines, minOccurrences=2): **29**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
+| `dup-00365a6988c8` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@73`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@69` |
+| `dup-13efe46e80e1` | 2 | 2 | 10 | `src/composables/admin/useDragAndDrop.ts@128`, `src/composables/admin/useInstanceDragAndDrop.ts@180` |
+| `dup-1888ebda6251` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@79`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@75` |
+| `dup-1a7dacdbb2a1` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@72`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@68` |
+| `dup-24f649cdb8ac` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@68`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@64` |
+| `dup-29b6028be2ac` | 2 | 2 | 10 | `src/components/admin/generic/DynamicForm.vue@175`, `src/components/admin/generic/EntityFormContent.vue@99` |
+| `dup-385d351604d9` | 2 | 2 | 10 | `src/components/admin/generic/DynamicForm.vue@174`, `src/components/admin/generic/EntityFormContent.vue@98` |
+| `dup-4c10de8d23ef` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@83`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@79` |
+| `dup-54587d420f90` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@78`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@74` |
+| `dup-5ac79ca25d57` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@90`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@86` |
+| `dup-5c9f493f53f4` | 2 | 2 | 10 | `src/components/admin/InstanceBulkEditModal.vue@184`, `src/components/admin/PartInstanceBulkEditModal.vue@216` |
+| `dup-655007217c26` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@70`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@66` |
+| `dup-6b1f11051107` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@84`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@80` |
+| `dup-7205d75d34f6` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@93`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@89` |
+| `dup-7538ba8d760c` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@88`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@84` |
+| `dup-755aee24c269` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@71`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@67` |
+| `dup-9d8106c1227d` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@69`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@65` |
+| `dup-a1a2310dccd5` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@87`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@83` |
+| `dup-a26014c64cb1` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@91`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@87` |
+| `dup-b60b15fcbfd6` | 2 | 2 | 10 | `src/composables/admin/useDragAndDrop.ts@129`, `src/composables/admin/useInstanceDragAndDrop.ts@181` |
+| `dup-c12c7d0548f1` | 2 | 2 | 10 | `src/components/admin/generic/DynamicForm.vue@173`, `src/components/admin/generic/EntityFormContent.vue@97` |
+| `dup-c169d2cf1616` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@74`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@70` |
+| `dup-c53df567543f` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@85`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@81` |
+| `dup-d09f3f3d1163` | 2 | 2 | 10 | `src/components/admin/InstanceBulkEditModal.vue@188`, `src/components/admin/PartInstanceBulkEditModal.vue@220` |
+| `dup-d3514115006b` | 2 | 2 | 10 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts@89`, `src/composables/admin/useAdminRelationshipMetadataMutations.ts@85` |
 
 ## Per-group details (top)
 
 LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
+
+### Group `dup-00365a6988c8`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 73-87
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 69-83
+
+```
+renderAs: FieldMetadataEntry['renderAs']
+statusButtonColor?: string | null
+panel: FieldMetadataEntry['panel']
+inputConfig?: Record<string, unknown> | null
+inheritsFromEntityType?: 'blockShape' | 'partShape' | null
+inheritsFromEntityId?: string | null
+dataType: canonicalFields.dataType,
+label: canonicalFields.label,
+isRequired: canonicalFields.isRequired,
+visibility: renderingUpdates.visibility ?? existingMetadata.visibility,
+```
+
+### Group `dup-13efe46e80e1`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useDragAndDrop.ts` @ lines 128-148
+- `src/composables/admin/useInstanceDragAndDrop.ts` @ lines 180-200
+
+```
+draggable: (child) => {
+if (!child) return false
+const childEl = child as HTMLElement
+const panelElement = childEl.classList?.contains('v-expansion-panel')
+: childEl.closest?.('.v-expansion-panel') as HTMLElement | null
+if (!panelElement) return false
+return isDraggableChecker(panelElement)
+plugins: [animations()],
+performTransfer: (state, data) => {
+performTransfer(state, data)
+```
+
+### Group `dup-1888ebda6251`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 79-92
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 75-88
+
+```
+inheritsFromEntityId?: string | null
+dataType: canonicalFields.dataType,
+label: canonicalFields.label,
+isRequired: canonicalFields.isRequired,
+visibility: renderingUpdates.visibility ?? existingMetadata.visibility,
+layout: renderingUpdates.layout ?? existingMetadata.layout,
+displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,
+section: renderingUpdates.section ?? existingMetadata.section,
+renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
+statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
+```
+
+### Group `dup-1a7dacdbb2a1`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 72-85
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 68-81
+
+```
+section?: string | null
+renderAs: FieldMetadataEntry['renderAs']
+statusButtonColor?: string | null
+panel: FieldMetadataEntry['panel']
+inputConfig?: Record<string, unknown> | null
+inheritsFromEntityType?: 'blockShape' | 'partShape' | null
+inheritsFromEntityId?: string | null
+dataType: canonicalFields.dataType,
+label: canonicalFields.label,
+isRequired: canonicalFields.isRequired,
+```
+
+### Group `dup-24f649cdb8ac`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 68-78
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 64-74
+
+```
+isRequired: boolean
+visibility: FieldMetadataEntry['visibility']
+layout: FieldMetadataEntry['layout']
+displayOrder: number
+section?: string | null
+renderAs: FieldMetadataEntry['renderAs']
+statusButtonColor?: string | null
+panel: FieldMetadataEntry['panel']
+inputConfig?: Record<string, unknown> | null
+inheritsFromEntityType?: 'blockShape' | 'partShape' | null
+```
+
+### Group `dup-29b6028be2ac`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/components/admin/generic/DynamicForm.vue` @ lines 175-198
+- `src/components/admin/generic/EntityFormContent.vue` @ lines 99-122
+
+```
+}) as GlobalFieldKey<typeof props.entityKey>[] : []
+if (fieldMetadata.value && Object.keys(fieldMetadata.value).length > 0) {
+return Object.keys(fieldMetadata.value) as GlobalFieldKey<typeof props.entityKey>[]
+const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
+const inlineFieldsConfig = computed(() => {
+const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
+return (config?.inlineFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+const stackedFieldsConfig = computed(() => {
+const config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
+return (config?.stackedFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+```
+
+### Group `dup-385d351604d9`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/components/admin/generic/DynamicForm.vue` @ lines 174-197
+- `src/components/admin/generic/EntityFormContent.vue` @ lines 98-121
+
+```
+return !systemFields.includes(key)
+}) as GlobalFieldKey<typeof props.entityKey>[] : []
+if (fieldMetadata.value && Object.keys(fieldMetadata.value).length > 0) {
+return Object.keys(fieldMetadata.value) as GlobalFieldKey<typeof props.entityKey>[]
+const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
+const inlineFieldsConfig = computed(() => {
+const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
+return (config?.inlineFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+const stackedFieldsConfig = computed(() => {
+const config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
+```
+
+### Group `dup-4c10de8d23ef`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 83-93
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 79-89
+
+```
+dataType: canonicalFields.dataType,
+label: canonicalFields.label,
+isRequired: canonicalFields.isRequired,
+visibility: renderingUpdates.visibility ?? existingMetadata.visibility,
+layout: renderingUpdates.layout ?? existingMetadata.layout,
+displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,
+section: renderingUpdates.section ?? existingMetadata.section,
+renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
+statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
+panel: renderingUpdates.panel ?? existingMetadata.panel,
+```
+
+### Group `dup-54587d420f90`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 78-91
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 74-87
+
+```
+inheritsFromEntityType?: 'blockShape' | 'partShape' | null
+inheritsFromEntityId?: string | null
+dataType: canonicalFields.dataType,
+label: canonicalFields.label,
+isRequired: canonicalFields.isRequired,
+visibility: renderingUpdates.visibility ?? existingMetadata.visibility,
+layout: renderingUpdates.layout ?? existingMetadata.layout,
+displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,
+section: renderingUpdates.section ?? existingMetadata.section,
+renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
+```
+
+### Group `dup-5ac79ca25d57`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 90-104
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 86-101
+
+```
+section: renderingUpdates.section ?? existingMetadata.section,
+renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
+statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
+panel: renderingUpdates.panel ?? existingMetadata.panel,
+bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
+inputConfig: (() => {
+const rawInputConfig = renderingUpdates.inputConfig !== undefined
+? renderingUpdates.inputConfig
+: existingMetadata.inputConfig ?? null
+if (!rawInputConfig) {
+```
+
+### Group `dup-5c9f493f53f4`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/components/admin/InstanceBulkEditModal.vue` @ lines 184-218
+- `src/components/admin/PartInstanceBulkEditModal.vue` @ lines 216-251
+
+```
+if (!metadata || Object.keys(metadata).length === 0) {
+const filtered: Record<string, FieldMetadataEntry> = {}
+Object.entries(metadata).forEach(([fieldKey, fieldMeta]) => {
+if (fieldMeta.bulkEdit === true) {
+filtered[fieldKey] = fieldMeta
+function updateModelValue(value: boolean) {
+emit('update:modelValue', value)
+function handleEntityCardSaved() {
+function handleApply() {
+if (!entityCardRef.value?.form) {
+```
+
+### Group `dup-655007217c26`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 70-83
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 66-79
+
+```
+layout: FieldMetadataEntry['layout']
+displayOrder: number
+section?: string | null
+renderAs: FieldMetadataEntry['renderAs']
+statusButtonColor?: string | null
+panel: FieldMetadataEntry['panel']
+inputConfig?: Record<string, unknown> | null
+inheritsFromEntityType?: 'blockShape' | 'partShape' | null
+inheritsFromEntityId?: string | null
+dataType: canonicalFields.dataType,
+```
+
+### Group `dup-6b1f11051107`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 84-94
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 80-90
+
+```
+label: canonicalFields.label,
+isRequired: canonicalFields.isRequired,
+visibility: renderingUpdates.visibility ?? existingMetadata.visibility,
+layout: renderingUpdates.layout ?? existingMetadata.layout,
+displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,
+section: renderingUpdates.section ?? existingMetadata.section,
+renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
+statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
+panel: renderingUpdates.panel ?? existingMetadata.panel,
+bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
+```
+
+### Group `dup-7205d75d34f6`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 93-111
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 89-108
+
+```
+panel: renderingUpdates.panel ?? existingMetadata.panel,
+bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
+inputConfig: (() => {
+const rawInputConfig = renderingUpdates.inputConfig !== undefined
+? renderingUpdates.inputConfig
+: existingMetadata.inputConfig ?? null
+if (!rawInputConfig) {
+const config = rawInputConfig as Record<string, unknown>
+if ('relationshipSelect' in config || 'typeSelect' in config || 'primitiveInput' in config) {
+return rawInputConfig
+```
+
+### Group `dup-7538ba8d760c`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 88-100
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 84-97
+
+```
+layout: renderingUpdates.layout ?? existingMetadata.layout,
+displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,
+section: renderingUpdates.section ?? existingMetadata.section,
+renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
+statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
+panel: renderingUpdates.panel ?? existingMetadata.panel,
+bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
+inputConfig: (() => {
+const rawInputConfig = renderingUpdates.inputConfig !== undefined
+? renderingUpdates.inputConfig
+```
+
+### Group `dup-755aee24c269`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 71-84
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 67-80
+
+```
+displayOrder: number
+section?: string | null
+renderAs: FieldMetadataEntry['renderAs']
+statusButtonColor?: string | null
+panel: FieldMetadataEntry['panel']
+inputConfig?: Record<string, unknown> | null
+inheritsFromEntityType?: 'blockShape' | 'partShape' | null
+inheritsFromEntityId?: string | null
+dataType: canonicalFields.dataType,
+label: canonicalFields.label,
+```
+
+### Group `dup-9d8106c1227d`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 69-79
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 65-75
+
+```
+visibility: FieldMetadataEntry['visibility']
+layout: FieldMetadataEntry['layout']
+displayOrder: number
+section?: string | null
+renderAs: FieldMetadataEntry['renderAs']
+statusButtonColor?: string | null
+panel: FieldMetadataEntry['panel']
+inputConfig?: Record<string, unknown> | null
+inheritsFromEntityType?: 'blockShape' | 'partShape' | null
+inheritsFromEntityId?: string | null
+```
+
+### Group `dup-a1a2310dccd5`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 87-99
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 83-96
+
+```
+visibility: renderingUpdates.visibility ?? existingMetadata.visibility,
+layout: renderingUpdates.layout ?? existingMetadata.layout,
+displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,
+section: renderingUpdates.section ?? existingMetadata.section,
+renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
+statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
+panel: renderingUpdates.panel ?? existingMetadata.panel,
+bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
+inputConfig: (() => {
+const rawInputConfig = renderingUpdates.inputConfig !== undefined
+```
+
+### Group `dup-a26014c64cb1`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` @ lines 91-109
+- `src/composables/admin/useAdminRelationshipMetadataMutations.ts` @ lines 87-106
+
+```
+renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
+statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
+panel: renderingUpdates.panel ?? existingMetadata.panel,
+bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
+inputConfig: (() => {
+const rawInputConfig = renderingUpdates.inputConfig !== undefined
+? renderingUpdates.inputConfig
+: existingMetadata.inputConfig ?? null
+if (!rawInputConfig) {
+const config = rawInputConfig as Record<string, unknown>
+```
+
+### Group `dup-b60b15fcbfd6`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useDragAndDrop.ts` @ lines 129-150
+- `src/composables/admin/useInstanceDragAndDrop.ts` @ lines 181-202
+
+```
+if (!child) return false
+const childEl = child as HTMLElement
+const panelElement = childEl.classList?.contains('v-expansion-panel')
+: childEl.closest?.('.v-expansion-panel') as HTMLElement | null
+if (!panelElement) return false
+return isDraggableChecker(panelElement)
+plugins: [animations()],
+performTransfer: (state, data) => {
+performTransfer(state, data)
+handleEnd: (state) => {
+```

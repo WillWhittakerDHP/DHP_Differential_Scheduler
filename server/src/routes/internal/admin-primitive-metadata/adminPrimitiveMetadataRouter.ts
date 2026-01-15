@@ -129,11 +129,15 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     }
 
     // Validate inputConfig - required for select/multiselect/reference/partsCollection fields
+    // LEARNING: Accepts both FormFieldConfig structure (new format) and direct select config (old format)
+    // WHY: Supports backward compatibility during transition
+    // PATTERN: Validate that inputConfig exists and is an object, accept any valid JSONB structure
     if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'partsCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
         res.status(400).json({
           error: 'Missing inputConfig',
-          message: `inputConfig is required when renderAs is "${renderAs}"`,
+          message: `inputConfig is required when renderAs is "${renderAs}". ` +
+            `Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,
         });
         return;
       }

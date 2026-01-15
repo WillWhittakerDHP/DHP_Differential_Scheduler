@@ -47,10 +47,31 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
           const errorMessage = axiosError.response?.data?.error || 'Entity not found'
           const errorId = axiosError.response?.data?.id || dynamicId
 
+          // LEARNING: Remove entity from cache when it doesn't exist in database
+          // WHY: Entity exists in cache but not in database - remove from cache to prevent stale data
+          // PATTERN: Update cache to remove missing entity, then invalidate to trigger refetch
+          queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
+            if (!old) return old
+            
+            const currentEntities = old.entities[entityKey] || []
+            const filteredEntities = currentEntities.filter(
+              (entity) => String(entity.id) !== String(errorId)
+            )
+            
+            return {
+              ...old,
+              entities: {
+                ...old.entities,
+                [entityKey]: filteredEntities,
+              },
+            }
+          })
+
+          // Invalidate queries to trigger refetch
           queryClient.invalidateQueries({ queryKey: [entityKey] })
           queryClient.invalidateQueries({ queryKey: ['globalData'] })
 
-          throw new Error(`${errorMessage} (ID: ${errorId})`)
+          throw new Error(`${errorMessage} (ID: ${errorId}). The entity has been removed from the cache.`)
         }
         throw axiosError
       }

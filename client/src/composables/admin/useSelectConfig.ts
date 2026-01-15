@@ -42,6 +42,11 @@ export interface UseSelectConfigReturn {
   selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
   
   /**
+   * Whether this is an enum select (blockShape.type or partShape.type)
+   */
+  isEnumSelect: ComputedRef<boolean>
+  
+  /**
    * Whether this is a DescriptionSelect field (annotations)
    */
   isDescriptionSelect: ComputedRef<boolean>
@@ -117,11 +122,22 @@ export function useSelectConfig(
   })
 
   /**
-   * LEARNING: Extract select config from metadata.inputConfig - NO FALLBACKS
-   * WHY: inputConfig stores select behavior (relationshipSelect or typeSelect) for select/multiselect/reference fields
-   * PATTERN: Read inputConfig from metadata entry, fail explicitly if missing
+   * LEARNING: Check if this is an enum select (blockShape.type or partShape.type field)
+   * WHY: Enum selects use hardcoded options and don't need inputConfig
+   * PATTERN: Special case for known enum fields
    */
-  const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> => {
+  const isEnumSelect = computed(() => {
+    return (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') && 
+           String(fieldContext.fieldKey) === 'type'
+  })
+
+  /**
+   * LEARNING: Extract select config from metadata.inputConfig - supports FormFieldConfig structure
+   * WHY: inputConfig stores select behavior in FormFieldConfig format (relationshipSelect or typeSelect)
+   *      or directly (backward compatibility with old format)
+   * PATTERN: Check for FormFieldConfig structure first, fall back to direct config for backward compatibility
+   */
+  const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> | undefined => {
     const meta = fieldMetadataEntry.value
     
     // LEARNING: NO FALLBACKS - inputConfig is required for select fields
@@ -134,6 +150,13 @@ export function useSelectConfig(
       )
     }
     
+    // LEARNING: Enum selects don't need inputConfig - they use hardcoded options
+    // WHY: blockShape.type is an enum with fixed values, doesn't need relationship/type select config
+    // PATTERN: Return undefined for enum selects, allowing SelectInputs to use hardcoded options
+    if (isEnumSelect.value) {
+      return undefined
+    }
+    
     if (!meta.inputConfig) {
       throw new Error(
         `[useSelectConfig] Missing inputConfig in FieldMetadataEntry for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
@@ -141,10 +164,33 @@ export function useSelectConfig(
       )
     }
     
-    // LEARNING: inputConfig should match RelationshipFieldType or VirtualFieldType structure
-    // WHY: Backend stores select config as JSONB matching the frontend type structure
-    // PATTERN: Cast inputConfig to select config type (backend validates structure)
-    return meta.inputConfig as RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey>
+    // LEARNING: Check for FormFieldConfig structure (new format)
+    // WHY: inputConfig should follow FormFieldConfig pattern with relationshipSelect or typeSelect properties
+    // PATTERN: Check for new format first, fall back to old format for backward compatibility
+    const inputConfig = meta.inputConfig as Record<string, unknown>
+    
+    // Check if inputConfig has FormFieldConfig structure (new format)
+    if ('relationshipSelect' in inputConfig && inputConfig.relationshipSelect) {
+      return inputConfig.relationshipSelect as RelationshipFieldType<typeof fieldContext.entityKey>
+    }
+    
+    if ('typeSelect' in inputConfig && inputConfig.typeSelect) {
+      return inputConfig.typeSelect as VirtualFieldType<typeof fieldContext.entityKey>
+    }
+    
+    // LEARNING: Backward compatibility - handle old format (direct select config)
+    // WHY: Existing data may have select config stored directly, not wrapped in FormFieldConfig structure
+    // PATTERN: If new format properties don't exist, treat inputConfig as direct select config
+    // Check if inputConfig has targetMode (indicates it's a direct select config)
+    if ('targetMode' in inputConfig) {
+      return inputConfig as RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey>
+    }
+    
+    // If we get here, inputConfig exists but doesn't match expected format
+    throw new Error(
+      `[useSelectConfig] Invalid inputConfig format for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+      `Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config with targetMode.`
+    )
   })
 
   /**
@@ -162,17 +208,24 @@ export function useSelectConfig(
   })
 
   /**
-   * LEARNING: Determine if select is multiple from config - NO DEFAULTS
+   * LEARNING: Determine if select is multiple from config - NO DEFAULTS (except enum selects)
    * WHY: Config determines selectMode (single, multiple, required)
-   * PATTERN: Read selectMode from config, fail if missing
+   * PATTERN: Read selectMode from config, fail if missing (except enum selects)
    */
   const isMultiple = computed(() => {
+    // LEARNING: Enum selects are always single-select
+    // WHY: blockShape.type enum select doesn't use config, defaults to single
+    // PATTERN: Return false for enum selects
+    if (isEnumSelect.value) {
+      return false
+    }
+    
     const config = selectConfig.value
     
     // LEARNING: NO DEFAULTS - selectMode must be explicitly configured
     // WHY: selectMode determines select behavior - missing is a configuration error
     // PATTERN: Fail explicitly when selectMode is missing
-    if (!config.selectMode) {
+    if (!config || !config.selectMode) {
       throw new Error(
         `[useSelectConfig] Missing selectMode in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
         `Select fields must have selectMode configured in inputConfig.`
@@ -199,16 +252,30 @@ export function useSelectConfig(
   })
 
   /**
-   * LEARNING: Determine optionEntityKey from config - NO FALLBACKS
+   * LEARNING: Determine optionEntityKey from config - NO FALLBACKS (except enum selects)
    * WHY: Config determines which entity type to fetch options from
-   * PATTERN: Read candidateChildKey or targetKey from config, fail if missing
+   * PATTERN: Read candidateChildKey or targetKey from config, fail if missing (except enum selects)
    */
   const optionEntityKey = computed(() => {
+    // LEARNING: Enum selects don't use entity-based options
+    // WHY: blockShape.type enum select uses hardcoded options, doesn't need entityKey
+    // PATTERN: Return blockShape as default for enum selects (not actually used)
+    if (isEnumSelect.value) {
+      return 'blockShape' as GlobalEntityKey
+    }
+    
     const config = selectConfig.value
     
     // LEARNING: NO FALLBACKS - optionEntityKey must be explicitly configured
     // WHY: Select fields must specify which entity type to fetch options from
     // PATTERN: Fail explicitly when required config properties are missing
+    if (!config) {
+      throw new Error(
+        `[useSelectConfig] Missing inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Select fields must have inputConfig configured.`
+      )
+    }
+    
     if (config.targetMode === 'property') {
       if (!config.targetKey) {
         throw new Error(
@@ -230,11 +297,19 @@ export function useSelectConfig(
   })
 
   /**
-   * LEARNING: Determine optionLabelKey for entity name access - NO DEFAULTS
-   * WHY: Label key should be explicitly configured in inputConfig
-   * PATTERN: Read from config, fail if missing (except special case for annotations)
+   * LEARNING: Determine optionLabelKey for entity name access - defaults to 'name' for all entity types
+   * WHY: Most entities use 'name' as their display field - safe default that matches actual inputConfig structure
+   * PATTERN: Default to 'name' for all selects, with special case for annotations ('text')
+   * NOTE: inputConfig does not contain optionLabelKey - it's inferred from entity type
    */
   const optionLabelKey = computed(() => {
+    // LEARNING: Enum selects don't use entity-based options, so labelKey doesn't matter
+    // WHY: blockShape.type enum select uses hardcoded options with 'title' and 'value' properties
+    // PATTERN: Return 'name' as default for enum selects (not actually used)
+    if (isEnumSelect.value) {
+      return 'name'
+    }
+    
     const config = selectConfig.value
     
     // LEARNING: Special case for annotations - they use 'text' field
@@ -244,23 +319,26 @@ export function useSelectConfig(
       return 'text'
     }
     
-    // LEARNING: NO DEFAULTS - optionLabelKey should be configured in inputConfig
-    // WHY: Different entity types might use different label fields
-    // PATTERN: Read from config, fail if missing
-    if ('optionLabelKey' in config && config.optionLabelKey) {
-      return config.optionLabelKey as string
+    // LEARNING: Validate config exists (should already be validated by selectConfig computed)
+    // WHY: Ensure we have a valid config before accessing properties
+    // PATTERN: Fail explicitly if config is missing
+    if (!config) {
+      throw new Error(
+        `[useSelectConfig] Missing inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Select fields must have inputConfig configured.`
+      )
     }
     
-    // LEARNING: For now, fail if not configured (no default to 'name')
-    // WHY: Ensures explicit configuration - prevents silent fallbacks
-    throw new Error(
-      `[useSelectConfig] Missing optionLabelKey in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-      `Select fields must have optionLabelKey configured (e.g., 'name' or 'text').`
-    )
+    // LEARNING: Default to 'name' for all entity types (relationship and type selects)
+    // WHY: Most entities (blockShape, partShape, blockInstance, partInstance) use 'name' as their display field
+    // PATTERN: Provide sensible default that matches actual entity structure
+    // NOTE: inputConfig does not contain optionLabelKey - it's inferred from the entity type being selected
+    return 'name'
   })
 
   return {
     selectConfig,
+    isEnumSelect,
     isDescriptionSelect,
     isMultiple,
     chipsProps,

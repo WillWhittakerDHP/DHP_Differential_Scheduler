@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-14T01:52:13.157Z",
+  "generatedAt": "2026-01-15T22:09:06.432Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}"
@@ -13,11 +13,11 @@
     ]
   },
   "exceptionSummary": {
-    "totalAllowed": 1,
-    "totalRequiresReview": 477,
+    "totalAllowed": 5,
+    "totalRequiresReview": 478,
     "bySource": {
       "inline": 0,
-      "pattern": 1,
+      "pattern": 5,
       "specific": 0
     }
   },
@@ -25,6 +25,548 @@
     "description"
   ],
   "files": [
+    {
+      "id": "src__utils__forms__fieldLocationDispatcher.ts",
+      "repoPath": "src/utils/forms/fieldLocationDispatcher.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/fieldLocationDispatcher.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 1,
+        "caseString": 11,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "caseString",
+          "lineNumber": 77,
+          "line": "case 'titleRow':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 83,
+          "line": "case 'staticAsTitle':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 89,
+          "line": "case 'hidden':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 95,
+          "line": "case 'notConfigured':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 101,
+          "line": "case 'expandedDirect':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 119,
+          "line": "case 'expandedPanel':"
+        },
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 186,
+          "line": "switch (location.type) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 187,
+          "line": "case 'titleRow':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 190,
+          "line": "case 'directInline':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 193,
+          "line": "case 'directStacked':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 196,
+          "line": "case 'subPanel':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 199,
+          "line": "case 'hidden':"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "caseString",
+          "lineNumber": 77,
+          "line": "case 'titleRow':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 83,
+          "line": "case 'staticAsTitle':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 89,
+          "line": "case 'hidden':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 95,
+          "line": "case 'notConfigured':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 101,
+          "line": "case 'expandedDirect':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 119,
+          "line": "case 'expandedPanel':"
+        },
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 186,
+          "line": "switch (location.type) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 187,
+          "line": "case 'titleRow':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 190,
+          "line": "case 'directInline':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 193,
+          "line": "case 'directStacked':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 196,
+          "line": "case 'subPanel':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 199,
+          "line": "case 'hidden':"
+        }
+      ],
+      "score": 44,
+      "suggestions": []
+    },
+    {
+      "id": "src__components__admin__metadata__AdminPrimitiveMetadataEditor.vue",
+      "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 1,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 36,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 59,
+          "line": "{{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 78,
+          "line": "{{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 92,
+          "line": "label=\"Override inherited configuration\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 101,
+          "line": "label=\"Visibility\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 104,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 117,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 130,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 138,
+          "line": "label=\"Display Order\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 142,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 151,
+          "line": "label=\"Render As\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 154,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 164,
+          "line": "label=\"Status Button Color\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 167,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 179,
+          "line": "placeholder='{\"targetMode\": \"relationship\", \"targetKey\": \"...\", \"candidateChildKey\": \"...\"}'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 197,
+          "line": "label=\"Enable Bulk Edit\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 328,
+          "line": "if (props.entityKey === 'blockShape') return 'Block Shapes'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 329,
+          "line": "if (props.entityKey === 'partShape') return 'Part Shapes'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 330,
+          "line": "if (props.entityKey === 'blockInstance') return 'Block Instance'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 331,
+          "line": "if (props.entityKey === 'partInstance') return 'Part Instance'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 451,
+          "line": "{ title: 'Not Configured', value: 'notConfigured' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 452,
+          "line": "{ title: 'Title Row', value: 'titleRow' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 453,
+          "line": "{ title: 'Static As Title', value: 'staticAsTitle' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 454,
+          "line": "{ title: 'Expanded Direct', value: 'expandedDirect' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 455,
+          "line": "{ title: 'Expanded Panel', value: 'expandedPanel' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 461,
+          "line": "{ title: 'Stacked', value: 'stacked' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 466,
+          "line": "{ title: 'Relationships', value: 'relationships' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 467,
+          "line": "{ title: 'Annotations', value: 'annotations' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 475,
+          "line": "{ title: 'Multiselect', value: 'multiselect' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 476,
+          "line": "{ title: 'Reference', value: 'reference' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 477,
+          "line": "{ title: 'Status Button', value: 'statusButton' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 478,
+          "line": "{ title: 'Icon Select', value: 'iconSelect' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 479,
+          "line": "{ title: 'Parts Collection', value: 'partsCollection' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 483,
+          "line": "{ title: 'Default', value: 'default' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 484,
+          "line": "{ title: 'Success', value: 'success' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 485,
+          "line": "{ title: 'Primary', value: 'primary' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 487,
+          "line": "{ title: 'Warning', value: 'warning' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 489,
+          "line": "{ title: 'Secondary', value: 'secondary' },"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 59,
+          "line": "{{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 78,
+          "line": "{{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 92,
+          "line": "label=\"Override inherited configuration\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 101,
+          "line": "label=\"Visibility\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 104,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 117,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 130,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 138,
+          "line": "label=\"Display Order\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 142,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 151,
+          "line": "label=\"Render As\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 154,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 164,
+          "line": "label=\"Status Button Color\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 167,
+          "line": "placeholder=\"Not Configured\""
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 179,
+          "line": "placeholder='{\"targetMode\": \"relationship\", \"targetKey\": \"...\", \"candidateChildKey\": \"...\"}'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 197,
+          "line": "label=\"Enable Bulk Edit\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 328,
+          "line": "if (props.entityKey === 'blockShape') return 'Block Shapes'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 329,
+          "line": "if (props.entityKey === 'partShape') return 'Part Shapes'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 330,
+          "line": "if (props.entityKey === 'blockInstance') return 'Block Instance'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 331,
+          "line": "if (props.entityKey === 'partInstance') return 'Part Instance'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 451,
+          "line": "{ title: 'Not Configured', value: 'notConfigured' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 452,
+          "line": "{ title: 'Title Row', value: 'titleRow' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 453,
+          "line": "{ title: 'Static As Title', value: 'staticAsTitle' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 454,
+          "line": "{ title: 'Expanded Direct', value: 'expandedDirect' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 455,
+          "line": "{ title: 'Expanded Panel', value: 'expandedPanel' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 461,
+          "line": "{ title: 'Stacked', value: 'stacked' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 466,
+          "line": "{ title: 'Relationships', value: 'relationships' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 467,
+          "line": "{ title: 'Annotations', value: 'annotations' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 475,
+          "line": "{ title: 'Multiselect', value: 'multiselect' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 476,
+          "line": "{ title: 'Reference', value: 'reference' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 477,
+          "line": "{ title: 'Status Button', value: 'statusButton' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 478,
+          "line": "{ title: 'Icon Select', value: 'iconSelect' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 479,
+          "line": "{ title: 'Parts Collection', value: 'partsCollection' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 483,
+          "line": "{ title: 'Default', value: 'default' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 484,
+          "line": "{ title: 'Success', value: 'success' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 485,
+          "line": "{ title: 'Primary', value: 'primary' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 487,
+          "line": "{ title: 'Warning', value: 'warning' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 489,
+          "line": "{ title: 'Secondary', value: 'secondary' },"
+        }
+      ],
+      "score": 38,
+      "suggestions": [
+        {
+          "priority": "P2",
+          "kind": "ui_strings",
+          "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
+        }
+      ]
+    },
     {
       "id": "src__components__booking__SelectionCardGroup.vue",
       "repoPath": "src/components/booking/SelectionCardGroup.vue",
@@ -1258,155 +1800,6 @@
       "suggestions": []
     },
     {
-      "id": "src__components__admin__PartInstanceFieldsConfigModal.vue",
-      "repoPath": "src/components/admin/PartInstanceFieldsConfigModal.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/PartInstanceFieldsConfigModal.vue",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 12,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 48,
-          "line": "<!-- PATTERN: Show all fields, but display \"Not Configured\" when fieldMetadata is missing -->"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 69,
-          "line": "{{ getFieldMetadata(field)?.visibility ?? 'Not Configured' }}"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 78,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 80,
-          "line": "label=\"Visibility\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 89,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 100,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 102,
-          "line": "label=\"Render As\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 111,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 112,
-          "line": "label=\"Display Order\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 123,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 125,
-          "line": "label=\"Status Button Color\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 363,
-          "line": "success('Part Instance field configuration saved successfully')"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 48,
-          "line": "<!-- PATTERN: Show all fields, but display \"Not Configured\" when fieldMetadata is missing -->"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 69,
-          "line": "{{ getFieldMetadata(field)?.visibility ?? 'Not Configured' }}"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 78,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 80,
-          "line": "label=\"Visibility\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 89,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 100,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 102,
-          "line": "label=\"Render As\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 111,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 112,
-          "line": "label=\"Display Order\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 123,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 125,
-          "line": "label=\"Status Button Color\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 363,
-          "line": "success('Part Instance field configuration saved successfully')"
-        }
-      ],
-      "score": 12,
-      "suggestions": [
-        {
-          "priority": "P2",
-          "kind": "ui_strings",
-          "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
-        }
-      ]
-    },
-    {
       "id": "src__components__booking__steps__ContactsStep.vue",
       "repoPath": "src/components/booking/steps/ContactsStep.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/steps/ContactsStep.vue",
@@ -1656,576 +2049,6 @@
       ],
       "score": 12,
       "suggestions": []
-    },
-    {
-      "id": "src__utils__fieldMetadata__fieldMetadataOptions.ts",
-      "repoPath": "src/utils/fieldMetadata/fieldMetadataOptions.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/fieldMetadata/fieldMetadataOptions.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 12,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 18,
-          "line": "{ title: 'Always Visible', value: 'alwaysVisible' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 19,
-          "line": "{ title: 'Expanded Direct', value: 'expandedDirect' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 20,
-          "line": "{ title: 'Expanded Panel', value: 'expandedPanel' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 29,
-          "line": "{ title: 'Stacked', value: 'stacked' }"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 37,
-          "line": "{ title: 'Relationships', value: 'relationships' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 38,
-          "line": "{ title: 'Annotations', value: 'annotations' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 47,
-          "line": "{ title: 'Status Button', value: 'statusButton' }"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 55,
-          "line": "{ title: 'Default', value: 'default' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 56,
-          "line": "{ title: 'Success', value: 'success' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 57,
-          "line": "{ title: 'Primary', value: 'primary' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 59,
-          "line": "{ title: 'Warning', value: 'warning' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 61,
-          "line": "{ title: 'Secondary', value: 'secondary' },"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 18,
-          "line": "{ title: 'Always Visible', value: 'alwaysVisible' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 19,
-          "line": "{ title: 'Expanded Direct', value: 'expandedDirect' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 20,
-          "line": "{ title: 'Expanded Panel', value: 'expandedPanel' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 29,
-          "line": "{ title: 'Stacked', value: 'stacked' }"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 37,
-          "line": "{ title: 'Relationships', value: 'relationships' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 38,
-          "line": "{ title: 'Annotations', value: 'annotations' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 47,
-          "line": "{ title: 'Status Button', value: 'statusButton' }"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 55,
-          "line": "{ title: 'Default', value: 'default' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 56,
-          "line": "{ title: 'Success', value: 'success' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 57,
-          "line": "{ title: 'Primary', value: 'primary' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 59,
-          "line": "{ title: 'Warning', value: 'warning' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 61,
-          "line": "{ title: 'Secondary', value: 'secondary' },"
-        }
-      ],
-      "score": 12,
-      "suggestions": []
-    },
-    {
-      "id": "src__views__admin__tabs__BusinessControlsTab.vue",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 12,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 33,
-          "line": "'Tuesday',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 34,
-          "line": "'Wednesday',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 35,
-          "line": "'Thursday',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 37,
-          "line": "'Saturday',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 225,
-          "line": "label=\"Start Time\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 229,
-          "line": "(v: string) => !!v || 'Start time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 237,
-          "line": "label=\"End Time\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 241,
-          "line": "(v: string) => !!v || 'End time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 258,
-          "line": "label=\"Time Slot Increment\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 260,
-          "line": ":rules=\"[(v: number) => !!v || 'Time increment is required']\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 279,
-          "line": "(v: number) => v !== null && v !== undefined || 'Lead time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 280,
-          "line": "(v: number) => v >= 0 || 'Lead time must be 0 or greater',"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 33,
-          "line": "'Tuesday',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 34,
-          "line": "'Wednesday',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 35,
-          "line": "'Thursday',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 37,
-          "line": "'Saturday',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 225,
-          "line": "label=\"Start Time\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 229,
-          "line": "(v: string) => !!v || 'Start time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 237,
-          "line": "label=\"End Time\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 241,
-          "line": "(v: string) => !!v || 'End time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 258,
-          "line": "label=\"Time Slot Increment\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 260,
-          "line": ":rules=\"[(v: number) => !!v || 'Time increment is required']\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 279,
-          "line": "(v: number) => v !== null && v !== undefined || 'Lead time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 280,
-          "line": "(v: number) => v >= 0 || 'Lead time must be 0 or greater',"
-        }
-      ],
-      "score": 12,
-      "suggestions": [
-        {
-          "priority": "P2",
-          "kind": "ui_strings",
-          "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
-        }
-      ]
-    },
-    {
-      "id": "src__components__admin__BlockShapeEditModal.vue",
-      "repoPath": "src/components/admin/BlockShapeEditModal.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/BlockShapeEditModal.vue",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 11,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 71,
-          "line": "{{ getFieldMetadata(field)?.visibility ?? 'Not Configured' }}"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 81,
-          "line": "label=\"Visibility\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 84,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 96,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 108,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 119,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 127,
-          "line": "label=\"Render As\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 130,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 139,
-          "line": "label=\"Status Button Color\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 142,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 320,
-          "line": "// Empty object means no fields are configured - UI will show \"Not Configured\""
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 71,
-          "line": "{{ getFieldMetadata(field)?.visibility ?? 'Not Configured' }}"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 81,
-          "line": "label=\"Visibility\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 84,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 96,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 108,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 119,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 127,
-          "line": "label=\"Render As\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 130,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 139,
-          "line": "label=\"Status Button Color\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 142,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 320,
-          "line": "// Empty object means no fields are configured - UI will show \"Not Configured\""
-        }
-      ],
-      "score": 11,
-      "suggestions": [
-        {
-          "priority": "P2",
-          "kind": "ui_strings",
-          "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
-        }
-      ]
-    },
-    {
-      "id": "src__components__admin__PartShapeEditModal.vue",
-      "repoPath": "src/components/admin/PartShapeEditModal.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/PartShapeEditModal.vue",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 11,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 69,
-          "line": "{{ getFieldMetadata(field)?.visibility ?? 'Not Configured' }}"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 79,
-          "line": "label=\"Visibility\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 82,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 94,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 106,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 117,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 125,
-          "line": "label=\"Render As\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 128,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 137,
-          "line": "label=\"Status Button Color\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 140,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 306,
-          "line": "// Empty object means no fields are configured - UI will show \"Not Configured\""
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 69,
-          "line": "{{ getFieldMetadata(field)?.visibility ?? 'Not Configured' }}"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 79,
-          "line": "label=\"Visibility\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 82,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 94,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 106,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 117,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 125,
-          "line": "label=\"Render As\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 128,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 137,
-          "line": "label=\"Status Button Color\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 140,
-          "line": "placeholder=\"Not Configured\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 306,
-          "line": "// Empty object means no fields are configured - UI will show \"Not Configured\""
-        }
-      ],
-      "score": 11,
-      "suggestions": [
-        {
-          "priority": "P2",
-          "kind": "ui_strings",
-          "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
-        }
-      ]
     },
     {
       "id": "src__components__booking__steps__PropertyDetailsStep.vue",
@@ -2908,52 +2731,52 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 57,
+          "lineNumber": 61,
           "line": "* - Removed 'Quote Mode' column (replaced by 'quoted' status)"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 58,
+          "lineNumber": 62,
           "line": "* - Added 'Scheduled By' column"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 61,
+          "lineNumber": 65,
           "line": "{ title: 'Property', key: 'propertyVersionId', sortable: true },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 62,
+          "lineNumber": 66,
           "line": "{ title: 'Property Type', key: 'propertyTypes', sortable: false },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 65,
+          "lineNumber": 69,
           "line": "{ title: 'Scheduled By', key: 'scheduledById', sortable: true },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 68,
+          "lineNumber": 72,
           "line": "{ title: 'Actions', key: 'actions', sortable: false },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 273,
+          "lineNumber": 199,
           "line": "label=\"Scheduled By\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 307,
+          "lineNumber": 233,
           "line": "label=\"Quote Mode\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 314,
+          "lineNumber": 240,
           "line": "label=\"Selected Date\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 333,
+          "lineNumber": 259,
           "line": "No appointments found. Click \"Create Appointment\" to add one."
         }
       ],
@@ -2961,52 +2784,52 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 57,
+          "lineNumber": 61,
           "line": "* - Removed 'Quote Mode' column (replaced by 'quoted' status)"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 58,
+          "lineNumber": 62,
           "line": "* - Added 'Scheduled By' column"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 61,
+          "lineNumber": 65,
           "line": "{ title: 'Property', key: 'propertyVersionId', sortable: true },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 62,
+          "lineNumber": 66,
           "line": "{ title: 'Property Type', key: 'propertyTypes', sortable: false },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 65,
+          "lineNumber": 69,
           "line": "{ title: 'Scheduled By', key: 'scheduledById', sortable: true },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 68,
+          "lineNumber": 72,
           "line": "{ title: 'Actions', key: 'actions', sortable: false },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 273,
+          "lineNumber": 199,
           "line": "label=\"Scheduled By\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 307,
+          "lineNumber": 233,
           "line": "label=\"Quote Mode\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 314,
+          "lineNumber": 240,
           "line": "label=\"Selected Date\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 333,
+          "lineNumber": 259,
           "line": "No appointments found. Click \"Create Appointment\" to add one."
         }
       ],
@@ -3246,75 +3069,6 @@
       "suggestions": []
     },
     {
-      "id": "src__configs__adminConfig.ts",
-      "repoPath": "src/configs/adminConfig.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/adminConfig.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 4,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "omitFieldsArray",
-          "lineNumber": 199,
-          "line": "omitFields: ['id', 'orderIndex', 'entityKey']"
-        },
-        {
-          "ruleId": "omitFieldsArray",
-          "lineNumber": 206,
-          "line": "omitFields: ['id', 'entityKey', 'orderIndex']"
-        },
-        {
-          "ruleId": "omitFieldsArray",
-          "lineNumber": 213,
-          "line": "omitFields: ['id', 'entityKey', 'orderIndex', 'partShapeRef']"
-        },
-        {
-          "ruleId": "omitFieldsArray",
-          "lineNumber": 220,
-          "line": "omitFields: ['id', 'orderIndex', 'entityKey']"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "omitFieldsArray",
-          "lineNumber": 199,
-          "line": "omitFields: ['id', 'orderIndex', 'entityKey']"
-        },
-        {
-          "ruleId": "omitFieldsArray",
-          "lineNumber": 206,
-          "line": "omitFields: ['id', 'entityKey', 'orderIndex']"
-        },
-        {
-          "ruleId": "omitFieldsArray",
-          "lineNumber": 213,
-          "line": "omitFields: ['id', 'entityKey', 'orderIndex', 'partShapeRef']"
-        },
-        {
-          "ruleId": "omitFieldsArray",
-          "lineNumber": 220,
-          "line": "omitFields: ['id', 'orderIndex', 'entityKey']"
-        }
-      ],
-      "score": 8,
-      "suggestions": [
-        {
-          "priority": "P2",
-          "kind": "config_consistency",
-          "message": "Inline omitFields arrays detected. If omit rules are shared across entities, consider centralizing in config."
-        }
-      ]
-    },
-    {
       "id": "src__configs__field__display__appliedDisplay__blockShapeDisplays.ts",
       "repoPath": "src/configs/field/display/appliedDisplay/blockShapeDisplays.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/field/display/appliedDisplay/blockShapeDisplays.ts",
@@ -3521,9 +3275,9 @@
       "suggestions": []
     },
     {
-      "id": "src__components__booking__IndependentSelectCard.vue",
-      "repoPath": "src/components/booking/IndependentSelectCard.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/IndependentSelectCard.vue",
+      "id": "src__views__admin__tabs__BusinessControlsTab.vue",
+      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/BusinessControlsTab.vue",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -3532,79 +3286,102 @@
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
-        "magicLabel": 1,
-        "entityKeyString": 1
+        "magicLabel": 8,
+        "entityKeyString": 0
       },
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 72,
-          "line": "selectionComponent: 'VCheckbox',"
+          "lineNumber": 82,
+          "line": "label=\"Start Time\""
         },
         {
-          "ruleId": "entityKeyString",
-          "lineNumber": 214,
-          "line": "<slot name=\"description\" :item=\"item\">"
+          "ruleId": "magicLabel",
+          "lineNumber": 86,
+          "line": "(v: string) => !!v || 'Start time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 94,
+          "line": "label=\"End Time\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 98,
+          "line": "(v: string) => !!v || 'End time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 115,
+          "line": "label=\"Time Slot Increment\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 117,
+          "line": ":rules=\"[(v: number) => !!v || 'Time increment is required']\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 136,
+          "line": "(v: number) => v !== null && v !== undefined || 'Lead time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 137,
+          "line": "(v: number) => v >= 0 || 'Lead time must be 0 or greater',"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 72,
-          "line": "selectionComponent: 'VCheckbox',"
-        },
-        {
-          "ruleId": "entityKeyString",
-          "lineNumber": 214,
-          "line": "<slot name=\"description\" :item=\"item\">"
-        }
-      ],
-      "score": 7,
-      "suggestions": []
-    },
-    {
-      "id": "src__components__booking__SelectionCard.vue",
-      "repoPath": "src/components/booking/SelectionCard.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/SelectionCard.vue",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 1,
-        "entityKeyString": 1
-      },
-      "matches": [
-        {
-          "ruleId": "entityKeyString",
-          "lineNumber": 241,
-          "line": "<slot name=\"description\" :item=\"item\">"
+          "lineNumber": 82,
+          "line": "label=\"Start Time\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 261,
-          "line": "label=\"Quantity\""
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "entityKeyString",
-          "lineNumber": 241,
-          "line": "<slot name=\"description\" :item=\"item\">"
+          "lineNumber": 86,
+          "line": "(v: string) => !!v || 'Start time is required',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 261,
-          "line": "label=\"Quantity\""
+          "lineNumber": 94,
+          "line": "label=\"End Time\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 98,
+          "line": "(v: string) => !!v || 'End time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 115,
+          "line": "label=\"Time Slot Increment\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 117,
+          "line": ":rules=\"[(v: number) => !!v || 'Time increment is required']\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 136,
+          "line": "(v: number) => v !== null && v !== undefined || 'Lead time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 137,
+          "line": "(v: number) => v >= 0 || 'Lead time must be 0 or greater',"
         }
       ],
-      "score": 7,
-      "suggestions": []
+      "score": 8,
+      "suggestions": [
+        {
+          "priority": "P2",
+          "kind": "ui_strings",
+          "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
+        }
+      ]
     },
     {
       "id": "src__composables__admin__useAnnotationsFieldViewModel.ts",
@@ -3793,9 +3570,98 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__useFieldMetadata.ts",
-      "repoPath": "src/composables/useFieldMetadata.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useFieldMetadata.ts",
+      "id": "src__components__admin__MetadataEditModal.vue",
+      "repoPath": "src/components/admin/MetadataEditModal.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/MetadataEditModal.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 6,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 102,
+          "line": "const entityTypeLabel = props.entityKey === 'blockShape' ? 'Block Shape'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 103,
+          "line": ": props.entityKey === 'partShape' ? 'Part Shape'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 104,
+          "line": ": props.entityKey === 'blockInstance' ? 'Block Instance'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 105,
+          "line": ": 'Part Instance'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 124,
+          "line": "showError('Editor not available')"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 136,
+          "line": "let errorMessage = 'Failed to save metadata configuration'"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 102,
+          "line": "const entityTypeLabel = props.entityKey === 'blockShape' ? 'Block Shape'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 103,
+          "line": ": props.entityKey === 'partShape' ? 'Part Shape'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 104,
+          "line": ": props.entityKey === 'blockInstance' ? 'Block Instance'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 105,
+          "line": ": 'Part Instance'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 124,
+          "line": "showError('Editor not available')"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 136,
+          "line": "let errorMessage = 'Failed to save metadata configuration'"
+        }
+      ],
+      "score": 6,
+      "suggestions": [
+        {
+          "priority": "P2",
+          "kind": "ui_strings",
+          "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
+        }
+      ]
+    },
+    {
+      "id": "src__composables___archived__useFieldMetadata.ts",
+      "repoPath": "src/composables/_archived/useFieldMetadata.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/_archived/useFieldMetadata.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -3842,9 +3708,9 @@
       ]
     },
     {
-      "id": "src__configs__field__form__selectableFieldConfig.ts",
-      "repoPath": "src/configs/field/form/selectableFieldConfig.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/field/form/selectableFieldConfig.ts",
+      "id": "src__configs__field__form___archived__selectableFieldConfig.ts",
+      "repoPath": "src/configs/field/form/_archived/selectableFieldConfig.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/field/form/_archived/selectableFieldConfig.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -3859,32 +3725,32 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 115,
+          "lineNumber": 114,
           "line": "placeholder: \"Select a block shape\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 241,
+          "lineNumber": 239,
           "line": "removedItems: \"Block Shapes\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 242,
+          "lineNumber": 240,
           "line": "affectedEntities: \"Block Instances\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 272,
+          "lineNumber": 270,
           "line": "removedItems: \"Part Shapes\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 273,
+          "lineNumber": 271,
           "line": "affectedEntities: \"Part Instances\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 297,
+          "lineNumber": 295,
           "line": "placeholder: \"Select a part type\","
         }
       ],
@@ -3892,32 +3758,32 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 115,
+          "lineNumber": 114,
           "line": "placeholder: \"Select a block shape\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 241,
+          "lineNumber": 239,
           "line": "removedItems: \"Block Shapes\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 242,
+          "lineNumber": 240,
           "line": "affectedEntities: \"Block Instances\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 272,
+          "lineNumber": 270,
           "line": "removedItems: \"Part Shapes\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 273,
+          "lineNumber": 271,
           "line": "affectedEntities: \"Part Instances\","
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 297,
+          "lineNumber": 295,
           "line": "placeholder: \"Select a part type\","
         }
       ],
@@ -4120,27 +3986,27 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 190,
+          "lineNumber": 229,
           "line": "relationshipTypes.push('Booking Cascades')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 203,
+          "lineNumber": 242,
           "line": "relationshipTypes.push('Valid Cascades')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 206,
-          "line": "relationshipTypes.push('Valid Part Shapes')"
+          "lineNumber": 245,
+          "line": "relationshipTypes.push('Valid Parts')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 243,
+          "lineNumber": 282,
           "line": "{{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 285,
+          "lineNumber": 329,
           "line": "<!-- PATTERN: Simple panel with just \"Annotations\" label -->"
         }
       ],
@@ -4148,27 +4014,27 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 190,
+          "lineNumber": 229,
           "line": "relationshipTypes.push('Booking Cascades')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 203,
+          "lineNumber": 242,
           "line": "relationshipTypes.push('Valid Cascades')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 206,
-          "line": "relationshipTypes.push('Valid Part Shapes')"
+          "lineNumber": 245,
+          "line": "relationshipTypes.push('Valid Parts')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 243,
+          "lineNumber": 282,
           "line": "{{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 285,
+          "lineNumber": 329,
           "line": "<!-- PATTERN: Simple panel with just \"Annotations\" label -->"
         }
       ],
@@ -4199,27 +4065,27 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 199,
+          "lineNumber": 201,
           "line": "// WHY: Labels should reflect the entity's context (e.g., \"Service Components\" vs \"User Components\")"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 215,
+          "lineNumber": 217,
           "line": "if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 219,
+          "lineNumber": 221,
           "line": "const shapeName = blockShape?.name as string || 'Instance'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 254,
+          "lineNumber": 249,
           "line": "{ title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 255,
+          "lineNumber": 250,
           "line": "{ title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },"
         }
       ],
@@ -4227,27 +4093,27 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 199,
+          "lineNumber": 201,
           "line": "// WHY: Labels should reflect the entity's context (e.g., \"Service Components\" vs \"User Components\")"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 215,
+          "lineNumber": 217,
           "line": "if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 219,
+          "lineNumber": 221,
           "line": "const shapeName = blockShape?.name as string || 'Instance'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 254,
+          "lineNumber": 249,
           "line": "{ title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 255,
+          "lineNumber": 250,
           "line": "{ title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },"
         }
       ],
@@ -4338,79 +4204,6 @@
           "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
         }
       ]
-    },
-    {
-      "id": "src__composables__admin__usePartInstanceBulkEdit.ts",
-      "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartInstanceBulkEdit.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 5,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 130,
-          "line": "showError('No PartInstances to update')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 145,
-          "line": "showError('PartInstance missing partShapeRef')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 154,
-          "line": "showError('PartShape not found')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 197,
-          "line": "showError('No changes to apply')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 219,
-          "line": "const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 130,
-          "line": "showError('No PartInstances to update')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 145,
-          "line": "showError('PartInstance missing partShapeRef')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 154,
-          "line": "showError('PartShape not found')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 197,
-          "line": "showError('No changes to apply')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 219,
-          "line": "const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'"
-        }
-      ],
-      "score": 5,
-      "suggestions": []
     },
     {
       "id": "src__composables__booking__useAppointmentDataCollection.ts",
@@ -4762,6 +4555,69 @@
           "ruleId": "magicLabel",
           "lineNumber": 261,
           "line": "if (!currentBlockInstanceId) throw new Error('Block instance ID is required')"
+        }
+      ],
+      "score": 4,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__usePartInstanceBulkEdit.ts",
+      "repoPath": "src/composables/admin/usePartInstanceBulkEdit.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartInstanceBulkEdit.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 4,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 150,
+          "line": "showError('No PartInstances to update')"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 187,
+          "line": "showError('No changes to apply')"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 206,
+          "line": "const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 242,
+          "line": "showError('No valid fields to update')"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 150,
+          "line": "showError('No PartInstances to update')"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 187,
+          "line": "showError('No changes to apply')"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 206,
+          "line": "const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 242,
+          "line": "showError('No valid fields to update')"
         }
       ],
       "score": 4,
@@ -5159,17 +5015,17 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 113,
+          "lineNumber": 131,
           "line": "const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 115,
+          "lineNumber": 133,
           "line": "const partShapeName = partShape?.name || 'PartShape'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 178,
+          "lineNumber": 196,
           "line": "notifyError('Failed to link PartInstance to BlockInstance')"
         }
       ],
@@ -5177,17 +5033,17 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 113,
+          "lineNumber": 131,
           "line": "const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 115,
+          "lineNumber": 133,
           "line": "const partShapeName = partShape?.name || 'PartShape'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 178,
+          "lineNumber": 196,
           "line": "notifyError('Failed to link PartInstance to BlockInstance')"
         }
       ],
@@ -5669,36 +5525,36 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 456,
-          "line": "if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 813,
+          "lineNumber": 286,
           "line": ": 'No Cascades'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 833,
+          "lineNumber": 306,
           "line": "{{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 359,
+          "line": "<!-- LEARNING: For new instances, show static \"New BlockInstance\" text -->"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 456,
-          "line": "if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 813,
+          "lineNumber": 286,
           "line": ": 'No Cascades'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 833,
+          "lineNumber": 306,
           "line": "{{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 359,
+          "line": "<!-- LEARNING: For new instances, show static \"New BlockInstance\" text -->"
         }
       ],
       "score": 3,
@@ -5765,12 +5621,12 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 416,
+          "lineNumber": 434,
           "line": "aria-label=\"Select appointment date\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 602,
+          "lineNumber": 619,
           "line": "// LEARNING: Hide calendar header (removes \"SELECT DATE\" text and thick bar)"
         }
       ],
@@ -5778,12 +5634,12 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 416,
+          "lineNumber": 434,
           "line": "aria-label=\"Select appointment date\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 602,
+          "lineNumber": 619,
           "line": "// LEARNING: Hide calendar header (removes \"SELECT DATE\" text and thick bar)"
         }
       ],
@@ -5808,12 +5664,12 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 93,
+          "lineNumber": 91,
           "line": "selectionComponent: 'VRadio' | 'VCheckbox' | 'custom'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 100,
+          "lineNumber": 98,
           "line": "selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'"
         }
       ],
@@ -5821,12 +5677,12 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 93,
+          "lineNumber": 91,
           "line": "selectionComponent: 'VRadio' | 'VCheckbox' | 'custom'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 100,
+          "lineNumber": 98,
           "line": "selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'"
         }
       ],
@@ -5851,12 +5707,12 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 53,
+          "lineNumber": 90,
           "line": "entityLabel: 'Appointment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 78,
+          "lineNumber": 115,
           "line": "if (!payload.propertyVersionId && !payload.propertyId) return 'Property is required'"
         }
       ],
@@ -5864,12 +5720,12 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 53,
+          "lineNumber": 90,
           "line": "entityLabel: 'Appointment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 78,
+          "lineNumber": 115,
           "line": "if (!payload.propertyVersionId && !payload.propertyId) return 'Property is required'"
         }
       ],
@@ -5914,6 +5770,49 @@
           "ruleId": "magicLabel",
           "lineNumber": 180,
           "line": "const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'"
+        }
+      ],
+      "score": 2,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useInstanceCreation.ts",
+      "repoPath": "src/composables/admin/useInstanceCreation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceCreation.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 2,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 102,
+          "line": "if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 111,
+          "line": "// WHY: Prevents \"Autofocus processing was blocked\" browser warning"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 102,
+          "line": "if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 111,
+          "line": "// WHY: Prevents \"Autofocus processing was blocked\" browser warning"
         }
       ],
       "score": 2,
@@ -6049,9 +5948,9 @@
       "suggestions": []
     },
     {
-      "id": "src__components__admin__generic__EntityCard.vue",
-      "repoPath": "src/components/admin/generic/EntityCard.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCard.vue",
+      "id": "src__components__admin__generic__DynamicForm.vue",
+      "repoPath": "src/components/admin/generic/DynamicForm.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/DynamicForm.vue",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -6066,16 +5965,49 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 361,
-          "line": "const shapeType = props.entityKey === 'blockInstance' ? 'BlockShape' : 'PartShape'"
+          "lineNumber": 171,
+          "line": "// PATTERN: Filter out known system/special fields to prevent \"Unknown input type\" warnings"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 361,
-          "line": "const shapeType = props.entityKey === 'blockInstance' ? 'BlockShape' : 'PartShape'"
+          "lineNumber": 171,
+          "line": "// PATTERN: Filter out known system/special fields to prevent \"Unknown input type\" warnings"
+        }
+      ],
+      "score": 1,
+      "suggestions": []
+    },
+    {
+      "id": "src__components__admin__generic__EntityFormContent.vue",
+      "repoPath": "src/components/admin/generic/EntityFormContent.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityFormContent.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 95,
+          "line": "// PATTERN: Filter out known system/special fields to prevent \"Unknown input type\" warnings"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 95,
+          "line": "// PATTERN: Filter out known system/special fields to prevent \"Unknown input type\" warnings"
         }
       ],
       "score": 1,
@@ -6099,7 +6031,7 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 66,
+          "lineNumber": 60,
           "line": "// LEARNING: Handle inverted logic for constituable field (displayed as \"State Control\")"
         }
       ],
@@ -6107,8 +6039,41 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 66,
+          "lineNumber": 60,
           "line": "// LEARNING: Handle inverted logic for constituable field (displayed as \"State Control\")"
+        }
+      ],
+      "score": 1,
+      "suggestions": []
+    },
+    {
+      "id": "src__components__admin__generic__fields__FieldRenderer.vue",
+      "repoPath": "src/components/admin/generic/fields/FieldRenderer.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/fields/FieldRenderer.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 293,
+          "line": ": 'Unknown error - check field metadata configuration'"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 293,
+          "line": ": 'Unknown error - check field metadata configuration'"
         }
       ],
       "score": 1,
@@ -6175,6 +6140,72 @@
           "ruleId": "magicLabel",
           "lineNumber": 135,
           "line": "{{ slotData.displayTime ? formatTimeRange(slotData.displayTime) : 'Unavailable' }}"
+        }
+      ],
+      "score": 1,
+      "suggestions": []
+    },
+    {
+      "id": "src__components__booking__IndependentSelectCard.vue",
+      "repoPath": "src/components/booking/IndependentSelectCard.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/IndependentSelectCard.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 72,
+          "line": "selectionComponent: 'VCheckbox',"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 72,
+          "line": "selectionComponent: 'VCheckbox',"
+        }
+      ],
+      "score": 1,
+      "suggestions": []
+    },
+    {
+      "id": "src__components__booking__SelectionCard.vue",
+      "repoPath": "src/components/booking/SelectionCard.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/SelectionCard.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 252,
+          "line": "label=\"Quantity\""
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 252,
+          "line": "label=\"Quantity\""
         }
       ],
       "score": 1,
@@ -6544,6 +6575,39 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useShapeSaveHandlers.ts",
+      "repoPath": "src/composables/admin/useShapeSaveHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapeSaveHandlers.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 97,
+          "line": "success('Annotation type created successfully')"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 97,
+          "line": "success('Annotation type created successfully')"
+        }
+      ],
+      "score": 1,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__booking__useAppointmentSlots.ts",
       "repoPath": "src/composables/booking/useAppointmentSlots.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentSlots.ts",
@@ -6571,6 +6635,39 @@
           "ruleId": "magicLabel",
           "lineNumber": 55,
           "line": "onSite: TimeRange | null      // \"Inspector\" bar"
+        }
+      ],
+      "score": 1,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__booking__useAvailabilityLogic.ts",
+      "repoPath": "src/composables/booking/useAvailabilityLogic.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityLogic.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 192,
+          "line": "// Check selected option type blocks (e.g., \"No Client Presentation\" option)"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 192,
+          "line": "// Check selected option type blocks (e.g., \"No Client Presentation\" option)"
         }
       ],
       "score": 1,
@@ -7171,39 +7268,6 @@
       "suggestions": []
     },
     {
-      "id": "src__utils__forms__fieldSectionCategorization.ts",
-      "repoPath": "src/utils/forms/fieldSectionCategorization.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/fieldSectionCategorization.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 1,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 146,
-          "line": "const shapeType = options?.blockShape ? 'BlockShape' : 'PartShape'"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 146,
-          "line": "const shapeType = options?.blockShape ? 'BlockShape' : 'PartShape'"
-        }
-      ],
-      "score": 1,
-      "suggestions": []
-    },
-    {
       "id": "src__utils__forms__formElementPatching.ts",
       "repoPath": "src/utils/forms/formElementPatching.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/formElementPatching.ts",
@@ -7231,39 +7295,6 @@
           "ruleId": "magicLabel",
           "lineNumber": 70,
           "line": "if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {"
-        }
-      ],
-      "score": 1,
-      "suggestions": []
-    },
-    {
-      "id": "src__utils__renderLogger.ts",
-      "repoPath": "src/utils/renderLogger.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/renderLogger.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 1,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 46,
-          "line": "* @param title - Title for the log group (e.g., \"DynamicFormInputs - blockInstance\")"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 46,
-          "line": "* @param title - Title for the log group (e.g., \"DynamicFormInputs - blockInstance\")"
         }
       ],
       "score": 1,
@@ -7501,39 +7532,6 @@
       "suggestions": []
     },
     {
-      "id": "src__views__admin__tabs__ShapesSubTab.vue",
-      "repoPath": "src/views/admin/tabs/ShapesSubTab.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/ShapesSubTab.vue",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 1,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 161,
-          "line": "success('Annotation shape created successfully')"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 161,
-          "line": "success('Annotation shape created successfully')"
-        }
-      ],
-      "score": 1,
-      "suggestions": []
-    },
-    {
       "id": "src__views__admin__tabs__ShapesTab.vue",
       "repoPath": "src/views/admin/tabs/ShapesTab.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/ShapesTab.vue",
@@ -7551,16 +7549,16 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 329,
-          "line": "success('Annotation type created successfully')"
+          "lineNumber": 194,
+          "line": "success('Annotation shape created successfully')"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 329,
-          "line": "success('Annotation type created successfully')"
+          "lineNumber": 194,
+          "line": "success('Annotation shape created successfully')"
         }
       ],
       "score": 1,
@@ -7630,9 +7628,9 @@
       "suggestions": []
     },
     {
-      "id": "src__components__admin__generic__DynamicForm.vue",
-      "repoPath": "src/components/admin/generic/DynamicForm.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/DynamicForm.vue",
+      "id": "src__components__admin__generic__EntityCard.vue",
+      "repoPath": "src/components/admin/generic/EntityCard.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCard.vue",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -7654,27 +7652,6 @@
       "id": "src__components__admin__generic__entityCardConstants.ts",
       "repoPath": "src/components/admin/generic/entityCardConstants.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/entityCardConstants.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__components__admin__generic__EntityFormContent.vue",
-      "repoPath": "src/components/admin/generic/EntityFormContent.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityFormContent.vue",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -7759,27 +7736,6 @@
       "id": "src__components__admin__generic__fields__index.ts",
       "repoPath": "src/components/admin/generic/fields/index.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/fields/index.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__components__admin__generic__fields__InputRenderer.vue",
-      "repoPath": "src/components/admin/generic/fields/InputRenderer.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/fields/InputRenderer.vue",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -8239,6 +8195,27 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__tables__useAppointmentHelpers.ts",
+      "repoPath": "src/composables/admin/tables/useAppointmentHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/useAppointmentHelpers.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__tables__useTableModelHelpers.ts",
       "repoPath": "src/composables/admin/tables/useTableModelHelpers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/useTableModelHelpers.ts",
@@ -8263,6 +8240,48 @@
       "id": "src__composables__admin__tables__useUsersTableModel.ts",
       "repoPath": "src/composables/admin/tables/useUsersTableModel.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/useUsersTableModel.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useAdminPrimitiveMetadataMutations.ts",
+      "repoPath": "src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useAdminRelationshipMetadataMutations.ts",
+      "repoPath": "src/composables/admin/useAdminRelationshipMetadataMutations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAdminRelationshipMetadataMutations.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -8323,6 +8342,48 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useAnnotationTypeFiltering.ts",
+      "repoPath": "src/composables/admin/useAnnotationTypeFiltering.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAnnotationTypeFiltering.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useAvailabilitySettings.ts",
+      "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAvailabilitySettings.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useDialogFormState.ts",
       "repoPath": "src/composables/admin/useDialogFormState.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useDialogFormState.ts",
@@ -8365,9 +8426,51 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useDragAndDropHelpers.ts",
+      "repoPath": "src/composables/admin/useDragAndDropHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useDragAndDropHelpers.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useEntityCardLayout.ts",
       "repoPath": "src/composables/admin/useEntityCardLayout.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityCardLayout.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useEntityCardReadiness.ts",
+      "repoPath": "src/composables/admin/useEntityCardReadiness.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityCardReadiness.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -8491,6 +8594,27 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useEntityMetadata.ts",
+      "repoPath": "src/composables/admin/useEntityMetadata.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityMetadata.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useEntityStatus.ts",
       "repoPath": "src/composables/admin/useEntityStatus.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityStatus.ts",
@@ -8554,9 +8678,9 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__admin__useFieldCategorization.ts",
-      "repoPath": "src/composables/admin/useFieldCategorization.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldCategorization.ts",
+      "id": "src__composables__admin__useFieldComponent.ts",
+      "repoPath": "src/composables/admin/useFieldComponent.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldComponent.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -8617,51 +8741,30 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useFieldLocation.ts",
+      "repoPath": "src/composables/admin/useFieldLocation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldLocation.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useFieldMetadataUpdate.ts",
       "repoPath": "src/composables/admin/useFieldMetadataUpdate.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldMetadataUpdate.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__admin__useFieldTypeDetermination.ts",
-      "repoPath": "src/composables/admin/useFieldTypeDetermination.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldTypeDetermination.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__admin__useFieldVisibility.ts",
-      "repoPath": "src/composables/admin/useFieldVisibility.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldVisibility.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -8722,9 +8825,51 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useInstanceDeletion.ts",
+      "repoPath": "src/composables/admin/useInstanceDeletion.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceDeletion.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useInstanceDragAndDrop.ts",
       "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useInstanceFiltering.ts",
+      "repoPath": "src/composables/admin/useInstanceFiltering.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceFiltering.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -8764,6 +8909,27 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useInstanceSaveHandlers.ts",
+      "repoPath": "src/composables/admin/useInstanceSaveHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceSaveHandlers.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useInstanceShape.ts",
       "repoPath": "src/composables/admin/useInstanceShape.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceShape.ts",
@@ -8785,9 +8951,114 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__admin__useNestedCollectionField.ts",
-      "repoPath": "src/composables/admin/useNestedCollectionField.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useNestedCollectionField.ts",
+      "id": "src__composables__admin__useInstanceTabHandlers.ts",
+      "repoPath": "src/composables/admin/useInstanceTabHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceTabHandlers.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useMetadataModalHandlers.ts",
+      "repoPath": "src/composables/admin/useMetadataModalHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useMetadataModalHandlers.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__usePartInstanceDeletion.ts",
+      "repoPath": "src/composables/admin/usePartInstanceDeletion.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartInstanceDeletion.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__usePartInstanceExpansion.ts",
+      "repoPath": "src/composables/admin/usePartInstanceExpansion.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartInstanceExpansion.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__usePartsCollectionField.ts",
+      "repoPath": "src/composables/admin/usePartsCollectionField.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartsCollectionField.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useRelationshipMetadata.ts",
+      "repoPath": "src/composables/admin/useRelationshipMetadata.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useRelationshipMetadata.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -8890,9 +9161,72 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useShapeCreation.ts",
+      "repoPath": "src/composables/admin/useShapeCreation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapeCreation.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useShapeDeletion.ts",
+      "repoPath": "src/composables/admin/useShapeDeletion.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapeDeletion.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useShapeDisplayNames.ts",
       "repoPath": "src/composables/admin/useShapeDisplayNames.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapeDisplayNames.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useShapeEditModal.ts",
+      "repoPath": "src/composables/admin/useShapeEditModal.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapeEditModal.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -8932,9 +9266,72 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useStatusButtonHandlers.ts",
+      "repoPath": "src/composables/admin/useStatusButtonHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useStatusButtonHandlers.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useStatusButtonToggle.ts",
       "repoPath": "src/composables/admin/useStatusButtonToggle.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useStatusButtonToggle.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useStatusButtonValue.ts",
+      "repoPath": "src/composables/admin/useStatusButtonValue.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useStatusButtonValue.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useTabNavigation.ts",
+      "repoPath": "src/composables/admin/useTabNavigation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useTabNavigation.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -9145,27 +9542,6 @@
       "id": "src__composables__booking__useAvailabilityDefaults.ts",
       "repoPath": "src/composables/booking/useAvailabilityDefaults.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityDefaults.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useAvailabilityLogic.ts",
-      "repoPath": "src/composables/booking/useAvailabilityLogic.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityLogic.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -9712,48 +10088,6 @@
       "id": "src__composables__booking__useSelectionCardStyles.ts",
       "repoPath": "src/composables/booking/useSelectionCardStyles.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useSelectionCardStyles.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useServiceDescriptions.ts",
-      "repoPath": "src/composables/booking/useServiceDescriptions.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useServiceDescriptions.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useServiceDisplay.ts",
-      "repoPath": "src/composables/booking/useServiceDisplay.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useServiceDisplay.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -11053,9 +11387,9 @@
       "suggestions": []
     },
     {
-      "id": "src__configs__availabilitySettings.ts",
-      "repoPath": "src/configs/availabilitySettings.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/availabilitySettings.ts",
+      "id": "src__configs__adminConfig.ts",
+      "repoPath": "src/configs/adminConfig.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/adminConfig.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -11074,9 +11408,9 @@
       "suggestions": []
     },
     {
-      "id": "src__configs__blockShapeFieldVisibility.ts",
-      "repoPath": "src/configs/blockShapeFieldVisibility.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/blockShapeFieldVisibility.ts",
+      "id": "src__configs__availabilitySettings.ts",
+      "repoPath": "src/configs/availabilitySettings.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/availabilitySettings.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -11116,51 +11450,30 @@
       "suggestions": []
     },
     {
+      "id": "src__configs__field__form___archived__primitiveFieldConfig.ts",
+      "repoPath": "src/configs/field/form/_archived/primitiveFieldConfig.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/field/form/_archived/primitiveFieldConfig.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__configs__field__form__fullFieldFormConfig.ts",
       "repoPath": "src/configs/field/form/fullFieldFormConfig.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/field/form/fullFieldFormConfig.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__configs__field__form__primitiveFieldConfig.ts",
-      "repoPath": "src/configs/field/form/primitiveFieldConfig.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/field/form/primitiveFieldConfig.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__configs__partShapeFieldVisibility.ts",
-      "repoPath": "src/configs/partShapeFieldVisibility.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/partShapeFieldVisibility.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -11195,6 +11508,77 @@
       },
       "matches": [],
       "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__constants__availabilitySettings.ts",
+      "repoPath": "src/constants/availabilitySettings.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/availabilitySettings.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 4,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 15,
+          "line": "'Tuesday',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 16,
+          "line": "'Wednesday',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 17,
+          "line": "'Thursday',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 19,
+          "line": "'Saturday',"
+        }
+      ],
+      "allowed": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 15,
+          "line": "'Tuesday',",
+          "reason": "Constants files are the canonical source for hardcoded values - this is by design",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 16,
+          "line": "'Wednesday',",
+          "reason": "Constants files are the canonical source for hardcoded values - this is by design",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 17,
+          "line": "'Thursday',",
+          "reason": "Constants files are the canonical source for hardcoded values - this is by design",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 19,
+          "line": "'Saturday',",
+          "reason": "Constants files are the canonical source for hardcoded values - this is by design",
+          "source": "pattern"
+        }
+      ],
       "requiresReview": [],
       "score": 0,
       "suggestions": []
@@ -11844,6 +12228,27 @@
       "suggestions": []
     },
     {
+      "id": "src__types__entityMetadata.ts",
+      "repoPath": "src/types/entityMetadata.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/entityMetadata.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__types__propertyForm.ts",
       "repoPath": "src/types/propertyForm.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/propertyForm.ts",
@@ -11868,6 +12273,27 @@
       "id": "src__types__relationships.ts",
       "repoPath": "src/types/relationships.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/relationships.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__types__shapeFieldMetadata.ts",
+      "repoPath": "src/types/shapeFieldMetadata.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/shapeFieldMetadata.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -12537,6 +12963,27 @@
       "suggestions": []
     },
     {
+      "id": "src__utils__entities__entityTypeMapping.ts",
+      "repoPath": "src/utils/entities/entityTypeMapping.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/entities/entityTypeMapping.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
       "id": "src__utils__entities__sanitizeEntityAdminValues.ts",
       "repoPath": "src/utils/entities/sanitizeEntityAdminValues.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/entities/sanitizeEntityAdminValues.ts",
@@ -12561,6 +13008,69 @@
       "id": "src__utils__env__devMode.ts",
       "repoPath": "src/utils/env/devMode.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/env/devMode.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__utils__forms__fieldComponentDispatcher.ts",
+      "repoPath": "src/utils/forms/fieldComponentDispatcher.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/fieldComponentDispatcher.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__utils__forms__fieldSectionCategorization.ts",
+      "repoPath": "src/utils/forms/fieldSectionCategorization.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/fieldSectionCategorization.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__utils__forms__fieldSorting.ts",
+      "repoPath": "src/utils/forms/fieldSorting.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/fieldSorting.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -12708,27 +13218,6 @@
       "id": "src__utils__patchFormElements.ts",
       "repoPath": "src/utils/patchFormElements.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/patchFormElements.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "score": 0,
-      "suggestions": []
-    },
-    {
-      "id": "src__utils__renderLoggerKeys.ts",
-      "repoPath": "src/utils/renderLoggerKeys.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/renderLoggerKeys.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,

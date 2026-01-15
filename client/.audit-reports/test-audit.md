@@ -1,14 +1,14 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-01-14T01:52:13.882Z
+Generated at: 2026-01-15T22:09:07.148Z
 
 ## Summary
 
-- **Total source files**: 455
-- **Total test files**: 112
-- **Untested source files**: 352
-- **Orphaned test files**: 8
-- **Coverage**: 23%
+- **Total source files**: 475
+- **Total test files**: 110
+- **Untested source files**: 375
+- **Orphaned test files**: 9
+- **Coverage**: 21%
 
 ## Untested Source Files (Priority: High)
 
@@ -24,21 +24,23 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `src/composables/booking/useAppointmentSlots.ts` | **7.7** | 10 | 7 | 8 | 0 | 2 |
 | `src/composables/booking/useTimeBasisHandler.ts` | **7.7** | 9 | 7 | 10 | 0 | 2 |
 | `src/composables/booking/useAvailableStartTimes.ts` | **7.1** | 10 | 7 | 5 | 0 | 2 |
+| `src/composables/admin/tables/useAppointmentHelpers.ts` | **6.3** | 7 | 5 | 10 | 0 | 2 |
+| `src/composables/admin/useInstanceFiltering.ts` | **6.3** | 8 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useSelectFiltering.ts` | **6.3** | 8 | 5 | 6 | 4 | 2 |
 | `src/composables/admin/useSelectHandlers.ts` | **6.2** | 7 | 5 | 7 | 5 | 2 |
-| `src/composables/admin/useFieldCategorization.ts` | **6.1** | 7 | 5 | 8 | 2 | 2 |
-| `src/composables/admin/useFieldVisibility.ts` | **6.0** | 7 | 5 | 7 | 3 | 2 |
+| `src/composables/admin/useAvailabilitySettings.ts` | **6.1** | 9 | 5 | 5 | 0 | 2 |
 | `src/composables/admin/useAnnotationDialogState.ts` | **5.9** | 7 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useEntityCardSaveState.ts` | **5.9** | 7 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/usePartInstanceCollection.ts` | **5.9** | 9 | 5 | 4 | 0 | 2 |
-| `src/composables/admin/usePartInstanceBulkEdit.ts` | **5.8** | 7 | 5 | 7 | 1 | 2 |
 | `src/composables/admin/useFieldMetadataUpdate.ts` | **5.6** | 5 | 5 | 10 | 1 | 2 |
-| `src/utils/renderLogger.ts` | **5.6** | 6 | 4 | 10 | 0 | 1 |
 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsState.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 | `src/composables/admin/useAnnotationSelect.ts` | **5.5** | 7 | 5 | 4 | 4 | 2 |
 | `src/composables/admin/useEntityList.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
+| `src/composables/admin/useInstanceSaveHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
+| `src/composables/admin/useInstanceTabHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 | `src/utils/blockInstanceUtils.ts` | **5.5** | 4 | 9 | 5 | 2 | 10 |
 | `src/utils/booking/partShapeTimeSlotMapping.ts` | **5.5** | 2 | 9 | 10 | 0 | 3 |
+| `src/composables/admin/usePartInstanceBulkEdit.ts` | **5.4** | 7 | 5 | 5 | 1 | 2 |
 | `src/composables/admin/useAnnotationDisplay.ts` | **5.3** | 7 | 5 | 5 | 0 | 2 |
 | `src/composables/admin/useFieldInputSetup.ts` | **5.3** | 5 | 5 | 9 | 0 | 2 |
 | `src/composables/admin/useInstanceGrouping.ts` | **5.2** | 5 | 5 | 8 | 1 | 2 |
@@ -47,26 +49,24 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `src/composables/admin/useEntityDisplay.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useExpansionState.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useFieldInputHandlers.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
-| `src/composables/admin/useFieldTypeDetermination.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useIconPickerState.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useInstanceBulkEdit.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
-| `src/composables/admin/useInstanceDragAndDrop.ts` | **5.1** | 5 | 5 | 6 | 4 | 2 |
 | `src/composables/admin/useInstanceShape.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
+| `src/composables/admin/useMetadataModalHandlers.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
+| `src/composables/admin/usePartInstanceExpansion.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/usePartInstanceForm.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useSelectFormAssociation.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
+| `src/composables/admin/useShapeCreation.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useShapeDisplayNames.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
+| `src/composables/admin/useShapeEditModal.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
+| `src/composables/admin/useShapeSaveHandlers.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
+| `src/composables/admin/useTabNavigation.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/useTimeFormatting.ts` | **5.1** | 4 | 5 | 10 | 0 | 2 |
 | `src/@core/utils/helpers.ts` | **5.0** | 3 | 6 | 10 | 0 | 5 |
 | `src/composables/admin/useAnnotationMetadata.ts` | **5.0** | 5 | 5 | 7 | 1 | 2 |
+| `src/composables/admin/useDragAndDropHelpers.ts` | **5.0** | 5 | 6 | 6 | 0 | 4 |
 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` | **4.9** | 5 | 5 | 4 | 6 | 2 |
-| `src/composables/admin/useEntityCardActions.ts` | **4.9** | 5 | 5 | 7 | 0 | 2 |
-| `src/composables/admin/useSelectFieldValue.ts` | **4.9** | 5 | 5 | 7 | 0 | 2 |
-| `src/utils/admin/entityDisplayText.ts` | **4.9** | 2 | 7 | 10 | 0 | 3 |
-| `src/composables/admin/useDragAndDrop.ts` | **4.8** | 5 | 5 | 6 | 1 | 2 |
-| `src/utils/entities/sanitizeEntityAdminValues.ts` | **4.8** | 4 | 4 | 10 | 0 | 1 |
-| `src/utils/optimistic/annotationAssignmentsOptimistic.ts` | **4.8** | 4 | 7 | 5 | 1 | 4 |
-| `src/composables/useBusiness.ts` | **4.7** | 4 | 7 | 5 | 0 | 8 |
-| `src/composables/useComponentDistribution.ts` | **4.7** | 4 | 5 | 7 | 2 | 2 |
+| `src/composables/admin/useAnnotationTypeFiltering.ts` | **4.9** | 6 | 5 | 5 | 0 | 2 |
 
 ## Orphaned Test Files (Priority: Medium)
 
@@ -74,6 +74,7 @@ These test files may not have corresponding source files, or the mapping failed.
 
 | Test File | Quality Score |
 | --- | ---: |
+| `src/composables/__tests__/useFieldMetadata.test.ts` | 6 |
 | `src/utils/__tests__/factories/appointmentFactory.ts` | 1 |
 | `src/utils/__tests__/factories/entityFactory.ts` | 3 |
 | `src/utils/__tests__/factories/globalDataFactory.ts` | 2 |
@@ -106,17 +107,17 @@ These test files may not have corresponding source files, or the mapping failed.
 | `src/@layouts/stores` | 1 | 0 | 1 | 0% |
 | `src/components/admin/component` | 1 | 0 | 1 | 0% |
 | `src/components/admin/generic/collections` | 1 | 0 | 1 | 0% |
+| `src/components/admin/metadata` | 1 | 0 | 1 | 0% |
 | `src/components/booking/types` | 1 | 0 | 1 | 0% |
+| `src/composables/_archived` | 1 | 0 | 1 | 0% |
 | `src/composables/booking/selectionCard` | 8 | 7 | 1 | 88% |
 | `src/composables/dataCollections` | 1 | 0 | 1 | 0% |
+| `src/configs/field/form` | 1 | 0 | 1 | 0% |
 | `src/navigation/horizontal` | 1 | 0 | 1 | 0% |
 | `src/navigation/vertical` | 1 | 0 | 1 | 0% |
 | `src/router` | 1 | 0 | 1 | 0% |
 | `src/shims` | 1 | 0 | 1 | 0% |
 | `src/types/admin` | 1 | 0 | 1 | 0% |
-| `src/utils/admin` | 1 | 0 | 1 | 0% |
-| `src/utils/env` | 1 | 0 | 1 | 0% |
-| `src/utils/fieldMetadata` | 1 | 0 | 1 | 0% |
 
 ## Recommendations
 

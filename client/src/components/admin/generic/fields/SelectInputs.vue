@@ -145,9 +145,11 @@ const adminComp = useAdmin()
 // LEARNING: Use select config composable for all configuration logic
 // WHY: Moves config parsing out of component into reusable composable
 // PATTERN: Composable handles field config, select config, and derived properties
+// NOTE: useSelectConfig now handles enum selects gracefully (returns undefined for selectConfig)
 const selectConfigComposable = useSelectConfig({ fieldContext })
 const {
   selectConfig,
+  isEnumSelect,
   isDescriptionSelect,
   isMultiple,
   chipsProps,
@@ -236,13 +238,6 @@ const selectFilteringComposable = useSelectFiltering({
 const {
   filteredEntities,
 } = selectFilteringComposable
-
-// LEARNING: Check if this is an enum select (type field on blockShape)
-// WHY: Enum selects need hardcoded options, not entity-based options
-// PATTERN: Special handling for enum fields
-const isEnumSelect = computed(() => {
-  return fieldContext.entityKey === 'blockShape' && fieldContext.fieldKey === 'type'
-})
 
 // LEARNING: Provide enum options for type field
 // WHY: Block shape type is an enum with fixed values
