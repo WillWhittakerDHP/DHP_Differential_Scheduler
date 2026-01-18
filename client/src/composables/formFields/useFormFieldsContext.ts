@@ -153,7 +153,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     // PATTERN: Check dataType to determine fieldType
     if (meta.dataType === 'boolean') return 'boolean'
     if (meta.dataType === 'number') return 'number'
-    if (meta.dataType === 'date') return 'date'
+    // Note: dataType doesn't include 'date', so date fields are handled via renderAs
 
     // Default to text for string/array/reference
     return 'text'
@@ -249,7 +249,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     // PATTERN: Use metadata properties with fallbacks for required fields
     return {
       label: meta.label || fieldKey, // Fallback to fieldKey if label missing
-      placeholder: (meta as { placeholder?: string }).placeholder, // No default - undefined if not in metadata
+      placeholder: (meta as { placeholder?: string }).placeholder ?? undefined, // No default - undefined if not in metadata
       fieldType: getFieldTypeFromMetadata(meta),
       required: meta.isRequired === true, // Explicit boolean check, no default
       disabled: (meta as { disabled?: boolean }).disabled === true, // Explicit boolean check, no default
@@ -305,7 +305,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
           {
             form: currentFormInstance,
             displayConfig: getFieldDisplayConfig(fieldKey),
-            logger: undefined,
           }
         ) as unknown as FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
 

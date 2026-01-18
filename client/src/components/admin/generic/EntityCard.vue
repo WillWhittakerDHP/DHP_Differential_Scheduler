@@ -6,7 +6,7 @@
   BENEFITS: DRY, configurable, testable, easier to maintain
 -->
 <script setup lang="ts">
-import { ref, computed, provide, watch, watchEffect, toRef, nextTick, type Ref } from 'vue'
+import { ref, computed, provide, watch, nextTick, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
 import { useEntityCardActions } from '@/composables/admin/useEntityCardActions'
 import { useEntityDisplay } from '@/composables/admin/useEntityDisplay'
@@ -21,13 +21,11 @@ import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useRelationshipMetadata } from '@/composables/admin/useRelationshipMetadata'
-import { useStatusButtonToggle } from '@/composables/admin/useStatusButtonToggle'
 import { useFieldLocation } from '@/composables/admin/useFieldLocation'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
-import { useGlobal } from '@/composables/useGlobal'
 import { useNotification } from '@/composables/useNotification'
-import { VExpansionPanel, VExpansionPanels, VCard } from 'vuetify/components'
+import { VExpansionPanel, VCard } from 'vuetify/components'
 
 /**
  * LEARNING: Disable automatic attribute inheritance
@@ -225,9 +223,10 @@ if (!props.form) {
  * PATTERN: Compare entity IDs, not object references, to avoid unnecessary resets
  */
 if (!props.form && !props.isNew) {
-  // Track last entity ID and last reset values to detect actual changes
+  // Track last entity ID to detect actual changes
   let lastEntityId = String(props.entity.id)
-  let lastResetValues: Record<string, unknown> | null = null
+  // Note: lastResetValues tracking removed - not needed
+  // let lastResetValues: Record<string, unknown> | null = null
   
   watch(storeEntity, (newStoreEntity, oldStoreEntity) => {
     if (!newStoreEntity) {
@@ -253,7 +252,8 @@ if (!props.form && !props.isNew) {
       // WHY: resetForm updates all fields and sets initial values for future resets
       // PATTERN: Use resetForm for entity changes, setFieldValue for individual field updates
       lastEntityId = newEntityId
-      lastResetValues = { ...newStoreEntity }
+      // Note: lastResetValues tracking removed - not needed
+      // lastResetValues = { ...newStoreEntity }
       
       // LEARNING: Use resetForm to update both current values AND initial values (per vee-validate docs)
       // WHY: resetForm updates all fields that are part of the form, even if they were created before
@@ -276,24 +276,25 @@ if (!props.form && !props.isNew) {
         if (!formFieldKeys.includes(key)) {
           return false
         }
-        const oldValue = oldStoreEntity[key]
-        const newValue = newStoreEntity[key]
+        const oldValue = (oldStoreEntity as unknown as Record<string, unknown>)[key]
+        const newValue = (newStoreEntity as unknown as Record<string, unknown>)[key]
         return JSON.stringify(oldValue) !== JSON.stringify(newValue)
       })
       
-      if (changedFields.length > 0) {
+      if (changedFields.length > 0 && form) {
         // LEARNING: Use Vee-Validate's form.setFieldValue() for each changed field
         // WHY: setFieldValue() automatically syncs the corresponding useField() instance
         //      This is the correct Vee-Validate method for programmatic field updates
         //      Only call setFieldValue for fields that exist in the form (already filtered above)
         // PATTERN: Use form-level API instead of field-level watches, filter to form fields only
+        const formInstance = form as ReturnType<typeof useForm>
         changedFields.forEach(fieldKey => {
-          form.setFieldValue(fieldKey, newStoreEntity[fieldKey])
+          formInstance.setFieldValue(fieldKey, (newStoreEntity as unknown as Record<string, unknown>)[fieldKey])
         })
       }
       
-      // Update lastResetValues for next comparison
-      lastResetValues = { ...newStoreEntity }
+      // Note: lastResetValues tracking removed - not needed
+      // lastResetValues = { ...newStoreEntity }
     }
   }, { immediate: true, deep: true }) // Run immediately and watch deeply for value changes
 }
@@ -488,38 +489,9 @@ const fieldsMissingContexts = computed(() => {
  * WHY: Status buttons visibility depends on BlockShape properties (e.g., constituable for state control)
  * PATTERN: Only compute for blockInstance entities, get BlockShape from global data
  */
-const { globalData } = useGlobal()
-
-const blockShapeProperties = computed(() => {
-  if (props.entityKey !== 'blockInstance') {
-    return undefined
-  }
-  
-  const blockInstance = props.entity as GlobalEntity<'blockInstance'>
-  const blockShapeRef = blockInstance.blockShapeRef
-  if (!blockShapeRef) {
-    return undefined
-  }
-  
-  // LEARNING: Convert both IDs to strings for consistent comparison
-  // WHY: Ensures type-safe comparison (UUIDs might be strings or numbers)
-  //      Matches pattern used in useAdmin.getEntity for consistency
-  const blockShape = globalData.value?.entities?.blockShape?.find(bs => String(bs.id) === String(blockShapeRef))
-  if (!blockShape) {
-    return undefined
-  }
-  
-  // LEARNING: Type assertion - blockShape is from blockShape array, so it's BlockShapeEntity
-  // WHY: TypeScript doesn't narrow union types from array.find(), so we assert the type
-  // PATTERN: Assert to specific entity type since we know it's from the blockShape array
-  const blockShapeEntity = blockShape as import('@/types/entities').BlockShapeEntity
-  
-  return {
-    constituable: blockShapeEntity.constituable === true,
-    composable: blockShapeEntity.composable === true,
-    composite: (blockInstance as GlobalEntity<'blockInstance'>).composite === true
-  }
-})
+// Note: blockShapeProperties removed - unused
+// const { globalData } = useGlobal()
+// const blockShapeProperties = computed(() => { ... })
 
 /**
  * LEARNING: Use field location dispatcher for location assignment
@@ -671,16 +643,6 @@ const handleSave = async (): Promise<void> => {
   if (!props.isNew) {
     const savedEntity = admin.getEntity(props.entityKey, props.entity.id)
     if (savedEntity) {
-      console.log('[FORM-RESET] Resetting form after full save', {
-        entityKey: String(props.entityKey),
-        entityId: String(props.entity.id),
-        entityName: savedEntity.name,
-        sampleValues: {
-          name: (savedEntity as { name?: unknown }).name,
-          id: savedEntity.id
-        }
-      })
-      
       // Reset form with saved entity values to ensure fields display updated values
       form.resetForm({
         values: {
@@ -691,13 +653,8 @@ const handleSave = async (): Promise<void> => {
       form.setValues({
         ...savedEntity,
       })
-      
-    } else {
-      console.warn('[FORM-RESET] Saved entity not found in store after save', {
-        entityKey: String(props.entityKey),
-        entityId: String(props.entity.id)
-      })
     }
+    // Note: If savedEntity is not found, form will keep current values (acceptable fallback)
   }
   
   // Reset unified save state after successful save
@@ -759,22 +716,15 @@ const titleRowFields = fieldLocation.titleRowFields
  * WHY: Allows unified save state to track when status buttons are toggled
  * PATTERN: Callback notifies parent of changes for save state management
  */
-const statusButtonToggle = useStatusButtonToggle({
-  entityKey: props.entityKey,
-  entityId: computed(() => props.entity.id),
-  onToggle: (fieldKey: string) => {
-    unifiedSaveState.markStatusButtonChanged(fieldKey)
-  }
-})
+// Note: statusButtonToggle removed - unused (onToggle callback not needed)
+// const statusButtonToggle = useStatusButtonToggle({ ... })
 
 /**
  * LEARNING: Container click handler for debugging
  * WHY: Can be used to detect event propagation issues
  * PATTERN: Separate method for template event handler
  */
-const handleContainerClick = (_event: Event): void => {
-  // No-op - kept for potential debugging
-}
+// Note: handleContainerClick removed - unused
 
 /**
  * LEARNING: Handle title row clicks - prevent expansion panel from intercepting status button clicks

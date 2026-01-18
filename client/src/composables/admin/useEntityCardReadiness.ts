@@ -5,9 +5,9 @@
  */
 
 import type { GlobalEntity } from '@/types/entities'
-import type { GlobalEntityKey, GlobalFieldKey } from '@/constants/primitives'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/useFieldContext'
-import type { ComponentPublicInstance } from 'vue'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 
 type EntityCardInstance = InstanceType<typeof EntityCard>
@@ -50,7 +50,7 @@ export function getFieldContextForInstance<GE extends GlobalEntityKey>(
     return undefined
   }
   
-  return entityCard.getFieldContext(fieldKey)
+  return entityCard.getFieldContext(fieldKey) as FieldContextType<GE, GlobalFieldKey<GE>> | undefined
 }
 
 /**

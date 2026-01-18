@@ -142,7 +142,7 @@ function isPartsCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): bool
   // LEARNING: Use getFieldComponent() as single source of truth
   // WHY: getFieldComponent() determines component type from metadata, supporting renderAs: 'partsCollection'
   // PATTERN: Check component type from dispatcher instead of duplicating logic
-  const componentType = getFieldComponent(fieldKey, fieldMeta)
+  const componentType = getFieldComponent(props.entityKey, fieldKey, fieldMeta)
   return componentType.type === 'partsCollection'
 }
 
