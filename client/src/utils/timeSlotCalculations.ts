@@ -9,6 +9,7 @@
 
 import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { RFC3339DateTime } from '@/types/datetime'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 import { fitTimeSlots, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
 import { generateMockFreeBusyResponse, extractBusyTimesFromFreeBusyResponse } from '@/utils/booking/mockGoogleCalendar'
@@ -90,7 +91,7 @@ export function calculateDurationFromPartInstances(service: BookingBlockInstance
  * 3. Switch between mock and real based on flag
  * 4. Keep mock implementation for testing/development
  * 
- * @param dateRange - Object with start and end ISO date strings
+ * @param dateRange - Object with start and end RFC3339 datetime strings
  * @returns Array of busy time ranges compatible with fitTimeSlots() busyTimes parameter
  * 
  * @example
@@ -102,27 +103,49 @@ export function calculateDurationFromPartInstances(service: BookingBlockInstance
  * // Returns: [{ start: '2026-01-15T10:00:00Z', end: '2026-01-15T11:00:00Z' }, ...]
  * ```
  */
-export function getCalendarAvailability(dateRange: { start: string; end: string }): Array<{ start: string; end: string }> {
-  // LEARNING: Generate mock Google Calendar free/busy response
-  // WHY: Simulates real calendar data for testing without API dependency
-  // PATTERN: Use mock generator, then extract busy times
+export function getCalendarAvailability(dateRange: { start: RFC3339DateTime; end: RFC3339DateTime }): Array<{ start: RFC3339DateTime; end: RFC3339DateTime }> {
+  // LEARNING: Determine earliest start time for busy periods
+  // WHY: If date is today, busy periods should start from current time (not midnight)
+  // PATTERN: Check if start datetime is today, use current time if so
+  const now = new Date()
+  const todayStart = new Date(now)
+  todayStart.setUTCHours(0, 0, 0, 0)
+  const startDateOnly = new Date(dateRange.start)
+  startDateOnly.setUTCHours(0, 0, 0, 0)
+  const isToday = startDateOnly.getTime() === todayStart.getTime()
+  
+  const earliestStartTime = isToday ? now.toISOString() : dateRange.start
+  
+  // LEARNING: Return empty if earliest start time is significantly in the past
+  // WHY: Past dates can't render in UI, no busy periods needed
+  // PATTERN: Check earliestStartTime (not dateRange.start) because for today we use current time
+  const earliestStartDateTime = new Date(earliestStartTime)
+  const timeDifferenceMs = now.getTime() - earliestStartDateTime.getTime()
+  const isSignificantlyPast = timeDifferenceMs > 1000 // More than 1 second in the past
+  
+  if (isSignificantlyPast) {
+    return [] // Past dates can't render in UI, no busy periods needed
+  }
   
   // Validate date range
   const startDate = new Date(dateRange.start)
   const endDate = new Date(dateRange.end)
   
   if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    console.warn('[getCalendarAvailability] Invalid date range:', dateRange)
+    console.warn('[getCalendarAvailability] Invalid date range (NaN):', dateRange)
     return []
   }
   
   if (startDate >= endDate) {
-    console.warn('[getCalendarAvailability] start must be before end:', dateRange)
+    console.warn('[getCalendarAvailability] start must be before end:', {
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
+      dateRange
+    })
     return []
   }
   
   try {
-    // Generate mock free/busy response matching Google Calendar API format
     const mockResponse = generateMockFreeBusyResponse(dateRange, {
       periodsPerCalendar: 3,  // 3 busy periods per calendar
       minDurationMinutes: 30,  // Minimum 30 minutes
@@ -136,6 +159,7 @@ export function getCalendarAvailability(dateRange: { start: string; end: string 
     // PATTERN: Extract and merge for accurate availability calculation
     const busyTimes = extractBusyTimesFromFreeBusyResponse(mockResponse, true)
     
+
     return busyTimes
   } catch (error) {
     // LEARNING: Handle errors gracefully

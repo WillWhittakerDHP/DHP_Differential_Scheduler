@@ -13,6 +13,8 @@
  */
 
 import type { TimeSlot } from '@/types/appointment'
+import type { RFC3339DateTime } from '@/types/datetime'
+import { rfc3339ToBusinessHoursTime } from '@/utils/datetime'
 import {
   type BusinessHoursMap,
   type BusyTimeRange,
@@ -41,13 +43,13 @@ export interface AvailabilityManagerResult {
  * Parameters for generating slots with availability
  */
 export interface GenerateSlotsWithAvailabilityParams {
-  startBoundary: string         // ISO datetime - earliest possible start
-  endBoundary: string           // ISO datetime - latest possible end
-  duration: number              // Required duration in minutes
+  startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
+  endBoundary: RFC3339DateTime           // RFC3339 datetime - latest possible end
+  duration: number                        // Required duration in minutes
   businessHours: BusinessHoursMap
-  minuteIncrement: number       // Usually 15
-  busyTimes?: BusyTimeRange[]   // Calendar busy periods
-  includeFlags?: {              // Optional TimeSlot flags
+  minuteIncrement: number                 // Usually 15
+  busyTimes?: BusyTimeRange[]             // Calendar busy periods
+  includeFlags?: {                        // Optional TimeSlot flags
     onSite?: boolean
     clientPresent?: boolean
     moveable?: boolean
@@ -139,9 +141,14 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
       continue
     }
 
-    // Parse business hours for this day
-    const [startHour, startMinute] = dayHours.start.split(':').map(Number)
-    const [endHour, endMinute] = dayHours.end.split(':').map(Number)
+    // LEARNING: Extract time-of-day from RFC3339 business hours
+    // WHY: Business hours stored as RFC3339, need to extract HH:mm for calculations
+    // PATTERN: Convert RFC3339 to HH:mm, then parse
+    const startTimeStr = rfc3339ToBusinessHoursTime(dayHours.start)
+    const endTimeStr = rfc3339ToBusinessHoursTime(dayHours.end)
+    
+    const [startHour, startMinute] = startTimeStr.split(':').map(Number)
+    const [endHour, endMinute] = endTimeStr.split(':').map(Number)
 
     // Validate parsed times
     if (isNaN(startHour) || isNaN(startMinute) || isNaN(endHour) || isNaN(endMinute)) {
@@ -244,6 +251,31 @@ export function markSlotAvailability(
   slots: TimeSlot[],
   busyTimes: BusyTimeRange[]
 ): TimeSlotWithAvailability[] {
+  // LEARNING: Log first few slot availability checks
+  // WHY: Helps debug why slots aren't being marked as busy
+  // PATTERN: Log sample checks to verify overlap detection
+  const sampleSlots = slots.slice(0, 5)
+  if (sampleSlots.length > 0 && busyTimes.length > 0) {
+    console.log('[markSlotAvailability] Checking slot availability:', {
+      totalSlots: slots.length,
+      busyTimesCount: busyTimes.length,
+      sampleBusyTimes: busyTimes.slice(0, 3).map(bt => ({
+        start: bt.start,
+        end: bt.end
+      })),
+      sampleSlots: sampleSlots.map(slot => {
+        const slotStart = new Date(slot.startTime)
+        const slotEnd = new Date(slot.endTime)
+        const isAvailable = checkSlotAvailability(slotStart, slotEnd, busyTimes)
+        return {
+          startTime: slot.startTime,
+          endTime: slot.endTime,
+          isAvailable
+        }
+      })
+    })
+  }
+  
   return slots.map(slot => {
     const slotStart = new Date(slot.startTime)
     const slotEnd = new Date(slot.endTime)

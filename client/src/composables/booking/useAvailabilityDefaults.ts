@@ -106,8 +106,9 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
    * LEARNING: Tracks whether to show inspector or client time slots
    * WHY: Differential services need separate inspector/client views, non-differential always uses 'nonDifferential'
    * PATTERN: ref for string literal union type - 'nonDifferential' for non-differential services, 'inspector' | 'client' for differential
+   * NOTE: Defaults to 'inspector' so step 3 starts in inspector view
    */
-  const startTimeType = ref<'inspector' | 'client' | 'nonDifferential'>('nonDifferential')
+  const startTimeType = ref<'inspector' | 'client' | 'nonDifferential'>('inspector')
 
   /**
    * Appointment slot order index state
@@ -208,8 +209,8 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
 
   /**
    * Watch isDifferentialService (now represents effective differential state) to auto-select startTimeType
-   * LEARNING: Auto-selects 'nonDifferential' for non-differential services, 'client' for differential services
-   * WHY: Ensures valid state is always selected and time slots are visible immediately
+   * LEARNING: Auto-selects 'nonDifferential' for non-differential services, 'inspector' for differential services
+   * WHY: Ensures valid state is always selected and time slots are visible immediately. Step 3 starts in inspector view.
    * PATTERN: Watch isDifferentialService (which now represents effective differential state), set startTimeType accordingly
    * NOTE: isDifferentialService parameter now represents effective differential state (considering overrides)
    */
@@ -218,9 +219,9 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
       // Non-differential services (or overridden to non-differential) always use 'nonDifferential'
       startTimeType.value = 'nonDifferential'
     } else {
-      // Effectively differential services default to 'client' view
+      // Effectively differential services default to 'inspector' view (step 3 starts in inspector state)
       if (startTimeType.value === 'nonDifferential') {
-        startTimeType.value = 'client'
+        startTimeType.value = 'inspector'
       }
     }
   }, { immediate: true })

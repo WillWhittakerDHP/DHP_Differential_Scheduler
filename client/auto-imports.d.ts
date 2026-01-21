@@ -21,6 +21,7 @@ declare global {
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
   const avatarText: typeof import('./src/@core/utils/formatters').avatarText
   const betweenValidator: typeof import('./src/@core/utils/validators').betweenValidator
+  const businessHoursTimeToRfc3339: typeof import('./src/utils/datetime').businessHoursTimeToRfc3339
   const calculateClientPresenceDuration: typeof import('./src/utils/differentialScheduling').calculateClientPresenceDuration
   const calculateClientStartTime: typeof import('./src/utils/differentialScheduling').calculateClientStartTime
   const calculateClientStartTimeFromInspector: typeof import('./src/utils/differentialScheduling').calculateClientStartTimeFromInspector
@@ -54,6 +55,7 @@ declare global {
   const createUnrefFn: typeof import('@vueuse/core').createUnrefFn
   const createUrl: typeof import('./src/@core/composable/createUrl').createUrl
   const customRef: typeof import('vue').customRef
+  const dateOnlyToRfc3339: typeof import('./src/utils/datetime').dateOnlyToRfc3339
   const debouncedRef: typeof import('@vueuse/core').debouncedRef
   const debouncedWatch: typeof import('@vueuse/core').debouncedWatch
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
@@ -214,6 +216,9 @@ declare global {
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveRef: typeof import('@vueuse/core').resolveRef
   const resolveVuetifyTheme: typeof import('./src/@core/utils/vuetify').resolveVuetifyTheme
+  const rfc3339ToBusinessHoursTime: typeof import('./src/utils/datetime').rfc3339ToBusinessHoursTime
+  const rfc3339ToDateOnly: typeof import('./src/utils/datetime').rfc3339ToDateOnly
+  const rfc3339ToTimeOfDay: typeof import('./src/utils/datetime').rfc3339ToTimeOfDay
   const rgbaToHex: typeof import('./src/@core/utils/colorConverter').rgbaToHex
   const roundUpToIncrement: typeof import('./src/utils/timeSlotCalculations').roundUpToIncrement
   const setActivePinia: typeof import('pinia').setActivePinia
@@ -229,6 +234,7 @@ declare global {
   const templateRef: typeof import('@vueuse/core').templateRef
   const throttledRef: typeof import('@vueuse/core').throttledRef
   const throttledWatch: typeof import('@vueuse/core').throttledWatch
+  const timeOfDayToRfc3339: typeof import('./src/utils/datetime').timeOfDayToRfc3339
   const toRaw: typeof import('vue').toRaw
   const toReactive: typeof import('@vueuse/core').toReactive
   const toRef: typeof import('vue').toRef
@@ -547,6 +553,7 @@ declare module 'vue' {
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly avatarText: UnwrapRef<typeof import('./src/@core/utils/formatters')['avatarText']>
     readonly betweenValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['betweenValidator']>
+    readonly businessHoursTimeToRfc3339: UnwrapRef<typeof import('./src/utils/datetime')['businessHoursTimeToRfc3339']>
     readonly calculateClientPresenceDuration: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateClientPresenceDuration']>
     readonly calculateClientStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateClientStartTime']>
     readonly calculateClientStartTimeFromInspector: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateClientStartTimeFromInspector']>
@@ -578,6 +585,7 @@ declare module 'vue' {
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
     readonly createUrl: UnwrapRef<typeof import('./src/@core/composable/createUrl')['createUrl']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
+    readonly dateOnlyToRfc3339: UnwrapRef<typeof import('./src/utils/datetime')['dateOnlyToRfc3339']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
@@ -719,6 +727,9 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveVuetifyTheme: UnwrapRef<typeof import('./src/@core/utils/vuetify')['resolveVuetifyTheme']>
+    readonly rfc3339ToBusinessHoursTime: UnwrapRef<typeof import('./src/utils/datetime')['rfc3339ToBusinessHoursTime']>
+    readonly rfc3339ToDateOnly: UnwrapRef<typeof import('./src/utils/datetime')['rfc3339ToDateOnly']>
+    readonly rfc3339ToTimeOfDay: UnwrapRef<typeof import('./src/utils/datetime')['rfc3339ToTimeOfDay']>
     readonly rgbaToHex: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['rgbaToHex']>
     readonly roundUpToIncrement: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['roundUpToIncrement']>
     readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
@@ -734,6 +745,7 @@ declare module 'vue' {
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
     readonly throttledRef: UnwrapRef<typeof import('@vueuse/core')['throttledRef']>
     readonly throttledWatch: UnwrapRef<typeof import('@vueuse/core')['throttledWatch']>
+    readonly timeOfDayToRfc3339: UnwrapRef<typeof import('./src/utils/datetime')['timeOfDayToRfc3339']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toReactive: UnwrapRef<typeof import('@vueuse/core')['toReactive']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>

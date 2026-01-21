@@ -220,44 +220,69 @@ const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
       padding: 0.625rem 1.25rem !important; // Slightly more padding on larger screens
     }
     
-    // LEARNING: Inactive button styling (non-selected slots)
-    // WHY: Provides muted appearance for non-selected appointment slots
-    // PATTERN: Use inactive color variables based on button color prop
-    &--inactive {
-      // LEARNING: Override button colors with inactive palette
-      // WHY: Makes inactive buttons visually distinct but still visible
-      // PATTERN: Use CSS custom properties for inactive colors
+    // LEARNING: Active state (default, available, not selected)
+    // WHY: Provides light background for available slots to make them clearly active
+    // PATTERN: Use light tinted background with primary/secondary color
+    // State priority: Active is default, overridden by Selected/Inactive/Busy
+    // Note: Applied to buttons that are not busy, not inactive, and not selected (not flat variant)
+    &[color="primary"]:not(.appointment-slot-btn--busy):not(.appointment-slot-btn--inactive):not(.v-btn--variant-flat) {
+      background-color: rgba(var(--v-theme-primary), 0.1) !important;
+      border-color: rgb(var(--v-theme-primary)) !important;
+      color: rgb(var(--v-theme-on-surface)) !important;
+    }
+    
+    &[color="secondary"]:not(.appointment-slot-btn--busy):not(.appointment-slot-btn--inactive):not(.v-btn--variant-flat) {
+      background-color: rgba(var(--v-theme-secondary), 0.1) !important;
+      border-color: rgb(var(--v-theme-secondary)) !important;
+      color: rgb(var(--v-theme-on-surface)) !important;
+    }
+    
+    // LEARNING: Selected state (when button is selected - uses flat variant)
+    // WHY: Dark background with inverted text provides strong visual emphasis
+    // PATTERN: Override Vuetify flat variant to ensure proper contrast
+    // State priority: Selected takes priority over Active, but Busy overrides Selected
+    &.v-btn--variant-flat:not(.appointment-slot-btn--busy) {
       &[color="primary"] {
-        background-color: rgb(var(--inactive-primary)) !important;
-        border-color: rgb(var(--inactive-primary)) !important;
-        color: rgb(var(--v-theme-on-surface)) !important;
+        background-color: rgb(var(--v-theme-primary)) !important;
+        border-color: rgb(var(--v-theme-primary)) !important;
+        color: rgb(var(--v-theme-on-primary)) !important;
       }
       
       &[color="secondary"] {
-        background-color: rgb(var(--inactive-secondary)) !important;
-        border-color: rgb(var(--inactive-secondary)) !important;
-        color: rgb(var(--v-theme-on-surface)) !important;
+        background-color: rgb(var(--v-theme-secondary)) !important;
+        border-color: rgb(var(--v-theme-secondary)) !important;
+        color: rgb(var(--v-theme-on-secondary)) !important;
+      }
+    }
+    
+    // LEARNING: Inactive button styling (non-selected slots when something is selected)
+    // WHY: Makes inactive buttons clearly muted and less prominent
+    // PATTERN: Very light background with reduced opacity for text
+    // State priority: Inactive applies when something is selected but this slot is not
+    &--inactive:not(.appointment-slot-btn--busy) {
+      &[color="primary"] {
+        background-color: rgba(var(--v-theme-primary), 0.05) !important;
+        border-color: rgba(var(--v-theme-primary), 0.2) !important;
+        color: rgba(var(--v-theme-on-surface), 0.7) !important;
+      }
+      
+      &[color="secondary"] {
+        background-color: rgba(var(--v-theme-secondary), 0.05) !important;
+        border-color: rgba(var(--v-theme-secondary), 0.2) !important;
+        color: rgba(var(--v-theme-on-surface), 0.7) !important;
       }
     }
     
     // LEARNING: Busy slot styling (unavailable due to calendar conflicts)
-    // WHY: Makes busy slots visually distinct but still visible
-    // PATTERN: Use muted colors and disabled cursor
+    // WHY: Gray background clearly indicates unavailable state
+    // PATTERN: Use gray surface colors with reduced opacity
+    // State priority: Busy takes highest priority, overrides all other states
     &--busy {
-      opacity: 0.6;
       cursor: not-allowed;
-      
-      &[color="primary"] {
-        background-color: rgba(var(--v-theme-primary), 0.2) !important;
-        border-color: rgba(var(--v-theme-primary), 0.3) !important;
-        color: rgba(var(--v-theme-on-surface), 0.6) !important;
-      }
-      
-      &[color="secondary"] {
-        background-color: rgba(var(--v-theme-secondary), 0.2) !important;
-        border-color: rgba(var(--v-theme-secondary), 0.3) !important;
-        color: rgba(var(--v-theme-on-surface), 0.6) !important;
-      }
+      background-color: rgba(var(--v-theme-on-surface), 0.08) !important;
+      border-color: rgba(var(--v-theme-on-surface), 0.2) !important;
+      color: rgba(var(--v-theme-on-surface), 0.5) !important;
+      opacity: 1 !important; // Remove opacity override, use color opacity instead
     }
   }
   

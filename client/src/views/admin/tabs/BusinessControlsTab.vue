@@ -6,8 +6,10 @@
   RESOURCE: https://vuetifyjs.com/en/components/forms/
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useAvailabilitySettings } from '@/composables/admin/useAvailabilitySettings'
 import { DAY_NAMES, TIME_INCREMENT_OPTIONS } from '@/constants/availabilitySettings'
+import { rfc3339ToBusinessHoursTime, businessHoursTimeToRfc3339 } from '@/utils/datetime'
 
 /**
  * LEARNING: Use availability settings composable
@@ -23,6 +25,29 @@ const {
   saveSettings,
   resetToDefaults
 } = useAvailabilitySettings()
+
+// LEARNING: Create computed properties for business hours in HH:mm format for UI
+// WHY: Time inputs expect HH:mm format, but formData stores RFC3339 internally
+// PATTERN: Computed properties convert between formats for each day
+const businessHoursForUI = computed(() => {
+  const hours: Record<number, { start: string; end: string }> = {}
+  for (let day = 0; day <= 6; day++) {
+    const dayHours = formData.value.businessHours[day as keyof typeof formData.value.businessHours]
+    hours[day] = {
+      start: rfc3339ToBusinessHoursTime(dayHours.start),
+      end: rfc3339ToBusinessHoursTime(dayHours.end)
+    }
+  }
+  return hours
+})
+
+// LEARNING: Watch for changes in UI business hours and update RFC3339 formData
+// WHY: When user changes time inputs (HH:mm), convert back to RFC3339 for storage
+// PATTERN: Function to update formData when UI values change
+const updateBusinessHours = (day: number, field: 'start' | 'end', value: string): void => {
+  const rfc3339Value = businessHoursTimeToRfc3339(value)
+  formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
+}
 
 // Expose constants for template use
 const dayNames = DAY_NAMES
@@ -78,7 +103,8 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
                 <VRow>
                   <VCol cols="12" sm="6" md="4">
                     <VTextField
-                      v-model="formData.businessHours[(day - 1) as keyof typeof formData.businessHours].start"
+                      :model-value="businessHoursForUI[(day - 1) as keyof typeof businessHoursForUI].start"
+                      @update:model-value="(v: string) => updateBusinessHours(day - 1, 'start', v)"
                       label="Start Time"
                       type="time"
                       required
@@ -90,7 +116,8 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
                   </VCol>
                   <VCol cols="12" sm="6" md="4">
                     <VTextField
-                      v-model="formData.businessHours[(day - 1) as keyof typeof formData.businessHours].end"
+                      :model-value="businessHoursForUI[(day - 1) as keyof typeof businessHoursForUI].end"
+                      @update:model-value="(v: string) => updateBusinessHours(day - 1, 'end', v)"
                       label="End Time"
                       type="time"
                       required

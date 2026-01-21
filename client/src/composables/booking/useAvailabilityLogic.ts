@@ -107,21 +107,57 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
   /**
    * LEARNING: Computed property for date range for API call
-   * WHY: Creates date range from selected date (start date + 1 day for end date)
-   * PATTERN: Computed that creates date range when date is selected
+   * WHY: Creates date range from selected date (start date + 1 day for end date) in RFC3339 format
+   * PATTERN: Computed that creates RFC3339 datetime range when date is selected
    */
   const dateRangeForApi = computed(() => {
     if (!selectedDate.value.start) return null
     
-    const startDate = new Date(selectedDate.value.start)
+    // LEARNING: Parse selected date in local timezone
+    // WHY: Ensures correct day of week calculation regardless of timezone
+    // PATTERN: Extract date part and create Date object in local timezone
+    // NOTE: Handle both string and Date object types
+    const startValue = selectedDate.value.start
+    const dateString = typeof startValue === 'string' 
+      ? (startValue.includes('T') ? startValue.split('T')[0] : startValue)
+      : (startValue instanceof Date 
+          ? `${startValue.getFullYear()}-${String(startValue.getMonth() + 1).padStart(2, '0')}-${String(startValue.getDate()).padStart(2, '0')}`
+          : String(startValue))
+    const [year, month, day] = dateString.split('-').map(Number)
+    const startDate = new Date(year, month - 1, day) // Local timezone, midnight
     const endDate = new Date(startDate)
     endDate.setDate(endDate.getDate() + 1) // Add 1 day for end date
     
-    const result = {
-      start: startDate.toISOString().split('T')[0], // YYYY-MM-DD format
-      end: endDate.toISOString().split('T')[0]
+    // LEARNING: Determine start datetime: always use start of day (midnight) for consistency
+    // WHY: Busy periods need to cover the entire day to match slots, which start at business hours
+    //      The mock generator will filter out past times, so using start of day ensures full coverage
+    // PATTERN: Always use start of day, let mock generator handle past time filtering
+    const startDateTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0) // Start of day
+    
+    // LEARNING: Early return if date is in the past (not today)
+    // WHY: Past dates can't render in UI, but today should be allowed even if midnight has passed
+    // PATTERN: Compare date portions only (not times) to allow today
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const startDateOnly = new Date(startDateTime)
+    startDateOnly.setHours(0, 0, 0, 0)
+    
+    if (startDateOnly < today) {
+      return null // Past dates can't render in UI
     }
-    return result
+    
+    // LEARNING: End datetime: end of day (23:59:59) in local timezone
+    // WHY: Covers entire day for busy period generation
+    // PATTERN: Set hours to end of day, then convert to RFC3339
+    const endDateTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59)
+    
+    // LEARNING: Convert to RFC3339 format (ISO 8601 with UTC timezone, matching Google Calendar API)
+    // WHY: Consistent format throughout codebase, matches Google Calendar API
+    // PATTERN: Use toISOString() to produce RFC3339 format
+    return {
+      start: startDateTime.toISOString(),
+      end: endDateTime.toISOString()
+    }
   })
 
   /**

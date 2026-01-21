@@ -12,12 +12,13 @@
  * - Formatted time display for easy reading
  */
 
-import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 interface Props {
   dateRange: { start: string; end: string } | null
+  refreshKey?: number | string
 }
 
 const props = defineProps<Props>()
@@ -28,10 +29,37 @@ const wrapperRef = ref<HTMLElement | null>(null)
 
 // LEARNING: Get current busy periods from mock calendar
 // WHY: Shows what times are blocked for testing slot filtering
-// PATTERN: Computed property that calls getCalendarAvailability when dateRange changes
+// PATTERN: Computed property that calls getCalendarAvailability when dateRange or refreshKey changes
 const busyPeriods = computed(() => {
-  if (!props.dateRange) return []
-  return getCalendarAvailability(props.dateRange)
+  if (!props.dateRange) {
+    console.log('[CalendarMockDevPanel] No dateRange prop')
+    return []
+  }
+  
+  // LEARNING: Include refreshKey in dependency to force recalculation
+  // WHY: Changing refreshKey forces mock data regeneration
+  // PATTERN: Reference refreshKey in computed to trigger recalculation
+  void props.refreshKey // Force dependency tracking
+  
+  console.log('[CalendarMockDevPanel] Computing busyPeriods with dateRange:', {
+    start: props.dateRange.start,
+    end: props.dateRange.end,
+    startDate: new Date(props.dateRange.start).toISOString(),
+    endDate: new Date(props.dateRange.end).toISOString(),
+    refreshKey: props.refreshKey
+  })
+  
+  const result = getCalendarAvailability(props.dateRange)
+  
+  console.log('[CalendarMockDevPanel] getCalendarAvailability returned:', {
+    count: result.length,
+    periods: result.slice(0, 3).map(p => ({
+      start: p.start,
+      end: p.end
+    }))
+  })
+  
+  return result
 })
 
 // LEARNING: Format busy period for human-readable display
@@ -79,7 +107,35 @@ const totalBlockedHours = computed(() => {
 // WHY: Ensures panel stays within viewport when expanded
 // PATTERN: Check if panel would overflow right edge, adjust transform
 const panelTransform = ref('translateX(0)')
+const isTransitioning = ref(false)
 
+// LEARNING: Calculate transform using expected panel dimensions
+// WHY: Panel should be positioned correctly from the start of expansion
+// PATTERN: Calculate using expected width before DOM update
+const calculatePanelPosition = (): string => {
+  if (!wrapperRef.value) {
+    return 'translateX(0)'
+  }
+
+  const wrapperRect = wrapperRef.value.getBoundingClientRect()
+  const panelWidth = 400 // Expected panel width (matches CSS width: 400px)
+  const viewportWidth = window.innerWidth
+  const rightEdge = wrapperRect.right + panelWidth
+  const padding = 24 // Viewport padding
+
+  // LEARNING: If panel would overflow right edge, shift it left
+  // WHY: Keeps panel visible when expanded
+  // PATTERN: Calculate transform to shift left if needed
+  if (rightEdge > viewportWidth - padding) {
+    const overflow = rightEdge - (viewportWidth - padding)
+    return `translateX(-${overflow}px)`
+  }
+  return 'translateX(0)'
+}
+
+// LEARNING: Refine position after DOM update for accurate measurements
+// WHY: Initial calculation uses expected width, this refines with actual width
+// PATTERN: Use requestAnimationFrame for accurate measurements after expansion
 const updatePanelPosition = (): void => {
   if (!isExpanded.value || !panelRef.value || !wrapperRef.value) {
     return
@@ -89,7 +145,7 @@ const updatePanelPosition = (): void => {
   // WHY: Panel dimensions may not be available immediately
   // PATTERN: Use requestAnimationFrame for accurate measurements
   requestAnimationFrame(() => {
-    if (!panelRef.value || !wrapperRef.value) return
+    if (!panelRef.value || !wrapperRef.value || !isExpanded.value) return
 
     const wrapperRect = wrapperRef.value.getBoundingClientRect()
     const panelWidth = panelRef.value.offsetWidth || 400
@@ -126,19 +182,72 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
 })
 
-// LEARNING: Update position when expansion state changes
-// WHY: Recalculate position when panel expands/collapses
-// PATTERN: Watch isExpanded and call update function after transition
-const handleExpansionChange = (): void => {
-  if (isExpanded.value) {
-    // LEARNING: Wait for expand transition to complete before calculating
-    // WHY: Panel dimensions are accurate after transition
+// LEARNING: Handle expansion toggle click
+// WHY: Calculates transform before state change to prevent visual hop
+// PATTERN: Calculate transform synchronously, apply it, then toggle state
+const handleToggle = async (): Promise<void> => {
+  const willExpand = !isExpanded.value
+  
+  if (willExpand) {
+    // LEARNING: Calculate transform BEFORE toggling expansion state
+    // WHY: Ensures transform is ready before Vue applies the expanded class
+    // PATTERN: Calculate synchronously, disable transitions, apply transform, then toggle state
+    const calculatedTransform = calculatePanelPosition()
+    
+    // LEARNING: Set transition flag to prevent transform animation during initial positioning
+    // WHY: Initial positioning should be instant, not animated
+    isTransitioning.value = true
+    
+    // LEARNING: Apply transform immediately (synchronously)
+    // WHY: Ensures transform is set before Vue processes the class change
+    // PATTERN: Set transform value synchronously
+    panelTransform.value = calculatedTransform
+    
+    // LEARNING: Wait for nextTick to ensure transform is in DOM
+    // WHY: Ensures transform is applied before Vue processes the class change
+    // PATTERN: Use nextTick to ensure DOM update happens before state change
+    await nextTick()
+    
+    // LEARNING: Toggle expansion state after transform is in DOM
+    // WHY: Transform is already applied, so panel won't hop when class changes
+    // PATTERN: Toggle state after DOM update
+    isExpanded.value = true
+    
+    // LEARNING: Use nextTick to refine position after DOM update
+    // WHY: Panel dimensions are now accurate after class change
+    // PATTERN: Use nextTick then requestAnimationFrame for precise timing
+    nextTick(() => {
+      requestAnimationFrame(() => {
+        // LEARNING: Allow transform transitions after initial positioning
+        // WHY: Subsequent position refinements can be animated smoothly
+        isTransitioning.value = false
+        
+        // LEARNING: Refine position with actual panel dimensions
+        // WHY: Initial calculation used expected width, now use actual width
+        // PATTERN: Use requestAnimationFrame for accurate measurements
+        updatePanelPosition()
+      })
+    })
+    
+    // LEARNING: Final refinement after expand transition completes
+    // WHY: Panel content may change size during expansion
     // PATTERN: Use setTimeout to wait for VExpandTransition (300ms)
     setTimeout(() => {
       updatePanelPosition()
     }, 350)
   } else {
-    panelTransform.value = 'translateX(0)'
+    // LEARNING: Collapse panel
+    // WHY: User clicked to collapse
+    // PATTERN: Toggle state, keep transform during collapse
+    isExpanded.value = false
+    
+    // LEARNING: Keep transform during collapse, reset after animation completes
+    // WHY: Prevents panel from hopping right before collapsing
+    // PATTERN: Wait for collapse transition (300ms) before resetting transform
+    setTimeout(() => {
+      panelTransform.value = 'translateX(0)'
+      isTransitioning.value = false
+    }, 350)
   }
 }
 </script>
@@ -150,13 +259,16 @@ const handleExpansionChange = (): void => {
       ref="panelRef"
       class="calendar-mock-dev-panel"
       :class="{ 'calendar-mock-dev-panel--expanded': isExpanded }"
-      :style="{ transform: isExpanded ? panelTransform : 'none' }"
+      :style="{ 
+        transform: panelTransform,
+        transition: isTransitioning ? 'none' : 'transform 0.3s ease'
+      }"
       variant="outlined"
       color="warning"
     >
       <VCardTitle
         class="d-flex align-center justify-space-between cursor-pointer pa-2"
-        @click="() => { isExpanded = !isExpanded; handleExpansionChange() }"
+        @click="handleToggle"
       >
       <div class="d-flex align-center">
         <VIcon class="mr-2" size="small" color="warning">tabler-calendar-off</VIcon>
@@ -263,12 +375,12 @@ const handleExpansionChange = (): void => {
   max-height: 70vh;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   background-color: rgb(var(--v-theme-surface));
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
   
   /* LEARNING: Prevent panel from going off-screen */
   /* WHY: Ensures panel stays visible when expanded */
   /* PATTERN: Use transform to shift left if panel would overflow right edge */
-  /* The JavaScript will calculate and apply the transform */
+  /* Transform transition is controlled by JavaScript to prevent hops */
 }
 
 .calendar-mock-dev-panel-content {

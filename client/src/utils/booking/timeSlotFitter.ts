@@ -9,6 +9,8 @@
  */
 
 import type { TimeSlot } from '@/types/appointment'
+import type { RFC3339DateTime } from '@/types/datetime'
+import { rfc3339ToBusinessHoursTime } from '@/utils/datetime'
 import {
   generateSlotsWithAvailability,
   type TimeSlotWithAvailability,
@@ -17,10 +19,16 @@ import {
 
 /**
  * Business hours configuration for a single day
+ * LEARNING: Uses RFC3339 format internally (with reference date for time-of-day)
+ * WHY: Consistent format throughout codebase, matches Google Calendar API
+ * PATTERN: RFC3339 datetime using fixed reference date (2000-01-01)
  */
+import type { RFC3339DateTime } from '@/types/datetime'
+import { rfc3339ToBusinessHoursTime } from '@/utils/datetime'
+
 export interface DayBusinessHours {
-  start: string  // "HH:mm" format (e.g., "08:00")
-  end: string    // "HH:mm" format (e.g., "17:00")
+  start: RFC3339DateTime  // RFC3339 format with reference date (e.g., "2000-01-01T08:00:00Z" for "08:00")
+  end: RFC3339DateTime    // RFC3339 format with reference date (e.g., "2000-01-01T17:00:00Z" for "17:00")
 }
 
 /**
@@ -32,21 +40,21 @@ export type BusinessHoursMap = Record<0 | 1 | 2 | 3 | 4 | 5 | 6, DayBusinessHour
  * Busy time range to exclude from available slots
  */
 export interface BusyTimeRange {
-  start: string  // ISO datetime
-  end: string    // ISO datetime
+  start: RFC3339DateTime  // RFC3339 datetime string (ISO 8601 with timezone)
+  end: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
 }
 
 /**
  * Parameters for fitting time slots
  */
 export interface FitTimeSlotsParams {
-  startBoundary: string         // ISO datetime - earliest possible start
-  endBoundary: string           // ISO datetime - latest possible end (slot must complete by this time)
-  duration: number              // Required duration in minutes
+  startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
+  endBoundary: RFC3339DateTime           // RFC3339 datetime - latest possible end (slot must complete by this time)
+  duration: number                       // Required duration in minutes
   businessHours: BusinessHoursMap
-  minuteIncrement: number       // Usually 15
-  busyTimes?: BusyTimeRange[]   // Optional exclusions
-  includeFlags?: {              // Optional TimeSlot flags
+  minuteIncrement: number                 // Usually 15
+  busyTimes?: BusyTimeRange[]             // Optional exclusions
+  includeFlags?: {                        // Optional TimeSlot flags
     onSite?: boolean
     clientPresent?: boolean
     moveable?: boolean
@@ -69,7 +77,24 @@ export interface FitTimeSlotsResult {
  * WHY: When we do new Date('2026-01-09'), it creates UTC midnight, which becomes previous day in timezones behind UTC
  * PATTERN: Extract date part and create Date object in local timezone
  */
-export function parseLocalDate(dateString: string): Date {
+export function parseLocalDate(dateInput: string | Date): Date {
+  // LEARNING: Handle both string and Date object inputs
+  // WHY: selectedDate.value.start might be a Date object or string
+  // PATTERN: Convert Date to string if needed, then parse
+  let dateString: string
+  if (dateInput instanceof Date) {
+    // Convert Date to YYYY-MM-DD string
+    const year = dateInput.getFullYear()
+    const month = String(dateInput.getMonth() + 1).padStart(2, '0')
+    const day = String(dateInput.getDate()).padStart(2, '0')
+    dateString = `${year}-${month}-${day}`
+  } else if (typeof dateInput === 'string') {
+    dateString = dateInput
+  } else {
+    // Fallback: convert to string
+    dateString = String(dateInput)
+  }
+  
   const datePart = dateString.includes('T') ? dateString.split('T')[0] : dateString
   const [year, month, day] = datePart.split('-').map(Number)
   return new Date(year, month - 1, day) // month is 0-indexed, creates date at local midnight
@@ -168,9 +193,14 @@ export function fitTimeSlots(params: FitTimeSlotsParams): FitTimeSlotsResult {
       continue
     }
 
-    // Parse business hours for this day
-    const [startHour, startMinute] = dayHours.start.split(':').map(Number)
-    const [endHour, endMinute] = dayHours.end.split(':').map(Number)
+    // LEARNING: Extract time-of-day from RFC3339 business hours
+    // WHY: Business hours stored as RFC3339, need to extract HH:mm for calculations
+    // PATTERN: Convert RFC3339 to HH:mm, then parse
+    const startTimeStr = rfc3339ToBusinessHoursTime(dayHours.start)
+    const endTimeStr = rfc3339ToBusinessHoursTime(dayHours.end)
+    
+    const [startHour, startMinute] = startTimeStr.split(':').map(Number)
+    const [endHour, endMinute] = endTimeStr.split(':').map(Number)
 
     // Validate parsed times
     if (isNaN(startHour) || isNaN(startMinute) || isNaN(endHour) || isNaN(endMinute)) {

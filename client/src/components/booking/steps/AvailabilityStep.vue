@@ -25,6 +25,7 @@ import { useAvailabilityDefaults } from '@/composables/booking/useAvailabilityDe
 import { useAvailableStartTimes } from '@/composables/booking/useAvailableStartTimes'
 import { useMoveablePartsScheduling } from '@/composables/booking/useMoveablePartsScheduling'
 import { roundUpToIncrement, getCalendarAvailability } from '@/utils/timeSlotCalculations'
+import { isDevModeEnabled } from '@/utils/env/devMode'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
 import TimeOnSiteGraph from '@/components/booking/TimeOnSiteGraph.vue'
@@ -50,6 +51,11 @@ const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState
 // WHY: Moves time formatting logic out of component to prevent recursion
 // PATTERN: Composable provides pure utility functions
 const { getTodayDate } = useTimeFormatting()
+
+// LEARNING: Check if dev mode is enabled
+// WHY: Controls visibility of dev-only features like mock calendar panel
+// PATTERN: Use isDevModeEnabled utility function
+const isDevMode = isDevModeEnabled()
 
 // LEARNING: Inject property details step data for property-based adjustments
 // WHY: Enables property-based time adjustments in availability calculations
@@ -190,15 +196,42 @@ const appointmentDuration = computed(() => {
 // WHY: Buttons should be generated based on admin-configured business hours and intervals
 // PATTERN: Use composable to generate times from dayStart + (interval * buttonIndex)
 // NOTE: Pass appointmentDuration to filter start times so last appointment ends at or before day end
+// LEARNING: Refresh key for forcing mock calendar data regeneration
+// WHY: Allows users to reset mock data without changing date range
+// PATTERN: Incrementing ref forces computed properties to recalculate
+const mockRefreshKey = ref(0)
+
+// LEARNING: Reset mock calendar data
+// WHY: Allows developers to regenerate mock busy periods for testing
+// PATTERN: Increment refresh key to force recalculation in computed properties
+const resetMocks = (): void => {
+  mockRefreshKey.value++
+}
+
 // LEARNING: Get busy times from calendar for availability checking
 // WHY: Need to mark slots as busy when they overlap calendar busy periods
 // PATTERN: Get busy times from dateRangeForApi and pass to useAvailableStartTimes
 const busyTimesForStartTimes = computed(() => {
-  if (!dateRangeForApi.value) return []
-  return getCalendarAvailability({
-    start: dateRangeForApi.value.start,
-    end: dateRangeForApi.value.end
+  if (!dateRangeForApi.value) {
+    return []
+  }
+  
+  // LEARNING: Include refreshKey in dependency to force recalculation
+  // WHY: Changing refreshKey forces mock data regeneration
+  // PATTERN: Reference refreshKey in computed to trigger recalculation
+  void mockRefreshKey.value // Force dependency tracking
+  
+  const dateRangeValue = dateRangeForApi.value
+  
+  // LEARNING: Call getCalendarAvailability and immediately capture result
+  // WHY: Ensures we're using the exact return value, not a stale reference
+  // PATTERN: Call function and store result in const before logging
+  const busyTimes = getCalendarAvailability({
+    start: dateRangeValue.start,
+    end: dateRangeValue.end
   })
+  
+  return busyTimes
 })
 
 const {
@@ -414,8 +447,20 @@ const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
           <!-- LEARNING: Dev Mode Calendar Mock Panel - Next to heading -->
           <!-- WHY: More visible and accessible when debugging -->
           <!-- PATTERN: Positioned next to heading, overlays content when expanded -->
-          <div class="calendar-mock-dev-panel-wrapper">
-            <CalendarMockDevPanel :date-range="dateRangeForApi" />
+          <div class="d-flex align-center gap-2">
+            <VBtn
+              v-if="isDevMode"
+              size="small"
+              variant="outlined"
+              color="warning"
+              prepend-icon="tabler-refresh"
+              @click="resetMocks"
+            >
+              Reset Mocks
+            </VBtn>
+            <div class="calendar-mock-dev-panel-wrapper">
+              <CalendarMockDevPanel :date-range="dateRangeForApi" :refresh-key="mockRefreshKey" />
+            </div>
           </div>
         </div>
       </VCol>

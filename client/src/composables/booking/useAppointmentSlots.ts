@@ -112,6 +112,27 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     try {
       const availabilityMap = slotAvailability?.value
       
+      // LEARNING: Log availability map and times for comparison
+      // WHY: Helps verify that Map keys match the time values being looked up
+      // PATTERN: Log sample values from both sources to compare formats
+      if (times.length > 0 && availabilityMap) {
+        const sampleTimes = times.slice(0, 5)
+        const sampleMapKeys = Array.from(availabilityMap.keys()).slice(0, 5)
+        console.log('[useAppointmentSlots] Comparing times vs Map keys:', {
+          timesCount: times.length,
+          mapSize: availabilityMap.size,
+          sampleTimes,
+          sampleMapKeys,
+          firstTimeMatches: times[0] === sampleMapKeys[0],
+          firstTimeInMap: availabilityMap.has(times[0]),
+          sampleMatches: sampleTimes.map(time => ({
+            time,
+            inMap: availabilityMap.has(time),
+            matchingKey: sampleMapKeys.find(key => key === time)
+          }))
+        })
+      }
+      
       const slots = times.map((time, index) => {
         // Get fallback duration from time slot if shape duration is 0
         const fallbackDuration = durations?.get(time)
@@ -121,6 +142,25 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         // WHY: Marks slots as available/busy based on calendar busy periods
         // PATTERN: Check availability map, default to true if not found (backward compatibility)
         const isAvailable = availabilityMap?.get(time) ?? true
+        
+        // LEARNING: Log first few slots to verify lookup
+        // WHY: Helps debug why busy slots aren't being marked correctly
+        // PATTERN: Log sample lookups to verify Map keys match time values
+        if (index < 10) {
+          const busyEntries = availabilityMap ? Array.from(availabilityMap.entries()).filter(([_, isAvail]) => !isAvail) : []
+          const busyTimes = busyEntries.map(([time, _]) => time)
+          console.log('[useAppointmentSlots] Slot lookup:', {
+            index,
+            time,
+            mapHasKey: availabilityMap?.has(time),
+            isAvailable,
+            mapSize: availabilityMap?.size,
+            busyTimesCount: busyTimes.length,
+            isTimeInBusyList: busyTimes.includes(time),
+            sampleBusyTimes: busyTimes.slice(0, 5),
+            sampleKeys: availabilityMap ? Array.from(availabilityMap.keys()).slice(0, 5) : []
+          })
+        }
         
         return {
           ...slot,

@@ -7,6 +7,7 @@
  */
 
 import type { MoveableSchedulingOptions } from './moveableScheduling'
+import type { RFC3339DateTime } from './datetime'
 
 /**
  * Appointment status workflow type
@@ -92,9 +93,9 @@ export const APPOINTMENT_STATUSES: AppointmentStatus[] = [
  * Used for totals and display
  */
 export interface TimeRange {
-  startTime: string    // ISO date string
-  endTime: string      // ISO date string
-  duration: number     // minutes
+  startTime: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
+  endTime: RFC3339DateTime      // RFC3339 datetime string (ISO 8601 with timezone)
+  duration: number               // minutes
 }
 
 /**

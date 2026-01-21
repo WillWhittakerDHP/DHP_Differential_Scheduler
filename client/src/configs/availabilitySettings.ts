@@ -1,15 +1,25 @@
 /**
  * WHY: Availability Settings Configuration
-
+ *
 LEARNING: Client-side settings for time slot generation and business hours
 WHY: Centralizes business hours and time slot configuration (admin-configurable via Business Controls tab)
 PATTERN: TypeScript interface with default values, fetches from API with fallback to defaults
 Session 1.3.7: Created to replace hardcoded values in generateTimeSlots
 Session 1.4.1: Updated to fetch from API instead of hardcoded defaults
  */
+import type { RFC3339DateTime } from '@/types/datetime'
+import { businessHoursTimeToRfc3339, rfc3339ToBusinessHoursTime } from '@/utils/datetime'
+import apiClient from '@/utils/api'
+
+/**
+ * Business hours for a single day
+ * LEARNING: Stored as RFC3339 internally, converted to/from HH:mm for UI
+ * WHY: Consistent format throughout codebase, matches Google Calendar API
+ * PATTERN: Use fixed reference date (2000-01-01) to store time-of-day as RFC3339
+ */
 export interface DayHours {
-  start: string // Format: "HH:MM" (24-hour format, e.g., "09:00")
-  end: string   // Format: "HH:MM" (24-hour format, e.g., "19:00")
+  start: RFC3339DateTime // RFC3339 format with reference date (e.g., "2000-01-01T09:00:00Z" for "09:00")
+  end: RFC3339DateTime   // RFC3339 format with reference date (e.g., "2000-01-01T19:00:00Z" for "19:00")
 }
 
 /**
@@ -57,19 +67,17 @@ export interface AvailabilitySettings {
  */
 export const defaultAvailabilitySettings: AvailabilitySettings = {
   businessHours: {
-    0: { start: "09:00", end: "19:00" }, // Sunday
-    1: { start: "09:00", end: "19:00" }, // Monday
-    2: { start: "09:00", end: "19:00" }, // Tuesday
-    3: { start: "09:00", end: "19:00" }, // Wednesday
-    4: { start: "09:00", end: "19:00" }, // Thursday
-    5: { start: "09:00", end: "19:00" }, // Friday
-    6: { start: "09:00", end: "19:00" }, // Saturday
+    0: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Sunday
+    1: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Monday
+    2: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Tuesday
+    3: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Wednesday
+    4: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Thursday
+    5: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Friday
+    6: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Saturday
   },
   minuteIncrement: 15, // 15-minute intervals
   leadTime: 60, // 1 hour lead time
 }
-
-import apiClient from '@/utils/api'
 
 /**
  * In-memory cache for availability settings
@@ -98,16 +106,60 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
     const response = await apiClient.get('/business-settings/availability_settings')
     
     if (response.data && response.data.setting_value) {
-      const settings = response.data.setting_value as AvailabilitySettings
+      const rawSettings = response.data.setting_value as {
+        businessHours?: {
+          [key: string]: { start: string; end: string } // API returns HH:mm format
+        }
+        minuteIncrement?: number
+        leadTime?: number
+      }
       
       // Validate settings structure (basic check)
       if (
-        settings.businessHours &&
-        settings.minuteIncrement &&
-        settings.leadTime !== undefined
+        rawSettings.businessHours &&
+        rawSettings.minuteIncrement &&
+        rawSettings.leadTime !== undefined
       ) {
-        cachedSettings = settings
-        return settings
+        // LEARNING: Convert business hours from HH:mm (API format) to RFC3339 (internal format)
+        // WHY: API returns HH:mm, but we store as RFC3339 internally
+        // PATTERN: Map over business hours and convert each time string
+        const convertedSettings: AvailabilitySettings = {
+          businessHours: {
+            0: {
+              start: businessHoursTimeToRfc3339(rawSettings.businessHours['0']?.start || '09:00'),
+              end: businessHoursTimeToRfc3339(rawSettings.businessHours['0']?.end || '19:00')
+            },
+            1: {
+              start: businessHoursTimeToRfc3339(rawSettings.businessHours['1']?.start || '09:00'),
+              end: businessHoursTimeToRfc3339(rawSettings.businessHours['1']?.end || '19:00')
+            },
+            2: {
+              start: businessHoursTimeToRfc3339(rawSettings.businessHours['2']?.start || '09:00'),
+              end: businessHoursTimeToRfc3339(rawSettings.businessHours['2']?.end || '19:00')
+            },
+            3: {
+              start: businessHoursTimeToRfc3339(rawSettings.businessHours['3']?.start || '09:00'),
+              end: businessHoursTimeToRfc3339(rawSettings.businessHours['3']?.end || '19:00')
+            },
+            4: {
+              start: businessHoursTimeToRfc3339(rawSettings.businessHours['4']?.start || '09:00'),
+              end: businessHoursTimeToRfc3339(rawSettings.businessHours['4']?.end || '19:00')
+            },
+            5: {
+              start: businessHoursTimeToRfc3339(rawSettings.businessHours['5']?.start || '09:00'),
+              end: businessHoursTimeToRfc3339(rawSettings.businessHours['5']?.end || '19:00')
+            },
+            6: {
+              start: businessHoursTimeToRfc3339(rawSettings.businessHours['6']?.start || '09:00'),
+              end: businessHoursTimeToRfc3339(rawSettings.businessHours['6']?.end || '19:00')
+            }
+          },
+          minuteIncrement: rawSettings.minuteIncrement,
+          leadTime: rawSettings.leadTime
+        }
+        
+        cachedSettings = convertedSettings
+        return convertedSettings
       }
     }
     
@@ -128,4 +180,3 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
 export function clearAvailabilitySettingsCache(): void {
   cachedSettings = null
 }
-
