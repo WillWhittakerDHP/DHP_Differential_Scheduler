@@ -73,6 +73,7 @@ declare global {
   const generateTimeSlots: typeof import('./src/utils/timeSlotCalculations').generateTimeSlots
   const getActivePinia: typeof import('pinia').getActivePinia
   const getAdminInputMetadataEndpoint: typeof import('./src/utils/api').getAdminInputMetadataEndpoint
+  const getAdminMetadataEndpoint: typeof import('./src/utils/api').getAdminMetadataEndpoint
   const getAdminPrimitiveMetadataEndpoint: typeof import('./src/utils/api').getAdminPrimitiveMetadataEndpoint
   const getAdminRelationshipMetadataEndpoint: typeof import('./src/utils/api').getAdminRelationshipMetadataEndpoint
   const getAnnotationAssignmentsEndpoint: typeof import('./src/utils/api').getAnnotationAssignmentsEndpoint
@@ -593,6 +594,7 @@ declare module 'vue' {
     readonly formatDateToMonthShort: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDateToMonthShort']>
     readonly generateTimeSlots: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['generateTimeSlots']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
+    readonly getAdminMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminMetadataEndpoint']>
     readonly getAdminPrimitiveMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminPrimitiveMetadataEndpoint']>
     readonly getAdminRelationshipMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminRelationshipMetadataEndpoint']>
     readonly getAnnotationAssignmentsEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationAssignmentsEndpoint']>

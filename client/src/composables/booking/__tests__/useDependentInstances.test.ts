@@ -1,13 +1,13 @@
 /**
- * USEDEPENDENTINSTANCEOPTIONS TESTS
+ * USEDEPENDENTINSTANCES TESTS
  * 
- * Unit tests for useDependentInstanceOptions composable.
- * Tests dependent option resolution from parent block instances.
+ * Unit tests for useDependentInstances composable.
+ * Tests dependent instance resolution from parent block instances.
  * 
  * What it covers:
- * - dependentOptionIds: Extracting child IDs from relationships
- * - dependentOptions: Resolving IDs to full BlockInstance objects
- * - hasDependentOptions: Convenience flag for conditional rendering
+ * - dependentInstanceIds: Extracting child IDs from relationships
+ * - dependentInstances: Resolving IDs to full BlockInstance objects
+ * - hasDependentInstances: Convenience flag for conditional rendering
  * 
  * How it works:
  * - Mocks useGlobal to provide test data
@@ -15,7 +15,7 @@
  * - Verifies reactive behavior with computed refs
  * 
  * What it validates:
- * - Correct filtering of dependentInstanceOptions relationships
+ * - Correct filtering of dependentInstances relationships
  * - Proper entity resolution from global data
  * - Sorting by orderIndex
  * - Empty state handling
@@ -24,11 +24,13 @@
  * - vitest for testing and mocking
  * - vue computed/ref for reactive state
  * - useGlobal composable (mocked)
+ * 
+ * NOTE: Renamed from useDependentInstanceOptions to useDependentInstances (2026-01-20)
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { computed, ref } from 'vue'
-import { useDependentInstanceOptions } from '../useDependentInstanceOptions'
+import { useDependentInstances } from '../useDependentInstances'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { GlobalRelationship } from '@/types/relationships'
 
@@ -49,7 +51,7 @@ function createBlockInstance(
   options: {
     name?: string
     orderIndex?: number
-    dependent?: boolean
+    isDependentInstance?: boolean
     description?: string
     icon?: string
   } = {}
@@ -62,7 +64,7 @@ function createBlockInstance(
     description: options.description || 'Test description',
     icon: options.icon || 'icon-test',
     active: true,
-    dependent: options.dependent ?? false,
+    isDependentInstance: options.isDependentInstance ?? false,
     differential: false,
     orderIndex: options.orderIndex ?? 0,
     blockShape: 'Test Shape',
@@ -81,7 +83,7 @@ function createRelationship(
   childIds: string[]
 ): GlobalRelationship {
   return {
-    relationshipKind: 'dependentInstanceOptions',
+    relationshipKind: 'dependentInstances',
     parent: {
       id: parentId,
       entityKey: 'blockInstance',
@@ -97,22 +99,22 @@ function createRelationship(
   } as GlobalRelationship
 }
 
-describe('useDependentInstanceOptions', () => {
+describe('useDependentInstances', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockGetGlobalData.mockReturnValue(null)
     mockGetGlobalEntityById.mockReturnValue(null)
   })
 
-  describe('dependentOptionIds', () => {
+  describe('dependentInstanceIds', () => {
     it('should return empty array when parent is null', () => {
       const parentInstance = ref<BookingBlockInstance | null>(null)
       
-      const { dependentOptionIds } = useDependentInstanceOptions({
+      const { dependentInstanceIds } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptionIds.value).toEqual([])
+      expect(dependentInstanceIds.value).toEqual([])
     })
 
     it('should extract child IDs from relationships', () => {
@@ -121,18 +123,18 @@ describe('useDependentInstanceOptions', () => {
       
       mockGetGlobalData.mockReturnValue({
         relationships: {
-          dependentInstanceOptions: [
+          dependentInstances: [
             createRelationship('parent-1', ['child-1', 'child-2']),
             createRelationship('other-parent', ['child-3']),
           ],
         },
       })
       
-      const { dependentOptionIds } = useDependentInstanceOptions({
+      const { dependentInstanceIds } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptionIds.value).toEqual(['child-1', 'child-2'])
+      expect(dependentInstanceIds.value).toEqual(['child-1', 'child-2'])
     })
 
     it('should use external relationships when provided', () => {
@@ -143,13 +145,13 @@ describe('useDependentInstanceOptions', () => {
         { ...createRelationship('parent-1', ['other']), relationshipKind: 'otherKind' } as GlobalRelationship,
       ])
       
-      const { dependentOptionIds } = useDependentInstanceOptions({
+      const { dependentInstanceIds } = useDependentInstances({
         parentInstance,
         relationships: externalRelationships,
       })
       
-      // Should only include dependentInstanceOptions relationships
-      expect(dependentOptionIds.value).toEqual(['external-child'])
+      // Should only include dependentInstances relationships
+      expect(dependentInstanceIds.value).toEqual(['external-child'])
     })
 
     it('should return empty array when no relationships exist', () => {
@@ -158,15 +160,15 @@ describe('useDependentInstanceOptions', () => {
       
       mockGetGlobalData.mockReturnValue({
         relationships: {
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       })
       
-      const { dependentOptionIds } = useDependentInstanceOptions({
+      const { dependentInstanceIds } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptionIds.value).toEqual([])
+      expect(dependentInstanceIds.value).toEqual([])
     })
 
     it('should return empty array when globalData has no relationships', () => {
@@ -177,23 +179,23 @@ describe('useDependentInstanceOptions', () => {
         relationships: {},
       })
       
-      const { dependentOptionIds } = useDependentInstanceOptions({
+      const { dependentInstanceIds } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptionIds.value).toEqual([])
+      expect(dependentInstanceIds.value).toEqual([])
     })
   })
 
-  describe('dependentOptions', () => {
+  describe('dependentInstances', () => {
     it('should return empty array when no dependent IDs', () => {
       const parentInstance = ref<BookingBlockInstance | null>(null)
       
-      const { dependentOptions } = useDependentInstanceOptions({
+      const { dependentInstances } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptions.value).toEqual([])
+      expect(dependentInstances.value).toEqual([])
     })
 
     it('should resolve IDs to full block instances', () => {
@@ -202,7 +204,7 @@ describe('useDependentInstanceOptions', () => {
       
       mockGetGlobalData.mockReturnValue({
         relationships: {
-          dependentInstanceOptions: [
+          dependentInstances: [
             createRelationship('parent-1', ['child-1']),
           ],
         },
@@ -212,10 +214,10 @@ describe('useDependentInstanceOptions', () => {
         if (id === 'child-1') {
           return {
             id: 'child-1',
-            name: 'Dependent Option 1',
+            name: 'Dependent Instance 1',
             orderIndex: 0,
             active: true,
-            dependent: true,
+            isDependentInstance: true,
             description: 'Child description',
             icon: 'child-icon',
           }
@@ -223,13 +225,13 @@ describe('useDependentInstanceOptions', () => {
         return null
       })
       
-      const { dependentOptions } = useDependentInstanceOptions({
+      const { dependentInstances } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptions.value).toHaveLength(1)
-      expect(dependentOptions.value[0].id).toBe('child-1')
-      expect(dependentOptions.value[0].name).toBe('Dependent Option 1')
+      expect(dependentInstances.value).toHaveLength(1)
+      expect(dependentInstances.value[0].id).toBe('child-1')
+      expect(dependentInstances.value[0].name).toBe('Dependent Instance 1')
     })
 
     it('should sort by orderIndex', () => {
@@ -238,7 +240,7 @@ describe('useDependentInstanceOptions', () => {
       
       mockGetGlobalData.mockReturnValue({
         relationships: {
-          dependentInstanceOptions: [
+          dependentInstances: [
             createRelationship('parent-1', ['child-1', 'child-2', 'child-3']),
           ],
         },
@@ -253,14 +255,14 @@ describe('useDependentInstanceOptions', () => {
         return entities[id] || null
       })
       
-      const { dependentOptions } = useDependentInstanceOptions({
+      const { dependentInstances } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptions.value).toHaveLength(3)
-      expect(dependentOptions.value[0].name).toBe('First')
-      expect(dependentOptions.value[1].name).toBe('Second')
-      expect(dependentOptions.value[2].name).toBe('Third')
+      expect(dependentInstances.value).toHaveLength(3)
+      expect(dependentInstances.value[0].name).toBe('First')
+      expect(dependentInstances.value[1].name).toBe('Second')
+      expect(dependentInstances.value[2].name).toBe('Third')
     })
 
     it('should skip IDs that cannot be resolved', () => {
@@ -269,7 +271,7 @@ describe('useDependentInstanceOptions', () => {
       
       mockGetGlobalData.mockReturnValue({
         relationships: {
-          dependentInstanceOptions: [
+          dependentInstances: [
             createRelationship('parent-1', ['child-1', 'missing-child']),
           ],
         },
@@ -282,12 +284,12 @@ describe('useDependentInstanceOptions', () => {
         return null // missing-child not found
       })
       
-      const { dependentOptions } = useDependentInstanceOptions({
+      const { dependentInstances } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptions.value).toHaveLength(1)
-      expect(dependentOptions.value[0].id).toBe('child-1')
+      expect(dependentInstances.value).toHaveLength(1)
+      expect(dependentInstances.value[0].id).toBe('child-1')
     })
 
     it('should handle entity with null orderIndex', () => {
@@ -296,7 +298,7 @@ describe('useDependentInstanceOptions', () => {
       
       mockGetGlobalData.mockReturnValue({
         relationships: {
-          dependentInstanceOptions: [
+          dependentInstances: [
             createRelationship('parent-1', ['child-1']),
           ],
         },
@@ -308,33 +310,33 @@ describe('useDependentInstanceOptions', () => {
         orderIndex: null, // null orderIndex
       })
       
-      const { dependentOptions } = useDependentInstanceOptions({
+      const { dependentInstances } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptions.value).toHaveLength(1)
-      expect(dependentOptions.value[0].orderIndex).toBe(0) // Should default to 0
+      expect(dependentInstances.value).toHaveLength(1)
+      expect(dependentInstances.value[0].orderIndex).toBe(0) // Should default to 0
     })
   })
 
-  describe('hasDependentOptions', () => {
-    it('should return false when no dependent options', () => {
+  describe('hasDependentInstances', () => {
+    it('should return false when no dependent instances', () => {
       const parentInstance = ref<BookingBlockInstance | null>(null)
       
-      const { hasDependentOptions } = useDependentInstanceOptions({
+      const { hasDependentInstances } = useDependentInstances({
         parentInstance,
       })
       
-      expect(hasDependentOptions.value).toBe(false)
+      expect(hasDependentInstances.value).toBe(false)
     })
 
-    it('should return true when dependent options exist', () => {
+    it('should return true when dependent instances exist', () => {
       const parent = createBlockInstance('parent-1')
       const parentInstance = ref<BookingBlockInstance | null>(parent)
       
       mockGetGlobalData.mockReturnValue({
         relationships: {
-          dependentInstanceOptions: [
+          dependentInstances: [
             createRelationship('parent-1', ['child-1']),
           ],
         },
@@ -346,11 +348,11 @@ describe('useDependentInstanceOptions', () => {
         orderIndex: 0,
       })
       
-      const { hasDependentOptions } = useDependentInstanceOptions({
+      const { hasDependentInstances } = useDependentInstances({
         parentInstance,
       })
       
-      expect(hasDependentOptions.value).toBe(true)
+      expect(hasDependentInstances.value).toBe(true)
     })
   })
 
@@ -360,7 +362,7 @@ describe('useDependentInstanceOptions', () => {
       
       mockGetGlobalData.mockReturnValue({
         relationships: {
-          dependentInstanceOptions: [
+          dependentInstances: [
             createRelationship('parent-1', ['child-1']),
             createRelationship('parent-2', ['child-2']),
           ],
@@ -371,28 +373,28 @@ describe('useDependentInstanceOptions', () => {
         return { id, name: `Entity ${id}`, orderIndex: 0 }
       })
       
-      const { dependentOptionIds, dependentOptions } = useDependentInstanceOptions({
+      const { dependentInstanceIds, dependentInstances } = useDependentInstances({
         parentInstance,
       })
       
       // Initially null
-      expect(dependentOptionIds.value).toEqual([])
-      expect(dependentOptions.value).toHaveLength(0)
+      expect(dependentInstanceIds.value).toEqual([])
+      expect(dependentInstances.value).toHaveLength(0)
       
       // Change to parent-1
       parentInstance.value = createBlockInstance('parent-1')
-      expect(dependentOptionIds.value).toEqual(['child-1'])
-      expect(dependentOptions.value).toHaveLength(1)
+      expect(dependentInstanceIds.value).toEqual(['child-1'])
+      expect(dependentInstances.value).toHaveLength(1)
       
       // Change to parent-2
       parentInstance.value = createBlockInstance('parent-2')
-      expect(dependentOptionIds.value).toEqual(['child-2'])
-      expect(dependentOptions.value).toHaveLength(1)
+      expect(dependentInstanceIds.value).toEqual(['child-2'])
+      expect(dependentInstances.value).toHaveLength(1)
       
       // Back to null
       parentInstance.value = null
-      expect(dependentOptionIds.value).toEqual([])
-      expect(dependentOptions.value).toHaveLength(0)
+      expect(dependentInstanceIds.value).toEqual([])
+      expect(dependentInstances.value).toHaveLength(0)
     })
 
     it('should work with computed parentInstance', () => {
@@ -401,7 +403,7 @@ describe('useDependentInstanceOptions', () => {
       
       mockGetGlobalData.mockReturnValue({
         relationships: {
-          dependentInstanceOptions: [
+          dependentInstances: [
             createRelationship('parent-1', ['child-1']),
           ],
         },
@@ -413,11 +415,11 @@ describe('useDependentInstanceOptions', () => {
         orderIndex: 0,
       })
       
-      const { dependentOptionIds } = useDependentInstanceOptions({
+      const { dependentInstanceIds } = useDependentInstances({
         parentInstance,
       })
       
-      expect(dependentOptionIds.value).toEqual(['child-1'])
+      expect(dependentInstanceIds.value).toEqual(['child-1'])
     })
   })
 })

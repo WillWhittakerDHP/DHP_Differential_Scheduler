@@ -80,14 +80,14 @@ export function createValidCascadesRel(
 }
 
 /**
- * Create a dependentInstanceOptions relationship (blockInstance -> blockInstances)
+ * Create a dependentInstances relationship (blockInstance -> blockInstances)
  */
-export function createDependentInstanceOptionsRel(
+export function createDependentInstancesRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'dependentInstanceOptions'> {
+): GlobalRelationship<'dependentInstances'> {
   return {
-    relationshipKind: 'dependentInstanceOptions',
+    relationshipKind: 'dependentInstances',
     parent: { id: parentId, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>,
     children: childIds.map(id => ({ id, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>)),
   }

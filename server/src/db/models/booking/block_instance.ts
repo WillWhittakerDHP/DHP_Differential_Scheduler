@@ -20,7 +20,7 @@ export class BlockInstance extends Model<
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
   declare active: boolean;
-  declare dependent: boolean;
+  declare isDependentInstance: boolean;
   declare visible: boolean;
   declare composite: boolean;
   declare differential: boolean;
@@ -66,10 +66,11 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: true,
       },
-      dependent: {
+      isDependentInstance: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+        field: 'is_dependent_instance', // Map to renamed column
       },
       visible: {
         type: DataTypes.BOOLEAN,

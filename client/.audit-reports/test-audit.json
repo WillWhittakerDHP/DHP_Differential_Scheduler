@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-01-15T22:09:07.148Z",
+  "generatedAt": "2026-01-18T15:56:58.377Z",
   "summary": {
-    "totalSourceFiles": 475,
+    "totalSourceFiles": 479,
     "totalTestFiles": 110,
-    "untestedSourceFiles": 375,
+    "untestedSourceFiles": 379,
     "orphanedTestFiles": 9,
     "coveragePercentage": 21
   },
@@ -1231,10 +1231,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 7,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 3.1
+        "overall": 3.3
       }
     },
     {
@@ -1319,6 +1319,20 @@
         "roi": 0,
         "cognitiveLoad": 5,
         "overall": 1.3
+      }
+    },
+    {
+      "repoPath": "src/components/admin/generic/EntityCardContent.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 9,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 1.9
       }
     },
     {
@@ -1581,10 +1595,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 3,
+        "independence": 4,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 1.7
+        "overall": 1.9
       }
     },
     {
@@ -1781,10 +1795,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 7,
+        "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.6
+        "overall": 3.8
       }
     },
     {
@@ -2082,10 +2096,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.7
+        "cognitiveLoad": 0,
+        "overall": 4.9
       }
     },
     {
@@ -2100,10 +2114,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 4.6
+        "cognitiveLoad": 0,
+        "overall": 4.9
       }
     },
     {
@@ -2304,19 +2318,20 @@
       "repoPath": "src/composables/admin/useDragAndDropHelpers.ts",
       "functions": [
         "countDraggableNodes",
+        "createExpansionPanelDraggableChecker",
         "createMultiClassDraggableChecker",
         "createSingleClassDraggableChecker",
         "getPanelsElement"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 4,
+      "exportCount": 5,
       "priority": {
         "reliability": 5,
         "independence": 6,
-        "roi": 6,
+        "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5.3
       }
     },
     {
@@ -2387,6 +2402,20 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.9
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useEntityCardStoreSync.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 5,
+        "independence": 5,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.6
       }
     },
     {
@@ -3125,10 +3154,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.5
       }
     },
     {
@@ -3139,10 +3168,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4
       }
     },
     {
@@ -3971,8 +4000,8 @@
         "reliability": 4,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 4.6
+        "cognitiveLoad": 0,
+        "overall": 4.5
       }
     },
     {
@@ -5025,15 +5054,32 @@
       }
     },
     {
+      "repoPath": "src/utils/admin/buildMetadataEntry.ts",
+      "functions": [
+        "buildMetadataEntry"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4
+      }
+    },
+    {
       "repoPath": "src/utils/admin/entityDisplayText.ts",
       "functions": [
         "getEntityDeleteTitle",
         "getEntitySuccessMessage",
+        "getEntityTypeLabel",
         "getEntityTypeName"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 3,
+      "exportCount": 4,
       "priority": {
         "reliability": 2,
         "independence": 10,
@@ -5355,6 +5401,20 @@
       }
     },
     {
+      "repoPath": "src/utils/forms/getFieldKeys.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 8,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 4.1
+      }
+    },
+    {
       "repoPath": "src/utils/forms/layoutFieldCategorization.ts",
       "functions": [
         "categorizeFieldsByLayout"
@@ -5670,10 +5730,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 2,
+        "independence": 4,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.4
+        "overall": 1.8
       }
     },
     {
@@ -5964,9 +6024,9 @@
     },
     {
       "directory": "src/components/admin/generic",
-      "sourceCount": 7,
+      "sourceCount": 8,
       "testCount": 0,
-      "untestedCount": 7
+      "untestedCount": 8
     },
     {
       "directory": "src/components/admin/generic/collections",
@@ -6036,9 +6096,9 @@
     },
     {
       "directory": "src/composables/admin",
-      "sourceCount": 66,
+      "sourceCount": 67,
       "testCount": 0,
-      "untestedCount": 66
+      "untestedCount": 67
     },
     {
       "directory": "src/composables/booking/selectionCard",
@@ -6216,9 +6276,9 @@
     },
     {
       "directory": "src/utils/admin",
-      "sourceCount": 1,
+      "sourceCount": 2,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 2
     },
     {
       "directory": "src/utils",
@@ -6252,9 +6312,9 @@
     },
     {
       "directory": "src/utils/forms",
-      "sourceCount": 7,
+      "sourceCount": 8,
       "testCount": 0,
-      "untestedCount": 5
+      "untestedCount": 6
     },
     {
       "directory": "src/utils/optimistic",
@@ -7959,10 +8019,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 7,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 3.1
+        "overall": 3.3
       }
     },
     {
@@ -8071,6 +8131,24 @@
         "roi": 0,
         "cognitiveLoad": 5,
         "overall": 1.3
+      }
+    },
+    {
+      "repoPath": "src/components/admin/generic/EntityCardContent.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCardContent.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 9,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 1.9
       }
     },
     {
@@ -8409,10 +8487,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 3,
+        "independence": 4,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 1.7
+        "overall": 1.9
       }
     },
     {
@@ -8665,10 +8743,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 7,
+        "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.6
+        "overall": 3.8
       }
     },
     {
@@ -9042,10 +9120,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.7
+        "cognitiveLoad": 0,
+        "overall": 4.9
       }
     },
     {
@@ -9064,10 +9142,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 4.6
+        "cognitiveLoad": 0,
+        "overall": 4.9
       }
     },
     {
@@ -9313,6 +9391,7 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useDragAndDropHelpers.ts",
       "functions": [
         "countDraggableNodes",
+        "createExpansionPanelDraggableChecker",
         "createMultiClassDraggableChecker",
         "createSingleClassDraggableChecker",
         "getPanelsElement"
@@ -9322,13 +9401,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 4,
+      "exportCount": 5,
       "priority": {
         "reliability": 5,
         "independence": 6,
-        "roi": 6,
+        "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5.3
       }
     },
     {
@@ -9415,6 +9494,24 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.9
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useEntityCardStoreSync.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityCardStoreSync.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 5,
+        "independence": 5,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.6
       }
     },
     {
@@ -10325,10 +10422,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.5
       }
     },
     {
@@ -10343,10 +10440,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4
       }
     },
     {
@@ -10879,10 +10976,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 7,
+        "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.5
+        "overall": 7.7
       }
     },
     {
@@ -12660,8 +12757,8 @@
         "reliability": 4,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 4.6
+        "cognitiveLoad": 0,
+        "overall": 4.5
       }
     },
     {
@@ -14097,11 +14194,32 @@
       }
     },
     {
+      "repoPath": "src/utils/admin/buildMetadataEntry.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/buildMetadataEntry.ts",
+      "functions": [
+        "buildMetadataEntry"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4
+      }
+    },
+    {
       "repoPath": "src/utils/admin/entityDisplayText.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/entityDisplayText.ts",
       "functions": [
         "getEntityDeleteTitle",
         "getEntitySuccessMessage",
+        "getEntityTypeLabel",
         "getEntityTypeName"
       ],
       "classes": [],
@@ -14109,7 +14227,7 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 3,
+      "exportCount": 4,
       "priority": {
         "reliability": 2,
         "independence": 10,
@@ -15035,6 +15153,24 @@
       }
     },
     {
+      "repoPath": "src/utils/forms/getFieldKeys.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/getFieldKeys.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 8,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 4.1
+      }
+    },
+    {
       "repoPath": "src/utils/forms/layoutFieldCategorization.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/layoutFieldCategorization.ts",
       "functions": [
@@ -15460,10 +15596,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 8,
-        "independence": 6,
+        "independence": 7,
         "roi": 8,
         "cognitiveLoad": 1,
-        "overall": 6.9
+        "overall": 7.1
       }
     },
     {
@@ -15768,10 +15904,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 2,
+        "independence": 4,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.4
+        "overall": 1.8
       }
     },
     {

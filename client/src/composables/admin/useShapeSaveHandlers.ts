@@ -4,10 +4,11 @@
  * PATTERN: Composable that manages save and cancel handlers
  */
 
-import { ref, type Ref } from 'vue'
+import type { Ref } from 'vue'
 import { useCreateAnnotationType } from '@/composables/useAnnotationType'
 import { useNotification } from '@/composables/useNotification'
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
+import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
 
 export interface UseShapeSaveHandlersOptions {
   expandedShapes: Ref<string[]>

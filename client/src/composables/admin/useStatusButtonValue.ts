@@ -4,7 +4,8 @@
  * PATTERN: Pure helper function
  */
 
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
+import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 
 /**

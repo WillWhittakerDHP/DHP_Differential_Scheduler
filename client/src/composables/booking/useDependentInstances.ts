@@ -1,15 +1,16 @@
 /**
- * useDependentInstanceOptions Composable
+ * useDependentInstances Composable
  * 
- * LEARNING: Extracts dependent instance options from a parent block instance
+ * LEARNING: Extracts dependent instances from a parent block instance
  * WHY: Generic composable for resolving nested child options, not service-specific
- * PATTERN: Works with any block shape that has dependent options
+ * PATTERN: Works with any block shape that has dependent instances
  * 
- * Dependent instance options are lateral relationships (same or different shapes):
+ * Dependent instances are lateral relationships (same or different shapes):
  * - Service A → Service B, Service C (dependent add-on services)
  * - Property Type A → Property Type B (dependent property options)
  * 
  * Session: Generic SelectionCard Refactor (2026-01-09)
+ * NOTE: Renamed from useDependentInstanceOptions to useDependentInstances (2026-01-20)
  */
 
 import { computed, type ComputedRef, type Ref } from 'vue'
@@ -19,11 +20,11 @@ import { findRelationshipsByParent, extractChildIds } from '@/utils/transformers
 import { useGlobal } from '@/composables/useGlobal'
 
 /**
- * Options for useDependentInstanceOptions composable
+ * Options for useDependentInstances composable
  */
-export interface UseDependentInstanceOptionsOptions {
+export interface UseDependentInstancesOptions {
   /**
-   * Parent block instance that may have dependent options
+   * Parent block instance that may have dependent instances
    */
   parentInstance: ComputedRef<BookingBlockInstance | null> | Ref<BookingBlockInstance | null>
   
@@ -35,70 +36,70 @@ export interface UseDependentInstanceOptionsOptions {
 }
 
 /**
- * Return type for useDependentInstanceOptions composable
+ * Return type for useDependentInstances composable
  */
-export interface UseDependentInstanceOptionsReturn {
+export interface UseDependentInstancesReturn {
   /**
-   * IDs of dependent option instances
+   * IDs of dependent instances
    */
-  dependentOptionIds: ComputedRef<string[]>
+  dependentInstanceIds: ComputedRef<string[]>
   
   /**
-   * Resolved dependent option instances with full data
+   * Resolved dependent instances with full data
    */
-  dependentOptions: ComputedRef<BookingBlockInstance[]>
+  dependentInstances: ComputedRef<BookingBlockInstance[]>
   
   /**
-   * Whether parent has any dependent options
+   * Whether parent has any dependent instances
    */
-  hasDependentOptions: ComputedRef<boolean>
+  hasDependentInstances: ComputedRef<boolean>
 }
 
 /**
- * useDependentInstanceOptions composable
+ * useDependentInstances composable
  * 
- * LEARNING: Generic dependent option resolution for any block instance
+ * LEARNING: Generic dependent instance resolution for any block instance
  * WHY: Decouples nested option logic from service-specific naming
- * PATTERN: Returns reactive computed properties for dependent options
+ * PATTERN: Returns reactive computed properties for dependent instances
  * 
  * @example
  * ```ts
- * // Get dependent options for a service
- * const { dependentOptions } = useDependentInstanceOptions({
+ * // Get dependent instances for a service
+ * const { dependentInstances } = useDependentInstances({
  *   parentInstance: computed(() => selectedService.value)
  * })
  * ```
  */
-export function useDependentInstanceOptions(
-  options: UseDependentInstanceOptionsOptions
-): UseDependentInstanceOptionsReturn {
+export function useDependentInstances(
+  options: UseDependentInstancesOptions
+): UseDependentInstancesReturn {
   const { parentInstance, relationships: externalRelationships } = options
   const { getGlobalData, getGlobalEntityById } = useGlobal()
   
   /**
-   * LEARNING: Get dependentInstanceOptions relationships
+   * LEARNING: Get dependentInstances relationships
    * WHY: Need to find parent's dependent children
    * PATTERN: Use globalData relationships if not provided externally
    */
   const dependentInstanceRelationships = computed((): GlobalRelationship[] => {
     if (externalRelationships?.value) {
       return externalRelationships.value.filter(
-        rel => rel.relationshipKind === 'dependentInstanceOptions'
+        rel => rel.relationshipKind === 'dependentInstances'
       )
     }
     
     const globalData = getGlobalData()
-    if (!globalData?.relationships?.dependentInstanceOptions) return []
+    if (!globalData?.relationships?.dependentInstances) return []
     
-    return globalData.relationships.dependentInstanceOptions
+    return globalData.relationships.dependentInstances
   })
   
   /**
-   * LEARNING: Extract dependent option IDs from relationships
+   * LEARNING: Extract dependent instance IDs from relationships
    * WHY: Find children of the parent instance
    * PATTERN: Use shared utility for relationship finding
    */
-  const dependentOptionIds = computed((): string[] => {
+  const dependentInstanceIds = computed((): string[] => {
     const parent = parentInstance.value
     if (!parent) return []
     
@@ -111,12 +112,12 @@ export function useDependentInstanceOptions(
   })
   
   /**
-   * LEARNING: Resolve dependent option IDs to full instances
+   * LEARNING: Resolve dependent instance IDs to full instances
    * WHY: Need full instances for rendering (name, icon, description)
    * PATTERN: Look up each ID in global data
    */
-  const dependentOptions = computed((): BookingBlockInstance[] => {
-    const ids = dependentOptionIds.value
+  const dependentInstances = computed((): BookingBlockInstance[] => {
+    const ids = dependentInstanceIds.value
     if (ids.length === 0) return []
     
     const instances: BookingBlockInstance[] = []
@@ -130,10 +131,10 @@ export function useDependentInstanceOptions(
           entityKey: 'blockInstance',
           name: entity.name,
           baseSqFt: (entity as unknown as Record<string, unknown>).baseSqFt as number || 0,
-          description: (entity as unknown as Record<string, unknown>).description as string || '',
+          descriptions: [],
           icon: (entity as unknown as Record<string, unknown>).icon as string || '',
           active: (entity as unknown as Record<string, unknown>).active as boolean ?? true,
-          dependent: (entity as unknown as { dependent?: boolean }).dependent === true,
+          isDependentInstance: (entity as unknown as { isDependentInstance?: boolean }).isDependentInstance === true,
           differential: (entity as unknown as Record<string, unknown>).differential as boolean ?? false,
           orderIndex: entity.orderIndex ?? 0,
           blockShape: (entity as unknown as Record<string, unknown>).blockShape as string || '',
@@ -158,14 +159,13 @@ export function useDependentInstanceOptions(
    * LEARNING: Convenience flag for conditional rendering
    * WHY: Avoids length checks in templates
    */
-  const hasDependentOptions = computed((): boolean => {
-    return dependentOptions.value.length > 0
+  const hasDependentInstances = computed((): boolean => {
+    return dependentInstances.value.length > 0
   })
   
   return {
-    dependentOptionIds,
-    dependentOptions,
-    hasDependentOptions
+    dependentInstanceIds,
+    dependentInstances,
+    hasDependentInstances
   }
 }
-

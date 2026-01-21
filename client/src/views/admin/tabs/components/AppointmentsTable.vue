@@ -13,8 +13,7 @@
 import { APPOINTMENT_STATUSES } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import { getStatusColor, getRoleColor } from '@/composables/admin/tables/useAppointmentHelpers'
-import type { PropertyResponse } from '@/types/property'
-import type { UserResponse } from '@/types/user'
+// Note: PropertyResponse and UserResponse types removed - not used
 
 /**
  * LEARNING: Component emits for parent communication

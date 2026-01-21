@@ -102,7 +102,7 @@ export function useResponsiveGrid(
     maxColumns = 8,
     buttonMinWidth = 80,
     gap = 10,
-    padding = 20 // LEARNING: Match actual CSS padding (10px each side = 20px total)
+    padding: _padding = 20 // LEARNING: Match actual CSS padding (10px each side = 20px total) - unused, padding calculated from computed styles
   } = options
   
   /**
@@ -151,21 +151,9 @@ export function useResponsiveGrid(
       )
     )
     
-    // LEARNING: Debug logging to understand column calculation
-    // WHY: Need to verify container width measurement and calculation formula
-    console.log('[useResponsiveGrid] Column calculation:', {
-      containerWidth: containerWidth.value,
-      availableWidth,
-      padding,
-      buttonMinWidth,
-      gap,
-      columnWidth: buttonMinWidth + gap,
-      calculatedColumns,
-      result,
-      minColumns,
-      maxColumns,
-      formula: `Math.floor(${availableWidth} / (${buttonMinWidth} + ${gap})) = ${calculatedColumns}`
-    })
+    // LEARNING: Debug logging removed
+    // WHY: Debug logging should use proper logger utility, not console.log
+    // PATTERN: Remove debug console.log statements - use proper logging if needed
     
     return result
   })
@@ -229,15 +217,9 @@ export function useResponsiveGrid(
               const paddingRight = parseFloat(computedStyle.paddingRight) || 0
               const newWidth = borderBoxWidth - paddingLeft - paddingRight
               
-              console.log('[useResponsiveGrid] ResizeObserver update:', {
-                borderBoxWidth,
-                paddingLeft,
-                paddingRight,
-                contentWidth: newWidth,
-                contentRectWidth: entry.contentRect.width,
-                contentBoxSize: entry.contentBoxSize?.[0]?.inlineSize,
-                oldWidth: containerWidth.value
-              })
+              // LEARNING: Debug logging removed
+              // WHY: Debug logging should use proper logger utility, not console.log
+              // PATTERN: Remove debug console.log statements - use proper logging if needed
               
               // Only update if width is valid (greater than 0)
               if (newWidth > 0) {

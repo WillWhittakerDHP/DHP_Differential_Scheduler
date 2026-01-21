@@ -7,7 +7,8 @@
 import { computed, type ComputedRef } from 'vue'
 import { categorizeFieldsBySection, type StatusButtonField } from '@/utils/forms/fieldSectionCategorization'
 import { useEntityMetadata } from './useEntityMetadata'
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
+import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 
 export interface UseStatusButtonFieldsOptions<GE extends GlobalEntityKey> {

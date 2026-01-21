@@ -4,7 +4,8 @@
  * PATTERN: Simple handler functions
  */
 
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
+import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
 
 export interface UseInstanceSaveHandlersReturn {
   handleExistingBlockInstanceSaved: (entity: GlobalEntity<GlobalEntityKey>) => void

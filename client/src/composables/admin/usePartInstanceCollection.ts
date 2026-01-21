@@ -70,8 +70,7 @@ export function usePartInstanceCollection(
   // We only need to create the relationship after EntityCard saves
 
   const partInstanceData = usePartInstanceData({ 
-    blockInstanceId,
-    optionsFieldKey
+    blockInstanceId
   })
   const {
     validPartShapes,

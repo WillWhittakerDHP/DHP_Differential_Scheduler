@@ -51,17 +51,14 @@ export interface UsePartInstanceDataReturn {
  * PATTERN: Composable with computed properties for data transformations and helper functions
  */
 export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePartInstanceDataReturn {
-  const { blockInstanceId, optionsFieldKey } = options
+  const { blockInstanceId } = options
   
   // Convert blockInstanceId to Ref if it's a string
   const blockInstanceIdRef = typeof blockInstanceId === 'string' 
     ? computed(() => blockInstanceId)
     : blockInstanceId
   
-  // Convert optionsFieldKey to Ref if it's a string
-  const optionsFieldKeyRef = typeof optionsFieldKey === 'string'
-    ? computed(() => optionsFieldKey)
-    : optionsFieldKey
+  // Note: optionsFieldKey was removed from UsePartInstanceDataOptions
   
   // Initialize composables
   const { getGlobalEntityById } = useGlobal()

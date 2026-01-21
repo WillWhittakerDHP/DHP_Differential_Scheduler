@@ -139,6 +139,7 @@ export interface SelectionCardConfig {
    */
   appearance: {
     showIcon: boolean
+    showDescription?: boolean
     showBorder: boolean
     cardPadding: string
     minHeight: string

@@ -10,7 +10,7 @@
  * Session 6.9: Integrated with useBookingWizard for cascading availability options
  */
 
-import { computed, inject, ref, watch, onMounted, nextTick, type Ref, type ComputedRef } from 'vue'
+import { computed, inject, ref, watch, nextTick, type Ref, type ComputedRef } from 'vue'
 import type { TimeSlot, PerspectiveKey } from '@/types/appointment'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAvailability } from '@/composables/useAvailability'
@@ -23,10 +23,13 @@ import { useOptionTypeBlockSelection } from '@/composables/booking/useOptionType
 import { useAvailabilityUI } from '@/composables/booking/useAvailabilityUI'
 import { useAvailabilityDefaults } from '@/composables/booking/useAvailabilityDefaults'
 import { useAvailableStartTimes } from '@/composables/booking/useAvailableStartTimes'
-import { roundUpToIncrement } from '@/utils/timeSlotCalculations'
+import { useMoveablePartsScheduling } from '@/composables/booking/useMoveablePartsScheduling'
+import { roundUpToIncrement, getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
 import TimeOnSiteGraph from '@/components/booking/TimeOnSiteGraph.vue'
+import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
+import CalendarMockDevPanel from '@/components/booking/dev/CalendarMockDevPanel.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AvailabilityStepData } from '@/types/wizard'
 
@@ -120,7 +123,6 @@ const {
   propertyDetails,
   timeSlotsPerDay,
   selectedDateSingle,
-  isDifferentialService,
   isEffectivelyDifferential
 } = useAvailabilityLogic({
   selectedDate,
@@ -188,11 +190,24 @@ const appointmentDuration = computed(() => {
 // WHY: Buttons should be generated based on admin-configured business hours and intervals
 // PATTERN: Use composable to generate times from dayStart + (interval * buttonIndex)
 // NOTE: Pass appointmentDuration to filter start times so last appointment ends at or before day end
+// LEARNING: Get busy times from calendar for availability checking
+// WHY: Need to mark slots as busy when they overlap calendar busy periods
+// PATTERN: Get busy times from dateRangeForApi and pass to useAvailableStartTimes
+const busyTimesForStartTimes = computed(() => {
+  if (!dateRangeForApi.value) return []
+  return getCalendarAvailability({
+    start: dateRangeForApi.value.start,
+    end: dateRangeForApi.value.end
+  })
+})
+
 const {
-  availableStartTimes
+  availableStartTimes,
+  slotAvailability
 } = useAvailableStartTimes({
   selectedDate,
-  appointmentDuration
+  appointmentDuration,
+  busyTimes: busyTimesForStartTimes
 })
 
 // LEARNING: Extract time slot durations for fallback when shape duration is 0
@@ -204,11 +219,12 @@ const timeSlotDurations = computed(() => {
   const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
   if (!daySlots) return new Map<string, number>()
   
-  const durations = new Map<string, number>()
-  daySlots.inspectorTimeSlots.forEach(slot => {
-    durations.set(slot.startTime, slot.duration)
-  })
-  return durations
+  // LEARNING: Use array-to-Map constructor instead of forEach with mutations
+  // WHY: Functional approach avoids mutations, aligns with workspace rules
+  // PATTERN: Build Map from array using constructor with entries
+  return new Map(
+    daySlots.inspectorTimeSlots.map(slot => [slot.startTime, slot.duration])
+  )
 })
 
 // LEARNING: Map startTimeType to PerspectiveKey
@@ -229,24 +245,50 @@ const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
 // WHY: Uses shape + slot separation for efficient calculation
 // PATTERN: Builds shape once, applies to each available time
 const {
+  appointmentShape,
   appointmentSlots,
   selectedSlot,
   graphBars
 } = useAppointmentSlots({
   blockInstances: accumulatedBlockInstances,
   availableStartTimes,
+  slotAvailability,
   timeSlotDurations,
   selectedButtonIndex,
   perspective,
   isDifferentialService: isEffectivelyDifferential
 })
 
+// LEARNING: Use moveable parts scheduling composable
+// WHY: Detects moveable parts and manages scheduling modal
+// PATTERN: Composable provides moveable parts detection and scheduling options
+const moveablePartsScheduling = useMoveablePartsScheduling({
+  appointmentShape,
+  selectedSlot
+})
+
+const {
+  hasMoveableParts,
+  showModal: showMoveableModal,
+  moveableOptions,
+  selectedSlotIndex: selectedMoveableSlotIndex,
+  contingencyPeriod,
+  openModal: openMoveableModal,
+  closeModal: closeMoveableModal,
+  selectSlot: selectMoveableSlot,
+  isLoadingOptions
+} = moveablePartsScheduling
+
+// Ref to store confirmed moveable scheduling
+const confirmedMoveableScheduling = ref<typeof moveableOptions.value>(null)
+
 // LEARNING: Use availability step data composable
 // WHY: Extracts step data aggregation and time slot transformation from component to composable
 // PATTERN: Composable provides reactive computed properties for step data
 const { stepData } = useAvailabilityStepData({
   selectedDate,
-  selectedSlot
+  selectedSlot,
+  moveableScheduling: computed(() => confirmedMoveableScheduling.value)
 })
 
 // LEARNING: Use availability validation composable
@@ -298,7 +340,6 @@ parentAvailabilityStepValidate.value = validateForm
 // LEARNING: Simplified to only check viewport width, removed column measurement
 // WHY: Trusts Vuetify grid system instead of fighting it with measurements
 const {
-  shouldShowGridInline,
   handleDateChange
 } = useAvailabilityUI({
   selectedDate,
@@ -306,97 +347,46 @@ const {
   fieldErrors
 })
 
-// LEARNING: Debug logging for template rendering
-// WHY: Need to verify shouldShowGridInline value in template context
-watch(shouldShowGridInline, (newValue) => {
-  console.log('[AvailabilityStep] shouldShowGridInline changed:', {
-    shouldShowGridInline: newValue,
-    selectedDate: selectedDate.value.start
-  })
-}, { immediate: true })
+// Note: Debug logging removed - shouldShowGridInline is reactive and will update template automatically
 
-// LEARNING: Comprehensive layout debug logging
-// WHY: Single clear log showing all width measurements to diagnose layout issues
-onMounted(async () => {
-  await nextTick()
-  
-  // Wait for layout to settle
-  setTimeout(() => {
-    const calendarCol = document.querySelector('.calendar-col') as HTMLElement
-    const timeSelectionCol = document.querySelector('.time-selection-col') as HTMLElement
-    const timeSelectionContent = document.querySelector('.time-selection-content') as HTMLElement
-    const appointmentGrid = document.querySelector('.appointment-slot-grid') as HTMLElement
-    const calendarRow = document.querySelector('.calendar-grid-row') as HTMLElement
-    
-    if (calendarCol && timeSelectionCol && calendarRow) {
-      const calendarRect = calendarCol.getBoundingClientRect()
-      const timeSelectionRect = timeSelectionCol.getBoundingClientRect()
-      const timeSelectionContentRect = timeSelectionContent?.getBoundingClientRect()
-      const appointmentGridRect = appointmentGrid?.getBoundingClientRect()
-      const rowRect = calendarRow.getBoundingClientRect()
-      
-      const calendarStyle = window.getComputedStyle(calendarCol)
-      const timeSelectionStyle = window.getComputedStyle(timeSelectionCol)
-      const timeSelectionContentStyle = timeSelectionContent ? window.getComputedStyle(timeSelectionContent) : null
-      const appointmentGridStyle = appointmentGrid ? window.getComputedStyle(appointmentGrid) : null
-      
-      console.log('[AvailabilityStep] Layout Width Debug:', {
-        viewport: {
-          width: window.innerWidth,
-          breakpoint: window.innerWidth >= 600 ? 'sm+' : 'xs'
-        },
-        row: {
-          width: rowRect.width,
-          expectedWidth: window.innerWidth - 80 // Approximate container padding
-        },
-        calendarCol: {
-          vuetifyClass: 'sm="5" (41.67%)',
-          computedWidth: calendarStyle.width,
-          actualWidth: calendarRect.width,
-          left: calendarRect.left,
-          right: calendarRect.right
-        },
-        timeSelectionCol: {
-          vuetifyClass: 'sm="7" (58.33%)',
-          computedWidth: timeSelectionStyle.width,
-          actualWidth: timeSelectionRect.width,
-          expectedWidth: rowRect.width * 0.5833, // 58.33% of row
-          left: timeSelectionRect.left,
-          right: timeSelectionRect.right,
-          paddingLeft: timeSelectionStyle.paddingLeft,
-          paddingRight: timeSelectionStyle.paddingRight
-        },
-        timeSelectionContent: {
-          computedWidth: timeSelectionContentStyle?.width || 'N/A',
-          actualWidth: timeSelectionContentRect?.width || 0,
-          expectedWidth: timeSelectionRect.width - parseFloat(timeSelectionStyle.paddingLeft) - parseFloat(timeSelectionStyle.paddingRight),
-          paddingLeft: timeSelectionContentStyle?.paddingLeft || 'N/A',
-          paddingRight: timeSelectionContentStyle?.paddingRight || 'N/A'
-        },
-        appointmentGrid: {
-          computedWidth: appointmentGridStyle?.width || 'N/A',
-          actualWidth: appointmentGridRect?.width || 0,
-          contentWidth: appointmentGridRect ? appointmentGridRect.width - (parseFloat(appointmentGridStyle?.paddingLeft || '0') + parseFloat(appointmentGridStyle?.paddingRight || '0')) : 0,
-          paddingLeft: appointmentGridStyle?.paddingLeft || 'N/A',
-          paddingRight: appointmentGridStyle?.paddingRight || 'N/A'
-        },
-        layout: {
-          areSideBySide: Math.abs(calendarRect.top - timeSelectionRect.top) < 10,
-          calendarEndsAt: calendarRect.right,
-          timeSelectionStartsAt: timeSelectionRect.left,
-          gap: timeSelectionRect.left - calendarRect.right,
-          overlap: calendarRect.right > timeSelectionRect.left ? calendarRect.right - timeSelectionRect.left : 0
-        }
-      })
-    }
-  }, 500)
-})
+// Note: Debug layout logging removed - Vuetify's responsive grid handles layout automatically
+// If layout debugging is needed, use Vue DevTools or browser DevTools instead of direct DOM queries
 
 // LEARNING: Handler for appointment slot click
-// WHY: Updates selectedButtonIndex when slot is clicked
-// PATTERN: Event handler that updates selection state
+// WHY: Updates selectedButtonIndex when slot is clicked, checks for moveable parts
+// PATTERN: Event handler that updates selection state and opens modal if needed
 const handleAppointmentSlotClick = (buttonIndex: number): void => {
   appointmentSlotOrderIndex.value = buttonIndex
+  
+  // After selection, check for moveable parts
+  // Use nextTick to ensure selectedSlot has updated
+  nextTick(() => {
+    if (hasMoveableParts.value && selectedSlot.value) {
+      openMoveableModal()
+    }
+  })
+}
+
+// LEARNING: Handler for moveable modal confirm
+// WHY: Stores confirmed moveable scheduling and closes modal
+// PATTERN: Event handler that updates state
+const handleMoveableConfirm = (): void => {
+  if (moveableOptions.value) {
+    confirmedMoveableScheduling.value = {
+      ...moveableOptions.value,
+      selectedSlotIndex: selectedMoveableSlotIndex.value
+    }
+  }
+  closeMoveableModal()
+}
+
+// LEARNING: Handler for moveable modal cancel
+// WHY: Closes modal without saving
+// PATTERN: Event handler that resets state
+const handleMoveableCancel = (): void => {
+  closeMoveableModal()
+  // Reset selection when canceling
+  selectedMoveableSlotIndex.value = null
 }
 
 // LEARNING: Default date initialization is now handled in useAvailabilityDefaults composable
@@ -415,9 +405,19 @@ const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
   <div class="availability-step">
 
     <VRow class="calendar-grid-row">
-      <VCol cols="12">
-        <h4 class="text-h4 mb-2">Appointment Availability</h4>
-        <p class="text-body-2 mb-6 mb-sm-4">Select a time that works for everybody</p>
+      <VCol cols="12" class="position-relative" style="overflow: visible;">
+        <div class="d-flex align-center justify-space-between flex-wrap mb-2">
+          <div>
+            <h4 class="text-h4 mb-2">Appointment Availability</h4>
+            <p class="text-body-2 mb-6 mb-sm-4">Select a time that works for everybody</p>
+          </div>
+          <!-- LEARNING: Dev Mode Calendar Mock Panel - Next to heading -->
+          <!-- WHY: More visible and accessible when debugging -->
+          <!-- PATTERN: Positioned next to heading, overlays content when expanded -->
+          <div class="calendar-mock-dev-panel-wrapper">
+            <CalendarMockDevPanel :date-range="dateRangeForApi" />
+          </div>
+        </div>
       </VCol>
 
       <VCol cols="12" class="calendar-col">
@@ -557,6 +557,18 @@ const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
         </div>
       </VCol>
     </VRow>
+
+    <!-- Moveable Parts Scheduling Modal -->
+    <MoveablePartsModal
+      v-model:show-modal="showMoveableModal"
+      :moveable-options="moveableOptions ?? null"
+      :selected-slot-index="selectedMoveableSlotIndex"
+      v-model:contingency-period="contingencyPeriod"
+      :is-loading-options="isLoadingOptions"
+      @select-slot="selectMoveableSlot"
+      @confirm="handleMoveableConfirm"
+      @cancel="handleMoveableCancel"
+    />
   </div>
 </template>
 
@@ -576,6 +588,26 @@ const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
 // PATTERN: Let Vuetify handle wrapping naturally, override flex properties on columns
 .calendar-grid-row {
   // Vuetify handles flex-wrap automatically based on column widths
+}
+
+// LEARNING: Calendar mock dev panel wrapper
+// WHY: Provides positioning context for overlay behavior
+// PATTERN: Relative positioning for absolute child positioning, prevent overflow
+.calendar-mock-dev-panel-wrapper {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+  
+  // LEARNING: Ensure wrapper doesn't constrain panel expansion
+  // WHY: Panel needs to expand beyond wrapper bounds when opened
+  // PATTERN: Allow overflow for absolute positioned children, prevent clipping
+  @media (min-width: 961px) {
+    min-width: 0;
+    flex-shrink: 0;
+    // LEARNING: Allow panel to expand leftward if needed
+    // WHY: Prevents panel from being clipped or going off-screen
+    // PATTERN: Use negative margin or positioning to allow leftward expansion
+  }
 }
 
 // LEARNING: Calendar column spacing and layout

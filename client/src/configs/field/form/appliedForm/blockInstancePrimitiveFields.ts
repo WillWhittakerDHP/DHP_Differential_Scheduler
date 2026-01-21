@@ -84,11 +84,11 @@ export const blockInstancePrimitiveFields = {
     expandable: false,
   },
 
-  dependent: {
+  isDependentInstance: {
     primitiveType: PrimitiveTypeEnum.Boolean,
     primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "Dependent",
-    globalField: "dependent" as const,
+    placeholder: "Dependent Instance",
+    globalField: "isDependentInstance" as const,
     expandable: false,
   },
 } satisfies Partial<Record<GlobalFieldKey<"blockInstance">, PrimitiveFormField<"blockInstance">>>;

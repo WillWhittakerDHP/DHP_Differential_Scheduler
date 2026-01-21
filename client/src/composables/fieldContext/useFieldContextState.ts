@@ -37,6 +37,7 @@ export type UseFieldContextStateReturn<GE extends GlobalEntityKey, FieldKey exte
   isDirty: ComputedRef<boolean>
   validateField: () => Promise<unknown>
   handleChange: (value: ValidAdminValue) => void
+  setValue: (value: ValidAdminValue) => void
 
   // UI-ish state
   isValidating: Ref<boolean>
@@ -215,8 +216,8 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
 
   const displayConfig: FieldDisplayConfig<GE, FieldKey> = {
     label: providedDisplayConfig.label!,
-    placeholder: providedDisplayConfig.placeholder, // No default - undefined if not provided
-    helpText: providedDisplayConfig.helpText, // No default - undefined if not provided
+    placeholder: providedDisplayConfig.placeholder ?? undefined, // No default - undefined if not provided
+    helpText: providedDisplayConfig.helpText ?? undefined, // No default - undefined if not provided
     required: providedDisplayConfig.required === true, // Explicit boolean, no default
     disabled: providedDisplayConfig.disabled === true, // Explicit boolean, no default
     readOnly: providedDisplayConfig.readOnly === true, // Explicit boolean, no default

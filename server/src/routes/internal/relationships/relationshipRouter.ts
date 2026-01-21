@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { ValidCascade, ValidPart, DependentInstanceOption, BookingCascade, ActivePart, InstanceComponent, BlockInstance, BlockShape } from '../../../config/app.js';
+import { ValidCascade, ValidPart, DependentInstance, BookingCascade, ActivePart, InstanceComponent, BlockInstance, BlockShape } from '../../../config/app.js';
 import { Model, ModelStatic } from 'sequelize';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
 
@@ -19,9 +19,9 @@ const router = Router();
  * NOTE: Renamed for clearer domain terminology:
  * - activeCascades → bookingCascades (Booking Cascade) (2026-01-08)
  * - activeComponents → serviceComponents → instanceComponents (Instance Components) (2026-01-07)
- * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions (Dependent Instance Options) (2026-01-09)
+ * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions → dependentInstances (2026-01-20)
  */
-type RelationshipKind = 'validCascades' | 'validParts' | 'dependentInstanceOptions' | 'bookingCascades' | 'activeParts' | 'instanceComponents';
+type RelationshipKind = 'validCascades' | 'validParts' | 'dependentInstances' | 'bookingCascades' | 'activeParts' | 'instanceComponents';
 
 interface RelationshipConfig {
   model: ModelStatic<Model>;
@@ -31,11 +31,11 @@ interface RelationshipConfig {
 }
 
 // Verify models are available
-if (!ValidCascade || !ValidPart || !DependentInstanceOption || !BookingCascade || !ActivePart || !InstanceComponent) {
+if (!ValidCascade || !ValidPart || !DependentInstance || !BookingCascade || !ActivePart || !InstanceComponent) {
   console.error('[RelationshipRouter] Missing models:', {
     ValidCascade: !!ValidCascade,
     ValidPart: !!ValidPart,
-    DependentInstanceOption: !!DependentInstanceOption,
+    DependentInstance: !!DependentInstance,
     BookingCascade: !!BookingCascade,
     ActivePart: !!ActivePart,
     InstanceComponent: !!InstanceComponent
@@ -55,9 +55,9 @@ const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
     parentEntity: 'blockShape',
     childEntity: 'partShape'
   },
-  dependentInstanceOptions: {
-    model: DependentInstanceOption,
-    displayName: 'Dependent Instance Option',
+  dependentInstances: {
+    model: DependentInstance,
+    displayName: 'Dependent Instance',
     parentEntity: 'blockInstance',
     childEntity: 'blockInstance'
   },

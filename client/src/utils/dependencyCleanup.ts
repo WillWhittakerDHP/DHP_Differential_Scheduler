@@ -11,12 +11,11 @@
 
 import type { GlobalEntityId } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useAdmin } from '@/composables/useAdmin'
 import apiClient, { getRelationshipByParentChildEndpoint } from '@/utils/api'
 import type { QueryClient } from '@tanstack/vue-query'
-import type { RelationshipFieldType } from '@/types/entity/formFields'
+// Note: RelationshipFieldType removed - no longer needed
 
 /**
  * Clean up invalid active relationships based on dependencyImpact config

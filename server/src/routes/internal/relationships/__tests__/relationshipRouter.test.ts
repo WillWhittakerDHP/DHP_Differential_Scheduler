@@ -13,7 +13,7 @@ import { RelationshipRouter as relationshipRouter } from '../relationshipRouter'
 import {
   ValidCascade,
   ValidPart,
-  DependentInstanceOption,
+  DependentInstance,
   BookingCascade,
   ActivePart,
   InstanceComponent,
@@ -34,7 +34,7 @@ jest.mock('../../../../config/app', () => ({
     create: jest.fn(),
     destroy: jest.fn(),
   },
-  DependentInstanceOption: {
+  DependentInstance: {
     findAll: jest.fn(),
     findOne: jest.fn(),
     create: jest.fn(),
@@ -258,7 +258,7 @@ describe('Relationship Router Integration Tests', () => {
       const validKinds = [
         'validCascades',
         'validParts',
-        'dependentInstanceOptions',
+        'dependentInstances',
         'bookingCascades',
         'activeParts',
         'instanceComponents',

@@ -9,15 +9,18 @@
 import { computed, ref, watchEffect, type ComputedRef, type Ref } from 'vue'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import { fitTimeSlotsWithAvailability, parseLocalDate, type BusinessHoursMap, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 
 interface UseAvailableStartTimesParams {
   selectedDate: Ref<{ start: string | null; end: string | null }>
   settings?: Ref<AvailabilitySettings | null> // Optional: can be passed in or fetched internally
   appointmentDuration?: Ref<number | null> // Optional: duration in minutes to filter start times (ensures end time <= day end)
+  busyTimes?: Ref<BusyTimeRange[]> // Optional: calendar busy periods
 }
 
 interface UseAvailableStartTimesReturn {
-  availableStartTimes: ComputedRef<string[]> // ISO date strings
+  availableStartTimes: ComputedRef<string[]> // All start times (available + busy)
+  slotAvailability: ComputedRef<Map<string, boolean>> // Map of startTime -> isAvailable
   isLoading: Ref<boolean>
   error: Ref<Error | null>
 }
@@ -25,7 +28,7 @@ interface UseAvailableStartTimesReturn {
 export function useAvailableStartTimes(
   params: UseAvailableStartTimesParams
 ): UseAvailableStartTimesReturn {
-  const { selectedDate, settings: externalSettings, appointmentDuration } = params
+  const { selectedDate, settings: externalSettings, appointmentDuration, busyTimes } = params
   
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
@@ -61,7 +64,8 @@ export function useAvailableStartTimes(
   
   // LEARNING: Generate start times based on selected date and settings
   // WHY: Computed property ensures reactivity when date or settings change
-  // PATTERN: Calculate times from dayStart + (interval * buttonIndex)
+  // PATTERN: Use fitTimeSlots() core utility for consistent slot generation
+  // Session 1.4.14: Refactored to use fitTimeSlots() instead of manual calculation
   const availableStartTimes = computed(() => {
     if (!selectedDate.value.start) {
       return []
@@ -76,12 +80,6 @@ export function useAvailableStartTimes(
     // LEARNING: Parse date in local timezone
     // WHY: Ensures correct day of week calculation regardless of timezone
     // PATTERN: Extract date part and create Date object in local timezone
-    const parseLocalDate = (dateString: string): Date => {
-      const datePart = dateString.includes('T') ? dateString.split('T')[0] : dateString
-      const [year, month, day] = datePart.split('-').map(Number)
-      return new Date(year, month - 1, day) // month is 0-indexed
-    }
-    
     const date = parseLocalDate(selectedDate.value.start)
     const dayOfWeek = date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
     const dayHours = internalSettings.value.businessHours[dayOfWeek]
@@ -91,75 +89,93 @@ export function useAvailableStartTimes(
       return []
     }
     
-    // Parse start and end times (format: "HH:MM")
-    const [startHour, startMinute] = dayHours.start.split(':').map(Number)
+    // Parse end time to create end boundary
     const [endHour, endMinute] = dayHours.end.split(':').map(Number)
-    const minuteIncrement = internalSettings.value.minuteIncrement
     
     // LEARNING: Validate parsed times
     // WHY: Ensures times are valid numbers before calculation
-    if (isNaN(startHour) || isNaN(startMinute) || isNaN(endHour) || isNaN(endMinute)) {
+    if (isNaN(endHour) || isNaN(endMinute)) {
       console.error('[useAvailableStartTimes] Invalid time format:', {
-        start: dayHours.start,
         end: dayHours.end
       })
       return []
     }
     
-    // Calculate day start and end in minutes from midnight
-    const dayStartMinutes = startHour * 60 + startMinute
-    const dayEndMinutes = endHour * 60 + endMinute
+    // Create end of day boundary
+    const endBoundary = new Date(date)
+    endBoundary.setHours(endHour, endMinute, 0, 0)
     
-    // LEARNING: Validate end time is after start time
-    // WHY: Prevents infinite loops and invalid ranges
-    if (dayEndMinutes <= dayStartMinutes) {
-      console.error('[useAvailableStartTimes] End time must be after start time:', {
-        start: dayHours.start,
-        end: dayHours.end,
-        dayOfWeek
-      })
-      return []
-    }
-    
-    // Generate start times at intervals
-    // LEARNING: Button 0 = dayStart, Button 1 = dayStart + increment, Button 2 = dayStart + increment*2, etc.
-    // WHY: Creates sequential time slots based on configured interval
-    // PATTERN: Loop from dayStart to dayEnd, incrementing by minuteIncrement
-    const startTimes: string[] = []
-    let currentMinutes = dayStartMinutes
-    
-    // LEARNING: Get appointment duration if provided
-    // WHY: Need to ensure startTime + duration <= dayEnd
-    // PATTERN: Use provided duration or default to 0 (no filtering)
+    // LEARNING: Use fitTimeSlotsWithAvailability() for unified availability handling
+    // WHY: Generates all slots and marks availability status
+    // PATTERN: Use new availability manager, return all times with availability map
     const duration = appointmentDuration?.value || 0
+    const busyPeriods = busyTimes?.value || []
     
-    while (currentMinutes < dayEndMinutes) {
-      // LEARNING: Check if this start time + duration would extend past day end
-      // WHY: Ensures last appointment ends at or before day end time
-      // PATTERN: Skip start times where startTime + duration > dayEnd
-      if (duration > 0) {
-        const endMinutes = currentMinutes + duration
-        if (endMinutes > dayEndMinutes) {
-          // This start time would extend past day end, stop generating
-          break
-        }
-      }
-      
-      // Create date object for this time slot in local timezone
-      const slotDate = new Date(date)
-      slotDate.setHours(Math.floor(currentMinutes / 60), currentMinutes % 60, 0, 0)
-      
-      startTimes.push(slotDate.toISOString())
-      
-      // Move to next interval
-      currentMinutes += minuteIncrement
+    const result = fitTimeSlotsWithAvailability({
+      startBoundary: date.toISOString(),
+      endBoundary: endBoundary.toISOString(),
+      duration,
+      businessHours: internalSettings.value.businessHours as BusinessHoursMap,
+      minuteIncrement: internalSettings.value.minuteIncrement,
+      busyTimes: busyPeriods
+    })
+    
+    // Extract all start times (available + busy)
+    return result.slots.map(slot => slot.startTime)
+  })
+
+  // LEARNING: Create availability map for quick lookup
+  // WHY: Allows components to check if a specific start time is available
+  // PATTERN: Computed map of startTime -> isAvailable
+  const slotAvailability = computed(() => {
+    if (!selectedDate.value.start) {
+      return new Map<string, boolean>()
     }
     
-    return startTimes
+    if (!internalSettings.value) {
+      return new Map<string, boolean>()
+    }
+    
+    const date = parseLocalDate(selectedDate.value.start)
+    const dayOfWeek = date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
+    const dayHours = internalSettings.value.businessHours[dayOfWeek]
+    
+    if (!dayHours) {
+      return new Map<string, boolean>()
+    }
+    
+    const [endHour, endMinute] = dayHours.end.split(':').map(Number)
+    
+    if (isNaN(endHour) || isNaN(endMinute)) {
+      return new Map<string, boolean>()
+    }
+    
+    const endBoundary = new Date(date)
+    endBoundary.setHours(endHour, endMinute, 0, 0)
+    
+    const duration = appointmentDuration?.value || 0
+    const busyPeriods = busyTimes?.value || []
+    
+    const result = fitTimeSlotsWithAvailability({
+      startBoundary: date.toISOString(),
+      endBoundary: endBoundary.toISOString(),
+      duration,
+      businessHours: internalSettings.value.businessHours as BusinessHoursMap,
+      minuteIncrement: internalSettings.value.minuteIncrement,
+      busyTimes: busyPeriods
+    })
+    
+    // LEARNING: Create map of startTime -> isAvailable
+    // WHY: Enables quick lookup of availability status
+    // PATTERN: Use Map constructor with array of entries
+    return new Map(
+      result.slots.map(slot => [slot.startTime, slot.isAvailable])
+    )
   })
   
   return {
     availableStartTimes,
+    slotAvailability,
     isLoading,
     error
   }

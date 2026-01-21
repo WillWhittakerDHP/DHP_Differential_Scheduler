@@ -9,12 +9,13 @@ import { animations, handleEnd, performTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { useEntityDragHandlers } from './useEntityDragHandlers'
 import { useEntityTabState } from './useEntityTabState'
-import { getPanelsElement, countDraggableNodes, createMultiClassDraggableChecker } from './useDragAndDropHelpers'
+import { getPanelsElement, countDraggableNodes, createMultiClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
 import type { GlobalEntity } from '@/types/entities'
+import type { PatchOrderIndex } from './useEntityDragHandlers'
 
 export interface UseInstanceDragAndDropOptions {
   mainInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  patchBlockInstanceOrderIndex: (id: string, orderIndex: number) => Promise<void>
+  patchBlockInstanceOrderIndex: PatchOrderIndex
 }
 
 export interface UseInstanceDragAndDropReturn {
@@ -177,24 +178,10 @@ export function useInstanceDragAndDrop(
             // WHY: FormKit drag-and-drop needs a Ref to reactively track changes
             // PATTERN: Pass the Ref directly, not the .value
             group: `blockInstances-${blockShapeId}`,
-            draggable: (child) => {
-              if (!child) return false
-              
-              // LEARNING: Find the .v-expansion-panel element (child or its ancestor)
-              // WHY: The child might be a nested element (button, text, etc.) inside the panel
-              // PATTERN: Check if child itself is a panel, otherwise find closest ancestor
-              const childEl = child as HTMLElement
-              const panelElement = childEl.classList?.contains('v-expansion-panel') 
-                ? childEl 
-                : childEl.closest?.('.v-expansion-panel') as HTMLElement | null
-              
-              if (!panelElement) return false
-              
-              // LEARNING: Use the same checker logic as node counting
-              // WHY: Ensures consistency between validation and actual drag behavior
-              // PATTERN: Reuse the same checker function
-              return isDraggableChecker(panelElement)
-            },
+            // LEARNING: Use shared draggable checker function
+            // WHY: Eliminates duplication between useDragAndDrop and useInstanceDragAndDrop
+            // PATTERN: Extract common logic to shared utility
+            draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
             plugins: [animations()],
             performTransfer: (state, data) => {
               performTransfer(state, data)

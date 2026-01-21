@@ -40,6 +40,7 @@
       @update:model-value="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
+      @keydown="handleKeydown"
     />
     <AppTextField
       v-else-if="fieldContext"
@@ -59,6 +60,7 @@
       @focus="handleFocus"
       @blur="handleBlur"
       @keydown.enter="handleEnterKey"
+      @keydown="handleKeydown"
     />
   </BaseInput>
 </template>
@@ -78,7 +80,7 @@
  *            SelectInputs.vue pattern. App components handle labels internally.
  */
 
-import { computed, inject, toRef, unref, type Ref } from 'vue'
+import { computed, inject, toRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { AUTCOMPLETE_OFF } from '../../../../utils/autocomplete'
 import BaseInput from './BaseInput.vue'
@@ -229,7 +231,34 @@ const handlers = computed(() => {
 // PATTERN: Access handlers.value in template and methods
 const handleFocus = () => handlers.value.handleFocus()
 const handleBlur = () => handlers.value.handleBlur()
-const handleEnterKey = () => handlers.value.handleEnterKey()
+const handleEnterKey = (event: KeyboardEvent) => handlers.value.handleEnterKey(event)
+
+/**
+ * LEARNING: Handle spacebar keydown to prevent VExpansionPanel from toggling when typing
+ * WHY: VExpansionPanel intercepts spacebar to toggle expansion, but spacebar should type in input fields
+ * PATTERN: Stop propagation of spacebar events when focus is in an editable input field
+ */
+const handleKeydown = (event: KeyboardEvent): void => {
+  // Only handle spacebar key
+  if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCode !== 32) {
+    return
+  }
+  
+  // Check if input is editable (not disabled or readonly)
+  const context = fieldContext.value
+  if (!context) {
+    return
+  }
+  
+  const isEditable = !context.displayConfig.disabled && !context.displayConfig.readOnly
+  
+  if (isEditable) {
+    // Stop propagation to prevent VExpansionPanel from toggling when spacebar is pressed
+    // Allow spacebar to type in the input field normally
+    event.stopPropagation()
+    // Don't preventDefault - we want spacebar to type in the input
+  }
+}
 </script>
 
 <style scoped>

@@ -16,6 +16,7 @@ import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFormFields } from '@/composables/formFields/useFormFields'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/useAdmin'
+import { getFieldKeys } from '@/utils/forms/getFieldKeys'
 import type { FormContext } from 'vee-validate'
 
 interface Props {
@@ -83,31 +84,15 @@ const { fieldMetadata } = useEntityMetadata(props.entityKey, entity)
 // WHY: Field keys are static properties of the entity - they don't change, so get them immediately
 //      Metadata tells us HOW to render fields, but field keys come from the entity itself
 // PATTERN: Extract keys from entity immediately, use metadata for rendering config (not for key discovery)
+// LEARNING: Use shared utility to eliminate duplication
+// WHY: Same logic exists in DynamicForm - extract to shared utility
+// PATTERN: Use getFieldKeys utility function
 const fieldKeys = computed(() => {
-  // LEARNING: Get keys from entity object immediately - they're always available
-  // WHY: Entity object has all field keys as properties, no need to wait for metadata
-  // PATTERN: Extract keys from entity, filter out non-field properties and system fields
-  const entityValue = entity.value
-  const entityKeys = entityValue ? Object.keys(entityValue).filter(key => {
-    // Filter out non-field properties that shouldn't be rendered
-    // LEARNING: Exclude system fields (createdAt, updatedAt) and special fields (annotations)
-    // WHY: System fields are managed by database, annotations handled separately via AnnotationsField
-    // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
-    const systemFields = ['id', 'entityKey', 'orderIndex', 'createdAt', 'updatedAt', 'annotations']
-    return !systemFields.includes(key)
-  }) as GlobalFieldKey<typeof props.entityKey>[] : []
-  
-  // LEARNING: If metadata is available, use it as source of truth for which fields to include
-  // WHY: Metadata might have additional fields or filter out some fields
-  // PATTERN: Prefer metadata keys if available, otherwise use entity keys
-  if (fieldMetadata.value && Object.keys(fieldMetadata.value).length > 0) {
-    return Object.keys(fieldMetadata.value) as GlobalFieldKey<typeof props.entityKey>[]
-  }
-  
-  // LEARNING: Fallback to entity keys if metadata not yet loaded
-  // WHY: Don't wait for metadata - field keys are available immediately from entity
-  // PATTERN: Use entity keys immediately, metadata will update when it loads
-  return entityKeys
+  return getFieldKeys({
+    entity: entity.value as Record<string, unknown> | null,
+    fieldMetadata: fieldMetadata.value,
+    entityKey: props.entityKey
+  })
 })
 
 // LEARNING: Get layout config from instanceConfig (temporary until metadata provides layout)

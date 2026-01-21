@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-15T22:09:05.924Z",
+  "generatedAt": "2026-01-18T15:56:56.742Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -3338,62 +3338,62 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 49,
+          "lineNumber": 50,
           "line": "queryClient: ReturnType<typeof useQueryClient>"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 75,
+          "lineNumber": 76,
           "line": "const isTempEntity = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 85,
+          "lineNumber": 86,
           "line": "const entity = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 99,
+          "lineNumber": 100,
           "line": "return components.map((ea) => ea.childId)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 190,
+          "lineNumber": 191,
           "line": "const error = computed(() => errorMessage.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 191,
+          "lineNumber": 192,
           "line": "const isValid = computed(() => meta.valid)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 192,
+          "lineNumber": 193,
           "line": "const isDirty = computed(() => meta.dirty)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 193,
+          "lineNumber": 194,
           "line": "const isValidating = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 194,
+          "lineNumber": 195,
           "line": "const isFocused = ref(false)"
         },
         {
           "ruleId": "console",
-          "lineNumber": 207,
+          "lineNumber": 208,
           "line": "console.error(error)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 214,
+          "lineNumber": 215,
           "line": "const isDisabled = ref(providedDisplayConfig.disabled === true) // Explicit boolean, no default"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 234,
+          "lineNumber": 235,
           "line": "const queryClient = useQueryClient()"
         }
       ],
@@ -3575,57 +3575,57 @@
         },
         {
           "ruleId": "ref",
-          "lineNumber": 69,
+          "lineNumber": 70,
           "line": "const isMounted = ref(false)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 76,
+          "lineNumber": 77,
           "line": "watch(mainInstancesByShape, (instancesMap) => {"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 80,
+          "lineNumber": 81,
           "line": "blockInstancesLists.value.set(blockShapeId, ref([...instances]))"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 81,
+          "lineNumber": 82,
           "line": "blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map(i => String(i.id))))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 81,
+          "lineNumber": 82,
           "line": "blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map(i => String(i.id))))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 84,
+          "lineNumber": 85,
           "line": "const filteredInstances = computed(() => mainInstancesByShape.value.get(blockShapeId) || [])"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 115,
+          "lineNumber": 116,
           "line": "watch(() => [groupContainers.value, groupPanelsContainers.value], ([containers, panelsContainers]) => {"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 141,
+          "lineNumber": 142,
           "line": "const panelsRefForDrag = ref(panelsEl)"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 219,
+          "lineNumber": 206,
           "line": "onMounted(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 228,
+          "lineNumber": 215,
           "line": "onBeforeUnmount(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 242,
+          "lineNumber": 229,
           "line": "onUnmounted(() => {"
         }
       ],
@@ -4020,22 +4020,22 @@
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 167,
+          "lineNumber": 153,
           "line": "* PATTERN: Use onBeforeUnmount to stop watchers before Vue starts unmounting"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 169,
+          "lineNumber": 155,
           "line": "onBeforeUnmount(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 180,
+          "lineNumber": 166,
           "line": "* PATTERN: Use onUnmounted for final cleanup after Vue finishes unmounting"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 182,
+          "lineNumber": 168,
           "line": "onUnmounted(() => {"
         }
       ],
@@ -4274,7 +4274,7 @@
         "sort": 0,
         "dom": 3,
         "timers": 1,
-        "console": 2
+        "console": 4
       },
       "matches": [
         {
@@ -4289,57 +4289,67 @@
         },
         {
           "ruleId": "console",
+          "lineNumber": 155,
+          "line": "// WHY: Debug logging should use proper logger utility, not console.log"
+        },
+        {
+          "ruleId": "console",
           "lineNumber": 156,
-          "line": "console.log('[useResponsiveGrid] Column calculation:', {"
+          "line": "// PATTERN: Remove debug console.log statements - use proper logging if needed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 178,
+          "lineNumber": 166,
           "line": "const isSingleColumn = computed(() => {"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 181,
+          "lineNumber": 169,
           "line": "const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 600"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 191,
+          "lineNumber": 179,
           "line": "onMounted(async () => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 191,
+          "lineNumber": 179,
           "line": "onMounted(async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 192,
+          "lineNumber": 180,
           "line": "await nextTick()"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 204,
+          "lineNumber": 192,
           "line": "const computedStyle = window.getComputedStyle(gridRef.value)"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 227,
+          "lineNumber": 215,
           "line": "const computedStyle = window.getComputedStyle(gridRef.value!)"
         },
         {
           "ruleId": "console",
-          "lineNumber": 232,
-          "line": "console.log('[useResponsiveGrid] ResizeObserver update:', {"
+          "lineNumber": 221,
+          "line": "// WHY: Debug logging should use proper logger utility, not console.log"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 222,
+          "line": "// PATTERN: Remove debug console.log statements - use proper logging if needed"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 252,
+          "lineNumber": 234,
           "line": "setTimeout(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 265,
+          "lineNumber": 247,
           "line": "onUnmounted(() => {"
         }
       ],
@@ -4359,6 +4369,11 @@
           "kind": "side_effects",
           "priority": "P0",
           "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
+        },
+        {
+          "kind": "logging",
+          "priority": "P2",
+          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
         }
       ]
     },
@@ -4561,106 +4576,6 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__usePartInstanceData.ts",
-      "repoPath": "src/composables/usePartInstanceData.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/usePartInstanceData.ts",
-      "counts": {
-        "computed": 6,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 1,
-        "reduce": 0,
-        "filter": 2,
-        "sort": 2,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 58,
-          "line": "? computed(() => blockInstanceId)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 63,
-          "line": "? computed(() => optionsFieldKey)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 76,
-          "line": "const blockInstance = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 85,
-          "line": "const blockShape = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 96,
-          "line": "const validPartShapes = computed((): GlobalEntity<'partShape'>[] => {"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 110,
-          "line": "return resolved.sort((a, b) => a.orderIndex - b.orderIndex)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 118,
-          "line": "const existingPartInstances = computed((): GlobalEntity<'partInstance'>[] => {"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 121,
-          "line": "const relationships = activeParts.value.filter("
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 126,
-          "line": "const childIds = relationships.map((rel) => String(rel.child_id))"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 128,
-          "line": "return resolved.sort((a, b) => a.orderIndex - b.orderIndex)"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 163,
-          "line": "const matchingPartInstances = allPartInstances.filter((pp) => {"
-        }
-      ],
-      "exportUseFunctions": [
-        "usePartInstanceData"
-      ],
-      "importSpecifiers": [
-        "./useAdmin",
-        "./useGlobal",
-        "./useRelationship",
-        "@/types/entities",
-        "@/utils/collections/resolveByIds",
-        "@/utils/entities/entityFieldAccess",
-        "vue"
-      ],
-      "returnKeys": [
-        "existingPartInstances",
-        "getPartInstanceForShape",
-        "getPartShapeName",
-        "validPartShapes"
-      ],
-      "complexityScore": 11,
-      "suggestions": []
-    },
-    {
       "id": "src__composables__admin__useAdminPrimitiveMetadataMutations.ts",
       "repoPath": "src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
@@ -4690,47 +4605,47 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 29,
+          "lineNumber": 28,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 32,
+          "lineNumber": 30,
           "line": "const saveFieldRenderingMutation = useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 33,
+          "lineNumber": 31,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 133,
+          "lineNumber": 69,
           "line": "const response = await apiClient.post(endpoint, fullEntry)"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 158,
+          "lineNumber": 94,
           "line": "const deleteFieldOverrideMutation = useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 159,
+          "lineNumber": 95,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 169,
+          "lineNumber": 105,
           "line": "await apiClient.delete(endpoint)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 194,
+          "lineNumber": 130,
           "line": "saveFieldRendering: async ("
         },
         {
           "ruleId": "async",
-          "lineNumber": 213,
+          "lineNumber": 149,
           "line": "deleteFieldOverride: async ("
         }
       ],
@@ -4738,14 +4653,18 @@
         "useAdminPrimitiveMetadataMutations"
       ],
       "importSpecifiers": [
-        "@/composables/useAdminConfig",
-        "@/constants/entities",
         "@/types/entityMetadata",
+        "@/utils/admin/buildMetadataEntry",
         "@/utils/api",
         "@tanstack/vue-query"
       ],
       "returnKeys": [
-        "relationshipSelect"
+        "entityId",
+        "entityType",
+        "existingMetadata",
+        "fieldKey",
+        "renderingUpdates",
+        "saveFieldRendering"
       ],
       "complexityScore": 10,
       "suggestions": []
@@ -4780,47 +4699,47 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 26,
+          "lineNumber": 27,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 28,
+          "lineNumber": 29,
           "line": "const saveRelationshipFieldRenderingMutation = useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 29,
+          "lineNumber": 30,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 120,
+          "lineNumber": 68,
           "line": "const response = await apiClient.post(endpoint, fullEntry)"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 145,
+          "lineNumber": 93,
           "line": "const deleteRelationshipFieldOverrideMutation = useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 146,
+          "lineNumber": 94,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 156,
+          "lineNumber": 104,
           "line": "await apiClient.delete(endpoint)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 185,
+          "lineNumber": 133,
           "line": "saveRelationshipFieldRendering: async ("
         },
         {
           "ruleId": "async",
-          "lineNumber": 204,
+          "lineNumber": 152,
           "line": "deleteRelationshipFieldOverride: async ("
         }
       ],
@@ -4829,11 +4748,17 @@
       ],
       "importSpecifiers": [
         "@/types/entityMetadata",
+        "@/utils/admin/buildMetadataEntry",
         "@/utils/api",
         "@tanstack/vue-query"
       ],
       "returnKeys": [
-        "relationshipSelect"
+        "entityId",
+        "entityType",
+        "existingMetadata",
+        "relationshipKey",
+        "renderingUpdates",
+        "saveRelationshipFieldRendering"
       ],
       "complexityScore": 10,
       "suggestions": []
@@ -5213,22 +5138,22 @@
         },
         {
           "ruleId": "console",
-          "lineNumber": 325,
+          "lineNumber": 324,
           "line": "console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)"
         },
         {
           "ruleId": "console",
-          "lineNumber": 335,
+          "lineNumber": 334,
           "line": "console.warn(`[useFormFieldsContext] Cannot create contexts - form not ready:`, {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 357,
+          "lineNumber": 356,
           "line": "// PATTERN: Eager creation from initial field keys, then watchEffect to catch async metadata loads"
         },
         {
           "ruleId": "watchEffect",
-          "lineNumber": 363,
+          "lineNumber": 362,
           "line": "watchEffect(() => {"
         }
       ],
@@ -5261,6 +5186,101 @@
           "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
         }
       ]
+    },
+    {
+      "id": "src__composables__usePartInstanceData.ts",
+      "repoPath": "src/composables/usePartInstanceData.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/usePartInstanceData.ts",
+      "counts": {
+        "computed": 5,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 1,
+        "reduce": 0,
+        "filter": 2,
+        "sort": 2,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 58,
+          "line": "? computed(() => blockInstanceId)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 73,
+          "line": "const blockInstance = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 82,
+          "line": "const blockShape = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 93,
+          "line": "const validPartShapes = computed((): GlobalEntity<'partShape'>[] => {"
+        },
+        {
+          "ruleId": "sort",
+          "lineNumber": 107,
+          "line": "return resolved.sort((a, b) => a.orderIndex - b.orderIndex)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 115,
+          "line": "const existingPartInstances = computed((): GlobalEntity<'partInstance'>[] => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 118,
+          "line": "const relationships = activeParts.value.filter("
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 123,
+          "line": "const childIds = relationships.map((rel) => String(rel.child_id))"
+        },
+        {
+          "ruleId": "sort",
+          "lineNumber": 125,
+          "line": "return resolved.sort((a, b) => a.orderIndex - b.orderIndex)"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 160,
+          "line": "const matchingPartInstances = allPartInstances.filter((pp) => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "usePartInstanceData"
+      ],
+      "importSpecifiers": [
+        "./useAdmin",
+        "./useGlobal",
+        "./useRelationship",
+        "@/types/entities",
+        "@/utils/collections/resolveByIds",
+        "@/utils/entities/entityFieldAccess",
+        "vue"
+      ],
+      "returnKeys": [
+        "existingPartInstances",
+        "getPartInstanceForShape",
+        "getPartShapeName",
+        "validPartShapes"
+      ],
+      "complexityScore": 10,
+      "suggestions": []
     },
     {
       "id": "src__composables__admin__useFieldComponent.ts",
@@ -5405,42 +5425,42 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 117,
+          "lineNumber": 118,
           "line": "const fieldMetadataEntry = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 129,
+          "lineNumber": 130,
           "line": "const isEnumSelect = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 140,
+          "lineNumber": 141,
           "line": "const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> | undefined => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 201,
+          "lineNumber": 202,
           "line": "const isDescriptionSelect = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 215,
+          "lineNumber": 216,
           "line": "const isMultiple = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 244,
+          "lineNumber": 245,
           "line": "const chipsProps = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 259,
+          "lineNumber": 260,
           "line": "const optionEntityKey = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 305,
+          "lineNumber": 306,
           "line": "const optionLabelKey = computed(() => {"
         }
       ],
@@ -5488,47 +5508,47 @@
       "matches": [
         {
           "ruleId": "filter",
-          "lineNumber": 59,
+          "lineNumber": 60,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 68,
+          "lineNumber": 69,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 77,
+          "lineNumber": 78,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 86,
+          "lineNumber": 87,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')"
         },
         {
           "ruleId": "async",
-          "lineNumber": 92,
+          "lineNumber": 93,
           "line": "const handleAnnotationTypeCreate = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 96,
+          "lineNumber": 97,
           "line": "await createAnnotationTypeMutation.mutateAsync({ name: newAnnotationTypeName.value.trim() })"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 100,
+          "lineNumber": 101,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 112,
+          "lineNumber": 113,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 122,
+          "lineNumber": 123,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))"
         }
       ],
@@ -5538,6 +5558,7 @@
       "importSpecifiers": [
         "@/composables/useAnnotationType",
         "@/composables/useNotification",
+        "@/constants/entities",
         "@/types/entities",
         "vue"
       ],
@@ -5678,32 +5699,32 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 85,
+          "lineNumber": 84,
           "line": "const existingPartInstances = computed(() => existingPartInstancesRef.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 87,
+          "lineNumber": 86,
           "line": "const blockInstance = computed(() => getGlobalEntityById('blockInstance', blockInstanceId.value))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 91,
+          "lineNumber": 90,
           "line": "const shouldShowPartInstances = computed(() => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 165,
+          "lineNumber": 164,
           "line": "const handleNewPartInstanceSaved = async ("
         },
         {
           "ruleId": "await",
-          "lineNumber": 176,
+          "lineNumber": 175,
           "line": "await createActivePartsRelationship({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 182,
+          "lineNumber": 181,
           "line": "await Promise.all(["
         }
       ],
@@ -6367,42 +6388,43 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 58,
+          "lineNumber": 60,
           "line": "const handleDragEnd = async (): Promise<void> => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 61,
+          "lineNumber": 63,
           "line": "const reordered = entityIds.value.map(id =>"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 63,
+          "lineNumber": 65,
           "line": ").filter(Boolean)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 66,
+          "lineNumber": 68,
           "line": "const normalized = reordered.map((entity, index) => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 75,
+          "lineNumber": 77,
           "line": "const updates = normalized.map((entity, index) => ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 80,
+          "lineNumber": 82,
           "line": "await patchOrderIndex(updates)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 94,
+          "lineNumber": 96,
           "line": "entityIds.value = filteredEntities.value.map(entity => String(entity.id))"
         }
       ],
       "exportUseFunctions": [],
       "importSpecifiers": [
+        "@/composables/entityCrud/useEntityCrudActions",
         "@/constants/entities",
         "@/types/entities",
         "vue"
@@ -7371,7 +7393,7 @@
         },
         {
           "ruleId": "dom",
-          "lineNumber": 295,
+          "lineNumber": 307,
           "line": "(window as WindowWithDebug).__useAdminDebug = {"
         }
       ],
@@ -7681,7 +7703,7 @@
         "sort": 0,
         "dom": 0,
         "timers": 0,
-        "console": 9
+        "console": 1
       },
       "matches": [
         {
@@ -7690,68 +7712,28 @@
           "line": "const applyBulkEdit = async (blockShapeId: string): Promise<void> => {"
         },
         {
-          "ruleId": "console",
-          "lineNumber": 144,
-          "line": "console.log('[useInstanceBulkEdit] applyBulkEdit called for blockShapeId:', blockShapeId)"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 147,
-          "line": "console.log('[useInstanceBulkEdit] instances count:', instances.length)"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 150,
-          "line": "console.log('[useInstanceBulkEdit] editData:', editData)"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 151,
-          "line": "console.log('[useInstanceBulkEdit] editData keys:', Object.keys(editData))"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 154,
-          "line": "console.log('[useInstanceBulkEdit] No changes to apply - editData is empty')"
-        },
-        {
           "ruleId": "map",
-          "lineNumber": 162,
+          "lineNumber": 157,
           "line": "const updates = instances.map(instance => ({"
         },
         {
-          "ruleId": "console",
-          "lineNumber": 166,
-          "line": "console.log('[useInstanceBulkEdit] updates array:', updates)"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 171,
-          "line": "console.log('[useInstanceBulkEdit] Calling patchBulk...')"
-        },
-        {
           "ruleId": "await",
-          "lineNumber": 172,
+          "lineNumber": 165,
           "line": "await patchBulk(updates)"
         },
         {
           "ruleId": "console",
-          "lineNumber": 173,
-          "line": "console.log('[useInstanceBulkEdit] patchBulk completed successfully')"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 179,
+          "lineNumber": 171,
           "line": "console.error('[useInstanceBulkEdit] Error in applyBulkEdit:', err)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 190,
+          "lineNumber": 182,
           "line": "watch(blockInstancesByShape, (map) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 194,
+          "lineNumber": 186,
           "line": "bulkEditBaseSqFtComputeds.value.set(blockShapeId, computed({"
         }
       ],
@@ -7772,13 +7754,7 @@
         "toggleBulkEditMode"
       ],
       "complexityScore": 5,
-      "suggestions": [
-        {
-          "kind": "logging",
-          "priority": "P2",
-          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
-        }
-      ]
+      "suggestions": []
     },
     {
       "id": "src__composables__admin__useRelationshipMetadata.ts",
@@ -7983,7 +7959,7 @@
         "sort": 0,
         "dom": 0,
         "timers": 0,
-        "console": 3
+        "console": 2
       },
       "matches": [
         {
@@ -8002,28 +7978,23 @@
           "line": "const appointmentSlots = computed(() => {"
         },
         {
-          "ruleId": "console",
-          "lineNumber": 100,
-          "line": "console.log('[useAppointmentSlots] No shape, returning empty slots')"
-        },
-        {
           "ruleId": "map",
-          "lineNumber": 112,
+          "lineNumber": 111,
           "line": "const slots = times.map((time, index) => {"
         },
         {
           "ruleId": "console",
-          "lineNumber": 120,
+          "lineNumber": 119,
           "line": "console.error('Error applying shape to times:', error)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 126,
+          "lineNumber": 125,
           "line": "const selectedSlot = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 147,
+          "lineNumber": 146,
           "line": "const graphBars = computed(() => {"
         }
       ],
@@ -8040,13 +8011,7 @@
         "onSite"
       ],
       "complexityScore": 5,
-      "suggestions": [
-        {
-          "kind": "logging",
-          "priority": "P2",
-          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
-        }
-      ]
+      "suggestions": []
     },
     {
       "id": "src__composables__booking__useContactsStepData.ts",
@@ -8402,7 +8367,7 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 84,
+          "lineNumber": 83,
           "line": "const instancesWithDisplay = computed(() => {"
         }
       ],
@@ -8949,6 +8914,58 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__admin__useEntityCardStoreSync.ts",
+      "repoPath": "src/composables/admin/useEntityCardStoreSync.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityCardStoreSync.ts",
+      "counts": {
+        "computed": 1,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 1,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 1,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 80,
+          "line": "const storeEntity = computed(() => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 102,
+          "line": "watch(storeEntity, (newStoreEntity, oldStoreEntity) => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 146,
+          "line": "const changedFields = Object.keys(newStoreEntity).filter(key => {"
+        }
+      ],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "@/constants/entities",
+        "@/types/entities",
+        "vee-validate",
+        "vue"
+      ],
+      "returnKeys": [
+        "storeEntity"
+      ],
+      "complexityScore": 3,
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useIconPickerState.ts",
       "repoPath": "src/composables/admin/useIconPickerState.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useIconPickerState.ts",
@@ -9103,83 +9120,6 @@
       "returnKeys": [],
       "complexityScore": 3,
       "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useConfirmationStepData.ts",
-      "repoPath": "src/composables/booking/useConfirmationStepData.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useConfirmationStepData.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 3,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 3
-      },
-      "matches": [
-        {
-          "ruleId": "watch",
-          "lineNumber": 132,
-          "line": "watch("
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 135,
-          "line": "console.log('[useConfirmationStepData] additionalUnits changed:', {"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 144,
-          "line": "watch("
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 149,
-          "line": "console.log('[useConfirmationStepData] priceData recalculated:', {"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 159,
-          "line": "watch("
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 162,
-          "line": "console.log('[useConfirmationStepData] propertyDetailsStepData.value changed:', {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useConfirmationStepData"
-      ],
-      "importSpecifiers": [
-        "@/types/wizard",
-        "@/types/wizardStepData",
-        "@/utils/booking/confirmationStepData",
-        "@/utils/env/devMode",
-        "@/utils/transformers/globalToBookingTransformer",
-        "vue"
-      ],
-      "returnKeys": [
-        "summaryData"
-      ],
-      "complexityScore": 3,
-      "suggestions": [
-        {
-          "kind": "logging",
-          "priority": "P2",
-          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
-        }
-      ]
     },
     {
       "id": "src__composables__booking__useInstanceComponents.ts",
@@ -9534,17 +9474,17 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 145,
+          "lineNumber": 144,
           "line": "const computedRef = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 170,
+          "lineNumber": 169,
           "line": "const computedRef = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 201,
+          "lineNumber": 200,
           "line": "const computedRef = computed(() => {"
         }
       ],
@@ -9558,7 +9498,6 @@
         "@/constants/entities",
         "@/constants/primitives",
         "@/types/entity/formFields",
-        "@/utils/env/devMode",
         "vue"
       ],
       "returnKeys": [
@@ -9934,12 +9873,12 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 173,
+          "lineNumber": 175,
           "line": "const handleDelete = async (id: GlobalEntityId): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 181,
+          "lineNumber": 183,
           "line": "await remove(id)"
         }
       ],
@@ -9948,6 +9887,7 @@
       ],
       "importSpecifiers": [
         "../useEntity",
+        "../useNotification",
         "@/constants/entities",
         "@/types/entities",
         "vue-router"
@@ -10004,70 +9944,6 @@
       "returnKeys": [
         "fieldsByLocation",
         "getFieldLocation"
-      ],
-      "complexityScore": 2,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__admin__usePartsCollectionField.ts",
-      "repoPath": "src/composables/admin/usePartsCollectionField.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartsCollectionField.ts",
-      "counts": {
-        "computed": 2,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 43,
-          "line": "const entity = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 66,
-          "line": "const fieldMetadataEntry = computed(() => {"
-        }
-      ],
-      "exportUseFunctions": [],
-      "importSpecifiers": [
-        "./useEntityMetadata",
-        "@/composables/useAdmin",
-        "@/composables/useFieldContext",
-        "@/constants/entities",
-        "@/constants/primitives",
-        "@/types/entities",
-        "@/types/entity/formFields",
-        "@/utils/entities/entityFieldAccess",
-        "validParts",
-        "vue"
-      ],
-      "returnKeys": [
-        "childEntityKey",
-        "defaultExpanded",
-        "getChildParentId",
-        "getParentId",
-        "optionsFieldKey",
-        "parentEntity",
-        "parentTypeEntity",
-        "parentTypeEntityKey",
-        "parentTypeProperty",
-        "parentTypeRef",
-        "relationshipKey",
-        "shouldDisplay"
       ],
       "complexityScore": 2,
       "suggestions": []
@@ -10145,18 +10021,19 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 34,
+          "lineNumber": 35,
           "line": "const statusButtonFields = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 39,
+          "lineNumber": 40,
           "line": "return categorized.statusButtonFields.map((f) => ({"
         }
       ],
       "exportUseFunctions": [],
       "importSpecifiers": [
         "./useEntityMetadata",
+        "@/constants/entities",
         "@/constants/primitives",
         "@/types/entities",
         "@/utils/forms/fieldSectionCategorization",
@@ -10191,18 +10068,19 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 38,
+          "lineNumber": 39,
           "line": "const statusButtonHandlers = ref(new Map<string, ReturnType<typeof useStatusButtonToggle<GE>>>())"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 45,
+          "lineNumber": 46,
           "line": "watch(() => filteredEntities.value, (entities) => {"
         }
       ],
       "exportUseFunctions": [],
       "importSpecifiers": [
         "./useStatusButtonToggle",
+        "@/constants/entities",
         "@/constants/primitives",
         "@/types/entities",
         "vue"
@@ -10770,7 +10648,7 @@
       "matches": [
         {
           "ruleId": "filter",
-          "lineNumber": 71,
+          "lineNumber": 70,
           "line": "return Array.from(allPanels).filter(node => {"
         }
       ],
@@ -10909,6 +10787,65 @@
       "returnKeys": [
         "partInstanceMetadataModalOpen",
         "togglePartInstanceMetadataModal"
+      ],
+      "complexityScore": 1,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__usePartsCollectionField.ts",
+      "repoPath": "src/composables/admin/usePartsCollectionField.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartsCollectionField.ts",
+      "counts": {
+        "computed": 1,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 67,
+          "line": "const fieldMetadataEntry = computed(() => {"
+        }
+      ],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "./useEntityMetadata",
+        "@/composables/useAdmin",
+        "@/composables/useFieldContext",
+        "@/constants/entities",
+        "@/constants/primitives",
+        "@/types/entities",
+        "@/types/entity/formFields",
+        "@/utils/entities/entityFieldAccess",
+        "validParts",
+        "vue"
+      ],
+      "returnKeys": [
+        "childEntityKey",
+        "defaultExpanded",
+        "getChildParentId",
+        "getParentId",
+        "optionsFieldKey",
+        "parentEntity",
+        "parentTypeEntity",
+        "parentTypeEntityKey",
+        "parentTypeProperty",
+        "parentTypeRef",
+        "relationshipKey",
+        "shouldDisplay"
       ],
       "complexityScore": 1,
       "suggestions": []
@@ -11276,11 +11213,11 @@
       "matches": [],
       "exportUseFunctions": [],
       "importSpecifiers": [
-        "../configs/field/display/fullFieldDisplayConfig",
-        "../types/entity/formDataEnums",
-        "./useAdminConfig",
+        "@/composables/useAdminConfig",
+        "@/configs/field/display/fullFieldDisplayConfig",
         "@/constants/entities",
-        "@/constants/primitives"
+        "@/constants/primitives",
+        "@/types/entity/formDataEnums"
       ],
       "returnKeys": [],
       "complexityScore": 0,
@@ -11433,9 +11370,9 @@
       "importSpecifiers": [
         "@/components/admin/generic/EntityCard.vue",
         "@/composables/useFieldContext",
+        "@/constants/entities",
         "@/constants/primitives",
-        "@/types/entities",
-        "vue"
+        "@/types/entities"
       ],
       "returnKeys": [],
       "complexityScore": 0,
@@ -11688,6 +11625,7 @@
         "useInstanceSaveHandlers"
       ],
       "importSpecifiers": [
+        "@/constants/entities",
         "@/types/entities"
       ],
       "returnKeys": [],
@@ -11880,7 +11818,7 @@
       "matches": [
         {
           "ruleId": "console",
-          "lineNumber": 26,
+          "lineNumber": 27,
           "line": "console.error("
         }
       ],
@@ -11888,6 +11826,7 @@
         "useStatusButtonValue"
       ],
       "importSpecifiers": [
+        "@/constants/entities",
         "@/constants/primitives",
         "@/types/entities"
       ],
@@ -12148,6 +12087,57 @@
         "vue"
       ],
       "returnKeys": [],
+      "complexityScore": 0,
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__booking__useConfirmationStepData.ts",
+      "repoPath": "src/composables/booking/useConfirmationStepData.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useConfirmationStepData.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 1
+      },
+      "matches": [
+        {
+          "ruleId": "console",
+          "lineNumber": 125,
+          "line": "// WHY: Debug logging should use proper logger utility, not console.log"
+        }
+      ],
+      "exportUseFunctions": [
+        "useConfirmationStepData"
+      ],
+      "importSpecifiers": [
+        "@/types/wizard",
+        "@/types/wizardStepData",
+        "@/utils/booking/confirmationStepData",
+        "@/utils/transformers/globalToBookingTransformer",
+        "vue"
+      ],
+      "returnKeys": [
+        "summaryData"
+      ],
       "complexityScore": 0,
       "suggestions": [
         {

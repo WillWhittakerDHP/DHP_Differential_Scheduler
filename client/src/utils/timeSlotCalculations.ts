@@ -10,6 +10,8 @@
 import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
+import { fitTimeSlots, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
+import { generateMockFreeBusyResponse, extractBusyTimesFromFreeBusyResponse } from '@/utils/booking/mockGoogleCalendar'
 
 /**
  * Round duration up to the nearest 15-minute increment
@@ -77,38 +79,81 @@ export function calculateDurationFromPartInstances(service: BookingBlockInstance
 }
 
 /**
- * Get calendar availability (currently returns dummy data)
- * LEARNING: Structure for future Google Calendar integration
- * WHY: Enables filtering out busy times when generating slots
- * PATTERN: Returns available time ranges (currently all times available)
- * Session 1.3.7: dateRange parameter defined but not yet used for filtering
+ * Get calendar availability using mock Google Calendar free/busy data
+ * LEARNING: Uses mock data generator to simulate Google Calendar API responses
+ * WHY: Enables testing time slot filtering with blocked periods without real API integration
+ * PATTERN: Generates mock busy periods and extracts them for use with fitTimeSlots()
+ * 
+ * FUTURE: When ready for real Google Calendar integration:
+ * 1. Add environment/config flag (e.g., USE_MOCK_CALENDAR_DATA)
+ * 2. Create googleCalendarApi.ts with real API calls
+ * 3. Switch between mock and real based on flag
+ * 4. Keep mock implementation for testing/development
  * 
  * @param dateRange - Object with start and end ISO date strings
- * @returns Array of busy time ranges (currently empty - all times available)
+ * @returns Array of busy time ranges compatible with fitTimeSlots() busyTimes parameter
  * 
- * TODO: Session 1.3.7+ - Implement dateRange filtering
- * - Filter busy times to only include those within the provided dateRange
- * - Ensure dateRange validation (start must be >= today)
- * - Integrate with Google Calendar API to fetch actual busy times
- * - Handle timezone conversions properly
+ * @example
+ * ```typescript
+ * const busyTimes = getCalendarAvailability({
+ *   start: '2026-01-15T00:00:00Z',
+ *   end: '2026-01-16T00:00:00Z'
+ * })
+ * // Returns: [{ start: '2026-01-15T10:00:00Z', end: '2026-01-15T11:00:00Z' }, ...]
+ * ```
  */
 export function getCalendarAvailability(dateRange: { start: string; end: string }): Array<{ start: string; end: string }> {
-  // TODO: Session 1.3.7+ - Integrate with Google Calendar API
-  // TODO: Filter busy times by dateRange (currently returns all times as available)
-  // For now, return empty array (all times available) - meets testing needs
-  // Note: dateRange parameter (start: ${dateRange.start}, end: ${dateRange.end}) will be used when Google Calendar integration is implemented
-   
-  void dateRange // Suppress unused parameter warning - will be used for filtering when implemented
-  return []
+  // LEARNING: Generate mock Google Calendar free/busy response
+  // WHY: Simulates real calendar data for testing without API dependency
+  // PATTERN: Use mock generator, then extract busy times
+  
+  // Validate date range
+  const startDate = new Date(dateRange.start)
+  const endDate = new Date(dateRange.end)
+  
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    console.warn('[getCalendarAvailability] Invalid date range:', dateRange)
+    return []
+  }
+  
+  if (startDate >= endDate) {
+    console.warn('[getCalendarAvailability] start must be before end:', dateRange)
+    return []
+  }
+  
+  try {
+    // Generate mock free/busy response matching Google Calendar API format
+    const mockResponse = generateMockFreeBusyResponse(dateRange, {
+      periodsPerCalendar: 3,  // 3 busy periods per calendar
+      minDurationMinutes: 30,  // Minimum 30 minutes
+      maxDurationMinutes: 120,  // Maximum 2 hours
+      calendarIds: ['primary', 'work', 'personal']  // Multiple calendars
+    })
+    
+    // Extract busy times from all calendars, merging overlapping periods
+    // LEARNING: Merge overlapping periods to avoid double-counting
+    // WHY: Multiple calendars may have overlapping events
+    // PATTERN: Extract and merge for accurate availability calculation
+    const busyTimes = extractBusyTimesFromFreeBusyResponse(mockResponse, true)
+    
+    return busyTimes
+  } catch (error) {
+    // LEARNING: Handle errors gracefully
+    // WHY: Mock generation might fail with invalid date ranges
+    // PATTERN: Log error and return empty array (all times available)
+    console.error('[getCalendarAvailability] Error generating mock calendar data:', error)
+    return []
+  }
 }
 
 /**
  * Generate time slots for a date range
- * LEARNING: Creates time slots based on date range, duration, and admin settings
- * WHY: Generates available time slots for appointment booking using configurable business hours
- * PATTERN: Generate slots using settings from availabilitySettings config, filter busy times
+ * LEARNING: Now delegates to fitTimeSlots() for core logic
+ * WHY: Single source of truth for time slot fitting
+ * PATTERN: Thin wrapper that fetches settings and calls core utility
  * Session 1.3.7: Updated to use settings config instead of hardcoded values
  * Session 1.4.1: Updated to async to fetch settings from API
+ * Session 1.4.14: Refactored to use fitTimeSlots() core utility
  * 
  * @param dateRange - Object with start and end ISO date strings
  * @param duration - Appointment duration in minutes
@@ -120,22 +165,6 @@ export async function generateTimeSlots(
   duration: number,
   busyTimes: Array<{ start: string; end: string }> = []
 ): Promise<TimeSlot[]> {
-  const slots: TimeSlot[] = []
-  
-  // LEARNING: Parse dates in local timezone, not UTC
-  // WHY: When we do new Date('2026-01-09'), it creates UTC midnight, which becomes previous day in timezones behind UTC
-  // PATTERN: Parse YYYY-MM-DD string (or ISO date string) and create Date object in local timezone
-  const parseLocalDate = (dateString: string): Date => {
-    // Handle both 'YYYY-MM-DD' and 'YYYY-MM-DDTHH:MM:SSZ' formats
-    // WHY: Tests and API may provide ISO format, but we need to extract just the date part
-    const datePart = dateString.includes('T') ? dateString.split('T')[0] : dateString
-    const [year, month, day] = datePart.split('-').map(Number)
-    return new Date(year, month - 1, day) // month is 0-indexed, creates date at local midnight
-  }
-  
-  const startDate = parseLocalDate(dateRange.start)
-  const endDate = parseLocalDate(dateRange.end)
-  
   // LEARNING: Get availability settings from API
   // WHY: Uses admin-configurable business hours and time increments from database instead of hardcoded values
   // PATTERN: Load settings asynchronously from API, use throughout function
@@ -145,79 +174,37 @@ export async function generateTimeSlots(
   // WHY: Past dates shouldn't generate slots
   const today = new Date()
   today.setHours(0, 0, 0, 0)
+  const startDate = parseLocalDate(dateRange.start)
   const startDateOnly = new Date(startDate)
   startDateOnly.setHours(0, 0, 0, 0)
   
-  // LEARNING: Generate slots using settings from config
-  // WHY: Business hours and increments are now configurable via admin settings
-  // PATTERN: Iterate through date range, generate slots for each day using day-specific hours
-  const currentDate = new Date(startDate)
+  // LEARNING: Use fitTimeSlots() core utility for slot generation
+  // WHY: Single source of truth for time slot fitting logic
+  // PATTERN: Delegate to core utility with appropriate boundaries
+  const result = fitTimeSlots({
+    startBoundary: dateRange.start,
+    endBoundary: dateRange.end,
+    duration,
+    businessHours: settings.businessHours as BusinessHoursMap,
+    minuteIncrement: settings.minuteIncrement,
+    busyTimes,
+    includeFlags: { onSite: false, clientPresent: false, moveable: false }
+  })
   
-  while (currentDate < endDate) {
-    // LEARNING: Get business hours for current day of week
-    // WHY: Different days may have different business hours (e.g., shorter weekend hours)
-    // PATTERN: Use day of week (0-6) to index businessHours object
-    const dayOfWeek = currentDate.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
-    const dayHours = settings.businessHours[dayOfWeek]
-    
-    // LEARNING: Parse start and end times from settings (format: "HH:MM")
-    // WHY: Convert string times to hours and minutes for Date manipulation
-    // PATTERN: Split "HH:MM" string and parse to numbers
-    const [startHour, startMinute] = dayHours.start.split(':').map(Number)
-    const [endHour, endMinute] = dayHours.end.split(':').map(Number)
-    
-    // LEARNING: Generate slots within business hours at configured intervals
-    // WHY: Creates time slots at minuteIncrement intervals (e.g., every 15 minutes)
-    // PATTERN: Nested loops for hours and minutes at increment intervals
-    for (let hour = startHour; hour <= endHour; hour++) {
-      const maxMinute = hour === endHour ? endMinute : 60
-      for (let minute = (hour === startHour ? startMinute : 0); minute < maxMinute; minute += settings.minuteIncrement) {
-        const slotStart = new Date(currentDate)
-        slotStart.setHours(hour, minute, 0, 0)
-        
-        const slotEnd = new Date(slotStart)
-        slotEnd.setMinutes(slotEnd.getMinutes() + duration)
-        
-        // LEARNING: Check if slot extends past business hours
-        // WHY: Ensure appointment doesn't extend beyond available hours
-        // PATTERN: Compare slotEnd time to day's end time
-        const slotEndHour = slotEnd.getHours()
-        const slotEndMinute = slotEnd.getMinutes()
-        const extendsPastHours = slotEndHour > endHour || 
-          (slotEndHour === endHour && slotEndMinute > endMinute)
-        
-        // LEARNING: Check if slot overlaps with busy times
-        // WHY: Filter out slots that conflict with existing appointments
-        // PATTERN: Check if slotStart or slotEnd falls within any busy time range
-        const isBusy = busyTimes.some(busy => {
-          const busyStart = new Date(busy.start)
-          const busyEnd = new Date(busy.end)
-          // Slot is busy if it overlaps with busy time range
-          return (slotStart >= busyStart && slotStart < busyEnd) ||
-                 (slotEnd > busyStart && slotEnd <= busyEnd) ||
-                 (slotStart <= busyStart && slotEnd >= busyEnd)
-        })
-        
-        // LEARNING: Only add slot if it's not busy and doesn't extend past business hours
-        // WHY: Ensures all slots are valid and available
-        // PATTERN: Multiple conditions must be met to add slot
-        if (!isBusy && !extendsPastHours) {
-          slots.push({
-            startTime: slotStart.toISOString(),
-            endTime: slotEnd.toISOString(),
-            duration,
-            onSite: false,
-            clientPresent: false,
-            moveable: false
-          })
-        }
-      }
-    }
-    
-    // Move to next day
-    currentDate.setDate(currentDate.getDate() + 1)
-  }
-  
-  return slots
+  return result.slots
+}
+
+/**
+ * Parse date string to local Date object
+ * LEARNING: Parses dates in local timezone, not UTC
+ * WHY: When we do new Date('2026-01-09'), it creates UTC midnight, which becomes previous day in timezones behind UTC
+ * PATTERN: Extract date part and create Date object in local timezone
+ * 
+ * NOTE: This function is kept here for backward compatibility, but parseLocalDate from timeSlotFitter should be used for new code
+ */
+function parseLocalDate(dateString: string): Date {
+  const datePart = dateString.includes('T') ? dateString.split('T')[0] : dateString
+  const [year, month, day] = datePart.split('-').map(Number)
+  return new Date(year, month - 1, day) // month is 0-indexed, creates date at local midnight
 }
 

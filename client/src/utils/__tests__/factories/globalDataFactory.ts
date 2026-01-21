@@ -26,7 +26,7 @@ export function createEmptyGlobalData(): GlobalData {
       instanceComponents: [],
       validCascades: [],
       validParts: [],
-      dependentInstanceOptions: [],
+      dependentInstances: [],
     },
   }
 }
@@ -79,7 +79,7 @@ export function createAtomicBlockGlobalData() {
       instanceComponents: [],
       validCascades: [],
       validParts: [],
-      dependentInstanceOptions: [],
+      dependentInstances: [],
     },
   }
 }
@@ -155,7 +155,7 @@ export function createCompositeBlockGlobalData() {
       ],
       validCascades: [],
       validParts: [],
-      dependentInstanceOptions: [],
+      dependentInstances: [],
     },
   }
 }
@@ -200,7 +200,7 @@ export function createMultipleBlocksGlobalData(count: number = 3) {
       instanceComponents: [],
       validCascades: [],
       validParts: [],
-      dependentInstanceOptions: [],
+      dependentInstances: [],
     },
   }
 }
@@ -254,7 +254,7 @@ export function createGlobalDataWithDisabledEntities() {
       instanceComponents: [],
       validCascades: [],
       validParts: [],
-      dependentInstanceOptions: [],
+      dependentInstances: [],
     },
   }
 }

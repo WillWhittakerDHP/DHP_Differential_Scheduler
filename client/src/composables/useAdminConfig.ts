@@ -16,7 +16,6 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FormFieldConfig, FormFieldConfigMap } from '@/types/entity/formFields'
 import type { DisplayFieldConfigMap } from '@/configs/field/display/fullFieldDisplayConfig'
 import type { InstanceConfig } from '@/configs/adminConfig'
-import { isDevModeEnabled } from '@/utils/env/devMode'
 
 // Import Vue admin config (not React client)
 import { getAdminConfig, rebuildAdminConfig, type AdminConfig } from '../configs/adminConfig'

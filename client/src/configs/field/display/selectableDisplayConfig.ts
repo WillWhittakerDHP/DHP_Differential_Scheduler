@@ -21,7 +21,7 @@ type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInsta
 // NOTE: Using string literals here because TypeScript type system needs literal types, not typeof constants
 type ValidRelationshipKeys<GE extends GlobalEntityKey> = 
   GE extends "blockShape" ? "validCascades" | "validParts" :
-  GE extends "blockInstance" ? "bookingCascades" | "activeParts" | "instanceComponents" | "dependentInstanceOptions" :
+  GE extends "blockInstance" ? "bookingCascades" | "activeParts" | "instanceComponents" | "dependentInstances" :
   never;
 
 // LEARNING: Union type that includes both field keys, valid relationship keys, and annotation keys
@@ -246,32 +246,32 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         },
       },
 
-      dependentInstanceOptions: {
+      dependentInstances: {
         targetMode: "relationship",
-        targetKey: "dependentInstanceOptions",
-        globalField: "dependentInstanceOptions",
+        targetKey: "dependentInstances",
+        globalField: "dependentInstances",
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: ENTITY_KEY_BLOCK_INSTANCE,
-        selectedChildPath: ["dependentInstanceOptions"],
+        selectedChildPath: ["dependentInstances"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         candidateParentPath: [],
         candidateChildKey: ENTITY_KEY_BLOCK_INSTANCE,
         candidateChildPath: ["blockShapeRef"],
 
-        selectType: RelationshipSelectTypeEnum.DependentInstanceOptionSelect,
+        selectType: RelationshipSelectTypeEnum.DependentInstanceSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
         // Display properties
-        label: "Dependent Instance Options",
-        placeholder: "No dependent instance options",
+        label: "Dependent Instances",
+        placeholder: "No dependent instances",
         inline: false,
         stacked: true,
         width: "100%",
         align: "left",
         displayFormat: "badges",
-        emptyStateText: "No dependent instance options defined",
+        emptyStateText: "No dependent instances defined",
         maxDisplayItems: 8,
         showCount: true,
         sortBy: "name",
@@ -292,7 +292,7 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         selectedChildPath: ["instanceComponents"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE,
-        candidateParentPath: ["dependentInstanceOptions"],
+        candidateParentPath: ["dependentInstances"],
         candidateChildKey: ENTITY_KEY_BLOCK_INSTANCE,
         candidateChildPath: [],
 

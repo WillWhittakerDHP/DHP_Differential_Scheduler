@@ -10,7 +10,6 @@
 import { inject, type Ref } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
-import { isDevModeEnabled } from '@/utils/env/devMode'
 
 // LEARNING: Inject wizard instance from parent
 // WHY: Need access to wizard selections for summary display
@@ -31,14 +30,7 @@ import type { PropertyDetailsStepData } from '@/types/wizard'
 const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
 const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
 
-// VERIFY: Ensure injected stepData maintains reactivity
-if (isDevModeEnabled()) {
-  console.log('[ConfirmationStep] Injected propertyDetailsStepData:', {
-    exists: !!propertyDetailsStepData,
-    isRef: propertyDetailsStepData ? 'value' in propertyDetailsStepData : false,
-    additionalUnits: propertyDetailsStepData?.value?.additionalUnits
-  })
-}
+// Note: Debug logging removed - use Vue DevTools to inspect reactivity if needed
 
 // LEARNING: Use confirmation step data composable
 // WHY: Extracts data aggregation and fee calculation logic from component to composable

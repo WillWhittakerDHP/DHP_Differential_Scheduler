@@ -6,6 +6,8 @@
  * PATTERN: Match server-side model structure for consistency
  */
 
+import type { MoveableSchedulingOptions } from './moveableScheduling'
+
 /**
  * Appointment status workflow type
  * LEARNING: Defines all possible appointment statuses in the workflow
@@ -103,6 +105,7 @@ export interface TimeSlot extends TimeRange {
   onSite: boolean
   clientPresent: boolean
   moveable: boolean
+  isAvailable?: boolean  // true = available, false = busy/unavailable (optional for backward compatibility)
 }
 
 
@@ -166,6 +169,7 @@ export interface AppointmentShape {
  */
 export interface AppointmentSlot {
   buttonIndex: number  // UI grid position (0-based)
+  isAvailable: boolean  // true = available, false = busy/unavailable
   
   // Category-specific TimeSlots (shape applied to startTime)
   earlyArrival: TimeSlot | null
@@ -180,7 +184,7 @@ export interface AppointmentSlot {
   totalTime: TimeRange | null          // Full appointment
   
   // Index signature for dynamic category access
-  [key: string]: TimeSlot | TimeRange | null | number
+  [key: string]: TimeSlot | TimeRange | null | number | boolean
 }
 
 /**
@@ -281,6 +285,7 @@ export interface AppointmentRequest {
   scheduledById?: string | null;
   additionalContacts?: Array<Record<string, unknown>> | null;
   propertyDetails?: Record<string, unknown> | null;
+  moveableScheduling?: MoveableSchedulingOptions | null;
 }
 
 /**
@@ -372,6 +377,7 @@ export interface AppointmentResponse {
   scheduledById?: string | null;
   additionalContacts?: Array<Record<string, unknown>> | null;
   propertyDetails?: Record<string, unknown> | null;
+  moveableScheduling?: MoveableSchedulingOptions | null;
   createdAt: string;
   updatedAt: string;
   // Relationships (included in API response)

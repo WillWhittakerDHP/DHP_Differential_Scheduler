@@ -137,16 +137,22 @@ const {
 // LEARNING: Filter icons based on search term
 // WHY: Users need to find icons quickly when there are many options
 // PATTERN: Computed property filters array based on search term
+// NOTE: Deduplicate icons to prevent Vue key warnings
 const filteredIcons = computed(() => {
-  if (!searchTerm.value) {
-    return tablerIcons
-  }
+  const icons = !searchTerm.value 
+    ? tablerIcons 
+    : (() => {
+        const term = searchTerm.value.toLowerCase()
+        return tablerIcons.filter(icon => 
+          icon.toLowerCase().includes(term) ||
+          icon.replace('tabler-', '').toLowerCase().includes(term)
+        )
+      })()
   
-  const term = searchTerm.value.toLowerCase()
-  return tablerIcons.filter(icon => 
-    icon.toLowerCase().includes(term) ||
-    icon.replace('tabler-', '').toLowerCase().includes(term)
-  )
+  // LEARNING: Deduplicate icons to prevent Vue duplicate key warnings
+  // WHY: If tablerIcons array has duplicates, Vue will warn about duplicate keys
+  // PATTERN: Use Set to remove duplicates while preserving order
+  return Array.from(new Set(icons))
 })
 
 // LEARNING: Handle dialog visibility changes

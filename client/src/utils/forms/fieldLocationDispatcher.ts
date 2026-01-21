@@ -55,7 +55,7 @@ export interface FieldLocationContext {
  * 3. For expandedPanel: Check expansion state, then panel assignment
  */
 export function getFieldLocation<GE extends GlobalEntityKey>(
-  fieldKey: GlobalFieldKey<GE>,
+  _fieldKey: GlobalFieldKey<GE>,
   fieldMetadata: FieldMetadataEntry | undefined,
   context: FieldLocationContext
 ): FieldLocation {

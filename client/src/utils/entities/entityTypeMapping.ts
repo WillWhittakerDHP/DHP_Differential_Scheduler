@@ -88,6 +88,10 @@ export function getMetadataEntityId<GE extends GlobalEntityKey>(
     if (isPlaceholder || isTemporaryId) {
       return PART_INSTANCE_GLOBAL_CONFIG_ID
     }
+    // LEARNING: For existing partInstance entities, use the actual entity ID
+    // WHY: Backend supports instance-specific metadata - it checks for metadata at this ID and falls back to global config if none exists
+    // PATTERN: Return actual entity ID - backend will handle fallback to global config if no instance-specific metadata exists
+    return entityId
   }
   
   if (entityType === 'blockInstance') {
@@ -96,66 +100,12 @@ export function getMetadataEntityId<GE extends GlobalEntityKey>(
     if (isPlaceholder || isTemporaryId) {
       return BLOCK_INSTANCE_GLOBAL_CONFIG_ID
     }
-  }
-
-  // LEARNING: For existing instance entities, check if instance-specific metadata exists
-  // WHY: Currently, all instance metadata is stored in global config, so always use sentinel UUID
-  //      In the future, instance-specific overrides could be stored with the actual entity ID
-  // PATTERN: Always use sentinel UUID for instance entities (instance-specific metadata not implemented yet)
-  // TODO: When instance-specific metadata is implemented, check if metadata exists for this ID first
-  if (entityType === 'blockInstance') {
-    return BLOCK_INSTANCE_GLOBAL_CONFIG_ID
-  }
-  
-  if (entityType === 'partInstance') {
-    return PART_INSTANCE_GLOBAL_CONFIG_ID
+    // LEARNING: For existing blockInstance entities, use the actual entity ID
+    // WHY: Backend supports instance-specific metadata - it checks for metadata at this ID and falls back to global config if none exists
+    // PATTERN: Return actual entity ID - backend will handle fallback to global config if no instance-specific metadata exists
+    return entityId
   }
 
   // Fallback (shouldn't reach here for instance entities)
   return entityId
-}
-
-/**
- * Get inheritance source for instance entities
- * Returns the shape metadata source that instance entities inherit from
- * 
- * @param entityKey - The entity key (must be blockInstance or partInstance)
- * @param entity - The entity object
- * @returns Inheritance source with entityType and entityId, or null if not an instance entity
- */
-export function getInheritanceSource(
-  entityKey: 'blockInstance',
-  entity: GlobalEntity<'blockInstance'>
-): { entityType: 'blockShape', entityId: string } | null
-export function getInheritanceSource(
-  entityKey: 'partInstance',
-  entity: GlobalEntity<'partInstance'>
-): { entityType: 'partShape', entityId: string } | null
-export function getInheritanceSource(
-  entityKey: GlobalEntityKey,
-  entity: GlobalEntity<GlobalEntityKey>
-): { entityType: 'blockShape' | 'partShape', entityId: string } | null {
-  if (entityKey === 'blockInstance') {
-    const blockShapeRef = (entity as GlobalEntity<'blockInstance'>).blockShapeRef
-    if (!blockShapeRef) {
-      return null
-    }
-    return {
-      entityType: 'blockShape',
-      entityId: String(blockShapeRef)
-    }
-  }
-
-  if (entityKey === 'partInstance') {
-    const partShapeRef = (entity as GlobalEntity<'partInstance'>).partShapeRef
-    if (!partShapeRef) {
-      return null
-    }
-    return {
-      entityType: 'partShape',
-      entityId: String(partShapeRef)
-    }
-  }
-
-  return null
 }

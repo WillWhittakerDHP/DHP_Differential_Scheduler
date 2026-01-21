@@ -6,7 +6,7 @@
   RESOURCE: https://vuetifyjs.com/en/components/tabs/
 -->
 <script setup lang="ts">
-import { ref, computed, watch, watchEffect, type Ref, type ComponentPublicInstance } from 'vue'
+import { ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
@@ -17,7 +17,6 @@ import { useInstanceBulkEdit } from '@/composables/admin/useInstanceBulkEdit'
 import { useExpansionState } from '@/composables/admin/useExpansionState'
 import { useEntityCrud } from '@/composables/useEntity'
 import { useGlobal } from '@/composables/useGlobal'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import { useInstanceFiltering } from '@/composables/admin/useInstanceFiltering'
 import { useInstanceCreation } from '@/composables/admin/useInstanceCreation'
 import { useInstanceDeletion } from '@/composables/admin/useInstanceDeletion'
@@ -25,8 +24,7 @@ import { useInstanceSaveHandlers } from '@/composables/admin/useInstanceSaveHand
 import { useInstanceTabHandlers } from '@/composables/admin/useInstanceTabHandlers'
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
-import { useFormFields } from '@/composables/formFields/useFormFields'
+import { BLOCK_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 
 /**
  * LEARNING: Reactive active tab state
@@ -94,7 +92,7 @@ const { patchOrderIndex: patchBlockInstanceOrderIndex } = useEntityCrud('blockIn
  */
 const { entities: _blockShapes } = useEntityCrud('blockShape')
 
-const { globalData } = useGlobal()
+const { globalData: _globalData } = useGlobal()
 
 // Component-child detection moved to useInstanceFiltering composable
 
@@ -159,12 +157,12 @@ const {
  */
 const {
   blockInstancesLists,
-  blockInstanceIdsMap,
+  blockInstanceIdsMap: _blockInstanceIdsMap,
   groupContainers,
   groupPanelsContainers,
-  groupDragHandlers,
-  groupDragInstances,
-  isMounted
+  groupDragHandlers: _groupDragHandlers,
+  groupDragInstances: _groupDragInstances,
+  isMounted: _isMounted
 } = useInstanceDragAndDrop({
   mainInstancesByShape,
   patchBlockInstanceOrderIndex
@@ -450,6 +448,20 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
             >
               No BlockInstances found for {{ blockShape.name }}. Create one to get started.
             </VAlert>
+            
+            <!--
+              LEARNING: BlockShape Fields Preview Card
+              WHY: Shows configured blockShape fields at bottom of tab for easy reference
+              PATTERN: EntityCard with actual blockShape entity to display that specific shape's field configurations
+            -->
+            <VDivider class="my-6" />
+            <VExpansionPanels v-model="expandedInstances" multiple>
+              <EntityCard
+                entity-key="blockShape"
+                :entity="blockShape"
+                :expanded="isPanelExpanded(String(blockShape.id))"
+              />
+            </VExpansionPanels>
           </div>
           
         </div>
@@ -496,8 +508,12 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
       <MetadataEditModal
         :model-value="shapeEditModalOpen.get(String(blockShape.id)) || false"
         entity-key="blockInstance"
-        :entity="{ id: blockShape.id, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>"
+        :entity="{ 
+          id: BLOCK_INSTANCE_GLOBAL_CONFIG_ID,
+          blockShapeRef: blockShape.id 
+        } as GlobalEntity<'blockInstance'>"
         mode="global"
+        :block-shape-ref="String(blockShape.id)"
         :entity-name="blockShape.name || `BlockShape ${blockShape.id}`"
         @update:model-value="(value) => shapeEditModalOpen.set(String(blockShape.id), value)"
         @saved="() => handleExistingBlockShapeSaved(String(blockShape.id))"

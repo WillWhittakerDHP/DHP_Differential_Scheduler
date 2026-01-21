@@ -72,8 +72,6 @@
 import { ref, computed } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
-import { useAdminConfig } from '@/composables/useAdminConfig'
-import type { GlobalFieldKey } from '@/constants/primitives'
 
 interface Props {
   modelValue?: boolean
@@ -94,7 +92,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits<Emits>()
 
-const adminConfig = useAdminConfig()
 const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
 
 /**
@@ -109,7 +106,6 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
     const editData = props.bulkEditData || {}
     // Guard against missing blockShapeId
     if (!props.blockShapeId) {
-      console.warn('[InstanceBulkEditModal] blockShapeId not available yet')
       // Return a minimal entity that will be replaced when blockShapeId is available
       return {
         id: '00000000-0000-0000-0000-000000000000',
@@ -184,14 +180,12 @@ const filteredMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
     return {}
   }
   
-  const filtered: Record<string, FieldMetadataEntry> = {}
-  Object.entries(metadata).forEach(([fieldKey, fieldMeta]) => {
-    if (fieldMeta.bulkEdit === true) {
-      filtered[fieldKey] = fieldMeta
-    }
-  })
-  
-  return filtered
+  // LEARNING: Use Object.fromEntries with filter instead of forEach with mutations
+  // WHY: Functional approach avoids mutations, aligns with workspace rules
+  // PATTERN: Filter entries and convert back to object
+  return Object.fromEntries(
+    Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
+  )
 })
 
 function updateModelValue(value: boolean) {

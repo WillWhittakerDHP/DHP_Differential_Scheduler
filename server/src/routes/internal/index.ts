@@ -8,8 +8,7 @@ import { UserRouter } from "./users/userRouter.js";
 import { AppointmentRouter } from "./appointments/appointmentRouter.js";
 import { AvailabilityRouter } from "./availabilityRouter.js";
 import { BusinessSettingsRouter } from "./businessSettingsRouter.js";
-import adminPrimitiveMetadataRouter from "./admin-primitive-metadata/adminPrimitiveMetadataRouter.js";
-import adminRelationshipMetadataRouter from "./admin-relationship-metadata/adminRelationshipMetadataRouter.js";
+import adminMetadataRouter from "./admin-metadata/adminMetadataRouter.js";
 
 const router = Router();
 
@@ -36,12 +35,14 @@ router.use('/availability', AvailabilityRouter);
 // ✅ Business settings CRUD routes
 router.use('/business-settings', BusinessSettingsRouter);
 
-// ✅ Admin primitive metadata CRUD routes (unified primitive metadata for all entity types)
-// NOTE: Keeping /admin-input-metadata path for backward compatibility, but using new router internally
-router.use('/admin-input-metadata', adminPrimitiveMetadataRouter);
-router.use('/admin-primitive-metadata', adminPrimitiveMetadataRouter);
-
-// ✅ Admin relationship metadata CRUD routes (relationship field metadata for all entity types)
-router.use('/admin-relationship-metadata', adminRelationshipMetadataRouter);
+// ✅ Admin metadata CRUD routes (unified metadata for all entity types - primitives + relationships)
+// LEARNING: Single endpoint follows entity pattern - backend routes based on fieldKey type
+// WHY: Matches entity pattern where single endpoint handles all fields, backend routes based on type
+// NOTE: Keeping /admin-input-metadata and /admin-primitive-metadata paths for backward compatibility during transition
+router.use('/admin-metadata', adminMetadataRouter);
+// Backward compatibility routes (can be removed after frontend migration)
+router.use('/admin-input-metadata', adminMetadataRouter);
+router.use('/admin-primitive-metadata', adminMetadataRouter);
+router.use('/admin-relationship-metadata', adminMetadataRouter);
 
 export { router as InternalRouter };

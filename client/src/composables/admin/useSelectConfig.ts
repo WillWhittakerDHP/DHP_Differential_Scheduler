@@ -93,7 +93,8 @@ export function useSelectConfig(
    */
   const entity = computed(() => {
     try {
-      return admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
+      const entityValue = admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
+      return entityValue ?? null
     } catch {
       return null
     }

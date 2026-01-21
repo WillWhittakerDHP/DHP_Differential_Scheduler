@@ -6,16 +6,16 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **71**
+- Total files: **72**
 
 ## Top hotspots (by heuristic score)
 
 | File | computed | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/components/admin/generic/EntityCard.vue` | 23 | 2 | 4 | 3 | 0 | 0 | 2 |
-| `src/components/booking/steps/AvailabilityStep.vue` | 6 | 3 | 2 | 2 | 13 | 1 | 2 |
-| `src/components/booking/BookingWizard.vue` | 2 | 0 | 9 | 2 | 1 | 0 | 8 |
+| `src/components/admin/generic/EntityCard.vue` | 23 | 2 | 4 | 5 | 0 | 0 | 0 |
+| `src/components/booking/BookingWizard.vue` | 2 | 0 | 9 | 2 | 1 | 0 | 1 |
 | `src/components/booking/SelectionCard.vue` | 13 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/booking/steps/AvailabilityStep.vue` | 6 | 2 | 0 | 3 | 1 | 1 | 0 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/FieldRenderer.vue` | 8 | 1 | 0 | 0 | 0 | 0 | 1 |
 | `src/components/admin/generic/fields/SelectInputs.vue` | 7 | 0 | 0 | 2 | 0 | 0 | 0 |
@@ -44,111 +44,63 @@ Legend: `ruleId@lineNumber: line`
 
 ### `src/components/admin/generic/EntityCard.vue`
 
-- counts: computed=23, ref=1, watch=2, async=2, await=2, map=3, reduce=0, dom=0, inlineConfig=0, console=2, alert=0
+- counts: computed=23, ref=1, watch=2, async=2, await=2, map=5, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-provideInject@9: import { ref, computed, provide, watch, watchEffect, toRef, nextTick, type Ref } from 'vue'
+provideInject@9: import { ref, computed, provide, watch, nextTick, type Ref } from 'vue'
 provideInject@69: * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
 ref@127: const internalExpanded = ref(props.expanded ?? true)
 watch@132: watch(() => props.expanded, (newValue) => {
 computed@140: const isExpanded = computed(() => {
 computed@162: entity: computed(() => props.entity)
-computed@178: const storeEntity = computed(() => {
-watch@232: watch(storeEntity, (newStoreEntity, oldStoreEntity) => {
-filter@274: const changedFields = Object.keys(newStoreEntity).filter(key => {
-computed@300: const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
-computed@308: computed(() => props.entity)
-computed@317: computed(() => props.entity)
-computed@323: const composedFieldMetadata = computed(() => {
-computed@341: const isMetadataLoading = computed(() => {
-computed@351: const isMetadataReady = computed(() => {
-computed@361: const fieldKeys = computed(() => {
-computed@385: const inlineFieldsConfig = computed(() => {
-filter@396: .filter(([_, meta]) => meta.layout === 'inline')
-sort@397: .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
-map@398: .map(([fieldKey]) => fieldKey as GlobalFieldKey<GlobalEntityKey>)
-computed@401: const stackedFieldsConfig = computed(() => {
-filter@412: .filter(([_, meta]) => meta.layout === 'stacked')
-sort@413: .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
-map@414: .map(([fieldKey]) => fieldKey as GlobalFieldKey<GlobalEntityKey>)
-computed@426: entityId: computed(() => props.entity.id),
-computed@442: const isFormReady = computed(() => formFields.isFormReady.value)
-async@459: // WHY: Suppress warnings during async loading - wait until metadata can be meaningfully displayed
-computed@473: const fieldsMissingContexts = computed(() => {
-filter@483: return allCategorizedFields.filter(fieldKey => !getFieldContext(fieldKey))
-computed@493: const blockShapeProperties = computed(() => {
-computed@528: * FIX: Use internal isExpanded computed (synced via watch) instead of props.expanded directly
-computed@532: fieldKeys: computed(() => fieldKeys.value as GlobalFieldKey<GlobalEntityKey>[]),
-provideInject@539: * WHY: Template still references categorizedFields, so we provide it from location dispatcher
-computed@543: const categorizedFields = computed(() => {
-filter@575: .filter(fieldKey => {
-map@579: .map(fieldKey => {
-sort@588: .sort((a, b) => a.order - b.order)
-computed@597: const entityName = computed(() => {
-computed@608: entity: computed(() => props.entity),
-async@662: const handleSave = async (): Promise<void> => {
-await@663: await _handleSave()
-await@669: await nextTick()
-console@674: console.log('[FORM-RESET] Resetting form after full save', {
-console@696: console.warn('[FORM-RESET] Saved entity not found in store after save', {
-provideInject@722: * PATTERN: Use provide/inject to pass parent methods to children
-provideInject@724: provide(ENTITY_CARD_SAVE_KEY, {
-provideInject@733: * PATTERN: Use provide/inject to pass flag to children
-provideInject@735: provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
-computed@742: const deleteDialogTitle = computed(() => {
-computed@764: entityId: computed(() => props.entity.id),
-```
-
-### `src/components/booking/steps/AvailabilityStep.vue`
-
-- counts: computed=6, ref=2, watch=3, async=1, await=1, map=0, reduce=2, dom=13, inlineConfig=1, console=2, alert=0
-
-```
-provideInject@13: import { computed, inject, ref, watch, onMounted, nextTick, type Ref, type ComputedRef } from 'vue'
-provideInject@35: // PATTERN: Use inject to get provided instance instead of creating new one
-provideInject@36: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
-ref@44: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
-provideInject@44: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
-provideInject@54: const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData', null)
-computed@62: const timeSlotsForDefaults = computed(() => {
-computed@67: const timeSlotsForLogic = computed(() => {
-computed@76: const isEffectivelyDifferentialForDefaults = computed(() => {
-computed@162: const appointmentDuration = computed(() => {
-reduce@171: const onSiteDuration = instances.reduce((sum, bi) => {
-reduce@173: return sum + bi.partInstances.reduce((partSum, part) => {
-computed@201: const timeSlotDurations = computed(() => {
-computed@226: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
-provideInject@261: // WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
-provideInject@263: const parentAvailabilityStepData = inject<Ref<AvailabilityStepData | null>>('availabilityStepData')
-provideInject@264: const parentAvailabilityStepValid = inject<Ref<boolean>>('availabilityStepValid')
-provideInject@265: const parentAvailabilityStepValidate = inject<Ref<(() => boolean) | null>>('availabilityStepValidate')
-watch@274: watch(stepData, (newData) => {
-watch@283: watch(isFormValid, (newValid) => {
-ref@291: // PATTERN: Assign function to parent ref (no watch needed)
-watch@311: watch(shouldShowGridInline, (newValue) => {
-console@312: console.log('[AvailabilityStep] shouldShowGridInline changed:', {
-async@320: onMounted(async () => {
-await@321: await nextTick()
-dom@325: const calendarCol = document.querySelector('.calendar-col') as HTMLElement
-dom@326: const timeSelectionCol = document.querySelector('.time-selection-col') as HTMLElement
-dom@327: const timeSelectionContent = document.querySelector('.time-selection-content') as HTMLElement
-dom@328: const appointmentGrid = document.querySelector('.appointment-slot-grid') as HTMLElement
-dom@329: const calendarRow = document.querySelector('.calendar-grid-row') as HTMLElement
-dom@338: const calendarStyle = window.getComputedStyle(calendarCol)
-dom@339: const timeSelectionStyle = window.getComputedStyle(timeSelectionCol)
-dom@340: const timeSelectionContentStyle = timeSelectionContent ? window.getComputedStyle(timeSelectionContent) : null
-dom@341: const appointmentGridStyle = appointmentGrid ? window.getComputedStyle(appointmentGrid) : null
-console@343: console.log('[AvailabilityStep] Layout Width Debug:', {
-dom@345: width: window.innerWidth,
-dom@346: breakpoint: window.innerWidth >= 600 ? 'sm+' : 'xs'
-dom@350: expectedWidth: window.innerWidth - 80 // Approximate container padding
-inlineConfig@539: :config="{
-dom@657: // WHY: Native fixed width prevents clipping during window resize
+computed@221: entityId: computed(() => String(props.entity.id)),
+computed@236: const storeEntity = computed(() => {
+computed@243: const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
+computed@251: computed(() => props.entity)
+computed@260: computed(() => props.entity)
+computed@266: const composedFieldMetadata = computed(() => {
+computed@284: const isMetadataLoading = computed(() => {
+computed@294: const isMetadataReady = computed(() => {
+computed@304: const fieldKeys = computed(() => {
+computed@328: const inlineFieldsConfig = computed(() => {
+filter@339: .filter(([_, meta]) => meta.layout === 'inline')
+sort@340: .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
+map@341: .map(([fieldKey]) => fieldKey as GlobalFieldKey<GlobalEntityKey>)
+computed@344: const stackedFieldsConfig = computed(() => {
+filter@355: .filter(([_, meta]) => meta.layout === 'stacked')
+sort@356: .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
+map@357: .map(([fieldKey]) => fieldKey as GlobalFieldKey<GlobalEntityKey>)
+computed@369: entityId: computed(() => props.entity.id),
+watch@383: watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
+map@388: fieldsNeedingContexts: fieldsNeedingContexts.map(String)
+computed@398: const isFormReady = computed(() => formFields.isFormReady.value)
+async@415: // WHY: Suppress warnings during async loading - wait until metadata can be meaningfully displayed
+computed@429: const fieldsMissingContexts = computed(() => {
+filter@439: const missing = allCategorizedFields.filter(fieldKey => !getFieldContext(fieldKey))
+map@445: missingFields: missing.map(String)
+computed@459: // const blockShapeProperties = computed(() => { ... })
+computed@465: * FIX: Use internal isExpanded computed (synced via watch) instead of props.expanded directly
+computed@469: fieldKeys: computed(() => fieldKeys.value as GlobalFieldKey<GlobalEntityKey>[]),
+provideInject@476: * WHY: Template still references categorizedFields, so we provide it from location dispatcher
+computed@480: const categorizedFields = computed(() => {
+filter@512: .filter(fieldKey => {
+map@516: .map(fieldKey => {
+sort@525: .sort((a, b) => a.order - b.order)
+computed@534: const entityName = computed(() => {
+computed@545: entity: computed(() => props.entity),
+async@599: const handleSave = async (): Promise<void> => {
+await@607: await _handleSave()
+await@613: await nextTick()
+provideInject@652: * PATTERN: Use provide/inject to pass parent methods to children
+provideInject@654: provide(ENTITY_CARD_SAVE_KEY, {
+provideInject@663: * PATTERN: Use provide/inject to pass flag to children
+provideInject@665: provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
+computed@672: const deleteDialogTitle = computed(() => {
 ```
 
 ### `src/components/booking/BookingWizard.vue`
 
-- counts: computed=2, ref=1, watch=0, async=3, await=6, map=2, reduce=0, dom=1, inlineConfig=0, console=8, alert=0
+- counts: computed=2, ref=1, watch=0, async=3, await=6, map=2, reduce=0, dom=1, inlineConfig=0, console=1, alert=0
 
 ```
 provideInject@11: import { computed, ref, provide, nextTick } from 'vue'
@@ -171,29 +123,22 @@ provideInject@96: provide('availabilityStepValid', availabilityStepValid)
 provideInject@97: provide('availabilityStepValidate', availabilityStepValidate)
 async@147: const handleNext = async (): Promise<void> => {
 await@156: await nextTick()
-console@166: console.warn(`[Wizard] Step 1 (Property Details) validation errors:`, errors)
-map@167: const errorMessages = errors.map(([field, error]) => `${field}: ${error}`).join(', ')
-console@170: console.warn(`[Wizard] Step 1 (Property Details) validation failed: No property type selected`)
-console@173: console.warn(`[Wizard] Step 1 (Property Details) validation failed. Check form fields.`)
-console@202: console.warn(`[Wizard] Step 1 (Property Details) validation failed. Missing fields:`, missingFields)
-console@213: console.warn(`[Wizard] Step 2 (Availability) validation failed.`)
-console@220: console.warn(`[Wizard] Step 3 (Contacts) validation failed.`)
-console@223: console.warn(`[Wizard] Step ${activeStep.value} validation failed.`)
-computed@263: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
-vueQuery@277: // PATTERN: useMutation from useAppointment composable
-computed@291: const appointmentDropdownItems = computed(() => {
-map@299: ...appointments.map((appointment) => {
-provideInject@315: // WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
-provideInject@316: // PATTERN: Refs created above, children inject and sync their local state to these refs
-async@355: const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {
-await@363: appointment = await fetchRandom()
-await@372: const response = await apiClient.get<AppointmentResponse>(getAppointmentByIdEndpoint(appointmentIdOrRandom))
-await@387: const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)
-async@439: const handleUpdateAppointment = async (): Promise<void> => {
-await@446: const appointmentData = await collectAppointmentData()
-await@451: await update.mutateAsync({
-console@459: console.error('[Wizard] Update appointment error:', error)
-dom@670: // NOTE: useThemeMode composable also updates document root CSS variables for global scope
+map@166: const errorMessages = errors.map(([field, error]) => `${field}: ${error}`).join(', ')
+computed@257: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
+vueQuery@271: // PATTERN: useMutation from useAppointment composable
+computed@285: const appointmentDropdownItems = computed(() => {
+map@293: ...appointments.map((appointment) => {
+provideInject@309: // WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
+provideInject@310: // PATTERN: Refs created above, children inject and sync their local state to these refs
+async@349: const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {
+await@357: appointment = await fetchRandom()
+await@366: const response = await apiClient.get<AppointmentResponse>(getAppointmentByIdEndpoint(appointmentIdOrRandom))
+await@381: const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)
+async@433: const handleUpdateAppointment = async (): Promise<void> => {
+await@440: const appointmentData = await collectAppointmentData()
+await@445: await update.mutateAsync({
+console@453: console.error('[Wizard] Update appointment error:', error)
+dom@664: // NOTE: useThemeMode composable also updates document root CSS variables for global scope
 ```
 
 ### `src/components/booking/SelectionCard.vue`
@@ -216,6 +161,37 @@ computed@149: modelValue: computed(() => props.modelValue),
 computed@150: nestedChildSelections: computed(() => props.nestedChildSelections),
 computed@154: isExpanded: computed(() => props.isExpanded),
 watch@166: watch(isSelected, (newValue) => {
+```
+
+### `src/components/booking/steps/AvailabilityStep.vue`
+
+- counts: computed=6, ref=2, watch=2, async=0, await=0, map=1, reduce=2, dom=1, inlineConfig=1, console=0, alert=0
+
+```
+provideInject@13: import { computed, inject, ref, watch, type Ref, type ComputedRef } from 'vue'
+provideInject@35: // PATTERN: Use inject to get provided instance instead of creating new one
+provideInject@36: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+ref@44: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
+provideInject@44: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
+provideInject@54: const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData', null)
+computed@62: const timeSlotsForDefaults = computed(() => {
+computed@67: const timeSlotsForLogic = computed(() => {
+computed@76: const isEffectivelyDifferentialForDefaults = computed(() => {
+computed@161: const appointmentDuration = computed(() => {
+reduce@170: const onSiteDuration = instances.reduce((sum, bi) => {
+reduce@172: return sum + bi.partInstances.reduce((partSum, part) => {
+computed@200: const timeSlotDurations = computed(() => {
+map@210: daySlots.inspectorTimeSlots.map(slot => [slot.startTime, slot.duration])
+computed@226: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
+provideInject@261: // WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
+provideInject@263: const parentAvailabilityStepData = inject<Ref<AvailabilityStepData | null>>('availabilityStepData')
+provideInject@264: const parentAvailabilityStepValid = inject<Ref<boolean>>('availabilityStepValid')
+provideInject@265: const parentAvailabilityStepValidate = inject<Ref<(() => boolean) | null>>('availabilityStepValidate')
+watch@274: watch(stepData, (newData) => {
+watch@283: watch(isFormValid, (newValid) => {
+ref@291: // PATTERN: Assign function to parent ref (no watch needed)
+inlineConfig@457: :config="{
+dom@575: // WHY: Native fixed width prevents clipping during window resize
 ```
 
 ### `src/components/booking/steps/ServiceSelectionStep.vue`
@@ -250,13 +226,13 @@ computed@107: const effectiveFieldContext = computed(() => {
 computed@144: const fieldKey = computed(() => effectiveFieldContext.value?.fieldKey)
 computed@145: const entityKey = computed(() => effectiveFieldContext.value?.entityKey)
 computed@168: const entityForMetadata = computed(() => {
-computed@187: const fieldMetadataRef = computed(() => props.fieldMetadata)
-computed@222: const componentToRender = computed(() => {
-computed@233: const hasValidComponent = computed(() => {
-computed@240: const shouldShowError = computed(() => {
-watch@253: watch(
-provideInject@267: // WHY: Console logs provide full diagnostic data without cluttering UI
-console@269: console.error('[FieldRenderer] Unknown input type detected', {
+computed@188: const fieldMetadataRef = computed(() => props.fieldMetadata ?? {})
+computed@223: const componentToRender = computed(() => {
+computed@234: const hasValidComponent = computed(() => {
+computed@241: const shouldShowError = computed(() => {
+watch@254: watch(
+provideInject@268: // WHY: Console logs provide full diagnostic data without cluttering UI
+console@270: console.error('[FieldRenderer] Unknown input type detected', {
 ```
 
 ### `src/components/admin/generic/fields/SelectInputs.vue`
@@ -280,16 +256,16 @@ map@349: return groupedByKey.value.map(group => {
 - counts: computed=3, ref=0, watch=0, async=1, await=2, map=0, reduce=0, dom=0, inlineConfig=0, console=2, alert=0
 
 ```
-computed@282: const entityForMetadata = computed(() => {
-computed@320: const availableFields = computed(() => {
-sort@323: return Array.from(allKeys).sort()
-computed@327: const entityTypeLabel = computed(() => {
-provideInject@353: // If no existing metadata, return pending as-is (but we need to provide defaults)
-async@416: async function handleSave() {
-console@418: console.error('[AdminPrimitiveMetadataEditor] Cannot save: invalid entityType or entityId')
-await@426: await saveFieldRendering(entityType.value, entityId.value, fieldKey, updates, existingMeta)
-await@432: await deleteFieldOverride(entityType.value, entityId.value, fieldKey)
-console@444: console.error('[AdminPrimitiveMetadataEditor] Error saving metadata:', error)
+computed@270: const entityForMetadata = computed(() => {
+computed@308: const availableFields = computed(() => {
+sort@311: return Array.from(allKeys).sort()
+computed@318: const entityTypeLabel = computed(() => {
+provideInject@340: // If no existing metadata, return pending as-is (but we need to provide defaults)
+async@403: async function handleSave() {
+console@405: console.error('[AdminPrimitiveMetadataEditor] Cannot save: invalid entityType or entityId')
+await@413: await saveFieldRendering(entityType.value, entityId.value, fieldKey, updates, existingMeta)
+await@419: await deleteFieldOverride(entityType.value, entityId.value, fieldKey)
+console@431: console.error('[AdminPrimitiveMetadataEditor] Error saving metadata:', error)
 ```
 
 ### `src/components/admin/generic/DynamicForm.vue`
@@ -297,14 +273,13 @@ console@444: console.error('[AdminPrimitiveMetadataEditor] Error saving metadata
 - counts: computed=5, ref=0, watch=1, async=1, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-watch@139: watch(() => props.entityId, (newId) => {
-computed@147: const entityForMetadata = computed(() => {
-computed@162: const fieldKeys = computed(() => {
-filter@167: const entityKeys = entity ? Object.keys(entity).filter(key => {
-computed@190: const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
-computed@191: const inlineFieldsConfig = computed(() => {
-computed@195: const stackedFieldsConfig = computed(() => {
-async@237: // WHY: Browser extension might access form.elements before async operations run
+watch@140: watch(() => props.entityId, (newId) => {
+computed@148: const entityForMetadata = computed(() => {
+computed@166: const fieldKeys = computed(() => {
+computed@174: const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
+computed@175: const inlineFieldsConfig = computed(() => {
+computed@179: const stackedFieldsConfig = computed(() => {
+async@221: // WHY: Browser extension might access form.elements before async operations run
 ```
 
 ### `src/components/admin/generic/fields/BooleanInput.vue`
@@ -314,11 +289,11 @@ async@237: // WHY: Browser extension might access form.elements before async ope
 ```
 computed@63: const isInverted = computed(() => String(fieldContext.fieldKey) === 'constituable')
 computed@64: const fieldValue = computed(() => {
-computed@73: const entityForMetadata = computed(() => {
-computed@89: const statusButtonColor = computed(() => {
-async@99: const handleClick = async (event: Event) => {
-await@124: const isValid = await fieldContext.validate()
-await@127: await fieldContext.save()
+computed@75: const entityForMetadata = computed(() => {
+computed@92: const statusButtonColor = computed(() => {
+async@102: const handleClick = async (event: Event) => {
+await@127: const isValid = await fieldContext.validate()
+await@130: await fieldContext.save()
 ```
 
 ### `src/components/booking/SelectionCardGroup.vue`
@@ -352,13 +327,12 @@ computed@107: const showStateLabel = computed(() => {
 - counts: computed=5, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-watch@60: watch(() => props.entityId, (newId) => {
-computed@71: const entity = computed(() => {
-computed@86: const fieldKeys = computed(() => {
-filter@91: const entityKeys = entityValue ? Object.keys(entityValue).filter(key => {
-computed@114: const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
-computed@115: const inlineFieldsConfig = computed(() => {
-computed@119: const stackedFieldsConfig = computed(() => {
+watch@61: watch(() => props.entityId, (newId) => {
+computed@72: const entity = computed(() => {
+computed@90: const fieldKeys = computed(() => {
+computed@98: const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
+computed@99: const inlineFieldsConfig = computed(() => {
+computed@103: const stackedFieldsConfig = computed(() => {
 ```
 
 ### `src/components/admin/generic/EntityCardSubPanels.vue`
@@ -411,7 +385,7 @@ await@100: await create(formData.value as Partial<GlobalEntity<'partShape'>>)
 
 ```
 provideInject@75: *             Both provide same functionality but different APIs.
-provideInject@81: import { computed, inject, toRef, unref, type Ref } from 'vue'
+provideInject@81: import { computed, inject, toRef } from 'vue'
 computed@113: const fieldContext = computed(() => {
 provideInject@124: * PATTERN: Use inject to access parent EntityCard's handleSave method
 provideInject@126: const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
@@ -477,10 +451,10 @@ computed@176: const zIndex = computed(() => {
 - counts: computed=4, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@147: computed(() => {
-computed@177: const hasBulkEditData = computed(() => Object.keys(bulkEditData.value).length > 0)
-computed@185: const partShapeForBulkEdit = computed(() => {
-computed@216: const isBulkEditModalOpen = computed(() => bulkEditModeRef.value)
+computed@143: computed(() => {
+computed@173: const hasBulkEditData = computed(() => Object.keys(bulkEditData.value).length > 0)
+computed@181: const partShapeForBulkEdit = computed(() => {
+computed@212: const isBulkEditModalOpen = computed(() => bulkEditModeRef.value)
 ```
 
 ### `src/components/booking/wrappers/ServiceSelectCards.vue`
@@ -499,12 +473,13 @@ map@94: get: () => wizard.selectedServices.value.map(s => s.id),
 - counts: computed=2, ref=0, watch=0, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=0, console=1, alert=0
 
 ```
-computed@116: const firstPartInstanceForMetadata = computed(() => {
-filter@121: .filter(rel => String(rel.parent.id) === String(props.blockInstanceId))
-map@122: .flatMap(rel => rel.children.map(child => String(child.id)))
-filter@125: const instances = partInstances.value.filter(pi => constituentIds.has(String(pi.id)))
-computed@137: const partShapeRef = computed(() => {
-console@184: console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
+computed@113: const firstPartInstanceForMetadata = computed(() => {
+filter@118: .filter(rel => String(rel.parent.id) === String(props.blockInstanceId))
+map@119: .flatMap(rel => rel.children.map(child => String(child.id)))
+filter@122: const instances = partInstances.value.filter(pi => constituentIds.has(String(pi.id)))
+computed@134: const partShapeRef = computed(() => {
+console@181: console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
+filter@220: Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
 ```
 
 ### `src/components/admin/MetadataEditModal.vue`
@@ -512,10 +487,10 @@ console@184: console.error('[PartInstanceBulkEditModal] Error creating templateE
 - counts: computed=1, ref=0, watch=0, async=1, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=1, alert=0
 
 ```
-computed@98: const modalTitle = computed(() => {
-async@122: async function handleSave(): Promise<void> {
-await@129: await editorRef.value.save()
-console@131: console.error('[MetadataEditModal] Error saving metadata:', err)
+computed@99: const modalTitle = computed(() => {
+async@123: async function handleSave(): Promise<void> {
+await@130: await editorRef.value.save()
+console@132: console.error('[MetadataEditModal] Error saving metadata:', err)
 ```
 
 ### `src/components/booking/steps/PropertyDetailsStep.vue`
@@ -552,17 +527,6 @@ await@42: await updateMutation.mutateAsync({
 async@57: const handleDelete = async () => {
 await@63: await deleteMutation.mutateAsync(props.annotationType.id)
 alert@68: alert(`Cannot delete annotation type: ${error.message}`)
-```
-
-### `src/components/admin/generic/fields/PrimitiveInputs.vue`
-
-- counts: computed=3, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@57: *             in templates. Both provide same functionality.
-computed@84: const fieldType = computed(() => {
-computed@101: const entityForMetadata = computed(() => {
-computed@117: const renderAs = computed(() => {
 ```
 
 ### `src/layouts/components/NavSearchBar.vue`
@@ -609,6 +573,16 @@ computed@140: const filteredIcons = computed(() => {
 filter@146: return tablerIcons.filter(icon =>
 ```
 
+### `src/components/admin/generic/fields/PrimitiveInputs.vue`
+
+- counts: computed=2, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@58: *             in templates. Both provide same functionality.
+computed@86: const fieldType = computed(() => {
+computed@103: const entityForMetadata = computed(() => {
+```
+
 ### `src/components/booking/IndependentSelectCard.vue`
 
 - counts: computed=2, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -652,15 +626,6 @@ map@98: return props.appointmentSlots.map(appointmentSlot => {
 ```
 computed@98: const displaySlots = computed(() => {
 map@135: return (props.slots || []).map((slot, index) => ({ slot, orderIndex: index }))
-```
-
-### `src/components/admin/InstanceBulkEditModal.vue`
-
-- counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=2, alert=0
-
-```
-console@112: console.warn('[InstanceBulkEditModal] blockShapeId not available yet')
-console@148: console.error('[InstanceBulkEditModal] Error creating templateEntity:', error)
 ```
 
 ### `src/components/booking/steps/ContactsStep.vue`
@@ -737,17 +702,13 @@ inlineConfig@19: :config="{ dateFormat: 'Y-m-d' }"
 provideInject@36: *             Both provide date input with validation.
 ```
 
-### `src/components/booking/steps/ConfirmationStep.vue`
+### `src/components/admin/InstanceBulkEditModal.vue`
 
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=1, alert=0
 
 ```
-provideInject@10: import { inject, type Ref } from 'vue'
-provideInject@17: // PATTERN: Use inject to get provided wizard instance
-provideInject@18: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
-provideInject@31: const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
-provideInject@32: const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
-console@36: console.log('[ConfirmationStep] Injected propertyDetailsStepData:', {
+console@144: console.error('[InstanceBulkEditModal] Error creating templateEntity:', error)
+filter@187: Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
 ```
 
 ### `src/layouts/blank.vue`
@@ -759,6 +720,12 @@ provideInject@4: // ℹ️ This will inject classes in body tag for accurate sty
 ref@8: const isFallbackStateActive = ref(false)
 watch@16: watch([isFallbackStateActive, refLoadingIndicator], () => {
 ```
+
+### `src/components/admin/generic/EntityCardContent.vue`
+
+- counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+- (no matches)
 
 ### `src/components/admin/generic/fields/AnnotationsField.vue`
 
@@ -804,6 +771,18 @@ provideInject@37: *             Both provide multi-line text input.
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 - (no matches)
+
+### `src/components/booking/steps/ConfirmationStep.vue`
+
+- counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@10: import { inject, type Ref } from 'vue'
+provideInject@16: // PATTERN: Use inject to get provided wizard instance
+provideInject@17: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+provideInject@30: const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
+provideInject@31: const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
+```
 
 ### `src/components/booking/TimeBasisButtonGrid.vue`
 
@@ -890,10 +869,10 @@ ref@29: const currentTab = ref('instances')
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-filter@158: :items="users.filter(u => u.userRole === 'client')"
-filter@177: :items="users.filter(u => u.userRole === 'agent')"
-filter@399: :items="users.filter(u => u.userRole === 'client')"
-filter@461: :items="users.filter(u => u.userRole === 'agent')"
+filter@157: :items="users.filter(u => u.userRole === 'client')"
+filter@176: :items="users.filter(u => u.userRole === 'agent')"
+filter@398: :items="users.filter(u => u.userRole === 'client')"
+filter@460: :items="users.filter(u => u.userRole === 'agent')"
 ```
 
 ### `src/views/admin/tabs/components/PropertiesTable.vue`
@@ -919,7 +898,7 @@ filter@461: :items="users.filter(u => u.userRole === 'agent')"
 - counts: computed=0, ref=1, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-ref@336: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
+ref@333: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
 ```
 
 ### `src/views/booking/BookingWizardView.vue`

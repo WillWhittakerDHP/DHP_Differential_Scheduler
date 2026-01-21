@@ -171,23 +171,35 @@ export function getAnnotationTypeByIdEndpoint(id: string): string {
 }
 
 /**
- * Admin Primitive Metadata API endpoints
- * LEARNING: Endpoints for unified admin primitive metadata (renamed from input metadata)
- * WHY: Aligns with entity data pattern: primitives + relationships
- * NOTE: Path kept as /admin-input-metadata for backward compatibility, but internally uses primitive metadata
+ * Admin Metadata API endpoints (unified)
+ * LEARNING: Single endpoint for all metadata (primitives + relationships)
+ * WHY: Follows entity pattern - single endpoint/table, backend routes based on fieldKey type
+ * PATTERN: Single endpoint replaces separate primitive/relationship endpoints
  */
-export function getAdminPrimitiveMetadataEndpoint(entityType: string, entityId: string): string {
-  // Keep old path for backward compatibility, but can also use /admin-primitive-metadata
-  return `/admin-input-metadata/${entityType}/${entityId}`
+export function getAdminMetadataEndpoint(entityType: string, entityId: string): string {
+  return `/admin-metadata/${entityType}/${entityId}`
 }
 
 /**
- * Admin Relationship Metadata API endpoints
- * LEARNING: Endpoints for unified admin relationship metadata
- * WHY: Single endpoint for all entity types, handles inheritance automatically
+ * Admin Primitive Metadata API endpoints (deprecated - use getAdminMetadataEndpoint)
+ * LEARNING: Kept for backward compatibility during migration
+ * WHY: Old code may still reference these endpoints
+ * NOTE: These endpoints still work (routed to unified endpoint) but should be migrated to getAdminMetadataEndpoint
+ */
+export function getAdminPrimitiveMetadataEndpoint(entityType: string, entityId: string): string {
+  // Route to unified endpoint (backward compatibility)
+  return getAdminMetadataEndpoint(entityType, entityId)
+}
+
+/**
+ * Admin Relationship Metadata API endpoints (deprecated - use getAdminMetadataEndpoint)
+ * LEARNING: Kept for backward compatibility during migration
+ * WHY: Old code may still reference these endpoints
+ * NOTE: These endpoints still work (routed to unified endpoint) but should be migrated to getAdminMetadataEndpoint
  */
 export function getAdminRelationshipMetadataEndpoint(entityType: string, entityId: string): string {
-  return `/admin-relationship-metadata/${entityType}/${entityId}`
+  // Route to unified endpoint (backward compatibility)
+  return getAdminMetadataEndpoint(entityType, entityId)
 }
 
 /**

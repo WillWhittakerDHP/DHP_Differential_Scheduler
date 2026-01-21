@@ -1,11 +1,12 @@
 /**
  * LEARNING: Unified Entity Metadata Composable
- * WHY: Single composable for all entity types, handles inheritance automatically
+ * WHY: Single composable for all entity types
  * PATTERN: Uses entity type mapping utility to eliminate special casing
  * 
  * This composable replaces useFormFieldMetadata and removes all special casing
  * for different entity types. It works uniformly for blockShape, partShape,
  * blockInstance, and partInstance entities.
+ * NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
  */
 
 import { computed, unref, type MaybeRef } from 'vue'
@@ -16,7 +17,7 @@ import type { FieldMetadataEntry } from '@/types/entityMetadata'
 
 /**
  * Fetch admin input metadata for an entity
- * Handles inheritance automatically: instance entities inherit from their shape
+ * All entity types have completely independent metadata (no inheritance between shapes and instances)
  * 
  * @param entityKey - Entity key (blockShape, partShape, blockInstance, partInstance, etc.)
  * @param entity - Entity object (used to get entity ID and shape references)
@@ -42,8 +43,8 @@ export function useEntityMetadata<GE extends GlobalEntityKey>(
       return {}
     }
     
-    // LEARNING: getMetadata handles inheritance automatically
-    // WHY: Instance entities inherit from shape, getMetadata merges them
+    // LEARNING: getMetadata returns metadata for the entity type directly
+    // WHY: All entity types have completely independent metadata (no inheritance between shapes and instances)
     // PATTERN: Pass entity directly, getMetadata handles all lookup logic
     return admin.getMetadata(entityKey, entityValue.value)
   })

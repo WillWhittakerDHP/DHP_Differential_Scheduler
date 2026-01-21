@@ -77,11 +77,12 @@ const { formatTimeRange } = useTimeFormatting()
 
 /**
  * LEARNING: Slot display data structure
- * WHY: Associates buttonIndex with display time for rendering
+ * WHY: Associates buttonIndex with display time and availability for rendering
  */
 interface SlotDisplayData {
   buttonIndex: number
   displayTime: TimeRange | null
+  isAvailable: boolean
 }
 
 /**
@@ -100,7 +101,8 @@ const displaySlots = computed(() => {
     
     return {
       buttonIndex: appointmentSlot.buttonIndex,
-      displayTime
+      displayTime,
+      isAvailable: appointmentSlot.isAvailable
     }
   })
 })
@@ -128,8 +130,11 @@ const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
       :variant="selectedButtonIndex === slotData.buttonIndex ? 'flat' : variant"
       :color="color"
       size="small"
-      :class="['appointment-slot-btn', { 'appointment-slot-btn--inactive': selectedButtonIndex !== null && selectedButtonIndex !== slotData.buttonIndex }]"
-      :disabled="loading || !slotData.displayTime"
+      :class="['appointment-slot-btn', { 
+        'appointment-slot-btn--inactive': selectedButtonIndex !== null && selectedButtonIndex !== slotData.buttonIndex,
+        'appointment-slot-btn--busy': !slotData.isAvailable
+      }]"
+      :disabled="loading || !slotData.displayTime || !slotData.isAvailable"
       @click="handleAppointmentSlotClick(slotData)"
     >
       {{ slotData.displayTime ? formatTimeRange(slotData.displayTime) : 'Unavailable' }}
@@ -232,6 +237,26 @@ const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
         background-color: rgb(var(--inactive-secondary)) !important;
         border-color: rgb(var(--inactive-secondary)) !important;
         color: rgb(var(--v-theme-on-surface)) !important;
+      }
+    }
+    
+    // LEARNING: Busy slot styling (unavailable due to calendar conflicts)
+    // WHY: Makes busy slots visually distinct but still visible
+    // PATTERN: Use muted colors and disabled cursor
+    &--busy {
+      opacity: 0.6;
+      cursor: not-allowed;
+      
+      &[color="primary"] {
+        background-color: rgba(var(--v-theme-primary), 0.2) !important;
+        border-color: rgba(var(--v-theme-primary), 0.3) !important;
+        color: rgba(var(--v-theme-on-surface), 0.6) !important;
+      }
+      
+      &[color="secondary"] {
+        background-color: rgba(var(--v-theme-secondary), 0.2) !important;
+        border-color: rgba(var(--v-theme-secondary), 0.3) !important;
+        color: rgba(var(--v-theme-on-surface), 0.6) !important;
       }
     }
   }

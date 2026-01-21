@@ -79,7 +79,7 @@ describe('AdminTransformer', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
       
@@ -143,7 +143,7 @@ describe('AdminTransformer', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
       

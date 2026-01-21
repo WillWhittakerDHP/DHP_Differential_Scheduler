@@ -195,7 +195,7 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
         include: [
           {
             model: PartInstance,
-            as: 'active_constituent_part_instances',
+            as: 'active_part_instances',
             through: {
               where: { disabled: false },
             },
@@ -305,7 +305,7 @@ router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<v
           include: [
             {
               model: PartInstance,
-              as: 'active_part_part_instances',
+              as: 'active_part_instances',
               through: {
                 where: { disabled: false },
               },

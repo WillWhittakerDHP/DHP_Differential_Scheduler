@@ -163,14 +163,11 @@ const handleNext = async (): Promise<void> => {
       if (propertyDetailsFieldErrors.value && Object.keys(propertyDetailsFieldErrors.value).length > 0) {
         const errors = Object.entries(propertyDetailsFieldErrors.value)
         if (errors.length > 0) {
-          console.warn(`[Wizard] Step 1 (Property Details) validation errors:`, errors)
           const errorMessages = errors.map(([field, error]) => `${field}: ${error}`).join(', ')
           showError(`Please fix the following: ${errorMessages}`)
         } else if (!hasPropertyTypeBlock) {
-          console.warn(`[Wizard] Step 1 (Property Details) validation failed: No property type selected`)
           showError('Please select at least one property type')
         } else {
-          console.warn(`[Wizard] Step 1 (Property Details) validation failed. Check form fields.`)
           showError('Please complete all required fields: address, city, state, zip code, and size')
         }
       } else {
@@ -199,7 +196,7 @@ const handleNext = async (): Promise<void> => {
           missingFields.push('address', 'city', 'state', 'zip code', 'property size')
         }
         
-        console.warn(`[Wizard] Step 1 (Property Details) validation failed. Missing fields:`, missingFields)
+        // Note: Debug logging removed - error already shown to user via showError
         const missingMsg = missingFields.length > 0 
           ? `Please complete: ${missingFields.join(', ')}`
           : 'Please complete all required fields'
@@ -210,17 +207,14 @@ const handleNext = async (): Promise<void> => {
       if (availabilityStepValidate.value) {
         availabilityStepValidate.value()
       }
-      console.warn(`[Wizard] Step 2 (Availability) validation failed.`)
       showError('Please complete all required fields before continuing')
     } else if (activeStep.value === 3) {
       // Handle step 3 (Contacts) validation errors
       if (contactsStepValidate.value) {
         contactsStepValidate.value()
       }
-      console.warn(`[Wizard] Step 3 (Contacts) validation failed.`)
       showError('Please complete all required fields before continuing')
     } else {
-      console.warn(`[Wizard] Step ${activeStep.value} validation failed.`)
       showError('Please complete all required fields before continuing')
     }
     return

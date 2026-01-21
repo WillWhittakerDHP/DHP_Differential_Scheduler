@@ -141,17 +141,12 @@ export function useInstanceBulkEdit(
    * PATTERN: Single bulk PATCH request instead of N individual PUT requests
    */
   const applyBulkEdit = async (blockShapeId: string): Promise<void> => {
-    console.log('[useInstanceBulkEdit] applyBulkEdit called for blockShapeId:', blockShapeId)
     try {
       const instances = blockInstancesByShape.value.get(blockShapeId) || []
-      console.log('[useInstanceBulkEdit] instances count:', instances.length)
       
       const editData = getBulkEditData(blockShapeId)
-      console.log('[useInstanceBulkEdit] editData:', editData)
-      console.log('[useInstanceBulkEdit] editData keys:', Object.keys(editData))
       
       if (Object.keys(editData).length === 0) {
-        console.log('[useInstanceBulkEdit] No changes to apply - editData is empty')
         showError('No changes to apply')
         return
       }
@@ -163,14 +158,11 @@ export function useInstanceBulkEdit(
         id: instance.id,
         ...editData,
       }))
-      console.log('[useInstanceBulkEdit] updates array:', updates)
       
       // LEARNING: Single bulk PATCH request instead of N individual PUT requests
       // WHY: More efficient (1 request vs N requests), semantically correct (PATCH for partial updates)
       // PATTERN: Use patchBulk mutation for bulk updates
-      console.log('[useInstanceBulkEdit] Calling patchBulk...')
       await patchBulk(updates)
-      console.log('[useInstanceBulkEdit] patchBulk completed successfully')
       success(`Updated ${instances.length} BlockInstance(s)`)
       
       // Clear bulk edit data

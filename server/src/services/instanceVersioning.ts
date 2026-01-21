@@ -79,7 +79,7 @@ async function createVersionFromInstance(
     include: [
       {
         model: PartInstance,
-        as: 'active_part_part_instances',
+        as: 'active_part_instances',
         through: {
           where: { disabled: false },
         },
@@ -89,7 +89,7 @@ async function createVersionFromInstance(
 
   // Create part instance versions
   // Type assertion needed because Sequelize includes don't preserve exact types
-  const partInstances = (blockInstanceWithParts as any)?.active_part_part_instances as InstanceType<typeof PartInstance>[] | undefined;
+  const partInstances = (blockInstanceWithParts as any)?.active_part_instances as InstanceType<typeof PartInstance>[] | undefined;
   
   if (partInstances && partInstances.length > 0) {
     await PartInstanceVersion.bulkCreate(
@@ -158,7 +158,7 @@ export async function createBlockInstanceVersion(
     include: [
       {
         model: PartInstance,
-        as: 'active_part_part_instances',
+        as: 'active_part_instances',
         through: {
           where: { disabled: false },
         },

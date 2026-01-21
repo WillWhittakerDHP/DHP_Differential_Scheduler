@@ -49,7 +49,7 @@ function createInstance(
     icon: options.icon ?? 'home',
     baseSqFt: 1000,
     active: true,
-    dependent: false,
+    isDependentInstance: false,
     differential: false,
     orderIndex: 0,
     blockShape: 'Test Shape',

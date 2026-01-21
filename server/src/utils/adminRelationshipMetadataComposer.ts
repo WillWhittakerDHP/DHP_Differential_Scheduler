@@ -1,8 +1,9 @@
 /**
  * LEARNING: Admin Relationship Metadata Composer Utility
- * WHY: Fetches and merges admin relationship metadata with inheritance support
+ * WHY: Fetches and merges admin relationship metadata
  * PATTERN: Parallel to adminInputMetadataComposer but for relationship fields
- * NOTE: Handles instance inheritance and fallback to global instance configs
+ * NOTE: Instance entities fall back to global configs if no instance-specific metadata exists
+ *       All entity types have completely independent metadata (no inheritance between shapes and instances)
  */
 
 import { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipMetadata.js';
@@ -30,7 +31,9 @@ export interface RelationshipMetadataEntry {
 
 /**
  * Get admin relationship metadata for an entity
- * Handles inheritance: instance entities inherit from their shape, with instance overrides
+ * Instance entities fall back to global configs if no instance-specific metadata exists
+ * 
+ * NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
  * 
  * @param entityType - Entity type: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
  * @param entityId - Entity ID or sentinel UUID for global configs

@@ -4,12 +4,12 @@
  * PATTERN: Combines all primitive field configs into a single map
  */
 
-import type { GlobalEntityKey } from '../../../constants/entities'
-import type { PrimitiveFieldType } from '../../../types/entity/formFields'
-import { blockInstancePrimitiveFields } from './appliedForm/blockInstancePrimitiveFields'
-import { blockShapePrimitiveFields } from './appliedForm/blockShapePrimitiveFields'
-import { partInstancePrimitiveFields } from './appliedForm/partInstancePrimitiveFields'
-import { partShapePrimitiveFields } from './appliedForm/partShapePrimitiveFields'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { PrimitiveFieldType } from '@/types/entity/formFields'
+import { blockInstancePrimitiveFields } from '../appliedForm/blockInstancePrimitiveFields'
+import { blockShapePrimitiveFields } from '../appliedForm/blockShapePrimitiveFields'
+import { partInstancePrimitiveFields } from '../appliedForm/partInstancePrimitiveFields'
+import { partShapePrimitiveFields } from '../appliedForm/partShapePrimitiveFields'
 
 export type PrimitiveFieldTypeMap = {
   [GE in GlobalEntityKey]: PrimitiveFieldType<GE>;

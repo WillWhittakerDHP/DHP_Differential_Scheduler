@@ -6,10 +6,9 @@
  * PATTERN: Composable that aggregates wizard state and step data, calculates fees
  */
 
-import { computed, watch, type Ref, type ComputedRef } from 'vue'
+import { computed, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { buildConfirmationPriceData, buildConfirmationSummaryData } from '@/utils/booking/confirmationStepData'
-import { isDevModeEnabled } from '@/utils/env/devMode'
 
 /**
  * Summary data structure
@@ -122,52 +121,9 @@ export function useConfirmationStepData(
     }, aduCount)
   })
 
-  /**
-   * DEBUG: Track ADU changes and priceData recalculations
-   * WHY: Helps identify reactivity issues and dependency tracking problems
-   * PATTERN: Development-only logging with watch statements
-   */
-  if (isDevModeEnabled()) {
-    // Watch for additionalUnits changes
-    watch(
-      () => propertyDetailsStepData?.value?.additionalUnits,
-      (newVal, oldVal) => {
-        console.log('[useConfirmationStepData] additionalUnits changed:', { 
-          oldVal, 
-          newVal,
-          stepDataValue: propertyDetailsStepData?.value 
-        })
-      }
-    )
-    
-    // Watch for priceData recalculations
-    watch(
-      priceData,
-      (newVal) => {
-        const stepDataValue = propertyDetailsStepData?.value
-        const aduCount = stepDataValue?.additionalUnits ?? null
-        console.log('[useConfirmationStepData] priceData recalculated:', {
-          totalFee: newVal.totalFee,
-          aduCount,
-          stepDataExists: !!stepDataValue
-        })
-      },
-      { deep: true }
-    )
-    
-    // Watch for stepData ref changes
-    watch(
-      () => propertyDetailsStepData?.value,
-      (newVal, oldVal) => {
-        console.log('[useConfirmationStepData] propertyDetailsStepData.value changed:', {
-          oldAdditionalUnits: oldVal?.additionalUnits,
-          newAdditionalUnits: newVal?.additionalUnits,
-          refChanged: oldVal !== newVal
-        })
-      },
-      { deep: true }
-    )
-  }
+  // LEARNING: Debug watches removed
+  // WHY: Debug logging should use proper logger utility, not console.log
+  // PATTERN: Remove dev-mode debug watches - use proper logging if needed
 
   return {
     summaryData,

@@ -182,9 +182,8 @@ function transformVersionToBookingInstance(
   const base: Partial<BookingBlockInstance> = currentInstance || {
     id: version.id,
     entityKey: 'blockInstance' as const,
-    description: '',
     active: true,
-    dependent: false,
+    isDependentInstance: false,
     orderIndex: 0,
     blockShape: '',
     blockShapeRef: '',

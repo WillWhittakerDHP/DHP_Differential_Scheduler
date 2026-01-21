@@ -58,13 +58,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
       };
     }
 
-    // TEMP: Debug logging to trace returned metadata keys
-    console.log('[AdminPrimitiveMetadataRouter] Returning metadata', {
-      entityType,
-      entityId,
-      returnedKeys: Object.keys(metadataRecord),
-    });
-
     res.json(metadataRecord);
   } catch (error) {
     console.error('[AdminPrimitiveMetadataRouter] Error fetching metadata:', error);

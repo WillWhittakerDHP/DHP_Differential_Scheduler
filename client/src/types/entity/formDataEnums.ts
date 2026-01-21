@@ -41,7 +41,7 @@ enum RelationshipSelectTypeEnum {
   PartShapeSelect = "partShapeSelect",
   ValidCascadeSelect = "validCascadeSelect",
   ValidPartSelect = "validPartSelect",
-  DependentInstanceOptionSelect = "dependentInstanceOptionSelect",
+  DependentInstanceSelect = "dependentInstanceSelect",
   BookingCascadeSelect = "bookingCascadeSelect",
   ActivePartSelect = "activePartSelect",
   InstanceComponentSelect = "instanceComponentSelect",

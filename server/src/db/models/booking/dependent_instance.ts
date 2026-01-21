@@ -9,24 +9,24 @@ import {
 } from 'sequelize';
 
 /**
- * DependentInstanceOption Model
+ * DependentInstance Model
  * 
- * Represents dependent instance option relationships between block instances.
- * Dependent instance option relationships define which block instances are valid as 
+ * Represents dependent instance relationships between block instances.
+ * Dependent instance relationships define which block instances are valid as 
  * dependent options within the booking wizard for a specific parent block instance.
  * 
- * LEARNING: Dependent instance option relationships enable instance-specific nested selection
+ * LEARNING: Dependent instance relationships enable instance-specific nested selection
  * WHY: Block instances need to define which other block instances are valid as dependent options
  *      This is instance-specific (many-to-many) rather than shape-level
  *      Works for any block shape: services, property types, availability options, etc.
- * PATTERN: Through table for many-to-many dependent option relationships between block instances
+ * PATTERN: Through table for many-to-many dependent relationships between block instances
  * 
- * NOTE: Renamed from AdditionalServiceOption to DependentInstanceOption for clearer, 
- *       generic domain terminology (2026-01-09)
+ * NOTE: Renamed from DependentInstanceOption to DependentInstance for clearer terminology (2026-01-20)
+ * PREVIOUS: AdditionalServiceOption → DependentInstanceOption → DependentInstance
  */
-export class DependentInstanceOption extends Model<
-  InferAttributes<DependentInstanceOption>,
-  InferCreationAttributes<DependentInstanceOption>
+export class DependentInstance extends Model<
+  InferAttributes<DependentInstance>,
+  InferCreationAttributes<DependentInstance>
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
@@ -39,8 +39,8 @@ export class DependentInstanceOption extends Model<
   declare updatedAt: CreationOptional<Date>;
 }
 
-export function DependentInstanceOptionFactory(sequelize: Sequelize) {
-  DependentInstanceOption.init(
+export function DependentInstanceFactory(sequelize: Sequelize) {
+  DependentInstance.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -51,7 +51,7 @@ export function DependentInstanceOptionFactory(sequelize: Sequelize) {
       kind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "dependentInstanceOptions";
+          return "dependentInstances";
         }
       },
       parent_kind: {
@@ -102,8 +102,8 @@ export function DependentInstanceOptionFactory(sequelize: Sequelize) {
       timestamps: false,
       underscored: true,
       schema: 'public',
-      modelName: 'dependent_instance_option',
-      tableName: 'dependent_instance_options',
+      modelName: 'dependent_instance',
+      tableName: 'dependent_instances',
       indexes: [
         {
           unique: true,
@@ -114,6 +114,5 @@ export function DependentInstanceOptionFactory(sequelize: Sequelize) {
     }
   );
 
-  return DependentInstanceOption;
+  return DependentInstance;
 }
-

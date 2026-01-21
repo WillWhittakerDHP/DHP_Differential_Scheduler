@@ -6,7 +6,7 @@
 
 import { ref, type Ref } from 'vue'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
+import type { GlobalEntity } from '@/types/entities'
 
 export interface UseShapeCreationReturn {
   isCreatingBlockShape: Ref<boolean>

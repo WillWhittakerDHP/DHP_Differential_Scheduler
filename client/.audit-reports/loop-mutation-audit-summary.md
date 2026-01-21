@@ -6,30 +6,27 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 
 | File | score | forEach | for-loops | mutators | assigns | forEach→mutation hits |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/utils/transformers/fetchToGlobalTransformer.ts` | 104 | 2 | 2 | 1 | 21 | 7 |
 | `src/components/booking/BookingWizard.vue` | 100 | 0 | 0 | 8 | 42 | 0 |
-| `src/components/booking/steps/AvailabilityStep.vue` | 51 | 1 | 0 | 0 | 17 | 2 |
-| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 49 | 1 | 4 | 1 | 21 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | 48 | 0 | 0 | 0 | 24 | 0 |
+| `src/utils/transformers/fetchToGlobalTransformer.ts` | 46 | 0 | 2 | 1 | 21 | 0 |
 | `src/utils/transformers/relationshipTransformers.ts` | 46 | 4 | 4 | 2 | 17 | 0 |
-| `src/utils/transformers/annotationTransformers.ts` | 43 | 3 | 0 | 1 | 11 | 2 |
 | `src/main.ts` | 42 | 4 | 0 | 0 | 3 | 4 |
 | `src/views/admin/tabs/components/PropertiesTable.vue` | 42 | 0 | 0 | 0 | 21 | 0 |
-| `src/components/admin/component/ComponentDistributionModal.vue` | 37 | 1 | 0 | 0 | 6 | 3 |
-| `src/components/admin/PartInstanceBulkEditModal.vue` | 36 | 2 | 0 | 0 | 5 | 3 |
+| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 41 | 1 | 4 | 1 | 17 | 0 |
 | `src/components/admin/generic/EntityCardSubPanels.vue` | 34 | 0 | 0 | 7 | 10 | 0 |
-| `src/components/admin/InstanceBulkEditModal.vue` | 34 | 2 | 0 | 0 | 4 | 3 |
+| `src/components/booking/steps/AvailabilityStep.vue` | 34 | 0 | 0 | 0 | 17 | 0 |
 | `src/utils/transformers/globalToBookingTransformer.ts` | 34 | 0 | 4 | 3 | 12 | 0 |
 | `src/components/booking/TimeSlotGrid.vue` | 31 | 1 | 0 | 1 | 2 | 3 |
 | `src/utils/transformers/componentAggregator.ts` | 30 | 2 | 8 | 3 | 7 | 0 |
-| `src/components/admin/generic/EntityCard.vue` | 29 | 1 | 2 | 3 | 10 | 0 |
 | `src/utils/booking/confirmationStepData.ts` | 28 | 2 | 0 | 6 | 3 | 1 |
 | `src/types/admin/AdminEntity.ts` | 26 | 0 | 0 | 0 | 13 | 0 |
 | `src/utils/booking/appointmentSlotBuilder.ts` | 26 | 0 | 0 | 1 | 12 | 0 |
 | `src/utils/booking/appointmentTimeCalculations.ts` | 26 | 0 | 0 | 3 | 10 | 0 |
 | `src/views/admin/tabs/components/AppointmentsTable.vue` | 26 | 0 | 0 | 0 | 13 | 0 |
 | `src/utils/forms/fieldLocationDispatcher.ts` | 24 | 0 | 2 | 5 | 6 | 0 |
+| `src/utils/transformers/annotationTransformers.ts` | 24 | 0 | 0 | 1 | 11 | 0 |
 | `src/utils/transformers/globalToAdminTransformer.ts` | 24 | 2 | 0 | 0 | 3 | 2 |
+| `src/components/admin/generic/EntityCard.vue` | 22 | 0 | 2 | 3 | 7 | 0 |
 | `src/utils/booking/selectionCardStyles.ts` | 22 | 0 | 0 | 7 | 4 | 0 |
 | `src/utils/optimistic/annotationAssignmentsOptimistic.ts` | 22 | 0 | 0 | 3 | 8 | 0 |
 | `src/composables/componentEntity/useComponentEntityActions.ts` | 21 | 1 | 0 | 0 | 4 | 2 |
@@ -39,17 +36,20 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `src/components/booking/IndependentSelectCard.vue` | 18 | 0 | 0 | 5 | 4 | 0 |
 | `src/components/booking/steps/PropertyDetailsStep.vue` | 18 | 0 | 0 | 0 | 9 | 0 |
 | `src/components/booking/TimeOnSiteGraph.vue` | 18 | 0 | 0 | 0 | 9 | 0 |
+| `src/components/admin/PartInstanceBulkEditModal.vue` | 17 | 1 | 0 | 0 | 4 | 1 |
 | `src/composables/booking/useStepValidation.ts` | 16 | 0 | 12 | 0 | 4 | 0 |
 | `src/composables/entityCrud/useEntityCrudActions.ts` | 16 | 2 | 0 | 1 | 3 | 1 |
 | `src/utils/booking/timeSlotMatching.ts` | 16 | 0 | 0 | 0 | 8 | 0 |
 | `src/utils/transformers/appointmentToWizardTransformer.ts` | 16 | 0 | 0 | 0 | 8 | 0 |
 | `src/views/admin/entities/BlockShapeForm.vue` | 16 | 0 | 0 | 1 | 7 | 0 |
 | `src/views/admin/entities/PartShapeForm.vue` | 16 | 0 | 0 | 1 | 7 | 0 |
+| `src/components/admin/InstanceBulkEditModal.vue` | 15 | 1 | 0 | 0 | 3 | 1 |
 | `src/layouts/components/NavSearchBar.vue` | 14 | 0 | 0 | 1 | 6 | 0 |
 | `src/utils/blockInstanceUtils.ts` | 14 | 0 | 0 | 0 | 7 | 0 |
 | `src/utils/timeSlotCalculations.ts` | 14 | 0 | 3 | 1 | 5 | 0 |
 | `src/views/admin/components/AnnotationTypeCard.vue` | 14 | 0 | 0 | 0 | 7 | 0 |
 | `src/utils/forms/formElementPatching.ts` | 13 | 1 | 4 | 0 | 4 | 0 |
+| `src/components/admin/component/ComponentDistributionModal.vue` | 12 | 0 | 0 | 0 | 6 | 0 |
 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 12 | 0 | 0 | 0 | 6 | 0 |
 | `src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 12 | 0 | 0 | 0 | 6 | 0 |
 | `src/utils/annotationUtils.ts` | 12 | 0 | 0 | 0 | 6 | 0 |
@@ -64,7 +64,6 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `src/utils/booking/selectionCardGroupConfig.ts` | 10 | 0 | 0 | 0 | 5 | 0 |
 | `src/utils/booking/serviceDescriptions.ts` | 10 | 0 | 0 | 0 | 5 | 0 |
 | `src/utils/dependencyCleanup.ts` | 10 | 0 | 2 | 2 | 2 | 0 |
-| `src/components/admin/MetadataEditModal.vue` | 8 | 0 | 0 | 0 | 4 | 0 |
 | `src/components/booking/plugins/wizardStatePlugin.ts` | 8 | 0 | 0 | 0 | 4 | 0 |
 | `src/composables/admin/useSelectHandlers.ts` | 8 | 0 | 4 | 2 | 5 | 0 |
 | `src/utils/differentialScheduling.ts` | 8 | 0 | 0 | 0 | 4 | 0 |
@@ -82,7 +81,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `src/composables/booking/useAppointmentDataCollection.ts` | 6 | 0 | 0 | 3 | 4 | 0 |
 | `src/composables/booking/useAvailableStartTimes.ts` | 6 | 0 | 1 | 1 | 9 | 0 |
 | `src/composables/booking/useWizardNumberUpdate.ts` | 6 | 0 | 0 | 0 | 6 | 0 |
-| `src/composables/formFields/useFormFieldsContext.ts` | 6 | 2 | 0 | 0 | 11 | 0 |
+| `src/composables/formFields/useFormFieldsContext.ts` | 6 | 2 | 0 | 0 | 10 | 0 |
 | `src/composables/useFormValidation.ts` | 6 | 0 | 4 | 0 | 3 | 0 |
 | `src/composables/useRelationship.ts` | 6 | 2 | 0 | 1 | 6 | 0 |
 | `src/configs/field/display/fullFieldDisplayConfig.ts` | 6 | 0 | 0 | 0 | 3 | 0 |
@@ -123,6 +122,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `src/components/admin/generic/EntityFormContent.vue` | 2 | 0 | 0 | 0 | 1 | 0 |
 | `src/components/admin/generic/fields/NumberInput.vue` | 2 | 0 | 0 | 0 | 1 | 0 |
 | `src/components/admin/generic/StatusButton.vue` | 2 | 0 | 0 | 0 | 1 | 0 |
+| `src/components/admin/MetadataEditModal.vue` | 2 | 0 | 0 | 0 | 1 | 0 |
 | `src/components/booking/plugins/localStatePlugin.ts` | 2 | 0 | 0 | 0 | 1 | 0 |
 | `src/components/booking/SelectionCardGroup.vue` | 2 | 0 | 0 | 0 | 1 | 0 |
 | `src/components/booking/wrappers/UserTypeSelectCards.vue` | 2 | 0 | 0 | 0 | 1 | 0 |
@@ -154,6 +154,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `src/utils/forms/selectDomAssociation.ts` | 2 | 0 | 2 | 0 | 0 | 0 |
 | `src/utils/optimistic/listByIdOptimistic.ts` | 2 | 0 | 0 | 0 | 1 | 0 |
 | `src/utils/transformers/fetchToBusinessTransformer.ts` | 2 | 0 | 0 | 0 | 1 | 0 |
+| `src/composables/admin/useEntityCardStoreSync.ts` | 1 | 1 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useInstanceBulkEdit.ts` | 1 | 1 | 0 | 0 | 1 | 0 |
 | `src/composables/admin/useStatusButtonHandlers.ts` | 1 | 1 | 0 | 0 | 0 | 0 |
 | `src/composables/booking/useWizardFilteredOptions.ts` | 1 | 1 | 0 | 0 | 10 | 0 |
@@ -161,6 +162,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `src/composables/entityCrud/useEntityCrud.ts` | 1 | 1 | 0 | 0 | 1 | 0 |
 | `src/App.vue` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/entityCardConstants.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCardContent.vue` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BaseInput.vue` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BooleanInput.vue` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/DateInput.vue` | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -379,6 +381,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `src/types/vuetifyTypes.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/types/wizard.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/types/wizardStepData.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/admin/buildMetadataEntry.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/admin/entityDisplayText.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/autocomplete.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/booking/bookingWizardStepValidators.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -393,6 +396,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `src/utils/entities/entityFieldPatch.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/entities/entityTypeMapping.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/forms/fieldComponentDispatcher.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/forms/getFieldKeys.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/forms/layoutFieldCategorization.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/iconMapper.ts` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/logger.ts` | 0 | 0 | 0 | 0 | 0 | 0 |

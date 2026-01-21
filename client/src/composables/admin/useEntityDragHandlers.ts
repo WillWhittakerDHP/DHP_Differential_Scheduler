@@ -13,7 +13,9 @@ import type { GlobalEntityKey } from '@/constants/entities'
 /**
  * Patch order index function type
  */
-export type PatchOrderIndex = (updates: Array<{ id: string; orderIndex: number }>) => Promise<void>
+import type { OrderIndexUpdate } from '@/composables/entityCrud/useEntityCrudActions'
+
+export type PatchOrderIndex = (updates: OrderIndexUpdate) => Promise<void>
 
 /**
  * useEntityDragHandlers composable parameters

@@ -77,6 +77,8 @@ function createGlobalInstance() {
     },
     staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
     refetchOnWindowFocus: false, // Don't refetch on window focus
+    refetchOnMount: false, // Don't refetch on mount if data exists (prefetched in main.ts)
+    refetchOnReconnect: false, // Don't refetch on reconnect if data exists
   })
   const globalData = globalDataQuery.data
   

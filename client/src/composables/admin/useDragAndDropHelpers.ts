@@ -5,7 +5,6 @@
  */
 
 import type { ComponentPublicInstance, Ref } from 'vue'
-import { isRef } from 'vue'
 
 /**
  * Get panels element from container ref
@@ -101,5 +100,36 @@ export function createMultiClassDraggableChecker(draggableClasses: string[]): (n
   return (node: Element) => {
     const el = node as HTMLElement
     return draggableClasses.some(className => el.classList?.contains(className))
+  }
+}
+
+/**
+ * LEARNING: Shared draggable checker function for expansion panels
+ * WHY: Eliminates duplication between useDragAndDrop and useInstanceDragAndDrop
+ * PATTERN: Extract common draggable logic to shared utility
+ * 
+ * @param isDraggableChecker - Function to check if a panel element is draggable
+ * @returns Function that checks if a child element's panel is draggable
+ */
+export function createExpansionPanelDraggableChecker(
+  isDraggableChecker: (element: HTMLElement) => boolean
+): (child: unknown) => boolean {
+  return (child: unknown) => {
+    if (!child) return false
+    
+    // LEARNING: Find the .v-expansion-panel element (child or its ancestor)
+    // WHY: The child might be a nested element (button, text, etc.) inside the panel
+    // PATTERN: Check if child itself is a panel, otherwise find closest ancestor
+    const childEl = child as HTMLElement
+    const panelElement = childEl.classList?.contains('v-expansion-panel') 
+      ? childEl 
+      : childEl.closest?.('.v-expansion-panel') as HTMLElement | null
+    
+    if (!panelElement) return false
+    
+    // LEARNING: Use the same checker logic as node counting
+    // WHY: Ensures consistency between validation and actual drag behavior
+    // PATTERN: Reuse the same checker function
+    return isDraggableChecker(panelElement)
   }
 }

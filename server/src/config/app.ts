@@ -50,18 +50,18 @@ export const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB
 
 // ✅ Ensure Models Are Loaded
 // NOTE: Renamed for clearer domain terminology:
-// - ValidIndependentComponent → AdditionalServiceOption → DependentInstanceOption (2026-01-09)
+// - ValidIndependentComponent → AdditionalServiceOption → DependentInstanceOption → DependentInstance (2026-01-20)
 // - ActiveCascade → BookingCascade (2026-01-08)
 // - ActiveComponent → ServiceComponent → InstanceComponent (2026-01-07)
 export const { 
   PartShape, PartInstance, BlockShape, BlockInstance, 
   BlockInstanceVersion, PartInstanceVersion,
-  ValidCascade, ValidPart, DependentInstanceOption,
+  ValidCascade, ValidPart, DependentInstance,
   BookingCascade, ActivePart, InstanceComponent,
   AnnotationShape, AnnotationInstance, ActiveAnnotation,
   Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
   BusinessSettings,
-  AdminPrimitiveMetadata
+  AdminMetadata
 } = initializeModels(sequelize);
 
 // ✅ Database Connection - Migrations handle schema
@@ -94,7 +94,7 @@ export default {
   PartInstanceVersion,
   ValidCascade,
   ValidPart,
-  DependentInstanceOption,
+  DependentInstance,
   BookingCascade,
   ActivePart,
   InstanceComponent,
@@ -109,5 +109,5 @@ export default {
   User,
   Appointment,
   BusinessSettings,
-  AdminPrimitiveMetadata,
+  AdminMetadata,
 };

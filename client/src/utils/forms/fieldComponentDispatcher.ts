@@ -77,7 +77,7 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
   // PATTERN: Check renderAs for text/number/statusButton
   const primitiveRenderAs: Array<FieldMetadataEntry['renderAs']> = ['text', 'number', 'statusButton']
   if (primitiveRenderAs.includes(renderAs)) {
-    return { type: 'primitive', reason: renderAs }
+    return { type: 'primitive', reason: renderAs as 'text' | 'number' | 'statusButton' }
   }
   // LEARNING: Check for partsCollection renderAs (declarative partsCollection)
   // WHY: PartsCollection is now explicitly declared via renderAs, not inferred from selectMode
@@ -102,7 +102,7 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
     // WHY: blockShape.type and partShape.type are enums with fixed values
     // PATTERN: Return 'select' type for enum selects even without inputConfig
     if (isEnumSelect) {
-      return { type: 'select', reason: renderAs }
+      return { type: 'select', reason: renderAs as 'select' | 'multiselect' | 'reference' }
     }
     
     // LEARNING: Non-enum select fields require inputConfig - fail gracefully if missing
@@ -111,7 +111,7 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
     if (!inputConfig) {
       return { type: 'unknown', reason: 'invalidRenderAs' }
     }
-    return { type: 'select', reason: renderAs }
+    return { type: 'select', reason: renderAs as 'select' | 'multiselect' | 'reference' }
   }
 
   // LEARNING: Unknown renderAs value

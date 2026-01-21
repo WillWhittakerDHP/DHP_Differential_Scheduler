@@ -40,9 +40,10 @@ export function usePartsCollectionField<
    * WHY: useEntityMetadata needs entity to determine entityId
    * PATTERN: Get entity from admin store using entityKey and entityId
    */
-  const entity = computed(() => {
+  const entity = computed<GlobalEntity<GE> | null>(() => {
     try {
-      return adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
+      const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
+      return entityValue ?? null
     } catch {
       return null
     }

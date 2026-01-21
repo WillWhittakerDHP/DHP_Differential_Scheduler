@@ -39,7 +39,7 @@ const { filteredEntities: filteredBlockShapes } = useEntityFiltering('blockShape
  * WHY: Extracts display names map logic from component to composable
  * PATTERN: Composable provides computed maps of entity IDs to display names
  */
-const { partShapeDisplayNames, blockShapeDisplayNames } = useShapeDisplayNames()
+const { partShapeDisplayNames: _partShapeDisplayNames, blockShapeDisplayNames: _blockShapeDisplayNames } = useShapeDisplayNames()
 
 /**
  * LEARNING: Entity CRUD composable for PartShape and BlockShape
@@ -436,7 +436,7 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
               prepend-icon="tabler-settings"
               @click="toggleBlockShapeMetadataModal"
             >
-              Metadata Edit
+              Shape Fields
             </VBtn>
           </div>
         </div>
@@ -581,6 +581,20 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
           >
             No PartShapes found. Create one to get started.
           </VAlert>
+          
+          <!--
+            LEARNING: PartShape Fields Preview Card
+            WHY: Shows configured partShape fields at bottom of tab for easy reference
+            PATTERN: EntityCard with global config ID to display all partShape field configurations
+          -->
+          <VDivider class="my-6" />
+          <VExpansionPanels v-model="expandedShapes" multiple>
+            <EntityCard
+              entity-key="partShape"
+              :entity="{ id: PART_SHAPE_GLOBAL_CONFIG_ID } as GlobalEntity<'partShape'>"
+              :expanded="isPanelExpanded(PART_SHAPE_GLOBAL_CONFIG_ID)"
+            />
+          </VExpansionPanels>
         </div>
       </VWindowItem>
       

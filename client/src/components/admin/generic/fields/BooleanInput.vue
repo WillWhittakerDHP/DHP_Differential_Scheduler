@@ -62,7 +62,9 @@ const rawFieldValue = useFieldValue(fieldContext)
 // PATTERN: Invert value for display when fieldKey is 'constituable'
 const isInverted = computed(() => String(fieldContext.fieldKey) === 'constituable')
 const fieldValue = computed(() => {
-  return isInverted.value ? !rawFieldValue.value : rawFieldValue.value
+  const value = rawFieldValue.value
+  const boolValue = typeof value === 'boolean' ? value : false
+  return isInverted.value ? !boolValue : boolValue
 })
 
 
@@ -75,7 +77,8 @@ const entityForMetadata = computed(() => {
     return null
   }
   try {
-    return admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
+    const entity = admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
+    return entity ?? null
   } catch {
     return null
   }

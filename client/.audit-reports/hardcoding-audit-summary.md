@@ -11,7 +11,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | File | score | switch(entityKey) | entityKey strings | case | field===string | omitFields | headers | label maps |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/utils/forms/fieldLocationDispatcher.ts` | 44 | 0 | 0 | 11 | 0 | 0 | 0 | 0 |
-| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 38 | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
+| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
 | `src/components/booking/SelectionCardGroup.vue` | 24 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/selectableDisplayConfig.ts` | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/logger.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
@@ -31,12 +31,13 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `src/views/admin/tabs/components/AppointmentsTable.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/admin/entityDisplayText.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/wizardSteps.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/BusinessControlsTab.vue` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useAnnotationsFieldViewModel.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/MetadataEditModal.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCard.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/_archived/useFieldMetadata.ts` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 |
 | `src/configs/field/form/_archived/selectableFieldConfig.ts` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/layouts/components/NavBarNotifications.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -52,7 +53,6 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `src/composables/admin/usePartInstanceBulkEdit.ts` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/appliedDisplay/partInstanceDisplays.ts` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/layouts/components/UserProfile.vue` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/utils/admin/entityDisplayText.ts` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/booking/confirmationStepData.ts` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/entityDefaults.ts` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/AnnotationsField.vue` | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -68,6 +68,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `src/views/admin/entities/PartShapeForm.vue` | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/InstancesTab.vue` | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/component/ComponentDistributionModal.vue` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/MetadataEditModal.vue` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/steps/AvailabilityStep.vue` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/types/selectionCardTypes.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/tables/useAppointmentsTableModel.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -76,8 +77,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `src/composables/entityCrud/usePrimitiveMutation.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/form/appliedForm/baseEntityFields.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/form/appliedForm/partShapePrimitiveFields.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/generic/DynamicForm.vue` | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/generic/EntityFormContent.vue` | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/forms/getFieldKeys.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BooleanInput.vue` | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/FieldRenderer.vue` | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/IconInput.vue` | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -128,8 +128,10 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `src/App.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/CardButton.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/collections/PartsCollection.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/generic/EntityCard.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/DynamicForm.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/entityCardConstants.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCardContent.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityFormContent.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BaseInput.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/DateInput.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/IconPicker.vue` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -170,6 +172,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `src/composables/admin/useEntityCardLayout.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useEntityCardReadiness.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useEntityCardSaveState.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityCardStoreSync.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useEntityDisplay.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useEntityDragHandlers.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useEntityFiltering.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -354,6 +357,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `src/types/vuetifyTypes.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/types/wizard.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/types/wizardStepData.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/admin/buildMetadataEntry.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/annotationUtils.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/autocomplete.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/booking/appointmentTimeCalculations.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |

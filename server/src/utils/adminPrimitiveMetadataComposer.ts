@@ -1,9 +1,10 @@
 /**
  * LEARNING: Admin Primitive Metadata Composer Utility
- * WHY: Fetches and merges admin primitive metadata with inheritance support
+ * WHY: Fetches and merges admin primitive metadata
  *      Renamed from adminInputMetadataComposer to align with entity data pattern
- * PATTERN: Unified fetching for all entity types, handles instance inheritance
+ * PATTERN: Unified fetching for all entity types
  * NOTE: Aligns with displayConfig.primitives pattern from regular entity data
+ *       All entity types have completely independent metadata (no inheritance between shapes and instances)
  */
 
 import { AdminPrimitiveMetadata } from '../db/models/admin/adminPrimitiveMetadata.js';
@@ -32,7 +33,9 @@ export interface FieldMetadataEntry {
 
 /**
  * Get admin primitive metadata for an entity
- * Handles inheritance: instance entities inherit from their shape, with instance overrides
+ * Instance entities fall back to global configs if no instance-specific metadata exists
+ * 
+ * NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
  * 
  * @param entityType - Entity type: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
  * @param entityId - Entity ID or sentinel UUID for global configs

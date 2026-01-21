@@ -6,7 +6,8 @@
 
 import { ref, watch, type Ref, type ComputedRef } from 'vue'
 import { useStatusButtonToggle } from './useStatusButtonToggle'
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
+import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 
 export interface UseStatusButtonHandlersOptions<GE extends GlobalEntityKey> {

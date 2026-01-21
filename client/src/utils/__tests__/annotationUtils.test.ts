@@ -468,7 +468,7 @@ describe('annotationUtils', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
       

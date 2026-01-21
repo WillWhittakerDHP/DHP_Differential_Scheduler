@@ -11,7 +11,7 @@
  * - Uses stack layout for vertical list display
  * - Single-select behavior (radio-like) - selecting one deselects others
  * - Maps display properties (icons)
- * - Supports dependent instance options (nested children)
+ * - Supports dependent instances (nested children)
  * 
  * Session: Generic SelectionCard Refactor (2026-01-09)
  */
@@ -33,14 +33,14 @@ interface Props {
   config?: Partial<SelectionCardConfig>
   
   /**
-   * Whether to show dependent instance options
-   * LEARNING: When true, services with dependentInstanceOptions show nested children
+   * Whether to show dependent instances
+   * LEARNING: When true, services with dependentInstances show nested children
    */
-  showDependentOptions?: boolean
+  showDependentInstances?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  showDependentOptions: true
+  showDependentInstances: true
 })
 
 /**

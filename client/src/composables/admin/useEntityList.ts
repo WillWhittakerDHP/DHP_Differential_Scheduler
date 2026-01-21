@@ -13,6 +13,7 @@
 
 import { useRouter } from 'vue-router'
 import { useEntityCrud } from '../useEntity'
+import { useNotification } from '../useNotification'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntityId } from '@/types/entities'
 
@@ -108,6 +109,7 @@ export function useEntityList(
   
   const router = useRouter()
   const { remove } = useEntityCrud(entityKey)
+  const { error: notifyError } = useNotification()
   
   /**
    * LEARNING: Get create route name
@@ -181,7 +183,7 @@ export function useEntityList(
       await remove(id)
     } catch (err) {
       const errorMsg = getDeleteErrorMessage(err)
-      alert(errorMsg)
+      notifyError(errorMsg)
       throw err // Re-throw so caller can handle if needed
     }
   }

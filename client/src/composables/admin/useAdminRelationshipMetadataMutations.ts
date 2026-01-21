@@ -12,6 +12,9 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAdminRelationshipMetadataEndpoint } from '@/utils/api'
 import type { EntityMetadataType, FieldMetadataEntry } from '@/types/entityMetadata'
+import { buildMetadataEntry } from '@/utils/admin/buildMetadataEntry'
+import { useGlobal } from '@/composables/useGlobal'
+import { metadataTransformer } from '@/utils/transformers/metadataTransformer'
 
 /**
  * Save relationship field rendering configuration
@@ -24,6 +27,7 @@ import type { EntityMetadataType, FieldMetadataEntry } from '@/types/entityMetad
  */
 export function useAdminRelationshipMetadataMutations() {
   const queryClient = useQueryClient()
+  const { getGlobalData } = useGlobal()
 
   const saveRelationshipFieldRenderingMutation = useMutation({
     mutationFn: async ({
@@ -39,6 +43,25 @@ export function useAdminRelationshipMetadataMutations() {
       renderingUpdates: Partial<FieldMetadataEntry>
       existingMetadata: FieldMetadataEntry | undefined
     }) => {
+      // LEARNING: Use existingMetadata as-is (like dehydrateEntity accepts fields as-is)
+      // WHY: Accept what's passed, don't filter or validate - declarative transformation only
+      // PATTERN: Like entity mutations accept fields (primitives + relationships) and dehydrate together
+      //          Metadata mutations should accept existingMetadata and use it directly
+      //          Dehydration happens at metadata structure level (separating primitives/relationships in GlobalData)
+      //          not at individual entry level - the entry itself is already correct from the correct source
+      
+      // LEARNING: Get existingMetadata from relationship metadata source (declarative - like dehydrateEntity gets from entity)
+      // WHY: Ensure we're using the correct source for relationship metadata entries
+      // PATTERN: Get relationship metadata from GlobalData, extract relationshipKey entry (declarative object access)
+      const globalData = getGlobalData()
+      if (globalData?.metadata && !existingMetadata) {
+        const relationshipMetadata = globalData.metadata.relationshipMetadata?.[entityType]?.[entityId] || {}
+        // LEARNING: Direct access to relationshipKey entry (declarative - like dehydrateEntity accesses entity fields)
+        // WHY: Get existingMetadata from relationship metadata source if not provided
+        // PATTERN: Simple object property access, no filtering
+        existingMetadata = relationshipMetadata[relationshipKey]
+      }
+
       // LEARNING: NO FALLBACKS - existingMetadata is required for new fields
       // WHY: Canonical fields must be explicitly provided - no derivation from formFieldConfig
       // PATTERN: Fail explicitly if existingMetadata is missing
@@ -50,71 +73,18 @@ export function useAdminRelationshipMetadataMutations() {
         )
       }
 
-      // Use existing canonical fields
-      const canonicalFields = {
-        dataType: existingMetadata.dataType,
-        label: existingMetadata.label,
-        isRequired: existingMetadata.isRequired,
-      }
-
-      const fullEntry: {
-        relationshipKey: string
-        dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference'
-        label: string
-        isRequired: boolean
-        visibility: FieldMetadataEntry['visibility']
-        layout: FieldMetadataEntry['layout']
-        displayOrder: number
-        section?: string | null
-        renderAs: FieldMetadataEntry['renderAs']
-        statusButtonColor?: string | null
-        panel: FieldMetadataEntry['panel']
-        bulkEdit: boolean
-        inputConfig?: Record<string, unknown> | null
-        inheritsFromEntityType?: 'blockShape' | 'partShape' | null
-        inheritsFromEntityId?: string | null
-      } = {
-        relationshipKey,
-        // Canonical fields (from existing metadata or derived)
-        dataType: canonicalFields.dataType,
-        label: canonicalFields.label,
-        isRequired: canonicalFields.isRequired,
-        // Rendering fields: use updates if provided, otherwise existing values - NO DEFAULTS
-        visibility: renderingUpdates.visibility ?? existingMetadata.visibility,
-        layout: renderingUpdates.layout ?? existingMetadata.layout,
-        displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,
-        section: renderingUpdates.section ?? existingMetadata.section,
-        renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
-        statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
-        panel: renderingUpdates.panel ?? existingMetadata.panel,
-        bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
-        // LEARNING: Wrap inputConfig in FormFieldConfig structure before sending
-        // WHY: inputConfig should follow FormFieldConfig pattern with relationshipSelect property
-        //      Relationship metadata always uses relationshipSelect (never typeSelect)
-        // PATTERN: Wrap select configs in FormFieldConfig structure, preserve null for non-select fields
-        inputConfig: (() => {
-          const rawInputConfig = renderingUpdates.inputConfig !== undefined 
-            ? renderingUpdates.inputConfig 
-            : existingMetadata.inputConfig ?? null
-          
-          // If no inputConfig, return null (for non-select fields)
-          if (!rawInputConfig) {
-            return null
-          }
-          
-          // If already in FormFieldConfig format, return as-is
-          const config = rawInputConfig as Record<string, unknown>
-          if ('relationshipSelect' in config || 'typeSelect' in config || 'primitiveInput' in config) {
-            return rawInputConfig
-          }
-          
-          // Wrap direct select config in FormFieldConfig structure
-          // Relationship metadata always uses relationshipSelect
-          return { relationshipSelect: config }
-        })(),
-        inheritsFromEntityType: existingMetadata.inheritsFromEntityType ?? null,
-        inheritsFromEntityId: existingMetadata.inheritsFromEntityId ?? null,
-      }
+      // LEARNING: Use shared utility to build metadata entry
+      // WHY: Eliminates duplication between primitive and relationship metadata mutations
+      // PATTERN: Extract common logic to shared utility function
+      const fullEntry = {
+        ...buildMetadataEntry({
+          key: relationshipKey,
+          renderingUpdates,
+          existingMetadata,
+          isRelationship: true
+        }),
+        relationshipKey
+      } as { relationshipKey: string } & Record<string, unknown>
 
       const endpoint = getAdminRelationshipMetadataEndpoint(entityType, entityId)
       const response = await apiClient.post(endpoint, fullEntry)

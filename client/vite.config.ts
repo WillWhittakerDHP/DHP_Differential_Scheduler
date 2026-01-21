@@ -30,9 +30,18 @@ export default defineConfig({
       ],
       vueTemplate: true,
       dts: true, // Generate TypeScript declarations
-      // Note: Warnings about failed to resolve "@/composables/..." are harmless.
-      // Unimport tries to resolve these during scanning, but Vite handles @ alias resolution at runtime.
-      // These warnings don't affect functionality and can be safely ignored.
+      // LEARNING: Configure resolver to handle @ alias
+      // WHY: Unimport needs to know how to resolve @ alias during scanning to avoid warnings
+      // PATTERN: Add custom resolver function to map @ alias to src directory
+      resolvers: [
+        (id: string) => {
+          if (id.startsWith('@/')) {
+            const srcPath = fileURLToPath(new URL('./src', import.meta.url))
+            return id.replace('@/', `${srcPath}/`)
+          }
+          return null
+        }
+      ],
     }),
   ],
   resolve: {

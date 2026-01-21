@@ -180,7 +180,7 @@ describe('BookingTransformer', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
 
@@ -224,7 +224,7 @@ describe('BookingTransformer', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
 
@@ -283,7 +283,7 @@ describe('BookingTransformer', () => {
           ],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
 
@@ -362,7 +362,7 @@ describe('BookingTransformer', () => {
           ],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
 
@@ -423,7 +423,7 @@ describe('BookingTransformer', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
 
@@ -470,7 +470,7 @@ describe('BookingTransformer', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
 
@@ -508,7 +508,7 @@ describe('BookingTransformer', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
 
@@ -547,7 +547,7 @@ describe('BookingTransformer', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
 

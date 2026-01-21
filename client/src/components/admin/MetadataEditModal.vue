@@ -29,6 +29,7 @@
           :entity-key="entityKey"
           :entity="entity"
           :mode="mode"
+          :block-shape-ref="blockShapeRef"
           @saved="handleSaved"
         />
       </VCardText>
@@ -58,6 +59,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import AdminPrimitiveMetadataEditor from './metadata/AdminPrimitiveMetadataEditor.vue'
+import { getEntityTypeLabel } from '@/utils/admin/entityDisplayText'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { useNotification } from '@/composables/useNotification'
@@ -69,6 +71,7 @@ interface Props {
   entity: GlobalEntity<GlobalEntityKey>  // Required - entity object
   mode?: 'global' | 'instanceOverride'  // Optional - defaults to 'global' for shapes, 'instanceOverride' for instances
   entityName?: string  // Optional - for display in title
+  blockShapeRef?: string  // Optional - BlockShape ID for BlockShape-specific instance metadata
 }
 
 interface Emits {
@@ -99,10 +102,10 @@ const modalTitle = computed(() => {
   if (props.entityName) {
     return `Metadata Edit: ${props.entityName}`
   }
-  const entityTypeLabel = props.entityKey === 'blockShape' ? 'Block Shape'
-    : props.entityKey === 'partShape' ? 'Part Shape'
-    : props.entityKey === 'blockInstance' ? 'Block Instance'
-    : 'Part Instance'
+  // LEARNING: Use config-driven entity type label
+  // WHY: Eliminates entityKey branching (ternary chain) - single source of truth
+  // PATTERN: Use shared utility function instead of hardcoded ternary chain
+  const entityTypeLabel = getEntityTypeLabel(props.entityKey)
   return `Metadata Edit: ${entityTypeLabel}`
 })
 

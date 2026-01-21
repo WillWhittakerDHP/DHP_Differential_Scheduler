@@ -65,7 +65,7 @@ export interface UseInstanceComponentsReturn {
 export function useInstanceComponents(
   options: UseInstanceComponentsOptions
 ): UseInstanceComponentsReturn {
-  const { service, selectedUserTypeBlock } = options
+  const { service } = options
   
   const { getGlobalEntityById, getGlobalData } = useGlobal()
   const componentEntity = useComponentEntity<'blockInstance'>('blockInstance')

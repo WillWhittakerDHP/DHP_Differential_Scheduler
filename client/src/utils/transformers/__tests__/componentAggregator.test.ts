@@ -84,7 +84,7 @@ describe('componentAggregator', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
       
@@ -120,7 +120,7 @@ describe('componentAggregator', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
       
@@ -149,7 +149,7 @@ describe('componentAggregator', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
       
@@ -178,7 +178,7 @@ describe('componentAggregator', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
       
@@ -211,7 +211,7 @@ describe('componentAggregator', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
       
@@ -238,7 +238,7 @@ describe('componentAggregator', () => {
           instanceComponents: [],
           validCascades: [],
           validParts: [],
-          dependentInstanceOptions: [],
+          dependentInstances: [],
         },
       }
       

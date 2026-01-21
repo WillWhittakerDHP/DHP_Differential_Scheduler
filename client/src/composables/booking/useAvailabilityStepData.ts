@@ -8,6 +8,7 @@
 
 import { computed, type Ref } from 'vue'
 import type { AppointmentSlot } from '@/types/appointment'
+import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import {
   buildAvailabilityStepData,
   buildSelectedTimeSlots,
@@ -23,6 +24,7 @@ export type { SelectedTimeSlot, AvailabilityStepData }
 export interface UseAvailabilityStepDataParams {
   selectedDate: Ref<{ start: string | null; end: string | null }>
   selectedSlot: Ref<AppointmentSlot | null>
+  moveableScheduling?: Ref<MoveableSchedulingOptions | null>
 }
 
 /**
@@ -43,7 +45,8 @@ export interface UseAvailabilityStepDataReturn {
 export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): UseAvailabilityStepDataReturn {
   const {
     selectedDate,
-    selectedSlot
+    selectedSlot,
+    moveableScheduling
   } = params
 
   /**
@@ -67,6 +70,7 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
     buildAvailabilityStepData({
       selectedDate: selectedDate.value,
       selectedTimeSlots: selectedTimeSlots.value,
+      moveableScheduling: moveableScheduling?.value ?? null,
     })
   )
 

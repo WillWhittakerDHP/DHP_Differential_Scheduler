@@ -9,7 +9,6 @@
 
 import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import { AdminEntity } from '@/types/admin/AdminEntity'
 import { findRelationshipsByParent, extractChildIds } from './relationshipTransformers'

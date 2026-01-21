@@ -16,11 +16,11 @@ interface BaseGlobalEntity<GE extends GlobalEntityKey> {
   orderIndex: number;
   active: boolean;
   /**
-   * LEARNING: Some entity types include a `dependent` boolean flag.
+   * LEARNING: Some entity types include an `isDependentInstance` boolean flag.
    * WHY: Defaults and forms expect an explicit boolean value (no `undefined`).
    * NOTE: Not all entities necessarily use it, so it remains optional in the base type.
    */
-  dependent?: boolean;
+  isDependentInstance?: boolean;
   // Component properties (optional - only present if entity participates in component relationships)
   instanceComponents?: GlobalEntityId[]; // IDs of entities that are instance components of this composer
   isComposer?: boolean; // True if this entity is a composer (has components)

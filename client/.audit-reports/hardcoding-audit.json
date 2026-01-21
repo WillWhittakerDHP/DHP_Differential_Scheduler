@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-15T22:09:06.432Z",
+  "generatedAt": "2026-01-18T15:56:57.667Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}"
@@ -14,7 +14,7 @@
   },
   "exceptionSummary": {
     "totalAllowed": 5,
-    "totalRequiresReview": 478,
+    "totalRequiresReview": 481,
     "bySource": {
       "inline": 0,
       "pattern": 5,
@@ -180,193 +180,173 @@
         "inlineLabelMap": 1,
         "omitFieldsArray": 0,
         "headersArray": 0,
-        "magicLabel": 36,
+        "magicLabel": 32,
         "entityKeyString": 0
       },
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 59,
+          "lineNumber": 52,
           "line": "{{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 78,
+          "lineNumber": 71,
           "line": "{{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 92,
+          "lineNumber": 85,
           "line": "label=\"Override inherited configuration\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 101,
+          "lineNumber": 94,
           "line": "label=\"Visibility\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 104,
+          "lineNumber": 97,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 117,
+          "lineNumber": 110,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 130,
+          "lineNumber": 123,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 138,
+          "lineNumber": 131,
           "line": "label=\"Display Order\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 142,
+          "lineNumber": 135,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 151,
+          "lineNumber": 144,
           "line": "label=\"Render As\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 154,
+          "lineNumber": 147,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 164,
+          "lineNumber": 157,
           "line": "label=\"Status Button Color\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 167,
+          "lineNumber": 160,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 179,
+          "lineNumber": 172,
           "line": "placeholder='{\"targetMode\": \"relationship\", \"targetKey\": \"...\", \"candidateChildKey\": \"...\"}'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 197,
+          "lineNumber": 190,
           "line": "label=\"Enable Bulk Edit\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 328,
-          "line": "if (props.entityKey === 'blockShape') return 'Block Shapes'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 329,
-          "line": "if (props.entityKey === 'partShape') return 'Part Shapes'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 330,
-          "line": "if (props.entityKey === 'blockInstance') return 'Block Instance'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 331,
-          "line": "if (props.entityKey === 'partInstance') return 'Part Instance'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 451,
+          "lineNumber": 438,
           "line": "{ title: 'Not Configured', value: 'notConfigured' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 452,
+          "lineNumber": 439,
           "line": "{ title: 'Title Row', value: 'titleRow' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 453,
+          "lineNumber": 440,
           "line": "{ title: 'Static As Title', value: 'staticAsTitle' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 454,
+          "lineNumber": 441,
           "line": "{ title: 'Expanded Direct', value: 'expandedDirect' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 455,
+          "lineNumber": 442,
           "line": "{ title: 'Expanded Panel', value: 'expandedPanel' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 461,
+          "lineNumber": 448,
           "line": "{ title: 'Stacked', value: 'stacked' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 466,
+          "lineNumber": 453,
           "line": "{ title: 'Relationships', value: 'relationships' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 467,
+          "lineNumber": 454,
           "line": "{ title: 'Annotations', value: 'annotations' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 475,
+          "lineNumber": 462,
           "line": "{ title: 'Multiselect', value: 'multiselect' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 476,
+          "lineNumber": 463,
           "line": "{ title: 'Reference', value: 'reference' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 477,
+          "lineNumber": 464,
           "line": "{ title: 'Status Button', value: 'statusButton' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 478,
+          "lineNumber": 465,
           "line": "{ title: 'Icon Select', value: 'iconSelect' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 479,
+          "lineNumber": 466,
           "line": "{ title: 'Parts Collection', value: 'partsCollection' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 483,
+          "lineNumber": 470,
           "line": "{ title: 'Default', value: 'default' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 484,
+          "lineNumber": 471,
           "line": "{ title: 'Success', value: 'success' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 485,
+          "lineNumber": 472,
           "line": "{ title: 'Primary', value: 'primary' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 487,
+          "lineNumber": 474,
           "line": "{ title: 'Warning', value: 'warning' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 489,
+          "lineNumber": 476,
           "line": "{ title: 'Secondary', value: 'secondary' },"
         }
       ],
@@ -374,191 +354,171 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 59,
+          "lineNumber": 52,
           "line": "{{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 78,
+          "lineNumber": 71,
           "line": "{{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 92,
+          "lineNumber": 85,
           "line": "label=\"Override inherited configuration\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 101,
+          "lineNumber": 94,
           "line": "label=\"Visibility\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 104,
+          "lineNumber": 97,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 117,
+          "lineNumber": 110,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 130,
+          "lineNumber": 123,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 138,
+          "lineNumber": 131,
           "line": "label=\"Display Order\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 142,
+          "lineNumber": 135,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 151,
+          "lineNumber": 144,
           "line": "label=\"Render As\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 154,
+          "lineNumber": 147,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 164,
+          "lineNumber": 157,
           "line": "label=\"Status Button Color\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 167,
+          "lineNumber": 160,
           "line": "placeholder=\"Not Configured\""
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 179,
+          "lineNumber": 172,
           "line": "placeholder='{\"targetMode\": \"relationship\", \"targetKey\": \"...\", \"candidateChildKey\": \"...\"}'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 197,
+          "lineNumber": 190,
           "line": "label=\"Enable Bulk Edit\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 328,
-          "line": "if (props.entityKey === 'blockShape') return 'Block Shapes'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 329,
-          "line": "if (props.entityKey === 'partShape') return 'Part Shapes'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 330,
-          "line": "if (props.entityKey === 'blockInstance') return 'Block Instance'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 331,
-          "line": "if (props.entityKey === 'partInstance') return 'Part Instance'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 451,
+          "lineNumber": 438,
           "line": "{ title: 'Not Configured', value: 'notConfigured' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 452,
+          "lineNumber": 439,
           "line": "{ title: 'Title Row', value: 'titleRow' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 453,
+          "lineNumber": 440,
           "line": "{ title: 'Static As Title', value: 'staticAsTitle' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 454,
+          "lineNumber": 441,
           "line": "{ title: 'Expanded Direct', value: 'expandedDirect' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 455,
+          "lineNumber": 442,
           "line": "{ title: 'Expanded Panel', value: 'expandedPanel' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 461,
+          "lineNumber": 448,
           "line": "{ title: 'Stacked', value: 'stacked' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 466,
+          "lineNumber": 453,
           "line": "{ title: 'Relationships', value: 'relationships' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 467,
+          "lineNumber": 454,
           "line": "{ title: 'Annotations', value: 'annotations' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 475,
+          "lineNumber": 462,
           "line": "{ title: 'Multiselect', value: 'multiselect' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 476,
+          "lineNumber": 463,
           "line": "{ title: 'Reference', value: 'reference' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 477,
+          "lineNumber": 464,
           "line": "{ title: 'Status Button', value: 'statusButton' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 478,
+          "lineNumber": 465,
           "line": "{ title: 'Icon Select', value: 'iconSelect' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 479,
+          "lineNumber": 466,
           "line": "{ title: 'Parts Collection', value: 'partsCollection' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 483,
+          "lineNumber": 470,
           "line": "{ title: 'Default', value: 'default' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 484,
+          "lineNumber": 471,
           "line": "{ title: 'Success', value: 'success' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 485,
+          "lineNumber": 472,
           "line": "{ title: 'Primary', value: 'primary' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 487,
+          "lineNumber": 474,
           "line": "{ title: 'Warning', value: 'warning' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 489,
+          "lineNumber": 476,
           "line": "{ title: 'Secondary', value: 'secondary' },"
         }
       ],
-      "score": 38,
+      "score": 34,
       "suggestions": [
         {
           "priority": "P2",
@@ -1053,92 +1013,92 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 171,
+          "lineNumber": 169,
           "line": "showError('Please select at least one property type')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 205,
+          "lineNumber": 202,
           "line": ": 'Please complete all required fields'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 214,
+          "lineNumber": 210,
           "line": "showError('Please complete all required fields before continuing')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 221,
+          "lineNumber": 216,
           "line": "showError('Please complete all required fields before continuing')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 224,
+          "lineNumber": 218,
           "line": "showError('Please complete all required fields before continuing')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 296,
+          "lineNumber": 290,
           "line": "// PATTERN: Map appointments to items array, prepend \"Random Appointment\" option"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 298,
+          "lineNumber": 292,
           "line": "{ text: 'Random Appointment', value: 'random' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 365,
+          "lineNumber": 359,
           "line": "showError('No appointments available to load')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 376,
+          "lineNumber": 370,
           "line": "showError('Appointment not found')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 382,
+          "lineNumber": 376,
           "line": "showError('Unable to load appointment data')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 425,
+          "lineNumber": 419,
           "line": "success('Appointment loaded successfully')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 429,
+          "lineNumber": 423,
           "line": "const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 441,
+          "lineNumber": 435,
           "line": "showError('No appointment loaded')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 456,
+          "lineNumber": 450,
           "line": "success('Appointment updated successfully')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 458,
+          "lineNumber": 452,
           "line": "const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 498,
+          "lineNumber": 492,
           "line": "success('Wizard reset successfully')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 554,
+          "lineNumber": 548,
           "line": "label=\"Load Appointment\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 596,
+          "lineNumber": 590,
           "line": "{{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}"
         }
       ],
@@ -1146,92 +1106,92 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 171,
+          "lineNumber": 169,
           "line": "showError('Please select at least one property type')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 205,
+          "lineNumber": 202,
           "line": ": 'Please complete all required fields'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 214,
+          "lineNumber": 210,
           "line": "showError('Please complete all required fields before continuing')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 221,
+          "lineNumber": 216,
           "line": "showError('Please complete all required fields before continuing')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 224,
+          "lineNumber": 218,
           "line": "showError('Please complete all required fields before continuing')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 296,
+          "lineNumber": 290,
           "line": "// PATTERN: Map appointments to items array, prepend \"Random Appointment\" option"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 298,
+          "lineNumber": 292,
           "line": "{ text: 'Random Appointment', value: 'random' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 365,
+          "lineNumber": 359,
           "line": "showError('No appointments available to load')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 376,
+          "lineNumber": 370,
           "line": "showError('Appointment not found')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 382,
+          "lineNumber": 376,
           "line": "showError('Unable to load appointment data')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 425,
+          "lineNumber": 419,
           "line": "success('Appointment loaded successfully')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 429,
+          "lineNumber": 423,
           "line": "const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 441,
+          "lineNumber": 435,
           "line": "showError('No appointment loaded')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 456,
+          "lineNumber": 450,
           "line": "success('Appointment updated successfully')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 458,
+          "lineNumber": 452,
           "line": "const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 498,
+          "lineNumber": 492,
           "line": "success('Wizard reset successfully')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 554,
+          "lineNumber": 548,
           "line": "label=\"Load Appointment\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 596,
+          "lineNumber": 590,
           "line": "{{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}"
         }
       ],
@@ -2731,52 +2691,52 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 61,
+          "lineNumber": 60,
           "line": "* - Removed 'Quote Mode' column (replaced by 'quoted' status)"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 62,
+          "lineNumber": 61,
           "line": "* - Added 'Scheduled By' column"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 65,
+          "lineNumber": 64,
           "line": "{ title: 'Property', key: 'propertyVersionId', sortable: true },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 66,
+          "lineNumber": 65,
           "line": "{ title: 'Property Type', key: 'propertyTypes', sortable: false },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 69,
+          "lineNumber": 68,
           "line": "{ title: 'Scheduled By', key: 'scheduledById', sortable: true },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 72,
+          "lineNumber": 71,
           "line": "{ title: 'Actions', key: 'actions', sortable: false },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 199,
+          "lineNumber": 198,
           "line": "label=\"Scheduled By\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 233,
+          "lineNumber": 232,
           "line": "label=\"Quote Mode\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 240,
+          "lineNumber": 239,
           "line": "label=\"Selected Date\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 259,
+          "lineNumber": 258,
           "line": "No appointments found. Click \"Create Appointment\" to add one."
         }
       ],
@@ -2784,52 +2744,52 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 61,
+          "lineNumber": 60,
           "line": "* - Removed 'Quote Mode' column (replaced by 'quoted' status)"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 62,
+          "lineNumber": 61,
           "line": "* - Added 'Scheduled By' column"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 65,
+          "lineNumber": 64,
           "line": "{ title: 'Property', key: 'propertyVersionId', sortable: true },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 66,
+          "lineNumber": 65,
           "line": "{ title: 'Property Type', key: 'propertyTypes', sortable: false },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 69,
+          "lineNumber": 68,
           "line": "{ title: 'Scheduled By', key: 'scheduledById', sortable: true },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 72,
+          "lineNumber": 71,
           "line": "{ title: 'Actions', key: 'actions', sortable: false },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 199,
+          "lineNumber": 198,
           "line": "label=\"Scheduled By\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 233,
+          "lineNumber": 232,
           "line": "label=\"Quote Mode\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 240,
+          "lineNumber": 239,
           "line": "label=\"Selected Date\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 259,
+          "lineNumber": 258,
           "line": "No appointments found. Click \"Create Appointment\" to add one."
         }
       ],
@@ -3063,6 +3023,119 @@
           "ruleId": "magicLabel",
           "lineNumber": 90,
           "line": "placeholder: \"Dependent\","
+        }
+      ],
+      "score": 9,
+      "suggestions": []
+    },
+    {
+      "id": "src__utils__admin__entityDisplayText.ts",
+      "repoPath": "src/utils/admin/entityDisplayText.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/entityDisplayText.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 9,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 9,
+          "line": "blockShape: 'BlockShape',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 10,
+          "line": "partShape: 'PartShape',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 11,
+          "line": "blockInstance: 'BlockInstance',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 12,
+          "line": "partInstance: 'PartInstance',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 17,
+          "line": "* WHY: Provides plural labels for admin panels (e.g., \"Block Shapes\" vs \"Block Shape\")"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 21,
+          "line": "blockShape: 'Block Shapes',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 22,
+          "line": "partShape: 'Part Shapes',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 23,
+          "line": "blockInstance: 'Block Instance',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 24,
+          "line": "partInstance: 'Part Instance',"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 9,
+          "line": "blockShape: 'BlockShape',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 10,
+          "line": "partShape: 'PartShape',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 11,
+          "line": "blockInstance: 'BlockInstance',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 12,
+          "line": "partInstance: 'PartInstance',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 17,
+          "line": "* WHY: Provides plural labels for admin panels (e.g., \"Block Shapes\" vs \"Block Shape\")"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 21,
+          "line": "blockShape: 'Block Shapes',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 22,
+          "line": "partShape: 'Part Shapes',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 23,
+          "line": "blockInstance: 'Block Instance',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 24,
+          "line": "partInstance: 'Part Instance',"
         }
       ],
       "score": 9,
@@ -3570,9 +3643,9 @@
       "suggestions": []
     },
     {
-      "id": "src__components__admin__MetadataEditModal.vue",
-      "repoPath": "src/components/admin/MetadataEditModal.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/MetadataEditModal.vue",
+      "id": "src__components__admin__generic__EntityCard.vue",
+      "repoPath": "src/components/admin/generic/EntityCard.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCard.vue",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -3587,66 +3660,66 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 102,
-          "line": "const entityTypeLabel = props.entityKey === 'blockShape' ? 'Block Shape'"
+          "lineNumber": 178,
+          "line": "const logger = createLogger('EntityCard')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 103,
-          "line": ": props.entityKey === 'partShape' ? 'Part Shape'"
+          "lineNumber": 205,
+          "line": "logger.debug('Form initialized', {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 104,
-          "line": ": props.entityKey === 'blockInstance' ? 'Block Instance'"
+          "lineNumber": 385,
+          "line": "logger.debug('Fields needing contexts', {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 105,
-          "line": ": 'Part Instance'"
+          "lineNumber": 442,
+          "line": "logger.debug('Fields missing contexts', {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 124,
-          "line": "showError('Editor not available')"
+          "lineNumber": 600,
+          "line": "logger.debug('Save triggered', {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 136,
-          "line": "let errorMessage = 'Failed to save metadata configuration'"
+          "lineNumber": 628,
+          "line": "logger.debug('Form reset after save', { entityId: props.entity.id })"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 102,
-          "line": "const entityTypeLabel = props.entityKey === 'blockShape' ? 'Block Shape'"
+          "lineNumber": 178,
+          "line": "const logger = createLogger('EntityCard')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 103,
-          "line": ": props.entityKey === 'partShape' ? 'Part Shape'"
+          "lineNumber": 205,
+          "line": "logger.debug('Form initialized', {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 104,
-          "line": ": props.entityKey === 'blockInstance' ? 'Block Instance'"
+          "lineNumber": 385,
+          "line": "logger.debug('Fields needing contexts', {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 105,
-          "line": ": 'Part Instance'"
+          "lineNumber": 442,
+          "line": "logger.debug('Fields missing contexts', {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 124,
-          "line": "showError('Editor not available')"
+          "lineNumber": 600,
+          "line": "logger.debug('Save triggered', {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 136,
-          "line": "let errorMessage = 'Failed to save metadata configuration'"
+          "lineNumber": 628,
+          "line": "logger.debug('Form reset after save', { entityId: props.entity.id })"
         }
       ],
       "score": 6,
@@ -4756,69 +4829,6 @@
       ]
     },
     {
-      "id": "src__utils__admin__entityDisplayText.ts",
-      "repoPath": "src/utils/admin/entityDisplayText.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/entityDisplayText.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 4,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 5,
-          "line": "? 'BlockShape'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 7,
-          "line": "? 'PartShape'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 9,
-          "line": "? 'BlockInstance'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 10,
-          "line": ": 'PartInstance'"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 5,
-          "line": "? 'BlockShape'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 7,
-          "line": "? 'PartShape'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 9,
-          "line": "? 'BlockInstance'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 10,
-          "line": ": 'PartInstance'"
-        }
-      ],
-      "score": 4,
-      "suggestions": []
-    },
-    {
       "id": "src__utils__booking__confirmationStepData.ts",
       "repoPath": "src/utils/booking/confirmationStepData.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/confirmationStepData.ts",
@@ -5015,17 +5025,17 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 131,
+          "lineNumber": 130,
           "line": "const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 133,
+          "lineNumber": 132,
           "line": "const partShapeName = partShape?.name || 'PartShape'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 196,
+          "lineNumber": 195,
           "line": "notifyError('Failed to link PartInstance to BlockInstance')"
         }
       ],
@@ -5033,17 +5043,17 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 131,
+          "lineNumber": 130,
           "line": "const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 133,
+          "lineNumber": 132,
           "line": "const partShapeName = partShape?.name || 'PartShape'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 196,
+          "lineNumber": 195,
           "line": "notifyError('Failed to link PartInstance to BlockInstance')"
         }
       ],
@@ -5525,17 +5535,17 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 286,
+          "lineNumber": 283,
           "line": ": 'No Cascades'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 306,
+          "lineNumber": 303,
           "line": "{{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 359,
+          "lineNumber": 356,
           "line": "<!-- LEARNING: For new instances, show static \"New BlockInstance\" text -->"
         }
       ],
@@ -5543,17 +5553,17 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 286,
+          "lineNumber": 283,
           "line": ": 'No Cascades'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 306,
+          "lineNumber": 303,
           "line": "{{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 359,
+          "lineNumber": 356,
           "line": "<!-- LEARNING: For new instances, show static \"New BlockInstance\" text -->"
         }
       ],
@@ -5604,6 +5614,49 @@
       "suggestions": []
     },
     {
+      "id": "src__components__admin__MetadataEditModal.vue",
+      "repoPath": "src/components/admin/MetadataEditModal.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/MetadataEditModal.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 2,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 125,
+          "line": "showError('Editor not available')"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 137,
+          "line": "let errorMessage = 'Failed to save metadata configuration'"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 125,
+          "line": "showError('Editor not available')"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 137,
+          "line": "let errorMessage = 'Failed to save metadata configuration'"
+        }
+      ],
+      "score": 2,
+      "suggestions": []
+    },
+    {
       "id": "src__components__booking__steps__AvailabilityStep.vue",
       "repoPath": "src/components/booking/steps/AvailabilityStep.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/steps/AvailabilityStep.vue",
@@ -5621,12 +5674,12 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 434,
+          "lineNumber": 352,
           "line": "aria-label=\"Select appointment date\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 619,
+          "lineNumber": 537,
           "line": "// LEARNING: Hide calendar header (removes \"SELECT DATE\" text and thick bar)"
         }
       ],
@@ -5634,12 +5687,12 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 434,
+          "lineNumber": 352,
           "line": "aria-label=\"Select appointment date\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 619,
+          "lineNumber": 537,
           "line": "// LEARNING: Hide calendar header (removes \"SELECT DATE\" text and thick bar)"
         }
       ],
@@ -5750,12 +5803,12 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 155,
+          "lineNumber": 150,
           "line": "showError('No changes to apply')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 180,
+          "lineNumber": 172,
           "line": "const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'"
         }
       ],
@@ -5763,12 +5816,12 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 155,
+          "lineNumber": 150,
           "line": "showError('No changes to apply')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 180,
+          "lineNumber": 172,
           "line": "const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'"
         }
       ],
@@ -5948,9 +6001,9 @@
       "suggestions": []
     },
     {
-      "id": "src__components__admin__generic__DynamicForm.vue",
-      "repoPath": "src/components/admin/generic/DynamicForm.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/DynamicForm.vue",
+      "id": "src__utils__forms__getFieldKeys.ts",
+      "repoPath": "src/utils/forms/getFieldKeys.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/getFieldKeys.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -5959,13 +6012,18 @@
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
-        "magicLabel": 1,
+        "magicLabel": 2,
         "entityKeyString": 0
       },
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 171,
+          "lineNumber": 14,
+          "line": "* WHY: Prevents \"Unknown input type\" warnings and ensures proper field handling"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 58,
           "line": "// PATTERN: Filter out known system/special fields to prevent \"Unknown input type\" warnings"
         }
       ],
@@ -5973,44 +6031,16 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 171,
-          "line": "// PATTERN: Filter out known system/special fields to prevent \"Unknown input type\" warnings"
-        }
-      ],
-      "score": 1,
-      "suggestions": []
-    },
-    {
-      "id": "src__components__admin__generic__EntityFormContent.vue",
-      "repoPath": "src/components/admin/generic/EntityFormContent.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityFormContent.vue",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 1,
-        "entityKeyString": 0
-      },
-      "matches": [
+          "lineNumber": 14,
+          "line": "* WHY: Prevents \"Unknown input type\" warnings and ensures proper field handling"
+        },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 95,
+          "lineNumber": 58,
           "line": "// PATTERN: Filter out known system/special fields to prevent \"Unknown input type\" warnings"
         }
       ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 95,
-          "line": "// PATTERN: Filter out known system/special fields to prevent \"Unknown input type\" warnings"
-        }
-      ],
-      "score": 1,
+      "score": 2,
       "suggestions": []
     },
     {
@@ -6064,7 +6094,7 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 293,
+          "lineNumber": 294,
           "line": ": 'Unknown error - check field metadata configuration'"
         }
       ],
@@ -6072,7 +6102,7 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 293,
+          "lineNumber": 294,
           "line": ": 'Unknown error - check field metadata configuration'"
         }
       ],
@@ -6493,7 +6523,7 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 106,
+          "lineNumber": 107,
           "line": "deleteErrorMessage = 'Failed to delete item'"
         }
       ],
@@ -6501,7 +6531,7 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 106,
+          "lineNumber": 107,
           "line": "deleteErrorMessage = 'Failed to delete item'"
         }
       ],
@@ -6592,7 +6622,7 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 97,
+          "lineNumber": 98,
           "line": "success('Annotation type created successfully')"
         }
       ],
@@ -6600,7 +6630,7 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 97,
+          "lineNumber": 98,
           "line": "success('Annotation type created successfully')"
         }
       ],
@@ -7628,9 +7658,9 @@
       "suggestions": []
     },
     {
-      "id": "src__components__admin__generic__EntityCard.vue",
-      "repoPath": "src/components/admin/generic/EntityCard.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCard.vue",
+      "id": "src__components__admin__generic__DynamicForm.vue",
+      "repoPath": "src/components/admin/generic/DynamicForm.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/DynamicForm.vue",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -7652,6 +7682,48 @@
       "id": "src__components__admin__generic__entityCardConstants.ts",
       "repoPath": "src/components/admin/generic/entityCardConstants.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/entityCardConstants.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__components__admin__generic__EntityCardContent.vue",
+      "repoPath": "src/components/admin/generic/EntityCardContent.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCardContent.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__components__admin__generic__EntityFormContent.vue",
+      "repoPath": "src/components/admin/generic/EntityFormContent.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityFormContent.vue",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -8492,6 +8564,27 @@
       "id": "src__composables__admin__useEntityCardSaveState.ts",
       "repoPath": "src/composables/admin/useEntityCardSaveState.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityCardSaveState.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useEntityCardStoreSync.ts",
+      "repoPath": "src/composables/admin/useEntityCardStoreSync.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityCardStoreSync.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
@@ -12420,6 +12513,27 @@
       "id": "src__types__wizardStepData.ts",
       "repoPath": "src/types/wizardStepData.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/wizardStepData.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "suggestions": []
+    },
+    {
+      "id": "src__utils__admin__buildMetadataEntry.ts",
+      "repoPath": "src/utils/admin/buildMetadataEntry.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/buildMetadataEntry.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,

@@ -63,7 +63,7 @@ export type BookingBlockInstance = {
   descriptions?: AnnotationWithMetadata[] // Array of annotations (descriptions) with metadata for user-type filtering
   icon: string
   active: boolean
-  dependent: boolean // If true, this instance should not appear in main booking lists (only selectable as a dependent option)
+  isDependentInstance: boolean // If true, this instance should not appear in main booking lists (only selectable as a dependent instance)
   differential: boolean // Whether this service supports differential scheduling (inspector and client have different arrival times)
   orderIndex: number
   blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
@@ -150,12 +150,12 @@ export class BookingTransformer {
       // WHY: They are only meaningful as parts of composed (composite) services.
       //
       // LEARNING: Dependent instances should not be shown in main booking lists.
-      // WHY: They are only selectable as nested dependent options under a parent instance.
+      // WHY: They are only selectable as nested dependent instances under a parent instance.
       .filter((blockInstance) => {
         const isActive = this.isEntityActive(blockInstance as unknown as Record<string, unknown>)
         const isComponentChild = componentIds.has(blockInstance.id)
-        const isDependent = (blockInstance as unknown as { dependent?: boolean }).dependent === true
-        return isActive && !isComponentChild && !isDependent
+        const isDependentInstance = (blockInstance as unknown as { isDependentInstance?: boolean }).isDependentInstance === true
+        return isActive && !isComponentChild && !isDependentInstance
       })
       .map(blockInstance => this.transformBlockInstance(
         blockInstance,
@@ -315,7 +315,7 @@ export class BookingTransformer {
       baseSqFt?: number
       descriptions?: AnnotationWithMetadata[]
       icon?: string
-      dependent?: boolean
+      isDependentInstance?: boolean
       differential?: boolean
       number?: number | null
       allowMultiple?: boolean
@@ -332,7 +332,7 @@ export class BookingTransformer {
       descriptions: blockInstanceWithProps.descriptions, // Pass through descriptions array for user-type filtering
       icon: blockInstanceWithProps.icon || '',
       active: this.isEntityActive(blockInstance as unknown as Record<string, unknown>),
-      dependent: blockInstanceWithProps.dependent === true,
+      isDependentInstance: blockInstanceWithProps.isDependentInstance === true,
       differential: differentialValue, // Use explicit boolean check
       orderIndex: blockInstance.orderIndex,
       blockShape, // Keep for backward compatibility

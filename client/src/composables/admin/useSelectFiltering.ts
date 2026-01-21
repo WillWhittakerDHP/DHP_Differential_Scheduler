@@ -7,7 +7,7 @@
  * 
  * This composable handles:
  * - Active child select filtering (bookingCascades, activeParts)
- * - Direct matching select filtering (dependentInstanceOptions)
+ * - Direct matching select filtering (dependentInstances)
  * - Active components filtering (composable services)
  * - Filter options function application
  * - Annotation filtering (no filtering needed)
@@ -80,7 +80,7 @@ export interface UseSelectFilteringReturn {
   isActiveChildSelect: ComputedRef<boolean>
   
   /**
-   * Whether this is a direct matching select (dependentInstanceOptions pattern)
+   * Whether this is a direct matching select (dependentInstances pattern)
    */
   isDirectMatchingSelect: ComputedRef<boolean>
   
@@ -157,7 +157,7 @@ export function useSelectFiltering(
 
   /**
    * LEARNING: Detect direct matching pattern from config
-   * WHY: When candidateChildPath has a value, we're doing direct matching (e.g., dependentInstanceOptions)
+   * WHY: When candidateChildPath has a value, we're doing direct matching (e.g., dependentInstances)
    * PATTERN: Detect when both candidateParentPath and candidateChildPath have values
    */
   const isDirectMatchingSelect = computed<boolean>(() => {
@@ -418,7 +418,7 @@ export function useSelectFiltering(
       return filtered
     }
     
-    // LEARNING: Direct matching pattern (e.g., dependentInstanceOptions)
+    // LEARNING: Direct matching pattern (e.g., dependentInstances)
     // WHY: Filter candidates by matching their candidateChildPath value against current entity's candidateParentPath value
     // PATTERN: Get value from current entity, filter candidates by matching their path value
     if (isDirectMatchingSelect.value) {

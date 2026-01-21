@@ -222,7 +222,7 @@ const relationshipsSummary = computed((): string => {
   if (props.entityKey === 'blockInstance') {
     const cascades = Array.isArray(formValues.bookingCascades) ? formValues.bookingCascades : []
     const components = Array.isArray(formValues.instanceComponents) ? formValues.instanceComponents : []
-    const dependentOptions = Array.isArray(formValues.dependentInstanceOptions) ? formValues.dependentInstanceOptions : []
+    const dependentInstances = Array.isArray(formValues.dependentInstances) ? formValues.dependentInstances : []
     
     // Add relationship type labels if they have values
     if (cascades.length > 0) {
@@ -231,8 +231,8 @@ const relationshipsSummary = computed((): string => {
     if (components.length > 0) {
       relationshipTypes.push(`${blockShapeName.value} Components`)
     }
-    if (dependentOptions.length > 0) {
-      relationshipTypes.push(`Dependent ${blockShapeName.value} Options`)
+    if (dependentInstances.length > 0) {
+      relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)
     }
   } else if (props.entityKey === 'blockShape') {
     const cascades = Array.isArray(formValues.validCascades) ? formValues.validCascades : []

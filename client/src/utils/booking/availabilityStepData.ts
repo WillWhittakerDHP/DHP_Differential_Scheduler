@@ -1,4 +1,5 @@
 import type { AppointmentSlot } from '@/types/appointment'
+import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 
 export interface SelectedTimeSlot {
   time: string
@@ -8,6 +9,7 @@ export interface SelectedTimeSlot {
 export interface AvailabilityStepData {
   selectedDate: { start: string | null; end: string | null }
   selectedTimeSlots: SelectedTimeSlot[] | null
+  moveableScheduling?: MoveableSchedulingOptions | null
 }
 
 type BuildSelectedTimeSlotsParams = {
@@ -45,6 +47,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
 export function buildAvailabilityStepData(params: {
   selectedDate: { start: string | null; end: string | null }
   selectedTimeSlots: SelectedTimeSlot[] | null
+  moveableScheduling?: MoveableSchedulingOptions | null
 }): AvailabilityStepData {
   return {
     selectedDate: {
@@ -52,6 +55,7 @@ export function buildAvailabilityStepData(params: {
       end: params.selectedDate.end,
     },
     selectedTimeSlots: params.selectedTimeSlots,
+    moveableScheduling: params.moveableScheduling ?? null,
   }
 }
 

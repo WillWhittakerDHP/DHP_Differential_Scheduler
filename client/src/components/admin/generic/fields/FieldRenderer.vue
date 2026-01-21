@@ -53,7 +53,7 @@
  *             getFieldComponent() determines WHAT component to render
  */
 
-import { computed, toRef, watch, watchEffect, type Component } from 'vue'
+import { computed, toRef, watch, type Component } from 'vue'
 import PrimitiveInputs from './PrimitiveInputs.vue'
 import SelectInputs from './SelectInputs.vue'
 import PartsCollection from '../collections/PartsCollection.vue'
@@ -170,7 +170,8 @@ const entityForMetadata = computed(() => {
     return null
   }
   try {
-    return admin.getEntity(effectiveFieldContext.value.entityKey, effectiveFieldContext.value.entityId)
+    const entity = admin.getEntity(effectiveFieldContext.value.entityKey, effectiveFieldContext.value.entityId)
+    return entity ?? null
   } catch {
     return null
   }
@@ -184,7 +185,7 @@ const entityForMetadata = computed(() => {
 // LEARNING: Pass metadata to useFieldComponent if available
 // WHY: Avoids duplicate metadata fetches when parent component already has metadata
 // PATTERN: Use provided metadata, otherwise let useFieldComponent fetch it
-const fieldMetadataRef = computed(() => props.fieldMetadata)
+const fieldMetadataRef = computed(() => props.fieldMetadata ?? {})
 
 // LEARNING: Removed debug console.trace
 // WHY: Field rendering is now working correctly with effect scopes and readiness gates

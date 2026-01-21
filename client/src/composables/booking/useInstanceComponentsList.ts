@@ -40,7 +40,7 @@ export interface UseInstanceComponentsListOptions {
  * PATTERN: Composable that returns computed property with enhanced services
  */
 export function useInstanceComponentsList(options: UseInstanceComponentsListOptions) {
-  const { services, selectedUserTypeBlock } = options
+  const { services } = options
 
   const { getGlobalEntityById } = useGlobal()
   const componentEntity = useComponentEntity<'blockInstance'>('blockInstance')
@@ -52,10 +52,8 @@ export function useInstanceComponentsList(options: UseInstanceComponentsListOpti
    * PATTERN: Helper function that uses utility function from instanceComponentUtils
    */
   const getInstanceComponents = (service: BookingBlockInstance): ComponentItem[] => {
-    const selectedUserTypeBlockId = selectedUserTypeBlock.value?.id || null
     return getInstanceComponentsForService({
       service,
-      selectedUserTypeBlockId,
       getGlobalEntityById: (entityKey: 'blockInstance' | 'blockShape', id: string) => {
         const result = getGlobalEntityById(entityKey, id)
         return result || null

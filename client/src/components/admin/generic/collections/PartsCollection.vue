@@ -112,22 +112,18 @@
  * PATTERN: Direct rendering of EntityCard component, exposes bulk edit state to parent
  */
 
-import { computed, ref, watchEffect } from 'vue'
-import type { ComponentPublicInstance } from 'vue'
+import { computed } from 'vue'
 import EntityCard from '../EntityCard.vue'
 import PartInstanceBulkEditModal from '../../PartInstanceBulkEditModal.vue'
 import { usePartInstanceCollection } from '@/composables/admin/usePartInstanceCollection'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
-import type { GlobalEntity } from '@/types/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { useGlobal } from '@/composables/useGlobal'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import { usePartsCollectionField } from '@/composables/admin/usePartsCollectionField'
 import type { GlobalEntityKey } from '@/constants/entities'
-import { usePartInstanceMetadataPreload } from '@/composables/admin/usePartInstanceMetadataPreload'
 import { usePartInstanceDeletion } from '@/composables/admin/usePartInstanceDeletion'
 import { usePartInstanceExpansion } from '@/composables/admin/usePartInstanceExpansion'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -161,7 +157,7 @@ const {
   bulkEditMode: bulkEditModeRef,
   bulkEditData,
   toggleBulkEditMode,
-  applyPartInstanceBulkEdit,
+  applyPartInstanceBulkEdit: _applyPartInstanceBulkEdit,
   handleBulkEditModalUpdate,
   handleBulkEditConfirm,
   expandedPartInstances,
@@ -190,7 +186,7 @@ const partShapeForBulkEdit = computed(() => {
   ) as import('@/types/entities').PartShapeEntity | undefined || null
 })
 
-const { fieldMetadata: bulkEditFieldMetadata } = useEntityMetadata(
+const { fieldMetadata: _bulkEditFieldMetadata } = useEntityMetadata(
   'partShape',
   partShapeForBulkEdit
 )
@@ -226,7 +222,7 @@ const { handleDeletePartInstance } = usePartInstanceDeletion()
  * LEARNING: Use part instance expansion composable
  * WHY: Expansion toggle logic moved to composable
  */
-const { togglePartInstanceExpansion } = usePartInstanceExpansion({ expandedPartInstances })
+const { togglePartInstanceExpansion: _togglePartInstanceExpansion } = usePartInstanceExpansion({ expandedPartInstances })
 
 /**
  * LEARNING: Expose bulk edit state and functions to parent

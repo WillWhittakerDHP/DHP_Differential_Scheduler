@@ -48,7 +48,7 @@ function createInstance(
     icon: 'star',
     baseSqFt: 0,
     active: true,
-    dependent: false,
+    isDependentInstance: false,
     differential: false,
     orderIndex: options.orderIndex ?? 0,
     blockShape: 'Test Shape',

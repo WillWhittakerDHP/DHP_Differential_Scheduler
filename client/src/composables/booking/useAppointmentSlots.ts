@@ -27,6 +27,7 @@ import {
 export interface UseAppointmentSlotsParams {
   blockInstances: ComputedRef<BookingBlockInstance[]>
   availableStartTimes: ComputedRef<string[]>
+  slotAvailability?: ComputedRef<Map<string, boolean>> // Optional: map of startTime -> isAvailable
   timeSlotDurations?: ComputedRef<Map<string, number>> // Optional: durations from time slots for fallback
   selectedButtonIndex: Ref<number | null>
   perspective: ComputedRef<PerspectiveKey>
@@ -68,6 +69,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
   const {
     blockInstances,
     availableStartTimes,
+    slotAvailability,
     timeSlotDurations,
     selectedButtonIndex,
     perspective,
@@ -97,7 +99,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
   const appointmentSlots = computed(() => {
     const shape = appointmentShape.value
     if (!shape) {
-      console.log('[useAppointmentSlots] No shape, returning empty slots')
       return []
     }
     
@@ -109,10 +110,22 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     const durations = timeSlotDurations?.value
     
     try {
+      const availabilityMap = slotAvailability?.value
+      
       const slots = times.map((time, index) => {
         // Get fallback duration from time slot if shape duration is 0
         const fallbackDuration = durations?.get(time)
-        return applyShapeToTime(shape, time, index, fallbackDuration)
+        const slot = applyShapeToTime(shape, time, index, fallbackDuration)
+        
+        // LEARNING: Set availability status from availability map
+        // WHY: Marks slots as available/busy based on calendar busy periods
+        // PATTERN: Check availability map, default to true if not found (backward compatibility)
+        const isAvailable = availabilityMap?.get(time) ?? true
+        
+        return {
+          ...slot,
+          isAvailable
+        }
       })
       
       return slots

@@ -15,8 +15,7 @@ import { adminTransformer } from '@/utils/transformers/globalToAdminTransformer'
 import type { AdminObject } from '@/utils/transformers/globalToAdminTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
-import { getEntityTypeForMetadata, getMetadataEntityId, getInheritanceSource } from '@/utils/entities/entityTypeMapping'
-import { RELATIONSHIP_KEYS } from '@/constants/relationships'
+import { getEntityTypeForMetadata, getMetadataEntityId, BLOCK_INSTANCE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 
 // DIAGNOSTICS: Track instance creation
 let instanceCount = 0
@@ -185,68 +184,58 @@ function createAdminInstance() {
       return {}
     }
     
-    // Get primitive metadata (renamed from inputMetadata)
-    const primitiveMetadata = data.metadata.primitiveMetadata?.[entityType]?.[metadataId] || {}
-    
-    // Get relationship metadata
-    const relationshipMetadata = data.metadata.relationshipMetadata?.[entityType]?.[metadataId] || {}
-    
-    // LEARNING: Align with AdminObject pattern - keep primitives and relationships separate
-    // WHY: Prevents key collisions, matches regular entity data structure (displayConfig.primitives vs displayConfig.relationships)
-    // PATTERN: Separate until final merge, like displayConfig.primitives vs displayConfig.relationships
-    
-    // Check for conflicts before merging (fail visibly)
-    const relationshipKeys = Object.keys(RELATIONSHIP_KEYS) as Array<keyof typeof RELATIONSHIP_KEYS>
-    const conflicts = relationshipKeys.filter(relKey => {
-      const relKeyStr = String(relKey)
-      return primitiveMetadata[relKeyStr] !== undefined && relationshipMetadata[relKeyStr] !== undefined
-    })
-    
-    if (conflicts.length > 0) {
-      console.error(
-        `[useAdmin.getMetadata] Key collision detected between primitive and relationship metadata for ${entityType}/${metadataId}:`,
-        conflicts
-      )
-      console.error(
-        `[useAdmin.getMetadata] Collision details:`,
-        {
-          primitiveKeys: Object.keys(primitiveMetadata),
-          relationshipKeys: Object.keys(relationshipMetadata),
-          conflictingKeys: conflicts,
-          primitiveValues: conflicts.reduce((acc, key) => {
-            acc[key] = primitiveMetadata[String(key)]
-            return acc
-          }, {} as Record<string, unknown>),
-          relationshipValues: conflicts.reduce((acc, key) => {
-            acc[key] = relationshipMetadata[String(key)]
-            return acc
-          }, {} as Record<string, unknown>),
-        }
-      )
-      // Optionally: throw error or handle gracefully
-      // For now, log error and continue (relationship overwrites primitive on conflict)
-    }
-    
-    // Merge: relationship metadata overwrites primitive metadata on conflict (matches transformer behavior)
-    // This matches how AdminTransformer attaches relationships as explicit fields
-    const combinedMetadata = { ...primitiveMetadata, ...relationshipMetadata }
-    
-    // LEARNING: Handle inheritance for instance entities
-    // WHY: Instance entities inherit metadata from their shape
-    // PATTERN: Merge shape metadata with instance metadata (instance overrides shape)
-    if (entityType === 'blockInstance' || entityType === 'partInstance') {
-      const inheritanceSource = getInheritanceSource(entityKey, entity as import('@/types/entities').GlobalEntity<GE>)
-      if (inheritanceSource) {
-        const shapePrimitiveMetadata = data.metadata.primitiveMetadata?.[inheritanceSource.entityType]?.[inheritanceSource.entityId] || {}
-        const shapeRelationshipMetadata = data.metadata.relationshipMetadata?.[inheritanceSource.entityType]?.[inheritanceSource.entityId] || {}
-        const shapeMetadata = { ...shapePrimitiveMetadata, ...shapeRelationshipMetadata }
+    // LEARNING: For blockInstance entities, check for BlockShape-specific metadata
+    // WHY: Each BlockShape's instances can have their own metadata configuration
+    // PATTERN: Try blockShapeRef-specific metadata first, fall back to global config
+    if (entityType === 'blockInstance' && entityKey === 'blockInstance') {
+      const blockInstanceEntity = entity as import('@/types/entities').GlobalEntity<'blockInstance'>
+      const blockShapeRef = blockInstanceEntity.blockShapeRef
+      
+      // If blockShapeRef exists, try to get BlockShape-specific metadata
+      if (blockShapeRef) {
+        const compositeId = `${BLOCK_INSTANCE_GLOBAL_CONFIG_ID}:${blockShapeRef}`
+        const blockShapeSpecificMetadata = data.metadata?.[entityType]?.[compositeId]
         
-        // Merge: shape metadata first, then instance metadata (instance overrides)
-        return { ...shapeMetadata, ...combinedMetadata }
+        // If BlockShape-specific metadata exists, return it
+        if (blockShapeSpecificMetadata && Object.keys(blockShapeSpecificMetadata).length > 0) {
+          return blockShapeSpecificMetadata
+        }
       }
+      
+      // Fall back to global config (blockShapeRef = null)
+      const globalMetadata = data.metadata?.[entityType]?.[BLOCK_INSTANCE_GLOBAL_CONFIG_ID] || {}
+      return globalMetadata
     }
     
-    return combinedMetadata
+    // LEARNING: For partInstance entities, check for instance-specific metadata and fall back to global config
+    // WHY: PartInstance metadata is stored globally, but individual instances may have overrides
+    // PATTERN: Try instance-specific metadata first, fall back to global config (matches backend behavior)
+    if (entityType === 'partInstance' && entityKey === 'partInstance') {
+      // Try instance-specific metadata first
+      const instanceMetadata = data.metadata?.[entityType]?.[metadataId]
+      
+      // If instance-specific metadata exists, return it
+      if (instanceMetadata && Object.keys(instanceMetadata).length > 0) {
+        return instanceMetadata
+      }
+      
+      // Fall back to global config (same as backend behavior)
+      const globalMetadata = data.metadata?.[entityType]?.[PART_INSTANCE_GLOBAL_CONFIG_ID] || {}
+      return globalMetadata
+    }
+    
+    // LEARNING: Get unified metadata (primitives + relationships already merged by backend)
+    // WHY: Backend returns unified metadata - no hydration needed
+    // PATTERN: Direct access to unified metadata structure
+    // Session 1.4.10: Unified metadata - single structure, no separation
+    const metadata = data.metadata?.[entityType]?.[metadataId] || {}
+    
+    // LEARNING: All entity types have completely independent metadata
+    // WHY: blockInstance has fields like baseSqFt that don't exist in blockShape
+    //      partInstance has fields that don't exist in partShape
+    //      Shapes and instances have different properties, so there's nothing to inherit
+    // PATTERN: Return metadata directly for the specified entity type - no inheritance/merging
+    return metadata
   }
   
   

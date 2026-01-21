@@ -72,8 +72,7 @@ export function useInstanceDisplay(
   options: UseInstanceDisplayOptions
 ): UseInstanceDisplayReturn {
   const {
-    instances,
-    selectedUserTypeBlock
+    instances
   } = options
 
   /**

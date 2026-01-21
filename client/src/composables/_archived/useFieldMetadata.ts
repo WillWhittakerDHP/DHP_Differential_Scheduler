@@ -8,11 +8,11 @@
  * COMPARISON: React attaches display configs to entities. Vue uses on-demand lookup.
  */
 
-import { useAdminConfig } from './useAdminConfig'
-import { RelationshipSelectModeEnum, PrimitiveModeEnum, PrimitiveTypeEnum } from '../types/entity/formDataEnums'
+import { useAdminConfig } from '@/composables/useAdminConfig'
+import { RelationshipSelectModeEnum, PrimitiveModeEnum, PrimitiveTypeEnum } from '@/types/entity/formDataEnums'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { DisplayFieldConfig } from '../configs/field/display/fullFieldDisplayConfig'
+import type { DisplayFieldConfig } from '@/configs/field/display/fullFieldDisplayConfig'
 
 /**
  * Display field keys that we extract from display configs

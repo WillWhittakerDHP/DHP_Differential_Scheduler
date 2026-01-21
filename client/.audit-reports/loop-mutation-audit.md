@@ -12,44 +12,44 @@ Exception handling:
 
 ## Summary
 
-- Total files scanned: **396**
-- **Requiring review: 907**
-- Allowed (with justification): 479 (inline: 0, pattern: 479, specific: 0)
+- Total files scanned: **400**
+- **Requiring review: 886**
+- Allowed (with justification): 478 (inline: 0, pattern: 478, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | forEach | for-loops | push/splice/sort/reverse | assign | forEach→mutation hits | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/utils/transformers/fetchToGlobalTransformer.ts` | 104 | 2 | 2 | 1 | 21 | 7 | 0 |
 | `src/components/booking/BookingWizard.vue` | 100 | 0 | 0 | 8 | 42 | 0 | 0 |
-| `src/components/booking/steps/AvailabilityStep.vue` | 51 | 1 | 0 | 0 | 17 | 2 | 0 |
-| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 49 | 1 | 4 | 1 | 21 | 0 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | 48 | 0 | 0 | 0 | 24 | 0 | 0 |
+| `src/utils/transformers/fetchToGlobalTransformer.ts` | 46 | 0 | 2 | 1 | 21 | 0 | 0 |
 | `src/utils/transformers/relationshipTransformers.ts` | 46 | 4 | 4 | 2 | 17 | 0 | 0 |
-| `src/utils/transformers/annotationTransformers.ts` | 43 | 3 | 0 | 1 | 11 | 2 | 0 |
 | `src/main.ts` | 42 | 4 | 0 | 0 | 3 | 4 | 0 |
 | `src/views/admin/tabs/components/PropertiesTable.vue` | 42 | 0 | 0 | 0 | 21 | 0 | 0 |
-| `src/components/admin/component/ComponentDistributionModal.vue` | 37 | 1 | 0 | 0 | 6 | 3 | 0 |
-| `src/components/admin/PartInstanceBulkEditModal.vue` | 36 | 2 | 0 | 0 | 5 | 3 | 0 |
+| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 41 | 1 | 4 | 1 | 17 | 0 | 0 |
 | `src/components/admin/generic/EntityCardSubPanels.vue` | 34 | 0 | 0 | 7 | 10 | 0 | 0 |
-| `src/components/admin/InstanceBulkEditModal.vue` | 34 | 2 | 0 | 0 | 4 | 3 | 0 |
+| `src/components/booking/steps/AvailabilityStep.vue` | 34 | 0 | 0 | 0 | 17 | 0 | 0 |
 | `src/utils/transformers/globalToBookingTransformer.ts` | 34 | 0 | 4 | 3 | 12 | 0 | 0 |
 | `src/components/booking/TimeSlotGrid.vue` | 31 | 1 | 0 | 1 | 2 | 3 | 0 |
 | `src/utils/transformers/componentAggregator.ts` | 30 | 2 | 8 | 3 | 7 | 0 | 0 |
-| `src/components/admin/generic/EntityCard.vue` | 29 | 1 | 2 | 3 | 10 | 0 | 0 |
 | `src/utils/booking/confirmationStepData.ts` | 28 | 2 | 0 | 6 | 3 | 1 | 0 |
 | `src/types/admin/AdminEntity.ts` | 26 | 0 | 0 | 0 | 13 | 0 | 0 |
 | `src/utils/booking/appointmentSlotBuilder.ts` | 26 | 0 | 0 | 1 | 12 | 0 | 0 |
 | `src/utils/booking/appointmentTimeCalculations.ts` | 26 | 0 | 0 | 3 | 10 | 0 | 0 |
 | `src/views/admin/tabs/components/AppointmentsTable.vue` | 26 | 0 | 0 | 0 | 13 | 0 | 0 |
 | `src/utils/forms/fieldLocationDispatcher.ts` | 24 | 0 | 2 | 5 | 6 | 0 | 0 |
+| `src/utils/transformers/annotationTransformers.ts` | 24 | 0 | 0 | 1 | 11 | 0 | 0 |
 | `src/utils/transformers/globalToAdminTransformer.ts` | 24 | 2 | 0 | 0 | 3 | 2 | 0 |
+| `src/components/admin/generic/EntityCard.vue` | 22 | 0 | 2 | 3 | 7 | 0 | 0 |
 | `src/utils/booking/selectionCardStyles.ts` | 22 | 0 | 0 | 7 | 4 | 0 | 0 |
 | `src/utils/optimistic/annotationAssignmentsOptimistic.ts` | 22 | 0 | 0 | 3 | 8 | 0 | 0 |
 | `src/composables/componentEntity/useComponentEntityActions.ts` | 21 | 1 | 0 | 0 | 4 | 2 | 2 |
 | `src/utils/forms/fieldSectionCategorization.ts` | 20 | 0 | 0 | 2 | 8 | 0 | 0 |
 | `src/views/admin/tabs/components/UsersTable.vue` | 20 | 0 | 0 | 0 | 10 | 0 | 0 |
 | `src/components/admin/generic/CardButton.vue` | 18 | 0 | 0 | 3 | 6 | 0 | 0 |
+| `src/components/booking/IndependentSelectCard.vue` | 18 | 0 | 0 | 5 | 4 | 0 | 0 |
+| `src/components/booking/steps/PropertyDetailsStep.vue` | 18 | 0 | 0 | 0 | 9 | 0 | 0 |
+| `src/components/booking/TimeOnSiteGraph.vue` | 18 | 0 | 0 | 0 | 9 | 0 | 0 |
 
 ## Action signals (heuristic)
 
@@ -57,38 +57,6 @@ Exception handling:
 - Some mutations are legitimate (ordering, de-dupe with Set, imperative side-effects). This report is a review queue, not a blanket ban.
 
 ## Per-file forEach→mutation hits (highest signal)
-
-### `src/utils/transformers/fetchToGlobalTransformer.ts`
-
-- hits: 7
-
-```
-forEach@283 -> assignIndex@285
-forEach@283 -> assignIndex@287
-forEach@283 -> assignIndex@290
-forEach@283 -> assignIndex@294
-forEach@283 -> assignIndex@296
-forEach@292 -> assignIndex@294
-forEach@292 -> assignIndex@296
-```
-
-### `src/components/booking/steps/AvailabilityStep.vue`
-
-- hits: 2
-
-```
-forEach@208 -> assignProp@218
-forEach@208 -> assignProp@219
-```
-
-### `src/utils/transformers/annotationTransformers.ts`
-
-- hits: 2
-
-```
-forEach@297 -> assignProp@318
-forEach@313 -> assignProp@318
-```
 
 ### `src/main.ts`
 
@@ -99,36 +67,6 @@ forEach@69 -> assignProp@71
 forEach@69 -> assignProp@75
 forEach@70 -> assignProp@71
 forEach@70 -> assignProp@75
-```
-
-### `src/components/admin/component/ComponentDistributionModal.vue`
-
-- hits: 3
-
-```
-forEach@173 -> assignIndex@174
-forEach@173 -> assignIndex@175
-forEach@173 -> assignProp@184
-```
-
-### `src/components/admin/PartInstanceBulkEditModal.vue`
-
-- hits: 3
-
-```
-forEach@220 -> assignProp@221
-forEach@220 -> assignIndex@222
-forEach@258 -> assignIndex@265
-```
-
-### `src/components/admin/InstanceBulkEditModal.vue`
-
-- hits: 3
-
-```
-forEach@188 -> assignProp@189
-forEach@188 -> assignIndex@190
-forEach@227 -> assignIndex@234
 ```
 
 ### `src/components/booking/TimeSlotGrid.vue`
@@ -154,8 +92,8 @@ forEach@51 -> push@57
 - hits: 2
 
 ```
-forEach@139 -> assignIndex@148
-forEach@186 -> assignIndex@190
+forEach@138 -> assignIndex@147
+forEach@185 -> assignIndex@189
 ```
 
 ### `src/composables/componentEntity/useComponentEntityActions.ts`
@@ -167,12 +105,28 @@ forEach@144 -> assignIndex@145
 forEach@144 -> assignIndex@146
 ```
 
+### `src/components/admin/PartInstanceBulkEditModal.vue`
+
+- hits: 1
+
+```
+forEach@253 -> assignIndex@260
+```
+
 ### `src/composables/entityCrud/useEntityCrudActions.ts`
 
 - hits: 1
 
 ```
 forEach@383 -> sort@404
+```
+
+### `src/components/admin/InstanceBulkEditModal.vue`
+
+- hits: 1
+
+```
+forEach@221 -> assignIndex@228
 ```
 
 ### `src/composables/admin/useEntityGrouping.ts`
@@ -203,155 +157,61 @@ forEach@150 -> assignIndex@152
 
 Legend: `ruleId@lineNumber: line`
 
-### `src/utils/transformers/fetchToGlobalTransformer.ts`
-
-- counts: forEach=2, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=17, assignProp=4
-
-```
-assignIndex@58: * Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
-assignIndex@74: // Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
-assignIndex@75: // Structure: metadata.relationshipMetadata[entityType][entityId] = Record<relationshipKey, FieldMetadataEntry>
-sort@167: const sortedEntities = [...transformedEntities].sort((a, b) => {
-assignIndex@178: acc[entityKey] = normalizedEntities
-assignIndex@207: const [annotationsResponse, annotationTypesResponse, assignmentsResponse] = await Promise.all([
-assignProp@222: id: typeof raw.id === 'string' ? raw.id : '',
-assignProp@223: blockInstanceId: typeof raw.blockInstanceId === 'string' ? raw.blockInstanceId : (typeof raw.block_instance_id === 'string' ? raw.block_instance_id : ''),
-assignProp@224: annotationId: typeof raw.annotationId === 'string' ? raw.annotationId : (typeof raw.annotation_id === 'string' ? raw.annotation_id : ''),
-assignIndex@276: const [primitiveMetadataResults, relationshipMetadataResults] = await Promise.all([
-assignIndex@281: // Structure: fetchedPrimitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
-forEach@283: primitiveMetadataResults.forEach(({ entityType, entityId, metadata }) => {
-assignIndex@285: fetchedPrimitiveMetadata[entityType] = {}
-assignIndex@287: fetchedPrimitiveMetadata[entityType][entityId] = metadata
-assignIndex@290: // Structure: fetchedRelationshipMetadata[entityType][entityId] = Record<relationshipKey, FieldMetadataEntry>
-forEach@292: relationshipMetadataResults.forEach(({ entityType, entityId, metadata }) => {
-assignIndex@294: fetchedRelationshipMetadata[entityType] = {}
-assignIndex@296: fetchedRelationshipMetadata[entityType][entityId] = metadata
-assignProp@372: rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
-assignIndex@387: acc[entityKey] = entityList.map(entity => {
-assignIndex@442: acc[relType] = transformApiRelationships(staged.fetchedRelationships, relType, entitiesWithAnnotations)
-assignIndex@458: // Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
-assignIndex@459: // Structure: metadata.relationshipMetadata[entityType][entityId] = Record<relationshipKey, FieldMetadataEntry>
-forLoop@482: for (const [frontendKey, value] of Object.entries(entity)) {
-forOf@482: for (const [frontendKey, value] of Object.entries(entity)) {
-assignIndex@487: result[frontendKey] = value
-```
-
 ### `src/components/booking/BookingWizard.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=8, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=42
 
 ```
 assignProp@151: if (activeStep.value === 1) {
-push@179: if (!hasPropertyTypeBlock) missingFields.push('property type')
-push@184: if (!data.address || data.address.trim().length < 3) missingFields.push('address')
-push@185: if (!data.city || data.city.trim().length < 2) missingFields.push('city')
-push@186: if (!data.state) missingFields.push('state')
-push@187: if (!data.zipCode || !/^\d{5}(-\d{4})?$/.test(data.zipCode)) missingFields.push('zip code')
-push@188: if (!data.propertySize || data.propertySize < 1) missingFields.push('property size')
-push@195: missingFields.push('number of units')
-push@199: missingFields.push('address', 'city', 'state', 'zip code', 'property size')
-assignProp@208: } else if (activeStep.value === 2) {
-assignProp@215: } else if (activeStep.value === 3) {
-assignProp@269: wizard.isQuoteMode.value = !wizard.isQuoteMode.value
-assignProp@358: isLoadingAppointment.value = true
+push@176: if (!hasPropertyTypeBlock) missingFields.push('property type')
+push@181: if (!data.address || data.address.trim().length < 3) missingFields.push('address')
+push@182: if (!data.city || data.city.trim().length < 2) missingFields.push('city')
+push@183: if (!data.state) missingFields.push('state')
+push@184: if (!data.zipCode || !/^\d{5}(-\d{4})?$/.test(data.zipCode)) missingFields.push('zip code')
+push@185: if (!data.propertySize || data.propertySize < 1) missingFields.push('property size')
+push@192: missingFields.push('number of units')
+push@196: missingFields.push('address', 'city', 'state', 'zip code', 'property size')
+assignProp@205: } else if (activeStep.value === 2) {
+assignProp@211: } else if (activeStep.value === 3) {
+assignProp@263: wizard.isQuoteMode.value = !wizard.isQuoteMode.value
+assignProp@352: isLoadingAppointment.value = true
+assignProp@362: selectedAppointmentId.value = appointment.id
 assignProp@368: selectedAppointmentId.value = appointment.id
-assignProp@374: selectedAppointmentId.value = appointment.id
-assignProp@392: wizard.selectedServices.value = [...wizardState.services]
-assignProp@393: wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
-assignProp@394: wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
-assignProp@395: wizard.isQuoteMode.value = wizardState.isQuoteMode
-assignProp@398: loadedWizardState.value = wizardState
-assignProp@399: loadedAppointmentId.value = appointment.id
-assignProp@402: propertyDetailsStepData.value = wizardState.propertyDetails
-assignProp@403: contactsStepData.value = {
-assignProp@406: anotherClientInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'anotherClient') || { firstName: '', lastName: '', email: '' },
-assignProp@407: transactionManagerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'transactionManager') || { firstName: '', lastName: '', email: '' },
-assignProp@408: sellerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'seller') || { firstName: '', lastName: '', email: '' },
-assignProp@409: showAnotherClient: wizardState.contacts.additionalContacts.some(c => c.role === 'anotherClient'),
-assignProp@410: showTransactionManager: wizardState.contacts.additionalContacts.some(c => c.role === 'transactionManager'),
-assignProp@411: showSeller: wizardState.contacts.additionalContacts.some(c => c.role === 'seller')
-assignProp@423: activeStep.value = 2
-assignProp@427: selectedAppointmentId.value = null
-assignProp@432: isLoadingAppointment.value = false
-assignProp@472: wizard.selectedServices.value = []
-assignProp@473: wizard.selectedPropertyTypeBlocks.value = []
-assignProp@474: wizard.selectedOptionTypeBlocks.value = []
-assignProp@475: wizard.isQuoteMode.value = false
-assignProp@477: loadedWizardState.value = null
-assignProp@478: loadedAppointmentId.value = null
-assignProp@479: selectedAppointmentId.value = null
-assignProp@482: propertyDetailsStepData.value = null
-assignProp@483: contactsStepData.value = null
-assignProp@484: availabilityStepData.value = null
-assignProp@487: propertyDetailsStepValid.value = false
-assignProp@488: propertyDetailsStepValidate.value = null
-assignProp@489: propertyDetailsFieldErrors.value = {}
-assignProp@490: contactsStepValid.value = false
-assignProp@491: contactsStepValidate.value = null
-assignProp@492: availabilityStepValid.value = false
-assignProp@493: availabilityStepValidate.value = null
-assignProp@496: activeStep.value = 0
-```
-
-### `src/components/booking/steps/AvailabilityStep.vue`
-
-- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=17
-
-```
-assignProp@81: const isDifferential = selectedServices.some(s => s.differential === true)
-assignProp@86: service.partInstances?.some(part => part.differentialOverride === true)
-assignProp@89: option.partInstances?.some(part => part.differentialOverride === true)
-assignProp@149: timeSlotsWrapper.value = timeSlots as ComputedRef<TimeSlot[]>
-assignProp@164: if (instances.length === 0) {
-assignProp@172: if (!bi.partInstances || bi.partInstances.length === 0) return sum
-assignProp@175: return partSum + (part.onSite === true ? (part.baseTime || 0) : 0)
-assignProp@204: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
-forEach@208: daySlots.inspectorTimeSlots.forEach(slot => {
-assignProp@218: if (startTimeType.value === 'inspector') return 'onSite'
-assignProp@219: if (startTimeType.value === 'client') return 'clientPresent'
-assignProp@276: parentAvailabilityStepData.value = newData
-assignProp@285: parentAvailabilityStepValid.value = newValid
-assignProp@292: parentAvailabilityStepValidate.value = validateForm
-assignProp@399: appointmentSlotOrderIndex.value = buttonIndex
-assignProp@410: startTimeType.value = type
-assignProp@475: <div v-if="appointmentSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
-assignProp@527: <div v-else-if="wizard.availableOptionTypeBlocks.value.length === 0" class="text-body-1 text-medium-emphasis py-4">
-```
-
-### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
-
-- counts: forEach=1, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=2, assignProp=19
-
-```
-assignProp@39: <div v-else-if="availableFields.length === 0" class="text-center pa-4">
-assignProp@69: v-if="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'statusButton'"
-assignProp@111: v-if="getEffectiveFieldMetadata(fieldKey)?.visibility === 'expandedDirect'"
-assignProp@124: v-if="getEffectiveFieldMetadata(fieldKey)?.visibility === 'expandedPanel'"
-assignProp@161: v-if="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'statusButton'"
-assignProp@181: :hint="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'partsCollection' ? 'Required: candidateChildKey, targetKey (optionsFieldKey is hardcoded to validParts)' : 'Required for select/multiselect/reference fields'"
-assignProp@260: if (props.mode === 'global') {
-assignProp@261: if (entityType.value === 'blockShape') {
-assignProp@264: if (entityType.value === 'partShape') {
-assignProp@267: if (entityType.value === 'blockInstance') {
-assignProp@270: if (entityType.value === 'partInstance') {
-assignProp@283: if (props.mode === 'global' && entityId.value) {
-assignProp@312: if (!fieldMetadata.value || Object.keys(fieldMetadata.value).length === 0) {
-sort@323: return Array.from(allKeys).sort()
-assignProp@328: if (props.entityKey === 'blockShape') return 'Block Shapes'
-assignProp@329: if (props.entityKey === 'partShape') return 'Part Shapes'
-assignProp@330: if (props.entityKey === 'blockInstance') return 'Block Instance'
-assignProp@331: if (props.entityKey === 'partInstance') return 'Part Instance'
-assignIndex@388: pendingChanges[fieldKey] = {
-delete@400: delete pendingChanges[fieldKey]
-assignProp@407: if (props.mode === 'instanceOverride' && !hasOverride(fieldKey)) {
-assignIndex@412: pendingChanges[fieldKey] = { ...pendingChanges[fieldKey], ...updates }
-forLoop@424: for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
-forOf@424: for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
-assignProp@430: if (props.mode === 'instanceOverride') {
-forLoop@431: for (const fieldKey of pendingDeletes.value) {
-forOf@431: for (const fieldKey of pendingDeletes.value) {
-forEach@437: Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
-delete@437: Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
+assignProp@386: wizard.selectedServices.value = [...wizardState.services]
+assignProp@387: wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
+assignProp@388: wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
+assignProp@389: wizard.isQuoteMode.value = wizardState.isQuoteMode
+assignProp@392: loadedWizardState.value = wizardState
+assignProp@393: loadedAppointmentId.value = appointment.id
+assignProp@396: propertyDetailsStepData.value = wizardState.propertyDetails
+assignProp@397: contactsStepData.value = {
+assignProp@400: anotherClientInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'anotherClient') || { firstName: '', lastName: '', email: '' },
+assignProp@401: transactionManagerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'transactionManager') || { firstName: '', lastName: '', email: '' },
+assignProp@402: sellerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'seller') || { firstName: '', lastName: '', email: '' },
+assignProp@403: showAnotherClient: wizardState.contacts.additionalContacts.some(c => c.role === 'anotherClient'),
+assignProp@404: showTransactionManager: wizardState.contacts.additionalContacts.some(c => c.role === 'transactionManager'),
+assignProp@405: showSeller: wizardState.contacts.additionalContacts.some(c => c.role === 'seller')
+assignProp@417: activeStep.value = 2
+assignProp@421: selectedAppointmentId.value = null
+assignProp@426: isLoadingAppointment.value = false
+assignProp@466: wizard.selectedServices.value = []
+assignProp@467: wizard.selectedPropertyTypeBlocks.value = []
+assignProp@468: wizard.selectedOptionTypeBlocks.value = []
+assignProp@469: wizard.isQuoteMode.value = false
+assignProp@471: loadedWizardState.value = null
+assignProp@472: loadedAppointmentId.value = null
+assignProp@473: selectedAppointmentId.value = null
+assignProp@476: propertyDetailsStepData.value = null
+assignProp@477: contactsStepData.value = null
+assignProp@478: availabilityStepData.value = null
+assignProp@481: propertyDetailsStepValid.value = false
+assignProp@482: propertyDetailsStepValidate.value = null
+assignProp@483: propertyDetailsFieldErrors.value = {}
+assignProp@484: contactsStepValid.value = false
+assignProp@485: contactsStepValidate.value = null
+assignProp@486: availabilityStepValid.value = false
+assignProp@487: availabilityStepValidate.value = null
+assignProp@490: activeStep.value = 0
 ```
 
 ### `src/views/admin/tabs/ShapesTab.vue`
@@ -383,6 +243,37 @@ assignProp@208: newAnnotationShapeName.value = ''
 assignProp@209: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
 assignProp@391: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
 assignProp@639: @keyup.enter="handleAnnotationShapeCreate"
+```
+
+### `src/utils/transformers/fetchToGlobalTransformer.ts`
+
+- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=17, assignProp=4
+
+```
+assignIndex@58: * Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+assignIndex@74: // Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+assignIndex@75: // Structure: metadata.relationshipMetadata[entityType][entityId] = Record<relationshipKey, FieldMetadataEntry>
+sort@167: const sortedEntities = [...transformedEntities].sort((a, b) => {
+assignIndex@178: acc[entityKey] = normalizedEntities
+assignIndex@207: const [annotationsResponse, annotationTypesResponse, assignmentsResponse] = await Promise.all([
+assignProp@222: id: typeof raw.id === 'string' ? raw.id : '',
+assignProp@223: blockInstanceId: typeof raw.blockInstanceId === 'string' ? raw.blockInstanceId : (typeof raw.block_instance_id === 'string' ? raw.block_instance_id : ''),
+assignProp@224: annotationId: typeof raw.annotationId === 'string' ? raw.annotationId : (typeof raw.annotation_id === 'string' ? raw.annotation_id : ''),
+assignIndex@276: const [primitiveMetadataResults, relationshipMetadataResults] = await Promise.all([
+assignIndex@281: // Structure: fetchedPrimitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+assignIndex@288: acc[entityType] = {}
+assignIndex@290: acc[entityType][entityId] = metadata
+assignIndex@296: // Structure: fetchedRelationshipMetadata[entityType][entityId] = Record<relationshipKey, FieldMetadataEntry>
+assignIndex@303: acc[entityType] = {}
+assignIndex@305: acc[entityType][entityId] = metadata
+assignProp@384: rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
+assignIndex@399: acc[entityKey] = entityList.map(entity => {
+assignIndex@454: acc[relType] = transformApiRelationships(staged.fetchedRelationships, relType, entitiesWithAnnotations)
+assignIndex@470: // Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
+assignIndex@471: // Structure: metadata.relationshipMetadata[entityType][entityId] = Record<relationshipKey, FieldMetadataEntry>
+forLoop@494: for (const [frontendKey, value] of Object.entries(entity)) {
+forOf@494: for (const [frontendKey, value] of Object.entries(entity)) {
+assignIndex@499: result[frontendKey] = value
 ```
 
 ### `src/utils/transformers/relationshipTransformers.ts`
@@ -417,28 +308,6 @@ forOf@396: for (const blockId of composedBlockIds) {
 assignProp@399: rel => rel.parent.id === blockId
 forEach@403: blockRelationships.forEach(rel => {
 forEach@404: rel.children.forEach(partInstance => {
-```
-
-### `src/utils/transformers/annotationTransformers.ts`
-
-- counts: forEach=3, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=11
-
-```
-assignProp@98: id: typeof rawAnnotation.id === 'string' ? rawAnnotation.id : '',
-assignProp@125: const annotation = annotations.find(a => a.id === rel.annotationId)
-assignProp@160: return annotations.filter(a => a.userTypeBlock === null)
-assignProp@169: return annotationWithBlockId.userTypeBlockBlockInstanceId === userTypeBlock
-assignProp@172: return a.userTypeBlock === userTypeBlock
-sort@188: return [...annotations].sort((a, b) => a.orderIndex - b.orderIndex)
-assignProp@230: if (annotation.ActiveAnnotation && typeof annotation.ActiveAnnotation === 'object') {
-assignProp@239: if (annotation.activeAnnotation && typeof annotation.activeAnnotation === 'object') {
-assignProp@248: if (annotation.AnnotationAssignment && typeof annotation.AnnotationAssignment === 'object') {
-assignProp@257: if (annotation.annotationAssignment && typeof annotation.annotationAssignment === 'object') {
-assignProp@295: if (!assignments || assignments.length === 0) {
-forEach@297: annotations.forEach(annotation => {
-forEach@313: assignments.forEach(assignment => {
-assignProp@318: : annotations.find(a => a.id === assignment.annotationId)
-forEach@341: entityAnnotationsMap.forEach((anns, entityId) => {
 ```
 
 ### `src/main.ts`
@@ -484,32 +353,36 @@ assignProp@354: <template #item.actions="{ item }">
 delete@404: Are you sure you want to delete this property? This action cannot be undone.
 ```
 
-### `src/components/admin/component/ComponentDistributionModal.vue`
+### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
 
-- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=4
-
-```
-assignProp@61: v-model.number="manualValues[item.componentId]"
-assignProp@167: isDistributing.value = true
-assignProp@170: if (selectedStrategy.value === 'manual') {
-forEach@173: preview.value.forEach((item) => {
-assignIndex@174: distributionValues[item.componentId] = distributionValues[item.componentId] ?? {}
-assignIndex@175: distributionValues[item.componentId][props.propertyKey] = item.newValue
-assignProp@184: isDistributing.value = false
-```
-
-### `src/components/admin/PartInstanceBulkEditModal.vue`
-
-- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=3
+- counts: forEach=1, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=2, assignProp=15
 
 ```
-assignProp@127: if (instances.length === 0) return null
-assignProp@215: if (!metadata || Object.keys(metadata).length === 0) {
-forEach@220: Object.entries(metadata).forEach(([fieldKey, fieldMeta]) => {
-assignProp@221: if (fieldMeta.bulkEdit === true) {
-assignIndex@222: filtered[fieldKey] = fieldMeta
-forEach@258: Object.keys(filteredMetadata.value).forEach(field => {
-assignIndex@265: (bulkEditData as Record<string, number>)[field] = numericValue
+assignProp@32: <div v-else-if="availableFields.length === 0" class="text-center pa-4">
+assignProp@62: v-if="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'statusButton'"
+assignProp@104: v-if="getEffectiveFieldMetadata(fieldKey)?.visibility === 'expandedDirect'"
+assignProp@117: v-if="getEffectiveFieldMetadata(fieldKey)?.visibility === 'expandedPanel'"
+assignProp@154: v-if="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'statusButton'"
+assignProp@174: :hint="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'partsCollection' ? 'Required: candidateChildKey, targetKey (optionsFieldKey is hardcoded to validParts)' : 'Required for select/multiselect/reference fields'"
+assignProp@248: if (props.mode === 'global') {
+assignProp@249: if (entityType.value === 'blockShape') {
+assignProp@252: if (entityType.value === 'partShape') {
+assignProp@255: if (entityType.value === 'blockInstance') {
+assignProp@258: if (entityType.value === 'partInstance') {
+assignProp@271: if (props.mode === 'global' && entityId.value) {
+assignProp@300: if (!fieldMetadata.value || Object.keys(fieldMetadata.value).length === 0) {
+sort@311: return Array.from(allKeys).sort()
+assignIndex@375: pendingChanges[fieldKey] = {
+delete@387: delete pendingChanges[fieldKey]
+assignProp@394: if (props.mode === 'instanceOverride' && !hasOverride(fieldKey)) {
+assignIndex@399: pendingChanges[fieldKey] = { ...pendingChanges[fieldKey], ...updates }
+forLoop@411: for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
+forOf@411: for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
+assignProp@417: if (props.mode === 'instanceOverride') {
+forLoop@418: for (const fieldKey of pendingDeletes.value) {
+forOf@418: for (const fieldKey of pendingDeletes.value) {
+forEach@424: Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
+delete@424: Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
 ```
 
 ### `src/components/admin/generic/EntityCardSubPanels.vue`
@@ -536,17 +409,28 @@ assignProp@275: v-if="props.entityKey === 'blockInstance'"
 assignProp@280: @click.stop="togglePartsBulkEditMode"
 ```
 
-### `src/components/admin/InstanceBulkEditModal.vue`
+### `src/components/booking/steps/AvailabilityStep.vue`
 
-- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=2
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=17
 
 ```
-assignProp@183: if (!metadata || Object.keys(metadata).length === 0) {
-forEach@188: Object.entries(metadata).forEach(([fieldKey, fieldMeta]) => {
-assignProp@189: if (fieldMeta.bulkEdit === true) {
-assignIndex@190: filtered[fieldKey] = fieldMeta
-forEach@227: Object.keys(filteredMetadata.value).forEach(field => {
-assignIndex@234: bulkEditData[field] = numericValue
+assignProp@81: const isDifferential = selectedServices.some(s => s.differential === true)
+assignProp@86: service.partInstances?.some(part => part.differentialOverride === true)
+assignProp@89: option.partInstances?.some(part => part.differentialOverride === true)
+assignProp@148: timeSlotsWrapper.value = timeSlots as ComputedRef<TimeSlot[]>
+assignProp@163: if (instances.length === 0) {
+assignProp@171: if (!bi.partInstances || bi.partInstances.length === 0) return sum
+assignProp@174: return partSum + (part.onSite === true ? (part.baseTime || 0) : 0)
+assignProp@203: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
+assignProp@218: if (startTimeType.value === 'inspector') return 'onSite'
+assignProp@219: if (startTimeType.value === 'client') return 'clientPresent'
+assignProp@276: parentAvailabilityStepData.value = newData
+assignProp@285: parentAvailabilityStepValid.value = newValid
+assignProp@292: parentAvailabilityStepValidate.value = validateForm
+assignProp@317: appointmentSlotOrderIndex.value = buttonIndex
+assignProp@328: startTimeType.value = type
+assignProp@393: <div v-if="appointmentSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
+assignProp@445: <div v-else-if="wizard.availableOptionTypeBlocks.value.length === 0" class="text-body-1 text-medium-emphasis py-4">
 ```
 
 ### `src/utils/transformers/globalToBookingTransformer.ts`
@@ -611,34 +495,6 @@ forEach@137: rel.children.forEach(partInstance => {
 assignProp@164: if (componentIds.length === 0) {
 assignProp@183: if (components.length === 0) {
 assignProp@220: const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)
-```
-
-### `src/components/admin/generic/EntityCard.vue`
-
-- counts: forEach=1, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=3, reverse=0, assignIndex=1, assignProp=9
-
-```
-assignProp@134: internalExpanded.value = expanded
-delete@147: * PATTERN: Composable handles entity name, success message, and delete title
-forEach@290: changedFields.forEach(fieldKey => {
-forLoop@335: for (const [relationshipKey, entry] of Object.entries(relationshipMeta)) {
-forOf@335: for (const [relationshipKey, entry] of Object.entries(relationshipMeta)) {
-assignIndex@337: merged[relationshipKey] = entry
-assignProp@396: .filter(([_, meta]) => meta.layout === 'inline')
-sort@397: .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
-assignProp@412: .filter(([_, meta]) => meta.layout === 'stacked')
-sort@413: .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
-assignProp@518: constituable: blockShapeEntity.constituable === true,
-assignProp@519: composable: blockShapeEntity.composable === true,
-assignProp@520: composite: (blockInstance as GlobalEntity<'blockInstance'>).composite === true
-assignProp@577: return meta?.renderAs === 'statusButton'
-sort@588: .sort((a, b) => a.order - b.order)
-delete@594: * WHY: Gets entity name for display in title and delete dialog
-delete@602: * LEARNING: Use entity card actions composable for save/reset/delete handlers
-delete@738: * LEARNING: Computed property for delete dialog title
-delete@739: * WHY: Provides entity-type-specific delete dialog title
-assignProp@846: v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'"
-assignProp@1024: v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'"
 ```
 
 ### `src/utils/booking/confirmationStepData.ts`
@@ -724,21 +580,21 @@ assignProp@235: const bIndex = typeof b.orderIndex === 'number' ? b.orderIndex :
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=13
 
 ```
-assignProp@158: :items="users.filter(u => u.userRole === 'client')"
-assignProp@177: :items="users.filter(u => u.userRole === 'agent')"
-assignProp@254: v-if="!isLoading && !appointmentsError && appointments.length === 0"
-assignProp@277: <template #item.propertyVersionId="{ item }">
-assignProp@350: <template #item.propertyTypes="{ item }">
-assignProp@361: <template #item.clientId="{ item }">
-assignProp@399: :items="users.filter(u => u.userRole === 'client')"
-assignProp@423: <template #item.agentId="{ item }">
-assignProp@461: :items="users.filter(u => u.userRole === 'agent')"
-assignProp@485: <template #item.scheduledById="{ item }">
-assignProp@547: <template #item.selectedDate="{ item }">
-delete@571: - 'cancelled' vs 'deleted': Implement business rules for soft delete vs hard delete
-assignProp@573: <template #item.status="{ item }">
-assignProp@593: <template #item.actions="{ item }">
-delete@643: Are you sure you want to delete this appointment? This action cannot be undone.
+assignProp@157: :items="users.filter(u => u.userRole === 'client')"
+assignProp@176: :items="users.filter(u => u.userRole === 'agent')"
+assignProp@253: v-if="!isLoading && !appointmentsError && appointments.length === 0"
+assignProp@276: <template #item.propertyVersionId="{ item }">
+assignProp@349: <template #item.propertyTypes="{ item }">
+assignProp@360: <template #item.clientId="{ item }">
+assignProp@398: :items="users.filter(u => u.userRole === 'client')"
+assignProp@422: <template #item.agentId="{ item }">
+assignProp@460: :items="users.filter(u => u.userRole === 'agent')"
+assignProp@484: <template #item.scheduledById="{ item }">
+assignProp@546: <template #item.selectedDate="{ item }">
+delete@570: - 'cancelled' vs 'deleted': Implement business rules for soft delete vs hard delete
+assignProp@572: <template #item.status="{ item }">
+assignProp@592: <template #item.actions="{ item }">
+delete@642: Are you sure you want to delete this appointment? This action cannot be undone.
 ```
 
 ### `src/utils/forms/fieldLocationDispatcher.ts`
@@ -761,16 +617,59 @@ assignProp@212: result.subPanels.relationships = sortFieldsByDisplayOrder(result
 assignProp@213: result.subPanels.annotations = sortFieldsByDisplayOrder(result.subPanels.annotations, fieldMetadata)
 ```
 
+### `src/utils/transformers/annotationTransformers.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=11
+
+```
+assignProp@98: id: typeof rawAnnotation.id === 'string' ? rawAnnotation.id : '',
+assignProp@125: const annotation = annotations.find(a => a.id === rel.annotationId)
+assignProp@160: return annotations.filter(a => a.userTypeBlock === null)
+assignProp@169: return annotationWithBlockId.userTypeBlockBlockInstanceId === userTypeBlock
+assignProp@172: return a.userTypeBlock === userTypeBlock
+sort@188: return [...annotations].sort((a, b) => a.orderIndex - b.orderIndex)
+assignProp@230: if (annotation.ActiveAnnotation && typeof annotation.ActiveAnnotation === 'object') {
+assignProp@239: if (annotation.activeAnnotation && typeof annotation.activeAnnotation === 'object') {
+assignProp@248: if (annotation.AnnotationAssignment && typeof annotation.AnnotationAssignment === 'object') {
+assignProp@257: if (annotation.annotationAssignment && typeof annotation.annotationAssignment === 'object') {
+assignProp@293: if (!assignments || assignments.length === 0) {
+assignProp@324: : annotations.find(a => a.id === assignment.annotationId)
+```
+
 ### `src/utils/transformers/globalToAdminTransformer.ts`
 
 - counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=0
 
 ```
-forEach@139: relationshipKeys.forEach(relKey => {
-assignIndex@148: (plainObject as AdminObject<GE>)[relKey] = relationshipValue
-forEach@186: Object.entries(relationshipMappings).forEach(([relType, propName]) => {
-assignIndex@190: (entity as Partial<GlobalEntity<GE>>)[propName as keyof GlobalEntity<GE>] = [] as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
-assignIndex@212: (entity as Partial<GlobalEntity<GE>>)[propName as keyof GlobalEntity<GE>] = childIds as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
+forEach@138: relationshipKeys.forEach(relKey => {
+assignIndex@147: (plainObject as AdminObject<GE>)[relKey] = relationshipValue
+forEach@185: Object.entries(relationshipMappings).forEach(([relType, propName]) => {
+assignIndex@189: (entity as Partial<GlobalEntity<GE>>)[propName as keyof GlobalEntity<GE>] = [] as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
+assignIndex@211: (entity as Partial<GlobalEntity<GE>>)[propName as keyof GlobalEntity<GE>] = childIds as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
+```
+
+### `src/components/admin/generic/EntityCard.vue`
+
+- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=3, reverse=0, assignIndex=1, assignProp=6
+
+```
+assignProp@134: internalExpanded.value = expanded
+delete@147: * PATTERN: Composable handles entity name, success message, and delete title
+forLoop@278: for (const [relationshipKey, entry] of Object.entries(relationshipMeta)) {
+forOf@278: for (const [relationshipKey, entry] of Object.entries(relationshipMeta)) {
+assignIndex@280: merged[relationshipKey] = entry
+assignProp@339: .filter(([_, meta]) => meta.layout === 'inline')
+sort@340: .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
+assignProp@355: .filter(([_, meta]) => meta.layout === 'stacked')
+sort@356: .sort(([_, a], [__, b]) => a.displayOrder - b.displayOrder)
+assignProp@514: return meta?.renderAs === 'statusButton'
+sort@525: .sort((a, b) => a.order - b.order)
+delete@531: * WHY: Gets entity name for display in title and delete dialog
+delete@539: * LEARNING: Use entity card actions composable for save/reset/delete handlers
+delete@668: * LEARNING: Computed property for delete dialog title
+delete@669: * WHY: Provides entity-type-specific delete dialog title
+assignProp@769: v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'"
+assignProp@844: v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'"
 ```
 
 ### `src/utils/booking/selectionCardStyles.ts`
@@ -920,6 +819,18 @@ assignProp@159: @keydown.enter="handleBarClick('client')"
 assignProp@160: @keydown.space.prevent="handleBarClick('client')"
 ```
 
+### `src/components/admin/PartInstanceBulkEditModal.vue`
+
+- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=3
+
+```
+assignProp@124: if (instances.length === 0) return null
+assignProp@212: if (!metadata || Object.keys(metadata).length === 0) {
+assignProp@220: Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
+forEach@253: Object.keys(filteredMetadata.value).forEach(field => {
+assignIndex@260: (bulkEditData as Record<string, number>)[field] = numericValue
+```
+
 ### `src/composables/booking/useStepValidation.ts`
 
 - counts: forEach=0, forLoop=6, forOf=6, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=2
@@ -980,13 +891,13 @@ assignProp@272: clientAppointmentSlotRef.value = clientMatch
 
 ```
 assignProp@159: if (!ids || !bookingData || ids.length === 0) return []
-assignProp@199: const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
-assignProp@258: ? stateControlBlocks.find(block => block.id === userTypeId)
-assignProp@298: service => service.blockShapeRef === serviceBlockShapeId
-assignProp@325: const currentInstance = servicesFound.find(s => s.id === version.id) || null
-assignProp@343: property => property.blockShapeRef === propertyBlockShapeId
-assignProp@361: const currentInstance = propertyTypeBlocksFound.find(p => p.id === version.id) || null
-assignProp@389: const currentInstance = optionTypeBlocksFound.find(o => o.id === version.id) || null
+assignProp@198: const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
+assignProp@257: ? stateControlBlocks.find(block => block.id === userTypeId)
+assignProp@297: service => service.blockShapeRef === serviceBlockShapeId
+assignProp@324: const currentInstance = servicesFound.find(s => s.id === version.id) || null
+assignProp@342: property => property.blockShapeRef === propertyBlockShapeId
+assignProp@360: const currentInstance = propertyTypeBlocksFound.find(p => p.id === version.id) || null
+assignProp@388: const currentInstance = optionTypeBlocksFound.find(o => o.id === version.id) || null
 ```
 
 ### `src/views/admin/entities/BlockShapeForm.vue`
@@ -1017,6 +928,17 @@ assignProp@94: error.value = null
 assignProp@104: error.value = err instanceof Error ? err.message : 'Failed to save part type'
 assignProp@106: isSubmitting.value = false
 push@111: router.push({ name: 'part-types-list' })
+```
+
+### `src/components/admin/InstanceBulkEditModal.vue`
+
+- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=2
+
+```
+assignProp@179: if (!metadata || Object.keys(metadata).length === 0) {
+assignProp@187: Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
+forEach@221: Object.keys(filteredMetadata.value).forEach(field => {
+assignIndex@228: bulkEditData[field] = numericValue
 ```
 
 ### `src/layouts/components/NavSearchBar.vue`
@@ -1097,17 +1019,30 @@ forLoop@101: for (const node of mutation.addedNodes) {
 forOf@101: for (const node of mutation.addedNodes) {
 ```
 
+### `src/components/admin/component/ComponentDistributionModal.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=4
+
+```
+assignProp@61: v-model.number="manualValues[item.componentId]"
+assignProp@167: isDistributing.value = true
+assignProp@170: if (selectedStrategy.value === 'manual') {
+assignIndex@176: acc[item.componentId] = acc[item.componentId] ?? {}
+assignIndex@177: acc[item.componentId][props.propertyKey] = item.newValue
+assignProp@189: isDistributing.value = false
+```
+
 ### `src/composables/admin/useAdminPrimitiveMetadataMutations.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=6, assignProp=0
 
 ```
-assignIndex@145: queryKey[0] === 'adminPrimitiveMetadata' &&
-assignIndex@146: queryKey[1] === variables.entityType &&
-assignIndex@147: queryKey[2] === variables.entityId
-assignIndex@180: queryKey[0] === 'adminPrimitiveMetadata' &&
-assignIndex@181: queryKey[1] === variables.entityType &&
-assignIndex@182: queryKey[2] === variables.entityId
+assignIndex@81: queryKey[0] === 'adminPrimitiveMetadata' &&
+assignIndex@82: queryKey[1] === variables.entityType &&
+assignIndex@83: queryKey[2] === variables.entityId
+assignIndex@116: queryKey[0] === 'adminPrimitiveMetadata' &&
+assignIndex@117: queryKey[1] === variables.entityType &&
+assignIndex@118: queryKey[2] === variables.entityId
 ```
 
 ### `src/composables/admin/useAdminRelationshipMetadataMutations.ts`
@@ -1115,12 +1050,12 @@ assignIndex@182: queryKey[2] === variables.entityId
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=6, assignProp=0
 
 ```
-assignIndex@132: queryKey[0] === 'adminRelationshipMetadata' &&
-assignIndex@133: queryKey[1] === variables.entityType &&
-assignIndex@134: queryKey[2] === variables.entityId
-assignIndex@167: queryKey[0] === 'adminRelationshipMetadata' &&
-assignIndex@168: queryKey[1] === variables.entityType &&
-assignIndex@169: queryKey[2] === variables.entityId
+assignIndex@80: queryKey[0] === 'adminRelationshipMetadata' &&
+assignIndex@81: queryKey[1] === variables.entityType &&
+assignIndex@82: queryKey[2] === variables.entityId
+assignIndex@115: queryKey[0] === 'adminRelationshipMetadata' &&
+assignIndex@116: queryKey[1] === variables.entityType &&
+assignIndex@117: queryKey[2] === variables.entityId
 ```
 
 ### `src/utils/annotationUtils.ts`
@@ -1271,24 +1206,13 @@ assignProp@17: const defaultDesc = matchingDescriptions.find((desc) => desc.isDe
 - counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=2, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
 
 ```
-assignProp@70: if (affectedEntities.length === 0) {
-assignProp@87: if (!Array.isArray(activeRelationships) || activeRelationships.length === 0) {
-forLoop@99: for (const childId of activeRelationships) {
-forOf@99: for (const childId of activeRelationships) {
-push@103: invalidRelationships.push({
-push@116: invalidRelationships.push({
-delete@143: // WHY: Multiple cleanup calls or concurrent operations might try to delete same relationship
-```
-
-### `src/components/admin/MetadataEditModal.vue`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
-
-```
-assignProp@82: if (props.entityKey === 'blockShape' || props.entityKey === 'partShape') {
-assignProp@102: const entityTypeLabel = props.entityKey === 'blockShape' ? 'Block Shape'
-assignProp@103: : props.entityKey === 'partShape' ? 'Part Shape'
-assignProp@104: : props.entityKey === 'blockInstance' ? 'Block Instance'
+assignProp@69: if (affectedEntities.length === 0) {
+assignProp@86: if (!Array.isArray(activeRelationships) || activeRelationships.length === 0) {
+forLoop@98: for (const childId of activeRelationships) {
+forOf@98: for (const childId of activeRelationships) {
+push@102: invalidRelationships.push({
+push@115: invalidRelationships.push({
+delete@142: // WHY: Multiple cleanup calls or concurrent operations might try to delete same relationship
 ```
 
 ### `src/components/booking/plugins/wizardStatePlugin.ts`
@@ -1510,7 +1434,7 @@ assignIndex@65: wizard.selectedOptionTypeBlocks.value[optionIndex] = {
 
 ### `src/composables/formFields/useFormFieldsContext.ts`
 
-- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=9
+- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=8
 
 ```
 assignProp@89: typeof currentFormInstance.values === 'object'
@@ -1520,12 +1444,11 @@ assignProp@148: if (meta.renderAs === 'multiselect') return 'multiselect'
 assignProp@149: if (meta.renderAs === 'select' || meta.renderAs === 'reference') return 'select'
 assignProp@154: if (meta.dataType === 'boolean') return 'boolean'
 assignProp@155: if (meta.dataType === 'number') return 'number'
-assignProp@156: if (meta.dataType === 'date') return 'date'
 assignIndex@162: const getFieldDisplayConfig = (fieldKey: string): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['displayConfig'] => {
 assignProp@254: required: meta.isRequired === true, // Explicit boolean check, no default
 assignProp@255: disabled: (meta as { disabled?: boolean }).disabled === true, // Explicit boolean check, no default
 assignProp@256: readOnly: (meta as { readOnly?: boolean }).readOnly === true, // Explicit boolean check, no default
-forEach@349: fieldsToCreate.forEach((fieldKey) => {
+forEach@348: fieldsToCreate.forEach((fieldKey) => {
 ```
 
 ### `src/composables/useFormValidation.ts`
@@ -1603,9 +1526,9 @@ assignProp@80: const user = users.find(u => u.id === value)
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
 
 ```
-assignProp@340: panelsRef.value = el as ComponentPublicInstance | HTMLElement | null
-assignProp@444: (blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length === 0 &&
-assignProp@445: (groupedInstancesByShape.get(String(blockShape.id)) || []).length === 0
+assignProp@337: panelsRef.value = el as ComponentPublicInstance | HTMLElement | null
+assignProp@441: (blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length === 0 &&
+assignProp@442: (groupedInstancesByShape.get(String(blockShape.id)) || []).length === 0
 ```
 
 ### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts`
@@ -1664,8 +1587,8 @@ push@52: instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
 forEach@136: entities.forEach(entity => {
 assignIndex@217: acc[key] = primitiveMetadata[String(key)]
 assignIndex@221: acc[key] = relationshipMetadata[String(key)]
-assignProp@295: (window as WindowWithDebug).__useAdminDebug = {
-assignProp@302: instanceCallSites.length = 0
+assignProp@307: (window as WindowWithDebug).__useAdminDebug = {
+assignProp@314: instanceCallSites.length = 0
 ```
 
 ### `src/components/admin/generic/fields/IconPicker.vue`
@@ -1755,8 +1678,8 @@ assignProp@211: activeTab.value = String(shapes[0].id)
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=2, sort=0, reverse=0, assignIndex=0, assignProp=0
 
 ```
-splice@192: expandedPlaceholders.value.splice(index, 1)
-splice@208: expandedPlaceholders.value.splice(index, 1)
+splice@191: expandedPlaceholders.value.splice(index, 1)
+splice@207: expandedPlaceholders.value.splice(index, 1)
 ```
 
 ### `src/composables/booking/selectionCard/useSelectionCard.ts`
@@ -1809,13 +1732,13 @@ push@112: if (zipCode) parts.push(zipCode)
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=0, splice=0, sort=2, reverse=0, assignIndex=0, assignProp=4
 
 ```
-sort@110: return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
-sort@128: return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
-assignProp@137: return existingPartInstances.value.find(pi => pi.partShapeRef === partShapeId)
-assignProp@173: if (matchingPartInstances.length === 0) {
-assignProp@178: const baseNameExists = matchingPartInstances.some((pp) => (pp as GlobalEntity<'partInstance'>).name === baseName)
-while@185: while (matchingPartInstances.some((pp) => (pp as GlobalEntity<'partInstance'>).name === `${baseName}-${number}`)) {
-assignProp@185: while (matchingPartInstances.some((pp) => (pp as GlobalEntity<'partInstance'>).name === `${baseName}-${number}`)) {
+sort@107: return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
+sort@125: return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
+assignProp@134: return existingPartInstances.value.find(pi => pi.partShapeRef === partShapeId)
+assignProp@170: if (matchingPartInstances.length === 0) {
+assignProp@175: const baseNameExists = matchingPartInstances.some((pp) => (pp as GlobalEntity<'partInstance'>).name === baseName)
+while@182: while (matchingPartInstances.some((pp) => (pp as GlobalEntity<'partInstance'>).name === `${baseName}-${number}`)) {
+assignProp@182: while (matchingPartInstances.some((pp) => (pp as GlobalEntity<'partInstance'>).name === `${baseName}-${number}`)) {
 ```
 
 ### `src/utils/booking/availabilityStepData.ts`
@@ -1842,7 +1765,7 @@ assignProp@92: if (partInstance.onSite === true) {
 
 ```
 assignProp@18: .filter((comp) => comp.active === true)
-assignProp@37: const composite = item.composite === true
+assignProp@36: const composite = item.composite === true
 ```
 
 ### `src/utils/instanceComponentUtils.ts`
@@ -1917,12 +1840,12 @@ assignProp@130: v-model.number="formData.leadTime"
 - counts: forEach=3, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
 
 ```
-forEach@77: instancesMap.forEach((instances, blockShapeId) => {
-forEach@121: containers.forEach((container, blockShapeId) => {
-assignProp@154: if (!instanceIdsArray || instanceIdsArray.length === 0) return
-assignProp@220: isMounted.value = true
-assignProp@229: isMounted.value = false
-forEach@231: groupDragInstances.value.forEach(_instance => {
+forEach@78: instancesMap.forEach((instances, blockShapeId) => {
+forEach@122: containers.forEach((container, blockShapeId) => {
+assignProp@155: if (!instanceIdsArray || instanceIdsArray.length === 0) return
+assignProp@207: isMounted.value = true
+assignProp@216: isMounted.value = false
+forEach@218: groupDragInstances.value.forEach(_instance => {
 ```
 
 ### `src/composables/admin/useInstanceFiltering.ts`
@@ -1959,7 +1882,7 @@ assignProp@95: v-if="validPartShapes.length === 0"
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@141: currentEntityId.value = newId
+assignProp@142: currentEntityId.value = newId
 ```
 
 ### `src/components/admin/generic/EntityFormContent.vue`
@@ -1967,7 +1890,7 @@ assignProp@141: currentEntityId.value = newId
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@62: currentEntityId.value = newId
+assignProp@63: currentEntityId.value = newId
 ```
 
 ### `src/components/admin/generic/fields/NumberInput.vue`
@@ -1984,6 +1907,14 @@ assignProp@25: @keydown.enter="handleEnterKey"
 
 ```
 assignProp@12: @click.stop="handleClick"
+```
+
+### `src/components/admin/MetadataEditModal.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
+
+```
+assignProp@83: if (props.entityKey === 'blockShape' || props.entityKey === 'partShape') {
 ```
 
 ### `src/components/booking/plugins/localStatePlugin.ts`
@@ -2113,10 +2044,10 @@ forOf@153: for (const instance of instances) {
 
 ```
 assignProp@130: if (containerWidth.value === 0) {
-assignProp@211: containerWidth.value = measuredWidth
-forLoop@222: for (const entry of entries) {
-forOf@222: for (const entry of entries) {
-assignProp@244: containerWidth.value = newWidth
+assignProp@199: containerWidth.value = measuredWidth
+forLoop@210: for (const entry of entries) {
+forOf@210: for (const entry of entries) {
+assignProp@226: containerWidth.value = newWidth
 ```
 
 ### `src/composables/booking/useTimeSlotCalculations.ts`
@@ -2321,13 +2252,21 @@ assignIndex@21: updated[index] = next
 assignIndex@54: const [appointmentsResponse, propertiesResponse, usersResponse] = await Promise.all([
 ```
 
+### `src/composables/admin/useEntityCardStoreSync.ts`
+
+- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+```
+forEach@163: changedFields.forEach(fieldKey => {
+```
+
 ### `src/composables/admin/useInstanceBulkEdit.ts`
 
 - counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@153: if (Object.keys(editData).length === 0) {
-forEach@191: map.forEach((_instances, blockShapeId) => {
+assignProp@149: if (Object.keys(editData).length === 0) {
+forEach@183: map.forEach((_instances, blockShapeId) => {
 ```
 
 ### `src/composables/admin/useStatusButtonHandlers.ts`
@@ -2335,7 +2274,7 @@ forEach@191: map.forEach((_instances, blockShapeId) => {
 - counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
 ```
-forEach@46: entities.forEach((entity) => {
+forEach@47: entities.forEach((entity) => {
 ```
 
 ### `src/composables/booking/useWizardFilteredOptions.ts`
@@ -2381,6 +2320,12 @@ forEach@58: Object.entries(computedChanges).forEach(([key, value]) => {
 - (no matches)
 
 ### `src/components/admin/generic/entityCardConstants.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/components/admin/generic/EntityCardContent.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
@@ -2629,9 +2574,9 @@ assignProp@73: formValues.value = { ...initialValues } as T
 assignProp@76: isMounted.value = true
 assignProp@79: watcherStop.value = watch([containerRef, panelsContainerRef], ([container, panelsComponentRef]) => {
 assignProp@104: if (!entityIdsArray || entityIdsArray.length === 0) return
-assignProp@171: isMounted.value = false
-assignProp@184: containerRef.value = null
-assignProp@185: panelsContainerRef.value = null
+assignProp@157: isMounted.value = false
+assignProp@170: containerRef.value = null
+assignProp@171: panelsContainerRef.value = null
 ```
 
 ### `src/composables/admin/useDragAndDropHelpers.ts`
@@ -2691,9 +2636,9 @@ delete@89: * WHY: Provides entity-type-specific delete dialog title
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
 
 ```
-assignProp@72: entityList.value = normalized as typeof entityList.value
-assignProp@93: entityList.value = [...filteredEntities.value] as typeof entityList.value
-assignProp@94: entityIds.value = filteredEntities.value.map(entity => String(entity.id))
+assignProp@74: entityList.value = normalized as typeof entityList.value
+assignProp@95: entityList.value = [...filteredEntities.value] as typeof entityList.value
+assignProp@96: entityIds.value = filteredEntities.value.map(entity => String(entity.id))
 ```
 
 ### `src/composables/admin/useEntityList.ts`
@@ -2703,17 +2648,17 @@ assignProp@94: entityIds.value = filteredEntities.value.map(entity => String(ent
 ```
 delete@6: * PATTERN: Composable that handles navigation and delete operations
 delete@11: * - Error handling for delete operations
-delete@85: * LEARNING: Handle delete with confirmation
-delete@86: * WHY: Component needs delete function with confirmation
-delete@97: * PATTERN: Composable with navigation and delete operations
-delete@105: deleteConfirmation = 'Are you sure you want to delete this item?',
-delete@106: deleteErrorMessage = 'Failed to delete item'
-push@132: router.push({ name: createRouteName })
-push@141: router.push({ name: editRouteName, params: { id: String(id) } })
-delete@145: * LEARNING: Get delete confirmation message
-delete@157: * LEARNING: Get delete error message
-delete@169: * LEARNING: Handle delete with confirmation
-delete@170: * WHY: Component needs delete function with confirmation
+delete@86: * LEARNING: Handle delete with confirmation
+delete@87: * WHY: Component needs delete function with confirmation
+delete@98: * PATTERN: Composable with navigation and delete operations
+delete@106: deleteConfirmation = 'Are you sure you want to delete this item?',
+delete@107: deleteErrorMessage = 'Failed to delete item'
+push@134: router.push({ name: createRouteName })
+push@143: router.push({ name: editRouteName, params: { id: String(id) } })
+delete@147: * LEARNING: Get delete confirmation message
+delete@159: * LEARNING: Get delete error message
+delete@171: * LEARNING: Handle delete with confirmation
+delete@172: * WHY: Component needs delete function with confirmation
 ```
 
 ### `src/composables/admin/useEntityMetadata.ts`
@@ -2882,10 +2827,10 @@ push@230: router.push({ name: redirectRouteName })
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@190: if (fieldContext.entityKey === 'blockInstance') return 'blockShapeRef'
-assignProp@191: if (fieldContext.entityKey === 'partInstance') return 'partShapeRef'
-assignProp@202: if (fieldContext.entityKey === 'blockInstance') return 'blockShape' as GlobalEntityKey
-assignProp@203: if (fieldContext.entityKey === 'partInstance') return 'partShape' as GlobalEntityKey
+assignProp@191: if (fieldContext.entityKey === 'blockInstance') return 'blockShapeRef'
+assignProp@192: if (fieldContext.entityKey === 'partInstance') return 'partShapeRef'
+assignProp@203: if (fieldContext.entityKey === 'blockInstance') return 'blockShape' as GlobalEntityKey
+assignProp@204: if (fieldContext.entityKey === 'partInstance') return 'partShape' as GlobalEntityKey
 ```
 
 ### `src/composables/admin/useRelationshipMetadata.ts`
@@ -2899,10 +2844,10 @@ assignProp@203: if (fieldContext.entityKey === 'partInstance') return 'partShape
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@130: return (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') &&
-assignProp@206: config.selectType === RelationshipSelectTypeEnum.DescriptionSelect
-assignProp@236: return config.selectMode === RelationshipSelectModeEnum.Multiple
-assignProp@279: if (config.targetMode === 'property') {
+assignProp@131: return (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') &&
+assignProp@207: config.selectType === RelationshipSelectTypeEnum.DescriptionSelect
+assignProp@237: return config.selectMode === RelationshipSelectModeEnum.Multiple
+assignProp@280: if (config.targetMode === 'property') {
 ```
 
 ### `src/composables/admin/useSelectFieldValue.ts`
@@ -2970,25 +2915,25 @@ assignProp@57: expandedBlockShapes.value = expandedBlockShapes.value.filter(id =
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=19
 
 ```
-assignProp@57: isCreatingBlockShape.value = false
-assignProp@58: newBlockShapeInitialValues.value = null
-assignProp@59: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
-assignProp@66: isCreatingBlockShape.value = false
-assignProp@67: newBlockShapeInitialValues.value = null
-assignProp@68: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
-assignProp@75: isCreatingPartShape.value = false
-assignProp@76: newPartShapeInitialValues.value = null
-assignProp@77: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-assignProp@84: isCreatingPartShape.value = false
-assignProp@85: newPartShapeInitialValues.value = null
-assignProp@86: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-assignProp@98: isCreatingAnnotationType.value = false
-assignProp@99: newAnnotationTypeName.value = ''
-assignProp@100: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
-assignProp@110: isCreatingAnnotationType.value = false
-assignProp@111: newAnnotationTypeName.value = ''
-assignProp@112: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
-assignProp@122: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
+assignProp@58: isCreatingBlockShape.value = false
+assignProp@59: newBlockShapeInitialValues.value = null
+assignProp@60: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
+assignProp@67: isCreatingBlockShape.value = false
+assignProp@68: newBlockShapeInitialValues.value = null
+assignProp@69: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
+assignProp@76: isCreatingPartShape.value = false
+assignProp@77: newPartShapeInitialValues.value = null
+assignProp@78: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+assignProp@85: isCreatingPartShape.value = false
+assignProp@86: newPartShapeInitialValues.value = null
+assignProp@87: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+assignProp@99: isCreatingAnnotationType.value = false
+assignProp@100: newAnnotationTypeName.value = ''
+assignProp@101: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
+assignProp@111: isCreatingAnnotationType.value = false
+assignProp@112: newAnnotationTypeName.value = ''
+assignProp@113: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
+assignProp@123: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
 ```
 
 ### `src/composables/admin/useStatusButtonFields.ts`
@@ -3066,9 +3011,9 @@ assignProp@70: localModelValue.value = Array.isArray(newVal) ? newVal[0] ?? null
 
 ```
 assignProp@81: if (instances.length === 0) {
-assignProp@105: if (times.length === 0) {
-assignProp@130: return appointmentSlots.value.find(s => s.buttonIndex === index) ?? null
-assignProp@138: const slot = appointmentSlots.value.find(s => s.buttonIndex === buttonIndex)
+assignProp@104: if (times.length === 0) {
+assignProp@129: return appointmentSlots.value.find(s => s.buttonIndex === index) ?? null
+assignProp@137: const slot = appointmentSlots.value.find(s => s.buttonIndex === buttonIndex)
 ```
 
 ### `src/composables/booking/useAppointmentTimes.ts`
@@ -3446,17 +3391,17 @@ assignProp@124: if (axiosErr?.response?.status === 409) {
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=11
 
 ```
-assignProp@151: rules.required = required
-assignProp@154: rules.minLength = minLength
-assignProp@157: rules.maxLength = maxLength
-assignProp@160: rules.min = min
-assignProp@163: rules.max = max
-assignProp@166: rules.pattern = pattern instanceof RegExp ? pattern.source : pattern
-assignProp@169: rules.validate = validate
-assignProp@214: const isDisabled = ref(providedDisplayConfig.disabled === true) // Explicit boolean, no default
-assignProp@220: required: providedDisplayConfig.required === true, // Explicit boolean, no default
-assignProp@221: disabled: providedDisplayConfig.disabled === true, // Explicit boolean, no default
-assignProp@222: readOnly: providedDisplayConfig.readOnly === true, // Explicit boolean, no default
+assignProp@152: rules.required = required
+assignProp@155: rules.minLength = minLength
+assignProp@158: rules.maxLength = maxLength
+assignProp@161: rules.min = min
+assignProp@164: rules.max = max
+assignProp@167: rules.pattern = pattern instanceof RegExp ? pattern.source : pattern
+assignProp@170: rules.validate = validate
+assignProp@215: const isDisabled = ref(providedDisplayConfig.disabled === true) // Explicit boolean, no default
+assignProp@221: required: providedDisplayConfig.required === true, // Explicit boolean, no default
+assignProp@222: disabled: providedDisplayConfig.disabled === true, // Explicit boolean, no default
+assignProp@223: readOnly: providedDisplayConfig.readOnly === true, // Explicit boolean, no default
 ```
 
 ### `src/composables/formFields/index.ts`
@@ -4035,6 +3980,12 @@ assignProp@92: showProgress.value = false
 
 - (no matches)
 
+### `src/utils/admin/buildMetadataEntry.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
 ### `src/utils/admin/entityDisplayText.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -4114,6 +4065,12 @@ assignProp@92: showProgress.value = false
 - (no matches)
 
 ### `src/utils/forms/fieldComponentDispatcher.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `src/utils/forms/getFieldKeys.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 

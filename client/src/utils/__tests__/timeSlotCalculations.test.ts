@@ -253,8 +253,8 @@ describe('timeSlotCalculations', () => {
       expect(slots.length).toBeGreaterThan(0)
       // First slot should be 1.5 hours long
       const firstSlot = slots[0]
-      const start = new Date(firstSlot.slotStart)
-      const end = new Date(firstSlot.slotEnd)
+      const start = new Date(firstSlot.startTime)
+      const end = new Date(firstSlot.endTime)
       const slotDuration = (end.getTime() - start.getTime()) / (1000 * 60)
       expect(slotDuration).toBe(90)
     })
@@ -270,18 +270,18 @@ describe('timeSlotCalculations', () => {
       
       // Last slot should end at or before 7:00 PM (19:00)
       const lastSlot = slots[slots.length - 1]
-      const endTime = new Date(lastSlot.slotEnd)
+      const endTime = new Date(lastSlot.endTime)
       const endHour = endTime.getHours()
       expect(endHour).toBeLessThanOrEqual(19)
       
       // Should not have slots that start after 5:00 PM (17:00) for 2-hour duration
       const lateSlots = slots.filter(slot => {
-        const start = new Date(slot.slotStart)
+        const start = new Date(slot.startTime)
         return start.getHours() >= 17
       })
       // All late slots should end at or before 19:00
       lateSlots.forEach(slot => {
-        const end = new Date(slot.slotEnd)
+        const end = new Date(slot.endTime)
         expect(end.getHours()).toBeLessThanOrEqual(19)
       })
     })
@@ -307,8 +307,8 @@ describe('timeSlotCalculations', () => {
       
       // Should not have slots that overlap with busy times
       slots.forEach(slot => {
-        const slotStart = new Date(slot.slotStart)
-        const slotEnd = new Date(slot.slotEnd)
+        const slotStart = new Date(slot.startTime)
+        const slotEnd = new Date(slot.endTime)
         
         busyTimes.forEach(busy => {
           const busyStart = new Date(busy.start)
@@ -341,7 +341,7 @@ describe('timeSlotCalculations', () => {
       expect(slots.length).toBeGreaterThan(0)
       // Should have slots at :00, :15, :30, :45 of each hour
       const firstSlot = slots[0]
-      const start = new Date(firstSlot.slotStart)
+      const start = new Date(firstSlot.startTime)
       expect([0, 15, 30, 45]).toContain(start.getMinutes())
     })
 
@@ -358,8 +358,8 @@ describe('timeSlotCalculations', () => {
       expect(Array.isArray(slots)).toBe(true)
       // Slots should have valid ISO date strings
       slots.forEach(slot => {
-        expect(() => new Date(slot.slotStart)).not.toThrow()
-        expect(() => new Date(slot.slotEnd)).not.toThrow()
+        expect(() => new Date(slot.startTime)).not.toThrow()
+        expect(() => new Date(slot.endTime)).not.toThrow()
       })
     })
 
@@ -377,7 +377,7 @@ describe('timeSlotCalculations', () => {
       // Should have slots for Sunday, Monday, Tuesday
       const uniqueDays = new Set(
         slots.map(slot => {
-          const date = new Date(slot.slotStart)
+          const date = new Date(slot.startTime)
           return date.getDate()
         })
       )
@@ -396,8 +396,8 @@ describe('timeSlotCalculations', () => {
       expect(slots.length).toBeGreaterThan(0)
       // Slots should be 10 minutes long
       const firstSlot = slots[0]
-      const start = new Date(firstSlot.slotStart)
-      const end = new Date(firstSlot.slotEnd)
+      const start = new Date(firstSlot.startTime)
+      const end = new Date(firstSlot.endTime)
       const slotDuration = (end.getTime() - start.getTime()) / (1000 * 60)
       expect(slotDuration).toBe(10)
     })
@@ -416,7 +416,7 @@ describe('timeSlotCalculations', () => {
       expect(Array.isArray(slots)).toBe(true)
       // All slots should end at or before 19:00
       slots.forEach(slot => {
-        const end = new Date(slot.slotEnd)
+        const end = new Date(slot.endTime)
         expect(end.getHours()).toBeLessThanOrEqual(19)
       })
     })

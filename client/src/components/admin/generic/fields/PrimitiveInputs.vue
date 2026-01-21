@@ -17,9 +17,10 @@
       :show-label="showLabel"
     />
     
-    <!-- Boolean Input (renderAs: 'statusButton' or fieldType: 'boolean' without explicit text renderAs) -->
+    <!-- Boolean Input (renderAs: 'statusButton' or fieldType: 'boolean') -->
+    <!-- Note: renderAs can be 'text' for text inputs, but if fieldType is 'boolean', it's a boolean field -->
     <BooleanInput
-      v-else-if="renderAs === 'statusButton' || (fieldType === 'boolean' && renderAs !== 'text')"
+      v-else-if="renderAs === 'statusButton' || fieldType === 'boolean'"
       :field-context="fieldContext"
       :show-label="showLabel"
     />
@@ -61,6 +62,7 @@ import { computed } from 'vue'
 import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useAdmin } from '@/composables/useAdmin'
 import TextInput from './TextInput.vue'
@@ -103,7 +105,8 @@ const entityForMetadata = computed(() => {
     return null
   }
   try {
-    return admin.getEntity(props.fieldContext.entityKey, props.fieldContext.entityId)
+    const entity = admin.getEntity(props.fieldContext.entityKey, props.fieldContext.entityId)
+    return entity ?? null
   } catch {
     return null
   }
@@ -114,7 +117,7 @@ const fetchedMetadata = useEntityMetadata(
   entityForMetadata
 )
 
-const renderAs = computed(() => {
+const renderAs = computed<FieldMetadataEntry['renderAs'] | undefined>(() => {
   const metadata = fetchedMetadata.fieldMetadata.value
   const fieldKeyStr = String(props.fieldContext.fieldKey)
   const meta = metadata[fieldKeyStr]

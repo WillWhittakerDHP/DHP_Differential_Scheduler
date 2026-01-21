@@ -12,7 +12,7 @@ import type { GlobalEntityId } from '@/types/entities'
  */
 export interface FieldDisplayConfig<GE extends GlobalEntityKey, _FieldKey extends GlobalFieldKey<GE>> {
   label: string
-  placeholder: string
+  placeholder?: string
   helpText?: string
   required?: boolean
   disabled?: boolean

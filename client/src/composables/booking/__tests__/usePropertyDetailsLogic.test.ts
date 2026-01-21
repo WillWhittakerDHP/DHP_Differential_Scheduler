@@ -61,7 +61,7 @@ function createPropertyBlock(
     icon: 'home',
     baseSqFt: 0,
     active: true,
-    dependent: false,
+    isDependentInstance: false,
     differential: false,
     orderIndex: 0,
     blockShape: 'Property Type',

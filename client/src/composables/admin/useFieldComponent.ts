@@ -153,7 +153,7 @@ export function useFieldComponent(
    * FIX: Pass reactive entityKeyRef instead of dereferenced value to ensure reactivity
    */
   const fetchedFieldMetadata = useEntityMetadata(
-    entityKeyRef.value as GlobalEntityKey | undefined,
+    entityKeyRef.value ?? 'blockInstance', // Default to blockInstance if undefined
     entity
   )
 

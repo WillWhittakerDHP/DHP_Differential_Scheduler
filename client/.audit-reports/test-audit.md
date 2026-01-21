@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-01-15T22:09:07.148Z
+Generated at: 2026-01-18T15:56:58.377Z
 
 ## Summary
 
-- **Total source files**: 475
+- **Total source files**: 479
 - **Total test files**: 110
-- **Untested source files**: 375
+- **Untested source files**: 379
 - **Orphaned test files**: 9
 - **Coverage**: 21%
 
@@ -38,10 +38,12 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `src/composables/admin/useEntityList.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 | `src/composables/admin/useInstanceSaveHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 | `src/composables/admin/useInstanceTabHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
+| `src/composables/admin/useShapeSaveHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 | `src/utils/blockInstanceUtils.ts` | **5.5** | 4 | 9 | 5 | 2 | 10 |
 | `src/utils/booking/partShapeTimeSlotMapping.ts` | **5.5** | 2 | 9 | 10 | 0 | 3 |
 | `src/composables/admin/usePartInstanceBulkEdit.ts` | **5.4** | 7 | 5 | 5 | 1 | 2 |
 | `src/composables/admin/useAnnotationDisplay.ts` | **5.3** | 7 | 5 | 5 | 0 | 2 |
+| `src/composables/admin/useDragAndDropHelpers.ts` | **5.3** | 5 | 7 | 6 | 0 | 5 |
 | `src/composables/admin/useFieldInputSetup.ts` | **5.3** | 5 | 5 | 9 | 0 | 2 |
 | `src/composables/admin/useInstanceGrouping.ts` | **5.2** | 5 | 5 | 8 | 1 | 2 |
 | `src/composables/admin/useBlockInstanceForm.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
@@ -59,14 +61,12 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `src/composables/admin/useShapeCreation.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useShapeDisplayNames.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useShapeEditModal.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
-| `src/composables/admin/useShapeSaveHandlers.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useTabNavigation.ts` | **5.1** | 5 | 5 | 8 | 0 | 2 |
 | `src/composables/useTimeFormatting.ts` | **5.1** | 4 | 5 | 10 | 0 | 2 |
 | `src/@core/utils/helpers.ts` | **5.0** | 3 | 6 | 10 | 0 | 5 |
 | `src/composables/admin/useAnnotationMetadata.ts` | **5.0** | 5 | 5 | 7 | 1 | 2 |
-| `src/composables/admin/useDragAndDropHelpers.ts` | **5.0** | 5 | 6 | 6 | 0 | 4 |
 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` | **4.9** | 5 | 5 | 4 | 6 | 2 |
-| `src/composables/admin/useAnnotationTypeFiltering.ts` | **4.9** | 6 | 5 | 5 | 0 | 2 |
+| `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | **4.9** | 5 | 5 | 7 | 0 | 2 |
 
 ## Orphaned Test Files (Priority: Medium)
 

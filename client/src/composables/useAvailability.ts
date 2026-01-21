@@ -10,7 +10,9 @@
 import { computed, ref, watch, type Ref, type ComputedRef, unref } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { calculateDurationFromBlockInstances, generateTimeSlots, getCalendarAvailability } from '@/utils/timeSlotCalculations'
+import { calculateDurationFromBlockInstances, getCalendarAvailability } from '@/utils/timeSlotCalculations'
+import { getAvailabilitySettings } from '@/configs/availabilitySettings'
+import { fitTimeSlotsWithAvailability, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
 
 /**
  * useAvailability composable
@@ -69,25 +71,30 @@ export function useAvailability(
         const duration = calculateDurationFromBlockInstances(blockInstances)
 
         // LEARNING: Get calendar availability (busy times)
-        // WHY: Filter out slots that conflict with existing appointments
-        // PATTERN: Use utility function to get busy times (currently returns empty array)
+        // WHY: Mark slots that conflict with existing appointments as unavailable
+        // PATTERN: Use utility function to get busy times from mock/real calendar
         const busyTimes = getCalendarAvailability({
           start: dateRange.start,
           end: dateRange.end
         })
 
-        // LEARNING: Generate time slots for date range (async)
-        // WHY: Creates available time slots for appointment booking
-        // PATTERN: Use async utility function to generate slots, filter busy times
-        // Session 1.4.1: Updated to await async generateTimeSlots
-        const slots = await generateTimeSlots(
-          {
-            start: dateRange.start,
-            end: dateRange.end
-          },
+        // LEARNING: Get availability settings for business hours and increments
+        // WHY: Needed for unified availability manager
+        // PATTERN: Fetch settings asynchronously
+        const settings = await getAvailabilitySettings()
+
+        // LEARNING: Use unified availability manager to generate all slots with availability flags
+        // WHY: Generates ALL slots and marks them as available/busy instead of filtering
+        // PATTERN: Use fitTimeSlotsWithAvailability for unified availability handling
+        const result = fitTimeSlotsWithAvailability({
+          startBoundary: dateRange.start,
+          endBoundary: dateRange.end,
           duration,
-          busyTimes
-        )
+          businessHours: settings.businessHours as BusinessHoursMap,
+          minuteIncrement: settings.minuteIncrement,
+          busyTimes,
+          includeFlags: { onSite: false, clientPresent: false, moveable: false }
+        })
 
         // LEARNING: Future enhancement - apply property-based adjustments
         // WHY: Different properties may require different time allocations
@@ -97,7 +104,10 @@ export function useAvailability(
           // Property adjustments will be applied here in future
         }
 
-        timeSlots.value = slots
+        // LEARNING: Return all slots with availability flags
+        // WHY: UI can render busy slots as inactive instead of hiding them
+        // PATTERN: Use slots from availability manager result
+        timeSlots.value = result.slots
       } catch (error) {
         // LEARNING: Handle calculation errors gracefully
         // WHY: Prevents crashes if calculation fails

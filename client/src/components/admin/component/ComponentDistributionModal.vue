@@ -168,12 +168,17 @@ async function handleConfirm() {
   
   try {
     if (selectedStrategy.value === 'manual') {
-      // Build distribution values from manual inputs
-      const distributionValues: Record<GlobalEntityId, Record<string, unknown>> = {}
-      preview.value.forEach((item) => {
-        distributionValues[item.componentId] = distributionValues[item.componentId] ?? {}
-        distributionValues[item.componentId][props.propertyKey] = item.newValue
-      })
+      // LEARNING: Use reduce instead of forEach to build nested object
+      // WHY: Functional approach avoids mutations, aligns with workspace rules
+      // PATTERN: Reduce array to nested object structure
+      const distributionValues = preview.value.reduce<Record<GlobalEntityId, Record<string, unknown>>>(
+        (acc, item) => {
+          acc[item.componentId] = acc[item.componentId] ?? {}
+          acc[item.componentId][props.propertyKey] = item.newValue
+          return acc
+        },
+        {}
+      )
 
       emit('confirm', selectedStrategy.value, distributionValues)
     } else {

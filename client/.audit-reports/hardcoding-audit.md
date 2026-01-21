@@ -13,8 +13,8 @@ Exception handling:
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): `description`
-- Total files scanned: **396**
-- **Requiring review: 478**
+- Total files scanned: **400**
+- **Requiring review: 481**
 - Allowed (with justification): 5 (inline: 0, pattern: 5, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
@@ -22,7 +22,7 @@ Exception handling:
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/utils/forms/fieldLocationDispatcher.ts` | 44 | 0 | 0 | 11 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 38 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
+| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | `src/components/booking/SelectionCardGroup.vue` | 24 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/selectableDisplayConfig.ts` | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/logger.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
@@ -42,15 +42,15 @@ Exception handling:
 | `src/views/admin/tabs/components/AppointmentsTable.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/admin/entityDisplayText.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/wizardSteps.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/BusinessControlsTab.vue` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useAnnotationsFieldViewModel.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/MetadataEditModal.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCard.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/_archived/useFieldMetadata.ts` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 | `src/configs/field/form/_archived/selectableFieldConfig.ts` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/layouts/components/NavBarNotifications.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -72,7 +72,7 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 ### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
 
-- score: **38**
+- score: **34**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
@@ -136,7 +136,7 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `src/components/admin/MetadataEditModal.vue`
+### `src/components/admin/generic/EntityCard.vue`
 
 - score: **6**
 
@@ -210,47 +210,43 @@ caseString@199: case 'hidden':
 
 ### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=36
-- requiring review: 37, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=32
+- requiring review: 33, allowed: 0
 
 ```
-magicLabel@59: {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
-magicLabel@78: {{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}
-magicLabel@92: label="Override inherited configuration"
-magicLabel@101: label="Visibility"
-magicLabel@104: placeholder="Not Configured"
-magicLabel@117: placeholder="Not Configured"
-magicLabel@130: placeholder="Not Configured"
-magicLabel@138: label="Display Order"
-magicLabel@142: placeholder="Not Configured"
-magicLabel@151: label="Render As"
-magicLabel@154: placeholder="Not Configured"
-magicLabel@164: label="Status Button Color"
-magicLabel@167: placeholder="Not Configured"
-inlineLabelMap@179: placeholder='{"targetMode": "relationship", "targetKey": "...", "candidateChildKey": "..."}'
-magicLabel@197: label="Enable Bulk Edit"
-magicLabel@328: if (props.entityKey === 'blockShape') return 'Block Shapes'
-magicLabel@329: if (props.entityKey === 'partShape') return 'Part Shapes'
-magicLabel@330: if (props.entityKey === 'blockInstance') return 'Block Instance'
-magicLabel@331: if (props.entityKey === 'partInstance') return 'Part Instance'
-magicLabel@451: { title: 'Not Configured', value: 'notConfigured' },
-magicLabel@452: { title: 'Title Row', value: 'titleRow' },
-magicLabel@453: { title: 'Static As Title', value: 'staticAsTitle' },
-magicLabel@454: { title: 'Expanded Direct', value: 'expandedDirect' },
-magicLabel@455: { title: 'Expanded Panel', value: 'expandedPanel' },
-magicLabel@461: { title: 'Stacked', value: 'stacked' },
-magicLabel@466: { title: 'Relationships', value: 'relationships' },
-magicLabel@467: { title: 'Annotations', value: 'annotations' },
-magicLabel@475: { title: 'Multiselect', value: 'multiselect' },
-magicLabel@476: { title: 'Reference', value: 'reference' },
-magicLabel@477: { title: 'Status Button', value: 'statusButton' },
-magicLabel@478: { title: 'Icon Select', value: 'iconSelect' },
-magicLabel@479: { title: 'Parts Collection', value: 'partsCollection' },
-magicLabel@483: { title: 'Default', value: 'default' },
-magicLabel@484: { title: 'Success', value: 'success' },
-magicLabel@485: { title: 'Primary', value: 'primary' },
-magicLabel@487: { title: 'Warning', value: 'warning' },
-magicLabel@489: { title: 'Secondary', value: 'secondary' },
+magicLabel@52: {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
+magicLabel@71: {{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}
+magicLabel@85: label="Override inherited configuration"
+magicLabel@94: label="Visibility"
+magicLabel@97: placeholder="Not Configured"
+magicLabel@110: placeholder="Not Configured"
+magicLabel@123: placeholder="Not Configured"
+magicLabel@131: label="Display Order"
+magicLabel@135: placeholder="Not Configured"
+magicLabel@144: label="Render As"
+magicLabel@147: placeholder="Not Configured"
+magicLabel@157: label="Status Button Color"
+magicLabel@160: placeholder="Not Configured"
+inlineLabelMap@172: placeholder='{"targetMode": "relationship", "targetKey": "...", "candidateChildKey": "..."}'
+magicLabel@190: label="Enable Bulk Edit"
+magicLabel@438: { title: 'Not Configured', value: 'notConfigured' },
+magicLabel@439: { title: 'Title Row', value: 'titleRow' },
+magicLabel@440: { title: 'Static As Title', value: 'staticAsTitle' },
+magicLabel@441: { title: 'Expanded Direct', value: 'expandedDirect' },
+magicLabel@442: { title: 'Expanded Panel', value: 'expandedPanel' },
+magicLabel@448: { title: 'Stacked', value: 'stacked' },
+magicLabel@453: { title: 'Relationships', value: 'relationships' },
+magicLabel@454: { title: 'Annotations', value: 'annotations' },
+magicLabel@462: { title: 'Multiselect', value: 'multiselect' },
+magicLabel@463: { title: 'Reference', value: 'reference' },
+magicLabel@464: { title: 'Status Button', value: 'statusButton' },
+magicLabel@465: { title: 'Icon Select', value: 'iconSelect' },
+magicLabel@466: { title: 'Parts Collection', value: 'partsCollection' },
+magicLabel@470: { title: 'Default', value: 'default' },
+magicLabel@471: { title: 'Success', value: 'success' },
+magicLabel@472: { title: 'Primary', value: 'primary' },
+magicLabel@474: { title: 'Warning', value: 'warning' },
+magicLabel@476: { title: 'Secondary', value: 'secondary' },
 ```
 
 ### `src/components/booking/SelectionCardGroup.vue`
@@ -328,24 +324,24 @@ caseString@67: case 'custom':
 - requiring review: 18, allowed: 0
 
 ```
-magicLabel@171: showError('Please select at least one property type')
-magicLabel@205: : 'Please complete all required fields'
-magicLabel@214: showError('Please complete all required fields before continuing')
-magicLabel@221: showError('Please complete all required fields before continuing')
-magicLabel@224: showError('Please complete all required fields before continuing')
-magicLabel@296: // PATTERN: Map appointments to items array, prepend "Random Appointment" option
-magicLabel@298: { text: 'Random Appointment', value: 'random' },
-magicLabel@365: showError('No appointments available to load')
-magicLabel@376: showError('Appointment not found')
-magicLabel@382: showError('Unable to load appointment data')
-magicLabel@425: success('Appointment loaded successfully')
-magicLabel@429: const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
-magicLabel@441: showError('No appointment loaded')
-magicLabel@456: success('Appointment updated successfully')
-magicLabel@458: const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
-magicLabel@498: success('Wizard reset successfully')
-magicLabel@554: label="Load Appointment"
-magicLabel@596: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
+magicLabel@169: showError('Please select at least one property type')
+magicLabel@202: : 'Please complete all required fields'
+magicLabel@210: showError('Please complete all required fields before continuing')
+magicLabel@216: showError('Please complete all required fields before continuing')
+magicLabel@218: showError('Please complete all required fields before continuing')
+magicLabel@290: // PATTERN: Map appointments to items array, prepend "Random Appointment" option
+magicLabel@292: { text: 'Random Appointment', value: 'random' },
+magicLabel@359: showError('No appointments available to load')
+magicLabel@370: showError('Appointment not found')
+magicLabel@376: showError('Unable to load appointment data')
+magicLabel@419: success('Appointment loaded successfully')
+magicLabel@423: const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
+magicLabel@435: showError('No appointment loaded')
+magicLabel@450: success('Appointment updated successfully')
+magicLabel@452: const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
+magicLabel@492: success('Wizard reset successfully')
+magicLabel@548: label="Load Appointment"
+magicLabel@590: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
 ```
 
 ### `src/utils/iconMapper.ts`
@@ -560,16 +556,16 @@ magicLabel@89: placeholder: "Rate Over Base Fee",
 - requiring review: 10, allowed: 0
 
 ```
-magicLabel@61: * - Removed 'Quote Mode' column (replaced by 'quoted' status)
-magicLabel@62: * - Added 'Scheduled By' column
-magicLabel@65: { title: 'Property', key: 'propertyVersionId', sortable: true },
-magicLabel@66: { title: 'Property Type', key: 'propertyTypes', sortable: false },
-magicLabel@69: { title: 'Scheduled By', key: 'scheduledById', sortable: true },
-magicLabel@72: { title: 'Actions', key: 'actions', sortable: false },
-magicLabel@199: label="Scheduled By"
-magicLabel@233: label="Quote Mode"
-magicLabel@240: label="Selected Date"
-magicLabel@259: No appointments found. Click "Create Appointment" to add one.
+magicLabel@60: * - Removed 'Quote Mode' column (replaced by 'quoted' status)
+magicLabel@61: * - Added 'Scheduled By' column
+magicLabel@64: { title: 'Property', key: 'propertyVersionId', sortable: true },
+magicLabel@65: { title: 'Property Type', key: 'propertyTypes', sortable: false },
+magicLabel@68: { title: 'Scheduled By', key: 'scheduledById', sortable: true },
+magicLabel@71: { title: 'Actions', key: 'actions', sortable: false },
+magicLabel@198: label="Scheduled By"
+magicLabel@232: label="Quote Mode"
+magicLabel@239: label="Selected Date"
+magicLabel@258: No appointments found. Click "Create Appointment" to add one.
 ```
 
 ### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts`
@@ -604,6 +600,23 @@ magicLabel@66: placeholder: "Allow Multiple",
 magicLabel@74: placeholder: "Requires Unit Number",
 magicLabel@82: placeholder: "Differential",
 magicLabel@90: placeholder: "Dependent",
+```
+
+### `src/utils/admin/entityDisplayText.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
+- requiring review: 9, allowed: 0
+
+```
+magicLabel@9: blockShape: 'BlockShape',
+magicLabel@10: partShape: 'PartShape',
+magicLabel@11: blockInstance: 'BlockInstance',
+magicLabel@12: partInstance: 'PartInstance',
+magicLabel@17: * WHY: Provides plural labels for admin panels (e.g., "Block Shapes" vs "Block Shape")
+magicLabel@21: blockShape: 'Block Shapes',
+magicLabel@22: partShape: 'Part Shapes',
+magicLabel@23: blockInstance: 'Block Instance',
+magicLabel@24: partInstance: 'Part Instance',
 ```
 
 ### `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts`
@@ -684,18 +697,18 @@ magicLabel@79: label: "Allow Multiple",
 magicLabel@88: label: "Requires Unit Number",
 ```
 
-### `src/components/admin/MetadataEditModal.vue`
+### `src/components/admin/generic/EntityCard.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
 - requiring review: 6, allowed: 0
 
 ```
-magicLabel@102: const entityTypeLabel = props.entityKey === 'blockShape' ? 'Block Shape'
-magicLabel@103: : props.entityKey === 'partShape' ? 'Part Shape'
-magicLabel@104: : props.entityKey === 'blockInstance' ? 'Block Instance'
-magicLabel@105: : 'Part Instance'
-magicLabel@124: showError('Editor not available')
-magicLabel@136: let errorMessage = 'Failed to save metadata configuration'
+magicLabel@178: const logger = createLogger('EntityCard')
+magicLabel@205: logger.debug('Form initialized', {
+magicLabel@385: logger.debug('Fields needing contexts', {
+magicLabel@442: logger.debug('Fields missing contexts', {
+magicLabel@600: logger.debug('Save triggered', {
+magicLabel@628: logger.debug('Form reset after save', { entityId: props.entity.id })
 ```
 
 ### `src/composables/_archived/useFieldMetadata.ts`
@@ -889,18 +902,6 @@ magicLabel@41: { type: 'navItem', icon: 'tabler-file-dollar', title: 'Billing Pl
 magicLabel@43: { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricing', to: { name: 'pages-pricing' } },
 ```
 
-### `src/utils/admin/entityDisplayText.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@5: ? 'BlockShape'
-magicLabel@7: ? 'PartShape'
-magicLabel@9: ? 'BlockInstance'
-magicLabel@10: : 'PartInstance'
-```
-
 ### `src/utils/booking/confirmationStepData.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
@@ -942,9 +943,9 @@ magicLabel@160: label="Annotation Text"
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@131: const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
-magicLabel@133: const partShapeName = partShape?.name || 'PartShape'
-magicLabel@196: notifyError('Failed to link PartInstance to BlockInstance')
+magicLabel@130: const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
+magicLabel@132: const partShapeName = partShape?.name || 'PartShape'
+magicLabel@195: notifyError('Failed to link PartInstance to BlockInstance')
 ```
 
 ### `src/composables/booking/useAvailabilityValidation.ts`
@@ -1050,9 +1051,9 @@ magicLabel@104: error.value = err instanceof Error ? err.message : 'Failed to sa
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@286: : 'No Cascades'
-magicLabel@306: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@359: <!-- LEARNING: For new instances, show static "New BlockInstance" text -->
+magicLabel@283: : 'No Cascades'
+magicLabel@303: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+magicLabel@356: <!-- LEARNING: For new instances, show static "New BlockInstance" text -->
 ```
 
 ### `src/components/admin/component/ComponentDistributionModal.vue`
@@ -1065,14 +1066,24 @@ magicLabel@28: label="Distribution Strategy"
 magicLabel@132: { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTIONAL },
 ```
 
+### `src/components/admin/MetadataEditModal.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@125: showError('Editor not available')
+magicLabel@137: let errorMessage = 'Failed to save metadata configuration'
+```
+
 ### `src/components/booking/steps/AvailabilityStep.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@434: aria-label="Select appointment date"
-magicLabel@619: // LEARNING: Hide calendar header (removes "SELECT DATE" text and thick bar)
+magicLabel@352: aria-label="Select appointment date"
+magicLabel@537: // LEARNING: Hide calendar header (removes "SELECT DATE" text and thick bar)
 ```
 
 ### `src/components/booking/types/selectionCardTypes.ts`
@@ -1101,8 +1112,8 @@ magicLabel@115: if (!payload.propertyVersionId && !payload.propertyId) return 'P
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@155: showError('No changes to apply')
-magicLabel@180: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
+magicLabel@150: showError('No changes to apply')
+magicLabel@172: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
 ```
 
 ### `src/composables/admin/useInstanceCreation.ts`
@@ -1145,22 +1156,14 @@ magicLabel@18: placeholder: "Enter name",
 magicLabel@26: placeholder: "This Field Should Be Hidden",
 ```
 
-### `src/components/admin/generic/DynamicForm.vue`
+### `src/utils/forms/getFieldKeys.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@171: // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
-```
-
-### `src/components/admin/generic/EntityFormContent.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
 
 ```
-magicLabel@95: // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
+magicLabel@14: * WHY: Prevents "Unknown input type" warnings and ensures proper field handling
+magicLabel@58: // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
 ```
 
 ### `src/components/admin/generic/fields/BooleanInput.vue`
@@ -1178,7 +1181,7 @@ magicLabel@60: // LEARNING: Handle inverted logic for constituable field (displa
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@293: : 'Unknown error - check field metadata configuration'
+magicLabel@294: : 'Unknown error - check field metadata configuration'
 ```
 
 ### `src/components/admin/generic/fields/IconInput.vue`
@@ -1295,7 +1298,7 @@ magicLabel@188: showError('Please fix form errors before saving')
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@106: deleteErrorMessage = 'Failed to delete item'
+magicLabel@107: deleteErrorMessage = 'Failed to delete item'
 ```
 
 ### `src/composables/admin/usePartInstanceForm.ts`
@@ -1322,7 +1325,7 @@ magicLabel@134: // WHY: Prevents "The number of enabled nodes does not match the
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@97: success('Annotation type created successfully')
+magicLabel@98: success('Annotation type created successfully')
 ```
 
 ### `src/composables/booking/useAppointmentSlots.ts`

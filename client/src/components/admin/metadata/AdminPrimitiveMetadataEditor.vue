@@ -22,14 +22,7 @@
       </p>
     </div>
 
-    <VAlert
-      v-if="error"
-      type="error"
-      variant="tonal"
-      class="mb-4"
-    >
-      {{ error.message }}
-    </VAlert>
+    <!-- Note: error is always null from useEntityMetadata (synchronous metadata) -->
 
     <div v-if="isLoading" class="text-center pa-4">
       <VProgressCircular indeterminate color="primary" />
@@ -211,9 +204,8 @@
 <script setup lang="ts">
 import { computed, ref, reactive } from 'vue'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
-import { useAdminPrimitiveMetadataMutations } from '@/composables/admin/useAdminPrimitiveMetadataMutations'
-import { useAdminRelationshipMetadataMutations } from '@/composables/admin/useAdminRelationshipMetadataMutations'
-import { useRelationshipMetadata } from '@/composables/admin/useRelationshipMetadata'
+import { useAdminMetadataMutations } from '@/composables/admin/useAdminMetadataMutations'
+import { getEntityTypeLabel } from '@/utils/admin/entityDisplayText'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -226,13 +218,12 @@ import {
   PART_INSTANCE_GLOBAL_CONFIG_ID,
   BLOCK_INSTANCE_GLOBAL_CONFIG_ID
 } from '@/utils/entities/entityTypeMapping'
-import { useAdminConfig } from '@/composables/useAdminConfig'
-import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 
 interface Props {
   entityKey: GlobalEntityKey
   entity: GlobalEntity<GlobalEntityKey>
   mode: 'global' | 'instanceOverride'
+  blockShapeRef?: string  // Optional - BlockShape ID for BlockShape-specific instance metadata
 }
 
 interface Emits {
@@ -242,8 +233,6 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-// Get admin config to access all possible field keys
-const adminConfig = useAdminConfig()
 
 // Get entity type and ID for metadata lookup
 const entityType = computed<EntityMetadataType | null>(() => {
@@ -276,29 +265,41 @@ const entityId = computed<string | null>(() => {
   return getMetadataEntityId(props.entityKey, props.entity)
 })
 
-// LEARNING: Create entity for metadata fetch that uses sentinel UUID in global mode
-// WHY: useEntityMetadata needs an entity object, but we want to query sentinel UUID in global mode
-// PATTERN: Create minimal entity with sentinel UUID when mode is 'global'
-const entityForMetadata = computed(() => {
-  if (props.mode === 'global' && entityId.value) {
-    // Create a minimal entity with the sentinel UUID
-    return {
-      id: entityId.value,
-      entityKey: props.entityKey,
-      name: ''
-    } as GlobalEntity<typeof props.entityKey>
-  }
-  return props.entity
-})
-
-// Fetch metadata using unified composable
-const { fieldMetadata, isLoading, error, refetch: refetchMetadata } = useEntityMetadata(
+// LEARNING: Use useEntityMetadata to get merged metadata (primitives + relationships) for display
+// WHY: Should display all metadata for visibility, matches EntityCard pattern
+// PATTERN: Use useEntityMetadata which calls getMetadata() that hydrates metadata
+// NOTE: Dehydration happens in mutations before save to ensure only primitives are saved
+const { fieldMetadata, isLoading } = useEntityMetadata(
   props.entityKey,
-  entityForMetadata
+  computed(() => {
+    // Create entity for metadata fetch that uses sentinel UUID in global mode
+    if (props.mode === 'global' && entityId.value) {
+      // LEARNING: Include blockShapeRef in entity for BlockShape-specific instance metadata
+      // WHY: getMetadata() extracts blockShapeRef from entity to look up BlockShape-specific metadata
+      // PATTERN: Include blockShapeRef when provided, even in global mode
+      const baseEntity = {
+        id: entityId.value,
+        entityKey: props.entityKey,
+        name: ''
+      } as GlobalEntity<typeof props.entityKey>
+      
+      // For blockInstance with blockShapeRef, include it in the entity
+      if (props.entityKey === 'blockInstance' && props.blockShapeRef) {
+        (baseEntity as GlobalEntity<'blockInstance'>).blockShapeRef = props.blockShapeRef
+      }
+      
+      return baseEntity
+    }
+    return props.entity
+  })
 )
 
-// Mutations composable for saving/deleting
-const { saveFieldRendering, deleteFieldOverride, isSaving } = useAdminPrimitiveMetadataMutations()
+// Mutations composables for saving/deleting (both primitive and relationship)
+// LEARNING: Editor displays merged metadata (primitives + relationships), so needs both mutations
+// LEARNING: Use unified mutations (no routing logic needed)
+// WHY: Backend determines metadataType by checking RELATIONSHIP_KEYS - matches entity pattern
+// PATTERN: Single mutation accepts all fieldKeys, backend routes based on type
+const { saveFieldMetadata, deleteFieldMetadata, isSaving } = useAdminMetadataMutations()
 
 // Track pending changes (for instance override mode)
 const pendingOverrides = ref<Set<string>>(new Set())
@@ -323,13 +324,12 @@ const availableFields = computed(() => {
   return Array.from(allKeys).sort()
 })
 
+// LEARNING: Use config-driven entity type label
+// WHY: Eliminates entityKey branching (if/else chain) - single source of truth
+// PATTERN: Use shared utility function instead of hardcoded if statements
 // Entity type label for display
 const entityTypeLabel = computed(() => {
-  if (props.entityKey === 'blockShape') return 'Block Shapes'
-  if (props.entityKey === 'partShape') return 'Part Shapes'
-  if (props.entityKey === 'blockInstance') return 'Block Instance'
-  if (props.entityKey === 'partInstance') return 'Part Instance'
-  return props.entityKey
+  return getEntityTypeLabel(props.entityKey)
 })
 
 // Get field metadata entry
@@ -420,16 +420,52 @@ async function handleSave() {
   }
 
   try {
+    // LEARNING: Debug logging to trace save flow
+    // WHY: Help diagnose why saves aren't persisting
+    console.log('[AdminPrimitiveMetadataEditor] Starting save:', {
+      entityType: entityType.value,
+      entityId: entityId.value,
+      blockShapeRef: props.blockShapeRef || null,
+      pendingChangesCount: Object.keys(pendingChanges).length,
+      pendingChanges: Object.keys(pendingChanges),
+      pendingDeletesCount: pendingDeletes.value.size
+    })
+    
     // Save pending changes
+    // LEARNING: Use unified mutation - backend routes based on fieldKey type
+    // WHY: Matches entity pattern - mutations accept all fields, backend routes based on type
+    // PATTERN: Single mutation call, no routing logic needed
     for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
       const existingMeta = getFieldMetadata(fieldKey)
-      await saveFieldRendering(entityType.value, entityId.value, fieldKey, updates, existingMeta)
+      console.log('[AdminPrimitiveMetadataEditor] Saving field:', {
+        fieldKey,
+        updates,
+        hasExistingMeta: !!existingMeta,
+        existingMeta
+      })
+      
+      await saveFieldMetadata({
+        entityType: entityType.value,
+        entityId: entityId.value,
+        fieldKey,
+        renderingUpdates: updates,
+        existingMetadata: existingMeta,
+        blockShapeRef: props.blockShapeRef || null
+      })
     }
 
     // Delete pending deletes (instanceOverride mode only)
+    // LEARNING: Use unified mutation - backend routes based on fieldKey type
+    // WHY: Matches entity pattern - mutations accept all fields, backend routes based on type
+    // PATTERN: Single mutation call, no routing logic needed
     if (props.mode === 'instanceOverride') {
       for (const fieldKey of pendingDeletes.value) {
-        await deleteFieldOverride(entityType.value, entityId.value, fieldKey)
+        await deleteFieldMetadata({
+          entityType: entityType.value,
+          entityId: entityId.value,
+          fieldKey,
+          blockShapeRef: props.blockShapeRef || null
+        })
       }
     }
 
