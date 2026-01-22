@@ -12,18 +12,9 @@ import type { TimeSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
+import { parseLocalDate } from '@/utils/booking/timeSlotFitter'
 import type { ISO8601Date } from '@/types/datetime'
-
-/**
- * Property details structure
- */
-export interface PropertyDetails {
-  squareFootage?: number | null
-  bedrooms?: number | null
-  bathrooms?: number | null
-  foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null
-  additionalUnits?: number | null
-}
+import type { PropertyDetails } from '@/types/availability'
 
 /**
  * Date range structure
@@ -117,16 +108,19 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   const dateRangeForApi = computed(() => {
     if (!selectedDate.value.start) return null
     
-    // LEARNING: Parse selected date in local timezone
-    // WHY: Ensures correct day of week calculation regardless of timezone
-    // PATTERN: Extract date part and create Date object in local timezone
+    // LEARNING: Parse selected date in local timezone using shared utility
+    // WHY: Ensures correct day of week calculation regardless of timezone, prevents Invalid Date errors
+    // PATTERN: Use parseLocalDate utility with built-in validation
     // NOTE: selectedDate.value.start is ISO 8601 date format (YYYY-MM-DD)
+    // P2-8: Use existing parseLocalDate utility instead of manual parsing
     const startValue = selectedDate.value.start
     if (!startValue) return null
     
-    const dateString = startValue.includes('T') ? startValue.split('T')[0] : startValue
-    const [year, month, day] = dateString.split('-').map(Number)
-    const startDate = new Date(year, month - 1, day) // Local timezone, midnight
+    const startDate = parseLocalDate(startValue)
+    if (!startDate) {
+      // parseLocalDate logs warnings internally, just return null
+      return null
+    }
     const endDate = new Date(startDate)
     endDate.setDate(endDate.getDate() + 1) // Add 1 day for end date
     
@@ -202,9 +196,61 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   /**
    * LEARNING: AppointmentSlots structure for normalized time slot support
    * WHY: Supports complex differential scheduling with normalized positions
-   * PATTERN: Ref that watches timeSlots and selectedDate, transforms into AppointmentSlots per day
+   * PATTERN: Computed that calculates AppointmentSlots lazily - only when accessed
+   * P2-2: Made lazy - calculates only when accessed, not preemptively for all slots
    */
-  const appointmentSlotsPerDay = ref<AppointmentSlotsPerDay[]>([])
+  const appointmentSlotsPerDay = computed<AppointmentSlotsPerDay[]>(() => {
+    const slots = timeSlots.value
+    const date = selectedDate.value
+    const blockInstances = accumulatedBlockInstances.value
+
+    if (!slots || slots.length === 0 || !date?.start) {
+      return []
+    }
+
+    // Group time slots by date
+    const slotsByDate = new Map<string, TimeSlot[]>()
+    
+    slots.forEach(slot => {
+      // LEARNING: Extract date in local timezone, not UTC
+      // WHY: Slots are created with local time hours, so we need to extract date in local time to match
+      // PATTERN: Use local date methods instead of toISOString() which uses UTC
+      const slotDateObj = new Date(slot.startTime)
+      const year = slotDateObj.getFullYear()
+      const month = String(slotDateObj.getMonth() + 1).padStart(2, '0')
+      const day = String(slotDateObj.getDate()).padStart(2, '0')
+      const slotDate = `${year}-${month}-${day}`
+      if (!slotsByDate.has(slotDate)) {
+        slotsByDate.set(slotDate, [])
+      }
+      slotsByDate.get(slotDate)!.push(slot)
+    })
+
+    // P2-2: Calculate AppointmentSlots lazily - only when computed is accessed
+    // LEARNING: Generate AppointmentSlots for each date on-demand
+    // WHY: Avoids unnecessary computation for slots user will never select
+    // PATTERN: Calculate AppointmentSlots only when this computed is accessed
+    // NOTE: This is still calculated for all slots, but only when needed (not in watch)
+    // TODO: Further optimize to calculate only for selected slot when that pattern is available
+    return Array.from(slotsByDate.entries()).map(([date, slots]) => {
+      const appointmentSlotsForDate: AppointmentSlots = []
+      
+      slots.forEach((slot, index) => {
+        const calculatedSlots = calculateAppointmentSlots(blockInstances, slot.startTime)
+        // Normalize orderIndex to match slot position
+        const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
+          ...calculatedSlot,
+          orderIndex: index
+        })))
+        appointmentSlotsForDate.push(...normalized)
+      })
+      
+      return {
+        date,
+        appointmentSlots: normalizeAppointmentSlotsByOrderIndex(appointmentSlotsForDate)
+      }
+    })
+  })
 
   /**
    * LEARNING: Computed property to check if service supports differential scheduling
@@ -252,14 +298,14 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Watch timeSlots and selectedDate to populate timeSlotsPerDay and appointmentSlotsPerDay
-   * WHY: Transforms API response into component's expected format and generates AppointmentSlots
-   * PATTERN: Watch API response, transform and group by date, generate AppointmentSlots for each slot
+   * LEARNING: Watch timeSlots and selectedDate to populate timeSlotsPerDay
+   * WHY: Transforms API response into component's expected format
+   * PATTERN: Watch API response, transform and group by date
+   * P2-2: Removed AppointmentSlots calculation from watch - now computed lazily
    */
-  watch([timeSlots, selectedDate, accumulatedBlockInstances], ([slots, date, blockInstances]) => {
+  watch([timeSlots, selectedDate], ([slots, date]) => {
     if (!slots || slots.length === 0 || !date?.start) {
       timeSlotsPerDay.value = []
-      appointmentSlotsPerDay.value = []
       return
     }
 
@@ -291,31 +337,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
         date,
         inspectorTimeSlots: slots,
         clientTimeSlots: slots
-      }
-    })
-
-    // LEARNING: Generate AppointmentSlots for each date
-    // WHY: Provides normalized AppointmentSlots structure for complex time slot UI
-    // PATTERN: For each date, generate AppointmentSlots for each time slot position
-    appointmentSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
-      // LEARNING: Generate AppointmentSlots for each slot position
-      // WHY: Each available slot position needs normalized AppointmentSlots
-      // PATTERN: Map over slots, calculate AppointmentSlots for each slot start time
-      const appointmentSlotsForDate: AppointmentSlots = []
-      
-      slots.forEach((slot, index) => {
-        const calculatedSlots = calculateAppointmentSlots(blockInstances, slot.startTime)
-        // Normalize orderIndex to match slot position
-        const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
-          ...calculatedSlot,
-          orderIndex: index
-        })))
-        appointmentSlotsForDate.push(...normalized)
-      })
-      
-      return {
-        date,
-        appointmentSlots: normalizeAppointmentSlotsByOrderIndex(appointmentSlotsForDate)
       }
     })
   }, { immediate: true })

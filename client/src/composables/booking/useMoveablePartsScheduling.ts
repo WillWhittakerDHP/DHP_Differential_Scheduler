@@ -11,7 +11,7 @@ import { computed, ref, watchEffect, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
 import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/types/moveableScheduling'
-import { fitTimeSlots, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
+import { fitAvailableTimeSlots, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
 
@@ -131,7 +131,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
       const settings = await getAvailabilitySettings()
       
       // Fit moveable work into available time
-      const result = fitTimeSlots({
+      const result = fitAvailableTimeSlots({  // P3-6: Renamed for clarity
         startBoundary: innerBoundary,
         endBoundary: outerBoundary,
         duration,

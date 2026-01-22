@@ -66,6 +66,34 @@ export interface AvailabilitySettings {
 }
 
 /**
+ * Convert business hours from API format to AvailabilitySettings format
+ * LEARNING: Converts HH:mm format to RFC3339 format for all days
+ * WHY: Eliminates duplicate conversion logic repeated 7 times
+ * PATTERN: Map over all days (0-6), convert each day's hours
+ * P2-4: Extracted duplicate business hours conversion logic
+ * 
+ * @param apiHours - Business hours from API in HH:mm format
+ * @param defaultStart - Default start time if not provided (default: '09:00')
+ * @param defaultEnd - Default end time if not provided (default: '19:00')
+ * @returns Business hours in AvailabilitySettings format (RFC3339)
+ */
+function convertBusinessHoursFromApi(
+  apiHours: Record<string, { start: string; end: string }>,
+  defaultStart: string = '09:00',
+  defaultEnd: string = '19:00'
+): AvailabilitySettings['businessHours'] {
+  const days: (0 | 1 | 2 | 3 | 4 | 5 | 6)[] = [0, 1, 2, 3, 4, 5, 6]
+  
+  return days.reduce((acc, day) => {
+    acc[day] = {
+      start: businessHoursTimeToRfc3339(apiHours[String(day)]?.start || defaultStart),
+      end: businessHoursTimeToRfc3339(apiHours[String(day)]?.end || defaultEnd)
+    }
+    return acc
+  }, {} as AvailabilitySettings['businessHours'])
+}
+
+/**
  * Default availability settings
  * LEARNING: Fallback defaults matching server-side defaultAvailabilitySettings
  * WHY: Provides working configuration if API call fails or no settings exist in database
@@ -109,10 +137,12 @@ let cachedSettings: CacheEntry | null = null
  * LEARNING: Configurable via environment variable
  * WHY: Different TTL for dev (short) vs production (longer)
  * PATTERN: Environment-based configuration
+ * P3-2: Extracted magic number to constant
  */
+const DEFAULT_CACHE_TTL_MINUTES = 5
 const CACHE_TTL_MS = import.meta.env.VITE_AVAILABILITY_CACHE_TTL 
   ? Number(import.meta.env.VITE_AVAILABILITY_CACHE_TTL) 
-  : 5 * 60 * 1000  // Default: 5 minutes
+  : DEFAULT_CACHE_TTL_MINUTES * 60 * 1000  // Default: 5 minutes
 
 /**
  * Check if cached settings are still valid
@@ -177,40 +207,12 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         rawSettings.minuteIncrement &&
         rawSettings.leadTime !== undefined
       ) {
+        // P2-4: Use shared business hours conversion function
         // LEARNING: Convert business hours from HH:mm (API format) to RFC3339 (internal format)
         // WHY: API returns HH:mm, but we store as RFC3339 internally
-        // PATTERN: Map over business hours and convert each time string
+        // PATTERN: Use convertBusinessHoursFromApi to eliminate duplicate conversion logic
         const convertedSettings: AvailabilitySettings = {
-          businessHours: {
-            0: {
-              start: businessHoursTimeToRfc3339(rawSettings.businessHours['0']?.start || '09:00'),
-              end: businessHoursTimeToRfc3339(rawSettings.businessHours['0']?.end || '19:00')
-            },
-            1: {
-              start: businessHoursTimeToRfc3339(rawSettings.businessHours['1']?.start || '09:00'),
-              end: businessHoursTimeToRfc3339(rawSettings.businessHours['1']?.end || '19:00')
-            },
-            2: {
-              start: businessHoursTimeToRfc3339(rawSettings.businessHours['2']?.start || '09:00'),
-              end: businessHoursTimeToRfc3339(rawSettings.businessHours['2']?.end || '19:00')
-            },
-            3: {
-              start: businessHoursTimeToRfc3339(rawSettings.businessHours['3']?.start || '09:00'),
-              end: businessHoursTimeToRfc3339(rawSettings.businessHours['3']?.end || '19:00')
-            },
-            4: {
-              start: businessHoursTimeToRfc3339(rawSettings.businessHours['4']?.start || '09:00'),
-              end: businessHoursTimeToRfc3339(rawSettings.businessHours['4']?.end || '19:00')
-            },
-            5: {
-              start: businessHoursTimeToRfc3339(rawSettings.businessHours['5']?.start || '09:00'),
-              end: businessHoursTimeToRfc3339(rawSettings.businessHours['5']?.end || '19:00')
-            },
-            6: {
-              start: businessHoursTimeToRfc3339(rawSettings.businessHours['6']?.start || '09:00'),
-              end: businessHoursTimeToRfc3339(rawSettings.businessHours['6']?.end || '19:00')
-            }
-          },
+          businessHours: convertBusinessHoursFromApi(rawSettings.businessHours),
           minuteIncrement: rawSettings.minuteIncrement,
           leadTime: rawSettings.leadTime
         }

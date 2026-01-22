@@ -10,16 +10,54 @@
  * - Minute increments (from AvailabilitySettings)
  * - Calendar busy periods (from Google Calendar API or mock)
  * - Boundary constraints (date range limits)
+ * 
+ * ============================================================================
+ * TIMEZONE STRATEGY (P0-2)
+ * ============================================================================
+ * 
+ * 1. Boundaries (startBoundary, endBoundary): RFC3339 UTC strings
+ *    - All boundary times are stored and passed as UTC ISO strings
+ *    - Format: "2026-01-15T14:00:00Z" (RFC3339 with Z suffix for UTC)
+ *    - WHY: Ensures consistent timezone handling across client and server
+ * 
+ * 2. Business Hours: RFC3339 with reference date (2000-01-01), interpreted as local time-of-day
+ *    - Format: "2000-01-01T09:00:00Z" represents "9:00 AM" in local timezone
+ *    - Admin sets business hours in their local timezone (e.g., "9 AM" = 9 AM local)
+ *    - WHY: Business hours are time-of-day values, not absolute times
+ * 
+ * 3. Slot Generation:
+ *    - Iterate days using UTC date components (to handle DST correctly)
+ *    - Create slot times in LOCAL timezone (business hours are local)
+ *    - Convert to UTC via toISOString() for storage and API communication
+ *    - WHY: Ensures slots align with local business hours while maintaining UTC consistency
+ * 
+ * 4. Busy Periods: Always UTC (from Google Calendar API)
+ *    - Google Calendar API returns busy periods in UTC
+ *    - All busy period comparisons use UTC Date objects
+ *    - WHY: Calendar APIs standardize on UTC for consistency
+ * 
+ * 5. Client-Server Consistency:
+ *    - Client generates slots in local timezone, converts to UTC for API
+ *    - Server receives UTC boundaries and converts to admin timezone for display
+ *    - Both use UTC internally for calculations and comparisons
+ *    - WHY: Prevents timezone mismatches between client and server
+ * 
+ * This ensures:
+ * - Business hours work correctly regardless of timezone
+ * - Slots align with local business hours
+ * - Busy periods (UTC) can be compared with slots (UTC) correctly
+ * - Client and server maintain consistency through UTC as the common format
  */
 
 import type { TimeSlot } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime, DayOfWeek } from '@/types/datetime'
 import {
   type BusinessHoursMap,
   type BusyTimeRange,
   timeRangesOverlap,
   parseBusinessHours
 } from './timeSlotFitter'
+import { validateSlotGenerationParams } from './slotGenerationValidation'
 import { createLogger } from '@/utils/logger'
 
 // LEARNING: Use scoped logger for controllable debug output
@@ -28,13 +66,11 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('timeAvailabilityManager')
 
 /**
- * Time slot with availability status
- * LEARNING: Extends TimeSlot with availability flag
- * WHY: Allows UI to render busy slots as inactive instead of hiding them
+ * P3-3: Removed redundant TimeSlotWithAvailability interface
+ * LEARNING: TimeSlot already has isAvailable: boolean as required field
+ * WHY: Eliminates redundant type definition
+ * PATTERN: Use TimeSlot directly instead of extending it
  */
-export interface TimeSlotWithAvailability extends TimeSlot {
-  isAvailable: boolean
-}
 
 /**
  * Pre-parsed busy period with Date objects
@@ -199,7 +235,7 @@ function parseBusyPeriods(busyTimes: BusyTimeRange[]): ParsedBusyTimeRange[] {
  * Result from availability manager
  */
 export interface AvailabilityManagerResult {
-  slots: TimeSlotWithAvailability[]
+  slots: TimeSlot[]  // P3-3: Use TimeSlot directly instead of TimeSlotWithAvailability
   earliestCompletion: RFC3339DateTime | null  // RFC3339 datetime of earliest available slot end time
 }
 
@@ -295,36 +331,21 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
     includeFlags
   } = params
 
+  // P2-5: Use shared slot generation validation
   // LEARNING: Comprehensive input validation prevents invalid slot generation
   // WHY: Invalid inputs can cause infinite loops, incorrect calculations, or runtime errors
-  // PATTERN: Validate all parameters before processing, throw descriptive errors
-
-  // Validate duration
-  if (!duration || duration <= 0) {
-    logger.error('Invalid duration: must be > 0', { duration })
-    throw new Error('duration must be greater than 0')
-  }
-  if (!Number.isInteger(duration)) {
-    logger.warn('Non-integer duration will be rounded', { duration })
-  }
-
-  // Validate minuteIncrement
-  if (!minuteIncrement || minuteIncrement <= 0) {
-    logger.error('Invalid minuteIncrement: must be > 0', { minuteIncrement })
-    throw new Error('minuteIncrement must be greater than 0')
-  }
-  if (!Number.isInteger(minuteIncrement)) {
-    logger.error('Invalid minuteIncrement: must be an integer', { minuteIncrement })
-    throw new Error('minuteIncrement must be a positive integer')
-  }
-  if (minuteIncrement > 60) {
-    logger.warn('Large minuteIncrement may result in few slots', { minuteIncrement })
-  }
-
-  // Validate boundaries
-  if (!startBoundary || !endBoundary) {
-    logger.error('Missing boundary parameters')
-    throw new Error('startBoundary and endBoundary are required')
+  // PATTERN: Use validateSlotGenerationParams to eliminate duplicate validation logic
+  try {
+    validateSlotGenerationParams({
+      duration,
+      minuteIncrement,
+      startBoundary,
+      endBoundary,
+      businessHours
+    })
+  } catch (error) {
+    // Re-throw validation errors as-is
+    throw error
   }
 
   // LEARNING: Cache boundary Date objects before loop
@@ -333,29 +354,13 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
   const startBoundaryDate = new Date(startBoundary)
   const endBoundaryDate = new Date(endBoundary)
 
-  // Validate Date objects are valid
-  if (isNaN(startBoundaryDate.getTime())) {
-    logger.error('Invalid startBoundary datetime', { startBoundary })
-    throw new Error('startBoundary must be a valid RFC3339 datetime')
-  }
-  if (isNaN(endBoundaryDate.getTime())) {
-    logger.error('Invalid endBoundary datetime', { endBoundary })
-    throw new Error('endBoundary must be a valid RFC3339 datetime')
-  }
-
-  // Validate boundaries: start < end
+  // Validate boundaries: start < end (check again after validation, return empty array if invalid)
   if (startBoundaryDate >= endBoundaryDate) {
     logger.debug('Invalid boundaries: start >= end', { startBoundary, endBoundary })
     return []
   }
 
-  // Validate business hours
-  if (!businessHours || typeof businessHours !== 'object') {
-    logger.error('Invalid businessHours: must be an object')
-    throw new Error('businessHours must be a BusinessHoursMap object')
-  }
-
-  // Check if at least one day has business hours
+  // Check if at least one day has business hours (return empty array if none)
   const hasAnyHours = Object.keys(businessHours).length > 0
   if (!hasAnyHours) {
     logger.warn('No business hours defined for any day')
@@ -385,9 +390,10 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
     const localYear = currentDate.getUTCFullYear()
     const localMonth = currentDate.getUTCMonth()
     const localDay = currentDate.getUTCDate()
+    // P3-4: Use DayOfWeek type and getDayOfWeek utility
     // Calculate day of week from UTC date (getDay() returns local day, so create temp date for UTC day)
     const tempDate = new Date(Date.UTC(localYear, localMonth, localDay))
-    const dayOfWeek = tempDate.getUTCDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
+    const dayOfWeek: DayOfWeek = tempDate.getUTCDay() as DayOfWeek  // getUTCDay() always returns 0-6
     const dayHours = businessHours[dayOfWeek]
 
     if (!dayHours) {
@@ -497,7 +503,7 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
 export function markSlotAvailability(
   slots: TimeSlot[],
   parsedBusyTimes: ParsedBusyTimeRange[]
-): TimeSlotWithAvailability[] {
+): TimeSlot[] {  // P3-3: Use TimeSlot directly instead of TimeSlotWithAvailability
   // LEARNING: Log first few slot availability checks with timezone info
   // WHY: Helps debug timezone alignment between busy periods and slots
   // PATTERN: Log sample checks with both UTC and local time for verification

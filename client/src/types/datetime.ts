@@ -140,3 +140,52 @@ export function validateRFC3339DateTime(value: string): RFC3339DateTime {
 export function toRFC3339DateTime(date: Date): RFC3339DateTime {
   return date.toISOString() as RFC3339DateTime
 }
+
+/**
+ * Day of Week Type
+ * LEARNING: Branded type for day of week values (0-6)
+ * WHY: Provides type safety and eliminates runtime casting
+ * PATTERN: Type alias with validation functions
+ * 
+ * P3-4: Added DayOfWeek type to eliminate runtime casting
+ * 
+ * Values:
+ * - 0 = Sunday
+ * - 1 = Monday
+ * - 2 = Tuesday
+ * - 3 = Wednesday
+ * - 4 = Thursday
+ * - 5 = Friday
+ * - 6 = Saturday
+ */
+export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6
+
+/**
+ * Convert number to DayOfWeek with validation
+ * LEARNING: Validates and converts number to DayOfWeek type
+ * WHY: Provides safe conversion with error handling
+ * PATTERN: Validation function that throws on invalid input
+ * 
+ * @param n - Number to convert (0-6)
+ * @returns DayOfWeek if valid
+ * @throws Error if n is not a valid day of week
+ */
+export function toDayOfWeek(n: number): DayOfWeek {
+  if (!Number.isInteger(n) || n < 0 || n > 6) {
+    throw new Error(`Invalid day of week: ${n}. Must be integer between 0 and 6.`)
+  }
+  return n as DayOfWeek
+}
+
+/**
+ * Get day of week from Date object
+ * LEARNING: Extracts day of week from Date as DayOfWeek type
+ * WHY: Date.getDay() always returns 0-6, so this is safe
+ * PATTERN: Type-safe extraction function
+ * 
+ * @param date - Date object
+ * @returns DayOfWeek (0 = Sunday, 6 = Saturday)
+ */
+export function getDayOfWeek(date: Date): DayOfWeek {
+  return date.getDay() as DayOfWeek  // getDay() always returns 0-6
+}

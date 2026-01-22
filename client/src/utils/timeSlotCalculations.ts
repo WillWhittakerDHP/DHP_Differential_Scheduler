@@ -11,8 +11,10 @@ import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
-import { fitTimeSlots, parseLocalDate, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
+import { fitAvailableTimeSlots, parseLocalDate, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
 import { generateMockFreeBusyResponse, extractBusyTimesFromFreeBusyResponse } from '@/utils/booking/mockGoogleCalendar'
+import { validateDateRange } from '@/utils/booking/dateRangeValidation'
+import { DEFAULT_APPOINTMENT_DURATION_MINUTES } from '@/constants/scheduling'
 import { createLogger } from '@/utils/logger'
 
 // LEARNING: Use scoped logger for controllable debug output
@@ -53,8 +55,9 @@ export function roundUpToIncrement(duration: number, increment: number = 15): nu
  */
 export function calculateDurationFromBlockInstances(blockInstances: BookingBlockInstance[]): number {
   if (!blockInstances || blockInstances.length === 0) {
-    // Default to 90 minutes (1.5 hours) if no block instances selected
-    return 90
+    // P3-1: Use constant instead of magic number
+    // Default to DEFAULT_APPOINTMENT_DURATION_MINUTES if no block instances selected
+    return DEFAULT_APPOINTMENT_DURATION_MINUTES
   }
   
   // LEARNING: Sum baseTime from all part instances across all block instances
@@ -70,8 +73,9 @@ export function calculateDurationFromBlockInstances(blockInstances: BookingBlock
     return total + blockDuration
   }, 0)
   
-  // Return calculated duration or default to 90 minutes if sum is 0
-  return totalDuration > 0 ? totalDuration : 90
+  // P3-1: Use constant instead of magic number
+  // Return calculated duration or default to DEFAULT_APPOINTMENT_DURATION_MINUTES if sum is 0
+  return totalDuration > 0 ? totalDuration : DEFAULT_APPOINTMENT_DURATION_MINUTES
 }
 
 /**
@@ -89,7 +93,7 @@ export function calculateDurationFromPartInstances(service: BookingBlockInstance
  * Get calendar availability using mock Google Calendar free/busy data
  * LEARNING: Uses mock data generator to simulate Google Calendar API responses
  * WHY: Enables testing time slot filtering with blocked periods without real API integration
- * PATTERN: Generates mock busy periods and extracts them for use with fitTimeSlots()
+ * PATTERN: Generates mock busy periods and extracts them for use with fitAvailableTimeSlots()  // P3-6: Updated function name
  * 
  * FUTURE: When ready for real Google Calendar integration:
  * 1. Add environment/config flag (e.g., USE_MOCK_CALENDAR_DATA)
@@ -98,7 +102,7 @@ export function calculateDurationFromPartInstances(service: BookingBlockInstance
  * 4. Keep mock implementation for testing/development
  * 
  * @param dateRange - Object with start and end RFC3339 datetime strings
- * @returns Array of busy time ranges compatible with fitTimeSlots() busyTimes parameter
+ * @returns Array of busy time ranges compatible with fitAvailableTimeSlots() busyTimes parameter  // P3-6: Updated function name
  * 
  * @example
  * ```typescript
@@ -133,23 +137,19 @@ export function getCalendarAvailability(dateRange: { start: RFC3339DateTime; end
     return [] // Past dates can't render in UI, no busy periods needed
   }
   
-  // Validate date range
-  const startDate = new Date(dateRange.start)
-  const endDate = new Date(dateRange.end)
-  
-  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    logger.warn('Invalid date range (NaN):', dateRange)
+  // P2-3: Use shared date range validation utility
+  // LEARNING: Validate date range using shared utility
+  // WHY: Ensures consistent validation across codebase
+  // PATTERN: Use validateDateRange to check and normalize date range
+  const validatedRange = validateDateRange(dateRange)
+  if (!validatedRange) {
+    // validateDateRange logs warnings internally
     return []
   }
   
-  if (startDate >= endDate) {
-    logger.warn('start must be before end:', {
-      start: startDate.toISOString(),
-      end: endDate.toISOString(),
-      dateRange
-    })
-    return []
-  }
+  // Use validated range for date parsing
+  const startDate = new Date(validatedRange.start)
+  const endDate = new Date(validatedRange.end)
   
   try {
     const mockResponse = generateMockFreeBusyResponse(dateRange, {
@@ -178,12 +178,12 @@ export function getCalendarAvailability(dateRange: { start: RFC3339DateTime; end
 
 /**
  * Generate time slots for a date range
- * LEARNING: Now delegates to fitTimeSlots() for core logic
+ * LEARNING: Now delegates to fitAvailableTimeSlots() for core logic  // P3-6: Updated function name
  * WHY: Single source of truth for time slot fitting
  * PATTERN: Thin wrapper that fetches settings and calls core utility
  * Session 1.3.7: Updated to use settings config instead of hardcoded values
  * Session 1.4.1: Updated to async to fetch settings from API
- * Session 1.4.14: Refactored to use fitTimeSlots() core utility
+ * Session 1.4.14: Refactored to use fitAvailableTimeSlots() core utility  // P3-6: Updated function name
  * 
  * @param dateRange - Object with start and end ISO date strings
  * @param duration - Appointment duration in minutes
@@ -205,13 +205,17 @@ export async function generateTimeSlots(
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   const startDate = parseLocalDate(dateRange.start)
+  if (!startDate) {
+    logger.warn('Invalid start date in dateRange:', dateRange.start)
+    return []
+  }
   const startDateOnly = new Date(startDate)
   startDateOnly.setHours(0, 0, 0, 0)
   
-  // LEARNING: Use fitTimeSlots() core utility for slot generation
+  // LEARNING: Use fitAvailableTimeSlots() core utility for slot generation  // P3-6: Updated function name
   // WHY: Single source of truth for time slot fitting logic
   // PATTERN: Delegate to core utility with appropriate boundaries
-  const result = fitTimeSlots({
+  const result = fitAvailableTimeSlots({  // P3-6: Renamed for clarity
     startBoundary: dateRange.start,
     endBoundary: dateRange.end,
     duration,

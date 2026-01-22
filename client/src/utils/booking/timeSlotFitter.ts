@@ -9,11 +9,12 @@
  */
 
 import type { TimeSlot } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime, DayOfWeek } from '@/types/datetime'
 import {
   generateSlotsWithAvailability,
-  type TimeSlotWithAvailability
+  // P3-3: Removed TimeSlotWithAvailability import - use TimeSlot directly
 } from './timeAvailabilityManager'
+import { validateSlotGenerationParams } from './slotGenerationValidation'
 import { createLogger } from '@/utils/logger'
 
 // LEARNING: Use scoped logger for controllable debug output
@@ -62,7 +63,8 @@ export interface DayBusinessHours {
  *   // Saturday (6) and Sunday (0) omitted = closed
  * }
  */
-export type BusinessHoursMap = Partial<Record<0 | 1 | 2 | 3 | 4 | 5 | 6, DayBusinessHours>>
+// P3-4: Use DayOfWeek type instead of inline union type
+export type BusinessHoursMap = Partial<Record<DayOfWeek, DayBusinessHours>>
 
 /**
  * Busy time range to exclude from available slots
@@ -109,12 +111,18 @@ export interface FitTimeSlotsResult {
  * WHY: When we do new Date('2026-01-09'), it creates UTC midnight, which becomes previous day in timezones behind UTC
  * PATTERN: Extract date part and create Date object in local timezone
  */
-export function parseLocalDate(dateInput: string | Date): Date {
+export function parseLocalDate(dateInput: string | Date): Date | null {
   // LEARNING: Handle both string and Date object inputs
   // WHY: selectedDate.value.start might be a Date object or string
   // PATTERN: Convert Date to string if needed, then parse
+  // P2-8: Enhanced with validation to prevent Invalid Date objects
   let dateString: string
   if (dateInput instanceof Date) {
+    // Validate Date object is valid
+    if (isNaN(dateInput.getTime())) {
+      logger.warn('Invalid Date object passed to parseLocalDate:', dateInput)
+      return null
+    }
     // Convert Date to YYYY-MM-DD string
     const year = dateInput.getFullYear()
     const month = String(dateInput.getMonth() + 1).padStart(2, '0')
@@ -128,8 +136,39 @@ export function parseLocalDate(dateInput: string | Date): Date {
   }
   
   const datePart = dateString.includes('T') ? dateString.split('T')[0] : dateString
+  
+  // P2-8: Validate date string format (YYYY-MM-DD)
+  // LEARNING: Validate format before parsing to prevent Invalid Date objects
+  // WHY: Prevents NaN values and Invalid Date objects from malformed input
+  // PATTERN: Check format regex, validate components, verify Date object
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+    logger.warn('Invalid date string format:', datePart)
+    return null
+  }
+  
   const [year, month, day] = datePart.split('-').map(Number)
-  return new Date(year, month - 1, day) // month is 0-indexed, creates date at local midnight
+  
+  // Validate components are numbers
+  if (isNaN(year) || isNaN(month) || isNaN(day)) {
+    logger.warn('Invalid date components:', { year, month, day, datePart })
+    return null
+  }
+  
+  // Validate month and day ranges
+  if (month < 1 || month > 12 || day < 1 || day > 31) {
+    logger.warn('Invalid date component ranges:', { year, month, day, datePart })
+    return null
+  }
+  
+  const date = new Date(year, month - 1, day) // month is 0-indexed, creates date at local midnight
+  
+  // Validate Date object is valid
+  if (isNaN(date.getTime())) {
+    logger.warn('Invalid Date object created:', { year, month, day, datePart })
+    return null
+  }
+  
+  return date
 }
 
 /**
@@ -255,11 +294,13 @@ export function parseBusinessHours(
 }
 
 /**
- * Fit time slots of a given duration into available time between boundaries
+ * Fit available time slots of a given duration into available time between boundaries
  * 
  * LEARNING: Generic time slot fitting that respects boundaries, business hours, and busy times
  * WHY: Reusable for appointment slots, available start times, AND moveable parts scheduling
  * PATTERN: Pure utility function - no side effects, no reactivity
+ * 
+ * P3-6: Renamed from fitTimeSlots to fitAvailableTimeSlots for clarity
  * 
  * ARCHITECTURE DECISION: Delegate Pattern for Slot Generation (Issue #20)
  * -----------------------------------------------------------------------
@@ -267,7 +308,7 @@ export function parseBusinessHours(
  * slot generation, then filters to only available slots. This ensures:
  * 
  * 1. Single source of truth for slot generation logic
- * 2. Consistent behavior across fitTimeSlots and generateAllTimeSlots
+ * 2. Consistent behavior across fitAvailableTimeSlots and generateAllTimeSlots
  * 3. Easier maintenance (changes in one place)
  * 4. Same validation and error handling as before
  * 
@@ -275,8 +316,8 @@ export function parseBusinessHours(
  * 
  * ARCHITECTURE DECISION: earliestCompletion Tracks Available Slots Only
  * -----------------------------------------------------------------------
- * Both fitTimeSlots and generateSlotsWithAvailability track earliest 
- * completion of AVAILABLE slots only (not all generated slots).
+ * Both fitAvailableTimeSlots and generateSlotsWithAvailability track earliest 
+ * completion of AVAILABLE slots only (not all generated slots).  // P3-6: Updated function name
  * 
  * RATIONALE:
  * - More useful for UI (shows when next appointment can be booked)
@@ -294,7 +335,8 @@ export function parseBusinessHours(
  * @param params - Parameters for fitting time slots
  * @returns Result with valid slots and earliest available completion time
  */
-export function fitTimeSlots(params: FitTimeSlotsParams): FitTimeSlotsResult {
+// P3-6: Renamed for clarity - returns only available slots
+export function fitAvailableTimeSlots(params: FitTimeSlotsParams): FitTimeSlotsResult {
   const {
     startBoundary,
     endBoundary,
@@ -305,37 +347,17 @@ export function fitTimeSlots(params: FitTimeSlotsParams): FitTimeSlotsResult {
     includeFlags
   } = params
 
+  // P2-5: Use shared slot generation validation
   // LEARNING: Comprehensive input validation prevents invalid slot generation
   // WHY: Invalid inputs can cause infinite loops, incorrect calculations, or runtime errors
-  // PATTERN: Validate all parameters before processing, throw descriptive errors
-
-  // Validate duration
-  if (!duration || duration <= 0) {
-    logger.error('Invalid duration: must be > 0', { duration })
-    throw new Error('duration must be greater than 0')
-  }
-  if (!Number.isInteger(duration)) {
-    logger.warn('Non-integer duration will be rounded', { duration })
-  }
-
-  // Validate minuteIncrement
-  if (!minuteIncrement || minuteIncrement <= 0) {
-    logger.error('Invalid minuteIncrement: must be > 0', { minuteIncrement })
-    throw new Error('minuteIncrement must be greater than 0')
-  }
-  if (!Number.isInteger(minuteIncrement)) {
-    logger.error('Invalid minuteIncrement: must be an integer', { minuteIncrement })
-    throw new Error('minuteIncrement must be a positive integer')
-  }
-  if (minuteIncrement > 60) {
-    logger.warn('Large minuteIncrement may result in few slots', { minuteIncrement })
-  }
-
-  // Validate boundaries
-  if (!startBoundary || !endBoundary) {
-    logger.error('Missing boundary parameters')
-    throw new Error('startBoundary and endBoundary are required')
-  }
+  // PATTERN: Use validateSlotGenerationParams to eliminate duplicate validation logic
+  validateSlotGenerationParams({
+    duration,
+    minuteIncrement,
+    startBoundary,
+    endBoundary,
+    businessHours
+  })
 
   // Parse boundaries as Date objects for validation
   const startBoundaryDate = new Date(startBoundary)
@@ -401,16 +423,18 @@ export function fitTimeSlots(params: FitTimeSlotsParams): FitTimeSlotsResult {
  * Result from fitting time slots with availability flags
  */
 export interface FitTimeSlotsResultWithAvailability {
-  slots: TimeSlotWithAvailability[]
+  slots: TimeSlot[]  // P3-3: Use TimeSlot directly instead of TimeSlotWithAvailability
   earliestCompletion: RFC3339DateTime | null  // RFC3339 datetime of earliest available slot end time
 }
 
 /**
- * Fit time slots with availability status (all slots, marked as available/busy)
+ * Fit all time slots with availability status (all slots, marked as available/busy)
  * 
  * LEARNING: Generates ALL possible slots and marks them with availability status
  * WHY: Enables UI to render busy slots as inactive instead of hiding them
  * PATTERN: Uses unified availability manager for consistent slot generation
+ * 
+ * P3-6: Renamed from fitTimeSlotsWithAvailability to fitAllTimeSlotsWithAvailability for clarity
  * 
  * This is the new unified approach that:
  * 1. Generates all slots based on business hours + increments
@@ -420,7 +444,7 @@ export interface FitTimeSlotsResultWithAvailability {
  * @param params - Parameters for fitting time slots
  * @returns Result with all slots (available + busy) and earliest available completion time
  */
-export function fitTimeSlotsWithAvailability(
+export function fitAllTimeSlotsWithAvailability(
   params: FitTimeSlotsParams
 ): FitTimeSlotsResultWithAvailability {
   // LEARNING: Use unified availability manager

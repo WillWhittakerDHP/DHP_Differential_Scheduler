@@ -9,9 +9,9 @@
 import { computed, ref, watchEffect, type ComputedRef, type Ref } from 'vue'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import { fitTimeSlotsWithAvailability, DEFAULT_INCLUDE_FLAGS, type BusinessHoursMap, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'
+import { fitAllTimeSlotsWithAvailability, DEFAULT_INCLUDE_FLAGS, type BusinessHoursMap, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
 import { rfc3339ToBusinessHoursTime } from '@/utils/datetime'
-import type { ISO8601Date, RFC3339DateTime } from '@/types/datetime'
+import type { ISO8601Date, RFC3339DateTime, DayOfWeek } from '@/types/datetime'
 import { createLogger } from '@/utils/logger'
 
 // LEARNING: Use scoped logger for controllable debug output
@@ -105,7 +105,8 @@ export function useAvailableStartTimes(
     // PATTERN: Create local date, then convert to UTC for boundaries
     const dateLocal = new Date(year, month - 1, day, 0, 0, 0) // Local midnight for the selected date
     
-    const dayOfWeek = dateLocal.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
+    // P3-4: Use DayOfWeek type instead of inline casting
+    const dayOfWeek: DayOfWeek = dateLocal.getDay() as DayOfWeek  // getDay() always returns 0-6
     const dayHours = internalSettings.value.businessHours[dayOfWeek]
     
     if (!dayHours) {
@@ -168,7 +169,7 @@ export function useAvailableStartTimes(
     // LEARNING: toISOString() always produces valid RFC3339 format (UTC with Z suffix)
     // WHY: Date.toISOString() is guaranteed to return RFC3339-compliant string
     // PATTERN: Use type assertion since we know the format is correct
-    logger.debug('Calling fitTimeSlotsWithAvailability with:', {
+    logger.debug('Calling fitAllTimeSlotsWithAvailability with:', {  // P3-6: Updated function name
       startBoundary: slotStartBoundary.toISOString(),
       endBoundary: slotEndBoundary.toISOString(),
       startBoundaryLocal: slotStartBoundary.toLocaleString(),
@@ -179,7 +180,7 @@ export function useAvailableStartTimes(
       busyTimesCount: busyPeriods.length
     })
     
-    const result = fitTimeSlotsWithAvailability({
+    const result = fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity
       startBoundary: slotStartBoundary.toISOString() as RFC3339DateTime,
       endBoundary: slotEndBoundary.toISOString() as RFC3339DateTime,
       duration,

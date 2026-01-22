@@ -331,7 +331,7 @@ export function generateMockFreeBusyResponse(
 /**
  * Extract busy times from Google Calendar free/busy response
  * LEARNING: Flattens busy periods from all calendars into single array
- * WHY: fitTimeSlots() expects a flat array of busy time ranges
+ * WHY: fitAvailableTimeSlots() expects a flat array of busy time ranges  // P3-6: Updated function name
  * PATTERN: Extract and flatten, optionally merge overlapping periods
  * 
  * @param response - Google Calendar free/busy API response
@@ -342,7 +342,7 @@ export function generateMockFreeBusyResponse(
  * ```typescript
  * const response = generateMockFreeBusyResponse(dateRange)
  * const busyTimes = extractBusyTimesFromFreeBusyResponse(response)
- * const slots = fitTimeSlots({ ..., busyTimes })
+ * const slots = fitAvailableTimeSlots({ ..., busyTimes })  // P3-6: Updated function name
  * ```
  */
 export function extractBusyTimesFromFreeBusyResponse(

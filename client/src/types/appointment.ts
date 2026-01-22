@@ -101,6 +101,11 @@ export interface TimeRange {
 /**
  * TimeSlot: Time range with part characteristics
  * Used for category-specific slots
+ * 
+ * P0-2: Timezone handling
+ * - startTime and endTime are RFC3339 UTC strings (e.g., "2026-01-15T14:00:00Z")
+ * - All times are stored in UTC for consistency between client and server
+ * - Display times are converted to local timezone in UI components
  */
 export interface TimeSlot extends TimeRange {
   onSite: boolean
