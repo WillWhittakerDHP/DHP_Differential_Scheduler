@@ -63,6 +63,22 @@ export interface AvailabilitySettings {
    * WHY: Prevents booking appointments too close to current time
    */
   leadTime: number
+  
+  /**
+   * Maximum work hours per day (optional)
+   * LEARNING: Limits total scheduled appointments per day
+   * WHY: Prevents over-scheduling on a single day
+   * PATTERN: Optional field, defaults to calculated max from businessHours if not set
+   */
+  workHoursLimit?: number
+  
+  /**
+   * IANA timezone string (optional)
+   * LEARNING: Timezone used for all availability calculations
+   * WHY: Allows admin to configure timezone instead of hardcoded default
+   * PATTERN: Optional field, defaults to "America/New_York" if not set
+   */
+  timezone?: string
 }
 
 /**
@@ -111,6 +127,8 @@ export const defaultAvailabilitySettings: AvailabilitySettings = {
   },
   minuteIncrement: 15, // 15-minute intervals
   leadTime: 60, // 1 hour lead time
+  workHoursLimit: undefined, // Will be calculated from businessHours
+  timezone: 'America/New_York' // Default timezone
 }
 
 /**
@@ -199,6 +217,8 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         }
         minuteIncrement?: number
         leadTime?: number
+        workHoursLimit?: number
+        timezone?: string
       }
       
       // Validate settings structure (basic check)
@@ -214,7 +234,9 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         const convertedSettings: AvailabilitySettings = {
           businessHours: convertBusinessHoursFromApi(rawSettings.businessHours),
           minuteIncrement: rawSettings.minuteIncrement,
-          leadTime: rawSettings.leadTime
+          leadTime: rawSettings.leadTime,
+          workHoursLimit: rawSettings.workHoursLimit, // Optional field
+          timezone: rawSettings.timezone || 'America/New_York' // Default if not set
         }
         
         // Update cache with timestamp

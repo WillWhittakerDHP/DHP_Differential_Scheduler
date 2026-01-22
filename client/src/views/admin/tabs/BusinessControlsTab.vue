@@ -6,9 +6,9 @@
   RESOURCE: https://vuetifyjs.com/en/components/forms/
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useAvailabilitySettings } from '@/composables/admin/useAvailabilitySettings'
-import { DAY_NAMES, TIME_INCREMENT_OPTIONS } from '@/constants/availabilitySettings'
+import { ref, computed } from 'vue'
+import { useAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAvailabilitySettings'
+import { DAY_NAMES, TIME_INCREMENT_OPTIONS, TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
 import { rfc3339ToBusinessHoursTime, businessHoursTimeToRfc3339 } from '@/utils/datetime'
 
 /**
@@ -49,9 +49,18 @@ const updateBusinessHours = (day: number, field: 'start' | 'end', value: string)
   formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
 }
 
+// NEW: Collapsible state for Business Hours
+const businessHoursExpanded = ref(false) // Start collapsed to save space
+
+// NEW: Computed max business hours for workHoursLimit hint
+const maxBusinessHours = computed(() => {
+  return calculateMaxBusinessHours(formData.value.businessHours)
+})
+
 // Expose constants for template use
 const dayNames = DAY_NAMES
 const timeIncrementOptions = TIME_INCREMENT_OPTIONS
+const timezoneOptions = TIMEZONE_OPTIONS
 </script>
 
 <template>
@@ -90,44 +99,109 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
             {{ error }}
           </VAlert>
           
-          <!-- Business Hours Section -->
+          <!-- Business Hours Section (Collapsible) -->
           <VCard variant="outlined" class="mb-4">
-            <VCardTitle class="text-h6">Business Hours</VCardTitle>
+            <VCardTitle 
+              class="text-h6 d-flex align-center"
+              style="cursor: pointer;"
+              @click="businessHoursExpanded = !businessHoursExpanded"
+            >
+              <VIcon class="mr-2" :icon="businessHoursExpanded ? 'mdi-chevron-down' : 'mdi-chevron-right'" />
+              Business Hours
+              <VSpacer />
+              <VChip size="small" variant="outlined" class="ml-2">
+                {{ businessHoursExpanded ? 'Expanded' : 'Collapsed' }}
+              </VChip>
+            </VCardTitle>
+            
+            <VExpandTransition>
+              <VCardText v-show="businessHoursExpanded">
+                <div
+                  v-for="day in 7"
+                  :key="day - 1"
+                  class="mb-4"
+                >
+                  <div class="text-subtitle-2 mb-2">{{ dayNames[day - 1] }}</div>
+                  <VRow>
+                    <VCol cols="12" sm="6" md="4">
+                      <VTextField
+                        :model-value="businessHoursForUI[(day - 1) as keyof typeof businessHoursForUI].start"
+                        @update:model-value="(v: string) => updateBusinessHours(day - 1, 'start', v)"
+                        label="Start Time"
+                        type="time"
+                        required
+                        :rules="[
+                          (v: string) => !!v || 'Start time is required',
+                          (v: string) => /^\d{2}:\d{2}$/.test(v) || 'Invalid time format (HH:MM)',
+                        ]"
+                      />
+                    </VCol>
+                    <VCol cols="12" sm="6" md="4">
+                      <VTextField
+                        :model-value="businessHoursForUI[(day - 1) as keyof typeof businessHoursForUI].end"
+                        @update:model-value="(v: string) => updateBusinessHours(day - 1, 'end', v)"
+                        label="End Time"
+                        type="time"
+                        required
+                        :rules="[
+                          (v: string) => !!v || 'End time is required',
+                          (v: string) => /^\d{2}:\d{2}$/.test(v) || 'Invalid time format (HH:MM)',
+                        ]"
+                      />
+                    </VCol>
+                  </VRow>
+                </div>
+              </VCardText>
+            </VExpandTransition>
+          </VCard>
+          
+          <!-- Work Hours & Capacity Section -->
+          <VCard variant="outlined" class="mb-4">
+            <VCardTitle class="text-h6">Work Hours & Capacity</VCardTitle>
             <VCardText>
-              <div
-                v-for="day in 7"
-                :key="day - 1"
-                class="mb-4"
-              >
-                <div class="text-subtitle-2 mb-2">{{ dayNames[day - 1] }}</div>
-                <VRow>
-                  <VCol cols="12" sm="6" md="4">
-                    <VTextField
-                      :model-value="businessHoursForUI[(day - 1) as keyof typeof businessHoursForUI].start"
-                      @update:model-value="(v: string) => updateBusinessHours(day - 1, 'start', v)"
-                      label="Start Time"
-                      type="time"
-                      required
-                      :rules="[
-                        (v: string) => !!v || 'Start time is required',
-                        (v: string) => /^\d{2}:\d{2}$/.test(v) || 'Invalid time format (HH:MM)',
-                      ]"
-                    />
-                  </VCol>
-                  <VCol cols="12" sm="6" md="4">
-                    <VTextField
-                      :model-value="businessHoursForUI[(day - 1) as keyof typeof businessHoursForUI].end"
-                      @update:model-value="(v: string) => updateBusinessHours(day - 1, 'end', v)"
-                      label="End Time"
-                      type="time"
-                      required
-                      :rules="[
-                        (v: string) => !!v || 'End time is required',
-                        (v: string) => /^\d{2}:\d{2}$/.test(v) || 'Invalid time format (HH:MM)',
-                      ]"
-                    />
-                  </VCol>
-                </VRow>
+              <VTextField
+                v-model.number="formData.workHoursLimit"
+                label="Maximum Work Hours Per Day"
+                type="number"
+                min="0"
+                max="24"
+                step="0.5"
+                hint="Limits total scheduled appointments per day. Days exceeding this limit will show no available slots."
+                persistent-hint
+                :rules="[
+                  (v: number | undefined) => v === undefined || v >= 0 || 'Work hours limit must be 0 or greater',
+                  (v: number | undefined) => v === undefined || v <= 24 || 'Work hours limit cannot exceed 24 hours',
+                ]"
+              />
+              <div class="text-caption mt-2">
+                <span v-if="formData.workHoursLimit">
+                  Days with more than {{ formData.workHoursLimit }} hours of scheduled appointments will be hidden.
+                </span>
+                <span v-else>
+                  Maximum business hours: {{ maxBusinessHours.toFixed(1) }} hours (calculated from your business hours).
+                  Set a lower limit to prevent overbooking.
+                </span>
+              </div>
+            </VCardText>
+          </VCard>
+          
+          <!-- Timezone Settings Section -->
+          <VCard variant="outlined" class="mb-4">
+            <VCardTitle class="text-h6">Timezone Settings</VCardTitle>
+            <VCardText>
+              <VSelect
+                v-model="formData.timezone"
+                :items="timezoneOptions"
+                label="Timezone"
+                hint="Used for all availability calculations and time slot generation."
+                persistent-hint
+                :rules="[
+                  (v: string) => !!v || 'Timezone is required',
+                ]"
+              />
+              <div class="text-caption mt-2">
+                Business hours and time slots will be interpreted in the selected timezone.
+                Current selection: {{ formData.timezone || 'America/New_York (default)' }}
               </div>
             </VCardText>
           </VCard>

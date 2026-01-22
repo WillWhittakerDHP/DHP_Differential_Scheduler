@@ -32,9 +32,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Default timezone if not provided
-    const targetTimezone = timezone || "America/New_York";
-
     // Mock free/busy calendar data for now
     // TODO: Replace with real calendar API integration
     const freeBusyResponse = {
@@ -68,9 +65,16 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       },
       minuteIncrement: 15,
       leadTime: 60, // 1 hour in minutes
+      workHoursLimit: undefined, // Will be calculated if not set
+      timezone: 'America/New_York' // Default timezone
     };
 
     const availabilitySettings = availabilitySettingsRecord?.settingValue || defaultSettings;
+
+    // Use configured timezone or fallback to request timezone or default
+    const targetTimezone = availabilitySettings.timezone 
+      || timezone 
+      || "America/New_York";
 
     // Transform AvailabilitySettings to adminSettings format expected by makeAvailabilities
     // LEARNING: Maps businessHours to freeHours and derives workHours/permissibleStartRule
@@ -78,22 +82,24 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     const minuteIncrement = availabilitySettings.minuteIncrement;
     const permissibleStartRule = `every :${minuteIncrement}`; // e.g., "every :15" for 15-minute increments
 
-    // Calculate workHours from businessHours (maximum hours across all days)
-    const workHours = Math.max(
-      ...Object.values(availabilitySettings.businessHours).map(day => {
-        const [startHour, startMin] = day.start.split(':').map(Number);
-        const [endHour, endMin] = day.end.split(':').map(Number);
-        const startMinutes = startHour * 60 + startMin;
-        const endMinutes = endHour * 60 + endMin;
-        return (endMinutes - startMinutes) / 60;
-      })
-    );
+    // Calculate workHours from configured limit or businessHours max
+    const workHours = availabilitySettings.workHoursLimit !== undefined
+      ? availabilitySettings.workHoursLimit
+      : Math.max(
+          ...Object.values(availabilitySettings.businessHours).map(day => {
+            const [startHour, startMin] = day.start.split(':').map(Number);
+            const [endHour, endMin] = day.end.split(':').map(Number);
+            const startMinutes = startHour * 60 + startMin;
+            const endMinutes = endHour * 60 + endMin;
+            return (endMinutes - startMinutes) / 60;
+          })
+        );
 
     const adminSettings = {
       leadTime: availabilitySettings.leadTime, // Already in minutes
       freeHours: availabilitySettings.businessHours, // Map businessHours to freeHours
-      workHours: Math.ceil(workHours), // Maximum hours per day (rounded up)
-      timezone: targetTimezone,
+      workHours: workHours, // Use configured limit or calculated max
+      timezone: targetTimezone, // Use configured timezone or fallback
       minuteIncrement: minuteIncrement,
       permissibleStartRule: permissibleStartRule,
     };

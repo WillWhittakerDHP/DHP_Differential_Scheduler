@@ -28,6 +28,8 @@ export interface AvailabilitySettingsData {
   };
   minuteIncrement: number;
   leadTime: number;
+  workHoursLimit?: number; // Maximum work hours per day
+  timezone?: string; // IANA timezone (e.g., "America/New_York")
 }
 
 export class BusinessSettings extends Model<

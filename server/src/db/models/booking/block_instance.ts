@@ -28,6 +28,7 @@ export class BlockInstance extends Model<
   declare baseSqFt: number | null;
   declare allowMultiple: boolean;
   declare requiresUnitNumber: boolean | null;
+  declare availableDays: number[] | null; // Array of day indices (0-6), null = all days
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -103,6 +104,12 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
       requiresUnitNumber: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
+      },
+      availableDays: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'available_days',
+        comment: 'Array of day indices (0-6) when this service is available. Null means all days.'
       },
       createdAt: {
         type: DataTypes.DATE,

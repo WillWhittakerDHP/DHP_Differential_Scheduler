@@ -1,4 +1,5 @@
 import { normalizeToUtc, normalizeToZone } from "./timeNormalization.js";
+import { sumWorkHoursForDay } from "./availabiltiesDbUtils.js";
 
 /**
  * Filters free times based on available days
@@ -68,63 +69,50 @@ export function filterByLeadTime(
 }
 
 /**
- * Placeholder function for summing work hours (DISABLED - P0-3)
- * LEARNING: Calculates total work hours scheduled for a day
- * WHY: Enforces maximum work hours per day limit
- * PATTERN: Currently disabled - returns 0 to effectively disable the filter
- * 
- * P0-3: DISABLED - Work hours filter is not implemented
- * ============================================================================
- * TODO: Implement work hours aggregation
- * 
- * This function currently always returns 0, making the work hours filter ineffective.
- * To implement properly:
- * 1. Query scheduled appointments for the day (filter by date range)
- * 2. Sum total duration of all appointments for that day
- * 3. Return total hours (duration / 60)
- * 
- * Related files:
- * - server/src/db/models/appointment.ts (Appointment model)
- * - server/src/utils/availabilities/availabiltiesDbUtils.ts (duplicate stub exists)
- * 
- * Until implemented, filterByWorkHours effectively allows all days (always passes filter).
- * ============================================================================
- */
-export function sumWorkHoursForDay(dayIndex: number): number {
-  // P0-3: Disabled - always returns 0 to effectively disable the filter
-  // TODO: Implement proper work hours aggregation from scheduled appointments
-  console.log(`[DISABLED] Summing work hours for dayIndex: ${dayIndex} - feature not implemented`);
-  return 0; // Always returns 0, making filterByWorkHours always pass
-}
-
-/**
  * Filters free times based on work hours
  * LEARNING: Filters time slots to exclude days that exceed work hours limit
  * WHY: Prevents over-scheduling on a single day
  * PATTERN: Check if day's total work hours is within limit
  * 
- * P0-3: CURRENTLY DISABLED - sumWorkHoursForDay always returns 0
+ * IMPLEMENTED: Database-backed work hours filtering
  * ============================================================================
- * This filter is currently ineffective because sumWorkHoursForDay() always returns 0.
- * As a result, all days pass the filter regardless of workHoursLimit.
+ * Queries scheduled appointments for each day and filters out days exceeding limit:
+ * 1. Extracts actual date from start parameter
+ * 2. Calls sumWorkHoursForDay(date) to get total scheduled hours
+ * 3. Filters out days where totalWorkHours > workHoursLimit
  * 
- * To enable this filter:
- * 1. Implement sumWorkHoursForDay() to query scheduled appointments
- * 2. Return actual total work hours for the day
- * 3. Filter will then properly exclude days exceeding workHoursLimit
+ * Now async to support database queries
  * ============================================================================
  */
-export function filterByWorkHours(
+export async function filterByWorkHours(
   freeTimes: { start: Date; end: Date }[],
   workHoursLimit: number,
   timezone: string
-): { start: Date; end: Date }[] {
-  // P0-3: Filter is effectively disabled - sumWorkHoursForDay always returns 0
-  // All days pass the filter until sumWorkHoursForDay is properly implemented
-  return freeTimes.filter(({ start }) => {
-    const dayIndex = normalizeToZone(start, timezone).getDay();
-    const totalWorkHours = sumWorkHoursForDay(dayIndex);
-    // Since totalWorkHours is always 0, this condition is always true
-    return totalWorkHours <= workHoursLimit;
-  });
+): Promise<{ start: Date; end: Date }[]> {
+  // Filter days by checking if total scheduled work hours is within limit
+  const filteredTimes: { start: Date; end: Date }[] = [];
+  
+  for (const { start, end } of freeTimes) {
+    // Extract actual date from start (normalized to timezone for accurate date extraction)
+    const dateInZone = normalizeToZone(start, timezone);
+    // LEARNING: Extract date components from timezone-normalized date to ensure correct day
+    // WHY: Prevents timezone shifts that could query the wrong day
+    // PATTERN: Use timezone-normalized date components, create Date at UTC midnight for that date
+    const year = dateInZone.getFullYear();
+    const month = dateInZone.getMonth();
+    const day = dateInZone.getDate();
+    // Create Date object at UTC midnight for the target date
+    // This ensures sumWorkHoursForDay gets the correct date string when it calls toISOString()
+    const dateOnly = new Date(Date.UTC(year, month, day));
+    
+    // Query total work hours for this date
+    const totalWorkHours = await sumWorkHoursForDay(dateOnly);
+    
+    // Only include if within work hours limit
+    if (totalWorkHours <= workHoursLimit) {
+      filteredTimes.push({ start, end });
+    }
+  }
+  
+  return filteredTimes;
 }

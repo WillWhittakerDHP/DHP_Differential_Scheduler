@@ -11,6 +11,29 @@ import { defaultAvailabilitySettings, clearAvailabilitySettingsCache } from '@/c
 import { DAY_NAMES } from '@/constants/availabilitySettings'
 import { rfc3339ToBusinessHoursTime, businessHoursTimeToRfc3339 } from '@/utils/datetime'
 
+/**
+ * Calculate maximum business hours across all days
+ * LEARNING: Helper to compute workHoursLimit default from businessHours
+ * WHY: Provides default value for workHoursLimit if not configured
+ * PATTERN: Pure function that calculates max hours
+ * 
+ * @param businessHours - Business hours configuration
+ * @returns Maximum hours across all days (as number)
+ */
+export function calculateMaxBusinessHours(businessHours: AvailabilitySettings['businessHours']): number {
+  return Math.max(
+    ...Object.values(businessHours).map(day => {
+      const startTimeStr = rfc3339ToBusinessHoursTime(day.start)
+      const endTimeStr = rfc3339ToBusinessHoursTime(day.end)
+      const [startHour, startMin] = startTimeStr.split(':').map(Number)
+      const [endHour, endMin] = endTimeStr.split(':').map(Number)
+      const startMinutes = startHour * 60 + startMin
+      const endMinutes = endHour * 60 + endMin
+      return (endMinutes - startMinutes) / 60
+    })
+  )
+}
+
 export interface UseAvailabilitySettingsReturn {
   formData: Ref<AvailabilitySettings>
   loading: Ref<boolean>
@@ -98,7 +121,9 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
               }
             },
             minuteIncrement: rawSettings.minuteIncrement,
-            leadTime: rawSettings.leadTime
+            leadTime: rawSettings.leadTime,
+            workHoursLimit: rawSettings.workHoursLimit, // Use configured or undefined
+            timezone: rawSettings.timezone || 'America/New_York' // Default to Eastern
           }
         } else {
           // Invalid structure, use defaults
@@ -230,7 +255,11 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
    * PATTERN: Simple reset function
    */
   const resetToDefaults = (): void => {
-    formData.value = { ...defaultAvailabilitySettings }
+    formData.value = { 
+      ...defaultAvailabilitySettings,
+      workHoursLimit: undefined, // Reset to undefined (will be calculated)
+      timezone: 'America/New_York' // Reset to default
+    }
     error.value = null
     success.value = null
   }

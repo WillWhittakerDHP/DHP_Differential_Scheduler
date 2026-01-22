@@ -93,7 +93,7 @@ export async function makeAvailabilities(
     freeTimes = filterByFreeHours(freeTimes, adminSettings.freeHours, adminSettings.timezone);
 
     // 4. Filter by workHours (before splitting into bits)
-    freeTimes = filterByWorkHours(freeTimes, adminSettings.workHours, adminSettings.timezone);
+    freeTimes = await filterByWorkHours(freeTimes, adminSettings.workHours, adminSettings.timezone);
 
     // 5. Filter by drive times (placeholder - returns freeTimes as-is for now)
     const destinations: Destination[] = mergedBusy.map((busy) => ({
