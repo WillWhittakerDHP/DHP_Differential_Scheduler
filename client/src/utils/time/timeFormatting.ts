@@ -1,4 +1,5 @@
 import type { TimeRange, TimeSlot } from '@/types/appointment'
+import type { ISO8601Date } from '@/types/datetime'
 
 type MaybeRef<Value> = Value | { value: Value }
 
@@ -60,30 +61,36 @@ export function formatDuration(minutes: number): string {
 }
 
 /**
- * Get today's date in YYYY-MM-DD format.
+ * Get today's date in ISO 8601 format (YYYY-MM-DD).
+ * LEARNING: Returns ISO 8601 date format for date-only values
+ * WHY: Consistent with RFC3339 datetime approach, aligns with international standards
+ * PATTERN: Extract date portion from UTC datetime
  */
-export function getTodayDate(): string {
+export function getTodayDate(): ISO8601Date {
   const today = new Date()
-  return today.toISOString().split('T')[0]
+  return today.toISOString().split('T')[0] as ISO8601Date
 }
 
 /**
  * Get first available date from time slots (falls back to today).
+ * LEARNING: Returns ISO 8601 date format (YYYY-MM-DD) for date-only values
+ * WHY: Consistent with date format standards throughout the codebase
+ * PATTERN: Extract date portion from RFC3339 datetime strings
  */
 export function getFirstAvailabilityDate(
   timeSlots: MaybeRef<(TimeRange | TimeSlot)[]>
-): string {
+): ISO8601Date {
   const slots = 'value' in timeSlots ? timeSlots.value : timeSlots
 
   if (slots && slots.length > 0) {
     const dates = slots
       .map((slot) => {
         if ('startTime' in slot) {
-          return new Date(slot.startTime).toISOString().split('T')[0]
+          return new Date(slot.startTime).toISOString().split('T')[0] as ISO8601Date
         }
         return null
       })
-      .filter((date): date is string => date !== null)
+      .filter((date): date is ISO8601Date => date !== null)
       .sort()
 
     if (dates.length > 0) {

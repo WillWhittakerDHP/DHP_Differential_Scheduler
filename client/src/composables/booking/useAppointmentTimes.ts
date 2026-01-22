@@ -124,7 +124,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     return slots.map(appointmentSlot => {
       const transformed = transformToInspectorPerspective(appointmentSlot, startTime)
       // Return the totalTime TimeSlot for inspector perspective (or first available)
-      return transformed.totalTime || transformed.timeOnSite || transformed.dataCollection || transformed.earlyArrival || transformed.reportWriting || transformed.clientPresentation
+      return transformed.totalTime || transformed.totalOnSite || transformed.dataCollection || transformed.earlyArrival || transformed.reportWriting || transformed.clientPresentation
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
@@ -154,7 +154,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     return slots.map(appointmentSlot => {
       const transformed = transformToClientPerspective(appointmentSlot, clientStartTime, onSite)
       // Return the clientPresentation TimeSlot for client perspective (or totalTime)
-      return transformed.clientPresentation || transformed.totalTime || transformed.timeOnSite || transformed.dataCollection || transformed.earlyArrival || transformed.reportWriting
+      return transformed.clientPresentation || transformed.totalTime || transformed.totalOnSite || transformed.dataCollection || transformed.earlyArrival || transformed.reportWriting
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 

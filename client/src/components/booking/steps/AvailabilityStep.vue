@@ -459,7 +459,11 @@ const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
               Reset Mocks
             </VBtn>
             <div class="calendar-mock-dev-panel-wrapper">
-              <CalendarMockDevPanel :date-range="dateRangeForApi" :refresh-key="mockRefreshKey" />
+              <CalendarMockDevPanel 
+                :date-range="dateRangeForApi" 
+                :refresh-key="mockRefreshKey"
+                :busy-periods="busyTimesForStartTimes"
+              />
             </div>
           </div>
         </div>

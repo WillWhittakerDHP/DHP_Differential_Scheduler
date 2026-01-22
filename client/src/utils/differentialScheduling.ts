@@ -170,12 +170,13 @@ export function transformToInspectorPerspective(
   // LEARNING: Helper to get flags from existing TimeSlot or use defaults
   // WHY: Preserves flags when transforming TimeSlots
   // PATTERN: Extract flags from existing TimeSlot or use false as default
-  const getTimeSlotFlags = (timeSlot: TimeSlot | null): { onSite: boolean; clientPresent: boolean; moveable: boolean } => {
-    if (!timeSlot) return { onSite: false, clientPresent: false, moveable: false }
+  const getTimeSlotFlags = (timeSlot: TimeSlot | null): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } => {
+    if (!timeSlot) return { onSite: false, clientPresent: false, moveable: false, isAvailable: true }
     return {
       onSite: timeSlot.onSite ?? false,
       clientPresent: timeSlot.clientPresent ?? false,
-      moveable: timeSlot.moveable ?? false
+      moveable: timeSlot.moveable ?? false,
+      isAvailable: timeSlot.isAvailable ?? true  // Preserve availability status, default to true
     }
   }
   
@@ -232,12 +233,13 @@ export function transformToClientPerspective(
   // LEARNING: Helper to get flags from existing TimeSlot or use defaults
   // WHY: Preserves flags when transforming TimeSlots
   // PATTERN: Extract flags from existing TimeSlot or use false as default
-  const getTimeSlotFlags = (timeSlot: TimeSlot | null): { onSite: boolean; clientPresent: boolean; moveable: boolean } => {
-    if (!timeSlot) return { onSite: false, clientPresent: false, moveable: false }
+  const getTimeSlotFlags = (timeSlot: TimeSlot | null): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } => {
+    if (!timeSlot) return { onSite: false, clientPresent: false, moveable: false, isAvailable: true }
     return {
       onSite: timeSlot.onSite ?? false,
       clientPresent: timeSlot.clientPresent ?? false,
-      moveable: timeSlot.moveable ?? false
+      moveable: timeSlot.moveable ?? false,
+      isAvailable: timeSlot.isAvailable ?? true  // Preserve availability status, default to true
     }
   }
   

@@ -20,6 +20,12 @@ import {
   applyShapeToTime, 
   derivePerspective 
 } from '@/utils/booking/appointmentSlotBuilder'
+import { createLogger } from '@/utils/logger'
+
+// LEARNING: Use scoped logger for controllable debug output
+// WHY: Prevents debug logs in production, allows scope-based filtering
+// PATTERN: createLogger(scope) provides debug/info/warn/error methods
+const logger = createLogger('useAppointmentSlots')
 
 /**
  * useAppointmentSlots composable parameters
@@ -88,7 +94,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       const shape = buildAppointmentShape(instances)
       return shape
     } catch (error) {
-      console.error('Error building appointment shape:', error)
+      logger.error('Error building appointment shape:', error)
       return null
     }
   })
@@ -118,7 +124,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       if (times.length > 0 && availabilityMap) {
         const sampleTimes = times.slice(0, 5)
         const sampleMapKeys = Array.from(availabilityMap.keys()).slice(0, 5)
-        console.log('[useAppointmentSlots] Comparing times vs Map keys:', {
+        logger.debug('Comparing times vs Map keys:', {
           timesCount: times.length,
           mapSize: availabilityMap.size,
           sampleTimes,
@@ -136,7 +142,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       const slots = times.map((time, index) => {
         // Get fallback duration from time slot if shape duration is 0
         const fallbackDuration = durations?.get(time)
-        const slot = applyShapeToTime(shape, time, index, fallbackDuration)
         
         // LEARNING: Set availability status from availability map
         // WHY: Marks slots as available/busy based on calendar busy periods
@@ -146,31 +151,37 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         // LEARNING: Log first few slots to verify lookup
         // WHY: Helps debug why busy slots aren't being marked correctly
         // PATTERN: Log sample lookups to verify Map keys match time values
+        // NOTE: Debug logging disabled by default - enable via VITE_DEBUG_SCOPES=useAppointmentSlots if needed
         if (index < 10) {
-          const busyEntries = availabilityMap ? Array.from(availabilityMap.entries()).filter(([_, isAvail]) => !isAvail) : []
-          const busyTimes = busyEntries.map(([time, _]) => time)
-          console.log('[useAppointmentSlots] Slot lookup:', {
-            index,
-            time,
-            mapHasKey: availabilityMap?.has(time),
-            isAvailable,
-            mapSize: availabilityMap?.size,
-            busyTimesCount: busyTimes.length,
-            isTimeInBusyList: busyTimes.includes(time),
-            sampleBusyTimes: busyTimes.slice(0, 5),
-            sampleKeys: availabilityMap ? Array.from(availabilityMap.keys()).slice(0, 5) : []
-          })
+          // Unused in commented-out debug logging - kept for potential future debugging
+          // const busyEntries = availabilityMap ? Array.from(availabilityMap.entries()).filter(([_, isAvail]) => !isAvail) : []
+          // const busyTimes = busyEntries.map(([time, _]) => time)
+          // Debug logging disabled by default - enable via VITE_DEBUG_SCOPES=useAppointmentSlots if needed
+          // logger.debug('Slot lookup:', {
+          //   index,
+          //   time,
+          //   mapHasKey: availabilityMap?.has(time),
+          //   isAvailable,
+          //   mapSize: availabilityMap?.size,
+          //   busyTimesCount: busyTimes.length,
+          //   isTimeInBusyList: busyTimes.includes(time),
+          //   sampleBusyTimes: busyTimes.slice(0, 5),
+          //   sampleKeys: availabilityMap ? Array.from(availabilityMap.keys()).slice(0, 5) : []
+          // })
         }
         
-        return {
-          ...slot,
-          isAvailable
-        }
+        // LEARNING: Derive buttonIndex from array position (index parameter from map)
+        // WHY: Ensures buttonIndex always matches UI grid position - single source of truth
+        // PATTERN: Pass map index directly to builder, which uses it as buttonIndex
+        // NOTE: index is the array position, which becomes slot.buttonIndex in applyShapeToTime
+        const slot = applyShapeToTime(shape, time, index, fallbackDuration, isAvailable)
+        
+        return slot
       })
       
       return slots
     } catch (error) {
-      console.error('Error applying shape to times:', error)
+      logger.error('Error applying shape to times:', error)
       return []
     }
   })

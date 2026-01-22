@@ -13,12 +13,16 @@ import type {
   AppointmentShape, 
   AppointmentSlot 
 } from '@/types/appointment'
+import type { RFC3339DateTime } from '@/types/datetime'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { getPartInstanceCategory } from './partShapeTimeSlotMapping'
 import { roundUpToIncrement } from '@/utils/timeSlotCalculations'
 
 /**
  * Create a TimeRange from start time and duration
+ * LEARNING: toISOString() always produces valid RFC3339 format (UTC with Z suffix)
+ * WHY: Date.toISOString() is guaranteed to return RFC3339-compliant string
+ * PATTERN: Use type assertion since we know the format is correct
  */
 export function createTimeRange(startTime: string, duration: number): TimeRange {
   const start = new Date(startTime)
@@ -26,8 +30,8 @@ export function createTimeRange(startTime: string, duration: number): TimeRange 
   end.setUTCMinutes(end.getUTCMinutes() + duration)
   
   return {
-    startTime: start.toISOString(),
-    endTime: end.toISOString(),
+    startTime: start.toISOString() as RFC3339DateTime,
+    endTime: end.toISOString() as RFC3339DateTime,
     duration
   }
 }
@@ -38,7 +42,7 @@ export function createTimeRange(startTime: string, duration: number): TimeRange 
 export function createTimeSlot(
   startTime: string,
   duration: number,
-  flags: { onSite: boolean; clientPresent: boolean; moveable: boolean }
+  flags: { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean }
 ): TimeSlot {
   const range = createTimeRange(startTime, duration)
   
@@ -46,7 +50,8 @@ export function createTimeSlot(
     ...range,
     onSite: flags.onSite,
     clientPresent: flags.clientPresent,
-    moveable: flags.moveable
+    moveable: flags.moveable,
+    isAvailable: flags.isAvailable
   }
 }
 
@@ -250,7 +255,8 @@ export function applyShapeToTime(
   shape: AppointmentShape,
   startTime: string,
   buttonIndex: number,
-  fallbackDuration?: number
+  fallbackDuration?: number,
+  isAvailable: boolean = true
 ): AppointmentSlot {
   // Apply each category shape to startTime
   const applyCategoryShape = (categoryShape: CategoryShape | null): TimeSlot | null => {
@@ -259,7 +265,8 @@ export function applyShapeToTime(
     return createTimeSlot(startTime, categoryShape.duration, {
       onSite: categoryShape.onSite,
       clientPresent: categoryShape.clientPresent,
-      moveable: categoryShape.moveable
+      moveable: categoryShape.moveable,
+      isAvailable: true  // Default to available for category shapes
     })
   }
   
@@ -312,6 +319,7 @@ export function applyShapeToTime(
   
   return {
     buttonIndex,
+    isAvailable,
     earlyArrival: applyCategoryShape(shape.earlyArrival),
     dataCollection: applyCategoryShape(shape.dataCollection),
     reportWriting: applyCategoryShape(shape.reportWriting),

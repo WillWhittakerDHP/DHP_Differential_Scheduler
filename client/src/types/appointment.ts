@@ -7,7 +7,7 @@
  */
 
 import type { MoveableSchedulingOptions } from './moveableScheduling'
-import type { RFC3339DateTime } from './datetime'
+import type { RFC3339DateTime, ISO8601Date } from './datetime'
 
 /**
  * Appointment status workflow type
@@ -106,7 +106,7 @@ export interface TimeSlot extends TimeRange {
   onSite: boolean
   clientPresent: boolean
   moveable: boolean
-  isAvailable?: boolean  // true = available, false = busy/unavailable (optional for backward compatibility)
+  isAvailable: boolean  // true = available, false = busy/unavailable (required)
 }
 
 
@@ -167,10 +167,15 @@ export interface AppointmentShape {
  * Contains actual TimeRanges with start/end times
  * 
  * This is the "when does this appointment happen?" answer
+ * 
+ * LEARNING: No index signature - all properties are explicitly defined
+ * WHY: Improves type safety, enables autocomplete, prevents typos
+ * PATTERN: Explicit interface with no dynamic property access
  */
 export interface AppointmentSlot {
   buttonIndex: number  // UI grid position (0-based)
   isAvailable: boolean  // true = available, false = busy/unavailable
+  orderIndex?: number  // Optional: normalized position for multiple appointments (0-based)
   
   // Category-specific TimeSlots (shape applied to startTime)
   earlyArrival: TimeSlot | null
@@ -183,9 +188,6 @@ export interface AppointmentSlot {
   totalClientPresent: TimeRange | null // Client's view
   totalMoveable: TimeRange | null      // Moveable parts
   totalTime: TimeRange | null          // Full appointment
-  
-  // Index signature for dynamic category access
-  [key: string]: TimeSlot | TimeRange | null | number | boolean
 }
 
 /**
@@ -274,8 +276,8 @@ export interface AppointmentRequest {
   serviceSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected services
   propertySnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected property type blocks
   optionSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected availability options
-  selectedDate?: string | null; // ISO date string (DATEONLY)
-  selectedDateRangeEnd?: string | null; // ISO date string (DATEONLY)
+  selectedDate?: ISO8601Date | null; // ISO 8601 date format (YYYY-MM-DD)
+  selectedDateRangeEnd?: ISO8601Date | null; // ISO 8601 date format (YYYY-MM-DD)
   selectedTimeSlots?: Array<{ time: string; duration: number }> | null;
   isQuoteMode?: boolean;
   quotePdfUrl?: string | null;
@@ -366,8 +368,8 @@ export interface AppointmentResponse {
   serviceSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected services
   propertySnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected property type blocks
   optionSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected availability options
-  selectedDate?: string | null;
-  selectedDateRangeEnd?: string | null;
+  selectedDate?: ISO8601Date | null;
+  selectedDateRangeEnd?: ISO8601Date | null;
   selectedTimeSlots?: Array<Record<string, unknown>> | null;
   isQuoteMode: boolean;
   quotePdfUrl?: string | null;

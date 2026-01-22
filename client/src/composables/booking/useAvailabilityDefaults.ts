@@ -17,6 +17,7 @@ import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { matchLoadedTimeSlots } from '@/utils/booking/timeSlotMatching'
 import type { TimeSlot } from '@/types/appointment'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import type { ISO8601Date } from '@/types/datetime'
 
 /**
  * useAvailabilityDefaults composable options
@@ -44,8 +45,9 @@ export interface UseAvailabilityDefaultsOptions {
 export interface UseAvailabilityDefaultsReturn {
   /**
    * Selected date state
+   * LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) for date-only values
    */
-  selectedDate: Ref<{ start: string | null; end: string | null }>
+  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   
   /**
    * Start time type (inspector, client, or nonDifferential for non-differential services)

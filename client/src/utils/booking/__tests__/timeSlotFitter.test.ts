@@ -6,13 +6,37 @@
  * Session 1.4.14: Core Time Slot Fitter Utility
  */
 
-import { describe, it, expect } from 'vitest'
-import { fitTimeSlots, fitTimeSlotsWithAvailability, timeRangesOverlap, parseLocalDate, parseTimeToMinutes, type BusinessHoursMap } from '../timeSlotFitter'
+import { describe, it, expect, beforeAll } from 'vitest'
+import { fitTimeSlots, fitTimeSlotsWithAvailability, timeRangesOverlap, parseLocalDate, parseTimeToMinutes, DEFAULT_INCLUDE_FLAGS, type BusinessHoursMap } from '../timeSlotFitter'
 import { generateMockFreeBusyResponse, extractBusyTimesFromFreeBusyResponse } from '../mockGoogleCalendar'
+import {
+  setTestBaseDate,
+  nextMonday9AM,
+  nextMonday7PM,
+  nextThursday9AM,
+  nextThursday7PM,
+  nextDayAtTime,
+  createBusyTimeRange,
+  createDateRange,
+  todayAtTime,
+  tomorrowAtTime,
+  nextDayDateOnly
+} from './testDateHelpers'
 
 // ===================================================================
 // TEST DATA SETUP
 // ===================================================================
+
+// LEARNING: Set base date for consistent test runs
+// WHY: Ensures all dynamic dates are relative to a known point
+// PATTERN: Set once at test suite start, use helpers throughout
+beforeAll(() => {
+  // Use a fixed date in the future to ensure tests don't use past dates
+  // This ensures mock Google Calendar and other date-dependent logic works
+  const futureDate = new Date()
+  futureDate.setUTCDate(futureDate.getUTCDate() + 7) // 7 days in the future
+  setTestBaseDate(futureDate)
+})
 
 /**
  * Standard business hours (9 AM - 7 PM, Monday-Friday)
@@ -34,17 +58,27 @@ const standardBusinessHours: BusinessHoursMap = {
 describe('timeSlotFitter helpers', () => {
   describe('parseLocalDate', () => {
     it('should parse YYYY-MM-DD format', () => {
-      const date = parseLocalDate('2026-01-15')
-      expect(date.getFullYear()).toBe(2026)
-      expect(date.getMonth()).toBe(0) // January is 0-indexed
-      expect(date.getDate()).toBe(15)
+      // LEARNING: Use dynamic date helper instead of hardcoded date
+      // WHY: Avoids stale dates that break tests over time
+      const testDate = nextDayDateOnly(1) // Next Monday
+      const date = parseLocalDate(testDate)
+      const expectedDate = new Date(testDate + 'T00:00:00Z')
+      // LEARNING: parseLocalDate parses in local timezone, so we compare UTC components
+      // WHY: The function creates a Date object from local date string
+      // PATTERN: Compare UTC components to avoid timezone issues
+      expect(date.getUTCFullYear()).toBe(expectedDate.getUTCFullYear())
+      expect(date.getUTCMonth()).toBe(expectedDate.getUTCMonth())
+      expect(date.getUTCDate()).toBe(expectedDate.getUTCDate())
     })
 
     it('should parse ISO timestamp format', () => {
-      const date = parseLocalDate('2026-01-15T14:30:00Z')
-      expect(date.getFullYear()).toBe(2026)
-      expect(date.getMonth()).toBe(0)
-      expect(date.getDate()).toBe(15)
+      // LEARNING: Use dynamic date helper
+      const testDateTime = nextMonday9AM()
+      const date = parseLocalDate(testDateTime)
+      const expectedDate = new Date(testDateTime)
+      expect(date.getFullYear()).toBe(expectedDate.getFullYear())
+      expect(date.getMonth()).toBe(expectedDate.getMonth())
+      expect(date.getDate()).toBe(expectedDate.getDate())
     })
   })
 
@@ -58,49 +92,69 @@ describe('timeSlotFitter helpers', () => {
 
   describe('timeRangesOverlap', () => {
     it('should detect overlapping ranges', () => {
+      // LEARNING: Use dynamic dates instead of hardcoded
+      const monday10AM = nextDayAtTime(1, 10, 0) // Monday 10 AM
+      const monday12PM = nextDayAtTime(1, 12, 0) // Monday 12 PM
+      const monday11AM = nextDayAtTime(1, 11, 0) // Monday 11 AM
+      const monday1PM = nextDayAtTime(1, 13, 0) // Monday 1 PM
+      
       const range1 = {
-        start: new Date('2026-01-15T10:00:00Z'),
-        end: new Date('2026-01-15T12:00:00Z')
+        start: new Date(monday10AM),
+        end: new Date(monday12PM)
       }
       const range2 = {
-        start: new Date('2026-01-15T11:00:00Z'),
-        end: new Date('2026-01-15T13:00:00Z')
+        start: new Date(monday11AM),
+        end: new Date(monday1PM)
       }
       expect(timeRangesOverlap(range1, range2)).toBe(true)
     })
 
     it('should detect non-overlapping ranges', () => {
+      const monday10AM = nextDayAtTime(1, 10, 0)
+      const monday12PM = nextDayAtTime(1, 12, 0)
+      const monday1PM = nextDayAtTime(1, 13, 0)
+      const monday3PM = nextDayAtTime(1, 15, 0)
+      
       const range1 = {
-        start: new Date('2026-01-15T10:00:00Z'),
-        end: new Date('2026-01-15T12:00:00Z')
+        start: new Date(monday10AM),
+        end: new Date(monday12PM)
       }
       const range2 = {
-        start: new Date('2026-01-15T13:00:00Z'),
-        end: new Date('2026-01-15T15:00:00Z')
+        start: new Date(monday1PM),
+        end: new Date(monday3PM)
       }
       expect(timeRangesOverlap(range1, range2)).toBe(false)
     })
 
     it('should detect adjacent ranges as non-overlapping', () => {
+      const monday10AM = nextDayAtTime(1, 10, 0)
+      const monday12PM = nextDayAtTime(1, 12, 0)
+      const monday2PM = nextDayAtTime(1, 14, 0)
+      
       const range1 = {
-        start: new Date('2026-01-15T10:00:00Z'),
-        end: new Date('2026-01-15T12:00:00Z')
+        start: new Date(monday10AM),
+        end: new Date(monday12PM)
       }
       const range2 = {
-        start: new Date('2026-01-15T12:00:00Z'),
-        end: new Date('2026-01-15T14:00:00Z')
+        start: new Date(monday12PM),
+        end: new Date(monday2PM)
       }
       expect(timeRangesOverlap(range1, range2)).toBe(false)
     })
 
     it('should detect contained ranges as overlapping', () => {
+      const monday10AM = nextDayAtTime(1, 10, 0)
+      const monday11AM = nextDayAtTime(1, 11, 0)
+      const monday1PM = nextDayAtTime(1, 13, 0)
+      const monday2PM = nextDayAtTime(1, 14, 0)
+      
       const range1 = {
-        start: new Date('2026-01-15T10:00:00Z'),
-        end: new Date('2026-01-15T14:00:00Z')
+        start: new Date(monday10AM),
+        end: new Date(monday2PM)
       }
       const range2 = {
-        start: new Date('2026-01-15T11:00:00Z'),
-        end: new Date('2026-01-15T13:00:00Z')
+        start: new Date(monday11AM),
+        end: new Date(monday1PM)
       }
       expect(timeRangesOverlap(range1, range2)).toBe(true)
     })
@@ -115,11 +169,12 @@ describe('fitTimeSlots', () => {
   describe('basic functionality', () => {
     it('should generate slots for single day within boundaries', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z', // Monday 9 AM
-        endBoundary: '2026-01-15T19:00:00Z',   // Monday 7 PM
+        startBoundary: nextMonday9AM(), // Monday 9 AM
+        endBoundary: nextMonday7PM(),   // Monday 7 PM
         duration: 60, // 1 hour
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       expect(result.slots.length).toBeGreaterThan(0)
@@ -128,23 +183,24 @@ describe('fitTimeSlots', () => {
       // First slot should start at or after startBoundary
       const firstSlot = result.slots[0]
       expect(new Date(firstSlot.startTime).getTime()).toBeGreaterThanOrEqual(
-        new Date('2026-01-15T09:00:00Z').getTime()
+        new Date(nextMonday9AM()).getTime()
       )
 
       // Last slot should end at or before endBoundary
       const lastSlot = result.slots[result.slots.length - 1]
       expect(new Date(lastSlot.endTime).getTime()).toBeLessThanOrEqual(
-        new Date('2026-01-15T19:00:00Z').getTime()
+        new Date(nextMonday7PM()).getTime()
       )
     })
 
     it('should respect duration in slots', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 90, // 1.5 hours
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
@@ -158,11 +214,12 @@ describe('fitTimeSlots', () => {
 
     it('should respect minuteIncrement', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 30 // 30-minute intervals
+        minuteIncrement: 30, // 30-minute intervals
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
@@ -176,11 +233,12 @@ describe('fitTimeSlots', () => {
   describe('boundary handling', () => {
     it('should return empty slots if startBoundary >= endBoundary', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T19:00:00Z',
-        endBoundary: '2026-01-15T09:00:00Z', // Before start
+        startBoundary: nextMonday7PM(),
+        endBoundary: nextMonday9AM(), // Before start
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       expect(result.slots).toEqual([])
@@ -188,66 +246,78 @@ describe('fitTimeSlots', () => {
     })
 
     it('should filter slots that start before startBoundary', () => {
+      const startBoundary = nextDayAtTime(1, 12, 0) // Monday noon
+      const endBoundary = nextMonday7PM()
+      
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T12:00:00Z', // Start at noon
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary, // Start at noon
+        endBoundary,
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
         const start = new Date(slot.startTime)
         expect(start.getTime()).toBeGreaterThanOrEqual(
-          new Date('2026-01-15T12:00:00Z').getTime()
+          new Date(startBoundary).getTime()
         )
       })
     })
 
     it('should filter slots that end after endBoundary', () => {
+      const startBoundary = nextMonday9AM()
+      const endBoundary = nextDayAtTime(1, 15, 0) // Monday 3 PM
+      
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T15:00:00Z', // End at 3 PM
+        startBoundary,
+        endBoundary, // End at 3 PM
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
         const end = new Date(slot.endTime)
         expect(end.getTime()).toBeLessThanOrEqual(
-          new Date('2026-01-15T15:00:00Z').getTime()
+          new Date(endBoundary).getTime()
         )
       })
     })
 
     it('should handle multi-day boundaries', () => {
+      const startBoundary = nextDayAtTime(1, 14, 0) // Monday 2 PM UTC
+      const endBoundary = nextDayAtTime(2, 12, 0)   // Tuesday noon UTC
+      
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T14:00:00Z', // Monday 2 PM UTC
-        endBoundary: '2026-01-16T12:00:00Z',   // Tuesday noon UTC
+        startBoundary,
+        endBoundary,
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       expect(result.slots.length).toBeGreaterThan(0)
 
       // Should have slots on both days
-      // LEARNING: Check dates in local timezone since slots are generated in local time
-      // WHY: fitTimeSlots generates slots in local time, so we should check local dates
-      // PATTERN: Use getDate() and getMonth() for local date checking
+      // LEARNING: Check dates dynamically based on generated dates
+      // WHY: Avoids hardcoded dates that become stale
+      // PATTERN: Use day-of-week comparison instead of specific dates
+      const startDate = new Date(startBoundary)
+      const endDate = new Date(endBoundary)
+      const mondayDayOfWeek = startDate.getUTCDay()
+      const tuesdayDayOfWeek = endDate.getUTCDay()
+      
       const mondaySlots = result.slots.filter(slot => {
         const date = new Date(slot.startTime)
-        // Check if slot is on Monday (January 15, 2026)
-        // Note: getDate() returns local date, which may differ from UTC date due to timezone
-        return date.getFullYear() === 2026 && date.getMonth() === 0 && date.getDate() === 15
+        return date.getUTCDay() === mondayDayOfWeek
       })
       const tuesdaySlots = result.slots.filter(slot => {
         const date = new Date(slot.startTime)
-        // Check if slot is on Tuesday (January 16, 2026) in local time
-        // Note: Due to timezone conversion, Tuesday slots might appear as Monday in UTC
-        // but we check local date since that's how slots are generated
-        return date.getFullYear() === 2026 && date.getMonth() === 0 && date.getDate() === 16
+        return date.getUTCDay() === tuesdayDayOfWeek
       })
       
       // LEARNING: If no Tuesday slots found, check if endBoundary conversion prevents them
@@ -255,8 +325,9 @@ describe('fitTimeSlots', () => {
       // PATTERN: Accept slots on either Monday or Tuesday if endBoundary is early Tuesday
       if (tuesdaySlots.length === 0 && mondaySlots.length > 0) {
         // Check if endBoundary in local time is early Tuesday (before business hours)
-        const endBoundaryLocal = new Date('2026-01-16T12:00:00Z')
-        const tuesdayBusinessStart = new Date(2026, 0, 16, 9, 0, 0) // Tuesday 9 AM local
+        const endBoundaryLocal = new Date(endBoundary)
+        const tuesdayBusinessStart = new Date(endBoundaryLocal)
+        tuesdayBusinessStart.setUTCHours(9, 0, 0, 0) // Tuesday 9 AM UTC
         // If endBoundary is before business hours start, no Tuesday slots expected
         if (endBoundaryLocal < tuesdayBusinessStart) {
           // This is expected - endBoundary is too early for Tuesday slots
@@ -272,12 +343,15 @@ describe('fitTimeSlots', () => {
 
   describe('business hours handling', () => {
     it('should respect business hours for each day', () => {
+      const { startBoundary, endBoundary } = createDateRange(0, 0, 1, 23) // Sunday midnight to Monday 11 PM
+      
       const result = fitTimeSlots({
-        startBoundary: '2026-01-12T00:00:00Z', // Sunday
-        endBoundary: '2026-01-13T23:59:59Z',   // Monday
+        startBoundary, // Sunday
+        endBoundary,   // Monday
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
@@ -297,11 +371,12 @@ describe('fitTimeSlots', () => {
 
     it('should not generate slots outside business hours', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T08:00:00Z', // Before business hours
-        endBoundary: '2026-01-15T20:00:00Z',  // After business hours
+        startBoundary: nextDayAtTime(1, 8, 0),  // Monday 8 AM (before business hours)
+        endBoundary: nextDayAtTime(1, 20, 0),  // Monday 8 PM (after business hours)
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
@@ -322,11 +397,12 @@ describe('fitTimeSlots', () => {
       }
 
       const result = fitTimeSlots({
-        startBoundary: '2026-01-12T00:00:00Z', // Sunday
-        endBoundary: '2026-01-12T23:59:59Z',
+        startBoundary: nextDayAtTime(0, 0, 0), // Sunday midnight
+        endBoundary: nextDayAtTime(0, 23, 59), // Sunday 11:59 PM
         duration: 60,
         businessHours: customBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
@@ -344,22 +420,23 @@ describe('fitTimeSlots', () => {
     it('should filter out slots that overlap busy times', () => {
       const busyTimes = [
         {
-          start: '2026-01-15T10:00:00Z',
-          end: '2026-01-15T11:00:00Z'
+          start: nextDayAtTime(1, 10, 0),
+          end: nextDayAtTime(1, 11, 0)
         },
         {
-          start: '2026-01-15T14:00:00Z',
-          end: '2026-01-15T15:00:00Z'
+          start: nextDayAtTime(1, 14, 0),
+          end: nextDayAtTime(1, 15, 0)
         }
       ]
 
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 60,
         businessHours: standardBusinessHours,
         minuteIncrement: 15,
-        busyTimes
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
@@ -382,12 +459,13 @@ describe('fitTimeSlots', () => {
 
     it('should handle empty busy times array', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 60,
         businessHours: standardBusinessHours,
         minuteIncrement: 15,
-        busyTimes: []
+        busyTimes: [],
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       expect(result.slots.length).toBeGreaterThan(0)
@@ -396,18 +474,19 @@ describe('fitTimeSlots', () => {
     it('should handle busy times spanning multiple days', () => {
       const busyTimes = [
         {
-          start: '2026-01-15T16:00:00Z', // Monday 4 PM
-          end: '2026-01-16T10:00:00Z'    // Tuesday 10 AM
+          start: nextDayAtTime(1, 16, 0), // Monday 4 PM
+          end: nextDayAtTime(2, 10, 0)    // Tuesday 10 AM
         }
       ]
 
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-16T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextDayAtTime(2, 19, 0), // Tuesday 7 PM
         duration: 60,
         businessHours: standardBusinessHours,
         minuteIncrement: 15,
-        busyTimes
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
@@ -430,8 +509,8 @@ describe('fitTimeSlots', () => {
       // PATTERN: Generate mock response, extract busy times, verify filtering
       
       const dateRange = {
-        start: '2026-01-15T09:00:00Z',
-        end: '2026-01-15T19:00:00Z'
+        start: nextMonday9AM(),
+        end: nextMonday7PM()
       }
 
       // Generate mock Google Calendar free/busy response
@@ -455,7 +534,8 @@ describe('fitTimeSlots', () => {
         duration: 60,
         businessHours: standardBusinessHours,
         minuteIncrement: 15,
-        busyTimes
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       // LEARNING: Verify that no slots overlap with busy times
@@ -486,6 +566,7 @@ describe('fitTimeSlots', () => {
         duration: 60,
         businessHours: standardBusinessHours,
         minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS,
         busyTimes: []
       })
 
@@ -498,18 +579,19 @@ describe('fitTimeSlots', () => {
       it('should generate all slots with availability flags', () => {
         const busyTimes = [
           {
-            start: '2026-01-15T10:00:00Z',
-            end: '2026-01-15T11:00:00Z'
+            start: nextDayAtTime(1, 10, 0),
+            end: nextDayAtTime(1, 11, 0)
           }
         ]
 
         const result = fitTimeSlotsWithAvailability({
-          startBoundary: '2026-01-15T09:00:00Z',
-          endBoundary: '2026-01-15T19:00:00Z',
-          duration: 60,
-          businessHours: standardBusinessHours,
-          minuteIncrement: 15,
-          busyTimes
+          startBoundary: nextMonday9AM(),
+          endBoundary: nextMonday7PM(),
+        duration: 60,
+        businessHours: standardBusinessHours,
+        minuteIncrement: 15,
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
         // LEARNING: Should generate slots (not filter them out)
@@ -529,18 +611,19 @@ describe('fitTimeSlots', () => {
       it('should mark busy slots as unavailable', () => {
         const busyTimes = [
           {
-            start: '2026-01-15T10:00:00Z',
-            end: '2026-01-15T11:00:00Z'
+            start: nextDayAtTime(1, 10, 0),
+            end: nextDayAtTime(1, 11, 0)
           }
         ]
 
         const result = fitTimeSlotsWithAvailability({
-          startBoundary: '2026-01-15T09:00:00Z',
-          endBoundary: '2026-01-15T19:00:00Z',
-          duration: 60,
-          businessHours: standardBusinessHours,
-          minuteIncrement: 15,
-          busyTimes
+          startBoundary: nextMonday9AM(),
+          endBoundary: nextMonday7PM(),
+        duration: 60,
+        businessHours: standardBusinessHours,
+        minuteIncrement: 15,
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
         // LEARNING: Find slots that overlap busy period
@@ -566,18 +649,19 @@ describe('fitTimeSlots', () => {
       it('should mark available slots as available', () => {
         const busyTimes = [
           {
-            start: '2026-01-15T10:00:00Z',
-            end: '2026-01-15T11:00:00Z'
+            start: nextDayAtTime(1, 10, 0),
+            end: nextDayAtTime(1, 11, 0)
           }
         ]
 
         const result = fitTimeSlotsWithAvailability({
-          startBoundary: '2026-01-15T09:00:00Z',
-          endBoundary: '2026-01-15T19:00:00Z',
-          duration: 60,
-          businessHours: standardBusinessHours,
-          minuteIncrement: 15,
-          busyTimes
+          startBoundary: nextMonday9AM(),
+          endBoundary: nextMonday7PM(),
+        duration: 60,
+        businessHours: standardBusinessHours,
+        minuteIncrement: 15,
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
         // LEARNING: Find slots that don't overlap busy period
@@ -607,29 +691,31 @@ describe('fitTimeSlots', () => {
             end: '2026-01-15T11:00:00Z'
           },
           {
-            start: '2026-01-15T14:00:00Z',
-            end: '2026-01-15T15:00:00Z'
+            start: nextDayAtTime(1, 14, 0),
+            end: nextDayAtTime(1, 15, 0)
           }
         ]
 
         // Old approach (filters out busy slots)
         const oldResult = fitTimeSlots({
-          startBoundary: '2026-01-15T09:00:00Z',
-          endBoundary: '2026-01-15T19:00:00Z',
-          duration: 60,
-          businessHours: standardBusinessHours,
-          minuteIncrement: 15,
-          busyTimes
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
+        duration: 60,
+        businessHours: standardBusinessHours,
+        minuteIncrement: 15,
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
         // New approach (generates all slots, marks availability)
         const newResult = fitTimeSlotsWithAvailability({
-          startBoundary: '2026-01-15T09:00:00Z',
-          endBoundary: '2026-01-15T19:00:00Z',
-          duration: 60,
-          businessHours: standardBusinessHours,
-          minuteIncrement: 15,
-          busyTimes
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
+        duration: 60,
+        businessHours: standardBusinessHours,
+        minuteIncrement: 15,
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
         // LEARNING: New approach should generate more slots
@@ -647,18 +733,19 @@ describe('fitTimeSlots', () => {
       it('should return earliest completion from available slots only', () => {
         const busyTimes = [
           {
-            start: '2026-01-15T09:00:00Z',
-            end: '2026-01-15T10:00:00Z'
+          start: nextMonday9AM(),
+          end: nextDayAtTime(1, 10, 0)
           }
         ]
 
         const result = fitTimeSlotsWithAvailability({
-          startBoundary: '2026-01-15T09:00:00Z',
-          endBoundary: '2026-01-15T19:00:00Z',
-          duration: 60,
-          businessHours: standardBusinessHours,
-          minuteIncrement: 15,
-          busyTimes
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
+        duration: 60,
+        businessHours: standardBusinessHours,
+        minuteIncrement: 15,
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
         // LEARNING: Earliest completion should be from an available slot
@@ -681,12 +768,13 @@ describe('fitTimeSlots', () => {
     describe('edge cases', () => {
       it('should mark all slots as available when no busy times', () => {
         const result = fitTimeSlotsWithAvailability({
-          startBoundary: '2026-01-15T09:00:00Z',
-          endBoundary: '2026-01-15T19:00:00Z',
+          startBoundary: nextMonday9AM(),
+          endBoundary: nextMonday7PM(),
           duration: 60,
           businessHours: standardBusinessHours,
           minuteIncrement: 15,
-          busyTimes: []
+          busyTimes: [],
+          includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
         // LEARNING: All slots should be available when no busy times
@@ -706,24 +794,32 @@ describe('fitTimeSlots', () => {
         ]
 
         const result = fitTimeSlotsWithAvailability({
-          startBoundary: '2026-01-15T09:00:00Z',
-          endBoundary: '2026-01-16T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextDayAtTime(2, 19, 0), // Tuesday 7 PM
           duration: 60,
           businessHours: standardBusinessHours,
           minuteIncrement: 15,
-          busyTimes
+          busyTimes,
+          includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
         // LEARNING: Should generate slots on both days
         // WHY: Generates all slots regardless of busy periods
         // PATTERN: Check that slots span multiple days
+        // LEARNING: Filter slots by day of week instead of hardcoded dates
+        // WHY: Avoids hardcoded dates that become stale
+        // PATTERN: Use day-of-week comparison
+        const startDate = new Date(nextMonday9AM())
+        const mondayDayOfWeek = startDate.getUTCDay()
+        const tuesdayDayOfWeek = (mondayDayOfWeek + 1) % 7
+        
         const mondaySlots = result.slots.filter(slot => {
           const date = new Date(slot.startTime)
-          return date.getFullYear() === 2026 && date.getMonth() === 0 && date.getDate() === 15
+          return date.getUTCDay() === mondayDayOfWeek
         })
         const tuesdaySlots = result.slots.filter(slot => {
           const date = new Date(slot.startTime)
-          return date.getFullYear() === 2026 && date.getMonth() === 0 && date.getDate() === 16
+          return date.getUTCDay() === tuesdayDayOfWeek
         })
 
         expect(mondaySlots.length).toBeGreaterThan(0)
@@ -754,8 +850,8 @@ describe('fitTimeSlots', () => {
   describe('includeFlags handling', () => {
     it('should set TimeSlot flags correctly', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 60,
         businessHours: standardBusinessHours,
         minuteIncrement: 15,
@@ -773,13 +869,14 @@ describe('fitTimeSlots', () => {
       })
     })
 
-    it('should default flags to false if not provided', () => {
+    it('should use default flags when DEFAULT_INCLUDE_FLAGS provided', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       result.slots.forEach(slot => {
@@ -790,31 +887,211 @@ describe('fitTimeSlots', () => {
     })
   })
 
+  describe('input validation', () => {
+    describe('duration validation', () => {
+      it('should throw error for duration <= 0', () => {
+        expect(() => {
+          fitTimeSlots({
+            startBoundary: '2026-01-15T09:00:00Z',
+            endBoundary: '2026-01-15T19:00:00Z',
+            duration: 0,
+            businessHours: standardBusinessHours,
+            minuteIncrement: 15,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('duration must be greater than 0')
+
+        expect(() => {
+          fitTimeSlots({
+            startBoundary: '2026-01-15T09:00:00Z',
+            endBoundary: '2026-01-15T19:00:00Z',
+            duration: -10,
+            businessHours: standardBusinessHours,
+            minuteIncrement: 15,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('duration must be greater than 0')
+      })
+    })
+
+    describe('minuteIncrement validation', () => {
+      it('should throw error for minuteIncrement <= 0', () => {
+        expect(() => {
+          fitTimeSlots({
+            startBoundary: '2026-01-15T09:00:00Z',
+            endBoundary: '2026-01-15T19:00:00Z',
+            duration: 60,
+            businessHours: standardBusinessHours,
+            minuteIncrement: 0,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('minuteIncrement must be greater than 0')
+
+        expect(() => {
+          fitTimeSlots({
+            startBoundary: '2026-01-15T09:00:00Z',
+            endBoundary: '2026-01-15T19:00:00Z',
+            duration: 60,
+            businessHours: standardBusinessHours,
+            minuteIncrement: -5,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('minuteIncrement must be greater than 0')
+      })
+
+      it('should throw error for non-integer minuteIncrement', () => {
+        expect(() => {
+          fitTimeSlots({
+            startBoundary: '2026-01-15T09:00:00Z',
+            endBoundary: '2026-01-15T19:00:00Z',
+            duration: 60,
+            businessHours: standardBusinessHours,
+            minuteIncrement: 15.5,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('minuteIncrement must be a positive integer')
+      })
+    })
+
+    describe('boundary validation', () => {
+      it('should throw error for missing startBoundary', () => {
+        expect(() => {
+          fitTimeSlots({
+            startBoundary: '' as any,
+            endBoundary: '2026-01-15T19:00:00Z',
+            duration: 60,
+            businessHours: standardBusinessHours,
+            minuteIncrement: 15,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('startBoundary and endBoundary are required')
+      })
+
+      it('should throw error for missing endBoundary', () => {
+        expect(() => {
+          fitTimeSlots({
+            startBoundary: '2026-01-15T09:00:00Z',
+            endBoundary: '' as any,
+            duration: 60,
+            businessHours: standardBusinessHours,
+            minuteIncrement: 15,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('startBoundary and endBoundary are required')
+      })
+
+      it('should throw error for invalid startBoundary datetime', () => {
+        expect(() => {
+          fitTimeSlots({
+            startBoundary: 'invalid-datetime' as any,
+            endBoundary: '2026-01-15T19:00:00Z',
+            duration: 60,
+            businessHours: standardBusinessHours,
+            minuteIncrement: 15,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('startBoundary must be a valid RFC3339 datetime')
+      })
+
+      it('should throw error for invalid endBoundary datetime', () => {
+        expect(() => {
+          fitTimeSlots({
+            startBoundary: '2026-01-15T09:00:00Z',
+            endBoundary: 'invalid-datetime' as any,
+            duration: 60,
+            businessHours: standardBusinessHours,
+            minuteIncrement: 15,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('endBoundary must be a valid RFC3339 datetime')
+      })
+    })
+
+    describe('business hours validation', () => {
+      it('should throw error for invalid businessHours type', () => {
+        expect(() => {
+          fitTimeSlots({
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
+        duration: 60,
+        businessHours: null as any,
+            minuteIncrement: 15,
+            includeFlags: DEFAULT_INCLUDE_FLAGS
+          })
+        }).toThrow('businessHours must be a BusinessHoursMap object')
+      })
+
+      it('should return empty slots for empty business hours', () => {
+        const result = fitTimeSlots({
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
+        duration: 60,
+        businessHours: {},
+          minuteIncrement: 15,
+          includeFlags: DEFAULT_INCLUDE_FLAGS
+        })
+
+        expect(result.slots).toEqual([])
+        expect(result.earliestCompletion).toBeNull()
+      })
+    })
+  })
+
   describe('earliestCompletion calculation', () => {
-    it('should return earliest completion time', () => {
+    it('should return earliest completion time of available slots only', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       expect(result.earliestCompletion).toBeTruthy()
 
-      // Earliest completion should be the end time of the first slot
-      const firstSlotEnd = new Date(result.slots[0].endTime)
-      const earliestCompletionDate = new Date(result.earliestCompletion!)
-      expect(earliestCompletionDate.getTime()).toBe(firstSlotEnd.getTime())
+      // Earliest completion should be the end time of the first available slot
+      const firstAvailableSlot = result.slots.find(slot => slot.isAvailable)
+      expect(firstAvailableSlot).toBeTruthy()
+      
+      if (firstAvailableSlot && result.earliestCompletion) {
+        const firstAvailableSlotEnd = new Date(firstAvailableSlot.endTime)
+        const earliestCompletionDate = new Date(result.earliestCompletion)
+        expect(earliestCompletionDate.getTime()).toBe(firstAvailableSlotEnd.getTime())
+      }
+    })
+
+    it('should return null if no available slots generated', () => {
+      // Create busy times that cover all slots
+      const busyTimes = [
+        { start: nextMonday9AM(), end: nextMonday7PM() }
+      ]
+
+      const result = fitTimeSlots({
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
+        duration: 60,
+        businessHours: standardBusinessHours,
+        minuteIncrement: 15,
+        busyTimes,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
+      })
+
+      // LEARNING: fitTimeSlots filters during generation, so busy slots are not generated
+      // WHY: fitTimeSlots uses "filter during generation" approach, not "generate all then filter"
+      // PATTERN: When all slots are busy, no slots are returned (they're filtered out)
+      expect(result.slots.length).toBe(0)
+      expect(result.earliestCompletion).toBeNull()
     })
 
     it('should return null if no slots generated', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T19:00:00Z',
-        endBoundary: '2026-01-15T09:00:00Z', // Invalid boundaries
+        startBoundary: nextMonday7PM(),
+        endBoundary: nextMonday9AM(), // Invalid boundaries
         duration: 60,
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       expect(result.earliestCompletion).toBeNull()
@@ -824,11 +1101,12 @@ describe('fitTimeSlots', () => {
   describe('edge cases', () => {
     it('should handle very short duration', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 5, // 5 minutes
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       expect(result.slots.length).toBeGreaterThan(0)
@@ -839,11 +1117,12 @@ describe('fitTimeSlots', () => {
 
     it('should handle very long duration', () => {
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 600, // 10 hours
         businessHours: standardBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       // Should only have slots that fit within business hours (10 hours)
@@ -861,11 +1140,12 @@ describe('fitTimeSlots', () => {
       }
 
       const result = fitTimeSlots({
-        startBoundary: '2026-01-15T09:00:00Z',
-        endBoundary: '2026-01-15T19:00:00Z',
+        startBoundary: nextMonday9AM(),
+        endBoundary: nextMonday7PM(),
         duration: 60,
         businessHours: invalidBusinessHours,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       // Should skip invalid day and continue with other days
@@ -883,7 +1163,8 @@ describe('fitTimeSlots', () => {
         endBoundary: '2026-01-15T19:00:00Z',
         duration: 60,
         businessHours: incompleteBusinessHours as BusinessHoursMap,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
       // Should handle gracefully (may return empty or skip that day)

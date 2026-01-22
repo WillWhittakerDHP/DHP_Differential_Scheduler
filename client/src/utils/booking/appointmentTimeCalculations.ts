@@ -155,13 +155,14 @@ export function calculateAppointmentSlots(
   const clientPresentationDuration = calculateCategoryDuration(partsByCategory.get('clientPresentation') || [])
   
   // LEARNING: Helper function to get flags for a category from its parts
-  // WHY: TimeSlot objects need onSite, clientPresent, and moveable flags
+  // WHY: TimeSlot objects need onSite, clientPresent, moveable, and isAvailable flags
   // PATTERN: Check if any part in category has the flag set to true
-  const getCategoryFlags = (categoryParts: BookingPartInstance[]): { onSite: boolean; clientPresent: boolean; moveable: boolean } => {
+  const getCategoryFlags = (categoryParts: BookingPartInstance[]): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } => {
     return {
       onSite: categoryParts.some(part => part.onSite === true),
       clientPresent: categoryParts.some(part => part.clientPresent === true),
-      moveable: categoryParts.some(part => part.moveable === true)
+      moveable: categoryParts.some(part => part.moveable === true),
+      isAvailable: true  // Default to available for category shapes
     }
   }
 
@@ -170,6 +171,7 @@ export function calculateAppointmentSlots(
   // PATTERN: Create AppointmentSlot with orderIndex 0 (normalized) and calculated TimeSlots if baseStartTime provided
   const appointmentSlot: AppointmentSlot = {
     buttonIndex: 0, // Required by AppointmentSlot interface
+    isAvailable: true, // Default to available for appointment slots
     orderIndex: 0, // Normalized to 0 for single appointment (can be extended for multiple normalized positions)
     totalTime: baseStartTime && totalDuration > 0 
       ? createTimeRangeFromStart(baseStartTime, totalDuration) 

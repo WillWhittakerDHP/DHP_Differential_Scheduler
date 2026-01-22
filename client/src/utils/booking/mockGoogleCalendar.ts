@@ -11,6 +11,12 @@
 
 import type { GoogleFreeBusyResponse, GoogleCalendarBusyPeriod } from '@/types/googleCalendar'
 import type { RFC3339DateTime } from '@/types/datetime'
+import { createLogger } from '@/utils/logger'
+
+// LEARNING: Use scoped logger for controllable debug output
+// WHY: Prevents debug logs in production, allows scope-based filtering
+// PATTERN: createLogger(scope) provides debug/info/warn/error methods
+const logger = createLogger('mockGoogleCalendar')
 
 /**
  * Configuration for generating mock busy periods
@@ -175,7 +181,7 @@ export function generateMockFreeBusyResponse(
   const isSignificantlyPast = timeDifferenceMs > 1000 // More than 1 second in the past
   
   if (isSignificantlyPast) {
-    console.warn('[mockGoogleCalendar] Early return - earliest start time is significantly in the past:', {
+    logger.warn('Early return - earliest start time is significantly in the past:', {
       earliestStartTime: earliestStartTime,
       earliestStartDateTime: earliestStartDateTime.toISOString(),
       now: now.toISOString(),
@@ -300,7 +306,7 @@ export function generateMockFreeBusyResponse(
           // LEARNING: Log detailed error information
           // WHY: Helps understand why periods can't be generated
           // PATTERN: Include calendar ID, period index, and error details
-          console.warn(`[mockGoogleCalendar] Skipping busy period ${i} for ${calendarId}:`, {
+          logger.warn(`Skipping busy period ${i} for ${calendarId}:`, {
             error,
             errorMessage: error instanceof Error ? error.message : String(error),
             errorStack: error instanceof Error ? error.stack : undefined

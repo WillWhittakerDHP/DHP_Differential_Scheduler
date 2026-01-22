@@ -75,11 +75,16 @@ function createTimeSlot(
     duration?: number
   } = {}
 ): TimeSlot {
+  const startTime = slotStart
+  const endTime = options.slotEnd || new Date(new Date(slotStart).getTime() + (options.duration || 60) * 60000).toISOString()
   return {
-    slotStart,
-    slotEnd: options.slotEnd || new Date(new Date(slotStart).getTime() + (options.duration || 60) * 60000).toISOString(),
+    startTime,
+    endTime,
     duration: options.duration || 60,
-    available: true,
+    onSite: false,
+    clientPresent: false,
+    moveable: false,
+    isAvailable: true,
   }
 }
 

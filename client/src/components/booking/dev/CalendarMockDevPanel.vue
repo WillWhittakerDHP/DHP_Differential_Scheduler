@@ -15,10 +15,12 @@
 import { computed, ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 
 interface Props {
   dateRange: { start: string; end: string } | null
   refreshKey?: number | string
+  busyPeriods?: BusyTimeRange[]  // Optional: if provided, use these instead of generating from dateRange
 }
 
 const props = defineProps<Props>()
@@ -29,8 +31,26 @@ const wrapperRef = ref<HTMLElement | null>(null)
 
 // LEARNING: Get current busy periods from mock calendar
 // WHY: Shows what times are blocked for testing slot filtering
-// PATTERN: Computed property that calls getCalendarAvailability when dateRange or refreshKey changes
+// PATTERN: Use provided busyPeriods if available, otherwise generate from dateRange
+// WHY: Ensures mock panel shows exactly the same busy periods used by slot generation
 const busyPeriods = computed(() => {
+  // LEARNING: If busyPeriods prop is provided, use it directly
+  // WHY: Ensures mock panel shows exactly what slot generation uses
+  // PATTERN: Prefer prop over generated values for consistency
+  if (props.busyPeriods && props.busyPeriods.length > 0) {
+    console.log('[CalendarMockDevPanel] Using provided busyPeriods:', {
+      count: props.busyPeriods.length,
+      periods: props.busyPeriods.slice(0, 3).map(p => ({
+        start: p.start,
+        end: p.end
+      }))
+    })
+    return props.busyPeriods
+  }
+  
+  // LEARNING: Fall back to generating from dateRange if no busyPeriods provided
+  // WHY: Maintains backward compatibility
+  // PATTERN: Generate busy periods from dateRange when prop not provided
   if (!props.dateRange) {
     console.log('[CalendarMockDevPanel] No dateRange prop')
     return []

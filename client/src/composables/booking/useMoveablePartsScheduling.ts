@@ -13,6 +13,12 @@ import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from 
 import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/types/moveableScheduling'
 import { fitTimeSlots, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
+import { createLogger } from '@/utils/logger'
+
+// LEARNING: Use scoped logger for controllable debug output
+// WHY: Prevents debug logs in production, allows scope-based filtering
+// PATTERN: createLogger(scope) provides debug/info/warn/error methods
+const logger = createLogger('useMoveablePartsScheduling')
 
 interface UseMoveablePartsSchedulingParams {
   appointmentShape: ComputedRef<AppointmentShape | null>
@@ -152,7 +158,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         selectedSlotIndex: selectedSlotIndex.value
       }
     } catch (error) {
-      console.error('[useMoveablePartsScheduling] Error calculating moveable options:', error)
+      logger.error('Error calculating moveable options:', error)
       moveableOptions.value = null
     } finally {
       isLoadingOptions.value = false

@@ -11,8 +11,14 @@ import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
-import { fitTimeSlots, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
+import { fitTimeSlots, parseLocalDate, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
 import { generateMockFreeBusyResponse, extractBusyTimesFromFreeBusyResponse } from '@/utils/booking/mockGoogleCalendar'
+import { createLogger } from '@/utils/logger'
+
+// LEARNING: Use scoped logger for controllable debug output
+// WHY: Prevents debug logs in production, allows scope-based filtering
+// PATTERN: createLogger(scope) provides debug/info/warn/error methods
+const logger = createLogger('timeSlotCalculations')
 
 /**
  * Round duration up to the nearest 15-minute increment
@@ -132,12 +138,12 @@ export function getCalendarAvailability(dateRange: { start: RFC3339DateTime; end
   const endDate = new Date(dateRange.end)
   
   if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    console.warn('[getCalendarAvailability] Invalid date range (NaN):', dateRange)
+    logger.warn('Invalid date range (NaN):', dateRange)
     return []
   }
   
   if (startDate >= endDate) {
-    console.warn('[getCalendarAvailability] start must be before end:', {
+    logger.warn('start must be before end:', {
       start: startDate.toISOString(),
       end: endDate.toISOString(),
       dateRange
@@ -165,7 +171,7 @@ export function getCalendarAvailability(dateRange: { start: RFC3339DateTime; end
     // LEARNING: Handle errors gracefully
     // WHY: Mock generation might fail with invalid date ranges
     // PATTERN: Log error and return empty array (all times available)
-    console.error('[getCalendarAvailability] Error generating mock calendar data:', error)
+    logger.error('Error generating mock calendar data:', error)
     return []
   }
 }
@@ -218,17 +224,4 @@ export async function generateTimeSlots(
   return result.slots
 }
 
-/**
- * Parse date string to local Date object
- * LEARNING: Parses dates in local timezone, not UTC
- * WHY: When we do new Date('2026-01-09'), it creates UTC midnight, which becomes previous day in timezones behind UTC
- * PATTERN: Extract date part and create Date object in local timezone
- * 
- * NOTE: This function is kept here for backward compatibility, but parseLocalDate from timeSlotFitter should be used for new code
- */
-function parseLocalDate(dateString: string): Date {
-  const datePart = dateString.includes('T') ? dateString.split('T')[0] : dateString
-  const [year, month, day] = datePart.split('-').map(Number)
-  return new Date(year, month - 1, day) // month is 0-indexed, creates date at local midnight
-}
 

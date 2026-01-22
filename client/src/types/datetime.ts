@@ -2,21 +2,141 @@
  * DateTime Type Definitions
  * 
  * LEARNING: Type definitions for datetime handling throughout the application
- * WHY: Ensures consistency and matches Google Calendar API format
- * PATTERN: Type aliases and conversion utilities for RFC3339 format
+ * WHY: Ensures consistency and matches international standards (ISO 8601, RFC3339)
+ * PATTERN: Type aliases and conversion utilities for standardized formats
+ * 
+ * Standards:
+ * - ISO 8601: International standard for date and time representation
+ * - RFC3339: Profile of ISO 8601 used by Google Calendar API and many web APIs
+ * 
+ * Reference: 
+ * - ISO 8601: https://en.wikipedia.org/wiki/ISO_8601
+ * - RFC3339: https://datatracker.ietf.org/doc/html/rfc3339
+ * - Google Calendar API: https://developers.google.com/calendar/api/v3/reference/freebusy/query
  */
 
 /**
- * RFC3339 DateTime Type
- * LEARNING: Type alias for RFC3339-formatted datetime strings (ISO 8601 with timezone)
- * WHY: Documents intent, ensures consistency, matches Google Calendar API format
+ * ISO 8601 Date Type
+ * LEARNING: Type alias for ISO 8601 date-only strings (YYYY-MM-DD format)
+ * WHY: Documents intent for date-only values, ensures consistency, aligns with RFC3339/UTC approach
  * PATTERN: Type alias provides documentation without runtime overhead
  * 
+ * Format: "YYYY-MM-DD" (e.g., "2026-01-15")
+ * Characteristics:
+ * - Date-only (no time component)
+ * - Lexicographically sortable (chronological order matches string order)
+ * - Unambiguous (no timezone confusion for date-only values)
+ * - Compatible with RFC3339 date-time strings (can extract date portion)
+ * 
+ * Usage: Use for date-only values (e.g., selected dates, date ranges, calendar dates)
+ * Conversion: Use dateOnlyToRfc3339() to convert to RFC3339 datetime when needed
+ * 
+ * @example
+ * ```typescript
+ * const selectedDate: ISO8601Date = "2026-01-15"
+ * const dateRange: { start: ISO8601Date; end: ISO8601Date } = {
+ *   start: "2026-01-15",
+ *   end: "2026-01-20"
+ * }
+ * ```
+ * 
+ * Reference: ISO 8601 Date format (https://en.wikipedia.org/wiki/ISO_8601#Dates)
+ */
+export type ISO8601Date = string
+
+/**
+ * RFC3339 DateTime Type (Branded)
+ * LEARNING: Branded type provides compile-time type safety for RFC3339 datetime strings
+ * WHY: Prevents passing plain strings where RFC3339 datetime is expected
+ * PATTERN: Branded type with __brand property + runtime validation functions
+ * 
  * Format: "2026-01-15T10:00:00.000Z" or "2026-01-15T10:00:00-05:00"
+ * Characteristics:
+ * - Date-time (includes time component)
+ * - Always includes timezone (Z for UTC or offset like -05:00)
+ * - Profile of ISO 8601 standard
+ * - Compile-time type safety (can't pass plain string without validation)
+ * 
  * Examples: 
  * - UTC: "2026-01-15T14:30:00Z"
  * - With offset: "2026-01-15T14:30:00-05:00"
  * 
- * Reference: https://developers.google.com/calendar/api/v3/reference/freebusy/query
+ * Usage: 
+ * - Use for date-time values (e.g., time slots, busy periods, API timestamps)
+ * - Convert Date to RFC3339DateTime using toRFC3339DateTime(date)
+ * - Validate strings using isRFC3339DateTime(value) or validateRFC3339DateTime(value)
+ * 
+ * Reference: 
+ * - RFC3339: https://datatracker.ietf.org/doc/html/rfc3339
+ * - Google Calendar API: https://developers.google.com/calendar/api/v3/reference/freebusy/query
+ * - Branded Types: https://www.typescriptlang.org/docs/handbook/advanced-types.html#index-types
  */
-export type RFC3339DateTime = string
+export type RFC3339DateTime = string & { readonly __brand: 'RFC3339DateTime' }
+
+/**
+ * Type guard for RFC3339 datetime strings
+ * LEARNING: Runtime validation that value is a valid RFC3339 datetime
+ * WHY: Provides runtime type safety to complement compile-time branded type
+ * PATTERN: Type guard with regex validation
+ * 
+ * @param value - String to check
+ * @returns true if value is a valid RFC3339 datetime string
+ * 
+ * @example
+ * ```typescript
+ * if (isRFC3339DateTime(userInput)) {
+ *   // TypeScript knows userInput is RFC3339DateTime here
+ *   const dateTime: RFC3339DateTime = userInput
+ * }
+ * ```
+ */
+export function isRFC3339DateTime(value: string): value is RFC3339DateTime {
+  // RFC3339 regex: YYYY-MM-DDTHH:mm:ss[.sss](Z|±HH:mm)
+  const rfc3339Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?([+-]\d{2}:\d{2}|Z)$/
+  return rfc3339Regex.test(value)
+}
+
+/**
+ * Validate and convert string to RFC3339DateTime
+ * LEARNING: Throws error if string is not valid RFC3339 datetime
+ * WHY: Safe conversion from untrusted strings with clear error messages
+ * PATTERN: Validation function that throws on invalid input
+ * 
+ * @param value - String to validate
+ * @returns RFC3339DateTime if valid
+ * @throws Error if value is not a valid RFC3339 datetime
+ * 
+ * @example
+ * ```typescript
+ * try {
+ *   const dateTime = validateRFC3339DateTime(apiResponse.timestamp)
+ * } catch (error) {
+ *   console.error('Invalid datetime from API:', error)
+ * }
+ * ```
+ */
+export function validateRFC3339DateTime(value: string): RFC3339DateTime {
+  if (!isRFC3339DateTime(value)) {
+    throw new Error(`Invalid RFC3339DateTime: ${value}`)
+  }
+  return value
+}
+
+/**
+ * Convert Date object to RFC3339DateTime
+ * LEARNING: Safe conversion from Date to branded RFC3339DateTime type
+ * WHY: Ensures Date.toISOString() output is properly typed as RFC3339DateTime
+ * PATTERN: Conversion function that produces branded type
+ * 
+ * @param date - Date object to convert
+ * @returns RFC3339DateTime string
+ * 
+ * @example
+ * ```typescript
+ * const now: RFC3339DateTime = toRFC3339DateTime(new Date())
+ * const tomorrow: RFC3339DateTime = toRFC3339DateTime(new Date(Date.now() + 86400000))
+ * ```
+ */
+export function toRFC3339DateTime(date: Date): RFC3339DateTime {
+  return date.toISOString() as RFC3339DateTime
+}

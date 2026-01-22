@@ -12,12 +12,13 @@
 import { computed, type Ref, type ComputedRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useFormValidation } from '@/composables/useFormValidation'
+import type { ISO8601Date } from '@/types/datetime'
 
 /**
  * useAvailabilityUI composable parameters
  */
 export interface UseAvailabilityUIParams {
-  selectedDate: Ref<{ start: string | null; end: string | null }>
+  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   selectedButtonIndex: Ref<number | null>
   fieldErrors: Ref<Record<string, string>>
 }
@@ -81,25 +82,25 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
    * PATTERN: Function that validates and updates error state
    * NOTE: VDatePicker may return Date object, string, or array - handle all cases
    */
-  const handleDateChange = (value: string | Date | string[] | Date[] | null): void => {
-    // LEARNING: Normalize date value to string format (YYYY-MM-DD)
-    // WHY: VDatePicker may return Date object or string, need consistent format
-    // PATTERN: Convert Date to string, handle array (take first), handle null
-    let dateString: string | null = null
+  const handleDateChange = (value: ISO8601Date | Date | ISO8601Date[] | Date[] | null): void => {
+    // LEARNING: Normalize date value to ISO 8601 format (YYYY-MM-DD)
+    // WHY: VDatePicker may return Date object or string, need consistent ISO 8601 format
+    // PATTERN: Convert Date to ISO 8601 string, handle array (take first), handle null
+    let dateString: ISO8601Date | null = null
     
     if (value) {
       if (Array.isArray(value)) {
         // Handle array (take first date)
         const firstValue = value[0]
         if (firstValue instanceof Date) {
-          dateString = firstValue.toISOString().split('T')[0]
+          dateString = firstValue.toISOString().split('T')[0] as ISO8601Date
         } else if (typeof firstValue === 'string') {
-          dateString = firstValue
+          dateString = (firstValue.includes('T') ? firstValue.split('T')[0] : firstValue) as ISO8601Date
         }
       } else if (value instanceof Date) {
-        dateString = value.toISOString().split('T')[0]
+        dateString = value.toISOString().split('T')[0] as ISO8601Date
       } else if (typeof value === 'string') {
-        dateString = value
+        dateString = (value.includes('T') ? value.split('T')[0] : value) as ISO8601Date
       }
     }
     

@@ -1,3 +1,5 @@
+import type { ISO8601Date } from './datetime'
+
 /**
  * LEARNING: Shared wizard step data types
  * WHY: Step data interfaces are duplicated across multiple files
@@ -13,8 +15,9 @@
 /**
  * LEARNING: Availability step data structure
  * WHY: Used for availability step data in booking wizard
+ * NOTE: Uses ISO 8601 date format (YYYY-MM-DD) for date-only values
  */
 export interface AvailabilityStepData {
-  selectedDate: { start: string | null; end: string | null }
+  selectedDate: { start: ISO8601Date | null; end: ISO8601Date | null }
   selectedTimeSlots: Array<{ time: string; duration: number }> | null
 }

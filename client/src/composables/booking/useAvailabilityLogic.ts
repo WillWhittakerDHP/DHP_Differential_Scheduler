@@ -12,6 +12,7 @@ import type { TimeSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
+import type { ISO8601Date } from '@/types/datetime'
 
 /**
  * Property details structure
@@ -26,10 +27,13 @@ export interface PropertyDetails {
 
 /**
  * Date range structure
+ * LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) for date-only values
+ * WHY: Consistent with RFC3339 datetime approach, aligns with international standards
+ * PATTERN: ISO8601Date type documents intent and ensures consistency
  */
 export interface DateRange {
-  start: string | null
-  end: string | null
+  start: ISO8601Date | null
+  end: ISO8601Date | null
 }
 
 /**
@@ -116,13 +120,11 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     // LEARNING: Parse selected date in local timezone
     // WHY: Ensures correct day of week calculation regardless of timezone
     // PATTERN: Extract date part and create Date object in local timezone
-    // NOTE: Handle both string and Date object types
+    // NOTE: selectedDate.value.start is ISO 8601 date format (YYYY-MM-DD)
     const startValue = selectedDate.value.start
-    const dateString = typeof startValue === 'string' 
-      ? (startValue.includes('T') ? startValue.split('T')[0] : startValue)
-      : (startValue instanceof Date 
-          ? `${startValue.getFullYear()}-${String(startValue.getMonth() + 1).padStart(2, '0')}-${String(startValue.getDate()).padStart(2, '0')}`
-          : String(startValue))
+    if (!startValue) return null
+    
+    const dateString = startValue.includes('T') ? startValue.split('T')[0] : startValue
     const [year, month, day] = dateString.split('-').map(Number)
     const startDate = new Date(year, month - 1, day) // Local timezone, midnight
     const endDate = new Date(startDate)
@@ -322,11 +324,26 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    * LEARNING: Computed property for current selected date (single date mode)
    * WHY: Backward compatibility with existing UI (single date picker)
    * PATTERN: Extract start date from date range structure
+   * NOTE: VDatePicker may return Date object, so convert to ISO 8601 date format (YYYY-MM-DD)
    */
   const selectedDateSingle = computed({
     get: () => selectedDate.value.start,
-    set: (value: string | null) => {
-      selectedDate.value = { start: value, end: null }
+    set: (value: ISO8601Date | Date | null) => {
+      // LEARNING: Normalize date value to ISO 8601 format (YYYY-MM-DD)
+      // WHY: VDatePicker may return Date object or string, need consistent ISO 8601 format
+      // PATTERN: Convert Date to ISO 8601 string, handle null
+      let dateString: ISO8601Date | null = null
+      
+      if (value) {
+        if (value instanceof Date) {
+          dateString = value.toISOString().split('T')[0] as ISO8601Date
+        } else if (typeof value === 'string') {
+          // Extract date part if it includes time (ensure ISO 8601 format)
+          dateString = (value.includes('T') ? value.split('T')[0] : value) as ISO8601Date
+        }
+      }
+      
+      selectedDate.value = { start: dateString, end: null }
     }
   })
 
@@ -350,49 +367,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     // Return inspector time slots (component will filter by startTimeType if needed)
     return daySlots.inspectorTimeSlots
   })
-
-  /**
-   * LEARNING: Transform selected time slots to API format
-   * WHY: Converts TimeSlot objects to ISO timestamps with duration for API
-   * PATTERN: Computed that transforms TimeSlot objects to API format
-   * NOTE: Requires onSiteTotal and presentationDuration from useTimeSlotCalculations
-   * NOTE: Currently unused - will be used when time slot API is implemented
-   */
-   
-  // @ts-expect-error - Unused function kept for future time slot API implementation
-  const _createSelectedTimeSlots = (
-    inspectorTimeSlot: TimeSlot | null,
-    clientTimeSlot: TimeSlot | null,
-    selectedDateStart: string | null,
-    onSiteTotal: number,
-    presentationDuration: number
-  ): SelectedTimeSlot[] | null => {
-    if (!inspectorTimeSlot || !selectedDateStart) {
-      return null
-    }
-
-    const timeSlots: SelectedTimeSlot[] = []
-
-    if (inspectorTimeSlot) {
-      timeSlots.push({
-        time: inspectorTimeSlot.startTime,
-        duration: onSiteTotal
-      })
-    }
-
-    // LEARNING: Add client time slot if different from inspector time slot
-    // WHY: Differential scheduling may have separate client time
-    // PATTERN: Compare TimeSlot objects by startTime
-    if (clientTimeSlot && 
-        clientTimeSlot.startTime !== inspectorTimeSlot.startTime) {
-      timeSlots.push({
-        time: clientTimeSlot.startTime,
-        duration: presentationDuration
-      })
-    }
-
-    return timeSlots.length > 0 ? timeSlots : null
-  }
 
   /**
    * LEARNING: Wrapper around shared matchLoadedTimeSlots utility

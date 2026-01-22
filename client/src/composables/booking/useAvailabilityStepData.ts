@@ -15,6 +15,7 @@ import {
   type AvailabilityStepData,
   type SelectedTimeSlot,
 } from '@/utils/booking/availabilityStepData'
+import type { ISO8601Date } from '@/types/datetime'
 
 export type { SelectedTimeSlot, AvailabilityStepData }
 
@@ -22,7 +23,7 @@ export type { SelectedTimeSlot, AvailabilityStepData }
  * useAvailabilityStepData composable parameters
  */
 export interface UseAvailabilityStepDataParams {
-  selectedDate: Ref<{ start: string | null; end: string | null }>
+  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   selectedSlot: Ref<AppointmentSlot | null>
   moveableScheduling?: Ref<MoveableSchedulingOptions | null>
 }

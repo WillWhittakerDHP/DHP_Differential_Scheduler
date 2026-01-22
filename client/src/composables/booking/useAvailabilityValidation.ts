@@ -10,12 +10,13 @@ import type { AppointmentSlot } from '@/types/appointment'
 import { useFormValidation } from '@/composables/useFormValidation'
 import type { ValidationRule } from '@/composables/useFormValidation'
 import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
+import type { ISO8601Date } from '@/types/datetime'
 
 /**
  * useAvailabilityValidation composable parameters
  */
 export interface UseAvailabilityValidationParams {
-  selectedDate: Ref<{ start: string | null; end: string | null }>
+  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   selectedSlot: Ref<AppointmentSlot | null>
 }
 

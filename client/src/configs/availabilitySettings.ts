@@ -8,8 +8,14 @@ Session 1.3.7: Created to replace hardcoded values in generateTimeSlots
 Session 1.4.1: Updated to fetch from API instead of hardcoded defaults
  */
 import type { RFC3339DateTime } from '@/types/datetime'
-import { businessHoursTimeToRfc3339, rfc3339ToBusinessHoursTime } from '@/utils/datetime'
+import { businessHoursTimeToRfc3339 } from '@/utils/datetime'
 import apiClient from '@/utils/api'
+import { createLogger } from '@/utils/logger'
+
+// LEARNING: Use scoped logger for controllable debug output
+// WHY: Prevents debug logs in production, allows scope-based filtering
+// PATTERN: createLogger(scope) provides debug/info/warn/error methods
+const logger = createLogger('availabilitySettings')
 
 /**
  * Business hours for a single day
@@ -80,26 +86,77 @@ export const defaultAvailabilitySettings: AvailabilitySettings = {
 }
 
 /**
- * In-memory cache for availability settings
- * LEARNING: Caches settings to avoid repeated API calls
- * WHY: Improves performance and reduces server load
- * PATTERN: Simple in-memory cache with null check
+ * Cache entry with metadata
+ * LEARNING: Track cache timestamp for TTL-based invalidation
+ * WHY: Allows automatic refresh after configured time period
+ * PATTERN: Cache entry with timestamp and data
  */
-let cachedSettings: AvailabilitySettings | null = null
+interface CacheEntry {
+  settings: AvailabilitySettings
+  cachedAt: number  // timestamp (Date.now())
+}
+
+/**
+ * In-memory cache for availability settings
+ * LEARNING: Caches settings with timestamp for TTL-based invalidation
+ * WHY: Improves performance and reduces server load, with automatic refresh
+ * PATTERN: Cache entry with timestamp, validated against TTL
+ */
+let cachedSettings: CacheEntry | null = null
+
+/**
+ * Cache TTL in milliseconds (default: 5 minutes)
+ * LEARNING: Configurable via environment variable
+ * WHY: Different TTL for dev (short) vs production (longer)
+ * PATTERN: Environment-based configuration
+ */
+const CACHE_TTL_MS = import.meta.env.VITE_AVAILABILITY_CACHE_TTL 
+  ? Number(import.meta.env.VITE_AVAILABILITY_CACHE_TTL) 
+  : 5 * 60 * 1000  // Default: 5 minutes
+
+/**
+ * Check if cached settings are still valid
+ * LEARNING: TTL-based cache validation
+ * WHY: Automatic refresh after configured time period
+ * PATTERN: Compare current time with cached timestamp
+ */
+function isCacheValid(): boolean {
+  if (!cachedSettings) return false
+  
+  const age = Date.now() - cachedSettings.cachedAt
+  const isValid = age < CACHE_TTL_MS
+  
+  if (!isValid) {
+    logger.debug('Cache expired', { 
+      age: `${(age / 1000).toFixed(0)}s`, 
+      ttl: `${(CACHE_TTL_MS / 1000).toFixed(0)}s` 
+    })
+  }
+  
+  return isValid
+}
 
 /**
  * Get availability settings from API with fallback to defaults
- * LEARNING: Fetches settings from business-settings API endpoint
- * WHY: Allows admin to configure settings without code changes
- * PATTERN: API call with error handling and fallback to defaults
+ * LEARNING: Fetches settings from business-settings API endpoint with TTL-based cache
+ * WHY: Allows admin to configure settings without code changes, with automatic refresh
+ * PATTERN: API call with error handling, TTL validation, and fallback to defaults
  * 
  * @returns Promise<AvailabilitySettings> - Settings from API or defaults
  */
 export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
-  // Return cached settings if available
-  if (cachedSettings) {
-    return cachedSettings
+  // Check cache validity (TTL-based)
+  if (cachedSettings && isCacheValid()) {
+    logger.debug('Returning cached settings', { 
+      cachedAt: new Date(cachedSettings.cachedAt).toISOString() 
+    })
+    return cachedSettings.settings
   }
+  
+  // Cache miss or expired - fetch from API
+  logger.info('Fetching settings from API', { 
+    reason: cachedSettings ? 'cache_expired' : 'cache_miss' 
+  })
 
   try {
     // Fetch settings from API
@@ -158,25 +215,86 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
           leadTime: rawSettings.leadTime
         }
         
-        cachedSettings = convertedSettings
+        // Update cache with timestamp
+        cachedSettings = {
+          settings: convertedSettings,
+          cachedAt: Date.now()
+        }
+        
+        logger.info('Settings cached', { ttl: `${(CACHE_TTL_MS / 1000).toFixed(0)}s` })
         return convertedSettings
       }
     }
     
-    // If response is invalid, fall back to defaults
+    // If response is invalid, fall back to defaults or stale cache
+    if (cachedSettings) {
+      logger.warn('Invalid API response, using stale cached settings as fallback')
+      return cachedSettings.settings
+    }
+    
+    logger.warn('Invalid API response, using default settings as fallback')
     return defaultAvailabilitySettings
   } catch (error) {
-    // If API call fails, fall back to defaults
+    logger.error('Failed to fetch settings from API', { error })
+    
+    // Fallback to stale cache or defaults
+    if (cachedSettings) {
+      logger.warn('Using stale cached settings as fallback')
+      return cachedSettings.settings
+    }
+    
+    logger.warn('Using default settings as fallback')
     return defaultAvailabilitySettings
   }
 }
 
 /**
- * Clear cached availability settings
- * LEARNING: Allows forcing refresh of settings from API
- * WHY: Useful after admin updates settings to ensure UI reflects changes
- * PATTERN: Simple cache invalidation function
+ * Manually invalidate cached settings
+ * LEARNING: Allows admin UI to force refresh after updates
+ * WHY: Immediate visibility of admin changes without waiting for TTL
+ * PATTERN: Export public invalidation function
+ * 
+ * @example
+ * // In admin settings panel after save:
+ * await saveAvailabilitySettings(newSettings)
+ * invalidateAvailabilitySettingsCache()
+ * await getAvailabilitySettings()  // Fetches fresh settings
+ */
+export function invalidateAvailabilitySettingsCache(): void {
+  if (cachedSettings) {
+    logger.info('Cache invalidated manually')
+    cachedSettings = null
+  }
+}
+
+/**
+ * Clear cached availability settings (alias for invalidateAvailabilitySettingsCache)
+ * LEARNING: Maintains backward compatibility
+ * WHY: Existing code may use clearAvailabilitySettingsCache
+ * @deprecated Use invalidateAvailabilitySettingsCache instead
  */
 export function clearAvailabilitySettingsCache(): void {
-  cachedSettings = null
+  invalidateAvailabilitySettingsCache()
+}
+
+/**
+ * Get cache status for debugging
+ * LEARNING: Provides visibility into cache state
+ * WHY: Useful for debugging cache behavior and TTL configuration
+ * PATTERN: Returns cache metadata for inspection
+ * 
+ * @returns Cache status information
+ */
+export function getAvailabilitySettingsCacheStatus(): {
+  isCached: boolean
+  cachedAt: string | null
+  age: number | null
+  ttl: number
+} {
+  return {
+    isCached: cachedSettings !== null && isCacheValid(),
+    cachedAt: cachedSettings ? new Date(cachedSettings.cachedAt).toISOString() : null,
+    age: cachedSettings ? Date.now() - cachedSettings.cachedAt : null,
+    ttl: CACHE_TTL_MS
+  }
 }

@@ -13,6 +13,12 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import { calculateDurationFromBlockInstances, getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 import { fitTimeSlotsWithAvailability, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
+import { createLogger } from '@/utils/logger'
+
+// LEARNING: Use scoped logger for controllable debug output
+// WHY: Prevents debug logs in production, allows scope-based filtering
+// PATTERN: createLogger(scope) provides debug/info/warn/error methods
+const logger = createLogger('useAvailability')
 
 /**
  * useAvailability composable
@@ -112,7 +118,7 @@ export function useAvailability(
         // LEARNING: Handle calculation errors gracefully
         // WHY: Prevents crashes if calculation fails
         // PATTERN: Set empty array on error
-        console.error('[useAvailability] Error generating time slots:', error)
+        logger.error('Error generating time slots:', error)
         timeSlots.value = []
       }
     },
