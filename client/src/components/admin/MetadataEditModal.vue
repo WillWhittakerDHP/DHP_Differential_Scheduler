@@ -63,7 +63,7 @@ import { getEntityTypeLabel } from '@/utils/admin/entityDisplayText'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { useNotification } from '@/composables/useNotification'
-import type { AxiosError } from 'axios'
+import { getApiErrorMessage } from '@/composables/useApiErrorMessage'
 
 interface Props {
   modelValue: boolean
@@ -120,7 +120,7 @@ function handleSaved() {
 /**
  * LEARNING: Handle save with proper error handling
  * WHY: Prevents unhandled promise rejections and shows user-friendly error messages
- * PATTERN: Async handler with try-catch, extracts meaningful error messages from AxiosError
+ * PATTERN: Async handler with try-catch, uses composable for error message extraction
  */
 async function handleSave(): Promise<void> {
   if (!editorRef.value) {
@@ -133,23 +133,10 @@ async function handleSave(): Promise<void> {
   } catch (err) {
     console.error('[MetadataEditModal] Error saving metadata:', err)
     
-    // LEARNING: Extract meaningful error message from AxiosError
-    // WHY: AxiosError contains response data with server error messages
-    // PATTERN: Check for AxiosError and extract response message if available
-    let errorMessage = 'Failed to save metadata configuration'
-    
-    if (err && typeof err === 'object' && 'isAxiosError' in err) {
-      const axiosError = err as AxiosError<{ message?: string; error?: string }>
-      if (axiosError.response?.data) {
-        const data = axiosError.response.data
-        errorMessage = data.message || data.error || errorMessage
-      } else if (axiosError.message) {
-        errorMessage = axiosError.message
-      }
-    } else if (err instanceof Error) {
-      errorMessage = err.message
-    }
-    
+    // LEARNING: Use composable for error message extraction
+    // WHY: Centralizes error message parsing logic
+    // PATTERN: Composable handles AxiosError, Error, and unknown error types
+    const errorMessage = getApiErrorMessage(err, 'Failed to save metadata configuration')
     showError(errorMessage)
   }
 }

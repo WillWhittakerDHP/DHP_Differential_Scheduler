@@ -15,7 +15,7 @@
 
 import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
-import { useAnnotationTypes } from '@/composables/useAnnotationType'
+import { useAnnotationTypes } from '@/composables/useAnnotationTypes'
 import { getStateControlBlockInstanceOptions } from '@/utils/blockInstanceUtils'
 import { hasDuplicateUserTypeBlock, getAvailableUserTypeBlocksForAnnotation } from '@/utils/annotationUtils'
 import type { Annotation, AnnotationType, AnnotationWithMetadata } from '@/types/annotations'

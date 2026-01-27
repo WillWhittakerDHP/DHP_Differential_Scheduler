@@ -14,11 +14,11 @@
 
 import { ref, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
-import type { AxiosError } from 'axios'
 import { useEntityForm } from '../useEntityForm'
 import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
 import { useEntityDisplay } from './useEntityDisplay'
+import { getApiErrorMessage } from '../useApiErrorMessage'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
@@ -207,26 +207,10 @@ export function useEntityCardActions(
         onSaved?.(entity.value)
       }
     } catch (err) {
-      // LEARNING: Extract meaningful error message from API response
-      // WHY: API returns helpful error messages (e.g., "name 'X' already exists") that should be shown to users
-      // PATTERN: Check for AxiosError and extract response.details or response.error if available
-      let errorMessage = `Failed to save ${entityKey}. Please try again.`
-      
-      if (err && typeof err === 'object' && 'isAxiosError' in err) {
-        const axiosError = err as AxiosError<{ error?: string; details?: string; message?: string }>
-        if (axiosError.response?.data) {
-          const data = axiosError.response.data
-          // LEARNING: Prefer 'details' field (contains user-friendly message like "name 'X' already exists")
-          // WHY: Server returns helpful error messages in 'details' field for validation errors
-          // PATTERN: Fall back to 'error' or 'message' fields if 'details' not available
-          errorMessage = data.details || data.error || data.message || errorMessage
-        } else if (axiosError.message) {
-          errorMessage = axiosError.message
-        }
-      } else if (err instanceof Error) {
-        errorMessage = err.message
-      }
-      
+      // LEARNING: Use composable for error message extraction
+      // WHY: Centralizes error message parsing logic
+      // PATTERN: Composable handles AxiosError, Error, and unknown error types
+      const errorMessage = getApiErrorMessage(err, `Failed to save ${entityKey}. Please try again.`)
       showError(errorMessage)
     }
   }

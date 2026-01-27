@@ -14,12 +14,12 @@
  * - Active constraints (business hours, lead time, buffers)
  */
 
-import { computed, ref, onMounted } from 'vue'
+import { computed } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentSlots } from '@/types/appointment'
 import { getPartInstanceCategory } from '@/utils/booking/partShapeTimeSlotMapping'
-import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import { useLocalTime } from '@/composables/useLocalTime'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 interface Props {
   selectedBlockInstances: BookingBlockInstance[]
@@ -36,12 +36,12 @@ const { formatDateTimeForDisplay } = useLocalTime()
 
 // LEARNING: Get availability settings for constraints display
 // WHY: Shows active constraints that affect slot generation
-// PATTERN: Fetch settings asynchronously on mount
-const availabilitySettings = ref<AvailabilitySettings | null>(null)
+// PATTERN: Use composable for settings access instead of direct API call
+const { settings: availabilitySettings } = useAvailabilitySettings()
 
-onMounted(async () => {
-  availabilitySettings.value = await getAvailabilitySettings()
-})
+// LEARNING: Normalize optional ref for template safety
+// WHY: useAvailabilitySettings can return null during initialization
+const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
 
 // LEARNING: Calculate services summary
 // WHY: Shows overview of selected services
@@ -346,7 +346,7 @@ const formatDuration = (minutes: number): string => {
           <VCard variant="outlined" density="compact" class="pa-2">
             <div class="text-caption text-medium-emphasis">Business Hours</div>
             <div class="text-body-2 font-weight-medium">
-              {{ availabilitySettings?.rangeConstraints?.businessHours?.enforcement || 'hard' }}
+              {{ availabilitySettingsValue?.rangeConstraints?.businessHours?.enforcement || 'hard' }}
             </div>
           </VCard>
         </VCol>
@@ -354,48 +354,48 @@ const formatDuration = (minutes: number): string => {
           <VCard variant="outlined" density="compact" class="pa-2">
             <div class="text-caption text-medium-emphasis">Lead Time</div>
             <div class="text-body-2 font-weight-medium">
-              {{ availabilitySettings?.rangeConstraints?.leadTime?.config && 'minutes' in availabilitySettings.rangeConstraints.leadTime.config 
-                ? `${availabilitySettings.rangeConstraints.leadTime.config.minutes} min` 
+              {{ availabilitySettingsValue?.rangeConstraints?.leadTime?.config && 'minutes' in (availabilitySettingsValue.rangeConstraints.leadTime.config || {})
+                ? `${availabilitySettingsValue.rangeConstraints.leadTime.config.minutes} min` 
                 : 'Not configured' }}
             </div>
             <div class="text-caption">
-              ({{ availabilitySettings?.rangeConstraints?.leadTime?.enforcement || 'off' }})
+              ({{ availabilitySettingsValue?.rangeConstraints?.leadTime?.enforcement || 'off' }})
             </div>
           </VCard>
         </VCol>
-        <VCol v-if="availabilitySettings?.buffers?.appointment" cols="auto">
+        <VCol v-if="availabilitySettingsValue?.buffers?.appointment" cols="auto">
           <VCard variant="outlined" density="compact" class="pa-2">
             <div class="text-caption text-medium-emphasis">Appointment Buffer</div>
             <div class="text-body-2 font-weight-medium">
-              {{ availabilitySettings.buffers.appointment.minutes }} min
+              {{ availabilitySettingsValue.buffers.appointment.minutes }} min
             </div>
             <div class="text-caption">
-              ({{ availabilitySettings.buffers.appointment.placement }}, 
-              {{ availabilitySettings.buffers.appointment.enforcement }})
+              ({{ availabilitySettingsValue.buffers.appointment.placement }}, 
+              {{ availabilitySettingsValue.buffers.appointment.enforcement }})
             </div>
           </VCard>
         </VCol>
-        <VCol v-if="availabilitySettings?.buffers?.driveTime" cols="auto">
+        <VCol v-if="availabilitySettingsValue?.buffers?.driveTime" cols="auto">
           <VCard variant="outlined" density="compact" class="pa-2">
             <div class="text-caption text-medium-emphasis">Drive Time Buffer</div>
             <div class="text-body-2 font-weight-medium">
-              {{ availabilitySettings.buffers.driveTime.minutes }} min
+              {{ availabilitySettingsValue.buffers.driveTime.minutes }} min
             </div>
             <div class="text-caption">
-              ({{ availabilitySettings.buffers.driveTime.placement }}, 
-              {{ availabilitySettings.buffers.driveTime.enforcement }})
+              ({{ availabilitySettingsValue.buffers.driveTime.placement }}, 
+              {{ availabilitySettingsValue.buffers.driveTime.enforcement }})
             </div>
           </VCard>
         </VCol>
-        <VCol v-if="availabilitySettings?.buffers?.lunch" cols="auto">
+        <VCol v-if="availabilitySettingsValue?.buffers?.lunch" cols="auto">
           <VCard variant="outlined" density="compact" class="pa-2">
             <div class="text-caption text-medium-emphasis">Lunch Buffer</div>
             <div class="text-body-2 font-weight-medium">
-              {{ availabilitySettings.buffers.lunch.minutes }} min
+              {{ availabilitySettingsValue.buffers.lunch.minutes }} min
             </div>
             <div class="text-caption">
-              ({{ availabilitySettings.buffers.lunch.placement }}, 
-              {{ availabilitySettings.buffers.lunch.enforcement }})
+              ({{ availabilitySettingsValue.buffers.lunch.placement }}, 
+              {{ availabilitySettingsValue.buffers.lunch.enforcement }})
             </div>
           </VCard>
         </VCol>

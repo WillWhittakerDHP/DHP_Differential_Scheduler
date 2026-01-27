@@ -21,7 +21,7 @@ import AnnotationTypeCard from '../components/AnnotationTypeCard.vue'
 import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
 import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
-import { useAnnotationTypes, useUpdateAnnotationType, useCreateAnnotationType } from '@/composables/useAnnotationType'
+import { useAnnotationTypes, useUpdateAnnotationType, useCreateAnnotationType } from '@/composables/useAnnotationTypes'
 import { useNotification } from '@/composables/useNotification'
 
 // NOTE: useEntityDisplay removed - display names handled by useShapeDisplayNames
@@ -210,7 +210,7 @@ const handleAnnotationShapeCancelled = () => {
 }
 
 /**
- * LEARNING: Fetch annotation shapes
+ * LEARNING: Load annotation shapes
  * WHY: Get all annotation shapes for display
  * PATTERN: useQuery hook from Vue Query
  * NOTE: API still uses "types" endpoint, but we refer to them as "shapes" in the UI

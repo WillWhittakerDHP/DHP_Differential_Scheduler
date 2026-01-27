@@ -5,7 +5,7 @@
  */
 
 import { computed, type ComputedRef } from 'vue'
-import { useAnnotationTypes } from '@/composables/useAnnotationType'
+import { useAnnotationTypes } from '@/composables/useAnnotationTypes'
 
 export interface UseAnnotationTypeFilteringReturn {
   annotationTypes: ComputedRef<import('@/types/annotations').AnnotationType[]>

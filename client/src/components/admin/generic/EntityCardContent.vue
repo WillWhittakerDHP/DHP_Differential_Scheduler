@@ -14,12 +14,10 @@ import type { FieldContextType } from '@/composables/useFieldContext'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import type { ComputedRef } from 'vue'
 
-interface CategorizedFields {
-  directFields: {
-    inline: GlobalFieldKey<GlobalEntityKey>[]
-    stacked: GlobalFieldKey<GlobalEntityKey>[]
-  }
-  subPanelFields: {
+interface FieldsByLocation {
+  directInline: GlobalFieldKey<GlobalEntityKey>[]
+  directStacked: GlobalFieldKey<GlobalEntityKey>[]
+  subPanels: {
     parts: GlobalFieldKey<GlobalEntityKey>[]
     relationships: GlobalFieldKey<GlobalEntityKey>[]
     annotations: GlobalFieldKey<GlobalEntityKey>[]
@@ -33,7 +31,7 @@ interface Props {
   form: FormContext
   getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   composedFieldMetadata: Record<string, FieldMetadataEntry>
-  categorizedFields: CategorizedFields
+  fieldsByLocation: FieldsByLocation
   fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[]
   isFormReady: boolean
   isNew: boolean
@@ -74,9 +72,9 @@ const props = defineProps<Props>()
   <!-- LEARNING: Direct fields (panel: 'none') rendered in card content -->
   <!-- WHY: Fields without panel assignment render in main card area -->
   <!-- PATTERN: Organized by layout (inline vs stacked) from metadata -->
-  <VRow v-if="categorizedFields.directFields.inline.length > 0" class="mb-4">
+  <VRow v-if="fieldsByLocation.directInline.length > 0" class="mb-4">
     <VCol
-      v-for="fieldKey in categorizedFields.directFields.inline"
+      v-for="fieldKey in fieldsByLocation.directInline"
       :key="fieldKey"
       cols="12"
       sm="6"
@@ -99,7 +97,7 @@ const props = defineProps<Props>()
     </VCol>
   </VRow>
 
-  <div v-for="fieldKey in categorizedFields.directFields.stacked" :key="fieldKey" class="mb-4">
+  <div v-for="fieldKey in fieldsByLocation.directStacked" :key="fieldKey" class="mb-4">
     <FieldRenderer
       v-if="getFieldContext(fieldKey)"
       :field-context="getFieldContext(fieldKey)!"
@@ -121,7 +119,7 @@ const props = defineProps<Props>()
     :entity-id="entityId"
     :entity="entity"
     :form="form"
-    :sub-panel-fields="categorizedFields.subPanelFields"
+    :sub-panel-fields="fieldsByLocation.subPanels"
     :get-field-context="getFieldContext"
     :field-metadata="composedFieldMetadata"
   />

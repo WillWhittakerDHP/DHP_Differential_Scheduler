@@ -88,6 +88,7 @@ declare global {
   const getAnnotationTypeByIdEndpoint: typeof import('./src/utils/api').getAnnotationTypeByIdEndpoint
   const getAnnotationTypeEndpoint: typeof import('./src/utils/api').getAnnotationTypeEndpoint
   const getAnnotationsForUserTypeBlock: typeof import('./src/utils/annotationUtils').getAnnotationsForUserTypeBlock
+  const getApiErrorMessage: typeof import('./src/composables/useApiErrorMessage').getApiErrorMessage
   const getAppointmentByIdEndpoint: typeof import('./src/utils/api').getAppointmentByIdEndpoint
   const getAppointmentEndpoint: typeof import('./src/utils/api').getAppointmentEndpoint
   const getAppointmentFieldFormatter: typeof import('./src/utils/appointmentFieldFormatters').getAppointmentFieldFormatter
@@ -265,7 +266,7 @@ declare global {
   const useAdminConfig: typeof import('./src/composables/useAdminConfig').useAdminConfig
   const useAnimate: typeof import('@vueuse/core').useAnimate
   const useAnnotationAssignments: typeof import('./src/composables/useAnnotationAssignments').useAnnotationAssignments
-  const useAnnotationTypes: typeof import('./src/composables/useAnnotationType').useAnnotationTypes
+  const useAnnotationTypes: typeof import('./src/composables/useAnnotationTypes').useAnnotationTypes
   const useAnnotations: typeof import('./src/composables/useAnnotations').useAnnotations
   const useAppointment: typeof import('./src/composables/useAppointment').useAppointment
   const useAppointments: typeof import('./src/composables/useBusiness').useAppointments
@@ -306,7 +307,7 @@ declare global {
   const useCookie: typeof import('./src/@core/composable/useCookie').useCookie
   const useCountdown: typeof import('@vueuse/core').useCountdown
   const useCounter: typeof import('@vueuse/core').useCounter
-  const useCreateAnnotationType: typeof import('./src/composables/useAnnotationType').useCreateAnnotationType
+  const useCreateAnnotationType: typeof import('./src/composables/useAnnotationTypes').useCreateAnnotationType
   const useCssModule: typeof import('vue').useCssModule
   const useCssVar: typeof import('@vueuse/core').useCssVar
   const useCssVars: typeof import('vue').useCssVars
@@ -317,7 +318,7 @@ declare global {
   const useDebounce: typeof import('@vueuse/core').useDebounce
   const useDebounceFn: typeof import('@vueuse/core').useDebounceFn
   const useDebouncedRefHistory: typeof import('@vueuse/core').useDebouncedRefHistory
-  const useDeleteAnnotationType: typeof import('./src/composables/useAnnotationType').useDeleteAnnotationType
+  const useDeleteAnnotationType: typeof import('./src/composables/useAnnotationTypes').useDeleteAnnotationType
   const useDeviceMotion: typeof import('@vueuse/core').useDeviceMotion
   const useDeviceOrientation: typeof import('@vueuse/core').useDeviceOrientation
   const useDevicePixelRatio: typeof import('@vueuse/core').useDevicePixelRatio
@@ -409,6 +410,7 @@ declare global {
   const useRelationshipCrud: typeof import('./src/composables/useRelationship').useRelationshipCrud
   const useResizeObserver: typeof import('@vueuse/core').useResizeObserver
   const useResponsiveLeftSidebar: typeof import('./src/@core/composable/useResponsiveSidebar').useResponsiveLeftSidebar
+  const useResponsiveSidebar: typeof import('./src/@core/composable/useResponsiveSidebar').useResponsiveSidebar
   const useSSRWidth: typeof import('@vueuse/core').useSSRWidth
   const useScreenOrientation: typeof import('@vueuse/core').useScreenOrientation
   const useScreenSafeArea: typeof import('@vueuse/core').useScreenSafeArea
@@ -452,7 +454,7 @@ declare global {
   const useToString: typeof import('@vueuse/core').useToString
   const useToggle: typeof import('@vueuse/core').useToggle
   const useTransition: typeof import('@vueuse/core').useTransition
-  const useUpdateAnnotationType: typeof import('./src/composables/useAnnotationType').useUpdateAnnotationType
+  const useUpdateAnnotationType: typeof import('./src/composables/useAnnotationTypes').useUpdateAnnotationType
   const useUrlSearchParams: typeof import('@vueuse/core').useUrlSearchParams
   const useUser: typeof import('./src/composables/useUser').useUser
   const useUserMedia: typeof import('@vueuse/core').useUserMedia
@@ -496,8 +498,8 @@ declare global {
   export type { CookieOptions, CookieRef } from './src/@core/composable/useCookie'
   import('./src/@core/composable/useCookie')
   // @ts-ignore
-  export type { UseAnnotationTypesReturn } from './src/composables/useAnnotationType'
-  import('./src/composables/useAnnotationType')
+  export type { UseAnnotationTypesReturn } from './src/composables/useAnnotationTypes'
+  import('./src/composables/useAnnotationTypes')
   // @ts-ignore
   export type { AnnotationRequest } from './src/composables/useAnnotations'
   import('./src/composables/useAnnotations')
@@ -629,6 +631,7 @@ declare module 'vue' {
     readonly getAnnotationTypeByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationTypeByIdEndpoint']>
     readonly getAnnotationTypeEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationTypeEndpoint']>
     readonly getAnnotationsForUserTypeBlock: UnwrapRef<typeof import('./src/utils/annotationUtils')['getAnnotationsForUserTypeBlock']>
+    readonly getApiErrorMessage: UnwrapRef<typeof import('./src/composables/useApiErrorMessage')['getApiErrorMessage']>
     readonly getAppointmentByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentByIdEndpoint']>
     readonly getAppointmentEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentEndpoint']>
     readonly getAppointmentFieldFormatter: UnwrapRef<typeof import('./src/utils/appointmentFieldFormatters')['getAppointmentFieldFormatter']>
@@ -786,7 +789,7 @@ declare module 'vue' {
     readonly useAdmin: UnwrapRef<typeof import('./src/composables/useAdmin')['useAdmin']>
     readonly useAdminConfig: UnwrapRef<typeof import('./src/composables/useAdminConfig')['useAdminConfig']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
-    readonly useAnnotationTypes: UnwrapRef<typeof import('./src/composables/useAnnotationType')['useAnnotationTypes']>
+    readonly useAnnotationTypes: UnwrapRef<typeof import('./src/composables/useAnnotationTypes')['useAnnotationTypes']>
     readonly useAnnotations: UnwrapRef<typeof import('./src/composables/useAnnotations')['useAnnotations']>
     readonly useAppointment: UnwrapRef<typeof import('./src/composables/useAppointment')['useAppointment']>
     readonly useAppointments: UnwrapRef<typeof import('./src/composables/useBusiness')['useAppointments']>
@@ -826,7 +829,7 @@ declare module 'vue' {
     readonly useCookie: UnwrapRef<typeof import('./src/@core/composable/useCookie')['useCookie']>
     readonly useCountdown: UnwrapRef<typeof import('@vueuse/core')['useCountdown']>
     readonly useCounter: UnwrapRef<typeof import('@vueuse/core')['useCounter']>
-    readonly useCreateAnnotationType: UnwrapRef<typeof import('./src/composables/useAnnotationType')['useCreateAnnotationType']>
+    readonly useCreateAnnotationType: UnwrapRef<typeof import('./src/composables/useAnnotationTypes')['useCreateAnnotationType']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVar: UnwrapRef<typeof import('@vueuse/core')['useCssVar']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
@@ -837,7 +840,7 @@ declare module 'vue' {
     readonly useDebounce: UnwrapRef<typeof import('@vueuse/core')['useDebounce']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
     readonly useDebouncedRefHistory: UnwrapRef<typeof import('@vueuse/core')['useDebouncedRefHistory']>
-    readonly useDeleteAnnotationType: UnwrapRef<typeof import('./src/composables/useAnnotationType')['useDeleteAnnotationType']>
+    readonly useDeleteAnnotationType: UnwrapRef<typeof import('./src/composables/useAnnotationTypes')['useDeleteAnnotationType']>
     readonly useDeviceMotion: UnwrapRef<typeof import('@vueuse/core')['useDeviceMotion']>
     readonly useDeviceOrientation: UnwrapRef<typeof import('@vueuse/core')['useDeviceOrientation']>
     readonly useDevicePixelRatio: UnwrapRef<typeof import('@vueuse/core')['useDevicePixelRatio']>
@@ -928,7 +931,7 @@ declare module 'vue' {
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
     readonly useRelationshipCrud: UnwrapRef<typeof import('./src/composables/useRelationship')['useRelationshipCrud']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
-    readonly useResponsiveLeftSidebar: UnwrapRef<typeof import('./src/@core/composable/useResponsiveSidebar')['useResponsiveLeftSidebar']>
+    readonly useResponsiveSidebar: UnwrapRef<typeof import('./src/@core/composable/useResponsiveSidebar')['useResponsiveSidebar']>
     readonly useSSRWidth: UnwrapRef<typeof import('@vueuse/core')['useSSRWidth']>
     readonly useScreenOrientation: UnwrapRef<typeof import('@vueuse/core')['useScreenOrientation']>
     readonly useScreenSafeArea: UnwrapRef<typeof import('@vueuse/core')['useScreenSafeArea']>
@@ -972,7 +975,7 @@ declare module 'vue' {
     readonly useToString: UnwrapRef<typeof import('@vueuse/core')['useToString']>
     readonly useToggle: UnwrapRef<typeof import('@vueuse/core')['useToggle']>
     readonly useTransition: UnwrapRef<typeof import('@vueuse/core')['useTransition']>
-    readonly useUpdateAnnotationType: UnwrapRef<typeof import('./src/composables/useAnnotationType')['useUpdateAnnotationType']>
+    readonly useUpdateAnnotationType: UnwrapRef<typeof import('./src/composables/useAnnotationTypes')['useUpdateAnnotationType']>
     readonly useUrlSearchParams: UnwrapRef<typeof import('@vueuse/core')['useUrlSearchParams']>
     readonly useUser: UnwrapRef<typeof import('./src/composables/useUser')['useUser']>
     readonly useUserMedia: UnwrapRef<typeof import('@vueuse/core')['useUserMedia']>

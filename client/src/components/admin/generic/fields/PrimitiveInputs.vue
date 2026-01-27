@@ -64,7 +64,7 @@ import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
-import { useAdmin } from '@/composables/useAdmin'
+import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import TextInput from './TextInput.vue'
 import NumberInput from './NumberInput.vue'
 import BooleanInput from './BooleanInput.vue'
@@ -98,19 +98,11 @@ const fieldType = computed(() => {
 
 // LEARNING: Get renderAs from metadata to determine rendering
 // WHY: renderAs determines how to render (text input vs status button), not fieldType
-// PATTERN: Fetch metadata and read renderAs - component dispatcher already determined this is primitive
-const admin = useAdmin()
-const entityForMetadata = computed(() => {
-  if (!props.fieldContext.entityKey || !props.fieldContext.entityId) {
-    return null
-  }
-  try {
-    const entity = admin.getEntity(props.fieldContext.entityKey, props.fieldContext.entityId)
-    return entity ?? null
-  } catch {
-    return null
-  }
-})
+// PATTERN: Load metadata and read renderAs - component dispatcher already determined this is primitive
+// LEARNING: Use composable for entity lookup
+// WHY: Extracts entity lookup logic to reusable composable
+// PATTERN: Composable handles both temporary and existing entities
+const entityForMetadata = useFieldContextMetadataEntity(props.fieldContext)
 
 const fetchedMetadata = useEntityMetadata(
   props.fieldContext.entityKey,

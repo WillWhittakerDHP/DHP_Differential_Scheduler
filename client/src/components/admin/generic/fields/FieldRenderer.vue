@@ -71,9 +71,9 @@ interface Props {
   fieldContext?: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   showLabel?: boolean
   /**
-   * LEARNING: Optional pre-fetched field metadata
-   * WHY: Avoids duplicate metadata fetches when parent component already has metadata
-   * PATTERN: Pass metadata from EntityCard to avoid re-fetching in FieldRenderer
+   * LEARNING: Optional pre-loaded field metadata
+   * WHY: Avoids duplicate metadata loads when parent component already has metadata
+   * PATTERN: Pass metadata from EntityCard to avoid re-loading in FieldRenderer
    */
   fieldMetadata?: Record<string, FieldMetadataEntry>
   /**
@@ -159,22 +159,17 @@ if (fieldContext.value) {
  * LEARNING: Use field component composable
  * WHY: Extracts component type determination logic from component to composable
  * PATTERN: Composable provides type checking computed properties via fieldComponentDispatcher
- * LEARNING: Pass entity from admin store for metadata fetch
- * WHY: useFieldComponent needs entity to fetch metadata
- * PATTERN: Get entity from admin store using entityKey and entityId from fieldContext
+ * LEARNING: Use composable for entity lookup
+ * WHY: Extracts entity lookup logic to reusable composable
+ * PATTERN: Composable handles both temporary and existing entities
  */
-import { useAdmin } from '@/composables/useAdmin'
-const admin = useAdmin()
+import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 const entityForMetadata = computed(() => {
-  if (!effectiveFieldContext.value?.entityKey || !effectiveFieldContext.value?.entityId) {
+  if (!effectiveFieldContext.value) {
     return null
   }
-  try {
-    const entity = admin.getEntity(effectiveFieldContext.value.entityKey, effectiveFieldContext.value.entityId)
-    return entity ?? null
-  } catch {
-    return null
-  }
+  const entityLookup = useFieldContextMetadataEntity(effectiveFieldContext.value)
+  return entityLookup.value
 })
 
 // LEARNING: Removed premature warning from FieldRenderer
@@ -183,8 +178,8 @@ const entityForMetadata = computed(() => {
 // NOTE: VAlert in template still shows when fieldContext is missing, but no console warning
 
 // LEARNING: Pass metadata to useFieldComponent if available
-// WHY: Avoids duplicate metadata fetches when parent component already has metadata
-// PATTERN: Use provided metadata, otherwise let useFieldComponent fetch it
+// WHY: Avoids duplicate metadata loads when parent component already has metadata
+// PATTERN: Use provided metadata, otherwise let useFieldComponent load it
 const fieldMetadataRef = computed(() => props.fieldMetadata ?? {})
 
 // LEARNING: Removed debug console.trace

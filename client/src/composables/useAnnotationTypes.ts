@@ -26,7 +26,7 @@ export type UseAnnotationTypesReturn = {
 }
 
 /**
- * Fetch all annotation types from globalData cache
+ * Load all annotation types from globalData cache
  * 
  * LEARNING: Reads from globalData instead of separate cache key
  * WHY: Unified cache management for all configuration data
@@ -107,4 +107,3 @@ export function useDeleteAnnotationType() {
     },
   })
 }
-

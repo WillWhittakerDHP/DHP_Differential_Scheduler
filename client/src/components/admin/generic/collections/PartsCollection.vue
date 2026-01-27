@@ -175,7 +175,7 @@ const hasBulkEditData = computed(() => Object.keys(bulkEditData.value).length > 
 // LEARNING: Get PartShape ID for bulk edit (from first partInstance)
 // WHY: For bulk edit across multiple part instances, we use the partShape from the first partInstance
 // PATTERN: Computed property that finds partShape ID from first existing partInstance
-// LEARNING: Fetch field metadata for bulk edit using unified system
+// LEARNING: Load field metadata for bulk edit using unified system
 // WHY: Need to check which fields have bulkEdit: true
 // PATTERN: Use useEntityMetadata with PartShape entity
 const partShapeForBulkEdit = computed(() => {

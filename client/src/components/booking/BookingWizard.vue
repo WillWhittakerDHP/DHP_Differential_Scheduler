@@ -27,8 +27,7 @@ import { transformAppointmentToWizard } from '@/utils/transformers/appointmentTo
 import { WIZARD_STEPS } from '@/configs/wizardSteps'
 import type { AvailabilityStepData, PropertyDetailsStepData, ContactsStepData } from '@/types/wizard'
 import { useBooking } from '@/composables/useBooking'
-import apiClient from '@/utils/api'
-import { getAppointmentByIdEndpoint } from '@/utils/api'
+import { useAppointmentLoader } from '@/composables/booking/useAppointmentLoader'
 import type { AppointmentResponse } from '@/types/appointment'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
@@ -270,6 +269,7 @@ const toggleQuoteMode = (): void => {
 // WHY: Handles appointment creation with loading and error states
 // PATTERN: useMutation from useAppointment composable
 const { create, update, fetchAll, fetchRandom } = useAppointment()
+const { loadAppointmentById } = useAppointmentLoader()
 const { create: createProperty } = useProperty()
 const { create: createUser } = useUser()
 // NOTE: success and showError are already defined above via useNotification()
@@ -345,7 +345,7 @@ const { handleSubmit } = useWizardSubmission({
 
 // LEARNING: Handle loading appointment into wizard
 // WHY: Enables testing time slot creation by loading existing appointments
-// PATTERN: Fetch appointment, transform to wizard state, populate wizard refs
+// PATTERN: Load appointment, transform to wizard state, populate wizard refs
 const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {
   if (!appointmentIdOrRandom) return
   
@@ -361,10 +361,15 @@ const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Prom
       }
       selectedAppointmentId.value = appointment.id
     } else {
-      // Fetch appointment directly from API to ensure we get it with all relationships
+      // LEARNING: Load appointment using composable with cache refresh
+      // WHY: Ensures appointment is loaded with all relationships from API
+      // PATTERN: Composable handles cache refresh and returns appointment from cache
       try {
-        const response = await apiClient.get<AppointmentResponse>(getAppointmentByIdEndpoint(appointmentIdOrRandom))
-        appointment = response.data
+        appointment = await loadAppointmentById(appointmentIdOrRandom)
+        if (!appointment) {
+          showError('Appointment not found')
+          return
+        }
         selectedAppointmentId.value = appointment.id
       } catch (error) {
         showError('Appointment not found')

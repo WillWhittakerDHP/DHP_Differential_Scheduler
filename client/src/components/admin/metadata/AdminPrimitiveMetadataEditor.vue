@@ -202,26 +202,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive, onMounted, onBeforeUnmount, nextTick, watch, type ComponentPublicInstance } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useAdminMetadataMutations } from '@/composables/admin/useAdminMetadataMutations'
+import { useMetadataEditorEntity } from '@/composables/admin/useMetadataEditorEntity'
+import { useInstanceOverrideState } from '@/composables/admin/useInstanceOverrideState'
+import { useMetadataFieldUpdates } from '@/composables/admin/useMetadataFieldUpdates'
+import { useInputConfigEditor } from '@/composables/admin/useInputConfigEditor'
+import { useMetadataFieldOrdering } from '@/composables/admin/useMetadataFieldOrdering'
 import { getEntityTypeLabel } from '@/utils/admin/entityDisplayText'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { animations } from '@formkit/drag-and-drop'
 import { getPanelsElement } from '@/composables/admin/useDragAndDropHelpers'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import type { EntityMetadataType } from '@/types/entityMetadata'
-import { 
-  getEntityTypeForMetadata, 
-  getMetadataEntityId,
-  BLOCK_SHAPE_GLOBAL_CONFIG_ID,
-  PART_SHAPE_GLOBAL_CONFIG_ID,
-  PART_INSTANCE_GLOBAL_CONFIG_ID,
-  BLOCK_INSTANCE_GLOBAL_CONFIG_ID
-} from '@/utils/entities/entityTypeMapping'
+import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('AdminPrimitiveMetadataEditor')
@@ -241,35 +238,26 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 
+// LEARNING: Use composable for metadata editor entity lookup
+// WHY: Extracts entity construction logic for global vs instance mode
+// PATTERN: Composable handles sentinel UUIDs and blockShapeRef inclusion
+const metadataEditorEntity = useMetadataEditorEntity(
+  props.entityKey,
+  props.entity,
+  props.mode,
+  props.blockShapeRef
+)
+
 // Get entity type and ID for metadata lookup
 const entityType = computed<EntityMetadataType | null>(() => {
   return getEntityTypeForMetadata(props.entityKey)
 })
 
-// LEARNING: When mode is 'global', use sentinel UUID regardless of entity passed
-// WHY: Global mode should show/edit global config, not instance-specific config
-// PATTERN: Override entityId to use sentinel UUID when mode is 'global'
+// LEARNING: Extract entityId from metadataEditorEntity
+// WHY: Save logic needs entityId, which is already computed in metadataEditorEntity
+// PATTERN: Extract id from entity computed ref
 const entityId = computed<string | null>(() => {
-  if (!entityType.value) return null
-  
-  // When mode is 'global', always use sentinel UUID
-  if (props.mode === 'global') {
-    if (entityType.value === 'blockShape') {
-      return BLOCK_SHAPE_GLOBAL_CONFIG_ID
-    }
-    if (entityType.value === 'partShape') {
-      return PART_SHAPE_GLOBAL_CONFIG_ID
-    }
-    if (entityType.value === 'blockInstance') {
-      return BLOCK_INSTANCE_GLOBAL_CONFIG_ID
-    }
-    if (entityType.value === 'partInstance') {
-      return PART_INSTANCE_GLOBAL_CONFIG_ID
-    }
-  }
-  
-  // For instanceOverride mode, use the actual entity ID
-  return getMetadataEntityId(props.entityKey, props.entity)
+  return metadataEditorEntity.value?.id ?? null
 })
 
 // LEARNING: Use useEntityMetadata to get merged metadata (primitives + relationships) for display
@@ -278,27 +266,7 @@ const entityId = computed<string | null>(() => {
 // NOTE: Dehydration happens in mutations before save to ensure only primitives are saved
 const { fieldMetadata, isLoading } = useEntityMetadata(
   props.entityKey,
-  computed(() => {
-    // Create entity for metadata fetch that uses sentinel UUID in global mode
-    if (props.mode === 'global' && entityId.value) {
-      // LEARNING: Include blockShapeRef in entity for BlockShape-specific instance metadata
-      // WHY: getMetadata() extracts blockShapeRef from entity to look up BlockShape-specific metadata
-      // PATTERN: Include blockShapeRef when provided, even in global mode
-      const baseEntity = {
-        id: entityId.value,
-        entityKey: props.entityKey,
-        name: ''
-      } as GlobalEntity<typeof props.entityKey>
-      
-      // For blockInstance with blockShapeRef, include it in the entity
-      if (props.entityKey === 'blockInstance' && props.blockShapeRef) {
-        (baseEntity as GlobalEntity<'blockInstance'>).blockShapeRef = props.blockShapeRef
-      }
-      
-      return baseEntity
-    }
-    return props.entity
-  })
+  metadataEditorEntity
 )
 
 // Mutations composables for saving/deleting (both primitive and relationship)
@@ -313,56 +281,20 @@ const { saveFieldMetadata, deleteFieldMetadata, isSaving } = useAdminMetadataMut
 // PATTERN: Use queryClient to manually refetch after mutations complete
 const queryClient = useQueryClient()
 
-// Track pending changes (for instance override mode)
-const pendingOverrides = ref<Set<string>>(new Set())
-const pendingDeletes = ref<Set<string>>(new Set())
-const pendingChanges = reactive<Record<string, Partial<import('@/types/entityMetadata').FieldMetadataEntry>>>({})
-
-// LEARNING: Get all possible field keys from metadata ONLY
-// WHY: Metadata is the single source of truth - no fallback to formFieldConfig
-// PATTERN: Use metadata keys exclusively
-const allPossibleFieldKeys = computed<GlobalFieldKey<GlobalEntityKey>[]>(() => {
-  if (!fieldMetadata.value || Object.keys(fieldMetadata.value).length === 0) {
-    return []
-  }
-  return Object.keys(fieldMetadata.value) as GlobalFieldKey<GlobalEntityKey>[]
+// LEARNING: Instance override state management
+// WHY: Encapsulates pending override/deletion tracking and toggle logic
+// PATTERN: Use composable for managing instance-specific metadata override state
+const {
+  pendingOverrides,
+  pendingDeletes,
+  pendingChanges,
+  hasOverride,
+  toggleOverride,
+  clearPendingState,
+} = useInstanceOverrideState({
+  mode: props.mode,
+  fieldMetadata,
 })
-
-// LEARNING: Available fields sorted by displayOrder for drag-and-drop
-// WHY: Fields should be displayed in their configured order, allowing drag-and-drop reordering
-// PATTERN: Sort by displayOrder, then alphabetically for fields without order
-const availableFieldsSorted = computed(() => {
-  const metadataKeys = Object.keys(fieldMetadata.value || {})
-  const allKeys = new Set([...allPossibleFieldKeys.value, ...metadataKeys])
-  const fields = Array.from(allKeys)
-  
-  // Sort by displayOrder first, then alphabetically
-  return fields.sort((a, b) => {
-    const metaA = getFieldMetadata(a)
-    const metaB = getFieldMetadata(b)
-    const orderA = metaA?.displayOrder ?? 999
-    const orderB = metaB?.displayOrder ?? 999
-    
-    if (orderA !== orderB) {
-      return orderA - orderB
-    }
-    
-    // If same order, sort alphabetically
-    return a.localeCompare(b)
-  })
-})
-
-// LEARNING: Reactive array for drag-and-drop reordering
-// WHY: Need mutable array that can be reordered during drag operations
-// PATTERN: Ref array that syncs with computed sorted fields
-const draggableFieldKeys = ref<string[]>([])
-
-// LEARNING: Sync draggableFieldKeys with availableFieldsSorted
-// WHY: Keep drag-and-drop array in sync with computed sorted fields
-// PATTERN: Watch computed and update ref array
-watch(availableFieldsSorted, (newFields) => {
-  draggableFieldKeys.value = [...newFields]
-}, { immediate: true })
 
 // LEARNING: Use config-driven entity type label
 // WHY: Eliminates entityKey branching (if/else chain) - single source of truth
@@ -372,14 +304,16 @@ const entityTypeLabel = computed(() => {
   return getEntityTypeLabel(props.entityKey)
 })
 
-// Get field metadata entry
-// Returns metadata if it exists, or undefined if field doesn't have metadata yet
+// LEARNING: Get field metadata entry
+// WHY: Simple accessor for field metadata
+// PATTERN: Direct access to fieldMetadata computed
 function getFieldMetadata(fieldKey: string) {
   return fieldMetadata.value[fieldKey]
 }
 
-// Get effective field metadata (existing + pending changes)
-// This merges the existing metadata with any pending changes to show immediate UI feedback
+// LEARNING: Get effective field metadata (existing + pending changes)
+// WHY: Merges existing metadata with pending changes for immediate UI feedback
+// PATTERN: Merge existing with pending, return existing if no pending
 function getEffectiveFieldMetadata(fieldKey: string) {
   const existing = getFieldMetadata(fieldKey)
   const pending = pendingChanges[fieldKey]
@@ -400,52 +334,37 @@ function getEffectiveFieldMetadata(fieldKey: string) {
   } as import('@/types/entityMetadata').FieldMetadataEntry | undefined
 }
 
-/**
- * LEARNING: Auto-compute renderAs based on dataType and inputConfig
- * WHY: renderAs should be automatically determined, not manually configured
- * PATTERN: Compute renderAs from field characteristics
- */
-function computeRenderAs(
-  dataType: string | undefined,
-  inputConfig: Record<string, unknown> | null | undefined,
-  fieldKey: string
-): import('@/types/entityMetadata').FieldMetadataEntry['renderAs'] {
-  // Special cases first
-  if (fieldKey === 'icon') {
-    return 'iconSelect'
-  }
-  
-  // If inputConfig exists, determine select type from config
-  if (inputConfig) {
-    const selectType = inputConfig.selectType as string | undefined
-    if (selectType === 'partsCollectionSelect') {
-      return 'partsCollection'
-    }
-    const selectMode = inputConfig.selectMode as string | undefined
-    if (selectMode === 'multiple') {
-      return 'multiselect'
-    }
-    // Default to reference for relationship selects
-    if (inputConfig.targetMode === 'relationship') {
-      return 'reference'
-    }
-    // Default to select for other selects
-    return 'select'
-  }
-  
-  // Base renderAs on dataType
-  if (dataType === 'boolean') {
-    return 'statusButton'
-  }
-  if (dataType === 'number') {
-    return 'number'
-  }
-  if (dataType === 'array') {
-    return 'reference'
-  }
-  
-  // Default to text for string and other types
-  return 'text'
+// LEARNING: Metadata field updates with validation
+// WHY: Encapsulates field rendering update logic with renderAs computation and validation
+// PATTERN: Use composable for updating field metadata with automatic renderAs computation
+const { computeRenderAs, updateFieldRendering } = useMetadataFieldUpdates({
+  getEffectiveFieldMetadata,
+  hasOverride,
+  toggleOverride,
+  mode: props.mode,
+  pendingChanges,
+})
+
+// LEARNING: Input config editor
+// WHY: Handles parsing and updating inputConfig for select/multiselect/reference fields
+// PATTERN: Use composable for managing inputConfig editing
+const { getInputConfigData, updateInputConfigField } = useInputConfigEditor({
+  getEffectiveFieldMetadata,
+  updateFieldRendering,
+})
+
+// LEARNING: Metadata field ordering
+// WHY: Handles sorting by displayOrder and drag-and-drop reordering
+// PATTERN: Use composable for managing field ordering
+const { draggableFieldKeys, handleDragEnd } = useMetadataFieldOrdering({
+  fieldMetadata,
+  getFieldMetadata,
+  updateFieldRendering,
+})
+
+// Check if field has metadata entry (exists in database)
+function hasMetadataEntry(fieldKey: string): boolean {
+  return !!fieldMetadata.value[fieldKey]
 }
 
 /**
@@ -465,87 +384,6 @@ function getComputedRenderAs(fieldKey: string): string {
   }
   
   return computeRenderAs(meta.dataType, meta.inputConfig, fieldKey)
-}
-
-// Check if field has metadata entry (exists in database)
-function hasMetadataEntry(fieldKey: string): boolean {
-  return !!fieldMetadata.value[fieldKey]
-}
-
-// Check if field has an override (instanceOverride mode only)
-function hasOverride(fieldKey: string): boolean {
-  if (props.mode !== 'instanceOverride') return true // Global mode always has "override"
-  if (pendingDeletes.value.has(fieldKey)) return false
-  if (pendingOverrides.value.has(fieldKey)) return true
-  // Check if override exists in database (would be in metadata if it exists)
-  // For now, assume if field exists in metadata for instance, it's an override
-  return !!fieldMetadata.value[fieldKey]
-}
-
-// Toggle override (instanceOverride mode only)
-function toggleOverride(fieldKey: string, enabled: boolean) {
-  if (props.mode !== 'instanceOverride') return
-  
-  if (enabled) {
-    pendingDeletes.value.delete(fieldKey)
-    pendingOverrides.value.add(fieldKey)
-    // Initialize pending change with current effective metadata
-    const currentMeta = getFieldMetadata(fieldKey)
-    if (currentMeta) {
-      pendingChanges[fieldKey] = {
-        visibility: currentMeta.visibility,
-        layout: currentMeta.layout,
-        displayOrder: currentMeta.displayOrder,
-        renderAs: currentMeta.renderAs,
-        statusButtonColor: currentMeta.statusButtonColor,
-        panel: currentMeta.panel,
-        bulkEdit: currentMeta.bulkEdit,
-      }
-    }
-  } else {
-    pendingOverrides.value.delete(fieldKey)
-    delete pendingChanges[fieldKey]
-    pendingDeletes.value.add(fieldKey)
-  }
-}
-
-// Update field rendering configuration
-function updateFieldRendering(fieldKey: string, updates: Partial<import('@/types/entityMetadata').FieldMetadataEntry>) {
-  if (props.mode === 'instanceOverride' && !hasOverride(fieldKey)) {
-    // Enable override first
-    toggleOverride(fieldKey, true)
-  }
-  
-  // LEARNING: Auto-compute renderAs when dataType or inputConfig changes
-  // WHY: renderAs should always be computed, not manually set
-  // PATTERN: Compute renderAs if dataType or inputConfig is being updated
-  const effectiveMeta = getEffectiveFieldMetadata(fieldKey)
-  const newDataType = updates.dataType ?? effectiveMeta?.dataType
-  const newInputConfig = updates.inputConfig !== undefined ? updates.inputConfig : effectiveMeta?.inputConfig
-  
-  // Auto-compute renderAs if dataType or inputConfig changed
-  if (updates.dataType !== undefined || updates.inputConfig !== undefined) {
-    updates.renderAs = computeRenderAs(newDataType, newInputConfig, fieldKey)
-  }
-  
-  // LEARNING: Validate panel based on visibility
-  // WHY: Panel must be 'none' for titleRow and expandedDirect, required for expandedPanel
-  // PATTERN: Normalize panel value when visibility changes
-  if (updates.visibility !== undefined) {
-    const newVisibility = updates.visibility
-    if (newVisibility === 'titleRow' || newVisibility === 'expandedDirect' || newVisibility === 'staticAsTitle') {
-      // Panel must be 'none' for these visibility types
-      updates.panel = 'none'
-    } else if (newVisibility === 'expandedPanel') {
-      // Panel must be set for expandedPanel (default to 'parts' if not set)
-      const currentPanel = updates.panel ?? effectiveMeta?.panel
-      if (!currentPanel || currentPanel === 'none') {
-        updates.panel = 'parts'
-      }
-    }
-  }
-  
-  pendingChanges[fieldKey] = { ...pendingChanges[fieldKey], ...updates }
 }
 
 // Save all changes
@@ -574,13 +412,13 @@ async function handleSave() {
     for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
       const existingMeta = getFieldMetadata(fieldKey)
       
-      // LEARNING: Auto-compute renderAs before saving if not explicitly set
+      // LEARNING: Ensure renderAs is computed before saving
       // WHY: renderAs should always be computed from dataType and inputConfig
       // PATTERN: Compute renderAs if missing or if dataType/inputConfig changed
       const effectiveMeta = getEffectiveFieldMetadata(fieldKey)
       const finalUpdates = { ...updates }
       
-      // Ensure renderAs is computed
+      // Ensure renderAs is computed if missing
       if (!finalUpdates.renderAs || updates.dataType !== undefined || updates.inputConfig !== undefined) {
         const dataType = finalUpdates.dataType ?? effectiveMeta?.dataType
         const inputConfig = finalUpdates.inputConfig !== undefined ? finalUpdates.inputConfig : effectiveMeta?.inputConfig
@@ -619,15 +457,20 @@ async function handleSave() {
       }
     }
 
-    // LEARNING: Await refetch before clearing pendingChanges
+    // LEARNING: Refetch metadata cache before clearing pendingChanges
     // WHY: Prevents UI flash - pendingChanges maintain display until fresh data arrives
-    // PATTERN: Manually refetch and await completion before clearing pending state
-    await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
+    // PATTERN: Mutations already invalidate cache, just refetch and await completion before clearing pending state
+    // NOTE: Mutations invalidate cache in onSuccess, so we just need to refetch here
+    try {
+      await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
+      logger.debug('Metadata cache refetched successfully')
+    } catch (refetchError) {
+      logger.error('Error refetching metadata cache:', refetchError)
+      // Still clear pending state even if refetch fails to prevent UI from being stuck
+    }
 
-    // Clear pending changes AFTER refetch completes
-    Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
-    pendingOverrides.value.clear()
-    pendingDeletes.value.clear()
+    // Clear pending changes AFTER refetch completes (or fails)
+    clearPendingState()
 
     // Emit saved event
     emit('saved')
@@ -695,131 +538,17 @@ const selectModeOptions = [
   { title: 'Nested', value: 'Nested' },
 ] as const
 
-/**
- * LEARNING: Parse inputConfig into form-friendly structure
- * WHY: Extract individual fields from inputConfig object for form editing
- * PATTERN: Read from inputConfig, provide defaults for missing fields
- */
-function getInputConfigData(fieldKey: string) {
-  const meta = getEffectiveFieldMetadata(fieldKey)
-  const inputConfig = meta?.inputConfig as Record<string, unknown> | null | undefined
-  
-  if (!inputConfig || typeof inputConfig !== 'object') {
-    return {
-      targetMode: null as string | null,
-      selectMode: null as string | null,
-      targetKey: null as string | null,
-      candidateChildKey: null as string | null,
-      groupByKey: null as string | null,
-      placeholder: null as string | null,
-      options: null as unknown[] | null,
-    }
-  }
-  
-  // Handle FormFieldConfig structure (new format)
-  let config = inputConfig
-  if ('relationshipSelect' in inputConfig && inputConfig.relationshipSelect) {
-    config = inputConfig.relationshipSelect as Record<string, unknown>
-  } else if ('typeSelect' in inputConfig && inputConfig.typeSelect) {
-    config = inputConfig.typeSelect as Record<string, unknown>
-  }
-  
-  return {
-    targetMode: (config.targetMode as string) || null,
-    selectMode: (config.selectMode as string) || null,
-    targetKey: (config.targetKey as string) || null,
-    candidateChildKey: (config.candidateChildKey as string) || null,
-    groupByKey: (config.groupByKey as string) || null,
-    placeholder: (config.placeholder as string) || null,
-    options: (inputConfig.options as unknown[]) || null, // Options array (for options-based selects)
-  }
-}
-
-/**
- * LEARNING: Update a specific field in inputConfig
- * WHY: Helper function to update individual inputConfig fields without replacing the entire object
- * PATTERN: Read current inputConfig, update specific field, reconstruct object
- */
-function updateInputConfigField(fieldKey: string, fieldName: keyof ReturnType<typeof getInputConfigData>, value: unknown) {
-  const currentData = getInputConfigData(fieldKey)
-  const updatedData = { ...currentData, [fieldName]: value }
-  const newConfig = buildInputConfig(fieldKey, updatedData)
-  updateFieldRendering(fieldKey, { inputConfig: newConfig })
-}
-
-/**
- * LEARNING: Construct inputConfig object from form values
- * WHY: Build inputConfig object when form fields change
- * PATTERN: Construct object based on targetMode and field values
- */
-function buildInputConfig(fieldKey: string, formData: ReturnType<typeof getInputConfigData>): Record<string, unknown> | null {
-  // Handle options-based selects (like bookingMode)
-  if (formData.options !== null) {
-    return {
-      options: formData.options
-    }
-  }
-  
-  // Handle empty/not configured
-  if (!formData.targetMode || !formData.selectMode) {
-    return null
-  }
-  
-  const baseConfig: Record<string, unknown> = {
-    targetMode: formData.targetMode,
-    selectMode: formData.selectMode,
-  }
-  
-  if (formData.targetMode === 'relationship') {
-    if (formData.targetKey) {
-      baseConfig.targetKey = formData.targetKey
-    }
-    if (formData.candidateChildKey) {
-      baseConfig.candidateChildKey = formData.candidateChildKey
-    }
-    if (formData.groupByKey) {
-      baseConfig.groupByKey = formData.groupByKey
-    }
-    if (formData.placeholder) {
-      baseConfig.placeholder = formData.placeholder
-    }
-    
-    // For partsCollection, ensure optionsFieldKey is set
-    const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
-    if (renderAs === 'partsCollection') {
-      baseConfig.optionsFieldKey = 'validParts'
-    }
-  } else if (formData.targetMode === 'property') {
-    if (formData.targetKey) {
-      baseConfig.targetKey = formData.targetKey
-    }
-    if (formData.placeholder) {
-      baseConfig.placeholder = formData.placeholder
-    }
-  }
-  
-  return baseConfig
-}
+// LEARNING: Input config editing functions are provided by useInputConfigEditor composable
+// WHY: Encapsulates inputConfig parsing and updating logic
+// PATTERN: Use composable-provided functions
 
 // LEARNING: Template ref for expansion panels container
 // WHY: Need DOM reference to initialize drag-and-drop
 const expansionPanelsRef = ref<ComponentPublicInstance | HTMLElement | null>(null)
 
-// LEARNING: Handle drag end to update displayOrder values
-// WHY: When fields are reordered, update displayOrder based on new position
-// PATTERN: Normalize displayOrder to sequential values (0, 1, 2, ...)
-const handleDragEnd = () => {
-  // Update displayOrder for each field based on its new position
-  draggableFieldKeys.value.forEach((fieldKey, index) => {
-    const currentMeta = getEffectiveFieldMetadata(fieldKey)
-    const currentOrder = currentMeta?.displayOrder ?? 999
-    
-    // Only update if order changed
-    if (currentOrder !== index) {
-      updateFieldRendering(fieldKey, { displayOrder: index })
-    }
-  })
-}
+// LEARNING: Drag end handler is provided by useMetadataFieldOrdering composable
+// WHY: Encapsulates display order update logic
+// PATTERN: Use composable-provided handler
 
 // LEARNING: Initialize drag-and-drop on expansion panels
 // WHY: Enable drag-and-drop reordering of fields

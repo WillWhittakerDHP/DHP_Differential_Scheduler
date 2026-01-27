@@ -38,7 +38,7 @@ import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
-import { useAdmin } from '@/composables/useAdmin'
+import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import { useStatusButtonToggle } from '@/composables/admin/useStatusButtonToggle'
 
 interface Props {
@@ -69,66 +69,13 @@ const fieldValue = computed(() => {
 })
 
 
-// LEARNING: Fetch metadata to get statusButtonColor
+// LEARNING: Load metadata to get statusButtonColor
 // WHY: StatusButton needs color from metadata (defaults to 'default' if not configured)
-// PATTERN: Use useEntityMetadata to fetch metadata, then read statusButtonColor
-const admin = useAdmin()
-
-// LEARNING: Get entity for metadata lookup, handling both new and existing entities
-// WHY: New entities (IDs starting with 'new-') don't exist in store yet, so we construct from form values
-// PATTERN: Check if entityId is temporary, if so use form values, otherwise use store lookup
-const entityForMetadata = computed(() => {
-  if (!fieldContext.entityKey || !fieldContext.entityId) {
-    return null
-  }
-  
-  const entityIdStr = String(fieldContext.entityId)
-  const isTemporaryEntity = entityIdStr.startsWith('new-')
-  
-  // LEARNING: For temporary entities, construct entity object from form values
-  // WHY: New entities don't exist in store yet, but form has the values we need for metadata lookup
-  // PATTERN: Build minimal entity object with id, entityKey, and shape references needed for metadata
-  if (isTemporaryEntity) {
-    const formValues = fieldContext.formInstance?.values || {}
-    
-    // LEARNING: Construct minimal entity object for metadata lookup
-    // WHY: useEntityMetadata needs entity with id and shape references (e.g., blockShapeRef for blockInstance)
-    // PATTERN: Include id, entityKey, and shape references from form values
-    const entity: Record<string, unknown> = {
-      id: fieldContext.entityId,
-      entityKey: fieldContext.entityKey,
-    }
-    
-    // LEARNING: Include blockShapeRef for blockInstance entities
-    // WHY: BlockInstance metadata can be BlockShape-specific, so blockShapeRef is needed for correct metadata lookup
-    // PATTERN: Copy shape reference fields from form values if they exist
-    if (fieldContext.entityKey === 'blockInstance' && formValues.blockShapeRef) {
-      entity.blockShapeRef = formValues.blockShapeRef
-    }
-    
-    // LEARNING: Include partShapeRef for partInstance entities
-    // WHY: PartInstance metadata may be PartShape-specific, so partShapeRef is needed
-    // PATTERN: Copy shape reference fields from form values if they exist
-    if (fieldContext.entityKey === 'partInstance' && formValues.partShapeRef) {
-      entity.partShapeRef = formValues.partShapeRef
-    }
-    
-    // LEARNING: Type assertion for minimal entity object
-    // WHY: We only need id, entityKey, and shape references for metadata lookup, not full entity
-    // PATTERN: Assert as GlobalEntity type - useEntityMetadata accepts partial entities
-    return entity as import('@/types/entities').GlobalEntity<typeof fieldContext.entityKey>
-  }
-  
-  // LEARNING: For existing entities, use store lookup
-  // WHY: Existing entities are in the store, so we can look them up directly
-  // PATTERN: Try store lookup, return null if not found
-  try {
-    const entity = admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
-    return entity ?? null
-  } catch {
-    return null
-  }
-})
+// PATTERN: Use useEntityMetadata to load metadata, then read statusButtonColor
+// LEARNING: Use composable for entity lookup
+// WHY: Extracts entity lookup logic to reusable composable
+// PATTERN: Composable handles both temporary and existing entities
+const entityForMetadata = useFieldContextMetadataEntity(fieldContext)
 
 const fetchedMetadata = useEntityMetadata(
   fieldContext.entityKey,

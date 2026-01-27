@@ -5,7 +5,7 @@
  */
 
 import type { Ref } from 'vue'
-import { useCreateAnnotationType } from '@/composables/useAnnotationType'
+import { useCreateAnnotationType } from '@/composables/useAnnotationTypes'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'

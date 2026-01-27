@@ -121,9 +121,10 @@ export function useAdminMetadataMutations() {
       return response.data
     },
     onSuccess: () => {
-      // LEARNING: Refetch handled manually in handleSave to await completion
-      // WHY: Need to await refetch before clearing pendingChanges to prevent UI flash
-      // PATTERN: Manual refetch in handleSave after mutations complete
+      // LEARNING: Invalidate cache to mark as stale
+      // WHY: Ensures cache is marked stale so refetch will update it
+      // PATTERN: Invalidate in mutation, refetch manually in component to await completion
+      queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
     },
   })
 
@@ -145,9 +146,10 @@ export function useAdminMetadataMutations() {
       await apiClient.delete(url)
     },
     onSuccess: () => {
-      // LEARNING: Refetch handled manually in handleSave to await completion
-      // WHY: Need to await refetch before clearing pendingChanges to prevent UI flash
-      // PATTERN: Manual refetch in handleSave after mutations complete
+      // LEARNING: Invalidate cache to mark as stale
+      // WHY: Ensures cache is marked stale so refetch will update it
+      // PATTERN: Invalidate in mutation, refetch manually in component to await completion
+      queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
     },
   })
 

@@ -1,5 +1,5 @@
 /**
- * useAppointmentSlots Composable
+ * useAppointmentTimes Composable
  * 
  * LEARNING: Provides normalized AppointmentSlots and inspector/client perspective transformations
  * WHY: Extracts AppointmentSlots calculation and transformation logic from components
@@ -13,18 +13,18 @@ import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from
 import { transformToInspectorPerspective, transformToClientPerspective, calculateOnSiteTotal } from '@/utils/differentialScheduling'
 
 /**
- * useAppointmentSlots composable parameters
+ * useAppointmentTimes composable parameters
  */
-export interface UseAppointmentSlotsParams {
+export interface UseAppointmentTimesParams {
   blockInstances: ComputedRef<BookingBlockInstance[]> | BookingBlockInstance[]
   baseStartTime?: ComputedRef<string | null> | string | null
   isDifferentialService: ComputedRef<boolean> | boolean
 }
 
 /**
- * useAppointmentSlots composable return type
+ * useAppointmentTimes composable return type
  */
-export interface UseAppointmentSlotsReturn {
+export interface UseAppointmentTimesReturn {
   appointmentSlots: ComputedRef<AppointmentSlots>
   inspectorTimeSlots: ComputedRef<TimeSlot[]>
   clientTimeSlots: ComputedRef<TimeSlot[]>
@@ -33,13 +33,13 @@ export interface UseAppointmentSlotsReturn {
 }
 
 /**
- * useAppointmentSlots composable
+ * useAppointmentTimes composable
  * 
  * LEARNING: Provides normalized AppointmentSlots and perspective-specific time slots
  * WHY: Centralizes AppointmentSlots calculation and transformation logic
  * PATTERN: Composable that returns reactive computed properties
  */
-export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppointmentSlotsReturn {
+export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppointmentTimesReturn {
   const {
     blockInstances,
     baseStartTime,
