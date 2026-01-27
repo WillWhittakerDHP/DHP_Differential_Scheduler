@@ -84,12 +84,17 @@ export const blockInstancePrimitiveFields = {
     expandable: false,
   },
 
-  isDependentInstance: {
-    primitiveType: PrimitiveTypeEnum.Boolean,
-    primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "Dependent Instance",
-    globalField: "isDependentInstance" as const,
+  bookingMode: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Select booking mode",
+    globalField: "bookingMode" as const,
     expandable: false,
+    options: [
+      { value: 'standalone', label: 'Standalone Only' },
+      { value: 'addOn', label: 'Add-On Only' },
+      { value: 'both', label: 'Standalone or Add-On' },
+    ],
   },
 } satisfies Partial<Record<GlobalFieldKey<"blockInstance">, PrimitiveFormField<"blockInstance">>>;
 

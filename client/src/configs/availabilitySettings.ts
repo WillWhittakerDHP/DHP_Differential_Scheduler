@@ -8,7 +8,6 @@ Session 1.3.7: Created to replace hardcoded values in generateTimeSlots
 Session 1.4.1: Updated to fetch from API instead of hardcoded defaults
  */
 import type { RFC3339DateTime } from '@/types/datetime'
-import { businessHoursTimeToRfc3339 } from '@/utils/datetime'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
 
@@ -26,6 +25,123 @@ const logger = createLogger('availabilitySettings')
 export interface DayHours {
   start: RFC3339DateTime // RFC3339 format with reference date (e.g., "2000-01-01T09:00:00Z" for "09:00")
   end: RFC3339DateTime   // RFC3339 format with reference date (e.g., "2000-01-01T19:00:00Z" for "19:00")
+}
+
+/**
+ * Constraint enforcement level
+ * LEARNING: Controls how strictly constraints are enforced
+ * WHY: Provides flexibility in how constraints are applied (off = not applied, flexible = warn/soft block, hard = hard block)
+ * PATTERN: Enum-like string literal union type
+ */
+export type ConstraintEnforcement = 'off' | 'flexible' | 'hard'
+
+/**
+ * Rolling week calculation direction
+ * LEARNING: Determines how rolling 7-day window is calculated relative to appointment date
+ * WHY: Different businesses may prefer different rolling week calculations
+ * PATTERN: Enum-like string literal union type
+ */
+export type RollingWeekDirection = 'past' | 'centered' | 'future'
+
+/**
+ * Work capacity filter configuration
+ * LEARNING: Configuration for a single capacity filter (daily, calendar week, or rolling week)
+ * WHY: Encapsulates max hours and filter mode together
+ * PATTERN: Interface with required fields
+ */
+export interface WorkCapacityFilter {
+  maxHours: number
+  enforcement: ConstraintEnforcement
+}
+
+/**
+ * Rolling week capacity filter configuration
+ * LEARNING: Extends WorkCapacityFilter with direction setting
+ * WHY: Rolling week needs direction to determine date range calculation
+ * PATTERN: Extends base interface with additional field
+ */
+export interface RollingWeekCapacityFilter extends WorkCapacityFilter {
+  direction: RollingWeekDirection
+}
+
+/**
+ * Range constraint type
+ * LEARNING: Identifies the type of time-based restriction
+ * WHY: Allows different range constraint types (businessHours, leadTime, dateRange) to coexist
+ * PATTERN: Enum-like string literal union type
+ */
+export type RangeConstraintType = 'businessHours' | 'leadTime' | 'dateRange'
+
+/**
+ * Range constraint configuration
+ * LEARNING: Configuration for business hours constraint
+ * WHY: Encapsulates business hours per day
+ * PATTERN: Interface with business hours map
+ */
+export interface BusinessHoursConfig {
+  hours: AvailabilitySettings['businessHours']
+}
+
+/**
+ * Range constraint configuration
+ * LEARNING: Configuration for lead time constraint
+ * WHY: Encapsulates minimum lead time in minutes
+ * PATTERN: Interface with minutes field
+ */
+export interface LeadTimeConfig {
+  minutes: number
+}
+
+/**
+ * Range constraint configuration
+ * LEARNING: Configuration for date range constraint
+ * WHY: Encapsulates absolute start and end boundaries
+ * PATTERN: Interface with start and end RFC3339 datetime strings
+ */
+export interface DateRangeConfig {
+  start: string  // RFC3339 datetime
+  end: string    // RFC3339 datetime
+}
+
+/**
+ * Range constraint
+ * LEARNING: Time-based restrictions that filter slots by when they can occur
+ * WHY: Consolidates business hours, leadTime, and date range boundaries into unified structure
+ * PATTERN: Interface with type, enforcement, and config
+ */
+export interface RangeConstraint {
+  type: RangeConstraintType
+  enforcement: ConstraintEnforcement
+  config: BusinessHoursConfig | LeadTimeConfig | DateRangeConfig
+}
+
+/**
+ * Buffer type for distinguishing buffer purposes
+ * LEARNING: Identifies the purpose of a buffer configuration
+ * WHY: Allows different buffer types (appointment, driveTime, lunch) to coexist
+ * PATTERN: Enum-like string literal union type
+ */
+export type BufferType = 'appointment' | 'driveTime' | 'lunch'
+
+/**
+ * Buffer placement for controlling where buffer is applied
+ * LEARNING: Controls where buffer time is placed around slots
+ * WHY: Different buffer placements (before, after, both) serve different purposes
+ * PATTERN: Enum-like string literal union type
+ */
+export type BufferPlacement = 'off' | 'before' | 'after' | 'both'
+
+/**
+ * Buffer configuration (now OverlapConstraint)
+ * LEARNING: Configuration for a single buffer type (appointment, driveTime, or lunch)
+ * WHY: Encapsulates buffer type, minutes, placement, and enforcement together
+ * PATTERN: Interface with required fields, similar to WorkCapacityFilter
+ */
+export interface BufferConfig {
+  type: BufferType
+  minutes: number
+  placement: BufferPlacement  // Renamed from mode
+  enforcement: ConstraintEnforcement  // Added enforcement property
 }
 
 /**
@@ -58,19 +174,42 @@ export interface AvailabilitySettings {
   minuteIncrement: number
   
   /**
-   * Minimum lead time in minutes before appointments can be booked
-   * LEARNING: Buffer time required before first available slot
-   * WHY: Prevents booking appointments too close to current time
+   * Range constraints (optional)
+   * LEARNING: Time-based restrictions that filter slots by when they can occur
+   * WHY: Consolidates business hours, leadTime, and date range boundaries into unified structure
+   * PATTERN: Optional nested object with businessHours, leadTime, and dateRange constraints
    */
-  leadTime: number
+  rangeConstraints?: {
+    businessHours?: RangeConstraint  // Business hours per day (always enforced)
+    leadTime?: RangeConstraint      // Lead time constraint (filters slots before now + minutes)
+    dateRange?: RangeConstraint     // Date range boundaries (absolute start/end limits)
+  }
   
   /**
-   * Maximum work hours per day (optional)
-   * LEARNING: Limits total scheduled appointments per day
-   * WHY: Prevents over-scheduling on a single day
-   * PATTERN: Optional field, defaults to calculated max from businessHours if not set
+   * Overlap constraints (buffers) (optional)
+   * LEARNING: Time gaps around appointments to prevent overlaps
+   * WHY: Groups related buffer settings together for consistency and better organization
+   * PATTERN: Optional nested object with appointment, driveTime, and lunch buffers
+   * 
+   * Note: leadTime moved to rangeConstraints.leadTime
    */
-  workHoursLimit?: number
+  buffers?: {
+    appointment?: BufferConfig   // Appointment buffer (adds time around appointments)
+    driveTime?: BufferConfig     // Drive time buffer (future: travel time between appointments)
+    lunch?: BufferConfig         // Lunch buffer (blocks time for lunch breaks)
+  }
+  
+  /**
+   * Maximum work hours capacity filters (optional)
+   * LEARNING: Consolidated capacity filters for day, calendar week, and rolling week limits
+   * WHY: Groups related capacity settings together for consistency and better organization
+   * PATTERN: Optional nested object with day, calendarWeek, and rollingWeek filters
+   */
+  maxWorkHours?: {
+    day?: WorkCapacityFilter
+    calendarWeek?: WorkCapacityFilter
+    rollingWeek?: RollingWeekCapacityFilter
+  }
   
   /**
    * IANA timezone string (optional)
@@ -81,55 +220,6 @@ export interface AvailabilitySettings {
   timezone?: string
 }
 
-/**
- * Convert business hours from API format to AvailabilitySettings format
- * LEARNING: Converts HH:mm format to RFC3339 format for all days
- * WHY: Eliminates duplicate conversion logic repeated 7 times
- * PATTERN: Map over all days (0-6), convert each day's hours
- * P2-4: Extracted duplicate business hours conversion logic
- * 
- * @param apiHours - Business hours from API in HH:mm format
- * @param defaultStart - Default start time if not provided (default: '09:00')
- * @param defaultEnd - Default end time if not provided (default: '19:00')
- * @returns Business hours in AvailabilitySettings format (RFC3339)
- */
-function convertBusinessHoursFromApi(
-  apiHours: Record<string, { start: string; end: string }>,
-  defaultStart: string = '09:00',
-  defaultEnd: string = '19:00'
-): AvailabilitySettings['businessHours'] {
-  const days: (0 | 1 | 2 | 3 | 4 | 5 | 6)[] = [0, 1, 2, 3, 4, 5, 6]
-  
-  return days.reduce((acc, day) => {
-    acc[day] = {
-      start: businessHoursTimeToRfc3339(apiHours[String(day)]?.start || defaultStart),
-      end: businessHoursTimeToRfc3339(apiHours[String(day)]?.end || defaultEnd)
-    }
-    return acc
-  }, {} as AvailabilitySettings['businessHours'])
-}
-
-/**
- * Default availability settings
- * LEARNING: Fallback defaults matching server-side defaultAvailabilitySettings
- * WHY: Provides working configuration if API call fails or no settings exist in database
- * PATTERN: Default export with sensible business hours, used as fallback
- */
-export const defaultAvailabilitySettings: AvailabilitySettings = {
-  businessHours: {
-    0: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Sunday
-    1: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Monday
-    2: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Tuesday
-    3: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Wednesday
-    4: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Thursday
-    5: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Friday
-    6: { start: businessHoursTimeToRfc3339("09:00"), end: businessHoursTimeToRfc3339("19:00") }, // Saturday
-  },
-  minuteIncrement: 15, // 15-minute intervals
-  leadTime: 60, // 1 hour lead time
-  workHoursLimit: undefined, // Will be calculated from businessHours
-  timezone: 'America/New_York' // Default timezone
-}
 
 /**
  * Cache entry with metadata
@@ -185,12 +275,13 @@ function isCacheValid(): boolean {
 }
 
 /**
- * Get availability settings from API with fallback to defaults
+ * Get availability settings from API
  * LEARNING: Fetches settings from business-settings API endpoint with TTL-based cache
  * WHY: Allows admin to configure settings without code changes, with automatic refresh
- * PATTERN: API call with error handling, TTL validation, and fallback to defaults
+ * PATTERN: API call with error handling, TTL validation, explicit errors only
  * 
- * @returns Promise<AvailabilitySettings> - Settings from API or defaults
+ * @returns Promise<AvailabilitySettings> - Settings from API
+ * @throws Error if API fails or response is invalid
  */
 export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
   // Check cache validity (TTL-based)
@@ -212,63 +303,68 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
     
     if (response.data && response.data.setting_value) {
       const rawSettings = response.data.setting_value as {
-        businessHours?: {
-          [key: string]: { start: string; end: string } // API returns HH:mm format
+        minuteIncrement: number
+        rangeConstraints: {
+          businessHours: RangeConstraint
+          leadTime?: RangeConstraint
+          dateRange?: RangeConstraint
         }
-        minuteIncrement?: number
-        leadTime?: number
-        workHoursLimit?: number
+        buffers?: {
+          appointment?: BufferConfig
+          driveTime?: BufferConfig
+          lunch?: BufferConfig
+        }
+        maxWorkHours?: {
+          day?: WorkCapacityFilter
+          calendarWeek?: WorkCapacityFilter
+          rollingWeek?: RollingWeekCapacityFilter
+        }
         timezone?: string
       }
       
-      // Validate settings structure (basic check)
-      if (
-        rawSettings.businessHours &&
-        rawSettings.minuteIncrement &&
-        rawSettings.leadTime !== undefined
-      ) {
-        // P2-4: Use shared business hours conversion function
-        // LEARNING: Convert business hours from HH:mm (API format) to RFC3339 (internal format)
-        // WHY: API returns HH:mm, but we store as RFC3339 internally
-        // PATTERN: Use convertBusinessHoursFromApi to eliminate duplicate conversion logic
-        const convertedSettings: AvailabilitySettings = {
-          businessHours: convertBusinessHoursFromApi(rawSettings.businessHours),
-          minuteIncrement: rawSettings.minuteIncrement,
-          leadTime: rawSettings.leadTime,
-          workHoursLimit: rawSettings.workHoursLimit, // Optional field
-          timezone: rawSettings.timezone || 'America/New_York' // Default if not set
-        }
-        
-        // Update cache with timestamp
-        cachedSettings = {
-          settings: convertedSettings,
-          cachedAt: Date.now()
-        }
-        
-        logger.info('Settings cached', { ttl: `${(CACHE_TTL_MS / 1000).toFixed(0)}s` })
-        return convertedSettings
+      // Validate settings structure - require current format only
+      if (!rawSettings.rangeConstraints?.businessHours) {
+        throw new Error('rangeConstraints.businessHours is required')
       }
+      
+      if (!rawSettings.minuteIncrement) {
+        throw new Error('minuteIncrement is required')
+      }
+      
+      // Extract business hours from rangeConstraints.businessHours.config.hours
+      const businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig
+      const businessHours = businessHoursConfig.hours
+      
+      // LEARNING: Server sends RFC3339 format directly in current structure
+      // WHY: Server is source of truth for RFC3339 format, no conversion needed
+      // PATTERN: Use settings directly from API response
+      const convertedSettings: AvailabilitySettings = {
+        businessHours: businessHours,
+        minuteIncrement: rawSettings.minuteIncrement,
+        rangeConstraints: rawSettings.rangeConstraints,
+        buffers: rawSettings.buffers,
+        maxWorkHours: rawSettings.maxWorkHours,
+        timezone: rawSettings.timezone
+      }
+      
+      // Update cache with timestamp
+      cachedSettings = {
+        settings: convertedSettings,
+        cachedAt: Date.now()
+      }
+      
+      logger.info('Settings cached', { ttl: `${(CACHE_TTL_MS / 1000).toFixed(0)}s` })
+      return convertedSettings
     }
     
-    // If response is invalid, fall back to defaults or stale cache
-    if (cachedSettings) {
-      logger.warn('Invalid API response, using stale cached settings as fallback')
-      return cachedSettings.settings
-    }
-    
-    logger.warn('Invalid API response, using default settings as fallback')
-    return defaultAvailabilitySettings
+    // Invalid response - throw explicit error
+    throw new Error('Invalid API response: missing setting_value or required fields')
   } catch (error) {
     logger.error('Failed to fetch settings from API', { error })
     
-    // Fallback to stale cache or defaults
-    if (cachedSettings) {
-      logger.warn('Using stale cached settings as fallback')
-      return cachedSettings.settings
-    }
-    
-    logger.warn('Using default settings as fallback')
-    return defaultAvailabilitySettings
+    // Explicit error - no fallbacks
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+    throw new Error(`Failed to fetch availability settings: ${errorMessage}`)
   }
 }
 
@@ -291,15 +387,6 @@ export function invalidateAvailabilitySettingsCache(): void {
   }
 }
 
-/**
- * Clear cached availability settings (alias for invalidateAvailabilitySettingsCache)
- * LEARNING: Maintains backward compatibility
- * WHY: Existing code may use clearAvailabilitySettingsCache
- * @deprecated Use invalidateAvailabilitySettingsCache instead
- */
-export function clearAvailabilitySettingsCache(): void {
-  invalidateAvailabilitySettingsCache()
-}
 
 /**
  * Get cache status for debugging

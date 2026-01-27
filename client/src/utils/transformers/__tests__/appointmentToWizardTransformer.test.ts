@@ -88,7 +88,7 @@ describe('appointmentToWizardTransformer', () => {
         selectedServiceIds: ['block-1'],
         selectedDate: '2026-01-15',
         selectedTimeSlots: [
-          { time: '2026-01-15T10:00:00Z', duration: 120 }
+          { startTime: '2026-01-15T10:00:00Z', endTime: '2026-01-15T12:00:00Z', duration: 120 } as any
         ],
         isQuoteMode: false,
         status: 'booked',
@@ -100,7 +100,8 @@ describe('appointmentToWizardTransformer', () => {
       
       expect(result.availability.selectedTimeSlots).toBeDefined()
       expect(result.availability.selectedTimeSlots).toHaveLength(1)
-      expect(result.availability.selectedTimeSlots?.[0].time).toBe('2026-01-15T10:00:00Z')
+      expect(result.availability.selectedTimeSlots?.[0].startTime).toBe('2026-01-15T10:00:00Z')
+      expect(result.availability.selectedTimeSlots?.[0].endTime).toBe('2026-01-15T12:00:00Z')
       expect(result.availability.selectedTimeSlots?.[0].duration).toBe(120)
     })
     

@@ -212,32 +212,3 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
   }
 }
 
-/**
- * @deprecated Use useAppointmentSlots instead
- */
-export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppointmentTimesReturn {
-  const result = useAppointmentSlots(params)
-  return {
-    appointmentTimes: result.appointmentSlots,
-    inspectorTimeSlots: result.inspectorTimeSlots,
-    clientTimeSlots: result.clientTimeSlots,
-    getInspectorTimeSlot: result.getInspectorTimeSlot,
-    getClientTimeSlot: result.getClientTimeSlot
-  }
-}
-
-/**
- * @deprecated Use UseAppointmentSlotsParams instead
- */
-export interface UseAppointmentTimesParams extends UseAppointmentSlotsParams {}
-
-/**
- * @deprecated Use UseAppointmentSlotsReturn instead
- */
-export interface UseAppointmentTimesReturn {
-  appointmentTimes: ComputedRef<AppointmentSlots>
-  inspectorTimeSlots: ComputedRef<TimeSlot[]>
-  clientTimeSlots: ComputedRef<TimeSlot[]>
-  getInspectorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null
-  getClientTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null
-}

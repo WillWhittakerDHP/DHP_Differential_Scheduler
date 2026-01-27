@@ -1,0 +1,218 @@
+<!--
+  LEARNING: Block Instance Create Modal Component
+  WHY: Unified modal for creating and duplicating block instances
+  PATTERN: VDialog with EntityCard inside, following InstanceBulkEditModal pattern
+  COMPARISON: Similar to InstanceBulkEditModal but for create/duplicate operations
+-->
+<template>
+  <VDialog
+    :model-value="modelValue"
+    @update:model-value="updateModelValue"
+    max-width="800"
+  >
+    <VCard>
+      <VCardTitle class="d-flex align-center justify-space-between pa-6">
+        <span class="text-h5">{{ modalTitle }}</span>
+        <VBtn
+          icon
+          variant="text"
+          @click="updateModelValue(false)"
+        >
+          <VIcon icon="tabler-x" />
+        </VBtn>
+      </VCardTitle>
+
+      <VCardText class="pa-6">
+        <!-- LEARNING: EntityCard for create/duplicate form -->
+        <!-- WHY: Uses EntityCard for consistency, but prevents auto-save on blur -->
+        <!-- PATTERN: Set isNew=true, disableAutoSave=true, useExpansionPanel=false -->
+        <div class="create-modal-entity-card">
+          <EntityCard
+            ref="entityCardRef"
+            entity-key="blockInstance"
+            :entity="initialEntity"
+            :is-new="true"
+            :expanded="true"
+            :disable-auto-save="true"
+            :use-expansion-panel="false"
+            @saved="handleEntityCardSaved"
+            @cancelled="handleCancel"
+          />
+        </div>
+      </VCardText>
+
+      <VCardActions class="pa-6">
+        <VSpacer />
+        <VBtn
+          color="secondary"
+          variant="tonal"
+          @click="handleCancel"
+        >
+          Cancel
+        </VBtn>
+        <VBtn
+          color="primary"
+          variant="elevated"
+          :disabled="!canSave"
+          @click="handleCreate"
+        >
+          {{ createButtonText }}
+        </VBtn>
+      </VCardActions>
+    </VCard>
+  </VDialog>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
+import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import { getDefaultEntityValues } from '@/utils/entityDefaults'
+import { generateIncrementedName } from '@/utils/blockInstanceUtils'
+import { useAdmin } from '@/composables/useAdmin'
+
+interface Props {
+  modelValue?: boolean
+  blockShapeId: string
+  sourceEntity?: GlobalEntity<'blockInstance'> // For duplicate, undefined for create
+}
+
+interface Emits {
+  (e: 'update:modelValue', value: boolean): void
+  (e: 'created', entity: GlobalEntity<'blockInstance'>): void
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: false
+})
+const emit = defineEmits<Emits>()
+
+const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
+const admin = useAdmin()
+
+// LEARNING: Stable temp ID for form management
+// WHY: Generate once when modal opens, not on every computed evaluation
+// PATTERN: Use ref to store stable ID that persists across computed re-evaluations
+const tempEntityId = ref<string>(`new-${Date.now()}`)
+
+/**
+ * LEARNING: Modal title based on operation type
+ * WHY: Shows "Create" or "Duplicate" in modal title
+ * PATTERN: Computed property that checks if sourceEntity exists
+ */
+const modalTitle = computed(() => {
+  return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
+})
+
+/**
+ * LEARNING: Create button text based on operation type
+ * WHY: Shows "Create" or "Duplicate" on button
+ * PATTERN: Computed property that checks if sourceEntity exists
+ */
+const createButtonText = computed(() => {
+  return props.sourceEntity ? 'Duplicate' : 'Create'
+})
+
+/**
+ * LEARNING: Initial entity values for form
+ * WHY: Pre-fills form with defaults (create) or duplicated values (duplicate)
+ * PATTERN: If sourceEntity provided, use it with incremented name. Otherwise use defaults.
+ * NOTE: Uses stable tempEntityId ref to avoid regenerating ID on every computed evaluation
+ */
+const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
+  if (props.sourceEntity) {
+    // Duplicate: use source entity with incremented name
+    const newName = generateIncrementedName(
+      props.sourceEntity.name || '',
+      props.sourceEntity.blockShapeRef,
+      admin.getEntitiesByKey
+    )
+    
+    return {
+      ...props.sourceEntity,
+      name: newName,
+      id: tempEntityId.value,
+    } as GlobalEntity<'blockInstance'>
+  } else {
+    // Create: use defaults with blockShapeRef pre-filled
+    const defaults = getDefaultEntityValues('blockInstance')
+    return {
+      ...defaults,
+      blockShapeRef: props.blockShapeId,
+      id: tempEntityId.value,
+    } as GlobalEntity<'blockInstance'>
+  }
+})
+
+// LEARNING: Regenerate temp ID when modal opens
+// WHY: Ensures fresh ID for each modal open
+// PATTERN: Watch modelValue prop and regenerate ID when modal opens
+watch(() => props.modelValue, (isOpen) => {
+  if (isOpen) {
+    tempEntityId.value = `new-${Date.now()}`
+  }
+})
+
+/**
+ * LEARNING: Check if form can be saved
+ * WHY: Disable Create button if form is not ready
+ * PATTERN: Check EntityCard's form readiness - for new entities, allow save even if not dirty
+ */
+const canSave = computed(() => {
+  if (!entityCardRef.value?.form) {
+    return false
+  }
+  
+  // For new entities, allow save if form is ready (name field is required)
+  const form = entityCardRef.value.form
+  return form.meta.value.valid && entityCardRef.value.isFormReady
+})
+
+function updateModelValue(value: boolean) {
+  emit('update:modelValue', value)
+}
+
+/**
+ * LEARNING: Handle EntityCard saved event
+ * WHY: EntityCard emits saved event when form is saved successfully
+ * PATTERN: Emit created event and close modal
+ */
+function handleEntityCardSaved(entity: GlobalEntity<GlobalEntityKey>): void {
+  emit('created', entity as GlobalEntity<'blockInstance'>)
+  updateModelValue(false)
+}
+
+/**
+ * LEARNING: Handle Create button click
+ * WHY: Triggers EntityCard's save method to create the entity
+ * PATTERN: Call EntityCard's handleSave method via ref
+ */
+async function handleCreate(): Promise<void> {
+  if (!entityCardRef.value) {
+    return
+  }
+  
+  // Trigger EntityCard's save method
+  // EntityCard will handle the actual creation and emit 'saved' event
+  await entityCardRef.value.handleSave()
+}
+
+/**
+ * LEARNING: Handle Cancel button click
+ * WHY: Closes modal without saving
+ * PATTERN: Simply close the modal
+ */
+function handleCancel(): void {
+  updateModelValue(false)
+}
+</script>
+
+<style scoped>
+/* LEARNING: Hide EntityCard's action buttons in create modal */
+/* WHY: Modal has its own Create/Cancel buttons, don't need EntityCard's buttons */
+/* PATTERN: Use CSS to hide the action buttons section */
+.create-modal-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
+  display: none !important;
+}
+</style>

@@ -51,7 +51,7 @@ function createBlockInstance(
   options: {
     name?: string
     orderIndex?: number
-    isDependentInstance?: boolean
+    bookingMode?: import('@/constants/entities').BookingMode
     description?: string
     icon?: string
   } = {}
@@ -64,7 +64,7 @@ function createBlockInstance(
     description: options.description || 'Test description',
     icon: options.icon || 'icon-test',
     active: true,
-    isDependentInstance: options.isDependentInstance ?? false,
+    bookingMode: options.bookingMode ?? 'standalone',
     differential: false,
     orderIndex: options.orderIndex ?? 0,
     blockShape: 'Test Shape',
@@ -217,7 +217,7 @@ describe('useDependentInstances', () => {
             name: 'Dependent Instance 1',
             orderIndex: 0,
             active: true,
-            isDependentInstance: true,
+            bookingMode: 'addOn',
             description: 'Child description',
             icon: 'child-icon',
           }

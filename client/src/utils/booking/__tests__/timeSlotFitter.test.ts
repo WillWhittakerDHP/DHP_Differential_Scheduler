@@ -7,7 +7,7 @@
  */
 
 import { describe, it, expect, beforeAll } from 'vitest'
-import { fitTimeSlots, fitTimeSlotsWithAvailability, timeRangesOverlap, parseLocalDate, parseTimeToMinutes, DEFAULT_INCLUDE_FLAGS, type BusinessHoursMap } from '../timeSlotFitter'
+import { fitTimeSlots, fitTimeSlotsWithAvailability, timeRangesOverlap, parseUTCDate, parseTimeToMinutes, DEFAULT_INCLUDE_FLAGS, type BusinessHoursMap } from '../timeSlotFitter'
 import { generateMockFreeBusyResponse, extractBusyTimesFromFreeBusyResponse } from '../mockGoogleCalendar'
 import {
   setTestBaseDate,
@@ -56,16 +56,16 @@ const standardBusinessHours: BusinessHoursMap = {
 // ===================================================================
 
 describe('timeSlotFitter helpers', () => {
-  describe('parseLocalDate', () => {
-    it('should parse YYYY-MM-DD format', () => {
+  describe('parseUTCDate', () => {
+    it('should parse YYYY-MM-DD format in UTC', () => {
       // LEARNING: Use dynamic date helper instead of hardcoded date
       // WHY: Avoids stale dates that break tests over time
       const testDate = nextDayDateOnly(1) // Next Monday
-      const date = parseLocalDate(testDate)
+      const date = parseUTCDate(testDate)
       const expectedDate = new Date(testDate + 'T00:00:00Z')
-      // LEARNING: parseLocalDate parses in local timezone, so we compare UTC components
-      // WHY: The function creates a Date object from local date string
-      // PATTERN: Compare UTC components to avoid timezone issues
+      // LEARNING: parseUTCDate parses in UTC timezone
+      // WHY: All business logic should use UTC to avoid timezone issues
+      // PATTERN: Compare UTC components
       expect(date.getUTCFullYear()).toBe(expectedDate.getUTCFullYear())
       expect(date.getUTCMonth()).toBe(expectedDate.getUTCMonth())
       expect(date.getUTCDate()).toBe(expectedDate.getUTCDate())
@@ -74,11 +74,12 @@ describe('timeSlotFitter helpers', () => {
     it('should parse ISO timestamp format', () => {
       // LEARNING: Use dynamic date helper
       const testDateTime = nextMonday9AM()
-      const date = parseLocalDate(testDateTime)
+      const date = parseUTCDate(testDateTime)
       const expectedDate = new Date(testDateTime)
-      expect(date.getFullYear()).toBe(expectedDate.getFullYear())
-      expect(date.getMonth()).toBe(expectedDate.getMonth())
-      expect(date.getDate()).toBe(expectedDate.getDate())
+      // LEARNING: Compare UTC components since parseUTCDate uses UTC
+      expect(date.getUTCFullYear()).toBe(expectedDate.getUTCFullYear())
+      expect(date.getUTCMonth()).toBe(expectedDate.getUTCMonth())
+      expect(date.getUTCDate()).toBe(expectedDate.getUTCDate())
     })
   })
 

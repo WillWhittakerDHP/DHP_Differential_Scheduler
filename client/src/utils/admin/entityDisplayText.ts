@@ -48,6 +48,10 @@ export function getEntitySuccessMessage(entityKey: GlobalEntityKey): string {
   return `${getEntityTypeName(entityKey)} updated successfully`
 }
 
+export function getEntityCreateMessage(entityKey: GlobalEntityKey): string {
+  return `${getEntityTypeName(entityKey)} created successfully`
+}
+
 export function getEntityDeleteTitle(entityKey: GlobalEntityKey): string {
   return `Delete ${getEntityTypeName(entityKey)}`
 }

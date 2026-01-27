@@ -36,7 +36,7 @@ function createBookingBlockInstance(
     description: 'Test description',
     icon: 'icon-test',
     active: true,
-    isDependentInstance: false,
+    bookingMode: 'standalone',
     differential: options.differential ?? false,
     orderIndex: 0,
     blockShape: 'Test Shape',
@@ -716,7 +716,7 @@ describe('useAvailabilityLogic', () => {
 
     it('should handle empty loaded slots', () => {
       const availableSlots = [createTimeSlot('2024-01-15T09:00:00')]
-      const loadedSlots: Array<{ time: string }> = []
+      const loadedSlots: Array<{ startTime: string; endTime?: string }> = []
       
       const inspectorTimeSlotRef = ref(null)
       const clientTimeSlotRef = ref(null)
@@ -737,7 +737,7 @@ describe('useAvailabilityLogic', () => {
 
     it('should handle empty available slots', () => {
       const availableSlots: TimeSlot[] = []
-      const loadedSlots = [{ time: '2024-01-15T09:00:00' }]
+      const loadedSlots = [{ startTime: '2024-01-15T09:00:00Z' }]
       
       const inspectorTimeSlotRef = ref(null)
       const clientTimeSlotRef = ref(null)
@@ -755,15 +755,15 @@ describe('useAvailabilityLogic', () => {
       expect(inspectorTimeSlotRef.value).toBeNull()
     })
 
-    it('should match by time string (HH:mm format)', () => {
+    it('should match by time string (RFC3339 format)', () => {
       const availableSlots = [
         createTimeSlot('2024-01-15T09:30:00'),
         createTimeSlot('2024-01-15T10:45:00'),
       ]
       
       const loadedSlots = [
-        { time: '09:30' }, // HH:mm format
-        { time: '10:45' },
+        { startTime: '2024-01-15T09:30:00Z' }, // RFC3339 format
+        { startTime: '2024-01-15T10:45:00Z' },
       ]
       
       const inspectorTimeSlotRef = ref(null)
@@ -785,7 +785,7 @@ describe('useAvailabilityLogic', () => {
 
     it('should handle invalid time strings gracefully', () => {
       const availableSlots = [createTimeSlot('2024-01-15T09:00:00')]
-      const loadedSlots = [{ time: 'invalid-time' }]
+      const loadedSlots = [{ startTime: 'invalid-time' }]
       
       const inspectorTimeSlotRef = ref(null)
       const clientTimeSlotRef = ref(null)

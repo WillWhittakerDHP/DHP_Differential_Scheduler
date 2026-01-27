@@ -14,6 +14,7 @@ import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/types/moveab
 import { fitAvailableTimeSlots, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
+import { useLocalTime } from '@/composables/useLocalTime'
 
 // LEARNING: Use scoped logger for controllable debug output
 // WHY: Prevents debug logs in production, allows scope-based filtering
@@ -27,35 +28,44 @@ interface UseMoveablePartsSchedulingParams {
 
 /**
  * Helper function to format day label
+ * LEARNING: Uses useLocalTime composable for UI-boundary date formatting
+ * WHY: All local time conversions must go through useLocalTime composable
  */
-function formatDayLabel(isoDate: string): string {
+function formatDayLabel(isoDate: string, formatDateForDisplay: (rfc3339: string, options?: Intl.DateTimeFormatOptions) => string): string {
+  // LEARNING: Use UTC methods for date comparison
+  // WHY: All business logic should use UTC to avoid timezone issues
   const date = new Date(isoDate)
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const tomorrow = new Date(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
+  const now = new Date()
+  const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0))
+  const tomorrow = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() + 1, 0, 0, 0, 0))
   
-  const dateOnly = new Date(date)
-  dateOnly.setHours(0, 0, 0, 0)
+  const dateOnly = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0))
   
   if (dateOnly.getTime() === today.getTime()) return 'Today'
   if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
   
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  // LEARNING: Use composable for UI-boundary formatting
+  // WHY: All local time conversions must go through useLocalTime
+  return formatDateForDisplay(isoDate as any, { month: 'short', day: 'numeric' })
 }
 
 /**
  * Helper function to format time label
+ * LEARNING: Uses useLocalTime composable for UI-boundary time formatting
+ * WHY: All local time conversions must go through useLocalTime composable
  */
-function formatTimeLabel(startIso: string, endIso: string): string {
-  const start = new Date(startIso)
-  const end = new Date(endIso)
-  const formatTime = (d: Date) => d.toLocaleTimeString('en-US', { 
+function formatTimeLabel(startIso: string, endIso: string, formatTimeForDisplay: (rfc3339: string, options?: Intl.DateTimeFormatOptions) => string): string {
+  const startFormatted = formatTimeForDisplay(startIso as any, { 
     hour: 'numeric', 
     minute: '2-digit',
     hour12: true 
   })
-  return `${formatTime(start)} - ${formatTime(end)}`
+  const endFormatted = formatTimeForDisplay(endIso as any, { 
+    hour: 'numeric', 
+    minute: '2-digit',
+    hour12: true 
+  })
+  return `${startFormatted} - ${endFormatted}`
 }
 
 export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingParams) {
@@ -109,33 +119,51 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
       isLoadingOptions.value = true
       
       // Outer boundary: contingency deadline or default
+      // LEARNING: Use UTC methods for date manipulation
+      // WHY: All business logic should use UTC to avoid timezone issues
       let outerBoundary: string
       if (contingencyPeriod.value.hasContingency && contingencyPeriod.value.endDate) {
-        const date = new Date(contingencyPeriod.value.endDate)
+        // Parse date string (YYYY-MM-DD format)
+        const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
         if (contingencyPeriod.value.endTime) {
           const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
-          date.setHours(hours, minutes, 0, 0)
+          // LEARNING: Use Date.UTC() to create date in UTC
+          const date = new Date(Date.UTC(year, month - 1, day, hours, minutes, 0, 0))
+          outerBoundary = date.toISOString()
         } else {
-          date.setHours(17, 0, 0, 0) // Default to 5pm
+          // Default to 5pm UTC
+          const date = new Date(Date.UTC(year, month - 1, day, 17, 0, 0, 0))
+          outerBoundary = date.toISOString()
         }
-        outerBoundary = date.toISOString()
       } else {
         // Default: N days after appointment
-        const defaultDate = new Date(innerBoundary)
-        defaultDate.setDate(defaultDate.getDate() + DEFAULT_OUTER_BOUNDARY_DAYS)
-        defaultDate.setHours(17, 0, 0, 0)
+        const innerBoundaryDate = new Date(innerBoundary)
+        const defaultDate = new Date(Date.UTC(
+          innerBoundaryDate.getUTCFullYear(),
+          innerBoundaryDate.getUTCMonth(),
+          innerBoundaryDate.getUTCDate() + DEFAULT_OUTER_BOUNDARY_DAYS,
+          17, 0, 0, 0
+        ))
         outerBoundary = defaultDate.toISOString()
       }
       
       // Get business hours
       const settings = await getAvailabilitySettings()
       
+      // LEARNING: Extract businessHours from structured rangeConstraints
+      // WHY: No top-level businessHours fallback - must use structured format
+      // PATTERN: Get businessHours from rangeConstraints.businessHours.config.hours
+      const businessHours = settings.rangeConstraints?.businessHours?.config?.hours as BusinessHoursMap
+      if (!businessHours) {
+        throw new Error('businessHours must be provided in rangeConstraints.businessHours.config.hours')
+      }
+      
       // Fit moveable work into available time
       const result = fitAvailableTimeSlots({  // P3-6: Renamed for clarity
         startBoundary: innerBoundary,
         endBoundary: outerBoundary,
         duration,
-        businessHours: settings.businessHours as BusinessHoursMap,
+        businessHours,
         minuteIncrement: settings.minuteIncrement,
         includeFlags: { onSite: false, clientPresent: false, moveable: true }
       })
@@ -145,8 +173,8 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         startTime: slot.startTime,
         endTime: slot.endTime,
         duration: slot.duration,
-        dayLabel: formatDayLabel(slot.startTime),
-        timeLabel: formatTimeLabel(slot.startTime, slot.endTime)
+        dayLabel: formatDayLabel(slot.startTime, formatDateForDisplay),
+        timeLabel: formatTimeLabel(slot.startTime, slot.endTime, formatTimeForDisplay)
       }))
       
       moveableOptions.value = {

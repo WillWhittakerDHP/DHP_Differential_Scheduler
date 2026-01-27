@@ -427,9 +427,9 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
     
     const created = await relationshipConfig.model.create(createData);
     
-    // For instanceComponents, update visible flags
+    // For instanceComponents, update active flags
     if (req.params.relationshipType === 'instanceComponents') {
-      // LEARNING: Components always have visible=false
+      // LEARNING: Components should be inactive
       // WHY: Only parents appear in scheduler
       // PATTERN: Update component active when component relationship is created
       const childBlockInstance = await BlockInstance.findByPk(child_id);
@@ -521,9 +521,9 @@ router.delete('/instanceComponents/:id', async (req: Request, res: Response): Pr
     component.disabled = true;
     await component.save();
     
-    // LEARNING: Restore visible when entity is removed from component relationship
-    // WHY: Entities can be visible again when not a component
-    // PATTERN: Restore visible when no longer in any component relationships
+    // LEARNING: Restore active when entity is removed from component relationship
+    // WHY: Entities can be active again when not a component
+    // PATTERN: Restore active when no longer in any component relationships
     // Check if component is still in any other component relationships
     const otherComponents = await InstanceComponent.count({
       where: {

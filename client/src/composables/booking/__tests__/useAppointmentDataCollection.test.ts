@@ -32,7 +32,7 @@ function createBookingBlockInstance(
     description: 'Test description',
     icon: 'icon-test',
     active: true,
-    isDependentInstance: false,
+    bookingMode: 'standalone',
     differential: false,
     orderIndex: 0,
     blockShape: 'Test Shape',

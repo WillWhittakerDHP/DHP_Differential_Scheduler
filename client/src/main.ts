@@ -58,6 +58,20 @@ if (typeof window !== 'undefined') {
     }
     originalError.apply(console, args)
   }
+  
+  // Filter CursorBrowser automation logs
+  // WHY: Cursor's browser automation tool injects console logs that add noise
+  //      These logs are informational only and not needed for development
+  // PATTERN: Override console.log to filter CursorBrowser messages
+  const originalLog = console.log
+  console.log = function(...args: unknown[]) {
+    const logString = args.join(' ')
+    // Filter out CursorBrowser automation messages
+    if (logString.includes('[CursorBrowser]')) {
+      return
+    }
+    originalLog.apply(console, args)
+  }
 }
 
 /**

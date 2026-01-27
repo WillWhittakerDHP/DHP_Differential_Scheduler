@@ -6,6 +6,7 @@
 
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
+import type { BookingMode } from '@/constants/entities'
 import { useGlobal } from '@/composables/useGlobal'
 
 /**
@@ -17,14 +18,6 @@ function isComponentChild(instance: GlobalEntity<'blockInstance'>, componentChil
   return componentChildIds.has(String(instance.id))
 }
 
-/**
- * Check if instance is dependent
- * WHY: Dependent instances should be grouped separately
- */
-function isInstanceDependent(instance: GlobalEntity<'blockInstance'>): boolean {
-  type BlockInstanceEntityWithFlags = GlobalEntity<'blockInstance'> & { dependent?: boolean }
-  return (instance as BlockInstanceEntityWithFlags).dependent === true
-}
 
 export interface UseInstanceFilteringOptions {
   blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
@@ -66,15 +59,21 @@ export function useInstanceFiltering(
   })
 
   /**
-   * Split instances into main vs grouped (components/dependent)
+   * Split instances into main vs grouped (components/addOn)
    * WHY: Makes it visually obvious which instances are not shown in booking main lists
    * PATTERN: Main list stays draggable; grouped list lives in a collapsible section
+   * LEARNING: Main instances include standalone and both (preserves orderIndex order from useInstanceGrouping)
+   *           Grouped instances include addOn OR component children (preserves orderIndex order from useInstanceGrouping)
    */
   const mainInstancesByShape = computed((): Map<string, GlobalEntity<'blockInstance'>[]> => {
     const result = new Map<string, GlobalEntity<'blockInstance'>[]>()
 
     blockInstancesByShape.value.forEach((instances, blockShapeId) => {
-      const mainInstances = instances.filter((instance) => !isComponentChild(instance, componentChildIds.value) && !isInstanceDependent(instance))
+      const mainInstances = instances
+        .filter((instance) => {
+          const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMode ?? 'standalone'
+          return !isComponentChild(instance, componentChildIds.value) && mode !== 'addOn'
+        })
       result.set(blockShapeId, mainInstances)
     })
 
@@ -85,7 +84,11 @@ export function useInstanceFiltering(
     const result = new Map<string, GlobalEntity<'blockInstance'>[]>()
 
     blockInstancesByShape.value.forEach((instances, blockShapeId) => {
-      const groupedInstances = instances.filter((instance) => isComponentChild(instance, componentChildIds.value) || isInstanceDependent(instance))
+      const groupedInstances = instances
+        .filter((instance) => {
+          const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMode ?? 'standalone'
+          return isComponentChild(instance, componentChildIds.value) || mode === 'addOn'
+        })
       result.set(blockShapeId, groupedInstances)
     })
 

@@ -19,3 +19,6 @@ export const ENTITY_KEYS = [
 
 export type GlobalEntityKey = (typeof ENTITY_KEYS)[number];
 
+// Booking mode enum for block instances
+export const BOOKING_MODES = ['standalone', 'addOn', 'both'] as const;
+export type BookingMode = typeof BOOKING_MODES[number];

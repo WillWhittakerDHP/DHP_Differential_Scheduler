@@ -18,6 +18,7 @@ import { useAdmin } from '@/composables/useAdmin'
  * WHY: Ensures admin data (with transformer) only loads when admin page is accessed
  * PATTERN: Initialize route-specific composables in view component setup
  * PERFORMANCE: Admin transformer only runs on admin pages, not on scheduler pages
+ * NOTE: Metadata is prefetched in route guard before component renders (same pattern as globalData)
  */
 useAdmin()
 
@@ -40,7 +41,7 @@ const currentTab = ref('instances')
       <VTab value="instances">Instances</VTab>
       <VTab value="shapes">Shapes</VTab>
       <VTab value="data">APPOINTMENTS</VTab>
-      <VTab value="business">AVAILABILITY</VTab>
+      <VTab value="business">CONTROLS</VTab>
     </VTabs>
     
     <!--

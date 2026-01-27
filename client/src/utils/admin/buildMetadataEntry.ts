@@ -81,6 +81,22 @@ export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<s
     return rawInputConfig
   }
 
+  // LEARNING: Normalize panel based on visibility
+  // WHY: Panel must be 'none' for titleRow/expandedDirect/staticAsTitle, required for expandedPanel
+  // PATTERN: Validate panel value based on visibility to ensure data integrity
+  const visibility = renderingUpdates.visibility ?? existingMetadata.visibility
+  let panel = renderingUpdates.panel ?? existingMetadata.panel
+  
+  if (visibility === 'titleRow' || visibility === 'expandedDirect' || visibility === 'staticAsTitle') {
+    // Panel must be 'none' for these visibility types
+    panel = 'none'
+  } else if (visibility === 'expandedPanel') {
+    // Panel must be set for expandedPanel (default to 'parts' if not set)
+    if (!panel || panel === 'none') {
+      panel = 'parts'
+    }
+  }
+
   const entry: Record<string, unknown> = {
     // Note: fieldKey/relationshipKey is added by the mutation, not here
     // Canonical fields (from existing metadata)
@@ -88,13 +104,13 @@ export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<s
     label: canonicalFields.label,
     isRequired: canonicalFields.isRequired,
     // Rendering fields: use updates if provided, otherwise existing values - NO DEFAULTS
-    visibility: renderingUpdates.visibility ?? existingMetadata.visibility,
+    visibility,
     layout: renderingUpdates.layout ?? existingMetadata.layout,
     displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,
     section: renderingUpdates.section ?? existingMetadata.section,
     renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
     statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
-    panel: renderingUpdates.panel ?? existingMetadata.panel,
+    panel,
     bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
     inputConfig: wrapInputConfig(),
     inheritsFromEntityType: existingMetadata.inheritsFromEntityType ?? null,

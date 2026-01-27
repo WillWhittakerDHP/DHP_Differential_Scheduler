@@ -10,7 +10,7 @@
  * Session 6.9: Integrated with useBookingWizard for cascading availability options
  */
 
-import { computed, inject, ref, watch, nextTick, type Ref, type ComputedRef } from 'vue'
+import { computed, inject, ref, watch, nextTick, provide, type Ref, type ComputedRef } from 'vue'
 import type { TimeSlot, PerspectiveKey } from '@/types/appointment'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAvailability } from '@/composables/useAvailability'
@@ -30,7 +30,6 @@ import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
 import TimeOnSiteGraph from '@/components/booking/TimeOnSiteGraph.vue'
 import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
-import CalendarMockDevPanel from '@/components/booking/dev/CalendarMockDevPanel.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AvailabilityStepData } from '@/types/wizard'
 
@@ -207,6 +206,14 @@ const mockRefreshKey = ref(0)
 const resetMocks = (): void => {
   mockRefreshKey.value++
 }
+
+// LEARNING: Inject reset mocks signal from BookingWizard
+// WHY: Allows BookingWizard to trigger mock reset from RESET MOCKS button
+// PATTERN: Watch signal ref and call resetMocks when it changes
+const resetMocksSignal = inject<Ref<number>>('resetMocksSignal', ref(0))
+watch(resetMocksSignal, () => {
+  resetMocks()
+})
 
 // LEARNING: Get busy times from calendar for availability checking
 // WHY: Need to mark slots as busy when they overlap calendar busy periods
@@ -432,6 +439,22 @@ const handleMoveableCancel = (): void => {
 const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
   startTimeType.value = type
 }
+
+// LEARNING: Provide dev panel data for floating debug panels
+// WHY: Allows DevPanelsContainer to access availability step data without prop drilling
+// PATTERN: Provide reactive computed object with all needed data
+provide('devPanelData', {
+  selectedBlockInstances: accumulatedBlockInstances,
+  appointmentSlots,
+  selectedDate: computed(() => selectedDate.value.start || undefined),
+  selectedTime: computed(() => {
+    if (!selectedSlot.value || !selectedSlot.value.totalTime) return undefined
+    return selectedSlot.value.totalTime.startTime
+  }),
+  dateRange: dateRangeForApi,
+  busyPeriods: busyTimesForStartTimes,
+  refreshKey: mockRefreshKey
+})
 </script>
 
 <template>
@@ -443,28 +466,6 @@ const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
           <div>
             <h4 class="text-h4 mb-2">Appointment Availability</h4>
             <p class="text-body-2 mb-6 mb-sm-4">Select a time that works for everybody</p>
-          </div>
-          <!-- LEARNING: Dev Mode Calendar Mock Panel - Next to heading -->
-          <!-- WHY: More visible and accessible when debugging -->
-          <!-- PATTERN: Positioned next to heading, overlays content when expanded -->
-          <div class="d-flex align-center gap-2">
-            <VBtn
-              v-if="isDevMode"
-              size="small"
-              variant="outlined"
-              color="warning"
-              prepend-icon="tabler-refresh"
-              @click="resetMocks"
-            >
-              Reset Mocks
-            </VBtn>
-            <div class="calendar-mock-dev-panel-wrapper">
-              <CalendarMockDevPanel 
-                :date-range="dateRangeForApi" 
-                :refresh-key="mockRefreshKey"
-                :busy-periods="busyTimesForStartTimes"
-              />
-            </div>
           </div>
         </div>
       </VCol>
@@ -639,25 +640,6 @@ const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
   // Vuetify handles flex-wrap automatically based on column widths
 }
 
-// LEARNING: Calendar mock dev panel wrapper
-// WHY: Provides positioning context for overlay behavior
-// PATTERN: Relative positioning for absolute child positioning, prevent overflow
-.calendar-mock-dev-panel-wrapper {
-  position: relative;
-  z-index: 1;
-  overflow: visible;
-  
-  // LEARNING: Ensure wrapper doesn't constrain panel expansion
-  // WHY: Panel needs to expand beyond wrapper bounds when opened
-  // PATTERN: Allow overflow for absolute positioned children, prevent clipping
-  @media (min-width: 961px) {
-    min-width: 0;
-    flex-shrink: 0;
-    // LEARNING: Allow panel to expand leftward if needed
-    // WHY: Prevents panel from being clipped or going off-screen
-    // PATTERN: Use negative margin or positioning to allow leftward expansion
-  }
-}
 
 // LEARNING: Calendar column spacing and layout
 // WHY: Calendar widget has fixed width (~328px), column should size to content

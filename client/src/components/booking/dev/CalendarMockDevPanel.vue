@@ -16,6 +16,7 @@ import { computed, ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
+import { useLocalTime } from '@/composables/useLocalTime'
 
 interface Props {
   dateRange: { start: string; end: string } | null
@@ -29,6 +30,10 @@ const isExpanded = ref(false)
 const panelRef = ref<HTMLElement | null>(null)
 const wrapperRef = ref<HTMLElement | null>(null)
 
+// LEARNING: Use useLocalTime composable for UI-boundary formatting
+// WHY: All local time conversions must go through useLocalTime composable
+const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()
+
 // LEARNING: Get current busy periods from mock calendar
 // WHY: Shows what times are blocked for testing slot filtering
 // PATTERN: Use provided busyPeriods if available, otherwise generate from dateRange
@@ -38,13 +43,6 @@ const busyPeriods = computed(() => {
   // WHY: Ensures mock panel shows exactly what slot generation uses
   // PATTERN: Prefer prop over generated values for consistency
   if (props.busyPeriods && props.busyPeriods.length > 0) {
-    console.log('[CalendarMockDevPanel] Using provided busyPeriods:', {
-      count: props.busyPeriods.length,
-      periods: props.busyPeriods.slice(0, 3).map(p => ({
-        start: p.start,
-        end: p.end
-      }))
-    })
     return props.busyPeriods
   }
   
@@ -52,7 +50,6 @@ const busyPeriods = computed(() => {
   // WHY: Maintains backward compatibility
   // PATTERN: Generate busy periods from dateRange when prop not provided
   if (!props.dateRange) {
-    console.log('[CalendarMockDevPanel] No dateRange prop')
     return []
   }
   
@@ -61,36 +58,20 @@ const busyPeriods = computed(() => {
   // PATTERN: Reference refreshKey in computed to trigger recalculation
   void props.refreshKey // Force dependency tracking
   
-  console.log('[CalendarMockDevPanel] Computing busyPeriods with dateRange:', {
-    start: props.dateRange.start,
-    end: props.dateRange.end,
-    startDate: new Date(props.dateRange.start).toISOString(),
-    endDate: new Date(props.dateRange.end).toISOString(),
-    refreshKey: props.refreshKey
-  })
-  
   const result = getCalendarAvailability(props.dateRange)
-  
-  console.log('[CalendarMockDevPanel] getCalendarAvailability returned:', {
-    count: result.length,
-    periods: result.slice(0, 3).map(p => ({
-      start: p.start,
-      end: p.end
-    }))
-  })
   
   return result
 })
 
 // LEARNING: Format busy period for human-readable display
 // WHY: Makes it easy to see what times are blocked at a glance
-// PATTERN: Convert ISO timestamps to localized time strings with duration
+// PATTERN: Use composable for UI-boundary formatting
 const formatBusyPeriod = (period: { start: string; end: string }): string => {
   const start = new Date(period.start)
   const end = new Date(period.end)
   const durationMinutes = Math.round((end.getTime() - start.getTime()) / (1000 * 60))
   
-  const startStr = start.toLocaleString('en-US', {
+  const startStr = formatDateTimeForDisplay(period.start as any, {
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
@@ -98,7 +79,7 @@ const formatBusyPeriod = (period: { start: string; end: string }): string => {
     hour12: true
   })
   
-  const endStr = end.toLocaleTimeString('en-US', {
+  const endStr = formatTimeForDisplay(period.end as any, {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true
@@ -381,6 +362,8 @@ const handleToggle = async (): Promise<void> => {
   position: relative;
   z-index: 1;
   transition: all 0.3s ease;
+  background-color: rgb(var(--v-theme-surface)) !important;
+  opacity: 1 !important;
 }
 
 .calendar-mock-dev-panel--expanded {
@@ -394,7 +377,8 @@ const handleToggle = async (): Promise<void> => {
   max-width: min(500px, calc(100vw - 48px));
   max-height: 70vh;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  background-color: rgb(var(--v-theme-surface));
+  background-color: rgb(var(--v-theme-surface)) !important;
+  opacity: 1 !important;
   transition: box-shadow 0.3s ease;
   
   /* LEARNING: Prevent panel from going off-screen */

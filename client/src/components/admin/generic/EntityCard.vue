@@ -13,7 +13,7 @@ import { useEntityDisplay } from '@/composables/admin/useEntityDisplay'
 import { useEntityStatus } from '@/composables/admin/useEntityStatus'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/useAdmin'
-import { useFormFields } from '@/composables/formFields/useFormFields'
+import { useFormFields } from '@/composables/useFormFields'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -21,11 +21,12 @@ import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardContent from './EntityCardContent.vue'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFieldLocation } from '@/composables/admin/useFieldLocation'
+import { useInstanceShape } from '@/composables/admin/useInstanceShape'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { useEntityCardStoreSync } from '@/composables/admin/useEntityCardStoreSync'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
 import { useNotification } from '@/composables/useNotification'
-import { createLogger } from '@/utils/logger'
+import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
 /**
@@ -105,36 +106,43 @@ interface Emits {
   (e: 'delete', id: string): void
   (e: 'saved', entity: GlobalEntity<GlobalEntityKey>): void
   (e: 'cancelled'): void
+  (e: 'duplicate', entity: GlobalEntity<GlobalEntityKey>): void
 }
 
 const emit = defineEmits<Emits>()
 
 
 /**
- * LEARNING: Expansion state - track from expanded prop reactively
+ * LEARNING: Expansion state - sync with actual panel group state
  * WHY: Title field should be read-only when collapsed, editable when expanded
- * PATTERN: Use computed that tracks expanded prop, with watch to ensure reactivity
- * NOTE: When useExpansionPanel=true, parent VExpansionPanels controls expansion via v-model
+ * PATTERN: Track expansion state from VExpansionPanel group:selected events
+ * NOTE: When useExpansionPanel=true, EntityCard should reflect actual panel state (not just props)
  * FIX: For staticAsTitle fields, read-only should be false when expanded (editable), true when collapsed (read-only)
  *      Logic: :read-only="!isExpanded" means:
  *        - When isExpanded=false (collapsed) → read-only=true (read-only) ✓
  *        - When isExpanded=true (expanded) → read-only=false (editable) ✓
  */
-// LEARNING: Track expansion state using internal ref + watch
-// WHY: props.expanded is passed as function call (isPanelExpanded), not reactive computed, so we need to watch it
-// PATTERN: Use ref to track state, watch prop to update ref when it changes
+// LEARNING: Internal expansion state
+// WHY: group:selected reflects actual VExpansionPanel state even if parent props lag
+// PATTERN: Initialize from props, then sync from group:selected events
 const internalExpanded = ref(props.expanded ?? true)
 
-// LEARNING: Watch expanded prop to sync internal state
-// WHY: When parent VExpansionPanels updates expansion state, props.expanded changes, but computed doesn't track function calls
-// PATTERN: Watch prop and update internal ref - this ensures reactivity
+// LEARNING: Keep internal state in sync with prop updates
+// WHY: Parent may programmatically control expansion (e.g., auto-expand on create)
+// PATTERN: Watch prop changes, but allow group:selected to be the primary source of truth
 watch(() => props.expanded, (newValue) => {
-  const expanded = newValue ?? true
-  internalExpanded.value = expanded
-}, { immediate: true })
+  internalExpanded.value = newValue ?? true
+})
+
+// LEARNING: Handle panel selection changes from Vuetify group
+// WHY: Ensures expansion state reflects the actual UI state
+// PATTERN: Update internal state when VExpansionPanel emits group:selected
+const handleExpansionChange = (event: { value: boolean }): void => {
+  internalExpanded.value = event.value
+}
 
 // LEARNING: Use internal ref for expansion state
-// WHY: Internal ref is updated by watch, ensuring reactivity when prop changes
+// WHY: Internal ref is updated by group:selected, ensuring UI and state are aligned
 // PATTERN: Computed reads from reactive ref
 const isExpanded = computed(() => {
   return internalExpanded.value
@@ -201,12 +209,17 @@ if (!props.form) {
   form.setValues({
     ...props.entity,
   })
-  logger.debug('Form initialized', { 
-    entityKey: props.entityKey, 
-    entityId: props.entity.id, 
-    isNew: props.isNew,
-    initialValues: Object.keys(props.entity)
-  })
+  // LEARNING: EntityCard form initialization logs are opt-in only
+  // WHY: Reduces console noise - only log when explicitly enabled via VITE_DEBUG_SCOPES=EntityCard
+  // PATTERN: Use isScopeExplicitlyEnabled to require explicit enabling
+  if (isScopeExplicitlyEnabled('EntityCard')) {
+    logger.debug('Form initialized', { 
+      entityKey: props.entityKey, 
+      entityId: props.entity.id, 
+      isNew: props.isNew,
+      initialValues: Object.keys(props.entity)
+    })
+  }
 }
 
 /**
@@ -436,18 +449,26 @@ const fieldsMissingContexts = computed(() => {
 
 /**
  * LEARNING: Get BlockShape properties for conditional field visibility
- * WHY: Status buttons visibility depends on BlockShape properties (e.g., constituable for state control)
- * PATTERN: Only compute for blockInstance entities, get BlockShape from global data
+ * WHY: Composition panel visibility depends on BlockShape.composable property
+ * PATTERN: Use useInstanceShape composable to access BlockShape from BlockInstance
  */
-// Note: blockShapeProperties removed - unused
-// const { globalData } = useGlobal()
-// const blockShapeProperties = computed(() => { ... })
+const instanceShape = props.entityKey === 'blockInstance' 
+  ? useInstanceShape({
+      entityKey: 'blockInstance',
+      entityId: computed(() => props.entity.id)
+    })
+  : null
+
+const isComposable = computed(() => {
+  if (props.entityKey !== 'blockInstance') return false
+  return instanceShape?.blockShape.value?.composable === true
+})
 
 /**
  * LEARNING: Use field location dispatcher for location assignment
  * WHY: Single source of truth for WHERE fields render based on metadata
  * PATTERN: Composable that determines field locations from metadata + context
- * FIX: Use internal isExpanded computed (synced via watch) instead of props.expanded directly
+ * FIX: Use internal isExpanded computed (synced via group:selected + prop watch)
  *      This ensures field location updates reactively when expansion state changes
  */
 const fieldLocation = useFieldLocation({
@@ -508,6 +529,54 @@ const categorizedFields = computed(() => {
         }
       })
       .sort((a, b) => a.order - b.order)
+  }
+})
+
+/**
+ * LEARNING: Filter fields based on conditional visibility rules
+ * WHY: Some fields should only show under certain conditions (e.g., composite when composable=true)
+ * PATTERN: Filter categorizedFields after location dispatch but before rendering
+ */
+const filteredCategorizedFields = computed(() => {
+  const base = categorizedFields.value
+  
+  // Get form values for conditional checks
+  const formValues = form.values
+  
+  // Filter composite field: only show when BlockShape.composable === true
+  const filteredDirectStacked = base.directFields.stacked.filter(fieldKey => {
+    if (String(fieldKey) === 'composite') {
+      return isComposable.value === true
+    }
+    return true
+  })
+  
+  const filteredDirectInline = base.directFields.inline.filter(fieldKey => {
+    if (String(fieldKey) === 'composite') {
+      return isComposable.value === true
+    }
+    return true
+  })
+  
+  // Filter instanceComponents: only show when composite=true AND composable=true
+  const filteredRelationships = base.subPanelFields.relationships.filter(fieldKey => {
+    if (String(fieldKey) === 'instanceComponents') {
+      const compositeValue = formValues.composite === true
+      return compositeValue && isComposable.value === true
+    }
+    return true
+  })
+  
+  return {
+    ...base,
+    directFields: {
+      inline: filteredDirectInline,
+      stacked: filteredDirectStacked
+    },
+    subPanelFields: {
+      ...base.subPanelFields,
+      relationships: filteredRelationships
+    }
   }
 })
 
@@ -631,6 +700,24 @@ const handleUndo = (): void => {
 }
 
 /**
+ * LEARNING: Duplicate handler that emits duplicate event for parent to handle
+ * WHY: Allows parent (InstancesTab) to show inline creation card with pre-filled values
+ * PATTERN: Emit event instead of creating immediately - same pattern as create flow
+ */
+const handleDuplicate = (): void => {
+  // Only allow duplication for block instances
+  if (props.entityKey !== 'blockInstance') {
+    return
+  }
+
+  // Get current entity values (saved values, not form.values which may have unsaved changes)
+  const currentEntity = props.entity as GlobalEntity<'blockInstance'>
+  
+  // Emit duplicate event - parent will handle showing inline creation card
+  emit('duplicate', currentEntity)
+}
+
+/**
  * LEARNING: Provide handleSave and isNew to child input components
  * WHY: Allows input components (like TextInput) to trigger full form save on Enter key
  *      when creating new entities, instead of just saving the individual field
@@ -739,46 +826,65 @@ const handleTitleRowClick = (event: Event): void => {
 /**
  * LEARNING: Handle title row keyboard events - prevent expansion panel from intercepting spacebar when typing in input fields
  * WHY: VExpansionPanel has default keyboard behavior (Space toggles expansion), but spacebar should type in input fields, not toggle panel
- * PATTERN: Check if focus is in an input field, and if so, prevent spacebar from toggling the panel
+ * PATTERN: Check if event originated from an input field, and if so, prevent spacebar from toggling the panel
  */
 const handleTitleRowKeydown = (event: KeyboardEvent): void => {
-  // Only handle spacebar key
+  // Only handle spacebar key - let Enter/Return pass through to field handlers
   if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCode !== 32) {
     return
   }
   
-  // Check if focus is currently in an input field
-  const activeElement = document.activeElement
-  if (!activeElement) {
-    return
+  // LEARNING: Check event.target to see where the event originated
+  // WHY: event.target tells us the actual element that triggered the event, which is more reliable than document.activeElement
+  // PATTERN: Check event.target first, then fall back to document.activeElement if needed
+  const target = event.target as HTMLElement
+  const activeElement = document.activeElement as HTMLElement
+  
+  // Helper function to check if an element is or contains an input field
+  const isInputFieldElement = (element: HTMLElement | null): boolean => {
+    if (!element) return false
+    return (
+      element.tagName === 'INPUT' ||
+      element.tagName === 'TEXTAREA' ||
+      element.tagName === 'SELECT' ||
+      !!element.closest('input') ||
+      !!element.closest('textarea') ||
+      !!element.closest('select') ||
+      !!element.closest('.v-field') ||
+      !!element.closest('.v-input') ||
+      !!element.closest('.v-text-field') ||
+      !!element.closest('.v-select') ||
+      !!element.closest('.v-autocomplete') ||
+      !!element.closest('.v-combobox')
+    )
   }
   
-  // Check if active element is an input field (input, textarea, select)
-  const isInputField = activeElement.tagName === 'INPUT' ||
-                       activeElement.tagName === 'TEXTAREA' ||
-                       activeElement.tagName === 'SELECT' ||
-                       activeElement.closest('input') ||
-                       activeElement.closest('textarea') ||
-                       activeElement.closest('select') ||
-                       activeElement.closest('.v-field') ||
-                       activeElement.closest('.v-input') ||
-                       activeElement.closest('.v-text-field') ||
-                       activeElement.closest('.v-select') ||
-                       activeElement.closest('.v-autocomplete') ||
-                       activeElement.closest('.v-combobox')
+  // Check if event originated from an input field
+  const isInputField = isInputFieldElement(target) || isInputFieldElement(activeElement)
   
   if (isInputField) {
-    // Check if the input is editable (not disabled or readonly)
-    const inputElement = activeElement as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null
+    // Find the actual input element to check if it's editable
+    const findInputElement = (element: HTMLElement | null): HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null => {
+      if (!element) return null
+      if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.tagName === 'SELECT') {
+        return element as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      }
+      return (element.closest('input') || element.closest('textarea') || element.closest('select')) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null
+    }
+    
+    const inputElement = findInputElement(target) || findInputElement(activeElement)
+    
     if (inputElement) {
       const isEditable = !inputElement.disabled &&
                         !(inputElement as HTMLInputElement | HTMLTextAreaElement).readOnly
       
       if (isEditable) {
-        // Focus is in an editable input field - prevent spacebar from toggling panel
-        // Stop propagation to prevent VExpansionPanel from handling the spacebar
+        // LEARNING: Event originated from an editable input field - prevent spacebar from toggling panel
+        // WHY: Spacebar should type in the input field, not toggle the expansion panel or cause blur
+        // PATTERN: Stop propagation immediately to prevent VExpansionPanel from handling the spacebar
         event.stopPropagation()
         // Don't preventDefault - we want spacebar to type in the input normally
+        return
       }
     }
   }
@@ -794,6 +900,7 @@ defineExpose({
   getFieldContext,
   getNameFieldContext: () => getFieldContext('name'),
   form,
+  handleSave,
   // LEARNING: Expose readiness state for parent components (if needed for other purposes)
   // WHY: Some parent components may need to check readiness for non-rendering purposes
   // PATTERN: Expose computed properties for external access
@@ -814,11 +921,12 @@ defineExpose({
     v-if="props.useExpansionPanel"
     :value="String(entity.id)"
     :class="$attrs.class"
+    @group:selected="handleExpansionChange"
     @keydown="handleTitleRowKeydown"
   >
     <template #title>
       <div 
-        class="d-flex align-center gap-2 flex-grow-1"
+        class="d-flex align-center gap-2 flex-grow-1 flex-wrap"
         @click="handleTitleRowClick"
         @keydown="handleTitleRowKeydown"
       >
@@ -878,12 +986,13 @@ defineExpose({
           :form="form"
           :get-field-context="getFieldContext"
           :composed-field-metadata="composedFieldMetadata"
-          :categorized-fields="categorizedFields"
+          :categorized-fields="filteredCategorizedFields"
           :fields-missing-contexts="fieldsMissingContexts"
           :is-form-ready="isFormReady"
           :is-new="props.isNew"
           :handle-save="handleSave"
           :handle-undo="handleUndo"
+          :handle-duplicate="handleDuplicate"
           :handle-delete-click="handleDeleteClick"
           :handle-cancel="handleCancel"
           :unified-save-state="unifiedSaveState"
@@ -900,7 +1009,7 @@ defineExpose({
   <div v-else class="entity-card-content">
     <!-- LEARNING: Title row fields render at top when not using expansion panel -->
     <!-- WHY: TitleRow fields should still be visible even without expansion panel -->
-    <div v-if="titleRowFields.length > 0 && isFormReady" class="d-flex align-center gap-2 mb-4">
+    <div v-if="titleRowFields.length > 0 && isFormReady" class="d-flex align-center gap-2 mb-4 flex-wrap">
       <!-- LEARNING: staticAsTitle fields render first, left-justified -->
       <!-- WHY: Name field should be on the left side of the title row, always first -->
       <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
@@ -944,12 +1053,13 @@ defineExpose({
       :form="form"
       :get-field-context="getFieldContext"
       :composed-field-metadata="composedFieldMetadata"
-      :categorized-fields="categorizedFields"
+      :categorized-fields="filteredCategorizedFields"
       :fields-missing-contexts="fieldsMissingContexts"
       :is-form-ready="isFormReady"
       :is-new="props.isNew"
       :handle-save="handleSave"
       :handle-undo="handleUndo"
+      :handle-duplicate="handleDuplicate"
       :handle-delete-click="handleDeleteClick"
       :handle-cancel="handleCancel"
       :unified-save-state="unifiedSaveState"

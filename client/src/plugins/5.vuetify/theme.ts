@@ -59,6 +59,18 @@ export const themes: Record<string, ThemeDefinition> = {
       'error': '#FF4C51',
       'on-error': '#fff',
       'error-darken-1': '#E64449',
+      'yellow': '#FFC107', // Yellow for ROY G BIV
+      'on-yellow': '#000',
+      'yellow-darken-1': '#FFB300',
+      'brown': '#8D6E63', // Brown color
+      'on-brown': '#fff',
+      'brown-darken-1': '#795548',
+      'grey': '#9E9E9E', // Grey (using grey-500 value)
+      'on-grey': '#fff',
+      'grey-darken-1': '#757575',
+      'purple': '#9C27B0', // Purple/Violet for ROY G BIV
+      'on-purple': '#fff',
+      'purple-darken-1': '#7B1FA2',
       'background': '#F8F7FA',
       'on-background': '#2F2B3D',
       'surface': '#fff',
@@ -133,6 +145,18 @@ export const themes: Record<string, ThemeDefinition> = {
       'error': '#FF4C51',
       'on-error': '#fff',
       'error-darken-1': '#E64449',
+      'yellow': '#FFC107', // Yellow for ROY G BIV
+      'on-yellow': '#000',
+      'yellow-darken-1': '#FFB300',
+      'brown': '#8D6E63', // Brown color
+      'on-brown': '#fff',
+      'brown-darken-1': '#795548',
+      'grey': '#9E9E9E', // Grey (using grey-500 value)
+      'on-grey': '#fff',
+      'grey-darken-1': '#757575',
+      'purple': '#9C27B0', // Purple/Violet for ROY G BIV
+      'on-purple': '#fff',
+      'purple-darken-1': '#7B1FA2',
       'background': '#25293C',
       'on-background': '#E1DEF5',
       'surface': '#2F3349',
@@ -179,7 +203,7 @@ export const themes: Record<string, ThemeDefinition> = {
       'shadow-key-umbra-color': '#131120',
       'shadow-xs-opacity': 0.16,
       'shadow-sm-opacity': 0.18,
-      'shadow-md-opacity': 0.2,
+      'shadow-md-opacity': 0.20,
       'shadow-lg-opacity': 0.22,
       'shadow-xl-opacity': 0.24,
     },

@@ -6,7 +6,7 @@
  * PATTERN: Transformer class that handles entity and relationship transformation
  */
 
-import apiClient, { getEntityEndpoint, getRelationshipEndpoint, getAnnotationEndpoint, getAnnotationAssignmentsEndpoint, getAnnotationTypeEndpoint, getAdminMetadataEndpoint } from '../api'
+import apiClient, { getEntityEndpoint, getRelationshipEndpoint, getAnnotationEndpoint, getAnnotationAssignmentsEndpoint, getAnnotationTypeEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -14,11 +14,11 @@ import type { GlobalEntity, GlobalEntityId, BlockInstanceEntity } from '@/types/
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { FetchedRelationship } from '@/types/relationships'
 import type { Annotation, AnnotationType } from '@/types/annotations'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
-import { BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_INSTANCE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID, type EntityMetadataType } from '@/utils/entities/entityTypeMapping'
 import { transformApiEntity } from './entityTransformers'
 import { transformApiRelationships } from './relationshipTransformers'
 import { transformApiAnnotation, groupAnnotationsByEntity } from './annotationTransformers'
+import { useMetadataCache } from '@/composables/admin/useMetadataCache'
+import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 
 /**
  * GlobalRelationship type matching React's structure
@@ -52,19 +52,10 @@ export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
  * WHY: AnnotationTypes are configuration data (like blockShape), not business data
  * PATTERN: Keep all configuration data together in globalData for unified cache management
  * 
- * Session 1.4.8: Added metadata to globalData cache
- * WHY: Metadata is configuration data that should be available as early and reliably as entities
- * PATTERN: Fetch metadata alongside entities in GlobalTransformer, transform in adminTransformer
- * Structure: metadata.primitiveMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
- * 
- * Session 1.4.9: Renamed inputMetadata to primitiveMetadata to align with entity data pattern
- * WHY: Matches displayConfig.primitives pattern, prevents key collisions with relationship metadata
- * PATTERN: Keep primitive and relationship metadata separate until final merge point
- * 
- * Session 1.4.10: Unified metadata structure - single metadata table with metadataType discriminator
- * WHY: Follows entity pattern - single endpoint/table, backend routes based on fieldKey type
- * PATTERN: Unified metadata structure - metadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
- *         No separation between primitives and relationships - backend handles routing
+ * METADATA REFACTOR: Removed metadata from globalData
+ * WHY: Metadata is only needed for admin page - lazy load via ['adminMetadata'] cache instead
+ * PATTERN: Use useMetadataCache() composable for admin metadata access
+ * BENEFIT: Non-admin users don't load metadata, faster app startup
  */
 export type GlobalData = {
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
@@ -74,11 +65,7 @@ export type GlobalData = {
   annotations?: Annotation[]
   // Session 1.4.7: AnnotationTypes added to globalData cache (configuration data)
   annotationTypes?: AnnotationType[]
-  // Session 1.4.8: Metadata added to globalData cache (configuration data)
-  // Session 1.4.10: Unified metadata structure - single endpoint returns merged primitives + relationships
-  // Structure: metadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
-  //         Backend routes based on fieldKey type (checks RELATIONSHIP_KEYS to determine metadataType)
-  metadata?: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
+  // NOTE: Metadata removed from globalData - use useMetadataCache() for admin metadata access
 }
 
 
@@ -133,6 +120,10 @@ export class GlobalTransformer {
    * ARCHITECTURAL CHANGE: 
    * - instanceComponents are now fetched via relationship endpoint
    * - Annotations are now fetched separately (consistent with relationships pattern)
+   * 
+   * METADATA REFACTOR: Metadata is no longer fetched here
+   * WHY: Metadata is lazy-loaded via useMetadataCache() only when admin page is accessed
+   * BENEFIT: Non-admin users don't load metadata, faster app startup
    */
   async stageForHydration(): Promise<{
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
@@ -148,8 +139,6 @@ export class GlobalTransformer {
       isDefault: boolean
       annotation?: Annotation
     }>
-    fetchedPrimitiveMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
-    fetchedRelationshipMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
   }> {
     try {
       // LEARNING: Fetch all entities in parallel using same processor pattern
@@ -238,67 +227,9 @@ export class GlobalTransformer {
       // Session 1.4.7: Extract annotation types from response
       const fetchedAnnotationTypes = annotationTypesResponse.data
       
-      // LEARNING: Fetch unified metadata (primitives + relationships merged)
-      // WHY: Metadata is configuration data that should be available as early as entities
-      // PATTERN: Fetch unified metadata using single endpoint (backend returns merged primitives + relationships)
-      // NOTE: Only fetch global configs (shapes use sentinel UUIDs, instances use global sentinel UUIDs)
-      // Session 1.4.10: Unified metadata - single endpoint returns merged primitives + relationships
-      const metadataEntityTypes: EntityMetadataType[] = ['blockShape', 'partShape', 'blockInstance', 'partInstance']
-      const metadataConfigIds: Record<EntityMetadataType, string> = {
-        blockShape: BLOCK_SHAPE_GLOBAL_CONFIG_ID,
-        partShape: PART_SHAPE_GLOBAL_CONFIG_ID,
-        blockInstance: BLOCK_INSTANCE_GLOBAL_CONFIG_ID,
-        partInstance: PART_INSTANCE_GLOBAL_CONFIG_ID
-      }
-      
-      // Fetch unified metadata (primitives + relationships merged by backend)
-      const metadataPromises = metadataEntityTypes.map(async (entityType) => {
-        const entityId = metadataConfigIds[entityType]
-        const endpoint = getAdminMetadataEndpoint(entityType, entityId)
-        try {
-          const response = await apiClient.get<Record<string, FieldMetadataEntry>>(endpoint)
-          return { entityType, entityId, metadata: response.data || {} }
-        } catch (error) {
-          console.warn(`[GlobalTransformer] Failed to fetch metadata for ${entityType}/${entityId}:`, error)
-          return { entityType, entityId, metadata: {} }
-        }
-      })
-      
-      // LEARNING: Fetch BlockShape-specific blockInstance metadata for each BlockShape
-      // WHY: Each BlockShape's instances can have their own metadata configuration
-      // PATTERN: Fetch metadata with blockShapeRef query parameter for each BlockShape
-      const blockShapeMetadataPromises = fetchedEntities.blockShape.map(async (blockShape) => {
-        const blockShapeId = String(blockShape.id)
-        const endpoint = `${getAdminMetadataEndpoint('blockInstance', BLOCK_INSTANCE_GLOBAL_CONFIG_ID)}?blockShapeRef=${blockShapeId}`
-        try {
-          const response = await apiClient.get<Record<string, FieldMetadataEntry>>(endpoint)
-          // Use a composite key: sentinel UUID + blockShapeRef
-          const compositeId = `${BLOCK_INSTANCE_GLOBAL_CONFIG_ID}:${blockShapeId}`
-          return { entityType: 'blockInstance' as const, entityId: compositeId, metadata: response.data || {} }
-        } catch (error) {
-          console.warn(`[GlobalTransformer] Failed to fetch blockShapeRef-specific metadata for blockInstance/${blockShapeId}:`, error)
-          return null
-        }
-      })
-      
-      const metadataResults = await Promise.all(metadataPromises)
-      const blockShapeMetadataResults = (await Promise.all(blockShapeMetadataPromises)).filter((result): result is NonNullable<typeof result> => result !== null)
-      
-      // Structure: fetchedMetadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
-      // LEARNING: Use reduce instead of forEach to build nested objects
-      // WHY: Functional approach avoids mutations, aligns with workspace rules
-      // PATTERN: Reduce array to nested object structure
-      // Session 1.4.10: Unified metadata - single structure for primitives + relationships
-      const fetchedMetadata = [...metadataResults, ...blockShapeMetadataResults].reduce<Record<string, Record<string, Record<string, FieldMetadataEntry>>>>(
-        (acc, { entityType, entityId, metadata }) => {
-          if (!acc[entityType]) {
-            acc[entityType] = {}
-          }
-          acc[entityType][entityId] = metadata
-          return acc
-        },
-        {}
-      )
+      // NOTE: Metadata is no longer fetched here
+      // WHY: Metadata is lazy-loaded via useMetadataCache() only when admin page is accessed
+      // BENEFIT: Non-admin users don't load metadata, faster app startup
       
       return {
         fetchedEntities,
@@ -306,7 +237,6 @@ export class GlobalTransformer {
         fetchedAnnotations,
         fetchedAnnotationTypes,
         fetchedAnnotationAssignments,
-        fetchedMetadata
       }
     } catch (_error) {
       return {
@@ -320,7 +250,6 @@ export class GlobalTransformer {
         fetchedAnnotations: [],
         fetchedAnnotationTypes: [],
         fetchedAnnotationAssignments: [],
-        fetchedMetadata: {}
       }
     }
   }
@@ -334,6 +263,9 @@ export class GlobalTransformer {
    * ARCHITECTURAL CHANGE: 
    * - Instance components are now fetched and transformed as relationships
    * - Annotations are now fetched separately and attached during hydration (consistent with relationships pattern)
+   * 
+   * METADATA REFACTOR: Metadata is no longer part of GlobalData
+   * WHY: Metadata is lazy-loaded via useMetadataCache() only when admin page is accessed
    */
   hydrate(staged: {
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
@@ -349,15 +281,11 @@ export class GlobalTransformer {
       isDefault: boolean
       annotation?: Annotation
     }>
-    fetchedMetadata: Record<string, Record<string, Record<string, FieldMetadataEntry>>>
   }): GlobalData {
     // Session 1.4.6: Extract annotations from staged data
     const fetchedAnnotations = staged.fetchedAnnotations || []
     // Session 1.4.7: Extract annotation types from staged data
     const fetchedAnnotationTypes = staged.fetchedAnnotationTypes || []
-    // Session 1.4.8: Extract metadata from staged data
-    // Session 1.4.10: Unified metadata - single structure for primitives + relationships
-    const fetchedMetadata = staged.fetchedMetadata || {}
     
     // Attach instanceComponents arrays to entities (for backward compatibility)
     // LEARNING: This metadata helps identify composers, but components are computed from relationships
@@ -453,11 +381,7 @@ export class GlobalTransformer {
       annotations: fetchedAnnotations,
       // Session 1.4.7: Include annotation types in globalData (configuration data)
       annotationTypes: fetchedAnnotationTypes,
-      // Session 1.4.8: Include metadata in globalData (configuration data)
-      // Session 1.4.10: Unified metadata structure - single endpoint returns merged primitives + relationships
-      // Structure: metadata[entityType][entityId] = Record<fieldKey, FieldMetadataEntry>
-      //         Backend routes based on fieldKey type (checks RELATIONSHIP_KEYS to determine metadataType)
-      metadata: fetchedMetadata
+      // NOTE: Metadata removed - use useMetadataCache() for admin metadata access
     }
   }
 
@@ -467,21 +391,179 @@ export class GlobalTransformer {
    * WHY: Sequelize expects camelCase properties and automatically converts to snake_case columns
    * PATTERN: Return entity as-is with camelCase - Sequelize handles conversion internally
    * 
-   * @param entity - Entity with frontend field names (camelCase)
+   * LEARNING: Dynamic boolean field detection from metadata
+   * WHY: No hardcoded field lists - automatically includes all boolean fields from metadata
+   * PATTERN: Uses metadata cache to determine boolean fields and their nullable status
+   * 
+   * @param entity - Entity with frontend field names (camelCase), must include entityKey property
    * @returns Entity with camelCase properties (Sequelize converts to snake_case internally)
    */
   dehydrateEntity<GE extends GlobalEntityKey>(
-    entity: Partial<GlobalEntity<GE>>
+    entity: Partial<GlobalEntity<GE>> & { entityKey?: GE }
   ): Record<string, unknown> {
     const result: Record<string, unknown> = {}
+
+    // LEARNING: Extract entityKey from entity to determine entity type
+    // WHY: Need entity type to fetch correct metadata for boolean field detection
+    // PATTERN: Extract entityKey from entity parameter (it's included in mutation calls)
+    const entityKey = entity.entityKey
+    if (!entityKey) {
+      // If entityKey not provided, fall back to skipping boolean conversion
+      // This shouldn't happen in normal usage, but handle gracefully
+      for (const [frontendKey, value] of Object.entries(entity)) {
+        if (frontendKey === 'entityKey') continue
+        if (value === undefined) continue
+        result[frontendKey] = value
+      }
+      return result
+    }
+
+    // LEARNING: Get entity type for metadata lookup
+    // WHY: Metadata is organized by entityType (blockShape, partShape, blockInstance, partInstance)
+    // PATTERN: Use getEntityTypeForMetadata to map entityKey to entityType
+    const entityType = getEntityTypeForMetadata(entityKey)
+    if (!entityType) {
+      // If no metadata entity type, skip boolean conversion
+      for (const [frontendKey, value] of Object.entries(entity)) {
+        if (frontendKey === 'entityKey') continue
+        if (value === undefined) continue
+        result[frontendKey] = value
+      }
+      return result
+    }
+
+    // LEARNING: Get metadata from cache to determine boolean fields dynamically
+    // WHY: No hardcoded field lists - automatically includes all boolean fields from metadata
+    // PATTERN: Use metadata cache to get field metadata for this entity type
+    let metadataCache
+    let metadata = {}
+    try {
+      metadataCache = useMetadataCache()
+      metadata = metadataCache.getMetadata(entityType)
+    } catch (error) {
+      // Continue without metadata - will skip boolean conversion
+    }
+
+    // LEARNING: Schema-based required boolean fields (database schema is source of truth)
+    // WHY: Metadata may incorrectly mark fields as not required, but database schema requires them
+    // PATTERN: Use database schema (from model definitions) to determine required fields, override metadata
+    const SCHEMA_REQUIRED_BOOLEANS: Record<string, string[]> = {
+      partInstance: ['active', 'onSite', 'clientPresent', 'moveable', 'zeroOutPart'],
+      blockInstance: ['active', 'composite', 'differential', 'allowMultiple'],
+      blockShape: ['composable', 'constituable'],
+      partShape: [],
+    }
+    const SCHEMA_NULLABLE_BOOLEANS: Record<string, string[]> = {
+      partInstance: ['differentialOverride'],
+      blockInstance: ['requiresUnitNumber'],
+      blockShape: [],
+      partShape: [],
+    }
+    // LEARNING: Schema-based required number fields (database schema is source of truth)
+    // WHY: Metadata may incorrectly mark fields as not required, but database schema requires them
+    // PATTERN: Use database schema to determine required number fields for empty string conversion
+    const SCHEMA_REQUIRED_NUMBERS: Record<string, string[]> = {
+      partInstance: ['baseFee', 'rateOverBaseFee', 'baseTime', 'rateOverBaseTime'],
+      blockInstance: ['baseSqFt'],
+      blockShape: [],
+      partShape: [],
+    }
+
+    // LEARNING: Build maps of boolean and number fields by nullable status
+    // WHY: Need to know which fields are nullable vs non-nullable to convert empty strings correctly
+    // PATTERN: Use schema as source of truth, override metadata when they conflict
+    const nullableBooleanFields = new Set<string>()
+    const nonNullableBooleanFields = new Set<string>()
+    const requiredNumberFields = new Set<string>()
+    const requiredFields = new Set<string>() // Track all required fields (not just booleans)
+
+    // LEARNING: Start with schema-based classification (database schema is source of truth)
+    // WHY: Metadata may be incorrect, but database schema is authoritative
+    const schemaRequiredBooleans = SCHEMA_REQUIRED_BOOLEANS[entityType] || []
+    const schemaNullableBooleans = SCHEMA_NULLABLE_BOOLEANS[entityType] || []
+    const schemaRequiredNumbers = SCHEMA_REQUIRED_NUMBERS[entityType] || []
+
+    for (const fieldKey of schemaRequiredBooleans) {
+      nonNullableBooleanFields.add(fieldKey)
+      requiredFields.add(fieldKey)
+    }
+    for (const fieldKey of schemaNullableBooleans) {
+      nullableBooleanFields.add(fieldKey)
+    }
+    for (const fieldKey of schemaRequiredNumbers) {
+      requiredNumberFields.add(fieldKey)
+      requiredFields.add(fieldKey)
+    }
+
+    // LEARNING: Add other fields from metadata (for fields not in schema mapping)
+    // WHY: Schema mapping may not include all fields, use metadata as fallback
+    for (const [fieldKey, fieldMetadata] of Object.entries(metadata)) {
+      if (fieldMetadata.isRequired) {
+        requiredFields.add(fieldKey)
+      }
+      if (fieldMetadata.dataType === 'boolean') {
+        // Only add if not already classified by schema
+        if (!nonNullableBooleanFields.has(fieldKey) && !nullableBooleanFields.has(fieldKey)) {
+          if (fieldMetadata.isRequired) {
+            nonNullableBooleanFields.add(fieldKey)
+          } else {
+            nullableBooleanFields.add(fieldKey)
+          }
+        }
+      }
+      if (fieldMetadata.dataType === 'number' && fieldMetadata.isRequired) {
+        // Only add if not already classified by schema
+        if (!requiredNumberFields.has(fieldKey)) {
+          requiredNumberFields.add(fieldKey)
+        }
+      }
+    }
 
     // Transform fields - keep camelCase, Sequelize handles conversion
     for (const [frontendKey, value] of Object.entries(entity)) {
       if (frontendKey === 'entityKey') continue // Skip entityKey, backend doesn't need it
-      if (value === undefined) continue // Skip undefined values
+      if (value === undefined) {
+        // LEARNING: Ensure required fields are included even if undefined
+        // WHY: Database requires NOT NULL fields to have values, so we must provide defaults
+        // PATTERN: For required fields, use appropriate default based on dataType
+        if (requiredFields.has(frontendKey)) {
+          const fieldMetadata = metadata[frontendKey]
+          if (fieldMetadata) {
+            if (fieldMetadata.dataType === 'boolean') {
+              result[frontendKey] = false // Required booleans default to false
+            } else if (fieldMetadata.dataType === 'number') {
+              result[frontendKey] = 0 // Required numbers default to 0
+            } else if (fieldMetadata.dataType === 'string') {
+              result[frontendKey] = '' // Required strings default to empty string
+            }
+            // Skip other types - they should be handled elsewhere
+          }
+        }
+        continue // Skip undefined values for non-required fields
+      }
       
-      // Keep camelCase - Sequelize automatically converts to snake_case for database columns
-      result[frontendKey] = value
+      // LEARNING: Convert empty strings to proper values for boolean and number fields
+      // WHY: Forms may send empty strings for unchecked/empty fields, but PostgreSQL requires actual types
+      // PATTERN: Check if field is boolean or number and convert empty string appropriately
+      if (value === '') {
+        if (nullableBooleanFields.has(frontendKey) || nonNullableBooleanFields.has(frontendKey)) {
+          // Convert empty string to null for nullable booleans, false for non-nullable booleans
+          if (nullableBooleanFields.has(frontendKey)) {
+            result[frontendKey] = null
+          } else {
+            result[frontendKey] = false
+          }
+        } else if (requiredNumberFields.has(frontendKey)) {
+          // Convert empty string to 0 for required number fields
+          result[frontendKey] = 0
+        } else {
+          // Keep empty string for other field types
+          result[frontendKey] = value
+        }
+      } else {
+        // Keep camelCase - Sequelize automatically converts to snake_case for database columns
+        result[frontendKey] = value
+      }
     }
 
     return result

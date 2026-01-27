@@ -12,7 +12,7 @@ import type { TimeSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
-import { parseLocalDate } from '@/utils/booking/timeSlotFitter'
+import { parseUTCDate } from '@/utils/booking/timeSlotFitter'
 import type { ISO8601Date } from '@/types/datetime'
 import type { PropertyDetails } from '@/types/availability'
 
@@ -81,7 +81,7 @@ export interface UseAvailabilityLogicReturn {
   isDifferentialService: ComputedRef<boolean>
   isEffectivelyDifferential: ComputedRef<boolean>
   selectedTimeSlots: ComputedRef<SelectedTimeSlot[] | null>
-  matchLoadedTimeSlots: (loadedSlots: Array<{ time: string }>, availableSlots: TimeSlot[], inspectorAppointmentSlot: Ref<TimeSlot | null>, clientAppointmentSlot: Ref<TimeSlot | null>) => void
+  matchLoadedTimeSlots: (loadedSlots: Array<{ startTime: string; endTime?: string }>, availableSlots: TimeSlot[], inspectorAppointmentSlot: Ref<TimeSlot | null>, clientAppointmentSlot: Ref<TimeSlot | null>) => void
 }
 
 /**
@@ -108,44 +108,70 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   const dateRangeForApi = computed(() => {
     if (!selectedDate.value.start) return null
     
-    // LEARNING: Parse selected date in local timezone using shared utility
-    // WHY: Ensures correct day of week calculation regardless of timezone, prevents Invalid Date errors
-    // PATTERN: Use parseLocalDate utility with built-in validation
+    // LEARNING: Parse selected date in UTC using shared utility
+    // WHY: All business logic should use UTC to avoid timezone issues
+    // PATTERN: Use parseUTCDate utility with built-in validation
     // NOTE: selectedDate.value.start is ISO 8601 date format (YYYY-MM-DD)
-    // P2-8: Use existing parseLocalDate utility instead of manual parsing
+    // P2-8: Use existing parseUTCDate utility instead of manual parsing
     const startValue = selectedDate.value.start
     if (!startValue) return null
     
-    const startDate = parseLocalDate(startValue)
+    const startDate = parseUTCDate(startValue)
     if (!startDate) {
-      // parseLocalDate logs warnings internally, just return null
+      // parseUTCDate logs warnings internally, just return null
       return null
     }
-    const endDate = new Date(startDate)
-    endDate.setDate(endDate.getDate() + 1) // Add 1 day for end date
+    // LEARNING: Use UTC methods for all date operations
+    // WHY: All business logic should use UTC to avoid timezone issues
+    // PATTERN: Use Date.UTC() and UTC getters for date construction and comparison
+    const endDate = new Date(Date.UTC(
+      startDate.getUTCFullYear(),
+      startDate.getUTCMonth(),
+      startDate.getUTCDate() + 1, // Add 1 day for end date
+      0, 0, 0, 0
+    ))
     
-    // LEARNING: Determine start datetime: always use start of day (midnight) for consistency
+    // LEARNING: Determine start datetime: always use start of day (midnight UTC) for consistency
     // WHY: Busy periods need to cover the entire day to match slots, which start at business hours
     //      The mock generator will filter out past times, so using start of day ensures full coverage
-    // PATTERN: Always use start of day, let mock generator handle past time filtering
-    const startDateTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0) // Start of day
+    // PATTERN: Always use start of day UTC, let mock generator handle past time filtering
+    const startDateTime = new Date(Date.UTC(
+      startDate.getUTCFullYear(),
+      startDate.getUTCMonth(),
+      startDate.getUTCDate(),
+      0, 0, 0, 0
+    ))
     
     // LEARNING: Early return if date is in the past (not today)
     // WHY: Past dates can't render in UI, but today should be allowed even if midnight has passed
-    // PATTERN: Compare date portions only (not times) to allow today
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const startDateOnly = new Date(startDateTime)
-    startDateOnly.setHours(0, 0, 0, 0)
+    // PATTERN: Compare date portions only (not times) to allow today, using UTC dates
+    const now = new Date()
+    const today = new Date(Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+      0, 0, 0, 0
+    ))
+    const startDateOnly = new Date(Date.UTC(
+      startDate.getUTCFullYear(),
+      startDate.getUTCMonth(),
+      startDate.getUTCDate(),
+      0, 0, 0, 0
+    ))
     
     if (startDateOnly < today) {
       return null // Past dates can't render in UI
     }
     
-    // LEARNING: End datetime: end of day (23:59:59) in local timezone
+    // LEARNING: End datetime: end of day (23:59:59) in UTC
     // WHY: Covers entire day for busy period generation
-    // PATTERN: Set hours to end of day, then convert to RFC3339
-    const endDateTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59)
+    // PATTERN: Use Date.UTC() to create end of day in UTC, then convert to RFC3339
+    const endDateTime = new Date(Date.UTC(
+      endDate.getUTCFullYear(),
+      endDate.getUTCMonth(),
+      endDate.getUTCDate(),
+      23, 59, 59, 999
+    ))
     
     // LEARNING: Convert to RFC3339 format (ISO 8601 with UTC timezone, matching Google Calendar API)
     // WHY: Consistent format throughout codebase, matches Google Calendar API
@@ -212,13 +238,13 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     const slotsByDate = new Map<string, TimeSlot[]>()
     
     slots.forEach(slot => {
-      // LEARNING: Extract date in local timezone, not UTC
-      // WHY: Slots are created with local time hours, so we need to extract date in local time to match
-      // PATTERN: Use local date methods instead of toISOString() which uses UTC
+      // LEARNING: Extract date in UTC
+      // WHY: All business logic should use UTC to avoid timezone issues
+      // PATTERN: Use UTC date methods to extract date portion from RFC3339 datetime
       const slotDateObj = new Date(slot.startTime)
-      const year = slotDateObj.getFullYear()
-      const month = String(slotDateObj.getMonth() + 1).padStart(2, '0')
-      const day = String(slotDateObj.getDate()).padStart(2, '0')
+      const year = slotDateObj.getUTCFullYear()
+      const month = String(slotDateObj.getUTCMonth() + 1).padStart(2, '0')
+      const day = String(slotDateObj.getUTCDate()).padStart(2, '0')
       const slotDate = `${year}-${month}-${day}`
       if (!slotsByDate.has(slotDate)) {
         slotsByDate.set(slotDate, [])
@@ -313,13 +339,13 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     const slotsByDate = new Map<string, TimeSlot[]>()
     
     slots.forEach(slot => {
-      // LEARNING: Extract date in local timezone, not UTC
-      // WHY: Slots are created with local time hours, so we need to extract date in local time to match
-      // PATTERN: Use local date methods instead of toISOString() which uses UTC
+      // LEARNING: Extract date in UTC
+      // WHY: All business logic should use UTC to avoid timezone issues
+      // PATTERN: Use UTC date methods to extract date portion from RFC3339 datetime
       const slotDateObj = new Date(slot.startTime)
-      const year = slotDateObj.getFullYear()
-      const month = String(slotDateObj.getMonth() + 1).padStart(2, '0')
-      const day = String(slotDateObj.getDate()).padStart(2, '0')
+      const year = slotDateObj.getUTCFullYear()
+      const month = String(slotDateObj.getUTCMonth() + 1).padStart(2, '0')
+      const day = String(slotDateObj.getUTCDate()).padStart(2, '0')
       const slotDate = `${year}-${month}-${day}`
       if (!slotsByDate.has(slotDate)) {
         slotsByDate.set(slotDate, [])

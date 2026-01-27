@@ -96,7 +96,7 @@ const displaySlots = computed(() => {
   // WHY: Ensures displaySlots recomputes when perspective changes, and we use the correct perspective
   const currentPerspective = props.timeBasis
   
-  return props.appointmentSlots.map(appointmentSlot => {
+  const slots = props.appointmentSlots.map(appointmentSlot => {
     const displayTime = derivePerspective(appointmentSlot, currentPerspective)
     
     return {
@@ -105,6 +105,8 @@ const displaySlots = computed(() => {
       isAvailable: appointmentSlot.isAvailable
     }
   })
+  
+  return slots
 })
 
 // LEARNING: Handler for appointment slot button clicks
@@ -112,6 +114,17 @@ const displaySlots = computed(() => {
 // PATTERN: Event handler that emits buttonIndex
 const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
   emit('slot-click', slotData.buttonIndex)
+}
+
+// LEARNING: Format slot time for display
+// WHY: Centralizes formatting logic
+// PATTERN: Method that formats the conversion
+const formatSlotTime = (slotData: SlotDisplayData): string => {
+  if (!slotData.displayTime) {
+    return 'Unavailable'
+  }
+  
+  return formatTimeRange(slotData.displayTime)
 }
 </script>
 
@@ -137,7 +150,7 @@ const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
       :disabled="loading || !slotData.displayTime || !slotData.isAvailable"
       @click="handleAppointmentSlotClick(slotData)"
     >
-      {{ slotData.displayTime ? formatTimeRange(slotData.displayTime) : 'Unavailable' }}
+      {{ formatSlotTime(slotData) }}
     </VBtn>
   </div>
 </template>

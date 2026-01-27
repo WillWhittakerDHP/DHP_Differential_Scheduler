@@ -29,11 +29,13 @@ export function createTimeRange(startTime: string, duration: number): TimeRange 
   const end = new Date(start)
   end.setUTCMinutes(end.getUTCMinutes() + duration)
   
-  return {
+  const result = {
     startTime: start.toISOString() as RFC3339DateTime,
     endTime: end.toISOString() as RFC3339DateTime,
     duration
   }
+  
+  return result
 }
 
 /**

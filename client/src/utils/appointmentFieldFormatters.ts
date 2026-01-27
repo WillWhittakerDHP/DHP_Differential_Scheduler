@@ -10,6 +10,11 @@
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
+import type { RFC3339DateTime, ISO8601Date } from '@/types/datetime'
+import { useLocalTime } from '@/composables/useLocalTime'
+
+// Create singleton instance for utility function use
+const { formatDateOnlyForDisplay, formatDateForDisplay } = useLocalTime()
 
 export type FieldFormatter = (
   appointment: AppointmentResponse,
@@ -82,12 +87,19 @@ function formatScheduledByField(
 }
 
 /**
- * LEARNING: Format date fields
- * WHY: Converts date strings to localized date format
+ * LEARNING: Format date fields using useLocalTime composable
+ * WHY: All local time conversions must go through useLocalTime composable
+ * PATTERN: Detect DATEONLY vs RFC3339 format and use appropriate formatter
  */
 function formatDateField(value: unknown): string {
   if (!value) return formatNullValue(value)
-  return new Date(String(value)).toLocaleDateString()
+  const dateString = String(value)
+  // If it's DATEONLY format (YYYY-MM-DD), use formatDateOnlyForDisplay
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+    return formatDateOnlyForDisplay(dateString as ISO8601Date)
+  }
+  // Otherwise assume RFC3339
+  return formatDateForDisplay(dateString as RFC3339DateTime)
 }
 
 /**

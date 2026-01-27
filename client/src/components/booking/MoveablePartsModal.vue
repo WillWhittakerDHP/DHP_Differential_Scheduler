@@ -160,6 +160,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
+import { useLocalTime } from '@/composables/useLocalTime'
 
 interface Props {
   showModal: boolean
@@ -221,8 +222,7 @@ function handleCancel() {
 }
 
 function formatEarliestCompletion(isoDate: string): string {
-  const date = new Date(isoDate)
-  return date.toLocaleString('en-US', {
+  return formatDateTimeForDisplay(isoDate as any, {
     weekday: 'short',
     month: 'short',
     day: 'numeric',

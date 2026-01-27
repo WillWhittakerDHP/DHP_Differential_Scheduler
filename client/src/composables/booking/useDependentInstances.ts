@@ -134,7 +134,7 @@ export function useDependentInstances(
           descriptions: [],
           icon: (entity as unknown as Record<string, unknown>).icon as string || '',
           active: (entity as unknown as Record<string, unknown>).active as boolean ?? true,
-          isDependentInstance: (entity as unknown as { isDependentInstance?: boolean }).isDependentInstance === true,
+          bookingMode: ((entity as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
           differential: (entity as unknown as Record<string, unknown>).differential as boolean ?? false,
           orderIndex: entity.orderIndex ?? 0,
           blockShape: (entity as unknown as Record<string, unknown>).blockShape as string || '',
@@ -151,8 +151,11 @@ export function useDependentInstances(
       }
     }
     
+    // Filter out standalone-only services from add-on options
+    const eligibleInstances = instances.filter(instance => instance.bookingMode !== 'standalone')
+    
     // Sort by orderIndex
-    return instances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+    return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
   })
   
   /**

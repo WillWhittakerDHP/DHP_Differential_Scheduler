@@ -15,7 +15,8 @@ import { adminTransformer } from '@/utils/transformers/globalToAdminTransformer'
 import type { AdminObject } from '@/utils/transformers/globalToAdminTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
-import { getEntityTypeForMetadata, getMetadataEntityId, BLOCK_INSTANCE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
+import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
+import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 
 // DIAGNOSTICS: Track instance creation
 let instanceCount = 0
@@ -53,6 +54,11 @@ function createAdminInstance() {
   
   // SINGLETON: This will now reuse the singleton useGlobal instance
   const { getGlobalEntities, getGlobalEntityById, globalData } = useGlobal()
+  
+  // LEARNING: Use metadata cache composable for lazy-loaded admin metadata
+  // WHY: Metadata is only needed for admin page, not loaded during app startup
+  // PATTERN: Separate cache key ['adminMetadata'] from globalData
+  const metadataCache = useMetadataCache()
   
   /**
    * Transform GlobalData to AdminObjectMap
@@ -155,89 +161,56 @@ function createAdminInstance() {
   })
   
   /**
-   * Get metadata for an entity (synchronous, from GlobalData)
-   * LEARNING: Reads metadata from GlobalData transformation, handles inheritance automatically
-   * WHY: Metadata should be available as early and reliably as entities (same pattern as getEntity)
-   * PATTERN: Synchronous function that reads from transformed GlobalData, handles instance inheritance
-   *          Aligns with AdminObject pattern - keeps primitives and relationships separate until merge
+   * Get metadata for an entity (from lazy-loaded metadata cache)
+   * LEARNING: Reads metadata from dedicated metadata cache (not globalData)
+   * WHY: Metadata is lazy-loaded only when admin page is accessed, not during app startup
+   * PATTERN: Delegates to useMetadataCache for lookup logic
    * 
    * @param entityKey - Entity key (blockShape, partShape, blockInstance, partInstance)
-   * @param entity - Entity object (GlobalEntity or AdminObject, used to determine metadata ID and inheritance)
+   * @param entity - Entity object (GlobalEntity or AdminObject, used to determine blockShapeRef for blockInstance)
    * @returns Record<fieldKey, FieldMetadataEntry> - combined primitive + relationship metadata
    */
   function getMetadata<GE extends GlobalEntityKey>(
     entityKey: GE,
     entity: AdminObject<GE> | import('@/types/entities').GlobalEntity<GE>
   ): Record<string, FieldMetadataEntry> {
-    const data = globalData?.value
-    if (!data || !data.metadata) {
-      return {}
-    }
-    
     const entityType = getEntityTypeForMetadata(entityKey)
     if (!entityType) {
       return {}
     }
     
-    const metadataId = getMetadataEntityId(entityKey, entity as import('@/types/entities').GlobalEntity<GE>)
-    if (!metadataId) {
-      return {}
-    }
-    
-    // LEARNING: For blockInstance entities, check for BlockShape-specific metadata
+    // LEARNING: For blockInstance entities, pass blockShapeRef to metadata cache
     // WHY: Each BlockShape's instances can have their own metadata configuration
-    // PATTERN: Try blockShapeRef-specific metadata first, fall back to global config
+    // PATTERN: useMetadataCache.getMetadata handles the fallback logic
+    let blockShapeRef: string | null = null
     if (entityType === 'blockInstance' && entityKey === 'blockInstance') {
       const blockInstanceEntity = entity as import('@/types/entities').GlobalEntity<'blockInstance'>
-      const blockShapeRef = blockInstanceEntity.blockShapeRef
-      
-      // If blockShapeRef exists, try to get BlockShape-specific metadata
-      if (blockShapeRef) {
-        const compositeId = `${BLOCK_INSTANCE_GLOBAL_CONFIG_ID}:${blockShapeRef}`
-        const blockShapeSpecificMetadata = data.metadata?.[entityType]?.[compositeId]
-        
-        // If BlockShape-specific metadata exists, return it
-        if (blockShapeSpecificMetadata && Object.keys(blockShapeSpecificMetadata).length > 0) {
-          return blockShapeSpecificMetadata
-        }
-      }
-      
-      // Fall back to global config (blockShapeRef = null)
-      const globalMetadata = data.metadata?.[entityType]?.[BLOCK_INSTANCE_GLOBAL_CONFIG_ID] || {}
-      return globalMetadata
+      blockShapeRef = blockInstanceEntity.blockShapeRef || null
     }
     
-    // LEARNING: For partInstance entities, check for instance-specific metadata and fall back to global config
-    // WHY: PartInstance metadata is stored globally, but individual instances may have overrides
-    // PATTERN: Try instance-specific metadata first, fall back to global config (matches backend behavior)
-    if (entityType === 'partInstance' && entityKey === 'partInstance') {
-      // Try instance-specific metadata first
-      const instanceMetadata = data.metadata?.[entityType]?.[metadataId]
-      
-      // If instance-specific metadata exists, return it
-      if (instanceMetadata && Object.keys(instanceMetadata).length > 0) {
-        return instanceMetadata
-      }
-      
-      // Fall back to global config (same as backend behavior)
-      const globalMetadata = data.metadata?.[entityType]?.[PART_INSTANCE_GLOBAL_CONFIG_ID] || {}
-      return globalMetadata
-    }
-    
-    // LEARNING: Get unified metadata (primitives + relationships already merged by backend)
-    // WHY: Backend returns unified metadata - no hydration needed
-    // PATTERN: Direct access to unified metadata structure
-    // Session 1.4.10: Unified metadata - single structure, no separation
-    const metadata = data.metadata?.[entityType]?.[metadataId] || {}
-    
-    // LEARNING: All entity types have completely independent metadata
-    // WHY: blockInstance has fields like baseSqFt that don't exist in blockShape
-    //      partInstance has fields that don't exist in partShape
-    //      Shapes and instances have different properties, so there's nothing to inherit
-    // PATTERN: Return metadata directly for the specified entity type - no inheritance/merging
-    return metadata
+    // LEARNING: Delegate to metadata cache composable
+    // WHY: All lookup logic (global vs BlockShape-specific) is handled by the cache
+    // PATTERN: Single source of truth for metadata access
+    return metadataCache.getMetadata(entityType, blockShapeRef)
   }
   
+  /**
+   * Ensure metadata is loaded (call on admin page mount)
+   * LEARNING: Triggers lazy loading of metadata cache synchronously
+   * WHY: Metadata is only fetched when admin page is accessed
+   * PATTERN: Admin page calls this on mount to enable metadata fetch
+   * FIX: Changed from async to sync to prevent race condition - enables query immediately
+   */
+  function ensureMetadataLoaded(): void {
+    metadataCache.ensureMetadataLoaded()
+  }
+  
+  /**
+   * Check if metadata is loaded
+   * LEARNING: Reactive property for metadata loading state
+   * WHY: Components can show loading states while metadata fetches
+   */
+  const isMetadataLoaded = metadataCache.isLoaded
   
   return {
     getEntity,
@@ -247,6 +220,8 @@ function createAdminInstance() {
     getGlobalEntities, // Keep for backward compatibility
     getGlobalEntityById, // Keep for backward compatibility
     getMetadata,
+    ensureMetadataLoaded, // Call on admin page mount to trigger metadata fetch
+    isMetadataLoaded, // Check if metadata has been loaded
     adminData,
   }
 }

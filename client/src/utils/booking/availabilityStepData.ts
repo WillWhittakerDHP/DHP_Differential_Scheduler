@@ -1,9 +1,11 @@
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
+import type { RFC3339DateTime } from '@/types/datetime'
 
 export interface SelectedTimeSlot {
-  time: string
-  duration: number
+  startTime: RFC3339DateTime  // Explicit RFC3339 start
+  endTime: RFC3339DateTime    // Explicit RFC3339 end
+  duration?: number            // Optional (can calculate: (endTime - startTime) / 60000)
 }
 
 export interface AvailabilityStepData {
@@ -27,7 +29,8 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
   // Add onSite slot (inspector)
   if (params.selectedSlot.totalOnSite) {
     slots.push({
-      time: params.selectedSlot.totalOnSite.startTime,
+      startTime: params.selectedSlot.totalOnSite.startTime,
+      endTime: params.selectedSlot.totalOnSite.endTime,
       duration: params.selectedSlot.totalOnSite.duration,
     })
   }
@@ -36,7 +39,8 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
   if (params.selectedSlot.totalClientPresent && 
       params.selectedSlot.totalClientPresent.startTime !== params.selectedSlot.totalOnSite?.startTime) {
     slots.push({
-      time: params.selectedSlot.totalClientPresent.startTime,
+      startTime: params.selectedSlot.totalClientPresent.startTime,
+      endTime: params.selectedSlot.totalClientPresent.endTime,
       duration: params.selectedSlot.totalClientPresent.duration,
     })
   }

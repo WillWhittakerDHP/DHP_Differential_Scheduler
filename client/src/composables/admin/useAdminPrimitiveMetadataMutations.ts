@@ -16,6 +16,9 @@ import type { EntityMetadataType, FieldMetadataEntry } from '@/types/entityMetad
 import { buildMetadataEntry } from '@/utils/admin/buildMetadataEntry'
 import { useGlobal } from '@/composables/useGlobal'
 import { metadataTransformer } from '@/utils/transformers/metadataTransformer'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useAdminPrimitiveMetadataMutations')
 
 /**
  * Save field rendering configuration
@@ -91,7 +94,7 @@ export function useAdminPrimitiveMetadataMutations() {
       
       // LEARNING: Debug logging to trace save flow
       // WHY: Help diagnose why saves aren't persisting
-      console.log('[useAdminPrimitiveMetadataMutations] Saving metadata:', {
+      logger.debug('Saving metadata:', {
         endpoint,
         entityType,
         entityId,
@@ -101,7 +104,7 @@ export function useAdminPrimitiveMetadataMutations() {
       })
       
       const response = await apiClient.post(endpoint, fullEntry)
-      console.log('[useAdminPrimitiveMetadataMutations] Save response:', response.data)
+      logger.debug('Save response:', response.data)
       return response.data
     },
     onSuccess: (_, variables) => {

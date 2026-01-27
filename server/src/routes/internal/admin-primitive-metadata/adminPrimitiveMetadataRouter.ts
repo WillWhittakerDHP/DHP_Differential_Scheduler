@@ -14,6 +14,54 @@ import { getAdminPrimitiveMetadata } from '../../../utils/adminPrimitiveMetadata
 const router = Router();
 
 /**
+ * LEARNING: Auto-compute renderAs based on dataType and inputConfig
+ * WHY: renderAs should be automatically determined, not manually configured
+ * PATTERN: Compute renderAs from field characteristics (matches client-side logic)
+ */
+function computeRenderAs(
+  dataType: string | undefined,
+  inputConfig: Record<string, unknown> | null | undefined,
+  fieldKey: string
+): 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection' {
+  // Special cases first
+  if (fieldKey === 'icon') {
+    return 'iconSelect'
+  }
+  
+  // If inputConfig exists, determine select type from config
+  if (inputConfig && typeof inputConfig === 'object') {
+    const selectType = inputConfig.selectType as string | undefined
+    if (selectType === 'partsCollectionSelect') {
+      return 'partsCollection'
+    }
+    const selectMode = inputConfig.selectMode as string | undefined
+    if (selectMode === 'multiple') {
+      return 'multiselect'
+    }
+    // Default to reference for relationship selects
+    if (inputConfig.targetMode === 'relationship') {
+      return 'reference'
+    }
+    // Default to select for other selects
+    return 'select'
+  }
+  
+  // Base renderAs on dataType
+  if (dataType === 'boolean') {
+    return 'statusButton'
+  }
+  if (dataType === 'number') {
+    return 'number'
+  }
+  if (dataType === 'array') {
+    return 'reference'
+  }
+  
+  // Default to text for string and other types
+  return 'text'
+}
+
+/**
  * GET /admin-primitive-metadata/:entityType/:entityId
  * Get primitive metadata for an entity (with inheritance for instances)
  * Returns merged metadata: instance overrides + inherited shape metadata
@@ -85,7 +133,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       layout,
       displayOrder,
       section = null,
-      renderAs = 'text',
+      renderAs: providedRenderAs,
       statusButtonColor = null,
       panel = 'none',
       bulkEdit = false,
@@ -93,6 +141,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       inheritsFromEntityType = null,
       inheritsFromEntityId = null,
     } = req.body;
+    
+    // LEARNING: Auto-compute renderAs if not provided
+    // WHY: renderAs should be automatically determined from dataType and inputConfig
+    // PATTERN: Use provided renderAs if present, otherwise compute it
+    const renderAs = providedRenderAs || computeRenderAs(dataType, inputConfig, fieldKey)
 
     const validEntityTypes = ['blockShape', 'partShape', 'blockInstance', 'partInstance'];
     if (!validEntityTypes.includes(entityType)) {

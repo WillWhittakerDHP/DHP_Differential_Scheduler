@@ -7,7 +7,6 @@ import { transformApiEntity } from '@/utils/transformers/entityTransformers'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import type { ValidAdminValue } from '@/constants/primitives'
-import { sanitizeEntityAdminValues } from '@/utils/entities/sanitizeEntityAdminValues'
 import type { Logger } from '@/utils/logger'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
@@ -73,9 +72,7 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
         entityKey,
       }
 
-      const sanitizedEntity = sanitizeEntityAdminValues(entityKey, rawEntity)
-
-      const { id: _id, ...entityWithoutId } = sanitizedEntity
+      const { id: _id, ...entityWithoutId } = rawEntity
       const backendPayload = globalTransformer.dehydrateEntity(entityWithoutId as Partial<GlobalEntity<GlobalEntityTypeKey>>)
       delete backendPayload.id
 
@@ -158,8 +155,7 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
         entityKey,
       }
 
-      const sanitizedEntity = sanitizeEntityAdminValues(entityKey, rawEntity)
-      const backendPayload = globalTransformer.dehydrateEntity(sanitizedEntity as Partial<GlobalEntity<GlobalEntityTypeKey>>)
+      const backendPayload = globalTransformer.dehydrateEntity(rawEntity as Partial<GlobalEntity<GlobalEntityTypeKey>>)
       const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)
       return { ...response.data, id: String(id) }
     },
@@ -361,6 +357,7 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
         id: String(id),
         order_index: orderIndex,
       }))
+      
       await apiClient.patch(orderIndexEndpoint, backendPayload)
     },
     onMutate: async (updates) => {
@@ -443,7 +440,13 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
       const backendPayload = updates.map(({ id, ...fields }) => {
         // LEARNING: Only dehydrate fields - no sanitization needed if form only has correct fields
         // WHY: Sanitization was a workaround for forms including unwanted fields - fix the form instead
-        const dehydratedFields = globalTransformer.dehydrateEntity(fields as Partial<GlobalEntity<GlobalEntityTypeKey>>)
+        // LEARNING: Include entityKey for dehydrateEntity to determine entity type for metadata lookup
+        // WHY: dehydrateEntity needs entityKey to fetch metadata and determine boolean fields dynamically
+        const fieldsWithEntityKey = {
+          ...fields,
+          entityKey,
+        } as Partial<GlobalEntity<GlobalEntityTypeKey>> & { entityKey: GlobalEntityTypeKey }
+        const dehydratedFields = globalTransformer.dehydrateEntity(fieldsWithEntityKey)
         return {
           id: String(id),
           ...dehydratedFields,

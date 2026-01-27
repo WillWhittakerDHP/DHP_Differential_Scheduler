@@ -11,8 +11,10 @@
  */
 
 import { ref, computed, type Ref, type ComputedRef } from 'vue'
+import { useQueryClient } from '@tanstack/vue-query'
 import { usePrimitiveMutation } from '../entityCrud/usePrimitiveMutation'
 import { useGlobal } from '../useGlobal'
+import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
@@ -126,6 +128,11 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
         admin: { key: String(fieldKey), value: newValue },
         dynamicId: String(currentEntity.id)
       })
+      
+      // LEARNING: Invalidate metadata cache after status button toggle
+      // WHY: Status button color comes from metadata - UI needs to reflect metadata changes
+      // PATTERN: Invalidate metadata cache so status button color updates immediately
+      queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
       
       // LEARNING: Notify parent of successful toggle
       // WHY: Allows parent to track status button changes for save state management

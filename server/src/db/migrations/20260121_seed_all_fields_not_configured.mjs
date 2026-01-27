@@ -30,7 +30,7 @@ export default {
     function inferDataType(fieldKey, entityType) {
       // Boolean fields
       const booleanFields = ['active', 'composite', 'differential', 'composable', 'constituable', 
-        'allowMultiple', 'requiresUnitNumber', 'dependent', 'visible', 'onSite', 'clientPresent', 
+        'allowMultiple', 'requiresUnitNumber', 'onSite', 'clientPresent', 
         'moveable', 'zeroOutPart', 'differentialOverride'];
       if (booleanFields.includes(fieldKey)) {
         return 'boolean';
@@ -79,8 +79,7 @@ export default {
         { fieldKey: 'baseSqFt', dataType: 'number' },
         { fieldKey: 'allowMultiple', dataType: 'boolean' },
         { fieldKey: 'requiresUnitNumber', dataType: 'boolean' },
-        { fieldKey: 'dependent', dataType: 'boolean' },
-        { fieldKey: 'visible', dataType: 'boolean' },
+        { fieldKey: 'bookingMode', dataType: 'string' },
         // LEARNING: Relationship fields should NOT be seeded in primitive metadata
         // WHY: activeParts (activeConstituents), bookingCascades, instanceComponents, 
         //      and dependentInstanceOptions are defined in RELATIONSHIP_KEYS

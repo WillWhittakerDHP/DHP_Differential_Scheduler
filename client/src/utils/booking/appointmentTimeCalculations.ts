@@ -262,26 +262,3 @@ export function calculateTotalDurationFromAppointmentSlots(appointmentSlots: App
   }, 0)
 }
 
-/**
- * @deprecated Use calculateAppointmentSlots instead
- */
-export function calculateAppointmentTimes(
-  blockInstances: BookingBlockInstance[],
-  baseStartTime?: string | null
-): AppointmentSlots {
-  return calculateAppointmentSlots(blockInstances, baseStartTime)
-}
-
-/**
- * @deprecated Use normalizeAppointmentSlotsByOrderIndex instead
- */
-export function normalizeAppointmentTimesByOrderIndex(appointmentSlots: AppointmentSlots): AppointmentSlots {
-  return normalizeAppointmentSlotsByOrderIndex(appointmentSlots)
-}
-
-/**
- * @deprecated Use calculateTotalDurationFromAppointmentSlots instead
- */
-export function calculateTotalDurationFromAppointmentTimes(appointmentSlots: AppointmentSlots): number {
-  return calculateTotalDurationFromAppointmentSlots(appointmentSlots)
-}

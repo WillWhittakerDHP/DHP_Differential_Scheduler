@@ -11,6 +11,7 @@
 import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
+import type { RFC3339DateTime } from '@/types/datetime'
 import { findById } from '@/utils/collections/findById'
 import { findBlockInstanceByIdAndShapeId, getBlockShapeIdByType, getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
@@ -183,7 +184,7 @@ function transformVersionToBookingInstance(
     id: version.id,
     entityKey: 'blockInstance' as const,
     active: true,
-    isDependentInstance: false,
+    bookingMode: 'standalone',
     orderIndex: 0,
     blockShape: '',
     blockShapeRef: '',
@@ -484,10 +485,12 @@ export async function transformAppointmentToWizard(
   }
   
   // Transform time slots from appointment format to wizard format
+  // LEARNING: Uses new format with startTime/endTime (RFC3339)
   const selectedTimeSlots = appointment.selectedTimeSlots
     ? appointment.selectedTimeSlots.map((slot: Record<string, unknown>) => ({
-        time: (slot.time as string) || '',
-        duration: (slot.duration as number) || 90,
+        startTime: slot.startTime as RFC3339DateTime,
+        endTime: slot.endTime as RFC3339DateTime,
+        duration: slot.duration as number | undefined, // Optional
       }))
     : null
   

@@ -6,6 +6,7 @@ import { useEntityCrud } from '@/composables/useEntity'
 import { useNotification } from '@/composables/useNotification'
 import { usePartInstanceData } from '@/composables/usePartInstanceData'
 import { usePartInstanceBulkEdit, type PartInstanceBulkEditData } from '@/composables/admin/usePartInstanceBulkEdit'
+import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import type { GlobalEntity } from '@/types/entities'
 
 export interface PartInstanceCollectionModel {
@@ -105,25 +106,32 @@ export function usePartInstanceCollection(
    * LEARNING: Get temporary entity for new PartInstance creation
    * WHY: EntityCard needs an entity object to work with, even for new entities
    * PATTERN: Create temporary entity with `new-{partShapeId}` ID prefix for EntityCard isNew detection
+   * LEARNING: Use getDefaultEntityValues() to ensure all required fields are included
+   * WHY: No hardcoded field lists - automatically includes all fields from metadata (including zeroOutPart, differentialOverride)
+   * PATTERN: Use dynamic defaults from metadata instead of hardcoding fields
    */
   const getNewPartInstanceEntity = (partShapeId: string): GlobalEntity<'partInstance'> => {
+    // LEARNING: Get defaults from metadata to ensure all required fields are included
+    // WHY: Automatically includes all fields (zeroOutPart, differentialOverride, etc.) without hardcoding
+    // PATTERN: Use getDefaultEntityValues() which uses metadata to determine defaults
+    let defaults
+    try {
+      defaults = getDefaultEntityValues('partInstance')
+    } catch (error) {
+      defaults = { orderIndex: 0 }
+    }
+    
+    // Base entity with defaults and required fields
+    const baseEntity = {
+      id: `new-${partShapeId}`,
+      entityKey: 'partInstance' as const,
+      partShapeRef: partShapeId,
+      ...defaults,
+    } as GlobalEntity<'partInstance'>
+
     if (!blockInstance.value) {
-      // Return minimal entity if blockInstance not ready
-      return {
-        id: `new-${partShapeId}`,
-        entityKey: 'partInstance',
-        orderIndex: 0,
-        partShapeRef: partShapeId,
-        name: '',
-        active: true,
-        onSite: false,
-        clientPresent: false,
-        moveable: false,
-        baseTime: 0,
-        rateOverBaseTime: 0,
-        baseFee: 0,
-        rateOverBaseFee: 0,
-      } as GlobalEntity<'partInstance'>
+      // Return entity with defaults if blockInstance not ready
+      return baseEntity
     }
 
     const blockInstanceEntity = blockInstance.value as import('@/types/entities').BlockInstanceEntity
@@ -138,20 +146,10 @@ export function usePartInstanceCollection(
       partShapeId
     )
 
+    // Return entity with auto-generated name and all defaults
     return {
-      id: `new-${partShapeId}`,
-      entityKey: 'partInstance',
-      orderIndex: 0,
-      partShapeRef: partShapeId,
+      ...baseEntity,
       name: autoName,
-      active: true,
-      onSite: false,
-      clientPresent: false,
-      moveable: false,
-      baseTime: 0,
-      rateOverBaseTime: 0,
-      baseFee: 0,
-      rateOverBaseFee: 0,
     } as GlobalEntity<'partInstance'>
   }
 

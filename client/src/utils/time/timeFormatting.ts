@@ -1,29 +1,20 @@
 import type { TimeRange, TimeSlot } from '@/types/appointment'
 import type { ISO8601Date } from '@/types/datetime'
+import { useLocalTime } from '@/composables/useLocalTime'
 
 type MaybeRef<Value> = Value | { value: Value }
 
+// Create composable instance for utility function use
+const { formatTimeRangeForDisplay } = useLocalTime()
+
 /**
  * Format a time range from a TimeRange or TimeSlot object.
+ * LEARNING: Uses useLocalTime composable for UI-boundary formatting
+ * WHY: Ensures all local time conversions happen only at UI boundary
+ * PATTERN: Delegate to formatTimeRangeForDisplay from useLocalTime composable
  */
 export function formatTimeRange(range: TimeRange | TimeSlot): string {
-  if (!('startTime' in range && 'endTime' in range)) {
-    throw new Error('Invalid time range object: must have startTime/endTime')
-  }
-  
-  const start = new Date(range.startTime)
-  const end = new Date(range.endTime)
-  
-  const formatTime = (date: Date): string => {
-    const hours = date.getHours()
-    const minutes = date.getMinutes()
-    const ampm = hours >= 12 ? 'PM' : 'AM'
-    const displayHours = hours % 12 || 12
-    const displayMinutes = minutes.toString().padStart(2, '0')
-    return `${displayHours}:${displayMinutes} ${ampm}`
-  }
-  
-  return `${formatTime(start)} - ${formatTime(end)}`
+  return formatTimeRangeForDisplay(range)
 }
 
 /**

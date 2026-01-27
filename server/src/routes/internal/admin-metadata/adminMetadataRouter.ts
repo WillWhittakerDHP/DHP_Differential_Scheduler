@@ -15,6 +15,116 @@ import { isRelationshipKey } from '../../../constants/relationships.js';
 const router = Router();
 
 /**
+ * LEARNING: Sentinel UUIDs for global configuration metadata
+ * WHY: Global configs use fixed UUIDs to identify entity-type-wide metadata
+ * PATTERN: Same constants used on frontend and backend for consistency
+ */
+const BLOCK_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000001';
+const PART_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000002';
+const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003';
+const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
+
+/**
+ * GET /admin-metadata/batch
+ * Fetch ALL metadata in a single call (lazy-loaded by admin page only)
+ * 
+ * LEARNING: Batch endpoint for efficient admin page loading
+ * WHY: Instead of N+4 individual calls, fetch all metadata in one request
+ * PATTERN: Single endpoint returns structured metadata for all entity types
+ * 
+ * Returns:
+ * {
+ *   global: {
+ *     blockShape: { [fieldKey]: FieldMetadataEntry },
+ *     partShape: { [fieldKey]: FieldMetadataEntry },
+ *     blockInstance: { [fieldKey]: FieldMetadataEntry },
+ *     partInstance: { [fieldKey]: FieldMetadataEntry }
+ *   },
+ *   blockShapeSpecific: {
+ *     [blockShapeId]: { [fieldKey]: FieldMetadataEntry }
+ *   }
+ * }
+ */
+router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
+  try {
+    console.log('[AdminMetadataRouter] GET /admin-metadata/batch');
+
+    // Fetch all metadata in a single query
+    const allMetadata = await AdminMetadata.findAll({
+      order: [['display_order', 'ASC'], ['field_key', 'ASC']],
+    });
+
+    // Group metadata by entityType and blockShapeRef
+    const result: {
+      global: {
+        blockShape: Record<string, unknown>;
+        partShape: Record<string, unknown>;
+        blockInstance: Record<string, unknown>;
+        partInstance: Record<string, unknown>;
+      };
+      blockShapeSpecific: Record<string, Record<string, unknown>>;
+    } = {
+      global: {
+        blockShape: {},
+        partShape: {},
+        blockInstance: {},
+        partInstance: {},
+      },
+      blockShapeSpecific: {},
+    };
+
+    // Process each metadata entry
+    for (const entry of allMetadata) {
+      const entityType = entry.entityType as keyof typeof result.global;
+      const fieldKey = entry.fieldKey;
+      const blockShapeRef = entry.blockShapeRef;
+
+      // Transform entry to FieldMetadataEntry format
+      const metadataEntry = {
+        dataType: entry.dataType,
+        label: entry.label,
+        isRequired: entry.isRequired,
+        visibility: entry.visibility,
+        layout: entry.layout,
+        displayOrder: entry.displayOrder,
+        section: entry.section,
+        renderAs: entry.renderAs,
+        statusButtonColor: entry.statusButtonColor,
+        panel: entry.panel,
+        bulkEdit: entry.bulkEdit,
+        inputConfig: entry.inputConfig,
+        inheritsFromEntityType: entry.inheritsFromEntityType,
+        inheritsFromEntityId: entry.inheritsFromEntityId,
+      };
+
+      // Determine where to place this entry
+      if (entityType === 'blockInstance' && blockShapeRef) {
+        // BlockShape-specific blockInstance metadata
+        if (!result.blockShapeSpecific[blockShapeRef]) {
+          result.blockShapeSpecific[blockShapeRef] = {};
+        }
+        result.blockShapeSpecific[blockShapeRef][fieldKey] = metadataEntry;
+      } else {
+        // Global metadata for this entity type
+        if (result.global[entityType]) {
+          result.global[entityType][fieldKey] = metadataEntry;
+        }
+      }
+    }
+
+    console.log(`[AdminMetadataRouter] Batch returning: global counts = blockShape:${Object.keys(result.global.blockShape).length}, partShape:${Object.keys(result.global.partShape).length}, blockInstance:${Object.keys(result.global.blockInstance).length}, partInstance:${Object.keys(result.global.partInstance).length}, blockShapeSpecific:${Object.keys(result.blockShapeSpecific).length}`);
+
+    res.json(result);
+  } catch (error) {
+    console.error('[AdminMetadataRouter] Error fetching batch metadata:', error);
+    res.status(500).json({
+      error: 'Failed to fetch batch metadata',
+      details: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
  * GET /admin-metadata/:entityType/:entityId
  * Get unified metadata for an entity (primitives + relationships merged)
  * Returns merged metadata for the specified entity type

@@ -52,7 +52,7 @@ function createService(
     baseSqFt: 1000,
     icon: 'icon-test',
     active: true,
-    isDependentInstance: false,
+    bookingMode: 'standalone',
     differential: false,
     orderIndex: 0,
     blockShape: 'Test Shape',

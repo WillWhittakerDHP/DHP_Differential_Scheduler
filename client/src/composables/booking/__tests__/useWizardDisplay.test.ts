@@ -50,7 +50,7 @@ function createService(id: string, name: string): BookingBlockInstance {
     icon: 'star',
     baseSqFt: 0,
     active: true,
-    isDependentInstance: false,
+    bookingMode: 'standalone',
     differential: false,
     orderIndex: 0,
     blockShape: 'Service',

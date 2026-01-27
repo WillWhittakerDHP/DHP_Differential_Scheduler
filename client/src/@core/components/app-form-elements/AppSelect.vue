@@ -13,8 +13,6 @@ const elementId = computed (() => {
   return _elementIdToken ? `app-select-${_elementIdToken}` : _id
 })
 
-const label = computed(() => attrs.label as string | undefined)
-
 /**
  * WHY: Multi-select dropdowns should stay open when selecting items for better UX
  * PATTERN: Set closeOnContentClick: false for multiple selects, true for single selects
@@ -68,18 +66,10 @@ const menuProps = computed(() => {
     class="app-select flex-grow-1"
     :class="$attrs.class"
   >
-    <VLabel
-      v-if="label"
-      :for="elementId"
-      class="mb-1 text-body-2"
-      style="line-height: 15px;"
-      :text="label"
-    />
     <VSelect
       v-bind="{
         ...$attrs,
         class: null,
-        label: undefined,
         variant: 'outlined',
         id: elementId,
         menuProps: menuProps,

@@ -6,7 +6,7 @@
   RESOURCE: https://vuetifyjs.com/en/components/tabs/
 -->
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type ComponentPublicInstance } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
@@ -18,12 +18,13 @@ import { useExpansionState } from '@/composables/admin/useExpansionState'
 import { useEntityCrud } from '@/composables/useEntity'
 import { useGlobal } from '@/composables/useGlobal'
 import { useInstanceFiltering } from '@/composables/admin/useInstanceFiltering'
-import { useInstanceCreation } from '@/composables/admin/useInstanceCreation'
 import { useInstanceDeletion } from '@/composables/admin/useInstanceDeletion'
+import BlockInstanceCreateModal from '@/components/admin/BlockInstanceCreateModal.vue'
 import { useInstanceSaveHandlers } from '@/composables/admin/useInstanceSaveHandlers'
 import { useInstanceTabHandlers } from '@/composables/admin/useInstanceTabHandlers'
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
+import { useAdmin } from '@/composables/useAdmin'
 import { BLOCK_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 
 /**
@@ -170,18 +171,6 @@ const {
 
 
 /**
- * LEARNING: Use instance creation composable
- * WHY: Creation logic moved to composable
- */
-const {
-  isCreatingBlockInstance,
-  newBlockInstanceInitialValues,
-  createBlockInstance,
-  handleBlockInstanceCreated,
-  handleBlockInstanceCancelled
-} = useInstanceCreation({ expandedInstances })
-
-/**
  * LEARNING: Use instance deletion composable
  * WHY: Deletion handler moved to composable
  */
@@ -192,6 +181,47 @@ const { handleDeleteBlockInstance } = useInstanceDeletion()
  * WHY: Save handlers moved to composable
  */
 const { handleExistingBlockInstanceSaved } = useInstanceSaveHandlers()
+
+/**
+ * LEARNING: Modal state for create/duplicate operations
+ * WHY: Unified modal approach for both create and duplicate
+ * PATTERN: Simple boolean + optional sourceEntity for duplicate
+ */
+const createModalOpen = ref(false)
+const createModalBlockShapeId = ref<string>('')
+const createModalSourceEntity = ref<GlobalEntity<'blockInstance'> | undefined>(undefined)
+
+/**
+ * LEARNING: Handler for Create button click
+ * WHY: Opens modal with empty form for creating new instance
+ * PATTERN: Set blockShapeId and open modal
+ */
+const handleCreateClick = (blockShapeId: string): void => {
+  createModalBlockShapeId.value = blockShapeId
+  createModalSourceEntity.value = undefined
+  createModalOpen.value = true
+}
+
+/**
+ * LEARNING: Handler for Duplicate button click
+ * WHY: Opens modal with pre-filled values from source entity
+ * PATTERN: Set blockShapeId and sourceEntity, then open modal
+ */
+const handleDuplicateClick = (sourceEntity: GlobalEntity<'blockInstance'>): void => {
+  createModalBlockShapeId.value = sourceEntity.blockShapeRef
+  createModalSourceEntity.value = sourceEntity
+  createModalOpen.value = true
+}
+
+/**
+ * LEARNING: Handler for instance created event from modal
+ * WHY: Closes modal after successful creation
+ * PATTERN: Vue Query will automatically refetch and update the list
+ */
+const handleInstanceCreated = (_entity: GlobalEntity<'blockInstance'>): void => {
+  createModalOpen.value = false
+  // Vue Query will automatically refetch and update the list
+}
 
 /**
  * LEARNING: Use instance tab handlers composable
@@ -291,7 +321,7 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
               <VBtn
                 color="primary"
                 prepend-icon="tabler-plus"
-                @click="createBlockInstance(String(blockShape.id))"
+                @click="handleCreateClick(String(blockShape.id))"
               >
                 Create
               </VBtn>
@@ -324,10 +354,7 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
             class="block-instances-container"
           >
             <VExpansionPanels
-              v-if="
-                isCreatingBlockInstance.get(String(blockShape.id)) ||
-                (blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length > 0
-              "
+              v-if="(blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length > 0"
               :ref="el => {
                 const blockShapeId = String(blockShape.id)
                 if (!groupPanelsContainers.has(blockShapeId)) {
@@ -342,41 +369,6 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
               v-model="expandedInstances"
               multiple
             >
-              <!-- LEARNING: Inline creation card at top of list -->
-              <!-- WHY: New entity appears at top, expanded, with Create/Cancel buttons -->
-              <!-- PATTERN: Use same status button chips as existing cards for consistency -->
-              <VExpansionPanel
-                v-if="isCreatingBlockInstance.get(String(blockShape.id))"
-                :key="`new-${blockShape.id}`"
-                :value="`new-${blockShape.id}`"
-                class="new-instance-card"
-              >
-                <template #title>
-                  <div class="d-flex align-center gap-2 flex-grow-1">
-                    <VIcon icon="tabler-plus" size="small" color="primary" />
-                    <!-- LEARNING: For new instances, show static "New BlockInstance" text -->
-                    <!-- WHY: EntityCard isn't mounted yet, so titleRowFields aren't available -->
-                    <!-- PATTERN: Static text for new entity creation -->
-                    <span class="text-primary font-weight-medium">New BlockInstance</span>
-                  </div>
-                </template>
-                
-                <template #text>
-                  <!-- LEARNING: EntityCard is now self-contained -->
-                  <!-- WHY: EntityCard wraps itself in VExpansionPanel, but for new instances we don't need expansion -->
-                  <!-- PATTERN: Use useExpansionPanel=false for new instances since they're always expanded -->
-                  <EntityCard
-                    entity-key="blockInstance"
-                    :entity="newBlockInstanceInitialValues.get(String(blockShape.id))!"
-                    :is-new="true"
-                    :expanded="true"
-                    :use-expansion-panel="false"
-                    @saved="(entity) => handleBlockInstanceCreated(String(blockShape.id), entity as GlobalEntity<'blockInstance'>)"
-                    @cancelled="handleBlockInstanceCancelled(String(blockShape.id))"
-                  />
-                </template>
-              </VExpansionPanel>
-              
               <!-- Existing BlockInstances -->
               <!-- LEARNING: EntityCard is now self-contained with its own VExpansionPanel -->
               <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields -->
@@ -391,10 +383,11 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
                 :expanded="isPanelExpanded(String(instance.id))"
                 @saved="handleExistingBlockInstanceSaved"
                 @delete="handleDeleteBlockInstance"
+                @duplicate="handleDuplicateClick"
               />
             </VExpansionPanels>
 
-            <!-- Grouped: Components + Dependent (collapsed by default) -->
+            <!-- Grouped: Add-On Only & Components (Hidden from Main Booking List) -->
             <VCard
               v-if="(groupedInstancesByShape.get(String(blockShape.id)) || []).length > 0"
               variant="outlined"
@@ -403,34 +396,25 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
             >
               <VCardTitle class="text-subtitle-1 d-flex align-center gap-2">
                 <VIcon icon="tabler-folders" size="small" />
-                Components & Dependent (Hidden from Booking)
+                Add-On Only & Components (Hidden from Main Booking List)
                 <VChip size="small" variant="tonal" class="ml-2">
                   {{ (groupedInstancesByShape.get(String(blockShape.id)) || []).length }}
                 </VChip>
               </VCardTitle>
               <VCardText>
+                <!-- LEARNING: EntityCard is now self-contained with its own VExpansionPanel -->
+                <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields -->
+                <!-- PATTERN: Use VExpansionPanels wrapper, EntityCard handles its own expansion -->
                 <VExpansionPanels v-model="expandedInstances" multiple>
-                  <VExpansionPanel :value="groupedPanelValue(String(blockShape.id))">
-                    <template #title>
-                      <span>Show / Hide grouped instances</span>
-                    </template>
-                          <template #text>
-                            <!-- LEARNING: EntityCard is now self-contained with its own VExpansionPanel -->
-                            <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields -->
-                            <!-- PATTERN: Use VExpansionPanels wrapper, EntityCard handles its own expansion -->
-                            <VExpansionPanels v-model="expandedInstances" multiple>
-                              <EntityCard
-                                v-for="instance in (groupedInstancesByShape.get(String(blockShape.id)) || [])"
-                                :key="String(instance.id)"
-                                entity-key="blockInstance"
-                                :entity="instance"
-                                :expanded="isPanelExpanded(String(instance.id))"
-                                @saved="handleExistingBlockInstanceSaved"
-                                @delete="handleDeleteBlockInstance"
-                              />
-                            </VExpansionPanels>
-                          </template>
-                  </VExpansionPanel>
+                  <EntityCard
+                    v-for="instance in (groupedInstancesByShape.get(String(blockShape.id)) || [])"
+                    :key="String(instance.id)"
+                    entity-key="blockInstance"
+                    :entity="instance"
+                    :expanded="isPanelExpanded(String(instance.id))"
+                    @saved="handleExistingBlockInstanceSaved"
+                    @delete="handleDeleteBlockInstance"
+                  />
                 </VExpansionPanels>
               </VCardText>
             </VCard>
@@ -438,7 +422,6 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
             <!-- Empty state -->
             <VAlert
               v-if="
-                !isCreatingBlockInstance.get(String(blockShape.id)) &&
                 (blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length === 0 &&
                 (groupedInstancesByShape.get(String(blockShape.id)) || []).length === 0
               "
@@ -519,6 +502,19 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
         @saved="() => handleExistingBlockShapeSaved(String(blockShape.id))"
       />
     </template>
+    
+    <!--
+      LEARNING: Block Instance Create Modal
+      WHY: Unified modal for creating and duplicating block instances
+      PATTERN: Single modal instance, controlled by createModalOpen state
+    -->
+    <BlockInstanceCreateModal
+      :model-value="createModalOpen"
+      :block-shape-id="createModalBlockShapeId"
+      :source-entity="createModalSourceEntity"
+      @update:model-value="(value) => createModalOpen = value"
+      @created="handleInstanceCreated"
+    />
   </div>
 </template>
 
@@ -546,10 +542,6 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
   transition: transform 0.2s;
 }
 
-.new-instance-card {
-  border: 2px dashed rgb(var(--v-theme-primary));
-  background-color: rgba(var(--v-theme-primary), 0.05);
-}
 
 .drag-handle {
   cursor: grab;

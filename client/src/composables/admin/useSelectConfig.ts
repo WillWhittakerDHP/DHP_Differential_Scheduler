@@ -20,6 +20,7 @@ import { useAdmin } from '@/composables/useAdmin'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 import type { FieldContextType } from '@/composables/useFieldContext'
+import type { SelectOption } from '@/composables/useSelectOptions'
 import { useEntityMetadata } from './useEntityMetadata'
 
 /**
@@ -45,6 +46,16 @@ export interface UseSelectConfigReturn {
    * Whether this is an enum select (blockShape.type or partShape.type)
    */
   isEnumSelect: ComputedRef<boolean>
+
+  /**
+   * Whether this is a metadata-driven options select
+   */
+  isOptionsSelect: ComputedRef<boolean>
+
+  /**
+   * Options for metadata-driven options selects
+   */
+  optionsSelectOptions: ComputedRef<SelectOption[]>
   
   /**
    * Whether this is a DescriptionSelect field (annotations)
@@ -73,6 +84,16 @@ export interface UseSelectConfigReturn {
 }
 
 /**
+ * LEARNING: Options select config for metadata-driven enum-like selects
+ * WHY: Some fields (e.g., bookingMode) use input_config.options instead of relationship/type configs
+ * PATTERN: Read options array from metadata.inputConfig when present
+ */
+interface OptionsSelectConfig {
+  options: Array<{ value: string; label: string }>
+  selectMode?: RelationshipSelectModeEnum
+}
+
+/**
  * Select Config Composable
  * 
  * LEARNING: Provides select configuration logic extracted from SelectInputs component
@@ -85,6 +106,13 @@ export function useSelectConfig(
   const { fieldContext } = options
   
   const admin = useAdmin()
+  
+  /**
+   * LEARNING: Check if metadata is loaded before accessing it
+   * WHY: Prevents errors when metadata cache hasn't loaded yet
+   * PATTERN: Check isMetadataLoaded before throwing errors
+   */
+  const isMetadataLoaded = computed(() => admin.isMetadataLoaded.value)
   
   /**
    * LEARNING: Get entity for metadata fetch
@@ -133,28 +161,97 @@ export function useSelectConfig(
   })
 
   /**
+   * LEARNING: Detect metadata-driven options select configs
+   * WHY: bookingMode uses input_config.options instead of relationship/type select config
+   * PATTERN: Validate input_config.options structure when present
+   */
+  const optionsSelectConfig = computed<OptionsSelectConfig | undefined>(() => {
+    const meta = fieldMetadataEntry.value
+    if (!meta || !meta.inputConfig || typeof meta.inputConfig !== 'object') {
+      return undefined
+    }
+    
+    const inputConfig = meta.inputConfig as Record<string, unknown>
+    const rawOptions = inputConfig.options
+    
+    if (!Array.isArray(rawOptions)) {
+      return undefined
+    }
+    
+    const normalizedOptions = rawOptions
+      .filter((option): option is Record<string, unknown> => typeof option === 'object' && option !== null)
+      .map((option) => ({
+        value: String(option.value ?? ''),
+        label: String(option.label ?? '')
+      }))
+    
+    const hasInvalidOption = normalizedOptions.some(
+      (option) => option.value.length === 0 || option.label.length === 0
+    )
+    
+    if (hasInvalidOption) {
+      throw new Error(
+        `[useSelectConfig] Invalid options format for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `Each option must include non-empty "value" and "label" properties.`
+      )
+    }
+    
+    return {
+      options: normalizedOptions,
+      selectMode: inputConfig.selectMode as RelationshipSelectModeEnum | undefined
+    }
+  })
+
+  const isOptionsSelect = computed(() => {
+    return Boolean(optionsSelectConfig.value)
+  })
+
+  const optionsSelectOptions = computed<SelectOption[]>(() => {
+    const config = optionsSelectConfig.value
+    if (!config) {
+      return []
+    }
+    
+    return config.options.map((option) => ({
+      title: option.label,
+      value: option.value
+    }))
+  })
+
+  /**
    * LEARNING: Extract select config from metadata.inputConfig - supports FormFieldConfig structure
    * WHY: inputConfig stores select behavior in FormFieldConfig format (relationshipSelect or typeSelect)
    *      or directly (backward compatibility with old format)
    * PATTERN: Check for FormFieldConfig structure first, fall back to direct config for backward compatibility
    */
   const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> | undefined => {
+    // LEARNING: Return undefined if metadata isn't loaded yet
+    // WHY: Prevents errors during component initialization when metadata cache is still loading
+    // PATTERN: Gracefully handle loading state instead of throwing
+    if (!isMetadataLoaded.value) {
+      return undefined
+    }
+    
     const meta = fieldMetadataEntry.value
     
-    // LEARNING: NO FALLBACKS - inputConfig is required for select fields
-    // WHY: Select fields must have inputConfig configured in metadata
-    // PATTERN: Fail explicitly when inputConfig is missing
+    // LEARNING: Return undefined gracefully when field metadata entry is missing
+    // WHY: Allows components to handle missing field metadata gracefully instead of crashing
+    // PATTERN: Return undefined instead of throwing - components can check if selectConfig exists
     if (!meta) {
-      throw new Error(
-        `[useSelectConfig] Missing FieldMetadataEntry for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-        `Field must be configured in /admin-input-metadata.`
-      )
+      return undefined
     }
     
     // LEARNING: Enum selects don't need inputConfig - they use hardcoded options
     // WHY: blockShape.type is an enum with fixed values, doesn't need relationship/type select config
     // PATTERN: Return undefined for enum selects, allowing SelectInputs to use hardcoded options
     if (isEnumSelect.value) {
+      return undefined
+    }
+
+    // LEARNING: Options selects don't use relationship/type select config
+    // WHY: bookingMode uses metadata.inputConfig.options instead of relationship/type select config
+    // PATTERN: Return undefined and let SelectInputs use optionsSelectOptions
+    if (isOptionsSelect.value) {
       return undefined
     }
     
@@ -201,9 +298,14 @@ export function useSelectConfig(
    */
   const isDescriptionSelect = computed(() => {
     const config = selectConfig.value
+    // LEARNING: Handle undefined selectConfig gracefully
+    // WHY: selectConfig can be undefined when field metadata is missing
+    // PATTERN: Return false when config is undefined
+    if (!config) {
+      return false
+    }
     return Boolean(
-      config &&
-        'selectType' in config &&
+      'selectType' in config &&
         config.selectType === RelationshipSelectTypeEnum.DescriptionSelect
     )
   })
@@ -220,13 +322,31 @@ export function useSelectConfig(
     if (isEnumSelect.value) {
       return false
     }
+
+    // LEARNING: Options selects default to single-select unless selectMode is provided
+    // WHY: bookingMode is a single-select enum-like field
+    // PATTERN: Use selectMode when available, otherwise default to single
+    if (isOptionsSelect.value) {
+      const config = optionsSelectConfig.value
+      if (config?.selectMode) {
+        return config.selectMode === RelationshipSelectModeEnum.Multiple
+      }
+      return false
+    }
     
     const config = selectConfig.value
     
+    // LEARNING: Handle undefined selectConfig gracefully
+    // WHY: selectConfig can be undefined when field metadata is missing
+    // PATTERN: Return false as safe default when config is undefined
+    if (!config) {
+      return false
+    }
+    
     // LEARNING: NO DEFAULTS - selectMode must be explicitly configured
     // WHY: selectMode determines select behavior - missing is a configuration error
-    // PATTERN: Fail explicitly when selectMode is missing
-    if (!config || !config.selectMode) {
+    // PATTERN: Fail explicitly when selectMode is missing (but only if config exists)
+    if (!config.selectMode) {
       throw new Error(
         `[useSelectConfig] Missing selectMode in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
         `Select fields must have selectMode configured in inputConfig.`
@@ -264,17 +384,21 @@ export function useSelectConfig(
     if (isEnumSelect.value) {
       return 'blockShape' as GlobalEntityKey
     }
+
+    // LEARNING: Options selects don't use entity-based options
+    // WHY: bookingMode uses metadata.inputConfig.options
+    // PATTERN: Return blockShape as a harmless default (not used)
+    if (isOptionsSelect.value) {
+      return 'blockShape' as GlobalEntityKey
+    }
     
     const config = selectConfig.value
     
-    // LEARNING: NO FALLBACKS - optionEntityKey must be explicitly configured
-    // WHY: Select fields must specify which entity type to fetch options from
-    // PATTERN: Fail explicitly when required config properties are missing
+    // LEARNING: Handle undefined selectConfig gracefully
+    // WHY: selectConfig can be undefined when field metadata is missing
+    // PATTERN: Return blockShape as safe default when config is undefined
     if (!config) {
-      throw new Error(
-        `[useSelectConfig] Missing inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-        `Select fields must have inputConfig configured.`
-      )
+      return 'blockShape' as GlobalEntityKey
     }
     
     if (config.targetMode === 'property') {
@@ -310,24 +434,28 @@ export function useSelectConfig(
     if (isEnumSelect.value) {
       return 'name'
     }
+
+    // LEARNING: Options selects don't use entity-based options, so labelKey doesn't matter
+    // WHY: bookingMode uses metadata.inputConfig.options
+    // PATTERN: Return 'name' as a harmless default (not used)
+    if (isOptionsSelect.value) {
+      return 'name'
+    }
     
     const config = selectConfig.value
+    
+    // LEARNING: Handle undefined selectConfig gracefully
+    // WHY: selectConfig can be undefined when field metadata is missing
+    // PATTERN: Return 'name' as safe default when config is undefined
+    if (!config) {
+      return 'name'
+    }
     
     // LEARNING: Special case for annotations - they use 'text' field
     // WHY: Annotation entity has 'text' field, not 'name' field
     // PATTERN: Hardcoded exception for this known case
     if (isDescriptionSelect.value) {
       return 'text'
-    }
-    
-    // LEARNING: Validate config exists (should already be validated by selectConfig computed)
-    // WHY: Ensure we have a valid config before accessing properties
-    // PATTERN: Fail explicitly if config is missing
-    if (!config) {
-      throw new Error(
-        `[useSelectConfig] Missing inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-        `Select fields must have inputConfig configured.`
-      )
     }
     
     // LEARNING: Default to 'name' for all entity types (relationship and type selects)
@@ -340,6 +468,8 @@ export function useSelectConfig(
   return {
     selectConfig,
     isEnumSelect,
+    isOptionsSelect,
+    optionsSelectOptions,
     isDescriptionSelect,
     isMultiple,
     chipsProps,

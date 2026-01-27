@@ -96,16 +96,19 @@ export function getStateControlBlockShapes(
   // WHY: Some transformers/tests intentionally pass "empty" booking data objects.
   const blockShapes = bookingData.blockShapes ?? []
   
-  // LEARNING: Prefer type-based filtering, fallback to constituable for migration period
-  // WHY: Type is explicit semantic identifier, constituable is property-based
+  // LEARNING: Strict type-based filtering - no fallbacks
+  // WHY: Fallbacks hide data configuration errors, making bugs hard to diagnose
   const filtered = blockShapes.filter(
     blockShape => {
-      // Prefer type if available (new approach)
-      if (blockShape.type === 'user') {
-        return true
+      if (!blockShape.type) {
+        console.error(
+          `[getStateControlBlockShapes] Block shape "${blockShape.name}" (id: ${blockShape.id}) has no type defined. ` +
+          `All block shapes must have a type ('user', 'service', 'property', 'option'). ` +
+          `This block shape will be excluded from filtering.`
+        )
+        return false
       }
-      // Fallback to constituable for backward compatibility
-      return blockShape.constituable === false
+      return blockShape.type === 'user'
     }
   )
   
@@ -249,3 +252,53 @@ export function getStateControlBlockInstanceOptions(
   ]
 }
 
+/**
+ * LEARNING: Generate incremented name for duplicated block instance
+ * WHY: Ensures unique names when duplicating instances
+ * PATTERN: Extract base name, check for number suffix, find next available number
+ * 
+ * @param currentName - Current name of the source entity
+ * @param blockShapeRef - BlockShape ID to filter instances
+ * @param getEntitiesByKey - Function to get all block instances
+ * @returns Incremented name like "Name 1", "Name 2", etc.
+ */
+export function generateIncrementedName(
+  currentName: string,
+  blockShapeRef: string,
+  getEntitiesByKey: (entityKey: 'blockInstance') => GlobalEntity<'blockInstance'>[]
+): string {
+  // Get all instances with same blockShapeRef
+  const allBlockInstances = getEntitiesByKey('blockInstance')
+  const instancesWithSameShape = allBlockInstances.filter(
+    (instance) => instance.blockShapeRef === blockShapeRef
+  )
+
+  // Check if name ends with a number pattern (e.g., "Name 1", "Name 2")
+  const numberPattern = /\s+(\d+)$/
+  const match = currentName.match(numberPattern)
+  
+  let baseName: string
+  let startNumber: number
+  
+  if (match) {
+    // Name ends with a number - extract base name and increment
+    baseName = currentName.substring(0, match.index).trim()
+    startNumber = parseInt(match[1], 10) + 1
+  } else {
+    // Name doesn't end with a number - use full name as base and start from 1
+    baseName = currentName
+    startNumber = 1
+  }
+
+  // Find the next available number
+  let newNumber = startNumber
+  while (
+    instancesWithSameShape.some(
+      (instance) => instance.name === `${baseName} ${newNumber}`
+    )
+  ) {
+    newNumber++
+  }
+
+  return `${baseName} ${newNumber}`
+}

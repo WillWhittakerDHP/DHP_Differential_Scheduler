@@ -29,17 +29,23 @@
       <p class="mt-4 text-body-2">Loading field metadata...</p>
     </div>
 
-    <div v-else-if="availableFields.length === 0" class="text-center pa-4">
+    <div v-else-if="draggableFieldKeys.length === 0" class="text-center pa-4">
       <p class="text-body-2 text-medium-emphasis">
         No field metadata found. Fields must be configured in the database.
       </p>
     </div>
 
     <div v-else class="d-flex flex-column gap-3">
-      <VExpansionPanels variant="accordion" class="mb-4">
+      <VExpansionPanels 
+        ref="expansionPanelsRef"
+        variant="accordion" 
+        class="mb-4"
+      >
         <VExpansionPanel
-          v-for="(fieldKey, index) in availableFields"
+          v-for="(fieldKey, index) in draggableFieldKeys"
           :key="fieldKey || `field-${index}`"
+          :data-field-key="fieldKey"
+          class="draggable-field-panel"
         >
           <VExpansionPanelTitle v-if="fieldKey">
             <div class="d-flex align-center justify-space-between w-100 pr-4">
@@ -125,33 +131,9 @@
                   @update:model-value="(value) => updateFieldRendering(fieldKey, { panel: value })"
                 />
                 
-                <!-- Display Order -->
-                <VTextField
-                  :model-value="getEffectiveFieldMetadata(fieldKey)?.displayOrder !== undefined ? String(getEffectiveFieldMetadata(fieldKey)!.displayOrder) : ''"
-                  label="Display Order"
-                  type="number"
-                  density="compact"
-                  variant="outlined"
-                  placeholder="Not Configured"
-                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
-                  @update:model-value="(value) => updateFieldRendering(fieldKey, { displayOrder: value ? Number(value) : undefined })"
-                />
-                
-                <!-- Render As -->
+                <!-- Status Button Color (only for booleans) -->
                 <VSelect
-                  :model-value="getEffectiveFieldMetadata(fieldKey)?.renderAs ?? undefined"
-                  :items="renderAsOptions"
-                  label="Render As"
-                  density="compact"
-                  variant="outlined"
-                  placeholder="Not Configured"
-                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
-                  @update:model-value="(value) => updateFieldRendering(fieldKey, { renderAs: value })"
-                />
-                
-                <!-- Status Button Color (only for statusButton) -->
-                <VSelect
-                  v-if="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'statusButton'"
+                  v-if="getEffectiveFieldMetadata(fieldKey)?.dataType === 'boolean'"
                   :model-value="getEffectiveFieldMetadata(fieldKey)?.statusButtonColor ?? undefined"
                   :items="colorOptions"
                   label="Status Button Color"
@@ -163,26 +145,44 @@
                 />
                 
                 <!-- Input Config (for select/multiselect/reference/partsCollection) -->
-                <VTextarea
-                  v-if="['select', 'multiselect', 'reference', 'partsCollection'].includes(getEffectiveFieldMetadata(fieldKey)?.renderAs ?? '')"
-                  :model-value="getEffectiveFieldMetadata(fieldKey)?.inputConfig ? JSON.stringify(getEffectiveFieldMetadata(fieldKey)!.inputConfig, null, 2) : ''"
-                  label="Input Config (JSON)"
-                  density="compact"
-                  variant="outlined"
-                  placeholder='{"targetMode": "relationship", "targetKey": "...", "candidateChildKey": "..."}'
-                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
-                  :hint="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'partsCollection' ? 'Required: candidateChildKey, targetKey (optionsFieldKey is hardcoded to validParts)' : 'Required for select/multiselect/reference fields'"
-                  persistent-hint
-                  rows="4"
-                  @update:model-value="(value) => {
-                    try {
-                      const parsed = value ? JSON.parse(value) : null
-                      updateFieldRendering(fieldKey, { inputConfig: parsed })
-                    } catch (e) {
-                      // Invalid JSON - don't update
-                    }
-                  }"
-                />
+                <template v-if="['select', 'multiselect', 'reference', 'partsCollection'].includes(getEffectiveFieldMetadata(fieldKey)?.renderAs ?? '')">
+                  <!-- Options-based selects (like bookingMode) -->
+                  <VTextarea
+                    v-if="getInputConfigData(fieldKey).options !== null && getInputConfigData(fieldKey).targetMode === null"
+                    :model-value="getInputConfigData(fieldKey).options ? JSON.stringify(getInputConfigData(fieldKey).options, null, 2) : ''"
+                    label="Options (JSON Array)"
+                    density="compact"
+                    variant="outlined"
+                    placeholder='["option1", "option2", "option3"]'
+                    :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
+                    hint="Array of option values"
+                    persistent-hint
+                    rows="3"
+                    @update:model-value="(value) => {
+                      try {
+                        const parsed = value ? JSON.parse(value) : null
+                        updateInputConfigField(fieldKey, 'options', parsed)
+                      } catch (e) {
+                        // Invalid JSON - don't update
+                      }
+                    }"
+                  />
+                  
+                  <!-- Select Mode (for relationship/property selects) -->
+                  <VSelect
+                    v-else
+                    :model-value="getInputConfigData(fieldKey).selectMode"
+                    :items="selectModeOptions"
+                    label="Select Mode"
+                    density="compact"
+                    variant="outlined"
+                    placeholder="Select mode"
+                    :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
+                    hint="How the select field behaves (single selection, multiple selection, required, or nested)"
+                    persistent-hint
+                    @update:model-value="(value) => updateInputConfigField(fieldKey, 'selectMode', value)"
+                  />
+                </template>
 
                 <!-- Bulk Edit -->
                 <VCheckbox
@@ -202,10 +202,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive } from 'vue'
+import { computed, ref, reactive, onMounted, onBeforeUnmount, nextTick, watch, type ComponentPublicInstance } from 'vue'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useAdminMetadataMutations } from '@/composables/admin/useAdminMetadataMutations'
 import { getEntityTypeLabel } from '@/utils/admin/entityDisplayText'
+import { dragAndDrop } from '@formkit/drag-and-drop/vue'
+import { animations } from '@formkit/drag-and-drop'
+import { getPanelsElement } from '@/composables/admin/useDragAndDropHelpers'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -218,6 +222,9 @@ import {
   PART_INSTANCE_GLOBAL_CONFIG_ID,
   BLOCK_INSTANCE_GLOBAL_CONFIG_ID
 } from '@/utils/entities/entityTypeMapping'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('AdminPrimitiveMetadataEditor')
 
 interface Props {
   entityKey: GlobalEntityKey
@@ -301,6 +308,11 @@ const { fieldMetadata, isLoading } = useEntityMetadata(
 // PATTERN: Single mutation accepts all fieldKeys, backend routes based on type
 const { saveFieldMetadata, deleteFieldMetadata, isSaving } = useAdminMetadataMutations()
 
+// LEARNING: Query client for manual refetch control
+// WHY: Need to await refetch before clearing pendingChanges to prevent UI flash
+// PATTERN: Use queryClient to manually refetch after mutations complete
+const queryClient = useQueryClient()
+
 // Track pending changes (for instance override mode)
 const pendingOverrides = ref<Set<string>>(new Set())
 const pendingDeletes = ref<Set<string>>(new Set())
@@ -316,13 +328,41 @@ const allPossibleFieldKeys = computed<GlobalFieldKey<GlobalEntityKey>[]>(() => {
   return Object.keys(fieldMetadata.value) as GlobalFieldKey<GlobalEntityKey>[]
 })
 
-// Available fields: merge all possible fields with fields that have metadata
-// This ensures we show ALL fields, even if they don't have metadata entries yet
-const availableFields = computed(() => {
+// LEARNING: Available fields sorted by displayOrder for drag-and-drop
+// WHY: Fields should be displayed in their configured order, allowing drag-and-drop reordering
+// PATTERN: Sort by displayOrder, then alphabetically for fields without order
+const availableFieldsSorted = computed(() => {
   const metadataKeys = Object.keys(fieldMetadata.value || {})
   const allKeys = new Set([...allPossibleFieldKeys.value, ...metadataKeys])
-  return Array.from(allKeys).sort()
+  const fields = Array.from(allKeys)
+  
+  // Sort by displayOrder first, then alphabetically
+  return fields.sort((a, b) => {
+    const metaA = getFieldMetadata(a)
+    const metaB = getFieldMetadata(b)
+    const orderA = metaA?.displayOrder ?? 999
+    const orderB = metaB?.displayOrder ?? 999
+    
+    if (orderA !== orderB) {
+      return orderA - orderB
+    }
+    
+    // If same order, sort alphabetically
+    return a.localeCompare(b)
+  })
 })
+
+// LEARNING: Reactive array for drag-and-drop reordering
+// WHY: Need mutable array that can be reordered during drag operations
+// PATTERN: Ref array that syncs with computed sorted fields
+const draggableFieldKeys = ref<string[]>([])
+
+// LEARNING: Sync draggableFieldKeys with availableFieldsSorted
+// WHY: Keep drag-and-drop array in sync with computed sorted fields
+// PATTERN: Watch computed and update ref array
+watch(availableFieldsSorted, (newFields) => {
+  draggableFieldKeys.value = [...newFields]
+}, { immediate: true })
 
 // LEARNING: Use config-driven entity type label
 // WHY: Eliminates entityKey branching (if/else chain) - single source of truth
@@ -358,6 +398,73 @@ function getEffectiveFieldMetadata(fieldKey: string) {
     ...existing,
     ...pending,
   } as import('@/types/entityMetadata').FieldMetadataEntry | undefined
+}
+
+/**
+ * LEARNING: Auto-compute renderAs based on dataType and inputConfig
+ * WHY: renderAs should be automatically determined, not manually configured
+ * PATTERN: Compute renderAs from field characteristics
+ */
+function computeRenderAs(
+  dataType: string | undefined,
+  inputConfig: Record<string, unknown> | null | undefined,
+  fieldKey: string
+): import('@/types/entityMetadata').FieldMetadataEntry['renderAs'] {
+  // Special cases first
+  if (fieldKey === 'icon') {
+    return 'iconSelect'
+  }
+  
+  // If inputConfig exists, determine select type from config
+  if (inputConfig) {
+    const selectType = inputConfig.selectType as string | undefined
+    if (selectType === 'partsCollectionSelect') {
+      return 'partsCollection'
+    }
+    const selectMode = inputConfig.selectMode as string | undefined
+    if (selectMode === 'multiple') {
+      return 'multiselect'
+    }
+    // Default to reference for relationship selects
+    if (inputConfig.targetMode === 'relationship') {
+      return 'reference'
+    }
+    // Default to select for other selects
+    return 'select'
+  }
+  
+  // Base renderAs on dataType
+  if (dataType === 'boolean') {
+    return 'statusButton'
+  }
+  if (dataType === 'number') {
+    return 'number'
+  }
+  if (dataType === 'array') {
+    return 'reference'
+  }
+  
+  // Default to text for string and other types
+  return 'text'
+}
+
+/**
+ * LEARNING: Get computed renderAs for display
+ * WHY: Show auto-computed renderAs value in UI (read-only)
+ * PATTERN: Compute from effective metadata
+ */
+function getComputedRenderAs(fieldKey: string): string {
+  const meta = getEffectiveFieldMetadata(fieldKey)
+  if (!meta) {
+    return 'Not configured'
+  }
+  
+  // Use existing renderAs if present, otherwise compute it
+  if (meta.renderAs) {
+    return meta.renderAs
+  }
+  
+  return computeRenderAs(meta.dataType, meta.inputConfig, fieldKey)
 }
 
 // Check if field has metadata entry (exists in database)
@@ -409,20 +516,49 @@ function updateFieldRendering(fieldKey: string, updates: Partial<import('@/types
     toggleOverride(fieldKey, true)
   }
   
+  // LEARNING: Auto-compute renderAs when dataType or inputConfig changes
+  // WHY: renderAs should always be computed, not manually set
+  // PATTERN: Compute renderAs if dataType or inputConfig is being updated
+  const effectiveMeta = getEffectiveFieldMetadata(fieldKey)
+  const newDataType = updates.dataType ?? effectiveMeta?.dataType
+  const newInputConfig = updates.inputConfig !== undefined ? updates.inputConfig : effectiveMeta?.inputConfig
+  
+  // Auto-compute renderAs if dataType or inputConfig changed
+  if (updates.dataType !== undefined || updates.inputConfig !== undefined) {
+    updates.renderAs = computeRenderAs(newDataType, newInputConfig, fieldKey)
+  }
+  
+  // LEARNING: Validate panel based on visibility
+  // WHY: Panel must be 'none' for titleRow and expandedDirect, required for expandedPanel
+  // PATTERN: Normalize panel value when visibility changes
+  if (updates.visibility !== undefined) {
+    const newVisibility = updates.visibility
+    if (newVisibility === 'titleRow' || newVisibility === 'expandedDirect' || newVisibility === 'staticAsTitle') {
+      // Panel must be 'none' for these visibility types
+      updates.panel = 'none'
+    } else if (newVisibility === 'expandedPanel') {
+      // Panel must be set for expandedPanel (default to 'parts' if not set)
+      const currentPanel = updates.panel ?? effectiveMeta?.panel
+      if (!currentPanel || currentPanel === 'none') {
+        updates.panel = 'parts'
+      }
+    }
+  }
+  
   pendingChanges[fieldKey] = { ...pendingChanges[fieldKey], ...updates }
 }
 
 // Save all changes
 async function handleSave() {
   if (!entityType.value || !entityId.value) {
-    console.error('[AdminPrimitiveMetadataEditor] Cannot save: invalid entityType or entityId')
+    logger.error('Cannot save: invalid entityType or entityId')
     return
   }
 
   try {
     // LEARNING: Debug logging to trace save flow
     // WHY: Help diagnose why saves aren't persisting
-    console.log('[AdminPrimitiveMetadataEditor] Starting save:', {
+    logger.debug('Starting save:', {
       entityType: entityType.value,
       entityId: entityId.value,
       blockShapeRef: props.blockShapeRef || null,
@@ -437,9 +573,23 @@ async function handleSave() {
     // PATTERN: Single mutation call, no routing logic needed
     for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
       const existingMeta = getFieldMetadata(fieldKey)
-      console.log('[AdminPrimitiveMetadataEditor] Saving field:', {
+      
+      // LEARNING: Auto-compute renderAs before saving if not explicitly set
+      // WHY: renderAs should always be computed from dataType and inputConfig
+      // PATTERN: Compute renderAs if missing or if dataType/inputConfig changed
+      const effectiveMeta = getEffectiveFieldMetadata(fieldKey)
+      const finalUpdates = { ...updates }
+      
+      // Ensure renderAs is computed
+      if (!finalUpdates.renderAs || updates.dataType !== undefined || updates.inputConfig !== undefined) {
+        const dataType = finalUpdates.dataType ?? effectiveMeta?.dataType
+        const inputConfig = finalUpdates.inputConfig !== undefined ? finalUpdates.inputConfig : effectiveMeta?.inputConfig
+        finalUpdates.renderAs = computeRenderAs(dataType, inputConfig, fieldKey)
+      }
+      
+      logger.debug('Saving field:', {
         fieldKey,
-        updates,
+        updates: finalUpdates,
         hasExistingMeta: !!existingMeta,
         existingMeta
       })
@@ -448,7 +598,7 @@ async function handleSave() {
         entityType: entityType.value,
         entityId: entityId.value,
         fieldKey,
-        renderingUpdates: updates,
+        renderingUpdates: finalUpdates,
         existingMetadata: existingMeta,
         blockShapeRef: props.blockShapeRef || null
       })
@@ -469,7 +619,12 @@ async function handleSave() {
       }
     }
 
-    // Clear pending changes
+    // LEARNING: Await refetch before clearing pendingChanges
+    // WHY: Prevents UI flash - pendingChanges maintain display until fresh data arrives
+    // PATTERN: Manually refetch and await completion before clearing pending state
+    await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
+
+    // Clear pending changes AFTER refetch completes
     Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
     pendingOverrides.value.clear()
     pendingDeletes.value.clear()
@@ -477,7 +632,7 @@ async function handleSave() {
     // Emit saved event
     emit('saved')
   } catch (error) {
-    console.error('[AdminPrimitiveMetadataEditor] Error saving metadata:', error)
+    logger.error('Error saving metadata:', error)
     throw error
   }
 }
@@ -515,16 +670,196 @@ const renderAsOptions = [
   { title: 'Parts Collection', value: 'partsCollection' },
 ] as const
 
+// LEARNING: Status button color options ordered by ROY G BIV (Rainbow Order)
+// WHY: Makes it easier to identify colors - explicit color names instead of semantic names
+// PATTERN: ROY G BIV order: Red, Orange, Yellow, Green, Blue, Indigo, Violet, plus Grey and Brown
 const colorOptions = [
-  { title: 'Default', value: 'default' },
-  { title: 'Success', value: 'success' },
-  { title: 'Primary', value: 'primary' },
-  { title: 'Info', value: 'info' },
-  { title: 'Warning', value: 'warning' },
-  { title: 'Error', value: 'error' },
-  { title: 'Secondary', value: 'secondary' },
-  { title: 'Purple', value: 'purple' },
+  { title: 'Red', value: 'error' },
+  { title: 'Orange', value: 'secondary' },
+  { title: 'Yellow', value: 'yellow' },
+  { title: 'Green', value: 'success' },
+  { title: 'Blue', value: 'info' },
+  { title: 'Indigo', value: 'primary' },
+  { title: 'Violet', value: 'purple' },
+  { title: 'Grey', value: 'grey' },
+  { title: 'Brown', value: 'brown' },
 ] as const
+
+// LEARNING: Select Mode options for inputConfig
+// WHY: Allow admins to configure how select fields behave (single/multiple/required/nested)
+// PATTERN: Simple dropdown options
+const selectModeOptions = [
+  { title: 'Single', value: 'Single' },
+  { title: 'Multiple', value: 'Multiple' },
+  { title: 'Required', value: 'Required' },
+  { title: 'Nested', value: 'Nested' },
+] as const
+
+/**
+ * LEARNING: Parse inputConfig into form-friendly structure
+ * WHY: Extract individual fields from inputConfig object for form editing
+ * PATTERN: Read from inputConfig, provide defaults for missing fields
+ */
+function getInputConfigData(fieldKey: string) {
+  const meta = getEffectiveFieldMetadata(fieldKey)
+  const inputConfig = meta?.inputConfig as Record<string, unknown> | null | undefined
+  
+  if (!inputConfig || typeof inputConfig !== 'object') {
+    return {
+      targetMode: null as string | null,
+      selectMode: null as string | null,
+      targetKey: null as string | null,
+      candidateChildKey: null as string | null,
+      groupByKey: null as string | null,
+      placeholder: null as string | null,
+      options: null as unknown[] | null,
+    }
+  }
+  
+  // Handle FormFieldConfig structure (new format)
+  let config = inputConfig
+  if ('relationshipSelect' in inputConfig && inputConfig.relationshipSelect) {
+    config = inputConfig.relationshipSelect as Record<string, unknown>
+  } else if ('typeSelect' in inputConfig && inputConfig.typeSelect) {
+    config = inputConfig.typeSelect as Record<string, unknown>
+  }
+  
+  return {
+    targetMode: (config.targetMode as string) || null,
+    selectMode: (config.selectMode as string) || null,
+    targetKey: (config.targetKey as string) || null,
+    candidateChildKey: (config.candidateChildKey as string) || null,
+    groupByKey: (config.groupByKey as string) || null,
+    placeholder: (config.placeholder as string) || null,
+    options: (inputConfig.options as unknown[]) || null, // Options array (for options-based selects)
+  }
+}
+
+/**
+ * LEARNING: Update a specific field in inputConfig
+ * WHY: Helper function to update individual inputConfig fields without replacing the entire object
+ * PATTERN: Read current inputConfig, update specific field, reconstruct object
+ */
+function updateInputConfigField(fieldKey: string, fieldName: keyof ReturnType<typeof getInputConfigData>, value: unknown) {
+  const currentData = getInputConfigData(fieldKey)
+  const updatedData = { ...currentData, [fieldName]: value }
+  const newConfig = buildInputConfig(fieldKey, updatedData)
+  updateFieldRendering(fieldKey, { inputConfig: newConfig })
+}
+
+/**
+ * LEARNING: Construct inputConfig object from form values
+ * WHY: Build inputConfig object when form fields change
+ * PATTERN: Construct object based on targetMode and field values
+ */
+function buildInputConfig(fieldKey: string, formData: ReturnType<typeof getInputConfigData>): Record<string, unknown> | null {
+  // Handle options-based selects (like bookingMode)
+  if (formData.options !== null) {
+    return {
+      options: formData.options
+    }
+  }
+  
+  // Handle empty/not configured
+  if (!formData.targetMode || !formData.selectMode) {
+    return null
+  }
+  
+  const baseConfig: Record<string, unknown> = {
+    targetMode: formData.targetMode,
+    selectMode: formData.selectMode,
+  }
+  
+  if (formData.targetMode === 'relationship') {
+    if (formData.targetKey) {
+      baseConfig.targetKey = formData.targetKey
+    }
+    if (formData.candidateChildKey) {
+      baseConfig.candidateChildKey = formData.candidateChildKey
+    }
+    if (formData.groupByKey) {
+      baseConfig.groupByKey = formData.groupByKey
+    }
+    if (formData.placeholder) {
+      baseConfig.placeholder = formData.placeholder
+    }
+    
+    // For partsCollection, ensure optionsFieldKey is set
+    const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
+    if (renderAs === 'partsCollection') {
+      baseConfig.optionsFieldKey = 'validParts'
+    }
+  } else if (formData.targetMode === 'property') {
+    if (formData.targetKey) {
+      baseConfig.targetKey = formData.targetKey
+    }
+    if (formData.placeholder) {
+      baseConfig.placeholder = formData.placeholder
+    }
+  }
+  
+  return baseConfig
+}
+
+// LEARNING: Template ref for expansion panels container
+// WHY: Need DOM reference to initialize drag-and-drop
+const expansionPanelsRef = ref<ComponentPublicInstance | HTMLElement | null>(null)
+
+// LEARNING: Handle drag end to update displayOrder values
+// WHY: When fields are reordered, update displayOrder based on new position
+// PATTERN: Normalize displayOrder to sequential values (0, 1, 2, ...)
+const handleDragEnd = () => {
+  // Update displayOrder for each field based on its new position
+  draggableFieldKeys.value.forEach((fieldKey, index) => {
+    const currentMeta = getEffectiveFieldMetadata(fieldKey)
+    const currentOrder = currentMeta?.displayOrder ?? 999
+    
+    // Only update if order changed
+    if (currentOrder !== index) {
+      updateFieldRendering(fieldKey, { displayOrder: index })
+    }
+  })
+}
+
+// LEARNING: Initialize drag-and-drop on expansion panels
+// WHY: Enable drag-and-drop reordering of fields
+// PATTERN: Set up drag-and-drop after component mounts, cleanup on unmount
+let dragInstance: ReturnType<typeof dragAndDrop> | null = null
+
+onMounted(() => {
+  nextTick(() => {
+    if (!expansionPanelsRef.value) return
+    
+    // Get the actual DOM element from VExpansionPanels component
+    const panelsElement = getPanelsElement(expansionPanelsRef.value, null)
+    if (!panelsElement) return
+    
+    try {
+      dragInstance = dragAndDrop({
+        parent: panelsElement,
+        values: draggableFieldKeys,
+        draggable: (el) => {
+          // Make all expansion panels draggable by checking for draggable-field-panel class
+          return el instanceof HTMLElement && el.classList?.contains('draggable-field-panel')
+        },
+        plugins: [animations()],
+        handleEnd: () => {
+          handleDragEnd()
+        },
+      })
+    } catch (error) {
+      logger.error('Error setting up drag-and-drop:', error)
+    }
+  })
+})
+
+onBeforeUnmount(() => {
+  // Cleanup drag-and-drop instance
+  if (dragInstance) {
+    // @formkit/drag-and-drop handles cleanup automatically, but we can clear the ref
+    dragInstance = null
+  }
+})
 
 // Expose save functionality to parent component
 defineExpose({

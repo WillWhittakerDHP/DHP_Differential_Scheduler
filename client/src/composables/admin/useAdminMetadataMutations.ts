@@ -18,8 +18,11 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAdminMetadataEndpoint } from '@/utils/api'
 import type { EntityMetadataType, FieldMetadataEntry } from '@/types/entityMetadata'
 import { buildMetadataEntry } from '@/utils/admin/buildMetadataEntry'
-import { useGlobal } from '@/composables/useGlobal'
+import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useAdminMetadataMutations')
 
 /**
  * Save field rendering configuration
@@ -36,7 +39,7 @@ import { RELATIONSHIP_KEYS } from '@/constants/relationships'
  */
 export function useAdminMetadataMutations() {
   const queryClient = useQueryClient()
-  const { getGlobalData } = useGlobal()
+  const { getFieldMetadata } = useMetadataCache()
 
   const saveFieldMetadataMutation = useMutation({
     mutationFn: async ({
@@ -59,17 +62,11 @@ export function useAdminMetadataMutations() {
       // PATTERN: Like entity mutations accept fields (primitives + relationships) and dehydrate together
       //          Metadata mutations should accept existingMetadata and use it directly
       
-      // LEARNING: Get existingMetadata from unified metadata source (declarative - like dehydrateEntity gets from entity)
+      // LEARNING: Get existingMetadata from metadata cache if not provided
       // WHY: Ensure we're using the correct source for metadata entries
-      // PATTERN: Get unified metadata from GlobalData, extract fieldKey entry (declarative object access)
-      // Session 1.4.10: Unified metadata - single structure, no separation
-      const globalData = getGlobalData()
-      if (globalData?.metadata && !existingMetadata) {
-        const metadata = globalData.metadata[entityType]?.[entityId] || {}
-        // LEARNING: Direct access to fieldKey entry (declarative - like dehydrateEntity accesses entity fields)
-        // WHY: Get existingMetadata from unified metadata source if not provided
-        // PATTERN: Simple object property access, no filtering
-        existingMetadata = metadata[fieldKey]
+      // PATTERN: Use lazy-loaded metadata cache instead of globalData
+      if (!existingMetadata) {
+        existingMetadata = getFieldMetadata(entityType, fieldKey, blockShapeRef)
       }
 
       // LEARNING: NO FALLBACKS - existingMetadata is required for new fields
@@ -106,7 +103,7 @@ export function useAdminMetadataMutations() {
       
       // LEARNING: Debug logging to trace save flow
       // WHY: Help diagnose why saves aren't persisting
-      console.log('[useAdminMetadataMutations] Saving metadata:', {
+      logger.debug('Saving metadata:', {
         endpoint,
         entityType,
         entityId,
@@ -119,26 +116,14 @@ export function useAdminMetadataMutations() {
       
       const response = await apiClient.post(endpoint, fullEntry)
       
-      console.log('[useAdminMetadataMutations] Save response:', response.data)
+      logger.debug('Save response:', response.data)
       
       return response.data
     },
-    onSuccess: (_, variables) => {
-      // LEARNING: Invalidate metadata queries using predicate for robust matching
-      // WHY: Ensures all queries with matching entityType and entityId are invalidated
-      //      This handles cases where query keys might be constructed differently
-      // PATTERN: Use predicate to match query key pattern instead of exact key
-      queryClient.invalidateQueries({
-        predicate: (query) => {
-          const queryKey = query.queryKey
-          // Match unified metadata endpoint pattern: ['globalData'] or ['admin-metadata', ...]
-          return (
-            (Array.isArray(queryKey) && queryKey[0] === 'globalData') ||
-            (Array.isArray(queryKey) && queryKey[0] === 'admin-metadata' && 
-             queryKey[1] === variables.entityType && queryKey[2] === variables.entityId)
-          )
-        },
-      })
+    onSuccess: () => {
+      // LEARNING: Refetch handled manually in handleSave to await completion
+      // WHY: Need to await refetch before clearing pendingChanges to prevent UI flash
+      // PATTERN: Manual refetch in handleSave after mutations complete
     },
   })
 
@@ -159,27 +144,16 @@ export function useAdminMetadataMutations() {
       const url = blockShapeRef ? `${endpoint}?blockShapeRef=${blockShapeRef}` : endpoint
       await apiClient.delete(url)
     },
-    onSuccess: (_, variables) => {
-      // LEARNING: Invalidate metadata queries using predicate for robust matching
-      // WHY: Ensures all queries with matching entityType and entityId are invalidated
-      // PATTERN: Use predicate to match query key pattern instead of exact key
-      queryClient.invalidateQueries({
-        predicate: (query) => {
-          const queryKey = query.queryKey
-          // Match unified metadata endpoint pattern: ['globalData'] or ['admin-metadata', ...]
-          return (
-            (Array.isArray(queryKey) && queryKey[0] === 'globalData') ||
-            (Array.isArray(queryKey) && queryKey[0] === 'admin-metadata' && 
-             queryKey[1] === variables.entityType && queryKey[2] === variables.entityId)
-          )
-        },
-      })
+    onSuccess: () => {
+      // LEARNING: Refetch handled manually in handleSave to await completion
+      // WHY: Need to await refetch before clearing pendingChanges to prevent UI flash
+      // PATTERN: Manual refetch in handleSave after mutations complete
     },
   })
 
   return {
-    saveFieldMetadata: saveFieldMetadataMutation.mutate,
-    deleteFieldMetadata: deleteFieldMetadataMutation.mutate,
+    saveFieldMetadata: saveFieldMetadataMutation.mutateAsync,
+    deleteFieldMetadata: deleteFieldMetadataMutation.mutateAsync,
     isSaving: saveFieldMetadataMutation.isPending,
     isDeleting: deleteFieldMetadataMutation.isPending,
   }

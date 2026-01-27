@@ -9,15 +9,15 @@
 import { computed, ref, watchEffect, type ComputedRef, type Ref } from 'vue'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import { fitAllTimeSlotsWithAvailability, DEFAULT_INCLUDE_FLAGS, type BusinessHoursMap, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
-import { rfc3339ToBusinessHoursTime } from '@/utils/datetime'
+import { fitAllTimeSlotsWithAvailability, DEFAULT_INCLUDE_FLAGS, type BusyTimeRange, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
 import type { ISO8601Date, RFC3339DateTime, DayOfWeek } from '@/types/datetime'
-import { createLogger } from '@/utils/logger'
+import type { TimeSlot } from '@/types/appointment'
+import { useNotification } from '@/composables/useNotification'
+import { ConstraintValidationError } from '@/utils/booking/timeAvailabilityManager'
+import { extractAllConstraints, ensureDateRangeInSettings } from '@/utils/booking/constraintHelpers'
+import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
 
-// LEARNING: Use scoped logger for controllable debug output
-// WHY: Prevents debug logs in production, allows scope-based filtering
-// PATTERN: createLogger(scope) provides debug/info/warn/error methods
-const logger = createLogger('useAvailableStartTimes')
+const { error: showErrorNotification } = useNotification()
 
 interface UseAvailableStartTimesParams {
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
@@ -63,28 +63,33 @@ export function useAvailableStartTimes(
       internalSettings.value = settings
       error.value = null
     } catch (err) {
-      error.value = err instanceof Error ? err : new Error('Failed to load availability settings')
-      logger.error('Error loading availability settings:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
+      error.value = err instanceof Error ? err : new Error(errorMessage)
+      showErrorNotification(`Failed to load availability settings: ${errorMessage}`)
     } finally {
       isLoading.value = false
     }
   })
   
-  // LEARNING: Shared slot generation computed
-  // WHY: Generates slots once, eliminates duplicate computation (50% performance gain)
-  // PATTERN: Computed that returns full result, derived computeds extract what they need
-  const slotGenerationResult = computed(() => {
+  // LEARNING: Ref for slot generation result (reactive)
+  // WHY: Provides reactive slot generation that updates when dependencies change
+  // PATTERN: Ref with watchEffect to update asynchronously when dependencies change
+  // FIXED: Changed from computed to ref+watchEffect to handle async fitAllTimeSlotsWithAvailability
+  const slotGenerationResult = ref<{ slots: TimeSlot[]; earliestCompletion: RFC3339DateTime | null }>({ slots: [], earliestCompletion: null })
+
+  // LEARNING: Watch dependencies and update slot generation result asynchronously
+  // WHY: Updates slot generation when selectedDate, settings, appointmentDuration, or busyTimes change
+  // PATTERN: WatchEffect tracks dependencies, calls async function to update ref
+  watchEffect(async () => {
     if (!selectedDate.value.start) {
-      logger.debug('No selected date')
-      return { slots: [], earliestCompletion: null }
+      slotGenerationResult.value = { slots: [], earliestCompletion: null }
+      return
     }
     
     if (!internalSettings.value) {
-      logger.debug('Settings not loaded yet, date:', selectedDate.value.start)
-      return { slots: [], earliestCompletion: null }
+      slotGenerationResult.value = { slots: [], earliestCompletion: null }
+      return
     }
-    
-    logger.debug('Generating slots for date:', selectedDate.value.start, 'settings loaded:', !!internalSettings.value)
     
     // LEARNING: Parse date and convert to UTC for boundary calculations
     // WHY: Boundaries must be UTC to match busy periods and slot generation
@@ -96,139 +101,133 @@ export function useAvailableStartTimes(
     
     const [year, month, day] = dateString.split('-').map(Number)
     if (isNaN(year) || isNaN(month) || isNaN(day)) {
-      logger.error('Invalid date string:', dateString)
-      return { slots: [], earliestCompletion: null }
+      const errorMessage = `Invalid date string: ${dateString}`
+      error.value = new Error(errorMessage)
+      showErrorNotification(errorMessage)
+      slotGenerationResult.value = { slots: [], earliestCompletion: null }
+      return
     }
     
-    // LEARNING: Create date in LOCAL timezone for business hours interpretation
-    // WHY: Business hours are LOCAL time-of-day, so we need local date components
-    // PATTERN: Create local date, then convert to UTC for boundaries
-    const dateLocal = new Date(year, month - 1, day, 0, 0, 0) // Local midnight for the selected date
+    // LEARNING: Use UTC day of week for business hours
+    // WHY: All business rules are UTC-only; UI performs the only localization
+    // PATTERN: Create UTC date and use getUTCDay()
+    const dateUTC = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0))
+    const dayOfWeek: DayOfWeek = dateUTC.getUTCDay() as DayOfWeek
     
-    // P3-4: Use DayOfWeek type instead of inline casting
-    const dayOfWeek: DayOfWeek = dateLocal.getDay() as DayOfWeek  // getDay() always returns 0-6
-    const dayHours = internalSettings.value.businessHours[dayOfWeek]
+    // LEARNING: Extract businessHours from structured rangeConstraints
+    // WHY: No top-level businessHours fallback - must use structured format
+    const businessHoursConstraint = internalSettings.value.rangeConstraints?.businessHours
+    if (!businessHoursConstraint || businessHoursConstraint.type !== 'businessHours') {
+      throw new Error('businessHours must be provided in rangeConstraints.businessHours')
+    }
+    const businessHours = (businessHoursConstraint.config as { hours: BusinessHoursMap }).hours
+    if (!businessHours) {
+      throw new Error('businessHours config.hours must be provided')
+    }
+    
+    const dayHours = businessHours[dayOfWeek]
     
     if (!dayHours) {
-      logger.warn(`No business hours for day ${dayOfWeek}`)
-      return { slots: [], earliestCompletion: null }
+      slotGenerationResult.value = { slots: [], earliestCompletion: null }
+      return
     }
     
-    // LEARNING: Extract time-of-day from business hours (LOCAL time, not UTC)
-    // WHY: Business hours represent LOCAL time-of-day (e.g., "09:00" = 9 AM local)
-    // PATTERN: Extract HH:mm and apply to local date, then convert to UTC
-    const endTimeStr = rfc3339ToBusinessHoursTime(dayHours.end)
-    const [endHour, endMinute] = endTimeStr.split(':').map(Number)
-    
-    if (isNaN(endHour) || isNaN(endMinute)) {
-      logger.error('Invalid time format:', {
-        end: dayHours.end,
-        endTimeStr
-      })
-      return { slots: [], earliestCompletion: null }
+    // LEARNING: Extract time-of-day from business hours (UTC time-of-day)
+    // WHY: All business rules are UTC-only; UI performs the only localization
+    // PATTERN: Extract UTC hours/minutes from RFC3339 business hours
+    const endDate = new Date(dayHours.end)
+    if (isNaN(endDate.getTime())) {
+      error.value = new Error(`Invalid business hours end time for day ${dayOfWeek}: ${dayHours.end}`)
+      showErrorNotification(`Invalid business hours configuration for selected day`)
+      slotGenerationResult.value = { slots: [], earliestCompletion: null }
+      return
     }
     
-    // LEARNING: Calculate end boundary in LOCAL timezone, then it will be converted to UTC
-    // WHY: Business hours are LOCAL time, so apply to local date
-    // PATTERN: Create local datetime with business hours, convert to UTC when needed
+    // LEARNING: Extract business hours as local time-of-day values
+    // WHY: Business hours stored as RFC3339 with reference date represent local time-of-day, not UTC times
+    // PATTERN: Use useLocalTime composable to extract local hours/minutes from business hours RFC3339
+    const endTime = extractBusinessHoursMinutes(endDate.toISOString() as RFC3339DateTime)
+    const endHour = endTime.hours
+    const endMinute = endTime.minutes
+    
+    // ARCHITECTURE DECISION: Intentional Exception for Business Hours Interpretation
+    // --------------------------------------------------------------------------------
+    // LEARNING: Business hours are stored as RFC3339 with reference date (2000-01-01T09:00:00Z)
+    //           but represent LOCAL time-of-day (e.g., "9:00 AM" in admin's local timezone)
+    // WHY: Business hours are semantic time-of-day values, not absolute UTC times
+    //      When admin sets "9:00 AM" business hours, they mean 9:00 AM in their local timezone
+    // PATTERN: Extract UTC hours/minutes from reference date, interpret as local time-of-day
+    //          Create Date objects in local timezone, then convert to UTC RFC3339
+    //
+    // This is an intentional exception to the UTC-only principle because:
+    // 1. Business hours semantically represent local time-of-day
+    // 2. We need to create boundaries that align with local business hours
+    // 3. Converting local Date to UTC via toISOString() ensures correct UTC representation
+    //
+    // FUTURE IMPROVEMENT: Consider storing admin timezone in settings and using UTC methods
+    //                    with explicit timezone conversion for more predictable behavior
+    // --------------------------------------------------------------------------------
+    // Create start of day in local timezone (midnight local), convert to UTC RFC3339
+    const startBoundaryLocal = new Date(year, month - 1, day, 0, 0, 0, 0)
+    const startBoundaryUTCString = startBoundaryLocal.toISOString() as RFC3339DateTime
+    let startBoundaryUTC = new Date(startBoundaryUTCString)
+    
+    // Create end boundary in local timezone using business hours, convert to UTC RFC3339
     const endBoundaryLocal = new Date(year, month - 1, day, endHour, endMinute, 0, 0)
+    const endBoundaryUTCString = endBoundaryLocal.toISOString() as RFC3339DateTime
+    const endBoundaryUTC = new Date(endBoundaryUTCString)
+    
+    // LEARNING: Slot generation always starts at increment boundaries from midnight UTC
+    // WHY: Ensures consistent slot generation regardless of current time - all days start at :00, :15, :30, :45
+    // PATTERN: Do NOT adjust startBoundary based on current time - leadTime filtering happens later in constraint checking
+    // NOTE: startBoundaryUTC remains at midnight of selected day - slot generation will round to increment boundaries
     
     const duration = appointmentDuration?.value || 0
     const busyPeriods = busyTimes?.value || []
     
-    // Calculate slot start boundary with leadTime
-    // LEARNING: Compare LOCAL dates for "today" check (business hours are local)
-    // WHY: Need to check if selected date is today in local timezone
-    const now = new Date()
-    const todayLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
-    const isToday = dateLocal.getTime() === todayLocal.getTime()
-    
-    const minuteIncrement = internalSettings.value.minuteIncrement
-    const leadTimeMinutes = internalSettings.value.leadTime || 0
-    
-    const slotStartBoundary = isToday
-      ? (() => {
-          // LEARNING: Apply leadTime in LOCAL timezone, then convert to UTC
-          // WHY: leadTime is local time, so apply to local now, then convert
-          const nowLocal = new Date()
-          const minStartTime = new Date(nowLocal.getTime() + leadTimeMinutes * 60 * 1000)
-          const currentMinutes = minStartTime.getMinutes()
-          const remainder = currentMinutes % minuteIncrement
-          const roundedMinutes = remainder === 0 ? currentMinutes : currentMinutes + (minuteIncrement - remainder)
-          minStartTime.setMinutes(roundedMinutes, 0, 0)
-          return minStartTime // Will be converted to UTC via toISOString()
-        })()
-      : dateLocal // Start of day in local time
-    
-    const slotEndBoundary = endBoundaryLocal // End boundary in local time
-    
-    // LEARNING: Pass all busy periods directly to slot generation
-    // WHY: The availability check handles overlap detection correctly, filtering here can exclude valid busy periods
-    // PATTERN: Let checkSlotAvailability handle all overlap logic - it correctly checks if slots overlap busy periods
-    // Generate slots once
-    // LEARNING: toISOString() always produces valid RFC3339 format (UTC with Z suffix)
-    // WHY: Date.toISOString() is guaranteed to return RFC3339-compliant string
-    // PATTERN: Use type assertion since we know the format is correct
-    logger.debug('Calling fitAllTimeSlotsWithAvailability with:', {  // P3-6: Updated function name
-      startBoundary: slotStartBoundary.toISOString(),
-      endBoundary: slotEndBoundary.toISOString(),
-      startBoundaryLocal: slotStartBoundary.toLocaleString(),
-      endBoundaryLocal: slotEndBoundary.toLocaleString(),
-      duration,
-      businessHours: Object.keys(internalSettings.value.businessHours),
-      minuteIncrement: internalSettings.value.minuteIncrement,
-      busyTimesCount: busyPeriods.length
-    })
-    
-    const result = fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity
-      startBoundary: slotStartBoundary.toISOString() as RFC3339DateTime,
-      endBoundary: slotEndBoundary.toISOString() as RFC3339DateTime,
-      duration,
-      businessHours: internalSettings.value.businessHours as BusinessHoursMap,
-      minuteIncrement: internalSettings.value.minuteIncrement,
-      busyTimes: busyPeriods,  // Pass all busy periods - availability check handles overlap detection
-      includeFlags: DEFAULT_INCLUDE_FLAGS
-    })
-    
-    logger.debug('Generated slots:', result.slots.length, 'first slot:', result.slots[0]?.startTime)
-    
-    // LEARNING: Debug logging to verify timezone alignment
-    // WHY: Helps verify that busy periods and slots are in the same timezone (UTC)
-    // PATTERN: Log sample busy periods and slots with both UTC and local times
-    if (busyPeriods.length > 0 && result.slots.length > 0) {
-      logger.debug('Timezone alignment check:', {
-        boundaries: {
-          startUTC: slotStartBoundary.toISOString(),
-          endUTC: slotEndBoundary.toISOString(),
-          startLocal: slotStartBoundary.toLocaleString(),
-          endLocal: slotEndBoundary.toLocaleString()
-        },
-        busyPeriodsSample: busyPeriods.slice(0, 3).map(bp => {
-          const start = new Date(bp.start)
-          const end = new Date(bp.end)
-          return {
-            startUTC: bp.start,
-            endUTC: bp.end,
-            startLocal: start.toLocaleString(),
-            endLocal: end.toLocaleString(),
-            startHourUTC: start.getUTCHours(),
-            startHourLocal: start.getHours()
-          }
-        }),
-        slotsSample: result.slots.slice(0, 5).map(slot => {
-          const start = new Date(slot.startTime)
-          return {
-            startTimeUTC: slot.startTime,
-            startTimeLocal: start.toLocaleString(),
-            startHourUTC: start.getUTCHours(),
-            startHourLocal: start.getHours(),
-            isAvailable: slot.isAvailable
-          }
-        })
-      })
+    // LEARNING: Ensure dateRange is set in structured rangeConstraints before extraction
+    // WHY: No fallbacks - all constraints must be in structured format
+    // PATTERN: Use helper function to set dateRange in rangeConstraints if not already present
+    const dateRangeToSet = {
+      start: startBoundaryUTC.toISOString(),
+      end: endBoundaryUTC.toISOString()
     }
-    
-    return result
+    const settingsWithDateRange = ensureDateRangeInSettings(internalSettings.value, dateRangeToSet)
+
+    // LEARNING: Extract all constraints using shared helper function
+    // WHY: DRY principle - eliminates duplication across composables
+    // PATTERN: Use extractAllConstraints helper to extract all constraint types at once
+    const { rangeConstraints, overlapConstraints, capacityConstraints } = extractAllConstraints(settingsWithDateRange)
+
+    try {
+      // LEARNING: Use unified availability manager with constraint arrays
+      // WHY: Generates ALL slots and marks them as available/busy using unified constraint system
+      // PATTERN: Pass constraint arrays to fitAllTimeSlotsWithAvailability
+      const slotGenParams = {
+        startBoundary: startBoundaryUTC.toISOString() as RFC3339DateTime,
+        endBoundary: endBoundaryUTC.toISOString() as RFC3339DateTime,
+        duration,
+        minuteIncrement: internalSettings.value.minuteIncrement,
+        busyTimes: busyPeriods,
+        includeFlags: DEFAULT_INCLUDE_FLAGS
+      }
+      const result = await fitAllTimeSlotsWithAvailability(
+        slotGenParams, rangeConstraints, overlapConstraints, capacityConstraints)
+      
+      slotGenerationResult.value = result
+      error.value = null
+    } catch (err) {
+      if (err instanceof ConstraintValidationError) {
+        const errorMessage = `Invalid ${err.constraintType} constraint configuration: ${err.message}`
+        error.value = err
+        showErrorNotification(errorMessage)
+      } else {
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error generating slots'
+        error.value = err instanceof Error ? err : new Error(errorMessage)
+        showErrorNotification(`Failed to generate available start times: ${errorMessage}`)
+      }
+      slotGenerationResult.value = { slots: [], earliestCompletion: null }
+    }
   })
   
   // LEARNING: Derive start times from shared slot generation
@@ -244,38 +243,9 @@ export function useAvailableStartTimes(
   const slotAvailability = computed(() => {
     const result = slotGenerationResult.value
     
-    const availabilityMap = new Map(
+    return new Map(
       result.slots.map(slot => [slot.startTime, slot.isAvailable])
     )
-    
-    // Keep existing logging for debugging (derive values directly from result.slots to avoid dependency on availableStartTimes)
-    const busyEntries = Array.from(availabilityMap.entries()).filter(([_, isAvail]) => !isAvail)
-    const sampleKeys = Array.from(availabilityMap.keys()).slice(0, 5)
-    const allBusyTimes = busyEntries.map(([time, _]) => time)
-    const firstThreeStartTimes = result.slots.slice(0, 3).map(s => s.startTime)
-    
-    logger.debug('Availability map created:', {
-      totalEntries: availabilityMap.size,
-      busyEntriesCount: busyEntries.length,
-      sampleKeys,
-      sampleBusyEntries: busyEntries.slice(0, 10).map(([time, _]) => ({ time, isAvailable: false })),
-      allBusyTimes,
-      firstStartTime: result.slots[0]?.startTime,
-      mapFirstKey: sampleKeys[0],
-      keysMatch: result.slots[0]?.startTime === sampleKeys[0],
-      firstThreeStartTimes,
-      firstThreeAreBusy: firstThreeStartTimes.map(time => ({
-        time,
-        isBusy: !availabilityMap.get(time),
-        mapValue: availabilityMap.get(time)
-      })),
-      resultSlotsSample: result.slots.slice(0, 5).map(s => ({
-        startTime: s.startTime,
-        isAvailable: s.isAvailable
-      }))
-    })
-    
-    return availabilityMap
   })
   
   return {

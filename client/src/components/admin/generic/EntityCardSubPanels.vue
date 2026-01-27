@@ -250,6 +250,7 @@ const relationshipsSummary = computed((): string => {
 })
 
 // NOTE: Annotation summary removed per user request - no annotation chips in panel title
+
 </script>
 
 <template>
@@ -340,6 +341,7 @@ const relationshipsSummary = computed((): string => {
         </div>
       </template>
     </VExpansionPanel>
+
   </VExpansionPanels>
 </template>
 

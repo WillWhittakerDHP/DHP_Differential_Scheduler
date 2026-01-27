@@ -22,7 +22,6 @@ export interface SlotGenerationParams {
   minuteIncrement: number
   startBoundary: RFC3339DateTime
   endBoundary: RFC3339DateTime
-  businessHours: BusinessHoursMap
 }
 
 /**
@@ -35,7 +34,7 @@ export interface SlotGenerationParams {
  * @throws Error if any parameter is invalid
  */
 export function validateSlotGenerationParams(params: SlotGenerationParams): void {
-  const { duration, minuteIncrement, startBoundary, endBoundary, businessHours } = params
+  const { duration, minuteIncrement, startBoundary, endBoundary } = params
 
   // Validate duration
   if (!duration || duration <= 0) {
@@ -88,18 +87,5 @@ export function validateSlotGenerationParams(params: SlotGenerationParams): void
   if (startBoundaryDate >= endBoundaryDate) {
     logger.debug('Invalid boundaries: start >= end', { startBoundary, endBoundary })
     throw new Error(`startBoundary must be before endBoundary, got: start=${startBoundary}, end=${endBoundary}`)
-  }
-
-  // Validate business hours
-  if (!businessHours || typeof businessHours !== 'object') {
-    logger.error('Invalid businessHours: must be an object')
-    throw new Error('businessHours must be a BusinessHoursMap object')
-  }
-
-  // Check if at least one day has business hours
-  const hasAnyHours = Object.keys(businessHours).length > 0
-  if (!hasAnyHours) {
-    logger.warn('No business hours defined for any day')
-    throw new Error('businessHours must contain at least one day with hours defined')
   }
 }

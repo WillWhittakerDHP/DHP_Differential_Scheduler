@@ -20,8 +20,7 @@ export class BlockInstance extends Model<
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
   declare active: boolean;
-  declare isDependentInstance: boolean;
-  declare visible: boolean;
+  declare bookingMode: 'standalone' | 'addOn' | 'both';
   declare composite: boolean;
   declare differential: boolean;
   declare icon: string | null;
@@ -67,16 +66,11 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: true,
       },
-      isDependentInstance: {
-        type: DataTypes.BOOLEAN,
+      bookingMode: {
+        type: DataTypes.ENUM('standalone', 'addOn', 'both'),
         allowNull: false,
-        defaultValue: false,
-        field: 'is_dependent_instance', // Map to renamed column
-      },
-      visible: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
+        defaultValue: 'standalone',
+        field: 'booking_mode',
       },
       composite: {
         type: DataTypes.BOOLEAN,

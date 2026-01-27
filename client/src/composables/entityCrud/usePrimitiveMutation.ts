@@ -110,14 +110,40 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
           return old
         }
 
+        // LEARNING: Defensive check - ensure entity has all expected fields
+        // WHY: Prevents accidentally clearing fields if entity is missing properties
+        // PATTERN: Log warning if entity is missing expected fields before update
+        const currentEntity = currentEntities[entityIndex]
+
         // LEARNING: Update using mutation variables, not response
         // WHY: PATCH response doesn't contain updated entity, only {updated: 1}
         // PATTERN: Update specific field using variables.admin.key and variables.admin.value
+        // IMPORTANT: Use spread operator to preserve ALL existing fields, only update the single field
         const updatedEntities = [...currentEntities]
         updatedEntities[entityIndex] = {
-          ...currentEntities[entityIndex],
-          [variables.admin.key]: variables.admin.value, // Key change: use variables, not response
+          ...currentEntities[entityIndex], // LEARNING: Spread preserves all existing fields
+          [variables.admin.key]: variables.admin.value, // Only update the single field being changed
         } as GlobalEntity<GlobalEntityTypeKey>
+
+        // LEARNING: Verify all fields are preserved after update
+        // WHY: Ensures we didn't accidentally lose any fields during update
+        // PATTERN: Compare field counts before and after update
+        if (isDevModeEnabled()) {
+          const beforeKeys = Object.keys(currentEntity)
+          const afterKeys = Object.keys(updatedEntities[entityIndex])
+          if (beforeKeys.length !== afterKeys.length) {
+            console.warn(`[usePrimitiveMutation] Field count mismatch:`, {
+              entityKey,
+              entityId: variables.dynamicId,
+              beforeCount: beforeKeys.length,
+              afterCount: afterKeys.length,
+              beforeKeys,
+              afterKeys,
+              missingKeys: beforeKeys.filter(key => !afterKeys.includes(key)),
+              addedKeys: afterKeys.filter(key => !beforeKeys.includes(key))
+            })
+          }
+        }
 
         return {
           ...old,

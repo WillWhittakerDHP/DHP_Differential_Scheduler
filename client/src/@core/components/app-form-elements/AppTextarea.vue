@@ -4,8 +4,6 @@ defineOptions({
   inheritAttrs: false,
 })
 
-// const { class: _class, label, variant: _, ...restAttrs } = useAttrs()
-
 const elementId = computed (() => {
   const attrs = useAttrs()
   const _elementIdToken = attrs.id
@@ -13,8 +11,6 @@ const elementId = computed (() => {
 
   return _elementIdToken ? `app-textarea-${_elementIdToken}` : _id
 })
-
-const label = computed(() => useAttrs().label as string | undefined)
 </script>
 
 <template>
@@ -22,17 +18,10 @@ const label = computed(() => useAttrs().label as string | undefined)
     class="app-textarea flex-grow-1"
     :class="$attrs.class"
   >
-    <VLabel
-      v-if="label"
-      :for="elementId"
-      class="mb-1 text-body-2"
-      :text="label"
-    />
     <VTextarea
       v-bind="{
         ...$attrs,
         class: null,
-        label: undefined,
         variant: 'outlined',
         id: elementId,
       }"

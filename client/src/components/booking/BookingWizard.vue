@@ -8,7 +8,7 @@
  * COMPARISON: React uses MUI Stepper. Vue uses custom VList-based horizontal stepper
  */
 
-import { computed, ref, provide, nextTick } from 'vue'
+import { computed, ref, provide, inject, nextTick, type Ref } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
@@ -491,6 +491,48 @@ const handleResetWizard = (): void => {
   
   success('Wizard reset successfully')
 }
+
+// LEARNING: Handle resetting mock calendar data
+// WHY: Allows developers to regenerate mock busy periods for testing
+// PATTERN: Provide reset function that AvailabilityStep can call via inject
+const handleResetMocks = (): void => {
+  // Emit reset signal via provide/inject
+  // AvailabilityStep will inject this and call resetMocks when signal changes
+  resetMocksSignal.value++
+}
+
+// LEARNING: Reset mocks signal for provide/inject
+// WHY: Allows BookingWizard to trigger mock reset in AvailabilityStep
+// PATTERN: Incrementing ref that AvailabilityStep watches
+const resetMocksSignal = ref(0)
+provide('resetMocksSignal', resetMocksSignal)
+
+// LEARNING: Update app-level dev panel buttons
+// WHY: DevPanelsContainer is rendered in App.vue, so buttons must be provided at app level
+// PATTERN: Inject app-level ref and update it with button functions and state
+const appDevPanelButtons = inject<Ref<{
+  selectedAppointmentId: Ref<string | null>
+  appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
+  loadedAppointmentId: Ref<string | null>
+  isLoadingAppointment: Ref<boolean>
+  fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
+  handleLoadAppointment: (id: string | null) => Promise<void>
+  handleResetWizard: () => void
+  handleResetMocks: () => void
+} | null>>('devPanelButtons')
+
+if (appDevPanelButtons) {
+  appDevPanelButtons.value = {
+    selectedAppointmentId,
+    appointmentDropdownItems,
+    loadedAppointmentId,
+    isLoadingAppointment,
+    fetchAll,
+    handleLoadAppointment,
+    handleResetWizard,
+    handleResetMocks
+  }
+}
 </script>
 
 <template>
@@ -534,26 +576,11 @@ const handleResetWizard = (): void => {
             </VList>
             
             <!-- LEARNING: Quote Mode Button and DevMode Controls -->
-            <!-- WHY: Allows users to toggle quote mode and load/update appointments in dev mode -->
+            <!-- WHY: Allows users to toggle quote mode and update appointments in dev mode -->
             <!-- PATTERN: VBtn with toggle state, devMode controls in same row -->
             <VRow class="mt-4 align-center justify-center" no-gutters>
-              <!-- DevMode Controls (only in development) -->
+              <!-- Update Appointment Button (only in development) -->
               <VCol v-if="isDevMode" cols="auto" class="mr-2">
-                <VSelect
-                  v-model="selectedAppointmentId"
-                  :items="appointmentDropdownItems"
-                  item-title="text"
-                  item-value="value"
-                  :loading="fetchAll.isLoading.value || isLoadingAppointment"
-                  label="Load Appointment"
-                  density="compact"
-                  variant="outlined"
-                  hide-details
-                  style="min-width: 200px;"
-                  @update:model-value="handleLoadAppointment"
-                />
-              </VCol>
-              <VCol v-if="isDevMode && loadedAppointmentId" cols="auto" class="mr-2">
                 <VBtn
                   color="success"
                   variant="outlined"
@@ -561,20 +588,9 @@ const handleResetWizard = (): void => {
                   prepend-icon="tabler-device-floppy"
                   @click="handleUpdateAppointment"
                   :loading="update.isPending.value"
-                  :disabled="update.isPending.value"
+                  :disabled="update.isPending.value || !loadedAppointmentId"
                 >
                   UPDATE APPOINTMENT
-                </VBtn>
-              </VCol>
-              <VCol v-if="isDevMode && loadedAppointmentId" cols="auto" class="mr-2">
-                <VBtn
-                  color="secondary"
-                  variant="outlined"
-                  size="small"
-                  prepend-icon="tabler-refresh"
-                  @click="handleResetWizard"
-                >
-                  RESET WIZARD
                 </VBtn>
               </VCol>
               <!-- Quote Mode Button -->

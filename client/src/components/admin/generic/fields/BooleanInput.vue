@@ -14,7 +14,7 @@
       :color="statusButtonColor"
       :is-active="fieldValue"
       :disabled="fieldContext.displayConfig.disabled || fieldContext.displayConfig.readOnly"
-      @click="handleClick"
+      @click.stop="handleClick"
     />
   </BaseInput>
 </template>
@@ -39,6 +39,7 @@ import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useAdmin } from '@/composables/useAdmin'
+import { useStatusButtonToggle } from '@/composables/admin/useStatusButtonToggle'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -72,10 +73,55 @@ const fieldValue = computed(() => {
 // WHY: StatusButton needs color from metadata (defaults to 'default' if not configured)
 // PATTERN: Use useEntityMetadata to fetch metadata, then read statusButtonColor
 const admin = useAdmin()
+
+// LEARNING: Get entity for metadata lookup, handling both new and existing entities
+// WHY: New entities (IDs starting with 'new-') don't exist in store yet, so we construct from form values
+// PATTERN: Check if entityId is temporary, if so use form values, otherwise use store lookup
 const entityForMetadata = computed(() => {
   if (!fieldContext.entityKey || !fieldContext.entityId) {
     return null
   }
+  
+  const entityIdStr = String(fieldContext.entityId)
+  const isTemporaryEntity = entityIdStr.startsWith('new-')
+  
+  // LEARNING: For temporary entities, construct entity object from form values
+  // WHY: New entities don't exist in store yet, but form has the values we need for metadata lookup
+  // PATTERN: Build minimal entity object with id, entityKey, and shape references needed for metadata
+  if (isTemporaryEntity) {
+    const formValues = fieldContext.formInstance?.values || {}
+    
+    // LEARNING: Construct minimal entity object for metadata lookup
+    // WHY: useEntityMetadata needs entity with id and shape references (e.g., blockShapeRef for blockInstance)
+    // PATTERN: Include id, entityKey, and shape references from form values
+    const entity: Record<string, unknown> = {
+      id: fieldContext.entityId,
+      entityKey: fieldContext.entityKey,
+    }
+    
+    // LEARNING: Include blockShapeRef for blockInstance entities
+    // WHY: BlockInstance metadata can be BlockShape-specific, so blockShapeRef is needed for correct metadata lookup
+    // PATTERN: Copy shape reference fields from form values if they exist
+    if (fieldContext.entityKey === 'blockInstance' && formValues.blockShapeRef) {
+      entity.blockShapeRef = formValues.blockShapeRef
+    }
+    
+    // LEARNING: Include partShapeRef for partInstance entities
+    // WHY: PartInstance metadata may be PartShape-specific, so partShapeRef is needed
+    // PATTERN: Copy shape reference fields from form values if they exist
+    if (fieldContext.entityKey === 'partInstance' && formValues.partShapeRef) {
+      entity.partShapeRef = formValues.partShapeRef
+    }
+    
+    // LEARNING: Type assertion for minimal entity object
+    // WHY: We only need id, entityKey, and shape references for metadata lookup, not full entity
+    // PATTERN: Assert as GlobalEntity type - useEntityMetadata accepts partial entities
+    return entity as import('@/types/entities').GlobalEntity<typeof fieldContext.entityKey>
+  }
+  
+  // LEARNING: For existing entities, use store lookup
+  // WHY: Existing entities are in the store, so we can look them up directly
+  // PATTERN: Try store lookup, return null if not found
   try {
     const entity = admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
     return entity ?? null
@@ -96,13 +142,26 @@ const statusButtonColor = computed(() => {
   return meta?.statusButtonColor || 'default'
 })
 
-// LEARNING: Handle click to toggle value with immediate save
+// LEARNING: Use status button toggle composable for consistent store updates
+// WHY: useStatusButtonToggle uses usePrimitiveMutation which properly updates the store
+//      This ensures status buttons persist correctly after clicking
+// PATTERN: Use composable instead of fieldContext.save() for status buttons
+const statusButtonToggle = useStatusButtonToggle({
+  entityKey: fieldContext.entityKey!,
+  entityId: fieldContext.entityId!,
+  entity: entityForMetadata
+})
+
+// LEARNING: Handle click to toggle value using composable
 // WHY: Status buttons should save immediately when clicked (good UX)
-// PATTERN: Toggle value and save on click
+//      useStatusButtonToggle handles store updates correctly via usePrimitiveMutation
+// PATTERN: Use toggleStatusButton from composable instead of manual save
+// NOTE: Inversion logic (for constituable field) is handled at display level only
+//       useStatusButtonToggle operates on stored value, which is correct
 const handleClick = async (event: Event) => {
-  // LEARNING: Stop propagation to prevent VExpansionPanel from intercepting click
+  // LEARNING: Stop propagation immediately to prevent expansion panel from intercepting click
   // WHY: Status buttons are in VExpansionPanel title, need to prevent panel expansion
-  // PATTERN: Stop propagation and prevent default
+  // PATTERN: Stop propagation and prevent default before any async operations
   event.stopPropagation()
   event.preventDefault()
   
@@ -113,24 +172,10 @@ const handleClick = async (event: Event) => {
     return
   }
   
-  // Toggle the value
-  const newValue = !fieldValue.value
-  
-  // LEARNING: Handle inverted logic for constituable field
-  // WHY: When fieldKey is 'constituable', toggle ON means constituable: false
-  // PATTERN: Invert value before setting if this is the constituable field
-  const actualValue = isInverted.value ? !newValue : newValue
-  fieldContext.setValue(actualValue)
-
-  // Immediate save for boolean fields
-  try {
-    const isValid = await fieldContext.validate()
-    
-    if (isValid) {
-      await fieldContext.save()
-    }
-  } catch (error) {
-    // Auto-save failed
-  }
+  // LEARNING: Use composable's toggle method which handles store updates correctly
+  // WHY: useStatusButtonToggle reads from store and toggles stored value (not display value)
+  //      For constituable field, display is inverted but stored value is not, so this works correctly
+  // PATTERN: Composable handles all toggle logic including store updates via usePrimitiveMutation
+  await statusButtonToggle.toggleStatusButton(fieldContext.fieldKey, event)
 }
 </script>

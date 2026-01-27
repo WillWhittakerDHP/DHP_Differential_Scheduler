@@ -181,6 +181,16 @@ export function getAdminMetadataEndpoint(entityType: string, entityId: string): 
 }
 
 /**
+ * Admin Metadata Batch API endpoint
+ * LEARNING: Single endpoint fetches ALL metadata for admin page
+ * WHY: Reduces N+4 calls to 1 call, lazy-loaded only when admin page is accessed
+ * PATTERN: Batch endpoint returns structured metadata for all entity types
+ */
+export function getAdminMetadataBatchEndpoint(): string {
+  return '/admin-metadata/batch'
+}
+
+/**
  * Admin Primitive Metadata API endpoints (deprecated - use getAdminMetadataEndpoint)
  * LEARNING: Kept for backward compatibility during migration
  * WHY: Old code may still reference these endpoints

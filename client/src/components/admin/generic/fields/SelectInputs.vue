@@ -150,6 +150,8 @@ const selectConfigComposable = useSelectConfig({ fieldContext })
 const {
   selectConfig,
   isEnumSelect,
+  isOptionsSelect,
+  optionsSelectOptions,
   isDescriptionSelect,
   isMultiple,
   chipsProps,
@@ -277,9 +279,13 @@ const {
   getGroupValue
 } = selectOptionsComposable
 
-// LEARNING: Use enum options for enum selects, entity options otherwise
-// WHY: Enum selects have fixed options, relationship selects use entities
+// LEARNING: Use metadata options for options selects, enum options for enum selects
+// WHY: bookingMode uses metadata.inputConfig.options, blockShape.type uses enum options
+// PATTERN: Prefer optionsSelectOptions, then enum options, then entity options
 const options = computed(() => {
+  if (isOptionsSelect.value) {
+    return optionsSelectOptions.value
+  }
   return isEnumSelect.value ? enumOptions.value : entityOptions.value
 })
 

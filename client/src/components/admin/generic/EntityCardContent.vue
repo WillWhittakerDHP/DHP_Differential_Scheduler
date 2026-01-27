@@ -39,6 +39,7 @@ interface Props {
   isNew: boolean
   handleSave: () => Promise<void>
   handleUndo: () => void
+  handleDuplicate?: () => Promise<void>
   handleDeleteClick: () => void
   handleCancel: () => void
   unifiedSaveState: {
@@ -150,6 +151,16 @@ const props = defineProps<Props>()
       class="mr-2"
     >
       Save
+    </VBtn>
+    <!-- Duplicate button for existing block instances -->
+    <VBtn
+      v-if="!isNew && entityKey === 'blockInstance'"
+      color="success"
+      prepend-icon="tabler-copy"
+      @click="handleDuplicate"
+      class="mr-2"
+    >
+      Duplicate
     </VBtn>
     <!-- Delete button for existing entities -->
     <VBtn

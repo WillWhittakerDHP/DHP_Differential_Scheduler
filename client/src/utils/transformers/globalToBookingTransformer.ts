@@ -63,7 +63,7 @@ export type BookingBlockInstance = {
   descriptions?: AnnotationWithMetadata[] // Array of annotations (descriptions) with metadata for user-type filtering
   icon: string
   active: boolean
-  isDependentInstance: boolean // If true, this instance should not appear in main booking lists (only selectable as a dependent instance)
+  bookingMode: import('@/constants/entities').BookingMode // Controls where instance appears in booking flows
   differential: boolean // Whether this service supports differential scheduling (inspector and client have different arrival times)
   orderIndex: number
   blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
@@ -149,13 +149,13 @@ export class BookingTransformer {
       // LEARNING: Components should not be shown as standalone booking options.
       // WHY: They are only meaningful as parts of composed (composite) services.
       //
-      // LEARNING: Dependent instances should not be shown in main booking lists.
-      // WHY: They are only selectable as nested dependent instances under a parent instance.
+      // LEARNING: Add-on only instances should not be shown in main booking lists.
+      // WHY: They are only selectable as nested add-on options under a parent instance.
       .filter((blockInstance) => {
         const isActive = this.isEntityActive(blockInstance as unknown as Record<string, unknown>)
         const isComponentChild = componentIds.has(blockInstance.id)
-        const isDependentInstance = (blockInstance as unknown as { isDependentInstance?: boolean }).isDependentInstance === true
-        return isActive && !isComponentChild && !isDependentInstance
+        const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone'
+        return isActive && !isComponentChild && bookingMode !== 'addOn'
       })
       .map(blockInstance => this.transformBlockInstance(
         blockInstance,
@@ -315,7 +315,7 @@ export class BookingTransformer {
       baseSqFt?: number
       descriptions?: AnnotationWithMetadata[]
       icon?: string
-      isDependentInstance?: boolean
+      bookingMode?: import('@/constants/entities').BookingMode
       differential?: boolean
       number?: number | null
       allowMultiple?: boolean
@@ -332,7 +332,7 @@ export class BookingTransformer {
       descriptions: blockInstanceWithProps.descriptions, // Pass through descriptions array for user-type filtering
       icon: blockInstanceWithProps.icon || '',
       active: this.isEntityActive(blockInstance as unknown as Record<string, unknown>),
-      isDependentInstance: blockInstanceWithProps.isDependentInstance === true,
+      bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
       differential: differentialValue, // Use explicit boolean check
       orderIndex: blockInstance.orderIndex,
       blockShape, // Keep for backward compatibility

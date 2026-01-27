@@ -112,6 +112,8 @@ export interface TimeSlot extends TimeRange {
   clientPresent: boolean
   moveable: boolean
   isAvailable: boolean  // true = available, false = busy/unavailable (required)
+  hasFlexibleViolations?: boolean  // true if slot violates flexible constraints
+  flexibleViolations?: string[]    // array of constraint types that were violated (e.g., ['businessHours', 'capacity.daily'])
 }
 
 

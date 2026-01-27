@@ -205,13 +205,17 @@ export function useFormValidation() {
       
       if (isNaN(selectedDate.getTime())) return message
       
-      // LEARNING: Normalize both dates to midnight for comparison
-      // WHY: Ensures today's date is allowed even if current time has passed midnight
-      // PATTERN: Set hours to 0 for both dates, compare date portions only
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
-      const selectedDateOnly = new Date(selectedDate)
-      selectedDateOnly.setHours(0, 0, 0, 0)
+      // LEARNING: Normalize both dates to midnight UTC for comparison
+      // WHY: All business logic should use UTC to avoid timezone issues
+      // PATTERN: Use Date.UTC() to create dates at midnight UTC, compare date portions only
+      const now = new Date()
+      const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0))
+      const selectedDateOnly = new Date(Date.UTC(
+        selectedDate.getUTCFullYear(),
+        selectedDate.getUTCMonth(),
+        selectedDate.getUTCDate(),
+        0, 0, 0, 0
+      ))
       
       return selectedDateOnly >= today || message
     }

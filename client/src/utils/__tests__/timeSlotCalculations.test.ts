@@ -29,7 +29,6 @@ vi.mock('@/configs/availabilitySettings', () => ({
 
 import {
   calculateDurationFromBlockInstances,
-  calculateDurationFromPartInstances,
   generateTimeSlots,
   getCalendarAvailability
 } from '../timeSlotCalculations'
@@ -170,17 +169,17 @@ describe('timeSlotCalculations', () => {
     })
   })
 
-  describe('calculateDurationFromPartInstances (deprecated)', () => {
-    it('should calculate duration from single block instance (legacy)', () => {
+  describe('calculateDurationFromBlockInstances (single instance)', () => {
+    it('should calculate duration from single block instance', () => {
       const partInstance = createPartInstance('part-1', 60)
       const blockInstance = createBlockInstance('block-1', [partInstance])
       
-      const result = calculateDurationFromPartInstances(blockInstance)
+      const result = calculateDurationFromBlockInstances([blockInstance])
       expect(result).toBe(60)
     })
 
-    it('should return default for null service (legacy)', () => {
-      const result = calculateDurationFromPartInstances(null)
+    it('should return default for empty array', () => {
+      const result = calculateDurationFromBlockInstances([])
       expect(result).toBe(90)
     })
   })

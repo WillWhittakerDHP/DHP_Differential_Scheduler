@@ -10,7 +10,8 @@
  */
 
 import { computed, unref, type MaybeRef } from 'vue'
-import { useAdmin } from '@/composables/useAdmin'
+import { useMetadataCache } from '@/composables/admin/useMetadataCache'
+import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
@@ -30,51 +31,79 @@ export function useEntityMetadata<GE extends GlobalEntityKey>(
   // Unwrap ref to get reactive entity
   const entityValue = computed(() => unref(entity))
   
-  // LEARNING: Read metadata from GlobalData (synchronous, like getEntity)
-  // WHY: Metadata is now part of GlobalData transformation, available as early as entities
-  // PATTERN: Use useAdmin().getMetadata() to read from transformed GlobalData
-  const admin = useAdmin()
+  // LEARNING: Access metadata cache directly for reactive tracking
+  // WHY: admin.getMetadata() is non-reactive - Vue can't track metadataQuery.data inside it
+  // PATTERN: Access metadataQuery.data directly in computed so Vue tracks the dependency
+  const metadataCache = useMetadataCache()
   
-  // LEARNING: Computed property that reads metadata from GlobalData
-  // WHY: Reactive access to metadata that updates when GlobalData changes
-  // PATTERN: Computed that calls getMetadata with current entity value
+  // LEARNING: Computed property that reads metadata reactively from metadata cache
+  // WHY: Direct access to reactive metadataQuery.data allows Vue to track changes
+  // PATTERN: Access metadataCache.metadataData.value directly in computed
   const fieldMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
     if (!entityValue.value) {
       return {}
     }
     
-    // LEARNING: getMetadata returns metadata for the entity type directly
-    // WHY: All entity types have completely independent metadata (no inheritance between shapes and instances)
-    // PATTERN: Pass entity directly, getMetadata handles all lookup logic
-    return admin.getMetadata(entityKey, entityValue.value)
+    const entityType = getEntityTypeForMetadata(entityKey)
+    if (!entityType) {
+      return {}
+    }
+    
+    // LEARNING: Access reactive metadata data directly
+    // WHY: Vue can track computed ref access, but not inside function calls
+    // PATTERN: Read from metadataCache.metadataData.value directly in computed
+    const data = metadataCache.metadataData.value
+    
+    if (!data) {
+      return {}
+    }
+    
+    // LEARNING: Extract blockShapeRef for blockInstance entities
+    // WHY: BlockInstance metadata can be BlockShape-specific
+    let blockShapeRef: string | null = null
+    if (entityType === 'blockInstance' && entityKey === 'blockInstance') {
+      const blockInstanceEntity = entityValue.value as GlobalEntity<'blockInstance'>
+      blockShapeRef = blockInstanceEntity.blockShapeRef || null
+    }
+    
+    // For blockInstance with blockShapeRef, try BlockShape-specific first
+    if (entityType === 'blockInstance' && blockShapeRef) {
+      const blockShapeSpecific = data.blockShapeSpecific[blockShapeRef]
+      if (blockShapeSpecific && Object.keys(blockShapeSpecific).length > 0) {
+        return blockShapeSpecific as Record<string, FieldMetadataEntry>
+      }
+    }
+    
+    // Return global config for this entity type
+    return (data.global[entityType] || {}) as Record<string, FieldMetadataEntry>
   })
   
   return {
     /**
      * Field metadata in Record format (Record<fieldKey, FieldMetadataEntry>)
      * Empty object if entity is null or metadata not available
-     * Updates reactively when entity or GlobalData changes
+     * Updates reactively when entity or metadata cache changes
      */
     fieldMetadata,
     
     /**
-     * Loading state - always false (metadata is synchronous from GlobalData)
-     * LEARNING: Metadata is part of GlobalData, so it's available immediately
-     * WHY: No async fetch needed, metadata is transformed alongside entities
+     * Loading state from metadata cache
+     * LEARNING: Metadata is lazy-loaded, so loading state is available
+     * WHY: Reflects actual loading state from metadata query
      */
-    isLoading: computed(() => false),
+    isLoading: computed(() => metadataCache.isLoading.value),
     
     /**
-     * Error - always null (metadata is synchronous from GlobalData)
-     * LEARNING: Metadata is part of GlobalData, so no fetch errors possible
-     * WHY: No async fetch needed, metadata is transformed alongside entities
+     * Error from metadata cache
+     * LEARNING: Metadata query can have errors
+     * WHY: Reflects actual error state from metadata query
      */
-    error: computed(() => null),
+    error: computed(() => metadataCache.error.value),
     
     /**
-     * Refetch function - no-op (metadata is part of GlobalData cache)
-     * LEARNING: Metadata updates when GlobalData cache is invalidated
-     * WHY: No separate refetch needed, use useGlobal().refetch() to refresh all GlobalData
+     * Refetch function - no-op (metadata updates reactively via cache)
+     * LEARNING: Metadata updates when metadata cache is invalidated/refetched
+     * WHY: No separate refetch needed, cache invalidation triggers reactive updates
      */
     refetch: () => Promise.resolve(),
   }

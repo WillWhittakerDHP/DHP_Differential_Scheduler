@@ -5,18 +5,18 @@
  * Tests time extraction, slot matching, and loaded appointment restoration.
  * 
  * What it covers:
- * - extractTimeString: Normalizing various time formats to HH:mm
+ * - extractTimeString: Extracting time from RFC3339 datetime format (UTC)
  * - findMatchingTimeSlot: Finding available slots by time
  * - matchLoadedTimeSlots: Restoring time slot selections from saved appointments
  * - matchLoadedTimeSlotsImmutable: Pure function version of matching
  * 
  * How it works:
- * - Tests various input formats: HH:mm, HH:mm:ss, ISO timestamps
+ * - Tests RFC3339 datetime format extraction (UTC)
  * - Tests slot matching against available time slots
  * - Tests ref mutation for composable compatibility
  * 
  * What it validates:
- * - Correct time extraction from various formats
+ * - Correct time extraction from RFC3339 format in UTC
  * - Proper slot matching by time comparison
  * - Correct population of inspector/client slot refs
  * 
@@ -48,57 +48,43 @@ function createTimeSlot(slotStart: string, duration = 60): TimeSlot {
 
 describe('timeSlotMatching', () => {
   describe('extractTimeString', () => {
-    describe('HH:mm format', () => {
-      it('should extract time from HH:mm format', () => {
-        expect(extractTimeString('09:30')).toBe('09:30')
+    describe('RFC3339 datetime format (UTC)', () => {
+      it('should extract UTC time from RFC3339 datetime string', () => {
+        // RFC3339 format: 2026-01-09T09:30:00Z (UTC)
+        const rfc3339 = '2026-01-09T09:30:00Z'
+        expect(extractTimeString(rfc3339)).toBe('09:30')
       })
 
-      it('should extract time from H:mm format (single digit hour)', () => {
-        expect(extractTimeString('9:30')).toBe('9:30')
+      it('should extract UTC time from RFC3339 with milliseconds', () => {
+        const rfc3339 = '2026-01-09T14:30:00.000Z'
+        expect(extractTimeString(rfc3339)).toBe('14:30')
       })
 
-      it('should handle midnight', () => {
-        expect(extractTimeString('00:00')).toBe('00:00')
+      it('should handle midnight UTC', () => {
+        const rfc3339 = '2026-01-09T00:00:00Z'
+        expect(extractTimeString(rfc3339)).toBe('00:00')
       })
 
-      it('should handle end of day', () => {
-        expect(extractTimeString('23:59')).toBe('23:59')
-      })
-    })
-
-    describe('HH:mm:ss format', () => {
-      it('should extract time from HH:mm:ss format (trim seconds)', () => {
-        expect(extractTimeString('09:30:00')).toBe('09:30')
+      it('should handle end of day UTC', () => {
+        const rfc3339 = '2026-01-09T23:59:00Z'
+        expect(extractTimeString(rfc3339)).toBe('23:59')
       })
 
-      it('should handle single digit hour with seconds', () => {
-        expect(extractTimeString('9:30:45')).toBe('9:30')
-      })
-    })
-
-    describe('ISO timestamp format', () => {
-      it('should extract local time from ISO timestamp', () => {
-        // Create a date at a specific local time
-        const date = new Date(2026, 0, 9, 14, 30, 0) // Jan 9, 2026 2:30 PM local
-        const isoString = date.toISOString()
-        
-        expect(extractTimeString(isoString)).toBe('14:30')
-      })
-
-      it('should extract time from Date object', () => {
-        const date = new Date(2026, 5, 15, 9, 0, 0) // June 15, 2026 9:00 AM local
+      it('should extract UTC time from Date object', () => {
+        // Create date in UTC
+        const date = new Date(Date.UTC(2026, 0, 9, 9, 0, 0)) // Jan 9, 2026 9:00 AM UTC
         
         expect(extractTimeString(date)).toBe('09:00')
       })
 
-      it('should handle morning times', () => {
-        const date = new Date(2026, 0, 1, 8, 15, 0)
+      it('should handle morning times in UTC', () => {
+        const date = new Date(Date.UTC(2026, 0, 1, 8, 15, 0))
         
         expect(extractTimeString(date)).toBe('08:15')
       })
 
-      it('should handle afternoon times', () => {
-        const date = new Date(2026, 0, 1, 16, 45, 0)
+      it('should handle afternoon times in UTC', () => {
+        const date = new Date(Date.UTC(2026, 0, 1, 16, 45, 0))
         
         expect(extractTimeString(date)).toBe('16:45')
       })
@@ -127,8 +113,8 @@ describe('timeSlotMatching', () => {
       createTimeSlot('2026-01-09T14:00:00'),
     ]
 
-    it('should find matching slot by HH:mm time', () => {
-      const result = findMatchingTimeSlot('09:00', availableSlots)
+    it('should find matching slot by RFC3339 datetime', () => {
+      const result = findMatchingTimeSlot('2026-01-09T09:00:00Z', availableSlots)
       
       expect(result).toBeDefined()
       expect(result?.slotStart).toBe('2026-01-09T09:00:00')
@@ -173,7 +159,7 @@ describe('timeSlotMatching', () => {
       const clientRef = ref<TimeSlot | null>(null)
       
       matchLoadedTimeSlots(
-        [{ time: '09:00' }],
+        [{ startTime: '2026-01-09T09:00:00Z' }],
         availableSlots,
         inspectorRef,
         clientRef
@@ -189,7 +175,7 @@ describe('timeSlotMatching', () => {
       const clientRef = ref<TimeSlot | null>(null)
       
       matchLoadedTimeSlots(
-        [{ time: '08:00' }, { time: '14:00' }],
+        [{ startTime: '2026-01-09T08:00:00Z' }, { startTime: '2026-01-09T14:00:00Z' }],
         availableSlots,
         inspectorRef,
         clientRef
@@ -213,7 +199,7 @@ describe('timeSlotMatching', () => {
       const inspectorRef = ref<TimeSlot | null>(null)
       const clientRef = ref<TimeSlot | null>(null)
       
-      matchLoadedTimeSlots([{ time: '09:00' }], [], inspectorRef, clientRef)
+      matchLoadedTimeSlots([{ startTime: '2026-01-09T09:00:00Z' }], [], inspectorRef, clientRef)
       
       expect(inspectorRef.value).toBeNull()
       expect(clientRef.value).toBeNull()
@@ -224,7 +210,7 @@ describe('timeSlotMatching', () => {
       const clientRef = ref<TimeSlot | null>(null)
       
       matchLoadedTimeSlots(
-        [{ time: '11:00' }], // No slot at 11:00
+        [{ startTime: '2026-01-09T11:00:00Z' }], // No slot at 11:00
         availableSlots,
         inspectorRef,
         clientRef
@@ -239,7 +225,7 @@ describe('timeSlotMatching', () => {
       const clientRef = ref<TimeSlot | null>(null)
       
       matchLoadedTimeSlots(
-        [{ time: '09:00' }, { time: '11:00' }], // 11:00 doesn't exist
+        [{ startTime: '2026-01-09T09:00:00Z' }, { startTime: '2026-01-09T11:00:00Z' }], // 11:00 doesn't exist
         availableSlots,
         inspectorRef,
         clientRef
@@ -259,7 +245,7 @@ describe('timeSlotMatching', () => {
 
     it('should return matched slots without mutating anything', () => {
       const result = matchLoadedTimeSlotsImmutable(
-        [{ time: '09:00' }, { time: '14:00' }],
+        [{ startTime: '2026-01-09T09:00:00Z' }, { startTime: '2026-01-09T14:00:00Z' }],
         availableSlots
       )
       
@@ -275,7 +261,7 @@ describe('timeSlotMatching', () => {
     })
 
     it('should return nulls when no available slots', () => {
-      const result = matchLoadedTimeSlotsImmutable([{ time: '09:00' }], [])
+      const result = matchLoadedTimeSlotsImmutable([{ startTime: '2026-01-09T09:00:00Z' }], [])
       
       expect(result.inspectorSlot).toBeNull()
       expect(result.clientSlot).toBeNull()
@@ -283,7 +269,7 @@ describe('timeSlotMatching', () => {
 
     it('should return inspector only when one slot loaded', () => {
       const result = matchLoadedTimeSlotsImmutable(
-        [{ time: '08:00' }],
+        [{ startTime: '2026-01-09T08:00:00Z' }],
         availableSlots
       )
       
@@ -293,7 +279,7 @@ describe('timeSlotMatching', () => {
 
     it('should return null for unmatched slots', () => {
       const result = matchLoadedTimeSlotsImmutable(
-        [{ time: '11:00' }, { time: '12:00' }],
+        [{ startTime: '2026-01-09T11:00:00Z' }, { startTime: '2026-01-09T12:00:00Z' }],
         availableSlots
       )
       

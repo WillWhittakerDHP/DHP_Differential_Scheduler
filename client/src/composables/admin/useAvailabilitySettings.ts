@@ -6,10 +6,17 @@
 
 import { ref, onMounted, type Ref } from 'vue'
 import apiClient from '@/utils/api'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import { defaultAvailabilitySettings, clearAvailabilitySettingsCache } from '@/configs/availabilitySettings'
+import type { 
+  AvailabilitySettings,
+  WorkCapacityFilter,
+  RollingWeekCapacityFilter,
+  BufferConfig,
+  RangeConstraint,
+  BusinessHoursConfig
+} from '@/configs/availabilitySettings'
+import { invalidateAvailabilitySettingsCache } from '@/configs/availabilitySettings'
 import { DAY_NAMES } from '@/constants/availabilitySettings'
-import { rfc3339ToBusinessHoursTime, businessHoursTimeToRfc3339 } from '@/utils/datetime'
+import { useLocalTime } from '@/composables/useLocalTime'
 
 /**
  * Calculate maximum business hours across all days
@@ -21,10 +28,11 @@ import { rfc3339ToBusinessHoursTime, businessHoursTimeToRfc3339 } from '@/utils/
  * @returns Maximum hours across all days (as number)
  */
 export function calculateMaxBusinessHours(businessHours: AvailabilitySettings['businessHours']): number {
+  const { rfc3339ToBusinessHoursHHmm } = useLocalTime()
   return Math.max(
     ...Object.values(businessHours).map(day => {
-      const startTimeStr = rfc3339ToBusinessHoursTime(day.start)
-      const endTimeStr = rfc3339ToBusinessHoursTime(day.end)
+      const startTimeStr = rfc3339ToBusinessHoursHHmm(day.start)
+      const endTimeStr = rfc3339ToBusinessHoursHHmm(day.end)
       const [startHour, startMin] = startTimeStr.split(':').map(Number)
       const [endHour, endMin] = endTimeStr.split(':').map(Number)
       const startMinutes = startHour * 60 + startMin
@@ -35,7 +43,7 @@ export function calculateMaxBusinessHours(businessHours: AvailabilitySettings['b
 }
 
 export interface UseAvailabilitySettingsReturn {
-  formData: Ref<AvailabilitySettings>
+  formData: Ref<AvailabilitySettings | null>
   loading: Ref<boolean>
   saving: Ref<boolean>
   error: Ref<string | null>
@@ -43,7 +51,6 @@ export interface UseAvailabilitySettingsReturn {
   loadSettings: () => Promise<void>
   validateBusinessHours: () => boolean
   saveSettings: () => Promise<void>
-  resetToDefaults: () => void
 }
 
 /**
@@ -52,11 +59,16 @@ export interface UseAvailabilitySettingsReturn {
  * PATTERN: Returns reactive state and functions for settings management
  */
 export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
-  const formData = ref<AvailabilitySettings>({ ...defaultAvailabilitySettings })
+  const formData = ref<AvailabilitySettings | null>(null)
   const loading = ref(false)
   const saving = ref(false)
   const error = ref<string | null>(null)
   const success = ref<string | null>(null)
+
+  // LEARNING: Get time conversion functions from useLocalTime composable
+  // WHY: Need to convert RFC3339 business hours to HH:mm for validation
+  // PATTERN: Use composable at top of composable function for access throughout
+  const { rfc3339ToBusinessHoursHHmm } = useLocalTime()
 
   /**
    * Load settings from API
@@ -71,71 +83,58 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
     try {
       const response = await apiClient.get('/business-settings/availability_settings')
       
-      if (response.data && response.data.setting_value) {
-        const rawSettings = response.data.setting_value as {
-          businessHours?: {
-            [key: string]: { start: string; end: string } // API returns HH:mm format
-          }
-          minuteIncrement?: number
-          leadTime?: number
+      if (!response.data || !response.data.setting_value) {
+        throw new Error('No settings found in API response')
+      }
+      
+      const rawSettings = response.data.setting_value as {
+        minuteIncrement: number
+        rangeConstraints: {
+          businessHours: RangeConstraint
+          leadTime?: RangeConstraint
+          dateRange?: RangeConstraint
         }
-        
-        // Validate settings structure
-        if (
-          rawSettings.businessHours &&
-          rawSettings.minuteIncrement &&
-          rawSettings.leadTime !== undefined
-        ) {
-          // LEARNING: Convert business hours from HH:mm (API format) to RFC3339 (internal format)
-          // WHY: API returns HH:mm, but we store as RFC3339 internally
-          // PATTERN: Map over business hours and convert each time string
-          formData.value = {
-            businessHours: {
-              0: {
-                start: businessHoursTimeToRfc3339(rawSettings.businessHours['0']?.start || '09:00'),
-                end: businessHoursTimeToRfc3339(rawSettings.businessHours['0']?.end || '19:00')
-              },
-              1: {
-                start: businessHoursTimeToRfc3339(rawSettings.businessHours['1']?.start || '09:00'),
-                end: businessHoursTimeToRfc3339(rawSettings.businessHours['1']?.end || '19:00')
-              },
-              2: {
-                start: businessHoursTimeToRfc3339(rawSettings.businessHours['2']?.start || '09:00'),
-                end: businessHoursTimeToRfc3339(rawSettings.businessHours['2']?.end || '19:00')
-              },
-              3: {
-                start: businessHoursTimeToRfc3339(rawSettings.businessHours['3']?.start || '09:00'),
-                end: businessHoursTimeToRfc3339(rawSettings.businessHours['3']?.end || '19:00')
-              },
-              4: {
-                start: businessHoursTimeToRfc3339(rawSettings.businessHours['4']?.start || '09:00'),
-                end: businessHoursTimeToRfc3339(rawSettings.businessHours['4']?.end || '19:00')
-              },
-              5: {
-                start: businessHoursTimeToRfc3339(rawSettings.businessHours['5']?.start || '09:00'),
-                end: businessHoursTimeToRfc3339(rawSettings.businessHours['5']?.end || '19:00')
-              },
-              6: {
-                start: businessHoursTimeToRfc3339(rawSettings.businessHours['6']?.start || '09:00'),
-                end: businessHoursTimeToRfc3339(rawSettings.businessHours['6']?.end || '19:00')
-              }
-            },
-            minuteIncrement: rawSettings.minuteIncrement,
-            leadTime: rawSettings.leadTime,
-            workHoursLimit: rawSettings.workHoursLimit, // Use configured or undefined
-            timezone: rawSettings.timezone || 'America/New_York' // Default to Eastern
-          }
-        } else {
-          // Invalid structure, use defaults
-          formData.value = { ...defaultAvailabilitySettings }
+        buffers?: {
+          appointment?: BufferConfig
+          driveTime?: BufferConfig
+          lunch?: BufferConfig
         }
-      } else {
-        // No settings found, use defaults
-        formData.value = { ...defaultAvailabilitySettings }
+        maxWorkHours?: {
+          day?: WorkCapacityFilter
+          calendarWeek?: WorkCapacityFilter
+          rollingWeek?: RollingWeekCapacityFilter
+        }
+        timezone?: string
+      }
+      
+      // Validate - fail fast if missing required fields
+      if (!rawSettings.rangeConstraints?.businessHours) {
+        throw new Error('rangeConstraints.businessHours is required')
+      }
+      if (!rawSettings.minuteIncrement) {
+        throw new Error('minuteIncrement is required')
+      }
+      
+      // Extract business hours from rangeConstraints.businessHours.config.hours
+      const businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig
+      if (!businessHoursConfig.hours) {
+        throw new Error('rangeConstraints.businessHours.config.hours is required')
+      }
+      const businessHours = businessHoursConfig.hours
+      
+      // Use settings directly - no migration
+      formData.value = {
+        businessHours: businessHours,
+        minuteIncrement: rawSettings.minuteIncrement,
+        rangeConstraints: rawSettings.rangeConstraints,
+        buffers: rawSettings.buffers,
+        maxWorkHours: rawSettings.maxWorkHours,
+        timezone: rawSettings.timezone
       }
     } catch (err: any) {
-      // Use defaults if API call fails
-      formData.value = { ...defaultAvailabilitySettings }
+      // Explicit error - no fallbacks
+      error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
+      throw err
     } finally {
       loading.value = false
     }
@@ -148,13 +147,17 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
    * PATTERN: Validation function that checks time logic
    */
   const validateBusinessHours = (): boolean => {
+    if (!formData.value) {
+      error.value = 'Settings must be loaded before validation'
+      return false
+    }
     for (let day = 0; day <= 6; day++) {
       const dayHours = formData.value.businessHours[day as keyof typeof formData.value.businessHours]
       // LEARNING: Extract time-of-day from RFC3339 business hours
       // WHY: Business hours stored as RFC3339, need to extract HH:mm for validation
       // PATTERN: Convert RFC3339 to HH:mm, then parse
-      const startTimeStr = rfc3339ToBusinessHoursTime(dayHours.start)
-      const endTimeStr = rfc3339ToBusinessHoursTime(dayHours.end)
+      const startTimeStr = rfc3339ToBusinessHoursHHmm(dayHours.start)
+      const endTimeStr = rfc3339ToBusinessHoursHHmm(dayHours.end)
       
       const [startHour, startMin] = startTimeStr.split(':').map(Number)
       const [endHour, endMin] = endTimeStr.split(':').map(Number)
@@ -181,6 +184,11 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
     error.value = null
     success.value = null
     
+    if (!formData.value) {
+      error.value = 'Settings must be loaded before saving'
+      return
+    }
+    
     // Validate business hours
     if (!validateBusinessHours()) {
       return
@@ -189,42 +197,63 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
     saving.value = true
     
     try {
-      // LEARNING: Convert business hours from RFC3339 (internal format) to HH:mm (API format)
-      // WHY: API expects HH:mm format, but we store as RFC3339 internally
-      // PATTERN: Convert each business hour before sending to API
-      const settingsToSave = {
-        businessHours: {
-          0: {
-            start: rfc3339ToBusinessHoursTime(formData.value.businessHours[0].start),
-            end: rfc3339ToBusinessHoursTime(formData.value.businessHours[0].end)
-          },
-          1: {
-            start: rfc3339ToBusinessHoursTime(formData.value.businessHours[1].start),
-            end: rfc3339ToBusinessHoursTime(formData.value.businessHours[1].end)
-          },
-          2: {
-            start: rfc3339ToBusinessHoursTime(formData.value.businessHours[2].start),
-            end: rfc3339ToBusinessHoursTime(formData.value.businessHours[2].end)
-          },
-          3: {
-            start: rfc3339ToBusinessHoursTime(formData.value.businessHours[3].start),
-            end: rfc3339ToBusinessHoursTime(formData.value.businessHours[3].end)
-          },
-          4: {
-            start: rfc3339ToBusinessHoursTime(formData.value.businessHours[4].start),
-            end: rfc3339ToBusinessHoursTime(formData.value.businessHours[4].end)
-          },
-          5: {
-            start: rfc3339ToBusinessHoursTime(formData.value.businessHours[5].start),
-            end: rfc3339ToBusinessHoursTime(formData.value.businessHours[5].end)
-          },
-          6: {
-            start: rfc3339ToBusinessHoursTime(formData.value.businessHours[6].start),
-            end: rfc3339ToBusinessHoursTime(formData.value.businessHours[6].end)
+      
+      // LEARNING: Server expects RFC3339 format directly
+      // WHY: Server is source of truth for RFC3339 format, no conversion needed
+      // PATTERN: Send business hours directly in RFC3339 format
+      const settingsToSave: {
+        businessHours: AvailabilitySettings['businessHours']
+        minuteIncrement: number
+        rangeConstraints?: AvailabilitySettings['rangeConstraints']
+        buffers?: {
+          appointment?: BufferConfig
+          driveTime?: BufferConfig
+          lunch?: BufferConfig
+        }
+        maxWorkHours?: {
+          day?: WorkCapacityFilter
+          calendarWeek?: WorkCapacityFilter
+          rollingWeek?: RollingWeekCapacityFilter
+        }
+        timezone?: string
+      } = {
+        businessHours: formData.value.businessHours,
+        minuteIncrement: formData.value.minuteIncrement
+      }
+      
+      // Include range constraints if configured
+      if (formData.value.rangeConstraints) {
+        settingsToSave.rangeConstraints = formData.value.rangeConstraints
+        // LEARNING: Ensure rangeConstraints.businessHours.config.hours matches top-level businessHours
+        // WHY: Slot generation reads from rangeConstraints.businessHours.config.hours, not top-level
+        // PATTERN: Sync both locations to ensure consistency
+        if (settingsToSave.rangeConstraints.businessHours) {
+          settingsToSave.rangeConstraints.businessHours.config.hours = formData.value.businessHours
+        }
+      } else {
+        // Create rangeConstraints with businessHours if it doesn't exist
+        settingsToSave.rangeConstraints = {
+          businessHours: {
+            type: 'businessHours',
+            enforcement: 'hard',
+            config: {
+              hours: formData.value.businessHours
+            }
           }
-        },
-        minuteIncrement: formData.value.minuteIncrement,
-        leadTime: formData.value.leadTime
+        }
+      }
+      
+      // Include buffer settings if configured (leadTime removed, only overlap constraints remain)
+      if (formData.value.buffers) {
+        settingsToSave.buffers = formData.value.buffers
+      }
+      
+      // Include capacity settings if configured
+      if (formData.value.maxWorkHours) {
+        settingsToSave.maxWorkHours = formData.value.maxWorkHours
+      }
+      if (formData.value.timezone) {
+        settingsToSave.timezone = formData.value.timezone
       }
       
       // Save settings to API
@@ -233,7 +262,7 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
       })
       
       // Clear cache to force refresh
-      clearAvailabilitySettingsCache()
+      invalidateAvailabilitySettingsCache()
       
       success.value = 'Settings saved successfully!'
       
@@ -246,22 +275,6 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
     } finally {
       saving.value = false
     }
-  }
-
-  /**
-   * Reset form to defaults
-   * LEARNING: Resets form data to default values
-   * WHY: Allows admin to quickly reset to default configuration
-   * PATTERN: Simple reset function
-   */
-  const resetToDefaults = (): void => {
-    formData.value = { 
-      ...defaultAvailabilitySettings,
-      workHoursLimit: undefined, // Reset to undefined (will be calculated)
-      timezone: 'America/New_York' // Reset to default
-    }
-    error.value = null
-    success.value = null
   }
 
   /**
@@ -281,7 +294,6 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
     success,
     loadSettings,
     validateBusinessHours,
-    saveSettings,
-    resetToDefaults
+    saveSettings
   }
 }

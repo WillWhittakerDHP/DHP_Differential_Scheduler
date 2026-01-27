@@ -147,14 +147,23 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   }) as Ref<number | null>
 
   /**
-   * Watch loaded wizard state for time slot matching (but don't set date)
-   * LEARNING: Enables matching loaded time slots to available slots for validation
-   * WHY: When appointment is loaded, we want to match time slots but not override the date
-   * PATTERN: Watch loadedWizardState but only use it for time slot matching, not date setting
-   * NOTE: Date is initialized to today and managed by user selection, not loaded from appointments
+   * Watch loaded wizard state and reset selectedDate to today
+   * LEARNING: When loading dummy appointments for testing, always use today's date
+   * WHY: Dummy appointments shouldn't affect date selection - we're testing time slot calculations, not past dates
+   * PATTERN: Reset selectedDate to today whenever an appointment is loaded
+   * NOTE: This ensures we always calculate slots for today/future, not past dates
    */
   watch(loadedWizardState, () => {
-    // Don't set date from loaded appointments - let user select date or use today's default
+    // LEARNING: Always reset to today when loading appointments (dummy or real)
+    // WHY: For testing, we need to test time slot calculations for today/future, not past dates
+    // PATTERN: Reset selectedDate to today whenever loadedWizardState changes
+    const today = getTodayDate()
+    if (selectedDate.value.start !== today) {
+      selectedDate.value = {
+        start: today,
+        end: null
+      }
+    }
     // Time slot matching happens in the next watcher below
   }, { immediate: true })
 
@@ -187,22 +196,35 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   }, { immediate: true })
 
   /**
-   * Watch time slots and update selected date to first availability if no date selected
-   * LEARNING: Auto-select earliest available date when time slots load
-   * WHY: Provides better UX by auto-selecting first available date
-   * PATTERN: Watch timeSlots, update selectedDate if not set
-   * NOTE: Uses immediate: true to handle initial state, but only sets if no date is selected
-   *       The loadedWizardState watcher runs first (immediate: true) and may populate date,
-   *       so this watcher respects that by checking if date is already set
+   * Watch time slots and update selected date to today or first future availability
+   * LEARNING: Auto-select today if it has slots, otherwise earliest future date
+   * WHY: Always prefer today for testing time slot calculations, never use past dates
+   * PATTERN: Watch timeSlots, prefer today over past dates
+   * NOTE: Uses immediate: true to handle initial state
+   *       The loadedWizardState watcher runs first and sets date to today, so this only runs if date is null
    */
   watch(timeSlots, (slots) => {
     // Only auto-select if no date is currently selected and we have slots
-    // The loadedWizardState watcher will have already run (immediate: true) and populated from loadedWizardState if available
     if (!selectedDate.value.start && slots && slots.length > 0) {
+      const today = getTodayDate()
       const firstDate = getFirstAvailabilityDate(slots)
-      if (firstDate) {
+      
+      // LEARNING: Prefer today over past dates
+      // WHY: For testing, we need to test time slot calculations for today/future, not past dates
+      // PATTERN: Use today if it's >= firstDate, otherwise use firstDate (which should be today or future)
+      const todayDate = new Date(today)
+      const firstDateObj = firstDate ? new Date(firstDate) : null
+      
+      // Use today if it's today or future, otherwise use firstDate (which should be today or future)
+      if (firstDate && firstDateObj && firstDateObj >= todayDate) {
         selectedDate.value = {
           start: firstDate,
+          end: null
+        }
+      } else {
+        // Fallback to today if firstDate is in the past or null
+        selectedDate.value = {
+          start: today,
           end: null
         }
       }

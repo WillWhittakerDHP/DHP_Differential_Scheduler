@@ -10,7 +10,7 @@
 
 import { computed, watch } from 'vue'
 import { useTheme } from 'vuetify'
-import { quoteModeColors } from '@/plugins/vuetify/theme'
+import { quoteModeColors } from '@/plugins/5.vuetify/theme'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 
 /**

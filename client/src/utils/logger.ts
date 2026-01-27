@@ -74,6 +74,20 @@ function isDebugScopeEnabled(scope: string): boolean {
   return scopes.has('*') || scopes.has(normalized)
 }
 
+/**
+ * Check if a scope is explicitly enabled in VITE_DEBUG_SCOPES
+ * WHY: Some scopes should be opt-in only (require explicit enabling, not via wildcard)
+ * PATTERN: Returns true only if VITE_DEBUG_SCOPES is set and explicitly contains the scope (not via *)
+ */
+export function isScopeExplicitlyEnabled(scope: string): boolean {
+  if (!import.meta.env.DEV) return false
+  const scopes = parseDebugScopesList(import.meta.env.VITE_DEBUG_SCOPES)
+  if (!scopes) return false // Require explicit enabling if VITE_DEBUG_SCOPES is not set
+  const normalized = scope.toLowerCase()
+  // Only return true if scope is explicitly listed (not via wildcard)
+  return scopes.has(normalized)
+}
+
 function getConfiguredLogLevel(): LogLevel {
   const configured = parseLogLevel(import.meta.env.VITE_LOG_LEVEL)
   if (configured) return configured

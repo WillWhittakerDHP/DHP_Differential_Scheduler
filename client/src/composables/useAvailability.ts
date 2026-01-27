@@ -9,19 +9,19 @@
 
 import { computed, ref, watch, type Ref, type ComputedRef, unref } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
+import type { RFC3339DateTime } from '@/types/datetime'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { calculateDurationFromBlockInstances, getCalendarAvailability } from '@/utils/timeSlotCalculations'
-import { getAvailabilitySettings } from '@/configs/availabilitySettings'
-import { fitAllTimeSlotsWithAvailability, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
-import { preprocessBusyPeriods, type BusyTimeRange } from '@/utils/booking/timeAvailabilityManager'
+import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
+import { fitAllTimeSlotsWithAvailability, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'
+import { preprocessBusyPeriods } from '@/utils/booking/timeAvailabilityManager'
 import { hasValidDateRangeStructure } from '@/utils/booking/dateRangeValidation'
 import type { PropertyDetails } from '@/types/availability'
-import { createLogger } from '@/utils/logger'
+import { useNotification } from '@/composables/useNotification'
+import { ConstraintValidationError } from '@/utils/booking/timeAvailabilityManager'
+import { ensureDateRangeInSettings, extractAllConstraints } from '@/utils/booking/constraintHelpers'
 
-// LEARNING: Use scoped logger for controllable debug output
-// WHY: Prevents debug logs in production, allows scope-based filtering
-// PATTERN: createLogger(scope) provides debug/info/warn/error methods
-const logger = createLogger('useAvailability')
+const { error: showErrorNotification } = useNotification()
 
 /**
  * useAvailability composable
@@ -113,8 +113,9 @@ export function useAvailability(
         // WHY: Prevents invalid slot generation and provides clear error feedback
         // PATTERN: Early return with error state if duration is invalid
         if (duration <= 0) {
-          logger.warn('Invalid duration calculated', { duration, blockInstances })
-          error.value = new Error(`Invalid duration: ${duration} minutes`)
+          const errorMessage = `Invalid duration: ${duration} minutes`
+          error.value = new Error(errorMessage)
+          showErrorNotification(errorMessage)
           timeSlots.value = []
           isLoading.value = false
           return
@@ -124,9 +125,10 @@ export function useAvailability(
         // LEARNING: Get calendar availability (busy times)
         // WHY: Mark slots that conflict with existing appointments as unavailable
         // PATTERN: Use utility function to get busy times from mock/real calendar
+        // NOTE: hasValidDateRangeStructure check above ensures start and end are non-null
         const rawBusyTimes = getCalendarAvailability({
-          start: dateRange.start,
-          end: dateRange.end
+          start: dateRange.start! as RFC3339DateTime, // Non-null and type assertion safe due to hasValidDateRangeStructure check
+          end: dateRange.end! as RFC3339DateTime
         })
         // P1-6: Apply busy period validation consistently
         // LEARNING: Validate and merge busy periods before slot generation
@@ -148,18 +150,31 @@ export function useAvailability(
         }
         if (signal.aborted) return
 
+        // LEARNING: Ensure dateRange is set in structured rangeConstraints before extraction
+        // WHY: No fallbacks - all constraints must be in structured format
+        // PATTERN: Use helper function to set dateRange in rangeConstraints if not already present
+        // NOTE: hasValidDateRangeStructure check above ensures start and end are non-null
+        const settingsWithDateRange = ensureDateRangeInSettings(settingsValue, {
+          start: dateRange.start!, // Non-null assertion safe due to hasValidDateRangeStructure check
+          end: dateRange.end!
+        })
+
+        // LEARNING: Extract all constraints using shared helper function
+        // WHY: DRY principle - eliminates duplication across composables
+        // PATTERN: Use extractAllConstraints helper to extract all constraint types at once
+        const { rangeConstraints, overlapConstraints, capacityConstraints } = extractAllConstraints(settingsWithDateRange)
+
         // LEARNING: Use unified availability manager to generate all slots with availability flags
         // WHY: Generates ALL slots and marks them as available/busy instead of filtering
-        // PATTERN: Use fitTimeSlotsWithAvailability for unified availability handling
-        const result = fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity
-          startBoundary: dateRange.start,
-          endBoundary: dateRange.end,
+        // PATTERN: Use fitAllTimeSlotsWithAvailability for unified availability handling
+        const result = await fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity
+          startBoundary: dateRange.start! as RFC3339DateTime, // Non-null and type assertion safe due to hasValidDateRangeStructure check
+          endBoundary: dateRange.end! as RFC3339DateTime,
           duration,
-          businessHours: settingsValue.businessHours as BusinessHoursMap,
           minuteIncrement: settingsValue.minuteIncrement,
           busyTimes,
           includeFlags: { onSite: false, clientPresent: false, moveable: false }
-        })
+        }, rangeConstraints, overlapConstraints, capacityConstraints)
         if (signal.aborted) return
 
         // LEARNING: Future enhancement - apply property-based adjustments
@@ -176,13 +191,21 @@ export function useAvailability(
         timeSlots.value = result.slots
         error.value = null
       } catch (err) {
-        // LEARNING: Handle calculation errors gracefully
-        // WHY: Prevents crashes if calculation fails
-        // PATTERN: Set empty array on error, store error for UI feedback
+        // LEARNING: Handle calculation errors gracefully with UI notifications
+        // WHY: Prevents crashes if calculation fails, shows user-friendly error messages
+        // PATTERN: Set empty array on error, store error for UI feedback, show notification for constraint errors
         // Ignore abort errors (they're expected when cancelling stale requests)
         if (signal.aborted) return
-        logger.error('Error generating time slots:', err)
-        error.value = err instanceof Error ? err : new Error('Unknown error generating time slots')
+        
+        if (err instanceof ConstraintValidationError) {
+          const errorMessage = `Invalid ${err.constraintType} constraint configuration: ${err.message}`
+          error.value = err
+          showErrorNotification(errorMessage)
+        } else {
+          const errorMessage = err instanceof Error ? err.message : 'Unknown error generating time slots'
+          error.value = err instanceof Error ? err : new Error(errorMessage)
+          showErrorNotification(`Failed to generate time slots: ${errorMessage}`)
+        }
         timeSlots.value = []
       } finally {
         if (!signal.aborted) {

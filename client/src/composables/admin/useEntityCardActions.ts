@@ -14,6 +14,7 @@
 
 import { ref, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
+import type { AxiosError } from 'axios'
 import { useEntityForm } from '../useEntityForm'
 import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
@@ -154,7 +155,7 @@ export function useEntityCardActions(
   const { success, error: showError } = useNotification()
   
   // Entity display composable
-  const { getEntitySuccessMessage, getEntityDeleteTitle } = useEntityDisplay()
+  const { getEntitySuccessMessage, getEntityCreateMessage, getEntityDeleteTitle } = useEntityDisplay()
   
   // Delete dialog state
   const showDeleteDialog = ref(false)
@@ -195,7 +196,7 @@ export function useEntityCardActions(
       if (isNew) {
         // Create new entity
         const createdEntity = await createEntity(formValues)
-        success(`${getEntityDeleteTitle(entityKey)} created successfully`)
+        success(getEntityCreateMessage(entityKey))
         onSaved?.(createdEntity)
       } else {
         // Update existing entity
@@ -206,7 +207,27 @@ export function useEntityCardActions(
         onSaved?.(entity.value)
       }
     } catch (err) {
-      showError(`Failed to save ${entityKey}. Please try again.`)
+      // LEARNING: Extract meaningful error message from API response
+      // WHY: API returns helpful error messages (e.g., "name 'X' already exists") that should be shown to users
+      // PATTERN: Check for AxiosError and extract response.details or response.error if available
+      let errorMessage = `Failed to save ${entityKey}. Please try again.`
+      
+      if (err && typeof err === 'object' && 'isAxiosError' in err) {
+        const axiosError = err as AxiosError<{ error?: string; details?: string; message?: string }>
+        if (axiosError.response?.data) {
+          const data = axiosError.response.data
+          // LEARNING: Prefer 'details' field (contains user-friendly message like "name 'X' already exists")
+          // WHY: Server returns helpful error messages in 'details' field for validation errors
+          // PATTERN: Fall back to 'error' or 'message' fields if 'details' not available
+          errorMessage = data.details || data.error || data.message || errorMessage
+        } else if (axiosError.message) {
+          errorMessage = axiosError.message
+        }
+      } else if (err instanceof Error) {
+        errorMessage = err.message
+      }
+      
+      showError(errorMessage)
     }
   }
   

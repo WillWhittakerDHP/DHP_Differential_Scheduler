@@ -11,8 +11,6 @@ const elementId = computed (() => {
 
   return _elementIdToken ? `app-text-field-${_elementIdToken}` : _id
 })
-
-const label = computed(() => useAttrs().label as string | undefined)
 </script>
 
 <template>
@@ -20,18 +18,10 @@ const label = computed(() => useAttrs().label as string | undefined)
     class="app-text-field flex-grow-1"
     :class="$attrs.class"
   >
-    <VLabel
-      v-if="label"
-      :for="elementId"
-      class="mb-1 text-body-2 text-wrap"
-      style="line-height: 15px;"
-      :text="label"
-    />
     <VTextField
       v-bind="{
         ...$attrs,
         class: null,
-        label: undefined,
         variant: 'outlined',
         id: elementId,
       }"

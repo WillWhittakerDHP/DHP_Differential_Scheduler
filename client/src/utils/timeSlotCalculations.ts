@@ -11,7 +11,7 @@ import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
-import { fitAvailableTimeSlots, parseLocalDate, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
+import { fitAvailableTimeSlots, parseUTCDate, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
 import { generateMockFreeBusyResponse, extractBusyTimesFromFreeBusyResponse } from '@/utils/booking/mockGoogleCalendar'
 import { validateDateRange } from '@/utils/booking/dateRangeValidation'
 import { DEFAULT_APPOINTMENT_DURATION_MINUTES } from '@/constants/scheduling'
@@ -76,17 +76,6 @@ export function calculateDurationFromBlockInstances(blockInstances: BookingBlock
   // P3-1: Use constant instead of magic number
   // Return calculated duration or default to DEFAULT_APPOINTMENT_DURATION_MINUTES if sum is 0
   return totalDuration > 0 ? totalDuration : DEFAULT_APPOINTMENT_DURATION_MINUTES
-}
-
-/**
- * @deprecated Use calculateDurationFromBlockInstances instead
- * Calculate duration from part instances (legacy - single block instance)
- * LEARNING: Kept for backward compatibility during migration
- * WHY: Some code may still reference this function
- * PATTERN: Wraps calculateDurationFromBlockInstances with single block instance
- */
-export function calculateDurationFromPartInstances(service: BookingBlockInstance | null): number {
-  return calculateDurationFromBlockInstances(service ? [service] : [])
 }
 
 /**
@@ -202,15 +191,24 @@ export async function generateTimeSlots(
   
   // LEARNING: Check if date is in the past
   // WHY: Past dates shouldn't generate slots
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const startDate = parseLocalDate(dateRange.start)
+  // LEARNING: Use UTC methods for all date operations
+  // WHY: All business logic should use UTC to avoid timezone issues
+  const now = new Date()
+  const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0))
+  const startDate = parseUTCDate(dateRange.start)
   if (!startDate) {
     logger.warn('Invalid start date in dateRange:', dateRange.start)
     return []
   }
-  const startDateOnly = new Date(startDate)
-  startDateOnly.setHours(0, 0, 0, 0)
+  const startDateOnly = new Date(Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate(), 0, 0, 0, 0))
+  
+  // LEARNING: Extract businessHours from structured rangeConstraints
+  // WHY: No top-level businessHours fallback - must use structured format
+  // PATTERN: Get businessHours from rangeConstraints.businessHours.config.hours
+  const businessHours = settings.rangeConstraints?.businessHours?.config?.hours as BusinessHoursMap
+  if (!businessHours) {
+    throw new Error('businessHours must be provided in rangeConstraints.businessHours.config.hours')
+  }
   
   // LEARNING: Use fitAvailableTimeSlots() core utility for slot generation  // P3-6: Updated function name
   // WHY: Single source of truth for time slot fitting logic
@@ -219,7 +217,7 @@ export async function generateTimeSlots(
     startBoundary: dateRange.start,
     endBoundary: dateRange.end,
     duration,
-    businessHours: settings.businessHours as BusinessHoursMap,
+    businessHours,
     minuteIncrement: settings.minuteIncrement,
     busyTimes,
     includeFlags: { onSite: false, clientPresent: false, moveable: false }

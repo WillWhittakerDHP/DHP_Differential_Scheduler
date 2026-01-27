@@ -4,6 +4,6 @@
  * WHY: Keep the public API stable while splitting form-field logic into focused modules.
  */
 
-export * from '@/composables/formFields/types'
-export * from '@/composables/formFields/useFormFields'
+export * from './formFields/types'
+export * from './formFields/useFormFields'
 

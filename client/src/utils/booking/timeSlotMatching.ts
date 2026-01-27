@@ -12,34 +12,48 @@
 
 import type { Ref } from 'vue'
 import type { TimeSlot, TimeRange, AppointmentSlots } from '@/types/appointment'
+import type { RFC3339DateTime } from '@/types/datetime'
+import { rfc3339ToLocalHHmm } from '@/composables/useLocalTime'
 
 /**
- * Extract time string (HH:mm) from various time formats
+ * Extract time string (HH:mm) from RFC3339 datetime format
  * 
- * LEARNING: Normalizes different time formats to HH:mm for comparison
- * WHY: Loaded appointments may have time in different formats (HH:mm, HH:mm:ss, ISO timestamp)
- * PATTERN: Pure function that handles multiple input formats
+ * LEARNING: Extracts time portion from RFC3339 datetime for matching (UI-boundary function)
+ * WHY: Time slot matching needs to compare times, but RFC3339 is UTC - convert to local for matching
+ * PATTERN: Use useLocalTime composable to extract local HH:mm from RFC3339
  * 
- * @param value - Time value as string (HH:mm, HH:mm:ss, or ISO timestamp) or Date object
- * @returns Time string in HH:mm format, or null if invalid
+ * NOTE: This function is used for matching time slots, not display.
+ * For display formatting, use useLocalTime composable directly.
+ * 
+ * @param value - RFC3339 datetime string or Date object
+ * @returns Time string in HH:mm format (local timezone), or null if invalid
  */
 export function extractTimeString(value: string | Date): string | null {
   try {
-    if (typeof value === 'string' && /^\d{1,2}:\d{2}(:\d{2})?$/.test(value)) {
-      // Already in HH:mm or HH:mm:ss format, extract just HH:mm
-      // Use split to handle single-digit hours correctly (e.g., "9:30:45" -> "9:30")
-      const parts = value.split(':')
-      return `${parts[0]}:${parts[1]}`
-    } else {
-      // Assume it's an ISO timestamp, extract time portion in local time
+    // LEARNING: Only accept RFC3339 format (ISO timestamp)
+    // WHY: HH:mm format should only exist at UI boundary, not in business logic
+    // PATTERN: Convert to RFC3339 string if needed, then use useLocalTime for extraction
+    let rfc3339: RFC3339DateTime
+    
+    if (value instanceof Date) {
+      if (isNaN(value.getTime())) {
+        return null
+      }
+      rfc3339 = value.toISOString() as RFC3339DateTime
+    } else if (typeof value === 'string') {
       const date = new Date(value)
       if (isNaN(date.getTime())) {
         return null
       }
-      const hours = date.getHours().toString().padStart(2, '0')
-      const minutes = date.getMinutes().toString().padStart(2, '0')
-      return `${hours}:${minutes}`
+      rfc3339 = value as RFC3339DateTime
+    } else {
+      return null
     }
+    
+    // LEARNING: Use useLocalTime composable for local time extraction
+    // WHY: Centralizes all local time conversions at UI boundary
+    // PATTERN: Use rfc3339ToLocalHHmm from useLocalTime
+    return rfc3339ToLocalHHmm(rfc3339)
   } catch {
     return null
   }
@@ -71,9 +85,12 @@ export function findMatchingTimeSlot(
 
 /**
  * Loaded time slot structure (from saved appointments)
+ * LEARNING: Uses startTime (RFC3339) to match SelectedTimeSlot format
+ * WHY: SelectedTimeSlot now uses startTime/endTime format, matching code should use same format
  */
 export interface LoadedTimeSlot {
-  time: string
+  startTime: string  // RFC3339 datetime string
+  endTime?: string   // Optional RFC3339 datetime string (for future use)
 }
 
 /**
@@ -102,7 +119,7 @@ export function matchLoadedTimeSlots(
 
   // Match first slot to inspector
   if (loadedSlots.length > 0) {
-    const inspectorMatch = findMatchingTimeSlot(loadedSlots[0].time, availableSlots)
+    const inspectorMatch = findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots)
     if (inspectorMatch) {
       inspectorAppointmentSlotRef.value = inspectorMatch
     }
@@ -110,7 +127,7 @@ export function matchLoadedTimeSlots(
 
   // Match second slot to client (if exists)
   if (loadedSlots.length > 1) {
-    const clientMatch = findMatchingTimeSlot(loadedSlots[1].time, availableSlots)
+    const clientMatch = findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots)
     if (clientMatch) {
       clientAppointmentSlotRef.value = clientMatch
     }
@@ -137,11 +154,11 @@ export function matchLoadedTimeSlotsImmutable(
   }
 
   const inspectorSlot = loadedSlots.length > 0
-    ? findMatchingTimeSlot(loadedSlots[0].time, availableSlots) ?? null
+    ? findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots) ?? null
     : null
 
   const clientSlot = loadedSlots.length > 1
-    ? findMatchingTimeSlot(loadedSlots[1].time, availableSlots) ?? null
+    ? findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots) ?? null
     : null
 
   return { inspectorSlot, clientSlot }
@@ -203,7 +220,7 @@ export function findMatchingAppointmentSlot(
   // LEARNING: Verify the slot time matches loaded time
   // WHY: Ensure we're matching the correct slot even when position matches
   // PATTERN: Compare time strings
-  const loadedTimeString = extractTimeString(loadedSlot.time)
+  const loadedTimeString = extractTimeString(loadedSlot.startTime)
   const slotTimeString = extractTimeString(slot.startTime)
   
   return loadedTimeString === slotTimeString ? slot : undefined
@@ -274,48 +291,3 @@ export function matchLoadedTimeSlotsToAppointmentSlots(
   }
 }
 
-/**
- * @deprecated Use findAppointmentSlotByOrderIndex instead
- */
-export function findAppointmentTimeByOrderIndex(
-  appointmentSlots: AppointmentSlots,
-  orderIndex: number
-): import('@/types/appointment').AppointmentSlot | undefined {
-  return findAppointmentSlotByOrderIndex(appointmentSlots, orderIndex)
-}
-
-/**
- * @deprecated Use findMatchingAppointmentSlot instead
- */
-export function findMatchingAppointmentTimeSlot(
-  loadedSlot: LoadedTimeSlot,
-  appointmentSlots: AppointmentSlots,
-  orderIndex: number,
-  timeBasis: 'inspector' | 'client' | null
-): TimeSlot | TimeRange | undefined {
-  return findMatchingAppointmentSlot(
-    loadedSlot,
-    appointmentSlots,
-    orderIndex,
-    timeBasis === null ? 'nonDifferential' : timeBasis
-  )
-}
-
-/**
- * @deprecated Use matchLoadedTimeSlotsToAppointmentSlots instead
- */
-export function matchLoadedTimeSlotsToAppointmentTimes(
-  loadedSlots: LoadedTimeSlot[],
-  appointmentSlots: AppointmentSlots,
-  inspectorAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
-  clientAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
-  timeBasis: 'inspector' | 'client' | null = null
-): void {
-  return matchLoadedTimeSlotsToAppointmentSlots(
-    loadedSlots,
-    appointmentSlots,
-    inspectorAppointmentSlotRef,
-    clientAppointmentSlotRef,
-    timeBasis === null ? 'nonDifferential' : timeBasis
-  )
-}

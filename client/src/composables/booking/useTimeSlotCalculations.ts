@@ -11,6 +11,7 @@ import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { getPartInstanceCategory } from '@/utils/booking/partShapeTimeSlotMapping'
+import { useLocalTime } from '@/composables/useLocalTime'
 
 /**
  * Time block structure for display
@@ -66,6 +67,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   } = params
 
   const { formatDuration } = useTimeFormatting()
+  const { formatTimeRangeForDisplay } = useLocalTime()
 
   /**
    * Check if a category should be zeroed out
@@ -201,15 +203,12 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     // WHY: Displays time range in readable format
     // PATTERN: Format start and end times, combine with arrow
     const formatTimeBlock = (start: Date, end: Date): string => {
-      const formatTime = (date: Date): string => {
-        const hours = date.getHours()
-        const minutes = date.getMinutes()
-        const ampm = hours >= 12 ? 'PM' : 'AM'
-        const displayHours = hours % 12 || 12
-        const displayMinutes = minutes.toString().padStart(2, '0')
-        return `${displayHours}:${displayMinutes} ${ampm}`
-      }
-      return `${formatTime(start)} - ${formatTime(end)}`
+      // LEARNING: Use composable for UI-boundary formatting
+      // WHY: All local time conversions must go through useLocalTime composable
+      return formatTimeRangeForDisplay({
+        startTime: start.toISOString(),
+        endTime: end.toISOString()
+      })
     }
     
     const inspectorTimeBlock = formatTimeBlock(inspectorStart, inspectorEnd)
