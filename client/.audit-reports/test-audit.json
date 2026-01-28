@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-01-18T15:56:58.377Z",
+  "generatedAt": "2026-01-28T02:41:06.244Z",
   "summary": {
-    "totalSourceFiles": 479,
-    "totalTestFiles": 110,
-    "untestedSourceFiles": 379,
-    "orphanedTestFiles": 9,
-    "coveragePercentage": 21
+    "totalSourceFiles": 526,
+    "totalTestFiles": 116,
+    "untestedSourceFiles": 422,
+    "orphanedTestFiles": 11,
+    "coveragePercentage": 20
   },
   "untestedSource": [
     {
@@ -523,11 +523,11 @@
     {
       "repoPath": "src/@core/composable/useResponsiveSidebar.ts",
       "functions": [
-        "useResponsiveLeftSidebar"
+        "useResponsiveSidebar"
       ],
       "classes": [],
       "composables": [
-        "useResponsiveLeftSidebar"
+        "useResponsiveSidebar"
       ],
       "exportCount": 2,
       "priority": {
@@ -988,10 +988,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 1,
-        "independence": 2,
+        "independence": 5,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 0.9
+        "overall": 1.5
       }
     },
     {
@@ -1189,10 +1189,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 9,
+        "independence": 3,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8
+        "overall": 0.6
       }
     },
     {
@@ -1224,6 +1224,20 @@
       }
     },
     {
+      "repoPath": "src/components/admin/BlockInstanceCreateModal.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.2
+      }
+    },
+    {
       "repoPath": "src/components/admin/InstanceBulkEditModal.vue",
       "functions": [],
       "classes": [],
@@ -1245,10 +1259,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 4,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8
+        "overall": 1.4
       }
     },
     {
@@ -1314,11 +1328,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
-        "independence": 0,
+        "reliability": 0,
+        "independence": 1,
         "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 1.3
+        "cognitiveLoad": 4,
+        "overall": 0.6
       }
     },
     {
@@ -1440,11 +1454,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8
+        "overall": 1.6
       }
     },
     {
@@ -1469,10 +1483,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 3,
+        "independence": 6,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 0.8
+        "overall": 1.4
       }
     },
     {
@@ -1569,8 +1583,8 @@
         "reliability": 2,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1
+        "cognitiveLoad": 3,
+        "overall": 2.3
       }
     },
     {
@@ -1595,10 +1609,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 4,
+        "independence": 1,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.9
+        "cognitiveLoad": 4,
+        "overall": 1.4
       }
     },
     {
@@ -1608,11 +1622,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 6,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4
+        "cognitiveLoad": 1,
+        "overall": 4.3
       }
     },
     {
@@ -1625,8 +1639,8 @@
         "reliability": 4,
         "independence": 0,
         "roi": 2,
-        "cognitiveLoad": 5,
-        "overall": 2.7
+        "cognitiveLoad": 2,
+        "overall": 2.4
       }
     },
     {
@@ -1655,6 +1669,20 @@
         "roi": 2,
         "cognitiveLoad": 1,
         "overall": 2.3
+      }
+    },
+    {
+      "repoPath": "src/components/booking/MoveablePartsModal.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 8,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.8
       }
     },
     {
@@ -1742,6 +1770,62 @@
       }
     },
     {
+      "repoPath": "src/components/booking/dev/AppointmentDebugPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 7,
+        "roi": 2,
+        "cognitiveLoad": 2,
+        "overall": 3.8
+      }
+    },
+    {
+      "repoPath": "src/components/booking/dev/CalendarMockDevPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 2,
+        "overall": 3.6
+      }
+    },
+    {
+      "repoPath": "src/components/booking/dev/DevPanelToggle.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.2
+      }
+    },
+    {
+      "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 2,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.6
+      }
+    },
+    {
       "repoPath": "src/components/booking/plugins/localStatePlugin.ts",
       "functions": [
         "createLocalStatePlugin"
@@ -1781,10 +1865,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 6,
-        "independence": 4,
+        "independence": 2,
         "roi": 2,
-        "cognitiveLoad": 4,
-        "overall": 4.2
+        "cognitiveLoad": 3,
+        "overall": 3.7
       }
     },
     {
@@ -2085,6 +2169,24 @@
       }
     },
     {
+      "repoPath": "src/composables/admin/useAdminMetadataMutations.ts",
+      "functions": [
+        "useAdminMetadataMutations"
+      ],
+      "classes": [],
+      "composables": [
+        "useAdminMetadataMutations"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 4,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
       "repoPath": "src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
       "functions": [
         "useAdminPrimitiveMetadataMutations"
@@ -2095,11 +2197,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
-        "independence": 7,
+        "reliability": 7,
+        "independence": 6,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 4.9
+        "cognitiveLoad": 1,
+        "overall": 5.6
       }
     },
     {
@@ -2113,11 +2215,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
-        "independence": 7,
+        "reliability": 7,
+        "independence": 6,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 5.5
       }
     },
     {
@@ -2249,19 +2351,20 @@
     {
       "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
       "functions": [
+        "calculateMaxBusinessHours",
         "useAvailabilitySettings"
       ],
       "classes": [],
       "composables": [
         "useAvailabilitySettings"
       ],
-      "exportCount": 2,
+      "exportCount": 3,
       "priority": {
-        "reliability": 9,
+        "reliability": 10,
         "independence": 5,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 6.1
+        "roi": 6,
+        "cognitiveLoad": 2,
+        "overall": 7
       }
     },
     {
@@ -2272,6 +2375,24 @@
       "classes": [],
       "composables": [
         "useBlockInstanceForm"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useConditionalFieldVisibility.ts",
+      "functions": [
+        "useConditionalFieldVisibility"
+      ],
+      "classes": [],
+      "composables": [
+        "useConditionalFieldVisibility"
       ],
       "exportCount": 2,
       "priority": {
@@ -2350,6 +2471,24 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 4.9
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useEntityCardExpansion.ts",
+      "functions": [
+        "useEntityCardExpansion"
+      ],
+      "classes": [],
+      "composables": [
+        "useEntityCardExpansion"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
       }
     },
     {
@@ -2504,10 +2643,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 7,
-        "independence": 5,
+        "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.4
+        "overall": 4.2
       }
     },
     {
@@ -2576,6 +2715,38 @@
         "roi": 5,
         "cognitiveLoad": 1,
         "overall": 4.4
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useFieldContextManager.ts",
+      "functions": [
+        "useFieldContextManager"
+      ],
+      "classes": [],
+      "composables": [
+        "useFieldContextManager"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useFieldContextMetadataEntity.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 5,
+        "independence": 4,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.4
       }
     },
     {
@@ -2683,6 +2854,24 @@
       }
     },
     {
+      "repoPath": "src/composables/admin/useInputConfigEditor.ts",
+      "functions": [
+        "useInputConfigEditor"
+      ],
+      "classes": [],
+      "composables": [
+        "useInputConfigEditor"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 5.2
+      }
+    },
+    {
       "repoPath": "src/composables/admin/useInstanceBulkEdit.ts",
       "functions": [
         "useInstanceBulkEdit"
@@ -2698,24 +2887,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.1
-      }
-    },
-    {
-      "repoPath": "src/composables/admin/useInstanceCreation.ts",
-      "functions": [
-        "useInstanceCreation"
-      ],
-      "classes": [],
-      "composables": [
-        "useInstanceCreation"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 7,
-        "independence": 3,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 4.9
       }
     },
     {
@@ -2791,6 +2962,24 @@
       }
     },
     {
+      "repoPath": "src/composables/admin/useInstanceOverrideState.ts",
+      "functions": [
+        "useInstanceOverrideState"
+      ],
+      "classes": [],
+      "composables": [
+        "useInstanceOverrideState"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
       "repoPath": "src/composables/admin/useInstanceSaveHandlers.ts",
       "functions": [
         "useInstanceSaveHandlers"
@@ -2845,6 +3034,75 @@
       }
     },
     {
+      "repoPath": "src/composables/admin/useMetadataCache.ts",
+      "functions": [
+        "resetMetadataCache",
+        "useMetadataCache"
+      ],
+      "classes": [],
+      "composables": [
+        "useMetadataCache"
+      ],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 6,
+        "cognitiveLoad": 2,
+        "overall": 5.8
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useMetadataEditorEntity.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 5
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useMetadataFieldOrdering.ts",
+      "functions": [
+        "useMetadataFieldOrdering"
+      ],
+      "classes": [],
+      "composables": [
+        "useMetadataFieldOrdering"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useMetadataFieldUpdates.ts",
+      "functions": [
+        "useMetadataFieldUpdates"
+      ],
+      "classes": [],
+      "composables": [
+        "useMetadataFieldUpdates"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 5.2
+      }
+    },
+    {
       "repoPath": "src/composables/admin/useMetadataModalHandlers.ts",
       "functions": [
         "useMetadataModalHandlers"
@@ -2891,11 +3149,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 10,
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 6.3
       }
     },
     {
@@ -2964,20 +3222,6 @@
         "roi": 2,
         "cognitiveLoad": 3,
         "overall": 3.7
-      }
-    },
-    {
-      "repoPath": "src/composables/admin/useRelationshipMetadata.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 7,
-        "independence": 5,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 4.4
       }
     },
     {
@@ -3196,10 +3440,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 7,
+        "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 3.4
       }
     },
     {
@@ -3251,6 +3495,60 @@
       }
     },
     {
+      "repoPath": "src/composables/booking/useAppointmentDropdown.ts",
+      "functions": [
+        "useAppointmentDropdown"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentDropdown"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 5.9
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAppointmentDuration.ts",
+      "functions": [
+        "useAppointmentDuration"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentDuration"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 10,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.7
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAppointmentLoader.ts",
+      "functions": [
+        "useAppointmentLoader"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentLoader"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 5.9
+      }
+    },
+    {
       "repoPath": "src/composables/booking/useAppointmentSlots.ts",
       "functions": [
         "useAppointmentSlots"
@@ -3264,28 +3562,116 @@
         "reliability": 10,
         "independence": 8,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.7
+        "cognitiveLoad": 1,
+        "overall": 7.8
       }
     },
     {
       "repoPath": "src/composables/booking/useAppointmentTimes.ts",
       "functions": [
-        "useAppointmentSlots",
         "useAppointmentTimes"
       ],
       "classes": [],
       "composables": [
-        "useAppointmentSlots",
         "useAppointmentTimes"
       ],
-      "exportCount": 4,
+      "exportCount": 2,
       "priority": {
         "reliability": 9,
         "independence": 8,
-        "roi": 8,
+        "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 7.8
+        "overall": 7.5
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilityDevPanel.ts",
+      "functions": [
+        "useAvailabilityDevPanel"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilityDevPanel"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilityEmptyState.ts",
+      "functions": [
+        "useAvailabilityEmptyState"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilityEmptyState"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 10,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.7
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilitySettings.ts",
+      "functions": [
+        "useAvailabilitySettings"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilitySettings"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.7
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilitySlotColor.ts",
+      "functions": [
+        "useAvailabilitySlotColor"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilitySlotColor"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.5
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts",
+      "functions": [
+        "useAvailabilityStepHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilityStepHandlers"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 10,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.7
       }
     },
     {
@@ -3300,9 +3686,9 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 5,
+        "independence": 4,
         "roi": 7,
-        "cognitiveLoad": 0,
+        "cognitiveLoad": 2,
         "overall": 7.1
       }
     },
@@ -3318,6 +3704,60 @@
         "roi": 4,
         "cognitiveLoad": 0,
         "overall": 5.6
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useBusyTimes.ts",
+      "functions": [
+        "useBusyTimes"
+      ],
+      "classes": [],
+      "composables": [
+        "useBusyTimes"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useMockCalendarRefresh.ts",
+      "functions": [
+        "useMockCalendarRefresh"
+      ],
+      "classes": [],
+      "composables": [
+        "useMockCalendarRefresh"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/usePerspectiveMapping.ts",
+      "functions": [
+        "usePerspectiveMapping"
+      ],
+      "classes": [],
+      "composables": [
+        "usePerspectiveMapping"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.5
       }
     },
     {
@@ -3434,6 +3874,110 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 7.7
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useTimeSlotDurations.ts",
+      "functions": [
+        "useTimeSlotDurations"
+      ],
+      "classes": [],
+      "composables": [
+        "useTimeSlotDurations"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useWizardAppointmentManagement.ts",
+      "functions": [
+        "useWizardAppointmentManagement"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardAppointmentManagement"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 1,
+        "overall": 6.8
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useWizardDevMode.ts",
+      "functions": [
+        "useWizardDevMode"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardDevMode"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.7
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useWizardStepDataRefs.ts",
+      "functions": [
+        "useWizardStepDataRefs"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardStepDataRefs"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useWizardStepSync.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 6.4
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useWizardValidationErrors.ts",
+      "functions": [
+        "useWizardValidationErrors"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardValidationErrors"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 10,
+        "roi": 7,
+        "cognitiveLoad": 1,
+        "overall": 7.8
       }
     },
     {
@@ -3650,8 +4194,8 @@
         "reliability": 4,
         "independence": 4,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3
+        "cognitiveLoad": 1,
+        "overall": 3.1
       }
     },
     {
@@ -3877,6 +4421,46 @@
       }
     },
     {
+      "repoPath": "src/composables/useAnnotationTypes.ts",
+      "functions": [
+        "useAnnotationTypes",
+        "useCreateAnnotationType",
+        "useDeleteAnnotationType",
+        "useUpdateAnnotationType"
+      ],
+      "classes": [],
+      "composables": [
+        "useAnnotationTypes",
+        "useCreateAnnotationType",
+        "useDeleteAnnotationType",
+        "useUpdateAnnotationType"
+      ],
+      "exportCount": 8,
+      "priority": {
+        "reliability": 4,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 2,
+        "overall": 4.9
+      }
+    },
+    {
+      "repoPath": "src/composables/useApiErrorMessage.ts",
+      "functions": [
+        "getApiErrorMessage"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 5,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 2.7
+      }
+    },
+    {
       "repoPath": "src/composables/useBusiness.ts",
       "functions": [
         "useAppointments",
@@ -3987,6 +4571,27 @@
       }
     },
     {
+      "repoPath": "src/composables/useLocalTime.ts",
+      "functions": [
+        "extractBusinessHoursMinutes",
+        "rfc3339ToLocalHHmm",
+        "rfc3339ToLocalMinutesFromMidnight",
+        "useLocalTime"
+      ],
+      "classes": [],
+      "composables": [
+        "useLocalTime"
+      ],
+      "exportCount": 5,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 1,
+        "overall": 4.6
+      }
+    },
+    {
       "repoPath": "src/composables/usePartInstanceData.ts",
       "functions": [
         "usePartInstanceData"
@@ -4078,18 +4683,19 @@
     {
       "repoPath": "src/configs/availabilitySettings.ts",
       "functions": [
-        "clearAvailabilitySettingsCache",
-        "getAvailabilitySettings"
+        "getAvailabilitySettings",
+        "getAvailabilitySettingsCacheStatus",
+        "invalidateAvailabilitySettingsCache"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 2,
+      "exportCount": 3,
       "priority": {
-        "reliability": 4,
-        "independence": 5,
-        "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 3.5
+        "reliability": 5,
+        "independence": 3,
+        "roi": 4,
+        "cognitiveLoad": 2,
+        "overall": 4
       }
     },
     {
@@ -4426,6 +5032,20 @@
       }
     },
     {
+      "repoPath": "src/constants/scheduling.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.4
+      }
+    },
+    {
       "repoPath": "src/layouts/blank.vue",
       "functions": [],
       "classes": [],
@@ -4631,10 +5251,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 0,
-        "independence": 10,
+        "independence": 4,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 1.1
       }
     },
     {
@@ -4670,21 +5290,22 @@
     {
       "repoPath": "src/plugins/3.vue-query.ts",
       "functions": [
+        "getQueryClient",
         "setQueryClient"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 1,
+      "exportCount": 2,
       "priority": {
         "reliability": 2,
         "independence": 10,
-        "roi": 1,
+        "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.7
       }
     },
     {
-      "repoPath": "src/plugins/layouts.ts",
+      "repoPath": "src/plugins/4.layouts/index.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -4698,7 +5319,7 @@
       }
     },
     {
-      "repoPath": "src/plugins/vuetify/defaults.ts",
+      "repoPath": "src/plugins/5.vuetify/defaults.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -4712,7 +5333,7 @@
       }
     },
     {
-      "repoPath": "src/plugins/vuetify/icons.ts",
+      "repoPath": "src/plugins/5.vuetify/icons.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -4726,7 +5347,7 @@
       }
     },
     {
-      "repoPath": "src/plugins/vuetify/index.ts",
+      "repoPath": "src/plugins/5.vuetify/index.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -4740,7 +5361,7 @@
       }
     },
     {
-      "repoPath": "src/plugins/vuetify/theme.ts",
+      "repoPath": "src/plugins/5.vuetify/theme.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -4761,10 +5382,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 10,
+        "independence": 5,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 1.8
       }
     },
     {
@@ -4844,6 +5465,20 @@
       }
     },
     {
+      "repoPath": "src/types/availability.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8
+      }
+    },
+    {
       "repoPath": "src/types/component.ts",
       "functions": [],
       "classes": [],
@@ -4855,6 +5490,26 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2.4
+      }
+    },
+    {
+      "repoPath": "src/types/datetime.ts",
+      "functions": [
+        "getDayOfWeek",
+        "isRFC3339DateTime",
+        "toDayOfWeek",
+        "toRFC3339DateTime",
+        "validateRFC3339DateTime"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 5,
+      "priority": {
+        "reliability": 1,
+        "independence": 6,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.1
       }
     },
     {
@@ -4901,6 +5556,34 @@
     },
     {
       "repoPath": "src/types/entityMetadata.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.4
+      }
+    },
+    {
+      "repoPath": "src/types/googleCalendar.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.2
+      }
+    },
+    {
+      "repoPath": "src/types/moveableScheduling.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -5072,6 +5755,7 @@
     {
       "repoPath": "src/utils/admin/entityDisplayText.ts",
       "functions": [
+        "getEntityCreateMessage",
         "getEntityDeleteTitle",
         "getEntitySuccessMessage",
         "getEntityTypeLabel",
@@ -5079,13 +5763,13 @@
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 4,
+      "exportCount": 5,
       "priority": {
         "reliability": 2,
         "independence": 10,
-        "roi": 7,
+        "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 5.2
       }
     },
     {
@@ -5122,6 +5806,7 @@
       "repoPath": "src/utils/blockInstanceUtils.ts",
       "functions": [
         "findBlockInstanceByIdAndShapeId",
+        "generateIncrementedName",
         "getBlockInstancesByShapeId",
         "getBlockInstancesByShapeIdFromBooking",
         "getBlockInstancesByShapeName",
@@ -5134,13 +5819,13 @@
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 10,
+      "exportCount": 11,
       "priority": {
-        "reliability": 4,
+        "reliability": 5,
         "independence": 5,
         "roi": 9,
-        "cognitiveLoad": 2,
-        "overall": 5.5
+        "cognitiveLoad": 5,
+        "overall": 6.2
       }
     },
     {
@@ -5172,11 +5857,29 @@
       "repoPath": "src/utils/booking/appointmentTimeCalculations.ts",
       "functions": [
         "calculateAppointmentSlots",
-        "calculateAppointmentTimes",
         "calculateTotalDurationFromAppointmentSlots",
-        "calculateTotalDurationFromAppointmentTimes",
-        "normalizeAppointmentSlotsByOrderIndex",
-        "normalizeAppointmentTimesByOrderIndex"
+        "normalizeAppointmentSlotsByOrderIndex"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 7,
+        "independence": 10,
+        "roi": 9,
+        "cognitiveLoad": 2,
+        "overall": 7.7
+      }
+    },
+    {
+      "repoPath": "src/utils/booking/constraintExtractors.ts",
+      "functions": [
+        "extractCapacityConstraints",
+        "extractOverlapConstraints",
+        "extractRangeConstraints",
+        "validateCapacityConstraint",
+        "validateOverlapConstraint",
+        "validateRangeConstraint"
       ],
       "classes": [],
       "composables": [],
@@ -5187,6 +5890,23 @@
         "roi": 10,
         "cognitiveLoad": 3,
         "overall": 8.1
+      }
+    },
+    {
+      "repoPath": "src/utils/booking/dateRangeValidation.ts",
+      "functions": [
+        "hasValidDateRangeStructure",
+        "validateDateRange"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 3,
+        "independence": 10,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 5.6
       }
     },
     {
@@ -5205,6 +5925,22 @@
         "roi": 9,
         "cognitiveLoad": 0,
         "overall": 5.5
+      }
+    },
+    {
+      "repoPath": "src/utils/booking/slotGenerationValidation.ts",
+      "functions": [
+        "validateSlotGenerationParams"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 5,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 5.8
       }
     },
     {
@@ -5264,6 +6000,23 @@
       }
     },
     {
+      "repoPath": "src/utils/datetime.ts",
+      "functions": [
+        "dateOnlyToRfc3339",
+        "rfc3339ToDateOnly"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.6
+      }
+    },
+    {
       "repoPath": "src/utils/entities/entityFieldAccess.ts",
       "functions": [
         "getEntityFieldValue"
@@ -5296,34 +6049,17 @@
     {
       "repoPath": "src/utils/entities/entityTypeMapping.ts",
       "functions": [
-        "getEntityTypeForMetadata",
-        "getInheritanceSource"
-      ],
-      "classes": [],
-      "composables": [],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 2,
-        "independence": 7,
-        "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 4.1
-      }
-    },
-    {
-      "repoPath": "src/utils/entities/sanitizeEntityAdminValues.ts",
-      "functions": [
-        "sanitizeEntityAdminValues"
+        "getEntityTypeForMetadata"
       ],
       "classes": [],
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
-        "independence": 10,
+        "reliability": 2,
+        "independence": 7,
         "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 4.8
+        "cognitiveLoad": 1,
+        "overall": 3.5
       }
     },
     {
@@ -5450,17 +6186,18 @@
     {
       "repoPath": "src/utils/logger.ts",
       "functions": [
-        "createLogger"
+        "createLogger",
+        "isScopeExplicitlyEnabled"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 1,
+      "exportCount": 2,
       "priority": {
         "reliability": 4,
         "independence": 8,
-        "roi": 4,
+        "roi": 6,
         "cognitiveLoad": 1,
-        "overall": 4.5
+        "overall": 5.1
       }
     },
     {
@@ -5562,10 +6299,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 7,
+        "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 0.8
       }
     },
     {
@@ -5702,10 +6439,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 6,
-        "independence": 10,
+        "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 4.4
+        "cognitiveLoad": 4,
+        "overall": 4
       }
     },
     {
@@ -5730,10 +6467,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 4,
+        "independence": 1,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8
+        "overall": 1.2
       }
     },
     {
@@ -5823,6 +6560,16 @@
   ],
   "orphanedTests": [
     {
+      "repoPath": "src/composables/__tests__/useAnnotationType.test.ts",
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": true,
+        "hasMocking": true,
+        "hasSetup": true,
+        "qualityScore": 6
+      }
+    },
+    {
       "repoPath": "src/composables/__tests__/useFieldMetadata.test.ts",
       "quality": {
         "hasBehavioralTests": true,
@@ -5910,6 +6657,16 @@
         "hasMocking": true,
         "hasSetup": false,
         "qualityScore": 5
+      }
+    },
+    {
+      "repoPath": "src/utils/booking/__tests__/testDateHelpers.ts",
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": false,
+        "hasMocking": false,
+        "hasSetup": true,
+        "qualityScore": 3
       }
     }
   ],
@@ -6012,9 +6769,9 @@
     },
     {
       "directory": "src/components/admin",
-      "sourceCount": 3,
+      "sourceCount": 4,
       "testCount": 0,
-      "untestedCount": 3
+      "untestedCount": 4
     },
     {
       "directory": "src/components/admin/component",
@@ -6048,9 +6805,15 @@
     },
     {
       "directory": "src/components/booking",
-      "sourceCount": 10,
+      "sourceCount": 11,
       "testCount": 0,
-      "untestedCount": 10
+      "untestedCount": 11
+    },
+    {
+      "directory": "src/components/booking/dev",
+      "sourceCount": 4,
+      "testCount": 0,
+      "untestedCount": 4
     },
     {
       "directory": "src/components/booking/plugins",
@@ -6096,9 +6859,9 @@
     },
     {
       "directory": "src/composables/admin",
-      "sourceCount": 67,
+      "sourceCount": 76,
       "testCount": 0,
-      "untestedCount": 67
+      "untestedCount": 76
     },
     {
       "directory": "src/composables/booking/selectionCard",
@@ -6108,9 +6871,9 @@
     },
     {
       "directory": "src/composables/booking",
-      "sourceCount": 48,
+      "sourceCount": 66,
       "testCount": 0,
-      "untestedCount": 12
+      "untestedCount": 29
     },
     {
       "directory": "src/composables/businessDataCollections",
@@ -6156,9 +6919,9 @@
     },
     {
       "directory": "src/composables",
-      "sourceCount": 29,
+      "sourceCount": 31,
       "testCount": 0,
-      "untestedCount": 10
+      "untestedCount": 13
     },
     {
       "directory": "src/configs",
@@ -6198,9 +6961,9 @@
     },
     {
       "directory": "src/constants",
-      "sourceCount": 7,
+      "sourceCount": 8,
       "testCount": 0,
-      "untestedCount": 7
+      "untestedCount": 8
     },
     {
       "directory": "src/layouts",
@@ -6234,12 +6997,18 @@
     },
     {
       "directory": "src/plugins",
-      "sourceCount": 3,
+      "sourceCount": 2,
       "testCount": 0,
-      "untestedCount": 3
+      "untestedCount": 2
     },
     {
-      "directory": "src/plugins/vuetify",
+      "directory": "src/plugins/4.layouts",
+      "sourceCount": 1,
+      "testCount": 0,
+      "untestedCount": 1
+    },
+    {
+      "directory": "src/plugins/5.vuetify",
       "sourceCount": 4,
       "testCount": 0,
       "untestedCount": 4
@@ -6264,9 +7033,9 @@
     },
     {
       "directory": "src/types",
-      "sourceCount": 16,
+      "sourceCount": 20,
       "testCount": 0,
-      "untestedCount": 16
+      "untestedCount": 20
     },
     {
       "directory": "src/types/entity",
@@ -6282,15 +7051,15 @@
     },
     {
       "directory": "src/utils",
-      "sourceCount": 16,
+      "sourceCount": 17,
       "testCount": 0,
-      "untestedCount": 7
+      "untestedCount": 8
     },
     {
       "directory": "src/utils/booking",
-      "sourceCount": 20,
+      "sourceCount": 27,
       "testCount": 0,
-      "untestedCount": 3
+      "untestedCount": 6
     },
     {
       "directory": "src/utils/collections",
@@ -6300,9 +7069,9 @@
     },
     {
       "directory": "src/utils/entities",
-      "sourceCount": 4,
+      "sourceCount": 3,
       "testCount": 0,
-      "untestedCount": 4
+      "untestedCount": 3
     },
     {
       "directory": "src/utils/env",
@@ -6385,7 +7154,7 @@
     {
       "directory": "src/composables/booking/__tests__",
       "sourceCount": 0,
-      "testCount": 36,
+      "testCount": 37,
       "untestedCount": 0
     },
     {
@@ -6415,7 +7184,7 @@
     {
       "directory": "src/utils/booking/__tests__",
       "sourceCount": 0,
-      "testCount": 17,
+      "testCount": 22,
       "untestedCount": 0
     },
     {
@@ -7098,11 +7867,11 @@
       "repoPath": "src/@core/composable/useResponsiveSidebar.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/@core/composable/useResponsiveSidebar.ts",
       "functions": [
-        "useResponsiveLeftSidebar"
+        "useResponsiveSidebar"
       ],
       "classes": [],
       "composables": [
-        "useResponsiveLeftSidebar"
+        "useResponsiveSidebar"
       ],
       "classMethods": {},
       "hasTest": false,
@@ -7712,10 +8481,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 1,
-        "independence": 2,
+        "independence": 5,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 0.9
+        "overall": 1.5
       }
     },
     {
@@ -7965,10 +8734,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 9,
+        "independence": 3,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8
+        "overall": 0.6
       }
     },
     {
@@ -8008,6 +8777,24 @@
       }
     },
     {
+      "repoPath": "src/components/admin/BlockInstanceCreateModal.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/BlockInstanceCreateModal.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.2
+      }
+    },
+    {
       "repoPath": "src/components/admin/InstanceBulkEditModal.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/InstanceBulkEditModal.vue",
       "functions": [],
@@ -8037,10 +8824,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 4,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8
+        "overall": 1.4
       }
     },
     {
@@ -8126,11 +8913,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
-        "independence": 0,
+        "reliability": 0,
+        "independence": 1,
         "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 1.3
+        "cognitiveLoad": 4,
+        "overall": 0.6
       }
     },
     {
@@ -8288,11 +9075,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8
+        "overall": 1.6
       }
     },
     {
@@ -8325,10 +9112,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 3,
+        "independence": 6,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 0.8
+        "overall": 1.4
       }
     },
     {
@@ -8453,8 +9240,8 @@
         "reliability": 2,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1
+        "cognitiveLoad": 3,
+        "overall": 2.3
       }
     },
     {
@@ -8487,10 +9274,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 4,
+        "independence": 1,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.9
+        "cognitiveLoad": 4,
+        "overall": 1.4
       }
     },
     {
@@ -8504,11 +9291,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 6,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4
+        "cognitiveLoad": 1,
+        "overall": 4.3
       }
     },
     {
@@ -8525,8 +9312,8 @@
         "reliability": 4,
         "independence": 0,
         "roi": 2,
-        "cognitiveLoad": 5,
-        "overall": 2.7
+        "cognitiveLoad": 2,
+        "overall": 2.4
       }
     },
     {
@@ -8563,6 +9350,24 @@
         "roi": 2,
         "cognitiveLoad": 1,
         "overall": 2.3
+      }
+    },
+    {
+      "repoPath": "src/components/booking/MoveablePartsModal.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/MoveablePartsModal.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 8,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.8
       }
     },
     {
@@ -8674,6 +9479,78 @@
       }
     },
     {
+      "repoPath": "src/components/booking/dev/AppointmentDebugPanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/dev/AppointmentDebugPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 7,
+        "roi": 2,
+        "cognitiveLoad": 2,
+        "overall": 3.8
+      }
+    },
+    {
+      "repoPath": "src/components/booking/dev/CalendarMockDevPanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/dev/CalendarMockDevPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 2,
+        "overall": 3.6
+      }
+    },
+    {
+      "repoPath": "src/components/booking/dev/DevPanelToggle.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/dev/DevPanelToggle.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.2
+      }
+    },
+    {
+      "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/dev/DevPanelsContainer.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 2,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.6
+      }
+    },
+    {
       "repoPath": "src/components/booking/plugins/localStatePlugin.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/plugins/localStatePlugin.ts",
       "functions": [
@@ -8725,10 +9602,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 6,
-        "independence": 4,
+        "independence": 2,
         "roi": 2,
-        "cognitiveLoad": 4,
-        "overall": 4.2
+        "cognitiveLoad": 3,
+        "overall": 3.7
       }
     },
     {
@@ -9105,6 +9982,28 @@
       }
     },
     {
+      "repoPath": "src/composables/admin/useAdminMetadataMutations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAdminMetadataMutations.ts",
+      "functions": [
+        "useAdminMetadataMutations"
+      ],
+      "classes": [],
+      "composables": [
+        "useAdminMetadataMutations"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 4,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
       "repoPath": "src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
       "functions": [
@@ -9119,11 +10018,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
-        "independence": 7,
+        "reliability": 7,
+        "independence": 6,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 4.9
+        "cognitiveLoad": 1,
+        "overall": 5.6
       }
     },
     {
@@ -9141,11 +10040,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
-        "independence": 7,
+        "reliability": 7,
+        "independence": 6,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 5.5
       }
     },
     {
@@ -9306,6 +10205,7 @@
       "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAvailabilitySettings.ts",
       "functions": [
+        "calculateMaxBusinessHours",
         "useAvailabilitySettings"
       ],
       "classes": [],
@@ -9315,13 +10215,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 2,
+      "exportCount": 3,
       "priority": {
-        "reliability": 9,
+        "reliability": 10,
         "independence": 5,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 6.1
+        "roi": 6,
+        "cognitiveLoad": 2,
+        "overall": 7
       }
     },
     {
@@ -9333,6 +10233,28 @@
       "classes": [],
       "composables": [
         "useBlockInstanceForm"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useConditionalFieldVisibility.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useConditionalFieldVisibility.ts",
+      "functions": [
+        "useConditionalFieldVisibility"
+      ],
+      "classes": [],
+      "composables": [
+        "useConditionalFieldVisibility"
       ],
       "classMethods": {},
       "hasTest": false,
@@ -9430,6 +10352,28 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 4.9
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useEntityCardExpansion.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEntityCardExpansion.ts",
+      "functions": [
+        "useEntityCardExpansion"
+      ],
+      "classes": [],
+      "composables": [
+        "useEntityCardExpansion"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
       }
     },
     {
@@ -9624,10 +10568,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 7,
-        "independence": 5,
+        "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.4
+        "overall": 4.2
       }
     },
     {
@@ -9712,6 +10656,46 @@
         "roi": 5,
         "cognitiveLoad": 1,
         "overall": 4.4
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useFieldContextManager.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldContextManager.ts",
+      "functions": [
+        "useFieldContextManager"
+      ],
+      "classes": [],
+      "composables": [
+        "useFieldContextManager"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useFieldContextMetadataEntity.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldContextMetadataEntity.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 5,
+        "independence": 4,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.4
       }
     },
     {
@@ -9843,6 +10827,28 @@
       }
     },
     {
+      "repoPath": "src/composables/admin/useInputConfigEditor.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInputConfigEditor.ts",
+      "functions": [
+        "useInputConfigEditor"
+      ],
+      "classes": [],
+      "composables": [
+        "useInputConfigEditor"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 5.2
+      }
+    },
+    {
       "repoPath": "src/composables/admin/useInstanceBulkEdit.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceBulkEdit.ts",
       "functions": [
@@ -9862,28 +10868,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.1
-      }
-    },
-    {
-      "repoPath": "src/composables/admin/useInstanceCreation.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceCreation.ts",
-      "functions": [
-        "useInstanceCreation"
-      ],
-      "classes": [],
-      "composables": [
-        "useInstanceCreation"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 7,
-        "independence": 3,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 4.9
       }
     },
     {
@@ -9975,6 +10959,28 @@
       }
     },
     {
+      "repoPath": "src/composables/admin/useInstanceOverrideState.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceOverrideState.ts",
+      "functions": [
+        "useInstanceOverrideState"
+      ],
+      "classes": [],
+      "composables": [
+        "useInstanceOverrideState"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
       "repoPath": "src/composables/admin/useInstanceSaveHandlers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceSaveHandlers.ts",
       "functions": [
@@ -10041,6 +11047,91 @@
       }
     },
     {
+      "repoPath": "src/composables/admin/useMetadataCache.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useMetadataCache.ts",
+      "functions": [
+        "resetMetadataCache",
+        "useMetadataCache"
+      ],
+      "classes": [],
+      "composables": [
+        "useMetadataCache"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 6,
+        "cognitiveLoad": 2,
+        "overall": 5.8
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useMetadataEditorEntity.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useMetadataEditorEntity.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 5
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useMetadataFieldOrdering.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useMetadataFieldOrdering.ts",
+      "functions": [
+        "useMetadataFieldOrdering"
+      ],
+      "classes": [],
+      "composables": [
+        "useMetadataFieldOrdering"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/useMetadataFieldUpdates.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useMetadataFieldUpdates.ts",
+      "functions": [
+        "useMetadataFieldUpdates"
+      ],
+      "classes": [],
+      "composables": [
+        "useMetadataFieldUpdates"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 5.2
+      }
+    },
+    {
       "repoPath": "src/composables/admin/useMetadataModalHandlers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useMetadataModalHandlers.ts",
       "functions": [
@@ -10099,11 +11190,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 10,
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 6.3
       }
     },
     {
@@ -10188,24 +11279,6 @@
         "roi": 2,
         "cognitiveLoad": 3,
         "overall": 3.7
-      }
-    },
-    {
-      "repoPath": "src/composables/admin/useRelationshipMetadata.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useRelationshipMetadata.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 7,
-        "independence": 5,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 4.4
       }
     },
     {
@@ -10476,10 +11549,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 7,
+        "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 3.4
       }
     },
     {
@@ -10721,6 +11794,72 @@
       }
     },
     {
+      "repoPath": "src/composables/booking/useAppointmentDropdown.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentDropdown.ts",
+      "functions": [
+        "useAppointmentDropdown"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentDropdown"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 5.9
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAppointmentDuration.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentDuration.ts",
+      "functions": [
+        "useAppointmentDuration"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentDuration"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 10,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.7
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAppointmentLoader.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentLoader.ts",
+      "functions": [
+        "useAppointmentLoader"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentLoader"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 5.9
+      }
+    },
+    {
       "repoPath": "src/composables/booking/useAppointmentSlots.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentSlots.ts",
       "functions": [
@@ -10738,32 +11877,30 @@
         "reliability": 10,
         "independence": 8,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.7
+        "cognitiveLoad": 1,
+        "overall": 7.8
       }
     },
     {
       "repoPath": "src/composables/booking/useAppointmentTimes.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentTimes.ts",
       "functions": [
-        "useAppointmentSlots",
         "useAppointmentTimes"
       ],
       "classes": [],
       "composables": [
-        "useAppointmentSlots",
         "useAppointmentTimes"
       ],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 4,
+      "exportCount": 2,
       "priority": {
         "reliability": 9,
         "independence": 8,
-        "roi": 8,
+        "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 7.8
+        "overall": 7.5
       }
     },
     {
@@ -10782,10 +11919,54 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 8,
+        "independence": 7,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 7.8
+        "overall": 7.6
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilityDevPanel.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityDevPanel.ts",
+      "functions": [
+        "useAvailabilityDevPanel"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilityDevPanel"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilityEmptyState.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityEmptyState.ts",
+      "functions": [
+        "useAvailabilityEmptyState"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilityEmptyState"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 10,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.7
       }
     },
     {
@@ -10804,10 +11985,54 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 7,
+        "independence": 5,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 7.8
+        "overall": 7.4
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilitySettings.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilitySettings.ts",
+      "functions": [
+        "useAvailabilitySettings"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilitySettings"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.7
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilitySlotColor.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilitySlotColor.ts",
+      "functions": [
+        "useAvailabilitySlotColor"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilitySlotColor"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.5
       }
     },
     {
@@ -10830,6 +12055,28 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityStepHandlers.ts",
+      "functions": [
+        "useAvailabilityStepHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilityStepHandlers"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 10,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.7
       }
     },
     {
@@ -10892,9 +12139,9 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 5,
+        "independence": 4,
         "roi": 7,
-        "cognitiveLoad": 0,
+        "cognitiveLoad": 2,
         "overall": 7.1
       }
     },
@@ -10929,6 +12176,28 @@
       "classMethods": {},
       "hasTest": true,
       "testFile": "src/composables/booking/__tests__/useBookingWizardStepValidators.test.ts",
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useBusyTimes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useBusyTimes.ts",
+      "functions": [
+        "useBusyTimes"
+      ],
+      "classes": [],
+      "composables": [
+        "useBusyTimes"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
       "exportCount": 2,
       "priority": {
         "reliability": 9,
@@ -11027,18 +12296,18 @@
       }
     },
     {
-      "repoPath": "src/composables/booking/useDependentInstanceOptions.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useDependentInstanceOptions.ts",
+      "repoPath": "src/composables/booking/useDependentInstances.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useDependentInstances.ts",
       "functions": [
-        "useDependentInstanceOptions"
+        "useDependentInstances"
       ],
       "classes": [],
       "composables": [
-        "useDependentInstanceOptions"
+        "useDependentInstances"
       ],
       "classMethods": {},
       "hasTest": true,
-      "testFile": "src/composables/booking/__tests__/useDependentInstanceOptions.test.ts",
+      "testFile": "src/composables/booking/__tests__/useDependentInstances.test.ts",
       "exportCount": 2,
       "priority": {
         "reliability": 9,
@@ -11181,6 +12450,50 @@
       }
     },
     {
+      "repoPath": "src/composables/booking/useMockCalendarRefresh.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useMockCalendarRefresh.ts",
+      "functions": [
+        "useMockCalendarRefresh"
+      ],
+      "classes": [],
+      "composables": [
+        "useMockCalendarRefresh"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useMoveablePartsScheduling.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useMoveablePartsScheduling.ts",
+      "functions": [
+        "useMoveablePartsScheduling"
+      ],
+      "classes": [],
+      "composables": [
+        "useMoveablePartsScheduling"
+      ],
+      "classMethods": {},
+      "hasTest": true,
+      "testFile": "src/composables/booking/__tests__/useMoveablePartsScheduling.test.ts",
+      "exportCount": 2,
+      "priority": {
+        "reliability": 10,
+        "independence": 7,
+        "roi": 7,
+        "cognitiveLoad": 2,
+        "overall": 7.7
+      }
+    },
+    {
       "repoPath": "src/composables/booking/useOptionTypeBlockSelection.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useOptionTypeBlockSelection.ts",
       "functions": [
@@ -11200,6 +12513,28 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 6.9
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/usePerspectiveMapping.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/usePerspectiveMapping.ts",
+      "functions": [
+        "usePerspectiveMapping"
+      ],
+      "classes": [],
+      "composables": [
+        "usePerspectiveMapping"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.5
       }
     },
     {
@@ -11564,10 +12899,76 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 8,
+        "independence": 7,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 8
+        "overall": 7.8
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useTimeSlotDurations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useTimeSlotDurations.ts",
+      "functions": [
+        "useTimeSlotDurations"
+      ],
+      "classes": [],
+      "composables": [
+        "useTimeSlotDurations"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useWizardAppointmentManagement.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardAppointmentManagement.ts",
+      "functions": [
+        "useWizardAppointmentManagement"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardAppointmentManagement"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 1,
+        "overall": 6.8
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useWizardDevMode.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardDevMode.ts",
+      "functions": [
+        "useWizardDevMode"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardDevMode"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 5,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.7
       }
     },
     {
@@ -11681,6 +13082,46 @@
       }
     },
     {
+      "repoPath": "src/composables/booking/useWizardStepDataRefs.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardStepDataRefs.ts",
+      "functions": [
+        "useWizardStepDataRefs"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardStepDataRefs"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.3
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useWizardStepSync.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardStepSync.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 9,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 6.4
+      }
+    },
+    {
       "repoPath": "src/composables/booking/useWizardSubmission.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardSubmission.ts",
       "functions": [
@@ -11722,6 +13163,28 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 6.5
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useWizardValidationErrors.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardValidationErrors.ts",
+      "functions": [
+        "useWizardValidationErrors"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardValidationErrors"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 10,
+        "roi": 7,
+        "cognitiveLoad": 1,
+        "overall": 7.8
       }
     },
     {
@@ -11998,8 +13461,8 @@
         "reliability": 4,
         "independence": 4,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3
+        "cognitiveLoad": 1,
+        "overall": 3.1
       }
     },
     {
@@ -12300,10 +13763,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 4,
-        "independence": 5,
+        "independence": 2,
         "roi": 5,
-        "cognitiveLoad": 3,
-        "overall": 4.4
+        "cognitiveLoad": 1,
+        "overall": 3.6
       }
     },
     {
@@ -12330,8 +13793,8 @@
       }
     },
     {
-      "repoPath": "src/composables/useAnnotationType.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAnnotationType.ts",
+      "repoPath": "src/composables/useAnnotationTypes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAnnotationTypes.ts",
       "functions": [
         "useAnnotationTypes",
         "useCreateAnnotationType",
@@ -12346,8 +13809,8 @@
         "useUpdateAnnotationType"
       ],
       "classMethods": {},
-      "hasTest": true,
-      "testFile": "src/composables/__tests__/useAnnotationType.test.ts",
+      "hasTest": false,
+      "testFile": null,
       "exportCount": 8,
       "priority": {
         "reliability": 4,
@@ -12377,6 +13840,26 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 3.3
+      }
+    },
+    {
+      "repoPath": "src/composables/useApiErrorMessage.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useApiErrorMessage.ts",
+      "functions": [
+        "getApiErrorMessage"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 5,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 2.7
       }
     },
     {
@@ -12417,10 +13900,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 6,
-        "independence": 8,
+        "independence": 3,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 5.6
+        "cognitiveLoad": 4,
+        "overall": 4.9
       }
     },
     {
@@ -12647,8 +14130,8 @@
         "reliability": 4,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.9
+        "cognitiveLoad": 3,
+        "overall": 5
       }
     },
     {
@@ -12715,6 +14198,31 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 3.9
+      }
+    },
+    {
+      "repoPath": "src/composables/useLocalTime.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useLocalTime.ts",
+      "functions": [
+        "extractBusinessHoursMinutes",
+        "rfc3339ToLocalHHmm",
+        "rfc3339ToLocalMinutesFromMidnight",
+        "useLocalTime"
+      ],
+      "classes": [],
+      "composables": [
+        "useLocalTime"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 5,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 7,
+        "cognitiveLoad": 1,
+        "overall": 4.6
       }
     },
     {
@@ -12936,21 +14444,22 @@
       "repoPath": "src/configs/availabilitySettings.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/availabilitySettings.ts",
       "functions": [
-        "clearAvailabilitySettingsCache",
-        "getAvailabilitySettings"
+        "getAvailabilitySettings",
+        "getAvailabilitySettingsCacheStatus",
+        "invalidateAvailabilitySettingsCache"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 2,
+      "exportCount": 3,
       "priority": {
-        "reliability": 4,
-        "independence": 5,
-        "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 3.5
+        "reliability": 5,
+        "independence": 3,
+        "roi": 4,
+        "cognitiveLoad": 2,
+        "overall": 4
       }
     },
     {
@@ -13379,6 +14888,24 @@
       }
     },
     {
+      "repoPath": "src/constants/scheduling.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/scheduling.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.4
+      }
+    },
+    {
       "repoPath": "src/layouts/blank.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/layouts/blank.vue",
       "functions": [],
@@ -13644,10 +15171,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 0,
-        "independence": 10,
+        "independence": 4,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 1.1
       }
     },
     {
@@ -13692,6 +15219,7 @@
       "repoPath": "src/plugins/3.vue-query.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/3.vue-query.ts",
       "functions": [
+        "getQueryClient",
         "setQueryClient"
       ],
       "classes": [],
@@ -13699,18 +15227,18 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 1,
+      "exportCount": 2,
       "priority": {
         "reliability": 2,
         "independence": 10,
-        "roi": 1,
+        "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.7
       }
     },
     {
-      "repoPath": "src/plugins/layouts.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/layouts.ts",
+      "repoPath": "src/plugins/4.layouts/index.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/4.layouts/index.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -13727,8 +15255,8 @@
       }
     },
     {
-      "repoPath": "src/plugins/vuetify/defaults.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/vuetify/defaults.ts",
+      "repoPath": "src/plugins/5.vuetify/defaults.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/5.vuetify/defaults.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -13745,8 +15273,8 @@
       }
     },
     {
-      "repoPath": "src/plugins/vuetify/icons.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/vuetify/icons.ts",
+      "repoPath": "src/plugins/5.vuetify/icons.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/5.vuetify/icons.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -13763,8 +15291,8 @@
       }
     },
     {
-      "repoPath": "src/plugins/vuetify/index.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/vuetify/index.ts",
+      "repoPath": "src/plugins/5.vuetify/index.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/5.vuetify/index.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -13781,8 +15309,8 @@
       }
     },
     {
-      "repoPath": "src/plugins/vuetify/theme.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/vuetify/theme.ts",
+      "repoPath": "src/plugins/5.vuetify/theme.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/plugins/5.vuetify/theme.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -13810,10 +15338,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 10,
+        "independence": 5,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 1.8
       }
     },
     {
@@ -13924,6 +15452,24 @@
       }
     },
     {
+      "repoPath": "src/types/availability.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/availability.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8
+      }
+    },
+    {
       "repoPath": "src/types/component.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/component.ts",
       "functions": [],
@@ -13939,6 +15485,30 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2.4
+      }
+    },
+    {
+      "repoPath": "src/types/datetime.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/datetime.ts",
+      "functions": [
+        "getDayOfWeek",
+        "isRFC3339DateTime",
+        "toDayOfWeek",
+        "toRFC3339DateTime",
+        "validateRFC3339DateTime"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 5,
+      "priority": {
+        "reliability": 1,
+        "independence": 6,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.1
       }
     },
     {
@@ -13998,6 +15568,42 @@
     {
       "repoPath": "src/types/entityMetadata.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/entityMetadata.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.4
+      }
+    },
+    {
+      "repoPath": "src/types/googleCalendar.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/googleCalendar.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.2
+      }
+    },
+    {
+      "repoPath": "src/types/moveableScheduling.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/moveableScheduling.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -14217,6 +15823,7 @@
       "repoPath": "src/utils/admin/entityDisplayText.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/entityDisplayText.ts",
       "functions": [
+        "getEntityCreateMessage",
         "getEntityDeleteTitle",
         "getEntitySuccessMessage",
         "getEntityTypeLabel",
@@ -14227,13 +15834,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 4,
+      "exportCount": 5,
       "priority": {
         "reliability": 2,
         "independence": 10,
-        "roi": 7,
+        "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 5.2
       }
     },
     {
@@ -14265,6 +15872,8 @@
       "repoPath": "src/utils/api.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/api.ts",
       "functions": [
+        "getAdminMetadataBatchEndpoint",
+        "getAdminMetadataEndpoint",
         "getAdminPrimitiveMetadataEndpoint",
         "getAdminRelationshipMetadataEndpoint",
         "getAnnotationAssignmentsEndpoint",
@@ -14297,13 +15906,13 @@
       "classMethods": {},
       "hasTest": true,
       "testFile": "src/utils/__tests__/api.test.ts",
-      "exportCount": 26,
+      "exportCount": 28,
       "priority": {
-        "reliability": 4,
+        "reliability": 6,
         "independence": 3,
         "roi": 9,
         "cognitiveLoad": 2,
-        "overall": 5.1
+        "overall": 5.9
       }
     },
     {
@@ -14349,6 +15958,7 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/blockInstanceUtils.ts",
       "functions": [
         "findBlockInstanceByIdAndShapeId",
+        "generateIncrementedName",
         "getBlockInstancesByShapeId",
         "getBlockInstancesByShapeIdFromBooking",
         "getBlockInstancesByShapeName",
@@ -14364,13 +15974,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 10,
+      "exportCount": 11,
       "priority": {
-        "reliability": 4,
+        "reliability": 5,
         "independence": 5,
         "roi": 9,
-        "cognitiveLoad": 2,
-        "overall": 5.5
+        "cognitiveLoad": 5,
+        "overall": 6.2
       }
     },
     {
@@ -14407,24 +16017,21 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentTimeCalculations.ts",
       "functions": [
         "calculateAppointmentSlots",
-        "calculateAppointmentTimes",
         "calculateTotalDurationFromAppointmentSlots",
-        "calculateTotalDurationFromAppointmentTimes",
-        "normalizeAppointmentSlotsByOrderIndex",
-        "normalizeAppointmentTimesByOrderIndex"
+        "normalizeAppointmentSlotsByOrderIndex"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 6,
+      "exportCount": 3,
       "priority": {
         "reliability": 7,
         "independence": 10,
-        "roi": 10,
-        "cognitiveLoad": 3,
-        "overall": 8.1
+        "roi": 9,
+        "cognitiveLoad": 2,
+        "overall": 7.7
       }
     },
     {
@@ -14491,6 +16098,73 @@
       }
     },
     {
+      "repoPath": "src/utils/booking/constraintExtractors.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/constraintExtractors.ts",
+      "functions": [
+        "extractCapacityConstraints",
+        "extractOverlapConstraints",
+        "extractRangeConstraints",
+        "validateCapacityConstraint",
+        "validateOverlapConstraint",
+        "validateRangeConstraint"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 6,
+      "priority": {
+        "reliability": 7,
+        "independence": 10,
+        "roi": 10,
+        "cognitiveLoad": 3,
+        "overall": 8.1
+      }
+    },
+    {
+      "repoPath": "src/utils/booking/constraintHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/constraintHelpers.ts",
+      "functions": [
+        "ensureDateRangeInSettings",
+        "extractAllConstraints"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": true,
+      "testFile": "src/utils/booking/__tests__/constraintHelpers.test.ts",
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 10,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6
+      }
+    },
+    {
+      "repoPath": "src/utils/booking/dateRangeValidation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/dateRangeValidation.ts",
+      "functions": [
+        "hasValidDateRangeStructure",
+        "validateDateRange"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 3,
+        "independence": 10,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 5.6
+      }
+    },
+    {
       "repoPath": "src/utils/booking/instanceComponentsList.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/instanceComponentsList.ts",
       "functions": [
@@ -14509,6 +16183,27 @@
         "roi": 8,
         "cognitiveLoad": 0,
         "overall": 5.2
+      }
+    },
+    {
+      "repoPath": "src/utils/booking/mockGoogleCalendar.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/mockGoogleCalendar.ts",
+      "functions": [
+        "extractBusyTimesFromFreeBusyResponse",
+        "generateMockFreeBusyResponse"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": true,
+      "testFile": "src/utils/booking/__tests__/mockGoogleCalendar.test.ts",
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 3,
+        "overall": 6.3
       }
     },
     {
@@ -14749,32 +16444,133 @@
       }
     },
     {
+      "repoPath": "src/utils/booking/slotGenerationValidation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotGenerationValidation.ts",
+      "functions": [
+        "validateSlotGenerationParams"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 5,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 5.8
+      }
+    },
+    {
+      "repoPath": "src/utils/booking/timeAvailabilityManager.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeAvailabilityManager.ts",
+      "functions": [
+        "checkRangeConstraints",
+        "checkSlotAvailability",
+        "clearScheduledHoursCache",
+        "generateSlotsWithAvailability",
+        "markSlotAvailability",
+        "preprocessBusyPeriods"
+      ],
+      "classes": [
+        "ConstraintValidationError"
+      ],
+      "composables": [],
+      "classMethods": {
+        "ConstraintValidationError": [
+          "Boundaries",
+          "applyCapacityFilters",
+          "buildCapacityKey",
+          "capacityKeyToString",
+          "catch",
+          "checkSlotAvailability",
+          "clearScheduledHoursCache",
+          "extractDateFromRFC3339",
+          "fetchScheduledHoursForCalendarWeek",
+          "fetchScheduledHoursForDate",
+          "fetchScheduledHoursForRollingWeek",
+          "filter",
+          "for",
+          "generateAllTimeSlots",
+          "generateSlotsWithAvailability",
+          "getCachedValue",
+          "if",
+          "markSlotAvailability",
+          "mergeBusyPeriods",
+          "mergeViolations",
+          "parseBusyPeriods",
+          "preprocessBusyPeriods",
+          "setCachedValue",
+          "sortBusyPeriods",
+          "switch",
+          "validateBusyPeriod",
+          "validateConstraintArrays",
+          "while"
+        ]
+      },
+      "hasTest": true,
+      "testFile": "src/utils/booking/__tests__/timeAvailabilityManager.test.ts",
+      "exportCount": 7,
+      "priority": {
+        "reliability": 7,
+        "independence": 2,
+        "roi": 10,
+        "cognitiveLoad": 9,
+        "overall": 7.1
+      }
+    },
+    {
+      "repoPath": "src/utils/booking/timeSlotFitter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeSlotFitter.ts",
+      "functions": [
+        "fitAllTimeSlotsWithAvailability",
+        "fitAvailableTimeSlots",
+        "isClosedDay",
+        "parseBusinessHours",
+        "parseTimeToMinutes",
+        "parseUTCDate",
+        "timeRangesOverlap"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": true,
+      "testFile": "src/utils/booking/__tests__/timeSlotFitter.test.ts",
+      "exportCount": 7,
+      "priority": {
+        "reliability": 8,
+        "independence": 5,
+        "roi": 10,
+        "cognitiveLoad": 5,
+        "overall": 7.7
+      }
+    },
+    {
       "repoPath": "src/utils/booking/timeSlotMatching.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeSlotMatching.ts",
       "functions": [
         "extractTimeString",
         "findAppointmentSlotByOrderIndex",
-        "findAppointmentTimeByOrderIndex",
         "findMatchingAppointmentSlot",
-        "findMatchingAppointmentTimeSlot",
         "findMatchingTimeSlot",
         "matchLoadedTimeSlots",
         "matchLoadedTimeSlotsImmutable",
-        "matchLoadedTimeSlotsToAppointmentSlots",
-        "matchLoadedTimeSlotsToAppointmentTimes"
+        "matchLoadedTimeSlotsToAppointmentSlots"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": true,
       "testFile": "src/utils/booking/__tests__/timeSlotMatching.test.ts",
-      "exportCount": 10,
+      "exportCount": 7,
       "priority": {
         "reliability": 4,
         "independence": 8,
         "roi": 10,
-        "cognitiveLoad": 4,
-        "overall": 6.6
+        "cognitiveLoad": 3,
+        "overall": 6.5
       }
     },
     {
@@ -14890,6 +16686,27 @@
       }
     },
     {
+      "repoPath": "src/utils/datetime.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/datetime.ts",
+      "functions": [
+        "dateOnlyToRfc3339",
+        "rfc3339ToDateOnly"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.6
+      }
+    },
+    {
       "repoPath": "src/utils/dependencyCleanup.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/dependencyCleanup.ts",
       "functions": [
@@ -14978,28 +16795,7 @@
       "repoPath": "src/utils/entities/entityTypeMapping.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/entities/entityTypeMapping.ts",
       "functions": [
-        "getEntityTypeForMetadata",
-        "getInheritanceSource"
-      ],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 2,
-        "independence": 7,
-        "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 4.1
-      }
-    },
-    {
-      "repoPath": "src/utils/entities/sanitizeEntityAdminValues.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/entities/sanitizeEntityAdminValues.ts",
-      "functions": [
-        "sanitizeEntityAdminValues"
+        "getEntityTypeForMetadata"
       ],
       "classes": [],
       "composables": [],
@@ -15008,11 +16804,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
-        "independence": 10,
+        "reliability": 2,
+        "independence": 7,
         "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 4.8
+        "cognitiveLoad": 1,
+        "overall": 3.5
       }
     },
     {
@@ -15029,11 +16825,11 @@
       "testFile": "src/utils/__tests__/entityDefaults.test.ts",
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
-        "independence": 10,
+        "reliability": 6,
+        "independence": 7,
         "roi": 6,
-        "cognitiveLoad": 0,
-        "overall": 5.4
+        "cognitiveLoad": 2,
+        "overall": 5.8
       }
     },
     {
@@ -15256,20 +17052,21 @@
       "repoPath": "src/utils/logger.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/logger.ts",
       "functions": [
-        "createLogger"
+        "createLogger",
+        "isScopeExplicitlyEnabled"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 1,
+      "exportCount": 2,
       "priority": {
         "reliability": 4,
         "independence": 8,
-        "roi": 4,
+        "roi": 6,
         "cognitiveLoad": 1,
-        "overall": 4.5
+        "overall": 5.1
       }
     },
     {
@@ -15398,7 +17195,6 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/timeSlotCalculations.ts",
       "functions": [
         "calculateDurationFromBlockInstances",
-        "calculateDurationFromPartInstances",
         "generateTimeSlots",
         "getCalendarAvailability",
         "roundUpToIncrement"
@@ -15408,13 +17204,13 @@
       "classMethods": {},
       "hasTest": true,
       "testFile": "src/utils/__tests__/timeSlotCalculations.test.ts",
-      "exportCount": 5,
+      "exportCount": 4,
       "priority": {
-        "reliability": 7,
-        "independence": 5,
-        "roi": 8,
-        "cognitiveLoad": 0,
-        "overall": 6.2
+        "reliability": 9,
+        "independence": 6,
+        "roi": 7,
+        "cognitiveLoad": 1,
+        "overall": 7
       }
     },
     {
@@ -15559,6 +17355,7 @@
       "classMethods": {
         "GlobalTransformer": [
           "catch",
+          "for",
           "hydrate",
           "if",
           "stageForHydration",
@@ -15573,8 +17370,8 @@
         "reliability": 10,
         "independence": 3,
         "roi": 8,
-        "cognitiveLoad": 5,
-        "overall": 7.5
+        "cognitiveLoad": 7,
+        "overall": 7.7
       }
     },
     {
@@ -15688,10 +17485,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 7,
+        "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 0.8
       }
     },
     {
@@ -15868,10 +17665,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 6,
-        "independence": 10,
+        "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 4.4
+        "cognitiveLoad": 4,
+        "overall": 4
       }
     },
     {
@@ -15904,10 +17701,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 4,
+        "independence": 1,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8
+        "overall": 1.2
       }
     },
     {
@@ -16619,8 +18416,8 @@
         "hasSetup": true,
         "qualityScore": 6
       },
-      "hasSource": true,
-      "sourceFile": "src/composables/useAnnotationType.ts"
+      "hasSource": false,
+      "sourceFile": null
     },
     {
       "repoPath": "src/composables/__tests__/useAnnotations.test.ts",
@@ -19224,7 +21021,7 @@
         },
         {
           "type": "it",
-          "pattern": "should match by time string (HH:mm format)"
+          "pattern": "should match by time string (RFC3339 format)"
         },
         {
           "type": "it",
@@ -19931,8 +21728,8 @@
       "sourceFile": "src/composables/booking/useContactsValidation.ts"
     },
     {
-      "repoPath": "src/composables/booking/__tests__/useDependentInstanceOptions.test.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/__tests__/useDependentInstanceOptions.test.ts",
+      "repoPath": "src/composables/booking/__tests__/useDependentInstances.test.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/__tests__/useDependentInstances.test.ts",
       "testedItems": [
         "describe",
         "it",
@@ -19943,19 +21740,19 @@
       "testPatterns": [
         {
           "type": "describe",
-          "pattern": "useDependentInstanceOptions"
+          "pattern": "useDependentInstances"
         },
         {
           "type": "describe",
-          "pattern": "dependentOptionIds"
+          "pattern": "dependentInstanceIds"
         },
         {
           "type": "describe",
-          "pattern": "dependentOptions"
+          "pattern": "dependentInstances"
         },
         {
           "type": "describe",
-          "pattern": "hasDependentOptions"
+          "pattern": "hasDependentInstances"
         },
         {
           "type": "describe",
@@ -20003,11 +21800,11 @@
         },
         {
           "type": "it",
-          "pattern": "should return false when no dependent options"
+          "pattern": "should return false when no dependent instances"
         },
         {
           "type": "it",
-          "pattern": "should return true when dependent options exist"
+          "pattern": "should return true when dependent instances exist"
         },
         {
           "type": "it",
@@ -20026,7 +21823,7 @@
         "qualityScore": 6
       },
       "hasSource": true,
-      "sourceFile": "src/composables/booking/useDependentInstanceOptions.ts"
+      "sourceFile": "src/composables/booking/useDependentInstances.ts"
     },
     {
       "repoPath": "src/composables/booking/__tests__/useInstanceComponents.test.ts",
@@ -20430,6 +22227,132 @@
       },
       "hasSource": true,
       "sourceFile": "src/composables/booking/useInstanceSelectionState.ts"
+    },
+    {
+      "repoPath": "src/composables/booking/__tests__/useMoveablePartsScheduling.test.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/__tests__/useMoveablePartsScheduling.test.ts",
+      "testedItems": [
+        "describe",
+        "it",
+        "expect",
+        "beforeEach",
+        "vi"
+      ],
+      "testPatterns": [
+        {
+          "type": "describe",
+          "pattern": "useMoveablePartsScheduling"
+        },
+        {
+          "type": "describe",
+          "pattern": "hasMoveableParts detection"
+        },
+        {
+          "type": "describe",
+          "pattern": "modal state management"
+        },
+        {
+          "type": "describe",
+          "pattern": "contingency period"
+        },
+        {
+          "type": "describe",
+          "pattern": "slot selection"
+        },
+        {
+          "type": "describe",
+          "pattern": "moveable duration"
+        },
+        {
+          "type": "describe",
+          "pattern": "moveable options calculation"
+        },
+        {
+          "type": "describe",
+          "pattern": "selected moveable slot"
+        },
+        {
+          "type": "it",
+          "pattern": "should detect moveable parts when totalMoveableDuration > 0"
+        },
+        {
+          "type": "it",
+          "pattern": "should not detect moveable parts when totalMoveableDuration is 0"
+        },
+        {
+          "type": "it",
+          "pattern": "should not detect moveable parts when shape is null"
+        },
+        {
+          "type": "it",
+          "pattern": "should initialize with modal closed"
+        },
+        {
+          "type": "it",
+          "pattern": "should open modal when openModal is called"
+        },
+        {
+          "type": "it",
+          "pattern": "should close modal when closeModal is called"
+        },
+        {
+          "type": "it",
+          "pattern": "should initialize with default contingency period"
+        },
+        {
+          "type": "it",
+          "pattern": "should reset contingency period when resetContingency is called"
+        },
+        {
+          "type": "it",
+          "pattern": "should initialize with no selected slot"
+        },
+        {
+          "type": "it",
+          "pattern": "should select slot when selectSlot is called"
+        },
+        {
+          "type": "it",
+          "pattern": "should update selected slot index"
+        },
+        {
+          "type": "it",
+          "pattern": "should return moveable duration from shape"
+        },
+        {
+          "type": "it",
+          "pattern": "should return 0 when shape is null"
+        },
+        {
+          "type": "it",
+          "pattern": "should return null when no moveable parts"
+        },
+        {
+          "type": "it",
+          "pattern": "should return null when no selected slot"
+        },
+        {
+          "type": "it",
+          "pattern": "should calculate moveable options when conditions are met"
+        },
+        {
+          "type": "it",
+          "pattern": "should return null when no slot is selected"
+        },
+        {
+          "type": "it",
+          "pattern": "should return selected slot when index is set"
+        }
+      ],
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": true,
+        "hasMocking": true,
+        "hasSetup": true,
+        "qualityScore": 6
+      },
+      "hasSource": true,
+      "sourceFile": "src/composables/booking/useMoveablePartsScheduling.ts"
     },
     {
       "repoPath": "src/composables/booking/__tests__/useOptionTypeBlockSelection.test.ts",
@@ -23621,7 +25544,7 @@
         },
         {
           "type": "describe",
-          "pattern": "calculateDurationFromPartInstances (deprecated)"
+          "pattern": "calculateDurationFromBlockInstances (single instance)"
         },
         {
           "type": "describe",
@@ -23661,11 +25584,11 @@
         },
         {
           "type": "it",
-          "pattern": "should calculate duration from single block instance (legacy)"
+          "pattern": "should calculate duration from single block instance"
         },
         {
           "type": "it",
-          "pattern": "should return default for null service (legacy)"
+          "pattern": "should return default for empty array"
         },
         {
           "type": "it",
@@ -23749,7 +25672,7 @@
         },
         {
           "type": "it",
-          "pattern": "should return null when inspectorTimeSlot is null"
+          "pattern": "should return null when selectedSlot is null"
         },
         {
           "type": "it",
@@ -23757,27 +25680,19 @@
         },
         {
           "type": "it",
-          "pattern": "should return single slot when only inspector slot provided"
+          "pattern": "should return single slot when only totalOnSite provided"
         },
         {
           "type": "it",
-          "pattern": "should return single slot when client slot equals inspector slot"
+          "pattern": "should return single slot when clientPresent equals onSite startTime"
         },
         {
           "type": "it",
-          "pattern": "should return two slots when client slot differs from inspector slot"
+          "pattern": "should return two slots when clientPresent differs from onSite"
         },
         {
           "type": "it",
-          "pattern": "should use onSiteTotal for inspector slot duration"
-        },
-        {
-          "type": "it",
-          "pattern": "should use presentationDuration for client slot duration"
-        },
-        {
-          "type": "it",
-          "pattern": "should preserve exact time string from slot"
+          "pattern": "should preserve exact RFC3339 time strings"
         },
         {
           "type": "it",
@@ -24104,6 +26019,70 @@
       "sourceFile": "src/utils/booking/confirmationStepData.ts"
     },
     {
+      "repoPath": "src/utils/booking/__tests__/constraintHelpers.test.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/constraintHelpers.test.ts",
+      "testedItems": [
+        "describe",
+        "it",
+        "expect"
+      ],
+      "testPatterns": [
+        {
+          "type": "describe",
+          "pattern": "extractAllConstraints"
+        },
+        {
+          "type": "describe",
+          "pattern": "ensureDateRangeInSettings"
+        },
+        {
+          "type": "it",
+          "pattern": "should extract all constraint types from settings"
+        },
+        {
+          "type": "it",
+          "pattern": "should include businessHours in rangeConstraints"
+        },
+        {
+          "type": "it",
+          "pattern": "should propagate errors from individual extractors"
+        },
+        {
+          "type": "it",
+          "pattern": "should extract overlap constraints when present"
+        },
+        {
+          "type": "it",
+          "pattern": "should extract capacity constraints when present"
+        },
+        {
+          "type": "it",
+          "pattern": "should preserve existing dateRange when present"
+        },
+        {
+          "type": "it",
+          "pattern": "should create dateRange when missing"
+        },
+        {
+          "type": "it",
+          "pattern": "should preserve other rangeConstraints when creating dateRange"
+        },
+        {
+          "type": "it",
+          "pattern": "should create rangeConstraints object if missing"
+        }
+      ],
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": true,
+        "hasMocking": false,
+        "hasSetup": false,
+        "qualityScore": 4
+      },
+      "hasSource": true,
+      "sourceFile": "src/utils/booking/constraintHelpers.ts"
+    },
+    {
       "repoPath": "src/utils/booking/__tests__/instanceComponentsList.test.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/instanceComponentsList.test.ts",
       "testedItems": [
@@ -24159,6 +26138,138 @@
       },
       "hasSource": true,
       "sourceFile": "src/utils/booking/instanceComponentsList.ts"
+    },
+    {
+      "repoPath": "src/utils/booking/__tests__/mockGoogleCalendar.test.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/mockGoogleCalendar.test.ts",
+      "testedItems": [
+        "describe",
+        "it",
+        "expect"
+      ],
+      "testPatterns": [
+        {
+          "type": "describe",
+          "pattern": "generateMockFreeBusyResponse"
+        },
+        {
+          "type": "describe",
+          "pattern": "basic functionality"
+        },
+        {
+          "type": "describe",
+          "pattern": "configuration options"
+        },
+        {
+          "type": "describe",
+          "pattern": "edge cases"
+        },
+        {
+          "type": "describe",
+          "pattern": "extractBusyTimesFromFreeBusyResponse"
+        },
+        {
+          "type": "describe",
+          "pattern": "basic functionality"
+        },
+        {
+          "type": "describe",
+          "pattern": "merging overlapping periods"
+        },
+        {
+          "type": "describe",
+          "pattern": "format compatibility"
+        },
+        {
+          "type": "it",
+          "pattern": "should generate a valid Google Calendar free/busy response"
+        },
+        {
+          "type": "it",
+          "pattern": "should include multiple calendars by default"
+        },
+        {
+          "type": "it",
+          "pattern": "should generate busy periods for each calendar"
+        },
+        {
+          "type": "it",
+          "pattern": "should generate busy periods with valid RFC3339 timestamps"
+        },
+        {
+          "type": "it",
+          "pattern": "should generate busy periods within the date range"
+        },
+        {
+          "type": "it",
+          "pattern": "should respect custom calendar IDs"
+        },
+        {
+          "type": "it",
+          "pattern": "should respect custom periods per calendar"
+        },
+        {
+          "type": "it",
+          "pattern": "should respect custom duration ranges"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle multi-day date ranges"
+        },
+        {
+          "type": "it",
+          "pattern": "T"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error for invalid date range (start >= end)"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle very short date ranges"
+        },
+        {
+          "type": "it",
+          "pattern": "should extract busy times from response"
+        },
+        {
+          "type": "it",
+          "pattern": "should return empty array if no calendars"
+        },
+        {
+          "type": "it",
+          "pattern": "should return empty array if calendars have no busy periods"
+        },
+        {
+          "type": "it",
+          "pattern": "should merge overlapping busy periods when mergeOverlapping is true"
+        },
+        {
+          "type": "it",
+          "pattern": "should merge adjacent busy periods"
+        },
+        {
+          "type": "it",
+          "pattern": "should merge overlapping busy periods"
+        },
+        {
+          "type": "it",
+          "pattern": "should not merge non-overlapping periods"
+        },
+        {
+          "type": "it",
+          "pattern": "should return format compatible with fitTimeSlots busyTimes parameter"
+        }
+      ],
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": true,
+        "hasMocking": true,
+        "hasSetup": true,
+        "qualityScore": 6
+      },
+      "hasSource": true,
+      "sourceFile": "src/utils/booking/mockGoogleCalendar.ts"
     },
     {
       "repoPath": "src/utils/booking/__tests__/selectionCardChildren.test.ts",
@@ -25220,6 +27331,556 @@
       "sourceFile": "src/utils/booking/serviceSelectionConfigBuilders.ts"
     },
     {
+      "repoPath": "src/utils/booking/__tests__/testDateHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/testDateHelpers.ts",
+      "testedItems": [],
+      "testPatterns": [],
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": false,
+        "hasMocking": false,
+        "hasSetup": true,
+        "qualityScore": 3
+      },
+      "hasSource": false,
+      "sourceFile": null
+    },
+    {
+      "repoPath": "src/utils/booking/__tests__/timeAvailabilityManager.test.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/timeAvailabilityManager.test.ts",
+      "testedItems": [
+        "describe",
+        "it",
+        "expect",
+        "beforeAll",
+        "vi"
+      ],
+      "testPatterns": [
+        {
+          "type": "describe",
+          "pattern": "preprocessBusyPeriods"
+        },
+        {
+          "type": "describe",
+          "pattern": "validation"
+        },
+        {
+          "type": "describe",
+          "pattern": "sorting"
+        },
+        {
+          "type": "describe",
+          "pattern": "merging"
+        },
+        {
+          "type": "describe",
+          "pattern": "integration"
+        },
+        {
+          "type": "describe",
+          "pattern": "generateSlotsWithAvailability with preprocessed busy periods"
+        },
+        {
+          "type": "describe",
+          "pattern": "checkSlotAvailability - precise overlap constraint checks"
+        },
+        {
+          "type": "describe",
+          "pattern": "checkRangeConstraints - deterministic with injected time"
+        },
+        {
+          "type": "describe",
+          "pattern": "checkRangeConstraints - config validation"
+        },
+        {
+          "type": "describe",
+          "pattern": "generateSlotsWithAvailability - capacity batching"
+        },
+        {
+          "type": "describe",
+          "pattern": "extractRangeConstraints - fail fast on legacy fields"
+        },
+        {
+          "type": "describe",
+          "pattern": "extractCapacityConstraints"
+        },
+        {
+          "type": "describe",
+          "pattern": "Flexible constraint violations"
+        },
+        {
+          "type": "describe",
+          "pattern": "UTC-only constraint checking"
+        },
+        {
+          "type": "describe",
+          "pattern": "Constraint validation errors"
+        },
+        {
+          "type": "it",
+          "pattern": "should filter out invalid busy periods with start >= end"
+        },
+        {
+          "type": "it",
+          "pattern": "should filter out invalid busy periods with invalid datetime strings"
+        },
+        {
+          "type": "it",
+          "pattern": "should return empty array for all invalid busy periods"
+        },
+        {
+          "type": "it",
+          "pattern": "should return empty array for empty input"
+        },
+        {
+          "type": "it",
+          "pattern": "should sort busy periods by start time"
+        },
+        {
+          "type": "it",
+          "pattern": "should merge overlapping busy periods"
+        },
+        {
+          "type": "it",
+          "pattern": "should merge adjacent busy periods"
+        },
+        {
+          "type": "it",
+          "pattern": "should keep non-overlapping periods separate"
+        },
+        {
+          "type": "it",
+          "pattern": "should merge multiple overlapping periods into one"
+        },
+        {
+          "type": "it",
+          "pattern": "should extend end time when merging periods"
+        },
+        {
+          "type": "it",
+          "pattern": "should validate, sort, and merge busy periods in correct order"
+        },
+        {
+          "type": "it",
+          "pattern": "should correctly mark slots unavailable with merged busy periods"
+        },
+        {
+          "type": "it",
+          "pattern": "should filter invalid busy periods before slot generation"
+        },
+        {
+          "type": "it",
+          "pattern": "should track earliest completion of available slots only"
+        },
+        {
+          "type": "it",
+          "pattern": "should only mark the constraint that actually caused overlap"
+        },
+        {
+          "type": "it",
+          "pattern": "should block immediately on hard enforcement overlap"
+        },
+        {
+          "type": "it",
+          "pattern": "should use injected now for leadTime constraint"
+        },
+        {
+          "type": "it",
+          "pattern": "should use range. prefix for flexible range violations"
+        },
+        {
+          "type": "it",
+          "pattern": "should use range. prefix for businessHours violations (UTC time-of-day)"
+        },
+        {
+          "type": "it",
+          "pattern": "should cache parsed business hours per UTC day"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle invalid leadTime config gracefully"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle invalid dateRange config gracefully"
+        },
+        {
+          "type": "it",
+          "pattern": "should batch capacity checks for slots on same date"
+        },
+        {
+          "type": "it",
+          "pattern": "T"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error when top-level businessHours exists without rangeConstraints.businessHours"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error when rangeConstraints.businessHours is missing"
+        },
+        {
+          "type": "it",
+          "pattern": "should succeed when rangeConstraints.businessHours is provided"
+        },
+        {
+          "type": "it",
+          "pattern": "should include optional leadTime and dateRange constraints when provided"
+        },
+        {
+          "type": "it",
+          "pattern": "should extract daily capacity constraint when enforcement is not off"
+        },
+        {
+          "type": "it",
+          "pattern": "should skip constraints when enforcement is off"
+        },
+        {
+          "type": "it",
+          "pattern": "should include direction for rollingWeek constraints"
+        },
+        {
+          "type": "it",
+          "pattern": "should extract all three capacity constraint types when provided"
+        },
+        {
+          "type": "it",
+          "pattern": "should return empty array when maxWorkHours is undefined"
+        },
+        {
+          "type": "it",
+          "pattern": "should default enforcement to hard when undefined"
+        },
+        {
+          "type": "it",
+          "pattern": "should generate slots outside business hours and mark them with flexible violations"
+        },
+        {
+          "type": "it",
+          "pattern": "should generate slots outside dateRange and mark them with flexible violations"
+        },
+        {
+          "type": "it",
+          "pattern": "should use UTC day of week for business hours checks"
+        },
+        {
+          "type": "it",
+          "pattern": "should use UTC time-of-day for business hours checks"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw ConstraintValidationError for invalid range constraint"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw ConstraintValidationError for invalid overlap constraint"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw ConstraintValidationError for invalid capacity constraint"
+        },
+        {
+          "type": "it",
+          "pattern": "should hard-fail when capacity API call fails (no fallback to 0)"
+        }
+      ],
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": true,
+        "hasMocking": true,
+        "hasSetup": true,
+        "qualityScore": 6
+      },
+      "hasSource": true,
+      "sourceFile": "src/utils/booking/timeAvailabilityManager.ts"
+    },
+    {
+      "repoPath": "src/utils/booking/__tests__/timeSlotFitter.test.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/timeSlotFitter.test.ts",
+      "testedItems": [
+        "describe",
+        "it",
+        "expect",
+        "beforeAll"
+      ],
+      "testPatterns": [
+        {
+          "type": "describe",
+          "pattern": "timeSlotFitter helpers"
+        },
+        {
+          "type": "describe",
+          "pattern": "parseUTCDate"
+        },
+        {
+          "type": "describe",
+          "pattern": "parseTimeToMinutes"
+        },
+        {
+          "type": "describe",
+          "pattern": "timeRangesOverlap"
+        },
+        {
+          "type": "describe",
+          "pattern": "fitTimeSlots"
+        },
+        {
+          "type": "describe",
+          "pattern": "basic functionality"
+        },
+        {
+          "type": "describe",
+          "pattern": "boundary handling"
+        },
+        {
+          "type": "describe",
+          "pattern": "business hours handling"
+        },
+        {
+          "type": "describe",
+          "pattern": "busy times handling"
+        },
+        {
+          "type": "describe",
+          "pattern": "fitTimeSlotsWithAvailability"
+        },
+        {
+          "type": "describe",
+          "pattern": "basic functionality"
+        },
+        {
+          "type": "describe",
+          "pattern": "edge cases"
+        },
+        {
+          "type": "describe",
+          "pattern": "includeFlags handling"
+        },
+        {
+          "type": "describe",
+          "pattern": "input validation"
+        },
+        {
+          "type": "describe",
+          "pattern": "duration validation"
+        },
+        {
+          "type": "describe",
+          "pattern": "minuteIncrement validation"
+        },
+        {
+          "type": "describe",
+          "pattern": "boundary validation"
+        },
+        {
+          "type": "describe",
+          "pattern": "business hours validation"
+        },
+        {
+          "type": "describe",
+          "pattern": "earliestCompletion calculation"
+        },
+        {
+          "type": "describe",
+          "pattern": "edge cases"
+        },
+        {
+          "type": "it",
+          "pattern": "should parse YYYY-MM-DD format in UTC"
+        },
+        {
+          "type": "it",
+          "pattern": "should parse ISO timestamp format"
+        },
+        {
+          "type": "it",
+          "pattern": "should parse HH:mm format correctly"
+        },
+        {
+          "type": "it",
+          "pattern": "should detect overlapping ranges"
+        },
+        {
+          "type": "it",
+          "pattern": "should detect non-overlapping ranges"
+        },
+        {
+          "type": "it",
+          "pattern": "should detect adjacent ranges as non-overlapping"
+        },
+        {
+          "type": "it",
+          "pattern": "should detect contained ranges as overlapping"
+        },
+        {
+          "type": "it",
+          "pattern": "should generate slots for single day within boundaries"
+        },
+        {
+          "type": "it",
+          "pattern": "should respect duration in slots"
+        },
+        {
+          "type": "it",
+          "pattern": "should respect minuteIncrement"
+        },
+        {
+          "type": "it",
+          "pattern": "should return empty slots if startBoundary >= endBoundary"
+        },
+        {
+          "type": "it",
+          "pattern": "should filter slots that start before startBoundary"
+        },
+        {
+          "type": "it",
+          "pattern": "should filter slots that end after endBoundary"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle multi-day boundaries"
+        },
+        {
+          "type": "it",
+          "pattern": "should respect business hours for each day"
+        },
+        {
+          "type": "it",
+          "pattern": "should not generate slots outside business hours"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle different business hours per day"
+        },
+        {
+          "type": "it",
+          "pattern": "should filter out slots that overlap busy times"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle empty busy times array"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle busy times spanning multiple days"
+        },
+        {
+          "type": "it",
+          "pattern": "should filter out slots using mock Google Calendar busy times"
+        },
+        {
+          "type": "it",
+          "pattern": "should generate all slots with availability flags"
+        },
+        {
+          "type": "it",
+          "pattern": "should mark busy slots as unavailable"
+        },
+        {
+          "type": "it",
+          "pattern": "should mark available slots as available"
+        },
+        {
+          "type": "it",
+          "pattern": "should generate more slots than fitTimeSlots when busy periods exist"
+        },
+        {
+          "type": "it",
+          "pattern": "should return earliest completion from available slots only"
+        },
+        {
+          "type": "it",
+          "pattern": "should mark all slots as available when no busy times"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle busy times spanning multiple days"
+        },
+        {
+          "type": "it",
+          "pattern": "should set TimeSlot flags correctly"
+        },
+        {
+          "type": "it",
+          "pattern": "should use default flags when DEFAULT_INCLUDE_FLAGS provided"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error for duration <= 0"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error for minuteIncrement <= 0"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error for non-integer minuteIncrement"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error for missing startBoundary"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error for missing endBoundary"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error for invalid startBoundary datetime"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error for invalid endBoundary datetime"
+        },
+        {
+          "type": "it",
+          "pattern": "should throw error for invalid businessHours type"
+        },
+        {
+          "type": "it",
+          "pattern": "should return empty slots for empty business hours"
+        },
+        {
+          "type": "it",
+          "pattern": "should return earliest completion time of available slots only"
+        },
+        {
+          "type": "it",
+          "pattern": "should return null if no available slots generated"
+        },
+        {
+          "type": "it",
+          "pattern": "should return null if no slots generated"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle very short duration"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle very long duration"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle invalid business hours gracefully"
+        },
+        {
+          "type": "it",
+          "pattern": "should handle missing business hours for a day"
+        }
+      ],
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": true,
+        "hasMocking": true,
+        "hasSetup": true,
+        "qualityScore": 6
+      },
+      "hasSource": true,
+      "sourceFile": "src/utils/booking/timeSlotFitter.ts"
+    },
+    {
       "repoPath": "src/utils/booking/__tests__/timeSlotMatching.test.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/timeSlotMatching.test.ts",
       "testedItems": [
@@ -25239,15 +27900,7 @@
         },
         {
           "type": "describe",
-          "pattern": "HH:mm format"
-        },
-        {
-          "type": "describe",
-          "pattern": "HH:mm:ss format"
-        },
-        {
-          "type": "describe",
-          "pattern": "ISO timestamp format"
+          "pattern": "RFC3339 datetime format (UTC)"
         },
         {
           "type": "describe",
@@ -25267,43 +27920,31 @@
         },
         {
           "type": "it",
-          "pattern": "should extract time from HH:mm format"
+          "pattern": "should extract UTC time from RFC3339 datetime string"
         },
         {
           "type": "it",
-          "pattern": "should extract time from H:mm format (single digit hour)"
+          "pattern": "should extract UTC time from RFC3339 with milliseconds"
         },
         {
           "type": "it",
-          "pattern": "should handle midnight"
+          "pattern": "should handle midnight UTC"
         },
         {
           "type": "it",
-          "pattern": "should handle end of day"
+          "pattern": "should handle end of day UTC"
         },
         {
           "type": "it",
-          "pattern": "should extract time from HH:mm:ss format (trim seconds)"
+          "pattern": "should extract UTC time from Date object"
         },
         {
           "type": "it",
-          "pattern": "should handle single digit hour with seconds"
+          "pattern": "should handle morning times in UTC"
         },
         {
           "type": "it",
-          "pattern": "should extract local time from ISO timestamp"
-        },
-        {
-          "type": "it",
-          "pattern": "should extract time from Date object"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle morning times"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle afternoon times"
+          "pattern": "should handle afternoon times in UTC"
         },
         {
           "type": "it",
@@ -25319,7 +27960,7 @@
         },
         {
           "type": "it",
-          "pattern": "should find matching slot by HH:mm time"
+          "pattern": "should find matching slot by RFC3339 datetime"
         },
         {
           "type": "it",

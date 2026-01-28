@@ -10,8 +10,8 @@
  * Session 6.9: Integrated with useBookingWizard for cascading availability options
  */
 
-import { computed, inject, ref, watch, nextTick, provide, type Ref, type ComputedRef } from 'vue'
-import type { TimeSlot, PerspectiveKey } from '@/types/appointment'
+import { computed, inject, ref, type Ref, type ComputedRef } from 'vue'
+import type { TimeSlot } from '@/types/appointment'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAvailability } from '@/composables/useAvailability'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
@@ -24,14 +24,21 @@ import { useAvailabilityUI } from '@/composables/booking/useAvailabilityUI'
 import { useAvailabilityDefaults } from '@/composables/booking/useAvailabilityDefaults'
 import { useAvailableStartTimes } from '@/composables/booking/useAvailableStartTimes'
 import { useMoveablePartsScheduling } from '@/composables/booking/useMoveablePartsScheduling'
-import { roundUpToIncrement, getCalendarAvailability } from '@/utils/timeSlotCalculations'
-import { isDevModeEnabled } from '@/utils/env/devMode'
+import { useAppointmentDuration } from '@/composables/booking/useAppointmentDuration'
+import { useTimeSlotDurations } from '@/composables/booking/useTimeSlotDurations'
+import { useMockCalendarRefresh } from '@/composables/booking/useMockCalendarRefresh'
+import { useBusyTimes } from '@/composables/booking/useBusyTimes'
+import { usePerspectiveMapping } from '@/composables/booking/usePerspectiveMapping'
+import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
+import { useAvailabilityStepHandlers } from '@/composables/booking/useAvailabilityStepHandlers'
+import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDevPanel'
+import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
+import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
 import TimeOnSiteGraph from '@/components/booking/TimeOnSiteGraph.vue'
 import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { AvailabilityStepData } from '@/types/wizard'
 
 // LEARNING: Inject shared wizard instance from parent
 // WHY: Ensures all step components share the same wizard state
@@ -43,29 +50,35 @@ if (!wizard) {
 
 // LEARNING: Inject loaded wizard state for populating form fields
 // WHY: Enables populating availability date from loaded appointment
-// PATTERN: Inject provided loadedWizardState and watch for changes
-const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
+// PATTERN: Inject provided loadedWizardState, fail explicitly if not provided
+const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+if (!loadedWizardState) {
+  throw new Error('loadedWizardState not provided. Make sure BookingWizard provides loadedWizardState.')
+}
 
 // LEARNING: Use time formatting composable for time operations
 // WHY: Moves time formatting logic out of component to prevent recursion
 // PATTERN: Composable provides pure utility functions
 const { getTodayDate } = useTimeFormatting()
 
-// LEARNING: Check if dev mode is enabled
-// WHY: Controls visibility of dev-only features like mock calendar panel
-// PATTERN: Use isDevModeEnabled utility function
-const isDevMode = isDevModeEnabled()
-
 // LEARNING: Inject property details step data for property-based adjustments
 // WHY: Enables property-based time adjustments in availability calculations
-// PATTERN: Inject provided propertyDetailsStepData if available
-const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData', null)
+// PATTERN: Inject provided propertyDetailsStepData, fail explicitly if not provided
+const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData')
+if (!propertyDetailsStepData) {
+  throw new Error('propertyDetailsStepData not provided. Make sure BookingWizard provides propertyDetailsStepData.')
+}
 
 // LEARNING: Create ref wrapper for timeSlots to enable reactive watching
-// WHY: `useAvailabilityDefaults` needs a nullable timeSlots source, but `useAvailability` is created later
+// WHY: Resolves circular dependency between composables:
+//      - useAvailabilityDefaults needs timeSlots (nullable) but useAvailability creates it later
+//      - useAvailability needs accumulatedBlockInstances from useAvailabilityLogic
+//      - useAvailabilityLogic needs timeSlots (non-null) from useAvailability
 // PATTERN: Hold the computed ref in a wrapper, then expose two views:
 // - nullable (for defaults) to avoid treating "not initialized yet" as "empty"
 // - non-null array (for logic) to satisfy composable typing
+// NOTE: This wrapper pattern is necessary due to initialization order constraints.
+//       The wrapper is updated after useAvailability creates timeSlots (line ~156).
 const timeSlotsWrapper = ref<ComputedRef<TimeSlot[]> | null>(null)
 const timeSlotsForDefaults = computed(() => {
   const wrapper = timeSlotsWrapper.value
@@ -81,6 +94,8 @@ const timeSlotsForLogic = computed(() => {
 // LEARNING: Compute effective differential state before useAvailabilityDefaults
 // WHY: useAvailabilityDefaults needs effective differential state (considering overrides) to auto-select startTimeType
 // PATTERN: Check if service is differential AND no part has differentialOverride: true
+// NOTE: This is calculated early because useAvailabilityDefaults needs it before useAvailabilityLogic is called
+//       After useAvailabilityLogic is called, we use its isEffectivelyDifferential for everything else
 const isEffectivelyDifferentialForDefaults = computed(() => {
   const selectedServices = wizard.selectedServices.value
   const selectedOptions = wizard.selectedOptionTypeBlocks.value
@@ -106,7 +121,6 @@ const isEffectivelyDifferentialForDefaults = computed(() => {
 // LEARNING: Use availability defaults composable for state management and defaulting
 // WHY: Extracts state management and defaulting logic from component
 // PATTERN: Composable manages selectedDate, startTimeType, appointmentSlotOrderIndex
-// NOTE: inspectorOrderIndex and clientOrderIndex are kept for backward compatibility with step data
 const {
   selectedDate,
   startTimeType,
@@ -163,82 +177,24 @@ const { selectedOptionTypeBlockId } = useOptionTypeBlockSelection({
   availableOptionTypeBlocks: wizard.availableOptionTypeBlocks
 })
 
-// LEARNING: Calculate appointment duration from block instances for filtering start times
-// WHY: Need to ensure last appointment ends at or before day end
-// PATTERN: Calculate on-site duration (not total duration) since report writing can happen off-site
-const appointmentDuration = computed(() => {
-  const instances = accumulatedBlockInstances.value
-  if (instances.length === 0) {
-    return null
-  }
-  
-  // LEARNING: Calculate on-site duration, not total duration
-  // WHY: Report writing can happen off-site, so we only need to ensure on-site work fits in business hours
-  // PATTERN: Sum baseTime from parts where onSite === true
-  const onSiteDuration = instances.reduce((sum, bi) => {
-    if (!bi.partInstances || bi.partInstances.length === 0) return sum
-    return sum + bi.partInstances.reduce((partSum, part) => {
-      // Only count parts that require being on-site
-      return partSum + (part.onSite === true ? (part.baseTime || 0) : 0)
-    }, 0)
-  }, 0)
-  
-  // LEARNING: Round up to nearest 15-minute increment
-  // WHY: Ensures durations align with standard time increments for cleaner scheduling
-  // PATTERN: Use ceiling function to round up
-  const roundedDuration = roundUpToIncrement(onSiteDuration, 15)
-  
-  return roundedDuration > 0 ? roundedDuration : null
+// LEARNING: Use appointment duration composable
+// WHY: Extracts duration calculation logic from component to composable
+// PATTERN: Composable provides computed property for appointment duration
+const { appointmentDuration } = useAppointmentDuration({
+  accumulatedBlockInstances
 })
 
-// LEARNING: Generate available start times from availability settings
-// WHY: Buttons should be generated based on admin-configured business hours and intervals
-// PATTERN: Use composable to generate times from dayStart + (interval * buttonIndex)
-// NOTE: Pass appointmentDuration to filter start times so last appointment ends at or before day end
-// LEARNING: Refresh key for forcing mock calendar data regeneration
-// WHY: Allows users to reset mock data without changing date range
-// PATTERN: Incrementing ref forces computed properties to recalculate
-const mockRefreshKey = ref(0)
+// LEARNING: Use mock calendar refresh composable
+// WHY: Extracts mock calendar refresh management from component to composable
+// PATTERN: Composable manages refresh key and reset functionality
+const { mockRefreshKey } = useMockCalendarRefresh()
 
-// LEARNING: Reset mock calendar data
-// WHY: Allows developers to regenerate mock busy periods for testing
-// PATTERN: Increment refresh key to force recalculation in computed properties
-const resetMocks = (): void => {
-  mockRefreshKey.value++
-}
-
-// LEARNING: Inject reset mocks signal from BookingWizard
-// WHY: Allows BookingWizard to trigger mock reset from RESET MOCKS button
-// PATTERN: Watch signal ref and call resetMocks when it changes
-const resetMocksSignal = inject<Ref<number>>('resetMocksSignal', ref(0))
-watch(resetMocksSignal, () => {
-  resetMocks()
-})
-
-// LEARNING: Get busy times from calendar for availability checking
-// WHY: Need to mark slots as busy when they overlap calendar busy periods
-// PATTERN: Get busy times from dateRangeForApi and pass to useAvailableStartTimes
-const busyTimesForStartTimes = computed(() => {
-  if (!dateRangeForApi.value) {
-    return []
-  }
-  
-  // LEARNING: Include refreshKey in dependency to force recalculation
-  // WHY: Changing refreshKey forces mock data regeneration
-  // PATTERN: Reference refreshKey in computed to trigger recalculation
-  void mockRefreshKey.value // Force dependency tracking
-  
-  const dateRangeValue = dateRangeForApi.value
-  
-  // LEARNING: Call getCalendarAvailability and immediately capture result
-  // WHY: Ensures we're using the exact return value, not a stale reference
-  // PATTERN: Call function and store result in const before logging
-  const busyTimes = getCalendarAvailability({
-    start: dateRangeValue.start,
-    end: dateRangeValue.end
-  })
-  
-  return busyTimes
+// LEARNING: Use busy times composable
+// WHY: Extracts busy times calculation logic from component to composable
+// PATTERN: Composable provides computed property for busy times
+const { busyTimes: busyTimesForStartTimes } = useBusyTimes({
+  dateRangeForApi,
+  mockRefreshKey
 })
 
 const {
@@ -250,36 +206,32 @@ const {
   busyTimes: busyTimesForStartTimes
 })
 
-// LEARNING: Extract time slot durations for fallback when shape duration is 0
-// WHY: If services have 0 baseTime, use time slot duration to ensure valid time ranges
-// PATTERN: Map timeSlots to durations, indexed by startTime
-const timeSlotDurations = computed(() => {
-  if (!selectedDate.value.start) return new Map<string, number>()
-  
-  const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
-  if (!daySlots) return new Map<string, number>()
-  
-  // LEARNING: Use array-to-Map constructor instead of forEach with mutations
-  // WHY: Functional approach avoids mutations, aligns with workspace rules
-  // PATTERN: Build Map from array using constructor with entries
-  return new Map(
-    daySlots.inspectorTimeSlots.map(slot => [slot.startTime, slot.duration])
-  )
+// LEARNING: Use time slot durations composable
+// WHY: Extracts time slot duration mapping logic from component to composable
+// PATTERN: Composable provides computed Map for time slot durations
+const { timeSlotDurations } = useTimeSlotDurations({
+  timeSlotsPerDay,
+  selectedDate
 })
 
-// LEARNING: Map startTimeType to PerspectiveKey
-// WHY: startTimeType uses UI labels, PerspectiveKey uses logic names
-// PATTERN: Map UI labels to logic keys
-const perspective = computed<PerspectiveKey>(() => {
-  if (startTimeType.value === 'inspector') return 'onSite'
-  if (startTimeType.value === 'client') return 'clientPresent'
-  return 'nonDifferential'
+// LEARNING: Use perspective mapping composable
+// WHY: Extracts perspective mapping logic from component to composable
+// PATTERN: Composable provides computed property for perspective mapping
+const { perspective } = usePerspectiveMapping({
+  startTimeType
 })
 
 // LEARNING: Map appointmentSlotOrderIndex to selectedButtonIndex
 // WHY: New system uses buttonIndex instead of orderIndex
 // PATTERN: Use appointmentSlotOrderIndex as buttonIndex
 const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
+
+// LEARNING: Use availability slot color composable
+// WHY: Extracts color selection logic from component to composable
+// PATTERN: Composable provides computed property for slot color
+const { slotColor } = useAvailabilitySlotColor({
+  startTimeType
+})
 
 // LEARNING: Use new appointment slots composable
 // WHY: Uses shape + slot separation for efficient calculation
@@ -322,6 +274,15 @@ const {
 // Ref to store confirmed moveable scheduling
 const confirmedMoveableScheduling = ref<typeof moveableOptions.value>(null)
 
+// LEARNING: Use availability empty state composable
+// WHY: Extracts empty state message logic from component to composable
+// PATTERN: Composable provides computed property for empty state message
+const { emptyStateMessage } = useAvailabilityEmptyState({
+  isEffectivelyDifferential,
+  startTimeType,
+  appointmentSlotsCount: computed(() => appointmentSlots.length)
+})
+
 // LEARNING: Use availability step data composable
 // WHY: Extracts step data aggregation and time slot transformation from component to composable
 // PATTERN: Composable provides reactive computed properties for step data
@@ -339,46 +300,21 @@ const { fieldErrors, isFormValid, validateForm } = useAvailabilityValidation({
   selectedSlot
 })
 
-// LEARNING: Inject parent-provided refs for step data and validation state
-// WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
-// PATTERN: Inject refs from parent, sync local state to them
-const parentAvailabilityStepData = inject<Ref<AvailabilityStepData | null>>('availabilityStepData')
-const parentAvailabilityStepValid = inject<Ref<boolean>>('availabilityStepValid')
-const parentAvailabilityStepValidate = inject<Ref<(() => boolean) | null>>('availabilityStepValidate')
-
-if (!parentAvailabilityStepData || !parentAvailabilityStepValid || !parentAvailabilityStepValidate) {
-  throw new Error('Parent-provided refs not found. Make sure BookingWizard provides availabilityStepData, availabilityStepValid, and availabilityStepValidate.')
-}
-
-// LEARNING: Sync local stepData to parent-provided ref
-// WHY: Enables BookingWizard to collect availability data
-// PATTERN: Watch local stepData and update parent ref
-watch(stepData, (newData) => {
-  if (parentAvailabilityStepData) {
-    parentAvailabilityStepData.value = newData
-  }
-}, { immediate: true, deep: true })
-
-// LEARNING: Sync local validation state to parent-provided refs
-// WHY: Enables BookingWizard to check step validity before navigation
-// PATTERN: Watch local validation state and update parent refs
-watch(isFormValid, (newValid) => {
-  if (parentAvailabilityStepValid) {
-    parentAvailabilityStepValid.value = newValid
-  }
-}, { immediate: true })
-
-// LEARNING: Assign validateForm function directly to parent ref
-// WHY: validateForm is a function, not a ref, so we assign it directly
-// PATTERN: Assign function to parent ref (no watch needed)
-parentAvailabilityStepValidate.value = validateForm
+// LEARNING: Use wizard step sync composable
+// WHY: Extracts parent ref syncing logic from component to reusable composable
+// PATTERN: Composable handles all parent ref syncing automatically
+useWizardStepSync({
+  stepData,
+  isFormValid,
+  validateForm,
+  stepDataKey: 'availabilityStepData',
+  stepValidKey: 'availabilityStepValid',
+  stepValidateKey: 'availabilityStepValidate'
+})
 
 // LEARNING: Use availability UI composable
 // WHY: Extracts responsive layout and date handling logic from component to composable
 // PATTERN: Composable provides reactive computed properties and handler functions
-// NOTE: Appointment slot selection is handled by useAppointmentSlots composable
-// LEARNING: Simplified to only check viewport width, removed column measurement
-// WHY: Trusts Vuetify grid system instead of fighting it with measurements
 const {
   handleDateChange
 } = useAvailabilityUI({
@@ -387,70 +323,34 @@ const {
   fieldErrors
 })
 
-// Note: Debug logging removed - shouldShowGridInline is reactive and will update template automatically
+// LEARNING: Use availability step handlers composable
+// WHY: Extracts event handler logic from component to composable
+// PATTERN: Composable provides all event handler functions
+const {
+  handleAppointmentSlotClick,
+  handleMoveableConfirm,
+  handleMoveableCancel,
+  handleTimeBasisChange
+} = useAvailabilityStepHandlers({
+  appointmentSlotOrderIndex,
+  hasMoveableParts,
+  selectedSlot,
+  openMoveableModal,
+  closeMoveableModal,
+  moveableOptions,
+  selectedMoveableSlotIndex,
+  confirmedMoveableScheduling,
+  startTimeType
+})
 
-// Note: Debug layout logging removed - Vuetify's responsive grid handles layout automatically
-// If layout debugging is needed, use Vue DevTools or browser DevTools instead of direct DOM queries
-
-// LEARNING: Handler for appointment slot click
-// WHY: Updates selectedButtonIndex when slot is clicked, checks for moveable parts
-// PATTERN: Event handler that updates selection state and opens modal if needed
-const handleAppointmentSlotClick = (buttonIndex: number): void => {
-  appointmentSlotOrderIndex.value = buttonIndex
-  
-  // After selection, check for moveable parts
-  // Use nextTick to ensure selectedSlot has updated
-  nextTick(() => {
-    if (hasMoveableParts.value && selectedSlot.value) {
-      openMoveableModal()
-    }
-  })
-}
-
-// LEARNING: Handler for moveable modal confirm
-// WHY: Stores confirmed moveable scheduling and closes modal
-// PATTERN: Event handler that updates state
-const handleMoveableConfirm = (): void => {
-  if (moveableOptions.value) {
-    confirmedMoveableScheduling.value = {
-      ...moveableOptions.value,
-      selectedSlotIndex: selectedMoveableSlotIndex.value
-    }
-  }
-  closeMoveableModal()
-}
-
-// LEARNING: Handler for moveable modal cancel
-// WHY: Closes modal without saving
-// PATTERN: Event handler that resets state
-const handleMoveableCancel = (): void => {
-  closeMoveableModal()
-  // Reset selection when canceling
-  selectedMoveableSlotIndex.value = null
-}
-
-// LEARNING: Default date initialization is now handled in useAvailabilityDefaults composable
-// WHY: The composable watches timeSlots with immediate: true and auto-selects first available date
-// PATTERN: No onMounted needed - composable handles all defaulting logic
-
-// LEARNING: Handler for Time Basis Graph time basis change event
-// WHY: Updates startTimeType when TimeOnSiteGraph component emits change event
-// PATTERN: Event handler that maps UI labels to internal state
-const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
-  startTimeType.value = type
-}
-
-// LEARNING: Provide dev panel data for floating debug panels
-// WHY: Allows DevPanelsContainer to access availability step data without prop drilling
-// PATTERN: Provide reactive computed object with all needed data
-provide('devPanelData', {
+// LEARNING: Use availability dev panel composable
+// WHY: Extracts dev panel data providing logic from component to composable
+// PATTERN: Composable provides reactive computed object via provide
+useAvailabilityDevPanel({
   selectedBlockInstances: accumulatedBlockInstances,
   appointmentSlots,
-  selectedDate: computed(() => selectedDate.value.start || undefined),
-  selectedTime: computed(() => {
-    if (!selectedSlot.value || !selectedSlot.value.totalTime) return undefined
-    return selectedSlot.value.totalTime.startTime
-  }),
+  selectedDate,
+  selectedSlot,
   dateRange: dateRangeForApi,
   busyPeriods: busyTimesForStartTimes,
   refreshKey: mockRefreshKey
@@ -521,14 +421,11 @@ provide('devPanelData', {
           <!-- PATTERN: Always render in time-selection column - Vuetify grid handles responsive layout -->
           <!-- LEARNING: Vuetify's sm="4" and sm="8" automatically place columns side-by-side on sm+ breakpoint -->
           <!-- WHY: Trust Vuetify's grid system instead of conditional rendering -->
-          <!-- USER_STORY: Show empty state when no slots available -->
+          <!-- LEARNING: Empty state message when no slots available -->
+          <!-- WHY: Provides user guidance when no slots are shown -->
+          <!-- PATTERN: Check appointmentSlots.length directly for conditional rendering, use emptyStateMessage for message text -->
           <div v-if="appointmentSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
-            <span v-if="isEffectivelyDifferential && startTimeType === 'nonDifferential'">
-              Click on the Inspector or Client bars below the calendar to view available times.
-            </span>
-            <span v-else>
-              No time slots available for selected date.
-            </span>
+            {{ emptyStateMessage }}
           </div>
 
           <AppointmentSlotGrid
@@ -536,7 +433,7 @@ provide('devPanelData', {
             :appointment-slots="appointmentSlots"
             :selected-button-index="selectedButtonIndex"
             :time-basis="perspective"
-            :color="startTimeType === 'inspector' ? 'primary' : startTimeType === 'client' ? 'secondary' : 'primary'"
+            :color="slotColor"
             class="appointment-slot-grid-abut"
             @slot-click="handleAppointmentSlotClick"
           />
@@ -608,10 +505,13 @@ provide('devPanelData', {
       </VCol>
     </VRow>
 
-    <!-- Moveable Parts Scheduling Modal -->
+    <!-- LEARNING: Moveable Parts Scheduling Modal -->
+    <!-- WHY: Allows users to schedule moveable parts separately -->
+    <!-- PATTERN: Pass moveableOptions directly, fail explicitly if null when needed -->
+    <!-- TEMPORARY: Currently disabled - will be re-enabled with confirmation modal system -->
     <MoveablePartsModal
       v-model:show-modal="showMoveableModal"
-      :moveable-options="moveableOptions ?? null"
+      :moveable-options="moveableOptions"
       :selected-slot-index="selectedMoveableSlotIndex"
       v-model:contingency-period="contingencyPeriod"
       :is-loading-options="isLoadingOptions"

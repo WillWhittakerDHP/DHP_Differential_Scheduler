@@ -13,8 +13,8 @@ Exception handling:
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): `description`
-- Total files scanned: **400**
-- **Requiring review: 481**
+- Total files scanned: **447**
+- **Requiring review: 574**
 - Allowed (with justification): 5 (inline: 0, pattern: 5, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
@@ -22,35 +22,35 @@ Exception handling:
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/utils/forms/fieldLocationDispatcher.ts` | 44 | 0 | 0 | 11 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
+| `src/views/admin/tabs/BusinessControlsTab.vue` | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 31 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/booking/timeAvailabilityManager.ts` | 25 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/SelectionCardGroup.vue` | 24 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/selectableDisplayConfig.ts` | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/booking/constraintExtractors.ts` | 20 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/logger.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/transformers/composePropertyValue.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/booking/BookingWizard.vue` | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/iconMapper.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/components/PropertiesTable.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/booking/useContactsValidation.ts` | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/types/annotations.ts` | 12 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/booking/appointmentSlotBuilder.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/steps/PropertyDetailsStep.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/layouts/components/NavbarShortcuts.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/layouts/components/NavSearchBar.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/booking/usePropertyValidation.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardAppointmentManagement.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/components/AppointmentsTable.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/admin/entityDisplayText.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/wizardSteps.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCard.vue` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useAnnotationsFieldViewModel.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/generic/EntityCard.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/_archived/useFieldMetadata.ts` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `src/configs/field/form/_archived/selectableFieldConfig.ts` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/configs/availabilitySettings.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -70,9 +70,15 @@ Review periodically to ensure exceptions are still valid.
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
+### `src/views/admin/tabs/BusinessControlsTab.vue`
+
+- score: **39**
+
+- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
 ### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
 
-- score: **34**
+- score: **31**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
@@ -81,12 +87,6 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 - score: **24**
 
 - **P1** (config_driven): Entity-key branching detected. Consider mapping via config (e.g. a record keyed by entityKey) rather than switch/case, especially if the logic repeats across files.
-
-### `src/components/booking/BookingWizard.vue`
-
-- score: **18**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
 ### `src/views/admin/tabs/components/PropertiesTable.vue`
 
@@ -130,15 +130,9 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `src/views/admin/tabs/BusinessControlsTab.vue`
-
-- score: **8**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
 ### `src/components/admin/generic/EntityCard.vue`
 
-- score: **6**
+- score: **7**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
@@ -178,6 +172,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
+### `src/components/admin/BlockInstanceCreateModal.vue`
+
+- score: **4**
+
+- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
 ### `src/layouts/components/UserProfile.vue`
 
 - score: **4**
@@ -208,45 +208,107 @@ caseString@196: case 'subPanel':
 caseString@199: case 'hidden':
 ```
 
-### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
+### `src/views/admin/tabs/BusinessControlsTab.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=32
-- requiring review: 33, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=39
+- requiring review: 39, allowed: 0
 
 ```
-magicLabel@52: {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
-magicLabel@71: {{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}
-magicLabel@85: label="Override inherited configuration"
-magicLabel@94: label="Visibility"
-magicLabel@97: placeholder="Not Configured"
-magicLabel@110: placeholder="Not Configured"
-magicLabel@123: placeholder="Not Configured"
-magicLabel@131: label="Display Order"
-magicLabel@135: placeholder="Not Configured"
-magicLabel@144: label="Render As"
-magicLabel@147: placeholder="Not Configured"
-magicLabel@157: label="Status Button Color"
-magicLabel@160: placeholder="Not Configured"
-inlineLabelMap@172: placeholder='{"targetMode": "relationship", "targetKey": "...", "candidateChildKey": "..."}'
+magicLabel@232: { title: 'Flexible', value: 'flexible' },
+magicLabel@238: { title: 'Past 7 days', value: 'past' },
+magicLabel@240: { title: 'Future 7 days', value: 'future' }
+magicLabel@246: { title: 'Lead Time', value: 'leadTime' },
+magicLabel@413: <VExpansionPanel title="Constraints">
+magicLabel@430: <VExpansionPanel title="Business Hours">
+magicLabel@443: label="Start Time"
+magicLabel@447: (v: string) => !!v || 'Start time is required',
+magicLabel@456: label="End Time"
+magicLabel@460: (v: string) => !!v || 'End time is required',
+magicLabel@471: <VExpansionPanel title="Lead Time Constraint">
+magicLabel@480: (v: number) => v !== null && v !== undefined || 'Lead time is required',
+magicLabel@481: (v: number) => v >= 0 || 'Lead time must be 0 or greater',
+magicLabel@505: <VExpansionPanel title="Date Range Constraint">
+magicLabel@540: <VExpansionPanel title="Per Day Limit">
+magicLabel@546: label="Maximum Hours Per Day"
+magicLabel@552: (v: number) => v >= 0 || 'Must be 0 or greater',
+magicLabel@553: (v: number) => v <= 24 || 'Cannot exceed 24 hours',
+magicLabel@561: label="Enforcement"
+magicLabel@577: label="Maximum Hours Per Week"
+magicLabel@582: (v: number) => v >= 0 || 'Must be 0 or greater',
+magicLabel@590: label="Enforcement"
+magicLabel@611: (v: number) => v >= 0 || 'Must be 0 or greater',
+magicLabel@619: label="Enforcement"
+magicLabel@628: label="Direction"
+magicLabel@629: hint="How the 7-day window is calculated relative to appointment date"
+magicLabel@661: <VExpansionPanel title="Appointment Buffers">
+magicLabel@671: hint="Time to add around candidate appointments when checking availability"
+magicLabel@674: (v: number) => v >= 0 || 'Buffer time must be 0 or greater',
+magicLabel@682: label="Placement"
+magicLabel@691: label="Enforcement"
+magicLabel@711: <VExpansionPanel title="Drive Time Buffer">
+magicLabel@733: <VExpansionPanel title="Lunch Buffer">
+magicLabel@775: <VExpansionPanel title="Calendar">
+magicLabel@783: label="Time Slot Increment"
+magicLabel@785: :rules="[(v: number) => !!v || 'Time increment is required']"
+magicLabel@798: label="Timezone"
+magicLabel@802: (v: string) => !!v || 'Timezone is required',
+magicLabel@807: Current selection: {{ formData.timezone || 'Not set' }}
+```
+
+### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=31
+- requiring review: 31, allowed: 0
+
+```
+magicLabel@58: {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
+magicLabel@77: {{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}
+magicLabel@91: label="Override inherited configuration"
+magicLabel@100: label="Visibility"
+magicLabel@103: placeholder="Not Configured"
+magicLabel@116: placeholder="Not Configured"
+magicLabel@129: placeholder="Not Configured"
+magicLabel@139: label="Status Button Color"
+magicLabel@142: placeholder="Not Configured"
+magicLabel@158: hint="Array of option values"
+magicLabel@176: label="Select Mode"
+magicLabel@179: placeholder="Select mode"
 magicLabel@190: label="Enable Bulk Edit"
-magicLabel@438: { title: 'Not Configured', value: 'notConfigured' },
-magicLabel@439: { title: 'Title Row', value: 'titleRow' },
-magicLabel@440: { title: 'Static As Title', value: 'staticAsTitle' },
-magicLabel@441: { title: 'Expanded Direct', value: 'expandedDirect' },
-magicLabel@442: { title: 'Expanded Panel', value: 'expandedPanel' },
-magicLabel@448: { title: 'Stacked', value: 'stacked' },
-magicLabel@453: { title: 'Relationships', value: 'relationships' },
-magicLabel@454: { title: 'Annotations', value: 'annotations' },
-magicLabel@462: { title: 'Multiselect', value: 'multiselect' },
-magicLabel@463: { title: 'Reference', value: 'reference' },
-magicLabel@464: { title: 'Status Button', value: 'statusButton' },
-magicLabel@465: { title: 'Icon Select', value: 'iconSelect' },
-magicLabel@466: { title: 'Parts Collection', value: 'partsCollection' },
-magicLabel@470: { title: 'Default', value: 'default' },
-magicLabel@471: { title: 'Success', value: 'success' },
-magicLabel@472: { title: 'Primary', value: 'primary' },
-magicLabel@474: { title: 'Warning', value: 'warning' },
-magicLabel@476: { title: 'Secondary', value: 'secondary' },
+magicLabel@224: const logger = createLogger('AdminPrimitiveMetadataEditor')
+magicLabel@378: return 'Not configured'
+magicLabel@466: logger.debug('Metadata cache refetched successfully')
+magicLabel@485: { title: 'Not Configured', value: 'notConfigured' },
+magicLabel@486: { title: 'Title Row', value: 'titleRow' },
+magicLabel@487: { title: 'Static As Title', value: 'staticAsTitle' },
+magicLabel@488: { title: 'Expanded Direct', value: 'expandedDirect' },
+magicLabel@489: { title: 'Expanded Panel', value: 'expandedPanel' },
+magicLabel@495: { title: 'Stacked', value: 'stacked' },
+magicLabel@500: { title: 'Relationships', value: 'relationships' },
+magicLabel@501: { title: 'Annotations', value: 'annotations' },
+magicLabel@509: { title: 'Multiselect', value: 'multiselect' },
+magicLabel@510: { title: 'Reference', value: 'reference' },
+magicLabel@511: { title: 'Status Button', value: 'statusButton' },
+magicLabel@512: { title: 'Icon Select', value: 'iconSelect' },
+magicLabel@513: { title: 'Parts Collection', value: 'partsCollection' },
+magicLabel@536: { title: 'Multiple', value: 'Multiple' },
+magicLabel@537: { title: 'Required', value: 'Required' },
+```
+
+### `src/utils/booking/timeAvailabilityManager.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=6, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 9, allowed: 0
+
+```
+magicLabel@90: this.name = 'ConstraintValidationError'
+switchTypeLike@304: switch (constraint.type) {
+caseString@305: case 'businessHours': {
+caseString@350: case 'leadTime': {
+caseString@380: case 'dateRange': {
+switchTypeLike@976: switch (keyParts.type) {
+caseString@977: case 'daily':
+caseString@980: case 'calendarWeek':
+caseString@983: case 'rollingWeek':
 ```
 
 ### `src/components/booking/SelectionCardGroup.vue`
@@ -276,9 +338,9 @@ magicLabel@201: emptyStateText: "No cascades assigned",
 magicLabel@231: label: "Active Parts",
 magicLabel@232: placeholder: "No parts selected",
 magicLabel@238: emptyStateText: "No parts assigned",
-magicLabel@267: label: "Dependent Instance Options",
-magicLabel@268: placeholder: "No dependent instance options",
-magicLabel@274: emptyStateText: "No dependent instance options defined",
+magicLabel@267: label: "Dependent Instances",
+magicLabel@268: placeholder: "No dependent instances",
+magicLabel@274: emptyStateText: "No dependent instances defined",
 magicLabel@310: emptyStateText: "No service components selected",
 magicLabel@341: label: "Valid Booking Cascade",
 magicLabel@342: placeholder: "No valid cascades",
@@ -290,6 +352,26 @@ magicLabel@385: emptyStateText: "No valid part shapes defined",
 magicLabel@416: label: "Part Type",
 magicLabel@417: placeholder: "No part type selected",
 magicLabel@423: emptyStateText: "No type assigned",
+```
+
+### `src/utils/booking/constraintExtractors.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
+- requiring review: 12, allowed: 0
+
+```
+switchTypeLike@195: switch (constraint.type) {
+caseString@196: case 'businessHours': {
+magicLabel@199: return { valid: false, error: 'Invalid businessHours constraint config' }
+caseString@203: case 'leadTime': {
+magicLabel@206: return { valid: false, error: 'Invalid leadTime constraint config' }
+caseString@210: case 'dateRange': {
+magicLabel@213: return { valid: false, error: 'Invalid dateRange constraint config' }
+magicLabel@218: return { valid: false, error: 'Invalid dateRange dates' }
+magicLabel@236: return { valid: false, error: 'Invalid overlap constraint minutes' }
+magicLabel@243: return { valid: false, error: 'Invalid overlap constraint placement' }
+magicLabel@259: return { valid: false, error: 'Invalid capacity constraint maxHours' }
+magicLabel@264: return { valid: false, error: 'Invalid capacity constraint direction' }
 ```
 
 ### `src/utils/logger.ts`
@@ -316,32 +398,6 @@ caseString@53: case 'merge': {
 caseString@59: case 'first':
 caseString@63: case 'every':
 caseString@67: case 'custom':
-```
-
-### `src/components/booking/BookingWizard.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=18
-- requiring review: 18, allowed: 0
-
-```
-magicLabel@169: showError('Please select at least one property type')
-magicLabel@202: : 'Please complete all required fields'
-magicLabel@210: showError('Please complete all required fields before continuing')
-magicLabel@216: showError('Please complete all required fields before continuing')
-magicLabel@218: showError('Please complete all required fields before continuing')
-magicLabel@290: // PATTERN: Map appointments to items array, prepend "Random Appointment" option
-magicLabel@292: { text: 'Random Appointment', value: 'random' },
-magicLabel@359: showError('No appointments available to load')
-magicLabel@370: showError('Appointment not found')
-magicLabel@376: showError('Unable to load appointment data')
-magicLabel@419: success('Appointment loaded successfully')
-magicLabel@423: const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
-magicLabel@435: showError('No appointment loaded')
-magicLabel@450: success('Appointment updated successfully')
-magicLabel@452: const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
-magicLabel@492: success('Wizard reset successfully')
-magicLabel@548: label="Load Appointment"
-magicLabel@590: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
 ```
 
 ### `src/utils/iconMapper.ts`
@@ -436,6 +492,26 @@ magicLabel@341: label="Last Name"
 magicLabel@342: placeholder="Williams"
 ```
 
+### `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
+- requiring review: 12, allowed: 0
+
+```
+magicLabel@18: placeholder: "Enter name",
+magicLabel@26: placeholder: "This Field Should Be Hidden",
+magicLabel@34: placeholder: "Enter a Base Sq Ft",
+magicLabel@50: placeholder: "Composite",
+magicLabel@58: placeholder: "Select an icon",
+magicLabel@66: placeholder: "Allow Multiple",
+magicLabel@74: placeholder: "Requires Unit Number",
+magicLabel@82: placeholder: "Differential",
+magicLabel@90: placeholder: "Select booking mode",
+magicLabel@94: { value: 'standalone', label: 'Standalone Only' },
+magicLabel@95: { value: 'addOn', label: 'Add-On Only' },
+magicLabel@96: { value: 'both', label: 'Standalone or Add-On' },
+```
+
 ### `src/types/annotations.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=2, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
@@ -452,9 +528,9 @@ entityKeyString@20: name: string // e.g., 'frontPage', 'description', 'tooltip'
 - requiring review: 3, allowed: 0
 
 ```
-caseString@343: case 'onSite':
-caseString@348: case 'clientPresent':
-caseString@353: case 'nonDifferential':
+caseString@353: case 'onSite':
+caseString@358: case 'clientPresent':
+caseString@363: case 'nonDifferential':
 ```
 
 ### `src/components/booking/steps/PropertyDetailsStep.vue`
@@ -532,6 +608,24 @@ magicLabel@85: max(1000, 'Number of units must be no more than 1000')
 magicLabel@96: return 'Please select at least one property type'
 ```
 
+### `src/composables/booking/useWizardAppointmentManagement.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
+- requiring review: 10, allowed: 0
+
+```
+magicLabel@109: showError('No appointments available to load')
+magicLabel@120: showError('Appointment not found')
+magicLabel@125: showError('Appointment not found')
+magicLabel@131: showError('Unable to load appointment data')
+magicLabel@174: success('Appointment loaded successfully')
+magicLabel@178: const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
+magicLabel@192: showError('No appointment loaded')
+magicLabel@207: success('Appointment updated successfully')
+magicLabel@209: const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
+magicLabel@248: success('Wizard reset successfully')
+```
+
 ### `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
@@ -585,23 +679,6 @@ magicLabel@490: throw new Error('Please select an annotation type')
 magicLabel@512: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
 ```
 
-### `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
-- requiring review: 9, allowed: 0
-
-```
-magicLabel@18: placeholder: "Enter name",
-magicLabel@26: placeholder: "This Field Should Be Hidden",
-magicLabel@34: placeholder: "Enter a Base Sq Ft",
-magicLabel@50: placeholder: "Composite",
-magicLabel@58: placeholder: "Select an icon",
-magicLabel@66: placeholder: "Allow Multiple",
-magicLabel@74: placeholder: "Requires Unit Number",
-magicLabel@82: placeholder: "Differential",
-magicLabel@90: placeholder: "Dependent",
-```
-
 ### `src/utils/admin/entityDisplayText.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
@@ -651,20 +728,19 @@ magicLabel@55: title: 'Summary',
 magicLabel@56: subtitle: 'Summary of services',
 ```
 
-### `src/views/admin/tabs/BusinessControlsTab.vue`
+### `src/components/admin/generic/EntityCard.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
-- requiring review: 8, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
+- requiring review: 7, allowed: 0
 
 ```
-magicLabel@82: label="Start Time"
-magicLabel@86: (v: string) => !!v || 'Start time is required',
-magicLabel@94: label="End Time"
-magicLabel@98: (v: string) => !!v || 'End time is required',
-magicLabel@115: label="Time Slot Increment"
-magicLabel@117: :rules="[(v: number) => !!v || 'Time increment is required']"
-magicLabel@136: (v: number) => v !== null && v !== undefined || 'Lead time is required',
-magicLabel@137: (v: number) => v >= 0 || 'Lead time must be 0 or greater',
+magicLabel@160: const logger = createLogger('EntityCard')
+magicLabel@190: if (isScopeExplicitlyEnabled('EntityCard')) {
+magicLabel@191: logger.debug('Form initialized', {
+magicLabel@331: logger.debug('Fields needing contexts', {
+magicLabel@459: logger.debug('Save triggered', {
+magicLabel@477: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+magicLabel@491: logger.debug('Form reset after save', { entityId: props.entity.id })
 ```
 
 ### `src/composables/admin/useAnnotationsFieldViewModel.ts`
@@ -682,6 +758,21 @@ magicLabel@171: notifyError('Failed to update default')
 magicLabel@181: notifyError('Failed to remove annotation')
 ```
 
+### `src/configs/availabilitySettings.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
+- requiring review: 7, allowed: 0
+
+```
+magicLabel@268: logger.debug('Cache expired', {
+magicLabel@289: logger.debug('Returning cached settings', {
+magicLabel@296: logger.info('Fetching settings from API', {
+magicLabel@356: logger.info('Settings cached', { ttl: `${(CACHE_TTL_MS / 1000).toFixed(0)}s` })
+magicLabel@363: logger.error('Failed to fetch settings from API', { error })
+magicLabel@366: const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+magicLabel@385: logger.info('Cache invalidated manually')
+```
+
 ### `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
@@ -695,20 +786,6 @@ magicLabel@44: label: "Base Sq Ft",
 magicLabel@62: label: "Composite",
 magicLabel@79: label: "Allow Multiple",
 magicLabel@88: label: "Requires Unit Number",
-```
-
-### `src/components/admin/generic/EntityCard.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@178: const logger = createLogger('EntityCard')
-magicLabel@205: logger.debug('Form initialized', {
-magicLabel@385: logger.debug('Fields needing contexts', {
-magicLabel@442: logger.debug('Fields missing contexts', {
-magicLabel@600: logger.debug('Save triggered', {
-magicLabel@628: logger.debug('Form reset after save', { entityId: props.entity.id })
 ```
 
 ### `src/composables/_archived/useFieldMetadata.ts`
@@ -749,6 +826,20 @@ magicLabel@38: subtitle: 'Received Payment',
 magicLabel@47: subtitle: 'New order received from john',
 ```
 
+### `src/router/index.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 6, allowed: 0
+
+```
+magicLabel@17: const logger = createLogger('Router Guard')
+magicLabel@76: // WHY: Reduces console noise - only log when explicitly enabled via VITE_DEBUG_SCOPES="Router Guard"
+magicLabel@78: if (isScopeExplicitlyEnabled('Router Guard')) {
+magicLabel@79: logger.debug('Prefetching admin metadata for', to.path)
+magicLabel@84: if (isScopeExplicitlyEnabled('Router Guard')) {
+magicLabel@85: logger.debug('Admin metadata prefetched successfully')
+```
+
 ### `src/views/admin/tabs/components/UsersTable.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
@@ -772,8 +863,8 @@ magicLabel@144: No users found. Click "Create User" to add one.
 magicLabel@229: relationshipTypes.push('Booking Cascades')
 magicLabel@242: relationshipTypes.push('Valid Cascades')
 magicLabel@245: relationshipTypes.push('Valid Parts')
-magicLabel@282: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@329: <!-- PATTERN: Simple panel with just "Annotations" label -->
+magicLabel@283: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+magicLabel@330: <!-- PATTERN: Simple panel with just "Annotations" label -->
 ```
 
 ### `src/components/admin/generic/fields/SelectInputs.vue`
@@ -782,11 +873,11 @@ magicLabel@329: <!-- PATTERN: Simple panel with just "Annotations" label -->
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@201: // WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
-magicLabel@217: if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
-magicLabel@221: const shapeName = blockShape?.name as string || 'Instance'
-magicLabel@249: { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
-magicLabel@250: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
+magicLabel@203: // WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
+magicLabel@219: if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
+magicLabel@223: const shapeName = blockShape?.name as string || 'Instance'
+magicLabel@251: { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
+magicLabel@252: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
 ```
 
 ### `src/components/booking/TimeOnSiteGraph.vue`
@@ -821,11 +912,24 @@ magicLabel@296: const errorMessage = error instanceof Error ? error.message : 'F
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@172: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
-magicLabel@182: label: 'Inspector',
-magicLabel@187: label: 'Client Formal Presentation',
-magicLabel@236: label: 'Inspector',
-magicLabel@241: label: 'Client Formal Presentation',
+magicLabel@174: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
+magicLabel@184: label: 'Inspector',
+magicLabel@189: label: 'Client Formal Presentation',
+magicLabel@235: label: 'Inspector',
+magicLabel@240: label: 'Client Formal Presentation',
+```
+
+### `src/composables/booking/useWizardValidationErrors.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- requiring review: 5, allowed: 0
+
+```
+magicLabel@74: showError('Please select at least one property type')
+magicLabel@106: : 'Please complete all required fields'
+magicLabel@114: showError('Please complete all required fields before continuing')
+magicLabel@120: showError('Please complete all required fields before continuing')
+magicLabel@122: showError('Please complete all required fields before continuing')
 ```
 
 ### `src/composables/useFormValidation.ts`
@@ -854,6 +958,31 @@ magicLabel@40: placeholder: "State Control",
 magicLabel@47: placeholder: "Select block shape type",
 ```
 
+### `src/utils/booking/slotGenerationValidation.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- requiring review: 5, allowed: 0
+
+```
+magicLabel@45: logger.warn('Non-integer duration will be rounded', { duration })
+magicLabel@63: logger.warn('Large minuteIncrement may result in few slots', { minuteIncrement })
+magicLabel@68: logger.error('Missing boundary parameters')
+magicLabel@78: logger.error('Invalid startBoundary datetime', { startBoundary })
+magicLabel@82: logger.error('Invalid endBoundary datetime', { endBoundary })
+```
+
+### `src/components/admin/BlockInstanceCreateModal.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- requiring review: 4, allowed: 0
+
+```
+magicLabel@101: * WHY: Shows "Create" or "Duplicate" in modal title
+magicLabel@105: return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
+magicLabel@110: * WHY: Shows "Create" or "Duplicate" on button
+magicLabel@114: return props.sourceEntity ? 'Duplicate' : 'Create'
+```
+
 ### `src/composables/admin/useAnnotationSelect.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
@@ -864,6 +993,18 @@ magicLabel@173: if (!blockInstanceId.value) throw new Error('Block instance ID i
 magicLabel@184: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
 magicLabel@256: if (!blockInstanceId.value) throw new Error('Block instance ID is required')
 magicLabel@261: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
+```
+
+### `src/composables/admin/useAvailabilitySettings.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- requiring review: 4, allowed: 0
+
+```
+magicLabel@87: throw new Error('No settings found in API response')
+magicLabel@136: error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
+magicLabel@151: error.value = 'Settings must be loaded before validation'
+magicLabel@188: error.value = 'Settings must be loaded before saving'
 ```
 
 ### `src/composables/admin/usePartInstanceBulkEdit.ts`
@@ -920,10 +1061,10 @@ magicLabel@123: : 'Not specified'
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@24: blockInstance: 'Block Profile',
-magicLabel@25: blockShape: 'Block Shape',
-magicLabel@26: partInstance: 'Part Profile',
-magicLabel@27: partShape: 'Part Shape',
+magicLabel@30: blockInstance: 'Block Profile',
+magicLabel@31: blockShape: 'Block Shape',
+magicLabel@32: partInstance: 'Part Profile',
+magicLabel@33: partShape: 'Part Shape',
 ```
 
 ### `src/components/admin/generic/fields/AnnotationsField.vue`
@@ -937,15 +1078,24 @@ magicLabel@124: :label="'Select Annotations'"
 magicLabel@160: label="Annotation Text"
 ```
 
+### `src/components/booking/dev/DevPanelToggle.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 1, allowed: 0
+
+```
+fieldEqualsString@26: if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
+```
+
 ### `src/composables/admin/usePartInstanceCollection.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@130: const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
-magicLabel@132: const partShapeName = partShape?.name || 'PartShape'
-magicLabel@195: notifyError('Failed to link PartInstance to BlockInstance')
+magicLabel@138: const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
+magicLabel@140: const partShapeName = partShape?.name || 'PartShape'
+magicLabel@193: notifyError('Failed to link PartInstance to BlockInstance')
 ```
 
 ### `src/composables/booking/useAvailabilityValidation.ts`
@@ -954,9 +1104,9 @@ magicLabel@195: notifyError('Failed to link PartInstance to BlockInstance')
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@41: selectedDate: [required('Please select a date'), dateNotInPast()]
-magicLabel@48: return 'Please select a time slot'
-magicLabel@52: return 'Selected time slot is invalid'
+magicLabel@42: selectedDate: [required('Please select a date'), dateNotInPast()]
+magicLabel@49: return 'Please select a time slot'
+magicLabel@53: return 'Selected time slot is invalid'
 ```
 
 ### `src/configs/field/display/appliedDisplay/partShapeDisplays.ts`
@@ -987,7 +1137,7 @@ magicLabel@55: if (errorString.includes('Cannot read properties of undefined') &
 - requiring review: 1, allowed: 0
 
 ```
-fieldEqualsString@104: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
+fieldEqualsString@116: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
 ```
 
 ### `src/utils/transformers/annotationTransformers.ts`
@@ -1045,17 +1195,6 @@ magicLabel@29: label="Order Index"
 magicLabel@104: error.value = err instanceof Error ? err.message : 'Failed to save part type'
 ```
 
-### `src/views/admin/tabs/InstancesTab.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@283: : 'No Cascades'
-magicLabel@303: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@356: <!-- LEARNING: For new instances, show static "New BlockInstance" text -->
-```
-
 ### `src/components/admin/component/ComponentDistributionModal.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
@@ -1072,8 +1211,18 @@ magicLabel@132: { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTI
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@125: showError('Editor not available')
-magicLabel@137: let errorMessage = 'Failed to save metadata configuration'
+magicLabel@127: showError('Editor not available')
+magicLabel@139: const errorMessage = getApiErrorMessage(err, 'Failed to save metadata configuration')
+```
+
+### `src/components/booking/MoveablePartsModal.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@71: label="Deadline Date"
+magicLabel@80: label="Deadline Time"
 ```
 
 ### `src/components/booking/steps/AvailabilityStep.vue`
@@ -1082,8 +1231,8 @@ magicLabel@137: let errorMessage = 'Failed to save metadata configuration'
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@352: aria-label="Select appointment date"
-magicLabel@537: // LEARNING: Hide calendar header (removes "SELECT DATE" text and thick bar)
+magicLabel@384: aria-label="Select appointment date"
+magicLabel@582: // LEARNING: Hide calendar header (removes "SELECT DATE" text and thick bar)
 ```
 
 ### `src/components/booking/types/selectionCardTypes.ts`
@@ -1116,14 +1265,34 @@ magicLabel@150: showError('No changes to apply')
 magicLabel@172: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
 ```
 
-### `src/composables/admin/useInstanceCreation.ts`
+### `src/composables/booking/useAppointmentDropdown.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@102: if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-magicLabel@111: // WHY: Prevents "Autofocus processing was blocked" browser warning
+magicLabel@38: // PATTERN: Map appointments to items array, prepend "Random Appointment" option
+magicLabel@40: { text: 'Random Appointment', value: 'random' },
+```
+
+### `src/composables/booking/useAvailabilitySettings.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@72: error.value = err instanceof Error ? err : new Error('Failed to load availability settings')
+magicLabel@92: error.value = err instanceof Error ? err : new Error('Failed to refresh availability settings')
+```
+
+### `src/composables/booking/useAvailableStartTimes.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@66: const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
+magicLabel@225: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating slots'
 ```
 
 ### `src/composables/entityCrud/usePrimitiveMutation.ts`
@@ -1156,6 +1325,25 @@ magicLabel@18: placeholder: "Enter name",
 magicLabel@26: placeholder: "This Field Should Be Hidden",
 ```
 
+### `src/types/datetime.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@24: * Format: "YYYY-MM-DD" (e.g., "2026-01-15")
+magicLabel@74: export type RFC3339DateTime = string & { readonly __brand: 'RFC3339DateTime' }
+```
+
+### `src/types/googleCalendar.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=0
+- requiring review: 1, allowed: 0
+
+```
+inlineLabelMap@67: *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-15T11:00:00Z" }
+```
+
 ### `src/utils/forms/getFieldKeys.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
@@ -1166,13 +1354,23 @@ magicLabel@14: * WHY: Prevents "Unknown input type" warnings and ensures proper 
 magicLabel@58: // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
 ```
 
+### `src/views/admin/tabs/InstancesTab.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@314: : 'No Cascades'
+magicLabel@334: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+```
+
 ### `src/components/admin/generic/fields/BooleanInput.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@60: // LEARNING: Handle inverted logic for constituable field (displayed as "State Control")
+magicLabel@61: // LEARNING: Handle inverted logic for constituable field (displayed as "State Control")
 ```
 
 ### `src/components/admin/generic/fields/FieldRenderer.vue`
@@ -1181,7 +1379,7 @@ magicLabel@60: // LEARNING: Handle inverted logic for constituable field (displa
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@294: : 'Unknown error - check field metadata configuration'
+magicLabel@289: : 'Unknown error - check field metadata configuration'
 ```
 
 ### `src/components/admin/generic/fields/IconInput.vue`
@@ -1193,13 +1391,40 @@ magicLabel@294: : 'Unknown error - check field metadata configuration'
 magicLabel@24: <span>{{ iconValue || fieldContext.displayConfig.placeholder || 'No icon selected' }}</span>
 ```
 
+### `src/components/admin/generic/fields/TextInput.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@243: if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCode !== 32) {
+```
+
 ### `src/components/booking/AppointmentSlotGrid.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@135: {{ slotData.displayTime ? formatTimeRange(slotData.displayTime) : 'Unavailable' }}
+magicLabel@124: return 'Unavailable'
+```
+
+### `src/components/booking/BookingWizard.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@346: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
+```
+
+### `src/components/booking/dev/AppointmentDebugPanel.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@359: : 'Not configured' }}
 ```
 
 ### `src/components/booking/IndependentSelectCard.vue`
@@ -1289,7 +1514,7 @@ magicLabel@218: error.value = err instanceof Error ? err.message : 'Failed to sa
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@188: showError('Please fix form errors before saving')
+magicLabel@189: showError('Please fix form errors before saving')
 ```
 
 ### `src/composables/admin/useEntityList.ts`
@@ -1334,7 +1559,7 @@ magicLabel@98: success('Annotation type created successfully')
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@55: onSite: TimeRange | null      // "Inspector" bar
+magicLabel@62: onSite: TimeRange | null      // "Inspector" bar
 ```
 
 ### `src/composables/booking/useAvailabilityLogic.ts`
@@ -1343,7 +1568,7 @@ magicLabel@55: onSite: TimeRange | null      // "Inspector" bar
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@192: // Check selected option type blocks (e.g., "No Client Presentation" option)
+magicLabel@302: // Check selected option type blocks (e.g., "No Client Presentation" option)
 ```
 
 ### `src/composables/booking/useAvailabilityUI.ts`
@@ -1352,16 +1577,7 @@ magicLabel@192: // Check selected option type blocks (e.g., "No Client Presentat
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@127: selectedDate: 'Please select a date'
-```
-
-### `src/composables/booking/useAvailableStartTimes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@55: error.value = err instanceof Error ? err : new Error('Failed to load availability settings')
+magicLabel@128: selectedDate: 'Please select a date'
 ```
 
 ### `src/composables/booking/useCascadeInstances.ts`
@@ -1371,6 +1587,15 @@ magicLabel@55: error.value = err instanceof Error ? err : new Error('Failed to l
 
 ```
 magicLabel@74: *   targetBlockShapeName: 'Base Service'
+```
+
+### `src/composables/booking/useMoveablePartsScheduling.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@45: if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
 ```
 
 ### `src/composables/booking/usePropertyTypeBlockConfig.ts`
@@ -1418,6 +1643,24 @@ magicLabel@81: const errorMessage = error instanceof Error ? error.message : 'Fa
 magicLabel@127: if (!globalData) throw new Error('Global data not available')
 ```
 
+### `src/composables/useApiErrorMessage.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@25: export function getApiErrorMessage(error: unknown, fallbackMessage: string = 'An error occurred'): string {
+```
+
+### `src/composables/useAvailability.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@205: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating time slots'
+```
+
 ### `src/composables/useEntityForm.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
@@ -1454,6 +1697,15 @@ magicLabel@39: <Component :is="Component" />
 magicLabel@45: <Component :is="Component" />
 ```
 
+### `src/types/moveableScheduling.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@38: dayLabel: string          // "Today", "Tomorrow", "Jan 16"
+```
+
 ### `src/types/property.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
@@ -1478,7 +1730,16 @@ magicLabel@30: 'Content-Type': 'application/json',
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@244: { title: 'Generic', value: null },
+magicLabel@247: { title: 'Generic', value: null },
+```
+
+### `src/utils/booking/mockGoogleCalendar.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@218: message: 'Cannot generate busy periods - not enough time remaining'
 ```
 
 ### `src/utils/booking/selectionCardComponent.ts`
@@ -1508,6 +1769,15 @@ magicLabel@6: selectionGroup: 'VRadioGroup',
 magicLabel@8: return config.selectionGroup || 'VRadioGroup'
 ```
 
+### `src/utils/booking/timeSlotFitter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@122: * Handles both 'YYYY-MM-DD' and ISO timestamp formats
+```
+
 ### `src/utils/forms/formElementPatching.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
@@ -1515,15 +1785,6 @@ magicLabel@8: return config.selectionGroup || 'VRadioGroup'
 
 ```
 magicLabel@70: if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
-```
-
-### `src/utils/timeSlotCalculations.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@129: // Handle both 'YYYY-MM-DD' and 'YYYY-MM-DDTHH:MM:SSZ' formats
 ```
 
 ### `src/utils/transformers/globalToBookingTransformer.ts`

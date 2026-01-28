@@ -12,14 +12,212 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **294**
-- Groups (window=10 lines, minOccurrences=2): **0**
+- Files scanned: **340**
+- Groups (window=10 lines, minOccurrences=2): **9**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
+| `dup-4a6fc399bb1e` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@90`, `src/configs/availabilitySettings.ts@305` |
+| `dup-59504e32b3e0` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@91`, `src/configs/availabilitySettings.ts@306` |
+| `dup-711dc5bc6407` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@94`, `src/configs/availabilitySettings.ts@309` |
+| `dup-8996f8c0fe68` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@95`, `src/configs/availabilitySettings.ts@310` |
+| `dup-9885bbd97b8b` | 2 | 2 | 10 | `src/composables/booking/useWizardAppointmentManagement.ts@31`, `src/composables/booking/useWizardStepDataRefs.ts@15` |
+| `dup-a8ce9d15d5ff` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@98`, `src/configs/availabilitySettings.ts@313` |
+| `dup-c6a9f26012a5` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@92`, `src/configs/availabilitySettings.ts@307` |
+| `dup-c6f7ccb0ada1` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@99`, `src/configs/availabilitySettings.ts@314` |
+| `dup-ce5c3dcc86d2` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@93`, `src/configs/availabilitySettings.ts@308` |
 
 ## Per-group details (top)
 
 LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
+
+### Group `dup-4a6fc399bb1e`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 90-103
+- `src/configs/availabilitySettings.ts` @ lines 305-318
+
+```
+const rawSettings = response.data.setting_value as {
+minuteIncrement: number
+rangeConstraints: {
+businessHours: RangeConstraint
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+```
+
+### Group `dup-59504e32b3e0`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 91-104
+- `src/configs/availabilitySettings.ts` @ lines 306-319
+
+```
+minuteIncrement: number
+rangeConstraints: {
+businessHours: RangeConstraint
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+```
+
+### Group `dup-711dc5bc6407`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 94-112
+- `src/configs/availabilitySettings.ts` @ lines 309-327
+
+```
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
+throw new Error('rangeConstraints.businessHours is required')
+```
+
+### Group `dup-8996f8c0fe68`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 95-114
+- `src/configs/availabilitySettings.ts` @ lines 310-330
+
+```
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
+throw new Error('rangeConstraints.businessHours is required')
+if (!rawSettings.minuteIncrement) {
+```
+
+### Group `dup-9885bbd97b8b`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/booking/useWizardAppointmentManagement.ts` @ lines 31-40
+- `src/composables/booking/useWizardStepDataRefs.ts` @ lines 15-26
+
+```
+propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
+contactsStepData: Ref<ContactsStepData | null>
+availabilityStepData: Ref<AvailabilityStepData | null>
+propertyDetailsStepValid: Ref<boolean>
+propertyDetailsStepValidate: Ref<(() => boolean) | null>
+propertyDetailsFieldErrors: Ref<Record<string, string>>
+contactsStepValid: Ref<boolean>
+contactsStepValidate: Ref<(() => boolean) | null>
+availabilityStepValid: Ref<boolean>
+availabilityStepValidate: Ref<(() => boolean) | null>
+```
+
+### Group `dup-a8ce9d15d5ff`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 98-115
+- `src/configs/availabilitySettings.ts` @ lines 313-331
+
+```
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
+throw new Error('rangeConstraints.businessHours is required')
+if (!rawSettings.minuteIncrement) {
+throw new Error('minuteIncrement is required')
+```
+
+### Group `dup-c6a9f26012a5`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 92-105
+- `src/configs/availabilitySettings.ts` @ lines 307-320
+
+```
+rangeConstraints: {
+businessHours: RangeConstraint
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+```
+
+### Group `dup-c6f7ccb0ada1`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 99-119
+- `src/configs/availabilitySettings.ts` @ lines 314-335
+
+```
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
+throw new Error('rangeConstraints.businessHours is required')
+if (!rawSettings.minuteIncrement) {
+throw new Error('minuteIncrement is required')
+const businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig
+```
+
+### Group `dup-ce5c3dcc86d2`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 93-111
+- `src/configs/availabilitySettings.ts` @ lines 308-326
+
+```
+businessHours: RangeConstraint
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
+```

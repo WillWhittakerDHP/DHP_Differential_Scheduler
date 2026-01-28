@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-18T15:56:57.918Z",
+  "generatedAt": "2026-01-28T02:41:04.610Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}"
@@ -15,6 +15,223 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 294,
-  "groups": []
+  "fileCount": 340,
+  "groups": [
+    {
+      "groupId": "dup-4a6fc399bb1e",
+      "hash": "4a6fc399bb1e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const rawSettings = response.data.setting_value as {\nminuteIncrement: number\nrangeConstraints: {\nbusinessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter",
+      "locations": [
+        {
+          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+          "startLine": 90,
+          "endLine": 103,
+          "windowText": "const rawSettings = response.data.setting_value as {\nminuteIncrement: number\nrangeConstraints: {\nbusinessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter",
+          "target": "src/composables/admin/useAvailabilitySettings.ts"
+        },
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "startLine": 305,
+          "endLine": 318,
+          "windowText": "const rawSettings = response.data.setting_value as {\nminuteIncrement: number\nrangeConstraints: {\nbusinessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter",
+          "target": "src/configs/availabilitySettings.ts"
+        }
+      ]
+    },
+    {
+      "groupId": "dup-59504e32b3e0",
+      "hash": "59504e32b3e0",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "minuteIncrement: number\nrangeConstraints: {\nbusinessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter",
+      "locations": [
+        {
+          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+          "startLine": 91,
+          "endLine": 104,
+          "windowText": "minuteIncrement: number\nrangeConstraints: {\nbusinessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter",
+          "target": "src/composables/admin/useAvailabilitySettings.ts"
+        },
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "startLine": 306,
+          "endLine": 319,
+          "windowText": "minuteIncrement: number\nrangeConstraints: {\nbusinessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter",
+          "target": "src/configs/availabilitySettings.ts"
+        }
+      ]
+    },
+    {
+      "groupId": "dup-711dc5bc6407",
+      "hash": "711dc5bc6407",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "leadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')",
+      "locations": [
+        {
+          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+          "startLine": 94,
+          "endLine": 112,
+          "windowText": "leadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')",
+          "target": "src/composables/admin/useAvailabilitySettings.ts"
+        },
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "startLine": 309,
+          "endLine": 327,
+          "windowText": "leadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')",
+          "target": "src/configs/availabilitySettings.ts"
+        }
+      ]
+    },
+    {
+      "groupId": "dup-8996f8c0fe68",
+      "hash": "8996f8c0fe68",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "dateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')\nif (!rawSettings.minuteIncrement) {",
+      "locations": [
+        {
+          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+          "startLine": 95,
+          "endLine": 114,
+          "windowText": "dateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')\nif (!rawSettings.minuteIncrement) {",
+          "target": "src/composables/admin/useAvailabilitySettings.ts"
+        },
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "startLine": 310,
+          "endLine": 330,
+          "windowText": "dateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')\nif (!rawSettings.minuteIncrement) {",
+          "target": "src/configs/availabilitySettings.ts"
+        }
+      ]
+    },
+    {
+      "groupId": "dup-9885bbd97b8b",
+      "hash": "9885bbd97b8b",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "propertyDetailsStepData: Ref<PropertyDetailsStepData | null>\ncontactsStepData: Ref<ContactsStepData | null>\navailabilityStepData: Ref<AvailabilityStepData | null>\npropertyDetailsStepValid: Ref<boolean>\npropertyDetailsStepValidate: Ref<(() => boolean) | null>\npropertyDetailsFieldErrors: Ref<Record<string, string>>\ncontactsStepValid: Ref<boolean>\ncontactsStepValidate: Ref<(() => boolean) | null>\navailabilityStepValid: Ref<boolean>\navailabilityStepValidate: Ref<(() => boolean) | null>",
+      "locations": [
+        {
+          "repoPath": "src/composables/booking/useWizardAppointmentManagement.ts",
+          "startLine": 31,
+          "endLine": 40,
+          "windowText": "propertyDetailsStepData: Ref<PropertyDetailsStepData | null>\ncontactsStepData: Ref<ContactsStepData | null>\navailabilityStepData: Ref<AvailabilityStepData | null>\npropertyDetailsStepValid: Ref<boolean>\npropertyDetailsStepValidate: Ref<(() => boolean) | null>\npropertyDetailsFieldErrors: Ref<Record<string, string>>\ncontactsStepValid: Ref<boolean>\ncontactsStepValidate: Ref<(() => boolean) | null>\navailabilityStepValid: Ref<boolean>\navailabilityStepValidate: Ref<(() => boolean) | null>",
+          "target": "src/composables/booking/useWizardAppointmentManagement.ts"
+        },
+        {
+          "repoPath": "src/composables/booking/useWizardStepDataRefs.ts",
+          "startLine": 15,
+          "endLine": 26,
+          "windowText": "propertyDetailsStepData: Ref<PropertyDetailsStepData | null>\ncontactsStepData: Ref<ContactsStepData | null>\navailabilityStepData: Ref<AvailabilityStepData | null>\npropertyDetailsStepValid: Ref<boolean>\npropertyDetailsStepValidate: Ref<(() => boolean) | null>\npropertyDetailsFieldErrors: Ref<Record<string, string>>\ncontactsStepValid: Ref<boolean>\ncontactsStepValidate: Ref<(() => boolean) | null>\navailabilityStepValid: Ref<boolean>\navailabilityStepValidate: Ref<(() => boolean) | null>",
+          "target": "src/composables/booking/useWizardStepDataRefs.ts"
+        }
+      ]
+    },
+    {
+      "groupId": "dup-a8ce9d15d5ff",
+      "hash": "a8ce9d15d5ff",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "appointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')\nif (!rawSettings.minuteIncrement) {\nthrow new Error('minuteIncrement is required')",
+      "locations": [
+        {
+          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+          "startLine": 98,
+          "endLine": 115,
+          "windowText": "appointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')\nif (!rawSettings.minuteIncrement) {\nthrow new Error('minuteIncrement is required')",
+          "target": "src/composables/admin/useAvailabilitySettings.ts"
+        },
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "startLine": 313,
+          "endLine": 331,
+          "windowText": "appointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')\nif (!rawSettings.minuteIncrement) {\nthrow new Error('minuteIncrement is required')",
+          "target": "src/configs/availabilitySettings.ts"
+        }
+      ]
+    },
+    {
+      "groupId": "dup-c6a9f26012a5",
+      "hash": "c6a9f26012a5",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "rangeConstraints: {\nbusinessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter",
+      "locations": [
+        {
+          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+          "startLine": 92,
+          "endLine": 105,
+          "windowText": "rangeConstraints: {\nbusinessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter",
+          "target": "src/composables/admin/useAvailabilitySettings.ts"
+        },
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "startLine": 307,
+          "endLine": 320,
+          "windowText": "rangeConstraints: {\nbusinessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter",
+          "target": "src/configs/availabilitySettings.ts"
+        }
+      ]
+    },
+    {
+      "groupId": "dup-c6f7ccb0ada1",
+      "hash": "c6f7ccb0ada1",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "driveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')\nif (!rawSettings.minuteIncrement) {\nthrow new Error('minuteIncrement is required')\nconst businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig",
+      "locations": [
+        {
+          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+          "startLine": 99,
+          "endLine": 119,
+          "windowText": "driveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')\nif (!rawSettings.minuteIncrement) {\nthrow new Error('minuteIncrement is required')\nconst businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig",
+          "target": "src/composables/admin/useAvailabilitySettings.ts"
+        },
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "startLine": 314,
+          "endLine": 335,
+          "windowText": "driveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {\nthrow new Error('rangeConstraints.businessHours is required')\nif (!rawSettings.minuteIncrement) {\nthrow new Error('minuteIncrement is required')\nconst businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig",
+          "target": "src/configs/availabilitySettings.ts"
+        }
+      ]
+    },
+    {
+      "groupId": "dup-ce5c3dcc86d2",
+      "hash": "ce5c3dcc86d2",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "businessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {",
+      "locations": [
+        {
+          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+          "startLine": 93,
+          "endLine": 111,
+          "windowText": "businessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {",
+          "target": "src/composables/admin/useAvailabilitySettings.ts"
+        },
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "startLine": 308,
+          "endLine": 326,
+          "windowText": "businessHours: RangeConstraint\nleadTime?: RangeConstraint\ndateRange?: RangeConstraint\nappointment?: BufferConfig\ndriveTime?: BufferConfig\nlunch?: BufferConfig\nday?: WorkCapacityFilter\ncalendarWeek?: WorkCapacityFilter\nrollingWeek?: RollingWeekCapacityFilter\nif (!rawSettings.rangeConstraints?.businessHours) {",
+          "target": "src/configs/availabilitySettings.ts"
+        }
+      ]
+    }
+  ]
 }

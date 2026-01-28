@@ -5,6 +5,15 @@
   WHY: Allows users to specify when moveable work should be completed, bounded by contingency deadlines
   PATTERN: VDialog with form for contingency questions and time slot selection
   Session 1.4.15: Moveable Parts Scheduling Modal
+  
+  TEMPORARY DISABLE: Currently disabled - modal does not open when moveable parts detected
+  FUTURE: Will be integrated into wizard-wide confirmation modal system
+  
+  Future Confirmation Modal Architecture:
+  - Each wizard step may require confirmation under certain circumstances
+  - Confirmation modals will be triggered after step completion, before proceeding to next step
+  - MoveablePartsModal will be re-enabled as part of AvailabilityStep confirmation flow
+  - Confirmation system will be centralized in a composable (e.g., useWizardConfirmations)
 -->
 <template>
   <VDialog
@@ -202,10 +211,31 @@ const contingencyPeriodModel = computed({
   }
 })
 
-// Computed: can confirm if a slot is selected or no slots available
+// LEARNING: Can confirm if all required fields are valid
+// WHY: Validates contingency period and slot selection before allowing confirmation
+// PATTERN: Computed property that checks all validation requirements
 const canConfirm = computed(() => {
+  // Cannot confirm if options are still loading or not available
   if (!props.moveableOptions) return false
-  if (props.moveableOptions.availableSlots.length === 0) return true // Can confirm even if no slots
+  
+  // LEARNING: Validate contingency period when hasContingency is true
+  // WHY: If user specifies a contingency deadline, endDate must be provided
+  // PATTERN: Check hasContingency flag and require endDate if true
+  if (props.contingencyPeriod.hasContingency) {
+    if (!props.contingencyPeriod.endDate) {
+      return false
+    }
+  }
+  
+  // LEARNING: If no slots available, can confirm (user can proceed without selecting a slot)
+  // WHY: Some scenarios don't require slot selection
+  if (props.moveableOptions.availableSlots.length === 0) {
+    return true
+  }
+  
+  // LEARNING: If slots are available, a slot must be selected
+  // WHY: User must choose when moveable work should be completed
+  // PATTERN: Return true only if selectedSlotIndex is not null
   return props.selectedSlotIndex !== null
 })
 
