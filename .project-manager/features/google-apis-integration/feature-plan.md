@@ -216,6 +216,10 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - Log errors for debugging
 - Display user-friendly error messages
 
+### Drive-Time Buffer Plan Reference
+
+- `/.cursor/plans/drive_time_buffer_implementation_d7bfd3a0.plan.md` (detailed implementation plan)
+
 ### Success Criteria
 
 - Address autocomplete working correctly
