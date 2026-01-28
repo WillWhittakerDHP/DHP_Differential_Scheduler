@@ -12,459 +12,212 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **246**
-- Groups (window=10 lines, minOccurrences=2): **28**
+- Files scanned: **340**
+- Groups (window=10 lines, minOccurrences=2): **9**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-059a671221b9` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@110`, `src/components/admin/generic/fields/TextInput.vue@198` |
-| `dup-094f00158f27` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@25`, `src/types/wizard.ts@124` |
-| `dup-0ccd09ec3b73` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@66`, `src/composables/booking/usePropertyFormWatchers.ts@16` |
-| `dup-19370dacf264` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@169`, `src/utils/instanceComponentUtils.ts@42` |
-| `dup-3f3538ca89da` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@113`, `src/components/admin/generic/fields/TextInput.vue@201` |
-| `dup-4163a85431cc` | 2 | 2 | 10 | `src/components/admin/generic/fields/DateInput.vue@53`, `src/components/admin/generic/fields/TextAreaInput.vue@54` |
-| `dup-427da61f44a9` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@28`, `src/types/wizard.ts@127` |
-| `dup-474f9d560b71` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@88`, `src/components/admin/generic/fields/TextInput.vue@171` |
-| `dup-4fa03eeeb706` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@87`, `src/components/admin/generic/fields/TextInput.vue@170` |
-| `dup-54b49eac8493` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@29`, `src/types/wizard.ts@128` |
-| `dup-62d7bc82325b` | 2 | 2 | 10 | `src/components/admin/generic/fields/DateInput.vue@56`, `src/components/admin/generic/fields/TextAreaInput.vue@57` |
-| `dup-663c5f7dec7a` | 2 | 2 | 10 | `src/components/booking/steps/ConfirmationStep.vue@28`, `src/composables/booking/useConfirmationStepData.ts@42` |
-| `dup-8d0cae251a99` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@31`, `src/types/wizard.ts@130` |
-| `dup-8f21a90698e1` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@30`, `src/types/wizard.ts@129` |
-| `dup-92ef8670c2b9` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@26`, `src/types/wizard.ts@125` |
-| `dup-93727aff2ded` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@168`, `src/utils/instanceComponentUtils.ts@41` |
-| `dup-ad6de62500ed` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@91`, `src/components/admin/generic/fields/TextInput.vue@177` |
-| `dup-add2c6270d35` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@69`, `src/composables/booking/usePropertyFormWatchers.ts@19` |
-| `dup-b0ae1815c44a` | 2 | 2 | 10 | `src/components/admin/generic/fields/DateInput.vue@60`, `src/components/admin/generic/fields/TextAreaInput.vue@61` |
-| `dup-b5bd2aab7bcc` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@172`, `src/utils/instanceComponentUtils.ts@45` |
-| `dup-d124c3cf9ac3` | 2 | 2 | 10 | `src/composables/booking/useWizardFilteredOptions.ts@103`, `src/types/wizard.ts@64` |
-| `dup-d126cf27fb81` | 2 | 2 | 10 | `src/composables/admin/tables/usePropertiesTableModel.ts@26`, `src/composables/admin/tables/useUsersTableModel.ts@26` |
-| `dup-d443e8dcd062` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@108`, `src/components/admin/generic/fields/TextInput.vue@196` |
-| `dup-d47c1465f08e` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@98`, `src/components/admin/generic/fields/TextInput.vue@186` |
-| `dup-d4a41a820155` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@94`, `src/components/admin/generic/fields/TextInput.vue@181` |
+| `dup-4a6fc399bb1e` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@90`, `src/configs/availabilitySettings.ts@305` |
+| `dup-59504e32b3e0` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@91`, `src/configs/availabilitySettings.ts@306` |
+| `dup-711dc5bc6407` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@94`, `src/configs/availabilitySettings.ts@309` |
+| `dup-8996f8c0fe68` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@95`, `src/configs/availabilitySettings.ts@310` |
+| `dup-9885bbd97b8b` | 2 | 2 | 10 | `src/composables/booking/useWizardAppointmentManagement.ts@31`, `src/composables/booking/useWizardStepDataRefs.ts@15` |
+| `dup-a8ce9d15d5ff` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@98`, `src/configs/availabilitySettings.ts@313` |
+| `dup-c6a9f26012a5` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@92`, `src/configs/availabilitySettings.ts@307` |
+| `dup-c6f7ccb0ada1` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@99`, `src/configs/availabilitySettings.ts@314` |
+| `dup-ce5c3dcc86d2` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@93`, `src/configs/availabilitySettings.ts@308` |
 
 ## Per-group details (top)
 
 LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
 
-### Group `dup-059a671221b9`
+### Group `dup-4a6fc399bb1e`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/components/admin/generic/fields/NumberInput.vue` @ lines 110-144
-- `src/components/admin/generic/fields/TextInput.vue` @ lines 198-232
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 90-103
+- `src/configs/availabilitySettings.ts` @ lines 305-318
 
 ```
-event.preventDefault()
-const isValid = await fieldContext.validate()
-if (entityCardSaveContext?.isNew && entityCardSaveContext.handleSave) {
-await entityCardSaveContext.handleSave()
-fieldContext.setFocus(false)
-const target = event.target as HTMLElement
-if (target && 'blur' in target && typeof target.blur === 'function') {
-await fieldContext.save()
-fieldContext.setFocus(false)
-const target = event.target as HTMLElement
+const rawSettings = response.data.setting_value as {
+minuteIncrement: number
+rangeConstraints: {
+businessHours: RangeConstraint
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
 ```
 
-### Group `dup-094f00158f27`
+### Group `dup-59504e32b3e0`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/booking/useAppointmentDataCollection.ts` @ lines 25-41
-- `src/types/wizard.ts` @ lines 124-143
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 91-104
+- `src/configs/availabilitySettings.ts` @ lines 306-319
 
 ```
-propertySize: number | null
-numberOfUnits: number | null
-squareFootage: number | null
-bedrooms: number | null
-bathrooms: number | null
-foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-additionalUnits: number | null
-clientInfo: { firstName: string; lastName: string; email: string }
-agentInfo: { firstName: string; lastName: string; email: string }
-anotherClientInfo: { firstName: string; lastName: string; email: string }
+minuteIncrement: number
+rangeConstraints: {
+businessHours: RangeConstraint
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
 ```
 
-### Group `dup-0ccd09ec3b73`
+### Group `dup-711dc5bc6407`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/booking/usePropertyDetailsLogic.ts` @ lines 66-77
-- `src/composables/booking/usePropertyFormWatchers.ts` @ lines 16-27
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 94-112
+- `src/configs/availabilitySettings.ts` @ lines 309-327
 
 ```
-address: Ref<string>
-state: Ref<string>
-zipCode: Ref<string>
-propertySize: Ref<number | null>
-numberOfUnits: Ref<number | null>
-mlsNumber: Ref<string>
-squareFootage: Ref<number | null>
-bedrooms: Ref<number | null>
-bathrooms: Ref<number | null>
-foundationAccess: Ref<'basement' | 'crawlspace' | 'slab' | null>
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
+throw new Error('rangeConstraints.businessHours is required')
 ```
 
-### Group `dup-19370dacf264`
+### Group `dup-8996f8c0fe68`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/booking/usePropertyDetailsLogic.ts` @ lines 169-187
-- `src/utils/instanceComponentUtils.ts` @ lines 42-61
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 95-114
+- `src/configs/availabilitySettings.ts` @ lines 310-330
 
 ```
-if (!componentBlockInstance) return null
-const componentWithShapeRef = componentBlockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
-const componentBlockShape = getGlobalEntityById('blockShape', componentWithShapeRef.blockShapeRef)
-if (!componentBlockShape) return null
-const componentBlockShapeWithComposable = componentBlockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
-if (componentBlockShapeWithComposable.composable !== true) return null
-const componentWithAnnotations = componentBlockInstance as GlobalEntity<'blockInstance'> & {
-annotations?: Array<{ text: string; userTypeBlock: string | null; isDefault?: boolean }>
-description?: string
-let filteredDescription = ''
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
+throw new Error('rangeConstraints.businessHours is required')
+if (!rawSettings.minuteIncrement) {
 ```
 
-### Group `dup-3f3538ca89da`
+### Group `dup-9885bbd97b8b`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/components/admin/generic/fields/NumberInput.vue` @ lines 113-145
-- `src/components/admin/generic/fields/TextInput.vue` @ lines 201-233
+- `src/composables/booking/useWizardAppointmentManagement.ts` @ lines 31-40
+- `src/composables/booking/useWizardStepDataRefs.ts` @ lines 15-26
 
 ```
-const isValid = await fieldContext.validate()
-if (entityCardSaveContext?.isNew && entityCardSaveContext.handleSave) {
-await entityCardSaveContext.handleSave()
-fieldContext.setFocus(false)
-const target = event.target as HTMLElement
-if (target && 'blur' in target && typeof target.blur === 'function') {
-await fieldContext.save()
-fieldContext.setFocus(false)
-const target = event.target as HTMLElement
-if (target && 'blur' in target && typeof target.blur === 'function') {
+propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
+contactsStepData: Ref<ContactsStepData | null>
+availabilityStepData: Ref<AvailabilityStepData | null>
+propertyDetailsStepValid: Ref<boolean>
+propertyDetailsStepValidate: Ref<(() => boolean) | null>
+propertyDetailsFieldErrors: Ref<Record<string, string>>
+contactsStepValid: Ref<boolean>
+contactsStepValidate: Ref<(() => boolean) | null>
+availabilityStepValid: Ref<boolean>
+availabilityStepValidate: Ref<(() => boolean) | null>
 ```
 
-### Group `dup-4163a85431cc`
+### Group `dup-a8ce9d15d5ff`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/components/admin/generic/fields/DateInput.vue` @ lines 53-76
-- `src/components/admin/generic/fields/TextAreaInput.vue` @ lines 54-77
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 98-115
+- `src/configs/availabilitySettings.ts` @ lines 313-331
 
 ```
-showLabel?: boolean
-const props = withDefaults(defineProps<Props>(), {
-const { fieldContext } = props
-const fieldValue = useFieldValue(fieldContext)
-const handleChange = (value: string) => {
-fieldContext.setValue(value)
-const handleFocus = () => {
-fieldContext.setFocus(true)
-const handleBlur = async () => {
-fieldContext.setFocus(false)
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
+throw new Error('rangeConstraints.businessHours is required')
+if (!rawSettings.minuteIncrement) {
+throw new Error('minuteIncrement is required')
 ```
 
-### Group `dup-427da61f44a9`
+### Group `dup-c6a9f26012a5`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/booking/useAppointmentDataCollection.ts` @ lines 28-43
-- `src/types/wizard.ts` @ lines 127-145
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 92-105
+- `src/configs/availabilitySettings.ts` @ lines 307-320
 
 ```
-squareFootage: number | null
-bedrooms: number | null
-bathrooms: number | null
-foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-additionalUnits: number | null
-clientInfo: { firstName: string; lastName: string; email: string }
-agentInfo: { firstName: string; lastName: string; email: string }
-anotherClientInfo: { firstName: string; lastName: string; email: string }
-transactionManagerInfo: { firstName: string; lastName: string; email: string }
-sellerInfo: { firstName: string; lastName: string; email: string }
+rangeConstraints: {
+businessHours: RangeConstraint
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
 ```
 
-### Group `dup-474f9d560b71`
+### Group `dup-c6f7ccb0ada1`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/components/admin/generic/fields/NumberInput.vue` @ lines 88-124
-- `src/components/admin/generic/fields/TextInput.vue` @ lines 171-212
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 99-119
+- `src/configs/availabilitySettings.ts` @ lines 314-335
 
 ```
-fieldContext.setFocus(true)
-const handleBlur = async () => {
-fieldContext.setFocus(false)
-const isValid = await fieldContext.validate()
-await fieldContext.save()
-const handleEnterKey = async (event: KeyboardEvent) => {
-event.preventDefault()
-const isValid = await fieldContext.validate()
-if (entityCardSaveContext?.isNew && entityCardSaveContext.handleSave) {
-await entityCardSaveContext.handleSave()
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
+throw new Error('rangeConstraints.businessHours is required')
+if (!rawSettings.minuteIncrement) {
+throw new Error('minuteIncrement is required')
+const businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig
 ```
 
-### Group `dup-4fa03eeeb706`
+### Group `dup-ce5c3dcc86d2`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/components/admin/generic/fields/NumberInput.vue` @ lines 87-122
-- `src/components/admin/generic/fields/TextInput.vue` @ lines 170-210
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 93-111
+- `src/configs/availabilitySettings.ts` @ lines 308-326
 
 ```
-const handleFocus = () => {
-fieldContext.setFocus(true)
-const handleBlur = async () => {
-fieldContext.setFocus(false)
-const isValid = await fieldContext.validate()
-await fieldContext.save()
-const handleEnterKey = async (event: KeyboardEvent) => {
-event.preventDefault()
-const isValid = await fieldContext.validate()
-if (entityCardSaveContext?.isNew && entityCardSaveContext.handleSave) {
-```
-
-### Group `dup-54b49eac8493`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/composables/booking/useAppointmentDataCollection.ts` @ lines 29-44
-- `src/types/wizard.ts` @ lines 128-146
-
-```
-bedrooms: number | null
-bathrooms: number | null
-foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-additionalUnits: number | null
-clientInfo: { firstName: string; lastName: string; email: string }
-agentInfo: { firstName: string; lastName: string; email: string }
-anotherClientInfo: { firstName: string; lastName: string; email: string }
-transactionManagerInfo: { firstName: string; lastName: string; email: string }
-sellerInfo: { firstName: string; lastName: string; email: string }
-showAnotherClient: boolean
-```
-
-### Group `dup-62d7bc82325b`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/components/admin/generic/fields/DateInput.vue` @ lines 56-78
-- `src/components/admin/generic/fields/TextAreaInput.vue` @ lines 57-79
-
-```
-const props = withDefaults(defineProps<Props>(), {
-const { fieldContext } = props
-const fieldValue = useFieldValue(fieldContext)
-const handleChange = (value: string) => {
-fieldContext.setValue(value)
-const handleFocus = () => {
-fieldContext.setFocus(true)
-const handleBlur = async () => {
-fieldContext.setFocus(false)
-const isValid = await fieldContext.validate()
-```
-
-### Group `dup-663c5f7dec7a`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/components/booking/steps/ConfirmationStep.vue` @ lines 28-45
-- `src/composables/booking/useConfirmationStepData.ts` @ lines 42-59
-
-```
-selectedDate: { start: string | null; end: string | null }
-selectedTimeSlots: Array<{ time: string; duration: number }> | null
-interface PropertyDetailsStepData {
-propertySize: number | null
-numberOfUnits: number | null
-squareFootage: number | null
-bedrooms: number | null
-bathrooms: number | null
-foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-additionalUnits: number | null
-```
-
-### Group `dup-8d0cae251a99`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/composables/booking/useAppointmentDataCollection.ts` @ lines 31-46
-- `src/types/wizard.ts` @ lines 130-148
-
-```
-foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-additionalUnits: number | null
-clientInfo: { firstName: string; lastName: string; email: string }
-agentInfo: { firstName: string; lastName: string; email: string }
-anotherClientInfo: { firstName: string; lastName: string; email: string }
-transactionManagerInfo: { firstName: string; lastName: string; email: string }
-sellerInfo: { firstName: string; lastName: string; email: string }
-showAnotherClient: boolean
-showTransactionManager: boolean
-showSeller: boolean
-```
-
-### Group `dup-8f21a90698e1`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/composables/booking/useAppointmentDataCollection.ts` @ lines 30-45
-- `src/types/wizard.ts` @ lines 129-147
-
-```
-bathrooms: number | null
-foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-additionalUnits: number | null
-clientInfo: { firstName: string; lastName: string; email: string }
-agentInfo: { firstName: string; lastName: string; email: string }
-anotherClientInfo: { firstName: string; lastName: string; email: string }
-transactionManagerInfo: { firstName: string; lastName: string; email: string }
-sellerInfo: { firstName: string; lastName: string; email: string }
-showAnotherClient: boolean
-showTransactionManager: boolean
-```
-
-### Group `dup-92ef8670c2b9`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/composables/booking/useAppointmentDataCollection.ts` @ lines 26-42
-- `src/types/wizard.ts` @ lines 125-144
-
-```
-numberOfUnits: number | null
-squareFootage: number | null
-bedrooms: number | null
-bathrooms: number | null
-foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-additionalUnits: number | null
-clientInfo: { firstName: string; lastName: string; email: string }
-agentInfo: { firstName: string; lastName: string; email: string }
-anotherClientInfo: { firstName: string; lastName: string; email: string }
-transactionManagerInfo: { firstName: string; lastName: string; email: string }
-```
-
-### Group `dup-93727aff2ded`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/composables/booking/usePropertyDetailsLogic.ts` @ lines 168-183
-- `src/utils/instanceComponentUtils.ts` @ lines 41-56
-
-```
-const componentBlockInstance = getGlobalEntityById('blockInstance', ac.childId)
-if (!componentBlockInstance) return null
-const componentWithShapeRef = componentBlockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
-const componentBlockShape = getGlobalEntityById('blockShape', componentWithShapeRef.blockShapeRef)
-if (!componentBlockShape) return null
-const componentBlockShapeWithComposable = componentBlockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
-if (componentBlockShapeWithComposable.composable !== true) return null
-const componentWithAnnotations = componentBlockInstance as GlobalEntity<'blockInstance'> & {
-annotations?: Array<{ text: string; userTypeBlock: string | null; isDefault?: boolean }>
-description?: string
-```
-
-### Group `dup-ad6de62500ed`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/components/admin/generic/fields/NumberInput.vue` @ lines 91-126
-- `src/components/admin/generic/fields/TextInput.vue` @ lines 177-214
-
-```
-const handleBlur = async () => {
-fieldContext.setFocus(false)
-const isValid = await fieldContext.validate()
-await fieldContext.save()
-const handleEnterKey = async (event: KeyboardEvent) => {
-event.preventDefault()
-const isValid = await fieldContext.validate()
-if (entityCardSaveContext?.isNew && entityCardSaveContext.handleSave) {
-await entityCardSaveContext.handleSave()
-fieldContext.setFocus(false)
-```
-
-### Group `dup-add2c6270d35`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/composables/booking/usePropertyDetailsLogic.ts` @ lines 69-78
-- `src/composables/booking/usePropertyFormWatchers.ts` @ lines 19-28
-
-```
-state: Ref<string>
-zipCode: Ref<string>
-propertySize: Ref<number | null>
-numberOfUnits: Ref<number | null>
-mlsNumber: Ref<string>
-squareFootage: Ref<number | null>
-bedrooms: Ref<number | null>
-bathrooms: Ref<number | null>
-foundationAccess: Ref<'basement' | 'crawlspace' | 'slab' | null>
-additionalUnits: Ref<number | null>
-```
-
-### Group `dup-b0ae1815c44a`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/components/admin/generic/fields/DateInput.vue` @ lines 60-82
-- `src/components/admin/generic/fields/TextAreaInput.vue` @ lines 61-83
-
-```
-const { fieldContext } = props
-const fieldValue = useFieldValue(fieldContext)
-const handleChange = (value: string) => {
-fieldContext.setValue(value)
-const handleFocus = () => {
-fieldContext.setFocus(true)
-const handleBlur = async () => {
-fieldContext.setFocus(false)
-const isValid = await fieldContext.validate()
-await fieldContext.save()
-```
-
-### Group `dup-b5bd2aab7bcc`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/composables/booking/usePropertyDetailsLogic.ts` @ lines 172-188
-- `src/utils/instanceComponentUtils.ts` @ lines 45-62
-
-```
-const componentWithShapeRef = componentBlockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
-const componentBlockShape = getGlobalEntityById('blockShape', componentWithShapeRef.blockShapeRef)
-if (!componentBlockShape) return null
-const componentBlockShapeWithComposable = componentBlockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
-if (componentBlockShapeWithComposable.composable !== true) return null
-const componentWithAnnotations = componentBlockInstance as GlobalEntity<'blockInstance'> & {
-annotations?: Array<{ text: string; userTypeBlock: string | null; isDefault?: boolean }>
-description?: string
-let filteredDescription = ''
-if (componentWithAnnotations.annotations && componentWithAnnotations.annotations.length > 0) {
+businessHours: RangeConstraint
+leadTime?: RangeConstraint
+dateRange?: RangeConstraint
+appointment?: BufferConfig
+driveTime?: BufferConfig
+lunch?: BufferConfig
+day?: WorkCapacityFilter
+calendarWeek?: WorkCapacityFilter
+rollingWeek?: RollingWeekCapacityFilter
+if (!rawSettings.rangeConstraints?.businessHours) {
 ```

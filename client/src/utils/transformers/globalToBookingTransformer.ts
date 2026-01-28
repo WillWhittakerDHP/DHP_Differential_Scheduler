@@ -33,6 +33,8 @@ export type BookingPartInstance = {
   rateOverBaseFee: number
   orderIndex: number
   active: boolean
+  zeroOutPart: boolean
+  differentialOverride?: boolean // When true, forces non-differential UI behavior
 }
 
 /**
@@ -46,7 +48,6 @@ export type BookingBlockShape = {
   type: BlockShapeType // Semantic type identifier for stable filtering
   constituable: boolean
   composable: boolean
-  active: boolean
 }
 
 /**
@@ -59,11 +60,10 @@ export type BookingBlockInstance = {
   entityKey: 'blockInstance'
   name: string
   baseSqFt: number
-  description: string // Single description string for backward compatibility
   descriptions?: AnnotationWithMetadata[] // Array of annotations (descriptions) with metadata for user-type filtering
   icon: string
   active: boolean
-  dependent: boolean // If true, this instance should not appear in main booking lists (only selectable as a dependent option)
+  bookingMode: import('@/constants/entities').BookingMode // Controls where instance appears in booking flows
   differential: boolean // Whether this service supports differential scheduling (inspector and client have different arrival times)
   orderIndex: number
   blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
@@ -114,7 +114,7 @@ export class BookingTransformer {
     const partInstances = (entities.partInstance || []) as GlobalEntity<'partInstance'>[]
     const blockShapes = (entities.blockShape || []) as GlobalEntity<'blockShape'>[]
     const partShapes = (entities.partShape || []) as GlobalEntity<'partShape'>[]
-    const activeConstituentsRelationships = relationships.activeConstituents || []
+    const activePartsRelationships = relationships.activeParts || []
     const bookingCascadesRelationships = relationships.bookingCascades || []
     const instanceComponentsRelationships = relationships.instanceComponents || []
     
@@ -149,17 +149,17 @@ export class BookingTransformer {
       // LEARNING: Components should not be shown as standalone booking options.
       // WHY: They are only meaningful as parts of composed (composite) services.
       //
-      // LEARNING: Dependent instances should not be shown in main booking lists.
-      // WHY: They are only selectable as nested dependent options under a parent instance.
+      // LEARNING: Add-on only instances should not be shown in main booking lists.
+      // WHY: They are only selectable as nested add-on options under a parent instance.
       .filter((blockInstance) => {
         const isActive = this.isEntityActive(blockInstance as unknown as Record<string, unknown>)
         const isComponentChild = componentIds.has(blockInstance.id)
-        const isDependent = (blockInstance as unknown as { dependent?: boolean }).dependent === true
-        return isActive && !isComponentChild && !isDependent
+        const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone'
+        return isActive && !isComponentChild && bookingMode !== 'addOn'
       })
       .map(blockInstance => this.transformBlockInstance(
         blockInstance,
-        activeConstituentsRelationships,
+        activePartsRelationships,
         bookingCascadesRelationships,
         instanceComponentsRelationships,
         partInstanceById,
@@ -180,7 +180,6 @@ export class BookingTransformer {
         type: blockShape.type,
         constituable: blockShape.constituable,
         composable: blockShape.composable,
-        active: this.isEntityActive(blockShape as unknown as Record<string, unknown>),
       }))
       .sort((a, b) => {
         // Sort by name for consistent ordering
@@ -204,19 +203,19 @@ export class BookingTransformer {
    */
   private transformBlockInstance(
     blockInstance: GlobalEntity<'blockInstance'>,
-    activeConstituentsRelationships: GlobalRelationship[],
+    activePartsRelationships: GlobalRelationship[],
     bookingCascadesRelationships: GlobalRelationship[],
     instanceComponentsRelationships: GlobalRelationship[],
     partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
     blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
     partShapeById: Map<string, GlobalEntity<'partShape'>>
   ): BookingBlockInstance {
-    // Get blockInstance's own activeConstituents
-    const activeConstituentsRels = findRelationshipsByParent(
+    // Get blockInstance's own activeParts
+    const activePartsRels = findRelationshipsByParent(
       blockInstance.id,
-      activeConstituentsRelationships
+      activePartsRelationships
     )
-    const activeConstituentsRel = activeConstituentsRels[0] // Get first relationship (should be only one)
+    const activePartsRel = activePartsRels[0] // Get first relationship (should be only one)
     
     // LEARNING: Use Set to deduplicate part instance IDs
     // WHY: Prevents double-counting when composite has own parts AND component parts
@@ -227,8 +226,8 @@ export class BookingTransformer {
     // LEARNING: Use filter + forEach on Set instead of forEach with Set.add mutations
     // WHY: Functional approach - filter active parts, then add to Set
     // PATTERN: Filter children to active parts, then add IDs to Set
-    if (activeConstituentsRel) {
-      const activePartIds = activeConstituentsRel.children
+    if (activePartsRel) {
+      const activePartIds = activePartsRel.children
         .filter(child => {
           const partInstance = partInstanceById.get(child.id)
           return this.isEntityActive(partInstance as unknown as Record<string, unknown>)
@@ -237,11 +236,15 @@ export class BookingTransformer {
       
       // LEARNING: Add active part IDs to Set using spread operator
       // WHY: Functional approach - spread array into Set constructor instead of forEach
-      activePartIds.forEach(id => partInstanceIds.add(id))
+      // FIX: Use for...of instead of forEach for side effects (Set.add)
+      // Note: Set.add in forEach is acceptable for building accumulator Sets, but for...of is preferred for side effects
+      for (const id of activePartIds) {
+        partInstanceIds.add(id)
+      }
     }
     
     // LEARNING: For composite instances, also merge parts from components
-    // WHY: Composites can have parts from both their own activeConstituents and from components
+    // WHY: Composites can have parts from both their own activeParts and from components
     // PATTERN: Check composite property, get component IDs, then compose their parts
     const blockInstanceTyped = blockInstance as BlockInstanceEntity
     const composite = blockInstanceTyped.composite === true
@@ -261,18 +264,21 @@ export class BookingTransformer {
         // PATTERN: Merge component parts into the Set
         const componentPartIds = composePartInstances(
           componentIds,
-          activeConstituentsRelationships
+          activePartsRelationships
         )
         
         // Add component parts to the Set (Set automatically deduplicates)
         // LEARNING: Filter active parts, then add to Set
-        // WHY: Set.add is a legitimate operation for building Sets - forEach here is appropriate
-        // PATTERN: forEach with Set.add is acceptable for building accumulator Sets
+        // WHY: Set.add is a legitimate operation for building Sets - use for...of for side effects
+        // PATTERN: for...of with Set.add is acceptable for building accumulator Sets (side effects)
+        // FIX: Use for...of instead of forEach for side effects (Set.add)
         const activeComponentPartIds = componentPartIds.filter(partId => {
           const partInstance = partInstanceById.get(partId)
           return this.isEntityActive(partInstance as unknown as Record<string, unknown>)
         })
-        activeComponentPartIds.forEach(id => partInstanceIds.add(id))
+        for (const id of activeComponentPartIds) {
+          partInstanceIds.add(id)
+        }
       }
     }
     
@@ -307,10 +313,9 @@ export class BookingTransformer {
     
     const blockInstanceWithProps = blockInstance as GlobalEntity<'blockInstance'> & {
       baseSqFt?: number
-      description?: string
       descriptions?: AnnotationWithMetadata[]
       icon?: string
-      dependent?: boolean
+      bookingMode?: import('@/constants/entities').BookingMode
       differential?: boolean
       number?: number | null
       allowMultiple?: boolean
@@ -324,11 +329,10 @@ export class BookingTransformer {
       entityKey: 'blockInstance',
       name: blockInstance.name,
       baseSqFt: blockInstanceWithProps.baseSqFt || 0,
-      description: blockInstanceWithProps.description || '',
       descriptions: blockInstanceWithProps.descriptions, // Pass through descriptions array for user-type filtering
       icon: blockInstanceWithProps.icon || '',
       active: this.isEntityActive(blockInstance as unknown as Record<string, unknown>),
-      dependent: blockInstanceWithProps.dependent === true,
+      bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
       differential: differentialValue, // Use explicit boolean check
       orderIndex: blockInstance.orderIndex,
       blockShape, // Keep for backward compatibility
@@ -363,6 +367,8 @@ export class BookingTransformer {
       rateOverBaseTime?: number
       baseFee?: number
       rateOverBaseFee?: number
+      zeroOutPart?: boolean
+      differentialOverride?: boolean
     }
     
     return {
@@ -380,6 +386,8 @@ export class BookingTransformer {
       rateOverBaseFee: partInstanceWithProps.rateOverBaseFee || 0,
       orderIndex: partInstance.orderIndex,
       active: this.isEntityActive(partInstance as unknown as Record<string, unknown>),
+      zeroOutPart: partInstanceWithProps.zeroOutPart || false,
+      differentialOverride: partInstanceWithProps.differentialOverride,
     }
   }
 }

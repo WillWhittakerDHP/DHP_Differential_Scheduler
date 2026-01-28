@@ -512,7 +512,367 @@
 
 ---
 
-### Session 1.4.7: Database Rebuild with Comprehensive Seed Data
+## Admin Panel Field Improvements (Session 1.4.8)
+
+### Session 1.4.8: Admin Panel Field Rendering and Value Sync Improvements
+
+**Status:** ✅ Complete  
+**Priority:** High (Admin panel reliability)  
+**Dependencies:** Session 1.4.7 (Data Flow Consolidation - BusinessData Cache Architecture) ✅ Complete
+
+**Goal:** Fix admin panel field metadata rendering issues, replace toggle switches with status buttons, and refactor field value synchronization to use vee-validate's setValue API.
+
+**Key Accomplishments:**
+
+1. **Field Metadata Rendering Fixes**
+   - ✅ Fixed EntityCard template bug (removed `.value` from computed refs)
+   - ✅ Fixed "Unknown input type" warnings
+   - ✅ Updated AdminPrimitiveMetadataEditor (removed obsolete 'toggle', added 'iconSelect')
+
+2. **Status Button Implementation**
+   - ✅ Replaced BooleanInput toggle switches with StatusButton chips
+   - ✅ Added disabled prop support for read-only scenarios
+   - ✅ Better visual feedback with text labels (Active/Inactive)
+
+3. **Field Value Sync Refactoring**
+   - ✅ Updated `useFieldContextState` to use vee-validate `setValue` API
+   - ✅ Changed watch to use `setValue` instead of `handleChange` for store sync
+   - ✅ Updated EntityCard watch with `immediate: true` and `setValues` after `resetForm`
+
+4. **Database and API Updates**
+   - ✅ Created migrations for `differential_override` columns
+   - ✅ Enhanced admin metadata routers
+   - ✅ Updated part_instance model
+
+**Key Files Modified:**
+- `client/src/components/admin/generic/EntityCard.vue`
+- `client/src/components/admin/AdminPrimitiveMetadataEditor.vue`
+- `client/src/composables/fieldContext/useFieldContextState.ts`
+- `client/src/utils/forms/fieldComponentDispatcher.ts`
+- `server/src/db/migrations/20260115_add_differential_override_*.mjs`
+- `server/src/routes/internal/admin-*-metadata/*.ts`
+
+**Success Criteria:**
+- ✅ EntityCard template rendering fixed (no .value in templates)
+- ✅ "Unknown input type" warnings eliminated
+- ✅ Toggle switches replaced with StatusButton chips
+- ✅ Field value sync using setValue API
+- ✅ Database migrations created for new fields
+- ✅ All modified components working correctly
+
+**Related Documents:**
+- **Session Log**: `../sessions/session-1.4.8-log.md`
+
+---
+
+## Initial UI Setup Phase (Sessions 1.4.9-1.4.11)
+
+### Session 1.4.9: Card Functionality and Button Connections
+
+**Status:** Not Started  
+**Priority:** High (Foundation for wizard functionality)  
+**Dependencies:** Session 1.4.8 (Admin Panel Field Rendering and Value Sync Improvements) ✅ Complete
+
+**Goal:** Ensure all selection cards work correctly and all buttons are connected to their proper data sources. Verify composables and components are functional in draft state.
+
+**Objectives:**
+- Audit and verify all selection cards work in all wizard steps
+- Connect all buttons to correct data sources and handlers
+- Verify composable connections work correctly
+- Ensure wizard state flows correctly through all steps
+
+**Key Tasks:**
+
+1. **Audit Selection Cards**
+   - Verify `SelectionCardGroup` components work in all steps
+   - Check `ServiceSelectionStep` cards (user type, services)
+   - Check `PropertyDetailsStep` cards (property types, dwelling adjustments, availability options)
+   - Verify cards update wizard state correctly via `wizardStatePlugin`
+   - Test card selection/deselection functionality
+   - Verify multi-select cards work correctly
+
+2. **Connect Buttons to Data**
+   - Verify "Previous" and "Next" buttons in `BookingWizard.vue` call correct handlers
+   - Check "Submit" button on ConfirmationStep connects to submission logic
+   - Verify quote mode toggle button updates wizard state correctly
+   - Test all form submission buttons in ContactsStep
+   - Verify all button handlers update wizard state appropriately
+
+3. **Verify Composable Connections**
+   - Ensure `useBookingWizard` provides correct state to all steps
+   - Verify `useWizardNavigation` handles step transitions correctly
+   - Check `useWizardValidation` validates steps properly
+   - Test `useWizardSubmission` collects and submits data correctly
+   - Verify all composables maintain reactivity
+
+**Key Files:**
+- `client/src/components/booking/SelectionCardGroup.vue` (review/verify)
+- `client/src/components/booking/plugins/wizardStatePlugin.ts` (review/verify)
+- `client/src/components/booking/BookingWizard.vue` (review/verify)
+- `client/src/composables/useBookingWizard.ts` (review/verify)
+- `client/src/composables/booking/useWizardNavigation.ts` (review/verify)
+- `client/src/composables/booking/useWizardValidation.ts` (review/verify)
+- `client/src/composables/booking/useWizardSubmission.ts` (review/verify)
+
+**Success Criteria:**
+- ✅ All selection cards work correctly in all wizard steps
+- ✅ All buttons connected to correct data sources and handlers
+- ✅ All composables provide correct state and functionality
+- ✅ Wizard state flows correctly through all steps
+- ✅ No broken card selections or button handlers
+
+**Related Documents:**
+- **Session Log**: `../sessions/session-1.4.9-log.md`
+
+---
+
+### Session 1.4.10: Complete ContactsStep and Add Property Confirmation Modal
+
+**Status:** Not Started  
+**Priority:** High (Complete wizard step functionality)  
+**Dependencies:** Session 1.4.9 (Card Functionality and Button Connections) ⏳ Not Started
+
+**Goal:** Finish ContactsStep setup and add property details confirmation modal. Enable navigation to step 3 (ContactsStep).
+
+**Objectives:**
+- Complete ContactsStep functionality
+- Add property confirmation modal to PropertyDetailsStep
+- Enable wizard navigation to step 3
+- Test step transitions and validation
+
+**Key Tasks:**
+
+1. **Complete ContactsStep Functionality**
+   - Verify all contact form fields work correctly
+   - Ensure optional sections (Another Client, Transaction Manager, Seller) toggle properly
+   - Verify form validation works for all fields
+   - Test loading contact data from appointments
+   - Ensure step data is properly saved to `contactsStepData` ref
+   - Verify all contact fields update wizard state
+
+2. **Add Property Confirmation Modal**
+   - Create modal component for property details confirmation
+   - Add modal trigger in `PropertyDetailsStep.vue` (e.g., after address selection or before proceeding)
+   - Display property details summary in modal
+   - Add "Confirm" and "Edit" buttons
+   - "Confirm" should allow proceeding to next step
+   - "Edit" should close modal and allow editing
+   - Style modal to match existing design patterns
+
+3. **Test Wizard Navigation**
+   - Verify wizard can navigate from step 0 → 1 → 2 → 3
+   - Test validation prevents skipping incomplete steps
+   - Ensure step completion tracking works correctly
+   - Verify step data persists when navigating back and forth
+
+**Key Files:**
+
+**To Create:**
+- `client/src/components/booking/modals/PropertyConfirmationModal.vue` (new)
+
+**To Modify:**
+- `client/src/components/booking/steps/ContactsStep.vue` (complete functionality)
+- `client/src/components/booking/steps/PropertyDetailsStep.vue` (add modal integration)
+- `client/src/composables/booking/useContactsStepData.ts` (verify functionality)
+- `client/src/composables/booking/useContactsValidation.ts` (verify validation)
+
+**Success Criteria:**
+- ✅ All ContactsStep form fields work correctly
+- ✅ Optional sections toggle properly
+- ✅ Form validation works for all fields
+- ✅ Property confirmation modal created and integrated
+- ✅ Modal displays correct property details
+- ✅ Wizard can navigate to step 3 (ContactsStep)
+- ✅ Step validation prevents skipping incomplete steps
+- ✅ Step data persists correctly
+
+**Related Documents:**
+- **Session Log**: `../sessions/session-1.4.10-log.md`
+
+---
+
+### Session 1.4.11: Complete ConfirmationStep and Enable Navigation to Step 4
+
+**Status:** Not Started  
+**Priority:** High (Complete wizard flow)  
+**Dependencies:** Session 1.4.10 (Complete ContactsStep and Add Property Confirmation Modal) ⏳ Not Started
+
+**Goal:** Remove hardcoded values from ConfirmationStep and enable navigation to final step. Test end-to-end wizard flow.
+
+**Objectives:**
+- Remove hardcoded values from ConfirmationStep
+- Enable navigation to step 4 (ConfirmationStep)
+- Test complete end-to-end wizard flow
+- Verify all wizard selections display correctly in summary
+
+**Key Tasks:**
+
+1. **Remove Hardcoded Values from ConfirmationStep**
+   - Review `buildConfirmationPriceData` in `confirmationStepData.ts`
+   - Remove hardcoded `deliveryCharges = 5.0` (should come from business settings or calculations)
+   - Remove hardcoded `deliveryFree = true` (should be based on business rules)
+   - Remove hardcoded `couponDiscount = 0` (should come from coupon system when implemented)
+   - Ensure all price calculations use actual wizard selections
+   - Update price calculation logic to use real data
+
+2. **Complete ConfirmationStep Display**
+   - Verify summary table displays all correct data from wizard
+   - Ensure price breakdown reflects actual selections
+   - Test that changes in previous steps update ConfirmationStep reactively
+   - Verify all summary fields populate correctly (service type, property type, address, square footage)
+   - Ensure contact information displays correctly
+
+3. **Enable Navigation to Step 4**
+   - Ensure wizard can navigate to step 4 (ConfirmationStep)
+   - Verify step 3 (ContactsStep) validation allows proceeding when valid
+   - Test that "Submit" button on step 4 triggers appointment creation
+   - Verify submission success/error handling works
+   - Test appointment creation with all selections
+
+4. **Test End-to-End Flow**
+   - Test complete wizard flow: step 0 → 1 → 2 → 3 → 4
+   - Verify all data flows correctly through each step
+   - Test appointment creation with all selections
+   - Verify ConfirmationStep displays correct final summary
+   - Test navigation back and forth between steps
+   - Verify data persists correctly
+
+**Key Files:**
+
+**To Modify:**
+- `client/src/utils/booking/confirmationStepData.ts` (remove hardcoded values)
+- `client/src/components/booking/steps/ConfirmationStep.vue` (verify display)
+- `client/src/composables/booking/useConfirmationStepData.ts` (verify data flow)
+- `client/src/components/booking/BookingWizard.vue` (verify navigation to step 4)
+- `client/src/composables/booking/useWizardNavigation.ts` (verify step 3 → 4 transition)
+
+**Success Criteria:**
+- ✅ All hardcoded values removed from ConfirmationStep
+- ✅ Price calculations use actual wizard selections
+- ✅ Summary table displays all correct data
+- ✅ Price breakdown reflects actual selections
+- ✅ Wizard can navigate to step 4 (ConfirmationStep)
+- ✅ Step 3 validation allows proceeding when valid
+- ✅ Submit button triggers appointment creation
+- ✅ End-to-end wizard flow works correctly
+- ✅ All wizard selections display correctly in summary
+
+**Related Documents:**
+- **Session Log**: `../sessions/session-1.4.11-log.md`
+
+---
+
+### Session 1.4.7: Data Flow Consolidation - BusinessData Cache Architecture
+
+**Status:** ✅ Complete  
+**Priority:** High (Architectural improvement)  
+**Dependencies:** Session 1.4.6 (Add Annotations to GlobalData and Create useAnnotations Composable) ✅ Complete
+
+**Goal:** Consolidate data caching architecture by separating business data (appointments, properties, users) from configuration data (entities, relationships, annotations). Create unified BusinessData cache with optimistic + refetchQueries invalidation pattern.
+
+**Note:** This session was originally numbered 1.4.9 and has been renumbered to 1.4.7 to reflect actual completion order.
+
+**Architectural Decision:**
+- **WHY:** Business data changes frequently (booking operations), configuration data changes rarely (admin operations)
+- **PROBLEM:** Having all data in globalData caused unnecessary refetches when business data changed
+- **SOLUTION:** Separate caches for granular invalidation
+
+**Key Tasks:**
+
+1. ✅ **Move AnnotationType to GlobalData**
+   - Added `annotationTypes` to GlobalData type
+   - Updated transformer to fetch annotation types in parallel
+   - Updated useAnnotationType to read from globalData.annotationTypes
+   - Mutations use `refetchQueries(['globalData'])`
+
+2. ✅ **Create BusinessData Cache Architecture**
+   - Created `fetchToBusinessTransformer.ts` (parallel fetch for appointments, properties, users)
+   - Created `useBusiness.ts` composable
+   - Created `businessDataCollections/` pattern (mirrors globalDataCollections):
+     - `types.ts`
+     - `useBusinessDataCollectionQuery.ts`
+     - `useBusinessDataCollectionActions.ts`
+     - `useBusinessDataCollectionCrud.ts`
+     - `index.ts`
+
+3. ✅ **Refactor Business Composables**
+   - Updated `useAppointment.ts` to use BusinessData cache
+   - Updated `useProperty.ts` to use BusinessData cache
+   - Updated `useUser.ts` to use BusinessData cache
+   - All use optimistic + refetchQueries pattern
+
+4. ✅ **Update Tests**
+   - Updated `useAnnotationType.test.ts` for globalData pattern
+   - Updated `useAppointment.test.ts` for businessData pattern
+   - Updated `useProperty.test.ts` for businessData pattern
+   - Updated `useUser.test.ts` for businessData pattern
+
+5. ✅ **Create Documentation**
+   - Created `CACHE_ARCHITECTURE.md` architecture decision record
+   - Updated phase handoff document
+
+**Key Files:**
+
+**Created:**
+- `client/src/utils/transformers/fetchToBusinessTransformer.ts`
+- `client/src/composables/useBusiness.ts`
+- `client/src/composables/businessDataCollections/types.ts`
+- `client/src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts`
+- `client/src/composables/businessDataCollections/useBusinessDataCollectionActions.ts`
+- `client/src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts`
+- `client/src/composables/businessDataCollections/index.ts`
+- `.project-manager/features/data-flow-alignment/docs/CACHE_ARCHITECTURE.md`
+
+**Modified:**
+- `client/src/utils/transformers/fetchToGlobalTransformer.ts` (added annotationTypes)
+- `client/src/composables/useGlobal.ts` (exposed isLoading, error)
+- `client/src/composables/useAnnotationType.ts` (reads from globalData)
+- `client/src/composables/useAppointment.ts` (uses BusinessData)
+- `client/src/composables/useProperty.ts` (uses BusinessData)
+- `client/src/composables/useUser.ts` (uses BusinessData)
+- `client/src/composables/__tests__/useAnnotationType.test.ts`
+- `client/src/composables/__tests__/useAppointment.test.ts`
+- `client/src/composables/__tests__/useProperty.test.ts`
+- `client/src/composables/__tests__/useUser.test.ts`
+
+**Success Criteria:**
+- ✅ AnnotationType reads from globalData.annotationTypes
+- ✅ Appointments, properties, users read from businessData cache
+- ✅ All mutations use optimistic updates + refetchQueries pattern
+- ✅ All tests updated for new pattern
+- ✅ No regressions in admin panel or booking wizard functionality
+- ✅ Documentation reflects current architecture
+
+**Cache Architecture Summary:**
+```
+┌─────────────────────────────────┬───────────────────────────────────────┐
+│ GlobalData ['globalData']       │ BusinessData ['businessData']         │
+├─────────────────────────────────┼───────────────────────────────────────┤
+│ • entities (4 types)            │ • appointments                        │
+│ • relationships (6 types)       │ • properties                          │
+│ • annotations                   │ • users                               │
+│ • annotationTypes               │                                       │
+├─────────────────────────────────┼───────────────────────────────────────┤
+│ Pattern: refetchQueries         │ Pattern: optimistic + refetchQueries  │
+│ Change Frequency: Low           │ Change Frequency: High                │
+└─────────────────────────────────┴───────────────────────────────────────┘
+```
+
+**Related Documents:**
+- **Architecture Decision Record**: `../docs/CACHE_ARCHITECTURE.md`
+- **Session Log**: `../sessions/session-1.4.7-log.md` (renumbered from session-1.4.9-log.md)
+- **Session 1.4.3 Log**: `../sessions/session-1.4.3-log.md` (original integration)
+- **Session 1.4.4 Log**: `../sessions/session-1.4.4-log.md` (invalidation standardization)
+
+---
+
+### Session 1.4.12: Database Rebuild with Comprehensive Seed Data
+
+**Status:** Not Started  
+**Priority:** High (Required for UAT)  
+**Dependencies:** Session 1.4.11 (Complete ConfirmationStep and Enable Navigation to Step 4) ⏳ Not Started
+
+**Goal:** Rebuild database with proper seed data for all Phase 1.3 and 1.4 changes. Manually populate database via admin panel and booking wizard, then regenerate all seed scripts based on the actual database state.
 
 **Status:** Not Started  
 **Priority:** High (Required for UAT)  
@@ -721,11 +1081,11 @@
 
 ---
 
-### Session 1.4.8: Comprehensive User Acceptance Testing (Phase Gate)
+### Session 1.4.13: Comprehensive User Acceptance Testing (Phase Gate)
 
 **Status:** Not Started  
 **Priority:** Critical (Gate to Phase 1.5 - Must pass before proceeding)  
-**Dependencies:** Session 1.4.7 (Database Rebuild with Comprehensive Seed Data) ⏳ Not Started
+**Dependencies:** Session 1.4.12 (Database Rebuild with Comprehensive Seed Data) ⏳ Not Started
 
 **Goal:** Execute comprehensive user acceptance testing covering all booking wizard and admin panel features. Document all findings with severity ratings. Ensure system is production-ready and gate criteria are met before advancing to Phase 1.5.
 
@@ -896,7 +1256,7 @@ The comprehensive test checklist in `feature-plan.md` Phase 1.4 Session 2 covers
 **Related Documents:**
 - **Feature Plan**: `../feature-plan.md` (Phase 1.4 Session 2 - comprehensive test checklist)
 - **Phase 1.3 Handoff**: `phase-1.3-handoff.md` (schema changes reference)
-- **Phase 1.4 Session 1.4.7 Log**: `../sessions/session-1.4.7-log.md` (seed data created)
+- **Phase 1.4 Session 1.4.12 Log**: `../sessions/session-1.4.12-log.md` (seed data created)
 
 ---
 
@@ -960,11 +1320,12 @@ The comprehensive test checklist in `feature-plan.md` Phase 1.4 Session 2 covers
 
 ## Next Phase
 
-**Ready for:** Phase 1.5 - Business Rules & Validation (only after Phase 1.4 Session 1.4.8 gate criteria met)
+**Ready for:** Phase 1.5 - Business Rules & Validation (only after Phase 1.4 Session 1.4.13 gate criteria met)
 
 ---
 
 **Phase Status:** In Progress  
-**Current Session:** 1.4.3 ✅ Complete  
-**Last Updated:** 2026-01-07
+**Current Session:** 1.4.8 ✅ Complete  
+**Next Session:** Session 1.4.9 - Card Functionality and Button Connections  
+**Last Updated:** 2026-01-15
 

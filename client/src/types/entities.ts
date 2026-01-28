@@ -16,11 +16,11 @@ interface BaseGlobalEntity<GE extends GlobalEntityKey> {
   orderIndex: number;
   active: boolean;
   /**
-   * LEARNING: Some entity types include a `dependent` boolean flag.
-   * WHY: Defaults and forms expect an explicit boolean value (no `undefined`).
-   * NOTE: Not all entities necessarily use it, so it remains optional in the base type.
+   * LEARNING: BlockInstance entities include a `bookingMode` enum field.
+   * WHY: Controls where and how the instance appears in booking flows.
+   * NOTE: Only blockInstance uses this, so it remains optional in the base type.
    */
-  dependent?: boolean;
+  bookingMode?: import('@/constants/entities').BookingMode;
   // Component properties (optional - only present if entity participates in component relationships)
   instanceComponents?: GlobalEntityId[]; // IDs of entities that are instance components of this composer
   isComposer?: boolean; // True if this entity is a composer (has components)
@@ -35,7 +35,6 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
   active: boolean;
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
   annotations?: AnnotationWithMetadata[]; // Array of annotations with metadata for user-type filtering
-  description?: string; // Single description string for backward compatibility (computed from annotations)
   icon: string;
   allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
   /**
@@ -53,7 +52,6 @@ export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
   type: BlockShapeType; // Semantic type identifier: 'user', 'service', 'property', 'option'
   composable: boolean;
   constituable: boolean; // If true, blockInstances of this shape can have constituents (partInstances). If false, acts as state control mode (no PartInstance interaction).
-  active: boolean;
 }
 
 export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
@@ -66,10 +64,10 @@ export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
   baseFee: number;
   rateOverBaseFee: number;
   active: boolean;
+  zeroOutPart: boolean;
 }
 
 export interface PartShapeEntity extends BaseGlobalEntity<"partShape"> {
-  active: boolean;
 }
 
 /**

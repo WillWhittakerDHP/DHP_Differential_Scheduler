@@ -126,7 +126,7 @@ watch(
     * If we open inactive group then it will auto close that group because we close groups based on active state.
       Goal of this watcher is auto close groups which are not active when openGroups array is updated.
       So, we have to find a way to do not close recently opened inactive group.
-      For this we will fetch recently added group in openGroups array and won't perform closing operation if recently added group is current group
+      For this we will lookup recently added group in openGroups array and won't perform closing operation if recently added group is current group
 */
 watch(
   openGroups,

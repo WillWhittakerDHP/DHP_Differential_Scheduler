@@ -49,6 +49,15 @@ export const partInstanceDisplays = {
     align: "center",
   },
 
+  zeroOutPart: {
+    label: "Zero Out Part",
+    placeholder: "",
+    inline: true,
+    stacked: false,
+    width: "auto",
+    align: "center",
+  },
+
   onSite: {
     label: "On Site?",
     placeholder: "",

@@ -14,6 +14,9 @@ import { GlobalEntityKey } from '@/constants/entities'
 import { adminTransformer } from '@/utils/transformers/globalToAdminTransformer'
 import type { AdminObject } from '@/utils/transformers/globalToAdminTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
+import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 
 // DIAGNOSTICS: Track instance creation
 let instanceCount = 0
@@ -51,6 +54,11 @@ function createAdminInstance() {
   
   // SINGLETON: This will now reuse the singleton useGlobal instance
   const { getGlobalEntities, getGlobalEntityById, globalData } = useGlobal()
+  
+  // LEARNING: Use metadata cache composable for lazy-loaded admin metadata
+  // WHY: Metadata is only needed for admin page, not loaded during app startup
+  // PATTERN: Separate cache key ['adminMetadata'] from globalData
+  const metadataCache = useMetadataCache()
   
   /**
    * Transform GlobalData to AdminObjectMap
@@ -152,6 +160,57 @@ function createAdminInstance() {
     }
   })
   
+  /**
+   * Get metadata for an entity (from lazy-loaded metadata cache)
+   * LEARNING: Reads metadata from dedicated metadata cache (not globalData)
+   * WHY: Metadata is lazy-loaded only when admin page is accessed, not during app startup
+   * PATTERN: Delegates to useMetadataCache for lookup logic
+   * 
+   * @param entityKey - Entity key (blockShape, partShape, blockInstance, partInstance)
+   * @param entity - Entity object (GlobalEntity or AdminObject, used to determine blockShapeRef for blockInstance)
+   * @returns Record<fieldKey, FieldMetadataEntry> - combined primitive + relationship metadata
+   */
+  function getMetadata<GE extends GlobalEntityKey>(
+    entityKey: GE,
+    entity: AdminObject<GE> | import('@/types/entities').GlobalEntity<GE>
+  ): Record<string, FieldMetadataEntry> {
+    const entityType = getEntityTypeForMetadata(entityKey)
+    if (!entityType) {
+      return {}
+    }
+    
+    // LEARNING: For blockInstance entities, pass blockShapeRef to metadata cache
+    // WHY: Each BlockShape's instances can have their own metadata configuration
+    // PATTERN: useMetadataCache.getMetadata handles the fallback logic
+    let blockShapeRef: string | null = null
+    if (entityType === 'blockInstance' && entityKey === 'blockInstance') {
+      const blockInstanceEntity = entity as import('@/types/entities').GlobalEntity<'blockInstance'>
+      blockShapeRef = blockInstanceEntity.blockShapeRef || null
+    }
+    
+    // LEARNING: Delegate to metadata cache composable
+    // WHY: All lookup logic (global vs BlockShape-specific) is handled by the cache
+    // PATTERN: Single source of truth for metadata access
+    return metadataCache.getMetadata(entityType, blockShapeRef)
+  }
+  
+  /**
+   * Ensure metadata is loaded (call on admin page mount)
+   * LEARNING: Triggers lazy loading of metadata cache synchronously
+   * WHY: Metadata is only fetched when admin page is accessed
+   * PATTERN: Admin page calls this on mount to enable metadata fetch
+   * FIX: Changed from async to sync to prevent race condition - enables query immediately
+   */
+  function ensureMetadataLoaded(): void {
+    metadataCache.ensureMetadataLoaded()
+  }
+  
+  /**
+   * Check if metadata is loaded
+   * LEARNING: Reactive property for metadata loading state
+   * WHY: Components can show loading states while metadata fetches
+   */
+  const isMetadataLoaded = metadataCache.isLoaded
   
   return {
     getEntity,
@@ -160,6 +219,9 @@ function createAdminInstance() {
     getEntityMap,
     getGlobalEntities, // Keep for backward compatibility
     getGlobalEntityById, // Keep for backward compatibility
+    getMetadata,
+    ensureMetadataLoaded, // Call on admin page mount to trigger metadata fetch
+    isMetadataLoaded, // Check if metadata has been loaded
     adminData,
   }
 }

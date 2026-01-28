@@ -11,27 +11,11 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { useGlobal } from '@/composables/useGlobal'
 import { useComponentEntity } from '@/composables/useComponentEntity'
-import { getIcon } from '@/utils/iconMapper'
 import type { GlobalEntity } from '@/types/entities'
+import type { PropertyDetailsData, PropertyFormData } from '@/types/propertyForm'
+import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
 
-/**
- * Property details structure
- */
-export interface PropertyDetailsData {
-  address: string
-  unit: string
-  city: string
-  state: string
-  zipCode: string
-  propertySize: number | null
-  numberOfUnits: number | null
-  mlsNumber: string
-  squareFootage: number | null
-  bedrooms: number | null
-  bathrooms: number | null
-  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-  additionalUnits: number | null
-}
+// FIX: Use shared PropertyDetailsData type from propertyForm.ts
 
 /**
  * Component item structure
@@ -62,21 +46,7 @@ export interface UsePropertyDetailsLogicParams {
     selectedUserTypeBlock: Ref<{ id: string } | null>
   }
   loadedWizardState: Ref<WizardStateData | null> | null
-  formData: {
-    address: Ref<string>
-    unit: Ref<string>
-    city: Ref<string>
-    state: Ref<string>
-    zipCode: Ref<string>
-    propertySize: Ref<number | null>
-    numberOfUnits: Ref<number | null>
-    mlsNumber: Ref<string>
-    squareFootage: Ref<number | null>
-    bedrooms: Ref<number | null>
-    bathrooms: Ref<number | null>
-    foundationAccess: Ref<'basement' | 'crawlspace' | 'slab' | null>
-    additionalUnits: Ref<number | null>
-  }
+  formData: PropertyFormData
 }
 
 /**
@@ -161,60 +131,19 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
       if (isComposable) {
         const instanceComponentsRelationships = componentEntity.getComponents(adjustment.id)
         if (instanceComponentsRelationships && instanceComponentsRelationships.length > 0) {
-          const globalData = getGlobalData()
-          if (globalData) {
-            instanceComponents = instanceComponentsRelationships
-              .map(ac => {
-                const componentBlockInstance = getGlobalEntityById('blockInstance', ac.childId)
-                if (!componentBlockInstance) return null
-                
-                // Get blockShape to check if component's blockShape is composable
-                const componentWithShapeRef = componentBlockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
-                const componentBlockShape = getGlobalEntityById('blockShape', componentWithShapeRef.blockShapeRef)
-                if (!componentBlockShape) return null
-                
-                const componentBlockShapeWithComposable = componentBlockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
-                // Only include components whose blockShape is composable
-                if (componentBlockShapeWithComposable.composable !== true) return null
-                
-                // Get annotations (descriptions) for this component
-                const componentWithAnnotations = componentBlockInstance as GlobalEntity<'blockInstance'> & { 
-                  annotations?: Array<{ text: string; userTypeBlock: string | null; isDefault?: boolean }>
-                  description?: string
-                }
-                
-                // Filter descriptions by user type
-                let filteredDescription = ''
-                if (componentWithAnnotations.annotations && componentWithAnnotations.annotations.length > 0) {
-                  const selectedUserTypeBlockId = wizard.selectedUserTypeBlock.value?.id || null
-                  const matchingDescriptions = componentWithAnnotations.annotations.filter(ann => {
-                    return ann.userTypeBlock === selectedUserTypeBlockId || ann.userTypeBlock === null
-                  })
-                  
-                  if (matchingDescriptions.length > 0) {
-                    const userTypeBlockSpecific = matchingDescriptions.find(ann => ann.userTypeBlock === selectedUserTypeBlockId)
-                    const defaultDesc = matchingDescriptions.find(ann => ann.isDefault === true)
-                    const selectedDesc = userTypeBlockSpecific || defaultDesc || matchingDescriptions[0]
-                    filteredDescription = selectedDesc.text
-                  }
-                } else {
-                  filteredDescription = componentWithAnnotations.description || ''
-                }
-                
-                // Map icon
-                const iconValue = (componentBlockInstance as GlobalEntity<'blockInstance'> & { icon?: string }).icon || ''
-                const mappedIcon = getIcon(iconValue)
-                
-                return {
-                  id: componentBlockInstance.id,
-                  name: componentBlockInstance.name,
-                  description: filteredDescription,
-                  icon: mappedIcon,
-                  active: true // All components from instanceComponents are active
-                }
-              })
-              .filter((component): component is NonNullable<typeof component> => component !== null)
-          }
+          // FIX: Use shared utility function instead of duplicated logic
+          instanceComponents = extractInstanceComponents({
+            serviceId: adjustment.id,
+            instanceComponentsRelationships,
+            getGlobalEntityById: (entityKey: 'blockInstance' | 'blockShape', id: string) => {
+              const entity = getGlobalEntityById(entityKey, id)
+              if (entityKey === 'blockInstance') {
+                return entity as GlobalEntity<'blockInstance'> | null
+              } else {
+                return entity as GlobalEntity<'blockShape'> | null
+              }
+            }
+          })
         }
       }
       

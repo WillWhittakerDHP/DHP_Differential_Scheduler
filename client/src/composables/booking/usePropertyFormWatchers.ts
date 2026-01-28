@@ -8,25 +8,9 @@
 
 import { watch, type Ref } from 'vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import type { PropertyFormData } from '@/types/propertyForm'
 
-/**
- * Property form data structure
- */
-export interface PropertyFormData {
-  address: Ref<string>
-  unit: Ref<string>
-  city: Ref<string>
-  state: Ref<string>
-  zipCode: Ref<string>
-  propertySize: Ref<number | null>
-  numberOfUnits: Ref<number | null>
-  mlsNumber: Ref<string>
-  squareFootage: Ref<number | null>
-  bedrooms: Ref<number | null>
-  bathrooms: Ref<number | null>
-  foundationAccess: Ref<'basement' | 'crawlspace' | 'slab' | null>
-  additionalUnits: Ref<number | null>
-}
+// FIX: Use shared PropertyFormData type from propertyForm.ts
 
 /**
  * usePropertyFormWatchers composable parameters

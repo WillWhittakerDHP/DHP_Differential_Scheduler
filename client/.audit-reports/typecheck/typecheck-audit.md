@@ -8,17 +8,42 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-01-09T15:50:33.361Z**
+- Generated at: **2026-01-28T02:41:00.483Z**
 - Command: `node_modules/.bin/vue-tsc -b --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **2**
+- **Errors requiring review: 194**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **68**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P0 | `TS18047-ts18047-formdata-value-is-possibly-null` | 695 | 77 | 1 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-string-rfc3339datetime` | 74 | 6 | 4 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-hours-businesshoursconfig-leadtimeconfig-daterangeconfig` | 74 | 6 | 4 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-logger` | 68 | 6 | 1 | 0 | 0 |
+| P0 | `TS18047-ts18047-daterange-is-possibly-null` | 56 | 6 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-metadata-globaldata` | 48 | 4 | 2 | 0 | 0 |
+| P0 | `TS18046-ts18046-fieldmetadata-is-of-type-unknown` | 47 | 5 | 1 | 0 | 0 |
+| P0 | `TS18047-ts18047-vls-ctx-formdata-is-possibly-null` | 38 | 4 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-minutes-businesshoursconfig-leadtimeconfig-daterangeconfig` | 37 | 3 | 2 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-businesshours` | 35 | 3 | 1 | 0 | 0 |
+| P0 | `TS2307-ts2307-cannot-find-module-utils-transformers-metadatatransformer-or-its-corresponding-type-declarations` | 26 | 2 | 2 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-slots-promise` | 26 | 2 | 2 | 0 | 0 |
+| P0 | `TS2345-ts2345-arg` | 26 | 2 | 2 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-boolean-ref-object` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-computedref-computedref` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-void-promise` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-resettodefaults` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS2345-ts2345-arg-partial-partial` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS2531-ts2531-object-is-possibly-null` | 23 | 3 | 1 | 0 | 0 |
+| P0 | `TS6133-ts6133-ref-is-declared-but-its-value-is-never-read` | 18 | 3 | 3 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-wizardstatedata` | 16 | 1 | 1 | 0 | 1 |
+| P1 | `TS2304-ts2304-cannot-find-name-formatdatefordisplay` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-formatdatetimefordisplay` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-formattimefordisplay` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-queryclient` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -29,3 +54,429 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `src/views/admin/tabs/BusinessControlsTab.vue`
+
+- errors: 95, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@9:10 'ref' is declared but its value is never read.
+TS18047@37:22 'formData.value' is possibly 'null'.
+TS2531@37:71 Object is possibly 'null'.
+TS18047@54:3 'formData.value' is possibly 'null'.
+TS2531@54:52 Object is possibly 'null'.
+TS18047@55:7 'formData.value' is possibly 'null'.
+TS2339@55:63 Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
+TS18047@56:5 'formData.value' is possibly 'null'.
+TS2339@56:58 Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
+TS2531@56:84 Object is possibly 'null'.
+TS2339@56:137 Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
+TS6133@63:51 'handleNavigateToTab' is declared but its value is never read.
+TS18047@67:36 'formData.value' is possibly 'null'.
+TS18047@74:8 'formData.value' is possibly 'null'.
+TS18047@75:5 'formData.value' is possibly 'null'.
+TS18047@81:8 'formData.value' is possibly 'null'.
+TS18047@82:10 'formData.value' is possibly 'null'.
+TS18047@83:7 'formData.value' is possibly 'null'.
+TS18047@85:5 'formData.value' is possibly 'null'.
+TS18047@94:8 'formData.value' is possibly 'null'.
+TS18047@95:10 'formData.value' is possibly 'null'.
+TS18047@96:7 'formData.value' is possibly 'null'.
+TS18047@98:5 'formData.value' is possibly 'null'.
+TS18047@107:8 'formData.value' is possibly 'null'.
+TS18047@108:10 'formData.value' is possibly 'null'.
+TS18047@109:7 'formData.value' is possibly 'null'.
+TS18047@111:5 'formData.value' is possibly 'null'.
+TS18047@116:15 'formData.value' is possibly 'null'.
+TS18047@117:5 'formData.value' is possibly 'null'.
+TS18047@126:10 'formData.value' is possibly 'null'.
+TS18047@129:12 'formData.value' is possibly 'null'.
+TS18047@133:9 'formData.value' is possibly 'null'.
+TS18047@134:7 'formData.value' is possibly 'null'.
+TS18047@141:10 'formData.value' is possibly 'null'.
+TS18047@144:12 'formData.value' is possibly 'null'.
+TS18047@148:9 'formData.value' is possibly 'null'.
+TS18047@149:7 'formData.value' is possibly 'null'.
+TS18047@156:10 'formData.value' is possibly 'null'.
+TS18047@159:12 'formData.value' is possibly 'null'.
+TS18047@163:9 'formData.value' is possibly 'null'.
+TS18047@164:7 'formData.value' is possibly 'null'.
+TS18047@171:10 'formData.value' is possibly 'null'.
+TS18047@174:12 'formData.value' is possibly 'null'.
+TS18047@178:9 'formData.value' is possibly 'null'.
+TS18047@179:7 'formData.value' is possibly 'null'.
+TS18047@186:10 'formData.value' is possibly 'null'.
+TS18047@189:12 'formData.value' is possibly 'null'.
+TS18047@193:9 'formData.value' is possibly 'null'.
+TS18047@194:7 'formData.value' is possibly 'null'.
+TS18047@201:10 'formData.value' is possibly 'null'.
+TS18047@204:12 'formData.value' is possibly 'null'.
+TS18047@208:9 'formData.value' is possibly 'null'.
+TS18047@209:7 'formData.value' is possibly 'null'.
+TS18047@216:10 'formData.value' is possibly 'null'.
+TS18047@219:12 'formData.value' is possibly 'null'.
+TS18047@223:9 'formData.value' is possibly 'null'.
+TS18047@224:7 'formData.value' is possibly 'null'.
+TS6133@244:7 'bufferModeOptions' is declared but its value is never read.
+TS18047@264:8 'formData.value' is possibly 'null'.
+TS18047@265:5 'formData.value' is possibly 'null'.
+... (35 more errors omitted)
+```
+
+### `src/utils/timeSlotCalculations.ts`
+
+- errors: 10, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@140:9 'startDate' is declared but its value is never read.
+TS6133@141:9 'endDate' is declared but its value is never read.
+TS2322@158:5 Type '{ start: string; end: string; }[]' is not assignable to type '{ start: RFC3339DateTime; end: RFC3339DateTime; }[]'.
+TS6133@197:9 'today' is declared but its value is never read.
+TS6133@203:9 'startDateOnly' is declared but its value is never read.
+TS2339@208:75 Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
+TS2322@217:5 Type 'string' is not assignable to type 'RFC3339DateTime'.
+TS2322@218:5 Type 'string' is not assignable to type 'RFC3339DateTime'.
+TS2322@222:5 Type '{ start: string; end: string; }[]' is not assignable to type 'BusyTimeRange[]'.
+TS2339@226:17 Property 'slots' does not exist on type 'Promise<FitTimeSlotsResult>'.
+```
+
+### `src/utils/booking/timeSlotFitter.ts`
+
+- errors: 9, unsafeCasts: 0, suppressions: 0
+
+```
+TS2304@137:7 Cannot find name 'logger'.
+TS2304@159:5 Cannot find name 'logger'.
+TS2304@167:5 Cannot find name 'logger'.
+TS2304@173:5 Cannot find name 'logger'.
+TS2304@184:5 Cannot find name 'logger'.
+TS2304@266:5 Cannot find name 'logger'.
+TS2304@382:8 Cannot find name 'businessHours'.
+TS2304@382:32 Cannot find name 'businessHours'.
+TS2304@387:35 Cannot find name 'businessHours'.
+```
+
+### `src/composables/booking/useMoveablePartsScheduling.ts`
+
+- errors: 8, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@17:1 'useLocalTime' is declared but its value is never read.
+TS2339@156:79 Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
+TS2322@164:9 Type 'string' is not assignable to type 'RFC3339DateTime'.
+TS2339@172:53 Property 'slots' does not exist on type 'Promise<FitTimeSlotsResult>'.
+TS7006@172:63 Parameter 'slot' implicitly has an 'any' type.
+TS2304@176:50 Cannot find name 'formatDateForDisplay'.
+TS2304@177:66 Cannot find name 'formatTimeForDisplay'.
+TS2339@185:36 Property 'earliestCompletion' does not exist on type 'Promise<FitTimeSlotsResult>'.
+```
+
+### `src/composables/useAvailability.ts`
+
+- errors: 6, unsafeCasts: 0, suppressions: 0
+
+```
+TS18047@130:18 'dateRange' is possibly 'null'.
+TS18047@131:16 'dateRange' is possibly 'null'.
+TS18047@158:18 'dateRange' is possibly 'null'.
+TS18047@159:16 'dateRange' is possibly 'null'.
+TS18047@171:26 'dateRange' is possibly 'null'.
+TS18047@172:24 'dateRange' is possibly 'null'.
+```
+
+### `src/utils/transformers/fetchToGlobalTransformer.ts`
+
+- errors: 6, unsafeCasts: 0, suppressions: 0
+
+```
+TS18046@501:11 'fieldMetadata' is of type 'unknown'.
+TS18046@504:11 'fieldMetadata' is of type 'unknown'.
+TS18046@507:15 'fieldMetadata' is of type 'unknown'.
+TS18046@514:11 'fieldMetadata' is of type 'unknown'.
+TS18046@514:50 'fieldMetadata' is of type 'unknown'.
+TS7053@530:33 Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+```
+
+### `src/components/booking/steps/AvailabilityStep.vue`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@196:3 Type 'ComputedRef<{ start: string; end: string; } | null>' is not assignable to type 'ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime; } | null>'.
+TS2739@213:3 Type 'Ref<TimeSlotsPerDay[], TimeSlotsPerDay[]>' is missing the following properties from type 'ComputedRef<TimeSlotsPerDay[]>': effect, [ComputedRefSymbol]
+TS2339@283:58 Property 'length' does not exist on type 'ComputedRef<AppointmentSlots>'.
+TS2322@354:3 Type 'ComputedRef<{ start: string; end: string; } | null>' is not assignable to type 'ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime; } | null>'.
+```
+
+### `src/composables/admin/useAdminPrimitiveMetadataMutations.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@18:1 'metadataTransformer' is declared but its value is never read.
+TS2307@18:37 Cannot find module '@/utils/transformers/metadataTransformer' or its corresponding type declarations.
+TS2339@61:23 Property 'metadata' does not exist on type 'GlobalData'.
+TS2339@62:46 Property 'metadata' does not exist on type 'GlobalData'.
+```
+
+### `src/composables/admin/useAdminRelationshipMetadataMutations.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@17:1 'metadataTransformer' is declared but its value is never read.
+TS2307@17:37 Cannot find module '@/utils/transformers/metadataTransformer' or its corresponding type declarations.
+TS2339@57:23 Property 'metadata' does not exist on type 'GlobalData'.
+TS2339@58:49 Property 'metadata' does not exist on type 'GlobalData'.
+```
+
+### `src/components/admin/generic/EntityCard.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@206:7 'storeSyncResult' is declared but its value is never read.
+TS2322@665:12 Type '() => void' is not assignable to type '() => Promise<void>'.
+TS2322@733:8 Type '() => void' is not assignable to type '() => Promise<void>'.
+```
+
+### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@288:3 'pendingOverrides' is declared but its value is never read.
+TS6133@375:10 'getComputedRenderAs' is declared but its value is never read.
+TS6133@505:7 'renderAsOptions' is declared but its value is never read.
+```
+
+### `src/components/booking/MoveablePartsModal.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@161:20 'watch' is declared but its value is never read.
+TS6133@163:1 'useLocalTime' is declared but its value is never read.
+TS2304@246:10 Cannot find name 'formatDateTimeForDisplay'.
+```
+
+### `src/composables/admin/useStatusButtonToggle.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@14:1 'useQueryClient' is declared but its value is never read.
+TS6133@17:1 'isDevModeEnabled' is declared but its value is never read.
+TS2304@135:7 Cannot find name 'queryClient'.
+```
+
+### `src/utils/booking/mockGoogleCalendar.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@168:9 Type 'string' is not assignable to type 'RFC3339DateTime'.
+TS2345@281:13 Argument of type '{ start: RFC3339DateTime; end: string; }' is not assignable to parameter of type '{ start: RFC3339DateTime; end: RFC3339DateTime; }'.
+TS2322@328:3 Type '{ kind: string; timeMin: RFC3339DateTime; timeMax: string; calendars: Record<string, { busy: GoogleCalendarBusyPeriod[]; }>; }' is not assignable to type 'GoogleFreeBusyResponse'.
+```
+
+### `src/utils/entityDefaults.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@100:9 Type 'false | null' is not assignable to type 'ValidAdminValue'.
+TS6133@129:7 'ENTITY_REQUIRED_DEFAULTS' is declared but its value is never read.
+TS2322@188:5 Type 'string | number | boolean | string[]' is not assignable to type 'GlobalEntity<GE>["orderIndex"] | undefined'.
+```
+
+### `src/views/admin/tabs/InstancesTab.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@27:1 'useAdmin' is declared but its value is never read.
+TS6133@150:3 'groupedPanelValue' is declared but its value is never read.
+TS2322@386:18 Type '(sourceEntity: GlobalEntity<"blockInstance">) => void' is not assignable to type '(entity: GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape">) => any'.
+```
+
+### `src/components/booking/BookingWizard.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@11:34 'Ref' is declared but its value is never read.
+TS6133@266:7 'handleResetMocks' is declared but its value is never read.
+```
+
+### `src/components/booking/dev/CalendarMockDevPanel.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@15:25 'watch' is declared but its value is never read.
+TS2345@61:42 Argument of type '{ start: string; end: string; }' is not assignable to parameter of type '{ start: RFC3339DateTime; end: RFC3339DateTime; }'.
+```
+
+### `src/composables/admin/useEntityCardExpansion.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@29:36 Type 'boolean | Ref<boolean, boolean>' is not assignable to type 'object'.
+TS2322@39:18 Type 'boolean | Ref<boolean, boolean>' is not assignable to type 'object'.
+```
+
+### `src/composables/booking/useTimeSlotCalculations.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@209:9 Type 'string' is not assignable to type 'RFC3339DateTime'.
+TS2322@210:9 Type 'string' is not assignable to type 'RFC3339DateTime'.
+```
+
+### `src/composables/entityCrud/useEntityCrudActions.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2345@76:64 Argument of type 'Partial<GlobalEntity<GlobalEntityTypeKey>>' is not assignable to parameter of type 'Partial<GlobalEntity<GlobalEntityTypeKey>> & { entityKey?: GlobalEntityTypeKey | undefined; }'.
+TS2345@158:64 Argument of type 'Partial<GlobalEntity<GlobalEntityTypeKey>>' is not assignable to parameter of type 'Partial<GlobalEntity<GlobalEntityTypeKey>> & { entityKey?: GlobalEntityTypeKey | undefined; }'.
+```
+
+### `src/components/admin/generic/EntityCardContent.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@48:7 'props' is declared but its value is never read.
+```
+
+### `src/components/admin/generic/fields/BooleanInput.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@99:3 Type 'ComputedRef<BlockInstanceEntity | BlockShapeEntity | PartInstanceEntity | PartShapeEntity | null>' is not assignable to type 'BlockInstanceEntity | BlockShapeEntity | PartInstanceEntity | PartShapeEntity | Ref<BlockInstanceEntity | BlockShapeEntity | PartInstanceEntity | PartShapeEntity, BlockInstanceEntity | ... 2 more ... | PartShapeEntity> | ComputedRef<...> | undefined'.
+```
+
+### `src/components/booking/dev/AppointmentDebugPanel.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@358:81 Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
+```
+
+### `src/components/booking/dev/DevPanelsContainer.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@22:7 'props' is declared but its value is never read.
+```
+
+### `src/composables/admin/useAvailabilitySettings.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@231:64 Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
+```
+
+### `src/composables/admin/useConditionalFieldVisibility.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@46:29 'entityKey' is declared but its value is never read.
+```
+
+### `src/composables/admin/useFieldContextMetadataEntity.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2352@78:14 Conversion of type 'Record<string, unknown>' to type 'GlobalEntity<GlobalEntityTypeKey>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+```
+
+### `src/composables/admin/useInputConfigEditor.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@10:1 'Ref' is declared but its value is never read.
+```
+
+### `src/composables/admin/useInstanceOverrideState.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@10:25 'computed' is declared but its value is never read.
+```
+
+### `src/composables/booking/useAppointmentDuration.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@9:43 'Ref' is declared but its value is never read.
+```
+
+### `src/composables/booking/useAvailabilityDefaults.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2345@189:9 Argument of type '{ time: string; duration: number; }[]' is not assignable to parameter of type 'LoadedTimeSlot[]'.
+```
+
+### `src/composables/booking/useWizardValidationErrors.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6196@11:40 'ContactsStepData' is declared but never used.
+```
+
+### `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2353@93:5 Object literal may only specify known properties, and 'options' does not exist in type 'PrimitiveFormField<"blockInstance">'.
+```
+
+### `src/utils/admin/buildMetadataEntry.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@39:11 'key' is declared but its value is never read.
+```
+
+### `src/utils/booking/slotGenerationValidation.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@12:1 'BusinessHoursMap' is declared but its value is never read.
+```
+
+### `src/utils/booking/timeAvailabilityManager.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@283:3 'allSlots' is declared but its value is never read.
+```
+
+### `src/utils/transformers/appointmentToWizardTransformer.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 1
+
+```
+TS2322@513:3 Type '{ userTypeBlock: BookingBlockInstance | null; services: BookingBlockInstance[]; propertyTypeBlocks: BookingBlockInstance[]; ... 4 more ...; isQuoteMode: boolean; }' is not assignable to type 'WizardStateData'.
+```

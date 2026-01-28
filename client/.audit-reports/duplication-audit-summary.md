@@ -1,39 +1,20 @@
 # Duplication Audit Summary (Generated)
 
-Generated from `.audit/duplication-audit.json`.
+Generated from `.audit-reports/duplication-audit.json`.
 
 ## Index (ranked)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-059a671221b9` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@110`, `src/components/admin/generic/fields/TextInput.vue@198` |
-| `dup-094f00158f27` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@25`, `src/types/wizard.ts@124` |
-| `dup-0ccd09ec3b73` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@66`, `src/composables/booking/usePropertyFormWatchers.ts@16` |
-| `dup-19370dacf264` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@169`, `src/utils/instanceComponentUtils.ts@42` |
-| `dup-3f3538ca89da` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@113`, `src/components/admin/generic/fields/TextInput.vue@201` |
-| `dup-4163a85431cc` | 2 | 2 | 10 | `src/components/admin/generic/fields/DateInput.vue@53`, `src/components/admin/generic/fields/TextAreaInput.vue@54` |
-| `dup-427da61f44a9` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@28`, `src/types/wizard.ts@127` |
-| `dup-474f9d560b71` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@88`, `src/components/admin/generic/fields/TextInput.vue@171` |
-| `dup-4fa03eeeb706` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@87`, `src/components/admin/generic/fields/TextInput.vue@170` |
-| `dup-54b49eac8493` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@29`, `src/types/wizard.ts@128` |
-| `dup-62d7bc82325b` | 2 | 2 | 10 | `src/components/admin/generic/fields/DateInput.vue@56`, `src/components/admin/generic/fields/TextAreaInput.vue@57` |
-| `dup-663c5f7dec7a` | 2 | 2 | 10 | `src/components/booking/steps/ConfirmationStep.vue@28`, `src/composables/booking/useConfirmationStepData.ts@42` |
-| `dup-8d0cae251a99` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@31`, `src/types/wizard.ts@130` |
-| `dup-8f21a90698e1` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@30`, `src/types/wizard.ts@129` |
-| `dup-92ef8670c2b9` | 2 | 2 | 10 | `src/composables/booking/useAppointmentDataCollection.ts@26`, `src/types/wizard.ts@125` |
-| `dup-93727aff2ded` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@168`, `src/utils/instanceComponentUtils.ts@41` |
-| `dup-ad6de62500ed` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@91`, `src/components/admin/generic/fields/TextInput.vue@177` |
-| `dup-add2c6270d35` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@69`, `src/composables/booking/usePropertyFormWatchers.ts@19` |
-| `dup-b0ae1815c44a` | 2 | 2 | 10 | `src/components/admin/generic/fields/DateInput.vue@60`, `src/components/admin/generic/fields/TextAreaInput.vue@61` |
-| `dup-b5bd2aab7bcc` | 2 | 2 | 10 | `src/composables/booking/usePropertyDetailsLogic.ts@172`, `src/utils/instanceComponentUtils.ts@45` |
-| `dup-d124c3cf9ac3` | 2 | 2 | 10 | `src/composables/booking/useWizardFilteredOptions.ts@103`, `src/types/wizard.ts@64` |
-| `dup-d126cf27fb81` | 2 | 2 | 10 | `src/composables/admin/tables/usePropertiesTableModel.ts@26`, `src/composables/admin/tables/useUsersTableModel.ts@26` |
-| `dup-d443e8dcd062` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@108`, `src/components/admin/generic/fields/TextInput.vue@196` |
-| `dup-d47c1465f08e` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@98`, `src/components/admin/generic/fields/TextInput.vue@186` |
-| `dup-d4a41a820155` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@94`, `src/components/admin/generic/fields/TextInput.vue@181` |
-| `dup-d72fa1d4c200` | 2 | 2 | 10 | `src/components/admin/generic/fields/NumberInput.vue@92`, `src/components/admin/generic/fields/TextInput.vue@178` |
-| `dup-f21c500afb5a` | 2 | 2 | 10 | `src/components/admin/generic/fields/DateInput.vue@52`, `src/components/admin/generic/fields/TextAreaInput.vue@53` |
-| `dup-fd83951f0c21` | 2 | 2 | 10 | `src/components/booking/steps/ConfirmationStep.vue@27`, `src/composables/booking/useConfirmationStepData.ts@41` |
+| `dup-4a6fc399bb1e` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@90`, `src/configs/availabilitySettings.ts@305` |
+| `dup-59504e32b3e0` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@91`, `src/configs/availabilitySettings.ts@306` |
+| `dup-711dc5bc6407` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@94`, `src/configs/availabilitySettings.ts@309` |
+| `dup-8996f8c0fe68` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@95`, `src/configs/availabilitySettings.ts@310` |
+| `dup-9885bbd97b8b` | 2 | 2 | 10 | `src/composables/booking/useWizardAppointmentManagement.ts@31`, `src/composables/booking/useWizardStepDataRefs.ts@15` |
+| `dup-a8ce9d15d5ff` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@98`, `src/configs/availabilitySettings.ts@313` |
+| `dup-c6a9f26012a5` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@92`, `src/configs/availabilitySettings.ts@307` |
+| `dup-c6f7ccb0ada1` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@99`, `src/configs/availabilitySettings.ts@314` |
+| `dup-ce5c3dcc86d2` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@93`, `src/configs/availabilitySettings.ts@308` |
 
 ## Notes
 

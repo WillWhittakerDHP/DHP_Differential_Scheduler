@@ -58,10 +58,12 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
     ? computed(() => blockInstanceId)
     : blockInstanceId
   
+  // Note: optionsFieldKey was removed from UsePartInstanceDataOptions
+  
   // Initialize composables
   const { getGlobalEntityById } = useGlobal()
   const adminComp = useAdmin()
-  const { relationships: activeConstituents } = useRelationshipCrud('activeConstituents')
+  const { relationships: activeParts } = useRelationshipCrud('activeParts')
   
   /**
    * LEARNING: Get BlockInstance entity
@@ -74,7 +76,7 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   
   /**
    * LEARNING: Get BlockShape entity
-   * WHY: Need BlockShape to check constituable and get validConstituents
+   * WHY: Need BlockShape to check constituable and get validParts
    * PATTERN: Get BlockShape from blockInstance.blockShapeRef
    */
   const blockShape = computed(() => {
@@ -86,7 +88,7 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   /**
    * LEARNING: Get valid PartShapes for this BlockShape
    * WHY: Shows all PartShapes that can be added to this BlockInstance
-   * PATTERN: Get validConstituents from BlockShape (via admin store for relationships)
+   * PATTERN: Get validParts from BlockShape (via admin store for relationships)
    */
   const validPartShapes = computed((): GlobalEntity<'partShape'>[] => {
     if (!blockShape.value) return []
@@ -95,25 +97,25 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
     const blockShapeWithRels = adminComp.getEntity('blockShape', blockShape.value.id)
     if (!blockShapeWithRels) return []
     
-    // Get validConstituents relationship array (contains PartShape IDs)
-    const validConstituents = blockShapeWithRels.validConstituents
-    if (!validConstituents || !Array.isArray(validConstituents)) return []
+    // Get validParts relationship array (contains PartShape IDs)
+    const validParts = blockShapeWithRels.validParts
+    if (!validParts || !Array.isArray(validParts)) return []
     
     // Map PartShape IDs to PartShape entities
     const partShapes = adminComp.getEntitiesByKey('partShape') as GlobalEntity<'partShape'>[]
-    const { resolved } = resolveByIds(partShapes, validConstituents)
+    const { resolved } = resolveByIds(partShapes, validParts)
     return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
   })
   
   /**
    * LEARNING: Get existing PartInstances for this BlockInstance
    * WHY: Shows PartInstances that are already associated with this BlockInstance
-   * PATTERN: Filter activeConstituents relationships by parent_id
+   * PATTERN: Filter activeParts relationships by parent_id
    */
   const existingPartInstances = computed((): GlobalEntity<'partInstance'>[] => {
-    if (!activeConstituents.value) return []
+    if (!activeParts.value) return []
     
-    const relationships = activeConstituents.value.filter(
+    const relationships = activeParts.value.filter(
       rel => String(rel.parent_id) === blockInstanceIdRef.value && !rel.disabled
     )
     

@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { ValidCascade, ValidConstituent, DependentInstanceOption, BookingCascade, ActiveConstituent, InstanceComponent, BlockInstance, BlockShape } from '../../../config/app.js';
+import { ValidCascade, ValidPart, DependentInstance, BookingCascade, ActivePart, InstanceComponent, BlockInstance, BlockShape } from '../../../config/app.js';
 import { Model, ModelStatic } from 'sequelize';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
 
@@ -7,7 +7,7 @@ const router = Router();
 
 /**
  * Relationship kind configuration
- * LEARNING: RelationshipKind represents the type of relationship (validCascades, validConstituents, etc.)
+ * LEARNING: RelationshipKind represents the type of relationship (validCascades, validParts, etc.)
  * WHY: Clear naming - "kind" distinguishes relationship types from entity structure types
  * PATTERN: Type alias for relationship discriminator values
  * 
@@ -19,9 +19,9 @@ const router = Router();
  * NOTE: Renamed for clearer domain terminology:
  * - activeCascades → bookingCascades (Booking Cascade) (2026-01-08)
  * - activeComponents → serviceComponents → instanceComponents (Instance Components) (2026-01-07)
- * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions (Dependent Instance Options) (2026-01-09)
+ * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions → dependentInstances (2026-01-20)
  */
-type RelationshipKind = 'validCascades' | 'validConstituents' | 'dependentInstanceOptions' | 'bookingCascades' | 'activeConstituents' | 'instanceComponents';
+type RelationshipKind = 'validCascades' | 'validParts' | 'dependentInstances' | 'bookingCascades' | 'activeParts' | 'instanceComponents';
 
 interface RelationshipConfig {
   model: ModelStatic<Model>;
@@ -31,13 +31,13 @@ interface RelationshipConfig {
 }
 
 // Verify models are available
-if (!ValidCascade || !ValidConstituent || !DependentInstanceOption || !BookingCascade || !ActiveConstituent || !InstanceComponent) {
+if (!ValidCascade || !ValidPart || !DependentInstance || !BookingCascade || !ActivePart || !InstanceComponent) {
   console.error('[RelationshipRouter] Missing models:', {
     ValidCascade: !!ValidCascade,
-    ValidConstituent: !!ValidConstituent,
-    DependentInstanceOption: !!DependentInstanceOption,
+    ValidPart: !!ValidPart,
+    DependentInstance: !!DependentInstance,
     BookingCascade: !!BookingCascade,
-    ActiveConstituent: !!ActiveConstituent,
+    ActivePart: !!ActivePart,
     InstanceComponent: !!InstanceComponent
   });
 }
@@ -49,15 +49,15 @@ const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
     parentEntity: 'blockShape',
     childEntity: 'blockShape'
   },
-  validConstituents: {
-    model: ValidConstituent,
-    displayName: 'Valid Constituent',
+  validParts: {
+    model: ValidPart,
+    displayName: 'Valid Part',
     parentEntity: 'blockShape',
     childEntity: 'partShape'
   },
-  dependentInstanceOptions: {
-    model: DependentInstanceOption,
-    displayName: 'Dependent Instance Option',
+  dependentInstances: {
+    model: DependentInstance,
+    displayName: 'Dependent Instance',
     parentEntity: 'blockInstance',
     childEntity: 'blockInstance'
   },
@@ -67,9 +67,9 @@ const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
     parentEntity: 'blockInstance',
     childEntity: 'blockInstance'
   },
-  activeConstituents: {
-    model: ActiveConstituent,
-    displayName: 'Active Constituent',
+  activeParts: {
+    model: ActivePart,
+    displayName: 'Active Part',
     parentEntity: 'blockInstance',
     childEntity: 'partInstance'
   },
@@ -427,9 +427,9 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
     
     const created = await relationshipConfig.model.create(createData);
     
-    // For instanceComponents, update visible flags
+    // For instanceComponents, update active flags
     if (req.params.relationshipType === 'instanceComponents') {
-      // LEARNING: Components always have visible=false
+      // LEARNING: Components should be inactive
       // WHY: Only parents appear in scheduler
       // PATTERN: Update component active when component relationship is created
       const childBlockInstance = await BlockInstance.findByPk(child_id);
@@ -521,9 +521,9 @@ router.delete('/instanceComponents/:id', async (req: Request, res: Response): Pr
     component.disabled = true;
     await component.save();
     
-    // LEARNING: Restore visible when entity is removed from component relationship
-    // WHY: Entities can be visible again when not a component
-    // PATTERN: Restore visible when no longer in any component relationships
+    // LEARNING: Restore active when entity is removed from component relationship
+    // WHY: Entities can be active again when not a component
+    // PATTERN: Restore active when no longer in any component relationships
     // Check if component is still in any other component relationships
     const otherComponents = await InstanceComponent.count({
       where: {

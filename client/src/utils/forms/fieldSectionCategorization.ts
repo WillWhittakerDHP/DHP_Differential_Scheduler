@@ -1,9 +1,13 @@
-import type { FieldMetadata } from '@/configs/adminConfig'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import { PrimitiveTypeEnum } from '@/types/entity/formDataEnums'
-import type { FormFieldConfigMap, FormFieldConfig } from '@/types/entity/formFields'
-import { isDevModeEnabled } from '@/utils/env/devMode'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadata } from '@/configs/adminConfig'
+
+/**
+ * LEARNING: NO DEFAULTS - removed DEFAULT_PANEL_ASSIGNMENTS
+ * WHY: fieldMetadata: null means not configured - don't create fake defaults
+ * PATTERN: Fields must be explicitly configured in fieldMetadata to render
+ */
 
 /**
  * LEARNING: Status button field configuration
@@ -18,9 +22,15 @@ export interface StatusButtonField {
 }
 
 export interface CategorizedFields {
-  headerFields: GlobalFieldKey<GlobalEntityKey>[]
-  directInlineFields: GlobalFieldKey<GlobalEntityKey>[]
-  directStackedFields: GlobalFieldKey<GlobalEntityKey>[]
+  /**
+   * LEARNING: Fields with panel: 'none' - rendered directly in card content
+   * WHY: Fields without a panel assignment render in the main card area
+   * PATTERN: Organized by layout (inline vs stacked) from metadata
+   */
+  directFields: {
+    inline: GlobalFieldKey<GlobalEntityKey>[]
+    stacked: GlobalFieldKey<GlobalEntityKey>[]
+  }
   subPanelFields: {
     parts: GlobalFieldKey<GlobalEntityKey>[]
     relationships: GlobalFieldKey<GlobalEntityKey>[]
@@ -35,18 +45,45 @@ export interface CategorizedFields {
 }
 
 /**
+ * LEARNING: Options for field categorization
+ * WHY: Pure categorization function - no visibility filtering, only categorizes by panel/layout
+ */
+export interface CategorizeFieldsOptions {
+  /**
+   * BlockShape properties (currently unused, kept for API compatibility)
+   */
+  blockShapeProperties?: {
+    constituable?: boolean
+    composable?: boolean
+    composite?: boolean
+  }
+  /**
+   * Effective metadata for the current entity context.
+   * WHY: In the unified metadata system, rendering config is fetched from `/admin-input-metadata`
+   *      and should NOT be assumed to live on the entity object itself.
+   */
+  fieldMetadata?: Record<string, FieldMetadataEntry>
+}
+
+/**
  * LEARNING: Pure categorization utility (no Vue dependencies)
  * WHY: Keeps rendering components thin; logic stays reusable and testable
- * PATTERN: Order-aware bucketing with metadata fallbacks
+ * PATTERN: Order-aware bucketing with metadata from fieldMetadata (database) EXCLUSIVELY
+ * 
+ * LEARNING: Reads from fieldMetadata in BlockShape/PartShape directly
+ * WHY: Single source of truth for field configuration - NO FALLBACKS
+ * PATTERN: fieldMetadata is REQUIRED - if missing, fields will not render (fail fast, fail visible)
  */
 export function categorizeFieldsBySection(
-  visibleFields: GlobalFieldKey<GlobalEntityKey>[],
-  fieldsConfig: Record<string, FieldMetadata> | undefined
+  fieldKeys: GlobalFieldKey<GlobalEntityKey>[],
+  _fieldsConfig: Record<string, FieldMetadata> | undefined, // DEPRECATED: Not used, kept for API compatibility
+  options?: CategorizeFieldsOptions
 ): CategorizedFields {
   const result: CategorizedFields = {
-    headerFields: [],
-    directInlineFields: [],
-    directStackedFields: [],
+    directFields: {
+      inline: [],
+      stacked: []
+    },
     subPanelFields: {
       parts: [],
       relationships: [],
@@ -54,72 +91,130 @@ export function categorizeFieldsBySection(
     },
     statusButtonFields: []
   }
-
-  if (!fieldsConfig) {
-    result.directStackedFields = [...visibleFields]
-    return result
+  
+  // LEARNING: Metadata is passed explicitly (not read off entities).
+  // WHY: Entities do not own metadata in the unified system; metadata is fetched separately.
+  const fieldMetadata: Record<string, FieldMetadataEntry> = options?.fieldMetadata ?? {}
+  
+  const hasFieldMetadata = Object.keys(fieldMetadata).length > 0
+  
+  // LEARNING: If fieldMetadata is empty, return empty result
+  // WHY: EntityCard has a loading guard that prevents this function from being called while metadata is loading
+  //      If metadata is empty after loading, it means metadata hasn't been configured yet
+  //      No need to log warnings - fields simply won't render, which is the expected behavior
+  // PATTERN: Fail silently - empty metadata means no fields to render, which is fine
+  if (!hasFieldMetadata) {
+    // Return empty result - fields will not render
+    return {
+      directFields: {
+        inline: [],
+        stacked: []
+      },
+      subPanelFields: {
+        parts: [],
+        relationships: [],
+        annotations: []
+      },
+      statusButtonFields: []
+    }
   }
 
+  // LEARNING: Use fieldMetadata EXCLUSIVELY - no fallback to fieldsConfig
+  // WHY: Single source of truth - fieldMetadata from database is the only config
+  // PATTERN: All field configuration comes from fieldMetadata, period
+
   /**
-   * LEARNING: Collect status button fields from ALL config entries
-   * WHY: Status buttons might not be in visibleFields (they're rendered in panel title)
-   * PATTERN: Extract fields with renderAs: 'statusButton' regardless of visibility
+   * LEARNING: Collect status button fields from fieldMetadata ONLY
+   * WHY: Status buttons configured in fieldMetadata, no fallback
+   * PATTERN: Extract fields with renderAs: 'statusButton' from fieldMetadata
+   * NOTE: No visibility filtering - categorization is pure, visibility handled elsewhere
    */
-  const statusButtonFieldsWithOrder = Object.entries(fieldsConfig)
-    .filter(([, meta]) => meta.renderAs === 'statusButton')
+  const statusButtonFieldsWithOrder = Object.entries(fieldMetadata)
+    .filter(([_fieldKey, meta]) => {
+      // Only include status buttons - no visibility filtering
+      return meta.renderAs === 'statusButton'
+    })
     .map(([fieldKey, meta]) => ({
       key: fieldKey as GlobalFieldKey<GlobalEntityKey>,
-      label: fieldKey.charAt(0).toUpperCase() + fieldKey.slice(1), // Capitalize field name
+      // Use configured label when available; fall back to prettified key.
+      label: meta.label || fieldKey.charAt(0).toUpperCase() + fieldKey.slice(1),
       color: meta.statusButtonColor || 'default',
-      order: meta.order ?? 999
+      order: meta.displayOrder
     }))
     .sort((a, b) => a.order - b.order)
   
-  // Assign to result
   result.statusButtonFields = statusButtonFieldsWithOrder
-
-  // LEARNING: Use reduce to categorize fields without mutations
-  // WHY: Functional approach avoids forEach with push mutations
-  // PATTERN: Build categorized arrays using reduce with new arrays
-  const categorized = visibleFields.reduce((acc, fieldKey, idx) => {
-    const meta = fieldsConfig[fieldKey]
-    if (!meta) {
-      return {
-        ...acc,
-        directStackedEntries: [...acc.directStackedEntries, `${idx}::${String(fieldKey)}`]
-      }
-    }
-
-    // LEARNING: Skip status button fields from regular categorization
-    // WHY: They're rendered separately in the panel title
-    if (meta.renderAs === 'statusButton') {
+  
+  // DEBUG: Log ACTUAL fieldMetadata state (not just fieldKeys)
+  // WHY: fieldKeys may be empty (e.g., when called from useStatusButtonFields),
+  //      but fieldMetadata contains all the actual metadata we're using
+  console.trace(`[categorizeFieldsBySection] Field categorization analysis:`, {
+    fieldKeysCount: fieldKeys.length,
+    fieldKeys: fieldKeys.map(f => String(f)),
+    fieldMetadataKeysCount: Object.keys(fieldMetadata).length,
+    fieldMetadataKeys: Object.keys(fieldMetadata),
+    allFieldMetadata: Object.entries(fieldMetadata).map(([fieldKey, meta]) => ({
+      fieldKey: String(fieldKey),
+      renderAs: meta.renderAs,
+      panel: meta.panel,
+      layout: meta.layout,
+      displayOrder: meta.displayOrder,
+      isStatusButton: meta.renderAs === 'statusButton'
+    })),
+    statusButtonsFound: statusButtonFieldsWithOrder.map(f => ({
+      key: String(f.key),
+      label: f.label,
+      color: f.color,
+      order: f.order
+    }))
+  })
+  
+  // LEARNING: Categorize fields based on fieldMetadata ONLY
+  // WHY: Pure categorization function - categorizes by panel/layout properties only
+  // PATTERN: Use reduce to build categorized arrays without mutations
+  // NOTE: No visibility filtering - categorization is pure, visibility handled elsewhere
+  const categorized = fieldKeys.reduce((acc, fieldKey, _idx) => {
+    // Use fieldMetadata from database - REQUIRED, no fallback
+    const fieldMeta = fieldMetadata[fieldKey]
+    if (!fieldMeta) {
+      // LEARNING: Field not configured in fieldMetadata - skip it
+      // WHY: If fieldMetadata is missing for a field, it will not render
+      // PATTERN: Skip fields without fieldMetadata configuration (fail fast, fail visible)
+      // NO DEFAULTS - fields must be explicitly configured in fieldMetadata
       return acc
     }
-
-    const orderPrefix = `${meta.order ?? idx}::`
+    
+    // LEARNING: Status button fields appear in BOTH title row (via statusButtonFields) AND form fields
+    // WHY: Status buttons should render as status button chips in both locations
+    // PATTERN: Include status buttons in regular categorization so they render in form fields too
+    // NOTE: They'll also appear in statusButtonFields array for header rendering
+    
+    // Map fieldMetadata to categorization based on panel property
+    const orderPrefix = `${fieldMeta.displayOrder}::`
     const fieldEntry = `${orderPrefix}${String(fieldKey)}`
-
-    if (meta.section === 'header') {
-      return { ...acc, headerEntries: [...acc.headerEntries, fieldEntry] }
-    } else if (meta.section === 'direct') {
-      if (meta.layout === 'inline') {
+    
+    const panel = fieldMeta.panel
+    
+    if (panel === 'none') {
+      // Fields with panel: 'none' go to direct fields, organized by layout
+      if (fieldMeta.layout === 'inline') {
         return { ...acc, directInlineEntries: [...acc.directInlineEntries, fieldEntry] }
       } else {
         return { ...acc, directStackedEntries: [...acc.directStackedEntries, fieldEntry] }
       }
-    } else if (meta.section === 'subPanel' && meta.panel) {
+    } else if (panel === 'parts' || panel === 'relationships' || panel === 'annotations') {
+      // Fields with panel assignment go to sub-panel
       return {
         ...acc,
         subPanelEntries: {
           ...acc.subPanelEntries,
-          [meta.panel]: [...acc.subPanelEntries[meta.panel], fieldEntry]
+          [panel]: [...acc.subPanelEntries[panel], fieldEntry]
         }
       }
     }
     
     return acc
   }, {
-    headerEntries: [] as string[],
     directInlineEntries: [] as string[],
     directStackedEntries: [] as string[],
     subPanelEntries: {
@@ -140,9 +235,10 @@ export function categorizeFieldsBySection(
       .filter(Boolean) as GlobalFieldKey<GlobalEntityKey>[]
 
   // Assign normalized categorized results to result
-  result.headerFields = normalize(categorized.headerEntries)
-  result.directInlineFields = normalize(categorized.directInlineEntries)
-  result.directStackedFields = normalize(categorized.directStackedEntries)
+  result.directFields = {
+    inline: normalize(categorized.directInlineEntries),
+    stacked: normalize(categorized.directStackedEntries)
+  }
   result.subPanelFields = {
     parts: normalize(categorized.subPanelEntries.parts),
     relationships: normalize(categorized.subPanelEntries.relationships),
@@ -150,71 +246,9 @@ export function categorizeFieldsBySection(
   }
 
   return {
-    headerFields: result.headerFields,
-    directInlineFields: result.directInlineFields,
-    directStackedFields: result.directStackedFields,
+    directFields: result.directFields,
     subPanelFields: result.subPanelFields,
     statusButtonFields: result.statusButtonFields
   }
 }
 
-/**
- * LEARNING: DevMode warning for unconfigured boolean fields
- * WHY: Helps developers catch boolean fields that exist in the database/form config but aren't configured as status buttons
- * PATTERN: Compares boolean fields from formFieldConfig against adminConfig to detect missing configurations
- * 
- * @param entityKey - Entity type to check
- * @param formFieldConfig - Form field configuration for the entity
- * @param fieldsConfig - Admin field metadata configuration
- */
-export function warnUnconfiguredBooleanFields<GE extends GlobalEntityKey>(
-  entityKey: GE,
-  formFieldConfig: FormFieldConfigMap[GE] | undefined,
-  fieldsConfig: Record<string, FieldMetadata> | undefined
-): void {
-  if (!isDevModeEnabled()) {
-    return
-  }
-
-  if (!formFieldConfig || !fieldsConfig) {
-    return
-  }
-
-  // LEARNING: Find all boolean fields from formFieldConfig
-  // WHY: Check which fields are actually boolean types in the form configuration
-  // PATTERN: Use map + filter instead of forEach + push
-  const booleanFields = Object.entries(formFieldConfig)
-    .filter(([, fieldConfig]) => {
-      const config = fieldConfig as FormFieldConfig<GE, GlobalFieldKey<GE>> | undefined
-      return config?.primitiveInput?.primitiveType === PrimitiveTypeEnum.Boolean
-    })
-    .map(([fieldKey]) => fieldKey)
-
-  // LEARNING: Get configured status button fields
-  // WHY: Compare against what's actually configured as status buttons
-  // PATTERN: Extract statusButtonFields using same logic as categorizeFieldsBySection
-  // LEARNING: Use filter + map to build Set instead of forEach + add
-  const configuredStatusButtons = new Set(
-    Object.entries(fieldsConfig)
-      .filter(([, meta]) => meta.renderAs === 'statusButton')
-      .map(([fieldKey]) => fieldKey)
-  )
-
-  // LEARNING: Warn about boolean fields not configured in adminConfig
-  // WHY: Helps catch fields that exist in database/form but aren't configured for display
-  // PATTERN: Use for...of for side effects (console.warn) instead of forEach
-  // WHY: for...of is appropriate for side effects, avoids forEach mutation pattern
-  for (const fieldKey of booleanFields) {
-    if (!(fieldKey in fieldsConfig)) {
-      console.warn(
-        `[DevMode Warning] Boolean field '${fieldKey}' on ${entityKey} exists in formFieldConfig but is not configured in adminConfig.fields. ` +
-        `Add to adminConfig.ts with renderAs: 'statusButton' (if it should be a status button) or configure it as a regular field.`
-      )
-    } else if (!configuredStatusButtons.has(fieldKey)) {
-      // LEARNING: Optional: Warn if boolean field is configured but not as status button
-      // WHY: Some boolean fields might intentionally be regular form fields, but this helps catch potential oversights
-      // NOTE: This is less critical, so we could make it optional or remove it if too noisy
-      // For now, we'll only warn if the field is completely missing from fieldsConfig
-    }
-  }
-}

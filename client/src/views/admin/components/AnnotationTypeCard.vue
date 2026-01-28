@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { AnnotationType } from '@/types/annotations'
-import { useUpdateAnnotationType, useDeleteAnnotationType } from '@/composables/useAnnotationType'
+import { useUpdateAnnotationType, useDeleteAnnotationType } from '@/composables/useAnnotationTypes'
 import { createLogger } from '@/utils/logger'
 
 interface Props {

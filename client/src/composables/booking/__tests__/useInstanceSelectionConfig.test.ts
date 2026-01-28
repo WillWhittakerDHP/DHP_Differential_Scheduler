@@ -6,7 +6,6 @@
  * 
  * What it covers:
  * - useInstanceSelectionConfig: Generic selection config generator
- * - useServiceSelectionConfig: Legacy backward-compatible export
  * 
  * How it works:
  * - Tests row vs stack selection type generation
@@ -15,7 +14,6 @@
  * What it validates:
  * - Correct config built for 'row' selection type
  * - Correct config built for 'stack' selection type
- * - Legacy export provides same functionality
  * 
  * NOTE: State plugin tests are limited because createWizardStatePlugin uses
  * Vue's inject() which requires a component context. The plugin creation
@@ -30,7 +28,6 @@ import { describe, it, expect } from 'vitest'
 import { computed, nextTick, ref } from 'vue'
 import {
   useInstanceSelectionConfig,
-  useServiceSelectionConfig,
 } from '../useInstanceSelectionConfig'
 
 describe('useInstanceSelectionConfig', () => {
@@ -86,47 +83,5 @@ describe('useInstanceSelectionConfig', () => {
       // Row configs use radio selection
       expect(selectionConfig.value.selectionType).toBe('radio')
     })
-  })
-})
-
-describe('useServiceSelectionConfig (legacy)', () => {
-  it('should return rowSelectionConfig and stackSelectionConfig', () => {
-    const selectedUserTypeBlock = computed(() => null)
-    const selectedServices = computed(() => [] as unknown[])
-    
-    const {
-      rowSelectionConfig,
-      stackSelectionConfig,
-    } = useServiceSelectionConfig({
-      selectedUserTypeBlock,
-      selectedServices,
-    })
-    
-    expect(rowSelectionConfig.value).toBeDefined()
-    expect(stackSelectionConfig.value).toBeDefined()
-  })
-
-  it('should have row layout for rowSelectionConfig', () => {
-    const selectedUserTypeBlock = computed(() => null)
-    const selectedServices = computed(() => [] as unknown[])
-    
-    const { rowSelectionConfig } = useServiceSelectionConfig({
-      selectedUserTypeBlock,
-      selectedServices,
-    })
-    
-    expect(rowSelectionConfig.value.layout).toBe('row')
-  })
-
-  it('should have stack layout for stackSelectionConfig', () => {
-    const selectedUserTypeBlock = computed(() => null)
-    const selectedServices = computed(() => [] as unknown[])
-    
-    const { stackSelectionConfig } = useServiceSelectionConfig({
-      selectedUserTypeBlock,
-      selectedServices,
-    })
-    
-    expect(stackSelectionConfig.value.layout).toBe('stack')
   })
 })

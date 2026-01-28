@@ -4,6 +4,6 @@
  * WHY: Keep the public API stable while splitting the old "god composable" into focused modules.
  */
 
-export * from '@/composables/entityCrud/useEntityCrud'
-export * from '@/composables/entityCrud/usePrimitiveMutation'
+export * from './entityCrud/useEntityCrud'
+export * from './entityCrud/usePrimitiveMutation'
 

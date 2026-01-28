@@ -8,7 +8,7 @@
  * COMPARISON: React uses MUI Stepper. Vue uses custom VList-based horizontal stepper
  */
 
-import { computed, ref, provide, nextTick } from 'vue'
+import { computed, provide, type Ref } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
@@ -21,14 +21,15 @@ import { useAppointmentDataCollection } from '@/composables/booking/useAppointme
 import { useWizardDisplay } from '@/composables/booking/useWizardDisplay'
 import { useWizardStepContent } from '@/composables/booking/useWizardStepContent'
 import { useWizardSubmission } from '@/composables/booking/useWizardSubmission'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import { transformAppointmentToWizard } from '@/utils/transformers/appointmentToWizardTransformer'
+import { useThemeMode } from '@/composables/useThemeMode'
 import { WIZARD_STEPS } from '@/configs/wizardSteps'
-import type { AvailabilityStepData, PropertyDetailsStepData, ContactsStepData } from '@/types/wizard'
 import { useBooking } from '@/composables/useBooking'
-import apiClient from '@/utils/api'
-import { getAppointmentByIdEndpoint } from '@/utils/api'
-import type { AppointmentResponse } from '@/types/appointment'
+import { useAppointmentLoader } from '@/composables/booking/useAppointmentLoader'
+import { useWizardStepDataRefs } from '@/composables/booking/useWizardStepDataRefs'
+import { useWizardValidationErrors } from '@/composables/booking/useWizardValidationErrors'
+import { useWizardAppointmentManagement } from '@/composables/booking/useWizardAppointmentManagement'
+import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDropdown'
+import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 // LEARNING: Create single wizard instance for all steps
@@ -37,63 +38,31 @@ import { isDevModeEnabled } from '@/utils/env/devMode'
 const wizard = useBookingWizard()
 provide('wizard', wizard)
 
-// LEARNING: State for loading appointment data
-// WHY: Tracks loaded wizard state for populating form fields
-// PATTERN: Reactive ref that holds transformed appointment data
-const loadedWizardState = ref<WizardStateData | null>(null)
-
-// LEARNING: Provide loaded wizard state for form field population
-// WHY: Enables step components to populate form fields from loaded appointment
-// PATTERN: Provide reactive ref that step components can watch
-provide('loadedWizardState', loadedWizardState)
-
-// LEARNING: DevMode state for appointment loading
-// WHY: Tracks which appointment is loaded for update/reset functionality
-// PATTERN: Reactive refs for appointment selection and tracking
-const isDevMode = isDevModeEnabled()
-const selectedAppointmentId = ref<string | null>(null)
-const loadedAppointmentId = ref<string | null>(null)
-const isLoadingAppointment = ref(false)
-
-// LEARNING: Navigation and validation state managed by composables
-// WHY: Extracted to useWizardNavigation and useWizardValidation composables
-
-
 // LEARNING: Step definitions from centralized config
 // WHY: Extracted to configs/wizardSteps.ts for reusability
 // PATTERN: Import step configuration from config file
 const steps = WIZARD_STEPS
 
-// LEARNING: Create and provide mutable refs for step data and validation state
-// WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
-// PATTERN: Create refs in parent, provide to children, children inject and write to them
-// Step data refs
-const propertyDetailsStepData = ref<PropertyDetailsStepData | null>(null)
-const contactsStepData = ref<ContactsStepData | null>(null)
-const availabilityStepData = ref<AvailabilityStepData | null>(null)
+// LEARNING: Step data refs management
+// WHY: Encapsulates step data and validation state refs creation and provide/inject setup
+// PATTERN: Use composable for managing step data refs
+const {
+  propertyDetailsStepData,
+  contactsStepData,
+  availabilityStepData,
+  propertyDetailsStepValid,
+  propertyDetailsStepValidate,
+  propertyDetailsFieldErrors,
+  contactsStepValid,
+  contactsStepValidate,
+  availabilityStepValid,
+  availabilityStepValidate,
+} = useWizardStepDataRefs()
 
-// Step validation state refs
-const propertyDetailsStepValid = ref<boolean>(false)
-const propertyDetailsStepValidate = ref<(() => boolean) | null>(null)
-const propertyDetailsFieldErrors = ref<Record<string, string>>({})
-const contactsStepValid = ref<boolean>(false)
-const contactsStepValidate = ref<(() => boolean) | null>(null)
-const availabilityStepValid = ref<boolean>(false)
-const availabilityStepValidate = ref<(() => boolean) | null>(null)
-
-// Provide step data refs to children
-provide('propertyDetailsStepData', propertyDetailsStepData)
-provide('contactsStepData', contactsStepData)
-provide('availabilityStepData', availabilityStepData)
-
-// Provide validation state refs to children
-provide('propertyDetailsStepValid', propertyDetailsStepValid)
-provide('propertyDetailsStepValidate', propertyDetailsStepValidate)
-provide('propertyDetailsFieldErrors', propertyDetailsFieldErrors)
-provide('contactsStepValid', contactsStepValid)
-provide('contactsStepValidate', contactsStepValidate)
-provide('availabilityStepValid', availabilityStepValid)
-provide('availabilityStepValidate', availabilityStepValidate)
+// LEARNING: Provide loaded wizard state for form field population
+// WHY: Enables step components to populate form fields from loaded appointment
+// PATTERN: Provide reactive ref that step components can watch
+// NOTE: loadedWizardState will be provided by useWizardAppointmentManagement
 
 // LEARNING: Use wizard validation composable
 // WHY: Extracts validation logic from component to composable
@@ -140,99 +109,104 @@ const {
   showError
 })
 
-// LEARNING: Wrap handleNext to show error on validation failure
-// WHY: Navigation composable doesn't handle error display
-// PATTERN: Wrap composable function to add error handling
-const handleNext = async (): Promise<void> => {
-  const isValid = validateStep(activeStep.value)
-  if (!isValid) {
-    // Handle step 1 (Property Details) validation errors
-    if (activeStep.value === 1) {
-      // Trigger validation function if available to populate field errors
-      if (propertyDetailsStepValidate.value) {
-        propertyDetailsStepValidate.value()
-        // Wait a tick for fieldErrors to update
-        await nextTick()
-      }
-      
-      // Check property type block selection
-      const hasPropertyTypeBlock = wizard.selectedPropertyTypeBlocks.value.length > 0
-      
-      // Log specific field errors if available
-      if (propertyDetailsFieldErrors.value && Object.keys(propertyDetailsFieldErrors.value).length > 0) {
-        const errors = Object.entries(propertyDetailsFieldErrors.value)
-        if (errors.length > 0) {
-          console.warn(`[Wizard] Step 1 (Property Details) validation errors:`, errors)
-          const errorMessages = errors.map(([field, error]) => `${field}: ${error}`).join(', ')
-          showError(`Please fix the following: ${errorMessages}`)
-        } else if (!hasPropertyTypeBlock) {
-          console.warn(`[Wizard] Step 1 (Property Details) validation failed: No property type selected`)
-          showError('Please select at least one property type')
-        } else {
-          console.warn(`[Wizard] Step 1 (Property Details) validation failed. Check form fields.`)
-          showError('Please complete all required fields: address, city, state, zip code, and size')
-        }
-      } else {
-        // Field errors not available, check form data directly from stepData
-        const missingFields: string[] = []
-        if (!hasPropertyTypeBlock) missingFields.push('property type')
-        
-        // Check form fields from propertyDetailsStepData
-        if (propertyDetailsStepData.value) {
-          const data = propertyDetailsStepData.value
-          if (!data.address || data.address.trim().length < 3) missingFields.push('address')
-          if (!data.city || data.city.trim().length < 2) missingFields.push('city')
-          if (!data.state) missingFields.push('state')
-          if (!data.zipCode || !/^\d{5}(-\d{4})?$/.test(data.zipCode)) missingFields.push('zip code')
-          if (!data.propertySize || data.propertySize < 1) missingFields.push('property size')
-          
-          // Check numberOfUnits if multi-family
-          const isMultiFamily = wizard.selectedPropertyTypeBlocks.value.some(
-            block => block.name?.toLowerCase().includes('multi') || block.name?.toLowerCase().includes('duplex')
-          )
-          if (isMultiFamily && (!data.numberOfUnits || data.numberOfUnits < 1)) {
-            missingFields.push('number of units')
-          }
-        } else {
-          // Step data not available, all fields are missing
-          missingFields.push('address', 'city', 'state', 'zip code', 'property size')
-        }
-        
-        console.warn(`[Wizard] Step 1 (Property Details) validation failed. Missing fields:`, missingFields)
-        const missingMsg = missingFields.length > 0 
-          ? `Please complete: ${missingFields.join(', ')}`
-          : 'Please complete all required fields'
-        showError(missingMsg)
-      }
-    } else if (activeStep.value === 2) {
-      // Handle step 2 (Availability) validation errors
-      if (availabilityStepValidate.value) {
-        availabilityStepValidate.value()
-      }
-      console.warn(`[Wizard] Step 2 (Availability) validation failed.`)
-      showError('Please complete all required fields before continuing')
-    } else if (activeStep.value === 3) {
-      // Handle step 3 (Contacts) validation errors
-      if (contactsStepValidate.value) {
-        contactsStepValidate.value()
-      }
-      console.warn(`[Wizard] Step 3 (Contacts) validation failed.`)
-      showError('Please complete all required fields before continuing')
-    } else {
-      console.warn(`[Wizard] Step ${activeStep.value} validation failed.`)
-      showError('Please complete all required fields before continuing')
-    }
-    return
-  }
-  baseHandleNext()
-}
+// LEARNING: Validation error handling
+// WHY: Encapsulates step-specific validation error message logic
+// PATTERN: Use composable for handling validation errors
+const { handleNext } = useWizardValidationErrors({
+  activeStep,
+  validateStep,
+  baseHandleNext,
+  showError,
+  propertyDetailsStepData,
+  propertyDetailsStepValidate,
+  propertyDetailsFieldErrors,
+  contactsStepValidate,
+  availabilityStepValidate,
+  selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
+})
 
-// LEARNING: Wrap handleStepClick to show error on validation failure
-// WHY: Navigation composable doesn't handle error display
-// PATTERN: Wrap composable function to add error handling
-const handleStepClick = (index: number): void => {
-  baseHandleStepClick(index)
-}
+// LEARNING: Step click handler
+// WHY: Navigation composable handles validation, just pass through
+// PATTERN: Use composable function directly
+const handleStepClick = baseHandleStepClick
+
+// LEARNING: Appointment mutation for creating appointments
+// WHY: Handles appointment creation with loading and error states
+// PATTERN: useMutation from useAppointment composable
+const { create, update, fetchAll, fetchRandom } = useAppointment()
+const { loadAppointmentById } = useAppointmentLoader()
+const { create: createProperty } = useProperty()
+const { create: createUser } = useUser()
+// NOTE: success and showError are already defined above via useNotification()
+
+// LEARNING: Get booking data for appointment transformation
+// WHY: Needed to transform appointment to wizard state
+// PATTERN: Use useBooking composable to get scheduler data
+const { bookingData } = useBooking()
+
+// LEARNING: Appointment dropdown items
+// WHY: Encapsulates appointment dropdown formatting logic
+// PATTERN: Use composable for formatting appointments array to dropdown items
+const { appointmentDropdownItems } = useAppointmentDropdown({
+  fetchAll,
+})
+
+// LEARNING: Use appointment data collection composable
+// WHY: Extracts massive data collection logic from component to composable
+// PATTERN: Composable provides data collection function
+const { collectAppointmentData } = useAppointmentDataCollection({
+  wizard: {
+    selectedServices: wizard.selectedServices,
+    selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
+    selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
+    selectedUserTypeBlock: wizard.selectedUserTypeBlock,
+    isQuoteMode: wizard.isQuoteMode
+  },
+  propertyDetailsStepData: propertyDetailsStepData,
+  contactsStepData: contactsStepData,
+  availabilityStepData: availabilityStepData,
+  createProperty,
+  createUser,
+  showError
+})
+
+// LEARNING: Appointment management
+// WHY: Encapsulates appointment loading, updating, and wizard reset logic
+// PATTERN: Use composable for managing appointment operations
+// NOTE: Must be called before useWizardDisplay since it provides loadedWizardState
+const {
+  loadedWizardState,
+  loadedAppointmentId,
+  selectedAppointmentId,
+  isLoadingAppointment,
+  handleLoadAppointment,
+  handleUpdateAppointment,
+  handleResetWizard,
+} = useWizardAppointmentManagement({
+  wizard,
+  bookingData,
+  loadAppointmentById,
+  fetchRandom,
+  collectAppointmentData,
+  updateAppointment: {
+    mutateAsync: update.mutateAsync,
+    isPending: update.isPending,
+  },
+  activeStep,
+  completedSteps,
+  propertyDetailsStepData,
+  contactsStepData,
+  availabilityStepData,
+  propertyDetailsStepValid,
+  propertyDetailsStepValidate,
+  propertyDetailsFieldErrors,
+  contactsStepValid,
+  contactsStepValidate,
+  availabilityStepValid,
+  availabilityStepValidate,
+  showError,
+  success,
+})
 
 // LEARNING: Use wizard display composable
 // WHY: Extracts display logic from component to composable
@@ -250,6 +224,12 @@ const {
 // PATTERN: Composable provides step content component mapping
 const { getStepContent } = useWizardStepContent()
 
+// LEARNING: Use theme mode composable for quote mode theme switching
+// WHY: Provides reactive theme colors and updates CSS variables when quote mode changes
+// PATTERN: Composable watches isQuoteMode and updates theme colors automatically
+// NOTE: Pass wizard instance directly since we have it in scope
+useThemeMode(wizard)
+
 // LEARNING: Computed property for quote mode state
 // WHY: Provides reactive access to quote mode for UI color changes
 // PATTERN: Computed property that reads from wizard state
@@ -261,74 +241,6 @@ const isQuoteMode = computed(() => wizard.isQuoteMode.value)
 const toggleQuoteMode = (): void => {
   wizard.isQuoteMode.value = !wizard.isQuoteMode.value
 }
-
-// LEARNING: Display computed properties moved to useWizardDisplay composable
-// WHY: Extracted to composable for better organization
-
-// LEARNING: Appointment mutation for creating appointments
-// WHY: Handles appointment creation with loading and error states
-// PATTERN: useMutation from useAppointment composable
-const { create, update, fetchAll, fetchRandom } = useAppointment()
-const { create: createProperty } = useProperty()
-const { create: createUser } = useUser()
-// NOTE: success and showError are already defined above via useNotification()
-
-// LEARNING: Get booking data for appointment transformation
-// WHY: Needed to transform appointment to wizard state
-// PATTERN: Use useBooking composable to get scheduler data
-const { bookingData } = useBooking()
-
-// LEARNING: Computed property for appointment dropdown items
-// WHY: Provides formatted list of appointments for dropdown selection
-// PATTERN: Transform appointments array to dropdown format with address display
-const appointmentDropdownItems = computed(() => {
-  const appointments = fetchAll.data.value || []
-  
-  // LEARNING: Use map to create items array instead of forEach with push mutations
-  // WHY: Functional approach avoids forEach with array mutations
-  // PATTERN: Map appointments to items array, prepend "Random Appointment" option
-  const items = [
-    { text: 'Random Appointment', value: 'random' },
-    ...appointments.map((appointment) => {
-      const address = appointment.propertyVersion?.address
-      const addressText = address 
-        ? `${address.address || ''}${address.unit ? ` ${address.unit}` : ''}, ${address.city || ''}, ${address.state || ''}`.trim()
-        : `Appointment ${appointment.id.slice(0, 8)}`
-      return {
-        text: addressText || `Appointment ${appointment.id.slice(0, 8)}`,
-        value: appointment.id
-      }
-    })
-  ]
-  
-  return items
-})
-
-// LEARNING: Step data refs are now created and provided above (not injected)
-// WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
-// PATTERN: Refs created above, children inject and sync their local state to these refs
-
-// NOTE: Appointment-loading into the wizard has been removed.
-// WHY: Keeps the wizard "new booking only" and avoids hidden filtering/mapping surprises from legacy appointment data.
-
-// LEARNING: Use appointment data collection composable
-// WHY: Extracts massive data collection logic from component to composable
-// PATTERN: Composable provides data collection function
-  const { collectAppointmentData } = useAppointmentDataCollection({
-  wizard: {
-    selectedServices: wizard.selectedServices,
-    selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
-    selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
-    selectedUserTypeBlock: wizard.selectedUserTypeBlock,
-    isQuoteMode: wizard.isQuoteMode
-  },
-  propertyDetailsStepData: propertyDetailsStepData,
-  contactsStepData: contactsStepData,
-  availabilityStepData: availabilityStepData,
-  createProperty,
-  createUser,
-  showError
-})
 
 // LEARNING: Use wizard submission composable
 // WHY: Extracts submission logic from component to composable
@@ -342,154 +254,25 @@ const { handleSubmit } = useWizardSubmission({
   success
 })
 
-// LEARNING: Handle loading appointment into wizard
-// WHY: Enables testing time slot creation by loading existing appointments
-// PATTERN: Fetch appointment, transform to wizard state, populate wizard refs
-const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {
-  if (!appointmentIdOrRandom) return
-  
-  isLoadingAppointment.value = true
-  try {
-    let appointment
-    
-    if (appointmentIdOrRandom === 'random') {
-      appointment = await fetchRandom()
-      if (!appointment) {
-        showError('No appointments available to load')
-        return
-      }
-      selectedAppointmentId.value = appointment.id
-    } else {
-      // Fetch appointment directly from API to ensure we get it with all relationships
-      try {
-        const response = await apiClient.get<AppointmentResponse>(getAppointmentByIdEndpoint(appointmentIdOrRandom))
-        appointment = response.data
-        selectedAppointmentId.value = appointment.id
-      } catch (error) {
-        showError('Appointment not found')
-        return
-      }
-    }
-    
-    if (!appointment || !bookingData.value) {
-      showError('Unable to load appointment data')
-      return
-    }
-    
-    // Transform appointment to wizard state
-    const wizardState = transformAppointmentToWizard(appointment, bookingData.value)
-    
-    // Populate wizard state refs (skip cascade to avoid clearing dependent selections)
-    // Use spread operators to ensure Vue detects array changes
-    wizard.selectUserTypeBlock(wizardState.userTypeBlock, true)
-    wizard.selectedServices.value = [...wizardState.services]
-    wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
-    wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
-    wizard.isQuoteMode.value = wizardState.isQuoteMode
-    
-    // Set loaded wizard state for form field population
-    loadedWizardState.value = wizardState
-    loadedAppointmentId.value = appointment.id
-    
-    // Populate step data refs (children will sync from these)
-    propertyDetailsStepData.value = wizardState.propertyDetails
-    contactsStepData.value = {
-      clientInfo: wizardState.contacts.client,
-      agentInfo: wizardState.contacts.agent,
-      anotherClientInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'anotherClient') || { firstName: '', lastName: '', email: '' },
-      transactionManagerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'transactionManager') || { firstName: '', lastName: '', email: '' },
-      sellerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'seller') || { firstName: '', lastName: '', email: '' },
-      showAnotherClient: wizardState.contacts.additionalContacts.some(c => c.role === 'anotherClient'),
-      showTransactionManager: wizardState.contacts.additionalContacts.some(c => c.role === 'transactionManager'),
-      showSeller: wizardState.contacts.additionalContacts.some(c => c.role === 'seller')
-    }
-    // NOTE: availabilityStepData is provided by AvailabilityStep component when it mounts
-    // The loadedWizardState is already set above, and AvailabilityStep will read from it
-    // via useAvailabilityDefaults composable, so we don't need to set it directly here
-    
-    // LEARNING: Automatically navigate to step 3 after loading appointment
-    // WHY: Since appointment data is already loaded, skip step 2 and go directly to step 3 (Availability)
-    // PATTERN: Mark intermediate steps as completed and navigate directly to target step
-    // Mark step 1 (Property Details) as completed to allow navigation
-    completedSteps.value.add(1) // Property Details (step 2)
-    // Navigate directly to step 3 (Appointment Availability) - index 2
-    activeStep.value = 2
-    
-    success('Appointment loaded successfully')
-    // Clear dropdown selection after load so user can select again
-    selectedAppointmentId.value = null
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
-    showError(errorMessage)
-  } finally {
-    isLoadingAppointment.value = false
-  }
-}
+// LEARNING: Provide loaded wizard state for form field population
+// WHY: Enables step components to populate form fields from loaded appointment
+// PATTERN: Provide reactive ref that step components can watch
+provide('loadedWizardState', loadedWizardState)
 
-// LEARNING: Handle updating appointment from wizard state
-// WHY: Saves current wizard state back to the loaded appointment
-// PATTERN: Collect wizard data, update appointment via API
-const handleUpdateAppointment = async (): Promise<void> => {
-  if (!loadedAppointmentId.value) {
-    showError('No appointment loaded')
-    return
-  }
-  
-  try {
-    const appointmentData = await collectAppointmentData()
-    if (!appointmentData) {
-      return // Error already shown by collectAppointmentData
-    }
-    
-    await update.mutateAsync({
-      id: loadedAppointmentId.value,
-      data: appointmentData
-    })
-    
-    success('Appointment updated successfully')
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
-    console.error('[Wizard] Update appointment error:', error)
-    showError(errorMessage)
-  } finally {
-    // Ensure loading state is cleared even if there's an error
-    // The mutation should handle this, but adding as safeguard
-  }
-}
-
-// LEARNING: Handle resetting wizard state
-// WHY: Clears all wizard state and loaded appointment tracking
-// PATTERN: Clear all wizard refs and reset loaded state
-const handleResetWizard = (): void => {
-  wizard.selectUserTypeBlock(null, true)
-  wizard.selectedServices.value = []
-  wizard.selectedPropertyTypeBlocks.value = []
-  wizard.selectedOptionTypeBlocks.value = []
-  wizard.isQuoteMode.value = false
-  
-  loadedWizardState.value = null
-  loadedAppointmentId.value = null
-  selectedAppointmentId.value = null
-  
-  // Reset step data refs
-  propertyDetailsStepData.value = null
-  contactsStepData.value = null
-  availabilityStepData.value = null
-  
-  // Reset validation state
-  propertyDetailsStepValid.value = false
-  propertyDetailsStepValidate.value = null
-  propertyDetailsFieldErrors.value = {}
-  contactsStepValid.value = false
-  contactsStepValidate.value = null
-  availabilityStepValid.value = false
-  availabilityStepValidate.value = null
-  
-  // Reset to first step
-  activeStep.value = 0
-  
-  success('Wizard reset successfully')
-}
+// LEARNING: Dev mode logic
+// WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
+// PATTERN: Use composable for managing dev mode
+const isDevMode = isDevModeEnabled()
+const { handleResetMocks } = useWizardDevMode({
+  isDevMode,
+  selectedAppointmentId,
+  appointmentDropdownItems,
+  loadedAppointmentId,
+  isLoadingAppointment,
+  fetchAll,
+  handleLoadAppointment,
+  handleResetWizard,
+})
 </script>
 
 <template>
@@ -533,26 +316,11 @@ const handleResetWizard = (): void => {
             </VList>
             
             <!-- LEARNING: Quote Mode Button and DevMode Controls -->
-            <!-- WHY: Allows users to toggle quote mode and load/update appointments in dev mode -->
+            <!-- WHY: Allows users to toggle quote mode and update appointments in dev mode -->
             <!-- PATTERN: VBtn with toggle state, devMode controls in same row -->
             <VRow class="mt-4 align-center justify-center" no-gutters>
-              <!-- DevMode Controls (only in development) -->
+              <!-- Update Appointment Button (only in development) -->
               <VCol v-if="isDevMode" cols="auto" class="mr-2">
-                <VSelect
-                  v-model="selectedAppointmentId"
-                  :items="appointmentDropdownItems"
-                  item-title="text"
-                  item-value="value"
-                  :loading="fetchAll.isLoading.value || isLoadingAppointment"
-                  label="Load Appointment"
-                  density="compact"
-                  variant="outlined"
-                  hide-details
-                  style="min-width: 200px;"
-                  @update:model-value="handleLoadAppointment"
-                />
-              </VCol>
-              <VCol v-if="isDevMode && loadedAppointmentId" cols="auto" class="mr-2">
                 <VBtn
                   color="success"
                   variant="outlined"
@@ -560,20 +328,9 @@ const handleResetWizard = (): void => {
                   prepend-icon="tabler-device-floppy"
                   @click="handleUpdateAppointment"
                   :loading="update.isPending.value"
-                  :disabled="update.isPending.value"
+                  :disabled="update.isPending.value || !loadedAppointmentId"
                 >
                   UPDATE APPOINTMENT
-                </VBtn>
-              </VCol>
-              <VCol v-if="isDevMode && loadedAppointmentId" cols="auto" class="mr-2">
-                <VBtn
-                  color="warning"
-                  variant="outlined"
-                  size="small"
-                  prepend-icon="tabler-refresh"
-                  @click="handleResetWizard"
-                >
-                  RESET WIZARD
                 </VBtn>
               </VCol>
               <!-- Quote Mode Button -->
@@ -632,31 +389,63 @@ const handleResetWizard = (): void => {
 .booking-wizard {
   height: 100%;
   
-  // LEARNING: Quote mode color variables
+  // LEARNING: Quote mode color variables (20% less vibrant)
   // WHY: Defines quote mode color palette as CSS custom properties
   // PATTERN: CSS variables that override Vuetify theme variables when quote mode is active
-  // Updated: Changed to green palette matching intensity of primary/warning colors
-  --quote-mode-primary: 40, 199, 111; // #28C76F (vibrant green, matches success color intensity)
-  --quote-mode-primary-darken-1: 36, 179, 100; // #24B364 (darker green)
-  --quote-mode-secondary: 40, 199, 111; // Use same green for secondary
+  // Colors: Primary-quote (#33BF78), Secondary-quote (#BD7832), Warning-quote (#E6465A)
+  --quote-mode-primary: 51, 191, 120; // #33BF78 (green, 20% less vibrant)
+  --quote-mode-primary-darken-1: 45, 168, 102; // #2DA866 (darker green)
+  --quote-mode-secondary: 189, 120, 50; // #BD7832 (orange-brown, green - 120°, 20% less vibrant)
+  --quote-mode-secondary-darken-1: 168, 104, 42; // #A8682A (darker orange-brown)
+  --quote-mode-warning: 230, 70, 90; // #E6465A (different red, 20% less vibrant)
+  --quote-mode-warning-darken-1: 207, 62, 80; // #CF3E50 (darker red)
   --quote-mode-on-primary: 255, 255, 255; // White text on green
+  --quote-mode-on-secondary: 255, 255, 255; // White text on orange-brown
+  --quote-mode-on-warning: 255, 255, 255; // White text on red
+  
+  // LEARNING: Inactive color variables for appointment slot buttons
+  // WHY: Provides muted colors for non-selected appointment slots
+  // PATTERN: Lighter versions of active colors (80% white + 20% color)
+  // Normal mode inactive colors
+  --inactive-primary: 227, 225, 252; // #E3E1FC (light purple, 80% white + 20% #7367F0)
+  --inactive-secondary: 255, 236, 217; // #FFECD9 (light orange, 80% white + 20% #FF9F43)
+  
+  // Quote mode inactive colors
+  --quote-mode-inactive-primary: 214, 242, 228; // #D6F2E4 (light green, 80% white + 20% #33BF78)
+  --quote-mode-inactive-secondary: 242, 228, 214; // #F2E4D6 (light orange-brown, 80% white + 20% #BD7832)
   
   // LEARNING: Override Vuetify theme variables when quote mode is active
-  // WHY: All components using primary/secondary colors automatically use quote mode colors
+  // WHY: All components using primary/secondary/warning colors automatically use quote mode colors
   // PATTERN: CSS variable override at component root level with :deep() to ensure cascading
-  // FIX: Use :deep() to ensure CSS variables cascade to Vuetify child components
+  // NOTE: useThemeMode composable also updates document root CSS variables for global scope
   &.quote-mode-active {
     --v-theme-primary: var(--quote-mode-primary);
     --v-theme-primary-darken-1: var(--quote-mode-primary-darken-1);
     --v-theme-secondary: var(--quote-mode-secondary);
+    --v-theme-secondary-darken-1: var(--quote-mode-secondary-darken-1);
+    --v-theme-warning: var(--quote-mode-warning);
+    --v-theme-warning-darken-1: var(--quote-mode-warning-darken-1);
     --v-theme-on-primary: var(--quote-mode-on-primary);
+    --v-theme-on-secondary: var(--quote-mode-on-secondary);
+    --v-theme-on-warning: var(--quote-mode-on-warning);
+    
+    // Update inactive colors for quote mode
+    --inactive-primary: var(--quote-mode-inactive-primary);
+    --inactive-secondary: var(--quote-mode-inactive-secondary);
     
     // Ensure variables cascade to all child elements (including Vuetify components)
     :deep(*) {
       --v-theme-primary: var(--quote-mode-primary);
       --v-theme-primary-darken-1: var(--quote-mode-primary-darken-1);
       --v-theme-secondary: var(--quote-mode-secondary);
+      --v-theme-secondary-darken-1: var(--quote-mode-secondary-darken-1);
+      --v-theme-warning: var(--quote-mode-warning);
+      --v-theme-warning-darken-1: var(--quote-mode-warning-darken-1);
       --v-theme-on-primary: var(--quote-mode-on-primary);
+      --v-theme-on-secondary: var(--quote-mode-on-secondary);
+      --v-theme-on-warning: var(--quote-mode-on-warning);
+      --inactive-primary: var(--quote-mode-inactive-primary);
+      --inactive-secondary: var(--quote-mode-inactive-secondary);
     }
   }
   

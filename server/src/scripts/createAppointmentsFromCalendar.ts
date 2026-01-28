@@ -203,8 +203,10 @@ async function findPropertyByAddress(location: string | undefined): Promise<stri
 
 /**
  * Parse date/time from calendar event
+ * LEARNING: Uses new format with startTime/endTime (RFC3339) directly from Google Calendar API
+ * WHY: Google Calendar API returns RFC3339 format, matches our new SelectedTimeSlot format
  */
-function parseEventDateTime(event: CalendarEvent): { selectedDate: Date | null; selectedTimeSlots: Array<{ time: string; duration: number }> | null } {
+function parseEventDateTime(event: CalendarEvent): { selectedDate: Date | null; selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null } {
   const start = event.start?.dateTime || event.start?.date;
   const end = event.end?.dateTime || event.end?.date;
   
@@ -215,18 +217,14 @@ function parseEventDateTime(event: CalendarEvent): { selectedDate: Date | null; 
   const selectedDate = startDate;
   
   // Parse time slots if we have both start and end times
-  let selectedTimeSlots: Array<{ time: string; duration: number }> | null = null;
+  // LEARNING: Google Calendar API already provides RFC3339 format, use directly
+  let selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = null;
   
   if (event.start?.dateTime && event.end?.dateTime) {
-    const startTime = new Date(event.start.dateTime);
-    const endTime = new Date(event.end.dateTime);
-    const durationMinutes = Math.round((endTime.getTime() - startTime.getTime()) / (1000 * 60));
-    
-    const hours = startTime.getHours().toString().padStart(2, '0');
-    const minutes = startTime.getMinutes().toString().padStart(2, '0');
-    const time = `${hours}:${minutes}`;
-    
-    selectedTimeSlots = [{ time, duration: durationMinutes }];
+    selectedTimeSlots = [{
+      startTime: event.start.dateTime,  // Already RFC3339 from Google Calendar
+      endTime: event.end.dateTime,       // Already RFC3339 from Google Calendar
+    }];
   }
   
   return { selectedDate, selectedTimeSlots };

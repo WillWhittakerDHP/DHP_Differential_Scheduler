@@ -22,6 +22,10 @@ function createBookingBlockInstance(
   options: {
     name?: string
     differential?: boolean
+    partInstances?: Array<{
+      id?: string
+      differentialOverride?: boolean
+    }>
   } = {}
 ): BookingBlockInstance {
   return {
@@ -32,13 +36,30 @@ function createBookingBlockInstance(
     description: 'Test description',
     icon: 'icon-test',
     active: true,
-    dependent: false,
+    bookingMode: 'standalone',
     differential: options.differential ?? false,
     orderIndex: 0,
     blockShape: 'Test Shape',
     blockShapeRef: 'shape-1',
     activeBlockIds: [],
-    partInstances: [],
+    partInstances: options.partInstances?.map((part, index) => ({
+      id: part.id || `part-${index}`,
+      entityKey: 'partInstance' as const,
+      name: `Part ${index}`,
+      partShape: 'test-shape',
+      disabled: false,
+      onSite: false,
+      clientPresent: false,
+      moveable: false,
+      baseTime: 0,
+      rateOverBaseTime: 0,
+      baseFee: 0,
+      rateOverBaseFee: 0,
+      orderIndex: index,
+      active: true,
+      zeroOutPart: false,
+      differentialOverride: part.differentialOverride,
+    })) || [],
     allowMultiple: false,
     requiresUnitNumber: null,
   }
@@ -54,11 +75,16 @@ function createTimeSlot(
     duration?: number
   } = {}
 ): TimeSlot {
+  const startTime = slotStart
+  const endTime = options.slotEnd || new Date(new Date(slotStart).getTime() + (options.duration || 60) * 60000).toISOString()
   return {
-    slotStart,
-    slotEnd: options.slotEnd || new Date(new Date(slotStart).getTime() + (options.duration || 60) * 60000).toISOString(),
+    startTime,
+    endTime,
     duration: options.duration || 60,
-    available: true,
+    onSite: false,
+    clientPresent: false,
+    moveable: false,
+    isAvailable: true,
   }
 }
 
@@ -537,6 +563,125 @@ describe('useAvailabilityLogic', () => {
     })
   })
 
+  describe('isEffectivelyDifferential', () => {
+    it('should return false when service is not differential', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', { differential: false }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(false)
+    })
+
+    it('should return true when service is differential and no override', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', { differential: true }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(true)
+    })
+
+    it('should return false when service is differential but has override in service part', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', {
+          differential: true,
+          partInstances: [{ differentialOverride: true }],
+        }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(false)
+    })
+
+    it('should return false when service is differential but has override in option', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', { differential: true }),
+      ]
+      wizard.selectedOptionTypeBlocks.value = [
+        createBookingBlockInstance('option-1', {
+          differential: false,
+          partInstances: [{ differentialOverride: true }],
+        }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(false)
+    })
+
+    it('should return true when service is differential and override is false', () => {
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', {
+          differential: true,
+          partInstances: [{ differentialOverride: false }],
+        }),
+      ]
+
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(true)
+    })
+
+    it('should be reactive to service and option changes', () => {
+      const { isEffectivelyDifferential } = useAvailabilityLogic({
+        selectedDate,
+        propertyDetailsStepData,
+        wizard,
+        timeSlots,
+        loadedWizardState,
+      })
+
+      expect(isEffectivelyDifferential.value).toBe(false)
+
+      wizard.selectedServices.value = [
+        createBookingBlockInstance('service-1', { differential: true }),
+      ]
+      expect(isEffectivelyDifferential.value).toBe(true)
+
+      wizard.selectedOptionTypeBlocks.value = [
+        createBookingBlockInstance('option-1', {
+          differential: false,
+          partInstances: [{ differentialOverride: true }],
+        }),
+      ]
+      expect(isEffectivelyDifferential.value).toBe(false)
+    })
+  })
+
   describe('matchLoadedTimeSlots', () => {
     it('should match loaded slots to available slots', () => {
       const availableSlots = [
@@ -571,7 +716,7 @@ describe('useAvailabilityLogic', () => {
 
     it('should handle empty loaded slots', () => {
       const availableSlots = [createTimeSlot('2024-01-15T09:00:00')]
-      const loadedSlots: Array<{ time: string }> = []
+      const loadedSlots: Array<{ startTime: string; endTime?: string }> = []
       
       const inspectorTimeSlotRef = ref(null)
       const clientTimeSlotRef = ref(null)
@@ -592,7 +737,7 @@ describe('useAvailabilityLogic', () => {
 
     it('should handle empty available slots', () => {
       const availableSlots: TimeSlot[] = []
-      const loadedSlots = [{ time: '2024-01-15T09:00:00' }]
+      const loadedSlots = [{ startTime: '2024-01-15T09:00:00Z' }]
       
       const inspectorTimeSlotRef = ref(null)
       const clientTimeSlotRef = ref(null)
@@ -610,15 +755,15 @@ describe('useAvailabilityLogic', () => {
       expect(inspectorTimeSlotRef.value).toBeNull()
     })
 
-    it('should match by time string (HH:mm format)', () => {
+    it('should match by time string (RFC3339 format)', () => {
       const availableSlots = [
         createTimeSlot('2024-01-15T09:30:00'),
         createTimeSlot('2024-01-15T10:45:00'),
       ]
       
       const loadedSlots = [
-        { time: '09:30' }, // HH:mm format
-        { time: '10:45' },
+        { startTime: '2024-01-15T09:30:00Z' }, // RFC3339 format
+        { startTime: '2024-01-15T10:45:00Z' },
       ]
       
       const inspectorTimeSlotRef = ref(null)
@@ -640,7 +785,7 @@ describe('useAvailabilityLogic', () => {
 
     it('should handle invalid time strings gracefully', () => {
       const availableSlots = [createTimeSlot('2024-01-15T09:00:00')]
-      const loadedSlots = [{ time: 'invalid-time' }]
+      const loadedSlots = [{ startTime: 'invalid-time' }]
       
       const inspectorTimeSlotRef = ref(null)
       const clientTimeSlotRef = ref(null)

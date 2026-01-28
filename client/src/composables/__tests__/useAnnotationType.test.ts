@@ -17,7 +17,7 @@ import {
   useCreateAnnotationType,
   useUpdateAnnotationType,
   useDeleteAnnotationType,
-} from '../useAnnotationType'
+} from '../useAnnotationTypes'
 import apiClient from '@/utils/api'
 import type { AnnotationType } from '@/types/annotations'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'

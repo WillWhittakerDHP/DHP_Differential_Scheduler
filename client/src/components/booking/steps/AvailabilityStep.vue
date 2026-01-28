@@ -16,16 +16,29 @@ import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAvailability } from '@/composables/useAvailability'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useAvailabilityLogic } from '@/composables/booking/useAvailabilityLogic'
-import { useTimeSlotCalculations } from '@/composables/booking/useTimeSlotCalculations'
+import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
 import { useAvailabilityValidation } from '@/composables/booking/useAvailabilityValidation'
 import { useAvailabilityStepData } from '@/composables/booking/useAvailabilityStepData'
 import { useOptionTypeBlockSelection } from '@/composables/booking/useOptionTypeBlockSelection'
 import { useAvailabilityUI } from '@/composables/booking/useAvailabilityUI'
 import { useAvailabilityDefaults } from '@/composables/booking/useAvailabilityDefaults'
+import { useAvailableStartTimes } from '@/composables/booking/useAvailableStartTimes'
+import { useMoveablePartsScheduling } from '@/composables/booking/useMoveablePartsScheduling'
+import { useAppointmentDuration } from '@/composables/booking/useAppointmentDuration'
+import { useTimeSlotDurations } from '@/composables/booking/useTimeSlotDurations'
+import { useMockCalendarRefresh } from '@/composables/booking/useMockCalendarRefresh'
+import { useBusyTimes } from '@/composables/booking/useBusyTimes'
+import { usePerspectiveMapping } from '@/composables/booking/usePerspectiveMapping'
+import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
+import { useAvailabilityStepHandlers } from '@/composables/booking/useAvailabilityStepHandlers'
+import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDevPanel'
+import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
+import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
-import TimeSlotGrid from '@/components/booking/TimeSlotGrid.vue'
+import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
+import TimeOnSiteGraph from '@/components/booking/TimeOnSiteGraph.vue'
+import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { AvailabilityStepData } from '@/types/wizard'
 
 // LEARNING: Inject shared wizard instance from parent
 // WHY: Ensures all step components share the same wizard state
@@ -37,24 +50,35 @@ if (!wizard) {
 
 // LEARNING: Inject loaded wizard state for populating form fields
 // WHY: Enables populating availability date from loaded appointment
-// PATTERN: Inject provided loadedWizardState and watch for changes
-const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
+// PATTERN: Inject provided loadedWizardState, fail explicitly if not provided
+const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+if (!loadedWizardState) {
+  throw new Error('loadedWizardState not provided. Make sure BookingWizard provides loadedWizardState.')
+}
 
 // LEARNING: Use time formatting composable for time operations
 // WHY: Moves time formatting logic out of component to prevent recursion
 // PATTERN: Composable provides pure utility functions
-const { getTodayDate, formatDuration } = useTimeFormatting()
+const { getTodayDate } = useTimeFormatting()
 
 // LEARNING: Inject property details step data for property-based adjustments
 // WHY: Enables property-based time adjustments in availability calculations
-// PATTERN: Inject provided propertyDetailsStepData if available
-const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData', null)
+// PATTERN: Inject provided propertyDetailsStepData, fail explicitly if not provided
+const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData')
+if (!propertyDetailsStepData) {
+  throw new Error('propertyDetailsStepData not provided. Make sure BookingWizard provides propertyDetailsStepData.')
+}
 
 // LEARNING: Create ref wrapper for timeSlots to enable reactive watching
-// WHY: `useAvailabilityDefaults` needs a nullable timeSlots source, but `useAvailability` is created later
+// WHY: Resolves circular dependency between composables:
+//      - useAvailabilityDefaults needs timeSlots (nullable) but useAvailability creates it later
+//      - useAvailability needs accumulatedBlockInstances from useAvailabilityLogic
+//      - useAvailabilityLogic needs timeSlots (non-null) from useAvailability
 // PATTERN: Hold the computed ref in a wrapper, then expose two views:
 // - nullable (for defaults) to avoid treating "not initialized yet" as "empty"
 // - non-null array (for logic) to satisfy composable typing
+// NOTE: This wrapper pattern is necessary due to initialization order constraints.
+//       The wrapper is updated after useAvailability creates timeSlots (line ~156).
 const timeSlotsWrapper = ref<ComputedRef<TimeSlot[]> | null>(null)
 const timeSlotsForDefaults = computed(() => {
   const wrapper = timeSlotsWrapper.value
@@ -67,26 +91,44 @@ const timeSlotsForLogic = computed(() => {
   return wrapper.value
 }) as ComputedRef<TimeSlot[]>
 
-// LEARNING: Compute isDifferentialService before useAvailabilityDefaults
-// WHY: useAvailabilityDefaults needs isDifferentialService to auto-select startTimeType
-// PATTERN: Computed property that checks if any selected service has differential === true
-const isDifferentialServiceForDefaults = computed(() => {
+// LEARNING: Compute effective differential state before useAvailabilityDefaults
+// WHY: useAvailabilityDefaults needs effective differential state (considering overrides) to auto-select startTimeType
+// PATTERN: Check if service is differential AND no part has differentialOverride: true
+// NOTE: This is calculated early because useAvailabilityDefaults needs it before useAvailabilityLogic is called
+//       After useAvailabilityLogic is called, we use its isEffectivelyDifferential for everything else
+const isEffectivelyDifferentialForDefaults = computed(() => {
   const selectedServices = wizard.selectedServices.value
-  return selectedServices.some(s => s.differential === true)
+  const selectedOptions = wizard.selectedOptionTypeBlocks.value
+  
+  // Check if any service is differential
+  const isDifferential = selectedServices.some(s => s.differential === true)
+  if (!isDifferential) return false
+  
+  // Check if any part has differentialOverride: true
+  const serviceHasOverride = selectedServices.some(service =>
+    service.partInstances?.some(part => part.differentialOverride === true)
+  )
+  const optionHasOverride = selectedOptions.some(option =>
+    option.partInstances?.some(part => part.differentialOverride === true)
+  )
+  
+  // If override exists, force non-differential
+  if (serviceHasOverride || optionHasOverride) return false
+  
+  return true
 })
 
 // LEARNING: Use availability defaults composable for state management and defaulting
 // WHY: Extracts state management and defaulting logic from component
-// PATTERN: Composable manages selectedDate, startTimeType, inspectorTimeSlot, clientTimeSlot
+// PATTERN: Composable manages selectedDate, startTimeType, appointmentSlotOrderIndex
 const {
   selectedDate,
   startTimeType,
-  inspectorTimeSlot,
-  clientTimeSlot
+  appointmentSlotOrderIndex
 } = useAvailabilityDefaults({
   loadedWizardState,
   timeSlots: timeSlotsForDefaults,
-  isDifferentialService: isDifferentialServiceForDefaults
+  isDifferentialService: isEffectivelyDifferentialForDefaults
 })
 
 // LEARNING: Use availability logic composable
@@ -100,8 +142,7 @@ const {
   propertyDetails,
   timeSlotsPerDay,
   selectedDateSingle,
-  currentTimeSlots: baseCurrentTimeSlots,
-  isDifferentialService
+  isEffectivelyDifferential
 } = useAvailabilityLogic({
   selectedDate,
   propertyDetailsStepData,
@@ -136,20 +177,110 @@ const { selectedOptionTypeBlockId } = useOptionTypeBlockSelection({
   availableOptionTypeBlocks: wizard.availableOptionTypeBlocks
 })
 
-// LEARNING: Use time slot calculations composable
-// WHY: Extracts duration calculations from component to composable
-// PATTERN: Composable provides reactive computed properties for time calculations
+// LEARNING: Use appointment duration composable
+// WHY: Extracts duration calculation logic from component to composable
+// PATTERN: Composable provides computed property for appointment duration
+const { appointmentDuration } = useAppointmentDuration({
+  accumulatedBlockInstances
+})
+
+// LEARNING: Use mock calendar refresh composable
+// WHY: Extracts mock calendar refresh management from component to composable
+// PATTERN: Composable manages refresh key and reset functionality
+const { mockRefreshKey } = useMockCalendarRefresh()
+
+// LEARNING: Use busy times composable
+// WHY: Extracts busy times calculation logic from component to composable
+// PATTERN: Composable provides computed property for busy times
+const { busyTimes: busyTimesForStartTimes } = useBusyTimes({
+  dateRangeForApi,
+  mockRefreshKey
+})
+
 const {
-  onSiteTotal,
-  presentationDuration,
-  timeOnSiteBlocks
-} = useTimeSlotCalculations({
-  wizard: {
-    selectedServices: wizard.selectedServices
-  },
-  inspectorTimeSlot,
-  clientTimeSlot,
-  isDifferentialService
+  availableStartTimes,
+  slotAvailability
+} = useAvailableStartTimes({
+  selectedDate,
+  appointmentDuration,
+  busyTimes: busyTimesForStartTimes
+})
+
+// LEARNING: Use time slot durations composable
+// WHY: Extracts time slot duration mapping logic from component to composable
+// PATTERN: Composable provides computed Map for time slot durations
+const { timeSlotDurations } = useTimeSlotDurations({
+  timeSlotsPerDay,
+  selectedDate
+})
+
+// LEARNING: Use perspective mapping composable
+// WHY: Extracts perspective mapping logic from component to composable
+// PATTERN: Composable provides computed property for perspective mapping
+const { perspective } = usePerspectiveMapping({
+  startTimeType
+})
+
+// LEARNING: Map appointmentSlotOrderIndex to selectedButtonIndex
+// WHY: New system uses buttonIndex instead of orderIndex
+// PATTERN: Use appointmentSlotOrderIndex as buttonIndex
+const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
+
+// LEARNING: Use availability slot color composable
+// WHY: Extracts color selection logic from component to composable
+// PATTERN: Composable provides computed property for slot color
+const { slotColor } = useAvailabilitySlotColor({
+  startTimeType
+})
+
+// LEARNING: Use new appointment slots composable
+// WHY: Uses shape + slot separation for efficient calculation
+// PATTERN: Builds shape once, applies to each available time
+const {
+  appointmentShape,
+  appointmentSlots,
+  selectedSlot,
+  graphBars
+} = useAppointmentSlots({
+  blockInstances: accumulatedBlockInstances,
+  availableStartTimes,
+  slotAvailability,
+  timeSlotDurations,
+  selectedButtonIndex,
+  perspective,
+  isDifferentialService: isEffectivelyDifferential
+})
+
+// LEARNING: Use moveable parts scheduling composable
+// WHY: Detects moveable parts and manages scheduling modal
+// PATTERN: Composable provides moveable parts detection and scheduling options
+const moveablePartsScheduling = useMoveablePartsScheduling({
+  appointmentShape,
+  selectedSlot
+})
+
+const {
+  hasMoveableParts,
+  showModal: showMoveableModal,
+  moveableOptions,
+  selectedSlotIndex: selectedMoveableSlotIndex,
+  contingencyPeriod,
+  openModal: openMoveableModal,
+  closeModal: closeMoveableModal,
+  selectSlot: selectMoveableSlot,
+  isLoadingOptions
+} = moveablePartsScheduling
+
+// Ref to store confirmed moveable scheduling
+const confirmedMoveableScheduling = ref<typeof moveableOptions.value>(null)
+
+// LEARNING: Use availability empty state composable
+// WHY: Extracts empty state message logic from component to composable
+// PATTERN: Composable provides computed property for empty state message
+const { emptyStateMessage } = useAvailabilityEmptyState({
+  isEffectivelyDifferential,
+  startTimeType,
+  appointmentSlotsCount: computed(() => appointmentSlots.length)
 })
 
 // LEARNING: Use availability step data composable
@@ -157,10 +288,8 @@ const {
 // PATTERN: Composable provides reactive computed properties for step data
 const { stepData } = useAvailabilityStepData({
   selectedDate,
-  inspectorTimeSlot,
-  clientTimeSlot,
-  onSiteTotal,
-  presentationDuration
+  selectedSlot,
+  moveableScheduling: computed(() => confirmedMoveableScheduling.value)
 })
 
 // LEARNING: Use availability validation composable
@@ -168,106 +297,80 @@ const { stepData } = useAvailabilityStepData({
 // PATTERN: Composable provides validation functions and computed properties
 const { fieldErrors, isFormValid, validateForm } = useAvailabilityValidation({
   selectedDate,
-  inspectorTimeSlot,
-  clientTimeSlot
+  selectedSlot
 })
 
-// LEARNING: Inject parent-provided refs for step data and validation state
-// WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
-// PATTERN: Inject refs from parent, sync local state to them
-const parentAvailabilityStepData = inject<Ref<AvailabilityStepData | null>>('availabilityStepData')
-const parentAvailabilityStepValid = inject<Ref<boolean>>('availabilityStepValid')
-const parentAvailabilityStepValidate = inject<Ref<(() => boolean) | null>>('availabilityStepValidate')
-
-if (!parentAvailabilityStepData || !parentAvailabilityStepValid || !parentAvailabilityStepValidate) {
-  throw new Error('Parent-provided refs not found. Make sure BookingWizard provides availabilityStepData, availabilityStepValid, and availabilityStepValidate.')
-}
-
-// LEARNING: Sync local stepData to parent-provided ref
-// WHY: Enables BookingWizard to collect availability data
-// PATTERN: Watch local stepData and update parent ref
-watch(stepData, (newData) => {
-  if (parentAvailabilityStepData) {
-    parentAvailabilityStepData.value = newData
-  }
-}, { immediate: true, deep: true })
-
-// LEARNING: Sync local validation state to parent-provided refs
-// WHY: Enables BookingWizard to check step validity before navigation
-// PATTERN: Watch local validation state and update parent refs
-watch(isFormValid, (newValid) => {
-  if (parentAvailabilityStepValid) {
-    parentAvailabilityStepValid.value = newValid
-  }
-}, { immediate: true })
-
-// LEARNING: Assign validateForm function directly to parent ref
-// WHY: validateForm is a function, not a ref, so we assign it directly
-// PATTERN: Assign function to parent ref (no watch needed)
-parentAvailabilityStepValidate.value = validateForm
+// LEARNING: Use wizard step sync composable
+// WHY: Extracts parent ref syncing logic from component to reusable composable
+// PATTERN: Composable handles all parent ref syncing automatically
+useWizardStepSync({
+  stepData,
+  isFormValid,
+  validateForm,
+  stepDataKey: 'availabilityStepData',
+  stepValidKey: 'availabilityStepValid',
+  stepValidateKey: 'availabilityStepValidate'
+})
 
 // LEARNING: Use availability UI composable
-// WHY: Extracts UI-specific logic from component to composable
+// WHY: Extracts responsive layout and date handling logic from component to composable
 // PATTERN: Composable provides reactive computed properties and handler functions
 const {
-  currentTimeSlots,
-  selectedTimeSlot,
-  shouldMoveGridBelow,
-  handleTimeSlotClick,
   handleDateChange
 } = useAvailabilityUI({
   selectedDate,
-  inspectorTimeSlot,
-  clientTimeSlot,
-  startTimeType,
-  isDifferentialService,
-  timeSlotsPerDay,
-  baseCurrentTimeSlots,
+  selectedButtonIndex,
   fieldErrors
 })
 
-// LEARNING: Default date initialization is now handled in useAvailabilityDefaults composable
-// WHY: The composable watches timeSlots with immediate: true and auto-selects first available date
-// PATTERN: No onMounted needed - composable handles all defaulting logic
-
-// LEARNING: Handler for Time Basis Selector button clicks
-// WHY: Toggles between Selected/Active states per user story requirements
-// PATTERN: Toggle function that deselects if clicking selected button, otherwise selects
-// USER_STORY: Clicking selected button deselects it (sets to null), clicking active button selects it
-const handleTimeBasisClick = (type: 'inspector' | 'client'): void => {
-  // Toggle: clicking selected button deselects it (sets to null)
-  // Otherwise, select the clicked button
-  startTimeType.value = startTimeType.value === type ? null : type
-}
-
-// LEARNING: Computed properties for Time On-Site Graph bar states
-// WHY: Reflects Time Basis Selector selection visually per user story
-// PATTERN: Computed properties that return 'selected', 'active', or 'single' based on state
-// USER_STORY: Corresponding bar becomes Selected when Time Basis Selector is selected, other remains Active
-const inspectorBarState = computed(() => {
-  if (!isDifferentialService.value) return 'single'
-  return startTimeType.value === 'inspector' ? 'selected' : 'active'
+// LEARNING: Use availability step handlers composable
+// WHY: Extracts event handler logic from component to composable
+// PATTERN: Composable provides all event handler functions
+const {
+  handleAppointmentSlotClick,
+  handleMoveableConfirm,
+  handleMoveableCancel,
+  handleTimeBasisChange
+} = useAvailabilityStepHandlers({
+  appointmentSlotOrderIndex,
+  hasMoveableParts,
+  selectedSlot,
+  openMoveableModal,
+  closeMoveableModal,
+  moveableOptions,
+  selectedMoveableSlotIndex,
+  confirmedMoveableScheduling,
+  startTimeType
 })
 
-const clientBarState = computed(() => {
-  if (!isDifferentialService.value) return null
-  return startTimeType.value === 'client' ? 'selected' : 'active'
+// LEARNING: Use availability dev panel composable
+// WHY: Extracts dev panel data providing logic from component to composable
+// PATTERN: Composable provides reactive computed object via provide
+useAvailabilityDevPanel({
+  selectedBlockInstances: accumulatedBlockInstances,
+  appointmentSlots,
+  selectedDate,
+  selectedSlot,
+  dateRange: dateRangeForApi,
+  busyPeriods: busyTimesForStartTimes,
+  refreshKey: mockRefreshKey
 })
 </script>
 
 <template>
   <div class="availability-step">
-    <VRow>
-      <VCol cols="12">
-        <h4 class="text-h4 mb-2">Appointment Availability</h4>
-        <p class="text-body-2 mb-6 mb-sm-4">Select a time that works for everybody</p>
+
+    <VRow class="calendar-grid-row">
+      <VCol cols="12" class="position-relative" style="overflow: visible;">
+        <div class="d-flex align-center justify-space-between flex-wrap mb-2">
+          <div>
+            <h4 class="text-h4 mb-2">Appointment Availability</h4>
+            <p class="text-body-2 mb-6 mb-sm-4">Select a time that works for everybody</p>
+          </div>
+        </div>
       </VCol>
-      
-      <!-- LEARNING: Calendar Widget Section -->
-      <!-- WHY: Permanent calendar widget for better UX (similar to Calendly) -->
-      <!-- PATTERN: VDatePicker with month view, permanent display -->
-      <!-- WHY: Replaces VTextField date input with permanent calendar widget -->
-      <VCol cols="12" sm="4" class="calendar-col">
+
+      <VCol cols="12" class="calendar-col">
         <div class="calendar-container">
           <VDatePicker
             v-model="selectedDateSingle"
@@ -281,198 +384,78 @@ const clientBarState = computed(() => {
             aria-label="Select appointment date"
             @update:model-value="handleDateChange"
           />
-          <!-- LEARNING: Validation Error Display -->
-          <!-- WHY: Shows validation errors below calendar -->
-          <!-- PATTERN: Error message display for date validation -->
+
           <div v-if="fieldErrors.selectedDate" class="text-error text-caption mt-2">
             {{ fieldErrors.selectedDate }}
           </div>
+          
+          <!-- LEARNING: Time On-Site Graph Component - Under Calendar -->
+          <!-- WHY: Always visible, shows time breakdown for selected date/time -->
+          <!-- PATTERN: Interactive bars that control perspective selection -->
+          <TimeOnSiteGraph
+            :is-differential-service="isEffectivelyDifferential"
+            :graph-bars="graphBars"
+            :selected-services="wizard.selectedServices.value"
+            :start-time-type="perspective"
+            class="time-graph-wrapper"
+            @time-basis-change="handleTimeBasisChange"
+          />
         </div>
       </VCol>
       
-      <!-- LEARNING: Time Selection Section -->
-      <!-- WHY: Shows time slots and selection controls -->
-      <!-- PATTERN: Always visible, content conditional based on date selection -->
-      <!-- Session 6.8: Improved responsive spacing and layout -->
-      <VCol cols="12" sm="8" class="time-selection-col">
-        <!-- LEARNING: Content conditional on date selection -->
-        <!-- WHY: Shows time selection controls when date is selected, placeholder otherwise -->
-        <!-- PATTERN: Conditional content within always-visible column -->
-        <template v-if="selectedDate.start">
-          <!-- LEARNING: Inspector/Client Toggle Buttons -->
-          <!-- WHY: Allows switching between Inspector and Client time views for differential services -->
-          <!-- PATTERN: Conditional rendering based on isDifferentialService -->
-          <!-- USER_STORY: Both buttons Active by default (neither Selected), toggle between Selected/Active -->
-          <div v-if="isDifferentialService" class="d-flex align-center justify-center justify-md-start flex-wrap mb-4 mb-sm-6 toggle-buttons">
-            <span class="text-body-2 mr-3 mb-2 mb-sm-0">Show start times for:</span>
-            <div class="d-flex gap-2">
-              <VBtn
-                :variant="startTimeType === 'inspector' ? 'flat' : 'outlined'"
-                color="primary"
-                size="small"
-                @click="handleTimeBasisClick('inspector')"
-              >
-                Inspector
-              </VBtn>
-              <VBtn
-                :variant="startTimeType === 'client' ? 'flat' : 'outlined'"
-                color="warning"
-                size="small"
-                @click="handleTimeBasisClick('client')"
-              >
-                Client
-              </VBtn>
-            </div>
-          </div>
-          
+
+      <VCol
+        cols="12"
+        class="time-selection-col"
+      >
+        <!-- LEARNING: Wrapper div for flex layout of children -->
+        <!-- WHY: Separates flex layout (children) from grid width (VCol) -->
+        <!-- PATTERN: Let Vuetify handle VCol width, wrapper handles internal flex layout -->
+        <div class="time-selection-content">
+          <!-- LEARNING: Content conditional on date selection -->
+          <!-- WHY: Shows time selection controls when date is selected, placeholder otherwise -->
+          <!-- PATTERN: Conditional content within always-visible column -->
+          <template v-if="selectedDate.start">
           <!-- LEARNING: Time Slot Grid -->
           <!-- WHY: Displays available time slots in a grid layout -->
-          <!-- PATTERN: Conditionally render in same column or new row based on viewport width -->
-          <!-- NOTE: When shouldMoveGridBelow is true, grid renders in new row below calendar (see template below) -->
-          <template v-if="!shouldMoveGridBelow">
-            <!-- LEARNING: Normal layout - grid in same row as calendar -->
-            <!-- WHY: Side-by-side layout when space allows -->
-            <!-- USER_STORY: Show empty state when neither selector is active (startTimeType === null) -->
-            <div v-if="currentTimeSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
-              <span v-if="isDifferentialService && startTimeType === null">
-                Select Inspector or Client to view available times.
-              </span>
-              <span v-else>
-                No time slots available for selected date.
-              </span>
-            </div>
-            <!-- LEARNING: TimeSlotGrid component with dynamic column calculation -->
-            <!-- WHY: Encapsulates grid layout logic, ResizeObserver, and responsive behavior -->
-            <!-- PATTERN: Reusable component with props/events for parent communication -->
-            <TimeSlotGrid
-              v-else
-              :slots="currentTimeSlots"
-              :selected-slot="selectedTimeSlot"
-              :color="startTimeType === 'inspector' ? 'primary' : startTimeType === 'client' ? 'warning' : 'primary'"
-              class="mb-4 mb-sm-6"
-              @slot-click="handleTimeSlotClick"
-            />
-            <div v-if="fieldErrors.selectedTimeSlot" class="text-error text-caption mt-2 mb-4 mb-sm-6">
-              {{ fieldErrors.selectedTimeSlot }}
+          <!-- PATTERN: Always render in time-selection column - Vuetify grid handles responsive layout -->
+          <!-- LEARNING: Vuetify's sm="4" and sm="8" automatically place columns side-by-side on sm+ breakpoint -->
+          <!-- WHY: Trust Vuetify's grid system instead of conditional rendering -->
+          <!-- LEARNING: Empty state message when no slots available -->
+          <!-- WHY: Provides user guidance when no slots are shown -->
+          <!-- PATTERN: Check appointmentSlots.length directly for conditional rendering, use emptyStateMessage for message text -->
+          <div v-if="appointmentSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
+            {{ emptyStateMessage }}
+          </div>
+
+          <AppointmentSlotGrid
+            v-else
+            :appointment-slots="appointmentSlots"
+            :selected-button-index="selectedButtonIndex"
+            :time-basis="perspective"
+            :color="slotColor"
+            class="appointment-slot-grid-abut"
+            @slot-click="handleAppointmentSlotClick"
+          />
+          <div v-if="fieldErrors.selectedTimeSlot" class="text-error text-caption mt-2 mb-2">
+            {{ fieldErrors.selectedTimeSlot }}
+          </div>
+          </template>
+          <template v-else>
+            <!-- LEARNING: Placeholder when no date selected -->
+            <!-- WHY: Shows message when calendar date hasn't been selected -->
+            <!-- PATTERN: Left-aligned text display to match calendar alignment -->
+            <div class="d-flex align-center justify-start date-placeholder">
+              <p class="text-body-1 text-medium-emphasis">Select a date from the calendar to see available time slots</p>
             </div>
           </template>
           
-          <!-- LEARNING: Time On-Site Graph -->
-          <!-- WHY: Visual bars showing inspector and client time blocks for differential scheduling -->
-          <!-- PATTERN: Stacked horizontal bars with conditional rendering based on differential -->
-          <!-- Session 1.3.9.5: Updated to check array length instead of single service -->
-          <!-- USER_STORY: Top bar full width, bottom bar right-justified half width, aligned on right edge -->
-          <!-- LEARNING: Show bars for differential services even when onSiteTotal is 0 -->
-          <!-- WHY: Bars should be visible to show time blocks structure, even before time slot selection -->
-          <div v-if="wizard.selectedServices.value.length > 0 && (isDifferentialService || onSiteTotal > 0)" class="time-on-site-graph mt-4 mt-sm-6 mb-4 mb-sm-6">
-            <!-- LEARNING: Differential Service - Two stacked bars -->
-            <!-- WHY: Shows inspector and client time blocks separately for differential services -->
-            <!-- PATTERN: Top bar full width (Inspector), bottom bar right-justified half width (Client) -->
-            <template v-if="isDifferentialService">
-              <!-- LEARNING: Inspector Time Bar - Full Width -->
-              <!-- WHY: Shows inspector time block, full width, primary color -->
-              <!-- USER_STORY: Top bar extends across full length of Appointment Selection Field -->
-              <!-- USER_STORY: Bar becomes Selected when Inspector button selected, Active otherwise -->
-              <div class="time-bar inspector-bar" :class="inspectorBarState">
-                <div class="time-bar-fill inspector-fill"></div>
-                <div class="time-bar-content">
-                  <span class="time-bar-label">{{ timeOnSiteBlocks.inspector.label }}:</span>
-                  <span class="time-bar-value">
-                    {{ timeOnSiteBlocks.inspector.timeBlock || timeOnSiteBlocks.inspector.duration }}
-                  </span>
-                </div>
-              </div>
-              
-              <!-- LEARNING: Client Time Bar - Right-Justified Half Width -->
-              <!-- WHY: Shows client presentation time block, right-justified, half width, warning color -->
-              <!-- USER_STORY: Bottom bar is right justified, extends across half the length, aligned with top bar on right -->
-              <!-- USER_STORY: Bar becomes Selected when Client button selected, Active otherwise -->
-              <div class="time-bar client-bar" :class="clientBarState">
-                <div class="time-bar-fill client-fill"></div>
-                <div class="time-bar-content client-bar-content">
-                  <span class="time-bar-label">{{ timeOnSiteBlocks.client?.label }}:</span>
-                  <span class="time-bar-value">
-                    {{ timeOnSiteBlocks.client?.timeBlock || timeOnSiteBlocks.client?.duration }}
-                  </span>
-                </div>
-              </div>
-            </template>
-            
-            <!-- LEARNING: Non-Differential Service - Single bar -->
-            <!-- WHY: Shows single time bar for non-differential services -->
-            <!-- PATTERN: Single bar with service name(s) and total duration -->
-            <!-- Session 1.3.9.5: Updated to show multiple service names or count -->
-            <!-- USER_STORY: Single bar in Active Client colors displaying "{Service} Length {onsiteTotal}" -->
-            <template v-else>
-              <div class="time-bar single-service-bar">
-                <div class="time-bar-fill single-service-fill"></div>
-                <div class="time-bar-content">
-                  <span class="time-bar-label">
-                    {{ wizard.selectedServices.value.length === 1 
-                      ? `${wizard.selectedServices.value[0]?.name} Length:` 
-                      : `${wizard.selectedServices.value.length} Services Length:` }}
-                  </span>
-                  <span class="time-bar-value">{{ formatDuration(onSiteTotal) }}</span>
-                </div>
-              </div>
-            </template>
-          </div>
-        </template>
-        <template v-else>
-          <!-- LEARNING: Placeholder when no date selected -->
-          <!-- WHY: Shows message when calendar date hasn't been selected -->
-          <!-- PATTERN: Left-aligned text display to match calendar alignment -->
-          <div class="d-flex align-center justify-start date-placeholder">
-            <p class="text-body-1 text-medium-emphasis">Select a date from the calendar to see available time slots</p>
-          </div>
-        </template>
-      </VCol>
-      
-      <!-- LEARNING: Full-Width Row Fallback for Time Slot Grid -->
-      <!-- WHY: Moves grid below calendar when space is insufficient for side-by-side layout -->
-      <!-- PATTERN: Conditional rendering in new row when shouldMoveGridBelow is true -->
-      <VCol v-if="shouldMoveGridBelow && selectedDate.start" cols="12" class="time-slot-grid-fallback">
-        <!-- LEARNING: Time Slot Grid in new row below calendar -->
-        <!-- WHY: Ensures grid is usable even when side-by-side layout doesn't fit -->
-        <!-- USER_STORY: Show empty state when neither selector is active (startTimeType === null) -->
-        <div v-if="currentTimeSlots.length === 0" class="text-body-2 text-medium-emphasis py-4 mb-4 mb-sm-6">
-          <span v-if="isDifferentialService && startTimeType === null">
-            Select Inspector or Client to view available times.
-          </span>
-          <span v-else>
-            No time slots available for selected date.
-          </span>
-        </div>
-        <!-- LEARNING: TimeSlotGrid component in full-width row -->
-        <!-- WHY: Provides better UX when viewport is too narrow for side-by-side layout -->
-        <TimeSlotGrid
-          v-else
-          :slots="currentTimeSlots"
-          :selected-slot="selectedTimeSlot"
-          :color="startTimeType === 'inspector' ? 'primary' : startTimeType === 'client' ? 'warning' : 'primary'"
-          class="mb-4 mb-sm-6"
-          @slot-click="handleTimeSlotClick"
-        />
-        <div v-if="fieldErrors.selectedTimeSlot" class="text-error text-caption mt-2 mb-4 mb-sm-6">
-          {{ fieldErrors.selectedTimeSlot }}
-        </div>
-      </VCol>
-    </VRow>
-    
-    <!-- LEARNING: Availability Options Section -->
-    <!-- WHY: Shows availability options filtered by selected base service -->
-    <!-- PATTERN: SelectionCardGroup with checkbox mode, stack layout, conditional rendering -->
-    <!-- NOTE: Always visible in bottom right when base service is selected (cascade requirement) -->
-    <!-- Session 6.8: Improved spacing and visual hierarchy -->
-    <VRow class="availability-options-row">
-      <!-- Empty column to match left column spacing -->
-      <VCol cols="12" sm="4"></VCol>
-      
-      <!-- Availability Options in right column -->
-      <VCol cols="12" sm="8">
-        <!-- Session 1.3.9.5: Updated to check array length instead of single service -->
-        <div v-if="wizard.selectedServices.value.length > 0" class="availability-options-section">
-          <h5 class="text-h5 mb-4 mb-sm-6">Availability Options</h5>
+          <!-- LEARNING: Availability Options Section -->
+          <!-- WHY: Shows availability options filtered by selected base service -->
+          <!-- PATTERN: SelectionCardGroup with checkbox mode, stack layout, conditional rendering -->
+          <!-- NOTE: Always visible in bottom right when base service is selected (cascade requirement) -->
+          <div v-if="wizard.selectedServices.value.length > 0" class="availability-options-section">
+            <h5 class="text-h5 mb-4 mb-sm-6">Availability Options</h5>
           
           <!-- Cascade configuration error -->
           <VAlert
@@ -509,26 +492,33 @@ const clientBarState = computed(() => {
               controlPosition: 'left',
               appearance: {
                 showIcon: false,
-                showDescription: true,
                 showBorder: true,
-                cardPadding: 'pa-6',
+                cardPadding: 'pa-3',
                 minHeight: 'auto'
               },
               expansion: { enabled: false }
             }"
             class="availability-cards"
           />
-        </div>
-        
-        <!-- LEARNING: Empty state when no base service selected -->
-        <!-- WHY: Provides feedback that base service must be selected first -->
-        <!-- PATTERN: Conditional rendering with helpful message -->
-        <!-- Session 6.8: Improved spacing and typography -->
-        <div v-else class="text-body-1 text-medium-emphasis py-4">
-          Please select a service type first to see available options.
+          </div>
         </div>
       </VCol>
     </VRow>
+
+    <!-- LEARNING: Moveable Parts Scheduling Modal -->
+    <!-- WHY: Allows users to schedule moveable parts separately -->
+    <!-- PATTERN: Pass moveableOptions directly, fail explicitly if null when needed -->
+    <!-- TEMPORARY: Currently disabled - will be re-enabled with confirmation modal system -->
+    <MoveablePartsModal
+      v-model:show-modal="showMoveableModal"
+      :moveable-options="moveableOptions"
+      :selected-slot-index="selectedMoveableSlotIndex"
+      v-model:contingency-period="contingencyPeriod"
+      :is-loading-options="isLoadingOptions"
+      @select-slot="selectMoveableSlot"
+      @confirm="handleMoveableConfirm"
+      @cancel="handleMoveableCancel"
+    />
   </div>
 </template>
 
@@ -543,42 +533,51 @@ const clientBarState = computed(() => {
   padding: 0;
 }
 
+// LEARNING: Calendar grid row layout
+// WHY: Ensure columns are side-by-side on desktop, stacked on mobile
+// PATTERN: Let Vuetify handle wrapping naturally, override flex properties on columns
+.calendar-grid-row {
+  // Vuetify handles flex-wrap automatically based on column widths
+}
+
+
 // LEARNING: Calendar column spacing and layout
-// WHY: Constrains calendar to left third of screen, provides proper spacing
-// PATTERN: Responsive margin bottom, mobile-first layout, let Vuetify grid handle width
-// NOTE: Vuetify's md="4" prop handles the 1/3 width, CSS only provides backup constraint
+// WHY: Calendar widget has fixed width (~328px), column should size to content
+// PATTERN: Override only flex properties, not display (Vuetify handles display)
 .calendar-col {
   margin-bottom: 1.5rem;
   
   @media (min-width: 600px) {
     margin-bottom: 0;
-    // Backup constraint - Vuetify's sm="4" prop is primary width controller
-    max-width: 33.333333%;
+    // LEARNING: Size calendar column to content, not percentage
+    // WHY: Calendar widget has fixed intrinsic width (~328px)
+    // PATTERN: Override flex properties only, let Vuetify handle display
+    flex: 0 0 auto !important; // Size to content, don't grow/shrink
+    max-width: none !important; // Remove Vuetify's max-width constraint
+    width: auto !important; // Let content determine width
   }
 }
 
 // LEARNING: Calendar container styling
-// WHY: Ensures calendar widget is properly contained and styled, constrained to column width
-// PATTERN: Container with proper spacing and responsive behavior
-// Task: Calendar Visibility - Prevent clipping of Sunday/Saturday days
+// WHY: Let VDatePicker use its native fixed width (~328px) instead of forcing percentage-based width
+// PATTERN: Remove width constraints, let native widget size control rendering
+// LEARNING: VDatePicker has intrinsic fixed width - don't override with 100% or overflow:hidden
+// LEARNING: Constrain container to calendar width
+// WHY: Graph bars should not expand calendar column beyond calendar width
 .calendar-container {
-  width: 100%;
-  max-width: 100%;
   display: flex;
   flex-direction: column;
-  overflow: visible; // Allow calendar to be fully visible (no clipping)
-  box-sizing: border-box; // Ensure padding/borders don't cause overflow
-  min-width: 280px; // Ensure calendar has minimum width to display all days
+  box-sizing: border-box;
+  width: fit-content; // Constrain to calendar width
+  max-width: 100%; // Don't exceed parent column
+  align-items: flex-start; // Align children to start, don't stretch
+  gap: 0; // Remove gap between calendar and graph
   
   // LEARNING: Calendar widget styling
-  // WHY: Styles VDatePicker for permanent display with current day outline and selected day highlight
-  // PATTERN: Deep selector to style VDatePicker internal elements
-  // Task: Calendar Visibility - Ensure month view fits within container without clipping
+  // WHY: Let VDatePicker render at its native fixed width, only style visual appearance
+  // PATTERN: Deep selector for visual styling only, no width/overflow constraints
   :deep(.availability-calendar) {
-    width: 100%;
-    max-width: 100%; // Ensure VDatePicker respects container width
-    box-sizing: border-box; // Prevent overflow from padding/borders
-    overflow: visible; // Allow calendar content to be fully visible
+    box-sizing: border-box;
     
     // LEARNING: Hide calendar header (removes "SELECT DATE" text and thick bar)
     // WHY: User requested removal of header text and thinner bar
@@ -617,14 +616,13 @@ const clientBarState = computed(() => {
     
     // LEARNING: Ensure no spacing from hidden header
     // WHY: Remove any gaps left by hidden header
-    // Task: Calendar Visibility - Ensure month view fits without clipping days
+    // LEARNING: Let VDatePicker month view use native width
+    // WHY: Native fixed width prevents clipping during window resize
     .v-date-picker-month {
       margin-top: 0 !important;
       padding-top: 0 !important;
-      width: 100%;
-      max-width: 100%; // Ensure month view respects container
-      overflow: visible; // Prevent clipping of Sunday/Saturday
-      min-width: 100%; // Ensure calendar fills container width
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
     }
     
     // LEARNING: Current day styling (outline/border)
@@ -701,70 +699,55 @@ const clientBarState = computed(() => {
   }
 }
 
+// LEARNING: Time graph wrapper spacing
+// WHY: Position graph directly below calendar with minimal spacing
+.time-graph-wrapper {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  
+  @media (min-width: 600px) {
+    margin-top: 0.5rem;
+  }
+}
+
 // LEARNING: Time selection column spacing
-// WHY: Ensures proper spacing for time selection controls, aligns with calendar
-// PATTERN: Responsive padding, left-aligned content, fills available width, matches calendar height
+// WHY: Grid column fills remaining space after calendar
+// PATTERN: Flex grow to fill remaining space, calendar is fixed width
 .time-selection-col {
   padding-left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; // Align content to start to match calendar
-  // Allow column to grow and fill available space
-  flex: 1;
-  min-width: 0; // Allow flexbox to shrink if needed
-  // Match calendar height - calendar is typically ~300-350px tall
-  min-height: 300px;
+  min-width: 0; // Allow column to shrink if needed
   
   @media (min-width: 600px) {
     padding-left: 1rem;
-    // Fill remaining horizontal space
-    max-width: calc(66.666667% - 1rem); // 8/12 columns minus padding
-    // Match calendar height on larger screens
+    // LEARNING: Grid column fills remaining space after calendar
+    // WHY: Calendar column sizes to content, grid should fill the rest
+    // PATTERN: Flex grow to fill remaining space
+    flex: 1 1 0% !important; // Grow to fill remaining space
+  }
+}
+
+// LEARNING: Wrapper div for flex layout of children
+// WHY: Separates flex layout (children) from grid width (VCol)
+// PATTERN: Let Vuetify handle VCol width, wrapper handles internal flex layout
+.time-selection-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0; // Allow wrapper to shrink below content size
+  box-sizing: border-box;
+  min-height: 300px;
+  // LEARNING: Ensure wrapper fills VCol completely
+  // WHY: VCol uses flexbox internally, wrapper must fill available space
+  // PATTERN: Explicit width constraints to ensure proper filling
+  flex: 1 1 auto; // Fill available space in flex container
+  
+  @media (min-width: 600px) {
     min-height: 350px;
   }
 }
 
-// LEARNING: Toggle buttons responsive alignment
-// WHY: Centers buttons on mobile, right-aligns on desktop
-// PATTERN: Responsive flex alignment
-.toggle-buttons {
-  @media (max-width: 959px) {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-}
-
-// LEARNING: Time bar button styling
-// WHY: Makes time range display buttons prominent but thinner
-// PATTERN: Full width buttons with responsive minimum width, reduced height
-// Session 6.8: Responsive button sizing
-.time-bar-btn {
-  width: 100%;
-  min-width: 200px;
-  justify-content: center;
-  padding: 0.375rem 1rem !important; // Reduced padding for thinner appearance
-  min-height: auto !important; // Remove default min-height
-  height: auto !important; // Let content determine height
-  
-  @media (min-width: 600px) {
-    min-width: 250px;
-    justify-content: flex-end;
-  }
-}
-
-// LEARNING: Time bars container alignment
-// WHY: Centers bars on mobile, left-aligns on desktop to match calendar
-// PATTERN: Responsive flex alignment
-.time-bars {
-  @media (max-width: 959px) {
-    align-items: center !important;
-  }
-  
-  @media (min-width: 600px) {
-    align-items: flex-start !important;
-  }
-}
 
 // LEARNING: Date placeholder styling
 // WHY: Provides visual feedback when no date is selected
@@ -794,13 +777,25 @@ const clientBarState = computed(() => {
 }
 
 // LEARNING: Availability options section spacing
-// WHY: Ensures proper spacing within availability options section
-// PATTERN: Responsive padding
+// WHY: Abuts bottom of time selection grid, same width as grid column
+// PATTERN: No top margin/padding to abut grid, full width of parent column
 .availability-options-section {
-  padding-top: 1rem;
+  margin-top: 0;
+  padding-top: 1.5rem;
+  width: 100%;
   
   @media (min-width: 600px) {
     padding-top: 1.5rem;
+  }
+}
+
+// LEARNING: Appointment slot grid when abutting availability options
+// WHY: Remove bottom margin so availability options abut directly below
+.appointment-slot-grid-abut {
+  margin-bottom: 0 !important;
+  
+  @media (min-width: 600px) {
+    margin-bottom: 0 !important;
   }
 }
 
@@ -811,153 +806,5 @@ const clientBarState = computed(() => {
   margin-bottom: 1rem;
 }
 
-// LEARNING: Time On-Site Graph styling
-// WHY: Visual bars showing inspector and client time blocks
-// PATTERN: Stacked horizontal bars with different widths and colors
-// USER_STORY: Top bar full width, bottom bar right-justified half width, aligned on right edge
-.time-on-site-graph {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-}
-
-// LEARNING: Time bar base styling
-// WHY: Container for visual bar and content overlay
-// PATTERN: Relative positioning for absolute-positioned fill and content
-.time-bar {
-  position: relative;
-  width: 100%;
-  min-height: 48px; // Touch-friendly minimum size
-  border-radius: 4px;
-  overflow: hidden; // Ensure fill doesn't overflow rounded corners
-  
-  @media (min-width: 600px) {
-    min-height: 40px;
-  }
-}
-
-// LEARNING: Time bar fill (visual bar)
-// WHY: Creates the actual visual bar/graph appearance
-// PATTERN: Absolute positioned fill with color, full height
-.time-bar-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  border-radius: 4px;
-}
-
-// LEARNING: Inspector time bar fill - Full width
-// WHY: Full width bar in Inspector Active Color (primary)
-// PATTERN: Full width (100%), primary color
-.inspector-fill {
-  width: 100%;
-  background-color: rgb(var(--v-theme-primary));
-}
-
-// LEARNING: Client time bar fill - Right-justified half width
-// WHY: Half width bar aligned with right edge of top bar, Client Active Color (warning)
-// PATTERN: Right-justified (right: 0), half width (50%), warning color
-.client-fill {
-  width: 50%;
-  right: 0;
-  left: auto; // Override left: 0 from base
-  background-color: rgb(var(--v-theme-warning));
-}
-
-// LEARNING: Single service bar fill - Full width
-// WHY: Full width bar in Client Active Color (warning) for non-differential services
-// PATTERN: Full width (100%), warning color
-.single-service-fill {
-  width: 100%;
-  background-color: rgb(var(--v-theme-warning));
-}
-
-// LEARNING: Time bar content container
-// WHY: Contains label and value text, positioned above fill
-// PATTERN: Relative positioning, z-index above fill, padding for spacing
-.time-bar-content {
-  position: relative;
-  z-index: 1; // Above fill
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  width: 100%;
-  min-height: 48px; // Match bar height
-  
-  @media (min-width: 600px) {
-    min-height: 40px;
-  }
-}
-
-// LEARNING: Inspector time bar content styling
-// WHY: Text color contrasts with primary background
-// PATTERN: On-primary text color
-.inspector-bar .time-bar-content {
-  color: rgb(var(--v-theme-on-primary));
-}
-
-// LEARNING: Client time bar content styling
-// WHY: Right-aligned content, text color contrasts with warning background
-// PATTERN: Right alignment, on-warning text color
-.client-bar-content {
-  justify-content: flex-end; // Right-align content
-  color: rgb(var(--v-theme-on-warning));
-}
-
-// LEARNING: Time On-Site Graph bar Selected/Active states
-// WHY: Visual distinction between Selected and Active bars per user story
-// PATTERN: Selected bars have full opacity and shadow, Active bars have reduced opacity
-// USER_STORY: Corresponding bar becomes Selected when Time Basis Selector is selected, other remains Active
-.inspector-bar.selected .inspector-fill {
-  opacity: 1;
-  box-shadow: 0 2px 4px rgba(var(--v-theme-on-surface), 0.2);
-}
-
-.inspector-bar.active .inspector-fill {
-  opacity: 0.6;
-}
-
-.client-bar.selected .client-fill {
-  opacity: 1;
-  box-shadow: 0 2px 4px rgba(var(--v-theme-on-surface), 0.2);
-}
-
-.client-bar.active .client-fill {
-  opacity: 0.6;
-}
-
-// LEARNING: Single service bar content styling
-// WHY: Text color contrasts with warning background
-// PATTERN: On-warning text color
-.single-service-bar .time-bar-content {
-  color: rgb(var(--v-theme-on-warning));
-}
-
-// LEARNING: Time bar label styling
-// WHY: Consistent label appearance
-// PATTERN: Font weight and spacing
-.time-bar-label {
-  font-weight: 600;
-  font-size: 0.875rem;
-  
-  @media (min-width: 600px) {
-    font-size: 1rem;
-  }
-}
-
-// LEARNING: Time bar value styling
-// WHY: Consistent value appearance
-// PATTERN: Font weight and spacing
-.time-bar-value {
-  font-weight: 500;
-  font-size: 0.875rem;
-  
-  @media (min-width: 600px) {
-    font-size: 1rem;
-  }
-}
 </style>
 

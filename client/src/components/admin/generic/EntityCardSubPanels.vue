@@ -6,14 +6,17 @@
  * 
  * Panel Title Format: "Parts: PartName1, PartName2 +X more" or "Parts" if empty
  */
-import { computed } from 'vue'
-import InputRenderer from './fields/InputRenderer.vue'
+import { computed, ref, watch, nextTick } from 'vue'
+import FieldRenderer from './fields/FieldRenderer.vue'
+import PartsCollection from './collections/PartsCollection.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FormContext } from 'vee-validate'
 import { useEntityCrud } from '@/composables/useEntity'
 import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 
 interface SubPanelFields {
   parts: Array<GlobalFieldKey<GlobalEntityKey>>
@@ -30,6 +33,12 @@ interface Props {
   getFieldContext: (
     fieldKey: GlobalFieldKey<GlobalEntityKey>
   ) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
+  /**
+   * LEARNING: Optional pre-fetched field metadata
+   * WHY: Avoids duplicate metadata fetches when parent component already has metadata
+   * PATTERN: Pass metadata from EntityCard to avoid re-fetching in FieldRenderer
+   */
+  fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
 const props = defineProps<Props>()
@@ -51,7 +60,10 @@ const { entities: blockShapes } = useEntityCrud('blockShape')
 const blockShapeName = computed((): string => {
   if (props.entityKey !== 'blockInstance') return ''
   const entity = props.entity as GlobalEntity<'blockInstance'>
-  const blockShape = blockShapes.value.find(bs => bs.id === entity.blockShapeRef)
+  // LEARNING: Convert both IDs to strings for consistent comparison
+  // WHY: Ensures type-safe comparison (UUIDs might be strings or numbers)
+  //      Matches pattern used in useAdmin.getEntity for consistency
+  const blockShape = blockShapes.value.find(bs => String(bs.id) === String(entity.blockShapeRef))
   return blockShape?.name || 'Block'
 })
 
@@ -104,16 +116,97 @@ function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInsta
  * PATTERN: Extract IDs from form values, resolve to names, format as truncated list
  */
 const partsSummary = computed((): string => {
-  // For blockInstance, parts come from activeConstituents (part instances that are components)
+  // For blockInstance, parts come from activeParts (part instances that are components)
   // For other entities, parts might be empty
   if (props.entityKey !== 'blockInstance') return ''
   
-  const activeConstituents = props.form.values.activeConstituents
-  if (!Array.isArray(activeConstituents) || activeConstituents.length === 0) return ''
+  const activeParts = props.form.values.activeParts
+  if (!Array.isArray(activeParts) || activeParts.length === 0) return ''
   
-  // activeConstituents are blockInstance IDs that are components of this instance
-  const names = getEntityNames(activeConstituents, 'blockInstance')
+  // activeParts are partInstance IDs that are components of this instance
+  const names = getEntityNames(activeParts, 'partInstance')
   return formatTruncatedList(names)
+})
+
+/**
+ * LEARNING: Check if a field is partsCollection based on metadata
+ * WHY: Need to determine if field should render PartsCollection directly (for bulk edit access) or FieldRenderer
+ * PATTERN: Use getFieldComponent() as single source of truth for component type determination
+ */
+function isPartsCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
+  if (!props.fieldMetadata) return false
+  
+  const fieldMeta = props.fieldMetadata[String(fieldKey)]
+  if (!fieldMeta) return false
+  
+  // LEARNING: Use getFieldComponent() as single source of truth
+  // WHY: getFieldComponent() determines component type from metadata, supporting renderAs: 'partsCollection'
+  // PATTERN: Check component type from dispatcher instead of duplicating logic
+  const componentType = getFieldComponent(props.entityKey, fieldKey, fieldMeta)
+  return componentType.type === 'partsCollection'
+}
+
+// Ref to PartsCollection component to access exposed bulk edit methods
+// LEARNING: When ref is used inside v-for, Vue 3 creates an array of refs
+// WHY: Need to handle both single ref and array cases
+// PATTERN: Type as array to match Vue 3 behavior, access first element when needed
+const partsCollectionRef = ref<(InstanceType<typeof PartsCollection> | null)[] | InstanceType<typeof PartsCollection> | null>(null)
+
+// Track expanded panels state
+const expandedPanels = ref<string[]>([])
+
+// LEARNING: Helper to get the PartsCollection component instance
+// WHY: Handles both array (from v-for) and single ref cases
+// PATTERN: Extract first element if array, otherwise use directly
+const getPartsCollectionInstance = (): InstanceType<typeof PartsCollection> | null => {
+  const refValue = partsCollectionRef.value
+  if (!refValue) return null
+  // If it's an array (from v-for), get the first element
+  if (Array.isArray(refValue)) {
+    return refValue[0] ?? null
+  }
+  // Otherwise it's a single ref
+  return refValue
+}
+
+// Computed properties for bulk edit state from PartsCollection
+// LEARNING: bulkEditMode is exposed as a Ref<boolean>
+// WHY: PartsCollection exposes bulkEditMode directly from usePartInstanceCollection
+// PATTERN: Access exposed property directly
+const partsBulkEditMode = computed(() => {
+  const instance = getPartsCollectionInstance()
+  return instance?.bulkEditMode ?? false
+})
+
+const togglePartsBulkEditMode = () => {
+  // FIX: Expand panel first if not expanded, then toggle bulk edit mode
+  // WHY: PartsCollection is only mounted when panel is expanded, so we need to expand it first
+  // PATTERN: Ensure panel is expanded, wait for nextTick for component to mount, then toggle
+  if (!expandedPanels.value.includes('parts')) {
+    expandedPanels.value.push('parts')
+    // Wait for next tick to ensure PartsCollection is mounted
+    nextTick(() => {
+      const instance = getPartsCollectionInstance()
+      if (instance && typeof instance.toggleBulkEditMode === 'function') {
+        instance.toggleBulkEditMode()
+      }
+    })
+  } else {
+    // Panel is already expanded, PartsCollection should be mounted
+    const instance = getPartsCollectionInstance()
+    if (instance && typeof instance.toggleBulkEditMode === 'function') {
+      instance.toggleBulkEditMode()
+    }
+  }
+}
+
+// LEARNING: Auto-expand Parts panel when bulk edit mode is enabled
+// WHY: Bulk edit modal is inside PartsCollection, which only renders when panel is expanded
+// PATTERN: Watch bulk edit mode and automatically expand panel when enabled
+watch(partsBulkEditMode, (isEnabled) => {
+  if (isEnabled && !expandedPanels.value.includes('parts')) {
+    expandedPanels.value.push('parts')
+  }
 })
 
 /**
@@ -129,7 +222,7 @@ const relationshipsSummary = computed((): string => {
   if (props.entityKey === 'blockInstance') {
     const cascades = Array.isArray(formValues.bookingCascades) ? formValues.bookingCascades : []
     const components = Array.isArray(formValues.instanceComponents) ? formValues.instanceComponents : []
-    const dependentOptions = Array.isArray(formValues.dependentInstanceOptions) ? formValues.dependentInstanceOptions : []
+    const dependentInstances = Array.isArray(formValues.dependentInstances) ? formValues.dependentInstances : []
     
     // Add relationship type labels if they have values
     if (cascades.length > 0) {
@@ -138,18 +231,18 @@ const relationshipsSummary = computed((): string => {
     if (components.length > 0) {
       relationshipTypes.push(`${blockShapeName.value} Components`)
     }
-    if (dependentOptions.length > 0) {
-      relationshipTypes.push(`Dependent ${blockShapeName.value} Options`)
+    if (dependentInstances.length > 0) {
+      relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)
     }
   } else if (props.entityKey === 'blockShape') {
     const cascades = Array.isArray(formValues.validCascades) ? formValues.validCascades : []
-    const constituents = Array.isArray(formValues.validConstituents) ? formValues.validConstituents : []
+    const parts = Array.isArray(formValues.validParts) ? formValues.validParts : []
     
     if (cascades.length > 0) {
       relationshipTypes.push('Valid Cascades')
     }
-    if (constituents.length > 0) {
-      relationshipTypes.push('Valid Part Shapes')
+    if (parts.length > 0) {
+      relationshipTypes.push('Valid Parts')
     }
   }
   
@@ -157,29 +250,55 @@ const relationshipsSummary = computed((): string => {
 })
 
 // NOTE: Annotation summary removed per user request - no annotation chips in panel title
+
 </script>
 
 <template>
   <VExpansionPanels
+    v-model="expandedPanels"
     v-if="subPanelFields.parts.length || subPanelFields.relationships.length || subPanelFields.annotations.length"
     multiple
     class="mt-4"
   >
-    <!-- LEARNING: Parts Panel with truncated summary -->
-    <!-- WHY: Shows preview of constituent parts in panel title -->
-    <!-- PATTERN: "Parts: Name1, Name2 +X more" format -->
+    <!-- LEARNING: Parts Panel with truncated summary and bulk edit button -->
+    <!-- WHY: Shows preview of constituent parts in panel title with bulk edit functionality -->
+    <!-- PATTERN: "Parts: Name1, Name2 +X more" format with bulk edit button (similar to InstancesTab) -->
     <VExpansionPanel v-if="subPanelFields.parts.length" value="parts">
       <template #title>
-        <span class="font-weight-medium">Parts</span>
-        <span v-if="partsSummary" class="ml-2 text-medium-emphasis text-body-2">
-          {{ partsSummary }}
-        </span>
+        <div class="d-flex align-center justify-space-between flex-grow-1">
+          <div>
+            <span class="font-weight-medium">Parts</span>
+            <span v-if="partsSummary" class="ml-2 text-medium-emphasis text-body-2">
+              {{ partsSummary }}
+            </span>
+          </div>
+          <VBtn
+            v-if="props.entityKey === 'blockInstance'"
+            :variant="partsBulkEditMode ? 'flat' : 'outlined'"
+            :color="partsBulkEditMode ? 'success' : undefined"
+            size="small"
+            prepend-icon="tabler-edit"
+            @click.stop="togglePartsBulkEditMode"
+          >
+            {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+          </VBtn>
+        </div>
       </template>
       <template #text>
         <div v-for="fieldKey in subPanelFields.parts" :key="fieldKey" class="mb-4">
-          <InputRenderer
+          <!-- LEARNING: For partsCollection fields that need bulk edit access, render PartsCollection directly with ref -->
+          <!-- WHY: Bulk edit button in panel title needs access to PartsCollection's exposed methods -->
+          <!-- PATTERN: Check component type from metadata - if partsCollection, render PartsCollection with ref; otherwise use FieldRenderer -->
+          <PartsCollection
+            v-if="isPartsCollectionField(fieldKey)"
+            ref="partsCollectionRef"
+            :field-context="props.getFieldContext(fieldKey)!"
+          />
+          <FieldRenderer
+            v-else
             :field-context="props.getFieldContext(fieldKey)!"
             :show-label="true"
+            :field-metadata="props.fieldMetadata"
           />
         </div>
       </template>
@@ -197,9 +316,10 @@ const relationshipsSummary = computed((): string => {
       </template>
       <template #text>
         <div v-for="fieldKey in subPanelFields.relationships" :key="fieldKey" class="mb-4">
-          <InputRenderer
+          <FieldRenderer
             :field-context="props.getFieldContext(fieldKey)!"
             :show-label="true"
+            :field-metadata="props.fieldMetadata"
           />
         </div>
       </template>
@@ -214,13 +334,14 @@ const relationshipsSummary = computed((): string => {
       </template>
       <template #text>
         <div v-for="fieldKey in subPanelFields.annotations" :key="fieldKey" class="mb-4">
-          <InputRenderer
+          <FieldRenderer
             :field-context="props.getFieldContext(fieldKey)!"
             :show-label="false"
           />
         </div>
       </template>
     </VExpansionPanel>
+
   </VExpansionPanels>
 </template>
 

@@ -9,6 +9,7 @@
 import { computed, type Ref, type ComputedRef } from 'vue'
 import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 import type { ComponentItem } from './usePropertyDetailsLogic'
+import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
 
 /**
  * usePropertyTypeBlockConfig composable parameters
@@ -16,6 +17,7 @@ import type { ComponentItem } from './usePropertyDetailsLogic'
 export interface UsePropertyTypeBlockConfigParams {
   selectedPropertyTypeBlocks: Ref<unknown[]>
   propertyTypeBlocksStatePlugin: unknown | null
+  availablePropertyTypeBlocks?: Ref<unknown[]>
 }
 
 /**
@@ -28,7 +30,7 @@ export interface SelectionCardConfig {
   stateSource: 'wizard' | 'local'
   layout: 'row' | 'stack'
   controlPosition: 'top' | 'bottom' | 'left' | 'right'
-  gridColumns: { cols: string; sm: string }
+  gridColumns: { cols?: string | number; sm?: string | number; md?: string | number; lg?: string | number; xl?: string | number }
   appearance: {
     showIcon: boolean
     showDescription: boolean
@@ -65,7 +67,8 @@ export function usePropertyTypeBlockConfig(
 ): UsePropertyTypeBlockConfigReturn {
   const {
     selectedPropertyTypeBlocks,
-    propertyTypeBlocksStatePlugin
+    propertyTypeBlocksStatePlugin,
+    availablePropertyTypeBlocks
   } = params
 
   /**
@@ -77,6 +80,10 @@ export function usePropertyTypeBlockConfig(
     // Access wizard state to make this computed reactive to wizard changes
     void selectedPropertyTypeBlocks.value
     
+    // Calculate grid columns based on item count (fit on one row if < 5 items)
+    const itemCount = availablePropertyTypeBlocks?.value?.length || 0
+    const dynamicGridColumns = calculateGridColumnsForItemCount(itemCount)
+    
     const baseConfig: SelectionCardConfig = {
       selectionType: 'radio' as const, // Property type is single-select (radio behavior)
       selectionComponent: 'VRadio' as const, // Render radio control to match other single-select steps
@@ -84,7 +91,7 @@ export function usePropertyTypeBlockConfig(
       stateSource: 'wizard' as const,
       layout: 'row' as const,
       controlPosition: 'bottom' as const,
-      gridColumns: { cols: '12', sm: '3' },
+      gridColumns: dynamicGridColumns,
       appearance: {
         showIcon: true,
         showDescription: true,

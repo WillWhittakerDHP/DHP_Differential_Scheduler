@@ -21,6 +21,7 @@ import type { SelectionCardConfig } from '../types/selectionCardTypes'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
+import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
 
 /**
  * Component props
@@ -58,14 +59,19 @@ const { selectionConfig } = useInstanceSelectionConfig({
   selectedValue: computed(() => wizard.selectedUserTypeBlock.value)
 })
 
-// LEARNING: Merge custom config with defaults
+// LEARNING: Merge custom config with defaults and calculate dynamic grid columns
 const mergedConfig = computed<SelectionCardConfig>(() => {
   const baseConfig = selectionConfig.value
+  const itemCount = instancesWithDisplay.value.length
+  
+  // Calculate grid columns based on item count (fit on one row if < 5 items)
+  const dynamicGridColumns = calculateGridColumnsForItemCount(itemCount)
   
   if (props.config) {
     return {
       ...baseConfig,
       ...props.config,
+      gridColumns: props.config.gridColumns || dynamicGridColumns,
       appearance: {
         ...baseConfig.appearance,
         ...props.config.appearance
@@ -73,7 +79,10 @@ const mergedConfig = computed<SelectionCardConfig>(() => {
     }
   }
   
-  return baseConfig
+  return {
+    ...baseConfig,
+    gridColumns: dynamicGridColumns
+  }
 })
 
 // LEARNING: V-model bridge for single-select

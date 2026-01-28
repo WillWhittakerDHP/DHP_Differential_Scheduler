@@ -6,8 +6,8 @@
  * PATTERN: Composable that provides filtered entities based on select config
  * 
  * This composable handles:
- * - Active child select filtering (bookingCascades, activeConstituents)
- * - Direct matching select filtering (dependentInstanceOptions)
+ * - Active child select filtering (bookingCascades, activeParts)
+ * - Direct matching select filtering (dependentInstances)
  * - Active components filtering (composable services)
  * - Filter options function application
  * - Annotation filtering (no filtering needed)
@@ -80,7 +80,7 @@ export interface UseSelectFilteringReturn {
   isActiveChildSelect: ComputedRef<boolean>
   
   /**
-   * Whether this is a direct matching select (dependentInstanceOptions pattern)
+   * Whether this is a direct matching select (dependentInstances pattern)
    */
   isDirectMatchingSelect: ComputedRef<boolean>
   
@@ -157,7 +157,7 @@ export function useSelectFiltering(
 
   /**
    * LEARNING: Detect direct matching pattern from config
-   * WHY: When candidateChildPath has a value, we're doing direct matching (e.g., dependentInstanceOptions)
+   * WHY: When candidateChildPath has a value, we're doing direct matching (e.g., dependentInstances)
    * PATTERN: Detect when both candidateParentPath and candidateChildPath have values
    */
   const isDirectMatchingSelect = computed<boolean>(() => {
@@ -258,7 +258,7 @@ export function useSelectFiltering(
 
   /**
    * LEARNING: Get parent type entity from admin store (with relationships attached)
-   * WHY: Need AdminEntity with validCascades/validConstituents attached for filtering
+   * WHY: Need AdminEntity with validCascades/validParts attached for filtering
    * PATTERN: Use admin store getEntity which returns AdminEntity with relationships
    */
   const parentTypeEntity = computed<GlobalEntity<GlobalEntityKey> | null>(() => {
@@ -280,7 +280,7 @@ export function useSelectFiltering(
    * LEARNING: Filter entities based on select config
    * WHY: Different select types need different filtering:
    * - instanceComponents: Filter by component availability
-   * - bookingCascades/activeConstituents: Filter by parent's type's valid children
+   * - bookingCascades/activeParts: Filter by parent's type's valid children
    * - Direct matching: Filter by matching path values
    * - Annotations: No filtering needed
    * - filterOptions: Apply custom filter function
@@ -349,7 +349,7 @@ export function useSelectFiltering(
       return Array.from(uniqueComponents.values())
     }
     
-    // Special case: bookingCascades/activeConstituents
+    // Special case: bookingCascades/activeParts
     // Filter by parent's type's valid children
     if (isActiveChildSelect.value) {
       // LEARNING: For new entities, parentTypeRef might come from form values
@@ -378,8 +378,8 @@ export function useSelectFiltering(
       
       // Get valid children array from parent type entity
       // For bookingCascades: blockShape.validCascades
-      // For activeConstituents: blockShape.validConstituents (or partShape.validConstituents)
-      const validChildrenKey = fieldKey.value === 'bookingCascades' ? 'validCascades' : 'validConstituents'
+      // For activeParts: blockShape.validParts (or partShape.validParts)
+      const validChildrenKey = fieldKey.value === 'bookingCascades' ? 'validCascades' : 'validParts'
       
       // LEARNING: Use type-safe property access with fallback
       // WHY: Property might be undefined if relationships aren't attached yet
@@ -418,7 +418,7 @@ export function useSelectFiltering(
       return filtered
     }
     
-    // LEARNING: Direct matching pattern (e.g., dependentInstanceOptions)
+    // LEARNING: Direct matching pattern (e.g., dependentInstances)
     // WHY: Filter candidates by matching their candidateChildPath value against current entity's candidateParentPath value
     // PATTERN: Get value from current entity, filter candidates by matching their path value
     if (isDirectMatchingSelect.value) {

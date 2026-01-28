@@ -145,24 +145,24 @@ describe('availabilityFilters', () => {
   })
   
   describe('filterByWorkHours', () => {
-    it('should filter based on work hours limit', () => {
+    it('should filter based on work hours limit', async () => {
       const freeTimes = [
         { start: new Date('2026-01-12T14:00:00Z'), end: new Date('2026-01-12T15:00:00Z') },
         { start: new Date('2026-01-13T14:00:00Z'), end: new Date('2026-01-13T15:00:00Z') },
       ]
       const workHoursLimit = 8
       
-      // Note: sumWorkHoursForDay is a placeholder that returns 0, so all should pass
-      const result = filterByWorkHours(freeTimes, workHoursLimit, timezone)
+      // Note: sumWorkHoursForDay now queries database, but should return 0 if no appointments
+      const result = await filterByWorkHours(freeTimes, workHoursLimit, timezone)
       
       expect(result.length).toBeGreaterThan(0)
     })
     
-    it('should handle empty free times', () => {
+    it('should handle empty free times', async () => {
       const freeTimes: { start: Date; end: Date }[] = []
       const workHoursLimit = 8
       
-      const result = filterByWorkHours(freeTimes, workHoursLimit, timezone)
+      const result = await filterByWorkHours(freeTimes, workHoursLimit, timezone)
       
       expect(result).toHaveLength(0)
     })

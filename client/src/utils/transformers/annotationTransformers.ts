@@ -287,30 +287,36 @@ export function groupAnnotationsByEntity(
     annotation?: Annotation
   }>
 ): Map<GlobalEntityId, AnnotationWithMetadata[]> {
-  const entityAnnotationsMap = new Map<GlobalEntityId, AnnotationWithMetadata[]>()
-  
   // LEARNING: Handle case where assignments is undefined or not provided
   // WHY: Tests may call with just annotations array that have blockInstanceId property
   // PATTERN: If assignments not provided, group by blockInstanceId from annotations
   if (!assignments || assignments.length === 0) {
-    // Group annotations directly by blockInstanceId if present
-    annotations.forEach(annotation => {
-      const annotationWithBlockId = annotation as Annotation & { blockInstanceId?: string; name?: string }
-      if (annotationWithBlockId.blockInstanceId) {
-        const existing = entityAnnotationsMap.get(annotationWithBlockId.blockInstanceId) || []
+    // LEARNING: Use reduce instead of forEach to build Map
+    // WHY: Functional approach avoids mutations, aligns with workspace rules
+    // PATTERN: Reduce array to Map structure
+    return annotations
+      .filter((annotation): annotation is Annotation & { blockInstanceId: string; name?: string } => {
+        const annotationWithBlockId = annotation as Annotation & { blockInstanceId?: string; name?: string }
+        return !!annotationWithBlockId.blockInstanceId
+      })
+      .reduce((acc, annotation) => {
+        const annotationWithBlockId = annotation as Annotation & { blockInstanceId: string; name?: string; orderIndex?: number; isDefault?: boolean }
+        const existing = acc.get(annotationWithBlockId.blockInstanceId) || []
         const annotationWithMetadata: AnnotationWithMetadata = {
           ...annotation,
           text: annotation.text || annotationWithBlockId.name || '',
-          orderIndex: (annotation as Annotation & { orderIndex?: number }).orderIndex ?? 0,
-          isDefault: (annotation as Annotation & { isDefault?: boolean }).isDefault ?? false,
+          orderIndex: annotationWithBlockId.orderIndex ?? 0,
+          isDefault: annotationWithBlockId.isDefault ?? false,
         }
-        entityAnnotationsMap.set(annotationWithBlockId.blockInstanceId, [...existing, annotationWithMetadata])
-      }
-    })
-    return entityAnnotationsMap
+        acc.set(annotationWithBlockId.blockInstanceId, [...existing, annotationWithMetadata])
+        return acc
+      }, new Map<GlobalEntityId, AnnotationWithMetadata[]>())
   }
   
-  assignments.forEach(assignment => {
+  // LEARNING: Use reduce instead of forEach to build Map
+  // WHY: Functional approach avoids mutations, aligns with workspace rules
+  // PATTERN: Reduce assignments array to Map structure
+  const unsortedMap = assignments.reduce((acc, assignment) => {
     // Get base annotation (from includes or lookup)
     // assignment.annotation may include annotationType association
     const baseAnnotation = assignment.annotation 
@@ -319,7 +325,7 @@ export function groupAnnotationsByEntity(
     
     if (!baseAnnotation) {
       // Skip if annotation not found
-      return
+      return acc
     }
     
     // Effective user type: through-table override takes precedence
@@ -333,15 +339,19 @@ export function groupAnnotationsByEntity(
     }
     
     // Add to map for this blockInstance
-    const existing = entityAnnotationsMap.get(assignment.blockInstanceId) || []
-    entityAnnotationsMap.set(assignment.blockInstanceId, [...existing, annotationWithMetadata])
-  })
+    const existing = acc.get(assignment.blockInstanceId) || []
+    acc.set(assignment.blockInstanceId, [...existing, annotationWithMetadata])
+    return acc
+  }, new Map<GlobalEntityId, AnnotationWithMetadata[]>())
   
-  // Sort annotations by orderIndex for each entity
-  entityAnnotationsMap.forEach((anns, entityId) => {
-    entityAnnotationsMap.set(entityId, sortAnnotationsByOrderIndex(anns))
-  })
-  
-  return entityAnnotationsMap
+  // LEARNING: Create new Map with sorted values instead of mutating existing Map
+  // WHY: Functional approach avoids mutations, aligns with workspace rules
+  // PATTERN: Build new Map from entries with sorted values
+  return new Map(
+    Array.from(unsortedMap.entries()).map(([entityId, anns]) => [
+      entityId,
+      sortAnnotationsByOrderIndex(anns)
+    ])
+  )
 }
 

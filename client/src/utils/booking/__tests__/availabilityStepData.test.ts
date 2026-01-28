@@ -28,119 +28,155 @@ import {
   buildSelectedTimeSlots,
   buildAvailabilityStepData,
 } from '../availabilityStepData'
-import type { TimeSlot } from '@/types/appointment'
+import type { AppointmentSlot } from '@/types/appointment'
+import type { RFC3339DateTime } from '@/types/datetime'
 
-// Helper to create mock time slot
-function createTimeSlot(slotStart: string): TimeSlot {
+// Helper to create mock AppointmentSlot
+function createAppointmentSlot(params: {
+  totalOnSiteStartTime?: RFC3339DateTime
+  totalOnSiteEndTime?: RFC3339DateTime
+  totalOnSiteDuration?: number
+  totalClientPresentStartTime?: RFC3339DateTime
+  totalClientPresentEndTime?: RFC3339DateTime
+  totalClientPresentDuration?: number
+}): AppointmentSlot {
   return {
-    slotStart,
-    slotEnd: '', // Not used in the logic being tested
+    buttonIndex: 0,
+    isAvailable: true,
+    earlyArrival: null,
+    dataCollection: null,
+    reportWriting: null,
+    clientPresentation: null,
+    totalOnSite: params.totalOnSiteStartTime && params.totalOnSiteEndTime ? {
+      startTime: params.totalOnSiteStartTime,
+      endTime: params.totalOnSiteEndTime,
+      duration: params.totalOnSiteDuration || 120,
+    } : null,
+    totalClientPresent: params.totalClientPresentStartTime && params.totalClientPresentEndTime ? {
+      startTime: params.totalClientPresentStartTime,
+      endTime: params.totalClientPresentEndTime,
+      duration: params.totalClientPresentDuration || 30,
+    } : null,
+    totalMoveable: null,
+    totalTime: null,
   }
 }
 
 describe('availabilityStepData', () => {
   describe('buildSelectedTimeSlots', () => {
-    it('should return null when inspectorTimeSlot is null', () => {
+    it('should return null when selectedSlot is null', () => {
       const result = buildSelectedTimeSlots({
         selectedDateStart: '2026-01-15',
-        inspectorTimeSlot: null,
-        clientTimeSlot: createTimeSlot('10:00'),
-        onSiteTotal: 120,
-        presentationDuration: 30,
+        selectedSlot: null,
       })
       
       expect(result).toBeNull()
     })
 
     it('should return null when selectedDateStart is null', () => {
+      const slot = createAppointmentSlot({
+        totalOnSiteStartTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+        totalOnSiteEndTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+        totalOnSiteDuration: 120,
+      })
+      
       const result = buildSelectedTimeSlots({
         selectedDateStart: null,
-        inspectorTimeSlot: createTimeSlot('09:00'),
-        clientTimeSlot: createTimeSlot('10:00'),
-        onSiteTotal: 120,
-        presentationDuration: 30,
+        selectedSlot: slot,
       })
       
       expect(result).toBeNull()
     })
 
-    it('should return single slot when only inspector slot provided', () => {
+    it('should return single slot when only totalOnSite provided', () => {
+      const slot = createAppointmentSlot({
+        totalOnSiteStartTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+        totalOnSiteEndTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+        totalOnSiteDuration: 120,
+      })
+      
       const result = buildSelectedTimeSlots({
         selectedDateStart: '2026-01-15',
-        inspectorTimeSlot: createTimeSlot('09:00'),
-        clientTimeSlot: null,
-        onSiteTotal: 120,
-        presentationDuration: 30,
+        selectedSlot: slot,
       })
       
       expect(result).toEqual([
-        { time: '09:00', duration: 120 },
+        { 
+          startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+          endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+          duration: 120,
+        },
       ])
     })
 
-    it('should return single slot when client slot equals inspector slot', () => {
+    it('should return single slot when clientPresent equals onSite startTime', () => {
+      const slot = createAppointmentSlot({
+        totalOnSiteStartTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+        totalOnSiteEndTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+        totalOnSiteDuration: 120,
+        totalClientPresentStartTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+        totalClientPresentEndTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+        totalClientPresentDuration: 120,
+      })
+      
       const result = buildSelectedTimeSlots({
         selectedDateStart: '2026-01-15',
-        inspectorTimeSlot: createTimeSlot('09:00'),
-        clientTimeSlot: createTimeSlot('09:00'),
-        onSiteTotal: 120,
-        presentationDuration: 30,
+        selectedSlot: slot,
+      })
+      
+      // Should only return one slot since startTimes are the same
+      expect(result).toEqual([
+        { 
+          startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+          endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+          duration: 120,
+        },
+      ])
+    })
+
+    it('should return two slots when clientPresent differs from onSite', () => {
+      const slot = createAppointmentSlot({
+        totalOnSiteStartTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+        totalOnSiteEndTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+        totalOnSiteDuration: 120,
+        totalClientPresentStartTime: '2026-01-15T10:00:00.000Z' as RFC3339DateTime,
+        totalClientPresentEndTime: '2026-01-15T10:30:00.000Z' as RFC3339DateTime,
+        totalClientPresentDuration: 30,
+      })
+      
+      const result = buildSelectedTimeSlots({
+        selectedDateStart: '2026-01-15',
+        selectedSlot: slot,
       })
       
       expect(result).toEqual([
-        { time: '09:00', duration: 120 },
+        { 
+          startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+          endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+          duration: 120,
+        },
+        { 
+          startTime: '2026-01-15T10:00:00.000Z' as RFC3339DateTime,
+          endTime: '2026-01-15T10:30:00.000Z' as RFC3339DateTime,
+          duration: 30,
+        },
       ])
     })
 
-    it('should return two slots when client slot differs from inspector slot', () => {
-      const result = buildSelectedTimeSlots({
-        selectedDateStart: '2026-01-15',
-        inspectorTimeSlot: createTimeSlot('09:00'),
-        clientTimeSlot: createTimeSlot('11:00'),
-        onSiteTotal: 120,
-        presentationDuration: 30,
+    it('should preserve exact RFC3339 time strings', () => {
+      const slot = createAppointmentSlot({
+        totalOnSiteStartTime: '2026-01-15T09:30:00.000Z' as RFC3339DateTime,
+        totalOnSiteEndTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+        totalOnSiteDuration: 90,
       })
       
-      expect(result).toEqual([
-        { time: '09:00', duration: 120 },
-        { time: '11:00', duration: 30 },
-      ])
-    })
-
-    it('should use onSiteTotal for inspector slot duration', () => {
       const result = buildSelectedTimeSlots({
         selectedDateStart: '2026-01-15',
-        inspectorTimeSlot: createTimeSlot('08:00'),
-        clientTimeSlot: null,
-        onSiteTotal: 180,
-        presentationDuration: 45,
+        selectedSlot: slot,
       })
       
-      expect(result?.[0].duration).toBe(180)
-    })
-
-    it('should use presentationDuration for client slot duration', () => {
-      const result = buildSelectedTimeSlots({
-        selectedDateStart: '2026-01-15',
-        inspectorTimeSlot: createTimeSlot('08:00'),
-        clientTimeSlot: createTimeSlot('12:00'),
-        onSiteTotal: 180,
-        presentationDuration: 45,
-      })
-      
-      expect(result?.[1].duration).toBe(45)
-    })
-
-    it('should preserve exact time string from slot', () => {
-      const result = buildSelectedTimeSlots({
-        selectedDateStart: '2026-01-15',
-        inspectorTimeSlot: createTimeSlot('2026-01-15T09:30:00.000Z'),
-        clientTimeSlot: null,
-        onSiteTotal: 90,
-        presentationDuration: 30,
-      })
-      
-      expect(result?.[0].time).toBe('2026-01-15T09:30:00.000Z')
+      expect(result?.[0].startTime).toBe('2026-01-15T09:30:00.000Z')
+      expect(result?.[0].endTime).toBe('2026-01-15T11:00:00.000Z')
     })
   })
 
@@ -148,12 +184,20 @@ describe('availabilityStepData', () => {
     it('should build data with selected date and time slots', () => {
       const result = buildAvailabilityStepData({
         selectedDate: { start: '2026-01-15', end: '2026-01-15' },
-        selectedTimeSlots: [{ time: '09:00', duration: 120 }],
+        selectedTimeSlots: [{ 
+          startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+          endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+          duration: 120,
+        }],
       })
       
       expect(result).toEqual({
         selectedDate: { start: '2026-01-15', end: '2026-01-15' },
-        selectedTimeSlots: [{ time: '09:00', duration: 120 }],
+        selectedTimeSlots: [{ 
+          startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+          endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+          duration: 120,
+        }],
       })
     })
 
@@ -180,8 +224,16 @@ describe('availabilityStepData', () => {
       const result = buildAvailabilityStepData({
         selectedDate: { start: '2026-01-15', end: '2026-01-15' },
         selectedTimeSlots: [
-          { time: '09:00', duration: 120 },
-          { time: '11:30', duration: 30 },
+          { 
+            startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+            endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+            duration: 120,
+          },
+          { 
+            startTime: '2026-01-15T11:30:00.000Z' as RFC3339DateTime,
+            endTime: '2026-01-15T12:00:00.000Z' as RFC3339DateTime,
+            duration: 30,
+          },
         ],
       })
       

@@ -20,5 +20,13 @@ export const ENTITY_CARD_SAVE_KEY = Symbol('entityCardSave')
 export interface EntityCardSaveContext {
   handleSave: () => Promise<void>
   isNew: boolean
+  disableAutoSave?: boolean
 }
 
+/**
+ * Symbol key for EntityCard auto-save disable flag
+ * LEARNING: Used for provide/inject to pass disableAutoSave flag to child input components
+ * WHY: Allows parent to disable field blur auto-save (e.g., in bulk edit modals)
+ * PATTERN: Symbol ensures unique injection key
+ */
+export const ENTITY_CARD_DISABLE_AUTOSAVE_KEY = Symbol('entityCardDisableAutoSave')

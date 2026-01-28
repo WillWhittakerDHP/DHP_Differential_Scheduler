@@ -1,8 +1,8 @@
-# Session 1.4.10 Log: Complete ConfirmationStep and Enable Navigation to Step 4
+# Session 1.4.10 Log: Complete ContactsStep and Add Property Confirmation Modal
 
 **Feature:** Data Flow Alignment  
 **Phase:** 1.4 - Admin Panel Data Flow Fixes  
-**Session:** 1.4.10 - Complete ConfirmationStep and Enable Navigation to Step 4  
+**Session:** 1.4.10 - Complete ContactsStep and Add Property Confirmation Modal  
 **Status:** ⏳ Not Started  
 **Started:** TBD  
 **Completed:** TBD
@@ -11,110 +11,95 @@
 
 ## Session Overview
 
-**Goal:** Remove hardcoded values from ConfirmationStep and enable navigation to final step. Test end-to-end wizard flow.
+**Goal:** Finish ContactsStep setup and add property details confirmation modal. Enable navigation to step 3 (ContactsStep).
 
-**Dependencies:** Session 1.4.9 (Complete ContactsStep and Add Property Confirmation Modal) ⏳ Not Started
+**Dependencies:** Session 1.4.9 (Card Functionality and Button Connections) ✅ Complete
 
 ---
 
 ## Tasks
 
-### Task 1.4.10.1: Remove Hardcoded Values from ConfirmationStep
+### Task 1.4.10.1: Complete ContactsStep Functionality
 
 **Status:** ⏳ Not Started  
 **Started:** TBD  
 **Completed:** TBD
 
 **Work To Do:**
-- ⏳ Review `buildConfirmationPriceData` in `confirmationStepData.ts`
-- ⏳ Remove hardcoded `deliveryCharges = 5.0` (should come from business settings or calculations)
-- ⏳ Remove hardcoded `deliveryFree = true` (should be based on business rules)
-- ⏳ Remove hardcoded `couponDiscount = 0` (should come from coupon system when implemented)
-- ⏳ Ensure all price calculations use actual wizard selections
-- ⏳ Update price calculation logic to use real data
+- ⏳ Verify all contact form fields work correctly
+- ⏳ Ensure optional sections (Another Client, Transaction Manager, Seller) toggle properly
+- ⏳ Verify form validation works for all fields
+- ⏳ Test loading contact data from appointments
+- ⏳ Ensure step data is properly saved to `contactsStepData` ref
+- ⏳ Verify all contact fields update wizard state
 
 **Key Files:**
-- `client/src/utils/booking/confirmationStepData.ts` (remove hardcoded values)
-- `client/src/composables/booking/useConfirmationStepData.ts` (verify data flow)
+- `client/src/components/booking/steps/ContactsStep.vue` (complete functionality)
+- `client/src/composables/booking/useContactsStepData.ts` (verify functionality)
+- `client/src/composables/booking/useContactsValidation.ts` (verify validation)
 
 ---
 
-### Task 1.4.10.2: Complete ConfirmationStep Display
+### Task 1.4.10.2: Add Property Confirmation Modal
 
 **Status:** ⏳ Not Started  
 **Started:** TBD  
 **Completed:** TBD
 
 **Work To Do:**
-- ⏳ Verify summary table displays all correct data from wizard
-- ⏳ Ensure price breakdown reflects actual selections
-- ⏳ Test that changes in previous steps update ConfirmationStep reactively
-- ⏳ Verify all summary fields populate correctly (service type, property type, address, square footage)
-- ⏳ Ensure contact information displays correctly
+- ⏳ Create modal component for property details confirmation
+- ⏳ Add modal trigger in `PropertyDetailsStep.vue` (e.g., after address selection or before proceeding)
+- ⏳ Display property details summary in modal
+- ⏳ Add "Confirm" and "Edit" buttons
+- ⏳ "Confirm" should allow proceeding to next step
+- ⏳ "Edit" should close modal and allow editing
+- ⏳ Style modal to match existing design patterns
 
 **Key Files:**
-- `client/src/components/booking/steps/ConfirmationStep.vue` (verify display)
-- `client/src/composables/booking/useConfirmationStepData.ts` (verify data aggregation)
+
+**To Create:**
+- `client/src/components/booking/modals/PropertyConfirmationModal.vue` (new)
+
+**To Modify:**
+- `client/src/components/booking/steps/PropertyDetailsStep.vue` (add modal integration)
 
 ---
 
-### Task 1.4.10.3: Enable Navigation to Step 4
+### Task 1.4.10.3: Test Wizard Navigation
 
 **Status:** ⏳ Not Started  
 **Started:** TBD  
 **Completed:** TBD
 
 **Work To Do:**
-- ⏳ Ensure wizard can navigate to step 4 (ConfirmationStep)
-- ⏳ Verify step 3 (ContactsStep) validation allows proceeding when valid
-- ⏳ Test that "Submit" button on step 4 triggers appointment creation
-- ⏳ Verify submission success/error handling works
-- ⏳ Test appointment creation with all selections
+- ⏳ Verify wizard can navigate from step 0 → 1 → 2 → 3
+- ⏳ Test validation prevents skipping incomplete steps
+- ⏳ Ensure step completion tracking works correctly
+- ⏳ Verify step data persists when navigating back and forth
 
 **Key Files:**
-- `client/src/components/booking/BookingWizard.vue` (verify navigation to step 4)
-- `client/src/composables/booking/useWizardNavigation.ts` (verify step 3 → 4 transition)
-- `client/src/composables/booking/useWizardSubmission.ts` (verify submission)
-
----
-
-### Task 1.4.10.4: Test End-to-End Flow
-
-**Status:** ⏳ Not Started  
-**Started:** TBD  
-**Completed:** TBD
-
-**Work To Do:**
-- ⏳ Test complete wizard flow: step 0 → 1 → 2 → 3 → 4
-- ⏳ Verify all data flows correctly through each step
-- ⏳ Test appointment creation with all selections
-- ⏳ Verify ConfirmationStep displays correct final summary
-- ⏳ Test navigation back and forth between steps
-- ⏳ Verify data persists correctly
-
-**Key Files:**
-- `client/src/components/booking/BookingWizard.vue` (end-to-end testing)
-- All wizard step components (verify data flow)
+- `client/src/components/booking/BookingWizard.vue` (verify navigation)
+- `client/src/composables/booking/useWizardNavigation.ts` (verify transitions)
+- `client/src/composables/booking/useWizardValidation.ts` (verify validation)
 
 ---
 
 ## Success Criteria
 
-- ⏳ All hardcoded values removed from ConfirmationStep
-- ⏳ Price calculations use actual wizard selections
-- ⏳ Summary table displays all correct data
-- ⏳ Price breakdown reflects actual selections
-- ⏳ Wizard can navigate to step 4 (ConfirmationStep)
-- ⏳ Step 3 validation allows proceeding when valid
-- ⏳ Submit button triggers appointment creation
-- ⏳ End-to-end wizard flow works correctly
-- ⏳ All wizard selections display correctly in summary
+- ⏳ All ContactsStep form fields work correctly
+- ⏳ Optional sections toggle properly
+- ⏳ Form validation works for all fields
+- ⏳ Property confirmation modal created and integrated
+- ⏳ Modal displays correct property details
+- ⏳ Wizard can navigate to step 3 (ContactsStep)
+- ⏳ Step validation prevents skipping incomplete steps
+- ⏳ Step data persists correctly
 
 ---
 
 ## Next Steps
 
-**Ready for:** Session 1.4.11 - Database Rebuild with Comprehensive Seed Data
+**Ready for:** Session 1.4.11 - Complete ConfirmationStep and Enable Navigation to Step 4
 
 ---
 

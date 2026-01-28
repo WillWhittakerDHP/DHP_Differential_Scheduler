@@ -12,6 +12,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import {
   getEntityDeleteTitle as getEntityDeleteTitleText,
   getEntitySuccessMessage as getEntitySuccessMessageText,
+  getEntityCreateMessage as getEntityCreateMessageText,
 } from '@/utils/admin/entityDisplayText'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
@@ -22,6 +23,7 @@ export interface UseEntityDisplayReturn {
   getEntityDisplayName: (entityKey: GlobalEntityKey, entity: GlobalEntity<GlobalEntityKey>) => string
   getEntityName: (entityKey: GlobalEntityKey, entity: GlobalEntity<GlobalEntityKey>) => string
   getEntitySuccessMessage: (entityKey: GlobalEntityKey) => string
+  getEntityCreateMessage: (entityKey: GlobalEntityKey) => string
   getEntityDeleteTitle: (entityKey: GlobalEntityKey) => string
 }
 
@@ -85,6 +87,15 @@ export function useEntityDisplay(): UseEntityDisplayReturn {
   }
 
   /**
+   * LEARNING: Get create message for entity type
+   * WHY: Provides entity-type-specific create success message
+   * PATTERN: Function that formats message based on entityKey
+   */
+  const getEntityCreateMessage = (entityKey: GlobalEntityKey): string => {
+    return getEntityCreateMessageText(entityKey)
+  }
+
+  /**
    * LEARNING: Get delete dialog title for entity type
    * WHY: Provides entity-type-specific delete dialog title
    * PATTERN: Function that formats title based on entityKey
@@ -97,6 +108,7 @@ export function useEntityDisplay(): UseEntityDisplayReturn {
     getEntityDisplayName,
     getEntityName,
     getEntitySuccessMessage,
+    getEntityCreateMessage,
     getEntityDeleteTitle
   }
 }

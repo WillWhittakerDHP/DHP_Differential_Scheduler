@@ -19,7 +19,6 @@ export function getVisibleSelectionCardChildren(params: {
       .map((comp) => ({
         id: comp.id,
         name: comp.name,
-        description: comp.description,
         icon: comp.icon,
       }))
   }

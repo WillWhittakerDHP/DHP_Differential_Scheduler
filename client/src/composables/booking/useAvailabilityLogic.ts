@@ -8,27 +8,23 @@
 
 import { computed, watch, ref, type Ref, type ComputedRef } from 'vue'
 import { matchLoadedTimeSlots as matchLoadedTimeSlotsUtil } from '@/utils/booking/timeSlotMatching'
-import type { TimeSlot } from '@/types/appointment'
+import type { TimeSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-
-/**
- * Property details structure
- */
-export interface PropertyDetails {
-  squareFootage?: number | null
-  bedrooms?: number | null
-  bathrooms?: number | null
-  foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null
-  additionalUnits?: number | null
-}
+import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
+import { parseUTCDate } from '@/utils/booking/timeSlotFitter'
+import type { ISO8601Date } from '@/types/datetime'
+import type { PropertyDetails } from '@/types/availability'
 
 /**
  * Date range structure
+ * LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) for date-only values
+ * WHY: Consistent with RFC3339 datetime approach, aligns with international standards
+ * PATTERN: ISO8601Date type documents intent and ensures consistency
  */
 export interface DateRange {
-  start: string | null
-  end: string | null
+  start: ISO8601Date | null
+  end: ISO8601Date | null
 }
 
 /**
@@ -64,6 +60,14 @@ export interface SelectedTimeSlot {
 }
 
 /**
+ * Appointment slots per day structure
+ */
+export interface AppointmentSlotsPerDay {
+  date: string
+  appointmentSlots: AppointmentSlots
+}
+
+/**
  * useAvailabilityLogic composable return type
  */
 export interface UseAvailabilityLogicReturn {
@@ -71,11 +75,13 @@ export interface UseAvailabilityLogicReturn {
   propertyDetails: ComputedRef<PropertyDetails | null>
   accumulatedBlockInstances: ComputedRef<BookingBlockInstance[]>
   timeSlotsPerDay: Ref<TimeSlotsPerDay[]>
+  appointmentSlotsPerDay: Ref<AppointmentSlotsPerDay[]>
   selectedDateSingle: ComputedRef<string | null>
-  currentTimeSlots: ComputedRef<TimeSlot[]>
+  currentAppointmentSlots: ComputedRef<TimeSlot[]>
   isDifferentialService: ComputedRef<boolean>
+  isEffectivelyDifferential: ComputedRef<boolean>
   selectedTimeSlots: ComputedRef<SelectedTimeSlot[] | null>
-  matchLoadedTimeSlots: (loadedSlots: Array<{ time: string }>, availableSlots: TimeSlot[], inspectorTimeSlot: Ref<TimeSlot | null>, clientTimeSlot: Ref<TimeSlot | null>) => void
+  matchLoadedTimeSlots: (loadedSlots: Array<{ startTime: string; endTime?: string }>, availableSlots: TimeSlot[], inspectorAppointmentSlot: Ref<TimeSlot | null>, clientAppointmentSlot: Ref<TimeSlot | null>) => void
 }
 
 /**
@@ -96,21 +102,84 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
   /**
    * LEARNING: Computed property for date range for API call
-   * WHY: Creates date range from selected date (start date + 1 day for end date)
-   * PATTERN: Computed that creates date range when date is selected
+   * WHY: Creates date range from selected date (start date + 1 day for end date) in RFC3339 format
+   * PATTERN: Computed that creates RFC3339 datetime range when date is selected
    */
   const dateRangeForApi = computed(() => {
     if (!selectedDate.value.start) return null
     
-    const startDate = new Date(selectedDate.value.start)
-    const endDate = new Date(startDate)
-    endDate.setDate(endDate.getDate() + 1) // Add 1 day for end date
+    // LEARNING: Parse selected date in UTC using shared utility
+    // WHY: All business logic should use UTC to avoid timezone issues
+    // PATTERN: Use parseUTCDate utility with built-in validation
+    // NOTE: selectedDate.value.start is ISO 8601 date format (YYYY-MM-DD)
+    // P2-8: Use existing parseUTCDate utility instead of manual parsing
+    const startValue = selectedDate.value.start
+    if (!startValue) return null
     
-    const result = {
-      start: startDate.toISOString().split('T')[0], // YYYY-MM-DD format
-      end: endDate.toISOString().split('T')[0]
+    const startDate = parseUTCDate(startValue)
+    if (!startDate) {
+      // parseUTCDate logs warnings internally, just return null
+      return null
     }
-    return result
+    // LEARNING: Use UTC methods for all date operations
+    // WHY: All business logic should use UTC to avoid timezone issues
+    // PATTERN: Use Date.UTC() and UTC getters for date construction and comparison
+    const endDate = new Date(Date.UTC(
+      startDate.getUTCFullYear(),
+      startDate.getUTCMonth(),
+      startDate.getUTCDate() + 1, // Add 1 day for end date
+      0, 0, 0, 0
+    ))
+    
+    // LEARNING: Determine start datetime: always use start of day (midnight UTC) for consistency
+    // WHY: Busy periods need to cover the entire day to match slots, which start at business hours
+    //      The mock generator will filter out past times, so using start of day ensures full coverage
+    // PATTERN: Always use start of day UTC, let mock generator handle past time filtering
+    const startDateTime = new Date(Date.UTC(
+      startDate.getUTCFullYear(),
+      startDate.getUTCMonth(),
+      startDate.getUTCDate(),
+      0, 0, 0, 0
+    ))
+    
+    // LEARNING: Early return if date is in the past (not today)
+    // WHY: Past dates can't render in UI, but today should be allowed even if midnight has passed
+    // PATTERN: Compare date portions only (not times) to allow today, using UTC dates
+    const now = new Date()
+    const today = new Date(Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+      0, 0, 0, 0
+    ))
+    const startDateOnly = new Date(Date.UTC(
+      startDate.getUTCFullYear(),
+      startDate.getUTCMonth(),
+      startDate.getUTCDate(),
+      0, 0, 0, 0
+    ))
+    
+    if (startDateOnly < today) {
+      return null // Past dates can't render in UI
+    }
+    
+    // LEARNING: End datetime: end of day (23:59:59) in UTC
+    // WHY: Covers entire day for busy period generation
+    // PATTERN: Use Date.UTC() to create end of day in UTC, then convert to RFC3339
+    const endDateTime = new Date(Date.UTC(
+      endDate.getUTCFullYear(),
+      endDate.getUTCMonth(),
+      endDate.getUTCDate(),
+      23, 59, 59, 999
+    ))
+    
+    // LEARNING: Convert to RFC3339 format (ISO 8601 with UTC timezone, matching Google Calendar API)
+    // WHY: Consistent format throughout codebase, matches Google Calendar API
+    // PATTERN: Use toISOString() to produce RFC3339 format
+    return {
+      start: startDateTime.toISOString(),
+      end: endDateTime.toISOString()
+    }
   })
 
   /**
@@ -151,9 +220,114 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   const timeSlotsPerDay = ref<TimeSlotsPerDay[]>([])
 
   /**
+   * LEARNING: AppointmentSlots structure for normalized time slot support
+   * WHY: Supports complex differential scheduling with normalized positions
+   * PATTERN: Computed that calculates AppointmentSlots lazily - only when accessed
+   * P2-2: Made lazy - calculates only when accessed, not preemptively for all slots
+   */
+  const appointmentSlotsPerDay = computed<AppointmentSlotsPerDay[]>(() => {
+    const slots = timeSlots.value
+    const date = selectedDate.value
+    const blockInstances = accumulatedBlockInstances.value
+
+    if (!slots || slots.length === 0 || !date?.start) {
+      return []
+    }
+
+    // Group time slots by date
+    const slotsByDate = new Map<string, TimeSlot[]>()
+    
+    slots.forEach(slot => {
+      // LEARNING: Extract date in UTC
+      // WHY: All business logic should use UTC to avoid timezone issues
+      // PATTERN: Use UTC date methods to extract date portion from RFC3339 datetime
+      const slotDateObj = new Date(slot.startTime)
+      const year = slotDateObj.getUTCFullYear()
+      const month = String(slotDateObj.getUTCMonth() + 1).padStart(2, '0')
+      const day = String(slotDateObj.getUTCDate()).padStart(2, '0')
+      const slotDate = `${year}-${month}-${day}`
+      if (!slotsByDate.has(slotDate)) {
+        slotsByDate.set(slotDate, [])
+      }
+      slotsByDate.get(slotDate)!.push(slot)
+    })
+
+    // P2-2: Calculate AppointmentSlots lazily - only when computed is accessed
+    // LEARNING: Generate AppointmentSlots for each date on-demand
+    // WHY: Avoids unnecessary computation for slots user will never select
+    // PATTERN: Calculate AppointmentSlots only when this computed is accessed
+    // NOTE: This is still calculated for all slots, but only when needed (not in watch)
+    // TODO: Further optimize to calculate only for selected slot when that pattern is available
+    return Array.from(slotsByDate.entries()).map(([date, slots]) => {
+      const appointmentSlotsForDate: AppointmentSlots = []
+      
+      slots.forEach((slot, index) => {
+        const calculatedSlots = calculateAppointmentSlots(blockInstances, slot.startTime)
+        // Normalize orderIndex to match slot position
+        const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
+          ...calculatedSlot,
+          orderIndex: index
+        })))
+        appointmentSlotsForDate.push(...normalized)
+      })
+      
+      return {
+        date,
+        appointmentSlots: normalizeAppointmentSlotsByOrderIndex(appointmentSlotsForDate)
+      }
+    })
+  })
+
+  /**
+   * LEARNING: Computed property to check if service supports differential scheduling
+   * WHY: Determines whether to show Inspector/Client toggle
+   * PATTERN: Check if any selected service has differential === true
+   */
+  const isDifferentialService = computed(() => {
+    const selectedServices = wizard.selectedServices.value
+    return selectedServices.some(s => s.differential === true)
+  })
+
+  /**
+   * LEARNING: Check if any part instance has differentialOverride: true
+   * WHY: Allows explicit override of differential behavior
+   * PATTERN: Check all selected services and option type blocks for parts with differentialOverride
+   */
+  const hasDifferentialOverride = computed(() => {
+    // Check selected services
+    const serviceHasOverride = wizard.selectedServices.value.some(service =>
+      service.partInstances?.some(part => part.differentialOverride === true)
+    )
+    
+    // Check selected option type blocks (e.g., "No Client Presentation" option)
+    const optionHasOverride = wizard.selectedOptionTypeBlocks.value.some(option =>
+      option.partInstances?.some(part => part.differentialOverride === true)
+    )
+    
+    return serviceHasOverride || optionHasOverride
+  })
+
+  /**
+   * LEARNING: Effective differential state for UI rendering
+   * WHY: Service may be differential but overridden by selected options
+   * PATTERN: Returns false if service is not differential OR if override exists
+   * 
+   * Logic:
+   * - If service.differential === false → return false (non-differential)
+   * - If service.differential === true AND any part has differentialOverride === true → return false (overridden to non-differential)
+   * - If service.differential === true AND no override → return true (differential)
+   */
+  const isEffectivelyDifferential = computed(() => {
+    if (!isDifferentialService.value) return false
+    if (hasDifferentialOverride.value) return false
+    return true
+  })
+
+  /**
    * LEARNING: Watch timeSlots and selectedDate to populate timeSlotsPerDay
    * WHY: Transforms API response into component's expected format
    * PATTERN: Watch API response, transform and group by date
+   * P2-2: Removed AppointmentSlots calculation from watch - now computed lazily
    */
   watch([timeSlots, selectedDate], ([slots, date]) => {
     if (!slots || slots.length === 0 || !date?.start) {
@@ -165,13 +339,13 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     const slotsByDate = new Map<string, TimeSlot[]>()
     
     slots.forEach(slot => {
-      // LEARNING: Extract date in local timezone, not UTC
-      // WHY: Slots are created with local time hours, so we need to extract date in local time to match
-      // PATTERN: Use local date methods instead of toISOString() which uses UTC
-      const slotDateObj = new Date(slot.slotStart)
-      const year = slotDateObj.getFullYear()
-      const month = String(slotDateObj.getMonth() + 1).padStart(2, '0')
-      const day = String(slotDateObj.getDate()).padStart(2, '0')
+      // LEARNING: Extract date in UTC
+      // WHY: All business logic should use UTC to avoid timezone issues
+      // PATTERN: Use UTC date methods to extract date portion from RFC3339 datetime
+      const slotDateObj = new Date(slot.startTime)
+      const year = slotDateObj.getUTCFullYear()
+      const month = String(slotDateObj.getUTCMonth() + 1).padStart(2, '0')
+      const day = String(slotDateObj.getUTCDate()).padStart(2, '0')
       const slotDate = `${year}-${month}-${day}`
       if (!slotsByDate.has(slotDate)) {
         slotsByDate.set(slotDate, [])
@@ -197,21 +371,36 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    * LEARNING: Computed property for current selected date (single date mode)
    * WHY: Backward compatibility with existing UI (single date picker)
    * PATTERN: Extract start date from date range structure
+   * NOTE: VDatePicker may return Date object, so convert to ISO 8601 date format (YYYY-MM-DD)
    */
   const selectedDateSingle = computed({
     get: () => selectedDate.value.start,
-    set: (value: string | null) => {
-      selectedDate.value = { start: value, end: null }
+    set: (value: ISO8601Date | Date | null) => {
+      // LEARNING: Normalize date value to ISO 8601 format (YYYY-MM-DD)
+      // WHY: VDatePicker may return Date object or string, need consistent ISO 8601 format
+      // PATTERN: Convert Date to ISO 8601 string, handle null
+      let dateString: ISO8601Date | null = null
+      
+      if (value) {
+        if (value instanceof Date) {
+          dateString = value.toISOString().split('T')[0] as ISO8601Date
+        } else if (typeof value === 'string') {
+          // Extract date part if it includes time (ensure ISO 8601 format)
+          dateString = (value.includes('T') ? value.split('T')[0] : value) as ISO8601Date
+        }
+      }
+      
+      selectedDate.value = { start: dateString, end: null }
     }
   })
 
   /**
-   * LEARNING: Computed property for current time slots
-   * WHY: Shows time slots for selected date (from timeSlotsPerDay structure)
-   * PATTERN: Get time slots from timeSlotsPerDay array based on selected date
+   * LEARNING: Computed property for current appointment slots
+   * WHY: Shows appointment slots for selected date (from timeSlotsPerDay structure)
+   * PATTERN: Get appointment slots from timeSlotsPerDay array based on selected date
    * NOTE: startTimeType filtering is handled in component since it's UI state
    */
-  const currentTimeSlots = computed(() => {
+  const currentAppointmentSlots = computed(() => {
     if (!selectedDate.value.start) {
       return []
     }
@@ -225,59 +414,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     // Return inspector time slots (component will filter by startTimeType if needed)
     return daySlots.inspectorTimeSlots
   })
-
-  /**
-   * LEARNING: Computed property to check if service supports differential scheduling
-   * WHY: Determines whether to show Inspector/Client toggle
-   * PATTERN: Check if any selected service has differential === true
-   */
-  const isDifferentialService = computed(() => {
-    const selectedServices = wizard.selectedServices.value
-    return selectedServices.some(s => s.differential === true)
-  })
-
-  /**
-   * LEARNING: Transform selected time slots to API format
-   * WHY: Converts TimeSlot objects to ISO timestamps with duration for API
-   * PATTERN: Computed that transforms TimeSlot objects to API format
-   * NOTE: Requires onSiteTotal and presentationDuration from useTimeSlotCalculations
-   * NOTE: Currently unused - will be used when time slot API is implemented
-   */
-   
-  // @ts-expect-error - Unused function kept for future time slot API implementation
-  const _createSelectedTimeSlots = (
-    inspectorTimeSlot: TimeSlot | null,
-    clientTimeSlot: TimeSlot | null,
-    selectedDateStart: string | null,
-    onSiteTotal: number,
-    presentationDuration: number
-  ): SelectedTimeSlot[] | null => {
-    if (!inspectorTimeSlot || !selectedDateStart) {
-      return null
-    }
-
-    const timeSlots: SelectedTimeSlot[] = []
-
-    if (inspectorTimeSlot) {
-      timeSlots.push({
-        time: inspectorTimeSlot.slotStart,
-        duration: onSiteTotal
-      })
-    }
-
-    // LEARNING: Add client time slot if different from inspector time slot
-    // WHY: Differential scheduling may have separate client time
-    // PATTERN: Compare TimeSlot objects by slotStart
-    if (clientTimeSlot && 
-        clientTimeSlot.slotStart !== inspectorTimeSlot.slotStart) {
-      timeSlots.push({
-        time: clientTimeSlot.slotStart,
-        duration: presentationDuration
-      })
-    }
-
-    return timeSlots.length > 0 ? timeSlots : null
-  }
 
   /**
    * LEARNING: Wrapper around shared matchLoadedTimeSlots utility
@@ -294,11 +430,19 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     propertyDetails,
     accumulatedBlockInstances,
     timeSlotsPerDay,
+    appointmentSlotsPerDay,
     selectedDateSingle,
-    currentTimeSlots,
+    currentAppointmentSlots,
     isDifferentialService,
+    isEffectivelyDifferential,
     selectedTimeSlots,
     matchLoadedTimeSlots
   }
 }
 
+/**
+ * @deprecated Use AppointmentSlotsPerDay instead
+ */
+export interface AppointmentTimesPerDay extends AppointmentSlotsPerDay {
+  appointmentTimes: AppointmentSlots
+}

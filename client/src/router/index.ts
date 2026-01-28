@@ -8,7 +8,13 @@
  */
 
 import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw, RouteLocationNormalized } from 'vue-router'
+import { getQueryClient } from '@/plugins/3.vue-query'
+import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
+import type { MetadataCache } from '@/composables/admin/useMetadataCache'
+import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
+
+const logger = createLogger('Router Guard')
 
 /**
  * Route definitions
@@ -48,6 +54,42 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+// LEARNING: Prefetch admin metadata when navigating to admin routes
+// WHY: Ensures metadata is in cache before components render (same pattern as globalData)
+// PATTERN: Prefetch in route guard, components read from cache synchronously
+router.beforeEach(async (to: RouteLocationNormalized) => {
+  if (to.path.startsWith('/admin') || to.name === 'admin-panel') {
+    const queryClient = getQueryClient()
+    if (!queryClient) {
+      // QueryClient not initialized yet, skip prefetch
+      return
+    }
+    
+    const existingData = queryClient.getQueryData<MetadataCache>(['adminMetadata'])
+    
+    // Only prefetch if not already in cache
+    if (!existingData) {
+      try {
+        // LEARNING: Router Guard logs are opt-in only
+        // WHY: Reduces console noise - only log when explicitly enabled via VITE_DEBUG_SCOPES="Router Guard"
+        // PATTERN: Use isScopeExplicitlyEnabled to require explicit enabling
+        if (isScopeExplicitlyEnabled('Router Guard')) {
+          logger.debug('Prefetching admin metadata for', to.path)
+        }
+        const endpoint = getAdminMetadataBatchEndpoint()
+        const response = await apiClient.get<MetadataCache>(endpoint)
+        queryClient.setQueryData<MetadataCache>(['adminMetadata'], response.data)
+        if (isScopeExplicitlyEnabled('Router Guard')) {
+          logger.debug('Admin metadata prefetched successfully')
+        }
+      } catch (error) {
+        // Continue navigation even if prefetch fails
+        logger.warn('Failed to prefetch admin metadata:', error)
+      }
+    }
+  }
 })
 
 export default router

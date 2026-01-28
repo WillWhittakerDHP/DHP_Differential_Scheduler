@@ -37,7 +37,7 @@ function createBlock(id: string, name?: string): BookingBlockInstance {
     icon: 'star',
     baseSqFt: 0,
     active: true,
-    dependent: false,
+    bookingMode: 'standalone',
     differential: false,
     orderIndex: 0,
     blockShape: 'Option Type',

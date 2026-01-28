@@ -172,17 +172,52 @@ export function useFormValidation() {
    * Date validation rule (not in past)
    * LEARNING: Validates date is not in the past
    * WHY: Prevents selecting past dates for appointments
-   * PATTERN: Compare date value with today's date
+   * PATTERN: Compare date value with today's date (date portions only, not times)
    */
   const dateNotInPast = (message = 'Date cannot be in the past'): ValidationRule => {
     return (value: unknown): string | boolean => {
       if (!value) return true // Allow empty if not required
       if (typeof value !== 'string' && !(value instanceof Date)) return message
-      const selectedDate = new Date(value as string | Date)
+      
+      // LEARNING: Parse date string to local Date object
+      // WHY: Ensures correct date comparison regardless of timezone
+      // PATTERN: Extract date part if string contains time, create Date in local timezone
+      let selectedDate: Date
+      if (typeof value === 'string') {
+        try {
+          // Extract date part (YYYY-MM-DD) if string contains time
+          const datePart = value.includes('T') ? value.split('T')[0] : value
+          const dateParts = datePart.split('-')
+          if (dateParts.length !== 3) {
+            return message // Invalid date format
+          }
+          const [year, month, day] = dateParts.map(Number)
+          if (isNaN(year) || isNaN(month) || isNaN(day)) {
+            return message // Invalid date numbers
+          }
+          selectedDate = new Date(year, month - 1, day) // Local timezone, midnight
+        } catch {
+          return message // Error parsing date
+        }
+      } else {
+        selectedDate = value as Date
+      }
+      
       if (isNaN(selectedDate.getTime())) return message
-      const today = new Date()
-      today.setHours(0, 0, 0, 0) // Reset time to compare dates only
-      return selectedDate >= today || message
+      
+      // LEARNING: Normalize both dates to midnight UTC for comparison
+      // WHY: All business logic should use UTC to avoid timezone issues
+      // PATTERN: Use Date.UTC() to create dates at midnight UTC, compare date portions only
+      const now = new Date()
+      const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0))
+      const selectedDateOnly = new Date(Date.UTC(
+        selectedDate.getUTCFullYear(),
+        selectedDate.getUTCMonth(),
+        selectedDate.getUTCDate(),
+        0, 0, 0, 0
+      ))
+      
+      return selectedDateOnly >= today || message
     }
   }
 

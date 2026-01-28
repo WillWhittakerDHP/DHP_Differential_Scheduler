@@ -34,7 +34,7 @@ function createBookingBlockInstance(
     description: 'Test description',
     icon: 'icon-test',
     active: options.active !== undefined ? options.active : true,
-    dependent: false,
+    bookingMode: 'standalone',
     differential: false,
     orderIndex: 0,
     blockShape: 'Test Shape',
@@ -54,14 +54,12 @@ function createBookingBlockShape(
   options: {
     name?: string
     type?: string
-    active?: boolean
   } = {}
 ): BookingBlockShape {
   return {
     id,
     name: options.name || `Shape ${id}`,
     type: options.type || 'service',
-    active: options.active !== undefined ? options.active : true,
   }
 }
 

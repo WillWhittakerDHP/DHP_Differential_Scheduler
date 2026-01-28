@@ -1,5 +1,6 @@
 <template>
   <BaseInput
+    v-if="fieldContext"
     :field-key="String(fieldContext.fieldKey)"
     :display-config="fieldContext.displayConfig"
     :error="fieldContext.error?.value"
@@ -8,26 +9,27 @@
   >
     <!-- LEARNING: When readonly, display as plain text for better UX -->
     <!-- WHY: Readonly inputs look disabled/confusing - plain text is clearer -->
-    <!-- PATTERN: Conditional rendering based on readOnly state -->
+    <!-- PATTERN: Use computed to reactively track readOnly state for v-if -->
     <span
-      v-if="fieldContext.displayConfig.readOnly"
+      v-if="isReadOnly"
       class="readonly-text"
       :class="{ 'readonly-text-empty': !fieldValue || fieldValue === '' }"
     >
-      {{ fieldValue || fieldContext.displayConfig.placeholder || '' }}
+      {{ fieldValue || fieldContext?.displayConfig.placeholder || '' }}
     </span>
     
     <!-- LEARNING: Conditionally render textarea for long content when editable -->
     <!-- WHY: Long text is better displayed in multi-line textarea -->
     <!-- PATTERN: Check content length and newlines to determine if textarea is needed -->
     <AppTextarea
-      v-else-if="shouldUseTextarea"
+      v-else-if="shouldUseTextarea && fieldContext"
       :id="`field-${String(fieldContext.fieldKey)}`"
       :name="String(fieldContext.fieldKey)"
       :model-value="fieldValue"
       :label="fieldContext.displayConfig.label"
       :placeholder="fieldContext.displayConfig.placeholder"
       :disabled="fieldContext.displayConfig.disabled"
+      :readonly="fieldContext.displayConfig.readOnly"
       :error="!!fieldContext.error?.value"
       :error-messages="fieldContext.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
@@ -38,15 +40,17 @@
       @update:model-value="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
+      @keydown="handleKeydown"
     />
     <AppTextField
-      v-else
+      v-else-if="fieldContext"
       :id="`field-${String(fieldContext.fieldKey)}`"
       :name="String(fieldContext.fieldKey)"
       :model-value="fieldValue"
       :label="fieldContext.displayConfig.label"
       :placeholder="fieldContext.displayConfig.placeholder"
       :disabled="fieldContext.displayConfig.disabled"
+      :readonly="fieldContext.displayConfig.readOnly"
       :error="!!fieldContext.error?.value"
       :error-messages="fieldContext.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
@@ -56,6 +60,7 @@
       @focus="handleFocus"
       @blur="handleBlur"
       @keydown.enter="handleEnterKey"
+      @keydown="handleKeydown"
     />
   </BaseInput>
 </template>
@@ -75,7 +80,7 @@
  *            SelectInputs.vue pattern. App components handle labels internally.
  */
 
-import { computed, inject } from 'vue'
+import { computed, inject, toRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { AUTCOMPLETE_OFF } from '../../../../utils/autocomplete'
 import BaseInput from './BaseInput.vue'
@@ -85,10 +90,9 @@ import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
-import { ENTITY_CARD_SAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
-// Render logger disabled - too verbose
-// import type { RenderLogger } from '../../../../utils/renderLogger'
-// import { RENDER_LOGGER_KEY } from '../../../../utils/renderLoggerKeys'
+import type { ValidAdminValue } from '../../../../constants/primitives'
+import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
+import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -99,10 +103,21 @@ const props = withDefaults(defineProps<Props>(), {
   showLabel: true
 })
 
-const { fieldContext } = props
+// LEARNING: Use toRef to maintain reactivity when accessing props
+// WHY: Vue 3 best practice - destructuring props breaks reactivity, use toRef instead
+// PATTERN: Use toRef to create reactive reference to prop
+// NOTE: toRef handles undefined props - returns undefined ref if prop doesn't exist
+const fieldContextRef = toRef(props, 'fieldContext')
 
-// Render logger disabled - too verbose
-// const logger = inject<RenderLogger | undefined>(RENDER_LOGGER_KEY, undefined)
+// LEARNING: Computed to safely access fieldContext with fallback
+// WHY: fieldContext prop might be undefined initially, need to handle gracefully
+// PATTERN: Use computed to safely access fieldContext.value and unwrap the ref
+const fieldContext = computed(() => {
+  const context = fieldContextRef.value
+  if (!context) return undefined
+  // fieldContextRef.value is already the FieldContextType, not a Ref
+  return context
+})
 
 /**
  * LEARNING: Inject EntityCard save handler for create cards
@@ -112,10 +127,46 @@ const { fieldContext } = props
  */
 const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
 
-// LEARNING: Use unified field value composable
-// WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
-// PATTERN: Always use useFieldValue for accessing field values
-const fieldValue = useFieldValue(fieldContext)
+/**
+ * LEARNING: Inject disableAutoSave flag from EntityCard
+ * WHY: Allows parent to disable field blur auto-save (e.g., in bulk edit modals)
+ * PATTERN: Use inject to access parent EntityCard's disableAutoSave flag
+ */
+const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
+
+// LEARNING: Access field value directly from context.value
+// WHY: context.value is a Ref<ValidAdminValue> from vee-validate's useField
+//      When passed as prop, Vue may unwrap it, so we handle both cases
+// PATTERN: Access context.value directly - if it's a Ref, access .value; if unwrapped, use directly
+// FIX: Handle Vue's prop unwrapping - context.value may be unwrapped to the actual value
+const fieldValue = computed(() => {
+  const context = fieldContext.value
+  if (!context) {
+    return '' as ValidAdminValue
+  }
+  
+  // LEARNING: Access value using useFieldValue composable which handles Ref unwrapping
+  // WHY: useFieldValue is designed to handle Vue's Ref unwrapping when fieldContext is passed as prop
+  // PATTERN: Use useFieldValue composable which properly handles both Ref and unwrapped cases
+  // NOTE: This is the correct way to access field values - it handles all edge cases
+  const val = useFieldValue(context).value
+  return val as ValidAdminValue
+})
+
+// LEARNING: Computed property to reactively track readOnly state
+// WHY: v-if needs reactive computed to update when displayConfig.readOnly changes
+// PATTERN: Use computed to explicitly track displayConfig.readOnly - Vue tracks property access in computed
+// NOTE: Vue 3 best practice - access fieldContext through computed to ensure reactivity
+const isReadOnly = computed(() => {
+  // LEARNING: Access fieldContext.value safely
+  // WHY: fieldContext is computed, accessing .value ensures Vue tracks prop changes
+  // PATTERN: Access fieldContext.value, then nested properties, to establish reactivity dependency
+  const context = fieldContext.value
+  if (!context) return false
+  const displayConfig = context.displayConfig
+  const readOnly = displayConfig.readOnly
+  return readOnly === true
+})
 
 // LEARNING: Use Vuetify's display composable for responsive behavior
 // WHY: Provides access to current breakpoint and screen size information
@@ -146,94 +197,66 @@ const shouldUseTextarea = computed(() => {
   return value.length > threshold
 })
 
-// Render logger disabled - too verbose
-// if (logger) {
-//   onMounted(() => {
-//     logger.logStep(`TextInput mounted - fieldKey: ${String(fieldContext.fieldKey)}`, {...})
-//   })
-//   watch(fieldValue, (newValue, oldValue) => {
-//     logger.logStep(`TextInput - Value changed for ${String(fieldContext.fieldKey)}`, {...})
-//   })
-// }
-
 // LEARNING: Handle value changes with field context
 // WHY: Field context manages form state and validation
 // PATTERN: Delegate to field context for state management
 const handleChange = (value: string) => {
-  fieldContext.setValue(value)
+  const context = fieldContext.value
+  if (!context) return
+  context.setValue(value)
 }
 
-// LEARNING: Handle focus events
-// WHY: Track focus state for UI feedback
-// PATTERN: Delegate to field context
-const handleFocus = () => {
-  fieldContext.setFocus(true)
-}
-
-// LEARNING: Handle blur events with auto-save
-// WHY: Auto-save on blur provides good UX
-// PATTERN: Validate and save on blur if valid
-const handleBlur = async () => {
-  fieldContext.setFocus(false)
-  
-  // Validate field
-  const isValid = await fieldContext.validate()
-  
-  // Auto-save if valid
-  if (isValid) {
-    try {
-      await fieldContext.save()
-    } catch (error) {
-      // Auto-save failed
+// FIX: Use shared field input handlers from composable
+// LEARNING: Create handlers reactively using computed
+// WHY: fieldContext might be undefined initially, and handlers need to reference current context
+// PATTERN: Use computed to create handlers that reference current fieldContext.value
+const handlers = computed(() => {
+  const context = fieldContext.value
+  if (!context) {
+    return {
+      handleFocus: () => {},
+      handleBlur: () => {},
+      handleEnterKey: () => {}
     }
   }
-}
+  return useFieldInputHandlers({
+    fieldContext: context,
+    disableAutoSave,
+    entityCardSaveContext
+  })
+})
 
-// LEARNING: Handle Enter key press with auto-save
-// WHY: Allows users to save by pressing Enter, similar to blur behavior
-// PATTERN: For create cards, save entire form and collapse; for existing entities, save just the field
-const handleEnterKey = async (event: KeyboardEvent) => {
-  // Prevent default form submission behavior
-  event.preventDefault()
-  
-  // Validate field
-  const isValid = await fieldContext.validate()
-  
-  if (!isValid) {
+// LEARNING: Access handlers through computed to ensure reactivity
+// WHY: handlers computed updates when fieldContext changes, ensuring handlers reference current context
+// PATTERN: Access handlers.value in template and methods
+const handleFocus = () => handlers.value.handleFocus()
+const handleBlur = () => handlers.value.handleBlur()
+const handleEnterKey = (event: KeyboardEvent) => handlers.value.handleEnterKey(event)
+
+/**
+ * LEARNING: Handle spacebar keydown to prevent VExpansionPanel from toggling when typing
+ * WHY: VExpansionPanel intercepts spacebar to toggle expansion, but spacebar should type in input fields
+ * PATTERN: Stop propagation of spacebar events when focus is in an editable input field
+ */
+const handleKeydown = (event: KeyboardEvent): void => {
+  // Only handle spacebar key
+  if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCode !== 32) {
     return
   }
   
-  // LEARNING: For create cards, save entire form instead of just the field
-  // WHY: Creates the entity and triggers collapse logic via onSaved callback
-  // PATTERN: Check if we're in a create card context and use handleSave if available
-  if (entityCardSaveContext?.isNew && entityCardSaveContext.handleSave) {
-    try {
-      await entityCardSaveContext.handleSave()
-      // Blur the field after successful save to remove focus
-      fieldContext.setFocus(false)
-      // Blur the actual input element
-      const target = event.target as HTMLElement
-      if (target && 'blur' in target && typeof target.blur === 'function') {
-        target.blur()
-      }
-    } catch (error) {
-      // Form save failed
-    }
+  // Check if input is editable (not disabled or readonly)
+  const context = fieldContext.value
+  if (!context) {
     return
   }
   
-  // For existing entities, save just the field
-  try {
-    await fieldContext.save()
-    // Blur the field after successful save to remove focus
-    fieldContext.setFocus(false)
-    // Blur the actual input element
-    const target = event.target as HTMLElement
-    if (target && 'blur' in target && typeof target.blur === 'function') {
-      target.blur()
-    }
-  } catch (error) {
-    // Auto-save failed
+  const isEditable = !context.displayConfig.disabled && !context.displayConfig.readOnly
+  
+  if (isEditable) {
+    // Stop propagation to prevent VExpansionPanel from toggling when spacebar is pressed
+    // Allow spacebar to type in the input field normally
+    event.stopPropagation()
+    // Don't preventDefault - we want spacebar to type in the input
   }
 }
 </script>
@@ -242,9 +265,12 @@ const handleEnterKey = async (event: KeyboardEvent) => {
 /* LEARNING: Responsive text input field styling */
 /* WHY: Fields should fit content and wrap appropriately on different screen sizes */
 /* PATTERN: Use CSS to make fields responsive and fit content */
+/* LEARNING: Minimum width matches name field, but can grow larger */
+/* WHY: Ensures consistency - all text/number fields are at least as wide as name field */
+/*      But allows growth for longer content (names, numbers, etc.) */
 .text-input-field {
   width: 100%;
-  min-width: 0; /* Allow field to shrink below default min-width */
+  min-width: 200px; /* Minimum width to match typical name field width */
 }
 
 /* LEARNING: On mobile, make fields stack and take full width */
@@ -252,20 +278,32 @@ const handleEnterKey = async (event: KeyboardEvent) => {
 @media (max-width: 600px) {
   .text-input-field {
     width: 100%;
+    min-width: 0; /* Allow shrinking on mobile */
   }
 }
 
 /* LEARNING: Readonly text display styling */
 /* WHY: Plain text looks better than disabled input for readonly fields */
 /* PATTERN: Use text styling that matches input appearance */
+/* LEARNING: Minimum width matches name field for consistency */
+/* WHY: Readonly text should match editable field width */
 .readonly-text {
   display: inline-block;
   width: 100%;
+  min-width: 200px; /* Minimum width to match typical name field width */
   padding: 8px 12px;
   min-height: 40px; /* Match input height */
   line-height: 24px;
   color: rgba(var(--v-theme-on-surface), 0.87);
   font-size: 16px;
+}
+
+/* LEARNING: On mobile, allow readonly text to shrink */
+/* WHY: Better UX on small screens */
+@media (max-width: 600px) {
+  .readonly-text {
+    min-width: 0; /* Allow shrinking on mobile */
+  }
 }
 
 .readonly-text-empty {

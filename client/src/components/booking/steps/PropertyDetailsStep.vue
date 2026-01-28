@@ -110,7 +110,8 @@ const propertyTypeBlocksStatePlugin = createWizardStatePlugin('propertyTypeBlock
 // PATTERN: Composable provides reactive computed config
 const { rowSelectionConfig } = usePropertyTypeBlockConfig({
   selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
-  propertyTypeBlocksStatePlugin
+  propertyTypeBlocksStatePlugin,
+  availablePropertyTypeBlocks: wizard.availablePropertyTypeBlocks
 })
 
 
@@ -252,12 +253,14 @@ watch(fieldErrors, (newErrors) => {
     <!-- LEARNING: Location Section -->
     <!-- WHY: Collects property address information -->
     <!-- PATTERN: VRow/VCol grid layout with conditional Unit field -->
+    <!-- Address format: Street address + Unit on one line, City/State/Zip on one line -->
     <VRow>
       <VCol cols="12">
         <h5 class="text-h5 mb-4">Location</h5>
       </VCol>
       
-      <VCol cols="12" :md="requiresUnitNumber ? 9 : 12">
+      <!-- Street Address Row: Address + Unit (when required) -->
+      <VCol cols="12" :sm="requiresUnitNumber ? 9 : 12" :md="requiresUnitNumber ? 9 : 12">
         <VTextField
           v-model="formData.address.value"
           label="Address"
@@ -269,7 +272,7 @@ watch(fieldErrors, (newErrors) => {
         />
       </VCol>
       
-      <VCol v-if="requiresUnitNumber" cols="12" md="3">
+      <VCol v-if="requiresUnitNumber" cols="12" sm="3" md="3">
         <VTextField
           v-model="formData.unit.value"
           label="Unit"
@@ -278,7 +281,8 @@ watch(fieldErrors, (newErrors) => {
         />
       </VCol>
       
-      <VCol cols="12" md="6">
+      <!-- City/State/Zip Row: All three fields on one line -->
+      <VCol cols="12" sm="5" md="5">
         <VTextField
           v-model="formData.city.value"
           label="City"
@@ -290,7 +294,7 @@ watch(fieldErrors, (newErrors) => {
         />
       </VCol>
       
-      <VCol cols="12" md="3">
+      <VCol cols="12" sm="3" md="3">
         <VSelect
           v-model="formData.state.value"
           :items="states"
@@ -304,7 +308,7 @@ watch(fieldErrors, (newErrors) => {
         />
       </VCol>
       
-      <VCol cols="12" md="3">
+      <VCol cols="12" sm="4" md="4">
         <VTextField
           v-model="formData.zipCode.value"
           label="Zip Code"

@@ -14,7 +14,7 @@
  * NOTE: Renamed for clearer domain terminology:
  * - activeCascades → bookingCascades (Booking Cascade) (2026-01-08)
  * - activeComponents → instanceComponents → instanceComponents (Instance Components) (2026-01-07)
- * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions (Dependent Instance Options) (2026-01-09)
+ * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions → dependentInstances (2026-01-20)
  */
 
 import type { GlobalEntityKey } from './entities'
@@ -32,15 +32,15 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'blockShape' as GlobalEntityKey,
   },
-  validConstituents: {
-    backendName: 'valid_constituents',
-    frontendKey: 'validConstituents',
+  validParts: {
+    backendName: 'valid_parts',
+    frontendKey: 'validParts',
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'partShape' as GlobalEntityKey,
   },
-  dependentInstanceOptions: {
-    backendName: 'dependent_instance_options',
-    frontendKey: 'dependentInstanceOptions',
+  dependentInstances: {
+    backendName: 'dependent_instances',
+    frontendKey: 'dependentInstances',
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'blockInstance' as GlobalEntityKey,
   },
@@ -50,9 +50,9 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'blockInstance' as GlobalEntityKey,
   },
-  activeConstituents: {
-    backendName: 'active_constituents',
-    frontendKey: 'activeConstituents',
+  activeParts: {
+    backendName: 'active_parts',
+    frontendKey: 'activeParts',
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'partInstance' as GlobalEntityKey,
   },

@@ -34,6 +34,13 @@ export const partInstancePrimitiveFields = {
     globalField: "active",
   },
   
+  zeroOutPart: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Zero Out Part",
+    globalField: "zeroOutPart",
+  },
+  
   onSite: {
     primitiveType: PrimitiveTypeEnum.Boolean,
     primitiveMode: PrimitiveModeEnum.Toggle,

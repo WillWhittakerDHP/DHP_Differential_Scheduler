@@ -37,7 +37,7 @@ function createBlock(id: string, name?: string): BookingBlockInstance {
     icon: 'home',
     baseSqFt: 1000,
     active: true,
-    dependent: false,
+    bookingMode: 'standalone',
     differential: false,
     orderIndex: 0,
     blockShape: 'Property Type',

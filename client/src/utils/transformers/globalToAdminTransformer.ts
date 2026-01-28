@@ -9,10 +9,8 @@
 
 import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import { AdminEntity } from '@/types/admin/AdminEntity'
-import { getAdminConfig } from '@/configs/adminConfig'
 import { findRelationshipsByParent, extractChildIds } from './relationshipTransformers'
 /**
  * AdminObject type - Enhanced GlobalEntity with relationships and validated properties
@@ -23,9 +21,9 @@ import { findRelationshipsByParent, extractChildIds } from './relationshipTransf
 export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
   // Relationship arrays attached during transformation
   validCascades?: GlobalEntityId[]
-  validConstituents?: GlobalEntityId[]
+  validParts?: GlobalEntityId[]
   bookingCascades?: GlobalEntityId[]
-  activeConstituents?: GlobalEntityId[]
+  activeParts?: GlobalEntityId[]
 }
 
 /**
@@ -114,25 +112,15 @@ export class AdminTransformer {
     const emptyDisplayConfig = { primitives: {}, relationships: {}, layout: {} } as AdminEntity<GE>['displayConfig']
     const adminEntity = new AdminEntity(entityWithKey, emptyDisplayConfig)
     
-    // Get field names from formFieldConfig instead of displayConfig
-    const adminConfig = getAdminConfig()
-    const formFieldConfig = adminConfig?.formFieldConfig?.[entityKey] || {}
-    const fieldNames = Object.keys(formFieldConfig) as GlobalFieldKey<GE>[]
+    // LEARNING: Field validation removed - metadata-driven approach
+    // WHY: formFieldConfig has been deprecated, metadata is the single source of truth
+    // PATTERN: Trust entity data from server, no client-side field validation needed
+    // NOTE: Field metadata from /admin-input-metadata API controls what fields are visible/editable
     
-    // Validate fields using AdminEntity methods
-    // Ensure all fields from formFieldConfig exist
-    fieldNames.forEach(fieldKey => {
-      if (!adminEntity.hasField(fieldKey)) {
-        // Field doesn't exist - get valid value (with default fallback)
-        const validValue = adminEntity.getValidAdminValue(fieldKey)
-        adminEntity.setField(fieldKey, validValue)
-      }
-    })
-    
-    // LEARNING: Preserve all original entity properties, not just formFieldConfig properties
+    // LEARNING: Preserve all original entity properties
     // WHY: Tests expect all entity properties (name, orderIndex, baseTime, baseFee, etc.) to be preserved
-    // PATTERN: Start with original entity, merge validated properties from AdminEntity, then add relationships
-    const plainObjectFromConfig = adminEntity.toPlainObject(formFieldConfig)
+    // PATTERN: Use all entity properties, no field filtering
+    const plainObjectFromConfig = adminEntity.toPlainObject({})
     
     // LEARNING: Merge original entity properties with validated properties from AdminEntity
     // WHY: Ensures all original properties are preserved, while validated properties override defaults
@@ -143,10 +131,10 @@ export class AdminTransformer {
     } as AdminObject<GE>
     
     // LEARNING: Ensure relationships are included even if not in formFieldConfig
-    // WHY: Relationships (validCascades, validConstituents, etc.) are attached as properties but may not be in formFieldConfig
+    // WHY: Relationships (validCascades, validParts, etc.) are attached as properties but may not be in formFieldConfig
     // PATTERN: Explicitly include relationship arrays if they exist on the entity
     //          Use type-safe property access - check if property exists before accessing
-    const relationshipKeys = ['validCascades', 'validConstituents', 'bookingCascades', 'activeConstituents', 'instanceComponents'] as const
+    const relationshipKeys = ['validCascades', 'validParts', 'bookingCascades', 'activeParts', 'instanceComponents'] as const
     relationshipKeys.forEach(relKey => {
       // LEARNING: Type-safe property access - check if property exists before accessing
       // WHY: entityWithKey is typed as GlobalEntity<GE> but has AdminObject<GE> properties after attachRelationshipData
@@ -168,7 +156,7 @@ export class AdminTransformer {
   /**
    * Attach relationship data to entity
    * LEARNING: Extracts child IDs from GlobalRelationship[] and attaches as arrays
-   * WHY: Select fields need relationship arrays (validCascades, validConstituents, bookingCascades, activeConstituents) attached
+   * WHY: Select fields need relationship arrays (validCascades, validParts, bookingCascades, activeParts) attached
    * PATTERN: Find relationships where entity is parent → Extract child IDs → Attach as array property
    * 
    * LEARNING: Always initializes relationship arrays (even if empty) for consistency
@@ -187,9 +175,9 @@ export class AdminTransformer {
     // Map relationship types to entity properties
     const relationshipMappings = {
       validCascades: 'validCascades',
-      validConstituents: 'validConstituents', 
+      validParts: 'validParts', 
       bookingCascades: 'bookingCascades',
-      activeConstituents: 'activeConstituents',
+      activeParts: 'activeParts',
       instanceComponents: 'instanceComponents'
     }
 

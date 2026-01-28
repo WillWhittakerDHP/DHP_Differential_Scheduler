@@ -94,15 +94,3 @@ export function useInstanceDescriptions(
   }
 }
 
-// Re-export legacy interface names for backward compatibility
-export type UseServiceDescriptionsOptions = UseInstanceDescriptionsOptions
-export type UseServiceDescriptionsReturn = UseInstanceDescriptionsReturn
-
-/**
- * Legacy export for backward compatibility
- * @deprecated Use useInstanceDescriptions instead
- */
-export function useServiceDescriptions(options: UseInstanceDescriptionsOptions): UseInstanceDescriptionsReturn {
-  return useInstanceDescriptions(options)
-}
-

@@ -6,18 +6,18 @@
  */
 
 import { computed, type Ref } from 'vue'
-import type { TimeSlot } from '@/types/appointment'
+import type { AppointmentSlot } from '@/types/appointment'
 import { useFormValidation } from '@/composables/useFormValidation'
 import type { ValidationRule } from '@/composables/useFormValidation'
 import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
+import type { ISO8601Date } from '@/types/datetime'
 
 /**
  * useAvailabilityValidation composable parameters
  */
 export interface UseAvailabilityValidationParams {
-  selectedDate: Ref<{ start: string | null; end: string | null }>
-  inspectorTimeSlot: Ref<TimeSlot | null>
-  clientTimeSlot: Ref<TimeSlot | null>
+  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
+  selectedSlot: Ref<AppointmentSlot | null>
 }
 
 /**
@@ -34,7 +34,7 @@ export type UseAvailabilityValidationReturn = UseStepValidationReturn
 export function useAvailabilityValidation(
   params: UseAvailabilityValidationParams
 ): UseAvailabilityValidationReturn {
-  const { selectedDate, inspectorTimeSlot, clientTimeSlot } = params
+  const { selectedDate, selectedSlot } = params
   const { required, dateNotInPast } = useFormValidation()
 
   // Define validation rules
@@ -45,8 +45,12 @@ export function useAvailabilityValidation(
   // Custom validator for time slot selection
   const customValidators = {
     selectedTimeSlot: () => {
-      if (!inspectorTimeSlot.value && !clientTimeSlot.value) {
+      if (!selectedSlot.value) {
         return 'Please select a time slot'
+      }
+      // Validate that selectedSlot has valid totals
+      if (!selectedSlot.value.totalOnSite && !selectedSlot.value.totalTime) {
+        return 'Selected time slot is invalid'
       }
       return true
     }

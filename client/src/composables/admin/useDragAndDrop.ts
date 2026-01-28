@@ -9,6 +9,7 @@
 import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, nextTick, type Ref, type ComponentPublicInstance, type ComputedRef } from 'vue'
 import { animations, handleEnd, performTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
+import { getPanelsElement, countDraggableNodes, createSingleClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
 import type { GlobalEntity } from '@/types/entities'
 
 /**
@@ -37,46 +38,6 @@ export interface UseDragAndDropReturn {
   isMounted: Ref<boolean>
 }
 
-/**
- * Helper to get actual DOM element from VExpansionPanels component ref
- * WHY: Component refs give us component instances, we need the .v-expansion-panels DOM element
- * PATTERN: Access .$el property of component instance, then find .v-expansion-panels child
- */
-function getPanelsElement(
-  componentRef: ComponentPublicInstance | HTMLElement | null,
-  containerRef: HTMLElement | null,
-  isMounted: Ref<boolean>
-): HTMLElement | null {
-  // LEARNING: Guard against accessing refs during unmount
-  // WHY: Prevents errors when component is being unmounted by VWindow
-  // PATTERN: Check mount status and ref validity before accessing
-  if (!isMounted.value) return null
-  if (!componentRef && !containerRef) return null
-  
-  try {
-    // If componentRef is a component instance, get its $el
-    // LEARNING: Safe access with optional chaining and null checks
-    // WHY: $el might be undefined during component unmount
-    const componentEl = (componentRef && typeof componentRef === 'object' && '$el' in componentRef) 
-      ? (componentRef as ComponentPublicInstance).$el || componentRef 
-      : componentRef
-    
-    // Find the .v-expansion-panels element (this is where the actual panels are)
-    const panelsEl = componentEl?.querySelector?.('.v-expansion-panels') || componentEl
-    
-    // Fallback to searching in container
-    if (!panelsEl && containerRef) {
-      return containerRef.querySelector('.v-expansion-panels') as HTMLElement | null
-    }
-    
-    return panelsEl as HTMLElement | null
-  } catch {
-    // LEARNING: Catch errors during unmount
-    // WHY: Prevents errors from propagating when component is being destroyed
-    // PATTERN: Return null on error to gracefully handle unmount scenarios
-    return null
-  }
-}
 
 /**
  * useDragAndDrop composable
@@ -103,16 +64,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
    * PATTERN: Use ref flag to track component lifecycle state
    */
   const isMounted = ref(false)
-
-  /**
-   * LEARNING: Store drag instance for cleanup
-   * WHY: Need to clean up drag instance on unmount
-   * PATTERN: Store instance reference
-   * NOTE: Currently unused but kept for future cleanup implementation
-   */
-   
-  // @ts-expect-error - Unused variable kept for future cleanup implementation
-  let _dragInstance: ReturnType<typeof dragAndDrop> | null = null
 
   /**
    * LEARNING: Store watcher stop function for cleanup
@@ -145,23 +96,39 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
           const panelsEl = getPanelsElement(panelsComponentRef, container, isMounted)
           if (!panelsEl || !(panelsEl instanceof HTMLElement)) return
           
+          // LEARNING: Verify DOM nodes exist and match values count
+          // WHY: Prevents "number of enabled nodes does not match number of values" error
+          //      when drag-and-drop initializes before DOM nodes are rendered
+          // PATTERN: Count draggable nodes and ensure they match values array length
+          const entityIdsArray = entityIds.value
+          if (!entityIdsArray || entityIdsArray.length === 0) return
+          
+          // LEARNING: Create draggable checker function to ensure consistency
+          // WHY: Use the same logic for counting nodes and determining draggability
+          // PATTERN: Reuse the same checker function for both validation and drag-and-drop config
+          const isDraggableChecker = createSingleClassDraggableChecker(draggableClass)
+          const enabledNodesCount = countDraggableNodes(panelsEl, isDraggableChecker)
+          
+          if (enabledNodesCount !== entityIdsArray.length) {
+            // LEARNING: Wait for DOM to render before initializing
+            // WHY: DOM nodes haven't been created yet, need to wait for next render cycle
+            // PATTERN: Skip initialization and let watcher retry on next update
+            return
+          }
+          
           // Create a ref for the actual DOM element
           const panelsRef = ref(panelsEl)
           
-          // Clean up previous instance if it exists (recreate on change)
-          _dragInstance = null
-          
-          _dragInstance = dragAndDrop({
+          // Set up drag-and-drop instance
+          // NOTE: @formkit/drag-and-drop handles cleanup automatically when DOM elements are removed
+          dragAndDrop({
             parent: panelsRef,
             values: entityIds,
             group,
-            draggable: (child) => {
-              if (!child) return false
-              
-              // Check if element is a VExpansionPanel with our draggable class
-              return child.classList?.contains('v-expansion-panel') && 
-                     child.classList?.contains(draggableClass)
-            },
+            // LEARNING: Use shared draggable checker function
+            // WHY: Eliminates duplication between useDragAndDrop and useInstanceDragAndDrop
+            // PATTERN: Extract common logic to shared utility
+            draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
             plugins: [animations()],
             performTransfer: (state, data) => {
               performTransfer(state, data)
@@ -191,9 +158,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
     
     // Stop watchers immediately (they might trigger during transition if not stopped first)
     watcherStop.value?.()
-    
-    // Clear drag instance to prevent DOM manipulation during unmount
-    _dragInstance = null
   })
 
   /**

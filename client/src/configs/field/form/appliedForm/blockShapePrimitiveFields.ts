@@ -26,13 +26,6 @@ export const blockShapePrimitiveFields = {
     placeholder: "This Field Should Be Hidden",
     globalField: "orderIndex",
   },
-
-  active: {
-    primitiveType: PrimitiveTypeEnum.Boolean,
-    primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "Active",
-    globalField: "active",
-  },
   
   composable: {
     primitiveType: PrimitiveTypeEnum.Boolean,

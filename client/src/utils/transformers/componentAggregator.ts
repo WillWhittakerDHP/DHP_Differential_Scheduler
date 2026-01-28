@@ -114,7 +114,7 @@ export function getComponentsRecursive(
  * 
  * LEARNING: When composing block instances, compose all part instances from all composed blocks
  * WHY: Composer should show all part instances from all component blocks
- * PATTERN: Merge activeConstituents relationships from all composed blocks
+ * PATTERN: Merge activeParts relationships from all composed blocks
  */
 export function composePartInstances(
   composedBlockIds: string[],
@@ -126,13 +126,13 @@ export function composePartInstances(
     const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)
     if (!blockInstance) continue
     
-    // Get activeConstituents relationships for this block
-    const activeConstituentsRelationships = globalData.relationships.activeConstituents || []
-    const blockRelationships = activeConstituentsRelationships.filter(
+    // Get activeParts relationships for this block
+    const activePartsRelationships = globalData.relationships.activeParts || []
+    const blockRelationships = activePartsRelationships.filter(
       rel => rel.parent.id === blockId
     )
     
-    // Collect all part instance IDs from this block's activeConstituents
+    // Collect all part instance IDs from this block's activeParts
     blockRelationships.forEach(rel => {
       rel.children.forEach(partInstance => {
         allPartInstanceIds.add(partInstance.id)
@@ -193,7 +193,7 @@ export function composeProperties<GE extends GlobalEntityKey>(
   )
   
   // Special handling for blockInstance component: compose part instances
-  // Note: activeConstituents is a relationship, not a direct property
+  // Note: activeParts is a relationship, not a direct property
   // This will be handled separately in the relationship component
   if (entityKind === 'blockInstance') {
     // Future: composePartInstances(componentIds, globalData) could be used here

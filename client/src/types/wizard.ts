@@ -48,7 +48,7 @@ export interface WizardSelectionMethods {
   /** Toggle property type block selection (multi-select) */
   togglePropertyTypeBlock: (block: BookingBlockInstance) => void
   /** Load appointment data into wizard state */
-  loadAppointment: (appointment: AppointmentResponse) => WizardStateData | null
+  loadAppointment: (appointment: AppointmentResponse) => Promise<WizardStateData | null>
   /** Reset wizard state */
   resetWizard: () => void
 }
@@ -104,32 +104,20 @@ export type UseBookingWizardReturn = {
  * WHY: Provides type safety for availability step data collection
  * PATTERN: Interface matching the structure used in AvailabilityStep component
  */
-export interface AvailabilityStepData {
-  selectedDate: { start: string | null; end: string | null }
-  selectedTimeSlots: Array<{ time: string; duration: number }> | null
-}
+import type { PropertyDetailsData } from '@/types/propertyForm'
+import type { AvailabilityStepData } from '@/types/wizardStepData'
+
+// FIX: Use shared AvailabilityStepData type from wizardStepData.ts
+export type { AvailabilityStepData }
 
 /**
  * Property Details Step Data Interface
  * LEARNING: Type for property details step form data
  * WHY: Provides type safety for property details step data collection
  * PATTERN: Interface matching the structure used in PropertyDetailsStep component
+ * FIX: Use shared PropertyDetailsData type from propertyForm.ts
  */
-export interface PropertyDetailsStepData {
-  address: string
-  unit: string
-  city: string
-  state: string
-  zipCode: string
-  propertySize: number | null
-  numberOfUnits: number | null
-  mlsNumber: string
-  squareFootage: number | null
-  bedrooms: number | null
-  bathrooms: number | null
-  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-  additionalUnits: number | null
-}
+export type PropertyDetailsStepData = PropertyDetailsData
 
 /**
  * Contacts Step Data Interface

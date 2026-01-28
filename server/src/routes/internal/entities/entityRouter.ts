@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { Attributes, Model } from 'sequelize';
 import { getEntityConfig, isValidEntityType } from '../../../config/entityRegistry.js';
-import { BlockInstance } from '../../../config/app.js';
+import { BlockInstance, PartInstance, ActivePart } from '../../../config/app.js';
 import { 
   fetchAll, 
   fetchById, 
@@ -12,6 +12,7 @@ import {
   bulkPatch 
 } from '../../helpers/dataController.js';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
+import { createBlockInstanceVersionIfReferenced } from '../../../services/instanceVersioning.js';
 
 const router = Router();
 
@@ -97,12 +98,18 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
     
     // IMPORTANT: For models with `underscored: true`, always specify `attributes` explicitly
     // to avoid duplicate columns in SQL queries (both snake_case and camelCase versions)
-    const options: { attributes?: string[] } = {};
+    // LEARNING: Order entities by orderIndex to ensure consistent ordering
+    // WHY: All entity types (blockInstance, blockShape, partInstance, partShape) have orderIndex fields
+    // PATTERN: Use Sequelize order option to sort by orderIndex ascending
+    const options: { attributes?: string[]; order?: any[] } = {};
     if (isModelUnderscored(entityConfig.model)) {
       options.attributes = getModelAttributes(entityConfig.model);
     }
+    // Order by orderIndex to ensure entities are returned in correct order
+    options.order = [['orderIndex', 'ASC']];
     
     const data = await fetchAll(entityConfig.model, options);
+    
     res.json(data);
   } catch (error) {
     console.error('[EntityRouter] Error:', error);
@@ -164,6 +171,31 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
     const created = await createRecord(entityConfig.model, req.body);
     res.status(201).json(created);
   } catch (error) {
+    // LEARNING: Handle Sequelize validation errors as 400 Bad Request
+    // WHY: Validation errors (including unique constraint violations) are client errors, not server errors
+    // PATTERN: Check error type, return appropriate status code with helpful message
+    if (error instanceof Error && 
+        (error.name === 'SequelizeValidationError' || 
+         error.name === 'SequelizeUniqueConstraintError')) {
+      // LEARNING: Extract field name from unique constraint error for better error message
+      // WHY: Unique constraint errors should indicate which field has the duplicate value
+      // PATTERN: Check if error has fields property (SequelizeUniqueConstraintError structure)
+      const uniqueError = error as any;
+      const fieldName = uniqueError?.fields ? Object.keys(uniqueError.fields)[0] : 'field';
+      const fieldValue = uniqueError?.fields ? Object.values(uniqueError.fields)[0] : '';
+      
+      res.status(400).json({
+        error: `Validation failed for ${entityConfig.displayName}`,
+        details: uniqueError.name === 'SequelizeUniqueConstraintError' 
+          ? `${fieldName} "${fieldValue}" already exists. Please use a unique value.`
+          : error.message,
+      });
+      return;
+    }
+    
+    // LEARNING: Other errors are server errors
+    // WHY: Unexpected errors indicate server-side issues
+    // PATTERN: Log error and return 500
     console.error('[EntityRouter] Error:', error);
     res.status(500).json({ 
       error: `Error creating ${entityConfig.displayName}`,
@@ -185,13 +217,42 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
     return;
   }
   
+  const entityId = req.params.id;
+  
   try {
-    const updatedCount = await updateRecord(entityConfig.model, req.params.id, req.body);
+    // CRITICAL: For block instances, capture old state BEFORE update for versioning
+    if (req.params.entityType === 'blockInstance') {
+      const oldInstance = await BlockInstance.findByPk(entityId, {
+        include: [
+          {
+            model: PartInstance,
+            as: 'active_part_instances',
+            through: {
+              where: { disabled: false },
+            },
+          }
+        ]
+      });
+      
+      if (!oldInstance) {
+        res.status(404).json({ 
+          error: `${entityConfig.displayName} not found`,
+          id: entityId
+        });
+        return;
+      }
+      
+      // Create version with OLD data if referenced by appointments
+      await createBlockInstanceVersionIfReferenced(entityId, oldInstance);
+    }
+    
+    // Perform the update
+    const updatedCount = await updateRecord(entityConfig.model, entityId, req.body);
     
     if (updatedCount === 0) {
       res.status(404).json({ 
         error: `${entityConfig.displayName} not found`,
-        id: req.params.id
+        id: entityId
       });
       return;
     }
@@ -223,12 +284,88 @@ router.patch('/:entityType/order_index', async (req: Request, res: Response): Pr
   }
   
   try {
-    const updatedCount = await bulkPatch(entityConfig.model, req.body);
+    // LEARNING: Transform snake_case field names to camelCase for Sequelize
+    // WHY: Sequelize models use camelCase property names (orderIndex), but frontend sends snake_case (order_index)
+    // PATTERN: Transform payload before passing to bulkPatch to match Sequelize model property names
+    const transformedUpdates = req.body.map((update: { id: string; order_index: number }) => ({
+      id: update.id,
+      orderIndex: update.order_index,
+    }));
+    
+    const updatedCount = await bulkPatch(entityConfig.model, transformedUpdates);
     res.json({ updated: updatedCount });
   } catch (error) {
     console.error('[EntityRouter] Error:', error);
     res.status(500).json({ 
       error: `Failed to update ${entityConfig.displayName}s`,
+      details: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * PATCH /entities/:entityType/bulk
+ * Bulk update multiple entities with partial field updates
+ * 
+ * LEARNING: Bulk partial update endpoint for efficient multi-entity updates
+ * WHY: More efficient than individual PATCH requests (1 request vs N requests)
+ * PATTERN: Similar to order_index bulk endpoint but handles versioning for block instances
+ * 
+ * Request body: Array of { id: string, ...fields } objects
+ * 
+ * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
+ */
+router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<void> => {
+  const { entityConfig } = req;
+  if (!entityConfig) {
+    res.status(500).json({ error: 'Entity configuration missing' });
+    return;
+  }
+  
+  try {
+    const updates = req.body;
+    
+    // Validate request body is an array
+    if (!Array.isArray(updates)) {
+      res.status(400).json({ 
+        error: 'Request body must be an array of update objects',
+        details: 'Expected format: [{ id: string, ...fields }]'
+      });
+      return;
+    }
+    
+    // CRITICAL: For block instances, capture old state BEFORE update for versioning
+    if (req.params.entityType === 'blockInstance') {
+      // Fetch old instances with part instances for versioning
+      const blockInstanceIds = updates.map((update: { id: string }) => update.id);
+      
+      for (const blockInstanceId of blockInstanceIds) {
+        const oldInstance = await BlockInstance.findByPk(blockInstanceId, {
+          include: [
+            {
+              model: PartInstance,
+              as: 'active_part_instances',
+              through: {
+                where: { disabled: false },
+              },
+            }
+          ]
+        });
+        
+        if (oldInstance) {
+          // Create version with OLD data if referenced by appointments
+          await createBlockInstanceVersionIfReferenced(blockInstanceId, oldInstance);
+        }
+      }
+    }
+    
+    // Perform the bulk update
+    const updatedCount = await bulkPatch(entityConfig.model, updates);
+    res.json({ updated: updatedCount });
+  } catch (error) {
+    console.error('[EntityRouter] Error:', error);
+    res.status(500).json({ 
+      error: `Failed to bulk update ${entityConfig.displayName}s`,
       details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
@@ -248,18 +385,34 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
   }
   
   const entityId = req.params.id;
+  const fieldKey = req.body.key;
+  const newValue = req.body.value;
   
   try {
-    // LEARNING: Verify entity exists before attempting update
-    // WHY: Provides better error messages and helps diagnose 404 issues
-    // PATTERN: Check existence before update to distinguish between "not found" and "update failed"
-    const existingEntity = await fetchById(entityConfig.model, entityId);
-    if (!existingEntity) {
-      console.log(`[EntityRouter] PATCH: Entity not found:`, {
-        entityType: entityConfig.displayName,
-        id: entityId,
-        model: entityConfig.model.name
-      });
+    // LEARNING: Parse update data from request body
+    // WHY: Support both {key, value} format and direct field updates
+    // PATTERN: Standard PATCH - parse data, update directly, let Sequelize handle validation
+    let updateData;
+    if (fieldKey && newValue !== undefined) {
+      updateData = { [fieldKey]: newValue };
+    } else {
+      updateData = req.body;
+    }
+    
+    // LEARNING: Minimal logging - just field key and value
+    // WHY: Standard PATCH pattern - log essentials, not entire entity state
+    // PATTERN: Log before update to track what's being changed
+    console.log(`[EntityRouter] PATCH: ${entityConfig.displayName} ${entityId}`, {
+      fieldKey,
+      value: newValue
+    });
+    
+    // LEARNING: Update directly - Sequelize handles validation and returns 0 if entity not found
+    // WHY: Standard REST PATCH pattern - one database query, let ORM handle validation
+    // PATTERN: Call update, check result, handle errors
+    const updatedCount = await patchRecord(entityConfig.model, entityId, updateData);
+    
+    if (updatedCount === 0) {
       res.status(404).json({ 
         error: `${entityConfig.displayName} not found`,
         id: entityId
@@ -267,122 +420,26 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
       return;
     }
     
-    // LEARNING: All models now use underscored: true with camelCase properties
-    // WHY: Sequelize automatically converts camelCase properties to snake_case columns
-    // PATTERN: Pass camelCase directly to Sequelize - no field mapping needed
-    let updateData;
-    const fieldKey = req.body.key;
-    const newValue = req.body.value;
-    
-    // Handle both formats: {key, value} and direct field updates
-    if (fieldKey && newValue !== undefined) {
-      // Pass camelCase field name directly - Sequelize handles conversion to snake_case
-      updateData = { [fieldKey]: newValue };
-    } else {
-      updateData = req.body;
-    }
-    
-    /**
-     * WHY: // WHY: TypeScript doesn't allow direct indexing with dynamic keys on Model types
-     * PATTERN: // PATTERN: Use toJSON() to get plain object - Sequelize models always have toJSON() method
-     */
-    const entityData: Attributes<Model> = existingEntity.toJSON();
-    // Access using camelCase since Sequelize converts snake_case to camelCase in toJSON()
-    const currentValue = fieldKey ? entityData[fieldKey] : undefined;
-    const isDataDifferent = newValue !== currentValue;
-    
-    console.log(`[EntityRouter] PATCH: Updating entity:`, {
-      entityType: entityConfig.displayName,
-      id: entityId,
-      fieldKey,
-      updateData,
-      existingValue: currentValue,
-      newValue,
-      isDataDifferent
-    });
-    
-    // LEARNING: If data is identical, return success without updating
-    // WHY: No need to hit database if nothing changed
-    // PATTERN: Early return for no-op updates
-    if (!isDataDifferent && fieldKey) {
-      console.log(`[EntityRouter] PATCH: Data unchanged, skipping update:`, {
-        entityType: entityConfig.displayName,
-        id: entityId,
-        fieldKey,
-        value: newValue
-      });
-      res.json({ updated: 0, message: 'No changes detected' });
-      return;
-    }
-    
-    // LEARNING: Wrap update in try-catch to catch Sequelize validation errors
-    // WHY: Sequelize may throw validation errors that need to be caught
-    // PATTERN: Catch and handle Sequelize-specific errors
-    let updatedCount: number;
-    try {
-      updatedCount = await patchRecord(entityConfig.model, entityId, updateData);
-    } catch (updateError: unknown) {
-      const error = updateError instanceof Error ? updateError : new Error(String(updateError));
-      console.error(`[EntityRouter] PATCH: Sequelize update error:`, {
-        entityType: entityConfig.displayName,
-        id: entityId,
-        updateData,
-        error: error.message,
-        errorName: error.name,
-        errorStack: error.stack
-      });
-      
-      // LEARNING: Re-throw Sequelize validation errors as 400 Bad Request
-      // WHY: Validation errors are client errors, not server errors
-      // PATTERN: Return 400 for validation errors, 500 for other errors
-      if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
-        res.status(400).json({
-          error: `Validation failed for ${entityConfig.displayName}`,
-          details: error.message,
-          id: entityId
-        });
-        return;
-      }
-      
-      // Re-throw other errors to be caught by outer try-catch
-      throw error;
-    }
-    
-    if (updatedCount === 0) {
-      // LEARNING: This should rarely happen if we verified existence above
-      // WHY: But Sequelize update can return 0 if data is identical or validation fails
-      // PATTERN: Log detailed info when update returns 0 despite entity existing
-      console.warn(`[EntityRouter] PATCH: Update returned 0 rows despite entity existing:`, {
-        entityType: entityConfig.displayName,
-        id: entityId,
-        updateData,
-        existingEntity: existingEntity,
-        fieldKey,
-        currentValue,
-        newValue,
-        isDataDifferent
-      });
-      res.status(404).json({ 
-        error: `${entityConfig.displayName} not found or could not be updated`,
+    res.json({ updated: updatedCount });
+  } catch (error) {
+    // LEARNING: Handle Sequelize validation errors as 400 Bad Request
+    // WHY: Validation errors are client errors, not server errors
+    // PATTERN: Check error type, return appropriate status code
+    if (error instanceof Error && 
+        (error.name === 'SequelizeValidationError' || 
+         error.name === 'SequelizeUniqueConstraintError')) {
+      res.status(400).json({
+        error: `Validation failed for ${entityConfig.displayName}`,
+        details: error.message,
         id: entityId
       });
       return;
     }
     
-    console.log(`[EntityRouter] PATCH: Successfully updated:`, {
-      entityType: entityConfig.displayName,
-      id: entityId,
-      updatedCount
-    });
-    
-    res.json({ updated: updatedCount });
-  } catch (error) {
-    console.error('[EntityRouter] PATCH Error:', {
-      entityType: entityConfig.displayName,
-      id: entityId,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
-    });
+    // LEARNING: Other errors are server errors
+    // WHY: Unexpected errors indicate server-side issues
+    // PATTERN: Log error and return 500
+    console.error('[EntityRouter] PATCH Error:', error);
     res.status(500).json({ 
       error: `Failed to patch ${entityConfig.displayName}`,
       details: error instanceof Error ? error.message : 'Unknown error'
@@ -403,13 +460,32 @@ router.delete('/:entityType/:id', async (req: Request, res: Response): Promise<v
     return;
   }
   
+  const entityId = req.params.id;
+  
   try {
-    const deletedCount = await deleteRecord(entityConfig.model, req.params.id);
+    // CRITICAL: For block instances, capture old state BEFORE delete for versioning
+    if (req.params.entityType === 'blockInstance') {
+      const oldInstance = await BlockInstance.findByPk(entityId);
+      
+      if (!oldInstance) {
+        res.status(404).json({ 
+          error: `${entityConfig.displayName} not found`,
+          id: entityId
+        });
+        return;
+      }
+      
+      // Create version with OLD data if referenced by appointments
+      await createBlockInstanceVersionIfReferenced(entityId, oldInstance);
+    }
+    
+    // Perform the delete
+    const deletedCount = await deleteRecord(entityConfig.model, entityId);
     
     if (deletedCount === 0) {
       res.status(404).json({ 
         error: `${entityConfig.displayName} not found`,
-        id: req.params.id
+        id: entityId
       });
       return;
     }

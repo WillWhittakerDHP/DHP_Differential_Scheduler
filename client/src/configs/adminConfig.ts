@@ -13,157 +13,98 @@ import type { DisplayFieldConfigMap } from './field/display/fullFieldDisplayConf
 import { buildFormFieldConfig as buildDynamicFormFieldConfig } from './field/form/fullFieldFormConfig'
 import { buildDisplayFieldConfig as buildDynamicDisplayFieldConfig } from './field/display/fullFieldDisplayConfig'
 
-export type FieldSection = 'header' | 'direct' | 'subPanel'
-export type SubPanelType = 'parts' | 'relationships' | 'annotations'
-export type FieldLayout = 'inline' | 'stacked'
 /**
- * LEARNING: renderAs determines how a field is displayed
- * WHY: Allows boolean fields to render as clickable status buttons instead of toggles
- * PATTERN: 'field' (default) renders as form input, 'statusButton' renders as clickable VChip
+ * LEARNING: Field visibility types aligned with FieldMetadataEntry
+ * WHY: Single source of truth for field configuration - matches database fieldMetadata structure
+ * PATTERN: Same types as FieldMetadataEntry in entityMetadata.ts
  */
-export type FieldRenderAs = 'field' | 'statusButton'
+export type FieldVisibility = 'titleRow' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
+export type SubPanelType = 'parts' | 'relationships' | 'annotations' | 'none'
+export type FieldLayout = 'inline' | 'stacked'
+export type FieldRenderAs = 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect'
 
+/**
+ * LEARNING: FieldMetadata interface aligned with FieldMetadataEntry
+ * WHY: Single type system for all field configuration - shape-level and instance-level
+ * PATTERN: All properties required - explicit configuration only, no optional fields
+ * NOTE: This is used for shape-level fields (BlockShape/PartShape cards)
+ *       Instance fields use FieldMetadataEntry from entityMetadata.ts
+ */
 export interface FieldMetadata {
-  section: FieldSection
-  layout?: FieldLayout
-  panel?: SubPanelType
-  order?: number
   /**
-   * LEARNING: How the field should be rendered
-   * WHY: Boolean fields can render as clickable status buttons for cleaner UI
-   * PATTERN: 'statusButton' renders as VChip in panel title, clickable to toggle
-   * DEFAULT: 'field' - renders as standard form input
+   * LEARNING: Combined visibility + section into single property
+   * WHY: 'hidden' vs 'titleRow' vs 'expandedOnly' is really about visibility
+   *      The 'direct' vs 'panel' distinction is where expanded fields render
    */
-  renderAs?: FieldRenderAs
+  visibility: FieldVisibility
+  
   /**
-   * LEARNING: Color for status button variant
-   * WHY: Different boolean fields may need different semantic colors
-   * PATTERN: Uses Vuetify color names (success, primary, info, etc.)
+   * Layout within the section
+   */
+  layout: FieldLayout
+  
+  /**
+   * Ordering within visibility group (lower = first)
+   */
+  displayOrder: number
+  
+  /**
+   * How to render the field
+   * - 'text' | 'number' | 'select' | 'multiselect' | 'reference': Standard form inputs
+   * - 'statusButton': Clickable VChip for boolean fields
+   * - 'iconSelect': Icon picker field
+   */
+  renderAs: FieldRenderAs
+  
+  /**
+   * Color for statusButton rendering (Vuetify color name)
+   * Use 'default' for standard coloring when renderAs is not 'statusButton'
    */
   statusButtonColor?: string
+  
+  /**
+   * Panel name for 'expandedPanel' visibility
+   * Required when visibility is 'expandedPanel', use 'none' otherwise
+   */
+  panel: SubPanelType
 }
 
 /**
- * Instance config - defines field layout and omitted fields
+ * Instance config - defines field layout
  * 
- * LEARNING: All fields must be explicitly categorized
- * WHY: No implicit "regular" category - fields must be in inlineFields, stackedFields, or omitFields
- * PATTERN: Every field from formFieldConfig must appear in exactly one of:
- *   - inlineFields (for inline rendering)
- *   - stackedFields (for stacked rendering)
- *   - omitFields (for hidden/omitted fields)
+ * LEARNING: Field visibility comes from metadata, not config
+ * WHY: Metadata is the single source of truth for which fields should render
+ * PATTERN: Fields with visibility: 'hidden' in metadata won't render
+ * NOTE: inlineFields/stackedFields are layout hints for expandedDirect fields
  */
-const deriveLegacyLayout = (
-  fields?: Record<string, FieldMetadata>
-): { inlineFields: string[]; stackedFields: string[] } => {
-  if (!fields) return { inlineFields: [], stackedFields: [] }
-  const inlineFields: string[] = []
-  const stackedFields: string[] = []
-  Object.entries(fields).forEach(([key, meta]) => {
-    if (meta.section === 'direct') {
-      if (meta.layout === 'inline') {
-        inlineFields.push(key)
-      } else {
-        stackedFields.push(key)
-      }
-    }
-  })
-  return { inlineFields, stackedFields }
-}
-
 export function buildInstanceConfig() {
   /**
-   * LEARNING: blockInstance field configuration with status buttons
-   * WHY: Boolean fields (active, composite) render as clickable status badges
-   * PATTERN: renderAs: 'statusButton' + statusButtonColor for visual styling
+   * LEARNING: All field configuration removed - now 100% metadata-driven
+   * WHY: Field configuration controlled by database metadata via /admin-input-metadata
+   * PATTERN: No hardcoded field configs - all config comes from database
+   * NOTE: categorizeFieldsBySection uses metadata panel and layout properties
+   * 
+   * LEARNING: Field visibility comes from metadata, not config
+   * WHY: Metadata is the single source of truth for which fields should render
+   * PATTERN: Fields with visibility: 'hidden' in metadata won't render
    */
-  const blockInstanceFields: Record<string, FieldMetadata> = {
-    name: { section: 'header', layout: 'inline', order: 1 },
-    active: { section: 'header', layout: 'inline', order: 2, renderAs: 'statusButton', statusButtonColor: 'success' },
-    composite: { section: 'header', layout: 'inline', order: 3, renderAs: 'statusButton', statusButtonColor: 'primary' },
-    allowMultiple: { section: 'header', layout: 'inline', order: 4, renderAs: 'statusButton', statusButtonColor: 'info' },
-    requiresUnitNumber: { section: 'header', layout: 'inline', order: 5, renderAs: 'statusButton', statusButtonColor: 'secondary' },
-    dependent: { section: 'header', layout: 'inline', order: 6, renderAs: 'statusButton', statusButtonColor: 'warning' },
-    differential: { section: 'header', layout: 'inline', order: 7, renderAs: 'statusButton', statusButtonColor: 'purple' },
-    baseSqFt: { section: 'direct', layout: 'inline', order: 1 },
-    icon: { section: 'direct', layout: 'inline', order: 2 },
-    blockShapeRef: { section: 'direct', layout: 'stacked', order: 3 },
-    activeConstituents: { section: 'subPanel', panel: 'parts', order: 1 },
-    bookingCascades: { section: 'subPanel', panel: 'relationships', order: 1 },
-    instanceComponents: { section: 'subPanel', panel: 'relationships', order: 2 },
-    dependentInstanceOptions: { section: 'subPanel', panel: 'relationships', order: 3 },
-    annotations: { section: 'subPanel', panel: 'annotations', order: 1 }
-  }
-  const blockInstanceLayout = deriveLegacyLayout(blockInstanceFields)
-
-  /**
-   * LEARNING: blockShape field configuration with status buttons
-   * WHY: Boolean fields (active, composable, constituable) render as clickable status badges
-   * PATTERN: renderAs: 'statusButton' + statusButtonColor for visual styling
-   */
-  const blockShapeFields: Record<string, FieldMetadata> = {
-    name: { section: 'header', layout: 'inline', order: 1 },
-    type: { section: 'header', layout: 'inline', order: 2 },
-    active: { section: 'header', layout: 'inline', order: 3, renderAs: 'statusButton', statusButtonColor: 'success' },
-    composable: { section: 'header', layout: 'inline', order: 4, renderAs: 'statusButton', statusButtonColor: 'info' },
-    constituable: { section: 'header', layout: 'inline', order: 5, renderAs: 'statusButton', statusButtonColor: 'warning' },
-    validCascades: { section: 'subPanel', panel: 'relationships', order: 1 },
-    validConstituents: { section: 'subPanel', panel: 'relationships', order: 2 }
-  }
-  const blockShapeLayout = deriveLegacyLayout(blockShapeFields)
-
-  /**
-   * LEARNING: partInstance field configuration with status buttons
-   * WHY: Boolean fields (active, onSite, clientPresent, moveable) render as clickable status badges
-   * PATTERN: renderAs: 'statusButton' + statusButtonColor for visual styling
-   */
-  const partInstanceFields: Record<string, FieldMetadata> = {
-    name: { section: 'header', layout: 'inline', order: 1 },
-    partShapeRef: { section: 'header', layout: 'inline', order: 2 },
-    active: { section: 'header', layout: 'inline', order: 3, renderAs: 'statusButton', statusButtonColor: 'success' },
-    onSite: { section: 'header', layout: 'inline', order: 4, renderAs: 'statusButton', statusButtonColor: 'warning' },
-    clientPresent: { section: 'header', layout: 'inline', order: 5, renderAs: 'statusButton', statusButtonColor: 'info' },
-    moveable: { section: 'header', layout: 'inline', order: 6, renderAs: 'statusButton', statusButtonColor: 'secondary' },
-    baseTime: { section: 'direct', layout: 'inline', order: 1 },
-    rateOverBaseTime: { section: 'direct', layout: 'inline', order: 2 },
-    baseFee: { section: 'direct', layout: 'inline', order: 3 },
-    rateOverBaseFee: { section: 'direct', layout: 'inline', order: 4 }
-  }
-  const partInstanceLayout = deriveLegacyLayout(partInstanceFields)
-
-  const partShapeFields: Record<string, FieldMetadata> = {
-    name: { section: 'header', layout: 'inline', order: 1 }
-  }
-  const partShapeLayout = deriveLegacyLayout(partShapeFields)
-
+  
   return {
     blockInstance: {
       titleField: 'name',
-      fields: blockInstanceFields,
-      inlineFields: blockInstanceLayout.inlineFields,
-      stackedFields: blockInstanceLayout.stackedFields,
-      omitFields: ['id', 'orderIndex', 'entityKey']
+      fields: undefined, // Metadata-driven
     },
     blockShape: {
       titleField: 'name',
-      fields: blockShapeFields,
-      inlineFields: blockShapeLayout.inlineFields,
-      stackedFields: blockShapeLayout.stackedFields,
-      omitFields: ['id', 'entityKey', 'orderIndex']
+      fields: undefined, // Metadata-driven (was hardcoded)
     },
     partInstance: {
       titleField: 'partShapeRef',
-      fields: partInstanceFields,
-      inlineFields: partInstanceLayout.inlineFields,
-      stackedFields: partInstanceLayout.stackedFields,
-      omitFields: ['id', 'entityKey', 'orderIndex']
+      fields: undefined, // Metadata-driven
     },
     partShape: {
       titleField: 'name',
-      fields: partShapeFields,
-      inlineFields: partShapeLayout.inlineFields,
-      stackedFields: partShapeLayout.stackedFields,
-      omitFields: ['id', 'orderIndex', 'entityKey']
+      fields: undefined, // Metadata-driven (was hardcoded)
     }
   }
 }
@@ -189,14 +130,15 @@ export function buildDisplayFieldConfig() {
 }
 
 /**
- * Instance config type - defines field layout and omitted fields per entity
+ * Instance config type - defines field layout per entity
  * LEARNING: inlineFields/stackedFields are layout hints, not type definitions
  * WHY: EntityFormContent determines field types from formFieldConfig, not instanceConfig
  * NOTE: controlFields removed - was redundant with inlineFields
+ * NOTE: omitFields removed - field visibility controlled by metadata only
  * 
- * LEARNING: All fields must be explicitly categorized
- * WHY: No implicit "regular" category - every field must be in inlineFields, stackedFields, or omitFields
- * PATTERN: Fields not in inlineFields or stackedFields are treated as hidden (via omitFields)
+ * LEARNING: Field visibility comes from metadata, not config
+ * WHY: Metadata is the single source of truth for which fields should render
+ * PATTERN: Fields with visibility: 'hidden' in metadata won't render
  */
 export type InstanceConfig = {
   [GE in GlobalEntityKey]: {
@@ -204,7 +146,6 @@ export type InstanceConfig = {
     fields?: Record<string, FieldMetadata>
     inlineFields?: string[]
     stackedFields?: string[]
-    omitFields?: string[]
   }
 }
 

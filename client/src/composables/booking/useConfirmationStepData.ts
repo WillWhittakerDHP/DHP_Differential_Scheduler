@@ -6,10 +6,9 @@
  * PATTERN: Composable that aggregates wizard state and step data, calculates fees
  */
 
-import { computed, watch, type Ref, type ComputedRef } from 'vue'
+import { computed, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { buildConfirmationPriceData, buildConfirmationSummaryData } from '@/utils/booking/confirmationStepData'
-import { isDevModeEnabled } from '@/utils/env/devMode'
 
 /**
  * Summary data structure
@@ -35,29 +34,13 @@ export interface PriceData {
   finalTotal: number
 }
 
+import type { AvailabilityStepData } from '@/types/wizardStepData'
+import type { PropertyDetailsStepData } from '@/types/wizard'
+
 /**
  * Step data interfaces (matching BookingWizard.vue)
+ * FIX: Use shared types from wizardStepData.ts and wizard.ts
  */
-interface AvailabilityStepData {
-  selectedDate: { start: string | null; end: string | null }
-  selectedTimeSlots: Array<{ time: string; duration: number }> | null
-}
-
-interface PropertyDetailsStepData {
-  address: string
-  unit: string
-  city: string
-  state: string
-  zipCode: string
-  propertySize: number | null
-  numberOfUnits: number | null
-  mlsNumber: string
-  squareFootage: number | null
-  bedrooms: number | null
-  bathrooms: number | null
-  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-  additionalUnits: number | null
-}
 
 /**
  * useConfirmationStepData composable parameters
@@ -138,52 +121,9 @@ export function useConfirmationStepData(
     }, aduCount)
   })
 
-  /**
-   * DEBUG: Track ADU changes and priceData recalculations
-   * WHY: Helps identify reactivity issues and dependency tracking problems
-   * PATTERN: Development-only logging with watch statements
-   */
-  if (isDevModeEnabled()) {
-    // Watch for additionalUnits changes
-    watch(
-      () => propertyDetailsStepData?.value?.additionalUnits,
-      (newVal, oldVal) => {
-        console.log('[useConfirmationStepData] additionalUnits changed:', { 
-          oldVal, 
-          newVal,
-          stepDataValue: propertyDetailsStepData?.value 
-        })
-      }
-    )
-    
-    // Watch for priceData recalculations
-    watch(
-      priceData,
-      (newVal) => {
-        const stepDataValue = propertyDetailsStepData?.value
-        const aduCount = stepDataValue?.additionalUnits ?? null
-        console.log('[useConfirmationStepData] priceData recalculated:', {
-          totalFee: newVal.totalFee,
-          aduCount,
-          stepDataExists: !!stepDataValue
-        })
-      },
-      { deep: true }
-    )
-    
-    // Watch for stepData ref changes
-    watch(
-      () => propertyDetailsStepData?.value,
-      (newVal, oldVal) => {
-        console.log('[useConfirmationStepData] propertyDetailsStepData.value changed:', {
-          oldAdditionalUnits: oldVal?.additionalUnits,
-          newAdditionalUnits: newVal?.additionalUnits,
-          refChanged: oldVal !== newVal
-        })
-      },
-      { deep: true }
-    )
-  }
+  // LEARNING: Debug watches removed
+  // WHY: Debug logging should use proper logger utility, not console.log
+  // PATTERN: Remove dev-mode debug watches - use proper logging if needed
 
   return {
     summaryData,

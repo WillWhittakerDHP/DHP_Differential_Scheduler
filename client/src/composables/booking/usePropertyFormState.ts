@@ -12,7 +12,7 @@
  */
 
 import { ref } from 'vue'
-import type { PropertyFormData } from './usePropertyFormWatchers'
+import type { PropertyFormData } from '@/types/propertyForm'
 
 /**
  * usePropertyFormState composable return type

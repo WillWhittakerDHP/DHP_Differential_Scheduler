@@ -18,6 +18,7 @@ import { useEntityForm } from '../useEntityForm'
 import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
 import { useEntityDisplay } from './useEntityDisplay'
+import { getApiErrorMessage } from '../useApiErrorMessage'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
@@ -154,7 +155,7 @@ export function useEntityCardActions(
   const { success, error: showError } = useNotification()
   
   // Entity display composable
-  const { getEntitySuccessMessage, getEntityDeleteTitle } = useEntityDisplay()
+  const { getEntitySuccessMessage, getEntityCreateMessage, getEntityDeleteTitle } = useEntityDisplay()
   
   // Delete dialog state
   const showDeleteDialog = ref(false)
@@ -195,7 +196,7 @@ export function useEntityCardActions(
       if (isNew) {
         // Create new entity
         const createdEntity = await createEntity(formValues)
-        success(`${getEntityDeleteTitle(entityKey)} created successfully`)
+        success(getEntityCreateMessage(entityKey))
         onSaved?.(createdEntity)
       } else {
         // Update existing entity
@@ -206,7 +207,11 @@ export function useEntityCardActions(
         onSaved?.(entity.value)
       }
     } catch (err) {
-      showError(`Failed to save ${entityKey}. Please try again.`)
+      // LEARNING: Use composable for error message extraction
+      // WHY: Centralizes error message parsing logic
+      // PATTERN: Composable handles AxiosError, Error, and unknown error types
+      const errorMessage = getApiErrorMessage(err, `Failed to save ${entityKey}. Please try again.`)
+      showError(errorMessage)
     }
   }
   

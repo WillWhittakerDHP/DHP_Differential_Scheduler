@@ -108,10 +108,8 @@ export const tablerIcons = [
   'tabler-truck',
   
   // User Types (from migration)
-  'tabler-shopping-cart', // Buyer
-  'tabler-users', // Agent
-  'tabler-home', // Owner
   'tabler-clipboard-check', // Inspector
+  // Note: tabler-shopping-cart, tabler-users, and tabler-home already listed above
   
   // Common Actions
   'tabler-download',
@@ -249,11 +247,9 @@ export const tablerIcons = [
   'tabler-arrow-back-up',
   'tabler-arrow-forward-up',
   'tabler-arrow-up-circle',
-  'tabler-arrow-down-circle',
   'tabler-arrow-left-circle',
   'tabler-arrow-right-circle',
-  'tabler-chevron-up',
-  'tabler-chevron-down',
+  // Note: tabler-arrow-down-circle, tabler-chevron-up, and tabler-chevron-down already listed above
   'tabler-chevrons-left',
   'tabler-chevrons-right',
   'tabler-chevrons-up',
@@ -325,7 +321,7 @@ export const tablerIcons = [
   'tabler-arrow-curve-left',
   'tabler-arrow-curve-right',
   'tabler-arrow-down-bar',
-  'tabler-arrow-down-circle',
+  // Note: tabler-arrow-down-circle already listed above
   'tabler-arrow-down-left',
   'tabler-arrow-down-left-circle',
   'tabler-arrow-down-right',

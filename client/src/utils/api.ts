@@ -119,6 +119,16 @@ export function getOrderIndexEndpoint(entityKey: string): string {
 }
 
 /**
+ * Bulk PATCH API endpoint
+ * LEARNING: Endpoint for bulk partial updates to multiple entities
+ * WHY: Allows efficient bulk updates (1 request vs N requests)
+ * PATTERN: Returns endpoint path for bulk PATCH operations
+ */
+export function getBulkPatchEndpoint(entityKey: string): string {
+  return `/entities/${entityKey}/bulk`
+}
+
+/**
  * Annotation API endpoints
  * LEARNING: Endpoints for AnnotationInstance CRUD and ActiveAnnotation management
  * WHY: AnnotationInstances are NOT in ENTITY_KEYS, so they need their own endpoints
@@ -161,6 +171,48 @@ export function getAnnotationTypeByIdEndpoint(id: string): string {
 }
 
 /**
+ * Admin Metadata API endpoints (unified)
+ * LEARNING: Single endpoint for all metadata (primitives + relationships)
+ * WHY: Follows entity pattern - single endpoint/table, backend routes based on fieldKey type
+ * PATTERN: Single endpoint replaces separate primitive/relationship endpoints
+ */
+export function getAdminMetadataEndpoint(entityType: string, entityId: string): string {
+  return `/admin-metadata/${entityType}/${entityId}`
+}
+
+/**
+ * Admin Metadata Batch API endpoint
+ * LEARNING: Single endpoint fetches ALL metadata for admin page
+ * WHY: Reduces N+4 calls to 1 call, lazy-loaded only when admin page is accessed
+ * PATTERN: Batch endpoint returns structured metadata for all entity types
+ */
+export function getAdminMetadataBatchEndpoint(): string {
+  return '/admin-metadata/batch'
+}
+
+/**
+ * Admin Primitive Metadata API endpoints (deprecated - use getAdminMetadataEndpoint)
+ * LEARNING: Kept for backward compatibility during migration
+ * WHY: Old code may still reference these endpoints
+ * NOTE: These endpoints still work (routed to unified endpoint) but should be migrated to getAdminMetadataEndpoint
+ */
+export function getAdminPrimitiveMetadataEndpoint(entityType: string, entityId: string): string {
+  // Route to unified endpoint (backward compatibility)
+  return getAdminMetadataEndpoint(entityType, entityId)
+}
+
+/**
+ * Admin Relationship Metadata API endpoints (deprecated - use getAdminMetadataEndpoint)
+ * LEARNING: Kept for backward compatibility during migration
+ * WHY: Old code may still reference these endpoints
+ * NOTE: These endpoints still work (routed to unified endpoint) but should be migrated to getAdminMetadataEndpoint
+ */
+export function getAdminRelationshipMetadataEndpoint(entityType: string, entityId: string): string {
+  // Route to unified endpoint (backward compatibility)
+  return getAdminMetadataEndpoint(entityType, entityId)
+}
+
+/**
  * Availability API endpoints
  * LEARNING: Endpoints for fetching available time slots
  * WHY: Provides type-safe endpoint construction for availability API
@@ -182,6 +234,10 @@ export function getAppointmentEndpoint(): string {
 
 export function getAppointmentByIdEndpoint(id: string): string {
   return `/appointments/${id}`
+}
+
+export function getAppointmentVersionsEndpoint(id: string): string {
+  return `/appointments/${id}/versions`
 }
 
 /**

@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import InstancesTab from './tabs/InstancesTab.vue'
+import ShapesTab from './tabs/ShapesTab.vue'
 import DataManagementTab from './tabs/DataManagementTab.vue'
 import BusinessControlsTab from './tabs/BusinessControlsTab.vue'
 import { useAdmin } from '@/composables/useAdmin'
@@ -17,6 +18,7 @@ import { useAdmin } from '@/composables/useAdmin'
  * WHY: Ensures admin data (with transformer) only loads when admin page is accessed
  * PATTERN: Initialize route-specific composables in view component setup
  * PERFORMANCE: Admin transformer only runs on admin pages, not on scheduler pages
+ * NOTE: Metadata is prefetched in route guard before component renders (same pattern as globalData)
  */
 useAdmin()
 
@@ -37,8 +39,9 @@ const currentTab = ref('instances')
     -->
     <VTabs v-model="currentTab">
       <VTab value="instances">Instances</VTab>
+      <VTab value="shapes">Shapes</VTab>
       <VTab value="data">APPOINTMENTS</VTab>
-      <VTab value="business">AVAILABILITY</VTab>
+      <VTab value="business">CONTROLS</VTab>
     </VTabs>
     
     <!--
@@ -54,6 +57,9 @@ const currentTab = ref('instances')
     <VWindow v-model="currentTab">
       <VWindowItem key="instances" value="instances">
         <InstancesTab />
+      </VWindowItem>
+      <VWindowItem key="shapes" value="shapes">
+        <ShapesTab />
       </VWindowItem>
       <VWindowItem key="data" value="data">
         <DataManagementTab />

@@ -4,7 +4,7 @@
  * 
  * LEARNING: First step with user type selection cards and service types
  * WHY: Allows users to identify themselves and select services
- * PATTERN: Radio button cards with icons, titles, and descriptions
+ * PATTERN: Radio button cards with icons and titles
  * COMPARISON: React uses CustomRadioIcons. Vue uses VRadioGroup with VLabel cards
  * 
  * NOTE: Additional services functionality was removed - will be merged into base services in future work
@@ -15,13 +15,14 @@
 import { computed, inject, type Ref } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
-import { useServiceDescriptions } from '@/composables/booking/useServiceDescriptions'
-import { useServiceDisplay } from '@/composables/booking/useServiceDisplay'
-import { useServiceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
-import { useServiceSelectionState } from '@/composables/booking/useInstanceSelectionState'
+import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
+import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
+import { useInstanceSelectionState } from '@/composables/booking/useInstanceSelectionState'
 import { useInstanceComponentsList } from '@/composables/booking/useInstanceComponentsList'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
+import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
 // LEARNING: Inject shared wizard instance from parent
 // WHY: Ensures all step components share the same wizard state
@@ -36,40 +37,65 @@ if (!wizard) {
 // PATTERN: Inject provided loadedWizardState and watch for changes
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 
-// LEARNING: Use service selection state composable for v-model bridges
+// LEARNING: Use instance selection state composable for v-model bridges
 // WHY: Extracts v-model bridge logic from component to composable
 // PATTERN: Composable provides computed properties with getter/setter
-const { selectedUserTypeBlockId, selectedServiceIds } = useServiceSelectionState({
-  wizard,
+const { selectedId: selectedUserTypeBlockId } = useInstanceSelectionState({
+  availableInstances: computed(() => wizard.availableUserTypeBlocks.value),
+  selectedInstances: computed(() => wizard.selectedUserTypeBlock.value ? [wizard.selectedUserTypeBlock.value] : []),
+  toggleSelection: (ut) => wizard.selectUserTypeBlock(ut),
   loadedWizardState
 })
 
-// Use service selection config composable
-const selectionConfig = useServiceSelectionConfig({
-  selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value),
-  selectedServices: computed(() => wizard.selectedServices.value)
+const { selectedIds: selectedServiceIds } = useInstanceSelectionState({
+  availableInstances: computed(() => wizard.availableServices.value),
+  selectedInstances: computed(() => wizard.selectedServices.value),
+  toggleSelection: (s) => wizard.toggleService(s),
+  loadedWizardState
 })
-const { rowSelectionConfig, stackSelectionConfig } = selectionConfig
 
-// LEARNING: Use service descriptions composable for description filtering
-// WHY: Moves description filtering logic out of component into reusable composable
-// PATTERN: Composable handles user-type-specific description filtering
-const serviceDescriptionsComposable = useServiceDescriptions({
-  services: computed(() => wizard.availableServices.value),
-  selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)
+// Use instance selection config composable
+const rowSelectionConfigComposable = useInstanceSelectionConfig({
+  selectionType: 'row',
+  stateField: 'userTypeBlock',
+  selectedValue: computed(() => wizard.selectedUserTypeBlock.value)
 })
-const { getFilteredDescription } = serviceDescriptionsComposable
 
-// LEARNING: Use service display composable for display transformations
+const stackSelectionConfigComposable = useInstanceSelectionConfig({
+  selectionType: 'stack',
+  stateField: 'services',
+  selectedValue: computed(() => wizard.selectedServices.value)
+})
+
+const baseRowSelectionConfig = rowSelectionConfigComposable.selectionConfig
+const stackSelectionConfig = stackSelectionConfigComposable.selectionConfig
+
+// LEARNING: Override grid columns dynamically based on item count
+// WHY: Cards should fit on one row when there are fewer than 5 items
+const rowSelectionConfig = computed<SelectionCardConfig>(() => {
+  const baseConfig = baseRowSelectionConfig.value
+  const itemCount = wizardStateSelector.value.length
+  const dynamicGridColumns = calculateGridColumnsForItemCount(itemCount)
+  
+  return {
+    ...baseConfig,
+    gridColumns: dynamicGridColumns
+  }
+})
+
+// LEARNING: Use instance display composable for display transformations
 // WHY: Moves icon mapping and display transformation logic out of component into reusable composable
 // PATTERN: Composable handles icon mapping and display transformations
-const serviceDisplayComposable = useServiceDisplay({
-  userTypeBlocks: computed(() => wizard.availableUserTypeBlocks.value),
-  services: computed(() => wizard.availableServices.value),
-  selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value),
-  getFilteredDescription
+const userTypeDisplay = useInstanceDisplay({
+  instances: computed(() => wizard.availableUserTypeBlocks.value)
 })
-const { wizardStateSelector, baseServicesWithIcons: baseServicesWithIconsFromComposable } = serviceDisplayComposable
+const wizardStateSelector = userTypeDisplay.instancesWithDisplay
+
+const serviceDisplay = useInstanceDisplay({
+  instances: computed(() => wizard.availableServices.value),
+  selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)
+})
+const baseServicesWithIconsFromComposable = serviceDisplay.instancesWithDisplay
 
 // Use instance components list composable to enhance services with component data
 const instanceComponents = useInstanceComponentsList({
@@ -91,7 +117,7 @@ const isDevMode = isDevModeEnabled()
 // WHY: This ref was not being used anywhere in the component
 // PATTERN: Clean up unused state
 
-// LEARNING: Removed watch on loadedWizardState - now handled in useServiceSelectionState composable
+// LEARNING: Removed watch on loadedWizardState - now handled in useInstanceSelectionState composable
 // WHY: Watch logic moved to composable
 // PATTERN: Composable handles all state synchronization
 </script>
@@ -162,7 +188,7 @@ const isDevMode = isDevModeEnabled()
         
         <!-- LEARNING: Service Type Selection Cards -->
         <!-- WHY: Card-based selection for better visual consistency -->
-        <!-- PATTERN: SelectionCardGroup with stack layout, descriptions, and checkboxes on left -->
+        <!-- PATTERN: SelectionCardGroup with stack layout and checkboxes on left -->
         <!-- Session 6.3: Icons mapped with fallback handling -->
         <!-- Session 6.8: Improved spacing between cards -->
         <!-- Session 1.3.9.5: Updated to use checkboxes for multi-select -->

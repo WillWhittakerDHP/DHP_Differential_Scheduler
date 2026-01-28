@@ -1,4 +1,5 @@
 import type { Ref } from 'vue'
+import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId } from '@/types/entities'
@@ -11,12 +12,12 @@ import type { GlobalEntityId } from '@/types/entities'
  */
 export interface FieldDisplayConfig<GE extends GlobalEntityKey, _FieldKey extends GlobalFieldKey<GE>> {
   label: string
-  placeholder: string
+  placeholder?: string
   helpText?: string
   required?: boolean
   disabled?: boolean
   readOnly?: boolean
-  fieldType?: 'text' | 'number' | 'boolean' | 'date' | 'textarea' | 'select' | 'multiselect' | 'required' | 'nested' | 'hidden'
+  fieldType?: 'text' | 'number' | 'boolean' | 'date' | 'textarea' | 'select' | 'multiselect' | 'required' | 'partsCollection' | 'hidden'
   displayOrder?: number
 }
 
@@ -47,6 +48,7 @@ export interface FieldContextType<GE extends GlobalEntityKey, FieldKey extends G
   fieldKey: FieldKey
   entityKey: GE
   entityId: GlobalEntityId
+  formInstance?: FormContext
   value: Ref<ValidAdminValue>
   error: Ref<string | undefined>
   isValidating: Ref<boolean>

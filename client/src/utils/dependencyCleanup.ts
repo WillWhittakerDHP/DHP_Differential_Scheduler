@@ -2,7 +2,7 @@
  * Dependency Cleanup Utility
  * 
  * LEARNING: Automatically cleans up invalid active relationships when valid relationships change
- * WHY: When validCascades/validConstituents change on a blockShape, invalid bookingCascades/activeConstituents
+ * WHY: When validCascades/validParts change on a blockShape, invalid bookingCascades/activeParts
  *      relationships may exist that reference removed valid relationships
  * PATTERN: Check dependencyImpact config and clean up affected relationships
  * 
@@ -11,13 +11,11 @@
 
 import type { GlobalEntityId } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useAdmin } from '@/composables/useAdmin'
-import { useAdminConfig } from '@/composables/useAdminConfig'
 import apiClient, { getRelationshipByParentChildEndpoint } from '@/utils/api'
 import type { QueryClient } from '@tanstack/vue-query'
-import type { RelationshipFieldType } from '@/types/entity/formFields'
+// Note: RelationshipFieldType removed - no longer needed
 
 /**
  * Clean up invalid active relationships based on dependencyImpact config
@@ -39,22 +37,20 @@ export async function cleanupInvalidActiveRelationships(
   newValidChildIds: GlobalEntityId[],
   queryClient: QueryClient
 ): Promise<void> {
-  const adminConfig = useAdminConfig()
+  // LEARNING: This function is deprecated - formFieldConfig no longer exists
+  // WHY: formFieldConfig has been removed in favor of metadata-only approach
+  // PATTERN: dependencyImpact configuration needs to be added to metadata schema
+  // TODO: Add dependencyImpact to metadata schema and reimplement this function
+  throw new Error(
+    `[cleanupInvalidActiveRelationships] DEPRECATED: This function uses formFieldConfig which has been removed. ` +
+    `dependencyImpact configuration needs to be added to metadata schema. ` +
+    `Relationship cleanup for ${validRelationshipKey} on ${entityKey} is currently disabled.`
+  )
+  
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  // Dead code below - kept for reference when reimplementing with metadata
   const adminComp = useAdmin()
-  
-  /**
-   * WHY: // WHY: getAdminConfig() returns raw config, useAdminConfig() provides the composable with methods
-   * PATTERN: // PATTERN: Use composable pattern for accessing config in Vue
-   */
-  const formFieldConfig = adminConfig.getFormFieldConfig(entityKey, validRelationshipKey as unknown as GlobalFieldKey<GlobalEntityKey>).value
-  if (!formFieldConfig || !('relationshipSelect' in formFieldConfig)) {
-    return // No config or not a relationship select field
-  }
-  
-  // LEARNING: Type assertion needed because FormFieldConfig type is simplified
-  // WHY: The actual config has dependencyImpact but the type definition doesn't include it
-  // PATTERN: Cast to RelationshipFieldType which includes dependencyImpact
-  const config = formFieldConfig.relationshipSelect as RelationshipFieldType<GlobalEntityKey, GlobalRelationshipKey>
+  const config = null as any
   if (!config || !config.dependencyImpact) {
     return // No dependency impact configured
   }
@@ -79,7 +75,7 @@ export async function cleanupInvalidActiveRelationships(
   // PATTERN: Use API client directly for relationship deletion, queryClient passed as parameter
   const activeRelationshipKey = affectedField as GlobalRelationshipKey
   
-  // Create Set for O(1) lookup of valid child IDs (these are blockShape/partShape IDs from validCascades/validConstituents)
+  // Create Set for O(1) lookup of valid child IDs (these are blockShape/partShape IDs from validCascades/validParts)
   const validChildIdsSet = new Set(newValidChildIds.map(id => String(id)))
   
     // For each affected entity, check its active relationships and remove invalid ones
@@ -92,7 +88,7 @@ export async function cleanupInvalidActiveRelationships(
     }
     
     // LEARNING: Determine child entity type and typeRef key based on relationship type
-    // WHY: validCascades → blockInstance (check blockShapeRef), validConstituents → partInstance (check partShapeRef)
+    // WHY: validCascades → blockInstance (check blockShapeRef), validParts → partInstance (check partShapeRef)
     // PATTERN: Map relationship key to child entity type
     const childEntityKey = validRelationshipKey === 'validCascades' ? 'blockInstance' as GlobalEntityKey : 'partInstance' as GlobalEntityKey
     const typeRefKey = childEntityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'

@@ -1,8 +1,11 @@
 <template>
   <div>
-    <!-- Text Input -->
+    <!-- LEARNING: Check renderAs from metadata to determine which input to render -->
+    <!-- WHY: renderAs is the source of truth for rendering - component dispatcher already determined this is primitive -->
+    <!-- PATTERN: Use renderAs to determine TextInput vs BooleanInput, fieldType for other types -->
+    <!-- Text Input (renderAs: 'text' or fieldType: 'text') -->
     <TextInput
-      v-if="fieldType === 'text'"
+      v-if="renderAs === 'text' || (fieldType === 'text' && renderAs !== 'statusButton')"
       :field-context="fieldContext"
       :show-label="showLabel"
     />
@@ -14,9 +17,10 @@
       :show-label="showLabel"
     />
     
-    <!-- Boolean Input -->
+    <!-- Boolean Input (renderAs: 'statusButton' or fieldType: 'boolean') -->
+    <!-- Note: renderAs can be 'text' for text inputs, but if fieldType is 'boolean', it's a boolean field -->
     <BooleanInput
-      v-else-if="fieldType === 'boolean'"
+      v-else-if="renderAs === 'statusButton' || fieldType === 'boolean'"
       :field-context="fieldContext"
       :show-label="showLabel"
     />
@@ -37,7 +41,7 @@
     
     <!-- Unknown Input Type -->
     <div v-else class="input-error">
-      Unknown input type: {{ fieldType }}
+      Unknown input type: {{ fieldType }} (renderAs: {{ renderAs }})
     </div>
   </div>
 </template>
@@ -58,8 +62,9 @@ import { computed } from 'vue'
 import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
-import { useAdminConfig } from '../../../../composables/useAdminConfig'
-import { PrimitiveModeEnum, PrimitiveTypeEnum } from '../../../../types/entity/formDataEnums'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
+import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import TextInput from './TextInput.vue'
 import NumberInput from './NumberInput.vue'
 import BooleanInput from './BooleanInput.vue'
@@ -75,85 +80,40 @@ const props = withDefaults(defineProps<Props>(), {
   showLabel: true
 })
 
-// LEARNING: Use adminConfig to determine field type from primitiveInput config
-// WHY: Field type should be determined from formFieldConfig.primitiveInput.primitiveMode
-// PATTERN: Read config and map primitiveMode to fieldType
-const adminConfig = useAdminConfig()
-
-// LEARNING: Get form field config to determine primitive field type
-// WHY: primitiveMode determines which input component to render
-// PATTERN: Read config and map primitiveMode to fieldType
-const fieldConfig = computed(() => {
-  return adminConfig.getFormFieldConfig(
-    props.fieldContext.entityKey,
-    props.fieldContext.fieldKey
-  ).value
+// LEARNING: Determine field type from displayConfig (which comes from dataType only)
+// WHY: displayConfig.fieldType is set from metadata dataType - renderAs is checked separately
+// PATTERN: Use displayConfig.fieldType for data type, check renderAs from metadata for rendering
+const fieldType = computed(() => {
+  // LEARNING: displayConfig.fieldType is set from metadata dataType in useFormFieldsContext
+  // WHY: Metadata is the source of truth for field rendering
+  // PATTERN: Fail explicitly if fieldType is missing - no fallbacks
+  if (!props.fieldContext.displayConfig.fieldType) {
+    throw new Error(
+      `[PrimitiveInputs] Missing fieldType in displayConfig for field ${String(props.fieldContext.fieldKey)}. ` +
+      `Field must be configured in /admin-input-metadata.`
+    )
+  }
+  return props.fieldContext.displayConfig.fieldType
 })
 
-// LEARNING: Map primitiveMode enum to fieldType using type-safe enum comparisons
-// WHY: Use enum values directly instead of string comparisons for type safety
-// PATTERN: Switch on enum values, eliminate redundant mappings
-const fieldType = computed(() => {
-  const config = fieldConfig.value
-  const primitiveConfig = config?.primitiveInput
-  
-  if (!primitiveConfig) {
-    // Fallback to displayConfig if no primitiveInput config
-    return props.fieldContext.displayConfig.fieldType || 'text'
-  }
-  
-  const primitiveMode = primitiveConfig.primitiveMode
-  const primitiveType = primitiveConfig.primitiveType
-  
-  // Map PrimitiveModeEnum to fieldType using switch statement for exhaustiveness checking
-  // LEARNING: Switch statements provide TypeScript exhaustiveness checking and clearer enum handling
-  // WHY: Safer than if-else chains - TypeScript can warn if we miss an enum value
-  // PATTERN: Switch on enum with fall-through for consolidated mappings
-  switch (primitiveMode) {
-    case PrimitiveModeEnum.Input:
-      // Input mode: determine type from primitiveType enum
-      if (primitiveType === PrimitiveTypeEnum.Date) {
-        return 'date'
-      } else if (primitiveType === PrimitiveTypeEnum.Number) {
-        return 'number'
-      } else {
-        return 'text'
-      }
-    
-    case PrimitiveModeEnum.Number:
-      return 'number'
-    
-    case PrimitiveModeEnum.Checkbox:
-    case PrimitiveModeEnum.Toggle:
-      // LEARNING: Fall-through handles multiple enum values mapping to same result
-      // WHY: Cleaner than multiple conditions in if-else
-      return 'boolean'
-    
-    case PrimitiveModeEnum.TextArea:
-    case PrimitiveModeEnum.MultilineText:
-      // LEARNING: Both TextArea and MultilineText map to textarea component
-      // WHY: Consolidate redundant mappings - both represent multi-line text input
-      return 'textarea'
-    
-    case PrimitiveModeEnum.Hidden:
-    case PrimitiveModeEnum.Select:
-    case PrimitiveModeEnum.ModeToggle:
-    case PrimitiveModeEnum.TextEditOnExpand:
-      // These modes don't map to input components - fall back to default
-      break
-    
-    default:
-      // LEARNING: Default case ensures exhaustiveness - TypeScript will warn if we miss an enum value
-      // WHY: Safer than if-else chains which don't provide exhaustiveness checking
-      // Check if primitiveType alone indicates date (fallback)
-      if (primitiveType === PrimitiveTypeEnum.Date) {
-        return 'date'
-      }
-      return props.fieldContext.displayConfig.fieldType || 'text'
-  }
-  
-  // Fallback for handled cases that don't return (e.g., Hidden)
-  return props.fieldContext.displayConfig.fieldType || 'text'
+// LEARNING: Get renderAs from metadata to determine rendering
+// WHY: renderAs determines how to render (text input vs status button), not fieldType
+// PATTERN: Load metadata and read renderAs - component dispatcher already determined this is primitive
+// LEARNING: Use composable for entity lookup
+// WHY: Extracts entity lookup logic to reusable composable
+// PATTERN: Composable handles both temporary and existing entities
+const entityForMetadata = useFieldContextMetadataEntity(props.fieldContext)
+
+const fetchedMetadata = useEntityMetadata(
+  props.fieldContext.entityKey,
+  entityForMetadata
+)
+
+const renderAs = computed<FieldMetadataEntry['renderAs'] | undefined>(() => {
+  const metadata = fetchedMetadata.fieldMetadata.value
+  const fieldKeyStr = String(props.fieldContext.fieldKey)
+  const meta = metadata[fieldKeyStr]
+  return meta?.renderAs
 })
 </script>
 

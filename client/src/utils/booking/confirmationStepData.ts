@@ -1,5 +1,6 @@
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PriceData, SummaryData } from '@/composables/booking/useConfirmationStepData'
+import { getPartInstanceCategory } from './partShapeTimeSlotMapping'
 
 type WizardSelectionState = {
   selectedServices: readonly BookingBlockInstance[]
@@ -28,13 +29,56 @@ type PropertyDetailsStepData = {
  * 2. aduCount (from propertyDetails.additionalUnits)
  * 3. 1 (no multiplier)
  */
+/**
+ * Check if a category should be zeroed out
+ * LEARNING: If any part instance in a category has zeroOutPart: true, the entire category is zeroed
+ * WHY: Allows parts like "no Client Presentation" to zero out the entire category
+ * PATTERN: Check if any part in category has zeroOutPart flag set
+ */
+function shouldZeroOutCategory(categoryParts: BookingPartInstance[]): boolean {
+  return categoryParts.some(part => part.zeroOutPart === true)
+}
+
 export function calculateBlockInstanceFee(
   blockInstance: BookingBlockInstance,
   aduCount?: number | null
 ): number {
+  // LEARNING: Group parts by category to check for zeroed categories
+  // WHY: Need to identify which categories should be zeroed out
+  // PATTERN: Group parts by category, then filter out zeroed categories
+  const partsByCategory = new Map<string, BookingPartInstance[]>()
+  
+  blockInstance.partInstances.forEach(part => {
+    const category = getPartInstanceCategory(part)
+    if (category) {
+      if (!partsByCategory.has(category)) {
+        partsByCategory.set(category, [])
+      }
+      partsByCategory.get(category)!.push(part)
+    }
+  })
+  
+  // LEARNING: Identify zeroed categories
+  // WHY: Need to exclude parts from zeroed categories from fee calculation
+  const zeroedCategories = new Set<string>()
+  partsByCategory.forEach((categoryParts, category) => {
+    if (shouldZeroOutCategory(categoryParts)) {
+      zeroedCategories.add(category)
+    }
+  })
+  
+  // LEARNING: Filter out parts from zeroed categories before calculating fees
+  // WHY: Zeroed categories should not contribute to fees
+  // PATTERN: Filter partInstances to exclude parts in zeroed categories
+  const nonZeroedParts = blockInstance.partInstances.filter(part => {
+    const category = getPartInstanceCategory(part)
+    return !category || !zeroedCategories.has(category)
+  })
+  
   // LEARNING: Uses snapshot partInstance.baseFee if available (from appointment snapshots)
   // WHY: Preserves historical pricing even if admin updates fees later
-  const baseFee = blockInstance.partInstances.reduce((sum, partInstance) => sum + (partInstance.baseFee || 0), 0)
+  // NOTE: Only includes fees from non-zeroed parts
+  const baseFee = nonZeroedParts.reduce((sum, partInstance) => sum + (partInstance.baseFee || 0), 0)
   
   // LEARNING: Multiply by quantity if allowMultiple is true
   // WHY: Some services need to be multiplied by quantity (e.g., ADU count)

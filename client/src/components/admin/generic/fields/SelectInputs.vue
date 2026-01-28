@@ -138,16 +138,20 @@ const { fieldContext } = props
 const rawFieldValue = useFieldValue(fieldContext)
 
 // LEARNING: Use admin composable to get entities with relationships attached
-// WHY: AdminEntity has relationships (validCascades, validConstituents) attached, raw GlobalEntity doesn't
+// WHY: AdminEntity has relationships (validCascades, validParts) attached, raw GlobalEntity doesn't
 // PATTERN: Use admin store/composable for admin interface operations
 const adminComp = useAdmin()
 
 // LEARNING: Use select config composable for all configuration logic
 // WHY: Moves config parsing out of component into reusable composable
 // PATTERN: Composable handles field config, select config, and derived properties
+// NOTE: useSelectConfig now handles enum selects gracefully (returns undefined for selectConfig)
 const selectConfigComposable = useSelectConfig({ fieldContext })
 const {
   selectConfig,
+  isEnumSelect,
+  isOptionsSelect,
+  optionsSelectOptions,
   isDescriptionSelect,
   isMultiple,
   chipsProps,
@@ -237,13 +241,6 @@ const {
   filteredEntities,
 } = selectFilteringComposable
 
-// LEARNING: Check if this is an enum select (type field on blockShape)
-// WHY: Enum selects need hardcoded options, not entity-based options
-// PATTERN: Special handling for enum fields
-const isEnumSelect = computed(() => {
-  return fieldContext.entityKey === 'blockShape' && fieldContext.fieldKey === 'type'
-})
-
 // LEARNING: Provide enum options for type field
 // WHY: Block shape type is an enum with fixed values
 const enumOptions = computed(() => {
@@ -282,9 +279,13 @@ const {
   getGroupValue
 } = selectOptionsComposable
 
-// LEARNING: Use enum options for enum selects, entity options otherwise
-// WHY: Enum selects have fixed options, relationship selects use entities
+// LEARNING: Use metadata options for options selects, enum options for enum selects
+// WHY: bookingMode uses metadata.inputConfig.options, blockShape.type uses enum options
+// PATTERN: Prefer optionsSelectOptions, then enum options, then entity options
 const options = computed(() => {
+  if (isOptionsSelect.value) {
+    return optionsSelectOptions.value
+  }
   return isEnumSelect.value ? enumOptions.value : entityOptions.value
 })
 

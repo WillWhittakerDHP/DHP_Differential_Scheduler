@@ -29,14 +29,14 @@ function createBlockInstance(id: string, name: string): GlobalEntity<'blockInsta
 }
 
 /**
- * Helper to create an activeConstituents relationship
+ * Helper to create an activeParts relationship
  */
-function createActiveConstituentsRel(
+function createActivePartsRel(
   parentId: string,
   childIds: string[]
 ): GlobalRelationship {
   return {
-    relationshipKind: 'activeConstituents',
+    relationshipKind: 'activeParts',
     parent: { id: parentId, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>,
     children: childIds.map(id => ({ id, entityKey: 'partInstance' } as GlobalEntity<'partInstance'>)),
   }
@@ -76,15 +76,15 @@ describe('componentAggregator', () => {
           partShape: [],
         },
         relationships: {
-          activeConstituents: [
-            createActiveConstituentsRel('block-1', ['part-1', 'part-2']),
-            createActiveConstituentsRel('block-2', ['part-3', 'part-4']),
+          activeParts: [
+            createActivePartsRel('block-1', ['part-1', 'part-2']),
+            createActivePartsRel('block-2', ['part-3', 'part-4']),
           ],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],
-          validConstituents: [],
-          dependentInstanceOptions: [],
+          validParts: [],
+          dependentInstances: [],
         },
       }
       
@@ -112,15 +112,15 @@ describe('componentAggregator', () => {
           partShape: [],
         },
         relationships: {
-          activeConstituents: [
-            createActiveConstituentsRel('block-1', ['part-1', 'part-2']),
-            createActiveConstituentsRel('block-2', ['part-2', 'part-3']), // part-2 is shared
+          activeParts: [
+            createActivePartsRel('block-1', ['part-1', 'part-2']),
+            createActivePartsRel('block-2', ['part-2', 'part-3']), // part-2 is shared
           ],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],
-          validConstituents: [],
-          dependentInstanceOptions: [],
+          validParts: [],
+          dependentInstances: [],
         },
       }
       
@@ -144,12 +144,12 @@ describe('componentAggregator', () => {
           partShape: [],
         },
         relationships: {
-          activeConstituents: [],
+          activeParts: [],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],
-          validConstituents: [],
-          dependentInstanceOptions: [],
+          validParts: [],
+          dependentInstances: [],
         },
       }
       
@@ -171,14 +171,14 @@ describe('componentAggregator', () => {
           partShape: [],
         },
         relationships: {
-          activeConstituents: [
-            createActiveConstituentsRel('block-1', ['part-1']),
+          activeParts: [
+            createActivePartsRel('block-1', ['part-1']),
           ],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],
-          validConstituents: [],
-          dependentInstanceOptions: [],
+          validParts: [],
+          dependentInstances: [],
         },
       }
       
@@ -203,15 +203,15 @@ describe('componentAggregator', () => {
           partShape: [],
         },
         relationships: {
-          activeConstituents: [
-            createActiveConstituentsRel('block-1', ['part-1']),
-            // block-2 has no activeConstituents
+          activeParts: [
+            createActivePartsRel('block-1', ['part-1']),
+            // block-2 has no activeParts
           ],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],
-          validConstituents: [],
-          dependentInstanceOptions: [],
+          validParts: [],
+          dependentInstances: [],
         },
       }
       
@@ -223,7 +223,7 @@ describe('componentAggregator', () => {
       expect(result).toContain('part-1')
     })
 
-    it('should handle empty activeConstituents relationships', () => {
+    it('should handle empty activeParts relationships', () => {
       // Arrange
       const globalData: GlobalData = {
         entities: {
@@ -233,12 +233,12 @@ describe('componentAggregator', () => {
           partShape: [],
         },
         relationships: {
-          activeConstituents: [],
+          activeParts: [],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],
-          validConstituents: [],
-          dependentInstanceOptions: [],
+          validParts: [],
+          dependentInstances: [],
         },
       }
       

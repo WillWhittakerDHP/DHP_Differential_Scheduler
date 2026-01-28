@@ -18,6 +18,7 @@
       :error="!!fieldContext.error?.value"
       :error-messages="fieldContext.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
+      class="number-input-field"
       @update:model-value="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
@@ -49,7 +50,8 @@ import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
-import { ENTITY_CARD_SAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
+import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
+import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -70,6 +72,13 @@ const { fieldContext } = props
  */
 const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
 
+/**
+ * LEARNING: Inject disableAutoSave flag from EntityCard
+ * WHY: Allows parent to disable field blur auto-save (e.g., in bulk edit modals)
+ * PATTERN: Use inject to access parent EntityCard's disableAutoSave flag
+ */
+const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
+
 // LEARNING: Use unified field value composable
 // WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
 // PATTERN: Always use useFieldValue for accessing field values
@@ -83,70 +92,33 @@ const handleChange = (value: string | number) => {
   fieldContext.setValue(isNaN(numValue) ? 0 : numValue)
 }
 
-const handleFocus = () => {
-  fieldContext.setFocus(true)
-}
-
-const handleBlur = async () => {
-  fieldContext.setFocus(false)
-  
-  const isValid = await fieldContext.validate()
-  
-  if (isValid) {
-    try {
-      await fieldContext.save()
-    } catch (error) {
-      // Auto-save failed
-    }
-  }
-}
-
-// LEARNING: Handle Enter key press with auto-save
-// WHY: Allows users to save by pressing Enter, similar to blur behavior
-// PATTERN: For create cards, save entire form and collapse; for existing entities, save just the field
-const handleEnterKey = async (event: KeyboardEvent) => {
-  // Prevent default form submission behavior
-  event.preventDefault()
-  
-  // Validate field
-  const isValid = await fieldContext.validate()
-  
-  if (!isValid) {
-    return
-  }
-  
-  // LEARNING: For create cards, save entire form instead of just the field
-  // WHY: Creates the entity and triggers collapse logic via onSaved callback
-  // PATTERN: Check if we're in a create card context and use handleSave if available
-  if (entityCardSaveContext?.isNew && entityCardSaveContext.handleSave) {
-    try {
-      await entityCardSaveContext.handleSave()
-      // Blur the field after successful save to remove focus
-      fieldContext.setFocus(false)
-      // Blur the actual input element
-      const target = event.target as HTMLElement
-      if (target && 'blur' in target && typeof target.blur === 'function') {
-        target.blur()
-      }
-    } catch (error) {
-      // Form save failed
-    }
-    return
-  }
-  
-  // For existing entities, save just the field
-  try {
-    await fieldContext.save()
-    // Blur the field after successful save to remove focus
-    fieldContext.setFocus(false)
-    // Blur the actual input element
-    const target = event.target as HTMLElement
-    if (target && 'blur' in target && typeof target.blur === 'function') {
-      target.blur()
-    }
-  } catch (error) {
-    // Auto-save failed
-  }
-}
+// FIX: Use shared field input handlers from composable
+const { handleFocus, handleBlur, handleEnterKey } = useFieldInputHandlers({
+  fieldContext,
+  disableAutoSave,
+  entityCardSaveContext
+})
 </script>
+
+<style scoped>
+/* LEARNING: Responsive number input field styling */
+/* WHY: Number fields should match text field width for consistency */
+/* PATTERN: Use CSS to make fields responsive and fit content */
+/* LEARNING: Minimum width matches name field, but can grow larger */
+/* WHY: Ensures consistency - all text/number fields are at least as wide as name field */
+/*      But allows growth for longer numbers */
+.number-input-field {
+  width: 100%;
+  min-width: 200px; /* Minimum width to match typical name field width */
+}
+
+/* LEARNING: On mobile, make fields stack and take full width */
+/* WHY: Better UX on small screens */
+@media (max-width: 600px) {
+  .number-input-field {
+    width: 100%;
+    min-width: 0; /* Allow shrinking on mobile */
+  }
+}
+</style>
 

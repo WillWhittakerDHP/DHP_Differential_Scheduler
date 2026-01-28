@@ -1,17 +1,20 @@
 import { computed, type ComputedRef } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import apiClient, { getEntityByIdEndpoint, getEntityEndpoint, getOrderIndexEndpoint } from '@/utils/api'
+import apiClient, { getEntityByIdEndpoint, getEntityEndpoint, getOrderIndexEndpoint, getBulkPatchEndpoint } from '@/utils/api'
 import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
 import { globalTransformer, type GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { transformApiEntity } from '@/utils/transformers/entityTransformers'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import type { ValidAdminValue } from '@/constants/primitives'
-import { sanitizeEntityAdminValues } from '@/utils/entities/sanitizeEntityAdminValues'
 import type { Logger } from '@/utils/logger'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 export type OrderIndexUpdate = Array<{ id: GlobalEntityId; orderIndex: number }>
+
+export type BulkUpdate<GlobalEntityTypeKey extends GlobalEntityKey> = Array<{ 
+  id: GlobalEntityId 
+} & Partial<GlobalEntity<GlobalEntityTypeKey>>>
 
 export type UseEntityCrudActionsReturn<GlobalEntityTypeKey extends GlobalEntityKey> = {
   isLoading: ComputedRef<boolean>
@@ -22,6 +25,7 @@ export type UseEntityCrudActionsReturn<GlobalEntityTypeKey extends GlobalEntityK
   update: (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>, id: GlobalEntityId) => Promise<unknown>
   remove: (id: GlobalEntityId) => Promise<{ deletedId: string }>
   patchOrderIndex: (updates: OrderIndexUpdate) => Promise<void>
+  patchBulk: (updates: BulkUpdate<GlobalEntityTypeKey>) => Promise<void>
 
   // Expose the raw update mutation for advanced orchestration (e.g. component-computed checks).
   updateMutation: {
@@ -68,9 +72,7 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
         entityKey,
       }
 
-      const sanitizedEntity = sanitizeEntityAdminValues(entityKey, rawEntity)
-
-      const { id: _id, ...entityWithoutId } = sanitizedEntity
+      const { id: _id, ...entityWithoutId } = rawEntity
       const backendPayload = globalTransformer.dehydrateEntity(entityWithoutId as Partial<GlobalEntity<GlobalEntityTypeKey>>)
       delete backendPayload.id
 
@@ -153,8 +155,7 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
         entityKey,
       }
 
-      const sanitizedEntity = sanitizeEntityAdminValues(entityKey, rawEntity)
-      const backendPayload = globalTransformer.dehydrateEntity(sanitizedEntity as Partial<GlobalEntity<GlobalEntityTypeKey>>)
+      const backendPayload = globalTransformer.dehydrateEntity(rawEntity as Partial<GlobalEntity<GlobalEntityTypeKey>>)
       const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)
       return { ...response.data, id: String(id) }
     },
@@ -200,10 +201,14 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
 
       return { previousData }
     },
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       // LEARNING: Update cache with server response (may have server-side transformations)
       // WHY: Server may apply additional transformations or validations
       // PATTERN: Update cache with response data to ensure consistency
+      // LEARNING: Merge server response with existing entity to preserve properties not in response
+      // WHY: Server response might not include all properties (e.g., fieldMetadata)
+      //      Optimistic update may have properties that server doesn't return
+      // PATTERN: Spread existing entity first, then override with server response
       if (data && data.id) {
         queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
           if (!old) return old
@@ -213,10 +218,17 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
 
           if (entityIndex === -1) return old
 
-          // Update with server response (may differ from optimistic update)
+          // LEARNING: Merge existing entity with server response
+          // WHY: Preserves properties from optimistic update that might not be in server response
+          // PATTERN: Spread existing entity, then override with transformed server response
+          const existingEntity = currentEntities[entityIndex]
           const transformedResponse = transformApiEntity(data as unknown as Record<string, unknown>, entityKey)
           const updatedEntities = [...currentEntities]
-          updatedEntities[entityIndex] = transformedResponse as GlobalEntity<GlobalEntityTypeKey>
+          const mergedEntity = {
+            ...existingEntity,
+            ...transformedResponse,
+          } as GlobalEntity<GlobalEntityTypeKey>
+          updatedEntities[entityIndex] = mergedEntity
 
           return {
             ...old,
@@ -226,6 +238,22 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
             },
           }
         })
+
+        // LEARNING: Refetch globalData when fieldMetadata is updated
+        // WHY: fieldMetadata changes affect field visibility in BlockInstance/PartInstance cards
+        //      Vue's reactivity system needs fresh data references to detect nested property changes
+        // PATTERN: Check if update includes fieldMetadata, then refetch to ensure reactivity
+        const hasFieldMetadata = 'fieldMetadata' in variables.entity ||
+          (data && 'fieldMetadata' in (data as unknown as Record<string, unknown>))
+        
+        if (hasFieldMetadata && (entityKey === 'blockShape' || entityKey === 'partShape')) {
+          // LEARNING: Refetch globalData to get fresh entity references with updated fieldMetadata
+          // WHY: Ensures Vue's reactivity system detects changes to nested fieldMetadata property
+          //      This triggers recomputation of computed properties that depend on blockShape.fieldMetadata
+          // PATTERN: Invalidate and refetch to force fresh data flow through cache
+          queryClient.invalidateQueries({ queryKey: ['globalData'] })
+          queryClient.refetchQueries({ queryKey: ['globalData'] })
+        }
       }
     },
     onError: (_error: unknown, _variables: { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, context: { previousData?: GlobalData } | undefined) => {
@@ -329,6 +357,7 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
         id: String(id),
         order_index: orderIndex,
       }))
+      
       await apiClient.patch(orderIndexEndpoint, backendPayload)
     },
     onMutate: async (updates) => {
@@ -400,6 +429,102 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
     },
   })
 
+  const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>, { previousData?: GlobalData }>({
+    mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>): Promise<void> => {
+      const bulkPatchEndpoint = getBulkPatchEndpoint(entityKey)
+      // LEARNING: Transform updates to backend format (camelCase to snake_case for specific fields)
+      // WHY: Backend expects snake_case for some fields, but we use camelCase in frontend
+      // PATTERN: Use globalTransformer to dehydrate entity fields
+      // FIX: Remove sanitizeEntityAdminValues - if form only has fields we want, no sanitization needed
+      //      Sanitization was a workaround for forms including unwanted fields - fix the form instead
+      const backendPayload = updates.map(({ id, ...fields }) => {
+        // LEARNING: Only dehydrate fields - no sanitization needed if form only has correct fields
+        // WHY: Sanitization was a workaround for forms including unwanted fields - fix the form instead
+        // LEARNING: Include entityKey for dehydrateEntity to determine entity type for metadata lookup
+        // WHY: dehydrateEntity needs entityKey to fetch metadata and determine boolean fields dynamically
+        const fieldsWithEntityKey = {
+          ...fields,
+          entityKey,
+        } as Partial<GlobalEntity<GlobalEntityTypeKey>> & { entityKey: GlobalEntityTypeKey }
+        const dehydratedFields = globalTransformer.dehydrateEntity(fieldsWithEntityKey)
+        return {
+          id: String(id),
+          ...dehydratedFields,
+        }
+      })
+      await apiClient.patch(bulkPatchEndpoint, backendPayload)
+    },
+    onMutate: async (updates) => {
+      // LEARNING: Optimistic update pattern for bulk field updates
+      // WHY: Update entities immediately for instant UI feedback
+      // PATTERN: Cancel → Snapshot → Update fields → Return context
+      await queryClient.cancelQueries({ queryKey: ['globalData'] })
+      const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
+
+      // Optimistically update entities using mutation variables
+      queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
+        if (!old) return old
+
+        const currentEntities = old.entities[entityKey] || []
+        
+        // LEARNING: Create a map of ID -> update fields for quick lookup
+        // WHY: Updates may not include all entities, need to preserve existing fields for others
+        // PATTERN: Map updates, then apply to entities
+        const updateMap = new Map<string, Partial<GlobalEntity<GlobalEntityTypeKey>>>()
+        updates.forEach(({ id, ...fields }) => {
+          // FIX: Omit<..., "id"> needs to be cast to Partial<GlobalEntity<...>> for type compatibility
+          updateMap.set(String(id), fields as Partial<GlobalEntity<GlobalEntityTypeKey>>)
+        })
+
+        // LEARNING: Merge update fields into existing entities
+        // WHY: Only update fields that are being changed, preserve other properties
+        // PATTERN: Map over entities, merge update fields if in updates map
+        const updatedEntities = currentEntities.map((entity) => {
+          const entityId = String(entity.id)
+          if (updateMap.has(entityId)) {
+            return {
+              ...entity,
+              ...updateMap.get(entityId)!,
+              id: entity.id, // Ensure ID is preserved
+            } as GlobalEntity<GlobalEntityTypeKey>
+          }
+          return entity
+        })
+
+        return {
+          ...old,
+          entities: {
+            ...old.entities,
+            [entityKey]: updatedEntities,
+          },
+        }
+      })
+
+      return { previousData }
+    },
+    onError: (_error: unknown, _updates: BulkUpdate<GlobalEntityTypeKey>, context: { previousData?: GlobalData } | undefined) => {
+      // LEARNING: Rollback optimistic bulk update on error
+      // WHY: If bulk update fails, restore previous cache state
+      // PATTERN: Use context from onMutate to restore previous data
+      if (context?.previousData) {
+        queryClient.setQueryData(['globalData'], context.previousData)
+      }
+    },
+    onSuccess: () => {
+      // LEARNING: Invalidate globalData to ensure components react to changes
+      // WHY: Optimistic updates may not trigger reactivity properly - invalidate to force fresh data
+      // PATTERN: Invalidate globalData so components using admin.getEntity() get updated entities
+      queryClient.invalidateQueries({ queryKey: ['globalData'] })
+      
+      // LEARNING: Side effects after successful bulk update
+      // WHY: Invalidate related caches (scheduler) without refetching globalData
+      // PATTERN: Only invalidate, don't refetch
+      if (['blockInstance', 'blockShape'].includes(entityKey)) {
+        queryClient.invalidateQueries({ queryKey: ['schedulerAdmin'] })
+      }
+    },
+  })
+
   return {
     isLoading,
     error,
@@ -408,6 +533,7 @@ export function useEntityCrudActions<GlobalEntityTypeKey extends GlobalEntityKey
     update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),
     remove: async (id) => deleteMutation.mutateAsync(id),
     patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),
+    patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),
     updateMutation,
   }
 }

@@ -51,7 +51,7 @@ export const DEFAULT_COMPONENT_RULES: Record<string, ComponentStrategy> = {
   baseSqFt: 'sum',
   
   // Array properties - merge
-  activeConstituents: 'merge',
+  activeParts: 'merge',
   
   // Boolean properties - every (all must be true)
   onSite: 'every',

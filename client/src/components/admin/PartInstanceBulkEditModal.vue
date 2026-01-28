@@ -1,0 +1,277 @@
+<template>
+  <VDialog
+    :model-value="modelValue"
+    @update:model-value="updateModelValue"
+    max-width="800"
+    :persistent="false"
+  >
+    <VCard>
+      <VCardTitle class="d-flex align-center justify-space-between pa-6">
+        <span class="text-h5">Bulk Edit: Part Instances</span>
+        <VBtn
+          icon
+          variant="text"
+          @click="updateModelValue(false)"
+        >
+          <VIcon icon="tabler-x" />
+        </VBtn>
+      </VCardTitle>
+
+      <VCardText class="pa-6">
+        <p class="mb-4 text-body-2">
+          Apply the same values to all PartInstances for this BlockInstance. Leave fields empty to skip them.
+        </p>
+
+        <!-- LEARNING: EntityCard with only bulkEdit fields visible -->
+        <!-- WHY: Uses EntityCard for consistency, but filters metadata to show only bulkEdit fields -->
+        <!-- PATTERN: Filter metadata to only include fields where bulkEdit: true -->
+        <!-- NOTE: Hide EntityCard's action buttons with CSS, use modal's Apply button instead -->
+        <div class="bulk-edit-entity-card">
+          <!--
+            LEARNING: EntityCard for bulk edit form
+            WHY: Uses EntityCard for consistency, but prevents actual saves
+            PATTERN: Set isNew=false and intercept saved event to prevent API calls
+            NOTE: Field blur auto-save is disabled by intercepting saved event
+            NOTE: Pass filtered metadata that only includes fields with bulkEdit: true
+          -->
+          <EntityCard
+            ref="entityCardRef"
+            entity-key="partInstance"
+            :entity="templateEntity"
+            :expanded="true"
+            :field-metadata="filteredMetadata"
+            :is-new="false"
+            :disable-auto-save="true"
+            :use-expansion-panel="false"
+            @saved="handleEntityCardSaved"
+          />
+        </div>
+      </VCardText>
+
+      <VCardActions class="pa-6">
+        <VSpacer />
+        <VBtn
+          color="secondary"
+          variant="tonal"
+          @click="updateModelValue(false)"
+        >
+          Cancel
+        </VBtn>
+        <VBtn
+          color="primary"
+          variant="elevated"
+          @click="handleApply"
+        >
+          Apply to All ({{ instanceCount }})
+        </VBtn>
+      </VCardActions>
+    </VCard>
+  </VDialog>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import type { GlobalEntity } from '@/types/entities'
+import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import type { PartInstanceBulkEditData } from '@/composables/admin/usePartInstanceBulkEdit'
+import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
+import { useGlobal } from '@/composables/useGlobal'
+import { useEntityCrud } from '@/composables/useEntity'
+
+interface Props {
+  modelValue?: boolean
+  blockInstanceId: string
+  bulkEditData?: PartInstanceBulkEditData | null
+  instanceCount: number
+}
+
+interface Emits {
+  (e: 'update:modelValue', value: boolean): void
+  (e: 'confirm', bulkEditData: PartInstanceBulkEditData): void
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: false,
+  bulkEditData: () => ({
+    baseTime: null,
+    rateOverBaseTime: null,
+    baseFee: null,
+    rateOverBaseFee: null
+  })
+})
+const emit = defineEmits<Emits>()
+
+const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
+const { globalData } = useGlobal()
+const { entities: partInstances } = useEntityCrud('partInstance')
+
+/**
+ * LEARNING: Get first PartInstance for this BlockInstance to extract partShapeRef
+ * WHY: Need partShapeRef to create templateEntity for metadata fetching
+ * PATTERN: Get first PartInstance, extract partShapeRef from it
+ */
+const firstPartInstanceForMetadata = computed(() => {
+  // Get PartInstances for this BlockInstance via relationships.activeParts
+  const relationships = globalData.value?.relationships?.activeParts ?? []
+  const constituentIds = new Set(
+    relationships
+      .filter(rel => String(rel.parent.id) === String(props.blockInstanceId))
+      .flatMap(rel => rel.children.map(child => String(child.id)))
+  )
+
+  const instances = partInstances.value.filter(pi => constituentIds.has(String(pi.id)))
+  
+  if (instances.length === 0) return null
+  
+  return instances[0]
+})
+
+/**
+ * LEARNING: Get partShapeRef from first PartInstance
+ * WHY: Need partShapeRef to create templateEntity for metadata fetching (PartInstance metadata inherits from PartShape)
+ * PATTERN: Extract partShapeRef from first PartInstance, fallback to empty string if none exists
+ */
+const partShapeRef = computed(() => {
+  const firstInstance = firstPartInstanceForMetadata.value
+  return firstInstance?.partShapeRef || ''
+})
+
+/**
+ * LEARNING: Template entity for bulk edit form
+ * WHY: EntityCard needs an entity object, but we don't want to save it
+ * PATTERN: Use a placeholder UUID that will fail gracefully when field blur tries to save
+ * NOTE: Field blur will try to save, but since this ID doesn't exist, it will fail safely
+ * NOTE: Defined early so it can be used by useEntityMetadata below
+ * FIX: Create templateEntity FIRST with partShapeRef (like InstanceBulkEditModal does with blockShapeRef)
+ */
+const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
+  try {
+    const editData = props.bulkEditData || {}
+    // Guard against missing partShapeRef
+    if (!partShapeRef.value) {
+      // Return a minimal entity that will be replaced when partShapeRef is available
+      return {
+        id: '00000000-0000-0000-0000-000000000000',
+        entityKey: 'partInstance',
+        name: '',
+        partShapeRef: '',
+        orderIndex: 0,
+        baseTime: editData.baseTime,
+        rateOverBaseTime: editData.rateOverBaseTime,
+        baseFee: editData.baseFee,
+        rateOverBaseFee: editData.rateOverBaseFee
+      } as unknown as GlobalEntity<'partInstance'>
+    }
+    
+    // FIX: Type conversion needed because object literal doesn't match all required properties
+    const entity = {
+      id: '00000000-0000-0000-0000-000000000000', // Placeholder UUID that doesn't exist
+      entityKey: 'partInstance',
+      name: '',
+      partShapeRef: partShapeRef.value,
+      orderIndex: 0,
+      baseTime: editData.baseTime,
+      rateOverBaseTime: editData.rateOverBaseTime,
+      baseFee: editData.baseFee,
+      rateOverBaseFee: editData.rateOverBaseFee
+    } as unknown as GlobalEntity<'partInstance'>
+    
+    return entity
+  } catch (error) {
+    console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
+    // Return a safe fallback
+    return {
+      id: '00000000-0000-0000-0000-000000000000',
+      entityKey: 'partInstance',
+      name: '',
+      partShapeRef: partShapeRef.value || '',
+      orderIndex: 0,
+      baseTime: undefined,
+      rateOverBaseTime: undefined,
+      baseFee: undefined,
+      rateOverBaseFee: undefined
+    } as unknown as GlobalEntity<'partInstance'>
+  }
+})
+
+/**
+ * LEARNING: Get metadata and filter to only include bulkEdit fields
+ * WHY: Metadata is the single source of truth - filter at metadata level
+ * PATTERN: Only include fields where bulkEdit: true in metadata
+ */
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
+const { fieldMetadata: partInstanceMetadata } = useEntityMetadata('partInstance', templateEntity)
+
+/**
+ * LEARNING: Filter metadata to only include fields with bulkEdit: true
+ * WHY: Bulk edit modals should only show fields enabled for bulk edit
+ * PATTERN: Filter metadata before passing to EntityCard
+ */
+const filteredMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
+  const metadata = partInstanceMetadata.value
+  if (!metadata || Object.keys(metadata).length === 0) {
+    return {}
+  }
+  
+  // LEARNING: Use Object.fromEntries with filter instead of forEach with mutations
+  // WHY: Functional approach avoids mutations, aligns with workspace rules
+  // PATTERN: Filter entries and convert back to object
+  return Object.fromEntries(
+    Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
+  )
+})
+
+function updateModelValue(value: boolean) {
+  emit('update:modelValue', value)
+}
+
+/**
+ * LEARNING: Handle EntityCard saved event (prevent actual save)
+ * WHY: EntityCard will try to save when fields blur, but we don't want to save the template entity
+ * PATTERN: Intercept saved event and do nothing - we'll extract values manually in handleApply
+ */
+function handleEntityCardSaved() {
+  // Do nothing - prevent EntityCard from actually saving the template entity
+  // We extract form values manually in handleApply instead
+}
+
+/**
+ * LEARNING: Handle Apply button click
+ * WHY: Extract form values from EntityCard and emit as bulk edit data
+ * PATTERN: Dynamically read fields with bulkEdit: true from config, extract only those fields
+ * FIX: Remove hardcoded field list, use config to determine which fields to extract
+ */
+function handleApply() {
+  if (!entityCardRef.value?.form) {
+    return
+  }
+  
+  const formValues = entityCardRef.value.form.values
+  
+  // Extract only fields that have bulkEdit: true and have values
+  const bulkEditData: PartInstanceBulkEditData = {}
+  Object.keys(filteredMetadata.value).forEach(field => {
+    const value = (formValues as Record<string, unknown>)[field]
+    // Only include if value is not null, undefined, or empty string
+    if (value !== null && value !== undefined && value !== '') {
+      // Convert to number for numeric fields
+      const numericValue = Number(value)
+      if (!isNaN(numericValue)) {
+        (bulkEditData as Record<string, number>)[field] = numericValue
+      }
+    }
+  })
+  
+  emit('confirm', bulkEditData)
+  updateModelValue(false)
+}
+</script>
+
+<style scoped>
+/* LEARNING: Hide EntityCard's action buttons in bulk edit modal */
+/* WHY: Modal has its own Apply button, don't need EntityCard's Save button */
+/* PATTERN: Use CSS to hide the action buttons section */
+.bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
+  display: none !important;
+}
+</style>

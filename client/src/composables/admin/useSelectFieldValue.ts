@@ -138,11 +138,11 @@ export function useSelectFieldValue(
         
         // LEARNING: Only warn if values were filtered out AND entities exist (not just deleted)
         // WHY: Reduces noise - if entities don't exist, they're already handled. Only warn when
-        //      validCascades/validConstituents changed and filtered out valid entities
+        //      validCascades/validParts changed and filtered out valid entities
         // PATTERN: Check if missing entities actually exist before warning
         if (isDevModeEnabled() && normalized.length !== validValues.length) {
           // NOTE: Debugging code removed - missingValues computation was not used
-          // Only warn if entities exist but were filtered out (indicates validCascades/validConstituents changed)
+          // Only warn if entities exist but were filtered out (indicates validCascades/validParts changed)
         }
         
         return validValues

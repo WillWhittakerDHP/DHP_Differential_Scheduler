@@ -104,7 +104,7 @@ export function useEntityCardLayout(
   
   /**
    * LEARNING: Helper function to get field context from EntityFormContent
-   * WHY: Need to render fields using InputRenderer
+   * WHY: Need to render fields using FieldRenderer
    * PATTERN: Access getFieldContext method from EntityFormContent ref
    */
   const getFieldContext = (

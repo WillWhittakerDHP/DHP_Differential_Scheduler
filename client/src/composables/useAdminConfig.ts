@@ -94,71 +94,39 @@ export function useAdminConfig() {
   }
 
   /**
-   * LEARNING: Get form field config for a specific entity and field
-   * WHY: InputRenderer needs to know field type (primitive vs select)
-   * PATTERN: Type-safe accessor with computed for reactive access, cached to avoid duplicate computeds
+   * LEARNING: Get form field config for a specific entity and field (REMOVED - Metadata-only)
+   * WHY: Form field configs are now metadata-only - all configuration comes from /admin-input-metadata
+   * PATTERN: Throws error - use metadata.inputConfig instead
    */
   const getFormFieldConfig = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
     entityKey: GE,
     fieldKey: FieldKey
   ): ComputedRef<FormFieldConfig<GE, FieldKey> | undefined> => {
-    const cacheKey = createCacheKey(String(entityKey), String(fieldKey))
-    
-    // Return cached computed if it exists
-    if (formFieldConfigCache.has(cacheKey)) {
-      return formFieldConfigCache.get(cacheKey) as ComputedRef<FormFieldConfig<GE, FieldKey> | undefined>
-    }
-    
-    // Create new computed and cache it
-    const computedRef = computed(() => {
-      try {
-        const config = getConfig()
-        const entityConfig = config?.formFieldConfig?.[entityKey]
-        if (!entityConfig) {
-          return undefined
-        }
-        return entityConfig[fieldKey as GlobalFieldKey<GE>] as FormFieldConfig<GE, FieldKey> | undefined
-      } catch (error) {
-        return undefined
-      }
-    })
-    
-    formFieldConfigCache.set(cacheKey, computedRef)
-    return computedRef
+    throw new Error(
+      `[useAdminConfig] DEPRECATED: getFormFieldConfig(${String(entityKey)}, ${String(fieldKey)}) called. ` +
+      `Form field configs are now metadata-only. Use /admin-input-metadata and metadata.inputConfig instead. ` +
+      `This method has been removed - update caller to use metadata instead.`
+    )
   }
 
   /**
-   * LEARNING: Get all form field configs for an entity
-   * WHY: DynamicFormInputs needs to iterate over all fields
-   * PATTERN: Return computed object with all field configs, cached to avoid duplicate computeds
+   * LEARNING: Get all form field configs for an entity (REMOVED - Metadata-only)
+   * WHY: Form field configs are now metadata-only - all configuration comes from /admin-input-metadata
+   * PATTERN: Throws error - use metadata instead
    */
   const getEntityFormFieldConfig = <GE extends GlobalEntityKey>(
     entityKey: GE
   ): ComputedRef<FormFieldConfigMap[GE]> => {
-    const cacheKey = createCacheKey(String(entityKey))
-    
-    // Return cached computed if it exists
-    if (entityFormFieldConfigCache.has(cacheKey)) {
-      return entityFormFieldConfigCache.get(cacheKey)! as ComputedRef<FormFieldConfigMap[GE]>
-    }
-    
-    // Create new computed and cache it
-    const computedRef = computed(() => {
-      try {
-        const config = getConfig()
-        return (config?.formFieldConfig?.[entityKey] || {}) as FormFieldConfigMap[GE]
-      } catch (error) {
-        return {} as FormFieldConfigMap[GE]
-      }
-    })
-    
-    entityFormFieldConfigCache.set(cacheKey, computedRef as ComputedRef<FormFieldConfigMap[GlobalEntityKey]>)
-    return computedRef
+    throw new Error(
+      `[useAdminConfig] DEPRECATED: getEntityFormFieldConfig(${String(entityKey)}) called. ` +
+      `Form field configs are now metadata-only. Use /admin-input-metadata instead. ` +
+      `This method has been removed - update caller to use metadata instead.`
+    )
   }
 
   /**
    * LEARNING: Get display field config for a specific entity and field
-   * WHY: InputRenderer needs display config for labels, placeholders, etc.
+   * WHY: FieldRenderer needs display config for labels, placeholders, etc.
    * PATTERN: Type-safe accessor with computed for reactive access, cached to avoid duplicate computeds
    */
   const getDisplayFieldConfig = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
@@ -199,12 +167,14 @@ export function useAdminConfig() {
     
     // Create new computed and cache it
     const computedRef = computed(() => {
-      try {
-        const config = getConfig()
-        return config?.displayFieldConfig?.[entityKey] || {}
-      } catch (error) {
-        return {}
+      const config = getConfig()
+      if (!config?.displayFieldConfig?.[entityKey]) {
+        throw new Error(
+          `[useAdminConfig] Missing displayFieldConfig for ${String(entityKey)}. ` +
+          `Display field config must be configured.`
+        )
       }
+      return config.displayFieldConfig[entityKey]
     })
     
     entityDisplayFieldConfigCache.set(cacheKey, computedRef)
@@ -240,44 +210,6 @@ export function useAdminConfig() {
     return computedRef
   }
 
-  /**
-   * LEARNING: Check if a field is primitive (has primitiveInput config)
-   * WHY: InputRenderer needs to determine field type
-   * PATTERN: Check config structure to determine field type
-   */
-  const isPrimitiveField = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
-    entityKey: GE,
-    fieldKey: FieldKey
-  ): ComputedRef<boolean> => {
-    return computed(() => {
-      try {
-        const fieldConfig = getFormFieldConfig(entityKey, fieldKey).value
-        return !!fieldConfig?.primitiveInput
-      } catch (error) {
-        return false
-      }
-    })
-  }
-
-  /**
-   * LEARNING: Check if a field is a select field (has relationshipSelect or typeSelect config)
-   * WHY: InputRenderer needs to determine field type
-   * PATTERN: Check config structure to determine field type
-   */
-  const isSelectField = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
-    entityKey: GE,
-    fieldKey: FieldKey
-  ): ComputedRef<boolean> => {
-    return computed(() => {
-      try {
-        const fieldConfig = getFormFieldConfig(entityKey, fieldKey).value
-        return !!(fieldConfig?.relationshipSelect || fieldConfig?.typeSelect)
-      } catch (error) {
-        return false
-      }
-    })
-  }
-
   return {
     getConfig,
     rebuildConfig,
@@ -285,9 +217,7 @@ export function useAdminConfig() {
     getEntityFormFieldConfig,
     getDisplayFieldConfig,
     getEntityDisplayFieldConfig,
-    getInstanceConfig,
-    isPrimitiveField,
-    isSelectField
+    getInstanceConfig
   }
 }
 

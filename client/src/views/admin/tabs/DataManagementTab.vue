@@ -8,26 +8,17 @@
   - Cross-tab navigation support (clicking linked data in appointments navigates to related tab)
 -->
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import AppointmentsTable from './components/AppointmentsTable.vue'
 import PropertiesTable from './components/PropertiesTable.vue'
 import UsersTable from './components/UsersTable.vue'
 
 /**
- * LEARNING: Reactive tab state management
- * WHY: Tracks which sub-tab is currently active (appointments, properties, or users)
- * PATTERN: Use ref for reactive primitive values in Vue 3 Composition API
+ * LEARNING: Use tab navigation composable
+ * WHY: All logic moved to composable - component is pure rendering
+ * PATTERN: Composable handles tab state and navigation
  */
-const currentSubTab = ref('appointments')
-
-/**
- * LEARNING: Handler for cross-tab navigation
- * WHY: Allows AppointmentsTable to trigger navigation to Properties/Users tabs
- * PATTERN: Event handler that updates reactive state to switch tabs
- */
-function handleNavigateToTab(tab: 'properties' | 'users'): void {
-  currentSubTab.value = tab
-}
+const { currentTab: currentSubTab, navigateToTab: handleNavigateToTab } = useTabNavigation({ initialTab: 'appointments' })
 </script>
 
 <template>

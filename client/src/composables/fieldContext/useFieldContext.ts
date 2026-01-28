@@ -27,6 +27,7 @@ export function useFieldContext<GE extends GlobalEntityKey, FieldKey extends Glo
     fieldKey,
     entityKey,
     entityId,
+    formInstance: state.formInstance,
     value: state.value,
     error: state.error,
     isValidating: state.isValidating,

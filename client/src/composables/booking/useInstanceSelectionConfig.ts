@@ -122,37 +122,3 @@ export function useInstanceSelectionConfig(
   }
 }
 
-// Re-export legacy interface names for backward compatibility
-export type UseServiceSelectionConfigOptions = {
-  selectedUserTypeBlock: ComputedRef<unknown>
-  selectedServices: ComputedRef<unknown[]>
-}
-
-/**
- * Legacy export for backward compatibility
- * @deprecated Use useInstanceSelectionConfig instead
- */
-export function useServiceSelectionConfig(options: UseServiceSelectionConfigOptions) {
-  const { selectedUserTypeBlock, selectedServices } = options
-
-  const userTypeBlockStatePlugin = createWizardStatePlugin('userTypeBlock')
-  const servicesStatePlugin = createWizardStatePlugin('services')
-
-  const rowSelectionConfig = computed<SelectionCardConfig>(() => {
-    void selectedUserTypeBlock.value
-    return buildUserTypeBlockRowSelectionConfig({ statePlugin: userTypeBlockStatePlugin })
-  })
-
-  const stackSelectionConfig = computed<SelectionCardConfig>(() => {
-    void selectedServices.value
-    return buildServicesStackSelectionConfig({ statePlugin: servicesStatePlugin })
-  })
-
-  return {
-    rowSelectionConfig,
-    stackSelectionConfig,
-    userTypeBlockStatePlugin,
-    servicesStatePlugin,
-  }
-}
-

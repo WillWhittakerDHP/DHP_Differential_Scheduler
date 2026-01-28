@@ -5,20 +5,23 @@
  */
 
 import type { GlobalEntityKey } from '../../../constants/entities'
+import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '../../../constants/entities'
 import type { GlobalFieldKey } from '../../../constants/primitives'
 import type { GlobalRelationshipKey } from '../../../constants/relationships'
 import type { GlobalAnnotationKey } from '../../../constants/annotations'
 import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '../../../types/entity/formDataEnums'
 
 // Union of all possible field keys from child entities
+// FIX: Use entity key constants (these are string literals, so they work in types)
 type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInstance"> | GlobalFieldKey<"blockShape"> | GlobalFieldKey<"partShape">;
 
 // LEARNING: Helper type to get valid relationship keys for an entity type
 // WHY: Relationships are attached to entities but aren't part of GlobalFieldKey
 // PATTERN: Explicitly map entity types to their valid relationship keys
+// NOTE: Using string literals here because TypeScript type system needs literal types, not typeof constants
 type ValidRelationshipKeys<GE extends GlobalEntityKey> = 
-  GE extends "blockShape" ? "validCascades" | "validConstituents" :
-  GE extends "blockInstance" ? "bookingCascades" | "activeConstituents" | "instanceComponents" | "dependentInstanceOptions" :
+  GE extends "blockShape" ? "validCascades" | "validParts" :
+  GE extends "blockInstance" ? "bookingCascades" | "activeParts" | "instanceComponents" | "dependentInstances" :
   never;
 
 // LEARNING: Union type that includes both field keys, valid relationship keys, and annotation keys
@@ -79,7 +82,7 @@ export type VirtualDisplayType<
   GE extends GlobalEntityKey = GlobalEntityKey,
 > = {
   targetMode: "property";
-  targetKey: "blockShape" | "partShape";
+  targetKey: typeof ENTITY_KEY_BLOCK_SHAPE | typeof ENTITY_KEY_PART_SHAPE;
   globalField: GlobalFieldKey<GE>;
 
   selectedParentKey: GE;
@@ -133,19 +136,19 @@ export type SelectableDisplayTypeSuite = {
 
 export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
   return {
-    blockInstance: {
+    [ENTITY_KEY_BLOCK_INSTANCE]: {
       blockShapeRef: {
         targetMode: "property",
-        targetKey: "blockShape",
+        targetKey: ENTITY_KEY_BLOCK_SHAPE,
         globalField: "blockShapeRef",
 
-        selectedParentKey: "blockInstance",
-        selectedChildKey: "blockShape",
+        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildPath: ["blockShapeRef"],
 
-        candidateParentKey: "blockShape", 
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE, 
         candidateParentPath: [],        
-        candidateChildKey: "blockShape",
+        candidateChildKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateChildPath: [],         
 
         selectType: TypeSelectEnum.BlockShape,
@@ -163,7 +166,7 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         showIcon: true,
         
         meta: { 
-          groupByKey: "blockShape",
+          groupByKey: ENTITY_KEY_BLOCK_SHAPE,
           visible: true,
           required: true
         },
@@ -174,13 +177,13 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         targetKey: "bookingCascades",
         globalField: "bookingCascades",
 
-        selectedParentKey: "blockInstance",
-        selectedChildKey: "blockInstance",
+        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildPath: ["bookingCascades"],
 
-        candidateParentKey: "blockShape",
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateParentPath: ["blockShapeRef"],             
-        candidateChildKey: "blockInstance",
+        candidateChildKey: ENTITY_KEY_BLOCK_INSTANCE,
         candidateChildPath: [],                         
 
         selectType: RelationshipSelectTypeEnum.BookingCascadeSelect,
@@ -203,25 +206,25 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         
         meta: {
           visible: true,
-          groupByKey: "blockShape"
+          groupByKey: ENTITY_KEY_BLOCK_SHAPE
         },
       },
             
-      activeConstituents: {
+      activeParts: {
         targetMode: "relationship",
-        targetKey: "activeConstituents",
-        globalField: "activeConstituents",
+        targetKey: "activeParts",
+        globalField: "activeParts",
 
-        selectedParentKey: "blockInstance",
-        selectedChildKey: "partInstance",
-        selectedChildPath: ["activeConstituents"],
+        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildKey: ENTITY_KEY_PART_INSTANCE,
+        selectedChildPath: ["activeParts"],
 
-        candidateParentKey: "blockShape",                 
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                 
         candidateParentPath: ["blockShapeRef"],             
-        candidateChildKey: "partInstance",
+        candidateChildKey: ENTITY_KEY_PART_INSTANCE,
         candidateChildPath: [],                          
 
-        selectType: RelationshipSelectTypeEnum.ActiveConstituentSelect,
+        selectType: RelationshipSelectTypeEnum.ActivePartSelect,
         selectMode: RelationshipSelectModeEnum.Nested,
         
         // Display properties
@@ -243,32 +246,32 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         },
       },
 
-      dependentInstanceOptions: {
+      dependentInstances: {
         targetMode: "relationship",
-        targetKey: "dependentInstanceOptions",
-        globalField: "dependentInstanceOptions",
+        targetKey: "dependentInstances",
+        globalField: "dependentInstances",
 
-        selectedParentKey: "blockInstance",
-        selectedChildKey: "blockInstance",
-        selectedChildPath: ["dependentInstanceOptions"],
+        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildPath: ["dependentInstances"],
 
-        candidateParentKey: "blockInstance",
+        candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         candidateParentPath: [],
-        candidateChildKey: "blockInstance",
+        candidateChildKey: ENTITY_KEY_BLOCK_INSTANCE,
         candidateChildPath: ["blockShapeRef"],
 
-        selectType: RelationshipSelectTypeEnum.DependentInstanceOptionSelect,
+        selectType: RelationshipSelectTypeEnum.DependentInstanceSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
         // Display properties
-        label: "Dependent Instance Options",
-        placeholder: "No dependent instance options",
+        label: "Dependent Instances",
+        placeholder: "No dependent instances",
         inline: false,
         stacked: true,
         width: "100%",
         align: "left",
         displayFormat: "badges",
-        emptyStateText: "No dependent instance options defined",
+        emptyStateText: "No dependent instances defined",
         maxDisplayItems: 8,
         showCount: true,
         sortBy: "name",
@@ -284,13 +287,13 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         targetKey: "instanceComponents",
         globalField: "instanceComponents",
 
-        selectedParentKey: "blockInstance",
-        selectedChildKey: "blockInstance",
+        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildPath: ["instanceComponents"],
 
-        candidateParentKey: "blockInstance",
-        candidateParentPath: ["dependentInstanceOptions"],
-        candidateChildKey: "blockInstance",
+        candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        candidateParentPath: ["dependentInstances"],
+        candidateChildKey: ENTITY_KEY_BLOCK_INSTANCE,
         candidateChildPath: [],
 
         selectType: RelationshipSelectTypeEnum.InstanceComponentSelect,
@@ -316,19 +319,19 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
       },
     },
     
-    blockShape: {  
+    [ENTITY_KEY_BLOCK_SHAPE]: {  
       validCascades: {
         targetMode: "relationship",
         targetKey: "validCascades",
         globalField: "validCascades",
 
-        selectedParentKey: "blockShape",
-        selectedChildKey: "blockShape",
+        selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        selectedChildKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildPath: ["validCascades"],
 
-        candidateParentKey: "blockShape",                
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                
         candidateParentPath: [],                        
-        candidateChildKey: "blockShape",
+        candidateChildKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateChildPath: [],                         
 
         selectType: RelationshipSelectTypeEnum.ValidCascadeSelect,
@@ -354,21 +357,21 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         },
       },
 
-      validConstituents: {
+      validParts: {
         targetMode: "relationship",
-        targetKey: "validConstituents",
-        globalField: "validConstituents",
+        targetKey: "validParts",
+        globalField: "validParts",
 
-        selectedParentKey: "blockShape",
-        selectedChildKey: "partShape",
-        selectedChildPath: ["validConstituents"],
+        selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        selectedChildKey: ENTITY_KEY_PART_SHAPE,
+        selectedChildPath: ["validParts"],
 
-        candidateParentKey: "blockShape",
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateParentPath: [],                         
-        candidateChildKey: "partShape",
+        candidateChildKey: ENTITY_KEY_PART_SHAPE,
         candidateChildPath: [],                           
 
-        selectType: RelationshipSelectTypeEnum.ValidConstituentSelect,
+        selectType: RelationshipSelectTypeEnum.ValidPartSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
         // Display properties
@@ -391,19 +394,19 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
       },
     },
     
-    partInstance: {
+    [ENTITY_KEY_PART_INSTANCE]: {
       partShapeRef: {
         targetMode: "property",
-        targetKey: "partShape",
+        targetKey: ENTITY_KEY_PART_SHAPE,
         globalField: "partShapeRef",
 
-        selectedParentKey: "partInstance",
-        selectedChildKey: "partShape",
+        selectedParentKey: ENTITY_KEY_PART_INSTANCE,
+        selectedChildKey: ENTITY_KEY_PART_SHAPE,
         selectedChildPath: ["partShapeRef"],
 
-        candidateParentKey: "partShape",   
+        candidateParentKey: ENTITY_KEY_PART_SHAPE,   
         candidateParentPath: [],
-        candidateChildKey: "partShape",
+        candidateChildKey: ENTITY_KEY_PART_SHAPE,
         candidateChildPath: [],
 
         selectType: TypeSelectEnum.PartShape,
@@ -421,14 +424,14 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         showIcon: true,
         
         meta: { 
-          groupByKey: "partShape",
+          groupByKey: ENTITY_KEY_PART_SHAPE,
           visible: true,
           required: true
         },
       },
     },
 
-    partShape: {}
+    [ENTITY_KEY_PART_SHAPE]: {}
   }
 }
 

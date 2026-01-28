@@ -52,7 +52,6 @@ export type RelationshipFieldType<
   selectMode: RelationshipSelectModeEnum;
   groupByKey?: ChildFieldKey;
   placeholder?: string;
-  optionsFieldKey?: string;
   modeToggle?: {
     enabled: boolean;
     controlField: string;

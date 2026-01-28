@@ -7,7 +7,7 @@
  */
 
 export { default as BaseInput } from './BaseInput.vue'
-export { default as InputRenderer } from './InputRenderer.vue'
+export { default as FieldRenderer } from './FieldRenderer.vue'
 export { default as PrimitiveInputs } from './PrimitiveInputs.vue'
 export { default as TextInput } from './TextInput.vue'
 export { default as NumberInput } from './NumberInput.vue'

@@ -33,11 +33,6 @@ export interface UseInstanceDisplayOptions {
    */
   selectedUserTypeBlock?: ComputedRef<BookingBlockInstance | null>
   
-  /**
-   * Optional: Function to get filtered description
-   * LEARNING: If not provided, uses default description
-   */
-  getFilteredDescription?: (instance: BookingBlockInstance, userTypeBlockName: string | null) => string
 }
 
 /**
@@ -50,12 +45,6 @@ export interface UseInstanceDisplayReturn {
   instancesWithDisplay: ComputedRef<BookingBlockInstance[]>
 }
 
-/**
- * Default description getter - uses instance's description directly
- */
-function defaultGetFilteredDescription(instance: BookingBlockInstance, _userTypeBlockName: string | null): string {
-  return instance.description || ''
-}
 
 /**
  * Instance Display Composable
@@ -83,41 +72,22 @@ export function useInstanceDisplay(
   options: UseInstanceDisplayOptions
 ): UseInstanceDisplayReturn {
   const {
-    instances,
-    selectedUserTypeBlock,
-    getFilteredDescription = defaultGetFilteredDescription
+    instances
   } = options
 
   /**
-   * LEARNING: Maps block instances with icons and processed descriptions
+   * LEARNING: Maps block instances with icons
    * WHY: Consistent display transformation for any block instance type
-   * PATTERN: Use shared utility for icon/description mapping
+   * PATTERN: Use shared utility for icon mapping
    */
   const instancesWithDisplay = computed(() => {
-    // Get user type name for description filtering (if applicable)
-    const userTypeBlockName = selectedUserTypeBlock?.value?.name.toLowerCase() || null
-    
     return mapSelectionCardItemsWithIconAndDescription({
       items: instances.value,
-      getFilteredDescription,
-      userTypeBlockNameForDescription: userTypeBlockName,
     })
   })
 
   return {
     instancesWithDisplay
   }
-}
-
-// Re-export legacy interface names for backward compatibility
-export type UseServiceDisplayOptions = UseInstanceDisplayOptions
-export type UseServiceDisplayReturn = UseInstanceDisplayReturn
-
-/**
- * Legacy export for backward compatibility
- * @deprecated Use useInstanceDisplay instead
- */
-export function useServiceDisplay(options: UseInstanceDisplayOptions): UseInstanceDisplayReturn {
-  return useInstanceDisplay(options)
 }
 

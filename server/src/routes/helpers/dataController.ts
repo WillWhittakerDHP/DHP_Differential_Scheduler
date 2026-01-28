@@ -40,6 +40,7 @@ type WhereById<T extends Model> = {
  * @param options - Optional configuration object
  * @param options.includes - Optional array of Sequelize include options for associations
  * @param options.attributes - Optional array of attribute names to select (camelCase)
+ * @param options.order - Optional array of order clauses (e.g., [['orderIndex', 'ASC']])
  * @returns An array of model instances.
  * 
  * WHY: Uses Model without generics for generic model references
@@ -58,6 +59,7 @@ const fetchAll = async <T extends Model>(
   options?: {
     includes?: any[];
     attributes?: string[];
+    order?: any[];
   }
 ): Promise<T[]> => {
   const queryOptions: any = {};
@@ -85,7 +87,13 @@ const fetchAll = async <T extends Model>(
     }
   }
   
-  return await Entity.findAll(queryOptions);
+  // Handle order - if provided, use it
+  if (options?.order && options.order.length > 0) {
+    queryOptions.order = options.order;
+  }
+  
+  const result = await Entity.findAll(queryOptions);
+  return result;
 };
 
 /**
@@ -116,33 +124,6 @@ const fetchById = async <T extends Model>(
   return await Entity.findByPk(id, options);
 };
 
-/**
- * Sanitize data by converting empty strings to false for boolean fields.
- * LEARNING: Frontend forms sometimes send empty strings for boolean fields
- * WHY: PostgreSQL rejects empty strings for boolean columns - must be true/false/null
- * PATTERN: Check model attributes, convert empty strings to false for boolean fields
- */
-const sanitizeBooleanFields = <T extends Model>(
-  Entity: ModelStatic<T>,
-  data: Record<string, unknown>
-): Record<string, unknown> => {
-  const attributes = Entity.getAttributes();
-  const sanitized = { ...data };
-  
-  for (const [key, value] of Object.entries(sanitized)) {
-    const attr = attributes[key];
-    if (attr?.type && typeof value === 'string' && value === '') {
-      // Check if this is a boolean field
-      const typeName = attr.type.constructor.name;
-      if (typeName === 'BOOLEAN' || typeName.includes('BOOLEAN')) {
-        // Convert empty string to false (use default if available, otherwise false)
-        sanitized[key] = attr.defaultValue !== undefined ? attr.defaultValue : false;
-      }
-    }
-  }
-  
-  return sanitized;
-};
 
 /**
  * Generic function to create a new record.
@@ -154,10 +135,10 @@ const createRecord = async <T extends Model>(
   Entity: ModelStatic<T>,
   data: MakeNullishOptional<T["_creationAttributes"]> // ✅ Enforces correct attribute types
 ): Promise<T> => {
-  // LEARNING: Sanitize boolean fields before creating
-  // WHY: Frontend may send empty strings for boolean fields, which PostgreSQL rejects
-  const sanitized = sanitizeBooleanFields(Entity, data as Record<string, unknown>);
-  return await Entity.create(sanitized as MakeNullishOptional<T["_creationAttributes"]>);
+  // LEARNING: No sanitization - forms should send proper types
+  // WHY: Fix root cause instead of masking problems with sanitization
+  // PATTERN: Server validates and rejects invalid types with clear errors
+  return await Entity.create(data);
 };
 
 /**
@@ -178,11 +159,11 @@ const updateRecord = async <T extends Model>(
   // API Best Practice: Extract types from the model rather than asserting
   const whereClause: WhereById<T> = { id };
   
-  // LEARNING: Sanitize boolean fields before updating
-  // WHY: Frontend may send empty strings for boolean fields, which PostgreSQL rejects
-  const sanitized = sanitizeBooleanFields(Entity, data as Record<string, unknown>);
+  // LEARNING: No sanitization - forms should send proper types
+  // WHY: Fix root cause instead of masking problems with sanitization
+  // PATTERN: Server validates and rejects invalid types with clear errors
   
-  const [updatedRows] = await Entity.update(sanitized as Partial<T["_creationAttributes"]>, {
+  const [updatedRows] = await Entity.update(data as Partial<T["_creationAttributes"]>, {
     where: whereClause as WhereOptions<T["_attributes"]>, 
   } as UpdateOptions<T["_attributes"]>);
   
@@ -206,11 +187,11 @@ const patchRecord = async <T extends Model>(
   // WHY: Avoids 'as unknown as' by using proper type extraction from model attributes
   const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
 
-  // LEARNING: Sanitize boolean fields before patching
-  // WHY: Frontend may send empty strings for boolean fields, which PostgreSQL rejects
-  const sanitized = sanitizeBooleanFields(Entity, data as Record<string, unknown>);
+  // LEARNING: No sanitization - PATCH requests send proper types
+  // WHY: Fix root cause instead of masking problems with sanitization
+  // PATTERN: Server validates and rejects invalid types with clear errors
 
-  const [patchedRows] = await Entity.update(sanitized as Partial<T["_creationAttributes"]>, {
+  const [patchedRows] = await Entity.update(data as Partial<T["_creationAttributes"]>, {
     where: whereClause as WhereOptions<T["_attributes"]>,
   } as UpdateOptions<T["_attributes"]>);
 

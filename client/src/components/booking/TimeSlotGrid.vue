@@ -11,38 +11,50 @@
  * - ResizeObserver for responsive behavior
  * - Touch-friendly button sizing
  * - Configurable min/max columns and button sizing
+ * - Support for AppointmentSlots with dual-time display (inspector/client perspectives)
  */
 
-import { ref } from 'vue'
-import type { TimeSlot } from '@/types/appointment'
+import { computed, ref } from 'vue'
+import type { TimeSlot, TimeRange, AppointmentSlots } from '@/types/appointment'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useResponsiveGrid } from '@/composables/booking/useResponsiveGrid'
+import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
 interface Props {
-  slots: TimeSlot[]
+  slots?: TimeSlot[] // Legacy prop for backward compatibility
+  appointmentSlots?: AppointmentSlots // New prop for normalized AppointmentSlots structure
   selectedSlot?: TimeSlot | null
-  color?: 'primary' | 'warning'
+  timeBasis?: 'inspector' | 'client' | 'nonDifferential' // Time perspective for differential scheduling
+  color?: 'primary' | 'secondary'
   variant?: 'flat' | 'outlined'
   loading?: boolean
   minColumns?: number
   maxColumns?: number
   buttonMinWidth?: number
   gap?: number
+  // For AppointmentSlots transformation
+  blockInstances?: BookingBlockInstance[]
+  isDifferentialService?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  slots: () => [],
+  appointmentSlots: undefined,
   selectedSlot: null,
+  timeBasis: 'nonDifferential',
   color: 'primary',
   variant: 'outlined',
   loading: false,
   minColumns: 2,
   maxColumns: 8,
   buttonMinWidth: 140, // Increased from 80 to accommodate "10:00 AM - 10:30 AM" format
-  gap: 10
+  gap: 10,
+  blockInstances: () => [],
+  isDifferentialService: false
 })
 
 const emit = defineEmits<{
-  'slot-click': [slot: TimeSlot]
+  'slot-click': [slot: TimeSlot | TimeRange, orderIndex: number] // TimeSlot extends TimeRange
 }>()
 
 // LEARNING: Ref for grid container
@@ -69,11 +81,65 @@ const {
 // PATTERN: Composable provides pure utility functions
 const { formatTimeRange, areSlotsEqual } = useTimeFormatting()
 
+/**
+ * LEARNING: Slot data structure with orderIndex
+ * WHY: Associates TimeSlot with its orderIndex for proper selection tracking
+ */
+interface SlotData {
+  slot: TimeSlot | TimeRange // TimeSlot extends TimeRange, so both are acceptable
+  orderIndex: number
+}
+
+/**
+ * LEARNING: Compute display slots from AppointmentSlots or legacy slots prop
+ * WHY: Supports both new AppointmentSlots structure and legacy TimeSlot[] for backward compatibility
+ * PATTERN: If appointmentSlots provided, transform based on timeBasis and include orderIndex; otherwise use slots prop
+ */
+const displaySlots = computed(() => {
+  // LEARNING: Use AppointmentSlots if provided
+  // WHY: New structure supports dual-time display for differential scheduling
+  // PATTERN: Transform AppointmentSlots based on timeBasis, include orderIndex
+  if (props.appointmentSlots && props.appointmentSlots.length > 0) {
+    const slots: SlotData[] = []
+    
+    props.appointmentSlots.forEach(appointmentSlot => {
+      // LEARNING: slot can be TimeSlot or TimeRange (TimeSlot extends TimeRange)
+      // WHY: totalTime and timeOnSite are TimeRange, but category slots are TimeSlot
+      // PATTERN: Accept both types since TimeSlot extends TimeRange
+      let slot: TimeSlot | TimeRange | null = null
+      
+      if (props.timeBasis === 'client' && props.isDifferentialService) {
+        // LEARNING: Show client perspective time slot
+        // WHY: Client sees their arrival time for differential appointments
+        // PATTERN: Use clientPresentation (TimeSlot) or totalTime (TimeRange) from client perspective
+        slot = appointmentSlot.clientPresentation || appointmentSlot.totalTime
+      } else {
+        // LEARNING: Show inspector perspective time slot (default)
+        // WHY: Inspector sees their start time, or same time for non-differential
+        // PATTERN: Prefer TimeSlot (dataCollection), fallback to TimeRange (totalTime, totalOnSite)
+        slot = appointmentSlot.dataCollection || appointmentSlot.totalTime || appointmentSlot.totalOnSite
+      }
+      
+      if (slot) {
+        const orderIndex = typeof appointmentSlot.orderIndex === 'number' ? appointmentSlot.orderIndex : 0
+        slots.push({ slot, orderIndex })
+      }
+    })
+    
+    return slots
+  }
+  
+  // LEARNING: Fallback to legacy slots prop
+  // WHY: Maintains backward compatibility with existing code
+  // PATTERN: Return slots prop with array index as orderIndex
+  return (props.slots || []).map((slot, index) => ({ slot, orderIndex: index }))
+})
+
 // LEARNING: Handler for time slot button clicks
-// WHY: Emits slot click event to parent component
-// PATTERN: Event handler that emits TimeSlot object
-const handleSlotClick = (slot: TimeSlot): void => {
-  emit('slot-click', slot)
+// WHY: Emits slot click event with orderIndex to parent component
+// PATTERN: Event handler that emits TimeSlot object and orderIndex
+const handleSlotClick = (slotData: SlotData): void => {
+  emit('slot-click', slotData.slot, slotData.orderIndex)
 }
 </script>
 
@@ -88,16 +154,16 @@ const handleSlotClick = (slot: TimeSlot): void => {
     :style="{ '--grid-columns': buttonGridColumns }"
   >
     <VBtn
-      v-for="slot in slots"
-      :key="`${slot.slotStart}-${slot.slotEnd}`"
-      :variant="areSlotsEqual(selectedSlot, slot) ? 'flat' : variant"
+      v-for="slotData in displaySlots"
+      :key="appointmentSlots ? `appointment-${slotData.orderIndex}-${slotData.slot.startTime}` : `${slotData.slot.startTime}-${slotData.slot.endTime}`"
+      :variant="areSlotsEqual(selectedSlot, slotData.slot) ? 'flat' : variant"
       :color="color"
       size="small"
       class="time-slot-btn"
-      :disabled="loading"
-      @click="handleSlotClick(slot)"
+      :disabled="loading || !slotData.slot"
+      @click="handleSlotClick(slotData)"
     >
-      {{ formatTimeRange(slot) }}
+      {{ slotData.slot ? formatTimeRange(slotData.slot) : 'Unavailable' }}
     </VBtn>
   </div>
 </template>

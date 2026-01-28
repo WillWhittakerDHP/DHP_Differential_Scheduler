@@ -8,7 +8,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
-import { ActiveConstituent } from './active_constituent';
+import { ActivePart } from './active_part';
 import { BookingCascade } from './booking_cascade';
 
 export class BlockInstance extends Model<
@@ -20,19 +20,19 @@ export class BlockInstance extends Model<
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
   declare active: boolean;
-  declare dependent: boolean;
-  declare visible: boolean;
+  declare bookingMode: 'standalone' | 'addOn' | 'both';
   declare composite: boolean;
   declare differential: boolean;
   declare icon: string | null;
   declare baseSqFt: number | null;
   declare allowMultiple: boolean;
   declare requiresUnitNumber: boolean | null;
+  declare availableDays: number[] | null; // Array of day indices (0-6), null = all days
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
   // ✅ Add valid children
-  declare activeConstituents?: ActiveConstituent[];
+  declare activeParts?: ActivePart[];
   declare bookingCascades?: BookingCascade[];
 }
 
@@ -66,15 +66,11 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: true,
       },
-      dependent: {
-        type: DataTypes.BOOLEAN,
+      bookingMode: {
+        type: DataTypes.ENUM('standalone', 'addOn', 'both'),
         allowNull: false,
-        defaultValue: false,
-      },
-      visible: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
+        defaultValue: 'standalone',
+        field: 'booking_mode',
       },
       composite: {
         type: DataTypes.BOOLEAN,
@@ -102,6 +98,12 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
       requiresUnitNumber: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
+      },
+      availableDays: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'available_days',
+        comment: 'Array of day indices (0-6) when this service is available. Null means all days.'
       },
       createdAt: {
         type: DataTypes.DATE,

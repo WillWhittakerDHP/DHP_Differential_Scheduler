@@ -1,0 +1,53 @@
+/**
+ * Field Sorting Utility
+ * 
+ * LEARNING: Reusable utility for sorting fields by displayOrder
+ * WHY: Single source of truth for field sorting logic, reusable across codebase
+ * PATTERN: Pure function that sorts field keys by displayOrder from metadata
+ * 
+ * This utility handles:
+ * - Sorting by displayOrder (ascending)
+ * - Fallback to alphabetical sorting when displayOrder is equal
+ */
+
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
+
+/**
+ * Sort fields by displayOrder
+ * 
+ * LEARNING: Sorts field keys by displayOrder from metadata, with alphabetical fallback
+ * WHY: Maintains consistent field ordering across the application
+ * PATTERN: Pure function that returns sorted array (doesn't mutate input)
+ * 
+ * @param fields - Array of field keys to sort
+ * @param metadata - Field metadata containing displayOrder values
+ * @returns New sorted array of field keys
+ */
+export function sortFieldsByDisplayOrder<GE extends GlobalEntityKey>(
+  fields: GlobalFieldKey<GE>[],
+  metadata: Record<string, FieldMetadataEntry>
+): GlobalFieldKey<GE>[] {
+  // LEARNING: Create copy to avoid mutating input array
+  // WHY: Functional approach - pure function shouldn't mutate inputs
+  // PATTERN: Spread operator creates new array
+  return [...fields].sort((a, b) => {
+    const metaA = metadata[String(a)]
+    const metaB = metadata[String(b)]
+    const orderA = metaA?.displayOrder ?? 0
+    const orderB = metaB?.displayOrder ?? 0
+    
+    // LEARNING: Sort by displayOrder first
+    // WHY: Primary sort key - determines field order
+    // PATTERN: Compare displayOrder values
+    if (orderA !== orderB) {
+      return orderA - orderB
+    }
+    
+    // LEARNING: Fallback to alphabetical sorting when displayOrder is equal
+    // WHY: Ensures consistent ordering even when displayOrder values match
+    // PATTERN: Use localeCompare for string comparison
+    return String(a).localeCompare(String(b))
+  })
+}

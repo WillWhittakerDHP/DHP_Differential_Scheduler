@@ -9,8 +9,14 @@
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { BookingMode } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
+import { useMetadataCache } from '@/composables/admin/useMetadataCache'
+import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('entityDefaults')
 
 /**
  * LEARNING: Get human-readable display name for entity type
@@ -32,28 +38,109 @@ export function getEntityDisplayName(entityKey: GlobalEntityKey): string {
 }
 
 /**
+ * LEARNING: Dynamic entity defaults from metadata
+ * WHY: No hardcoded field lists - automatically includes all fields from metadata
+ * PATTERN: Uses metadata cache to determine field types and required status
+ * 
+ * Get default values for an entity type based on admin metadata
+ * Returns defaults for all fields based on their dataType and isRequired status
+ * 
+ * @param entityKey - The entity type key
+ * @returns Record of default values based on metadata
+ */
+function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, ValidAdminValue> {
+  const entityType = getEntityTypeForMetadata(entityKey)
+  if (!entityType) {
+    logger.warn(`No metadata entity type for entityKey: ${entityKey}`)
+    return {}
+  }
+
+  let metadataCache
+  try {
+    metadataCache = useMetadataCache()
+  } catch (error) {
+    logger.error('Error calling useMetadataCache:', error)
+    return { orderIndex: 0 }
+  }
+
+  let metadata
+  try {
+    metadata = metadataCache.getMetadata(entityType)
+  } catch (error) {
+    logger.error('Error calling getMetadata:', error)
+    return { orderIndex: 0 }
+  }
+
+  // If metadata not loaded, log warning but continue
+  if (!metadata || Object.keys(metadata).length === 0) {
+    logger.warn(`Metadata not loaded for entityType: ${entityType}. Defaults may be incomplete.`)
+  }
+
+  const defaults: Record<string, ValidAdminValue> = {}
+
+  // LEARNING: Always include orderIndex as it's required NOT NULL
+  // WHY: Database requires orderIndex to be NOT NULL, so we must guarantee it's set
+  defaults.orderIndex = 0
+
+  // LEARNING: Iterate through metadata to build defaults dynamically
+  // WHY: No hardcoded field lists - automatically includes all fields from metadata
+  // PATTERN: Use metadata dataType and isRequired to determine appropriate defaults
+  try {
+    for (const [fieldKey, fieldMetadata] of Object.entries(metadata || {})) {
+      const { dataType, isRequired } = fieldMetadata
+
+      // Skip if already set (e.g., orderIndex)
+      if (fieldKey in defaults) continue
+
+      // LEARNING: Set defaults based on dataType and isRequired
+      // WHY: Different field types need different default values
+      // PATTERN: Boolean fields default to false (required) or null (nullable), numbers to 0, strings to ''
+      if (dataType === 'boolean') {
+        // Required booleans default to false, nullable booleans default to null
+        defaults[fieldKey] = isRequired ? false : null
+      } else if (dataType === 'number') {
+        // Required numbers default to 0
+        if (isRequired) {
+          defaults[fieldKey] = 0
+        }
+        // Nullable numbers don't need defaults
+      } else if (dataType === 'string') {
+        // Strings default to empty string (allows placeholder to show)
+        defaults[fieldKey] = ''
+      } else if (dataType === 'array') {
+        // Arrays default to empty array
+        defaults[fieldKey] = []
+      }
+      // Reference fields don't need defaults (they're relationships)
+    }
+  } catch (error) {
+    logger.error('Error iterating metadata:', error)
+  }
+
+  return defaults
+}
+
+/**
  * Default values for required NOT NULL fields per entity type
  * Based on database schema requirements (allowNull: false)
+ * 
+ * @deprecated Use getDynamicEntityDefaults() instead - this is kept for reference only
  */
 const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<GlobalEntityKey>>> = {
   blockShape: {
     orderIndex: 0, // Required NOT NULL field
-    active: true,
-    dependent: false,
     composable: false, // Boolean field must have explicit default
     constituable: false, // Boolean field must have explicit default
   },
   blockInstance: {
     orderIndex: 0, // Required NOT NULL field
     active: true,
-    dependent: false,
+    bookingMode: 'standalone' as BookingMode,
     composite: false, // Boolean field must have explicit default
-    description: '',
     baseSqFt: 0,
   },
   partInstance: {
     orderIndex: 0, // Required NOT NULL field
-    dependent: false,
     onSite: false,
     clientPresent: false,
     moveable: false,
@@ -65,8 +152,6 @@ const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<Glo
   },
   partShape: {
     orderIndex: 0, // Required NOT NULL field
-    active: true,
-    dependent: false,
   },
 }
 
@@ -85,7 +170,10 @@ export function mergeEntityDefaults<GE extends GlobalEntityKey>(
   entityKey: GE,
   providedData: Partial<GlobalEntity<GE>>
 ): Partial<GlobalEntity<GE>> {
-  const defaults = ENTITY_REQUIRED_DEFAULTS[entityKey] || {}
+  // LEARNING: Use dynamic defaults from metadata instead of hardcoded ENTITY_REQUIRED_DEFAULTS
+  // WHY: Automatically includes all fields from metadata
+  // PATTERN: getDynamicEntityDefaults() provides complete defaults based on metadata
+  const defaults = getDynamicEntityDefaults(entityKey)
   
   // Merge: provided values override defaults
   const merged = {
@@ -108,16 +196,20 @@ export function mergeEntityDefaults<GE extends GlobalEntityKey>(
  * 
  * LEARNING: Provides default values for form initialization when creating new entities
  * WHY: Forms need initial values to prevent null/undefined errors and provide sensible defaults
- * PATTERN: Returns defaults from ENTITY_REQUIRED_DEFAULTS with friendly name fallback
+ * PATTERN: Uses dynamic metadata-based defaults instead of hardcoded values
  * 
- * COMPARISON: React version reads from PROPERTY_KEYS. Vue version uses ENTITY_REQUIRED_DEFAULTS
- *             which is simpler and sufficient for form initialization.
+ * LEARNING: Dynamic defaults from metadata
+ * WHY: No hardcoded field lists - automatically includes all fields from metadata
+ * PATTERN: Uses getDynamicEntityDefaults() to get defaults based on metadata dataType and isRequired
  * 
  * @param entityKey - The entity type key
  * @returns Record of default values for form initialization
  */
 export function getDefaultEntityValues(entityKey: GlobalEntityKey): Record<string, ValidAdminValue> {
-  const defaults = ENTITY_REQUIRED_DEFAULTS[entityKey] || {}
+  // LEARNING: Get dynamic defaults from metadata
+  // WHY: Automatically includes all fields (including zeroOutPart, differentialOverride, etc.)
+  // PATTERN: Metadata is single source of truth for field types and required status
+  const defaults = getDynamicEntityDefaults(entityKey)
   
   // Create result with defaults
   const result: Record<string, ValidAdminValue> = {
@@ -133,7 +225,7 @@ export function getDefaultEntityValues(entityKey: GlobalEntityKey): Record<strin
   
   // LEARNING: Ensure orderIndex is always set (required NOT NULL field)
   // WHY: Database requires orderIndex to be NOT NULL, so we must guarantee it's set
-  // PATTERN: Explicit check with fallback to 0
+  // PATTERN: Explicit check with fallback to 0 (defensive check even though metadata should include it)
   if (result.orderIndex === null || result.orderIndex === undefined) {
     result.orderIndex = 0
   }

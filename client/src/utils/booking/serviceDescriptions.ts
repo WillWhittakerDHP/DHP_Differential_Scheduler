@@ -2,7 +2,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 
 export function getFilteredServiceDescription(service: BookingBlockInstance, userTypeBlockName: string | null): string {
   if (!service.descriptions || service.descriptions.length === 0) {
-    return service.description || ''
+    return ''
   }
 
   const matchingDescriptions = service.descriptions.filter((desc) => {
@@ -10,7 +10,7 @@ export function getFilteredServiceDescription(service: BookingBlockInstance, use
   })
 
   if (matchingDescriptions.length === 0) {
-    return service.description || ''
+    return ''
   }
 
   const userTypeBlockSpecific = matchingDescriptions.find((desc) => desc.userTypeBlock === userTypeBlockName)
@@ -23,7 +23,7 @@ export function getFilteredServiceDescription(service: BookingBlockInstance, use
 export function mapServicesWithFilteredDescriptions(
   services: BookingBlockInstance[],
   selectedUserTypeBlockNameLowercase: string | null,
-): BookingBlockInstance[] {
+): Array<BookingBlockInstance & { description?: string }> {
   return services.map((service) => ({
     ...service,
     description: getFilteredServiceDescription(service, selectedUserTypeBlockNameLowercase),

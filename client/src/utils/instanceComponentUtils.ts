@@ -24,12 +24,10 @@ export function extractInstanceComponents(params: {
     entityKey: 'blockInstance' | 'blockShape',
     id: string
   ) => GlobalEntity<'blockInstance'> | GlobalEntity<'blockShape'> | null
-  selectedUserTypeBlockId: string | null
 }): ComponentItem[] {
   const {
     instanceComponentsRelationships,
-    getGlobalEntityById,
-    selectedUserTypeBlockId
+    getGlobalEntityById
   } = params
 
   if (!instanceComponentsRelationships || instanceComponentsRelationships.length === 0) {
@@ -50,38 +48,18 @@ export function extractInstanceComponents(params: {
       // Only include components whose blockShape is composable
       if (componentBlockShapeWithComposable.composable !== true) return null
 
-      // Get annotations (descriptions) for this component
-      const componentWithAnnotations = componentBlockInstance as GlobalEntity<'blockInstance'> & {
-        annotations?: Array<{ text: string; userTypeBlock: string | null; isDefault?: boolean }>
-        description?: string
+      // Get icon for component
+      const componentWithIcon = componentBlockInstance as GlobalEntity<'blockInstance'> & {
         icon?: string
       }
 
-      // Filter descriptions by user type
-      let filteredDescription = ''
-      if (componentWithAnnotations.annotations && componentWithAnnotations.annotations.length > 0) {
-        const matchingDescriptions = componentWithAnnotations.annotations.filter(ann => {
-          return ann.userTypeBlock === selectedUserTypeBlockId || ann.userTypeBlock === null
-        })
-
-        if (matchingDescriptions.length > 0) {
-          const userTypeBlockSpecific = matchingDescriptions.find(ann => ann.userTypeBlock === selectedUserTypeBlockId)
-          const defaultDesc = matchingDescriptions.find(ann => ann.isDefault === true)
-          const selectedDesc = userTypeBlockSpecific || defaultDesc || matchingDescriptions[0]
-          filteredDescription = selectedDesc.text
-        }
-      } else {
-        filteredDescription = componentWithAnnotations.description || ''
-      }
-
       // Map icon
-      const iconValue = componentWithAnnotations.icon || ''
+      const iconValue = componentWithIcon.icon || ''
       const mappedIcon = getIcon(iconValue)
 
       return {
         id: componentBlockInstance.id,
         name: componentBlockInstance.name,
-        description: filteredDescription,
         icon: mappedIcon,
         active: true // All components from instanceComponents are active
       }

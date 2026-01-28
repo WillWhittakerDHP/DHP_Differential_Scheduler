@@ -65,7 +65,7 @@ export interface UseInstanceComponentsReturn {
 export function useInstanceComponents(
   options: UseInstanceComponentsOptions
 ): UseInstanceComponentsReturn {
-  const { service, selectedUserTypeBlock } = options
+  const { service } = options
   
   const { getGlobalEntityById, getGlobalData } = useGlobal()
   const componentEntity = useComponentEntity<'blockInstance'>('blockInstance')
@@ -111,14 +111,11 @@ export function useInstanceComponents(
     
     const globalData = getGlobalData()
     if (!globalData) return []
-    
-    const selectedUserTypeBlockId = selectedUserTypeBlock.value?.id || null
-    
+
     return extractInstanceComponents({
       serviceId: blockInstance.id,
       instanceComponentsRelationships,
-      getGlobalEntityById: getGlobalEntityByIdOrNull,
-      selectedUserTypeBlockId
+      getGlobalEntityById: getGlobalEntityByIdOrNull
     })
   })
 

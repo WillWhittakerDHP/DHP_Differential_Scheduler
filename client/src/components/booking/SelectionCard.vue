@@ -238,15 +238,6 @@ const handleNumberUpdate = (value: string | number | null) => {
           </h6>
         </slot>
         
-        <slot name="description" :item="item">
-          <p
-            v-if="configWithDefaults.appearance.showDescription && item.description"
-            class="text-body-2 mb-0 text-medium-emphasis description-text"
-            :class="{ 'ms-4': configWithDefaults.layout === 'stack' && configWithDefaults.controlPosition === 'left' }"
-          >
-            {{ item.description }}
-          </p>
-        </slot>
         
         <slot :item="item" />
         
@@ -356,6 +347,10 @@ const handleNumberUpdate = (value: string | number | null) => {
     max-width: 100%;
     box-sizing: border-box;
     padding: 0;
+    overflow: visible;
+    display: block;
+    line-height: 1.5;
+    flex: 0 1 auto;
     
     h6 {
       display: block !important;
@@ -363,24 +358,6 @@ const handleNumberUpdate = (value: string | number | null) => {
       word-break: normal !important;
       width: 100%;
     }
-  }
-  
-  // LEARNING: Description text wrapping
-  .description-text {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    word-break: break-word;
-    max-width: 100%;
-    width: 100%;
-    text-align: center;
-    box-sizing: border-box;
-    hyphens: auto;
-    white-space: normal !important;
-    overflow: visible;
-    display: block;
-    line-height: 1.5;
-    flex: 0 1 auto;
-    min-width: 0;
   }
 }
 

@@ -74,7 +74,7 @@ export function useInstanceBulkEdit(
 ): UseInstanceBulkEditReturn {
   const { blockInstancesByShape } = options
   
-  const { update: updateBlockInstance } = useEntityCrud('blockInstance')
+  const { patchBulk } = useEntityCrud('blockInstance')
   const { success, error: showError } = useNotification()
 
   /**
@@ -137,12 +137,13 @@ export function useInstanceBulkEdit(
 
   /**
    * LEARNING: Apply bulk edit to all BlockInstances in a BlockShape tab
-   * WHY: Updates all BlockInstances with bulk edit values
-   * PATTERN: Async function that updates multiple entities
+   * WHY: Updates all BlockInstances with bulk edit values using bulk PATCH endpoint
+   * PATTERN: Single bulk PATCH request instead of N individual PUT requests
    */
   const applyBulkEdit = async (blockShapeId: string): Promise<void> => {
     try {
       const instances = blockInstancesByShape.value.get(blockShapeId) || []
+      
       const editData = getBulkEditData(blockShapeId)
       
       if (Object.keys(editData).length === 0) {
@@ -150,17 +151,24 @@ export function useInstanceBulkEdit(
         return
       }
       
-      // Update all BlockInstances with bulk edit values
-      const updatePromises = instances.map(instance => 
-        updateBlockInstance(editData, instance.id)
-      )
+      // LEARNING: Build array of { id, ...fields } updates for bulk PATCH
+      // WHY: Bulk PATCH endpoint expects array of updates, one per entity
+      // PATTERN: Map instances to update objects with id and editData fields
+      const updates = instances.map(instance => ({
+        id: instance.id,
+        ...editData,
+      }))
       
-      await Promise.all(updatePromises)
+      // LEARNING: Single bulk PATCH request instead of N individual PUT requests
+      // WHY: More efficient (1 request vs N requests), semantically correct (PATCH for partial updates)
+      // PATTERN: Use patchBulk mutation for bulk updates
+      await patchBulk(updates)
       success(`Updated ${instances.length} BlockInstance(s)`)
       
       // Clear bulk edit data
       bulkEditData.value.set(blockShapeId, {})
     } catch (err) {
+      console.error('[useInstanceBulkEdit] Error in applyBulkEdit:', err)
       const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
       showError(errorMessage)
     }

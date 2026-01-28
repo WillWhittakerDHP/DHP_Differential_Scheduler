@@ -28,7 +28,7 @@ import { AnnotationInstance } from './annotation_instance';
  * - User-type filtering: Annotation instances can be filtered by user type via user_type_block_instance_id (BlockInstance FK)
  * - Default flag: Mark which annotation instance should be shown by default
  * 
- * PATTERN: Active relationship model matching active_cascades/active_components/active_constituents pattern
+ * PATTERN: Active relationship model matching active_cascades/active_components/active_parts pattern
  * COMPARISON: ActiveAnnotation is runtime (which annotations are assigned), AnnotationShape/Instance are definitions/entities
  */
 export class ActiveAnnotation extends Model<

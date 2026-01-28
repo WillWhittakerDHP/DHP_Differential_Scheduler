@@ -102,12 +102,6 @@ function handleToggle(optionId: string, selected: boolean): void {
               <span class="text-body-1 font-weight-medium">
                 {{ option.name }}
               </span>
-              <span
-                v-if="option.description"
-                class="text-body-2 text-medium-emphasis mt-1"
-              >
-                {{ option.description }}
-              </span>
             </div>
           </template>
         </VCheckbox>

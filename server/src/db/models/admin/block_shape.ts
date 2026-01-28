@@ -7,7 +7,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
-import { ValidConstituent } from './valid_constituent';
+import { ValidPart } from './valid_part';
 import { ValidCascade } from './valid_cascade';
 
 export class BlockShape extends Model<
@@ -20,14 +20,13 @@ export class BlockShape extends Model<
   declare type: 'user' | 'service' | 'property' | 'option';
   declare composable: boolean;
   declare constituable: boolean;
-  declare active: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
   // ✅ Add valid children types
-  declare valid_constituents?: ValidConstituent[];
+  declare valid_parts?: ValidPart[];
   declare valid_cascades?: ValidCascade[];
-  declare default_constituents?: ValidConstituent[];
+  declare default_parts?: ValidPart[];
 }
 
 export function BlockShapeFactory(sequelize: Sequelize) {
@@ -61,11 +60,6 @@ export function BlockShapeFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-      },
-      active: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
       },
       createdAt: {
         type: DataTypes.DATE,

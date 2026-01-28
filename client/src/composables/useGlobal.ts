@@ -73,10 +73,13 @@ function createGlobalInstance() {
       // PATTERN: Stage (fetch) then hydrate (transform) to GlobalData format
       // NOTE: Only fetches config data (entities, relationships, annotations), not business entities
       const staged = await globalTransformer.stageForHydration()
-      return globalTransformer.hydrate(staged)
+      const hydrated = globalTransformer.hydrate(staged)
+      return hydrated
     },
     staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
     refetchOnWindowFocus: false, // Don't refetch on window focus
+    refetchOnMount: false, // Don't refetch on mount if data exists (prefetched in main.ts)
+    refetchOnReconnect: false, // Don't refetch on reconnect if data exists
   })
   const globalData = globalDataQuery.data
   

@@ -17,7 +17,6 @@ function buildExpansionComponentData() {
           .map((comp: ComponentItem) => ({
             id: comp.id,
             name: comp.name,
-            description: comp.description,
             icon: comp.icon,
           })),
       }
@@ -34,6 +33,7 @@ export function buildUserTypeBlockRowSelectionConfig(options: SelectionConfigBui
     stateSource: 'wizard',
     layout: 'row',
     controlPosition: 'bottom',
+    // gridColumns will be set dynamically based on item count in UserTypeSelectCards
     gridColumns: { cols: '12', sm: '6', md: '4' },
     appearance: {
       showIcon: true,
@@ -73,7 +73,7 @@ export function buildServicesStackSelectionConfig(options: SelectionConfigBuildO
       showIcon: true,
       showDescription: true,
       showBorder: true,
-      cardPadding: 'pa-6',
+      cardPadding: 'pa-3',
       minHeight: 'auto',
     },
     expansion: {

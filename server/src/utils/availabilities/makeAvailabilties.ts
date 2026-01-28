@@ -7,6 +7,29 @@ import { filterByFreeHours, filterByLeadTime, filterByWorkHours, filterByAvailab
 import { filterByDriveTime, Destination } from "./filterByDriveTimes.js";
 
 /**
+ * P1-1: Proper type definitions for Google Calendar FreeBusy API response
+ * LEARNING: Type-safe interfaces for calendar busy period data
+ * WHY: Prevents runtime errors and improves code maintainability
+ * PATTERN: Define interfaces matching Google Calendar API structure
+ */
+interface CalendarBusyPeriod {
+  start: string  // RFC3339 datetime
+  end: string    // RFC3339 datetime
+}
+
+interface CalendarBusy {
+  busy: CalendarBusyPeriod[]
+  errors?: Array<{ domain: string; reason: string }>
+}
+
+interface FreeBusyResponse {
+  kind?: 'calendar#freeBusy'
+  timeMin?: string
+  timeMax?: string
+  calendars: Record<string, CalendarBusy>
+}
+
+/**
  * Main Function: Make Availabilities
  * LEARNING: Calculates available time slots for appointments based on calendar data and admin settings
  * WHY: Core function that determines when appointments can be scheduled
@@ -23,7 +46,7 @@ import { filterByDriveTime, Destination } from "./filterByDriveTimes.js";
  * 8. Convert back to target timezone
  */
 export async function makeAvailabilities(
-  freeBusyResponse: any,
+  freeBusyResponse: FreeBusyResponse,
   timeMin: string,
   timeMax: string,
   duration: number,
@@ -41,8 +64,12 @@ export async function makeAvailabilities(
     const timeMinDate = normalizeToUtc(timeMin, adminSettings.timezone);
     const timeMaxDate = normalizeToUtc(timeMax, adminSettings.timezone);
 
+    // P1-1: Type-safe extraction of busy periods
+    // LEARNING: Extract busy periods with proper type checking
+    // WHY: Prevents runtime errors from undefined properties
+    // PATTERN: Check for calendars property, extract busy periods safely
     const busyPeriods = freeBusyResponse.calendars
-      ? Object.values(freeBusyResponse.calendars).flatMap((calendar: any) => calendar.busy)
+      ? Object.values(freeBusyResponse.calendars).flatMap((calendar: CalendarBusy) => calendar.busy || [])
       : [];
 
     const mergedBusy = mergeBusyPeriods(busyPeriods, adminSettings.timezone);
@@ -66,7 +93,7 @@ export async function makeAvailabilities(
     freeTimes = filterByFreeHours(freeTimes, adminSettings.freeHours, adminSettings.timezone);
 
     // 4. Filter by workHours (before splitting into bits)
-    freeTimes = filterByWorkHours(freeTimes, adminSettings.workHours, adminSettings.timezone);
+    freeTimes = await filterByWorkHours(freeTimes, adminSettings.workHours, adminSettings.timezone);
 
     // 5. Filter by drive times (placeholder - returns freeTimes as-is for now)
     const destinations: Destination[] = mergedBusy.map((busy) => ({
@@ -83,7 +110,11 @@ export async function makeAvailabilities(
 
     // 6. Filter freeBits by leadTime
     const leadTimeThreshold = addMinutes(new Date(), adminSettings.leadTime);
-    const permissibleStarts = mapPermissibleStarts(adminSettings.permissibleStartRule);
+    // P0-4: Pass minuteIncrement to generate offsets dynamically
+    // LEARNING: Generate permissible starts from minuteIncrement instead of hard-coded mapping
+    // WHY: Supports any minuteIncrement value (e.g., :60, :20) without hard-coding
+    // PATTERN: Pass minuteIncrement as second parameter to mapPermissibleStarts
+    const permissibleStarts = mapPermissibleStarts(adminSettings.permissibleStartRule, adminSettings.minuteIncrement);
 
     const freeBits = filterByLeadTime(
       splitFreeTimesToFreeBits(freeTimes, adminSettings.minuteIncrement, permissibleStarts),
@@ -92,8 +123,14 @@ export async function makeAvailabilities(
 
     const availabilities = findAvailabilities(freeBits, duration);
 
+    // P0-2: Timezone consistency - slots are already in UTC from client
+    // LEARNING: Client generates slots in UTC, server receives UTC boundaries
+    // WHY: Maintains consistency - both client and server use UTC internally
+    // PATTERN: Keep slots in UTC, convert to admin timezone only for display/API response
+    // NOTE: normalizeToZone converts UTC to admin timezone for display purposes
     return availabilities.map((slot) => {
       // Convert all slots back to the target adminSettings.timezone for output
+      // NOTE: This conversion is for display/API response - internal calculations use UTC
       return new TimeSlot(
         slot.duration,
         normalizeToZone(slot.slotStart, adminSettings.timezone),
@@ -101,7 +138,29 @@ export async function makeAvailabilities(
       );
     });
   } catch (error) {
-    console.error("Error in makeAvailabilities:", error);
+    // P2-7: Improved error handling with context logging
+    // LEARNING: Log error with parameters that caused failure for debugging
+    // WHY: Helps diagnose issues by showing what inputs caused the error
+    // PATTERN: Log error message, stack trace, and relevant parameters
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
+    console.error("Error in makeAvailabilities:", {
+      message: errorMessage,
+      stack: errorStack,
+      context: {
+        timeMin,
+        timeMax,
+        duration,
+        serviceId,
+        timezone: adminSettings.timezone,
+        minuteIncrement: adminSettings.minuteIncrement,
+        permissibleStartRule: adminSettings.permissibleStartRule,
+        calendarsCount: freeBusyResponse.calendars ? Object.keys(freeBusyResponse.calendars).length : 0
+      }
+    });
+    
+    // Return empty array to prevent crashes, but error is logged for debugging
     return [];
   }
 }

@@ -18,15 +18,35 @@ export class TimeSlot {
  * Helper Function: Map Permissible Starts
  * LEARNING: Maps admin-defined rules to minute offsets for time slot starts
  * WHY: Ensures appointments start at specific times (e.g., every 15 minutes)
- * PATTERN: String-based rule mapping to minute arrays
+ * PATTERN: Generate offsets dynamically from minuteIncrement, fallback to hard-coded mappings
+ * P0-4: Added rule generation to support any minuteIncrement value
  */
-export function mapPermissibleStarts(rule: string): number[] {
+export function mapPermissibleStarts(rule: string, minuteIncrement?: number): number[] {
+  // P0-4: Generate offsets dynamically from minuteIncrement if provided
+  // LEARNING: Derive permissible starts from minuteIncrement
+  // WHY: Supports any minuteIncrement value (e.g., :60, :20) instead of hard-coded mappings
+  // PATTERN: Generate offsets from 0 to 60 in increments of minuteIncrement
+  if (minuteIncrement && minuteIncrement > 0 && minuteIncrement <= 60) {
+    const offsets: number[] = []
+    for (let offset = 0; offset < 60; offset += minuteIncrement) {
+      offsets.push(offset)
+    }
+    return offsets
+  }
+
+  // Fallback to hard-coded mappings for backward compatibility
   const mapping: Record<string, number[]> = {
     "every :00": [0],
     "every :15": [0, 15, 30, 45],
     "every :30": [0, 30],
+    "every :60": [0],
   };
-  return mapping[rule] || [];
+  
+  // P0-4: Default to [0] when unknown instead of empty array
+  // LEARNING: Always return at least one permissible start
+  // WHY: Prevents empty array from causing no slots to be produced
+  // PATTERN: Return [0] as safe default for unknown rules
+  return mapping[rule] || [0];
 }
 
 /**
@@ -34,6 +54,7 @@ export function mapPermissibleStarts(rule: string): number[] {
  * LEARNING: Splits free time periods into smaller increments based on minute increment and permissible starts
  * WHY: Creates granular time slots that can be combined to match appointment duration
  * PATTERN: Iterate through free times, align to permissible starts, create increment-sized slots
+ * P1-5: Fixed to carry forward windows to subsequent hours when start minute is later than max permissible start
  */
 export function splitFreeTimesToFreeBits(
   freeTimes: { start: Date; end: Date }[],
@@ -44,20 +65,46 @@ export function splitFreeTimesToFreeBits(
 
   for (const { start, end } of freeTimes) {
     const startMinutes = start.getUTCMinutes();
+    
+    // P1-5: Find first permissible start >= current start minute, or carry forward to next hour
+    // LEARNING: Align to next permissible start >= current start across the full window
+    // WHY: Prevents dropping windows whose start minute is later than max permissible start in that hour
+    //      (e.g., free window at 09:50 with :15 increments should align to 10:00, not be dropped)
+    // PATTERN: Find first valid permissible start in current hour, or use first permissible start of next hour
     const alignedStarts = permissibleStarts.filter(
       (pStart) => pStart >= startMinutes
     );
 
-    for (const permissibleStart of alignedStarts) {
-      let currentStart = new Date(start);
-      currentStart.setUTCMinutes(permissibleStart, 0, 0);
+    // If no aligned starts in current hour, start from next hour with first permissible start
+    const startsToUse = alignedStarts.length > 0 
+      ? alignedStarts 
+      : permissibleStarts; // Use all permissible starts, will align to next hour below
 
-      while (isBefore(currentStart, end)) {
-        const currentEnd = addMinutes(currentStart, minuteIncrement);
-        if (isBefore(currentEnd, end) || currentEnd.getTime() === end.getTime()) {
-          freeBits.push(new TimeSlot(minuteIncrement, currentStart, currentEnd));
+    for (const permissibleStart of startsToUse) {
+      let currentStart = new Date(start);
+      
+      // P1-5: Align to permissible start, handling carry-forward to next hour
+      // LEARNING: If permissible start is less than start minutes, it's in the next hour
+      // WHY: Ensures we don't miss windows that start mid-hour
+      // PATTERN: Set minutes to permissible start, increment hour if needed
+      if (permissibleStart >= startMinutes) {
+        // Same hour: set minutes to permissible start
+        currentStart.setUTCMinutes(permissibleStart, 0, 0);
+      } else {
+        // Next hour: increment hour and set to first permissible start
+        currentStart.setUTCHours(currentStart.getUTCHours() + 1);
+        currentStart.setUTCMinutes(permissibleStart, 0, 0);
+      }
+
+      // Only process if aligned start is still within the free time window
+      if (currentStart >= start && currentStart < end) {
+        while (isBefore(currentStart, end)) {
+          const currentEnd = addMinutes(currentStart, minuteIncrement);
+          if (isBefore(currentEnd, end) || currentEnd.getTime() === end.getTime()) {
+            freeBits.push(new TimeSlot(minuteIncrement, currentStart, currentEnd));
+          }
+          currentStart = addMinutes(currentStart, minuteIncrement);
         }
-        currentStart = addMinutes(currentStart, minuteIncrement);
       }
     }
   }
