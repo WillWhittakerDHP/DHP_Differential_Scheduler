@@ -6,7 +6,7 @@
  * PATTERN: Composable that provides computed property for appointment duration
  */
 
-import { computed, type ComputedRef, type Ref } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { roundUpToIncrement } from '@/utils/timeSlotCalculations'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 

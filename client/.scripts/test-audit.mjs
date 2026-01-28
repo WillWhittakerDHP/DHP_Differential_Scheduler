@@ -393,6 +393,18 @@ function calculatePriorityScore(reliability, independence, roi, cognitiveLoad) {
 }
 
 /**
+ * Assign P0/P1/P2 priority bucket based on overall score
+ */
+function assignPriorityBucket(overallScore, config) {
+  const p0Min = Number(config?.priorities?.p0MinPriorityScore ?? 7.0)
+  const p1Min = Number(config?.priorities?.p1MinPriorityScore ?? 4.0)
+  
+  if (overallScore >= p0Min) return 'P0'
+  if (overallScore >= p1Min) return 'P1'
+  return 'P2'
+}
+
+/**
  * Find corresponding test file for a source file
  */
 function findTestFile(sourcePath, allTestFiles) {
@@ -425,6 +437,16 @@ function findTestFile(sourcePath, allTestFiles) {
 function main() {
   ensureDir(OUT_DIR)
   
+  // Load priority config
+  const CONFIG_PATH = path.join(OUT_DIR, 'test-audit-config.json')
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
+  
   const allFiles = listFilesRecursive(SRC_DIR)
   const sourceFiles = allFiles.filter(f => isSourceFile(toRepoPath(f)))
   const testFiles = allFiles.filter(f => isTestFile(toRepoPath(f)))
@@ -455,6 +477,7 @@ function main() {
     const roi = calculateROIScore(exportCount, repoPath, contents)
     const cognitiveLoad = calculateCognitiveLoadScore(contents, functions, classes, composables)
     const priorityScore = calculatePriorityScore(reliability, independence, roi, cognitiveLoad)
+    const priorityBucket = assignPriorityBucket(priorityScore, priorityConfig)
     
     return {
       repoPath,
@@ -471,7 +494,8 @@ function main() {
         independence,
         roi,
         cognitiveLoad,
-        overall: priorityScore
+        overall: priorityScore,
+        bucket: priorityBucket
       }
     }
   })

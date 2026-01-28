@@ -70,6 +70,10 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
   // PATTERN: Use composable at top of composable function for access throughout
   const { rfc3339ToBusinessHoursHHmm } = useLocalTime()
 
+  const isBusinessHoursConfig = (config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }): config is BusinessHoursConfig => {
+    return 'hours' in config
+  }
+
   /**
    * Load settings from API
    * LEARNING: Fetches current settings from business-settings API
@@ -227,8 +231,9 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         // LEARNING: Ensure rangeConstraints.businessHours.config.hours matches top-level businessHours
         // WHY: Slot generation reads from rangeConstraints.businessHours.config.hours, not top-level
         // PATTERN: Sync both locations to ensure consistency
-        if (settingsToSave.rangeConstraints.businessHours) {
-          settingsToSave.rangeConstraints.businessHours.config.hours = formData.value.businessHours
+        const businessHoursConstraint = settingsToSave.rangeConstraints.businessHours
+        if (businessHoursConstraint && isBusinessHoursConfig(businessHoursConstraint.config)) {
+          businessHoursConstraint.config.hours = formData.value.businessHours
         }
       } else {
         // Create rangeConstraints with businessHours if it doesn't exist

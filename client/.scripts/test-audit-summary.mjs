@@ -43,8 +43,8 @@ function renderSummary(data) {
   lines.push('')
   lines.push('Files sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Independence 20%, Cognitive Load 10%).')
   lines.push('')
-  lines.push('| File | Priority | Reliability | ROI | Exports |')
-  lines.push('| --- | ---: | ---: | ---: | ---: |')
+  lines.push('| File | Priority | Score | Reliability | ROI | Exports |')
+  lines.push('| --- | --- | ---: | ---: | ---: | ---: |')
   
   const topUntested = data.untestedSource
     .filter(s => s.exportCount > 0)
@@ -53,7 +53,8 @@ function renderSummary(data) {
   
   for (const s of topUntested) {
     const p = s.priority || {}
-    lines.push(`| \`${s.repoPath}\` | **${p.overall?.toFixed(1) || 'N/A'}** | ${p.reliability || 0} | ${p.roi || 0} | ${s.exportCount} |`)
+    const bucket = p.bucket || 'P2'
+    lines.push(`| \`${s.repoPath}\` | ${bucket} | ${p.overall?.toFixed(1) || 'N/A'} | ${p.reliability || 0} | ${p.roi || 0} | ${s.exportCount} |`)
   }
   
   lines.push('')

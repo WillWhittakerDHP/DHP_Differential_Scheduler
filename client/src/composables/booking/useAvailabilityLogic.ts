@@ -13,7 +13,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
 import { parseUTCDate } from '@/utils/booking/timeSlotFitter'
-import type { ISO8601Date } from '@/types/datetime'
+import { toRFC3339DateTime, type ISO8601Date, type RFC3339DateTime } from '@/types/datetime'
 import type { PropertyDetails } from '@/types/availability'
 
 /**
@@ -71,7 +71,7 @@ export interface AppointmentSlotsPerDay {
  * useAvailabilityLogic composable return type
  */
 export interface UseAvailabilityLogicReturn {
-  dateRangeForApi: ComputedRef<{ start: string; end: string } | null>
+  dateRangeForApi: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
   propertyDetails: ComputedRef<PropertyDetails | null>
   accumulatedBlockInstances: ComputedRef<BookingBlockInstance[]>
   timeSlotsPerDay: Ref<TimeSlotsPerDay[]>
@@ -177,8 +177,8 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     // WHY: Consistent format throughout codebase, matches Google Calendar API
     // PATTERN: Use toISOString() to produce RFC3339 format
     return {
-      start: startDateTime.toISOString(),
-      end: endDateTime.toISOString()
+      start: toRFC3339DateTime(startDateTime),
+      end: toRFC3339DateTime(endDateTime)
     }
   })
 

@@ -56,5 +56,9 @@
       }
     ],
     "specific": []
+  },
+  "priorities": {
+    "p0MinSeverityScore": 10,
+    "p1MinSeverityScore": 5
   }
 }

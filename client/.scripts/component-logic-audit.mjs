@@ -166,11 +166,25 @@ function scanLines(lines) {
   return { counts, matches }
 }
 
+function calculateScore(counts) {
+  // Calculate severity score based on risky patterns
+  const riskKeys = ['dom', 'watch', 'watchEffect', 'async', 'await', 'reduce', 'map', 'computed', 'inlineConfig', 'console']
+  return riskKeys.reduce((sum, k) => sum + (counts[k] || 0), 0)
+}
+
+function assignPriority(score, config) {
+  const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 15)
+  const p1Min = Number(config?.priorities?.p1MinSeverityScore ?? 8)
+  
+  if (score >= p0Min) return 'P0'
+  if (score >= p1Min) return 'P1'
+  return 'P2'
+}
+
 function compareCounts(a, b) {
   // stable sort: most "risky" first
-  const riskKeys = ['dom', 'watch', 'watchEffect', 'async', 'await', 'reduce', 'map', 'computed', 'inlineConfig', 'console']
-  const aScore = riskKeys.reduce((sum, k) => sum + (a.counts[k] || 0), 0)
-  const bScore = riskKeys.reduce((sum, k) => sum + (b.counts[k] || 0), 0)
+  const aScore = calculateScore(a.counts)
+  const bScore = calculateScore(b.counts)
 
   if (bScore !== aScore) return bScore - aScore
   if (b.counts.computed !== a.counts.computed) return b.counts.computed - a.counts.computed
@@ -246,6 +260,15 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  
+  // Load priority config
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
 
   const vueFilesAbs = INCLUDE_DIRS.flatMap(d => listVueFilesRecursive(d))
   const scanned = []
@@ -257,6 +280,9 @@ function main() {
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines)
+    
+    const score = calculateScore(counts)
+    const priority = assignPriority(score, priorityConfig)
 
     scanned.push({
       id: toStableId(repoPath),
@@ -264,6 +290,8 @@ function main() {
       absPath: abs,
       counts,
       matches,
+      score,
+      priority,
     })
   }
 

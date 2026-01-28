@@ -34,13 +34,14 @@ function renderIndex(files) {
   lines.push('')
   lines.push('## Full index (all files)')
   lines.push('')
-  lines.push('| File | score | computed | ref | watch | async | await | map | reduce | DOM | inline :config | console | alert |')
-  lines.push('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
+  lines.push('| File | Priority | score | computed | ref | watch | async | await | map | reduce | DOM | inline :config | console | alert |')
+  lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
 
   for (const f of files) {
     const c = f.counts || {}
+    const priority = f.priority || 'P2'
     lines.push(
-      `| \`${f.repoPath}\` | ${score(c)} | ${c.computed || 0} | ${c.ref || 0} | ${c.watch || 0} | ${c.async || 0} | ${c.await || 0} | ${c.map || 0} | ${c.reduce || 0} | ${c.dom || 0} | ${c.inlineConfig || 0} | ${c.console || 0} | ${c.alert || 0} |`
+      `| \`${f.repoPath}\` | ${priority} | ${score(c)} | ${c.computed || 0} | ${c.ref || 0} | ${c.watch || 0} | ${c.async || 0} | ${c.await || 0} | ${c.map || 0} | ${c.reduce || 0} | ${c.dom || 0} | ${c.inlineConfig || 0} | ${c.console || 0} | ${c.alert || 0} |`
     )
   }
 

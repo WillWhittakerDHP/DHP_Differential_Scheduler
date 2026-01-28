@@ -7,7 +7,7 @@
  * - EntityCard.vue
  */
 
-import { ref, computed, watch, type Ref } from 'vue'
+import { ref, computed, watch, isRef, type Ref } from 'vue'
 
 export interface UseEntityCardExpansionOptions {
   expanded: Ref<boolean> | boolean
@@ -26,7 +26,7 @@ export interface UseEntityCardExpansionReturn {
 export function useEntityCardExpansion(
   options: UseEntityCardExpansionOptions
 ): UseEntityCardExpansionReturn {
-  const expandedValue = 'value' in options.expanded ? options.expanded.value : options.expanded
+  const expandedValue = isRef(options.expanded) ? options.expanded.value : options.expanded
   
   // LEARNING: Internal expansion state
   // WHY: group:selected reflects actual VExpansionPanel state even if parent props lag
@@ -36,7 +36,7 @@ export function useEntityCardExpansion(
   // LEARNING: Keep internal state in sync with prop updates
   // WHY: Parent may programmatically control expansion (e.g., auto-expand on create)
   // PATTERN: Watch prop changes, but allow group:selected to be the primary source of truth
-  if ('value' in options.expanded) {
+  if (isRef(options.expanded)) {
     watch(options.expanded, (newValue) => {
       internalExpanded.value = newValue ?? true
     })

@@ -511,7 +511,7 @@ const handleUndo = (): void => {
  * WHY: Allows parent (InstancesTab) to show inline creation card with pre-filled values
  * PATTERN: Emit event instead of creating immediately - same pattern as create flow
  */
-const handleDuplicate = (): void => {
+const handleDuplicate = async (): Promise<void> => {
   // Only allow duplication for block instances
   if (props.entityKey !== 'blockInstance') {
     return

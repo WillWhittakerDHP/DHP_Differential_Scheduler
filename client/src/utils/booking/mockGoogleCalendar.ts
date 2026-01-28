@@ -10,7 +10,7 @@
  */
 
 import type { GoogleFreeBusyResponse, GoogleCalendarBusyPeriod } from '@/types/googleCalendar'
-import type { RFC3339DateTime } from '@/types/datetime'
+import { toRFC3339DateTime, type RFC3339DateTime } from '@/types/datetime'
 import { createLogger } from '@/utils/logger'
 
 // LEARNING: Use scoped logger for controllable debug output
@@ -118,8 +118,8 @@ function generateRandomBusyPeriod(
   }
   
   return {
-    start: periodStart.toISOString(),
-    end: periodEnd.toISOString()
+    start: toRFC3339DateTime(periodStart),
+    end: toRFC3339DateTime(periodEnd)
   }
 }
 
@@ -165,7 +165,7 @@ export function generateMockFreeBusyResponse(
   startDateOnly.setUTCHours(0, 0, 0, 0)
   const isToday = startDateOnly.getTime() === todayStart.getTime()
   
-  const earliestStartTime: RFC3339DateTime = isToday ? now.toISOString() : dateRange.start
+  const earliestStartTime: RFC3339DateTime = isToday ? toRFC3339DateTime(now) : dateRange.start
   
   // LEARNING: Convert earliestStartTime to Date object for calculations
   // WHY: Need Date object for time comparisons and calculations
@@ -261,8 +261,8 @@ export function generateMockFreeBusyResponse(
       const periodEnd = effectiveEnd > maxEndTime ? maxEndTime : effectiveEnd
       
       busyPeriods.push({
-        start: actualStart.toISOString(),
-        end: periodEnd.toISOString()
+        start: toRFC3339DateTime(actualStart),
+        end: toRFC3339DateTime(periodEnd)
       })
       
     } else {
@@ -274,7 +274,7 @@ export function generateMockFreeBusyResponse(
           // PATTERN: Use constrained end time instead of original end time
           const constrainedDateRange = {
             start: dateRange.start,
-            end: constrainedEndDateTime.toISOString()
+            end: toRFC3339DateTime(constrainedEndDateTime)
           }
           
           const period = generateRandomBusyPeriod(
@@ -291,7 +291,7 @@ export function generateMockFreeBusyResponse(
           // PATTERN: Check and adjust period end time if needed
           const periodEndDate = new Date(period.end)
           if (periodEndDate > maxEndTime) {
-            period.end = maxEndTime.toISOString()
+            period.end = toRFC3339DateTime(maxEndTime)
             // Adjust start if period becomes too short
             const periodStartDate = new Date(period.start)
             const adjustedDuration = (maxEndTime.getTime() - periodStartDate.getTime()) / (1000 * 60)
@@ -321,7 +321,7 @@ export function generateMockFreeBusyResponse(
   const response = {
     kind: 'calendar#freeBusy',
     timeMin: dateRange.start,
-    timeMax: constrainedEndDateTime.toISOString(), // Use constrained end time
+    timeMax: toRFC3339DateTime(constrainedEndDateTime), // Use constrained end time
     calendars
   }
   

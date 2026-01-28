@@ -15,9 +15,15 @@ import {
   // P3-3: Removed TimeSlotWithAvailability import - use TimeSlot directly
 } from './timeAvailabilityManager'
 import type { RangeConstraint } from '@/configs/availabilitySettings'
+import { createLogger } from '@/utils/logger'
 import type { OverlapConstraint, CapacityConstraint } from './constraintExtractors'
 import { validateSlotGenerationParams } from './slotGenerationValidation'
 import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
+
+// LEARNING: Use scoped logger for controllable debug output
+// WHY: Prevents debug logs in production, allows scope-based filtering
+// PATTERN: createLogger(scope) provides debug/info/warn/error methods
+const logger = createLogger('timeSlotFitter')
 
 /**
  * Default include flags for TimeSlot objects
@@ -78,6 +84,7 @@ export interface FitTimeSlotsParams {
   startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
   endBoundary: RFC3339DateTime           // RFC3339 datetime - latest possible end (slot must complete by this time)
   duration: number                       // Required duration in minutes
+  businessHours: BusinessHoursMap         // Business hours by day of week
   minuteIncrement: number                 // Usually 15
   busyTimes?: BusyTimeRange[]             // Optional exclusions
   /**
@@ -345,6 +352,7 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
     startBoundary,
     endBoundary,
     duration,
+    businessHours,
     minuteIncrement,
     busyTimes = [],
     includeFlags

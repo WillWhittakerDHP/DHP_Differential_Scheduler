@@ -16,10 +16,11 @@ import { computed, ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
+import type { RFC3339DateTime } from '@/types/datetime'
 import { useLocalTime } from '@/composables/useLocalTime'
 
 interface Props {
-  dateRange: { start: string; end: string } | null
+  dateRange: { start: RFC3339DateTime; end: RFC3339DateTime } | null
   refreshKey?: number | string
   busyPeriods?: BusyTimeRange[]  // Optional: if provided, use these instead of generating from dateRange
 }
@@ -66,7 +67,7 @@ const busyPeriods = computed(() => {
 // LEARNING: Format busy period for human-readable display
 // WHY: Makes it easy to see what times are blocked at a glance
 // PATTERN: Use composable for UI-boundary formatting
-const formatBusyPeriod = (period: { start: string; end: string }): string => {
+const formatBusyPeriod = (period: { start: RFC3339DateTime; end: RFC3339DateTime }): string => {
   const start = new Date(period.start)
   const end = new Date(period.end)
   const durationMinutes = Math.round((end.getTime() - start.getTime()) / (1000 * 60))

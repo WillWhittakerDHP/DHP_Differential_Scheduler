@@ -14,6 +14,7 @@ import type { GlobalEntity, GlobalEntityId, BlockInstanceEntity } from '@/types/
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { FetchedRelationship } from '@/types/relationships'
 import type { Annotation, AnnotationType } from '@/types/annotations'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { transformApiEntity } from './entityTransformers'
 import { transformApiRelationships } from './relationshipTransformers'
 import { transformApiAnnotation, groupAnnotationsByEntity } from './annotationTransformers'
@@ -436,7 +437,7 @@ export class GlobalTransformer {
     // WHY: No hardcoded field lists - automatically includes all boolean fields from metadata
     // PATTERN: Use metadata cache to get field metadata for this entity type
     let metadataCache
-    let metadata = {}
+    let metadata: Record<string, FieldMetadataEntry> = {}
     try {
       metadataCache = useMetadataCache()
       metadata = metadataCache.getMetadata(entityType)

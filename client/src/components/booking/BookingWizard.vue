@@ -8,7 +8,7 @@
  * COMPARISON: React uses MUI Stepper. Vue uses custom VList-based horizontal stepper
  */
 
-import { computed, provide, type Ref } from 'vue'
+import { computed, provide } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'

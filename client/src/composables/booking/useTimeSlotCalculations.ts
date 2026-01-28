@@ -12,6 +12,7 @@ import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transfor
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { getPartInstanceCategory } from '@/utils/booking/partShapeTimeSlotMapping'
 import { useLocalTime } from '@/composables/useLocalTime'
+import { toRFC3339DateTime } from '@/types/datetime'
 
 /**
  * Time block structure for display
@@ -88,22 +89,20 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   const getNonZeroedParts = (parts: BookingPartInstance[]): BookingPartInstance[] => {
     const partsByCategory = new Map<string, BookingPartInstance[]>()
     
-    parts.forEach(part => {
+    for (const part of parts) {
       const category = getPartInstanceCategory(part)
       if (category) {
-        if (!partsByCategory.has(category)) {
-          partsByCategory.set(category, [])
-        }
-        partsByCategory.get(category)!.push(part)
+        const currentParts = partsByCategory.get(category) ?? []
+        partsByCategory.set(category, [...currentParts, part])
       }
-    })
+    }
     
     const zeroedCategories = new Set<string>()
-    partsByCategory.forEach((categoryParts, category) => {
+    for (const [category, categoryParts] of partsByCategory) {
       if (shouldZeroOutCategory(categoryParts)) {
         zeroedCategories.add(category)
       }
-    })
+    }
     
     return parts.filter(part => {
       const category = getPartInstanceCategory(part)
@@ -206,8 +205,8 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
       // LEARNING: Use composable for UI-boundary formatting
       // WHY: All local time conversions must go through useLocalTime composable
       return formatTimeRangeForDisplay({
-        startTime: start.toISOString(),
-        endTime: end.toISOString()
+        startTime: toRFC3339DateTime(start),
+        endTime: toRFC3339DateTime(end)
       })
     }
     

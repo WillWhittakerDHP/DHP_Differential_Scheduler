@@ -13,6 +13,7 @@ import { ref, computed } from 'vue'
 import { useAvailabilityLogic } from '../useAvailabilityLogic'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { TimeSlot } from '@/types/appointment'
+import { isRFC3339DateTime } from '@/types/datetime'
 
 /**
  * Helper to create a BookingBlockInstance for testing
@@ -138,8 +139,8 @@ describe('useAvailabilityLogic', () => {
       })
       
       expect(dateRangeForApi.value).not.toBeNull()
-      expect(dateRangeForApi.value?.start).toBe('2024-01-15')
-      expect(dateRangeForApi.value?.end).toBe('2024-01-16') // Start + 1 day
+      expect(dateRangeForApi.value?.start).toBe('2024-01-15T00:00:00.000Z')
+      expect(dateRangeForApi.value?.end).toBe('2024-01-16T00:00:00.000Z') // Start + 1 day
     })
 
     it('should format dates in YYYY-MM-DD format', () => {
@@ -153,8 +154,8 @@ describe('useAvailabilityLogic', () => {
         loadedWizardState,
       })
       
-      expect(dateRangeForApi.value?.start).toMatch(/^\d{4}-\d{2}-\d{2}$/)
-      expect(dateRangeForApi.value?.end).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+      expect(isRFC3339DateTime(dateRangeForApi.value?.start ?? '')).toBe(true)
+      expect(isRFC3339DateTime(dateRangeForApi.value?.end ?? '')).toBe(true)
     })
 
     it('should be reactive to date changes', () => {
@@ -171,7 +172,7 @@ describe('useAvailabilityLogic', () => {
       selectedDate.value = { start: '2024-01-15', end: null }
       
       expect(dateRangeForApi.value).not.toBeNull()
-      expect(dateRangeForApi.value?.start).toBe('2024-01-15')
+      expect(dateRangeForApi.value?.start).toBe('2024-01-15T00:00:00.000Z')
     })
   })
 

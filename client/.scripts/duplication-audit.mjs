@@ -220,6 +220,20 @@ function buildWindows(kept) {
   return out
 }
 
+function calculateGroupScore(group) {
+  // Score based on leverage: unique files * lineCount + occurrences
+  return (group.uniqueFiles * group.lineCount) + group.occurrences
+}
+
+function assignPriority(score, config) {
+  const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 10)
+  const p1Min = Number(config?.priorities?.p1MinSeverityScore ?? 5)
+  
+  if (score >= p0Min) return 'P0'
+  if (score >= p1Min) return 'P1'
+  return 'P2'
+}
+
 function compareGroups(a, b) {
   // Rank by leverage: unique files * lineCount, then total occurrences.
   const aLeverage = a.uniqueFiles * a.lineCount
@@ -298,6 +312,15 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  
+  // Load priority config
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
 
   const absFiles = listFilesRecursive(SRC_DIR)
   /** @type {Array<{id: string, repoPath: string, windows: Array<{hash: string, windowText: string, startLine: number, endLine: number, lineCount: number}>}>} */
@@ -370,7 +393,11 @@ function main() {
         .slice()
         .sort((a, b) => a.repoPath.localeCompare(b.repoPath) || a.startLine - b.startLine || a.endLine - b.endLine)
 
-      return { groupId, hash, uniqueFiles, occurrences, lineCount, windowText, locations: locs }
+      const group = { groupId, hash, uniqueFiles, occurrences, lineCount, windowText, locations: locs }
+      const groupScore = calculateGroupScore(group)
+      const groupPriority = assignPriority(groupScore, priorityConfig)
+      
+      return { ...group, score: groupScore, priority: groupPriority }
     })
     .filter(g => g.occurrences >= MIN_WINDOWS_PER_GROUP && g.uniqueFiles >= 2)
     .sort(compareGroups)

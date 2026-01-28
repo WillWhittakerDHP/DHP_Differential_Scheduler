@@ -31,13 +31,14 @@ function render(data) {
   lines.push('')
   lines.push('## Index (ranked)')
   lines.push('')
-  lines.push('| Group | unique files | occurrences | lineCount | sample locations |')
-  lines.push('| --- | ---: | ---: | ---: | --- |')
+  lines.push('| Group | Priority | unique files | occurrences | lineCount | sample locations |')
+  lines.push('| --- | --- | ---: | ---: | ---: | --- |')
   for (const g of groups) {
     const sample = Array.isArray(g.locations)
       ? g.locations.slice(0, 3).map(l => `\`${l.repoPath}@${l.startLine}\``).join(', ')
       : ''
-    lines.push(`| \`${g.groupId}\` | ${g.uniqueFiles || 0} | ${g.occurrences || 0} | ${g.lineCount || 0} | ${sample}${g.locations?.length > 3 ? ', …' : ''} |`)
+    const priority = g.priority || 'P2'
+    lines.push(`| \`${g.groupId}\` | ${priority} | ${g.uniqueFiles || 0} | ${g.occurrences || 0} | ${g.lineCount || 0} | ${sample}${g.locations?.length > 3 ? ', …' : ''} |`)
   }
 
   lines.push('')

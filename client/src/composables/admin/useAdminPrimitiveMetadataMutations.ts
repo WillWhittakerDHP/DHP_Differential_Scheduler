@@ -14,8 +14,7 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAdminPrimitiveMetadataEndpoint } from '@/utils/api'
 import type { EntityMetadataType, FieldMetadataEntry } from '@/types/entityMetadata'
 import { buildMetadataEntry } from '@/utils/admin/buildMetadataEntry'
-import { useGlobal } from '@/composables/useGlobal'
-import { metadataTransformer } from '@/utils/transformers/metadataTransformer'
+import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAdminPrimitiveMetadataMutations')
@@ -31,7 +30,7 @@ const logger = createLogger('useAdminPrimitiveMetadataMutations')
  */
 export function useAdminPrimitiveMetadataMutations() {
   const queryClient = useQueryClient()
-  const { getGlobalData } = useGlobal()
+  const { getFieldMetadata } = useMetadataCache()
 
   const saveFieldRenderingMutation = useMutation({
     mutationFn: async ({
@@ -57,13 +56,11 @@ export function useAdminPrimitiveMetadataMutations() {
       // LEARNING: Get existingMetadata from primitive metadata source (declarative - like dehydrateEntity gets from entity)
       // WHY: Ensure we're using the correct source for primitive metadata entries
       // PATTERN: Get primitive metadata from GlobalData, extract fieldKey entry (declarative object access)
-      const globalData = getGlobalData()
-      if (globalData?.metadata && !existingMetadata) {
-        const primitiveMetadata = globalData.metadata.primitiveMetadata?.[entityType]?.[entityId] || {}
-        // LEARNING: Direct access to fieldKey entry (declarative - like dehydrateEntity accesses entity fields)
-        // WHY: Get existingMetadata from primitive metadata source if not provided
-        // PATTERN: Simple object property access, no filtering
-        existingMetadata = primitiveMetadata[fieldKey]
+      if (!existingMetadata) {
+        // LEARNING: Get existingMetadata from metadata cache if not provided
+        // WHY: Metadata is lazy-loaded separately from globalData for admin pages
+        // PATTERN: Use useMetadataCache.getFieldMetadata for declarative lookup
+        existingMetadata = getFieldMetadata(entityType, fieldKey)
       }
 
       // LEARNING: NO FALLBACKS - existingMetadata is required for new fields
