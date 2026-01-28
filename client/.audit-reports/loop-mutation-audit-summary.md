@@ -7,7 +7,6 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | File | score | forEach | for-loops | mutators | assigns | forEach→mutation hits |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/utils/booking/timeAvailabilityManager.ts` | 70 | 4 | 12 | 7 | 21 | 0 |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | 69 | 0 | 1 | 0 | 34 | 0 |
 | `src/utils/transformers/fetchToGlobalTransformer.ts` | 62 | 0 | 14 | 1 | 23 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | 48 | 0 | 0 | 0 | 24 | 0 |
 | `src/utils/transformers/relationshipTransformers.ts` | 46 | 4 | 4 | 2 | 17 | 0 |
@@ -27,6 +26,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `src/utils/forms/fieldLocationDispatcher.ts` | 24 | 0 | 2 | 5 | 6 | 0 |
 | `src/utils/transformers/annotationTransformers.ts` | 24 | 0 | 0 | 1 | 11 | 0 |
 | `src/utils/transformers/globalToAdminTransformer.ts` | 24 | 2 | 0 | 0 | 3 | 2 |
+| `src/views/admin/tabs/BusinessControlsTab.vue` | 24 | 0 | 0 | 0 | 12 | 0 |
 | `src/utils/booking/constraintExtractors.ts` | 22 | 0 | 4 | 5 | 4 | 0 |
 | `src/utils/booking/selectionCardStyles.ts` | 22 | 0 | 0 | 7 | 4 | 0 |
 | `src/utils/optimistic/annotationAssignmentsOptimistic.ts` | 22 | 0 | 0 | 3 | 8 | 0 |

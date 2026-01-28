@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-28T02:41:03.770Z",
+  "generatedAt": "2026-01-28T15:32:56.374Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}"
@@ -14,7 +14,7 @@
   },
   "exceptionSummary": {
     "totalAllowed": 5,
-    "totalRequiresReview": 574,
+    "totalRequiresReview": 577,
     "bySource": {
       "inline": 0,
       "pattern": 5,
@@ -180,405 +180,435 @@
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
-        "magicLabel": 39,
+        "magicLabel": 42,
         "entityKeyString": 0
       },
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 232,
+          "lineNumber": 38,
+          "line": "constraints: 'Constraints',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 39,
+          "line": "businessHours: 'Business Hours',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 40,
+          "line": "leadTimeConstraint: 'Lead Time Constraint',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 41,
+          "line": "dateRangeConstraint: 'Date Range Constraint',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 42,
+          "line": "perDayLimit: 'Per Day Limit',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 45,
+          "line": "appointmentBuffers: 'Appointment Buffers',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 46,
+          "line": "driveTimeBuffer: 'Drive Time Buffer',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 47,
+          "line": "lunchBuffer: 'Lunch Buffer',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 48,
+          "line": "calendar: 'Calendar'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 51,
+          "line": "startTime: 'Start Time',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 52,
+          "line": "endTime: 'End Time',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 54,
+          "line": "maximumHoursPerDay: 'Maximum Hours Per Day',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 55,
+          "line": "maximumHoursPerWeek: 'Maximum Hours Per Week',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 57,
+          "line": "enforcement: 'Enforcement',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 58,
+          "line": "direction: 'Direction',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 60,
+          "line": "placement: 'Placement',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 61,
+          "line": "timeSlotIncrement: 'Time Slot Increment',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 62,
+          "line": "timezone: 'Timezone'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 65,
+          "line": "startTimeRequired: 'Start time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 66,
+          "line": "endTimeRequired: 'End time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 68,
+          "line": "leadTimeRequired: 'Lead time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 69,
+          "line": "leadTimeMin: 'Lead time must be 0 or greater',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 70,
+          "line": "mustBeZeroOrGreater: 'Must be 0 or greater',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 71,
+          "line": "cannotExceed24Hours: 'Cannot exceed 24 hours',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 72,
+          "line": "bufferTimeMin: 'Buffer time must be 0 or greater',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 73,
+          "line": "timeIncrementRequired: 'Time increment is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 74,
+          "line": "timezoneRequired: 'Timezone is required'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 78,
+          "line": "direction: 'How the 7-day window is calculated relative to appointment date',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 79,
+          "line": "bufferTime: 'Time to add around candidate appointments when checking availability',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 88,
+          "line": "timeSlots: 'Time slots will be generated at intervals of',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 91,
+          "line": "notSet: 'Not set',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 92,
+          "line": "leadTimeDescription: 'Appointments must be scheduled at least',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 96,
+          "line": "dateRangeNotSetup: 'Not Set-up',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 98,
+          "line": "driveTimeNotSetup: 'Not Set-up',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 100,
+          "line": "lunchNotSetup: 'Not Set-up',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 104,
+          "line": "saveSettings: 'Save Settings',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 105,
+          "line": "resetToDefaults: 'Reset to Defaults'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 109,
+          "line": "capacity: 'Capacity',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 110,
+          "line": "overlap: 'Overlap'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 325,
           "line": "{ title: 'Flexible', value: 'flexible' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 238,
+          "lineNumber": 331,
           "line": "{ title: 'Past 7 days', value: 'past' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 240,
+          "lineNumber": 333,
           "line": "{ title: 'Future 7 days', value: 'future' }"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 246,
-          "line": "{ title: 'Lead Time', value: 'leadTime' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 413,
-          "line": "<VExpansionPanel title=\"Constraints\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 430,
-          "line": "<VExpansionPanel title=\"Business Hours\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 443,
-          "line": "label=\"Start Time\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 447,
-          "line": "(v: string) => !!v || 'Start time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 456,
-          "line": "label=\"End Time\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 460,
-          "line": "(v: string) => !!v || 'End time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 471,
-          "line": "<VExpansionPanel title=\"Lead Time Constraint\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 480,
-          "line": "(v: number) => v !== null && v !== undefined || 'Lead time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 481,
-          "line": "(v: number) => v >= 0 || 'Lead time must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 505,
-          "line": "<VExpansionPanel title=\"Date Range Constraint\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 540,
-          "line": "<VExpansionPanel title=\"Per Day Limit\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 546,
-          "line": "label=\"Maximum Hours Per Day\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 552,
-          "line": "(v: number) => v >= 0 || 'Must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 553,
-          "line": "(v: number) => v <= 24 || 'Cannot exceed 24 hours',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 561,
-          "line": "label=\"Enforcement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 577,
-          "line": "label=\"Maximum Hours Per Week\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 582,
-          "line": "(v: number) => v >= 0 || 'Must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 590,
-          "line": "label=\"Enforcement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 611,
-          "line": "(v: number) => v >= 0 || 'Must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 619,
-          "line": "label=\"Enforcement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 628,
-          "line": "label=\"Direction\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 629,
-          "line": "hint=\"How the 7-day window is calculated relative to appointment date\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 661,
-          "line": "<VExpansionPanel title=\"Appointment Buffers\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 671,
-          "line": "hint=\"Time to add around candidate appointments when checking availability\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 674,
-          "line": "(v: number) => v >= 0 || 'Buffer time must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 682,
-          "line": "label=\"Placement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 691,
-          "line": "label=\"Enforcement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 711,
-          "line": "<VExpansionPanel title=\"Drive Time Buffer\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 733,
-          "line": "<VExpansionPanel title=\"Lunch Buffer\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 775,
-          "line": "<VExpansionPanel title=\"Calendar\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 783,
-          "line": "label=\"Time Slot Increment\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 785,
-          "line": ":rules=\"[(v: number) => !!v || 'Time increment is required']\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 798,
-          "line": "label=\"Timezone\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 802,
-          "line": "(v: string) => !!v || 'Timezone is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 807,
-          "line": "Current selection: {{ formData.timezone || 'Not set' }}"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 232,
+          "lineNumber": 38,
+          "line": "constraints: 'Constraints',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 39,
+          "line": "businessHours: 'Business Hours',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 40,
+          "line": "leadTimeConstraint: 'Lead Time Constraint',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 41,
+          "line": "dateRangeConstraint: 'Date Range Constraint',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 42,
+          "line": "perDayLimit: 'Per Day Limit',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 45,
+          "line": "appointmentBuffers: 'Appointment Buffers',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 46,
+          "line": "driveTimeBuffer: 'Drive Time Buffer',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 47,
+          "line": "lunchBuffer: 'Lunch Buffer',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 48,
+          "line": "calendar: 'Calendar'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 51,
+          "line": "startTime: 'Start Time',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 52,
+          "line": "endTime: 'End Time',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 54,
+          "line": "maximumHoursPerDay: 'Maximum Hours Per Day',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 55,
+          "line": "maximumHoursPerWeek: 'Maximum Hours Per Week',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 57,
+          "line": "enforcement: 'Enforcement',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 58,
+          "line": "direction: 'Direction',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 60,
+          "line": "placement: 'Placement',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 61,
+          "line": "timeSlotIncrement: 'Time Slot Increment',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 62,
+          "line": "timezone: 'Timezone'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 65,
+          "line": "startTimeRequired: 'Start time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 66,
+          "line": "endTimeRequired: 'End time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 68,
+          "line": "leadTimeRequired: 'Lead time is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 69,
+          "line": "leadTimeMin: 'Lead time must be 0 or greater',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 70,
+          "line": "mustBeZeroOrGreater: 'Must be 0 or greater',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 71,
+          "line": "cannotExceed24Hours: 'Cannot exceed 24 hours',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 72,
+          "line": "bufferTimeMin: 'Buffer time must be 0 or greater',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 73,
+          "line": "timeIncrementRequired: 'Time increment is required',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 74,
+          "line": "timezoneRequired: 'Timezone is required'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 78,
+          "line": "direction: 'How the 7-day window is calculated relative to appointment date',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 79,
+          "line": "bufferTime: 'Time to add around candidate appointments when checking availability',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 88,
+          "line": "timeSlots: 'Time slots will be generated at intervals of',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 91,
+          "line": "notSet: 'Not set',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 92,
+          "line": "leadTimeDescription: 'Appointments must be scheduled at least',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 96,
+          "line": "dateRangeNotSetup: 'Not Set-up',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 98,
+          "line": "driveTimeNotSetup: 'Not Set-up',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 100,
+          "line": "lunchNotSetup: 'Not Set-up',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 104,
+          "line": "saveSettings: 'Save Settings',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 105,
+          "line": "resetToDefaults: 'Reset to Defaults'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 109,
+          "line": "capacity: 'Capacity',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 110,
+          "line": "overlap: 'Overlap'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 325,
           "line": "{ title: 'Flexible', value: 'flexible' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 238,
+          "lineNumber": 331,
           "line": "{ title: 'Past 7 days', value: 'past' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 240,
+          "lineNumber": 333,
           "line": "{ title: 'Future 7 days', value: 'future' }"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 246,
-          "line": "{ title: 'Lead Time', value: 'leadTime' },"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 413,
-          "line": "<VExpansionPanel title=\"Constraints\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 430,
-          "line": "<VExpansionPanel title=\"Business Hours\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 443,
-          "line": "label=\"Start Time\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 447,
-          "line": "(v: string) => !!v || 'Start time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 456,
-          "line": "label=\"End Time\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 460,
-          "line": "(v: string) => !!v || 'End time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 471,
-          "line": "<VExpansionPanel title=\"Lead Time Constraint\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 480,
-          "line": "(v: number) => v !== null && v !== undefined || 'Lead time is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 481,
-          "line": "(v: number) => v >= 0 || 'Lead time must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 505,
-          "line": "<VExpansionPanel title=\"Date Range Constraint\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 540,
-          "line": "<VExpansionPanel title=\"Per Day Limit\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 546,
-          "line": "label=\"Maximum Hours Per Day\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 552,
-          "line": "(v: number) => v >= 0 || 'Must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 553,
-          "line": "(v: number) => v <= 24 || 'Cannot exceed 24 hours',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 561,
-          "line": "label=\"Enforcement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 577,
-          "line": "label=\"Maximum Hours Per Week\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 582,
-          "line": "(v: number) => v >= 0 || 'Must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 590,
-          "line": "label=\"Enforcement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 611,
-          "line": "(v: number) => v >= 0 || 'Must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 619,
-          "line": "label=\"Enforcement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 628,
-          "line": "label=\"Direction\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 629,
-          "line": "hint=\"How the 7-day window is calculated relative to appointment date\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 661,
-          "line": "<VExpansionPanel title=\"Appointment Buffers\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 671,
-          "line": "hint=\"Time to add around candidate appointments when checking availability\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 674,
-          "line": "(v: number) => v >= 0 || 'Buffer time must be 0 or greater',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 682,
-          "line": "label=\"Placement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 691,
-          "line": "label=\"Enforcement\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 711,
-          "line": "<VExpansionPanel title=\"Drive Time Buffer\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 733,
-          "line": "<VExpansionPanel title=\"Lunch Buffer\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 775,
-          "line": "<VExpansionPanel title=\"Calendar\">"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 783,
-          "line": "label=\"Time Slot Increment\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 785,
-          "line": ":rules=\"[(v: number) => !!v || 'Time increment is required']\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 798,
-          "line": "label=\"Timezone\""
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 802,
-          "line": "(v: string) => !!v || 'Timezone is required',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 807,
-          "line": "Current selection: {{ formData.timezone || 'Not set' }}"
         }
       ],
-      "score": 39,
+      "score": 42,
       "suggestions": [
         {
           "priority": "P2",

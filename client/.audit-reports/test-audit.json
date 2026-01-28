@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-28T02:41:06.244Z",
+  "generatedAt": "2026-01-28T15:32:57.154Z",
   "summary": {
     "totalSourceFiles": 526,
     "totalTestFiles": 116,
@@ -6439,10 +6439,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 6,
-        "independence": 6,
+        "independence": 5,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 4
+        "overall": 3.8
       }
     },
     {
@@ -17665,10 +17665,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 6,
-        "independence": 6,
+        "independence": 5,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 4
+        "overall": 3.8
       }
     },
     {

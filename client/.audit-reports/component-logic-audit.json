@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-28T02:41:01.592Z",
+  "generatedAt": "2026-01-28T15:32:55.571Z",
   "files": [
     {
       "id": "src__components__admin__generic__EntityCard.vue",
@@ -174,107 +174,6 @@
           "ruleId": "computed",
           "lineNumber": 551,
           "line": "const deleteDialogTitle = computed(() => {"
-        }
-      ]
-    },
-    {
-      "id": "src__views__admin__tabs__BusinessControlsTab.vue",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "counts": {
-        "computed": 13,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "async": 0,
-        "await": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "console": 0,
-        "alert": 0,
-        "dom": 2,
-        "inlineConfig": 0,
-        "provideInject": 0,
-        "vueQuery": 0
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 34,
-          "line": "const businessHoursForUI = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 66,
-          "line": "const maxBusinessHours = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 124,
-          "line": "const maxWorkHoursDayMaxHours = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 139,
-          "line": "const maxWorkHoursDayEnforcement = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 154,
-          "line": "const maxWorkHoursCalendarWeekMaxHours = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 169,
-          "line": "const maxWorkHoursCalendarWeekEnforcement = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 184,
-          "line": "const maxWorkHoursRollingWeekMaxHours = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 199,
-          "line": "const maxWorkHoursRollingWeekEnforcement = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 214,
-          "line": "const maxWorkHoursRollingWeekDirection = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 311,
-          "line": "const rangeConstraintsLeadTimeMinutes = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 326,
-          "line": "const buffersAppointmentMinutes = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 341,
-          "line": "const buffersAppointmentPlacement = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 356,
-          "line": "const buffersAppointmentEnforcement = computed({"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 600,
-          "line": "<VExpansionPanel title=\"Rolling Week Limit (7-day window)\">"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 629,
-          "line": "hint=\"How the 7-day window is calculated relative to appointment date\""
         }
       ]
     },
@@ -1273,6 +1172,62 @@
           "ruleId": "computed",
           "lineNumber": 217,
           "line": "const relationshipsSummary = computed((): string => {"
+        }
+      ]
+    },
+    {
+      "id": "src__views__admin__tabs__BusinessControlsTab.vue",
+      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/BusinessControlsTab.vue",
+      "counts": {
+        "computed": 4,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "async": 0,
+        "await": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "console": 0,
+        "alert": 0,
+        "dom": 2,
+        "inlineConfig": 0,
+        "provideInject": 0,
+        "vueQuery": 0
+      },
+      "matches": [
+        {
+          "ruleId": "dom",
+          "lineNumber": 44,
+          "line": "rollingWeekLimit: 'Rolling Week Limit (7-day window)',"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 78,
+          "line": "direction: 'How the 7-day window is calculated relative to appointment date',"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 117,
+          "line": "const businessHoursForUI = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 174,
+          "line": "const maxBusinessHours = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 192,
+          "line": "return computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 454,
+          "line": "const saveButtonProps = computed(() => ({"
         }
       ]
     },

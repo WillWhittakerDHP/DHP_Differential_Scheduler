@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-28T02:41:00.483Z",
+  "generatedAt": "2026-01-28T15:32:55.188Z",
   "scope": {
     "command": "node_modules/.bin/vue-tsc -b --pretty false",
     "cwd": ""
@@ -8,7 +8,7 @@
   "command": "node_modules/.bin/vue-tsc -b --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 194,
+    "totalRequiresReview": 103,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -144,29 +144,29 @@
     },
     {
       "file": "src/components/booking/MoveablePartsModal.vue",
-      "line": 161,
+      "line": 170,
       "col": 20,
       "code": "TS6133",
       "message": "'watch' is declared but its value is never read.",
-      "raw": "src/components/booking/MoveablePartsModal.vue(161,20): error TS6133: 'watch' is declared but its value is never read.",
+      "raw": "src/components/booking/MoveablePartsModal.vue(170,20): error TS6133: 'watch' is declared but its value is never read.",
       "repoPath": "src/components/booking/MoveablePartsModal.vue"
     },
     {
       "file": "src/components/booking/MoveablePartsModal.vue",
-      "line": 163,
+      "line": 172,
       "col": 1,
       "code": "TS6133",
       "message": "'useLocalTime' is declared but its value is never read.",
-      "raw": "src/components/booking/MoveablePartsModal.vue(163,1): error TS6133: 'useLocalTime' is declared but its value is never read.",
+      "raw": "src/components/booking/MoveablePartsModal.vue(172,1): error TS6133: 'useLocalTime' is declared but its value is never read.",
       "repoPath": "src/components/booking/MoveablePartsModal.vue"
     },
     {
       "file": "src/components/booking/MoveablePartsModal.vue",
-      "line": 246,
+      "line": 255,
       "col": 10,
       "code": "TS2304",
       "message": "Cannot find name 'formatDateTimeForDisplay'.",
-      "raw": "src/components/booking/MoveablePartsModal.vue(246,10): error TS2304: Cannot find name 'formatDateTimeForDisplay'.",
+      "raw": "src/components/booking/MoveablePartsModal.vue(255,10): error TS2304: Cannot find name 'formatDateTimeForDisplay'.",
       "repoPath": "src/components/booking/MoveablePartsModal.vue"
     },
     {
@@ -384,6 +384,42 @@
       "message": "Argument of type '{ time: string; duration: number; }[]' is not assignable to parameter of type 'LoadedTimeSlot[]'.",
       "raw": "src/composables/booking/useAvailabilityDefaults.ts(189,9): error TS2345: Argument of type '{ time: string; duration: number; }[]' is not assignable to parameter of type 'LoadedTimeSlot[]'.",
       "repoPath": "src/composables/booking/useAvailabilityDefaults.ts"
+    },
+    {
+      "file": "src/composables/booking/useAvailabilityStepHandlers.ts",
+      "line": 9,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'nextTick' is declared but its value is never read.",
+      "raw": "src/composables/booking/useAvailabilityStepHandlers.ts(9,10): error TS6133: 'nextTick' is declared but its value is never read.",
+      "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts"
+    },
+    {
+      "file": "src/composables/booking/useAvailabilityStepHandlers.ts",
+      "line": 108,
+      "col": 5,
+      "code": "TS6133",
+      "message": "'hasMoveableParts' is declared but its value is never read.",
+      "raw": "src/composables/booking/useAvailabilityStepHandlers.ts(108,5): error TS6133: 'hasMoveableParts' is declared but its value is never read.",
+      "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts"
+    },
+    {
+      "file": "src/composables/booking/useAvailabilityStepHandlers.ts",
+      "line": 109,
+      "col": 5,
+      "code": "TS6133",
+      "message": "'selectedSlot' is declared but its value is never read.",
+      "raw": "src/composables/booking/useAvailabilityStepHandlers.ts(109,5): error TS6133: 'selectedSlot' is declared but its value is never read.",
+      "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts"
+    },
+    {
+      "file": "src/composables/booking/useAvailabilityStepHandlers.ts",
+      "line": 110,
+      "col": 5,
+      "code": "TS6133",
+      "message": "'openMoveableModal' is declared but its value is never read.",
+      "raw": "src/composables/booking/useAvailabilityStepHandlers.ts(110,5): error TS6133: 'openMoveableModal' is declared but its value is never read.",
+      "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts"
     },
     {
       "file": "src/composables/booking/useMoveablePartsScheduling.ts",
@@ -881,861 +917,6 @@
       "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
     },
     {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 9,
-      "col": 10,
-      "code": "TS6133",
-      "message": "'ref' is declared but its value is never read.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(9,10): error TS6133: 'ref' is declared but its value is never read.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 37,
-      "col": 22,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(37,22): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 37,
-      "col": 71,
-      "code": "TS2531",
-      "message": "Object is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(37,71): error TS2531: Object is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 54,
-      "col": 3,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(54,3): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 54,
-      "col": 52,
-      "code": "TS2531",
-      "message": "Object is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(54,52): error TS2531: Object is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 55,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(55,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 55,
-      "col": 63,
-      "code": "TS2339",
-      "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(55,63): error TS2339: Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 56,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(56,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 56,
-      "col": 58,
-      "code": "TS2339",
-      "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(56,58): error TS2339: Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 56,
-      "col": 84,
-      "code": "TS2531",
-      "message": "Object is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(56,84): error TS2531: Object is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 56,
-      "col": 137,
-      "code": "TS2339",
-      "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(56,137): error TS2339: Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 63,
-      "col": 51,
-      "code": "TS6133",
-      "message": "'handleNavigateToTab' is declared but its value is never read.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(63,51): error TS6133: 'handleNavigateToTab' is declared but its value is never read.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 67,
-      "col": 36,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(67,36): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 74,
-      "col": 8,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(74,8): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 75,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(75,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 81,
-      "col": 8,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(81,8): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 82,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(82,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 83,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(83,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 85,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(85,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 94,
-      "col": 8,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(94,8): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 95,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(95,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 96,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(96,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 98,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(98,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 107,
-      "col": 8,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(107,8): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 108,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(108,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 109,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(109,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 111,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(111,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 116,
-      "col": 15,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(116,15): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 117,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(117,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 126,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(126,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 129,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(129,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 133,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(133,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 134,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(134,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 141,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(141,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 144,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(144,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 148,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(148,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 149,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(149,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 156,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(156,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 159,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(159,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 163,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(163,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 164,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(164,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 171,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(171,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 174,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(174,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 178,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(178,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 179,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(179,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 186,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(186,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 189,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(189,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 193,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(193,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 194,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(194,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 201,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(201,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 204,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(204,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 208,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(208,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 209,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(209,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 216,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(216,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 219,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(219,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 223,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(223,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 224,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(224,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 244,
-      "col": 7,
-      "code": "TS6133",
-      "message": "'bufferModeOptions' is declared but its value is never read.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(244,7): error TS6133: 'bufferModeOptions' is declared but its value is never read.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 264,
-      "col": 8,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(264,8): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 265,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(265,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 273,
-      "col": 8,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(273,8): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 274,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(274,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 280,
-      "col": 8,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(280,8): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 281,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(281,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 282,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(282,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 284,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(284,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 296,
-      "col": 8,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(296,8): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 297,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(297,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 298,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(298,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 300,
-      "col": 5,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(300,5): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 303,
-      "col": 7,
-      "code": "TS2353",
-      "message": "Object literal may only specify known properties, and 'mode' does not exist in type 'BufferConfig'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(303,7): error TS2353: Object literal may only specify known properties, and 'mode' does not exist in type 'BufferConfig'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 313,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(313,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 316,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(316,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 316,
-      "col": 60,
-      "code": "TS2339",
-      "message": "Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(316,60): error TS2339: Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 320,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(320,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 321,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(321,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 321,
-      "col": 55,
-      "code": "TS2339",
-      "message": "Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(321,55): error TS2339: Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 328,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(328,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 331,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(331,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 335,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(335,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 336,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(336,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 343,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(343,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 346,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(346,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 350,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(350,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 351,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(351,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 358,
-      "col": 10,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(358,10): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 361,
-      "col": 12,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(361,12): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 365,
-      "col": 9,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(365,9): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 366,
-      "col": 7,
-      "code": "TS18047",
-      "message": "'formData.value' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(366,7): error TS18047: 'formData.value' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 763,
-      "col": 27,
-      "code": "TS2339",
-      "message": "Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(763,27): error TS2339: Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 781,
-      "col": 26,
-      "code": "TS18047",
-      "message": "'__VLS_ctx.formData' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(781,26): error TS18047: '__VLS_ctx.formData' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 788,
-      "col": 65,
-      "code": "TS18047",
-      "message": "'__VLS_ctx.formData' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(788,65): error TS18047: '__VLS_ctx.formData' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 796,
-      "col": 26,
-      "code": "TS18047",
-      "message": "'__VLS_ctx.formData' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(796,26): error TS18047: '__VLS_ctx.formData' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 807,
-      "col": 39,
-      "code": "TS18047",
-      "message": "'__VLS_ctx.formData' is possibly 'null'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(807,39): error TS18047: '__VLS_ctx.formData' is possibly 'null'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
-      "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 824,
-      "col": 25,
-      "code": "TS2339",
-      "message": "Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-      "raw": "src/views/admin/tabs/BusinessControlsTab.vue(824,25): error TS2339: Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-    },
-    {
       "file": "src/views/admin/tabs/InstancesTab.vue",
       "line": 27,
       "col": 1,
@@ -1765,42 +946,6 @@
   ],
   "allowedErrors": [],
   "pools": [
-    {
-      "poolId": "TS18047-ts18047-formdata-value-is-possibly-null",
-      "groupKey": "TS18047::'formData.value' is possibly 'null'.",
-      "errorCount": 77,
-      "fileCount": 1,
-      "severityScore": 616,
-      "blastRadiusScore": 2,
-      "repetitionScore": 77,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 695,
-      "sample": [
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 37,
-          "col": 22,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'."
-        },
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 54,
-          "col": 3,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'."
-        },
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 55,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'."
-        }
-      ],
-      "priority": "P0"
-    },
     {
       "poolId": "TS2322-ts2322-assign-string-rfc3339datetime",
       "groupKey": "TS2322::assign:string=>RFC3339DateTime",
@@ -1833,42 +978,6 @@
           "col": 9,
           "code": "TS2322",
           "message": "Type 'string' is not assignable to type 'RFC3339DateTime'."
-        }
-      ],
-      "priority": "P0"
-    },
-    {
-      "poolId": "TS2339-ts2339-prop-hours-businesshoursconfig-leadtimeconfig-daterangeconfig",
-      "groupKey": "TS2339::prop:hours@BusinessHoursConfig | LeadTimeConfig | DateRangeConfig",
-      "errorCount": 6,
-      "fileCount": 4,
-      "severityScore": 60,
-      "blastRadiusScore": 8,
-      "repetitionScore": 6,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 74,
-      "sample": [
-        {
-          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
-          "line": 231,
-          "col": 64,
-          "code": "TS2339",
-          "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
-        },
-        {
-          "repoPath": "src/composables/booking/useMoveablePartsScheduling.ts",
-          "line": 156,
-          "col": 79,
-          "code": "TS2339",
-          "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
-        },
-        {
-          "repoPath": "src/utils/timeSlotCalculations.ts",
-          "line": 208,
-          "col": 75,
-          "code": "TS2339",
-          "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
         }
       ],
       "priority": "P0"
@@ -2018,73 +1127,37 @@
       "priority": "P0"
     },
     {
-      "poolId": "TS18047-ts18047-vls-ctx-formdata-is-possibly-null",
-      "groupKey": "TS18047::'__VLS_ctx.formData' is possibly 'null'.",
-      "errorCount": 4,
-      "fileCount": 1,
-      "severityScore": 32,
-      "blastRadiusScore": 2,
-      "repetitionScore": 4,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 38,
-      "sample": [
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 781,
-          "col": 26,
-          "code": "TS18047",
-          "message": "'__VLS_ctx.formData' is possibly 'null'."
-        },
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 788,
-          "col": 65,
-          "code": "TS18047",
-          "message": "'__VLS_ctx.formData' is possibly 'null'."
-        },
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 796,
-          "col": 26,
-          "code": "TS18047",
-          "message": "'__VLS_ctx.formData' is possibly 'null'."
-        }
-      ],
-      "priority": "P0"
-    },
-    {
-      "poolId": "TS2339-ts2339-prop-minutes-businesshoursconfig-leadtimeconfig-daterangeconfig",
-      "groupKey": "TS2339::prop:minutes@BusinessHoursConfig | LeadTimeConfig | DateRangeConfig",
+      "poolId": "TS2339-ts2339-prop-hours-businesshoursconfig-leadtimeconfig-daterangeconfig",
+      "groupKey": "TS2339::prop:hours@BusinessHoursConfig | LeadTimeConfig | DateRangeConfig",
       "errorCount": 3,
-      "fileCount": 2,
+      "fileCount": 3,
       "severityScore": 30,
-      "blastRadiusScore": 4,
+      "blastRadiusScore": 6,
       "repetitionScore": 3,
       "unsafeCastHits": 0,
       "suppressionHits": 0,
-      "totalScore": 37,
+      "totalScore": 39,
       "sample": [
         {
-          "repoPath": "src/components/booking/dev/AppointmentDebugPanel.vue",
-          "line": 358,
-          "col": 81,
+          "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
+          "line": 231,
+          "col": 64,
           "code": "TS2339",
-          "message": "Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
+          "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
         },
         {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 316,
-          "col": 60,
+          "repoPath": "src/composables/booking/useMoveablePartsScheduling.ts",
+          "line": 156,
+          "col": 79,
           "code": "TS2339",
-          "message": "Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
+          "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
         },
         {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 321,
-          "col": 55,
+          "repoPath": "src/utils/timeSlotCalculations.ts",
+          "line": 208,
+          "col": 75,
           "code": "TS2339",
-          "message": "Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
+          "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
         }
       ],
       "priority": "P0"
@@ -2300,35 +1373,6 @@
       "priority": "P0"
     },
     {
-      "poolId": "TS2339-ts2339-prop-resettodefaults",
-      "groupKey": "TS2339::prop:resetToDefaults@{...}",
-      "errorCount": 2,
-      "fileCount": 1,
-      "severityScore": 20,
-      "blastRadiusScore": 2,
-      "repetitionScore": 2,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 24,
-      "sample": [
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 763,
-          "col": 27,
-          "code": "TS2339",
-          "message": "Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'."
-        },
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 824,
-          "col": 25,
-          "code": "TS2339",
-          "message": "Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'."
-        }
-      ],
-      "priority": "P0"
-    },
-    {
       "poolId": "TS2345-ts2345-arg-partial-partial",
       "groupKey": "TS2345::arg:Partial<...>>=>Partial<...>> & {...}",
       "errorCount": 2,
@@ -2353,42 +1397,6 @@
           "col": 64,
           "code": "TS2345",
           "message": "Argument of type 'Partial<GlobalEntity<GlobalEntityTypeKey>>' is not assignable to parameter of type 'Partial<GlobalEntity<GlobalEntityTypeKey>> & { entityKey?: GlobalEntityTypeKey | undefined; }'."
-        }
-      ],
-      "priority": "P0"
-    },
-    {
-      "poolId": "TS2531-ts2531-object-is-possibly-null",
-      "groupKey": "TS2531::Object is possibly 'null'.",
-      "errorCount": 3,
-      "fileCount": 1,
-      "severityScore": 18,
-      "blastRadiusScore": 2,
-      "repetitionScore": 3,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 23,
-      "sample": [
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 37,
-          "col": 71,
-          "code": "TS2531",
-          "message": "Object is possibly 'null'."
-        },
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 54,
-          "col": 52,
-          "code": "TS2531",
-          "message": "Object is possibly 'null'."
-        },
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 56,
-          "col": 84,
-          "code": "TS2531",
-          "message": "Object is possibly 'null'."
         }
       ],
       "priority": "P0"
@@ -2487,7 +1495,7 @@
       "sample": [
         {
           "repoPath": "src/components/booking/MoveablePartsModal.vue",
-          "line": 246,
+          "line": 255,
           "col": 10,
           "code": "TS2304",
           "message": "Cannot find name 'formatDateTimeForDisplay'."
@@ -2738,6 +1746,28 @@
       "priority": "P1"
     },
     {
+      "poolId": "TS2339-ts2339-prop-minutes-businesshoursconfig-leadtimeconfig-daterangeconfig",
+      "groupKey": "TS2339::prop:minutes@BusinessHoursConfig | LeadTimeConfig | DateRangeConfig",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/dev/AppointmentDebugPanel.vue",
+          "line": 358,
+          "col": 81,
+          "code": "TS2339",
+          "message": "Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
       "poolId": "TS2345-ts2345-arg-loadedtimeslot",
       "groupKey": "TS2345::arg:{...}[]=>LoadedTimeSlot[]",
       "errorCount": 1,
@@ -2777,28 +1807,6 @@
           "col": 14,
           "code": "TS2352",
           "message": "Conversion of type 'Record<string, unknown>' to type 'GlobalEntity<GlobalEntityTypeKey>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
-        }
-      ],
-      "priority": "P1"
-    },
-    {
-      "poolId": "TS2353-ts2353-object-literal-may-only-specify-known-properties-and-mode-does-not-exist-in-type-bufferconfig",
-      "groupKey": "TS2353::Object literal may only specify known properties, and 'mode' does not exist in type 'BufferConfig'.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 10,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 13,
-      "sample": [
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 303,
-          "col": 7,
-          "code": "TS2353",
-          "message": "Object literal may only specify known properties, and 'mode' does not exist in type 'BufferConfig'."
         }
       ],
       "priority": "P1"
@@ -2919,7 +1927,7 @@
       "sample": [
         {
           "repoPath": "src/components/booking/MoveablePartsModal.vue",
-          "line": 163,
+          "line": 172,
           "col": 1,
           "code": "TS6133",
           "message": "'useLocalTime' is declared but its value is never read."
@@ -2955,7 +1963,7 @@
         },
         {
           "repoPath": "src/components/booking/MoveablePartsModal.vue",
-          "line": 161,
+          "line": 170,
           "col": 20,
           "code": "TS6133",
           "message": "'watch' is declared but its value is never read."
@@ -3025,28 +2033,6 @@
           "col": 3,
           "code": "TS6133",
           "message": "'allSlots' is declared but its value is never read."
-        }
-      ],
-      "priority": "P2"
-    },
-    {
-      "poolId": "TS6133-ts6133-buffermodeoptions-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'bufferModeOptions' is declared but its value is never read.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 3,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 6,
-      "sample": [
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 244,
-          "col": 7,
-          "code": "TS6133",
-          "message": "'bufferModeOptions' is declared but its value is never read."
         }
       ],
       "priority": "P2"
@@ -3206,28 +2192,6 @@
       "priority": "P2"
     },
     {
-      "poolId": "TS6133-ts6133-handlenavigatetotab-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'handleNavigateToTab' is declared but its value is never read.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 3,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 6,
-      "sample": [
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 63,
-          "col": 51,
-          "code": "TS6133",
-          "message": "'handleNavigateToTab' is declared but its value is never read."
-        }
-      ],
-      "priority": "P2"
-    },
-    {
       "poolId": "TS6133-ts6133-handleresetmocks-is-declared-but-its-value-is-never-read",
       "groupKey": "TS6133::'handleResetMocks' is declared but its value is never read.",
       "errorCount": 1,
@@ -3245,6 +2209,28 @@
           "col": 7,
           "code": "TS6133",
           "message": "'handleResetMocks' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-hasmoveableparts-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'hasMoveableParts' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts",
+          "line": 108,
+          "col": 5,
+          "code": "TS6133",
+          "message": "'hasMoveableParts' is declared but its value is never read."
         }
       ],
       "priority": "P2"
@@ -3294,6 +2280,50 @@
       "priority": "P2"
     },
     {
+      "poolId": "TS6133-ts6133-nexttick-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'nextTick' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts",
+          "line": 9,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'nextTick' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-openmoveablemodal-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'openMoveableModal' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts",
+          "line": 110,
+          "col": 5,
+          "code": "TS6133",
+          "message": "'openMoveableModal' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
       "poolId": "TS6133-ts6133-pendingoverrides-is-declared-but-its-value-is-never-read",
       "groupKey": "TS6133::'pendingOverrides' is declared but its value is never read.",
       "errorCount": 1,
@@ -3316,28 +2346,6 @@
       "priority": "P2"
     },
     {
-      "poolId": "TS6133-ts6133-ref-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'ref' is declared but its value is never read.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 3,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 6,
-      "sample": [
-        {
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 9,
-          "col": 10,
-          "code": "TS6133",
-          "message": "'ref' is declared but its value is never read."
-        }
-      ],
-      "priority": "P2"
-    },
-    {
       "poolId": "TS6133-ts6133-renderasoptions-is-declared-but-its-value-is-never-read",
       "groupKey": "TS6133::'renderAsOptions' is declared but its value is never read.",
       "errorCount": 1,
@@ -3355,6 +2363,28 @@
           "col": 7,
           "code": "TS6133",
           "message": "'renderAsOptions' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-selectedslot-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'selectedSlot' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts",
+          "line": 109,
+          "col": 5,
+          "code": "TS6133",
+          "message": "'selectedSlot' is declared but its value is never read."
         }
       ],
       "priority": "P2"
@@ -3515,869 +2545,6 @@
     }
   ],
   "files": [
-    {
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "errorCount": 95,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "errors": [
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 9,
-          "col": 10,
-          "code": "TS6133",
-          "message": "'ref' is declared but its value is never read.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(9,10): error TS6133: 'ref' is declared but its value is never read.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 37,
-          "col": 22,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(37,22): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 37,
-          "col": 71,
-          "code": "TS2531",
-          "message": "Object is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(37,71): error TS2531: Object is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 54,
-          "col": 3,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(54,3): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 54,
-          "col": 52,
-          "code": "TS2531",
-          "message": "Object is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(54,52): error TS2531: Object is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 55,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(55,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 55,
-          "col": 63,
-          "code": "TS2339",
-          "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(55,63): error TS2339: Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 56,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(56,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 56,
-          "col": 58,
-          "code": "TS2339",
-          "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(56,58): error TS2339: Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 56,
-          "col": 84,
-          "code": "TS2531",
-          "message": "Object is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(56,84): error TS2531: Object is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 56,
-          "col": 137,
-          "code": "TS2339",
-          "message": "Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(56,137): error TS2339: Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 63,
-          "col": 51,
-          "code": "TS6133",
-          "message": "'handleNavigateToTab' is declared but its value is never read.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(63,51): error TS6133: 'handleNavigateToTab' is declared but its value is never read.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 67,
-          "col": 36,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(67,36): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 74,
-          "col": 8,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(74,8): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 75,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(75,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 81,
-          "col": 8,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(81,8): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 82,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(82,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 83,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(83,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 85,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(85,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 94,
-          "col": 8,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(94,8): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 95,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(95,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 96,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(96,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 98,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(98,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 107,
-          "col": 8,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(107,8): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 108,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(108,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 109,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(109,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 111,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(111,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 116,
-          "col": 15,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(116,15): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 117,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(117,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 126,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(126,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 129,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(129,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 133,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(133,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 134,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(134,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 141,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(141,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 144,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(144,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 148,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(148,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 149,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(149,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 156,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(156,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 159,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(159,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 163,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(163,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 164,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(164,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 171,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(171,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 174,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(174,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 178,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(178,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 179,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(179,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 186,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(186,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 189,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(189,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 193,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(193,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 194,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(194,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 201,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(201,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 204,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(204,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 208,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(208,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 209,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(209,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 216,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(216,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 219,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(219,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 223,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(223,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 224,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(224,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 244,
-          "col": 7,
-          "code": "TS6133",
-          "message": "'bufferModeOptions' is declared but its value is never read.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(244,7): error TS6133: 'bufferModeOptions' is declared but its value is never read.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 264,
-          "col": 8,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(264,8): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 265,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(265,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 273,
-          "col": 8,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(273,8): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 274,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(274,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 280,
-          "col": 8,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(280,8): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 281,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(281,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 282,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(282,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 284,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(284,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 296,
-          "col": 8,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(296,8): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 297,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(297,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 298,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(298,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 300,
-          "col": 5,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(300,5): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 303,
-          "col": 7,
-          "code": "TS2353",
-          "message": "Object literal may only specify known properties, and 'mode' does not exist in type 'BufferConfig'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(303,7): error TS2353: Object literal may only specify known properties, and 'mode' does not exist in type 'BufferConfig'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 313,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(313,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 316,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(316,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 316,
-          "col": 60,
-          "code": "TS2339",
-          "message": "Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(316,60): error TS2339: Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 320,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(320,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 321,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(321,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 321,
-          "col": 55,
-          "code": "TS2339",
-          "message": "Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(321,55): error TS2339: Property 'minutes' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 328,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(328,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 331,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(331,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 335,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(335,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 336,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(336,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 343,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(343,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 346,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(346,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 350,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(350,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 351,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(351,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 358,
-          "col": 10,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(358,10): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 361,
-          "col": 12,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(361,12): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 365,
-          "col": 9,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(365,9): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 366,
-          "col": 7,
-          "code": "TS18047",
-          "message": "'formData.value' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(366,7): error TS18047: 'formData.value' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 763,
-          "col": 27,
-          "code": "TS2339",
-          "message": "Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(763,27): error TS2339: Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 781,
-          "col": 26,
-          "code": "TS18047",
-          "message": "'__VLS_ctx.formData' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(781,26): error TS18047: '__VLS_ctx.formData' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 788,
-          "col": 65,
-          "code": "TS18047",
-          "message": "'__VLS_ctx.formData' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(788,65): error TS18047: '__VLS_ctx.formData' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 796,
-          "col": 26,
-          "code": "TS18047",
-          "message": "'__VLS_ctx.formData' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(796,26): error TS18047: '__VLS_ctx.formData' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 807,
-          "col": 39,
-          "code": "TS18047",
-          "message": "'__VLS_ctx.formData' is possibly 'null'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(807,39): error TS18047: '__VLS_ctx.formData' is possibly 'null'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        },
-        {
-          "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 824,
-          "col": 25,
-          "code": "TS2339",
-          "message": "Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-          "raw": "src/views/admin/tabs/BusinessControlsTab.vue(824,25): error TS2339: Property 'resetToDefaults' does not exist on type '{ formData: AvailabilitySettings | null; loading: boolean; saving: boolean; error: string | null; success: string | null; saveSettings: () => Promise<void>; ... 490 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-          "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue"
-        }
-      ]
-    },
     {
       "repoPath": "src/utils/timeSlotCalculations.ts",
       "errorCount": 10,
@@ -4902,6 +3069,50 @@
       ]
     },
     {
+      "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/booking/useAvailabilityStepHandlers.ts",
+          "line": 9,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'nextTick' is declared but its value is never read.",
+          "raw": "src/composables/booking/useAvailabilityStepHandlers.ts(9,10): error TS6133: 'nextTick' is declared but its value is never read.",
+          "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts"
+        },
+        {
+          "file": "src/composables/booking/useAvailabilityStepHandlers.ts",
+          "line": 108,
+          "col": 5,
+          "code": "TS6133",
+          "message": "'hasMoveableParts' is declared but its value is never read.",
+          "raw": "src/composables/booking/useAvailabilityStepHandlers.ts(108,5): error TS6133: 'hasMoveableParts' is declared but its value is never read.",
+          "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts"
+        },
+        {
+          "file": "src/composables/booking/useAvailabilityStepHandlers.ts",
+          "line": 109,
+          "col": 5,
+          "code": "TS6133",
+          "message": "'selectedSlot' is declared but its value is never read.",
+          "raw": "src/composables/booking/useAvailabilityStepHandlers.ts(109,5): error TS6133: 'selectedSlot' is declared but its value is never read.",
+          "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts"
+        },
+        {
+          "file": "src/composables/booking/useAvailabilityStepHandlers.ts",
+          "line": 110,
+          "col": 5,
+          "code": "TS6133",
+          "message": "'openMoveableModal' is declared but its value is never read.",
+          "raw": "src/composables/booking/useAvailabilityStepHandlers.ts(110,5): error TS6133: 'openMoveableModal' is declared but its value is never read.",
+          "repoPath": "src/composables/booking/useAvailabilityStepHandlers.ts"
+        }
+      ]
+    },
+    {
       "repoPath": "src/components/admin/generic/EntityCard.vue",
       "errorCount": 3,
       "unsafeCastHits": 0,
@@ -4979,29 +3190,29 @@
       "errors": [
         {
           "file": "src/components/booking/MoveablePartsModal.vue",
-          "line": 161,
+          "line": 170,
           "col": 20,
           "code": "TS6133",
           "message": "'watch' is declared but its value is never read.",
-          "raw": "src/components/booking/MoveablePartsModal.vue(161,20): error TS6133: 'watch' is declared but its value is never read.",
+          "raw": "src/components/booking/MoveablePartsModal.vue(170,20): error TS6133: 'watch' is declared but its value is never read.",
           "repoPath": "src/components/booking/MoveablePartsModal.vue"
         },
         {
           "file": "src/components/booking/MoveablePartsModal.vue",
-          "line": 163,
+          "line": 172,
           "col": 1,
           "code": "TS6133",
           "message": "'useLocalTime' is declared but its value is never read.",
-          "raw": "src/components/booking/MoveablePartsModal.vue(163,1): error TS6133: 'useLocalTime' is declared but its value is never read.",
+          "raw": "src/components/booking/MoveablePartsModal.vue(172,1): error TS6133: 'useLocalTime' is declared but its value is never read.",
           "repoPath": "src/components/booking/MoveablePartsModal.vue"
         },
         {
           "file": "src/components/booking/MoveablePartsModal.vue",
-          "line": 246,
+          "line": 255,
           "col": 10,
           "code": "TS2304",
           "message": "Cannot find name 'formatDateTimeForDisplay'.",
-          "raw": "src/components/booking/MoveablePartsModal.vue(246,10): error TS2304: Cannot find name 'formatDateTimeForDisplay'.",
+          "raw": "src/components/booking/MoveablePartsModal.vue(255,10): error TS2304: Cannot find name 'formatDateTimeForDisplay'.",
           "repoPath": "src/components/booking/MoveablePartsModal.vue"
         }
       ]

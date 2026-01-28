@@ -13,7 +13,6 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 | File | computed | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/components/admin/generic/EntityCard.vue` | 19 | 1 | 3 | 1 | 0 | 0 | 0 |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | 13 | 0 | 0 | 0 | 2 | 0 | 0 |
 | `src/components/booking/SelectionCard.vue` | 13 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/dev/CalendarMockDevPanel.vue` | 3 | 0 | 2 | 1 | 7 | 0 | 0 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -27,6 +26,7 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 | `src/components/booking/TimeOnSiteGraph.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityFormContent.vue` | 5 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityCardSubPanels.vue` | 4 | 1 | 0 | 1 | 0 | 0 | 0 |
+| `src/views/admin/tabs/BusinessControlsTab.vue` | 4 | 0 | 0 | 0 | 2 | 0 | 0 |
 | `src/components/admin/BlockInstanceCreateModal.vue` | 3 | 1 | 2 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BooleanInput.vue` | 3 | 0 | 3 | 0 | 0 | 0 | 0 |
 | `src/views/admin/entities/BlockShapeForm.vue` | 2 | 0 | 4 | 0 | 0 | 0 | 0 |
@@ -77,28 +77,6 @@ provideInject@533: provide(ENTITY_CARD_SAVE_KEY, {
 provideInject@542: * PATTERN: Use provide/inject to pass flag to children
 provideInject@544: provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 computed@551: const deleteDialogTitle = computed(() => {
-```
-
-### `src/views/admin/tabs/BusinessControlsTab.vue`
-
-- counts: computed=13, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=2, inlineConfig=0, console=0, alert=0
-
-```
-computed@34: const businessHoursForUI = computed(() => {
-computed@66: const maxBusinessHours = computed(() => {
-computed@124: const maxWorkHoursDayMaxHours = computed({
-computed@139: const maxWorkHoursDayEnforcement = computed({
-computed@154: const maxWorkHoursCalendarWeekMaxHours = computed({
-computed@169: const maxWorkHoursCalendarWeekEnforcement = computed({
-computed@184: const maxWorkHoursRollingWeekMaxHours = computed({
-computed@199: const maxWorkHoursRollingWeekEnforcement = computed({
-computed@214: const maxWorkHoursRollingWeekDirection = computed({
-computed@311: const rangeConstraintsLeadTimeMinutes = computed({
-computed@326: const buffersAppointmentMinutes = computed({
-computed@341: const buffersAppointmentPlacement = computed({
-computed@356: const buffersAppointmentEnforcement = computed({
-dom@600: <VExpansionPanel title="Rolling Week Limit (7-day window)">
-dom@629: hint="How the 7-day window is calculated relative to appointment date"
 ```
 
 ### `src/components/booking/SelectionCard.vue`
@@ -322,6 +300,19 @@ computed@118: const partsSummary = computed((): string => {
 computed@176: const partsBulkEditMode = computed(() => {
 watch@206: watch(partsBulkEditMode, (isEnabled) => {
 computed@217: const relationshipsSummary = computed((): string => {
+```
+
+### `src/views/admin/tabs/BusinessControlsTab.vue`
+
+- counts: computed=4, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=2, inlineConfig=0, console=0, alert=0
+
+```
+dom@44: rollingWeekLimit: 'Rolling Week Limit (7-day window)',
+dom@78: direction: 'How the 7-day window is calculated relative to appointment date',
+computed@117: const businessHoursForUI = computed(() => {
+computed@174: const maxBusinessHours = computed(() => {
+computed@192: return computed({
+computed@454: const saveButtonProps = computed(() => ({
 ```
 
 ### `src/components/admin/BlockInstanceCreateModal.vue`

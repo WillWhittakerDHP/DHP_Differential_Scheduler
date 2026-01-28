@@ -14,7 +14,7 @@ Exception handling:
 
 - Entity keys detected (from `client/src/constants/entities.ts`): `description`
 - Total files scanned: **447**
-- **Requiring review: 574**
+- **Requiring review: 577**
 - Allowed (with justification): 5 (inline: 0, pattern: 5, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
@@ -22,7 +22,7 @@ Exception handling:
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/utils/forms/fieldLocationDispatcher.ts` | 44 | 0 | 0 | 11 | 0 | 0 | 0 | 0 | 0 |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/views/admin/tabs/BusinessControlsTab.vue` | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 31 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/booking/timeAvailabilityManager.ts` | 25 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/SelectionCardGroup.vue` | 24 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -72,7 +72,7 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 ### `src/views/admin/tabs/BusinessControlsTab.vue`
 
-- score: **39**
+- score: **42**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
@@ -210,49 +210,52 @@ caseString@199: case 'hidden':
 
 ### `src/views/admin/tabs/BusinessControlsTab.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=39
-- requiring review: 39, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=42
+- requiring review: 42, allowed: 0
 
 ```
-magicLabel@232: { title: 'Flexible', value: 'flexible' },
-magicLabel@238: { title: 'Past 7 days', value: 'past' },
-magicLabel@240: { title: 'Future 7 days', value: 'future' }
-magicLabel@246: { title: 'Lead Time', value: 'leadTime' },
-magicLabel@413: <VExpansionPanel title="Constraints">
-magicLabel@430: <VExpansionPanel title="Business Hours">
-magicLabel@443: label="Start Time"
-magicLabel@447: (v: string) => !!v || 'Start time is required',
-magicLabel@456: label="End Time"
-magicLabel@460: (v: string) => !!v || 'End time is required',
-magicLabel@471: <VExpansionPanel title="Lead Time Constraint">
-magicLabel@480: (v: number) => v !== null && v !== undefined || 'Lead time is required',
-magicLabel@481: (v: number) => v >= 0 || 'Lead time must be 0 or greater',
-magicLabel@505: <VExpansionPanel title="Date Range Constraint">
-magicLabel@540: <VExpansionPanel title="Per Day Limit">
-magicLabel@546: label="Maximum Hours Per Day"
-magicLabel@552: (v: number) => v >= 0 || 'Must be 0 or greater',
-magicLabel@553: (v: number) => v <= 24 || 'Cannot exceed 24 hours',
-magicLabel@561: label="Enforcement"
-magicLabel@577: label="Maximum Hours Per Week"
-magicLabel@582: (v: number) => v >= 0 || 'Must be 0 or greater',
-magicLabel@590: label="Enforcement"
-magicLabel@611: (v: number) => v >= 0 || 'Must be 0 or greater',
-magicLabel@619: label="Enforcement"
-magicLabel@628: label="Direction"
-magicLabel@629: hint="How the 7-day window is calculated relative to appointment date"
-magicLabel@661: <VExpansionPanel title="Appointment Buffers">
-magicLabel@671: hint="Time to add around candidate appointments when checking availability"
-magicLabel@674: (v: number) => v >= 0 || 'Buffer time must be 0 or greater',
-magicLabel@682: label="Placement"
-magicLabel@691: label="Enforcement"
-magicLabel@711: <VExpansionPanel title="Drive Time Buffer">
-magicLabel@733: <VExpansionPanel title="Lunch Buffer">
-magicLabel@775: <VExpansionPanel title="Calendar">
-magicLabel@783: label="Time Slot Increment"
-magicLabel@785: :rules="[(v: number) => !!v || 'Time increment is required']"
-magicLabel@798: label="Timezone"
-magicLabel@802: (v: string) => !!v || 'Timezone is required',
-magicLabel@807: Current selection: {{ formData.timezone || 'Not set' }}
+magicLabel@38: constraints: 'Constraints',
+magicLabel@39: businessHours: 'Business Hours',
+magicLabel@40: leadTimeConstraint: 'Lead Time Constraint',
+magicLabel@41: dateRangeConstraint: 'Date Range Constraint',
+magicLabel@42: perDayLimit: 'Per Day Limit',
+magicLabel@45: appointmentBuffers: 'Appointment Buffers',
+magicLabel@46: driveTimeBuffer: 'Drive Time Buffer',
+magicLabel@47: lunchBuffer: 'Lunch Buffer',
+magicLabel@48: calendar: 'Calendar'
+magicLabel@51: startTime: 'Start Time',
+magicLabel@52: endTime: 'End Time',
+magicLabel@54: maximumHoursPerDay: 'Maximum Hours Per Day',
+magicLabel@55: maximumHoursPerWeek: 'Maximum Hours Per Week',
+magicLabel@57: enforcement: 'Enforcement',
+magicLabel@58: direction: 'Direction',
+magicLabel@60: placement: 'Placement',
+magicLabel@61: timeSlotIncrement: 'Time Slot Increment',
+magicLabel@62: timezone: 'Timezone'
+magicLabel@65: startTimeRequired: 'Start time is required',
+magicLabel@66: endTimeRequired: 'End time is required',
+magicLabel@68: leadTimeRequired: 'Lead time is required',
+magicLabel@69: leadTimeMin: 'Lead time must be 0 or greater',
+magicLabel@70: mustBeZeroOrGreater: 'Must be 0 or greater',
+magicLabel@71: cannotExceed24Hours: 'Cannot exceed 24 hours',
+magicLabel@72: bufferTimeMin: 'Buffer time must be 0 or greater',
+magicLabel@73: timeIncrementRequired: 'Time increment is required',
+magicLabel@74: timezoneRequired: 'Timezone is required'
+magicLabel@78: direction: 'How the 7-day window is calculated relative to appointment date',
+magicLabel@79: bufferTime: 'Time to add around candidate appointments when checking availability',
+magicLabel@88: timeSlots: 'Time slots will be generated at intervals of',
+magicLabel@91: notSet: 'Not set',
+magicLabel@92: leadTimeDescription: 'Appointments must be scheduled at least',
+magicLabel@96: dateRangeNotSetup: 'Not Set-up',
+magicLabel@98: driveTimeNotSetup: 'Not Set-up',
+magicLabel@100: lunchNotSetup: 'Not Set-up',
+magicLabel@104: saveSettings: 'Save Settings',
+magicLabel@105: resetToDefaults: 'Reset to Defaults'
+magicLabel@109: capacity: 'Capacity',
+magicLabel@110: overlap: 'Overlap'
+magicLabel@325: { title: 'Flexible', value: 'flexible' },
+magicLabel@331: { title: 'Past 7 days', value: 'past' },
+magicLabel@333: { title: 'Future 7 days', value: 'future' }
 ```
 
 ### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`

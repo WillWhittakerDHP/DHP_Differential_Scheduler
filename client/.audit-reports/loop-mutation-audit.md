@@ -13,7 +13,7 @@ Exception handling:
 ## Summary
 
 - Total files scanned: **447**
-- **Requiring review: 960**
+- **Requiring review: 937**
 - Allowed (with justification): 611 (inline: 0, pattern: 611, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
@@ -21,7 +21,6 @@ Exception handling:
 | File | score | forEach | for-loops | push/splice/sort/reverse | assign | forEach→mutation hits | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/utils/booking/timeAvailabilityManager.ts` | 70 | 4 | 12 | 7 | 21 | 0 | 0 |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | 69 | 0 | 1 | 0 | 34 | 0 | 0 |
 | `src/utils/transformers/fetchToGlobalTransformer.ts` | 62 | 0 | 14 | 1 | 23 | 0 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | 48 | 0 | 0 | 0 | 24 | 0 | 0 |
 | `src/utils/transformers/relationshipTransformers.ts` | 46 | 4 | 4 | 2 | 17 | 0 | 0 |
@@ -41,6 +40,7 @@ Exception handling:
 | `src/utils/forms/fieldLocationDispatcher.ts` | 24 | 0 | 2 | 5 | 6 | 0 | 0 |
 | `src/utils/transformers/annotationTransformers.ts` | 24 | 0 | 0 | 1 | 11 | 0 | 0 |
 | `src/utils/transformers/globalToAdminTransformer.ts` | 24 | 2 | 0 | 0 | 3 | 2 | 0 |
+| `src/views/admin/tabs/BusinessControlsTab.vue` | 24 | 0 | 0 | 0 | 12 | 0 | 0 |
 | `src/utils/booking/constraintExtractors.ts` | 22 | 0 | 4 | 5 | 4 | 0 | 0 |
 | `src/utils/booking/selectionCardStyles.ts` | 22 | 0 | 0 | 7 | 4 | 0 | 0 |
 | `src/utils/optimistic/annotationAssignmentsOptimistic.ts` | 22 | 0 | 0 | 3 | 8 | 0 | 0 |
@@ -207,48 +207,6 @@ forEach@1084: activeRangeConstraints.forEach((constraint, index) => {
 forEach@1096: activeOverlapConstraints.forEach((constraint, index) => {
 forEach@1108: activeCapacityConstraints.forEach((constraint, index) => {
 forEach@1163: allSlots.forEach(slot => {
-```
-
-### `src/views/admin/tabs/BusinessControlsTab.vue`
-
-- counts: forEach=0, forLoop=1, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=31
-
-```
-forLoop@36: for (let day = 0; day <= 6; day++) {
-assignIndex@38: hours[day] = {
-assignIndex@54: formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
-assignIndex@56: formData.value.rangeConstraints.businessHours.config.hours[day as keyof typeof formData.value.rangeConstraints.businessHours.config.hours][field] = rfc3339Value
-assignProp@75: formData.value.maxWorkHours = {}
-assignProp@83: formData.value.maxWorkHours = {}
-assignProp@85: formData.value.maxWorkHours.day = {
-assignProp@96: formData.value.maxWorkHours = {}
-assignProp@98: formData.value.maxWorkHours.calendarWeek = {
-assignProp@109: formData.value.maxWorkHours = {}
-assignProp@111: formData.value.maxWorkHours.rollingWeek = {
-assignProp@117: formData.value.maxWorkHours.rollingWeek.direction = 'past'
-assignProp@134: formData.value.maxWorkHours.day.maxHours = value
-assignProp@149: formData.value.maxWorkHours.day.enforcement = value
-assignProp@164: formData.value.maxWorkHours.calendarWeek.maxHours = value
-assignProp@179: formData.value.maxWorkHours.calendarWeek.enforcement = value
-assignProp@194: formData.value.maxWorkHours.rollingWeek.maxHours = value
-assignProp@209: formData.value.maxWorkHours.rollingWeek.enforcement = value
-assignProp@224: formData.value.maxWorkHours.rollingWeek.direction = value
-assignProp@265: formData.value.buffers = {}
-assignProp@274: formData.value.rangeConstraints = {}
-assignProp@282: formData.value.rangeConstraints = {}
-assignProp@284: formData.value.rangeConstraints.leadTime = {
-assignProp@298: formData.value.buffers = {}
-assignProp@300: formData.value.buffers.appointment = {
-assignProp@321: formData.value.rangeConstraints.leadTime.config.minutes = value
-assignProp@336: formData.value.buffers.appointment.minutes = value
-assignProp@351: formData.value.buffers.appointment.placement = value
-assignProp@366: formData.value.buffers.appointment.enforcement = value
-assignProp@386: <VForm v-else @submit.prevent="saveSettings">
-assignProp@474: v-model.number="rangeConstraintsLeadTimeMinutes"
-assignProp@545: v-model.number="maxWorkHoursDayMaxHours"
-assignProp@576: v-model.number="maxWorkHoursCalendarWeekMaxHours"
-assignProp@605: v-model.number="maxWorkHoursRollingWeekMaxHours"
-assignProp@666: v-model.number="buffersAppointmentMinutes"
 ```
 
 ### `src/utils/transformers/fetchToGlobalTransformer.ts`
@@ -686,6 +644,25 @@ assignIndex@147: (plainObject as AdminObject<GE>)[relKey] = relationshipValue
 forEach@185: Object.entries(relationshipMappings).forEach(([relType, propName]) => {
 assignIndex@189: (entity as Partial<GlobalEntity<GE>>)[propName as keyof GlobalEntity<GE>] = [] as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
 assignIndex@211: (entity as Partial<GlobalEntity<GE>>)[propName as keyof GlobalEntity<GE>] = childIds as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
+```
+
+### `src/views/admin/tabs/BusinessControlsTab.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=10
+
+```
+assignIndex@158: formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
+assignIndex@162: businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value
+assignProp@263: if (formData.value) formData.value.maxWorkHours = parent
+assignProp@378: if (formData.value) formData.value.buffers = parent
+assignProp@420: if (leadTime && leadTime.type === 'leadTime' && 'minutes' in leadTime.config) {
+assignProp@440: if (formData.value) formData.value.rangeConstraints = parent
+assignProp@476: <VForm v-else @submit.prevent="saveSettings">
+assignProp@564: v-model.number="rangeConstraintsLeadTimeMinutes"
+assignProp@630: v-model.number="maxWorkHoursDayMaxHours"
+assignProp@661: v-model.number="maxWorkHoursCalendarWeekMaxHours"
+assignProp@690: v-model.number="maxWorkHoursRollingWeekMaxHours"
+assignProp@746: v-model.number="buffersAppointmentMinutes"
 ```
 
 ### `src/utils/booking/constraintExtractors.ts`

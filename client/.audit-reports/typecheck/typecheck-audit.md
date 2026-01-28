@@ -8,26 +8,23 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-01-28T02:41:00.483Z**
+- Generated at: **2026-01-28T15:32:55.188Z**
 - Command: `node_modules/.bin/vue-tsc -b --pretty false`
 - Exit code: **2**
-- **Errors requiring review: 194**
+- **Errors requiring review: 103**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **68**
+- Pools: **64**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS18047-ts18047-formdata-value-is-possibly-null` | 695 | 77 | 1 | 0 | 0 |
 | P0 | `TS2322-ts2322-assign-string-rfc3339datetime` | 74 | 6 | 4 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-hours-businesshoursconfig-leadtimeconfig-daterangeconfig` | 74 | 6 | 4 | 0 | 0 |
 | P0 | `TS2304-ts2304-cannot-find-name-logger` | 68 | 6 | 1 | 0 | 0 |
 | P0 | `TS18047-ts18047-daterange-is-possibly-null` | 56 | 6 | 1 | 0 | 0 |
 | P0 | `TS2339-ts2339-prop-metadata-globaldata` | 48 | 4 | 2 | 0 | 0 |
 | P0 | `TS18046-ts18046-fieldmetadata-is-of-type-unknown` | 47 | 5 | 1 | 0 | 0 |
-| P0 | `TS18047-ts18047-vls-ctx-formdata-is-possibly-null` | 38 | 4 | 1 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-minutes-businesshoursconfig-leadtimeconfig-daterangeconfig` | 37 | 3 | 2 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-hours-businesshoursconfig-leadtimeconfig-daterangeconfig` | 39 | 3 | 3 | 0 | 0 |
 | P0 | `TS2304-ts2304-cannot-find-name-businesshours` | 35 | 3 | 1 | 0 | 0 |
 | P0 | `TS2307-ts2307-cannot-find-module-utils-transformers-metadatatransformer-or-its-corresponding-type-declarations` | 26 | 2 | 2 | 0 | 0 |
 | P0 | `TS2339-ts2339-prop-slots-promise` | 26 | 2 | 2 | 0 | 0 |
@@ -35,15 +32,18 @@ Exception handling:
 | P0 | `TS2322-ts2322-assign-boolean-ref-object` | 24 | 2 | 1 | 0 | 0 |
 | P0 | `TS2322-ts2322-assign-computedref-computedref` | 24 | 2 | 1 | 0 | 0 |
 | P0 | `TS2322-ts2322-assign-void-promise` | 24 | 2 | 1 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-resettodefaults` | 24 | 2 | 1 | 0 | 0 |
 | P0 | `TS2345-ts2345-arg-partial-partial` | 24 | 2 | 1 | 0 | 0 |
-| P0 | `TS2531-ts2531-object-is-possibly-null` | 23 | 3 | 1 | 0 | 0 |
 | P0 | `TS6133-ts6133-ref-is-declared-but-its-value-is-never-read` | 18 | 3 | 3 | 0 | 0 |
 | P1 | `TS2322-ts2322-assign-wizardstatedata` | 16 | 1 | 1 | 0 | 1 |
 | P1 | `TS2304-ts2304-cannot-find-name-formatdatefordisplay` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2304-ts2304-cannot-find-name-formatdatetimefordisplay` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2304-ts2304-cannot-find-name-formattimefordisplay` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2304-ts2304-cannot-find-name-queryclient` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-busytimerange` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-computedref-blockinstanceentity-blockshapeentity-partinstanceentity-partshapeentity-ref-computedref-undefi` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-false-null-validadminvalue` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-googlefreebusyresponse` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -54,74 +54,6 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
-
-### `src/views/admin/tabs/BusinessControlsTab.vue`
-
-- errors: 95, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@9:10 'ref' is declared but its value is never read.
-TS18047@37:22 'formData.value' is possibly 'null'.
-TS2531@37:71 Object is possibly 'null'.
-TS18047@54:3 'formData.value' is possibly 'null'.
-TS2531@54:52 Object is possibly 'null'.
-TS18047@55:7 'formData.value' is possibly 'null'.
-TS2339@55:63 Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
-TS18047@56:5 'formData.value' is possibly 'null'.
-TS2339@56:58 Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
-TS2531@56:84 Object is possibly 'null'.
-TS2339@56:137 Property 'hours' does not exist on type 'BusinessHoursConfig | LeadTimeConfig | DateRangeConfig'.
-TS6133@63:51 'handleNavigateToTab' is declared but its value is never read.
-TS18047@67:36 'formData.value' is possibly 'null'.
-TS18047@74:8 'formData.value' is possibly 'null'.
-TS18047@75:5 'formData.value' is possibly 'null'.
-TS18047@81:8 'formData.value' is possibly 'null'.
-TS18047@82:10 'formData.value' is possibly 'null'.
-TS18047@83:7 'formData.value' is possibly 'null'.
-TS18047@85:5 'formData.value' is possibly 'null'.
-TS18047@94:8 'formData.value' is possibly 'null'.
-TS18047@95:10 'formData.value' is possibly 'null'.
-TS18047@96:7 'formData.value' is possibly 'null'.
-TS18047@98:5 'formData.value' is possibly 'null'.
-TS18047@107:8 'formData.value' is possibly 'null'.
-TS18047@108:10 'formData.value' is possibly 'null'.
-TS18047@109:7 'formData.value' is possibly 'null'.
-TS18047@111:5 'formData.value' is possibly 'null'.
-TS18047@116:15 'formData.value' is possibly 'null'.
-TS18047@117:5 'formData.value' is possibly 'null'.
-TS18047@126:10 'formData.value' is possibly 'null'.
-TS18047@129:12 'formData.value' is possibly 'null'.
-TS18047@133:9 'formData.value' is possibly 'null'.
-TS18047@134:7 'formData.value' is possibly 'null'.
-TS18047@141:10 'formData.value' is possibly 'null'.
-TS18047@144:12 'formData.value' is possibly 'null'.
-TS18047@148:9 'formData.value' is possibly 'null'.
-TS18047@149:7 'formData.value' is possibly 'null'.
-TS18047@156:10 'formData.value' is possibly 'null'.
-TS18047@159:12 'formData.value' is possibly 'null'.
-TS18047@163:9 'formData.value' is possibly 'null'.
-TS18047@164:7 'formData.value' is possibly 'null'.
-TS18047@171:10 'formData.value' is possibly 'null'.
-TS18047@174:12 'formData.value' is possibly 'null'.
-TS18047@178:9 'formData.value' is possibly 'null'.
-TS18047@179:7 'formData.value' is possibly 'null'.
-TS18047@186:10 'formData.value' is possibly 'null'.
-TS18047@189:12 'formData.value' is possibly 'null'.
-TS18047@193:9 'formData.value' is possibly 'null'.
-TS18047@194:7 'formData.value' is possibly 'null'.
-TS18047@201:10 'formData.value' is possibly 'null'.
-TS18047@204:12 'formData.value' is possibly 'null'.
-TS18047@208:9 'formData.value' is possibly 'null'.
-TS18047@209:7 'formData.value' is possibly 'null'.
-TS18047@216:10 'formData.value' is possibly 'null'.
-TS18047@219:12 'formData.value' is possibly 'null'.
-TS18047@223:9 'formData.value' is possibly 'null'.
-TS18047@224:7 'formData.value' is possibly 'null'.
-TS6133@244:7 'bufferModeOptions' is declared but its value is never read.
-TS18047@264:8 'formData.value' is possibly 'null'.
-TS18047@265:5 'formData.value' is possibly 'null'.
-... (35 more errors omitted)
-```
 
 ### `src/utils/timeSlotCalculations.ts`
 
@@ -230,6 +162,17 @@ TS2339@57:23 Property 'metadata' does not exist on type 'GlobalData'.
 TS2339@58:49 Property 'metadata' does not exist on type 'GlobalData'.
 ```
 
+### `src/composables/booking/useAvailabilityStepHandlers.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@9:10 'nextTick' is declared but its value is never read.
+TS6133@108:5 'hasMoveableParts' is declared but its value is never read.
+TS6133@109:5 'selectedSlot' is declared but its value is never read.
+TS6133@110:5 'openMoveableModal' is declared but its value is never read.
+```
+
 ### `src/components/admin/generic/EntityCard.vue`
 
 - errors: 3, unsafeCasts: 0, suppressions: 0
@@ -255,9 +198,9 @@ TS6133@505:7 'renderAsOptions' is declared but its value is never read.
 - errors: 3, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@161:20 'watch' is declared but its value is never read.
-TS6133@163:1 'useLocalTime' is declared but its value is never read.
-TS2304@246:10 Cannot find name 'formatDateTimeForDisplay'.
+TS6133@170:20 'watch' is declared but its value is never read.
+TS6133@172:1 'useLocalTime' is declared but its value is never read.
+TS2304@255:10 Cannot find name 'formatDateTimeForDisplay'.
 ```
 
 ### `src/composables/admin/useStatusButtonToggle.ts`

@@ -11,7 +11,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | File | score | switch(entityKey) | entityKey strings | case | field===string | omitFields | headers | label maps |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/utils/forms/fieldLocationDispatcher.ts` | 44 | 0 | 0 | 11 | 0 | 0 | 0 | 0 |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/views/admin/tabs/BusinessControlsTab.vue` | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 31 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/booking/timeAvailabilityManager.ts` | 25 | 0 | 0 | 6 | 0 | 0 | 0 | 0 |
 | `src/components/booking/SelectionCardGroup.vue` | 24 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |

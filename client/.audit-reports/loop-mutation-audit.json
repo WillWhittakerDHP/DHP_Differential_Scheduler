@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-28T02:41:03.505Z",
+  "generatedAt": "2026-01-28T15:32:56.126Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}"
@@ -14,7 +14,7 @@
   },
   "exceptionSummary": {
     "totalAllowed": 611,
-    "totalRequiresReview": 960,
+    "totalRequiresReview": 937,
     "bySource": {
       "inline": 0,
       "pattern": 611,
@@ -501,386 +501,6 @@
       ],
       "forEachMutationHits": [],
       "score": 70
-    },
-    {
-      "id": "src__views__admin__tabs__BusinessControlsTab.vue",
-      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 1,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 3,
-        "assignProp": 31,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 36,
-          "line": "for (let day = 0; day <= 6; day++) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 38,
-          "line": "hours[day] = {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 54,
-          "line": "formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 56,
-          "line": "formData.value.rangeConstraints.businessHours.config.hours[day as keyof typeof formData.value.rangeConstraints.businessHours.config.hours][field] = rfc3339Value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 75,
-          "line": "formData.value.maxWorkHours = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 83,
-          "line": "formData.value.maxWorkHours = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 85,
-          "line": "formData.value.maxWorkHours.day = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 96,
-          "line": "formData.value.maxWorkHours = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 98,
-          "line": "formData.value.maxWorkHours.calendarWeek = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 109,
-          "line": "formData.value.maxWorkHours = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 111,
-          "line": "formData.value.maxWorkHours.rollingWeek = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 117,
-          "line": "formData.value.maxWorkHours.rollingWeek.direction = 'past'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 134,
-          "line": "formData.value.maxWorkHours.day.maxHours = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 149,
-          "line": "formData.value.maxWorkHours.day.enforcement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 164,
-          "line": "formData.value.maxWorkHours.calendarWeek.maxHours = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": "formData.value.maxWorkHours.calendarWeek.enforcement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 194,
-          "line": "formData.value.maxWorkHours.rollingWeek.maxHours = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 209,
-          "line": "formData.value.maxWorkHours.rollingWeek.enforcement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 224,
-          "line": "formData.value.maxWorkHours.rollingWeek.direction = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 265,
-          "line": "formData.value.buffers = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 274,
-          "line": "formData.value.rangeConstraints = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 282,
-          "line": "formData.value.rangeConstraints = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 284,
-          "line": "formData.value.rangeConstraints.leadTime = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 298,
-          "line": "formData.value.buffers = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 300,
-          "line": "formData.value.buffers.appointment = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 321,
-          "line": "formData.value.rangeConstraints.leadTime.config.minutes = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 336,
-          "line": "formData.value.buffers.appointment.minutes = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 351,
-          "line": "formData.value.buffers.appointment.placement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 366,
-          "line": "formData.value.buffers.appointment.enforcement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 386,
-          "line": "<VForm v-else @submit.prevent=\"saveSettings\">"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 474,
-          "line": "v-model.number=\"rangeConstraintsLeadTimeMinutes\""
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 545,
-          "line": "v-model.number=\"maxWorkHoursDayMaxHours\""
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 576,
-          "line": "v-model.number=\"maxWorkHoursCalendarWeekMaxHours\""
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 605,
-          "line": "v-model.number=\"maxWorkHoursRollingWeekMaxHours\""
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 666,
-          "line": "v-model.number=\"buffersAppointmentMinutes\""
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 36,
-          "line": "for (let day = 0; day <= 6; day++) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 38,
-          "line": "hours[day] = {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 54,
-          "line": "formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 56,
-          "line": "formData.value.rangeConstraints.businessHours.config.hours[day as keyof typeof formData.value.rangeConstraints.businessHours.config.hours][field] = rfc3339Value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 75,
-          "line": "formData.value.maxWorkHours = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 83,
-          "line": "formData.value.maxWorkHours = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 85,
-          "line": "formData.value.maxWorkHours.day = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 96,
-          "line": "formData.value.maxWorkHours = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 98,
-          "line": "formData.value.maxWorkHours.calendarWeek = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 109,
-          "line": "formData.value.maxWorkHours = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 111,
-          "line": "formData.value.maxWorkHours.rollingWeek = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 117,
-          "line": "formData.value.maxWorkHours.rollingWeek.direction = 'past'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 134,
-          "line": "formData.value.maxWorkHours.day.maxHours = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 149,
-          "line": "formData.value.maxWorkHours.day.enforcement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 164,
-          "line": "formData.value.maxWorkHours.calendarWeek.maxHours = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": "formData.value.maxWorkHours.calendarWeek.enforcement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 194,
-          "line": "formData.value.maxWorkHours.rollingWeek.maxHours = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 209,
-          "line": "formData.value.maxWorkHours.rollingWeek.enforcement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 224,
-          "line": "formData.value.maxWorkHours.rollingWeek.direction = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 265,
-          "line": "formData.value.buffers = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 274,
-          "line": "formData.value.rangeConstraints = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 282,
-          "line": "formData.value.rangeConstraints = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 284,
-          "line": "formData.value.rangeConstraints.leadTime = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 298,
-          "line": "formData.value.buffers = {}"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 300,
-          "line": "formData.value.buffers.appointment = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 321,
-          "line": "formData.value.rangeConstraints.leadTime.config.minutes = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 336,
-          "line": "formData.value.buffers.appointment.minutes = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 351,
-          "line": "formData.value.buffers.appointment.placement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 366,
-          "line": "formData.value.buffers.appointment.enforcement = value"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 386,
-          "line": "<VForm v-else @submit.prevent=\"saveSettings\">"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 474,
-          "line": "v-model.number=\"rangeConstraintsLeadTimeMinutes\""
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 545,
-          "line": "v-model.number=\"maxWorkHoursDayMaxHours\""
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 576,
-          "line": "v-model.number=\"maxWorkHoursCalendarWeekMaxHours\""
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 605,
-          "line": "v-model.number=\"maxWorkHoursRollingWeekMaxHours\""
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 666,
-          "line": "v-model.number=\"buffersAppointmentMinutes\""
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 69
     },
     {
       "id": "src__utils__transformers__fetchToGlobalTransformer.ts",
@@ -4544,6 +4164,156 @@
           "mutationRuleId": "assignIndex"
         }
       ],
+      "score": 24
+    },
+    {
+      "id": "src__views__admin__tabs__BusinessControlsTab.vue",
+      "repoPath": "src/views/admin/tabs/BusinessControlsTab.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/BusinessControlsTab.vue",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 2,
+        "assignProp": 10,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 158,
+          "line": "formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 162,
+          "line": "businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 263,
+          "line": "if (formData.value) formData.value.maxWorkHours = parent"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 378,
+          "line": "if (formData.value) formData.value.buffers = parent"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 420,
+          "line": "if (leadTime && leadTime.type === 'leadTime' && 'minutes' in leadTime.config) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 440,
+          "line": "if (formData.value) formData.value.rangeConstraints = parent"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 476,
+          "line": "<VForm v-else @submit.prevent=\"saveSettings\">"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 564,
+          "line": "v-model.number=\"rangeConstraintsLeadTimeMinutes\""
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 630,
+          "line": "v-model.number=\"maxWorkHoursDayMaxHours\""
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 661,
+          "line": "v-model.number=\"maxWorkHoursCalendarWeekMaxHours\""
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 690,
+          "line": "v-model.number=\"maxWorkHoursRollingWeekMaxHours\""
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 746,
+          "line": "v-model.number=\"buffersAppointmentMinutes\""
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 158,
+          "line": "formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 162,
+          "line": "businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 263,
+          "line": "if (formData.value) formData.value.maxWorkHours = parent"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 378,
+          "line": "if (formData.value) formData.value.buffers = parent"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 420,
+          "line": "if (leadTime && leadTime.type === 'leadTime' && 'minutes' in leadTime.config) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 440,
+          "line": "if (formData.value) formData.value.rangeConstraints = parent"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 476,
+          "line": "<VForm v-else @submit.prevent=\"saveSettings\">"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 564,
+          "line": "v-model.number=\"rangeConstraintsLeadTimeMinutes\""
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 630,
+          "line": "v-model.number=\"maxWorkHoursDayMaxHours\""
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 661,
+          "line": "v-model.number=\"maxWorkHoursCalendarWeekMaxHours\""
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 690,
+          "line": "v-model.number=\"maxWorkHoursRollingWeekMaxHours\""
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 746,
+          "line": "v-model.number=\"buffersAppointmentMinutes\""
+        }
+      ],
+      "forEachMutationHits": [],
       "score": 24
     },
     {

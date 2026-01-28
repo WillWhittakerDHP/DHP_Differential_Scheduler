@@ -7,7 +7,6 @@ Generated from `.audit-reports/component-logic-audit.json`.
 | File | score | computed | ref | watch | async | await | map | reduce | DOM | inline :config | console | alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/components/admin/generic/EntityCard.vue` | 24 | 19 | 0 | 1 | 1 | 2 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | 15 | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 |
 | `src/components/booking/SelectionCard.vue` | 14 | 13 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/dev/CalendarMockDevPanel.vue` | 13 | 3 | 3 | 0 | 1 | 1 | 0 | 1 | 7 | 0 | 0 | 0 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -21,6 +20,7 @@ Generated from `.audit-reports/component-logic-audit.json`.
 | `src/components/booking/TimeOnSiteGraph.vue` | 6 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityFormContent.vue` | 6 | 5 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityCardSubPanels.vue` | 6 | 4 | 0 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/views/admin/tabs/BusinessControlsTab.vue` | 6 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 |
 | `src/components/admin/BlockInstanceCreateModal.vue` | 6 | 3 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BooleanInput.vue` | 6 | 3 | 0 | 0 | 2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/entities/BlockShapeForm.vue` | 6 | 2 | 2 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
