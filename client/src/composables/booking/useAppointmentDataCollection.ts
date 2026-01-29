@@ -47,7 +47,7 @@ export interface AvailabilityStepData {
  */
 export interface UseAppointmentDataCollectionParams {
   wizard: {
-    selectedServices: Ref<BookingBlockInstance[]>
+    selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
     selectedUserTypeBlock: Ref<{ id: string } | null>

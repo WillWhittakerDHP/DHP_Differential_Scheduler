@@ -17,7 +17,6 @@
 import { computed } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentSlots } from '@/types/appointment'
-import { getPartInstanceCategory } from '@/utils/booking/partShapeTimeSlotMapping'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
@@ -58,12 +57,13 @@ const servicesSummary = computed(() => {
 
 // LEARNING: Calculate parts breakdown
 // WHY: Shows detailed part information for debugging
-// PATTERN: Flatten all parts from all blocks, categorize, and format
+// PATTERN: Flatten all parts from all blocks and format
+// NOTE: No longer using categories - showing part shape instead
 const partsBreakdown = computed(() => {
   const allParts = props.selectedBlockInstances.flatMap(block => 
     (block.partInstances || []).map(part => ({
       blockName: block.name,
-      category: getPartInstanceCategory(part) || 'uncategorized',
+      partShape: part.partShape || 'unknown',
       partName: part.name,
       baseTime: part.baseTime,
       baseFee: part.baseFee,
@@ -105,10 +105,10 @@ const calculations = computed(() => {
   return {
     totalDuration: slot.totalTime?.duration || 0,
     timeOnSite: slot.totalOnSite?.duration || 0,
-    earlyArrivalDuration: slot.earlyArrival?.duration || 0,
-    dataCollectionDuration: slot.dataCollection?.duration || 0,
-    reportWritingDuration: slot.reportWriting?.duration || 0,
-    clientPresentationDuration: slot.clientPresentation?.duration || 0,
+    earlyArrivalDuration: slot.earlyArrivalSlot?.duration || 0,
+    dataCollectionDuration: slot.dataCollectionSlot?.duration || 0,
+    reportWritingDuration: slot.reportWritingSlot?.duration || 0,
+    clientPresentationDuration: slot.clientPresentationSlot?.duration || 0,
     clientStartOffset
   }
 })
@@ -130,8 +130,8 @@ const timeSlotResults = computed(() => {
   // Inspector arrival is the start of totalTime
   const inspectorArrival = slot.totalTime?.startTime || null
   
-  // Client arrival is the start of clientPresentation (or totalTime if no clientPresentation)
-  const clientArrival = slot.clientPresentation?.startTime || slot.totalTime?.startTime || null
+  // Client arrival is the start of clientPresentationSlot (or totalTime if no clientPresentationSlot)
+  const clientArrival = slot.clientPresentationSlot?.startTime || slot.totalTime?.startTime || null
   
   // Appointment end is the end of totalTime
   const appointmentEnd = slot.totalTime?.endTime || null
@@ -207,7 +207,7 @@ const formatDuration = (minutes: number): string => {
       <VTable density="compact">
         <thead>
           <tr>
-            <th class="text-caption">Category</th>
+            <th class="text-caption">Part Shape</th>
             <th class="text-caption">Part Name</th>
             <th class="text-caption">Time</th>
             <th class="text-caption">On Site</th>
@@ -217,7 +217,7 @@ const formatDuration = (minutes: number): string => {
         </thead>
         <tbody>
           <tr v-for="(part, index) in partsBreakdown" :key="index">
-            <td class="text-caption">{{ part.category }}</td>
+            <td class="text-caption">{{ part.partShape }}</td>
             <td class="text-caption">{{ part.partName }}</td>
             <td class="text-caption">{{ formatDuration(part.baseTime) }}</td>
             <td class="text-caption">

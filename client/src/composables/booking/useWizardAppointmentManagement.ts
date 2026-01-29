@@ -127,7 +127,7 @@ export function useWizardAppointmentManagement(
       // Populate wizard state refs (skip cascade to avoid clearing dependent selections)
       // Use spread operators to ensure Vue detects array changes
       wizard.selectUserTypeBlock(wizardState.userTypeBlock, true)
-      wizard.selectedServices.value = [...wizardState.services]
+      wizard.selectedServiceTypeBlocks.value = [...wizardState.services]
       wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
       wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
       wizard.isQuoteMode.value = wizardState.isQuoteMode
@@ -208,7 +208,7 @@ export function useWizardAppointmentManagement(
    */
   const handleResetWizard = (): void => {
     wizard.selectUserTypeBlock(null, true)
-    wizard.selectedServices.value = []
+    wizard.selectedServiceTypeBlocks.value = []
     wizard.selectedPropertyTypeBlocks.value = []
     wizard.selectedOptionTypeBlocks.value = []
     wizard.isQuoteMode.value = false

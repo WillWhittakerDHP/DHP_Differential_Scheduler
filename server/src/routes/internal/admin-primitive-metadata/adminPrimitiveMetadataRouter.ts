@@ -95,14 +95,11 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
         visibility: meta.visibility,
         layout: meta.layout,
         displayOrder: meta.displayOrder,
-        section: meta.section,
         renderAs: meta.renderAs,
         statusButtonColor: meta.statusButtonColor,
         panel: meta.panel,
         bulkEdit: meta.bulkEdit,
         inputConfig: meta.inputConfig || null,
-        inheritsFromEntityType: meta.inheritsFromEntityType,
-        inheritsFromEntityId: meta.inheritsFromEntityId,
       };
     }
 
@@ -119,7 +116,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 /**
  * POST /admin-primitive-metadata/:entityType/:entityId
  * Create or update primitive metadata for an entity
- * Body: { fieldKey, dataType, label, isRequired, visibility, layout, displayOrder, section?, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
+ * Body: { fieldKey, dataType, label, isRequired, visibility, layout, displayOrder, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
  */
 router.post('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
@@ -132,14 +129,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       visibility,
       layout,
       displayOrder,
-      section = null,
       renderAs: providedRenderAs,
       statusButtonColor = null,
       panel = 'none',
       bulkEdit = false,
       inputConfig = null,
-      inheritsFromEntityType = null,
-      inheritsFromEntityId = null,
     } = req.body;
     
     // LEARNING: Auto-compute renderAs if not provided
@@ -207,14 +201,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         visibility,
         layout,
         displayOrder,
-        section,
         renderAs,
         statusButtonColor,
         panel,
         bulkEdit,
         inputConfig,
-        inheritsFromEntityType,
-        inheritsFromEntityId,
       });
 
       res.json(existing);
@@ -230,14 +221,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         visibility,
         layout,
         displayOrder,
-        section,
         renderAs,
         statusButtonColor,
         panel,
         bulkEdit,
         inputConfig,
-        inheritsFromEntityType,
-        inheritsFromEntityId,
       });
 
       res.status(201).json(metadata);

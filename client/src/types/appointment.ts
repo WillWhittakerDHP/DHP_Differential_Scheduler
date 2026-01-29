@@ -134,12 +134,14 @@ export type TimeSlotKind =
 export type PerspectiveKey = 'onSite' | 'clientPresent' | 'nonDifferential'
 
 /**
- * CategoryShape: Duration and flags for a category (no times)
- * Used within AppointmentShape
+ * FlagBasedShape: Duration and flags for a flag-based group (no times)
+ * LEARNING: Replaces CategoryShape - groups parts by boolean flags instead of hardcoded categories
+ * WHY: Extensible - new part shapes automatically work without code changes
+ * PATTERN: Groups parts by flag combinations (clientPresent, onSite, moveable)
  */
-export interface CategoryShape {
+export interface FlagBasedShape {
   duration: number      // minutes
-  onSite: boolean       // OR of all parts in category
+  onSite: boolean       // OR of all parts in group
   clientPresent: boolean
   moveable: boolean
 }
@@ -149,13 +151,19 @@ export interface CategoryShape {
  * Calculated once from block instances, then applied to each available start time
  * 
  * This is the "what does this appointment look like?" answer
+ * 
+ * LEARNING: Uses flag-based shapes instead of category-based shapes
+ * WHY: Extensible - new part shapes automatically work without code changes
+ * PATTERN: Groups finalized parts by boolean flag combinations
  */
 export interface AppointmentShape {
-  // Category shapes (duration + flags, no times)
-  earlyArrival: CategoryShape | null
-  dataCollection: CategoryShape | null
-  reportWriting: CategoryShape | null
-  clientPresentation: CategoryShape | null
+  // Flag-based shapes (duration + flags, no times)
+  // LEARNING: Groups are derived from boolean flags, not hardcoded categories
+  // WHY: Extensible - new part shapes automatically work
+  clientPresentationShape: FlagBasedShape | null  // Parts where clientPresent === true
+  dataCollectionShape: FlagBasedShape | null     // Parts where onSite === true && clientPresent === false
+  earlyArrivalShape: FlagBasedShape | null      // Parts where moveable === true && onSite === true
+  reportWritingShape: FlagBasedShape | null     // Parts where onSite === false
   
   // Precomputed total durations (in minutes)
   totalOnSiteDuration: number        // Sum of parts where onSite === true
@@ -175,20 +183,22 @@ export interface AppointmentShape {
  * 
  * This is the "when does this appointment happen?" answer
  * 
- * LEARNING: No index signature - all properties are explicitly defined
- * WHY: Improves type safety, enables autocomplete, prevents typos
- * PATTERN: Explicit interface with no dynamic property access
+ * LEARNING: Uses flag-based time slots instead of category-based time slots
+ * WHY: Extensible - new part shapes automatically work without code changes
+ * PATTERN: Groups finalized parts by boolean flag combinations
  */
 export interface AppointmentSlot {
   buttonIndex: number  // UI grid position (0-based)
   isAvailable: boolean  // true = available, false = busy/unavailable
   orderIndex?: number  // Optional: normalized position for multiple appointments (0-based)
   
-  // Category-specific TimeSlots (shape applied to startTime)
-  earlyArrival: TimeSlot | null
-  dataCollection: TimeSlot | null
-  reportWriting: TimeSlot | null
-  clientPresentation: TimeSlot | null
+  // Flag-based TimeSlots (shape applied to startTime)
+  // LEARNING: Groups are derived from boolean flags, not hardcoded categories
+  // WHY: Extensible - new part shapes automatically work
+  clientPresentationSlot: TimeSlot | null  // Parts where clientPresent === true
+  dataCollectionSlot: TimeSlot | null     // Parts where onSite === true && clientPresent === false
+  earlyArrivalSlot: TimeSlot | null      // Parts where moveable === true && onSite === true
+  reportWritingSlot: TimeSlot | null     // Parts where onSite === false
   
   // Precomputed totals (all share same endTime, different startTime)
   totalOnSite: TimeRange | null        // Inspector's view

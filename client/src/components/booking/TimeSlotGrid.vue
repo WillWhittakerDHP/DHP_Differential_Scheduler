@@ -113,13 +113,13 @@ const displaySlots = computed(() => {
         if (props.timeBasis === 'client' && props.isDifferentialService) {
           // LEARNING: Show client perspective time slot
           // WHY: Client sees their arrival time for differential appointments
-          // PATTERN: Use clientPresentation (TimeSlot) or totalTime (TimeRange) from client perspective
-          slot = appointmentSlot.clientPresentation || appointmentSlot.totalTime
+          // PATTERN: Use clientPresentationSlot (TimeSlot) or totalTime (TimeRange) from client perspective
+          slot = appointmentSlot.clientPresentationSlot || appointmentSlot.totalTime
         } else {
           // LEARNING: Show inspector perspective time slot (default)
           // WHY: Inspector sees their start time, or same time for non-differential
-          // PATTERN: Prefer TimeSlot (dataCollection), fallback to TimeRange (totalTime, totalOnSite)
-          slot = appointmentSlot.dataCollection || appointmentSlot.totalTime || appointmentSlot.totalOnSite
+          // PATTERN: Prefer TimeSlot (dataCollectionSlot), fallback to TimeRange (totalTime, totalOnSite)
+          slot = appointmentSlot.dataCollectionSlot || appointmentSlot.totalTime || appointmentSlot.totalOnSite
         }
         
         if (slot) {

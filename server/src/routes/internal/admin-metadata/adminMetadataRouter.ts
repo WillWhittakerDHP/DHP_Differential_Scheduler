@@ -87,14 +87,11 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
         visibility: entry.visibility,
         layout: entry.layout,
         displayOrder: entry.displayOrder,
-        section: entry.section,
         renderAs: entry.renderAs,
         statusButtonColor: entry.statusButtonColor,
         panel: entry.panel,
         bulkEdit: entry.bulkEdit,
         inputConfig: entry.inputConfig,
-        inheritsFromEntityType: entry.inheritsFromEntityType,
-        inheritsFromEntityId: entry.inheritsFromEntityId,
       };
 
       // Determine where to place this entry
@@ -173,7 +170,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 /**
  * POST /admin-metadata/:entityType/:entityId
  * Create or update metadata for an entity
- * Body: { fieldKey, dataType, label, isRequired, visibility, layout, displayOrder, section?, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
+ * Body: { fieldKey, dataType, label, isRequired, visibility, layout, displayOrder, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
  * 
  * LEARNING: Backend determines metadataType by checking if fieldKey is in RELATIONSHIP_KEYS
  * WHY: Matches entity pattern - backend routes based on field type (no explicit type parameter from frontend)
@@ -190,14 +187,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       visibility,
       layout,
       displayOrder,
-      section = null,
       renderAs = 'text',
       statusButtonColor = null,
       panel = 'none',
       bulkEdit = false,
       inputConfig = null,
-      inheritsFromEntityType = null,
-      inheritsFromEntityId = null,
       blockShapeRef = null, // NEW: BlockShape ID for BlockShape-specific instance metadata
     } = req.body;
 
@@ -301,14 +295,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         visibility,
         layout,
         displayOrder,
-        section,
         renderAs: finalRenderAs,
         statusButtonColor,
         panel: finalPanel,
         bulkEdit,
         inputConfig,
-        inheritsFromEntityType,
-        inheritsFromEntityId,
         blockShapeRef: finalBlockShapeRef,
       });
 
@@ -326,14 +317,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         visibility,
         layout,
         displayOrder,
-        section,
         renderAs: finalRenderAs,
         statusButtonColor,
         panel: finalPanel,
         bulkEdit,
         inputConfig,
-        inheritsFromEntityType,
-        inheritsFromEntityId,
         blockShapeRef: finalBlockShapeRef,
       });
 

@@ -36,7 +36,7 @@ export default {
     // Helper function to infer data type from field key
     function inferDataType(fieldKey, entityType) {
       // Boolean fields
-      const booleanFields = ['active', 'composite', 'differential', 'composable', 'constituable', 
+      const booleanFields = ['active', 'composite', 'differential', 'composable', 'canHaveParts', 'isStateControl',
         'allowMultiple', 'requiresUnitNumber', 'onSite', 'clientPresent', 
         'moveable', 'zeroOutPart', 'differentialOverride']
       if (booleanFields.includes(fieldKey)) {
@@ -103,7 +103,8 @@ export default {
         { fieldKey: 'name', dataType: 'string' },
         { fieldKey: 'type', dataType: 'string' },
         { fieldKey: 'composable', dataType: 'boolean' },
-        { fieldKey: 'constituable', dataType: 'boolean' },
+        { fieldKey: 'canHaveParts', dataType: 'boolean' },
+        { fieldKey: 'isStateControl', dataType: 'boolean' },
       ],
       partShape: [
         { fieldKey: 'name', dataType: 'string' },

@@ -21,6 +21,7 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardContent from './EntityCardContent.vue'
+import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { useEntityCardStoreSync } from '@/composables/admin/useEntityCardStoreSync'
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
@@ -528,50 +529,60 @@ defineExpose({
   >
     <template #title>
       <div 
-        class="d-flex align-center gap-2 flex-grow-1 flex-wrap"
+        class="d-flex flex-column gap-2 flex-grow-1"
       >
-        <!-- LEARNING: Render name field left-justified in panel title -->
-        <!-- WHY: Name field should be on the left side of the title row -->
-        <!-- PATTERN: Render name field first, then status buttons on the right -->
-        <template v-if="titleRowFields.length > 0 && isFormReady">
-          <!-- LEARNING: staticAsTitle fields render first, left-justified -->
-          <!-- WHY: Name field should be on the left side of the title row, always first -->
-          <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
-          <div class="flex-grow-1 d-flex align-center gap-2">
-            <template
-              v-for="fieldKey in titleRowFields"
-              :key="fieldKey"
-            >
-              <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" @click.stop @keydown.space.stop>
-                <FieldRenderer
-                  :field-context="getFieldContext(fieldKey)"
-                  :show-label="false"
-                  :field-metadata="composedFieldMetadata"
-                  :read-only="!isExpanded"
-                />
-              </div>
-            </template>
-          </div>
-          
-          <!-- LEARNING: Other titleRow fields render after, right-justified -->
-          <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
-          <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
-          <div class="d-flex align-center gap-2 ms-auto">
-            <template
-              v-for="fieldKey in titleRowFields"
-              :key="fieldKey"
-            >
-              <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop @keydown.space.stop>
-                <FieldRenderer
-                  :field-context="getFieldContext(fieldKey)"
-                  :show-label="false"
-                  :field-metadata="composedFieldMetadata"
-                />
-              </div>
-            </template>
-          </div>
-        </template>
-        <span v-else class="flex-grow-1">{{ entityName }}</span>
+        <div class="d-flex align-center gap-2 flex-wrap">
+          <!-- LEARNING: Render name field left-justified in panel title -->
+          <!-- WHY: Name field should be on the left side of the title row -->
+          <!-- PATTERN: Render name field first, then status buttons on the right -->
+          <template v-if="titleRowFields.length > 0 && isFormReady">
+            <!-- LEARNING: staticAsTitle fields render first, left-justified -->
+            <!-- WHY: Name field should be on the left side of the title row, always first -->
+            <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
+            <div class="flex-grow-1 d-flex align-center gap-2">
+              <template
+                v-for="fieldKey in titleRowFields"
+                :key="fieldKey"
+              >
+                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" @click.stop @keydown.space.stop>
+                  <FieldRenderer
+                    :field-context="getFieldContext(fieldKey)"
+                    :show-label="false"
+                    :field-metadata="composedFieldMetadata"
+                    :read-only="!isExpanded"
+                  />
+                </div>
+              </template>
+            </div>
+            
+            <!-- LEARNING: Other titleRow fields render after, right-justified -->
+            <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
+            <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
+            <div class="d-flex align-center gap-2 ms-auto">
+              <template
+                v-for="fieldKey in titleRowFields"
+                :key="fieldKey"
+              >
+                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop @keydown.space.stop>
+                  <FieldRenderer
+                    :field-context="getFieldContext(fieldKey)"
+                    :show-label="false"
+                    :field-metadata="composedFieldMetadata"
+                  />
+                </div>
+              </template>
+            </div>
+          </template>
+          <span v-else class="flex-grow-1">{{ entityName }}</span>
+        </div>
+        
+        <!-- LEARNING: Parts totals displayed in title row below name and status buttons -->
+        <!-- WHY: Shows parts totals at top of card when entity can have parts -->
+        <!-- PATTERN: Component renders conditionally based on canHaveParts flag -->
+        <EntityCardPartsTotals
+          :entity-key="entityKey"
+          :entity-id="entity.id"
+        />
       </div>
     </template>
     

@@ -66,7 +66,7 @@ import type { PropertyDetailsStepData } from '@/types/wizard'
  */
 export interface UseConfirmationStepDataParams {
   wizard: {
-    selectedServices: Ref<BookingBlockInstance[]>
+    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
     selectedLineItemBlocks: Ref<BookingBlockInstance[]>
@@ -108,7 +108,7 @@ export function useConfirmationStepData(
   const summaryData = computed<SummaryData>(() => {
     return buildConfirmationSummaryData(
       {
-        selectedServices: wizard.selectedServices.value,
+        selectedServices: wizard.selectedServiceTypeBlocks.value,
         selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks.value,
         selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
         selectedLineItemBlocks: wizard.selectedLineItemBlocks.value,
@@ -141,7 +141,7 @@ export function useConfirmationStepData(
     const squareFootage = stepDataValue?.squareFootage ?? stepDataValue?.propertySize ?? null
     
     return buildConfirmationPriceData({
-      selectedServices: wizard.selectedServices.value,
+      selectedServices: wizard.selectedServiceTypeBlocks.value,
       selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks.value,
       selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
       selectedLineItemBlocks: wizard.selectedLineItemBlocks.value,

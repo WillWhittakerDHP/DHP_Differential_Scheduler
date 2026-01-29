@@ -40,7 +40,7 @@ const {
   priceData
 } = useConfirmationStepData({
   wizard: {
-    selectedServices: wizard.selectedServices,
+    selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
     selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
     selectedLineItemBlocks: wizard.selectedLineItemBlocks,

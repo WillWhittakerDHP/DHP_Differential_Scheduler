@@ -33,16 +33,12 @@ export class AdminMetadata extends Model<
   declare visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
-  declare section: CreationOptional<string | null>;
   declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
   // Input configuration (for select/multiselect/reference fields)
   declare inputConfig: CreationOptional<Record<string, unknown> | null>;
-  // Inheritance
-  declare inheritsFromEntityType: CreationOptional<'blockShape' | 'partShape' | null>;
-  declare inheritsFromEntityId: CreationOptional<string | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -125,11 +121,6 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         field: 'display_order',
         comment: 'Display order (lower = first). 999 = not configured.',
       },
-      section: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        comment: 'Optional section/group name',
-      },
       renderAs: {
         type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect', 'partsCollection'),
         allowNull: false,
@@ -161,19 +152,6 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         allowNull: true,
         field: 'input_config',
         comment: 'Input configuration for select/multiselect/reference/partsCollection fields',
-      },
-      // Inheritance
-      inheritsFromEntityType: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        field: 'inherits_from_entity_type',
-        comment: 'For instances: parent entity type (blockShape or partShape)',
-      },
-      inheritsFromEntityId: {
-        type: DataTypes.UUID,
-        allowNull: true,
-        field: 'inherits_from_entity_id',
-        comment: 'For instances: parent entity ID (shape ID)',
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -207,10 +185,6 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         {
           fields: ['metadata_type'],
           name: 'admin_metadata_metadata_type_idx',
-        },
-        {
-          fields: ['inherits_from_entity_type', 'inherits_from_entity_id'],
-          name: 'admin_metadata_inheritance_idx',
         },
         {
           fields: ['entity_type', 'block_shape_ref', 'field_key'],

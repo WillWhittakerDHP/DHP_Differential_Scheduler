@@ -16,7 +16,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
  * NOTE: Wizard state uses ref(), so we access .value property
  */
 type WizardInstance = {
-  selectedServices: { value: BookingBlockInstance[] }
+  selectedServiceTypeBlocks: { value: BookingBlockInstance[] }
   selectedPropertyTypeBlocks: { value: BookingBlockInstance[] }
   selectedOptionTypeBlocks: { value: BookingBlockInstance[] }
 }
@@ -39,11 +39,11 @@ export function useWizardNumberUpdate() {
   const updateNumber = (blockInstanceId: string, number: number | null) => {
     if (!wizard) return
     
-    // Update in selectedServices
-    const serviceIndex = wizard.selectedServices.value.findIndex(s => s.id === blockInstanceId)
+    // Update in selectedServiceTypeBlocks
+    const serviceIndex = wizard.selectedServiceTypeBlocks.value.findIndex(s => s.id === blockInstanceId)
     if (serviceIndex !== -1) {
-      wizard.selectedServices.value[serviceIndex] = {
-        ...wizard.selectedServices.value[serviceIndex],
+      wizard.selectedServiceTypeBlocks.value[serviceIndex] = {
+        ...wizard.selectedServiceTypeBlocks.value[serviceIndex],
         number
       }
       return

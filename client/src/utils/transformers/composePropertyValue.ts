@@ -111,11 +111,11 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
     const strategy = componentRules[propertyKey] || 'first'
     
     // LEARNING: Filter out baseSqFt from state control blockInstances when summing
-    // WHY: State control blockShapes (constituable: false) should not contribute to square footage accumulation
-    // PATTERN: For baseSqFt sum operations on blockInstance, exclude components with constituable: false blockShapes
+    // WHY: State control blockShapes (isStateControl: true) should not contribute to square footage accumulation
+    // PATTERN: For baseSqFt sum operations on blockInstance, exclude components with isStateControl: true blockShapes
     let values: unknown[]
     if (propertyKey === 'baseSqFt' && entityKind === 'blockInstance' && strategy === COMPONENT_STRATEGIES.SUM && blockShapes) {
-      // Filter components to exclude those with constituable: false blockShapes (state control mode)
+      // Filter components to exclude those with isStateControl: true blockShapes (state control mode)
       const filteredComponents = components.filter(component => {
         const blockInstance = component as GlobalEntity<'blockInstance'>
         const blockShapeRef = getEntityFieldValue(blockInstance, 'blockShapeRef')
@@ -127,13 +127,13 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
         }
         if (blockShape.entityKey !== 'blockShape') return true // Defensive: ensure correct narrowing
         
-        const blockShapeTyped = blockShape as GlobalEntity<'blockShape'> & { constituable?: boolean }
-        const constituable = blockShapeTyped.constituable === true
+        const blockShapeTyped = blockShape as GlobalEntity<'blockShape'> & { isStateControl?: boolean }
+        const isStateControl = blockShapeTyped.isStateControl === true
         
-        // LEARNING: Exclude if constituable is false (state control mode)
+        // LEARNING: Exclude if isStateControl is true (state control mode)
         // WHY: State control blockShapes don't contribute to baseSqFt accumulation
-        // PATTERN: Check constituable property (inverted from previous stateControlOnly check)
-        return constituable
+        // PATTERN: Check isStateControl property
+        return !isStateControl
       })
       
       values = filteredComponents

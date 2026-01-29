@@ -31,8 +31,11 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     direction: 'Direction',
     bufferTime: 'Buffer Time (minutes)',
     placement: 'Placement',
-    timeSlotIncrement: 'Time Slot Increment',
-    timezone: 'Timezone'
+    timeSlotIncrement: 'Slot Increment',
+    timezone: 'Timezone',
+    enableDurationRounding: 'Enable Duration Rounding',
+    roundingIncrement: 'Rounding Increment (minutes)',
+    roundingMethod: 'Rounding Method'
   },
   validation: {
     startTimeRequired: 'Start time is required',
@@ -44,7 +47,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     cannotExceed24Hours: 'Cannot exceed 24 hours',
     bufferTimeMin: 'Buffer time must be 0 or greater',
     timeIncrementRequired: 'Time increment is required',
-    timezoneRequired: 'Timezone is required'
+    timezoneRequired: 'Timezone is required',
+    roundingIncrementRequired: 'Rounding increment is required'
   },
   hints: {
     enforcement: 'Off: No filtering | Flexible: Block if limit already exceeded | Hard: Block if would exceed limit',
@@ -52,7 +56,10 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     bufferTime: 'Time to add around candidate appointments when checking availability',
     placement: 'Where to apply buffer time: Before (before start), After (after end), Both (before and after), Off (no buffer)',
     bufferEnforcement: 'How strictly to enforce buffer: Off (not applied), Flexible (warn), Hard (block)',
-    timezone: 'Used for all availability calculations and time slot generation.'
+    timezone: 'Used for all availability calculations and time slot generation.',
+    durationRounding: 'When enabled, appointment durations are rounded to the specified increment using the selected method. Round Up ensures durations never fall short, Round Down prevents exceeding, Round Nearest rounds to closest increment.',
+    roundingIncrement: 'Interval to round durations to (e.g., 15 = rounds to nearest 15-minute mark)',
+    roundingMethod: 'How to round durations: Round Up (always round up), Round Down (always round down), Round Nearest (round to closest)'
   },
   help: {
     rangeConstraints: 'Range Constraints: Filter slots by when they can occur. Lead time prevents scheduling too close to current time. Date range sets absolute boundaries.',
@@ -62,6 +69,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     timezone: 'Business hours and time slots will be interpreted in the selected timezone.',
     currentSelection: 'Current selection:',
     notSet: 'Not set',
+    durationRoundingDescription: 'Duration rounding affects how appointment durations are calculated. When disabled, exact durations are used. When enabled, durations are rounded to the specified increment using the selected method.',
     leadTimeDescription: 'Appointments must be scheduled at least',
     leadTimeMinutes: 'minutes in advance',
     leadTimeHours: 'hours',
@@ -78,8 +86,13 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     resetToDefaults: 'Reset to Defaults'
   },
   tabs: {
+    constraints: 'Constraints',
+    calendar: 'Calendar',
     range: 'Range',
     capacity: 'Capacity',
-    overlap: 'Overlap'
+    overlap: 'Overlap',
+    increment: 'Slot Increment',
+    rounding: 'Duration Rounding',
+    timezone: 'Timezone'
   }
 } as const

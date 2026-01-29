@@ -7,7 +7,7 @@
  */
 
 import { computed, type ComputedRef } from 'vue'
-import { roundUpToIncrement } from '@/utils/timeSlotCalculations'
+import { useDurationRounding } from '@/composables/booking/useDurationRounding'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
 /**
@@ -25,9 +25,10 @@ export interface UseAppointmentDurationParams {
  */
 export interface UseAppointmentDurationReturn {
   /**
-   * Appointment duration in minutes (on-site only, rounded to 15-minute increment)
+   * Appointment duration in minutes (on-site only, with configurable rounding)
    * LEARNING: Calculates only on-site duration, not total duration
    * WHY: Report writing can happen off-site, so we only need to ensure on-site work fits in business hours
+   * NOTE: Rounding is configurable via Business Controls tab (defaults to disabled)
    */
   appointmentDuration: ComputedRef<number | null>
 }
@@ -44,10 +45,15 @@ export function useAppointmentDuration(
 ): UseAppointmentDurationReturn {
   const { accumulatedBlockInstances } = params
 
+  // LEARNING: Get rounding function from composable
+  // WHY: Provides reactive rounding that respects availability settings
+  // PATTERN: Use composable for rounding logic
+  const { roundDuration } = useDurationRounding()
+
   /**
    * LEARNING: Calculate on-site duration from block instances
    * WHY: Need to ensure last appointment ends at or before day end
-   * PATTERN: Sum baseTime from parts where onSite === true, round to 15-minute increment
+   * PATTERN: Sum baseTime from parts where onSite === true, apply configurable rounding
    */
   const appointmentDuration = computed<number | null>(() => {
     const instances = accumulatedBlockInstances.value
@@ -66,10 +72,10 @@ export function useAppointmentDuration(
       }, 0)
     }, 0)
     
-    // LEARNING: Round up to nearest 15-minute increment
-    // WHY: Ensures durations align with standard time increments for cleaner scheduling
-    // PATTERN: Use ceiling function to round up
-    const roundedDuration = roundUpToIncrement(onSiteDuration, 15)
+    // LEARNING: Apply configurable rounding based on availability settings
+    // WHY: Allows admin to control rounding behavior via Business Controls tab
+    // PATTERN: Use composable rounding function that respects settings
+    const roundedDuration = roundDuration(onSiteDuration)
     
     return roundedDuration > 0 ? roundedDuration : null
   })

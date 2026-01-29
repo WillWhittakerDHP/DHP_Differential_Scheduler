@@ -22,8 +22,8 @@ import type { ComputedRef, Ref } from 'vue'
 export interface WizardState {
   /** Currently selected state control block (dynamically determined from constituable: false block shapes) */
   selectedUserTypeBlock: BookingBlockInstance | null
-  /** Array of selected services (multi-select) */
-  selectedServices: BookingBlockInstance[]
+  /** Array of selected service type blocks (multi-select) */
+  selectedServiceTypeBlocks: BookingBlockInstance[]
   /** Array of selected availability options */
   selectedOptionTypeBlocks: BookingBlockInstance[]
   /** Array of selected property type blocks (multi-select) */
@@ -43,8 +43,8 @@ export interface WizardState {
 export interface WizardSelectionMethods {
   /** Select user type and clear dependent selections */
   selectUserTypeBlock: (block: BookingBlockInstance | null, skipCascade?: boolean) => void
-  /** Toggle service selection (multi-select) */
-  toggleService: (block: BookingBlockInstance, skipCascade?: boolean) => void
+  /** Toggle service type block selection (single-select UI, array storage) */
+  toggleServiceTypeBlock: (block: BookingBlockInstance, skipCascade?: boolean) => void
   /** Toggle availability option selection */
   toggleOptionTypeBlock: (block: BookingBlockInstance) => void
   /** Toggle property type block selection (multi-select) */
@@ -95,7 +95,7 @@ export interface WizardComputedProperties {
 export type UseBookingWizardReturn = {
   // State (reactive refs)
   selectedUserTypeBlock: import('vue').Ref<BookingBlockInstance | null>
-  selectedServices: import('vue').Ref<BookingBlockInstance[]>
+  selectedServiceTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
   selectedOptionTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
   selectedLineItemBlocks: import('vue').Ref<BookingBlockInstance[]>

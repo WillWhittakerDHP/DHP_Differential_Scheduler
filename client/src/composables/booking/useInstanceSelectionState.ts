@@ -27,10 +27,10 @@ import { resolveByIds } from '@/utils/collections/resolveByIds'
 export interface GenericWizardInstance {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
   availableUserTypeBlocks: Ref<BookingBlockInstance[]>
-  selectedServices: Ref<BookingBlockInstance[]>
+  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
   availableServices: Ref<BookingBlockInstance[]>
   selectUserTypeBlock: (userTypeBlock: BookingBlockInstance | null, skipCascade?: boolean) => void
-  toggleService: (service: BookingBlockInstance, skipCascade?: boolean) => void
+  toggleServiceTypeBlock: (service: BookingBlockInstance, skipCascade?: boolean) => void
 }
 
 /**
@@ -95,9 +95,9 @@ export interface UseInstanceSelectionStateReturn {
  * const { selectedIds: selectedServiceIds } = useInstanceSelectionState({
  *   wizard,
  *   availableInstances: computed(() => wizard.availableServices.value),
- *   selectedInstances: computed(() => wizard.selectedServices.value),
+ *   selectedInstances: computed(() => wizard.selectedServiceTypeBlocks.value),
  *   selectionMode: 'multi',
- *   toggleSelection: (s) => wizard.toggleService(s)
+ *   toggleSelection: (s) => wizard.toggleServiceTypeBlock(s)
  * })
  * ```
  */

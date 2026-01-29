@@ -111,7 +111,7 @@ export function validateAnnotationMetadata(metadata: AnnotationMetadata): boolea
  * WHY: User types are fetched dynamically from BlockInstances using property-based filtering
  * PATTERN: Function that accepts GlobalData and returns options array
  * 
- * NOTE: Uses property-based filtering (constituable: false) instead of hardcoded names
+ * NOTE: Uses property-based filtering (isStateControl: true) instead of hardcoded names
  * 
  * @deprecated Use getStateControlBlockInstanceOptions from @/utils/blockInstanceUtils instead
  */

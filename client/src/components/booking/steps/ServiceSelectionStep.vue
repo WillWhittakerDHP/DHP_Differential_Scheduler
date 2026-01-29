@@ -48,8 +48,8 @@ const { selectedId: selectedUserTypeBlockId } = useInstanceSelectionState({
 
 const { selectedIds: selectedServiceIds } = useInstanceSelectionState({
   availableInstances: computed(() => wizard.availableServices.value),
-  selectedInstances: computed(() => wizard.selectedServices.value),
-  toggleSelection: (s) => wizard.toggleService(s),
+  selectedInstances: computed(() => wizard.selectedServiceTypeBlocks.value),
+  toggleSelection: (s) => wizard.toggleServiceTypeBlock(s),
   loadedWizardState
 })
 
@@ -63,7 +63,7 @@ const rowSelectionConfigComposable = useInstanceSelectionConfig({
 const stackSelectionConfigComposable = useInstanceSelectionConfig({
   selectionType: 'stack',
   stateField: 'services',
-  selectedValue: computed(() => wizard.selectedServices.value)
+  selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
 })
 
 const baseRowSelectionConfig = rowSelectionConfigComposable.selectionConfig
@@ -127,7 +127,7 @@ const isDevMode = isDevModeEnabled()
     
     <div v-else-if="wizardStateSelector.length === 0" class="text-body-1 text-medium-emphasis py-4">
       <div class="mb-2">No user types available.</div>
-      <div class="text-caption">Please ensure you have block shapes with <code>constituable: false</code> and active block instances.</div>
+      <div class="text-caption">Please ensure you have block shapes with <code>isStateControl: true</code> and active block instances.</div>
       <div v-if="isDevMode" class="text-caption mt-2">
         Debug: availableUserTypeBlocks count = {{ wizard.availableUserTypeBlocks.value.length }}
       </div>

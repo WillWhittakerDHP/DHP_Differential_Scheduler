@@ -20,6 +20,7 @@ import {
   applyShapeToTime, 
   derivePerspective 
 } from '@/utils/booking/appointmentSlotBuilder'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { createLogger } from '@/utils/logger'
 
 // LEARNING: Use scoped logger for controllable debug output
@@ -82,6 +83,11 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     isDifferentialService
   } = params
 
+  // LEARNING: Get availability settings for rounding configuration
+  // WHY: Need settings to pass to buildAppointmentShape for configurable rounding
+  // PATTERN: Use composable to get reactive settings
+  const { settings } = useAvailabilitySettings()
+
   // Build shape when blockInstances change (memoized)
   const appointmentShape = computed(() => {
     const instances = blockInstances.value
@@ -91,7 +97,10 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     }
     
     try {
-      const shape = buildAppointmentShape(instances)
+      // LEARNING: Pass settings to buildAppointmentShape for rounding configuration
+      // WHY: Allows rounding to be controlled by availability settings
+      // PATTERN: Pass settings as optional parameter
+      const shape = buildAppointmentShape(instances, settings.value)
       return shape
     } catch (error) {
       logger.error('Error building appointment shape:', error)

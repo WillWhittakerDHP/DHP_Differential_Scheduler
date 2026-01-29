@@ -53,7 +53,7 @@ export interface CategorizeFieldsOptions {
    * BlockShape properties (currently unused, kept for API compatibility)
    */
   blockShapeProperties?: {
-    constituable?: boolean
+    canHaveParts?: boolean
     composable?: boolean
     composite?: boolean
   }

@@ -94,7 +94,7 @@ function filterInstancesByCascade(
 export type UseWizardFilteredOptionsParams = {
   bookingData: Ref<BookingData | null>
   selectedUserType: Ref<BookingBlockInstance | null>
-  selectedServices: Ref<BookingBlockInstance[]>
+  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
   selectedAvailabilityOptions: Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
 }

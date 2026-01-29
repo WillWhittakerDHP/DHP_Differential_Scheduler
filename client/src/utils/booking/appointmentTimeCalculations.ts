@@ -2,62 +2,36 @@
  * Appointment Slot Calculations
  * 
  * LEARNING: Functions to calculate AppointmentSlots from block instances
- * WHY: Groups parts by category and calculates time slots for differential scheduling
- * PATTERN: Collect parts, sort by orderIndex, group by category, calculate durations and time slots
+ * WHY: Groups parts by flag combinations and calculates time slots for differential scheduling
+ * PATTERN: Collect parts, create finalized parts, group by flags, calculate durations and time slots
  */
 
 import type { AppointmentSlot, AppointmentSlots, TimeRange } from '@/types/appointment'
-import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { getPartInstanceCategory } from './partShapeTimeSlotMapping'
+import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { createTimeRange, createTimeSlot as createTimeSlotWithFlags } from './appointmentSlotBuilder'
+import {
+  createFinalizedParts,
+  filterZeroedParts,
+  groupFinalizedPartsByFlags,
+  sumFinalizedPartsDuration
+} from './partShapeAggregator'
 
 /**
- * Group parts by time slot category
- * LEARNING: Categorizes parts using part shape mapping
- * WHY: Groups parts for calculating category-specific time slots
- * PATTERN: Map over parts, categorize each, group by category key
+ * Get flags for a group of finalized parts
+ * LEARNING: Computes boolean flags from finalized parts group
+ * WHY: TimeSlot objects need onSite, clientPresent, moveable, and isAvailable flags
+ * PATTERN: Use OR logic - if ANY part has the flag, the group has it
  * 
- * @param parts - Array of BookingPartInstance objects
- * @returns Map of category key to array of parts in that category
+ * @param parts - Array of FinalizedPart instances
+ * @returns Object with boolean flags
  */
-function groupPartsByCategory(parts: BookingPartInstance[]): Map<string, BookingPartInstance[]> {
-  // FIX: Use reduce instead of forEach with mutations
-  return parts.reduce((grouped, part) => {
-    const category = getPartInstanceCategory(part)
-    if (category) {
-      if (!grouped.has(category)) {
-        grouped.set(category, [])
-      }
-      grouped.get(category)!.push(part)
-    }
-    return grouped
-  }, new Map<string, BookingPartInstance[]>())
-}
-
-/**
- * Check if a category should be zeroed out
- * LEARNING: If any part instance in a category has zeroOutPart: true, the entire category is zeroed
- * WHY: Allows parts like "no Client Presentation" to zero out the entire category
- * PATTERN: Check if any part in category has zeroOutPart flag set
- */
-function shouldZeroOutCategory(categoryParts: BookingPartInstance[]): boolean {
-  return categoryParts.some(part => part.zeroOutPart === true)
-}
-
-/**
- * Calculate total duration for a group of parts
- * LEARNING: Sums baseTime values from parts, but returns 0 if category should be zeroed out
- * WHY: Provides total duration for a category, respecting zeroOutPart flag
- * PATTERN: Check for zeroOutPart flag first, then reduce parts to sum of baseTime values
- * 
- * @param parts - Array of BookingPartInstance objects
- * @returns Total duration in minutes (0 if category should be zeroed out)
- */
-function calculateCategoryDuration(parts: BookingPartInstance[]): number {
-  if (shouldZeroOutCategory(parts)) {
-    return 0
+function getFlagsFromFinalizedParts(parts: Array<{ onSite: boolean; clientPresent: boolean; moveable: boolean }>): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } {
+  return {
+    onSite: parts.some(part => part.onSite === true),
+    clientPresent: parts.some(part => part.clientPresent === true),
+    moveable: parts.some(part => part.moveable === true),
+    isAvailable: true  // Default to available for flag-based shapes
   }
-  return parts.reduce((sum, part) => sum + (part.baseTime || 0), 0)
 }
 
 /**
@@ -95,8 +69,7 @@ export function calculateAppointmentSlots(
   // LEARNING: Collect all part instances from all block instances
   // WHY: Need all parts across all selected blocks to calculate complete AppointmentSlots
   // PATTERN: Flat map block instances to part instances
-  // FIX: Use flatMap instead of forEach with push mutations
-  const allParts: BookingPartInstance[] = blockInstances.flatMap(blockInstance => 
+  const allParts = blockInstances.flatMap(blockInstance => 
     blockInstance.partInstances && blockInstance.partInstances.length > 0 
       ? blockInstance.partInstances 
       : []
@@ -106,68 +79,39 @@ export function calculateAppointmentSlots(
     return []
   }
   
-  // LEARNING: Sort parts by orderIndex
-  // WHY: Maintains correct order for time slot calculations
-  // PATTERN: Sort by orderIndex ascending
-  const sortedParts = [...allParts].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0))
+  // LEARNING: Create finalized parts from all parts
+  // WHY: Part shape is the semantic unit - all instances of same shape should be totaled
+  // PATTERN: Group by part shape, create finalized parts, filter out zeroed parts
+  const allFinalizedParts = createFinalizedParts(allParts)
+  const nonZeroedParts = filterZeroedParts(allFinalizedParts)
   
-  // LEARNING: Group parts by time slot category
-  // WHY: Calculate category-specific durations and time slots
-  // PATTERN: Use mapping function to categorize parts
-  const partsByCategory = groupPartsByCategory(sortedParts)
+  // LEARNING: Group finalized parts by flag combinations
+  // WHY: Extensible - new part shapes automatically work without code changes
+  // PATTERN: Group by boolean flag combinations instead of hardcoded categories
+  const partsByFlags = groupFinalizedPartsByFlags(nonZeroedParts)
   
-  // LEARNING: Filter out parts from zeroed categories before calculating totals
-  // WHY: Zeroed categories should not contribute to total durations
-  // PATTERN: Filter sortedParts to exclude parts in categories that should be zeroed out
-  // FIX: Use Array.from().filter() instead of forEach with Set mutations
-  const getNonZeroedParts = (): BookingPartInstance[] => {
-    const zeroedCategories = new Set<string>(
-      Array.from(partsByCategory.entries())
-        .filter(([, categoryParts]) => shouldZeroOutCategory(categoryParts))
-        .map(([category]) => category)
-    )
-    
-    return sortedParts.filter(part => {
-      const category = getPartInstanceCategory(part)
-      return !category || !zeroedCategories.has(category)
-    })
-  }
-  
-  const nonZeroedParts = getNonZeroedParts()
-  
-  // LEARNING: Calculate total time (sum of all parts' baseTime, excluding zeroed categories)
+  // LEARNING: Calculate total time (sum of all finalized parts' baseTime)
   // WHY: Provides total appointment duration
-  // PATTERN: Sum all baseTime values from non-zeroed parts
-  const totalDuration = nonZeroedParts.reduce((sum, part) => sum + (part.baseTime || 0), 0)
+  // PATTERN: Sum all baseTime values from non-zeroed finalized parts
+  const totalDuration = sumFinalizedPartsDuration(nonZeroedParts)
   
-  // LEARNING: Calculate timeOnSite (sum of parts where onSite === true, excluding zeroed categories)
+  // LEARNING: Calculate timeOnSite (sum of finalized parts where onSite === true)
   // WHY: Provides inspector on-site duration before client arrives
-  // PATTERN: Filter by onSite, sum baseTime values from non-zeroed parts
-  const onSiteParts = nonZeroedParts.filter(part => part.onSite === true)
-  const timeOnSiteDuration = calculateCategoryDuration(onSiteParts)
+  // PATTERN: Filter by onSite flag, sum durations
+  const timeOnSiteDuration = sumFinalizedPartsDuration(
+    nonZeroedParts.filter(p => p.onSite === true)
+  )
   
-  // LEARNING: Calculate category-specific durations
-  // WHY: Provides durations for each category (earlyArrival, dataCollection, etc.)
-  // PATTERN: Calculate duration for each category group
-  const earlyArrivalDuration = calculateCategoryDuration(partsByCategory.get('earlyArrival') || [])
-  const dataCollectionDuration = calculateCategoryDuration(partsByCategory.get('dataCollection') || [])
-  const reportWritingDuration = calculateCategoryDuration(partsByCategory.get('reportWriting') || [])
-  const clientPresentationDuration = calculateCategoryDuration(partsByCategory.get('clientPresentation') || [])
-  
-  // LEARNING: Helper function to get flags for a category from its parts
-  // WHY: TimeSlot objects need onSite, clientPresent, moveable, and isAvailable flags
-  // PATTERN: Check if any part in category has the flag set to true
-  const getCategoryFlags = (categoryParts: BookingPartInstance[]): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } => {
-    return {
-      onSite: categoryParts.some(part => part.onSite === true),
-      clientPresent: categoryParts.some(part => part.clientPresent === true),
-      moveable: categoryParts.some(part => part.moveable === true),
-      isAvailable: true  // Default to available for category shapes
-    }
-  }
+  // LEARNING: Calculate flag-based group durations
+  // WHY: Provides durations for each flag-based group
+  // PATTERN: Calculate duration for each flag-based group
+  const earlyArrivalDuration = sumFinalizedPartsDuration(partsByFlags.earlyArrival)
+  const dataCollectionDuration = sumFinalizedPartsDuration(partsByFlags.dataCollection)
+  const reportWritingDuration = sumFinalizedPartsDuration(partsByFlags.reportWriting)
+  const clientPresentationDuration = sumFinalizedPartsDuration(partsByFlags.clientPresentation)
 
   // LEARNING: Create AppointmentSlot object with calculated durations
-  // WHY: Provides normalized structure with orderIndex and category-specific time slots
+  // WHY: Provides normalized structure with orderIndex and flag-based time slots
   // PATTERN: Create AppointmentSlot with orderIndex 0 (normalized) and calculated TimeSlots if baseStartTime provided
   const appointmentSlot: AppointmentSlot = {
     buttonIndex: 0, // Required by AppointmentSlot interface
@@ -179,32 +123,32 @@ export function calculateAppointmentSlots(
     totalOnSite: baseStartTime && timeOnSiteDuration > 0
       ? createTimeRangeFromStart(baseStartTime, timeOnSiteDuration)
       : null,
-    earlyArrival: baseStartTime && earlyArrivalDuration > 0
+    earlyArrivalSlot: baseStartTime && earlyArrivalDuration > 0
       ? createTimeSlotWithFlags(
           baseStartTime,
           earlyArrivalDuration,
-          getCategoryFlags(partsByCategory.get('earlyArrival') || [])
+          getFlagsFromFinalizedParts(partsByFlags.earlyArrival)
         )
       : null,
-    dataCollection: baseStartTime && dataCollectionDuration > 0
+    dataCollectionSlot: baseStartTime && dataCollectionDuration > 0
       ? createTimeSlotWithFlags(
           baseStartTime,
           dataCollectionDuration,
-          getCategoryFlags(partsByCategory.get('dataCollection') || [])
+          getFlagsFromFinalizedParts(partsByFlags.dataCollection)
         )
       : null,
-    reportWriting: baseStartTime && reportWritingDuration > 0
+    reportWritingSlot: baseStartTime && reportWritingDuration > 0
       ? createTimeSlotWithFlags(
           baseStartTime,
           reportWritingDuration,
-          getCategoryFlags(partsByCategory.get('reportWriting') || [])
+          getFlagsFromFinalizedParts(partsByFlags.reportWriting)
         )
       : null,
-    clientPresentation: baseStartTime && clientPresentationDuration > 0
+    clientPresentationSlot: baseStartTime && clientPresentationDuration > 0
       ? createTimeSlotWithFlags(
           baseStartTime,
           clientPresentationDuration,
-          getCategoryFlags(partsByCategory.get('clientPresentation') || [])
+          getFlagsFromFinalizedParts(partsByFlags.clientPresentation)
         )
       : null,
     totalClientPresent: null, // Not calculated in this function

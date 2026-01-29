@@ -45,7 +45,8 @@ interface UseAvailabilityLogicParams {
   selectedDate: Ref<DateRange>
   propertyDetailsStepData: Ref<PropertyDetails | null> | null
   wizard: {
-    selectedServices: Ref<BookingBlockInstance[]>
+    selectedUserTypeBlock: Ref<BookingBlockInstance | null>
+    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
   }
@@ -204,12 +205,13 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
   /**
    * LEARNING: Computed property for all accumulated block instances
-   * WHY: Duration calculation needs all selected blocks (service, property type block, availability options)
+   * WHY: Duration calculation needs all selected blocks (user type, service, property type block, availability options)
    * PATTERN: Collect all selected block instances into array
    */
   const accumulatedBlockInstances = computed(() => {
     const result = [
-      ...wizard.selectedServices.value,
+      ...(wizard.selectedUserTypeBlock.value ? [wizard.selectedUserTypeBlock.value] : []),
+      ...wizard.selectedServiceTypeBlocks.value,
       ...wizard.selectedPropertyTypeBlocks.value,
       ...wizard.selectedOptionTypeBlocks.value
     ]
@@ -288,7 +290,7 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    * PATTERN: Check if any selected service has differential === true
    */
   const isDifferentialService = computed(() => {
-    const selectedServices = wizard.selectedServices.value
+    const selectedServices = wizard.selectedServiceTypeBlocks.value
     return selectedServices.some(s => s.differential === true)
   })
 
@@ -299,7 +301,7 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    */
   const hasDifferentialOverride = computed(() => {
     // Check selected services
-    const serviceHasOverride = wizard.selectedServices.value.some(service =>
+    const serviceHasOverride = wizard.selectedServiceTypeBlocks.value.some(service =>
       service.partInstances?.some(part => part.differentialOverride === true)
     )
     

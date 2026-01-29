@@ -84,10 +84,10 @@ export function findBlockInstanceByIdAndShapeId(
  * LEARNING: Filters block shapes by type === 'user' for explicit semantic typing
  * WHY: Type provides stable semantic identification independent of properties
  * PATTERN: Use type-based filtering for state control blocks (user type)
- * NOTE: Falls back to constituable: false for backward compatibility during migration
+ * NOTE: Uses type-based filtering (type === 'user') for state control blocks
  * 
  * @param bookingData - BookingData containing block shapes
- * @returns Array of BookingBlockShape entities where type === 'user' (or constituable is false as fallback)
+ * @returns Array of BookingBlockShape entities where type === 'user'
  */
 export function getStateControlBlockShapes(
   bookingData: BookingData
@@ -118,7 +118,7 @@ export function getStateControlBlockShapes(
 /**
  * Get state control block instances from BookingData
  * LEARNING: Gets all block instances that belong to state control block shapes
- * WHY: State control blocks are identified by property (constituable: false)
+ * WHY: State control blocks are identified by property (isStateControl: true)
  * 
  * @param bookingData - BookingData containing block instances and block shapes
  * @returns Array of BookingBlockInstance entities that belong to state control block shapes
@@ -235,7 +235,7 @@ export function getStateControlBlockInstanceOptions(
   globalData: GlobalData
 ): Array<{ title: string; value: string | null }> {
   const blockShapes = (globalData.entities.blockShape || []) as GlobalEntity<'blockShape'>[]
-  const stateControlBlockShapes = blockShapes.filter(bs => bs.constituable === false)
+  const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
   const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
   
   const blockInstances = (globalData.entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]

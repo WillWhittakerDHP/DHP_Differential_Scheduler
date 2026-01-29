@@ -349,9 +349,21 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
   const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>, { previousData?: GlobalData }>({
     mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {
-      const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), {
-        updates,
+      // LEARNING: Dehydrate each update to ensure proper field formatting
+      // WHY: Ensures fields are in correct format for backend (handles boolean conversions, etc.)
+      // PATTERN: Map updates to dehydrated format, similar to create/update mutations
+      const dehydratedUpdates = updates.map((update) => {
+        const updateWithEntityKey = {
+          ...update,
+          entityKey,
+        }
+        return globalTransformer.dehydrateEntity(updateWithEntityKey)
       })
+      
+      // LEARNING: Send array directly, not wrapped in object
+      // WHY: Server expects req.body to be an array of update objects
+      // PATTERN: Send array directly to match server expectation: [{ id: string, ...fields }]
+      const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), dehydratedUpdates)
       if (!response?.data) {
         throw new Error('Failed to update entities')
       }

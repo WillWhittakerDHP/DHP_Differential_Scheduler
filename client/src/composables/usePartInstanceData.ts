@@ -76,7 +76,7 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   
   /**
    * LEARNING: Get BlockShape entity
-   * WHY: Need BlockShape to check constituable and get validParts
+   * WHY: Need BlockShape to check canHaveParts and get validParts
    * PATTERN: Get BlockShape from blockInstance.blockShapeRef
    */
   const blockShape = computed(() => {

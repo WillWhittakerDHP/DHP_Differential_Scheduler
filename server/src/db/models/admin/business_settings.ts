@@ -161,6 +161,11 @@ export interface AvailabilitySettingsData {
     rollingWeek?: RollingWeekCapacityFilter; // Rolling week capacity filter
   };
   timezone?: string; // IANA timezone (e.g., "America/New_York")
+  durationRounding?: {
+    enabled: boolean;
+    increment?: number; // Minutes (defaults to minuteIncrement if not specified)
+    method?: 'roundUp' | 'roundDown' | 'roundNearest';
+  };
 }
 
 export class BusinessSettings extends Model<

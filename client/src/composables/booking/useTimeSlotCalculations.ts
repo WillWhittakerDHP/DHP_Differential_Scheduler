@@ -10,9 +10,13 @@ import { computed, type Ref, type ComputedRef } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
-import { getPartInstanceCategory } from '@/utils/booking/partShapeTimeSlotMapping'
+import {
+  createFinalizedParts,
+  filterZeroedParts
+} from '@/utils/booking/partShapeAggregator'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { toRFC3339DateTime } from '@/types/datetime'
+import { useDurationRounding } from '@/composables/booking/useDurationRounding'
 
 /**
  * Time block structure for display
@@ -36,7 +40,7 @@ export interface TimeOnSiteBlocks {
  */
 export interface UseTimeSlotCalculationsParams {
   wizard: {
-    selectedServices: Ref<BookingBlockInstance[]>
+    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
   }
   inspectorTimeSlot: Ref<TimeSlot | null>
   clientTimeSlot: Ref<TimeSlot | null>
@@ -69,57 +73,37 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
 
   const { formatDuration } = useTimeFormatting()
   const { formatTimeRangeForDisplay } = useLocalTime()
+  
+  // LEARNING: Get rounding function from composable
+  // WHY: Provides reactive rounding that respects availability settings
+  // PATTERN: Use composable for rounding logic
+  const { roundDuration } = useDurationRounding()
 
   /**
-   * Check if a category should be zeroed out
-   * LEARNING: If any part instance in a category has zeroOutPart: true, the entire category is zeroed
-   * WHY: Allows parts like "no Client Presentation" to zero out the entire category
-   * PATTERN: Check if any part in category has zeroOutPart flag set
-   */
-  const shouldZeroOutCategory = (categoryParts: BookingPartInstance[]): boolean => {
-    return categoryParts.some(part => part.zeroOutPart === true)
-  }
-
-  /**
-   * Filter out parts from zeroed categories
-   * LEARNING: Groups parts by category and filters out zeroed categories
-   * WHY: Zeroed categories should not contribute to duration calculations
-   * PATTERN: Group by category, identify zeroed categories, filter parts
+   * Filter out parts from zeroed finalized parts
+   * LEARNING: Creates finalized parts and filters out zeroed parts
+   * WHY: Zeroed parts should not contribute to duration calculations
+   * PATTERN: Group by part shape, create finalized parts, filter zeroed, extract source parts
    */
   const getNonZeroedParts = (parts: BookingPartInstance[]): BookingPartInstance[] => {
-    const partsByCategory = new Map<string, BookingPartInstance[]>()
+    const finalizedParts = createFinalizedParts(parts)
+    const nonZeroedFinalizedParts = filterZeroedParts(finalizedParts)
     
-    for (const part of parts) {
-      const category = getPartInstanceCategory(part)
-      if (category) {
-        const currentParts = partsByCategory.get(category) ?? []
-        partsByCategory.set(category, [...currentParts, part])
-      }
-    }
-    
-    const zeroedCategories = new Set<string>()
-    for (const [category, categoryParts] of partsByCategory) {
-      if (shouldZeroOutCategory(categoryParts)) {
-        zeroedCategories.add(category)
-      }
-    }
-    
-    return parts.filter(part => {
-      const category = getPartInstanceCategory(part)
-      return !category || !zeroedCategories.has(category)
-    })
+    // Extract source part instances from non-zeroed finalized parts
+    return nonZeroedFinalizedParts.flatMap(fp => fp.sourcePartInstances)
   }
 
   /**
+   * LEARNING: Calculate on-site total with configurable rounding
    * WHY: Sum of all part instances' baseTime where onSite = true across all selected services
-   * PATTERN: Sum across all selected services, filter part instances by onSite, sum baseTime values
-   * NOTE: Excludes parts from zeroed categories
+   * PATTERN: Sum across all selected services, filter part instances by onSite, sum baseTime values, then apply rounding
+   * NOTE: Excludes parts from zeroed categories, applies rounding based on availability settings
    */
   const onSiteTotal = computed(() => {
-    if (wizard.selectedServices.value.length === 0) return 0
+    if (wizard.selectedServiceTypeBlocks.value.length === 0) return 0
     
     // Sum across all selected services
-    return wizard.selectedServices.value.reduce((total, service) => {
+    const unroundedTotal = wizard.selectedServiceTypeBlocks.value.reduce((total, service) => {
       if (!service?.partInstances || service.partInstances.length === 0) return total
       
       // LEARNING: Filter out zeroed categories before calculating onSite total
@@ -142,6 +126,11 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
       // Fallback: sum all baseTime values from non-zeroed parts
       return total + nonZeroedParts.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)
     }, 0)
+    
+    // LEARNING: Apply configurable rounding based on availability settings
+    // WHY: Allows admin to control rounding behavior via Business Controls tab
+    // PATTERN: Use composable rounding function that respects settings
+    return roundDuration(unroundedTotal)
   })
 
   /**
@@ -150,10 +139,10 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    * NOTE: Excludes parts from zeroed categories
    */
   const presentationDuration = computed(() => {
-    if (wizard.selectedServices.value.length === 0) return 0
+    if (wizard.selectedServiceTypeBlocks.value.length === 0) return 0
     
     // Sum across all selected services
-    return wizard.selectedServices.value.reduce((total, service) => {
+    return wizard.selectedServiceTypeBlocks.value.reduce((total, service) => {
       if (!service?.partInstances || service.partInstances.length === 0) return total
       
       // LEARNING: Filter out zeroed categories before calculating presentation duration

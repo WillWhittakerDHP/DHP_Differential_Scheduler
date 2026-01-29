@@ -9,6 +9,7 @@
 
 import { ref, inject, computed, type Ref, type ComputedRef } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import AppointmentDebugPanel from './AppointmentDebugPanel.vue'
 import CalendarMockDevPanel from './CalendarMockDevPanel.vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -25,40 +26,70 @@ defineProps<Props>()
 const isDevMode = isDevModeEnabled()
 const activeTab = ref<'appointment' | 'calendar'>('appointment')
 
-// LEARNING: Inject dev panel data from AvailabilityStep via provide/inject
-// WHY: Allows AvailabilityStep to provide data without prop drilling
-// PATTERN: Use inject with default values for optional data
-const devPanelData = inject<{
-  selectedBlockInstances?: BookingBlockInstance[]
-  appointmentSlots?: AppointmentSlots
-  selectedDate?: string
-  selectedTime?: string
-  dateRange?: { start: string; end: string } | null
-  busyPeriods?: BusyTimeRange[]
-  refreshKey?: number | string
-}>('devPanelData', {})
+// LEARNING: Get shared dev panel data from composable
+// WHY: AvailabilityStep updates shared state, DevPanelsContainer reads it
+// PATTERN: Use shared ref pattern instead of provide/inject for cross-tree access
+const devPanelData = useDevPanelData()
 
 // LEARNING: Computed props for AppointmentDebugPanel
-// WHY: Extract only needed props from injected data
-// PATTERN: Computed properties that provide defaults
-const appointmentPanelProps = computed(() => ({
-  selectedBlockInstances: devPanelData.selectedBlockInstances || [],
-  appointmentSlots: devPanelData.appointmentSlots || [],
-  selectedDate: devPanelData.selectedDate,
-  selectedTime: devPanelData.selectedTime
-}))
+// WHY: Extract only needed props from shared data and unwrap ComputedRefs
+// PATTERN: Computed properties that provide defaults, unwrapping refs with .value
+// WHY: Access ComputedRef.value inside computed to ensure reactivity tracking
+// WHY: Access the shared ref first, then the nested ComputedRefs to ensure Vue tracks all dependencies
+const appointmentPanelProps = computed(() => {
+  // LEARNING: Access shared ref first to establish dependency
+  // WHY: Ensures Vue tracks changes to the shared ref
+  const data = devPanelData.value
+  
+  // LEARNING: Access ComputedRef values inside computed to ensure reactivity
+  // WHY: Vue tracks dependencies when accessing .value inside computed properties
+  // PATTERN: Unwrap all ComputedRefs inside the computed function, accessing each one explicitly
+  // WHY: Access each ComputedRef separately to ensure Vue tracks each dependency
+  const appointmentSlotsRef = data.appointmentSlots
+  const selectedBlockInstancesRef = data.selectedBlockInstances
+  const selectedDateRef = data.selectedDate
+  const selectedTimeRef = data.selectedTime
+  
+  // LEARNING: Unwrap ComputedRefs - accessing .value establishes reactivity tracking
+  // WHY: Each .value access tells Vue to track that ComputedRef as a dependency
+  // WHY: Handle both ComputedRef and direct array values (Vue may auto-unwrap in some cases)
+  // PATTERN: Check if it's a ComputedRef by checking for .value property, otherwise use directly
+  const slots = (appointmentSlotsRef && typeof appointmentSlotsRef === 'object' && 'value' in appointmentSlotsRef)
+    ? appointmentSlotsRef.value
+    : (Array.isArray(appointmentSlotsRef) ? appointmentSlotsRef : [])
+  const selectedBlockInstances = (selectedBlockInstancesRef && typeof selectedBlockInstancesRef === 'object' && 'value' in selectedBlockInstancesRef)
+    ? selectedBlockInstancesRef.value
+    : (Array.isArray(selectedBlockInstancesRef) ? selectedBlockInstancesRef : [])
+  const selectedDate = (selectedDateRef && typeof selectedDateRef === 'object' && 'value' in selectedDateRef)
+    ? selectedDateRef.value
+    : selectedDateRef
+  const selectedTime = (selectedTimeRef && typeof selectedTimeRef === 'object' && 'value' in selectedTimeRef)
+    ? selectedTimeRef.value
+    : selectedTimeRef
+  
+  return {
+    selectedBlockInstances,
+    appointmentSlots: slots,
+    selectedDate,
+    selectedTime
+  }
+})
 
 // LEARNING: Computed props for CalendarMockDevPanel
-// WHY: Extract only needed props from injected data
-// PATTERN: Computed properties that provide defaults
-const calendarPanelProps = computed(() => ({
-  dateRange: devPanelData.dateRange ? {
-    start: devPanelData.dateRange.start as RFC3339DateTime,
-    end: devPanelData.dateRange.end as RFC3339DateTime
-  } : null,
-  refreshKey: devPanelData.refreshKey,
-  busyPeriods: devPanelData.busyPeriods
-}))
+// WHY: Extract only needed props from shared data and unwrap ComputedRefs
+// PATTERN: Computed properties that provide defaults, unwrapping refs with .value
+const calendarPanelProps = computed(() => {
+  const data = devPanelData.value
+  const dateRangeValue = data.dateRange?.value
+  return {
+    dateRange: dateRangeValue ? {
+      start: dateRangeValue.start as RFC3339DateTime,
+      end: dateRangeValue.end as RFC3339DateTime
+    } : null,
+    refreshKey: data.refreshKey?.value,
+    busyPeriods: data.busyPeriods?.value || []
+  }
+})
 
 // LEARNING: Inject dev panel button functions and state from App.vue
 // WHY: DevPanelsContainer is rendered in App.vue, so it injects from app-level provide

@@ -70,7 +70,7 @@ const {
 // NOTE: Pass refs directly; composable unwraps them reactively.
 const { stepValidators } = useBookingWizardStepValidators({
   selectedUserTypeBlock: wizard.selectedUserTypeBlock,
-  selectedServices: wizard.selectedServices,
+  selectedServices: wizard.selectedServiceTypeBlocks,
   propertyDetailsStepValid: propertyDetailsStepValid,
   propertyDetailsStepValidate: propertyDetailsStepValidate,
   availabilityStepValid: availabilityStepValid,
@@ -156,7 +156,7 @@ const { appointmentDropdownItems } = useAppointmentDropdown({
 // PATTERN: Composable provides data collection function
 const { collectAppointmentData } = useAppointmentDataCollection({
   wizard: {
-    selectedServices: wizard.selectedServices,
+    selectedServices: wizard.selectedServiceTypeBlocks,
     selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
     selectedUserTypeBlock: wizard.selectedUserTypeBlock,
@@ -215,7 +215,7 @@ const {
   stepSubtitles,
 } = useWizardDisplay({
   steps,
-  selectedServices: wizard.selectedServices,
+  selectedServices: wizard.selectedServiceTypeBlocks,
   loadedWizardState
 })
 

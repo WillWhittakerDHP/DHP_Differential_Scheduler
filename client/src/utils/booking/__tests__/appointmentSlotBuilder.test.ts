@@ -39,17 +39,6 @@ import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transfor
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 
 // Mock dependencies
-vi.mock('../partShapeTimeSlotMapping', () => ({
-  getPartInstanceCategory: vi.fn((part: BookingPartInstance) => {
-    // Mock category mapping based on part name
-    if (part.name?.includes('Early')) return 'earlyArrival'
-    if (part.name?.includes('Data')) return 'dataCollection'
-    if (part.name?.includes('Report')) return 'reportWriting'
-    if (part.name?.includes('Client')) return 'clientPresentation'
-    return null
-  })
-}))
-
 vi.mock('@/utils/timeSlotCalculations', () => ({
   roundUpToIncrement: vi.fn((duration: number, increment: number) => {
     return Math.ceil(duration / increment) * increment
@@ -66,13 +55,14 @@ function createPartInstance(
     moveable?: boolean
     zeroOutPart?: boolean
     name?: string
+    partShape?: string
   } = {}
 ): BookingPartInstance {
   return {
     id,
     entityKey: 'partInstance',
     name: options.name || `Part ${id}`,
-    partShape: 'shape-1',
+    partShape: options.partShape || 'shape-1',
     onSite: options.onSite ?? false,
     clientPresent: options.clientPresent ?? false,
     moveable: options.moveable ?? false,
@@ -244,10 +234,10 @@ describe('appointmentSlotBuilder', () => {
     it('should return empty shape for empty block instances', () => {
       const result = buildAppointmentShape([])
       
-      expect(result.earlyArrival).toBeNull()
-      expect(result.dataCollection).toBeNull()
-      expect(result.reportWriting).toBeNull()
-      expect(result.clientPresentation).toBeNull()
+      expect(result.earlyArrivalShape).toBeNull()
+      expect(result.dataCollectionShape).toBeNull()
+      expect(result.reportWritingShape).toBeNull()
+      expect(result.clientPresentationShape).toBeNull()
       expect(result.totalOnSiteDuration).toBe(0)
       expect(result.totalClientPresentDuration).toBe(0)
       expect(result.totalMoveableDuration).toBe(0)
@@ -257,42 +247,42 @@ describe('appointmentSlotBuilder', () => {
 
     it('should build shape from block instances with parts', () => {
       const parts = [
-        createPartInstance('1', 30, { onSite: true, clientPresent: true, name: 'Early Arrival' }),
-        createPartInstance('2', 45, { onSite: true, clientPresent: false, name: 'Data Collection' }),
-        createPartInstance('3', 60, { onSite: false, clientPresent: true, name: 'Report Writing' })
+        createPartInstance('1', 30, { onSite: true, clientPresent: true, moveable: true, partShape: 'early-arrival' }),
+        createPartInstance('2', 45, { onSite: true, clientPresent: false, partShape: 'data-collection' }),
+        createPartInstance('3', 60, { onSite: false, clientPresent: true, partShape: 'report-writing' })
       ]
       const blockInstance = createBlockInstance('block-1', parts)
       
       const result = buildAppointmentShape([blockInstance])
       
       expect(result.totalDuration).toBe(135)
-      expect(result.totalOnSiteDuration).toBe(75) // 30 + 45, rounded up to 90
+      expect(result.totalOnSiteDuration).toBe(75) // 30 + 45, rounded
       expect(result.totalClientPresentDuration).toBe(90) // 30 + 60
-      expect(result.totalMoveableDuration).toBe(0)
+      expect(result.totalMoveableDuration).toBe(30) // moveable=true
       expect(result.clientStartOffset).toBe(45) // onSite=true, clientPresent=false
     })
 
-    it('should zero out categories when zeroOutPart is true', () => {
+    it('should zero out finalized parts when zeroOutPart is true', () => {
       const parts = [
-        createPartInstance('1', 30, { onSite: true, name: 'Early Arrival', zeroOutPart: true }),
-        createPartInstance('2', 45, { onSite: true, name: 'Early Arrival' })
+        createPartInstance('1', 30, { onSite: true, moveable: true, partShape: 'early-arrival', zeroOutPart: true }),
+        createPartInstance('2', 45, { onSite: true, moveable: true, partShape: 'early-arrival' })
       ]
       const blockInstance = createBlockInstance('block-1', parts)
       
       const result = buildAppointmentShape([blockInstance])
       
-      // Early arrival category should be null (zeroed out)
-      expect(result.earlyArrival).toBeNull()
-      // Total duration should exclude zeroed category
+      // Early arrival shape should be null (zeroed out)
+      expect(result.earlyArrivalShape).toBeNull()
+      // Total duration should exclude zeroed parts
       expect(result.totalDuration).toBe(0)
     })
 
     it('should handle multiple block instances', () => {
       const block1 = createBlockInstance('block-1', [
-        createPartInstance('1', 30, { onSite: true, name: 'Early Arrival' })
+        createPartInstance('1', 30, { onSite: true, moveable: true, partShape: 'early-arrival' })
       ])
       const block2 = createBlockInstance('block-2', [
-        createPartInstance('2', 45, { onSite: true, name: 'Data Collection' })
+        createPartInstance('2', 45, { onSite: true, clientPresent: false, partShape: 'data-collection' })
       ])
       
       const result = buildAppointmentShape([block1, block2])
@@ -304,10 +294,10 @@ describe('appointmentSlotBuilder', () => {
   describe('applyShapeToTime', () => {
     it('should apply shape to start time', () => {
       const shape: AppointmentShape = {
-        earlyArrival: { duration: 30, onSite: true, clientPresent: true, moveable: false },
-        dataCollection: null,
-        reportWriting: null,
-        clientPresentation: null,
+        earlyArrivalShape: { duration: 30, onSite: true, clientPresent: true, moveable: false },
+        dataCollectionShape: null,
+        reportWritingShape: null,
+        clientPresentationShape: null,
         totalOnSiteDuration: 30,
         totalClientPresentDuration: 30,
         totalMoveableDuration: 0,
@@ -319,18 +309,18 @@ describe('appointmentSlotBuilder', () => {
       
       expect(result.buttonIndex).toBe(0)
       expect(result.isAvailable).toBe(true)
-      expect(result.earlyArrival?.startTime).toBe('2026-01-15T10:00:00.000Z')
-      expect(result.earlyArrival?.endTime).toBe('2026-01-15T10:30:00.000Z')
+      expect(result.earlyArrivalSlot?.startTime).toBe('2026-01-15T10:00:00.000Z')
+      expect(result.earlyArrivalSlot?.endTime).toBe('2026-01-15T10:30:00.000Z')
       expect(result.totalTime.startTime).toBe('2026-01-15T10:00:00.000Z')
       expect(result.totalTime.endTime).toBe('2026-01-15T10:30:00.000Z')
     })
 
     it('should use fallbackDuration when totalDuration is 0', () => {
       const shape: AppointmentShape = {
-        earlyArrival: null,
-        dataCollection: null,
-        reportWriting: null,
-        clientPresentation: null,
+        earlyArrivalShape: null,
+        dataCollectionShape: null,
+        reportWritingShape: null,
+        clientPresentationShape: null,
         totalOnSiteDuration: 0,
         totalClientPresentDuration: 0,
         totalMoveableDuration: 0,
@@ -345,10 +335,10 @@ describe('appointmentSlotBuilder', () => {
 
     it('should validate that totalClientPresent and totalOnSite end at same time', () => {
       const shape: AppointmentShape = {
-        earlyArrival: null,
-        dataCollection: null,
-        reportWriting: null,
-        clientPresentation: null,
+        earlyArrivalShape: null,
+        dataCollectionShape: null,
+        reportWritingShape: null,
+        clientPresentationShape: null,
         totalOnSiteDuration: 60,
         totalClientPresentDuration: 30,
         totalMoveableDuration: 0,
@@ -366,10 +356,10 @@ describe('appointmentSlotBuilder', () => {
       // The implementation calculates totalClientPresent to end when totalOnSite ends
       // This test verifies that the validation ensures they match
       const shape: AppointmentShape = {
-        earlyArrival: null,
-        dataCollection: null,
-        reportWriting: null,
-        clientPresentation: null,
+        earlyArrivalShape: null,
+        dataCollectionShape: null,
+        reportWritingShape: null,
+        clientPresentationShape: null,
         totalOnSiteDuration: 60,
         totalClientPresentDuration: 30,
         totalMoveableDuration: 0,
@@ -392,10 +382,10 @@ describe('appointmentSlotBuilder', () => {
       const slot: AppointmentSlot = {
         buttonIndex: 0,
         isAvailable: true,
-        earlyArrival: null,
-        dataCollection: null,
-        reportWriting: null,
-        clientPresentation: null,
+        earlyArrivalSlot: null,
+        dataCollectionSlot: null,
+        reportWritingSlot: null,
+        clientPresentationSlot: null,
         totalOnSite: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 60 },
         totalClientPresent: null,
         totalMoveable: null,
@@ -411,10 +401,10 @@ describe('appointmentSlotBuilder', () => {
       const slot: AppointmentSlot = {
         buttonIndex: 0,
         isAvailable: true,
-        earlyArrival: null,
-        dataCollection: null,
-        reportWriting: null,
-        clientPresentation: null,
+        earlyArrivalSlot: null,
+        dataCollectionSlot: null,
+        reportWritingSlot: null,
+        clientPresentationSlot: null,
         totalOnSite: null,
         totalClientPresent: null,
         totalMoveable: null,
@@ -430,10 +420,10 @@ describe('appointmentSlotBuilder', () => {
       const slot: AppointmentSlot = {
         buttonIndex: 0,
         isAvailable: true,
-        earlyArrival: null,
-        dataCollection: null,
-        reportWriting: null,
-        clientPresentation: null,
+        earlyArrivalSlot: null,
+        dataCollectionSlot: null,
+        reportWritingSlot: null,
+        clientPresentationSlot: null,
         totalOnSite: null,
         totalClientPresent: { startTime: '2026-01-15T10:30:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 30 },
         totalMoveable: null,
@@ -449,10 +439,10 @@ describe('appointmentSlotBuilder', () => {
       const slot: AppointmentSlot = {
         buttonIndex: 0,
         isAvailable: true,
-        earlyArrival: null,
-        dataCollection: null,
-        reportWriting: null,
-        clientPresentation: null,
+        earlyArrivalSlot: null,
+        dataCollectionSlot: null,
+        reportWritingSlot: null,
+        clientPresentationSlot: null,
         totalOnSite: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 60 },
         totalClientPresent: null,
         totalMoveable: null,

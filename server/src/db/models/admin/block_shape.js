@@ -48,10 +48,11 @@ function BlockShapeFactory(sequelize) {
             allowNull: false,
             defaultValue: false,
         },
-        constituable: {
+        canHaveParts: {
             type: sequelize_1.DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
+            field: 'can_have_parts',
         },
         active: {
             type: sequelize_1.DataTypes.BOOLEAN,

@@ -87,10 +87,20 @@ const updateBusinessHours = (day: number, field: 'start' | 'end', value: string)
   }
 }
 
-// LEARNING: Tab navigation for subtabs
-// WHY: Provides tabbed interface for switching between different settings sections
+// LEARNING: Tab navigation for main tabs (Constraints and Calendar)
+// WHY: Provides tabbed interface for switching between main sections
+// PATTERN: Use tab navigation composable for state management
+const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constraints' })
+
+// LEARNING: Tab navigation for subtabs (Constraints)
+// WHY: Provides tabbed interface for switching between different constraint types
 // PATTERN: Use tab navigation composable for state management
 const { currentTab: currentSubTab } = useTabNavigation({ initialTab: 'range' })
+
+// LEARNING: Tab navigation for Calendar panel subtabs
+// WHY: Provides tabbed interface for Slot Increment, Duration Rounding, and Timezone
+// PATTERN: Use tab navigation composable for state management
+const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'increment' })
 
 // LEARNING: Computed max business hours for workHoursLimit hint
 // WHY: Provides default value for workHoursLimit if not configured
@@ -386,6 +396,26 @@ const saveButtonProps = computed(() => ({
 const dayNames = DAY_NAMES
 const timeIncrementOptions = TIME_INCREMENT_OPTIONS
 const timezoneOptions = TIMEZONE_OPTIONS
+
+// LEARNING: Rounding increment options
+// WHY: Provides predefined options for rounding increment selection
+// PATTERN: Array of objects with title and value for VSelect
+const roundingIncrementOptions = [
+  { title: '5 minutes', value: 5 },
+  { title: '10 minutes', value: 10 },
+  { title: '15 minutes', value: 15 },
+  { title: '30 minutes', value: 30 },
+  { title: '60 minutes', value: 60 }
+]
+
+// LEARNING: Rounding method options
+// WHY: Provides predefined options for rounding method selection
+// PATTERN: Array of objects with title and value for VSelect
+const roundingMethodOptions = [
+  { title: 'Round Up', value: 'roundUp' },
+  { title: 'Round Down', value: 'roundDown' },
+  { title: 'Round Nearest', value: 'roundNearest' }
+]
 </script>
 
 <template>
@@ -419,23 +449,27 @@ const timezoneOptions = TIMEZONE_OPTIONS
         {{ error }}
       </VAlert>
       
-      <!-- LEARNING: Expansion panels for Controls sections -->
-      <!-- WHY: Provides collapsible interface for organizing different settings sections -->
-      <!-- PATTERN: VExpansionPanels with nested tabs for Constraints -->
-      <VExpansionPanels>
-        <!-- Constraints Panel -->
-        <VExpansionPanel :title="UI_STRINGS.panels.constraints">
-          <VExpansionPanelText>
-            <!-- LEARNING: Subtabs for Constraints sections -->
-            <!-- WHY: Provides tabbed interface for switching between different constraint types -->
-            <!-- PATTERN: VTabs/VWindow pattern matching DataManagementTab -->
-            <VTabs v-model="currentSubTab" class="mb-4">
-              <VTab value="range">{{ UI_STRINGS.tabs.range }}</VTab>
-              <VTab value="capacity">{{ UI_STRINGS.tabs.capacity }}</VTab>
-              <VTab value="overlap">{{ UI_STRINGS.tabs.overlap }}</VTab>
-            </VTabs>
-            
-            <VWindow v-model="currentSubTab">
+      <!-- LEARNING: Main tabs for Controls sections -->
+      <!-- WHY: Provides tabbed interface for switching between Constraints and Calendar -->
+      <!-- PATTERN: VTabs/VWindow pattern matching DataManagementTab and other admin tabs -->
+      <VTabs v-model="currentMainTab" class="mb-4">
+        <VTab value="constraints">{{ UI_STRINGS.tabs.constraints }}</VTab>
+        <VTab value="calendar">{{ UI_STRINGS.tabs.calendar }}</VTab>
+      </VTabs>
+      
+      <VWindow v-model="currentMainTab">
+        <!-- Constraints Tab -->
+        <VWindowItem key="constraints" value="constraints">
+          <!-- LEARNING: Subtabs for Constraints sections -->
+          <!-- WHY: Provides tabbed interface for switching between different constraint types -->
+          <!-- PATTERN: VTabs/VWindow pattern matching DataManagementTab -->
+          <VTabs v-model="currentSubTab" class="mb-4">
+            <VTab value="range">{{ UI_STRINGS.tabs.range }}</VTab>
+            <VTab value="capacity">{{ UI_STRINGS.tabs.capacity }}</VTab>
+            <VTab value="overlap">{{ UI_STRINGS.tabs.overlap }}</VTab>
+          </VTabs>
+          
+          <VWindow v-model="currentSubTab">
               <!-- Range Tab -->
               <VWindowItem key="range" value="range">
                 <!-- Range Constraints Expansion Panels -->
@@ -758,58 +792,121 @@ const timezoneOptions = TIMEZONE_OPTIONS
                 </VBtn>
               </div>
             </VWindowItem>
-            </VWindow>
-          </VExpansionPanelText>
-        </VExpansionPanel>
+          </VWindow>
+        </VWindowItem>
         
-        <!-- Calendar Panel -->
-        <VExpansionPanel :title="UI_STRINGS.panels.calendar">
-          <VExpansionPanelText>
-            <!-- Time Increment -->
-            <div class="mb-6">
-              <div class="text-subtitle-1 mb-3">Time Increment</div>
-              <VSelect
-                v-if="formData"
-                v-model="formData.minuteIncrement"
-                :items="timeIncrementOptions"
-                :label="UI_STRINGS.labels.timeSlotIncrement"
-                required
-                :rules="[(v: number) => !!v || UI_STRINGS.validation.timeIncrementRequired]"
-              />
-              <div v-if="formData" class="text-caption mt-2">
-                {{ UI_STRINGS.help.timeSlots }} {{ formData.minuteIncrement }} minutes
-              </div>
-            </div>
-            
-            <!-- Timezone Settings -->
-            <div class="mb-4">
-              <div class="text-subtitle-1 mb-3">Timezone Settings</div>
-              <VSelect
-                v-if="formData"
-                v-model="formData.timezone"
-                :items="timezoneOptions"
-                :label="UI_STRINGS.labels.timezone"
-                :hint="UI_STRINGS.hints.timezone"
-                persistent-hint
-                :rules="[
-                  (v: string) => !!v || UI_STRINGS.validation.timezoneRequired,
-                ]"
-              />
-              <div v-if="formData" class="text-caption mt-2">
-                {{ UI_STRINGS.help.timezone }}
-                {{ UI_STRINGS.help.currentSelection }} {{ formData.timezone || UI_STRINGS.help.notSet }}
-              </div>
-            </div>
-            
-            <!-- Action Buttons -->
-            <div class="d-flex gap-2 mt-4">
-              <VBtn v-bind="saveButtonProps">
-                {{ UI_STRINGS.buttons.saveSettings }}
-              </VBtn>
-            </div>
-          </VExpansionPanelText>
-        </VExpansionPanel>
-      </VExpansionPanels>
+        <!-- Calendar Tab -->
+        <VWindowItem key="calendar" value="calendar">
+          <!-- LEARNING: Subtabs for Calendar sections -->
+          <!-- WHY: Provides tabbed interface for switching between Slot Increment, Duration Rounding, and Timezone -->
+          <!-- PATTERN: VTabs/VWindow pattern matching Constraints panel -->
+          <VTabs v-model="currentCalendarTab" class="mb-4">
+            <VTab value="increment">{{ UI_STRINGS.tabs.increment }}</VTab>
+            <VTab value="rounding">{{ UI_STRINGS.tabs.rounding }}</VTab>
+            <VTab value="timezone">{{ UI_STRINGS.tabs.timezone }}</VTab>
+          </VTabs>
+          
+          <VWindow v-model="currentCalendarTab">
+              <!-- Slot Increment Tab -->
+              <VWindowItem key="increment" value="increment">
+                <div class="mb-6">
+                  <div class="text-subtitle-1 mb-3">Slot Increment</div>
+                  <VSelect
+                    v-if="formData"
+                    v-model="formData.minuteIncrement"
+                    :items="timeIncrementOptions"
+                    :label="UI_STRINGS.labels.timeSlotIncrement"
+                    required
+                    :rules="[(v: number) => !!v || UI_STRINGS.validation.timeIncrementRequired]"
+                  />
+                  <div v-if="formData" class="text-caption mt-2">
+                    {{ UI_STRINGS.help.timeSlots }} {{ formData.minuteIncrement }} minutes
+                  </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2 mt-4">
+                  <VBtn v-bind="saveButtonProps">
+                    {{ UI_STRINGS.buttons.saveSettings }}
+                  </VBtn>
+                </div>
+              </VWindowItem>
+              
+              <!-- Duration Rounding Tab -->
+              <VWindowItem key="rounding" value="rounding">
+                <div class="mb-6">
+                  <div class="text-subtitle-1 mb-3">Duration Rounding</div>
+                  <VSwitch
+                    v-if="formData && formData.durationRounding"
+                    v-model="formData.durationRounding.enabled"
+                    :label="UI_STRINGS.labels.enableDurationRounding"
+                    class="mb-4"
+                  />
+                  <div v-if="formData && formData.durationRounding && formData.durationRounding.enabled" class="ml-8">
+                    <VSelect
+                      v-model="formData.durationRounding.increment"
+                      :items="roundingIncrementOptions"
+                      :label="UI_STRINGS.labels.roundingIncrement"
+                      :hint="UI_STRINGS.hints.roundingIncrement"
+                      persistent-hint
+                      :rules="[
+                        (v: number) => !!v || UI_STRINGS.validation.roundingIncrementRequired,
+                      ]"
+                      class="mb-4"
+                    />
+                    <VSelect
+                      v-model="formData.durationRounding.method"
+                      :items="roundingMethodOptions"
+                      :label="UI_STRINGS.labels.roundingMethod"
+                      :hint="UI_STRINGS.hints.roundingMethod"
+                      persistent-hint
+                      class="mb-2"
+                    />
+                  </div>
+                  <div v-if="formData" class="text-caption mt-2">
+                    {{ UI_STRINGS.help.durationRoundingDescription }}
+                  </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2 mt-4">
+                  <VBtn v-bind="saveButtonProps">
+                    {{ UI_STRINGS.buttons.saveSettings }}
+                  </VBtn>
+                </div>
+              </VWindowItem>
+              
+              <!-- Timezone Tab -->
+              <VWindowItem key="timezone" value="timezone">
+                <div class="mb-4">
+                  <div class="text-subtitle-1 mb-3">Timezone Settings</div>
+                  <VSelect
+                    v-if="formData"
+                    v-model="formData.timezone"
+                    :items="timezoneOptions"
+                    :label="UI_STRINGS.labels.timezone"
+                    :hint="UI_STRINGS.hints.timezone"
+                    persistent-hint
+                    :rules="[
+                      (v: string) => !!v || UI_STRINGS.validation.timezoneRequired,
+                    ]"
+                  />
+                  <div v-if="formData" class="text-caption mt-2">
+                    {{ UI_STRINGS.help.timezone }}
+                    {{ UI_STRINGS.help.currentSelection }} {{ formData.timezone || UI_STRINGS.help.notSet }}
+                  </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2 mt-4">
+                  <VBtn v-bind="saveButtonProps">
+                    {{ UI_STRINGS.buttons.saveSettings }}
+                  </VBtn>
+                </div>
+              </VWindowItem>
+          </VWindow>
+        </VWindowItem>
+      </VWindow>
     </VForm>
   </div>
 </template>

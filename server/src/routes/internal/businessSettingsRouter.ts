@@ -53,6 +53,11 @@ const defaultAvailabilitySettings: AvailabilitySettingsData = {
         minutes: 60 // 1 hour lead time
       }
     }
+  },
+  durationRounding: {
+    enabled: false, // Default disabled for testing
+    increment: 15,
+    method: 'roundUp'
   }
 };
 
@@ -246,6 +251,26 @@ function validateAvailabilitySettings(data: any): data is AvailabilitySettingsDa
           typeof data.maxWorkHours.rollingWeek.maxHours !== 'number' ||
           !['off', 'flexible', 'hard'].includes(data.maxWorkHours.rollingWeek.enforcement) ||
           !['past', 'centered', 'future'].includes(data.maxWorkHours.rollingWeek.direction)) {
+        return false;
+      }
+    }
+  }
+
+  // Validate durationRounding structure if present
+  if (data.durationRounding !== undefined) {
+    if (typeof data.durationRounding !== 'object') {
+      return false;
+    }
+    if (typeof data.durationRounding.enabled !== 'boolean') {
+      return false;
+    }
+    if (data.durationRounding.increment !== undefined) {
+      if (typeof data.durationRounding.increment !== 'number' || data.durationRounding.increment <= 0) {
+        return false;
+      }
+    }
+    if (data.durationRounding.method !== undefined) {
+      if (!['roundUp', 'roundDown', 'roundNearest'].includes(data.durationRounding.method)) {
         return false;
       }
     }

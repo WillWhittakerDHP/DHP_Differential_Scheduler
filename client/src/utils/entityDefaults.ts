@@ -131,7 +131,8 @@ const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<Glo
   blockShape: {
     orderIndex: 0, // Required NOT NULL field
     composable: false, // Boolean field must have explicit default
-    constituable: false, // Boolean field must have explicit default
+    canHaveParts: false, // Boolean field must have explicit default
+    isStateControl: false, // Boolean field must have explicit default
   },
   blockInstance: {
     orderIndex: 0, // Required NOT NULL field

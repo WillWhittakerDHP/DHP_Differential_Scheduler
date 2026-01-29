@@ -250,7 +250,7 @@ export async function transformAppointmentToWizard(
   
   /**
    * WHY: Prevents matching wrong block types (e.g., baseService ID in userTypeId field)
-   * LEARNING: Use property-based filtering for state control blocks (constituable: false)
+   * LEARNING: Use property-based filtering for state control blocks (isStateControl: true)
    * PATTERN: Find state control block instances, then match by ID
    * VERIFICATION: Log warning if UUID doesn't resolve to correct block type
    */

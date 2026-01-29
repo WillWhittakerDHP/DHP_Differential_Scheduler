@@ -97,7 +97,7 @@ const timeSlotsForLogic = computed(() => {
 // NOTE: This is calculated early because useAvailabilityDefaults needs it before useAvailabilityLogic is called
 //       After useAvailabilityLogic is called, we use its isEffectivelyDifferential for everything else
 const isEffectivelyDifferentialForDefaults = computed(() => {
-  const selectedServices = wizard.selectedServices.value
+  const selectedServices = wizard.selectedServiceTypeBlocks.value
   const selectedOptions = wizard.selectedOptionTypeBlocks.value
   
   // Check if any service is differential
@@ -147,7 +147,8 @@ const {
   selectedDate,
   propertyDetailsStepData,
   wizard: {
-    selectedServices: wizard.selectedServices,
+    selectedUserTypeBlock: wizard.selectedUserTypeBlock,
+    selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
     selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks
   },
@@ -396,7 +397,7 @@ useAvailabilityDevPanel({
           <TimeOnSiteGraph
             :is-differential-service="isEffectivelyDifferential"
             :graph-bars="graphBars"
-            :selected-services="wizard.selectedServices.value"
+            :selected-services="wizard.selectedServiceTypeBlocks.value"
             :start-time-type="perspective"
             class="time-graph-wrapper"
             @time-basis-change="handleTimeBasisChange"
@@ -455,7 +456,7 @@ useAvailabilityDevPanel({
           <!-- WHY: Shows availability options filtered by selected base service -->
           <!-- PATTERN: SelectionCardGroup with checkbox mode, stack layout, conditional rendering -->
           <!-- NOTE: Always visible in bottom right when base service is selected (cascade requirement) -->
-          <div v-if="wizard.selectedServices.value.length > 0" class="availability-options-section">
+          <div v-if="wizard.selectedServiceTypeBlocks.value.length > 0" class="availability-options-section">
             <h5 class="text-h5 mb-4 mb-sm-6">Availability Options</h5>
           
           <!-- Cascade configuration error -->

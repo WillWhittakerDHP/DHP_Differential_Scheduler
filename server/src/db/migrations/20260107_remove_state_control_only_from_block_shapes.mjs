@@ -1,8 +1,9 @@
 /**
  * Migration: Remove state_control_only column from block_shapes
  * Date: 2026-01-07
- * Purpose: Remove redundant state_control_only column. All logic now uses constituable field (inverted).
- *          If state_control_only was true, set constituable to false (state control mode).
+ * Purpose: Remove redundant state_control_only column. All logic now uses canHaveParts field (inverted).
+ *          If state_control_only was true, set canHaveParts to false (state control mode).
+ * Note: This migration originally referenced 'constituable', which was later renamed to 'can_have_parts' in a subsequent migration
  */
 
 /** @type {import('sequelize-cli').Migration} */
@@ -16,16 +17,20 @@ export default {
       return;
     }
     
-    // LEARNING: Migrate data: if state_control_only was true, set constituable to false
+    // LEARNING: Migrate data: if state_control_only was true, set canHaveParts to false
     // WHY: Preserve existing state control behavior when removing the column
-    // PATTERN: Update constituable based on state_control_only value before removing column
+    // PATTERN: Update canHaveParts (can_have_parts) based on state_control_only value before removing column
+    // NOTE: Column name may be 'constituable' or 'can_have_parts' depending on migration order
+    const tableDescription = await queryInterface.describeTable('block_shapes');
+    const columnName = tableDescription.can_have_parts ? 'can_have_parts' : 'constituable';
+    
     await queryInterface.sequelize.query(`
       UPDATE block_shapes 
-      SET constituable = false 
-      WHERE state_control_only = true AND constituable = true;
+      SET ${columnName} = false 
+      WHERE state_control_only = true AND ${columnName} = true;
     `);
     
-    console.log('✅ Migrated state_control_only values to constituable field');
+    console.log(`✅ Migrated state_control_only values to ${columnName} field`);
     
     // Remove the state_control_only column
     await queryInterface.removeColumn('block_shapes', 'state_control_only');
@@ -49,13 +54,17 @@ export default {
       defaultValue: false,
     });
     
-    // LEARNING: Restore data: if constituable is false, set state_control_only to true
-    // WHY: Restore state_control_only values based on constituable when rolling back
-    // PATTERN: Set state_control_only based on constituable value
+    // LEARNING: Restore data: if canHaveParts is false, set state_control_only to true
+    // WHY: Restore state_control_only values based on canHaveParts when rolling back
+    // PATTERN: Set state_control_only based on canHaveParts value
+    // NOTE: Column name may be 'constituable' or 'can_have_parts' depending on migration order
+    const tableDescription = await queryInterface.describeTable('block_shapes');
+    const columnName = tableDescription.can_have_parts ? 'can_have_parts' : 'constituable';
+    
     await queryInterface.sequelize.query(`
       UPDATE block_shapes 
       SET state_control_only = CASE 
-        WHEN constituable = false THEN true 
+        WHEN ${columnName} = false THEN true 
         ELSE false 
       END;
     `);

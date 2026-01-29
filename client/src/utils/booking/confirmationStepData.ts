@@ -1,9 +1,13 @@
-import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PriceData, SummaryData } from '@/composables/booking/useConfirmationStepData'
-import { getPartInstanceCategory } from './partShapeTimeSlotMapping'
+import { calculatePartsTotals } from './partsTotals'
+import {
+  createFinalizedParts,
+  filterZeroedParts
+} from './partShapeAggregator'
 
 type WizardSelectionState = {
-  selectedServices: readonly BookingBlockInstance[]
+  selectedServices: readonly BookingBlockInstance[] // Note: This is the parameter name, receives selectedServiceTypeBlocks
   selectedPropertyTypeBlocks: readonly BookingBlockInstance[]
   selectedOptionTypeBlocks: readonly BookingBlockInstance[]
   selectedLineItemBlocks: readonly BookingBlockInstance[]
@@ -32,16 +36,6 @@ export interface BlockInstanceFeeResult {
 }
 
 /**
- * Check if a category should be zeroed out
- * LEARNING: If any part instance in a category has zeroOutPart: true, the entire category is zeroed
- * WHY: Allows parts like "no Client Presentation" to zero out the entire category
- * PATTERN: Check if any part in category has zeroOutPart flag set
- */
-function shouldZeroOutCategory(categoryParts: BookingPartInstance[]): boolean {
-  return categoryParts.some(part => part.zeroOutPart === true)
-}
-
-/**
  * Calculate base fee and overage fee from all partInstances in a blockInstance.
  * LEARNING: Uses snapshot data from appointment if available for historical accuracy
  * WHY: Calculates fees based on pricing at booking time, not current pricing
@@ -67,49 +61,33 @@ export function calculateBlockInstanceFee(
   squareFootage: number | null,
   aduCount?: number | null
 ): BlockInstanceFeeResult {
-  // LEARNING: Group parts by category to check for zeroed categories
-  // WHY: Need to identify which categories should be zeroed out
-  // PATTERN: Use reduce to build Map without mutations
-  const partsByCategory = blockInstance.partInstances.reduce((map, part) => {
-    const category = getPartInstanceCategory(part)
-    if (category) {
-      const existingParts = map.get(category) || []
-      map.set(category, [...existingParts, part])
-    }
-    return map
-  }, new Map<string, BookingPartInstance[]>())
+  // LEARNING: Create finalized parts and filter out zeroed parts
+  // WHY: Zeroed parts should not contribute to fees
+  // PATTERN: Group by part shape, create finalized parts, filter zeroed
+  const finalizedParts = createFinalizedParts(blockInstance.partInstances || [])
+  const nonZeroedFinalizedParts = filterZeroedParts(finalizedParts)
   
-  // LEARNING: Identify zeroed categories
-  // WHY: Need to exclude parts from zeroed categories from fee calculation
-  const zeroedCategories = new Set<string>()
-  partsByCategory.forEach((categoryParts, category) => {
-    if (shouldZeroOutCategory(categoryParts)) {
-      zeroedCategories.add(category)
-    }
-  })
+  // LEARNING: Extract non-zeroed part instances from finalized parts
+  // WHY: Need original part instances for fee calculation
+  // PATTERN: Flat map sourcePartInstances from non-zeroed finalized parts
+  const nonZeroedParts = nonZeroedFinalizedParts.flatMap(fp => fp.sourcePartInstances)
   
-  // LEARNING: Filter out parts from zeroed categories before calculating fees
-  // WHY: Zeroed categories should not contribute to fees
-  // PATTERN: Filter partInstances to exclude parts in zeroed categories
-  const nonZeroedParts = blockInstance.partInstances.filter(part => {
-    const category = getPartInstanceCategory(part)
-    return !category || !zeroedCategories.has(category)
-  })
+  // LEARNING: Use shared utility to calculate parts totals
+  // WHY: Ensures consistency with admin code and provides single source of truth
+  // PATTERN: Use calculatePartsTotals utility for base calculations
+  const partsTotals = calculatePartsTotals(nonZeroedParts)
   
-  // LEARNING: Calculate base fee: sum of all baseFee values from non-zeroed parts
+  // LEARNING: Calculate base fee from parts totals
   // WHY: Base fees are fixed fees regardless of property size
-  // PATTERN: Reduce to sum all baseFee values
-  const baseFee = nonZeroedParts.reduce((sum, partInstance) => sum + (partInstance.baseFee || 0), 0)
+  // PATTERN: Use totalBaseFee from shared utility
+  const baseFee = partsTotals.totalBaseFee
   
   // LEARNING: Calculate overage fee: sum of (rateOverBaseFee * squareFootage) for each part
   // WHY: Overage fees scale with property square footage
-  // PATTERN: Reduce to sum (rateOverBaseFee * squareFootage) for each part
+  // PATTERN: Multiply totalRateOverBaseFee by squareFootage
   // NOTE: If squareFootage is null or 0, overage fee is 0
   const sqft = squareFootage ?? 0
-  const overageFee = nonZeroedParts.reduce((sum, partInstance) => {
-    const rateOverBaseFee = partInstance.rateOverBaseFee || 0
-    return sum + (rateOverBaseFee * sqft)
-  }, 0)
+  const overageFee = partsTotals.totalRateOverBaseFee * sqft
   
   // LEARNING: Calculate total fee before multiplier
   // WHY: Need base total to apply multiplier correctly

@@ -188,7 +188,12 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
   
   try {
     const { parent_id } = req.query;
-    const where: any = {};
+    const where: any = {
+      // LEARNING: Always filter out disabled relationships
+      // WHY: Disabled relationships represent old/superseded versions and should not be returned
+      // PATTERN: Explicitly filter disabled relationships at query level
+      disabled: false
+    };
     
     // Support parent_id filtering for instanceComponents
     // LEARNING: Validate parent_id is a valid UUID before using it
@@ -205,10 +210,9 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
       }
     }
     
-    const options: any = {};
-    if (Object.keys(where).length > 0) {
-      options.where = where;
-    }
+    const options: any = {
+      where
+    };
     
     // Order by orderIndex for instanceComponents
     // LEARNING: Use Sequelize attribute name (orderIndex), not database column name (order_index)

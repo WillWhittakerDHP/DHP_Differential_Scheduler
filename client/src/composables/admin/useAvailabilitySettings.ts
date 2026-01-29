@@ -109,13 +109,23 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
       const businessHours = businessHoursConfig.hours
       
       // Use settings directly - no migration
+      // LEARNING: Initialize durationRounding with defaults if not present
+      // WHY: Ensures formData always has durationRounding structure for UI binding
+      // PATTERN: Provide default values for optional nested config
+      const durationRounding = rawSettings.durationRounding || {
+        enabled: false,
+        increment: rawSettings.minuteIncrement || 15,
+        method: 'roundUp' as const
+      }
+      
       formData.value = {
         businessHours: businessHours,
         minuteIncrement: rawSettings.minuteIncrement,
         rangeConstraints: rawSettings.rangeConstraints,
         buffers: rawSettings.buffers,
         maxWorkHours: rawSettings.maxWorkHours,
-        timezone: rawSettings.timezone
+        timezone: rawSettings.timezone,
+        durationRounding
       }
     } catch (err: any) {
       // Explicit error - no fallbacks
@@ -202,6 +212,11 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
           rollingWeek?: RollingWeekCapacityFilter
         }
         timezone?: string
+        durationRounding?: {
+          enabled: boolean
+          increment?: number
+          method?: 'roundUp' | 'roundDown' | 'roundNearest'
+        }
       } = {
         businessHours: formData.value.businessHours,
         minuteIncrement: formData.value.minuteIncrement
@@ -241,6 +256,12 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
       }
       if (formData.value.timezone) {
         settingsToSave.timezone = formData.value.timezone
+      }
+      // LEARNING: Always include durationRounding if it exists in formData
+      // WHY: Ensures rounding configuration is persisted even with default values
+      // PATTERN: Include optional config if present in formData
+      if (formData.value.durationRounding) {
+        settingsToSave.durationRounding = formData.value.durationRounding
       }
       
       // Save settings to API

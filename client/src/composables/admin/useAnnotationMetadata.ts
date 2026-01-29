@@ -40,7 +40,7 @@ export function useAnnotationMetadata() {
   /**
    * User type options derived from GlobalData (dynamic)
    * LEARNING: Computed user type options from globalData using property-based filtering
-   * WHY: User types come from state control BlockInstances (constituable: false), not hardcoded
+   * WHY: User types come from state control BlockInstances (isStateControl: true), not hardcoded
    * PATTERN: Computed property that reads from globalData and filters by property
    */
   const userTypeBlockOptions = computed(() => {

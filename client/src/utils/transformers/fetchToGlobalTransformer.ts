@@ -447,7 +447,7 @@ export class GlobalTransformer {
     const SCHEMA_REQUIRED_BOOLEANS: Record<string, string[]> = {
       partInstance: ['active', 'onSite', 'clientPresent', 'moveable', 'zeroOutPart'],
       blockInstance: ['active', 'composite', 'differential', 'allowMultiple'],
-      blockShape: ['composable', 'constituable'],
+      blockShape: ['composable', 'canHaveParts', 'isStateControl'],
       partShape: [],
     }
     const SCHEMA_NULLABLE_BOOLEANS: Record<string, string[]> = {

@@ -59,10 +59,10 @@ const { fieldContext } = props
 const rawFieldValue = useFieldValue(fieldContext)
 
 
-// LEARNING: Handle inverted logic for constituable field (displayed as "State Control")
-// WHY: constituable: false = State Control ON, constituable: true = State Control OFF
-// PATTERN: Invert value for display when fieldKey is 'constituable'
-const isInverted = computed(() => String(fieldContext.fieldKey) === 'constituable')
+// LEARNING: No inversion needed - isStateControl and canHaveParts are now separate fields
+// WHY: Previously canHaveParts was inverted to represent state control, but now we have explicit isStateControl field
+// PATTERN: Direct value display (no inversion)
+const isInverted = computed(() => false)
 const fieldValue = computed(() => {
   const value = rawFieldValue.value
   const boolValue = typeof value === 'boolean' ? value : false
@@ -107,7 +107,7 @@ const statusButtonToggle = useStatusButtonToggle({
 // WHY: Status buttons should save immediately when clicked (good UX)
 //      useStatusButtonToggle handles store updates correctly via usePrimitiveMutation
 // PATTERN: Use toggleStatusButton from composable instead of manual save
-// NOTE: Inversion logic (for constituable field) is handled at display level only
+// NOTE: Inversion logic (for canHaveParts field) is handled at display level only
 //       useStatusButtonToggle operates on stored value, which is correct
 const handleClick = async (event: Event) => {
   // LEARNING: Stop propagation immediately to prevent expansion panel from intercepting click
@@ -125,7 +125,7 @@ const handleClick = async (event: Event) => {
   
   // LEARNING: Use composable's toggle method which handles store updates correctly
   // WHY: useStatusButtonToggle reads from store and toggles stored value (not display value)
-  //      For constituable field, display is inverted but stored value is not, so this works correctly
+  //      For canHaveParts field, display is inverted but stored value is not, so this works correctly
   // PATTERN: Composable handles all toggle logic including store updates via usePrimitiveMutation
   await statusButtonToggle.toggleStatusButton(fieldContext.fieldKey, event)
 }

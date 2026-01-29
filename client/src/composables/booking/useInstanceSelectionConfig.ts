@@ -78,7 +78,7 @@ export interface UseInstanceSelectionConfigReturn {
  * const { selectionConfig, statePlugin } = useInstanceSelectionConfig({
  *   selectionType: 'stack',
  *   stateField: 'services',
- *   selectedValue: computed(() => wizard.selectedServices.value)
+ *   selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
  * })
  * ```
  */

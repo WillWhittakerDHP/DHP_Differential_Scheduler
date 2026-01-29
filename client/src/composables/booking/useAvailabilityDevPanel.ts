@@ -1,17 +1,33 @@
 /**
  * useAvailabilityDevPanel Composable
  * 
- * LEARNING: Provides dev panel data for floating debug panels
- * WHY: Extracts dev panel data providing logic from AvailabilityStep component
- * PATTERN: Composable that provides reactive computed object via provide
+ * LEARNING: Manages shared dev panel data for floating debug panels
+ * WHY: Provides a shared state that both AvailabilityStep and DevPanelsContainer can access
+ * PATTERN: Singleton pattern with shared refs that can be updated and accessed from anywhere
  */
 
-import { computed, provide, type ComputedRef, type Ref } from 'vue'
+import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { RFC3339DateTime } from '@/types/datetime'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import type { ISO8601Date } from '@/types/datetime'
+
+/**
+ * Shared dev panel data state
+ * LEARNING: Singleton pattern for shared state
+ * WHY: Allows both AvailabilityStep and DevPanelsContainer to access the same data
+ * PATTERN: Module-level refs that can be updated and accessed from any component
+ */
+const sharedDevPanelData = ref<{
+  selectedBlockInstances?: ComputedRef<BookingBlockInstance[]>
+  appointmentSlots?: ComputedRef<AppointmentSlot[]>
+  selectedDate?: ComputedRef<string | undefined>
+  selectedTime?: ComputedRef<string | undefined>
+  dateRange?: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
+  busyPeriods?: ComputedRef<BusyTimeRange[]>
+  refreshKey?: Ref<number>
+}>({})
 
 /**
  * useAvailabilityDevPanel composable parameters
@@ -54,11 +70,11 @@ export interface UseAvailabilityDevPanelParams {
 }
 
 /**
- * useAvailabilityDevPanel composable
+ * useAvailabilityDevPanel composable - sets dev panel data
  * 
- * LEARNING: Provides dev panel data for floating debug panels
- * WHY: Extracts dev panel data providing logic from component to composable
- * PATTERN: Composable that provides reactive computed object via provide
+ * LEARNING: Updates shared dev panel data from AvailabilityStep
+ * WHY: Allows AvailabilityStep to update shared state that DevPanelsContainer can read
+ * PATTERN: Function that updates shared refs
  */
 export function useAvailabilityDevPanel(
   params: UseAvailabilityDevPanelParams
@@ -73,10 +89,10 @@ export function useAvailabilityDevPanel(
     refreshKey
   } = params
 
-  // LEARNING: Provide dev panel data for floating debug panels
-  // WHY: Allows DevPanelsContainer to access availability step data without prop drilling
-  // PATTERN: Provide reactive computed object with all needed data
-  provide('devPanelData', {
+  // LEARNING: Update shared dev panel data
+  // WHY: Makes data available to DevPanelsContainer which is rendered at App level
+  // PATTERN: Update shared refs that can be accessed from anywhere
+  sharedDevPanelData.value = {
     selectedBlockInstances,
     appointmentSlots,
     selectedDate: computed(() => selectedDate.value.start ?? undefined),
@@ -92,5 +108,16 @@ export function useAvailabilityDevPanel(
     dateRange,
     busyPeriods,
     refreshKey
-  })
+  }
+}
+
+/**
+ * useDevPanelData composable - gets dev panel data
+ * 
+ * LEARNING: Provides access to shared dev panel data
+ * WHY: Allows DevPanelsContainer to read the data set by AvailabilityStep
+ * PATTERN: Returns shared ref that components can access
+ */
+export function useDevPanelData() {
+  return sharedDevPanelData
 }

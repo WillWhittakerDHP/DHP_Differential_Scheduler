@@ -2,7 +2,7 @@
  * User Type Types
  * 
  * LEARNING: Type definitions for user types (state control blocks)
- * WHY: User types are BlockInstances with blockShapeRef pointing to state control block shapes (constituable: false)
+ * WHY: User types are BlockInstances with blockShapeRef pointing to state control block shapes (canHaveParts: false)
  * PATTERN: GlobalEntityId | null matches the pattern used throughout the codebase
  */
 

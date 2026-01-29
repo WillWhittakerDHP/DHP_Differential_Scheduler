@@ -125,13 +125,46 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       const currentValue = currentRaw === true
       const newValue = !currentValue
       
-      // LEARNING: Use primitive mutation for single-field updates
+      // LEARNING: Handle mutual exclusivity for blockShape isStateControl and canHaveParts
+      // WHY: These fields are mutually exclusive - setting one to true requires the other to be false
+      // PATTERN: Automatically clear the other field when one is set to true
+      const updatePayload: Array<{ admin: { key: string; value: boolean }; dynamicId: string }> = [
+        {
+          admin: { key: String(fieldKey), value: newValue },
+          dynamicId: String(currentEntity.id)
+        }
+      ]
+      
+      // If this is a blockShape and we're setting one of the mutually exclusive fields to true
+      if (entityKey === 'blockShape' && newValue === true) {
+        if (fieldKey === 'isStateControl') {
+          // Setting isStateControl to true - clear canHaveParts
+          const currentCanHaveParts = (currentEntity as any).canHaveParts === true
+          if (currentCanHaveParts) {
+            updatePayload.push({
+              admin: { key: 'canHaveParts', value: false },
+              dynamicId: String(currentEntity.id)
+            })
+          }
+        } else if (fieldKey === 'canHaveParts') {
+          // Setting canHaveParts to true - clear isStateControl
+          const currentIsStateControl = (currentEntity as any).isStateControl === true
+          if (currentIsStateControl) {
+            updatePayload.push({
+              admin: { key: 'isStateControl', value: false },
+              dynamicId: String(currentEntity.id)
+            })
+          }
+        }
+      }
+      
+      // LEARNING: Use primitive mutation for single-field updates (or multiple if mutual exclusivity applies)
       // WHY: More efficient than full PUT, uses PATCH with {key, value} format
       // PATTERN: usePrimitiveMutation for field-level updates
-      await mutateAsync({
-        admin: { key: String(fieldKey), value: newValue },
-        dynamicId: String(currentEntity.id)
-      })
+      // Execute all updates in sequence
+      for (const payload of updatePayload) {
+        await mutateAsync(payload)
+      }
       
       // LEARNING: Invalidate metadata cache after status button toggle
       // WHY: Status button color comes from metadata - UI needs to reflect metadata changes

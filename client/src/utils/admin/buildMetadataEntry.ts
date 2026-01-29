@@ -107,14 +107,11 @@ export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<s
     visibility,
     layout: renderingUpdates.layout ?? existingMetadata.layout,
     displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,
-    section: renderingUpdates.section ?? existingMetadata.section,
     renderAs: renderingUpdates.renderAs ?? existingMetadata.renderAs,
     statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
     panel,
     bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
     inputConfig: wrapInputConfig(),
-    inheritsFromEntityType: existingMetadata.inheritsFromEntityType ?? null,
-    inheritsFromEntityId: existingMetadata.inheritsFromEntityId ?? null,
   }
   
   return entry

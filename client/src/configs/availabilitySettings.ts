@@ -224,6 +224,18 @@ export interface AvailabilitySettings {
    * PATTERN: Optional field, defaults to "America/New_York" if not set
    */
   timezone?: string
+  
+  /**
+   * Duration rounding configuration (optional)
+   * LEARNING: Controls how appointment durations are rounded
+   * WHY: Allows admin to enable/disable rounding and configure rounding method and increment
+   * PATTERN: Optional nested object with enabled flag, increment, and method
+   */
+  durationRounding?: {
+    enabled: boolean
+    increment?: number  // Minutes (defaults to minuteIncrement if not specified)
+    method?: 'roundUp' | 'roundDown' | 'roundNearest'
+  }
 }
 
 /**
@@ -249,6 +261,11 @@ export interface RawAvailabilitySettings {
     rollingWeek?: RollingWeekCapacityFilter
   }
   timezone?: string
+  durationRounding?: {
+    enabled: boolean
+    increment?: number
+    method?: 'roundUp' | 'roundDown' | 'roundNearest'
+  }
 }
 
 /**
@@ -356,7 +373,8 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         rangeConstraints: rawSettings.rangeConstraints,
         buffers: rawSettings.buffers,
         maxWorkHours: rawSettings.maxWorkHours,
-        timezone: rawSettings.timezone
+        timezone: rawSettings.timezone,
+        durationRounding: rawSettings.durationRounding
       }
       
       // Update cache with timestamp

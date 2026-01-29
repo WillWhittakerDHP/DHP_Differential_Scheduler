@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { Attributes, Model } from 'sequelize';
+import { Attributes, Model, Op } from 'sequelize';
 import { getEntityConfig, isValidEntityType } from '../../../config/entityRegistry.js';
 import { BlockInstance, PartInstance, ActivePart } from '../../../config/app.js';
 import { 
@@ -257,6 +257,60 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
       return;
     }
     
+    // LEARNING: For partInstance updates, disable old activeParts relationships
+    // WHY: When a part instance is updated, we need to ensure only one activeParts relationship exists
+    //      per (parent_id, name, partShapeRef) group. Old relationships pointing to other part instances
+    //      with the same logical identity should be disabled.
+    // PATTERN: After successful update, find and disable old relationships
+    if (req.params.entityType === 'partInstance') {
+      try {
+        const updatedPartInstance = await PartInstance.findByPk(entityId);
+        if (updatedPartInstance) {
+          // Find all activeParts relationships pointing to this part instance
+          // This tells us which block instances reference this part
+          const currentRelationships = await ActivePart.findAll({
+            where: {
+              child_id: entityId,
+              disabled: false
+            }
+          });
+
+          // For each block instance that references this part, find and disable old relationships
+          // that point to other part instances with the same (name, partShapeRef) but different ID
+          for (const currentRel of currentRelationships) {
+            // Find all part instances with the same name and partShapeRef but different ID
+            const duplicatePartInstances = await PartInstance.findAll({
+              where: {
+                name: updatedPartInstance.name,
+                partShapeRef: updatedPartInstance.partShapeRef,
+                id: { [Op.ne]: entityId }
+              }
+            });
+
+            if (duplicatePartInstances.length > 0) {
+              const duplicatePartIds = duplicatePartInstances.map(p => p.id);
+              
+              // Disable activeParts relationships pointing to these duplicate part instances
+              // for the same parent_id (block instance)
+              await ActivePart.update(
+                { disabled: true },
+                {
+                  where: {
+                    parent_id: currentRel.parent_id,
+                    child_id: { [Op.in]: duplicatePartIds },
+                    disabled: false
+                  }
+                }
+              );
+            }
+          }
+        }
+      } catch (versioningError) {
+        // Log error but don't fail the update - versioning cleanup is best effort
+        console.error('[EntityRouter] Error disabling old activeParts relationships:', versioningError);
+      }
+    }
+    
     res.json({ 
       message: `${entityConfig.displayName} updated successfully`,
       updated: updatedCount 
@@ -420,11 +474,86 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
       return;
     }
     
+    // LEARNING: For partInstance updates, disable old activeParts relationships
+    // WHY: When a part instance is updated, we need to ensure only one activeParts relationship exists
+    //      per (parent_id, name, partShapeRef) group. Old relationships pointing to other part instances
+    //      with the same logical identity should be disabled.
+    // PATTERN: After successful update, find and disable old relationships
+    if (req.params.entityType === 'partInstance') {
+      try {
+        const updatedPartInstance = await PartInstance.findByPk(entityId);
+        if (updatedPartInstance) {
+          // Find all activeParts relationships pointing to this part instance
+          // This tells us which block instances reference this part
+          const currentRelationships = await ActivePart.findAll({
+            where: {
+              child_id: entityId,
+              disabled: false
+            }
+          });
+
+          // For each block instance that references this part, find and disable old relationships
+          // that point to other part instances with the same (name, partShapeRef) but different ID
+          for (const currentRel of currentRelationships) {
+            // Find all part instances with the same name and partShapeRef but different ID
+            const duplicatePartInstances = await PartInstance.findAll({
+              where: {
+                name: updatedPartInstance.name,
+                partShapeRef: updatedPartInstance.partShapeRef,
+                id: { [Op.ne]: entityId }
+              }
+            });
+
+            if (duplicatePartInstances.length > 0) {
+              const duplicatePartIds = duplicatePartInstances.map(p => p.id);
+              
+              // Disable activeParts relationships pointing to these duplicate part instances
+              // for the same parent_id (block instance)
+              await ActivePart.update(
+                { disabled: true },
+                {
+                  where: {
+                    parent_id: currentRel.parent_id,
+                    child_id: { [Op.in]: duplicatePartIds },
+                    disabled: false
+                  }
+                }
+              );
+            }
+          }
+        }
+      } catch (versioningError) {
+        // Log error but don't fail the update - versioning cleanup is best effort
+        console.error('[EntityRouter] Error disabling old activeParts relationships:', versioningError);
+      }
+    }
+    
     res.json({ updated: updatedCount });
   } catch (error) {
     // LEARNING: Handle Sequelize validation errors as 400 Bad Request
     // WHY: Validation errors are client errors, not server errors
     // PATTERN: Check error type, return appropriate status code
+    
+    // Handle database constraint violations (e.g., mutual exclusivity)
+    if (error instanceof Error && 
+        'parent' in error &&
+        error.parent &&
+        typeof error.parent === 'object' &&
+        'code' in error.parent &&
+        error.parent.code === '23514') {
+      // Check if it's the state control mutual exclusivity constraint
+      if ('constraint' in error.parent && 
+          error.parent.constraint === 'check_state_control_mutual_exclusivity') {
+        res.status(400).json({
+          error: 'Mutual exclusivity violation',
+          message: 'isStateControl and canHaveParts cannot both be true. They are mutually exclusive.',
+          details: 'Setting one to true requires the other to be false.',
+          id: entityId
+        });
+        return;
+      }
+    }
+    
     if (error instanceof Error && 
         (error.name === 'SequelizeValidationError' || 
          error.name === 'SequelizeUniqueConstraintError')) {

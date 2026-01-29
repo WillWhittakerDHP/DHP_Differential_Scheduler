@@ -40,13 +40,14 @@ export type BookingPartInstance = {
 /**
  * Booking Block Shape type
  * LEARNING: Lightweight block shape for property-based filtering
- * WHY: Enables filtering by block shape properties (e.g., constituable) and type without full entity
+ * WHY: Enables filtering by block shape properties (e.g., canHaveParts) and type without full entity
  */
 export type BookingBlockShape = {
   id: string
   name: string
   type: BlockShapeType // Semantic type identifier for stable filtering
-  constituable: boolean
+  canHaveParts: boolean
+  isStateControl: boolean
   composable: boolean
 }
 
@@ -207,7 +208,8 @@ export class BookingTransformer {
         id: blockShape.id,
         name: blockShape.name,
         type: blockShape.type,
-        constituable: blockShape.constituable,
+        canHaveParts: blockShape.canHaveParts,
+        isStateControl: blockShape.isStateControl,
         composable: blockShape.composable,
       }))
       .sort((a, b) => {

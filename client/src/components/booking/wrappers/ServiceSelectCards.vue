@@ -66,7 +66,7 @@ const { instancesWithDisplay } = useInstanceDisplay({
 const { selectionConfig } = useInstanceSelectionConfig({
   selectionType: 'stack',
   stateField: 'services',
-  selectedValue: computed(() => wizard.selectedServices.value)
+  selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
 })
 
 // LEARNING: Merge custom config with defaults
@@ -91,27 +91,27 @@ const mergedConfig = computed<SelectionCardConfig>(() => {
 // WHY: UI behaves as single-select but stored as array for consistency
 // PATTERN: Replace array with single selection when new service is selected
 const selectedIds = computed<string[]>({
-  get: () => wizard.selectedServices.value.map(s => s.id),
+  get: () => wizard.selectedServiceTypeBlocks.value.map(s => s.id),
   set: (ids: string[]) => {
     // Single-select behavior: replace array with new selection
     // If empty array, clear selection
     if (ids.length === 0) {
-      if (wizard.selectedServices.value.length > 0) {
+      if (wizard.selectedServiceTypeBlocks.value.length > 0) {
         // Clear selection by toggling the currently selected service
-        wizard.toggleService(wizard.selectedServices.value[0], true)
+        wizard.toggleServiceTypeBlock(wizard.selectedServiceTypeBlocks.value[0], true)
       }
       return
     }
     
     // Get the new service ID (should be single item for radio)
     const newId = ids[ids.length - 1] // Take last item if multiple (shouldn't happen with radio)
-    const currentId = wizard.selectedServices.value[0]?.id
+    const currentId = wizard.selectedServiceTypeBlocks.value[0]?.id
     
     // Only update if selection changed
     if (newId !== currentId) {
       const service = wizard.availableServices.value.find(s => s.id === newId)
       if (service) {
-        wizard.toggleService(service, true) // Skip cascade during batch
+        wizard.toggleServiceTypeBlock(service, true) // Skip cascade during batch
         emit('toggle', newId)
       }
     }

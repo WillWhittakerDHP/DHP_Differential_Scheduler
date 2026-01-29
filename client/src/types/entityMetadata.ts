@@ -31,7 +31,6 @@ export interface FieldMetadataEntry {
   visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
   layout: 'inline' | 'stacked'
   displayOrder: number
-  section: string | null
   renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection'
   statusButtonColor?: string
   panel: 'none' | 'parts' | 'relationships' | 'annotations'
@@ -42,10 +41,6 @@ export interface FieldMetadataEntry {
   // WHY: Select fields need behavioral configuration beyond renderAs
   // PATTERN: Only populated for fields with renderAs: select|multiselect|reference, null otherwise
   inputConfig?: Record<string, unknown> | null
-  
-  // Inheritance (for instance entities)
-  inheritsFromEntityType?: 'blockShape' | 'partShape' | null
-  inheritsFromEntityId?: string | null
 }
 
 /**

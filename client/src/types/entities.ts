@@ -51,7 +51,8 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
 export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
   type: BlockShapeType; // Semantic type identifier: 'user', 'service', 'property', 'option'
   composable: boolean;
-  constituable: boolean; // If true, blockInstances of this shape can have constituents (partInstances). If false, acts as state control mode (no PartInstance interaction).
+  canHaveParts: boolean; // If true, blockInstances of this shape can have parts (partInstances). Mutually exclusive with isStateControl.
+  isStateControl: boolean; // If true, acts as state selector in wizard (like User Types). Mutually exclusive with canHaveParts.
 }
 
 export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
