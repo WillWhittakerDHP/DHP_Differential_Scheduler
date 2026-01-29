@@ -13,7 +13,7 @@
       
       <!-- Dev Panel System (dev mode only) -->
       <template v-if="isDevMode">
-        <DevPanelsContainer :visible="debugPanelVisible" />
+        <DevPanelsContainer :visible="debugPanelVisible" @close="debugPanelVisible = false" />
         <DevPanelToggle @toggle="debugPanelVisible = !debugPanelVisible" />
       </template>
     </VApp>
