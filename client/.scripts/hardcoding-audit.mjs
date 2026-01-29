@@ -229,6 +229,15 @@ function suggest(repoPath, counts) {
   return suggestions
 }
 
+function assignPriority(score, config) {
+  const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 20)
+  const p1Min = Number(config?.priorities?.p1MinSeverityScore ?? 10)
+  
+  if (score >= p0Min) return 'P0'
+  if (score >= p1Min) return 'P1'
+  return 'P2'
+}
+
 function compareFiles(a, b) {
   if (b.score !== a.score) return b.score - a.score
   return a.repoPath.localeCompare(b.repoPath)
@@ -337,6 +346,15 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  
+  // Load priority config
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
 
   const absFiles = listFilesRecursive(SRC_DIR)
   const scanned = []
@@ -360,6 +378,7 @@ function main() {
     // Score based on requiring-review only (allowed exceptions don't count against score)
     const reviewCounts = recalculateCounts(requiresReview)
     const fileScore = score(reviewCounts)
+    const filePriority = assignPriority(fileScore, priorityConfig)
     
     scanned.push({
       id: toStableId(repoPath),
@@ -370,6 +389,7 @@ function main() {
       allowed,
       requiresReview,
       score: fileScore,
+      priority: filePriority,
       suggestions: suggest(repoPath, reviewCounts),
     })
   }

@@ -139,25 +139,33 @@ export function groupRelationshipsByParent(
   if (relationships.length > 0 && 'parent_id' in relationships[0]) {
     // FetchedRelationship[] path
     const fetchedRels = relationships as FetchedRelationship[]
-    const parentMap = new Map<string, string[]>()
     
-    fetchedRels.forEach(rel => {
-      if (rel.disabled) return
-      const existing = parentMap.get(rel.parent_id) || []
-      parentMap.set(rel.parent_id, [...existing, rel.child_id])
-    })
+    // LEARNING: Use reduce to build Map with immutable array operations
+    // WHY: Map.set() mutations are acceptable for Map operations, but array operations should be immutable
+    // PATTERN: Reduce relationships to Map, creating new arrays instead of mutating existing ones
+    const parentMap = fetchedRels
+      .filter(rel => !rel.disabled)
+      .reduce((map, rel) => {
+        const existing = map.get(rel.parent_id) || []
+        map.set(rel.parent_id, [...existing, rel.child_id])
+        return map
+      }, new Map<string, string[]>())
     
     return parentMap
   } else {
     // GlobalRelationship[] path
     const globalRels = relationships as GlobalRelationship[]
-    const parentMap = new Map<string, GlobalRelationship[]>()
     
-    globalRels.forEach(rel => {
-      if (!rel.parent) return
-      const existing = parentMap.get(rel.parent.id) || []
-      parentMap.set(rel.parent.id, [...existing, rel])
-    })
+    // LEARNING: Use reduce to build Map with immutable array operations
+    // WHY: Map.set() mutations are acceptable for Map operations, but array operations should be immutable
+    // PATTERN: Reduce relationships to Map, creating new arrays instead of mutating existing ones
+    const parentMap = globalRels
+      .filter(rel => rel.parent)
+      .reduce((map, rel) => {
+        const existing = map.get(rel.parent!.id) || []
+        map.set(rel.parent!.id, [...existing, rel])
+        return map
+      }, new Map<string, GlobalRelationship[]>())
     
     return parentMap
   }
@@ -225,9 +233,10 @@ export function getComponentsRecursive(
     rel.children.map(child => child.id)
   )
   
-  // Get recursive components (components that are themselves composers)
-  const recursiveComponents: string[] = []
-  for (const componentId of directComponents) {
+  // LEARNING: Use flatMap to build recursive components functionally
+  // WHY: Avoids array mutations (push) - builds components array immutably
+  // PATTERN: Map each component to its recursive components, then flatten
+  const recursiveComponents = directComponents.flatMap((componentId) => {
     // Check if this component is itself a composer
     const isComponentAlsoComposer = relationships.some(
       rel => rel.relationshipKind === 'instanceComponents' &&
@@ -237,13 +246,12 @@ export function getComponentsRecursive(
     
     if (isComponentAlsoComposer) {
       // Recursively get components of this component
-      const nestedComponents = getComponentsRecursive(componentId, entityKind, relationships, visited)
-      recursiveComponents.push(...nestedComponents)
+      return getComponentsRecursive(componentId, entityKind, relationships, visited)
     } else {
       // Direct component, not a composer
-      recursiveComponents.push(componentId)
+      return [componentId]
     }
-  }
+  })
   
   return recursiveComponents
 }
@@ -393,19 +401,20 @@ export function composePartInstances(
     rel => rel.relationshipKind === 'activeParts'
   )
   
-  for (const blockId of composedBlockIds) {
-    // Find relationships where this block is parent
+  // LEARNING: Use flatMap to collect part instance IDs functionally
+  // WHY: Avoids nested forEach patterns - flattens nested structure functionally
+  // PATTERN: Map blockIds to relationships, then flatMap to part instance IDs
+  const partInstanceIds = composedBlockIds.flatMap((blockId) => {
     const blockRelationships = constituentRelationships.filter(
       rel => rel.parent.id === blockId
     )
-    
-    // Collect all part instance IDs from this block's activeParts
-    blockRelationships.forEach(rel => {
-      rel.children.forEach(partInstance => {
-        allPartInstanceIds.add(partInstance.id)
-      })
-    })
-  }
+    return blockRelationships.flatMap(rel => 
+      rel.children.map(partInstance => partInstance.id)
+    )
+  })
+  
+  // Add all IDs to Set (Set.add() is legitimate mutation for Set operations)
+  partInstanceIds.forEach(id => allPartInstanceIds.add(id))
   
   return Array.from(allPartInstanceIds)
 }

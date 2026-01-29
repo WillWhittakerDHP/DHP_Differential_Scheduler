@@ -15,7 +15,7 @@ import type { GlobalEntity } from '@/types/entities'
 // Import GlobalData type and transformer from Vue transformer (no React dependencies)
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { globalTransformer } from '@/utils/transformers/fetchToGlobalTransformer'
-import { isDevModeEnabled } from '@/utils/env/devMode'
+import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
 // DIAGNOSTICS: Track instance creation
 let instanceCount = 0
@@ -152,25 +152,15 @@ export function useGlobal() {
 }
 
 // DIAGNOSTICS: Export instance count for debugging
-if (isDevModeEnabled()) {
-  interface WindowWithDebug extends Window {
-    __useGlobalDebug?: {
-      instanceCount: () => number
-      callCount: () => number
-      callSites: () => Array<{ count: number; stack: string }>
-      reset: () => void
-    }
+attachDebugToWindow('__useGlobalDebug', {
+  instanceCount: () => instanceCount,
+  callCount: () => callCount,
+  callSites: () => instanceCallSites,
+  reset: () => {
+    instanceCount = 0
+    callCount = 0
+    instanceCallSites.length = 0
+    globalInstance = null
   }
-  (window as WindowWithDebug).__useGlobalDebug = {
-    instanceCount: () => instanceCount,
-    callCount: () => callCount,
-    callSites: () => instanceCallSites,
-    reset: () => {
-      instanceCount = 0
-      callCount = 0
-      instanceCallSites.length = 0
-      globalInstance = null
-    }
-  }
-}
+})
 

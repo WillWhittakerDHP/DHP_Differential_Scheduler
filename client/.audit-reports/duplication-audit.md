@@ -12,33 +12,132 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **340**
-- Groups (window=10 lines, minOccurrences=2): **9**
+- Files scanned: **344**
+- Groups (window=10 lines, minOccurrences=2): **24**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-4a6fc399bb1e` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@90`, `src/configs/availabilitySettings.ts@305` |
-| `dup-59504e32b3e0` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@91`, `src/configs/availabilitySettings.ts@306` |
-| `dup-711dc5bc6407` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@94`, `src/configs/availabilitySettings.ts@309` |
-| `dup-8996f8c0fe68` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@95`, `src/configs/availabilitySettings.ts@310` |
+| `dup-1c5db2cbfa55` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@19`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@39` |
+| `dup-33e6545753d6` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@20`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@40` |
+| `dup-3f43730de4e2` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@23`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@43` |
+| `dup-436178b54d35` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@16`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@36` |
+| `dup-4a6fc399bb1e` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@94`, `src/configs/availabilitySettings.ts@305` |
+| `dup-59504e32b3e0` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@95`, `src/configs/availabilitySettings.ts@306` |
+| `dup-5afca41cd069` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@25`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@45` |
+| `dup-5bafed440b1b` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@21`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@41` |
+| `dup-60f937f2eff5` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@18`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@38` |
+| `dup-69ccf79ab1e7` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@11`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@31` |
+| `dup-6c3c562938f5` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@15`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@35` |
+| `dup-6f8dfba22c33` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@24`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@44` |
+| `dup-711dc5bc6407` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@98`, `src/configs/availabilitySettings.ts@309` |
+| `dup-8996f8c0fe68` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@99`, `src/configs/availabilitySettings.ts@310` |
+| `dup-8e962f0d6918` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@26`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@46` |
 | `dup-9885bbd97b8b` | 2 | 2 | 10 | `src/composables/booking/useWizardAppointmentManagement.ts@31`, `src/composables/booking/useWizardStepDataRefs.ts@15` |
-| `dup-a8ce9d15d5ff` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@98`, `src/configs/availabilitySettings.ts@313` |
-| `dup-c6a9f26012a5` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@92`, `src/configs/availabilitySettings.ts@307` |
-| `dup-c6f7ccb0ada1` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@99`, `src/configs/availabilitySettings.ts@314` |
-| `dup-ce5c3dcc86d2` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@93`, `src/configs/availabilitySettings.ts@308` |
+| `dup-a8ce9d15d5ff` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@102`, `src/configs/availabilitySettings.ts@313` |
+| `dup-c2d5d6f06621` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@14`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@34` |
+| `dup-c6a9f26012a5` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@96`, `src/configs/availabilitySettings.ts@307` |
+| `dup-c6f7ccb0ada1` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@103`, `src/configs/availabilitySettings.ts@314` |
+| `dup-ce5c3dcc86d2` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@97`, `src/configs/availabilitySettings.ts@308` |
+| `dup-d89386f70927` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@17`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@37` |
+| `dup-de0ee7c02876` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@22`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@42` |
+| `dup-e6748e6cd43c` | 2 | 2 | 10 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts@13`, `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts@33` |
 
 ## Per-group details (top)
 
 LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
+
+### Group `dup-1c5db2cbfa55`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 19-28
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 39-48
+
+```
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleCreateAnnotation?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleUpdateAnnotationType?: (annotationId: string, type: string) => Promise<void>
+handleUpdateMetadata?: (
+annotationId: string,
+orderIndex: number,
+userTypeBlock: string | null,
+```
+
+### Group `dup-33e6545753d6`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 20-29
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 40-49
+
+```
+) => Promise<void>
+handleCreateAnnotation?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleUpdateAnnotationType?: (annotationId: string, type: string) => Promise<void>
+handleUpdateMetadata?: (
+annotationId: string,
+orderIndex: number,
+userTypeBlock: string | null,
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+```
+
+### Group `dup-3f43730de4e2`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 23-32
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 43-52
+
+```
+) => Promise<void>
+handleUpdateAnnotationType?: (annotationId: string, type: string) => Promise<void>
+handleUpdateMetadata?: (
+annotationId: string,
+orderIndex: number,
+userTypeBlock: string | null,
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleRemoveAnnotation?: (
+annotationId: string,
+```
+
+### Group `dup-436178b54d35`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 16-25
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 36-45
+
+```
+) => Promise<void>
+handleAddAnnotations?: (annotationIds: string[], annotationsWithMetadata?: Array<{ id: string }>) => Promise<void>
+handleAddSelectedAnnotations?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleCreateAnnotation?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleUpdateAnnotationType?: (annotationId: string, type: string) => Promise<void>
+handleUpdateMetadata?: (
+```
 
 ### Group `dup-4a6fc399bb1e`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 90-103
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 94-107
 - `src/configs/availabilitySettings.ts` @ lines 305-318
 
 ```
@@ -59,7 +158,7 @@ day?: WorkCapacityFilter
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 91-104
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 95-108
 - `src/configs/availabilitySettings.ts` @ lines 306-319
 
 ```
@@ -75,12 +174,138 @@ day?: WorkCapacityFilter
 calendarWeek?: WorkCapacityFilter
 ```
 
+### Group `dup-5afca41cd069`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 25-34
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 45-54
+
+```
+handleUpdateMetadata?: (
+annotationId: string,
+orderIndex: number,
+userTypeBlock: string | null,
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleRemoveAnnotation?: (
+annotationId: string,
+annotationText: string,
+confirmRemove?: () => boolean
+```
+
+### Group `dup-5bafed440b1b`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 21-30
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 41-50
+
+```
+handleCreateAnnotation?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleUpdateAnnotationType?: (annotationId: string, type: string) => Promise<void>
+handleUpdateMetadata?: (
+annotationId: string,
+orderIndex: number,
+userTypeBlock: string | null,
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+```
+
+### Group `dup-60f937f2eff5`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 18-27
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 38-47
+
+```
+handleAddSelectedAnnotations?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleCreateAnnotation?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleUpdateAnnotationType?: (annotationId: string, type: string) => Promise<void>
+handleUpdateMetadata?: (
+annotationId: string,
+orderIndex: number,
+```
+
+### Group `dup-69ccf79ab1e7`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 11-21
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 31-41
+
+```
+createMultiple: (annotationIds: string[], userTypeBlockBlockInstanceId?: string | null) => Promise<void>
+annotationId: string,
+isDefault: boolean,
+allAnnotations: Array<{ id: string; isDefault: boolean }>
+) => Promise<void>
+handleAddAnnotations?: (annotationIds: string[], annotationsWithMetadata?: Array<{ id: string }>) => Promise<void>
+handleAddSelectedAnnotations?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleCreateAnnotation?: (
+```
+
+### Group `dup-6c3c562938f5`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 15-24
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 35-44
+
+```
+allAnnotations: Array<{ id: string; isDefault: boolean }>
+) => Promise<void>
+handleAddAnnotations?: (annotationIds: string[], annotationsWithMetadata?: Array<{ id: string }>) => Promise<void>
+handleAddSelectedAnnotations?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleCreateAnnotation?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleUpdateAnnotationType?: (annotationId: string, type: string) => Promise<void>
+```
+
+### Group `dup-6f8dfba22c33`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 24-33
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 44-53
+
+```
+handleUpdateAnnotationType?: (annotationId: string, type: string) => Promise<void>
+handleUpdateMetadata?: (
+annotationId: string,
+orderIndex: number,
+userTypeBlock: string | null,
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleRemoveAnnotation?: (
+annotationId: string,
+annotationText: string,
+```
+
 ### Group `dup-711dc5bc6407`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 94-112
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 98-116
 - `src/configs/availabilitySettings.ts` @ lines 309-327
 
 ```
@@ -101,7 +326,7 @@ throw new Error('rangeConstraints.businessHours is required')
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 95-114
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 99-118
 - `src/configs/availabilitySettings.ts` @ lines 310-330
 
 ```
@@ -115,6 +340,27 @@ rollingWeek?: RollingWeekCapacityFilter
 if (!rawSettings.rangeConstraints?.businessHours) {
 throw new Error('rangeConstraints.businessHours is required')
 if (!rawSettings.minuteIncrement) {
+```
+
+### Group `dup-8e962f0d6918`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 26-35
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 46-55
+
+```
+annotationId: string,
+orderIndex: number,
+userTypeBlock: string | null,
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleRemoveAnnotation?: (
+annotationId: string,
+annotationText: string,
+confirmRemove?: () => boolean
+) => Promise<void>
 ```
 
 ### Group `dup-9885bbd97b8b`
@@ -143,7 +389,7 @@ availabilityStepValidate: Ref<(() => boolean) | null>
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 98-115
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 102-119
 - `src/configs/availabilitySettings.ts` @ lines 313-331
 
 ```
@@ -159,12 +405,33 @@ if (!rawSettings.minuteIncrement) {
 throw new Error('minuteIncrement is required')
 ```
 
+### Group `dup-c2d5d6f06621`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` @ lines 14-23
+- `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` @ lines 34-43
+
+```
+isDefault: boolean,
+allAnnotations: Array<{ id: string; isDefault: boolean }>
+) => Promise<void>
+handleAddAnnotations?: (annotationIds: string[], annotationsWithMetadata?: Array<{ id: string }>) => Promise<void>
+handleAddSelectedAnnotations?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+handleCreateAnnotation?: (
+annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+) => Promise<void>
+```
+
 ### Group `dup-c6a9f26012a5`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 92-105
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 96-109
 - `src/configs/availabilitySettings.ts` @ lines 307-320
 
 ```
@@ -185,7 +452,7 @@ rollingWeek?: RollingWeekCapacityFilter
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 99-119
+- `src/composables/admin/useAvailabilitySettings.ts` @ lines 103-123
 - `src/configs/availabilitySettings.ts` @ lines 314-335
 
 ```
@@ -199,25 +466,4 @@ throw new Error('rangeConstraints.businessHours is required')
 if (!rawSettings.minuteIncrement) {
 throw new Error('minuteIncrement is required')
 const businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig
-```
-
-### Group `dup-ce5c3dcc86d2`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 93-111
-- `src/configs/availabilitySettings.ts` @ lines 308-326
-
-```
-businessHours: RangeConstraint
-leadTime?: RangeConstraint
-dateRange?: RangeConstraint
-appointment?: BufferConfig
-driveTime?: BufferConfig
-lunch?: BufferConfig
-day?: WorkCapacityFilter
-calendarWeek?: WorkCapacityFilter
-rollingWeek?: RollingWeekCapacityFilter
-if (!rawSettings.rangeConstraints?.businessHours) {
 ```

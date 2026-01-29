@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-28T15:32:55.827Z",
+  "generatedAt": "2026-01-29T01:31:34.994Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -34,297 +34,9 @@
   },
   "files": [
     {
-      "id": "src__composables__entityCrud__useEntityCrudActions.ts",
-      "repoPath": "src/composables/entityCrud/useEntityCrudActions.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudActions.ts",
-      "counts": {
-        "computed": 2,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 17,
-        "await": 12,
-        "vueQuery": 7,
-        "map": 8,
-        "reduce": 0,
-        "filter": 1,
-        "sort": 1,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 2,
-          "line": "import { useMutation, useQueryClient } from '@tanstack/vue-query'"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 48,
-          "line": "const queryClient = useQueryClient()"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 52,
-          "line": "const isLoading = computed((): boolean => false)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 53,
-          "line": "const error = computed((): unknown | undefined => undefined)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 55,
-          "line": "const refetch = async (): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 56,
-          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 59,
-          "line": "const createMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, Partial<GlobalEntity<GlobalEntityTypeKey>>, { previousData?: GlobalData }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 60,
-          "line": "mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 64,
-          "line": "currentEntities.length > 0 ? Math.max(...currentEntities.map((e) => e.orderIndex ?? 0)) : -1"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 86,
-          "line": "const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 91,
-          "line": "onMutate: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 95,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 143,
-          "line": "const updateMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, { previousData?: GlobalData }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 144,
-          "line": "mutationFn: async ({"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 159,
-          "line": "const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 162,
-          "line": "onMutate: async (variables) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 166,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 269,
-          "line": "const deleteMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 270,
-          "line": "mutationFn: async (id: GlobalEntityId) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 272,
-          "line": "await apiClient.delete(deleteEndpoint)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 275,
-          "line": "onMutate: async (id) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 279,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 287,
-          "line": "const filteredEntities = currentEntities.filter((e) => String(e.id) !== String(id))"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 292,
-          "line": "const normalizedEntities = filteredEntities.map((entity, index) => ({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 308,
-          "line": "onSuccess: async () => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 324,
-          "line": "const normalizedUpdates = remainingEntities.map((entity, index) => ({"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 330,
-          "line": "const backendPayload = normalizedUpdates.map(({ id, orderIndex }) => ({"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 335,
-          "line": "// Fire and forget - don't await, don't refetch"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 353,
-          "line": "const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 354,
-          "line": "mutationFn: async (updates: OrderIndexUpdate): Promise<void> => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 356,
-          "line": "const backendPayload = updates.map(({ id, orderIndex }) => ({"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 361,
-          "line": "await apiClient.patch(orderIndexEndpoint, backendPayload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 363,
-          "line": "onMutate: async (updates) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 367,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 387,
-          "line": "const updatedEntities = currentEntities.map((entity) => {"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 401,
-          "line": "const sortedEntities = [...updatedEntities].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 432,
-          "line": "const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>, { previousData?: GlobalData }>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 433,
-          "line": "mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>): Promise<void> => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 440,
-          "line": "const backendPayload = updates.map(({ id, ...fields }) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 455,
-          "line": "await apiClient.patch(bulkPatchEndpoint, backendPayload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 457,
-          "line": "onMutate: async (updates) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 461,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 482,
-          "line": "const updatedEntities = currentEntities.map((entity) => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 532,
-          "line": "create: async (entity) => createMutation.mutateAsync(entity),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 533,
-          "line": "update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 534,
-          "line": "remove: async (id) => deleteMutation.mutateAsync(id),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 535,
-          "line": "patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 536,
-          "line": "patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),"
-        }
-      ],
-      "exportUseFunctions": [],
-      "importSpecifiers": [
-        "@/constants/entities",
-        "@/constants/primitives",
-        "@/types/entities",
-        "@/utils/api",
-        "@/utils/entityDefaults",
-        "@/utils/env/devMode",
-        "@/utils/logger",
-        "@/utils/transformers/entityTransformers",
-        "@/utils/transformers/fetchToGlobalTransformer",
-        "@tanstack/vue-query",
-        "vue"
-      ],
-      "returnKeys": [],
-      "complexityScore": 48,
-      "suggestions": [
-        {
-          "kind": "split_candidate",
-          "priority": "P0",
-          "message": "High complexity score. Consider splitting into `useXxxState` + `useXxxActions` + `useXxxQuery` and keeping the SFC-facing API thin."
-        }
-      ]
-    },
-    {
-      "id": "src__composables__admin__annotationAssignments__useAnnotationAssignmentsActions.ts",
-      "repoPath": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts",
+      "id": "src__composables__entityCrud__useEntityCrudMutations.ts",
+      "repoPath": "src/composables/entityCrud/useEntityCrudMutations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutations.ts",
       "counts": {
         "computed": 0,
         "ref": 0,
@@ -332,13 +44,13 @@
         "watch": 0,
         "watchEffect": 0,
         "lifecycle": 0,
-        "async": 14,
-        "await": 22,
-        "vueQuery": 5,
-        "map": 0,
+        "async": 15,
+        "await": 10,
+        "vueQuery": 7,
+        "map": 6,
         "reduce": 0,
-        "filter": 4,
-        "sort": 1,
+        "filter": 1,
+        "sort": 0,
         "dom": 0,
         "timers": 0,
         "console": 0
@@ -346,254 +58,216 @@
       "matches": [
         {
           "ruleId": "vueQuery",
-          "lineNumber": 2,
+          "lineNumber": 1,
           "line": "import { useMutation, useQueryClient } from '@tanstack/vue-query'"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 66,
+          "lineNumber": 32,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 81,
-          "line": "const createMutation = useMutation({"
+          "lineNumber": 35,
+          "line": "const createMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, Partial<GlobalEntity<GlobalEntityTypeKey>>, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 82,
-          "line": "mutationFn: async (data: CreateAssignmentData) => {"
+          "lineNumber": 36,
+          "line": "mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 40,
+          "line": "currentEntities.length > 0 ? Math.max(...currentEntities.map((e) => e.orderIndex ?? 0)) : -1"
         },
         {
           "ruleId": "await",
-          "lineNumber": 84,
-          "line": "const response = await apiClient.post("
+          "lineNumber": 61,
+          "line": "const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 95,
+          "lineNumber": 66,
+          "line": "onMutate: async () => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 70,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 118,
+          "line": "const updateMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, { previousData?: GlobalData }>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 119,
+          "line": "mutationFn: async ({"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 134,
+          "line": "const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 137,
           "line": "onMutate: async (variables) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 99,
-          "line": "await queryClient.cancelQueries({ queryKey: globalDataKey })"
+          "lineNumber": 141,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 224,
+          "line": "const removeMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 225,
+          "line": "mutationFn: async (id: GlobalEntityId) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 100,
-          "line": "await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })"
+          "lineNumber": 227,
+          "line": "await apiClient.delete(deleteEndpoint)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 230,
+          "line": "onMutate: async (id) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 101,
-          "line": "await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })"
+          "lineNumber": 231,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 152,
-          "line": "const withoutSame = current.filter("
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 156,
-          "line": "return [...withoutSame, next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
+          "lineNumber": 237,
+          "line": "const updatedEntities = currentEntities.filter((entity) => String(entity.id) !== String(id))"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 192,
-          "line": "const updateMutation = useMutation({"
+          "lineNumber": 256,
+          "line": "const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 193,
-          "line": "mutationFn: async (data: UpdateAssignmentData) => {"
+          "lineNumber": 257,
+          "line": "mutationFn: async (updates: OrderIndexUpdate) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 195,
-          "line": "const response = await apiClient.patch("
+          "lineNumber": 258,
+          "line": "const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 259,
+          "line": "updates: updates.map((update) => ({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 205,
-          "line": "onMutate: async (variables) => {"
+          "lineNumber": 268,
+          "line": "onMutate: async (updates) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 209,
-          "line": "await queryClient.cancelQueries({ queryKey: globalDataKey })"
+          "lineNumber": 269,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
-          "ruleId": "await",
-          "lineNumber": 210,
-          "line": "await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })"
+          "ruleId": "map",
+          "lineNumber": 275,
+          "line": "const updateMap = new Map(updates.map((update) => [String(update.id), update.orderIndex]))"
         },
         {
-          "ruleId": "await",
-          "lineNumber": 211,
-          "line": "await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })"
+          "ruleId": "map",
+          "lineNumber": 276,
+          "line": "const updatedEntities = currentEntities.map((entity) => ({"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 305,
-          "line": "const deleteMutation = useMutation({"
+          "lineNumber": 298,
+          "line": "const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 306,
-          "line": "mutationFn: async (annotationId: string): Promise<void> => {"
+          "lineNumber": 299,
+          "line": "mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 300,
+          "line": "const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 307,
+          "line": "onMutate: async (updates) => {"
         },
         {
           "ruleId": "await",
           "lineNumber": 308,
-          "line": "await apiClient.delete("
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 313,
+          "line": "const updateMap = new Map(updates.map((update) => [String(update.id), update]))"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 315,
+          "line": "const updatedEntities = currentEntities.map((entity) => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 312,
-          "line": "onMutate: async (annotationId) => {"
+          "lineNumber": 342,
+          "line": "create: async (entity) => createMutation.mutateAsync(entity),"
         },
         {
-          "ruleId": "await",
-          "lineNumber": 316,
-          "line": "await queryClient.cancelQueries({ queryKey: globalDataKey })"
+          "ruleId": "async",
+          "lineNumber": 343,
+          "line": "update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),"
         },
         {
-          "ruleId": "await",
-          "lineNumber": 317,
-          "line": "await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 318,
-          "line": "await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })"
-        },
-        {
-          "ruleId": "filter",
+          "ruleId": "async",
           "lineNumber": 344,
-          "line": "return current.filter("
+          "line": "remove: async (id) => removeMutation.mutateAsync(id),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 377,
-          "line": "const createMultiple = async ("
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 386,
-          "line": "await create({"
+          "lineNumber": 345,
+          "line": "patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 395,
-          "line": "const updateDefault = async ("
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 403,
-          "line": "const otherDefaults = allAnnotations.filter((a) => a.id !== annotationId && a.isDefault)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 405,
-          "line": "await update({"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 412,
-          "line": "await update({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 418,
-          "line": "const handleAddAnnotations = async ("
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 424,
-          "line": "const newIds = annotationIds.filter((id) => !annotationsWithMetadata.some((a) => a.id === id))"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 426,
-          "line": "await createMultiple(newIds, null)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 434,
-          "line": "const handleAddSelectedAnnotations = async ("
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 454,
-          "line": "await createMultiple(selectedIds, selectedUserTypeBlock)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 469,
-          "line": "const handleCreateAnnotation = async ("
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 494,
-          "line": "const newAnnotation = await actionOptions.options.annotationsComposable.create.mutateAsync({"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 502,
-          "line": "await create({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 528,
-          "line": "const handleUpdateAnnotationType = async (annotationId: string, type: string): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 532,
-          "line": "await actionOptions.options.annotationsComposable.patch.mutateAsync({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 543,
-          "line": "const handleUpdateMetadata = async ("
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 563,
-          "line": "await update({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 570,
-          "line": "const handleRemoveAnnotation = async ("
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 578,
-          "line": "await remove(annotationId)"
+          "lineNumber": 346,
+          "line": "patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),"
         }
       ],
-      "exportUseFunctions": [
-        "useAnnotationAssignmentsActions"
-      ],
+      "exportUseFunctions": [],
       "importSpecifiers": [
-        "./types",
-        "@/types/annotations",
+        "./useEntityCrudTypes",
+        "@/constants/entities",
+        "@/types/entities",
         "@/utils/api",
+        "@/utils/entityDefaults",
+        "@/utils/env/devMode",
         "@/utils/logger",
-        "@/utils/optimistic/annotationAssignmentsOptimistic",
+        "@/utils/transformers/entityTransformers",
         "@/utils/transformers/fetchToGlobalTransformer",
-        "@tanstack/vue-query",
-        "vue"
+        "@tanstack/vue-query"
       ],
-      "returnKeys": [
-        "previousAllBlockInstanceAnnotations",
-        "previousBlockInstanceAnnotations",
-        "previousGlobalData"
-      ],
-      "complexityScore": 46,
+      "returnKeys": [],
+      "complexityScore": 39,
+      "priority": "P0",
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -787,6 +461,189 @@
         "data"
       ],
       "complexityScore": 29,
+      "priority": "P1",
+      "suggestions": [
+        {
+          "kind": "split_candidate",
+          "priority": "P1",
+          "message": "Moderate complexity score. Consider separating query/mutations from derived state and formatting."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__admin__annotationAssignments__useAnnotationAssignmentsMutations.ts",
+      "repoPath": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 6,
+        "await": 12,
+        "vueQuery": 5,
+        "map": 0,
+        "reduce": 0,
+        "filter": 2,
+        "sort": 1,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 10,
+          "line": "import { useMutation, useQueryClient } from '@tanstack/vue-query'"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 67,
+          "line": "const queryClient = useQueryClient()"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 73,
+          "line": "const createMutation = useMutation({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 74,
+          "line": "mutationFn: async (data: CreateAssignmentData) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 76,
+          "line": "const response = await apiClient.post("
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 87,
+          "line": "onMutate: async (variables) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 91,
+          "line": "await queryClient.cancelQueries({ queryKey: globalDataKey })"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 92,
+          "line": "await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 93,
+          "line": "await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 144,
+          "line": "const withoutSame = current.filter("
+        },
+        {
+          "ruleId": "sort",
+          "lineNumber": 148,
+          "line": "return [...withoutSame, next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 184,
+          "line": "const updateMutation = useMutation({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 185,
+          "line": "mutationFn: async (data: UpdateAssignmentData) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 187,
+          "line": "const response = await apiClient.patch("
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 197,
+          "line": "onMutate: async (variables) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 201,
+          "line": "await queryClient.cancelQueries({ queryKey: globalDataKey })"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 202,
+          "line": "await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 203,
+          "line": "await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 297,
+          "line": "const deleteMutation = useMutation({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 298,
+          "line": "mutationFn: async (annotationId: string): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 300,
+          "line": "await apiClient.delete("
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 304,
+          "line": "onMutate: async (annotationId) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 308,
+          "line": "await queryClient.cancelQueries({ queryKey: globalDataKey })"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 309,
+          "line": "await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 310,
+          "line": "await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 336,
+          "line": "return current.filter("
+        }
+      ],
+      "exportUseFunctions": [
+        "useAnnotationAssignmentsMutations"
+      ],
+      "importSpecifiers": [
+        "./types",
+        "@/types/annotations",
+        "@/utils/api",
+        "@/utils/logger",
+        "@/utils/optimistic/annotationAssignmentsOptimistic",
+        "@/utils/transformers/fetchToGlobalTransformer",
+        "@tanstack/vue-query",
+        "vue"
+      ],
+      "returnKeys": [
+        "previousAllBlockInstanceAnnotations",
+        "previousBlockInstanceAnnotations",
+        "previousGlobalData"
+      ],
+      "complexityScore": 26,
+      "priority": "P1",
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -958,6 +815,7 @@
         "update"
       ],
       "complexityScore": 25,
+      "priority": "P1",
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -1135,6 +993,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 25,
+      "priority": "P1",
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -1310,6 +1169,7 @@
         "isUpdatingProgrammatically"
       ],
       "complexityScore": 25,
+      "priority": "P1",
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -1479,6 +1339,7 @@
         "validate"
       ],
       "complexityScore": 23,
+      "priority": "P1",
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -1657,6 +1518,7 @@
         "sortedAnnotations"
       ],
       "complexityScore": 22,
+      "priority": "P1",
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -1823,6 +1685,7 @@
         "previousGlobalData"
       ],
       "complexityScore": 21,
+      "priority": "P1",
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -1974,6 +1837,161 @@
         "isLoading"
       ],
       "complexityScore": 20,
+      "priority": "P1",
+      "suggestions": [
+        {
+          "kind": "split_candidate",
+          "priority": "P1",
+          "message": "Moderate complexity score. Consider separating query/mutations from derived state and formatting."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__admin__annotationAssignments__useAnnotationAssignmentsOrchestration.ts",
+      "repoPath": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 8,
+        "await": 10,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 2,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 69,
+          "line": "const createMultiple = async ("
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 78,
+          "line": "await mutations.create({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 87,
+          "line": "const updateDefault = async ("
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 95,
+          "line": "const otherDefaults = allAnnotations.filter((a) => a.id !== annotationId && a.isDefault)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 97,
+          "line": "await mutations.update({"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 104,
+          "line": "await mutations.update({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 110,
+          "line": "const handleAddAnnotations = async ("
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 116,
+          "line": "const newIds = annotationIds.filter((id) => !annotationsWithMetadata.some((a) => a.id === id))"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 118,
+          "line": "await createMultiple(newIds, null)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 126,
+          "line": "const handleAddSelectedAnnotations = async ("
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 146,
+          "line": "await createMultiple(selectedIds, selectedUserTypeBlock)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 161,
+          "line": "const handleCreateAnnotation = async ("
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 186,
+          "line": "const newAnnotation = await orchestrationOptions.annotationsComposable.create.mutateAsync({"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 194,
+          "line": "await mutations.create({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 220,
+          "line": "const handleUpdateAnnotationType = async (annotationId: string, type: string): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 224,
+          "line": "await orchestrationOptions.annotationsComposable.patch.mutateAsync({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 235,
+          "line": "const handleUpdateMetadata = async ("
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 255,
+          "line": "await mutations.update({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 262,
+          "line": "const handleRemoveAnnotation = async ("
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 270,
+          "line": "await mutations.remove(annotationId)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAnnotationAssignmentsOrchestration"
+      ],
+      "importSpecifiers": [
+        "./types",
+        "./useAnnotationAssignmentsMutations",
+        "@/types/annotations",
+        "@/utils/logger",
+        "vue"
+      ],
+      "returnKeys": [
+        "createMultiple",
+        "handleAddAnnotations",
+        "handleAddSelectedAnnotations",
+        "handleCreateAnnotation",
+        "handleRemoveAnnotation",
+        "handleUpdateAnnotationType",
+        "handleUpdateMetadata",
+        "updateDefault"
+      ],
+      "complexityScore": 20,
+      "priority": "P1",
       "suggestions": [
         {
           "kind": "split_candidate",
@@ -2118,6 +2136,7 @@
         "sortedBlockShapes"
       ],
       "complexityScore": 19,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -2265,6 +2284,7 @@
         "success"
       ],
       "complexityScore": 17,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "logging",
@@ -2298,87 +2318,87 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 48,
+          "lineNumber": 47,
           "line": "// Session 1.4.1: Changed from computed to ref+watch to handle async generateTimeSlots"
         },
         {
           "ruleId": "async",
-          "lineNumber": 57,
+          "lineNumber": 56,
           "line": "// LEARNING: Loading state for async operations"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 61,
+          "lineNumber": 60,
           "line": "const isLoading = ref(false)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 66,
+          "lineNumber": 65,
           "line": "const blockInstancesValue = computed(() => unref(blockInstances))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 67,
+          "lineNumber": 66,
           "line": "const dateRangeValue = computed(() => unref(dateRange))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 68,
+          "lineNumber": 67,
           "line": "const propertyDetailsValue = computed(() => unref(propertyDetails))"
         },
         {
           "ruleId": "async",
-          "lineNumber": 70,
+          "lineNumber": 69,
           "line": "// LEARNING: AbortController to cancel stale async operations"
         },
         {
           "ruleId": "async",
-          "lineNumber": 77,
+          "lineNumber": 76,
           "line": "// PATTERN: Watch multiple dependencies, call async function to update ref"
         },
         {
           "ruleId": "async",
-          "lineNumber": 78,
+          "lineNumber": 77,
           "line": "// Session 1.4.1: Updated to handle async generateTimeSlots"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 80,
+          "lineNumber": 79,
           "line": "watch("
         },
         {
           "ruleId": "async",
-          "lineNumber": 82,
+          "lineNumber": 81,
           "line": "async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 149,
+          "lineNumber": 156,
           "line": "settingsValue = await getAvailabilitySettings()"
         },
         {
           "ruleId": "await",
-          "lineNumber": 170,
+          "lineNumber": 177,
           "line": "const result = await fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 220,
+          "lineNumber": 227,
           "line": "timeSlots: computed(() => timeSlots.value), // Return as computed for consistency"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 221,
+          "lineNumber": 228,
           "line": "error: computed(() => error.value), // P1-3: Expose error state"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 222,
+          "lineNumber": 229,
           "line": "hasError: computed(() => error.value !== null), // P1-3: Convenience computed for error check"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 223,
+          "lineNumber": 230,
           "line": "isLoading: computed(() => isLoading.value) // P1-3: Expose loading state"
         }
       ],
@@ -2390,7 +2410,6 @@
         "@/configs/availabilitySettings",
         "@/types/appointment",
         "@/types/availability",
-        "@/types/datetime",
         "@/utils/booking/constraintHelpers",
         "@/utils/booking/dateRangeValidation",
         "@/utils/booking/timeAvailabilityManager",
@@ -2406,6 +2425,7 @@
         "timeSlots"
       ],
       "complexityScore": 17,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -2524,6 +2544,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 16,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -2641,6 +2662,7 @@
         "refetchRelationships"
       ],
       "complexityScore": 15,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -2698,47 +2720,47 @@
         },
         {
           "ruleId": "async",
-          "lineNumber": 79,
+          "lineNumber": 83,
           "line": "const loadSettings = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 84,
+          "lineNumber": 88,
           "line": "const response = await apiClient.get('/business-settings/availability_settings')"
         },
         {
           "ruleId": "map",
-          "lineNumber": 162,
+          "lineNumber": 166,
           "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 163,
+          "lineNumber": 167,
           "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 182,
+          "lineNumber": 186,
           "line": "const saveSettings = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 260,
+          "lineNumber": 265,
           "line": "await apiClient.put('/business-settings/availability_settings', {"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 270,
+          "lineNumber": 275,
           "line": "setTimeout(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 283,
+          "lineNumber": 288,
           "line": "* PATTERN: onMounted lifecycle hook for initialization"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 285,
+          "lineNumber": 290,
           "line": "onMounted(() => {"
         }
       ],
@@ -2762,6 +2784,136 @@
         "validateBusinessHours"
       ],
       "complexityScore": 15,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__booking__useMoveablePartsScheduling.ts",
+      "repoPath": "src/composables/booking/useMoveablePartsScheduling.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useMoveablePartsScheduling.ts",
+      "counts": {
+        "computed": 3,
+        "ref": 2,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 1,
+        "lifecycle": 0,
+        "async": 4,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 3,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 88,
+          "line": "const showModal = ref(false)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 96,
+          "line": "// Moveable options (computed via watchEffect since it's async)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 98,
+          "line": "const isLoadingOptions = ref(false)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 101,
+          "line": "const hasMoveableParts = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 107,
+          "line": "const moveableDuration = computed(() => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 112,
+          "line": "// LEARNING: Use watchEffect for async operations"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 113,
+          "line": "// WHY: Computed properties can't be async, so we use watchEffect to update a ref"
+        },
+        {
+          "ruleId": "watchEffect",
+          "lineNumber": 115,
+          "line": "watchEffect(async () => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 115,
+          "line": "watchEffect(async () => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 140,
+          "line": "const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 142,
+          "line": "const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 164,
+          "line": "const settings = await getAvailabilitySettings()"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 178,
+          "line": "const result = await fitAvailableTimeSlots({  // P3-6: Renamed for clarity"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 188,
+          "line": "const availableSlots: MoveableSlot[] = result.slots.map((slot) => ({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 247,
+          "line": "moveableOptions: computed(() => moveableOptions.value),"
+        }
+      ],
+      "exportUseFunctions": [
+        "useMoveablePartsScheduling"
+      ],
+      "importSpecifiers": [
+        "@/composables/useLocalTime",
+        "@/configs/availabilitySettings",
+        "@/types/appointment",
+        "@/types/datetime",
+        "@/types/moveableScheduling",
+        "@/utils/booking/timeSlotFitter",
+        "@/utils/logger",
+        "vue"
+      ],
+      "returnKeys": [
+        "closeModal",
+        "contingencyPeriod",
+        "hasMoveableParts",
+        "isLoadingOptions",
+        "moveableDuration",
+        "moveableOptions",
+        "openModal",
+        "selectSlot",
+        "selectedMoveableSlot",
+        "selectedSlotIndex",
+        "showModal"
+      ],
+      "complexityScore": 15,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -2880,6 +3032,7 @@
         "userTypeBlock"
       ],
       "complexityScore": 14,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -2995,6 +3148,7 @@
         "selectMode"
       ],
       "complexityScore": 14,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -3104,6 +3258,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 14,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -3220,128 +3375,7 @@
         "slotAvailability"
       ],
       "complexityScore": 14,
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useMoveablePartsScheduling.ts",
-      "repoPath": "src/composables/booking/useMoveablePartsScheduling.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "counts": {
-        "computed": 3,
-        "ref": 2,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 1,
-        "lifecycle": 0,
-        "async": 4,
-        "await": 1,
-        "vueQuery": 0,
-        "map": 3,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "ref",
-          "lineNumber": 75,
-          "line": "const showModal = ref(false)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 83,
-          "line": "// Moveable options (computed via watchEffect since it's async)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 85,
-          "line": "const isLoadingOptions = ref(false)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 88,
-          "line": "const hasMoveableParts = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 94,
-          "line": "const moveableDuration = computed(() => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 99,
-          "line": "// LEARNING: Use watchEffect for async operations"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 100,
-          "line": "// WHY: Computed properties can't be async, so we use watchEffect to update a ref"
-        },
-        {
-          "ruleId": "watchEffect",
-          "lineNumber": 102,
-          "line": "watchEffect(async () => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 102,
-          "line": "watchEffect(async () => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 127,
-          "line": "const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 129,
-          "line": "const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 151,
-          "line": "const settings = await getAvailabilitySettings()"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 172,
-          "line": "const availableSlots: MoveableSlot[] = result.slots.map(slot => ({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 231,
-          "line": "moveableOptions: computed(() => moveableOptions.value),"
-        }
-      ],
-      "exportUseFunctions": [
-        "useMoveablePartsScheduling"
-      ],
-      "importSpecifiers": [
-        "@/composables/useLocalTime",
-        "@/configs/availabilitySettings",
-        "@/types/appointment",
-        "@/types/moveableScheduling",
-        "@/utils/booking/timeSlotFitter",
-        "@/utils/logger",
-        "vue"
-      ],
-      "returnKeys": [
-        "closeModal",
-        "contingencyPeriod",
-        "hasMoveableParts",
-        "isLoadingOptions",
-        "moveableDuration",
-        "moveableOptions",
-        "openModal",
-        "selectSlot",
-        "selectedMoveableSlot",
-        "selectedSlotIndex",
-        "showModal"
-      ],
-      "complexityScore": 14,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -3454,6 +3488,7 @@
         "value"
       ],
       "complexityScore": 14,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -3566,6 +3601,7 @@
         "loadEntity"
       ],
       "complexityScore": 13,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -3678,7 +3714,116 @@
         "partTypeOptions"
       ],
       "complexityScore": 13,
+      "priority": "P2",
       "suggestions": []
+    },
+    {
+      "id": "src__composables__booking__useElementDimensions.ts",
+      "repoPath": "src/composables/booking/useElementDimensions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useElementDimensions.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 3,
+        "async": 1,
+        "await": 1,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 7,
+        "timers": 1,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 14,
+          "line": "import { ref, onMounted, onUnmounted, nextTick, type Ref } from 'vue'"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 73,
+          "line": "// WHY: window and document are not available during server-side rendering"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 74,
+          "line": "// PATTERN: Check typeof window before accessing it"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 75,
+          "line": "if (typeof window === 'undefined') {"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 87,
+          "line": "const computedStyle = window.getComputedStyle(elementRef.value)"
+        },
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 104,
+          "line": "onMounted(async () => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 104,
+          "line": "onMounted(async () => {"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 107,
+          "line": "// PATTERN: Check typeof window before accessing ResizeObserver"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 108,
+          "line": "if (typeof window === 'undefined' || typeof ResizeObserver === 'undefined') {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 112,
+          "line": "await nextTick()"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 132,
+          "line": "const computedStyle = window.getComputedStyle(elementRef.value)"
+        },
+        {
+          "ruleId": "timers",
+          "lineNumber": 147,
+          "line": "setTimeout(() => {"
+        },
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 160,
+          "line": "onUnmounted(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useElementDimensions"
+      ],
+      "importSpecifiers": [
+        "vue"
+      ],
+      "returnKeys": [
+        "contentWidth"
+      ],
+      "complexityScore": 13,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "kind": "side_effects",
+          "priority": "P0",
+          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
+        }
+      ]
     },
     {
       "id": "src__composables__fieldContext__useFieldContextState.ts",
@@ -3809,6 +3954,7 @@
         "value"
       ],
       "complexityScore": 12,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -3915,6 +4061,7 @@
         "loadAppointmentById"
       ],
       "complexityScore": 12,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -4022,6 +4169,7 @@
         "groupPanelsContainers"
       ],
       "complexityScore": 12,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -4127,6 +4275,7 @@
         "start"
       ],
       "complexityScore": 12,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -4219,6 +4368,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 11,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -4323,6 +4473,7 @@
         "update"
       ],
       "complexityScore": 11,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -4422,6 +4573,7 @@
         "refetch"
       ],
       "complexityScore": 11,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -4515,6 +4667,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 11,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -4617,6 +4770,7 @@
         "visibleChildren"
       ],
       "complexityScore": 11,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -4715,130 +4869,8 @@
         "inspectorTimeSlots"
       ],
       "complexityScore": 11,
+      "priority": "P2",
       "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useResponsiveGrid.ts",
-      "repoPath": "src/composables/booking/useResponsiveGrid.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useResponsiveGrid.ts",
-      "counts": {
-        "computed": 2,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 3,
-        "async": 1,
-        "await": 1,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 3,
-        "timers": 1,
-        "console": 4
-      },
-      "matches": [
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 14,
-          "line": "import { ref, computed, onMounted, onUnmounted, nextTick, type Ref } from 'vue'"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 128,
-          "line": "const buttonGridColumns = computed(() => {"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 155,
-          "line": "// WHY: Debug logging should use proper logger utility, not console.log"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 156,
-          "line": "// PATTERN: Remove debug console.log statements - use proper logging if needed"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 166,
-          "line": "const isSingleColumn = computed(() => {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 169,
-          "line": "const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 600"
-        },
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 179,
-          "line": "onMounted(async () => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 179,
-          "line": "onMounted(async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 180,
-          "line": "await nextTick()"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 192,
-          "line": "const computedStyle = window.getComputedStyle(gridRef.value)"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 215,
-          "line": "const computedStyle = window.getComputedStyle(gridRef.value!)"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 221,
-          "line": "// WHY: Debug logging should use proper logger utility, not console.log"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 222,
-          "line": "// PATTERN: Remove debug console.log statements - use proper logging if needed"
-        },
-        {
-          "ruleId": "timers",
-          "lineNumber": 234,
-          "line": "setTimeout(() => {"
-        },
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 247,
-          "line": "onUnmounted(() => {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useResponsiveGrid"
-      ],
-      "importSpecifiers": [
-        "vue"
-      ],
-      "returnKeys": [
-        "buttonGridColumns",
-        "containerWidth"
-      ],
-      "complexityScore": 11,
-      "suggestions": [
-        {
-          "kind": "side_effects",
-          "priority": "P0",
-          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
-        },
-        {
-          "kind": "logging",
-          "priority": "P2",
-          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
-        }
-      ]
     },
     {
       "id": "src__composables__booking__useTimeSlotCalculations.ts",
@@ -4865,57 +4897,57 @@
       "matches": [
         {
           "ruleId": "filter",
-          "lineNumber": 108,
+          "lineNumber": 107,
           "line": "return parts.filter(part => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 119,
+          "lineNumber": 118,
           "line": "const onSiteTotal = computed(() => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 123,
+          "lineNumber": 122,
           "line": "return wizard.selectedServices.value.reduce((total, service) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 133,
+          "lineNumber": 132,
           "line": "const onSiteParts = nonZeroedParts.filter(pi => pi.onSite === true)"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 134,
+          "lineNumber": 133,
           "line": "const onSiteSum = onSiteParts.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 144,
+          "lineNumber": 143,
           "line": "return total + nonZeroedParts.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 153,
+          "lineNumber": 152,
           "line": "const presentationDuration = computed(() => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 157,
+          "lineNumber": 156,
           "line": "return wizard.selectedServices.value.reduce((total, service) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 165,
+          "lineNumber": 164,
           "line": ".filter(pi => pi.clientPresent === true)"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 166,
+          "lineNumber": 165,
           "line": ".reduce((sum, pi) => sum + (pi.baseTime || 0), 0)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 176,
+          "lineNumber": 175,
           "line": "const timeOnSiteBlocks = computed(() => {"
         }
       ],
@@ -4926,6 +4958,7 @@
         "@/composables/useLocalTime",
         "@/composables/useTimeFormatting",
         "@/types/appointment",
+        "@/types/datetime",
         "@/utils/booking/partShapeTimeSlotMapping",
         "@/utils/transformers/globalToBookingTransformer",
         "vue"
@@ -4937,6 +4970,7 @@
         "timeBlock"
       ],
       "complexityScore": 11,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -5037,6 +5071,7 @@
         "newValue"
       ],
       "complexityScore": 11,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -5132,6 +5167,7 @@
         "saveFieldMetadata"
       ],
       "complexityScore": 10,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -5164,47 +5200,47 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 33,
+          "lineNumber": 32,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 36,
+          "lineNumber": 35,
           "line": "const saveFieldRenderingMutation = useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 37,
+          "lineNumber": 36,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 106,
+          "lineNumber": 103,
           "line": "const response = await apiClient.post(endpoint, fullEntry)"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 132,
+          "lineNumber": 129,
           "line": "const deleteFieldOverrideMutation = useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 133,
+          "lineNumber": 130,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 143,
+          "lineNumber": 140,
           "line": "await apiClient.delete(endpoint)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 168,
+          "lineNumber": 165,
           "line": "saveFieldRendering: async ("
         },
         {
           "ruleId": "async",
-          "lineNumber": 187,
+          "lineNumber": 184,
           "line": "deleteFieldOverride: async ("
         }
       ],
@@ -5212,12 +5248,11 @@
         "useAdminPrimitiveMetadataMutations"
       ],
       "importSpecifiers": [
-        "@/composables/useGlobal",
+        "@/composables/admin/useMetadataCache",
         "@/types/entityMetadata",
         "@/utils/admin/buildMetadataEntry",
         "@/utils/api",
         "@/utils/logger",
-        "@/utils/transformers/metadataTransformer",
         "@tanstack/vue-query"
       ],
       "returnKeys": [
@@ -5229,6 +5264,7 @@
         "saveFieldRendering"
       ],
       "complexityScore": 10,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -5261,47 +5297,47 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 29,
+          "lineNumber": 28,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 32,
+          "lineNumber": 31,
           "line": "const saveRelationshipFieldRenderingMutation = useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 33,
+          "lineNumber": 32,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 90,
+          "lineNumber": 87,
           "line": "const response = await apiClient.post(endpoint, fullEntry)"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 115,
+          "lineNumber": 112,
           "line": "const deleteRelationshipFieldOverrideMutation = useMutation({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 116,
+          "lineNumber": 113,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 126,
+          "lineNumber": 123,
           "line": "await apiClient.delete(endpoint)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 155,
+          "lineNumber": 152,
           "line": "saveRelationshipFieldRendering: async ("
         },
         {
           "ruleId": "async",
-          "lineNumber": 174,
+          "lineNumber": 171,
           "line": "deleteRelationshipFieldOverride: async ("
         }
       ],
@@ -5309,11 +5345,10 @@
         "useAdminRelationshipMetadataMutations"
       ],
       "importSpecifiers": [
-        "@/composables/useGlobal",
+        "@/composables/admin/useMetadataCache",
         "@/types/entityMetadata",
         "@/utils/admin/buildMetadataEntry",
         "@/utils/api",
-        "@/utils/transformers/metadataTransformer",
         "@tanstack/vue-query"
       ],
       "returnKeys": [
@@ -5325,6 +5360,7 @@
         "saveRelationshipFieldRendering"
       ],
       "complexityScore": 10,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -5431,6 +5467,7 @@
         "success"
       ],
       "complexityScore": 10,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "logging",
@@ -5524,6 +5561,7 @@
         "tryPatchFormImmediately"
       ],
       "complexityScore": 10,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -5624,6 +5662,7 @@
         "parentTypeRef"
       ],
       "complexityScore": 10,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -5721,6 +5760,7 @@
         "isComponent"
       ],
       "complexityScore": 10,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -5855,6 +5895,7 @@
         "required"
       ],
       "complexityScore": 10,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "logging",
@@ -5956,6 +5997,7 @@
         "validPartShapes"
       ],
       "complexityScore": 10,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6063,6 +6105,7 @@
         "isPrimitive"
       ],
       "complexityScore": 9,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "logging",
@@ -6159,6 +6202,86 @@
         "handlePartShapeCreated"
       ],
       "complexityScore": 9,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useStatusButtonToggle.ts",
+      "repoPath": "src/composables/admin/useStatusButtonToggle.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useStatusButtonToggle.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 1,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 1,
+        "vueQuery": 3,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 14,
+          "line": "import { useQueryClient } from '@tanstack/vue-query'"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 50,
+          "line": "const entityIdRef = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 58,
+          "line": "const entityRef = computed(() => {"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 75,
+          "line": "// PATTERN: Use useQueryClient composable for cache access"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 76,
+          "line": "const queryClient = useQueryClient()"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 79,
+          "line": "const pendingToggles = ref(new Set<string>())"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 81,
+          "line": "const toggleStatusButton = async ("
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 131,
+          "line": "await mutateAsync({"
+        }
+      ],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "../entityCrud/usePrimitiveMutation",
+        "../useGlobal",
+        "@/constants/entities",
+        "@/constants/primitives",
+        "@/types/entities",
+        "@tanstack/vue-query",
+        "vue"
+      ],
+      "returnKeys": [],
+      "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6244,6 +6367,7 @@
         "name"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6334,6 +6458,7 @@
         "users"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6427,6 +6552,7 @@
         "showDeleteDialog"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6504,6 +6630,7 @@
         "handleDragEnd"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6584,6 +6711,7 @@
         "onSite"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6665,6 +6793,7 @@
         "settings"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6746,6 +6875,7 @@
         "dependentInstances"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6826,6 +6956,7 @@
         "selectedId"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6917,6 +7048,7 @@
         "selectedAppointmentId"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -6997,176 +7129,8 @@
         "showProgress"
       ],
       "complexityScore": 8,
+      "priority": "P2",
       "suggestions": []
-    },
-    {
-      "id": "src__composables__useThemeMode.ts",
-      "repoPath": "src/composables/useThemeMode.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useThemeMode.ts",
-      "counts": {
-        "computed": 4,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 1,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 3,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 30,
-          "line": "const isQuoteMode = computed(() => wizard?.isQuoteMode.value ?? false)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 35,
-          "line": "const currentPrimary = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 39,
-          "line": "const currentSecondary = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 43,
-          "line": "const currentWarning = computed(() => {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 49,
-          "line": "// PATTERN: Watch computed property and update document root CSS variables"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 50,
-          "line": "watch(isQuoteMode, (isActive) => {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 51,
-          "line": "if (typeof document !== 'undefined') {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 52,
-          "line": "const root = document.documentElement"
-        }
-      ],
-      "exportUseFunctions": [
-        "useThemeMode"
-      ],
-      "importSpecifiers": [
-        "@/plugins/5.vuetify/theme",
-        "@/types/wizard",
-        "vue",
-        "vuetify"
-      ],
-      "returnKeys": [
-        "currentPrimary",
-        "currentSecondary",
-        "isQuoteMode"
-      ],
-      "complexityScore": 8,
-      "suggestions": [
-        {
-          "kind": "side_effects",
-          "priority": "P0",
-          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
-        }
-      ]
-    },
-    {
-      "id": "src__composables__useGlobal.ts",
-      "repoPath": "src/composables/useGlobal.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useGlobal.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 1,
-        "await": 1,
-        "vueQuery": 3,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 2,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 12,
-          "line": "import { useQuery } from '@tanstack/vue-query'"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 57,
-          "line": "* PATTERN: useQuery with queryFn that fetches and transforms data"
-        },
-        {
-          "ruleId": "vueQuery",
-          "lineNumber": 68,
-          "line": "const globalDataQuery = useQuery<GlobalData>({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 70,
-          "line": "queryFn: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 75,
-          "line": "const staged = await globalTransformer.stageForHydration()"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 80,
-          "line": "refetchOnWindowFocus: false, // Don't refetch on window focus"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 164,
-          "line": "(window as WindowWithDebug).__useGlobalDebug = {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useGlobal"
-      ],
-      "importSpecifiers": [
-        "@/constants/entities",
-        "@/types/entities",
-        "@/utils/env/devMode",
-        "@/utils/transformers/fetchToGlobalTransformer",
-        "@tanstack/vue-query"
-      ],
-      "returnKeys": [
-        "caller",
-        "stack"
-      ],
-      "complexityScore": 7,
-      "suggestions": [
-        {
-          "kind": "side_effects",
-          "priority": "P0",
-          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
-        }
-      ]
     },
     {
       "id": "src__composables__admin__useFieldInputHandlers.ts",
@@ -7246,6 +7210,7 @@
         "handleFocus"
       ],
       "complexityScore": 7,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -7330,6 +7295,7 @@
         "toggleBulkEditMode"
       ],
       "complexityScore": 7,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -7407,6 +7373,7 @@
         "toggleCardExpansion"
       ],
       "complexityScore": 7,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -7480,6 +7447,7 @@
         "cascadeInstances"
       ],
       "complexityScore": 7,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -7557,22 +7525,101 @@
         "save"
       ],
       "complexityScore": 7,
+      "priority": "P2",
       "suggestions": []
     },
     {
-      "id": "src__composables__admin__useStatusButtonToggle.ts",
-      "repoPath": "src/composables/admin/useStatusButtonToggle.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useStatusButtonToggle.ts",
+      "id": "src__composables__useGlobal.ts",
+      "repoPath": "src/composables/useGlobal.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useGlobal.ts",
       "counts": {
-        "computed": 2,
-        "ref": 1,
+        "computed": 0,
+        "ref": 0,
         "reactive": 0,
         "watch": 0,
         "watchEffect": 0,
         "lifecycle": 0,
         "async": 1,
         "await": 1,
-        "vueQuery": 1,
+        "vueQuery": 3,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 1,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 12,
+          "line": "import { useQuery } from '@tanstack/vue-query'"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 57,
+          "line": "* PATTERN: useQuery with queryFn that fetches and transforms data"
+        },
+        {
+          "ruleId": "vueQuery",
+          "lineNumber": 68,
+          "line": "const globalDataQuery = useQuery<GlobalData>({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 70,
+          "line": "queryFn: async () => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 75,
+          "line": "const staged = await globalTransformer.stageForHydration()"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 80,
+          "line": "refetchOnWindowFocus: false, // Don't refetch on window focus"
+        }
+      ],
+      "exportUseFunctions": [
+        "useGlobal"
+      ],
+      "importSpecifiers": [
+        "@/constants/entities",
+        "@/types/entities",
+        "@/utils/debug/windowDebug",
+        "@/utils/transformers/fetchToGlobalTransformer",
+        "@tanstack/vue-query"
+      ],
+      "returnKeys": [
+        "caller",
+        "stack"
+      ],
+      "complexityScore": 6,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "kind": "side_effects",
+          "priority": "P0",
+          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__entityCrud__useEntityCrudState.ts",
+      "repoPath": "src/composables/entityCrud/useEntityCrudState.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudState.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 1,
+        "vueQuery": 2,
         "map": 0,
         "reduce": 0,
         "filter": 0,
@@ -7584,48 +7631,49 @@
       "matches": [
         {
           "ruleId": "vueQuery",
-          "lineNumber": 14,
+          "lineNumber": 2,
           "line": "import { useQueryClient } from '@tanstack/vue-query'"
         },
         {
-          "ruleId": "computed",
-          "lineNumber": 51,
-          "line": "const entityIdRef = computed(() => {"
+          "ruleId": "vueQuery",
+          "lineNumber": 16,
+          "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 59,
-          "line": "const entityRef = computed(() => {"
+          "lineNumber": 19,
+          "line": "const isLoading = computed((): boolean => false)"
         },
         {
-          "ruleId": "ref",
-          "lineNumber": 75,
-          "line": "const pendingToggles = ref(new Set<string>())"
+          "ruleId": "computed",
+          "lineNumber": 20,
+          "line": "const error = computed((): unknown | undefined => undefined)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 77,
-          "line": "const toggleStatusButton = async ("
+          "lineNumber": 22,
+          "line": "const refetch = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 127,
-          "line": "await mutateAsync({"
+          "lineNumber": 23,
+          "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
         }
       ],
-      "exportUseFunctions": [],
+      "exportUseFunctions": [
+        "useEntityCrudState"
+      ],
       "importSpecifiers": [
-        "../entityCrud/usePrimitiveMutation",
-        "../useGlobal",
-        "@/constants/entities",
-        "@/constants/primitives",
-        "@/types/entities",
-        "@/utils/env/devMode",
         "@tanstack/vue-query",
         "vue"
       ],
-      "returnKeys": [],
+      "returnKeys": [
+        "error",
+        "isLoading",
+        "refetch"
+      ],
       "complexityScore": 6,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -7707,6 +7755,7 @@
         "startEdit"
       ],
       "complexityScore": 6,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -7777,6 +7826,7 @@
         "mainInstancesByShape"
       ],
       "complexityScore": 6,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -7847,6 +7897,7 @@
         "partShape"
       ],
       "complexityScore": 6,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -7919,6 +7970,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 6,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -7994,6 +8046,7 @@
         "startTimeType"
       ],
       "complexityScore": 6,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8059,6 +8112,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 6,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8124,6 +8178,7 @@
         "formatNullValue"
       ],
       "complexityScore": 5,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8189,6 +8244,7 @@
         "formatNullValue"
       ],
       "complexityScore": 5,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8257,6 +8313,7 @@
         "isComposer"
       ],
       "complexityScore": 5,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8330,6 +8387,7 @@
         "toggleBulkEditMode"
       ],
       "complexityScore": 5,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8390,6 +8448,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 5,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8460,6 +8519,7 @@
         "transactionManagerInfo"
       ],
       "complexityScore": 5,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8524,6 +8584,75 @@
         "stepSubtitles"
       ],
       "complexityScore": 5,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__useThemeMode.ts",
+      "repoPath": "src/composables/useThemeMode.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useThemeMode.ts",
+      "counts": {
+        "computed": 4,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 1,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 31,
+          "line": "const isQuoteMode = computed(() => wizard?.isQuoteMode.value ?? false)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 36,
+          "line": "const currentPrimary = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 40,
+          "line": "const currentSecondary = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 44,
+          "line": "const currentWarning = computed(() => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 51,
+          "line": "watch(isQuoteMode, (isActive) => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useThemeMode"
+      ],
+      "importSpecifiers": [
+        "@/plugins/5.vuetify/theme",
+        "@/types/wizard",
+        "@/utils/dom/cssVariables",
+        "vue",
+        "vuetify"
+      ],
+      "returnKeys": [
+        "currentPrimary",
+        "currentSecondary",
+        "isQuoteMode"
+      ],
+      "complexityScore": 5,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8579,6 +8708,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 4,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8644,6 +8774,7 @@
         "newPartShapeInitialValues"
       ],
       "complexityScore": 4,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8704,6 +8835,7 @@
         "isSelected"
       ],
       "complexityScore": 4,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8760,6 +8892,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 4,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8824,6 +8957,7 @@
         "instanceComponents"
       ],
       "complexityScore": 4,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8876,6 +9010,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 4,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8935,6 +9070,7 @@
         "isLoading"
       ],
       "complexityScore": 4,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -8997,6 +9133,7 @@
         "stackedFields"
       ],
       "complexityScore": 4,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9056,78 +9193,8 @@
         "isLoading"
       ],
       "complexityScore": 4,
+      "priority": "P2",
       "suggestions": []
-    },
-    {
-      "id": "src__composables__useAdmin.ts",
-      "repoPath": "src/composables/useAdmin.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAdmin.ts",
-      "counts": {
-        "computed": 2,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 1,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 1,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 73,
-          "line": "const transformedEntities = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 154,
-          "line": "const adminData = computed(() => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 202,
-          "line": "* FIX: Changed from async to sync to prevent race condition - enables query immediately"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 259,
-          "line": "(window as WindowWithDebug).__useAdminDebug = {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useAdmin"
-      ],
-      "importSpecifiers": [
-        "./useGlobal",
-        "@/composables/admin/useMetadataCache",
-        "@/constants/entities",
-        "@/types/entities",
-        "@/types/entityMetadata",
-        "@/utils/entities/entityTypeMapping",
-        "@/utils/env/devMode",
-        "@/utils/transformers/globalToAdminTransformer",
-        "vue"
-      ],
-      "returnKeys": [
-        "caller",
-        "stack"
-      ],
-      "complexityScore": 4,
-      "suggestions": [
-        {
-          "kind": "side_effects",
-          "priority": "P0",
-          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
-        }
-      ]
     },
     {
       "id": "src__composables__entityCrud__useEntityCrud.ts",
@@ -9181,6 +9248,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9233,6 +9301,7 @@
         "annotationTypes"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9295,6 +9364,7 @@
         "update"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9357,6 +9427,7 @@
         "update"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9414,6 +9485,7 @@
         "subPanels"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -9472,6 +9544,7 @@
         "isExpanded"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9528,6 +9601,7 @@
         "resetSaveState"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9580,6 +9654,7 @@
         "storeEntity"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9632,6 +9707,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9688,6 +9764,7 @@
         "getFieldContext"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9740,6 +9817,7 @@
         "selectedIcon"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9796,6 +9874,7 @@
         "handleDragEnd"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9850,6 +9929,7 @@
         "controlClasses"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9905,6 +9985,7 @@
         "handleMoveableConfirm"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -9955,6 +10036,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10013,6 +10095,7 @@
         "isComposable"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10066,6 +10149,7 @@
         "getFilteredDescription"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10117,6 +10201,7 @@
         "mockRefreshKey"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10168,6 +10253,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10227,7 +10313,78 @@
         "visibleComponents"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
+    },
+    {
+      "id": "src__composables__booking__useResponsiveGrid.ts",
+      "repoPath": "src/composables/booking/useResponsiveGrid.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useResponsiveGrid.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 1,
+        "timers": 0,
+        "console": 2
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 124,
+          "line": "const buttonGridColumns = computed(() => {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 151,
+          "line": "// WHY: Debug logging should use proper logger utility, not console.log"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 152,
+          "line": "// PATTERN: Remove debug console.log statements - use proper logging if needed"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 162,
+          "line": "const isSingleColumn = computed(() => {"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 168,
+          "line": "const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 600"
+        }
+      ],
+      "exportUseFunctions": [
+        "useResponsiveGrid"
+      ],
+      "importSpecifiers": [
+        "./useElementDimensions",
+        "vue"
+      ],
+      "returnKeys": [
+        "buttonGridColumns",
+        "containerWidth"
+      ],
+      "complexityScore": 3,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "kind": "side_effects",
+          "priority": "P0",
+          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
+        }
+      ]
     },
     {
       "id": "src__composables__booking__useSelectionCardGroupConfig.ts",
@@ -10284,6 +10441,7 @@
         "useGroupWrapper"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10334,6 +10492,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10387,6 +10546,68 @@
         "handleNext"
       ],
       "complexityScore": 3,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__useAdmin.ts",
+      "repoPath": "src/composables/useAdmin.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAdmin.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 73,
+          "line": "const transformedEntities = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 154,
+          "line": "const adminData = computed(() => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 202,
+          "line": "* FIX: Changed from async to sync to prevent race condition - enables query immediately"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAdmin"
+      ],
+      "importSpecifiers": [
+        "./useGlobal",
+        "@/composables/admin/useMetadataCache",
+        "@/constants/entities",
+        "@/types/entities",
+        "@/types/entityMetadata",
+        "@/utils/debug/windowDebug",
+        "@/utils/entities/entityTypeMapping",
+        "@/utils/transformers/globalToAdminTransformer",
+        "vue"
+      ],
+      "returnKeys": [
+        "caller",
+        "stack"
+      ],
+      "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10444,6 +10665,7 @@
         "titleField"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10523,6 +10745,7 @@
         "toggleService"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10576,6 +10799,7 @@
         "minutes"
       ],
       "complexityScore": 3,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -10630,6 +10854,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10692,6 +10917,7 @@
         "updateDefault"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10748,6 +10974,7 @@
         "showDialog"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10800,6 +11027,7 @@
         "userTypeBlock"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10845,6 +11073,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10896,6 +11125,7 @@
         "goToEdit"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10945,6 +11175,7 @@
         "getFieldLocation"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -10993,6 +11224,7 @@
         "blockShapeDisplayNames"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11040,6 +11272,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11088,6 +11321,7 @@
         "statusButtonHandlers"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11136,6 +11370,7 @@
         "selectionComponentName"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11183,6 +11418,7 @@
         "text"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11229,6 +11465,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -11283,6 +11520,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11333,6 +11571,7 @@
         "statePlugin"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11382,6 +11621,7 @@
         "validationRules"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11436,6 +11676,7 @@
         "markStepCompleted"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11489,63 +11730,8 @@
         "composable"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
-    },
-    {
-      "id": "src__composables__useBooking.ts",
-      "repoPath": "src/composables/useBooking.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useBooking.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 1,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 1,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "watchEffect",
-          "lineNumber": 85,
-          "line": "watchEffect(() => {"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 126,
-          "line": "(window as WindowWithDebug).__useBookingDebug = {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useBooking"
-      ],
-      "importSpecifiers": [
-        "./useGlobal",
-        "@/utils/env/devMode",
-        "@/utils/transformers/globalToBookingTransformer",
-        "vue"
-      ],
-      "returnKeys": [
-        "caller",
-        "stack"
-      ],
-      "complexityScore": 2,
-      "suggestions": [
-        {
-          "kind": "side_effects",
-          "priority": "P0",
-          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
-        }
-      ]
     },
     {
       "id": "src__composables__useFormValidation.ts",
@@ -11591,6 +11777,7 @@
         "isValid"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11635,6 +11822,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11689,6 +11877,7 @@
         "warning"
       ],
       "complexityScore": 2,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11716,7 +11905,7 @@
       "matches": [
         {
           "ruleId": "map",
-          "lineNumber": 17,
+          "lineNumber": 18,
           "line": "return Math.max(...current.map((rel) => rel.orderIndex))"
         }
       ],
@@ -11731,6 +11920,7 @@
         "getMaxOrderIndex"
       ],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -11774,6 +11964,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11813,6 +12004,7 @@
         "formValues"
       ],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11850,6 +12042,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -11900,6 +12093,7 @@
         "inline"
       ],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11939,6 +12133,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -11981,6 +12176,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12021,6 +12217,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12063,6 +12260,7 @@
         "togglePartInstanceMetadataModal"
       ],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12122,6 +12320,7 @@
         "shouldDisplay"
       ],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12164,6 +12363,7 @@
         "toggleShapeEditModal"
       ],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12214,6 +12414,7 @@
         "shouldShowGridInline"
       ],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12257,6 +12458,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12298,6 +12500,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12347,6 +12550,7 @@
         "resetMocksSignal"
       ],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12387,6 +12591,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12431,6 +12636,7 @@
         "instanceComponents"
       ],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12471,6 +12677,53 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__useBooking.ts",
+      "repoPath": "src/composables/useBooking.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useBooking.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 1,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "watchEffect",
+          "lineNumber": 85,
+          "line": "watchEffect(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useBooking"
+      ],
+      "importSpecifiers": [
+        "./useGlobal",
+        "@/utils/debug/windowDebug",
+        "@/utils/transformers/globalToBookingTransformer",
+        "vue"
+      ],
+      "returnKeys": [
+        "caller",
+        "stack"
+      ],
+      "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12511,6 +12764,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 1,
+      "priority": "P2",
       "suggestions": []
     },
     {
@@ -12546,6 +12800,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12586,6 +12841,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12623,6 +12879,51 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__admin__annotationAssignments__useAnnotationAssignmentsActions.ts",
+      "repoPath": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [
+        "useAnnotationAssignmentsActions"
+      ],
+      "importSpecifiers": [
+        "./types",
+        "./useAnnotationAssignmentsMutations",
+        "./useAnnotationAssignmentsOrchestration",
+        "@/utils/logger",
+        "vue"
+      ],
+      "returnKeys": [],
+      "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12658,6 +12959,7 @@
       "importSpecifiers": [],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12701,6 +13003,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12749,6 +13052,7 @@
         "getEntitySuccessMessage"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12790,6 +13094,7 @@
         "expandedEntities"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12839,6 +13144,7 @@
         "handleFocus"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12879,6 +13185,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12914,8 +13221,7 @@
         "useInputConfigEditor"
       ],
       "importSpecifiers": [
-        "@/types/entityMetadata",
-        "vue"
+        "@/types/entityMetadata"
       ],
       "returnKeys": [
         "candidateChildKey",
@@ -12927,6 +13233,7 @@
         "targetMode"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -12964,6 +13271,7 @@
       "importSpecifiers": [],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13011,6 +13319,7 @@
         "toggleOverride"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13051,6 +13360,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13090,6 +13400,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13132,6 +13443,7 @@
         "updateFieldRendering"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13169,6 +13481,7 @@
       "importSpecifiers": [],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13208,6 +13521,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13248,6 +13562,7 @@
         "handleDeletePartShape"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13295,6 +13610,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13336,6 +13652,7 @@
         "currentTab"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13379,6 +13696,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13421,6 +13739,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13466,6 +13785,7 @@
         "handleSelection"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13505,6 +13825,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13544,6 +13865,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13589,6 +13911,7 @@
         "selectedTimeSlots"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13631,6 +13954,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13673,6 +13997,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13724,6 +14049,7 @@
         "summaryData"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13771,6 +14097,7 @@
         "servicesWithComponents"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13814,6 +14141,7 @@
         "selectedOptionTypeBlockId"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13854,6 +14182,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13897,6 +14226,7 @@
         "selectedPropertyTypeBlockId"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13938,6 +14268,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -13975,6 +14306,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14012,6 +14344,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14049,6 +14382,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14086,6 +14420,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14123,6 +14458,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14160,6 +14496,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14197,6 +14534,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14234,6 +14572,7 @@
       "importSpecifiers": [],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14274,6 +14613,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14325,6 +14665,7 @@
         "propertyDetailsStepValidate"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14365,6 +14706,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14405,6 +14747,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14444,6 +14787,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14485,6 +14829,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14531,6 +14876,7 @@
         "update"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14570,6 +14916,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14606,10 +14953,94 @@
         "./useEntityCrud",
         "./useEntityCrudActions",
         "./useEntityCrudQuery",
+        "./useEntityCrudTypes",
         "./usePrimitiveMutation"
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__entityCrud__useEntityCrudActions.ts",
+      "repoPath": "src/composables/entityCrud/useEntityCrudActions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudActions.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "./useEntityCrudMutations",
+        "./useEntityCrudState",
+        "./useEntityCrudTypes",
+        "@/constants/entities",
+        "@/utils/logger"
+      ],
+      "returnKeys": [],
+      "complexityScore": 0,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "kind": "move_candidate",
+          "priority": "P1",
+          "message": "Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__entityCrud__useEntityCrudTypes.ts",
+      "repoPath": "src/composables/entityCrud/useEntityCrudTypes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudTypes.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [],
+      "exportUseFunctions": [],
+      "importSpecifiers": [
+        "@/constants/entities",
+        "@/types/entities",
+        "vue"
+      ],
+      "returnKeys": [],
+      "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14650,6 +15081,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14691,6 +15123,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14754,6 +15187,7 @@
         "value"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14794,6 +15228,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14839,6 +15274,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14879,6 +15315,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14918,6 +15355,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -14958,6 +15396,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -15004,6 +15443,7 @@
         "update"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -15039,6 +15479,7 @@
       "importSpecifiers": [],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -15096,6 +15537,7 @@
         "updateComponentWithDistribution"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -15134,6 +15576,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -15172,6 +15615,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -15210,6 +15654,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -15247,6 +15692,7 @@
       ],
       "returnKeys": [],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",
@@ -15293,6 +15739,7 @@
         "getTodayDate"
       ],
       "complexityScore": 0,
+      "priority": "P2",
       "suggestions": [
         {
           "kind": "move_candidate",

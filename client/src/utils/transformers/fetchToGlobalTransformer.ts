@@ -409,14 +409,12 @@ export class GlobalTransformer {
     // PATTERN: Extract entityKey from entity parameter (it's included in mutation calls)
     const entityKey = entity.entityKey
     if (!entityKey) {
-      // If entityKey not provided, fall back to skipping boolean conversion
-      // This shouldn't happen in normal usage, but handle gracefully
-      for (const [frontendKey, value] of Object.entries(entity)) {
-        if (frontendKey === 'entityKey') continue
-        if (value === undefined) continue
-        result[frontendKey] = value
-      }
-      return result
+      // LEARNING: Use Object.fromEntries to build result object functionally
+      // WHY: Avoids object property mutations - builds object immutably
+      // PATTERN: Filter entries, then build object from filtered entries
+      const filteredEntries = Object.entries(entity)
+        .filter(([frontendKey, value]) => frontendKey !== 'entityKey' && value !== undefined)
+      return Object.fromEntries(filteredEntries)
     }
 
     // LEARNING: Get entity type for metadata lookup
@@ -424,13 +422,12 @@ export class GlobalTransformer {
     // PATTERN: Use getEntityTypeForMetadata to map entityKey to entityType
     const entityType = getEntityTypeForMetadata(entityKey)
     if (!entityType) {
-      // If no metadata entity type, skip boolean conversion
-      for (const [frontendKey, value] of Object.entries(entity)) {
-        if (frontendKey === 'entityKey') continue
-        if (value === undefined) continue
-        result[frontendKey] = value
-      }
-      return result
+      // LEARNING: Use Object.fromEntries to build result object functionally
+      // WHY: Avoids object property mutations - builds object immutably
+      // PATTERN: Filter entries, then build object from filtered entries
+      const filteredEntries = Object.entries(entity)
+        .filter(([frontendKey, value]) => frontendKey !== 'entityKey' && value !== undefined)
+      return Object.fromEntries(filteredEntries)
     }
 
     // LEARNING: Get metadata from cache to determine boolean fields dynamically
@@ -520,9 +517,14 @@ export class GlobalTransformer {
       }
     }
 
-    // Transform fields - keep camelCase, Sequelize handles conversion
-    for (const [frontendKey, value] of Object.entries(entity)) {
-      if (frontendKey === 'entityKey') continue // Skip entityKey, backend doesn't need it
+    /**
+     * LEARNING: Extract field transformation logic to pure function
+     * WHY: Separates transformation logic from iteration
+     * PATTERN: Pure function that transforms a single field entry
+     */
+    const transformField = ([frontendKey, value]: [string, unknown]): [string, unknown] | null => {
+      if (frontendKey === 'entityKey') return null // Skip entityKey, backend doesn't need it
+      
       if (value === undefined) {
         // LEARNING: Ensure required fields are included even if undefined
         // WHY: Database requires NOT NULL fields to have values, so we must provide defaults
@@ -531,16 +533,16 @@ export class GlobalTransformer {
           const fieldMetadata = metadata[frontendKey]
           if (fieldMetadata) {
             if (fieldMetadata.dataType === 'boolean') {
-              result[frontendKey] = false // Required booleans default to false
+              return [frontendKey, false] // Required booleans default to false
             } else if (fieldMetadata.dataType === 'number') {
-              result[frontendKey] = 0 // Required numbers default to 0
+              return [frontendKey, 0] // Required numbers default to 0
             } else if (fieldMetadata.dataType === 'string') {
-              result[frontendKey] = '' // Required strings default to empty string
+              return [frontendKey, ''] // Required strings default to empty string
             }
             // Skip other types - they should be handled elsewhere
           }
         }
-        continue // Skip undefined values for non-required fields
+        return null // Skip undefined values for non-required fields
       }
       
       // LEARNING: Convert empty strings to proper values for boolean and number fields
@@ -549,25 +551,29 @@ export class GlobalTransformer {
       if (value === '') {
         if (nullableBooleanFields.has(frontendKey) || nonNullableBooleanFields.has(frontendKey)) {
           // Convert empty string to null for nullable booleans, false for non-nullable booleans
-          if (nullableBooleanFields.has(frontendKey)) {
-            result[frontendKey] = null
-          } else {
-            result[frontendKey] = false
-          }
+          const convertedValue = nullableBooleanFields.has(frontendKey) ? null : false
+          return [frontendKey, convertedValue]
         } else if (requiredNumberFields.has(frontendKey)) {
           // Convert empty string to 0 for required number fields
-          result[frontendKey] = 0
+          return [frontendKey, 0]
         } else {
           // Keep empty string for other field types
-          result[frontendKey] = value
+          return [frontendKey, value]
         }
       } else {
         // Keep camelCase - Sequelize automatically converts to snake_case for database columns
-        result[frontendKey] = value
+        return [frontendKey, value]
       }
     }
 
-    return result
+    // LEARNING: Use Object.fromEntries + map to build result object functionally
+    // WHY: Avoids object property mutations - builds object immutably
+    // PATTERN: Map entries to transformed entries, filter nulls, build object
+    const transformedEntries = Object.entries(entity)
+      .map(transformField)
+      .filter((entry): entry is [string, unknown] => entry !== null)
+    
+    return Object.fromEntries(transformedEntries)
   }
 }
 

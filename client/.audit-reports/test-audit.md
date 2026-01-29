@@ -1,14 +1,14 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-01-28T15:32:57.154Z
+Generated at: 2026-01-29T01:31:36.345Z
 
 ## Summary
 
-- **Total source files**: 526
+- **Total source files**: 534
 - **Total test files**: 116
-- **Untested source files**: 422
+- **Untested source files**: 430
 - **Orphaned test files**: 11
-- **Coverage**: 20%
+- **Coverage**: 19%
 
 ## Untested Source Files (Priority: High)
 
@@ -33,30 +33,32 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `src/composables/booking/useMockCalendarRefresh.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `src/composables/booking/useTimeSlotDurations.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `src/composables/booking/useWizardStepDataRefs.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
+| `src/composables/admin/useAvailabilitySettings.ts` | **7.1** | 10 | 6 | 5 | 3 | 3 |
 | `src/composables/booking/useAvailableStartTimes.ts` | **7.1** | 10 | 7 | 4 | 2 | 2 |
-| `src/composables/admin/useAvailabilitySettings.ts` | **7.0** | 10 | 6 | 5 | 2 | 3 |
 | `src/composables/booking/useWizardAppointmentManagement.ts` | **6.8** | 9 | 7 | 5 | 1 | 2 |
 | `src/composables/booking/useAvailabilitySettings.ts` | **6.7** | 9 | 7 | 5 | 0 | 2 |
 | `src/composables/booking/useWizardDevMode.ts` | **6.7** | 9 | 7 | 5 | 0 | 2 |
 | `src/composables/booking/useAvailabilitySlotColor.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
 | `src/composables/booking/usePerspectiveMapping.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsState.ts` | **6.3** | 7 | 5 | 10 | 0 | 2 |
 | `src/composables/admin/tables/useAppointmentHelpers.ts` | **6.3** | 7 | 5 | 10 | 0 | 2 |
 | `src/composables/admin/useInstanceFiltering.ts` | **6.3** | 8 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/usePartInstanceCollection.ts` | **6.3** | 10 | 5 | 4 | 0 | 2 |
 | `src/composables/admin/useSelectFiltering.ts` | **6.3** | 8 | 5 | 6 | 4 | 2 |
 | `src/composables/admin/useSelectHandlers.ts` | **6.2** | 7 | 5 | 7 | 5 | 2 |
 | `src/utils/blockInstanceUtils.ts` | **6.2** | 5 | 9 | 5 | 5 | 11 |
+| `src/composables/booking/useElementDimensions.ts` | **6.1** | 7 | 7 | 6 | 0 | 2 |
 | `src/composables/admin/useAnnotationDialogState.ts` | **5.9** | 7 | 5 | 8 | 0 | 2 |
 | `src/composables/admin/useEntityCardSaveState.ts` | **5.9** | 7 | 5 | 8 | 0 | 2 |
 | `src/composables/booking/useAppointmentDropdown.ts` | **5.9** | 7 | 7 | 5 | 0 | 2 |
 | `src/composables/booking/useAppointmentLoader.ts` | **5.9** | 7 | 7 | 5 | 0 | 2 |
 | `src/composables/admin/useMetadataCache.ts` | **5.8** | 7 | 6 | 5 | 2 | 3 |
-| `src/utils/booking/slotGenerationValidation.ts` | **5.8** | 5 | 6 | 10 | 0 | 1 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` | **5.7** | 7 | 5 | 5 | 4 | 2 |
+| `src/composables/admin/useAdminRelationshipMetadataMutations.ts` | **5.7** | 7 | 5 | 7 | 0 | 2 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts` | **5.6** | 7 | 5 | 4 | 5 | 2 |
 | `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | **5.6** | 7 | 5 | 6 | 1 | 2 |
 | `src/composables/admin/useFieldMetadataUpdate.ts` | **5.6** | 5 | 5 | 10 | 1 | 2 |
 | `src/utils/booking/dateRangeValidation.ts` | **5.6** | 3 | 8 | 10 | 0 | 2 |
-| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsState.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
-| `src/composables/admin/useAdminRelationshipMetadataMutations.ts` | **5.5** | 7 | 5 | 6 | 0 | 2 |
 | `src/composables/admin/useAnnotationSelect.ts` | **5.5** | 7 | 5 | 4 | 4 | 2 |
 | `src/composables/admin/useEntityList.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 | `src/composables/admin/useInstanceSaveHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
@@ -65,8 +67,6 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `src/utils/booking/partShapeTimeSlotMapping.ts` | **5.5** | 2 | 9 | 10 | 0 | 3 |
 | `src/composables/admin/usePartInstanceBulkEdit.ts` | **5.4** | 7 | 5 | 5 | 1 | 2 |
 | `src/composables/admin/useAnnotationDisplay.ts` | **5.3** | 7 | 5 | 5 | 0 | 2 |
-| `src/composables/admin/useDragAndDropHelpers.ts` | **5.3** | 5 | 7 | 6 | 0 | 5 |
-| `src/composables/admin/useFieldInputSetup.ts` | **5.3** | 5 | 5 | 9 | 0 | 2 |
 
 ## Orphaned Test Files (Priority: Medium)
 

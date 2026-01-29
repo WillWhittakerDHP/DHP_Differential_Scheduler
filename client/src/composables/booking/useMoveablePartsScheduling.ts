@@ -11,7 +11,7 @@ import { computed, ref, watchEffect, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
 import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/types/moveableScheduling'
-import { fitAvailableTimeSlots, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
+import { fitAvailableTimeSlots } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
 import { getAvailabilitySettings, type BusinessHoursConfig } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
 import { useLocalTime } from '@/composables/useLocalTime'

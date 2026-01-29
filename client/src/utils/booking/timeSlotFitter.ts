@@ -84,7 +84,7 @@ export interface FitTimeSlotsParams {
   startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
   endBoundary: RFC3339DateTime           // RFC3339 datetime - latest possible end (slot must complete by this time)
   duration: number                       // Required duration in minutes
-  businessHours: BusinessHoursMap         // Business hours by day of week
+  businessHours?: BusinessHoursMap        // Business hours by day of week (optional if rangeConstraints provided)
   minuteIncrement: number                 // Usually 15
   busyTimes?: BusyTimeRange[]             // Optional exclusions
   /**
@@ -386,13 +386,16 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
     return { slots: [], earliestCompletion: null }
   }
 
-  // Validate business hours
-  if (!businessHours || typeof businessHours !== 'object') {
-    throw new Error('businessHours must be a BusinessHoursMap object')
+  // Validate business hours - either from params or from rangeConstraints
+  const effectiveBusinessHours = businessHours || 
+    (params.rangeConstraints?.find(rc => rc.type === 'businessHours')?.config as { hours?: BusinessHoursMap } | undefined)?.hours
+  
+  if (!effectiveBusinessHours || typeof effectiveBusinessHours !== 'object') {
+    throw new Error('businessHours must be provided either directly or via rangeConstraints.businessHours.config.hours')
   }
 
   // Check if at least one day has business hours
-  const hasAnyHours = Object.keys(businessHours).length > 0
+  const hasAnyHours = Object.keys(effectiveBusinessHours).length > 0
   if (!hasAnyHours) {
     return { slots: [], earliestCompletion: null }
   }

@@ -278,6 +278,15 @@ function classifyFile(repoPath, counts, exportUseFns, importSpecifiers) {
   return { complexityScore, suggestions }
 }
 
+function assignPriority(complexityScore, config) {
+  const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 35)
+  const p1Min = Number(config?.priorities?.p1MinSeverityScore ?? 20)
+  
+  if (complexityScore >= p0Min) return 'P0'
+  if (complexityScore >= p1Min) return 'P1'
+  return 'P2'
+}
+
 function compareHotspots(a, b) {
   if (b.complexityScore !== a.complexityScore) return b.complexityScore - a.complexityScore
   const aQuery = a.counts.vueQuery || 0
@@ -438,6 +447,15 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  
+  // Load priority config
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
 
   const absFiles = listFilesRecursive(COMPOSABLES_DIR)
   const scanned = []
@@ -453,6 +471,7 @@ function main() {
     const importSpecifiers = extractImportSpecifiers(contents)
     const returnKeys = extractReturnKeys(contents)
     const { complexityScore, suggestions } = classifyFile(repoPath, counts, exportUseFunctions, importSpecifiers)
+    const filePriority = assignPriority(complexityScore, priorityConfig)
 
     scanned.push({
       id: toStableId(repoPath),
@@ -464,6 +483,7 @@ function main() {
       importSpecifiers,
       returnKeys,
       complexityScore,
+      priority: filePriority,
       suggestions,
     })
   }

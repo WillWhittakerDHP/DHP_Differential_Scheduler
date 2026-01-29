@@ -4,231 +4,237 @@ Generated from `.audit-reports/composables-logic-audit.json`.
 
 ## Full index (all composable files)
 
-| File | score | exports(use*) | vue-query | watch | computed | ref | async | await | DOM | console |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/composables/entityCrud/useEntityCrudActions.ts` | 46 | 0 | 7 | 0 | 2 | 0 | 17 | 12 | 0 | 0 |
-| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` | 41 | 1 | 5 | 0 | 0 | 0 | 14 | 22 | 0 | 0 |
-| `src/composables/componentEntity/useComponentEntityActions.ts` | 29 | 1 | 6 | 0 | 0 | 0 | 9 | 10 | 0 | 0 |
-| `src/composables/dataCollections/useDataCollectionActions.ts` | 24 | 0 | 6 | 0 | 0 | 0 | 8 | 8 | 0 | 0 |
-| `src/composables/useRelationship.ts` | 24 | 0 | 5 | 0 | 3 | 0 | 7 | 8 | 0 | 1 |
-| `src/composables/admin/useSelectHandlers.ts` | 16 | 1 | 0 | 0 | 0 | 1 | 3 | 6 | 0 | 0 |
-| `src/composables/fieldContext/useFieldContextActions.ts` | 19 | 0 | 0 | 0 | 0 | 0 | 2 | 9 | 0 | 0 |
-| `src/composables/admin/useAnnotationsFieldViewModel.ts` | 22 | 1 | 0 | 0 | 5 | 0 | 8 | 8 | 0 | 0 |
-| `src/composables/admin/useAnnotationSelect.ts` | 23 | 1 | 6 | 0 | 3 | 0 | 5 | 7 | 0 | 2 |
-| `src/composables/useAnnotationTypes.ts` | 20 | 4 | 7 | 0 | 1 | 0 | 6 | 6 | 0 | 0 |
-| `src/composables/admin/useInstanceGrouping.ts` | 14 | 1 | 0 | 1 | 6 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardFilteredOptions.ts` | 16 | 1 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | 4 |
-| `src/composables/useAvailability.ts` | 17 | 1 | 0 | 1 | 7 | 1 | 6 | 2 | 0 | 0 |
-| `src/composables/booking/useContactsValidation.ts` | 16 | 1 | 0 | 0 | 16 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsQuery.ts` | 15 | 1 | 6 | 0 | 0 | 0 | 3 | 4 | 0 | 0 |
-| `src/composables/admin/useAvailabilitySettings.ts` | 11 | 1 | 0 | 0 | 0 | 2 | 2 | 2 | 0 | 0 |
-| `src/composables/admin/useAnnotationMetadata.ts` | 8 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useSelectConfig.ts` | 13 | 1 | 0 | 0 | 11 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAppointmentDataCollection.ts` | 14 | 1 | 0 | 0 | 0 | 0 | 1 | 6 | 0 | 0 |
-| `src/composables/booking/useAvailableStartTimes.ts` | 14 | 1 | 0 | 2 | 2 | 1 | 4 | 2 | 0 | 0 |
-| `src/composables/booking/useMoveablePartsScheduling.ts` | 14 | 1 | 0 | 1 | 3 | 2 | 4 | 1 | 0 | 0 |
-| `src/composables/useSelectOptions.ts` | 12 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useBlockInstanceForm.ts` | 9 | 1 | 0 | 0 | 3 | 1 | 2 | 2 | 0 | 0 |
-| `src/composables/admin/usePartInstanceForm.ts` | 9 | 1 | 0 | 0 | 3 | 1 | 2 | 2 | 0 | 0 |
-| `src/composables/fieldContext/useFieldContextState.ts` | 13 | 0 | 3 | 0 | 5 | 3 | 0 | 0 | 0 | 1 |
-| `src/composables/booking/useAppointmentLoader.ts` | 10 | 1 | 2 | 0 | 0 | 1 | 2 | 4 | 0 | 1 |
-| `src/composables/admin/useInstanceDragAndDrop.ts` | 8 | 1 | 0 | 2 | 1 | 4 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilityLogic.ts` | 12 | 1 | 0 | 1 | 8 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useMetadataCache.ts` | 11 | 1 | 3 | 0 | 3 | 1 | 3 | 1 | 0 | 0 |
-| `src/composables/useAppointment.ts` | 9 | 1 | 3 | 0 | 2 | 0 | 1 | 3 | 0 | 0 |
-| `src/composables/useBusiness.ts` | 11 | 4 | 3 | 0 | 6 | 0 | 1 | 1 | 0 | 0 |
-| `src/composables/admin/useDragAndDrop.ts` | 4 | 1 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/selectionCard/useSelectionCard.ts` | 11 | 2 | 0 | 0 | 3 | 8 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAppointmentTimes.ts` | 9 | 1 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useResponsiveGrid.ts` | 11 | 1 | 0 | 0 | 2 | 0 | 1 | 1 | 3 | 4 |
-| `src/composables/booking/useTimeSlotCalculations.ts` | 8 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useComponentDistribution.ts` | 11 | 1 | 0 | 2 | 4 | 2 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useAdminMetadataMutations.ts` | 10 | 1 | 4 | 0 | 0 | 0 | 2 | 4 | 0 | 0 |
-| `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 10 | 1 | 4 | 0 | 0 | 0 | 4 | 2 | 0 | 0 |
-| `src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 10 | 1 | 4 | 0 | 0 | 0 | 4 | 2 | 0 | 0 |
-| `src/composables/entityCrud/usePrimitiveMutation.ts` | 10 | 0 | 3 | 0 | 0 | 0 | 2 | 2 | 0 | 3 |
-| `src/composables/admin/useFormElementPatching.ts` | 2 | 1 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 |
-| `src/composables/admin/useSelectFiltering.ts` | 5 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/componentEntity/useComponentEntityDomain.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/formFields/useFormFieldsContext.ts` | 14 | 1 | 0 | 1 | 3 | 0 | 4 | 0 | 0 | 6 |
-| `src/composables/usePartInstanceData.ts` | 6 | 1 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useFieldComponent.ts` | 12 | 1 | 0 | 0 | 9 | 0 | 0 | 0 | 0 | 3 |
-| `src/composables/admin/useShapeSaveHandlers.ts` | 2 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
-| `src/composables/admin/usePartInstanceCollection.ts` | 8 | 1 | 2 | 0 | 3 | 0 | 1 | 2 | 0 | 0 |
-| `src/composables/admin/tables/useAppointmentsTableModel.ts` | 7 | 1 | 0 | 0 | 3 | 0 | 3 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityCardActions.ts` | 8 | 1 | 0 | 0 | 0 | 2 | 2 | 4 | 0 | 0 |
-| `src/composables/admin/useEntityDragHandlers.ts` | 6 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
-| `src/composables/booking/useAppointmentSlots.ts` | 7 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilitySettings.ts` | 8 | 1 | 0 | 1 | 2 | 1 | 2 | 2 | 0 | 0 |
-| `src/composables/booking/useDependentInstances.ts` | 5 | 1 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useInstanceSelectionState.ts` | 6 | 1 | 0 | 1 | 4 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardAppointmentManagement.ts` | 9 | 1 | 0 | 0 | 0 | 1 | 2 | 5 | 0 | 1 |
-| `src/composables/useLoadingIndicator.ts` | 5 | 1 | 0 | 1 | 0 | 4 | 0 | 0 | 0 | 0 |
-| `src/composables/useThemeMode.ts` | 8 | 1 | 0 | 1 | 4 | 0 | 0 | 0 | 3 | 0 |
-| `src/composables/useGlobal.ts` | 7 | 1 | 3 | 0 | 0 | 0 | 1 | 1 | 2 | 0 |
-| `src/composables/admin/useFieldInputHandlers.ts` | 8 | 1 | 0 | 0 | 0 | 0 | 2 | 5 | 0 | 1 |
-| `src/composables/admin/usePartInstanceBulkEdit.ts` | 6 | 1 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 1 |
-| `src/composables/booking/selectionCard/useSelectionCardGroupState.ts` | 3 | 1 | 0 | 1 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useCascadeInstances.ts` | 4 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useEntityForm.ts` | 7 | 1 | 0 | 0 | 3 | 0 | 2 | 2 | 0 | 0 |
-| `src/composables/admin/useStatusButtonToggle.ts` | 6 | 0 | 1 | 0 | 2 | 1 | 1 | 1 | 0 | 0 |
-| `src/composables/admin/tables/useCrudDataTableModel.ts` | 6 | 0 | 0 | 0 | 0 | 0 | 3 | 3 | 0 | 0 |
-| `src/composables/admin/useInstanceFiltering.ts` | 4 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useInstanceShape.ts` | 6 | 1 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useSelectFieldValue.ts` | 4 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilityDefaults.ts` | 6 | 1 | 0 | 4 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/usePropertyFormState.ts` | 5 | 1 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/tables/usePropertiesTableModel.ts` | 5 | 1 | 0 | 0 | 2 | 0 | 3 | 0 | 0 | 0 |
-| `src/composables/admin/tables/useUsersTableModel.ts` | 5 | 1 | 0 | 0 | 2 | 0 | 3 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityStatus.ts` | 5 | 1 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useInstanceBulkEdit.ts` | 6 | 1 | 0 | 1 | 1 | 0 | 1 | 1 | 0 | 1 |
-| `src/composables/admin/useSelectFormAssociation.ts` | 3 | 1 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 |
-| `src/composables/booking/useContactsStepData.ts` | 5 | 1 | 0 | 1 | 1 | 3 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardDisplay.ts` | 4 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityGrouping.ts` | 2 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useShapeCreation.ts` | 4 | 1 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/selectionCard/useSelectionCardState.ts` | 4 | 1 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useInstanceDisplay.ts` | 4 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/usePropertyDetailsLogic.ts` | 4 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardStepSync.ts` | 4 | 0 | 0 | 3 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts` | 4 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/formFields/useFormFieldsStandardLayout.ts` | 4 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts` | 4 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useAdmin.ts` | 4 | 1 | 0 | 0 | 2 | 0 | 1 | 0 | 1 | 0 |
-| `src/composables/entityCrud/useEntityCrud.ts` | 3 | 0 | 2 | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
-| `src/composables/admin/useAnnotationTypeFiltering.ts` | 3 | 1 | 1 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useProperty.ts` | 3 | 1 | 1 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useUser.ts` | 3 | 1 | 1 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useConditionalFieldVisibility.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityCardExpansion.ts` | 3 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityCardSaveState.ts` | 3 | 1 | 0 | 0 | 2 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityCardStoreSync.ts` | 2 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityMetadata.ts` | 3 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useFieldContextManager.ts` | 2 | 1 | 0 | 0 | 1 | 0 | 1 | 0 | 0 | 0 |
-| `src/composables/admin/useIconPickerState.ts` | 3 | 1 | 0 | 2 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useMetadataFieldOrdering.ts` | 2 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/selectionCard/useSelectionCardStyles.ts` | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilityStepHandlers.ts` | 3 | 1 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useBlockInstanceSelection.ts` | 3 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useInstanceComponents.ts` | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useInstanceDescriptions.ts` | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useMockCalendarRefresh.ts` | 3 | 1 | 0 | 1 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/usePropertyFormWatchers.ts` | 3 | 1 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/usePropertyTypeBlockConfig.ts` | 2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useSelectionCardGroupConfig.ts` | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardSubmission.ts` | 3 | 1 | 0 | 0 | 0 | 0 | 1 | 2 | 0 | 0 |
-| `src/composables/booking/useWizardValidationErrors.ts` | 3 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
-| `src/composables/useAdminConfig.ts` | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useBookingWizard.ts` | 3 | 1 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 |
-| `src/composables/useLocalTime.ts` | 3 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useAnnotations.ts` | 2 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useAnnotationAssignments.ts` | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useAnnotationDialogState.ts` | 2 | 1 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useAnnotationDisplay.ts` | 2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityFiltering.ts` | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityList.ts` | 2 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
-| `src/composables/admin/useFieldLocation.ts` | 2 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useShapeDisplayNames.ts` | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useStatusButtonFields.ts` | 2 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useStatusButtonHandlers.ts` | 2 | 0 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/selectionCard/useSelectionCardComponent.ts` | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAppointmentDropdown.ts` | 2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAppointmentDuration.ts` | 2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilityDevPanel.ts` | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useInstanceSelectionConfig.ts` | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useStepValidation.ts` | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardNavigation.ts` | 2 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/formFields/useFormFields.ts` | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useBooking.ts` | 2 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
-| `src/composables/useFormValidation.ts` | 2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useLayoutLoading.ts` | 2 | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/useNotification.ts` | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsState.ts` | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/tables/useTableModelHelpers.ts` | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useDialogFormState.ts` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useDragAndDropHelpers.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityCardLayout.ts` | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityTabState.ts` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useFieldContextMetadataEntity.ts` | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useMetadataEditorEntity.ts` | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useMetadataModalHandlers.ts` | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/usePartsCollectionField.ts` | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useShapeEditModal.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilityUI.ts` | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilityValidation.ts` | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useTimeSlotDurations.ts` | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardDevMode.ts` | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardNumberUpdate.ts` | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `src/composables/componentEntity/useComponentEntityQuery.ts` | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/entityCrud/useEntityCrudQuery.ts` | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useFieldValue.ts` | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/_archived/useFieldMetadata.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/annotationAssignments/index.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/annotationAssignments/types.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/tables/useAppointmentHelpers.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityCardReadiness.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useEntityDisplay.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useExpansionState.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useFieldInputSetup.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useFieldMetadataUpdate.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useInputConfigEditor.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useInstanceDeletion.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useInstanceOverrideState.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useInstanceSaveHandlers.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useInstanceTabHandlers.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useMetadataFieldUpdates.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/usePartInstanceDeletion.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/usePartInstanceExpansion.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useShapeDeletion.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useStatusButtonValue.ts` | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
-| `src/composables/admin/useTabNavigation.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/selectionCard/index.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/selectionCard/useSelectionCardConfig.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/selectionCard/useSelectionCardHandlers.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilityEmptyState.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilitySlotColor.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAvailabilityStepData.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useBookingWizardStepValidators.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useBusyTimes.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useConfirmationStepData.ts` | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
-| `src/composables/booking/useInstanceComponentsList.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useOptionTypeBlockSelection.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/usePerspectiveMapping.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/usePropertyTypeBlockSelection.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/usePropertyValidation.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useSelectionCard.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useSelectionCardComponent.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useSelectionCardConfig.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useSelectionCardGroupState.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useSelectionCardHandlers.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useSelectionCardState.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useSelectionCardStyles.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useTimeBasisHandler.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardStepContent.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardStepDataRefs.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardValidation.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/businessDataCollections/index.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/businessDataCollections/types.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/businessDataCollections/useBusinessDataCollectionActions.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/componentEntity/index.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/entityCrud/index.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/fieldContext/index.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/fieldContext/types.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/fieldContext/useFieldContext.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/formFields/index.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/formFields/types.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/globalDataCollections/index.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/globalDataCollections/types.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/globalDataCollections/useGlobalDataCollectionActions.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/globalDataCollections/useGlobalDataCollectionCrud.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useApiErrorMessage.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useComponentEntity.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useEntity.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useFieldContext.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useFormFields.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useSelectionCard.ts` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/useTimeFormatting.ts` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| File | Priority | score | exports(use*) | vue-query | watch | computed | ref | async | await | DOM | console |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `src/composables/entityCrud/useEntityCrudMutations.ts` | P0 | 38 | 0 | 7 | 0 | 0 | 0 | 15 | 10 | 0 | 0 |
+| `src/composables/componentEntity/useComponentEntityActions.ts` | P1 | 29 | 1 | 6 | 0 | 0 | 0 | 9 | 10 | 0 | 0 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts` | P1 | 23 | 1 | 5 | 0 | 0 | 0 | 6 | 12 | 0 | 0 |
+| `src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 24 | 0 | 6 | 0 | 0 | 0 | 8 | 8 | 0 | 0 |
+| `src/composables/useRelationship.ts` | P1 | 24 | 0 | 5 | 0 | 3 | 0 | 7 | 8 | 0 | 1 |
+| `src/composables/admin/useSelectHandlers.ts` | P1 | 16 | 1 | 0 | 0 | 0 | 1 | 3 | 6 | 0 | 0 |
+| `src/composables/fieldContext/useFieldContextActions.ts` | P1 | 19 | 0 | 0 | 0 | 0 | 0 | 2 | 9 | 0 | 0 |
+| `src/composables/admin/useAnnotationsFieldViewModel.ts` | P1 | 22 | 1 | 0 | 0 | 5 | 0 | 8 | 8 | 0 | 0 |
+| `src/composables/admin/useAnnotationSelect.ts` | P1 | 23 | 1 | 6 | 0 | 3 | 0 | 5 | 7 | 0 | 2 |
+| `src/composables/useAnnotationTypes.ts` | P1 | 20 | 4 | 7 | 0 | 1 | 0 | 6 | 6 | 0 | 0 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` | P1 | 18 | 1 | 0 | 0 | 0 | 0 | 8 | 10 | 0 | 0 |
+| `src/composables/admin/useInstanceGrouping.ts` | P2 | 14 | 1 | 0 | 1 | 6 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardFilteredOptions.ts` | P2 | 16 | 1 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | 4 |
+| `src/composables/useAvailability.ts` | P2 | 17 | 1 | 0 | 1 | 7 | 1 | 6 | 2 | 0 | 0 |
+| `src/composables/booking/useContactsValidation.ts` | P2 | 16 | 1 | 0 | 0 | 16 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsQuery.ts` | P2 | 15 | 1 | 6 | 0 | 0 | 0 | 3 | 4 | 0 | 0 |
+| `src/composables/admin/useAvailabilitySettings.ts` | P2 | 11 | 1 | 0 | 0 | 0 | 2 | 2 | 2 | 0 | 0 |
+| `src/composables/booking/useMoveablePartsScheduling.ts` | P2 | 15 | 1 | 0 | 1 | 3 | 2 | 4 | 2 | 0 | 0 |
+| `src/composables/admin/useAnnotationMetadata.ts` | P2 | 8 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useSelectConfig.ts` | P2 | 13 | 1 | 0 | 0 | 11 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAppointmentDataCollection.ts` | P2 | 14 | 1 | 0 | 0 | 0 | 0 | 1 | 6 | 0 | 0 |
+| `src/composables/booking/useAvailableStartTimes.ts` | P2 | 14 | 1 | 0 | 2 | 2 | 1 | 4 | 2 | 0 | 0 |
+| `src/composables/useSelectOptions.ts` | P2 | 12 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useBlockInstanceForm.ts` | P2 | 9 | 1 | 0 | 0 | 3 | 1 | 2 | 2 | 0 | 0 |
+| `src/composables/admin/usePartInstanceForm.ts` | P2 | 9 | 1 | 0 | 0 | 3 | 1 | 2 | 2 | 0 | 0 |
+| `src/composables/booking/useElementDimensions.ts` | P2 | 9 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 7 | 0 |
+| `src/composables/fieldContext/useFieldContextState.ts` | P2 | 13 | 0 | 3 | 0 | 5 | 3 | 0 | 0 | 0 | 1 |
+| `src/composables/booking/useAppointmentLoader.ts` | P2 | 10 | 1 | 2 | 0 | 0 | 1 | 2 | 4 | 0 | 1 |
+| `src/composables/admin/useInstanceDragAndDrop.ts` | P2 | 8 | 1 | 0 | 2 | 1 | 4 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilityLogic.ts` | P2 | 12 | 1 | 0 | 1 | 8 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useMetadataCache.ts` | P2 | 11 | 1 | 3 | 0 | 3 | 1 | 3 | 1 | 0 | 0 |
+| `src/composables/useAppointment.ts` | P2 | 9 | 1 | 3 | 0 | 2 | 0 | 1 | 3 | 0 | 0 |
+| `src/composables/useBusiness.ts` | P2 | 11 | 4 | 3 | 0 | 6 | 0 | 1 | 1 | 0 | 0 |
+| `src/composables/admin/useDragAndDrop.ts` | P2 | 4 | 1 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/selectionCard/useSelectionCard.ts` | P2 | 11 | 2 | 0 | 0 | 3 | 8 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAppointmentTimes.ts` | P2 | 9 | 1 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useTimeSlotCalculations.ts` | P2 | 8 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useComponentDistribution.ts` | P2 | 11 | 1 | 0 | 2 | 4 | 2 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useAdminMetadataMutations.ts` | P2 | 10 | 1 | 4 | 0 | 0 | 0 | 2 | 4 | 0 | 0 |
+| `src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | P2 | 10 | 1 | 4 | 0 | 0 | 0 | 4 | 2 | 0 | 0 |
+| `src/composables/admin/useAdminRelationshipMetadataMutations.ts` | P2 | 10 | 1 | 4 | 0 | 0 | 0 | 4 | 2 | 0 | 0 |
+| `src/composables/entityCrud/usePrimitiveMutation.ts` | P2 | 10 | 0 | 3 | 0 | 0 | 0 | 2 | 2 | 0 | 3 |
+| `src/composables/admin/useFormElementPatching.ts` | P2 | 2 | 1 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 |
+| `src/composables/admin/useSelectFiltering.ts` | P2 | 5 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/componentEntity/useComponentEntityDomain.ts` | P2 | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/formFields/useFormFieldsContext.ts` | P2 | 14 | 1 | 0 | 1 | 3 | 0 | 4 | 0 | 0 | 6 |
+| `src/composables/usePartInstanceData.ts` | P2 | 6 | 1 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useFieldComponent.ts` | P2 | 12 | 1 | 0 | 0 | 9 | 0 | 0 | 0 | 0 | 3 |
+| `src/composables/admin/useShapeSaveHandlers.ts` | P2 | 2 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
+| `src/composables/admin/useStatusButtonToggle.ts` | P2 | 8 | 0 | 3 | 0 | 2 | 1 | 1 | 1 | 0 | 0 |
+| `src/composables/admin/usePartInstanceCollection.ts` | P2 | 8 | 1 | 2 | 0 | 3 | 0 | 1 | 2 | 0 | 0 |
+| `src/composables/admin/tables/useAppointmentsTableModel.ts` | P2 | 7 | 1 | 0 | 0 | 3 | 0 | 3 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityCardActions.ts` | P2 | 8 | 1 | 0 | 0 | 0 | 2 | 2 | 4 | 0 | 0 |
+| `src/composables/admin/useEntityDragHandlers.ts` | P2 | 6 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
+| `src/composables/booking/useAppointmentSlots.ts` | P2 | 7 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilitySettings.ts` | P2 | 8 | 1 | 0 | 1 | 2 | 1 | 2 | 2 | 0 | 0 |
+| `src/composables/booking/useDependentInstances.ts` | P2 | 5 | 1 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useInstanceSelectionState.ts` | P2 | 6 | 1 | 0 | 1 | 4 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardAppointmentManagement.ts` | P2 | 9 | 1 | 0 | 0 | 0 | 1 | 2 | 5 | 0 | 1 |
+| `src/composables/useLoadingIndicator.ts` | P2 | 5 | 1 | 0 | 1 | 0 | 4 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useFieldInputHandlers.ts` | P2 | 8 | 1 | 0 | 0 | 0 | 0 | 2 | 5 | 0 | 1 |
+| `src/composables/admin/usePartInstanceBulkEdit.ts` | P2 | 6 | 1 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 1 |
+| `src/composables/booking/selectionCard/useSelectionCardGroupState.ts` | P2 | 3 | 1 | 0 | 1 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useCascadeInstances.ts` | P2 | 4 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useEntityForm.ts` | P2 | 7 | 1 | 0 | 0 | 3 | 0 | 2 | 2 | 0 | 0 |
+| `src/composables/useGlobal.ts` | P2 | 6 | 1 | 3 | 0 | 0 | 0 | 1 | 1 | 1 | 0 |
+| `src/composables/entityCrud/useEntityCrudState.ts` | P2 | 6 | 1 | 2 | 0 | 2 | 0 | 1 | 1 | 0 | 0 |
+| `src/composables/admin/tables/useCrudDataTableModel.ts` | P2 | 6 | 0 | 0 | 0 | 0 | 0 | 3 | 3 | 0 | 0 |
+| `src/composables/admin/useInstanceFiltering.ts` | P2 | 4 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useInstanceShape.ts` | P2 | 6 | 1 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useSelectFieldValue.ts` | P2 | 4 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilityDefaults.ts` | P2 | 6 | 1 | 0 | 4 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/usePropertyFormState.ts` | P2 | 5 | 1 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/tables/usePropertiesTableModel.ts` | P2 | 5 | 1 | 0 | 0 | 2 | 0 | 3 | 0 | 0 | 0 |
+| `src/composables/admin/tables/useUsersTableModel.ts` | P2 | 5 | 1 | 0 | 0 | 2 | 0 | 3 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityStatus.ts` | P2 | 5 | 1 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useInstanceBulkEdit.ts` | P2 | 6 | 1 | 0 | 1 | 1 | 0 | 1 | 1 | 0 | 1 |
+| `src/composables/admin/useSelectFormAssociation.ts` | P2 | 3 | 1 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 |
+| `src/composables/booking/useContactsStepData.ts` | P2 | 5 | 1 | 0 | 1 | 1 | 3 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardDisplay.ts` | P2 | 4 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useThemeMode.ts` | P2 | 5 | 1 | 0 | 1 | 4 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityGrouping.ts` | P2 | 2 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useShapeCreation.ts` | P2 | 4 | 1 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/selectionCard/useSelectionCardState.ts` | P2 | 4 | 1 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useInstanceDisplay.ts` | P2 | 4 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/usePropertyDetailsLogic.ts` | P2 | 4 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardStepSync.ts` | P2 | 4 | 0 | 0 | 3 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts` | P2 | 4 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/formFields/useFormFieldsStandardLayout.ts` | P2 | 4 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts` | P2 | 4 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/entityCrud/useEntityCrud.ts` | P2 | 3 | 0 | 2 | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
+| `src/composables/admin/useAnnotationTypeFiltering.ts` | P2 | 3 | 1 | 1 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useProperty.ts` | P2 | 3 | 1 | 1 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useUser.ts` | P2 | 3 | 1 | 1 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useConditionalFieldVisibility.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityCardExpansion.ts` | P2 | 3 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityCardSaveState.ts` | P2 | 3 | 1 | 0 | 0 | 2 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityCardStoreSync.ts` | P2 | 2 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityMetadata.ts` | P2 | 3 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useFieldContextManager.ts` | P2 | 2 | 1 | 0 | 0 | 1 | 0 | 1 | 0 | 0 | 0 |
+| `src/composables/admin/useIconPickerState.ts` | P2 | 3 | 1 | 0 | 2 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useMetadataFieldOrdering.ts` | P2 | 2 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/selectionCard/useSelectionCardStyles.ts` | P2 | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilityStepHandlers.ts` | P2 | 3 | 1 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useBlockInstanceSelection.ts` | P2 | 3 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useInstanceComponents.ts` | P2 | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useInstanceDescriptions.ts` | P2 | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useMockCalendarRefresh.ts` | P2 | 3 | 1 | 0 | 1 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/usePropertyFormWatchers.ts` | P2 | 3 | 1 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/usePropertyTypeBlockConfig.ts` | P2 | 2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useResponsiveGrid.ts` | P2 | 5 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 1 | 2 |
+| `src/composables/booking/useSelectionCardGroupConfig.ts` | P2 | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardSubmission.ts` | P2 | 3 | 1 | 0 | 0 | 0 | 0 | 1 | 2 | 0 | 0 |
+| `src/composables/booking/useWizardValidationErrors.ts` | P2 | 3 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
+| `src/composables/useAdmin.ts` | P2 | 3 | 1 | 0 | 0 | 2 | 0 | 1 | 0 | 0 | 0 |
+| `src/composables/useAdminConfig.ts` | P2 | 3 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useBookingWizard.ts` | P2 | 3 | 1 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 |
+| `src/composables/useLocalTime.ts` | P2 | 3 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useAnnotations.ts` | P2 | 2 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useAnnotationAssignments.ts` | P2 | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useAnnotationDialogState.ts` | P2 | 2 | 1 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useAnnotationDisplay.ts` | P2 | 2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityFiltering.ts` | P2 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityList.ts` | P2 | 2 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
+| `src/composables/admin/useFieldLocation.ts` | P2 | 2 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useShapeDisplayNames.ts` | P2 | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useStatusButtonFields.ts` | P2 | 2 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useStatusButtonHandlers.ts` | P2 | 2 | 0 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/selectionCard/useSelectionCardComponent.ts` | P2 | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAppointmentDropdown.ts` | P2 | 2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAppointmentDuration.ts` | P2 | 2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilityDevPanel.ts` | P2 | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useInstanceSelectionConfig.ts` | P2 | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useStepValidation.ts` | P2 | 2 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardNavigation.ts` | P2 | 2 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/formFields/useFormFields.ts` | P2 | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useFormValidation.ts` | P2 | 2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useLayoutLoading.ts` | P2 | 2 | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/useNotification.ts` | P2 | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsState.ts` | P2 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/tables/useTableModelHelpers.ts` | P2 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useDialogFormState.ts` | P2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useDragAndDropHelpers.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityCardLayout.ts` | P2 | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityTabState.ts` | P2 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useFieldContextMetadataEntity.ts` | P2 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useMetadataEditorEntity.ts` | P2 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useMetadataModalHandlers.ts` | P2 | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/usePartsCollectionField.ts` | P2 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useShapeEditModal.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilityUI.ts` | P2 | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilityValidation.ts` | P2 | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useTimeSlotDurations.ts` | P2 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardDevMode.ts` | P2 | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardNumberUpdate.ts` | P2 | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `src/composables/componentEntity/useComponentEntityQuery.ts` | P2 | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/entityCrud/useEntityCrudQuery.ts` | P2 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useBooking.ts` | P2 | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useFieldValue.ts` | P2 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/_archived/useFieldMetadata.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/annotationAssignments/index.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/annotationAssignments/types.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/tables/useAppointmentHelpers.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityCardReadiness.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useEntityDisplay.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useExpansionState.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useFieldInputSetup.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useFieldMetadataUpdate.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useInputConfigEditor.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useInstanceDeletion.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useInstanceOverrideState.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useInstanceSaveHandlers.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useInstanceTabHandlers.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useMetadataFieldUpdates.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/usePartInstanceDeletion.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/usePartInstanceExpansion.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useShapeDeletion.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useStatusButtonValue.ts` | P2 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
+| `src/composables/admin/useTabNavigation.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/selectionCard/index.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/selectionCard/useSelectionCardConfig.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/selectionCard/useSelectionCardHandlers.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilityEmptyState.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilitySlotColor.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAvailabilityStepData.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useBookingWizardStepValidators.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useBusyTimes.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useConfirmationStepData.ts` | P2 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
+| `src/composables/booking/useInstanceComponentsList.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useOptionTypeBlockSelection.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/usePerspectiveMapping.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/usePropertyTypeBlockSelection.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/usePropertyValidation.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useSelectionCard.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useSelectionCardComponent.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useSelectionCardConfig.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useSelectionCardGroupState.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useSelectionCardHandlers.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useSelectionCardState.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useSelectionCardStyles.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useTimeBasisHandler.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardStepContent.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardStepDataRefs.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardValidation.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/businessDataCollections/index.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/businessDataCollections/types.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/businessDataCollections/useBusinessDataCollectionActions.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/componentEntity/index.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/entityCrud/index.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/entityCrud/useEntityCrudActions.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/entityCrud/useEntityCrudTypes.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/fieldContext/index.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/fieldContext/types.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/fieldContext/useFieldContext.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/formFields/index.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/formFields/types.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/globalDataCollections/index.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/globalDataCollections/types.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/globalDataCollections/useGlobalDataCollectionActions.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/globalDataCollections/useGlobalDataCollectionCrud.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useApiErrorMessage.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useComponentEntity.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useEntity.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useFieldContext.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useFormFields.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useSelectionCard.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useTimeFormatting.ts` | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Notes
 

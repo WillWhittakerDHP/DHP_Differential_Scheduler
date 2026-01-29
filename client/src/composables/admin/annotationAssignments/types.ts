@@ -51,4 +51,30 @@ export interface UseAnnotationAssignmentsOptions {
   }
 }
 
+/**
+ * LEARNING: Shared handler function types for annotation assignments
+ * WHY: Eliminates duplication between useAnnotationAssignmentsActions and useAnnotationAssignmentsOrchestration
+ * PATTERN: Extract common handler types to shared types file
+ */
+export interface AnnotationAssignmentHandlers {
+  handleAddAnnotations?: (annotationIds: string[], annotationsWithMetadata?: Array<{ id: string }>) => Promise<void>
+  handleAddSelectedAnnotations?: (
+    annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+  ) => Promise<void>
+  handleCreateAnnotation?: (
+    annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+  ) => Promise<void>
+  handleUpdateAnnotationType?: (annotationId: string, type: string) => Promise<void>
+  handleUpdateMetadata?: (
+    annotationId: string,
+    orderIndex: number,
+    userTypeBlock: string | null,
+    annotationsWithMetadata?: Array<{ id: string; userTypeBlock: string | null }>
+  ) => Promise<void>
+  handleRemoveAnnotation?: (
+    annotationId: string,
+    annotationText: string,
+    confirmRemove?: () => boolean
+  ) => Promise<void>
+}
 

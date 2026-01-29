@@ -94,10 +94,10 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
 
       // LEARNING: Set defaults based on dataType and isRequired
       // WHY: Different field types need different default values
-      // PATTERN: Boolean fields default to false (required) or null (nullable), numbers to 0, strings to ''
+      // PATTERN: Boolean fields default to false (required) or undefined (nullable), numbers to 0, strings to ''
       if (dataType === 'boolean') {
-        // Required booleans default to false, nullable booleans default to null
-        defaults[fieldKey] = isRequired ? false : null
+        // Required booleans default to false, nullable booleans default to undefined
+        defaults[fieldKey] = isRequired ? false : undefined
       } else if (dataType === 'number') {
         // Required numbers default to 0
         if (isRequired) {
@@ -185,7 +185,8 @@ export function mergeEntityDefaults<GE extends GlobalEntityKey>(
   // WHY: Database requires orderIndex to be NOT NULL, so we must guarantee it's set
   // PATTERN: Explicit validation for critical required fields
   if (merged.orderIndex === null || merged.orderIndex === undefined) {
-    merged.orderIndex = defaults.orderIndex ?? 0
+    const defaultOrderIndex = typeof defaults.orderIndex === 'number' ? defaults.orderIndex : 0
+    merged.orderIndex = defaultOrderIndex
   }
   
   return merged

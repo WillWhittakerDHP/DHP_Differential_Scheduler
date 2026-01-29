@@ -27,7 +27,10 @@
     "audit:test:generate": "node .scripts/test-logic-generator.mjs",
     "audit:test:generate:api": "node .scripts/test-generate-api.mjs",
     "audit:test:ai": "node .scripts/test-generate-for-ai.mjs",
-    "audit:all": "npm run typecheck:audit && npm run audit:component-logic && npm run audit:composables-logic && npm run audit:loop-mutations && npm run audit:hardcoding && npm run audit:duplication && npm run audit:test && npm run typecheck:summary && npm run audit:component-logic:summary && npm run audit:composables-logic:summary && npm run audit:loop-mutations:summary && npm run audit:hardcoding:summary && npm run audit:duplication:summary && npm run audit:test:summary",
+    "audit:fallback": "node .scripts/fallback-audit.mjs",
+    "audit:unused-code": "node .scripts/unused-code-audit.mjs",
+    "audit:unused-code:summary": "node .scripts/unused-code-audit-summary.mjs",
+    "audit:all": "npm run typecheck:audit && npm run audit:component-logic && npm run audit:composables-logic && npm run audit:loop-mutations && npm run audit:hardcoding && npm run audit:duplication && npm run audit:test && npm run audit:fallback && npm run audit:unused-code && npm run typecheck:summary && npm run audit:component-logic:summary && npm run audit:composables-logic:summary && npm run audit:loop-mutations:summary && npm run audit:hardcoding:summary && npm run audit:duplication:summary && npm run audit:test:summary && npm run audit:unused-code:summary",
     "lint": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest"

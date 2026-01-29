@@ -14,7 +14,6 @@ import { ref, computed, type Ref, type ComputedRef } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { usePrimitiveMutation } from '../entityCrud/usePrimitiveMutation'
 import { useGlobal } from '../useGlobal'
-import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
@@ -70,6 +69,11 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
   
   // Use primitive mutation for efficient single-field updates
   const { mutateAsync } = usePrimitiveMutation(entityKey)
+  
+  // LEARNING: Get query client for cache invalidation
+  // WHY: Need to invalidate metadata cache after status button toggle
+  // PATTERN: Use useQueryClient composable for cache access
+  const queryClient = useQueryClient()
   
   // Track pending toggles to prevent duplicate rapid calls
   const pendingToggles = ref(new Set<string>())

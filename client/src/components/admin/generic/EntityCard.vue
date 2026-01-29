@@ -14,6 +14,7 @@ import { useEntityStatus } from '@/composables/admin/useEntityStatus'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/useAdmin'
 import { useFormFields } from '@/composables/useFormFields'
+import { useEntityCardComputed } from '@/composables/admin/useEntityCardComputed'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -130,7 +131,6 @@ const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
  */
 const entityDisplayComposable = useEntityDisplay()
 const {
-  getEntityName: getEntityNameFromComposable,
   getEntityDeleteTitle
 } = entityDisplayComposable
 
@@ -250,38 +250,29 @@ const isMetadataLoading = computed(() => {
   return fetchedMetadata.isLoading.value
 })
 
-// LEARNING: Computed to check if metadata is ready (unified metadata includes both primitive and relationship)
-// WHY: Gate warnings until metadata is fully loaded and can be meaningfully displayed
-// PATTERN: Check metadata is loaded and has keys
-const isMetadataReady = computed(() => {
-  const isLoading = isMetadataLoading.value
-  const metadata = composedFieldMetadata.value
-  const isReady = !isLoading && metadata !== undefined && Object.keys(metadata).length >= 0
-  return isReady
+// LEARNING: Use computed properties composable to extract computed logic
+// WHY: Reduces component complexity by moving computed properties to composable
+// PATTERN: Composable provides fieldKeys, isMetadataReady, entityName, isComposable
+const entityCardComputed = useEntityCardComputed({
+  entityKey: props.entityKey,
+  entity: props.entity,
+  composedFieldMetadata,
+  isMetadataLoading
 })
 
-// LEARNING: Get field keys from metadata exclusively - no fallbacks
-// WHY: Metadata is the single source of truth for which fields to render
-// PATTERN: Use metadata keys only - fail explicitly if metadata is not available
-const fieldKeys = computed(() => {
-  // LEARNING: When fieldMetadata prop is provided, use it exclusively
-  // WHY: Parent components (like bulk edit modals) pass filtered metadata
-  // PATTERN: If prop provided, use those keys only - no fallback to entity keys
+// LEARNING: Extract computed properties from composable
+// WHY: Use composable-provided computed properties instead of defining in component
+// PATTERN: Destructure computed properties from composable
+const { fieldKeys, isMetadataReady, entityName, isComposable } = entityCardComputed
+
+// LEARNING: Handle filtered metadata prop for fieldKeys
+// WHY: When parent provides filtered metadata, use those keys exclusively
+// PATTERN: Override fieldKeys if filtered metadata is provided
+const finalFieldKeys = computed(() => {
   if (props.fieldMetadata && Object.keys(props.fieldMetadata).length > 0) {
     return Object.keys(props.fieldMetadata) as GlobalFieldKey<GlobalEntityKey>[]
   }
-  
-  // LEARNING: Use composedFieldMetadata as exclusive source of truth
-  // WHY: Metadata determines which fields to render - no fallback to entity object
-  // PATTERN: Fail explicitly if metadata is not available rather than falling back to entity keys
-  if (composedFieldMetadata.value && Object.keys(composedFieldMetadata.value).length > 0) {
-    return Object.keys(composedFieldMetadata.value) as GlobalFieldKey<GlobalEntityKey>[]
-  }
-  
-  // LEARNING: Fail explicitly - return empty array if no metadata available
-  // WHY: No fallbacks - metadata must be available for fields to render
-  // PATTERN: Return empty array to fail visibly rather than silently falling back
-  return [] as GlobalFieldKey<GlobalEntityKey>[]
+  return fieldKeys.value
 })
 
 // LEARNING: Field location provides inline/stacked fields directly
@@ -294,7 +285,7 @@ const fieldKeys = computed(() => {
  * PATTERN: Composable that determines field locations from metadata + context
  */
 const fieldLocation = useFieldLocation({
-  fieldKeys: computed(() => fieldKeys.value as GlobalFieldKey<GlobalEntityKey>[]),
+  fieldKeys: finalFieldKeys,
   fieldMetadata: composedFieldMetadata,
   isExpanded: isExpanded
 })
@@ -316,7 +307,7 @@ const formFields = useFormFields({
   entityKey: props.entityKey,
   entityId: computed(() => props.entity.id),
   form: ref<FormContext | undefined>(form as unknown as FormContext | undefined) as Ref<FormContext | undefined>,
-  fieldKeys,
+  fieldKeys: finalFieldKeys,
   fieldMetadata: composedFieldMetadata,
   inlineFieldsConfig,
   stackedFieldsConfig,
@@ -356,22 +347,9 @@ const { getFieldContext, fieldsMissingContexts } = useFieldContextManager({
   fieldsNeedingContexts: formFields.fieldsNeedingContexts,
 })
 
-/**
- * LEARNING: Get BlockShape properties for conditional field visibility
- * WHY: Composition panel visibility depends on BlockShape.composable property
- * PATTERN: Use useInstanceShape composable to access BlockShape from BlockInstance
- */
-const instanceShape = props.entityKey === 'blockInstance' 
-  ? useInstanceShape({
-      entityKey: 'blockInstance',
-      entityId: computed(() => props.entity.id)
-    })
-  : null
-
-const isComposable = computed(() => {
-  if (props.entityKey !== 'blockInstance') return false
-  return instanceShape?.blockShape.value?.composable === true
-})
+// LEARNING: isComposable is now provided by useEntityCardComputed composable
+// WHY: Extracted to composable to reduce component complexity
+// PATTERN: Use composable-provided computed property
 
 /**
  * LEARNING: Conditional field visibility filtering
@@ -385,14 +363,9 @@ const { filteredFieldsByLocation } = useConditionalFieldVisibility({
   form,
 })
 
-/**
- * LEARNING: Computed property for entity name
- * WHY: Gets entity name for display in title and delete dialog
- * PATTERN: Use composable function
- */
-const entityName = computed(() => {
-  return getEntityNameFromComposable(props.entityKey, props.entity)
-})
+// LEARNING: entityName is now provided by useEntityCardComputed composable
+// WHY: Extracted to composable to reduce component complexity
+// PATTERN: Use composable-provided computed property
 
 /**
  * LEARNING: Use entity card actions composable for save/reset/delete handlers
@@ -543,11 +516,9 @@ provide(ENTITY_CARD_SAVE_KEY, {
  */
 provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
-/**
- * LEARNING: Computed property for delete dialog title
- * WHY: Provides entity-type-specific delete dialog title
- * PATTERN: Use composable function
- */
+// LEARNING: Delete dialog title computed property
+// WHY: Provides entity-type-specific delete dialog title
+// PATTERN: Use composable function directly in template or create computed wrapper
 const deleteDialogTitle = computed(() => {
   return getEntityDeleteTitle(props.entityKey)
 })

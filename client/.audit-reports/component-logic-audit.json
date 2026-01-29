@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-28T15:32:55.571Z",
+  "generatedAt": "2026-01-29T01:31:34.738Z",
   "files": [
     {
       "id": "src__components__admin__generic__EntityCard.vue",
@@ -11,7 +11,7 @@
         "reactive": 0,
         "watch": 1,
         "watchEffect": 0,
-        "async": 1,
+        "async": 2,
         "await": 2,
         "map": 1,
         "reduce": 0,
@@ -151,6 +151,11 @@
           "line": "await nextTick()"
         },
         {
+          "ruleId": "async",
+          "lineNumber": 514,
+          "line": "const handleDuplicate = async (): Promise<void> => {"
+        },
+        {
           "ruleId": "provideInject",
           "lineNumber": 531,
           "line": "* PATTERN: Use provide/inject to pass parent methods to children"
@@ -175,7 +180,9 @@
           "lineNumber": 551,
           "line": "const deleteDialogTitle = computed(() => {"
         }
-      ]
+      ],
+      "score": 25,
+      "priority": "P0"
     },
     {
       "id": "src__components__booking__SelectionCard.vue",
@@ -276,7 +283,9 @@
           "lineNumber": 166,
           "line": "watch(isSelected, (newValue) => {"
         }
-      ]
+      ],
+      "score": 14,
+      "priority": "P1"
     },
     {
       "id": "src__components__booking__dev__CalendarMockDevPanel.vue",
@@ -304,85 +313,87 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 29,
+          "lineNumber": 30,
           "line": "const isExpanded = ref(false)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 41,
+          "lineNumber": 42,
           "line": "const busyPeriods = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 94,
+          "lineNumber": 95,
           "line": "const totalBlockedMinutes = computed(() => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 95,
+          "lineNumber": 96,
           "line": "return busyPeriods.value.reduce((total, period) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 103,
+          "lineNumber": 104,
           "line": "const totalBlockedHours = computed(() => {"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 110,
+          "lineNumber": 111,
           "line": "const panelTransform = ref('translateX(0)')"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 111,
+          "lineNumber": 112,
           "line": "const isTransitioning = ref(false)"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 123,
+          "lineNumber": 124,
           "line": "const viewportWidth = window.innerWidth"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 153,
+          "lineNumber": 154,
           "line": "const viewportWidth = window.innerWidth"
-        },
-        {
-          "ruleId": "dom",
-          "lineNumber": 169,
-          "line": "// LEARNING: Watch for expansion changes and window resize"
         },
         {
           "ruleId": "dom",
           "lineNumber": 170,
-          "line": "// WHY: Recalculate position when panel expands or window resizes"
+          "line": "// LEARNING: Watch for expansion changes and window resize"
         },
         {
           "ruleId": "dom",
           "lineNumber": 171,
+          "line": "// WHY: Recalculate position when panel expands or window resizes"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 172,
           "line": "// PATTERN: Watch isExpanded and window resize events"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 179,
+          "lineNumber": 180,
           "line": "window.addEventListener('resize', handleResize)"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 183,
+          "lineNumber": 184,
           "line": "window.removeEventListener('resize', handleResize)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 189,
+          "lineNumber": 190,
           "line": "const handleToggle = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 210,
+          "lineNumber": 211,
           "line": "await nextTick()"
         }
-      ]
+      ],
+      "score": 13,
+      "priority": "P1"
     },
     {
       "id": "src__components__booking__steps__ServiceSelectionStep.vue",
@@ -488,7 +499,9 @@
           "lineNumber": 107,
           "line": "const baseServicesWithIcons = computed(() => {"
         }
-      ]
+      ],
+      "score": 12,
+      "priority": "P1"
     },
     {
       "id": "src__components__admin__generic__fields__FieldRenderer.vue",
@@ -569,7 +582,9 @@
           "lineNumber": 265,
           "line": "console.error('[FieldRenderer] Unknown input type detected', {"
         }
-      ]
+      ],
+      "score": 10,
+      "priority": "P1"
     },
     {
       "id": "src__components__admin__generic__fields__SelectInputs.vue",
@@ -640,7 +655,9 @@
           "lineNumber": 355,
           "line": "return groupedByKey.value.map(group => {"
         }
-      ]
+      ],
+      "score": 9,
+      "priority": "P1"
     },
     {
       "id": "src__components__booking__steps__AvailabilityStep.vue",
@@ -736,7 +753,9 @@
           "lineNumber": 620,
           "line": "// WHY: Native fixed width prevents clipping during window resize"
         }
-      ]
+      ],
+      "score": 8,
+      "priority": "P1"
     },
     {
       "id": "src__components__booking__dev__AppointmentDebugPanel.vue",
@@ -807,7 +826,9 @@
           "lineNumber": 119,
           "line": "const timeSlotResults = computed(() => {"
         }
-      ]
+      ],
+      "score": 8,
+      "priority": "P1"
     },
     {
       "id": "src__components__admin__generic__DynamicForm.vue",
@@ -868,7 +889,9 @@
           "lineNumber": 222,
           "line": "// WHY: Browser extension might access form.elements before async operations run"
         }
-      ]
+      ],
+      "score": 7,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__metadata__AdminPrimitiveMetadataEditor.vue",
@@ -944,7 +967,9 @@
           "lineNumber": 465,
           "line": "await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })"
         }
-      ]
+      ],
+      "score": 7,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__SelectionCardGroup.vue",
@@ -1000,7 +1025,9 @@
           "lineNumber": 115,
           "line": "const internalValue = computed({"
         }
-      ]
+      ],
+      "score": 6,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__TimeOnSiteGraph.vue",
@@ -1056,7 +1083,9 @@
           "lineNumber": 107,
           "line": "const showStateLabel = computed(() => {"
         }
-      ]
+      ],
+      "score": 6,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__EntityFormContent.vue",
@@ -1112,7 +1141,9 @@
           "lineNumber": 104,
           "line": "const stackedFieldsConfig = computed(() => {"
         }
-      ]
+      ],
+      "score": 6,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__EntityCardSubPanels.vue",
@@ -1173,7 +1204,9 @@
           "lineNumber": 217,
           "line": "const relationshipsSummary = computed((): string => {"
         }
-      ]
+      ],
+      "score": 6,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__tabs__BusinessControlsTab.vue",
@@ -1229,7 +1262,9 @@
           "lineNumber": 454,
           "line": "const saveButtonProps = computed(() => ({"
         }
-      ]
+      ],
+      "score": 6,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__BlockInstanceCreateModal.vue",
@@ -1285,7 +1320,9 @@
           "lineNumber": 198,
           "line": "await entityCardRef.value.handleSave()"
         }
-      ]
+      ],
+      "score": 6,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__BooleanInput.vue",
@@ -1341,7 +1378,9 @@
           "lineNumber": 126,
           "line": "await statusButtonToggle.toggleStatusButton(fieldContext.fieldKey, event)"
         }
-      ]
+      ],
+      "score": 6,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__entities__BlockShapeForm.vue",
@@ -1407,7 +1446,9 @@
           "lineNumber": 117,
           "line": "await create(formData.value as Partial<GlobalEntity<'blockShape'>>)"
         }
-      ]
+      ],
+      "score": 6,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__entities__PartShapeForm.vue",
@@ -1473,7 +1514,9 @@
           "lineNumber": 100,
           "line": "await create(formData.value as Partial<GlobalEntity<'partShape'>>)"
         }
-      ]
+      ],
+      "score": 6,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__TextInput.vue",
@@ -1554,7 +1597,9 @@
           "lineNumber": 213,
           "line": "const handlers = computed(() => {"
         }
-      ]
+      ],
+      "score": 5,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__component__ComponentDistributionModal.vue",
@@ -1610,7 +1655,9 @@
           "lineNumber": 166,
           "line": "async function handleConfirm() {"
         }
-      ]
+      ],
+      "score": 5,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__dev__DevPanelsContainer.vue",
@@ -1643,75 +1690,77 @@
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 27,
+          "lineNumber": 28,
           "line": "// LEARNING: Inject dev panel data from AvailabilityStep via provide/inject"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 28,
+          "lineNumber": 29,
           "line": "// WHY: Allows AvailabilityStep to provide data without prop drilling"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 29,
+          "lineNumber": 30,
           "line": "// PATTERN: Use inject with default values for optional data"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 30,
+          "lineNumber": 31,
           "line": "const devPanelData = inject<{"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 42,
+          "lineNumber": 43,
           "line": "// PATTERN: Computed properties that provide defaults"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 43,
+          "lineNumber": 44,
           "line": "const appointmentPanelProps = computed(() => ({"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 52,
+          "lineNumber": 53,
           "line": "// PATTERN: Computed properties that provide defaults"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 53,
+          "lineNumber": 54,
           "line": "const calendarPanelProps = computed(() => ({"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 60,
+          "lineNumber": 64,
           "line": "// WHY: DevPanelsContainer is rendered in App.vue, so it injects from app-level provide"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 62,
+          "lineNumber": 66,
           "line": "const devPanelButtonsRef = inject<Ref<{"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 71,
+          "lineNumber": 75,
           "line": "} | null>>('devPanelButtons', ref(null))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 76,
+          "lineNumber": 80,
           "line": "const devPanelButtons = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 86,
+          "lineNumber": 90,
           "line": "const hasDevPanelButtons = computed(() => {"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 185,
+          "lineNumber": 189,
           "line": ":deep(.v-window-item) {"
         }
-      ]
+      ],
+      "score": 5,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__tabs__ShapesTab.vue",
@@ -1827,7 +1876,9 @@
           "lineNumber": 391,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))"
         }
-      ]
+      ],
+      "score": 5,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__CardButton.vue",
@@ -1873,7 +1924,9 @@
           "lineNumber": 176,
           "line": "const zIndex = computed(() => {"
         }
-      ]
+      ],
+      "score": 4,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__collections__PartsCollection.vue",
@@ -1919,7 +1972,9 @@
           "lineNumber": 212,
           "line": "const isBulkEditModalOpen = computed(() => bulkEditModeRef.value)"
         }
-      ]
+      ],
+      "score": 4,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__wrappers__ServiceSelectCards.vue",
@@ -1965,7 +2020,9 @@
           "lineNumber": 94,
           "line": "get: () => wizard.selectedServices.value.map(s => s.id),"
         }
-      ]
+      ],
+      "score": 4,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__PartInstanceBulkEditModal.vue",
@@ -2026,7 +2083,9 @@
           "lineNumber": 220,
           "line": "Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)"
         }
-      ]
+      ],
+      "score": 4,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__MetadataEditModal.vue",
@@ -2072,7 +2131,9 @@
           "lineNumber": 134,
           "line": "console.error('[MetadataEditModal] Error saving metadata:', err)"
         }
-      ]
+      ],
+      "score": 4,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__steps__PropertyDetailsStep.vue",
@@ -2173,7 +2234,9 @@
           "lineNumber": 205,
           "line": "watch(fieldErrors, (newErrors) => {"
         }
-      ]
+      ],
+      "score": 4,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__components__AnnotationTypeCard.vue",
@@ -2234,7 +2297,9 @@
           "lineNumber": 68,
           "line": "alert(`Cannot delete annotation type: ${error.message}`)"
         }
-      ]
+      ],
+      "score": 4,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__MoveablePartsModal.vue",
@@ -2262,20 +2327,22 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 198,
+          "lineNumber": 200,
           "line": "const showModalModel = computed({"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 207,
+          "lineNumber": 209,
           "line": "const contingencyPeriodModel = computed({"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 217,
+          "lineNumber": 219,
           "line": "const canConfirm = computed(() => {"
         }
-      ]
+      ],
+      "score": 3,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__components__NavSearchBar.vue",
@@ -2331,7 +2398,9 @@
           "lineNumber": 123,
           "line": "watch(searchQuery, fetchResults)"
         }
-      ]
+      ],
+      "score": 3,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__BaseInput.vue",
@@ -2377,7 +2446,9 @@
           "lineNumber": 69,
           "line": "const fieldId = computed(() => `field-${props.fieldKey}`)"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__IconInput.vue",
@@ -2418,7 +2489,9 @@
           "lineNumber": 151,
           "line": "const showPicker = ref(false)"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__IconPicker.vue",
@@ -2459,7 +2532,9 @@
           "lineNumber": 146,
           "line": "return tablerIcons.filter(icon =>"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__IndependentSelectCard.vue",
@@ -2495,7 +2570,9 @@
           "lineNumber": 162,
           "line": "const contentClasses = computed(() => {"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__wrappers__UserTypeSelectCards.vue",
@@ -2531,7 +2608,9 @@
           "lineNumber": 59,
           "line": "selectedValue: computed(() => wizard.selectedUserTypeBlock.value)"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__StatusButton.vue",
@@ -2567,7 +2646,9 @@
           "lineNumber": 69,
           "line": "// PATTERN: Emit event, parent handles async operations"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__AppointmentSlotGrid.vue",
@@ -2603,7 +2684,9 @@
           "lineNumber": 99,
           "line": "const slots = props.appointmentSlots.map(appointmentSlot => {"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__BookingWizard.vue",
@@ -2632,7 +2715,7 @@
         {
           "ruleId": "provideInject",
           "lineNumber": 11,
-          "line": "import { computed, provide, type Ref } from 'vue'"
+          "line": "import { computed, provide } from 'vue'"
         },
         {
           "ruleId": "provideInject",
@@ -2669,7 +2752,9 @@
           "lineNumber": 420,
           "line": "// NOTE: useThemeMode composable also updates document root CSS variables for global scope"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__TimeSlotGrid.vue",
@@ -2705,7 +2790,9 @@
           "lineNumber": 135,
           "line": "return (props.slots || []).map((slot, index) => ({ slot, orderIndex: index }))"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__dev__DevPanelToggle.vue",
@@ -2741,7 +2828,9 @@
           "lineNumber": 37,
           "line": "window.removeEventListener('keydown', handleKeyDown)"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__steps__ContactsStep.vue",
@@ -2812,7 +2901,9 @@
           "lineNumber": 94,
           "line": "// PATTERN: Assign function to parent ref (no watch needed)"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__components__NavBarNotifications.vue",
@@ -2853,7 +2944,9 @@
           "lineNumber": 75,
           "line": "notifications.value = notifications.value.map(item =>"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__components__UserProfile.vue",
@@ -2889,7 +2982,9 @@
           "lineNumber": 27,
           "line": "await router.push('/login')"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__entities__BlockShapeList.vue",
@@ -2930,7 +3025,9 @@
           "lineNumber": 97,
           "line": "alert('Failed to delete block type')"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__entities__PartInstanceList.vue",
@@ -2971,7 +3068,9 @@
           "lineNumber": 89,
           "line": "alert('Failed to delete part instance')"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__entities__PartShapeList.vue",
@@ -3012,7 +3111,9 @@
           "lineNumber": 88,
           "line": "alert('Failed to delete part type')"
         }
-      ]
+      ],
+      "score": 2,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__PrimitiveInputs.vue",
@@ -3048,7 +3149,9 @@
           "lineNumber": 86,
           "line": "const fieldType = computed(() => {"
         }
-      ]
+      ],
+      "score": 1,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__DateInput.vue",
@@ -3084,7 +3187,9 @@
           "lineNumber": 36,
           "line": "*             Both provide date input with validation."
         }
-      ]
+      ],
+      "score": 1,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__InstanceBulkEditModal.vue",
@@ -3120,7 +3225,9 @@
           "lineNumber": 187,
           "line": "Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)"
         }
-      ]
+      ],
+      "score": 1,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__blank.vue",
@@ -3161,7 +3268,9 @@
           "lineNumber": 16,
           "line": "watch([isFallbackStateActive, refLoadingIndicator], () => {"
         }
-      ]
+      ],
+      "score": 1,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__EntityCardContent.vue",
@@ -3186,7 +3295,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__AnnotationsField.vue",
@@ -3211,7 +3322,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__NumberInput.vue",
@@ -3267,7 +3380,9 @@
           "lineNumber": 80,
           "line": "const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)"
         }
-      ]
+      ],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__components__admin__generic__fields__TextAreaInput.vue",
@@ -3298,7 +3413,9 @@
           "lineNumber": 37,
           "line": "*             Both provide multi-line text input."
         }
-      ]
+      ],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__components__AppLoadingIndicator.vue",
@@ -3323,7 +3440,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__components__AppNotification.vue",
@@ -3348,7 +3467,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__DependentInstanceCheckboxList.vue",
@@ -3373,7 +3494,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__steps__ConfirmationStep.vue",
@@ -3424,7 +3547,9 @@
           "lineNumber": 31,
           "line": "const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)"
         }
-      ]
+      ],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__TimeBasisButtonGrid.vue",
@@ -3449,7 +3574,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__components__booking__TimeBasisSelector.vue",
@@ -3474,7 +3601,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__components__DefaultLayoutWithHorizontalNav.vue",
@@ -3499,7 +3628,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__components__DefaultLayoutWithVerticalNav.vue",
@@ -3524,7 +3655,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__components__Footer.vue",
@@ -3549,7 +3682,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__components__NavbarShortcuts.vue",
@@ -3574,7 +3709,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__components__NavbarThemeSwitcher.vue",
@@ -3599,7 +3736,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__layouts__default.vue",
@@ -3624,7 +3763,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__AdminPanel.vue",
@@ -3655,7 +3796,9 @@
           "lineNumber": 30,
           "line": "const currentTab = ref('instances')"
         }
-      ]
+      ],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__entities__BlockInstanceForm.vue",
@@ -3680,7 +3823,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__entities__BlockInstanceList.vue",
@@ -3705,7 +3850,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__entities__PartInstanceForm.vue",
@@ -3730,7 +3877,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__tabs__components__AppointmentsTable.vue",
@@ -3776,7 +3925,9 @@
           "lineNumber": 460,
           "line": ":items=\"users.filter(u => u.userRole === 'agent')\""
         }
-      ]
+      ],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__tabs__components__PropertiesTable.vue",
@@ -3801,7 +3952,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__tabs__components__UsersTable.vue",
@@ -3826,7 +3979,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__tabs__DataManagementTab.vue",
@@ -3851,7 +4006,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__admin__tabs__InstancesTab.vue",
@@ -3887,7 +4044,9 @@
           "lineNumber": 361,
           "line": "groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))"
         }
-      ]
+      ],
+      "score": 0,
+      "priority": "P2"
     },
     {
       "id": "src__views__booking__BookingWizardView.vue",
@@ -3912,7 +4071,9 @@
         "provideInject": 0,
         "vueQuery": 0
       },
-      "matches": []
+      "matches": [],
+      "score": 0,
+      "priority": "P2"
     }
   ]
 }

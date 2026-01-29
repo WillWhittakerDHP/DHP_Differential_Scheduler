@@ -12,7 +12,7 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 | File | computed | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/components/admin/generic/EntityCard.vue` | 19 | 1 | 3 | 1 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCard.vue` | 19 | 1 | 4 | 1 | 0 | 0 | 0 |
 | `src/components/booking/SelectionCard.vue` | 13 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/dev/CalendarMockDevPanel.vue` | 3 | 0 | 2 | 1 | 7 | 0 | 0 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -44,7 +44,7 @@ Legend: `ruleId@lineNumber: line`
 
 ### `src/components/admin/generic/EntityCard.vue`
 
-- counts: computed=19, ref=0, watch=1, async=1, await=2, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+- counts: computed=19, ref=0, watch=1, async=2, await=2, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
 provideInject@9: import { ref, computed, provide, watch, nextTick, type Ref } from 'vue'
@@ -72,6 +72,7 @@ computed@404: entity: computed(() => props.entity),
 async@458: const handleSave = async (): Promise<void> => {
 await@466: await _handleSave()
 await@472: await nextTick()
+async@514: const handleDuplicate = async (): Promise<void> => {
 provideInject@531: * PATTERN: Use provide/inject to pass parent methods to children
 provideInject@533: provide(ENTITY_CARD_SAVE_KEY, {
 provideInject@542: * PATTERN: Use provide/inject to pass flag to children
@@ -106,22 +107,22 @@ watch@166: watch(isSelected, (newValue) => {
 - counts: computed=3, ref=3, watch=0, async=1, await=1, map=0, reduce=1, dom=7, inlineConfig=0, console=0, alert=0
 
 ```
-ref@29: const isExpanded = ref(false)
-computed@41: const busyPeriods = computed(() => {
-computed@94: const totalBlockedMinutes = computed(() => {
-reduce@95: return busyPeriods.value.reduce((total, period) => {
-computed@103: const totalBlockedHours = computed(() => {
-ref@110: const panelTransform = ref('translateX(0)')
-ref@111: const isTransitioning = ref(false)
-dom@123: const viewportWidth = window.innerWidth
-dom@153: const viewportWidth = window.innerWidth
-dom@169: // LEARNING: Watch for expansion changes and window resize
-dom@170: // WHY: Recalculate position when panel expands or window resizes
-dom@171: // PATTERN: Watch isExpanded and window resize events
-dom@179: window.addEventListener('resize', handleResize)
-dom@183: window.removeEventListener('resize', handleResize)
-async@189: const handleToggle = async (): Promise<void> => {
-await@210: await nextTick()
+ref@30: const isExpanded = ref(false)
+computed@42: const busyPeriods = computed(() => {
+computed@95: const totalBlockedMinutes = computed(() => {
+reduce@96: return busyPeriods.value.reduce((total, period) => {
+computed@104: const totalBlockedHours = computed(() => {
+ref@111: const panelTransform = ref('translateX(0)')
+ref@112: const isTransitioning = ref(false)
+dom@124: const viewportWidth = window.innerWidth
+dom@154: const viewportWidth = window.innerWidth
+dom@170: // LEARNING: Watch for expansion changes and window resize
+dom@171: // WHY: Recalculate position when panel expands or window resizes
+dom@172: // PATTERN: Watch isExpanded and window resize events
+dom@180: window.addEventListener('resize', handleResize)
+dom@184: window.removeEventListener('resize', handleResize)
+async@190: const handleToggle = async (): Promise<void> => {
+await@211: await nextTick()
 ```
 
 ### `src/components/booking/steps/ServiceSelectionStep.vue`
@@ -408,20 +409,20 @@ async@166: async function handleConfirm() {
 
 ```
 provideInject@10: import { ref, inject, computed, type Ref, type ComputedRef } from 'vue'
-provideInject@27: // LEARNING: Inject dev panel data from AvailabilityStep via provide/inject
-provideInject@28: // WHY: Allows AvailabilityStep to provide data without prop drilling
-provideInject@29: // PATTERN: Use inject with default values for optional data
-provideInject@30: const devPanelData = inject<{
-provideInject@42: // PATTERN: Computed properties that provide defaults
-computed@43: const appointmentPanelProps = computed(() => ({
-provideInject@52: // PATTERN: Computed properties that provide defaults
-computed@53: const calendarPanelProps = computed(() => ({
-provideInject@60: // WHY: DevPanelsContainer is rendered in App.vue, so it injects from app-level provide
-provideInject@62: const devPanelButtonsRef = inject<Ref<{
-ref@71: } | null>>('devPanelButtons', ref(null))
-computed@76: const devPanelButtons = computed(() => {
-computed@86: const hasDevPanelButtons = computed(() => {
-dom@185: :deep(.v-window-item) {
+provideInject@28: // LEARNING: Inject dev panel data from AvailabilityStep via provide/inject
+provideInject@29: // WHY: Allows AvailabilityStep to provide data without prop drilling
+provideInject@30: // PATTERN: Use inject with default values for optional data
+provideInject@31: const devPanelData = inject<{
+provideInject@43: // PATTERN: Computed properties that provide defaults
+computed@44: const appointmentPanelProps = computed(() => ({
+provideInject@53: // PATTERN: Computed properties that provide defaults
+computed@54: const calendarPanelProps = computed(() => ({
+provideInject@64: // WHY: DevPanelsContainer is rendered in App.vue, so it injects from app-level provide
+provideInject@66: const devPanelButtonsRef = inject<Ref<{
+ref@75: } | null>>('devPanelButtons', ref(null))
+computed@80: const devPanelButtons = computed(() => {
+computed@90: const hasDevPanelButtons = computed(() => {
+dom@189: :deep(.v-window-item) {
 ```
 
 ### `src/views/admin/tabs/ShapesTab.vue`
@@ -548,9 +549,9 @@ alert@68: alert(`Cannot delete annotation type: ${error.message}`)
 - counts: computed=3, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@198: const showModalModel = computed({
-computed@207: const contingencyPeriodModel = computed({
-computed@217: const canConfirm = computed(() => {
+computed@200: const showModalModel = computed({
+computed@209: const contingencyPeriodModel = computed({
+computed@219: const canConfirm = computed(() => {
 ```
 
 ### `src/layouts/components/NavSearchBar.vue`
@@ -638,7 +639,7 @@ map@99: const slots = props.appointmentSlots.map(appointmentSlot => {
 - counts: computed=1, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=1, inlineConfig=0, console=0, alert=0
 
 ```
-provideInject@11: import { computed, provide, type Ref } from 'vue'
+provideInject@11: import { computed, provide } from 'vue'
 provideInject@37: // PATTERN: Create instance once in parent, provide to children
 provideInject@39: provide('wizard', wizard)
 provideInject@47: // WHY: Encapsulates step data and validation state refs creation and provide/inject setup

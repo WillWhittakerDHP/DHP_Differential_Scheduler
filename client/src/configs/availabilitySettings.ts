@@ -220,6 +220,30 @@ export interface AvailabilitySettings {
   timezone?: string
 }
 
+/**
+ * LEARNING: Raw availability settings type from API response
+ * WHY: Eliminates duplication between useAvailabilitySettings and availabilitySettings config
+ * PATTERN: Extract shared type for API response structure
+ */
+export interface RawAvailabilitySettings {
+  minuteIncrement: number
+  rangeConstraints: {
+    businessHours: RangeConstraint
+    leadTime?: RangeConstraint
+    dateRange?: RangeConstraint
+  }
+  buffers?: {
+    appointment?: BufferConfig
+    driveTime?: BufferConfig
+    lunch?: BufferConfig
+  }
+  maxWorkHours?: {
+    day?: WorkCapacityFilter
+    calendarWeek?: WorkCapacityFilter
+    rollingWeek?: RollingWeekCapacityFilter
+  }
+  timezone?: string
+}
 
 /**
  * Cache entry with metadata
@@ -302,25 +326,7 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
     const response = await apiClient.get('/business-settings/availability_settings')
     
     if (response.data && response.data.setting_value) {
-      const rawSettings = response.data.setting_value as {
-        minuteIncrement: number
-        rangeConstraints: {
-          businessHours: RangeConstraint
-          leadTime?: RangeConstraint
-          dateRange?: RangeConstraint
-        }
-        buffers?: {
-          appointment?: BufferConfig
-          driveTime?: BufferConfig
-          lunch?: BufferConfig
-        }
-        maxWorkHours?: {
-          day?: WorkCapacityFilter
-          calendarWeek?: WorkCapacityFilter
-          rollingWeek?: RollingWeekCapacityFilter
-        }
-        timezone?: string
-      }
+      const rawSettings = response.data.setting_value as RawAvailabilitySettings
       
       // Validate settings structure - require current format only
       if (!rawSettings.rangeConstraints?.businessHours) {
@@ -388,24 +394,3 @@ export function invalidateAvailabilitySettingsCache(): void {
 }
 
 
-/**
- * Get cache status for debugging
- * LEARNING: Provides visibility into cache state
- * WHY: Useful for debugging cache behavior and TTL configuration
- * PATTERN: Returns cache metadata for inspection
- * 
- * @returns Cache status information
- */
-export function getAvailabilitySettingsCacheStatus(): {
-  isCached: boolean
-  cachedAt: string | null
-  age: number | null
-  ttl: number
-} {
-  return {
-    isCached: cachedSettings !== null && isCacheValid(),
-    cachedAt: cachedSettings ? new Date(cachedSettings.cachedAt).toISOString() : null,
-    age: cachedSettings ? Date.now() - cachedSettings.cachedAt : null,
-    ttl: CACHE_TTL_MS
-  }
-}

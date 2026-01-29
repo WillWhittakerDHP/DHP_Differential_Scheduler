@@ -156,7 +156,7 @@ function sortBusyPeriods(busyTimes: BusyTimeRange[]): BusyTimeRange[] {
  * Merge overlapping or adjacent busy periods
  * LEARNING: Reduces number of overlap checks during slot generation
  * WHY: Merging [10:00-11:00, 10:30-12:00] → [10:00-12:00] reduces checks
- * PATTERN: Iterate sorted periods, merge when overlapping/adjacent
+ * PATTERN: Use reduce to build merged array immutably
  * 
  * @param sortedBusyTimes - Busy periods sorted by start time
  * @returns Merged busy periods (non-overlapping)
@@ -164,12 +164,11 @@ function sortBusyPeriods(busyTimes: BusyTimeRange[]): BusyTimeRange[] {
 function mergeBusyPeriods(sortedBusyTimes: BusyTimeRange[]): BusyTimeRange[] {
   if (sortedBusyTimes.length === 0) return []
   
-  const merged: BusyTimeRange[] = [{ ...sortedBusyTimes[0] }]
-  
-  for (let i = 1; i < sortedBusyTimes.length; i++) {
-    const current = sortedBusyTimes[i]
+  // LEARNING: Use reduce to build merged array immutably
+  // WHY: Avoids array mutations (push) and object mutations (property assignment)
+  // PATTERN: Reduce with accumulator that creates new objects instead of mutating
+  return sortedBusyTimes.slice(1).reduce((merged, current) => {
     const lastMerged = merged[merged.length - 1]
-    
     const lastEnd = new Date(lastMerged.end)
     const currentStart = new Date(current.start)
     const currentEnd = new Date(current.end)
@@ -178,15 +177,20 @@ function mergeBusyPeriods(sortedBusyTimes: BusyTimeRange[]): BusyTimeRange[] {
     if (currentStart <= lastEnd) {
       // Merge: extend lastMerged.end to max(lastMerged.end, current.end)
       if (currentEnd > lastEnd) {
-        lastMerged.end = current.end
+        // LEARNING: Create new object instead of mutating existing
+        // WHY: Immutable pattern - don't mutate objects in arrays
+        // PATTERN: Replace last element with new merged object
+        return [
+          ...merged.slice(0, -1),
+          { ...lastMerged, end: current.end }
+        ]
       }
+      return merged
     } else {
       // No overlap, add as new merged period
-      merged.push({ ...current })
+      return [...merged, { ...current }]
     }
-  }
-  
-  return merged
+  }, [{ ...sortedBusyTimes[0] }])
 }
 
 /**
@@ -291,16 +295,13 @@ export function checkRangeConstraints(
   // PATTERN: Accept optional cached dates parameter
   const slotStart = dates?.start || new Date(slot.startTime)
   const slotEnd = dates?.end || new Date(slot.endTime)
-  const violations: string[] = []
 
-  for (const constraint of constraints) {
-    // Skip if enforcement is 'off'
-    if (constraint.enforcement === 'off') {
-      continue
-    }
-
-    let passes = false
-
+  /**
+   * LEARNING: Extract constraint checking logic to pure function
+   * WHY: Separates constraint evaluation from violation collection
+   * PATTERN: Pure function returns passes boolean
+   */
+  const checkConstraint = (constraint: RangeConstraint): boolean => {
     switch (constraint.type) {
       case 'businessHours': {
         const config = constraint.config as { hours: BusinessHoursMap }
@@ -313,7 +314,7 @@ export function checkRangeConstraints(
 
         if (!dayHours) {
           // No business hours for this day - block if hard enforcement
-          passes = constraint.enforcement !== 'hard'
+          return constraint.enforcement !== 'hard'
         } else {
           // LEARNING: Use cached parsed hours if available, otherwise parse and cache
           // WHY: Avoids re-parsing same business hours for every slot on the same day
@@ -341,10 +342,9 @@ export function checkRangeConstraints(
           const slotEndMinutes = rfc3339ToLocalMinutesFromMidnight(slot.endTime)
 
           // Check if slot is within business hours (both in LOCAL time-of-day)
-          passes = slotStartMinutes >= parsedHours.dayStartMinutes &&
+          return slotStartMinutes >= parsedHours.dayStartMinutes &&
                    slotEndMinutes <= parsedHours.dayEndMinutes
         }
-        break
       }
 
       case 'leadTime': {
@@ -364,7 +364,7 @@ export function checkRangeConstraints(
         
         if (slotDateOnly < todayDateOnly) {
           // Slot is in the past - don't apply leadTime constraint
-          passes = true
+          return true
         } else {
           // Slot is today or future - apply leadTime constraint
           // LEARNING: Compare UTC timestamps directly - both slotStart and now are UTC
@@ -372,9 +372,8 @@ export function checkRangeConstraints(
           //      The comparison works correctly because both represent absolute moments in time
           // PATTERN: Calculate minStartTime in UTC, compare directly with slotStart (also UTC)
           const minStartTime = new Date(now.getTime() + config.minutes * 60 * 1000)
-          passes = slotStart >= minStartTime
+          return slotStart >= minStartTime
         }
-        break
       }
 
       case 'dateRange': {
@@ -383,23 +382,30 @@ export function checkRangeConstraints(
         const rangeStart = new Date(config.start)
         const rangeEnd = new Date(config.end)
         
-        passes = slotStart >= rangeStart && slotEnd <= rangeEnd
-        break
+        return slotStart >= rangeStart && slotEnd <= rangeEnd
       }
     }
-
-    // If constraint fails and enforcement is 'hard', block the slot
-    if (!passes && constraint.enforcement === 'hard') {
-      return { passes: false, violations: [] }
-    }
-    // If constraint fails and enforcement is 'flexible', allow but mark violation
-    // LEARNING: Standardize violation format with prefix for consistency
-    // WHY: Matches format used by capacity and overlap constraints (capacity.daily, overlap.appointment)
-    // PATTERN: Use "range." prefix for all range constraint violations
-    if (!passes && constraint.enforcement === 'flexible') {
-      violations.push(`range.${constraint.type}`)
-    }
   }
+
+  // LEARNING: Use reduce to collect violations functionally
+  // WHY: Avoids array mutations (push) - builds violations array immutably
+  // PATTERN: Filter constraints, check each, collect violations, check for hard failures
+  const activeConstraints = constraints.filter(c => c.enforcement !== 'off')
+  
+  // Check for hard enforcement failures first (early return)
+  const hardFailure = activeConstraints.find(
+    constraint => constraint.enforcement === 'hard' && !checkConstraint(constraint)
+  )
+  if (hardFailure) {
+    return { passes: false, violations: [] }
+  }
+
+  // Collect flexible violations functionally
+  const violations = activeConstraints
+    .filter(constraint => 
+      constraint.enforcement === 'flexible' && !checkConstraint(constraint)
+    )
+    .map(constraint => `range.${constraint.type}`)
 
   return { passes: true, violations }
 }
@@ -437,13 +443,16 @@ export function checkSlotAvailability(
     return { available: !overlapsBusy, violations: [] }
   }
 
-  const violations: string[] = []
-
-  // LEARNING: Check each constraint individually to accurately attribute violations
-  // WHY: Only the constraint that actually caused overlap should be marked as violated
-  // PATTERN: For each constraint, expand slot range based on that constraint's placement/minutes, check overlap, handle enforcement
-  for (const constraint of overlapConstraints) {
-    // Calculate expanded range for this specific constraint
+  // LEARNING: Use functional approach to collect violations
+  // WHY: Avoids array mutations (push) - builds violations array immutably
+  // PATTERN: Filter constraints, check overlaps, collect violations, check for hard failures
+  
+  /**
+   * LEARNING: Extract constraint overlap check to pure function
+   * WHY: Separates overlap checking logic from violation collection
+   * PATTERN: Pure function returns boolean
+   */
+  const checkConstraintOverlap = (constraint: OverlapConstraint): boolean => {
     const bufferMs = constraint.minutes * 60 * 1000
     let checkStart = slotStart
     let checkEnd = slotEnd
@@ -456,24 +465,28 @@ export function checkSlotAvailability(
       checkEnd = new Date(slotEnd.getTime() + bufferMs)
     }
 
-    // Check if this constraint's expanded range overlaps any busy period
-    const constraintOverlaps = parsedBusyTimes.some(busy => {
+    return parsedBusyTimes.some(busy => {
       return timeRangesOverlap(
         { start: checkStart, end: checkEnd },
         { start: busy.start, end: busy.end }
       )
     })
-
-    if (constraintOverlaps) {
-      if (constraint.enforcement === 'hard') {
-        // Hard enforcement: block immediately
-        return { available: false, violations: [] }
-      } else if (constraint.enforcement === 'flexible') {
-        // Flexible enforcement: mark violation but allow slot
-        violations.push(`overlap.${constraint.type}`)
-      }
-    }
   }
+
+  // Check for hard enforcement failures first (early return)
+  const hardFailure = overlapConstraints.find(
+    constraint => constraint.enforcement === 'hard' && checkConstraintOverlap(constraint)
+  )
+  if (hardFailure) {
+    return { available: false, violations: [] }
+  }
+
+  // Collect flexible violations functionally
+  const violations = overlapConstraints
+    .filter(constraint => 
+      constraint.enforcement === 'flexible' && checkConstraintOverlap(constraint)
+    )
+    .map(constraint => `overlap.${constraint.type}`)
 
   // If we have flexible violations but no hard blocks, allow the slot
   return { available: true, violations }
@@ -951,20 +964,25 @@ async function applyCapacityFilters(
   const capacityKeyPartsSet = new Set<string>()
   const keyPartsMap = new Map<string, CapacityKeyParts>()
   
-  for (const slot of availableSlots) {
+  // LEARNING: Use map to build slotKeys functionally
+  // WHY: Avoids array mutations (push) - builds slotKeys array immutably
+  // PATTERN: Map slots to keys, then process keys for batching
+  availableSlots.forEach((slot) => {
     const slotDate = extractDateFromRFC3339(slot.startTime)
-    const slotKeys: string[] = []
     
-    for (const constraint of activeCapacityConstraints) {
+    // LEARNING: Use map to build slotKeys array functionally
+    // WHY: Avoids array mutations (push)
+    // PATTERN: Map constraints to key strings, then process each key
+    const slotKeys = activeCapacityConstraints.map((constraint) => {
       const keyParts = buildCapacityKey(constraint, slotDate)
       const keyString = capacityKeyToString(keyParts)
-      slotKeys.push(keyString)
       capacityKeyPartsSet.add(keyString)
       keyPartsMap.set(keyString, keyParts)
-    }
+      return keyString
+    })
     
     slotKeysMap.set(slot.startTime, slotKeys)
-  }
+  })
 
   // Fetch scheduled hours for all unique keys
   const capacityHoursByKey = new Map<string, number>()
@@ -1000,38 +1018,59 @@ async function applyCapacityFilters(
       return slot
     }
 
-    const violations: string[] = []
-    let passes = true
-
     // LEARNING: Use pre-built keys from batching phase
     // WHY: Avoids rebuilding capacity keys that were already computed during batching
     // PATTERN: Look up keys from slotKeysMap instead of rebuilding them
     const slotKeys = slotKeysMap.get(slot.startTime) || []
 
-    for (let i = 0; i < slotKeys.length; i++) {
-      const keyString = slotKeys[i]
-      const constraint = activeCapacityConstraints[i]
-      const currentHours = capacityHoursByKey.get(keyString) || 0
+    /**
+     * LEARNING: Extract constraint checking logic to pure function
+     * WHY: Separates constraint evaluation from violation collection
+     * PATTERN: Pure function returns { passes, violations }
+     */
+    const checkCapacityConstraints = (): { passes: boolean; violations: string[] } => {
+      // Check for hard enforcement failures first (early return)
+      const hardFailure = slotKeys.some((keyString, i) => {
+        const constraint = activeCapacityConstraints[i]
+        if (constraint.enforcement !== 'hard') return false
+        const currentHours = capacityHoursByKey.get(keyString) || 0
+        return currentHours + slotDurationHours > constraint.maxHours
+      })
 
-      // Check if constraint would be violated
-      if (constraint.enforcement === 'flexible') {
-        // Flexible: Block only if limit already exceeded before appointment
-        if (currentHours >= constraint.maxHours) {
-          passes = false
-          break
-        }
-        // Mark violation if appointment would cause limit to be exceeded
-        if (currentHours + slotDurationHours > constraint.maxHours) {
-          violations.push(`capacity.${constraint.type}`)
-        }
-      } else if (constraint.enforcement === 'hard') {
-        // Hard: Block if appointment would cause limit to be exceeded
-        if (currentHours + slotDurationHours > constraint.maxHours) {
-          passes = false
-          break
-        }
+      if (hardFailure) {
+        return { passes: false, violations: [] }
       }
+
+      // Check flexible constraints - block if limit already exceeded
+      const flexibleBlocked = slotKeys.some((keyString, i) => {
+        const constraint = activeCapacityConstraints[i]
+        if (constraint.enforcement !== 'flexible') return false
+        const currentHours = capacityHoursByKey.get(keyString) || 0
+        return currentHours >= constraint.maxHours
+      })
+
+      if (flexibleBlocked) {
+        return { passes: false, violations: [] }
+      }
+
+      // Collect flexible violations functionally
+      const violations = slotKeys
+        .map((keyString, i) => {
+          const constraint = activeCapacityConstraints[i]
+          if (constraint.enforcement !== 'flexible') return null
+          const currentHours = capacityHoursByKey.get(keyString) || 0
+          // Mark violation if appointment would cause limit to be exceeded
+          if (currentHours + slotDurationHours > constraint.maxHours) {
+            return `capacity.${constraint.type}`
+          }
+          return null
+        })
+        .filter((v): v is string => v !== null)
+
+      return { passes: true, violations }
     }
+
+    const { passes, violations } = checkCapacityConstraints()
 
     // Merge capacity violations with existing flexible violations
     const mergedViolations = mergeViolations(slot.flexibleViolations, violations, passes)
@@ -1080,42 +1119,54 @@ function validateConstraintArrays(
   ) || []
   const activeCapacityConstraints = capacityConstraints?.filter(c => c.enforcement !== 'off') || []
 
-  // Validate only active constraints
-  activeRangeConstraints.forEach((constraint, index) => {
+  // LEARNING: Use find to check for validation failures functionally
+  // WHY: Avoids forEach with side effects - find first failure, throw if found
+  // PATTERN: Use find + early throw instead of forEach + throw
+  
+  const rangeFailure = activeRangeConstraints.find((constraint, index) => {
     const validation = validateRangeConstraint(constraint)
-    if (!validation.valid) {
-      throw new ConstraintValidationError(
-        `Invalid range constraint at index ${index}: ${validation.error || 'unknown error'}`,
-        'range',
-        index,
-        validation.error
-      )
-    }
+    return !validation.valid
   })
+  if (rangeFailure) {
+    const index = activeRangeConstraints.indexOf(rangeFailure)
+    const validation = validateRangeConstraint(rangeFailure)
+    throw new ConstraintValidationError(
+      `Invalid range constraint at index ${index}: ${validation.error || 'unknown error'}`,
+      'range',
+      index,
+      validation.error
+    )
+  }
 
-  activeOverlapConstraints.forEach((constraint, index) => {
+  const overlapFailure = activeOverlapConstraints.find((constraint, index) => {
     const validation = validateOverlapConstraint(constraint)
-    if (!validation.valid) {
-      throw new ConstraintValidationError(
-        `Invalid overlap constraint at index ${index}: ${validation.error || 'unknown error'}`,
-        'overlap',
-        index,
-        validation.error
-      )
-    }
+    return !validation.valid
   })
+  if (overlapFailure) {
+    const index = activeOverlapConstraints.indexOf(overlapFailure)
+    const validation = validateOverlapConstraint(overlapFailure)
+    throw new ConstraintValidationError(
+      `Invalid overlap constraint at index ${index}: ${validation.error || 'unknown error'}`,
+      'overlap',
+      index,
+      validation.error
+    )
+  }
 
-  activeCapacityConstraints.forEach((constraint, index) => {
+  const capacityFailure = activeCapacityConstraints.find((constraint, index) => {
     const validation = validateCapacityConstraint(constraint)
-    if (!validation.valid) {
-      throw new ConstraintValidationError(
-        `Invalid capacity constraint at index ${index}: ${validation.error || 'unknown error'}`,
-        'capacity',
-        index,
-        validation.error
-      )
-    }
+    return !validation.valid
   })
+  if (capacityFailure) {
+    const index = activeCapacityConstraints.indexOf(capacityFailure)
+    const validation = validateCapacityConstraint(capacityFailure)
+    throw new ConstraintValidationError(
+      `Invalid capacity constraint at index ${index}: ${validation.error || 'unknown error'}`,
+      'capacity',
+      index,
+      validation.error
+    )
+  }
 }
 
 export async function generateSlotsWithAvailability(

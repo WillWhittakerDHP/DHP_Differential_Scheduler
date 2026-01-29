@@ -12,6 +12,7 @@ import { computed, watch } from 'vue'
 import { useTheme } from 'vuetify'
 import { quoteModeColors } from '@/plugins/5.vuetify/theme'
 import type { UseBookingWizardReturn } from '@/types/wizard'
+import { setCSSVariable, removeCSSVariable } from '@/utils/dom/cssVariables'
 
 /**
  * LEARNING: Theme mode composable
@@ -46,38 +47,34 @@ export function useThemeMode(wizard?: UseBookingWizardReturn) {
   
   // LEARNING: Watch isQuoteMode and update CSS variables
   // WHY: Ensures CSS variables are updated when quote mode changes
-  // PATTERN: Watch computed property and update document root CSS variables
+  // PATTERN: Watch computed property and update CSS variables via utility
   watch(isQuoteMode, (isActive) => {
-    if (typeof document !== 'undefined') {
-      const root = document.documentElement
-      
-      if (isActive) {
-        // LEARNING: Set quote mode CSS variables
-        // WHY: Override theme variables with quote mode colors
-        // PATTERN: Convert hex colors to RGB format for CSS variables
-        root.style.setProperty('--v-theme-primary', hexToRgb(quoteModeColors.primary))
-        root.style.setProperty('--v-theme-primary-darken-1', hexToRgb(quoteModeColors['primary-darken-1']))
-        root.style.setProperty('--v-theme-secondary', hexToRgb(quoteModeColors.secondary))
-        root.style.setProperty('--v-theme-secondary-darken-1', hexToRgb(quoteModeColors['secondary-darken-1']))
-        root.style.setProperty('--v-theme-warning', hexToRgb(quoteModeColors.warning))
-        root.style.setProperty('--v-theme-warning-darken-1', hexToRgb(quoteModeColors['warning-darken-1']))
-        root.style.setProperty('--v-theme-on-primary', quoteModeColors['on-primary'])
-        root.style.setProperty('--v-theme-on-secondary', quoteModeColors['on-secondary'])
-        root.style.setProperty('--v-theme-on-warning', quoteModeColors['on-warning'])
-      } else {
-        // LEARNING: Reset to normal theme colors
-        // WHY: Restore normal colors when quote mode is disabled
-        // PATTERN: Remove custom properties to use default theme
-        root.style.removeProperty('--v-theme-primary')
-        root.style.removeProperty('--v-theme-primary-darken-1')
-        root.style.removeProperty('--v-theme-secondary')
-        root.style.removeProperty('--v-theme-secondary-darken-1')
-        root.style.removeProperty('--v-theme-warning')
-        root.style.removeProperty('--v-theme-warning-darken-1')
-        root.style.removeProperty('--v-theme-on-primary')
-        root.style.removeProperty('--v-theme-on-secondary')
-        root.style.removeProperty('--v-theme-on-warning')
-      }
+    if (isActive) {
+      // LEARNING: Set quote mode CSS variables
+      // WHY: Override theme variables with quote mode colors
+      // PATTERN: Convert hex colors to RGB format for CSS variables, use utility for DOM access
+      setCSSVariable('--v-theme-primary', hexToRgb(quoteModeColors.primary))
+      setCSSVariable('--v-theme-primary-darken-1', hexToRgb(quoteModeColors['primary-darken-1']))
+      setCSSVariable('--v-theme-secondary', hexToRgb(quoteModeColors.secondary))
+      setCSSVariable('--v-theme-secondary-darken-1', hexToRgb(quoteModeColors['secondary-darken-1']))
+      setCSSVariable('--v-theme-warning', hexToRgb(quoteModeColors.warning))
+      setCSSVariable('--v-theme-warning-darken-1', hexToRgb(quoteModeColors['warning-darken-1']))
+      setCSSVariable('--v-theme-on-primary', quoteModeColors['on-primary'])
+      setCSSVariable('--v-theme-on-secondary', quoteModeColors['on-secondary'])
+      setCSSVariable('--v-theme-on-warning', quoteModeColors['on-warning'])
+    } else {
+      // LEARNING: Reset to normal theme colors
+      // WHY: Restore normal colors when quote mode is disabled
+      // PATTERN: Remove custom properties via utility to use default theme
+      removeCSSVariable('--v-theme-primary')
+      removeCSSVariable('--v-theme-primary-darken-1')
+      removeCSSVariable('--v-theme-secondary')
+      removeCSSVariable('--v-theme-secondary-darken-1')
+      removeCSSVariable('--v-theme-warning')
+      removeCSSVariable('--v-theme-warning-darken-1')
+      removeCSSVariable('--v-theme-on-primary')
+      removeCSSVariable('--v-theme-on-secondary')
+      removeCSSVariable('--v-theme-on-warning')
     }
   }, { immediate: true })
   

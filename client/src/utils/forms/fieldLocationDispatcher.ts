@@ -18,6 +18,13 @@ import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { sortFieldsByDisplayOrder } from './fieldSorting'
 
 /**
+ * LEARNING: Valid panel values for expandedPanel visibility
+ * WHY: Config-driven approach instead of hardcoded string checks
+ * PATTERN: Use Set for O(1) lookup instead of multiple OR conditions
+ */
+const VALID_PANELS = new Set(['parts', 'relationships', 'annotations'] as const)
+
+/**
  * Field location types with reasons
  * WHY: Provides clear location assignment with explanation for debugging
  * PATTERN: Discriminated union for type safety
@@ -124,10 +131,10 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
         return { type: 'hidden', reason: 'notExpanded' }
       }
 
-      // LEARNING: Determine which sub-panel
+      // LEARNING: Determine which sub-panel using config-driven approach
       // WHY: Panel property determines which sub-panel the field appears in
-      // PATTERN: Check panel property, return subPanel location with panel type
-      if (panel === 'parts' || panel === 'relationships' || panel === 'annotations') {
+      // PATTERN: Use VALID_PANELS Set for O(1) lookup instead of hardcoded OR conditions
+      if (panel && VALID_PANELS.has(panel)) {
         return { type: 'subPanel', panel, reason: 'expandedPanel' }
       }
 
@@ -164,7 +171,34 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
   }
   hidden: GlobalFieldKey<GE>[]
 } {
-  const result = {
+  // LEARNING: Use reduce to group fields functionally
+  // WHY: Avoids array mutations (push) - builds grouped structure immutably
+  // PATTERN: Reduce fieldKeys to grouped structure, then sort each group
+  const grouped = fieldKeys.reduce((acc, fieldKey) => {
+    const metadata = fieldMetadata[String(fieldKey)]
+    const location = getFieldLocation(fieldKey, metadata, context)
+
+    switch (location.type) {
+      case 'titleRow':
+        return { ...acc, titleRow: [...acc.titleRow, fieldKey] }
+      case 'directInline':
+        return { ...acc, directInline: [...acc.directInline, fieldKey] }
+      case 'directStacked':
+        return { ...acc, directStacked: [...acc.directStacked, fieldKey] }
+      case 'subPanel':
+        return {
+          ...acc,
+          subPanels: {
+            ...acc.subPanels,
+            [location.panel]: [...acc.subPanels[location.panel], fieldKey]
+          }
+        }
+      case 'hidden':
+        return { ...acc, hidden: [...acc.hidden, fieldKey] }
+      default:
+        return acc
+    }
+  }, {
     titleRow: [] as GlobalFieldKey<GE>[],
     directInline: [] as GlobalFieldKey<GE>[],
     directStacked: [] as GlobalFieldKey<GE>[],
@@ -174,43 +208,20 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
       annotations: [] as GlobalFieldKey<GE>[]
     },
     hidden: [] as GlobalFieldKey<GE>[]
-  }
-
-  // LEARNING: Group fields by location using dispatcher
-  // WHY: Single source of truth - use dispatcher for all location decisions
-  // PATTERN: Iterate through fields, determine location, group accordingly
-  for (const fieldKey of fieldKeys) {
-    const metadata = fieldMetadata[String(fieldKey)]
-    const location = getFieldLocation(fieldKey, metadata, context)
-
-    switch (location.type) {
-      case 'titleRow':
-        result.titleRow.push(fieldKey)
-        break
-      case 'directInline':
-        result.directInline.push(fieldKey)
-        break
-      case 'directStacked':
-        result.directStacked.push(fieldKey)
-        break
-      case 'subPanel':
-        result.subPanels[location.panel].push(fieldKey)
-        break
-      case 'hidden':
-        result.hidden.push(fieldKey)
-        break
-    }
-  }
+  })
 
   // LEARNING: Sort fields by displayOrder using shared utility
   // WHY: Single source of truth for sorting logic, reusable across codebase
   // PATTERN: Use extracted sorting utility function
-  result.titleRow = sortFieldsByDisplayOrder(result.titleRow, fieldMetadata)
-  result.directInline = sortFieldsByDisplayOrder(result.directInline, fieldMetadata)
-  result.directStacked = sortFieldsByDisplayOrder(result.directStacked, fieldMetadata)
-  result.subPanels.parts = sortFieldsByDisplayOrder(result.subPanels.parts, fieldMetadata)
-  result.subPanels.relationships = sortFieldsByDisplayOrder(result.subPanels.relationships, fieldMetadata)
-  result.subPanels.annotations = sortFieldsByDisplayOrder(result.subPanels.annotations, fieldMetadata)
-
-  return result
+  return {
+    titleRow: sortFieldsByDisplayOrder(grouped.titleRow, fieldMetadata),
+    directInline: sortFieldsByDisplayOrder(grouped.directInline, fieldMetadata),
+    directStacked: sortFieldsByDisplayOrder(grouped.directStacked, fieldMetadata),
+    subPanels: {
+      parts: sortFieldsByDisplayOrder(grouped.subPanels.parts, fieldMetadata),
+      relationships: sortFieldsByDisplayOrder(grouped.subPanels.relationships, fieldMetadata),
+      annotations: sortFieldsByDisplayOrder(grouped.subPanels.annotations, fieldMetadata)
+    },
+    hidden: sortFieldsByDisplayOrder(grouped.hidden, fieldMetadata)
+  }
 }

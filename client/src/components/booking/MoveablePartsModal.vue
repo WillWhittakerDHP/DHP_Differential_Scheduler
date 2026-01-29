@@ -167,9 +167,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import { useLocalTime } from '@/composables/useLocalTime'
+
+const { formatDateTimeForDisplay } = useLocalTime()
 
 interface Props {
   showModal: boolean

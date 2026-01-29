@@ -14,6 +14,7 @@ import CalendarMockDevPanel from './CalendarMockDevPanel.vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentSlots, AppointmentResponse } from '@/types/appointment'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
+import type { RFC3339DateTime } from '@/types/datetime'
 
 interface Props {
   visible: boolean
@@ -51,7 +52,10 @@ const appointmentPanelProps = computed(() => ({
 // WHY: Extract only needed props from injected data
 // PATTERN: Computed properties that provide defaults
 const calendarPanelProps = computed(() => ({
-  dateRange: devPanelData.dateRange || null,
+  dateRange: devPanelData.dateRange ? {
+    start: devPanelData.dateRange.start as RFC3339DateTime,
+    end: devPanelData.dateRange.end as RFC3339DateTime
+  } : null,
   refreshKey: devPanelData.refreshKey,
   busyPeriods: devPanelData.busyPeriods
 }))

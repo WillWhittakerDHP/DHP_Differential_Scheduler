@@ -13,8 +13,8 @@ Exception handling:
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): `description`
-- Total files scanned: **447**
-- **Requiring review: 577**
+- Total files scanned: **455**
+- **Requiring review: 579**
 - Allowed (with justification): 5 (inline: 0, pattern: 5, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
@@ -44,13 +44,13 @@ Exception handling:
 | `src/composables/booking/useWizardAppointmentManagement.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/components/AppointmentsTable.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/admin/entityDisplayText.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/wizardSteps.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityCard.vue` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useAnnotationsFieldViewModel.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/configs/availabilitySettings.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -665,23 +665,6 @@ magicLabel@239: label="Selected Date"
 magicLabel@258: No appointments found. Click "Create Appointment" to add one.
 ```
 
-### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
-- requiring review: 9, allowed: 0
-
-```
-magicLabel@83: if (!actionOptions.blockInstanceId.value) throw new Error('Block instance ID required')
-magicLabel@97: if (!blockInstanceId) throw new Error('Block instance ID required')
-magicLabel@194: if (!actionOptions.blockInstanceId.value) throw new Error('Block instance ID required')
-magicLabel@207: if (!blockInstanceId) throw new Error('Block instance ID required')
-magicLabel@307: if (!actionOptions.blockInstanceId.value) throw new Error('Block instance ID required')
-magicLabel@314: if (!blockInstanceId) throw new Error('Block instance ID required')
-magicLabel@462: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
-magicLabel@490: throw new Error('Please select an annotation type')
-magicLabel@512: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
-```
-
 ### `src/utils/admin/entityDisplayText.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
@@ -801,6 +784,20 @@ fieldEqualsString@250: if (key === 'helpText' || key === 'label' || key === 'pla
 fieldEqualsString@254: } else if (key === 'required' || key === 'disabled' || key === 'readOnly') {
 ```
 
+### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 6, allowed: 0
+
+```
+magicLabel@75: if (!blockInstanceId.value) throw new Error('Block instance ID required')
+magicLabel@89: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
+magicLabel@186: if (!blockInstanceId.value) throw new Error('Block instance ID required')
+magicLabel@199: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
+magicLabel@299: if (!blockInstanceId.value) throw new Error('Block instance ID required')
+magicLabel@306: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
+```
+
 ### `src/configs/field/form/_archived/selectableFieldConfig.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
@@ -915,11 +912,11 @@ magicLabel@296: const errorMessage = error instanceof Error ? error.message : 'F
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@174: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
-magicLabel@184: label: 'Inspector',
-magicLabel@189: label: 'Client Formal Presentation',
-magicLabel@235: label: 'Inspector',
-magicLabel@240: label: 'Client Formal Presentation',
+magicLabel@173: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
+magicLabel@183: label: 'Inspector',
+magicLabel@188: label: 'Client Formal Presentation',
+magicLabel@234: label: 'Inspector',
+magicLabel@239: label: 'Client Formal Presentation',
 ```
 
 ### `src/composables/booking/useWizardValidationErrors.ts`
@@ -967,11 +964,11 @@ magicLabel@47: placeholder: "Select block shape type",
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@45: logger.warn('Non-integer duration will be rounded', { duration })
-magicLabel@63: logger.warn('Large minuteIncrement may result in few slots', { minuteIncrement })
-magicLabel@68: logger.error('Missing boundary parameters')
-magicLabel@78: logger.error('Invalid startBoundary datetime', { startBoundary })
-magicLabel@82: logger.error('Invalid endBoundary datetime', { endBoundary })
+magicLabel@44: logger.warn('Non-integer duration will be rounded', { duration })
+magicLabel@62: logger.warn('Large minuteIncrement may result in few slots', { minuteIncrement })
+magicLabel@67: logger.error('Missing boundary parameters')
+magicLabel@77: logger.error('Invalid startBoundary datetime', { startBoundary })
+magicLabel@81: logger.error('Invalid endBoundary datetime', { endBoundary })
 ```
 
 ### `src/components/admin/BlockInstanceCreateModal.vue`
@@ -1004,10 +1001,10 @@ magicLabel@261: if (!currentBlockInstanceId) throw new Error('Block instance ID 
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@87: throw new Error('No settings found in API response')
-magicLabel@136: error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
-magicLabel@151: error.value = 'Settings must be loaded before validation'
-magicLabel@188: error.value = 'Settings must be loaded before saving'
+magicLabel@91: throw new Error('No settings found in API response')
+magicLabel@140: error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
+magicLabel@155: error.value = 'Settings must be loaded before validation'
+magicLabel@192: error.value = 'Settings must be loaded before saving'
 ```
 
 ### `src/composables/admin/usePartInstanceBulkEdit.ts`
@@ -1088,6 +1085,17 @@ magicLabel@160: label="Annotation Text"
 
 ```
 fieldEqualsString@26: if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
+```
+
+### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@154: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
+magicLabel@182: throw new Error('Please select an annotation type')
+magicLabel@204: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
 ```
 
 ### `src/composables/admin/usePartInstanceCollection.ts`
@@ -1296,6 +1304,16 @@ magicLabel@92: error.value = err instanceof Error ? err : new Error('Failed to r
 ```
 magicLabel@66: const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
 magicLabel@225: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating slots'
+```
+
+### `src/composables/entityCrud/useEntityCrudMutations.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@265: throw new Error('Failed to update orderIndex')
+magicLabel@304: throw new Error('Failed to update entities')
 ```
 
 ### `src/composables/entityCrud/usePrimitiveMutation.ts`
@@ -1598,7 +1616,7 @@ magicLabel@74: *   targetBlockShapeName: 'Base Service'
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@45: if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
+magicLabel@53: if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
 ```
 
 ### `src/composables/booking/usePropertyTypeBlockConfig.ts`
@@ -1661,7 +1679,7 @@ magicLabel@25: export function getApiErrorMessage(error: unknown, fallbackMessag
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@205: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating time slots'
+magicLabel@212: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating time slots'
 ```
 
 ### `src/composables/useEntityForm.ts`
@@ -1778,7 +1796,7 @@ magicLabel@8: return config.selectionGroup || 'VRadioGroup'
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@122: * Handles both 'YYYY-MM-DD' and ISO timestamp formats
+magicLabel@129: * Handles both 'YYYY-MM-DD' and ISO timestamp formats
 ```
 
 ### `src/utils/forms/formElementPatching.ts`

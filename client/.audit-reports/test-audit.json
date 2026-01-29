@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-01-28T15:32:57.154Z",
+  "generatedAt": "2026-01-29T01:31:36.345Z",
   "summary": {
-    "totalSourceFiles": 526,
+    "totalSourceFiles": 534,
     "totalTestFiles": 116,
-    "untestedSourceFiles": 422,
+    "untestedSourceFiles": 430,
     "orphanedTestFiles": 11,
-    "coveragePercentage": 20
+    "coveragePercentage": 19
   },
   "untestedSource": [
     {
@@ -19,7 +19,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -33,7 +34,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -47,7 +49,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -61,7 +64,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -75,7 +79,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -89,7 +94,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -103,7 +109,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -117,7 +124,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -131,7 +139,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -145,7 +154,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -159,7 +169,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -173,7 +184,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -187,7 +199,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -201,7 +214,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -215,7 +229,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -229,7 +244,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -243,7 +259,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -257,7 +274,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -271,7 +289,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -285,7 +304,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -299,7 +319,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -313,7 +334,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -327,7 +349,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -341,7 +364,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -355,7 +379,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -369,7 +394,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -383,7 +409,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -397,7 +424,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -411,7 +439,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -425,7 +454,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.9
+        "overall": 2.9,
+        "bucket": "P2"
       }
     },
     {
@@ -439,7 +469,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -453,7 +484,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -467,7 +499,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -483,7 +516,8 @@
         "independence": 8,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -499,7 +533,8 @@
         "independence": 6,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 1.9
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
@@ -517,7 +552,8 @@
         "independence": 8,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 4.3
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -535,7 +571,8 @@
         "independence": 8,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -553,7 +590,8 @@
         "independence": 6,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 1.9
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
@@ -567,7 +605,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -583,7 +622,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.7
+        "overall": 2.7,
+        "bucket": "P2"
       }
     },
     {
@@ -597,7 +637,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.5
+        "overall": 1.5,
+        "bucket": "P2"
       }
     },
     {
@@ -622,7 +663,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 5,
-        "overall": 4.1
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -646,7 +688,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 4,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -660,7 +703,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -674,7 +718,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -688,7 +733,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -702,7 +748,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -716,7 +763,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -730,7 +778,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -744,7 +793,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -762,7 +812,8 @@
         "independence": 7,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -776,7 +827,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -793,7 +845,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -813,7 +866,8 @@
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -833,7 +887,8 @@
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -849,7 +904,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -865,7 +921,8 @@
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -879,7 +936,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -893,7 +951,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.9
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
@@ -907,7 +966,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -921,7 +981,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -935,7 +996,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -949,7 +1011,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -963,7 +1026,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -977,7 +1041,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -991,7 +1056,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.5
+        "overall": 1.5,
+        "bucket": "P2"
       }
     },
     {
@@ -1005,7 +1071,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -1019,7 +1086,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1033,7 +1101,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1047,7 +1116,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -1061,7 +1131,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1075,7 +1146,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1091,7 +1163,8 @@
         "independence": 7,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -1109,7 +1182,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3
+        "overall": 3,
+        "bucket": "P2"
       }
     },
     {
@@ -1127,7 +1201,8 @@
         "independence": 5,
         "roi": 1,
         "cognitiveLoad": 1,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -1141,7 +1216,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1155,7 +1231,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -1178,7 +1255,8 @@
         "independence": 5,
         "roi": 3,
         "cognitiveLoad": 1,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1192,7 +1270,8 @@
         "independence": 3,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.6
+        "overall": 0.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1206,7 +1285,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -1220,7 +1300,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -1234,7 +1315,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -1248,7 +1330,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 3.3
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -1262,7 +1345,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1276,7 +1360,8 @@
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.7
+        "overall": 1.7,
+        "bucket": "P2"
       }
     },
     {
@@ -1290,7 +1375,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -1304,7 +1390,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -1318,7 +1405,8 @@
         "independence": 3,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1332,7 +1420,8 @@
         "independence": 1,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 0.6
+        "overall": 0.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1346,7 +1435,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.9
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
@@ -1360,7 +1450,8 @@
         "independence": 3,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 0.9
+        "overall": 0.9,
+        "bucket": "P2"
       }
     },
     {
@@ -1374,7 +1465,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -1388,7 +1480,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1402,7 +1495,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -1416,7 +1510,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -1430,7 +1525,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1444,7 +1540,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1458,7 +1555,8 @@
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1472,7 +1570,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1486,7 +1585,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1500,7 +1600,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -1514,7 +1615,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1528,7 +1630,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1542,7 +1645,8 @@
         "independence": 3,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1556,7 +1660,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -1570,7 +1675,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1584,7 +1690,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -1598,7 +1705,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -1612,7 +1720,8 @@
         "independence": 1,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1626,7 +1735,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 4.3
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -1640,7 +1750,8 @@
         "independence": 0,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1654,7 +1765,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1668,7 +1780,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -1682,7 +1795,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -1696,7 +1810,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.7
+        "overall": 2.7,
+        "bucket": "P2"
       }
     },
     {
@@ -1710,7 +1825,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.9
+        "overall": 2.9,
+        "bucket": "P2"
       }
     },
     {
@@ -1724,7 +1840,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1738,7 +1855,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1752,7 +1870,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -1766,7 +1885,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1780,7 +1900,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -1791,10 +1912,11 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 6,
+        "independence": 5,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 3.6
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -1808,7 +1930,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -1822,7 +1945,8 @@
         "independence": 2,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1838,7 +1962,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -1854,7 +1979,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -1868,7 +1994,8 @@
         "independence": 2,
         "roi": 2,
         "cognitiveLoad": 3,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -1882,7 +2009,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -1896,7 +2024,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -1910,7 +2039,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -1924,7 +2054,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -1938,7 +2069,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -1952,7 +2084,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -1966,7 +2099,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -1982,7 +2116,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 2,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -1996,7 +2131,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -2010,7 +2146,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -2025,10 +2162,49 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
+        "independence": 5,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 4.5,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts",
+      "functions": [
+        "useAnnotationAssignmentsMutations"
+      ],
+      "classes": [],
+      "composables": [
+        "useAnnotationAssignmentsMutations"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
         "independence": 4,
         "roi": 5,
-        "cognitiveLoad": 6,
-        "overall": 4.9
+        "cognitiveLoad": 5,
+        "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts",
+      "functions": [
+        "useAnnotationAssignmentsOrchestration"
+      ],
+      "classes": [],
+      "composables": [
+        "useAnnotationAssignmentsOrchestration"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 5,
+        "cognitiveLoad": 4,
+        "overall": 5.7,
+        "bucket": "P1"
       }
     },
     {
@@ -2046,7 +2222,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -2060,11 +2237,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
+        "reliability": 7,
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -2081,7 +2259,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -2099,7 +2278,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -2113,7 +2293,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -2131,7 +2312,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -2147,7 +2329,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -2165,7 +2348,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -2183,7 +2367,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2201,7 +2386,8 @@
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -2216,10 +2402,11 @@
       "exportCount": 2,
       "priority": {
         "reliability": 7,
-        "independence": 6,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.7,
+        "bucket": "P1"
       }
     },
     {
@@ -2237,7 +2424,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -2255,7 +2443,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -2273,7 +2462,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.3
+        "overall": 5.3,
+        "bucket": "P1"
       }
     },
     {
@@ -2291,7 +2481,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -2309,7 +2500,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -2327,7 +2519,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -2345,7 +2538,8 @@
         "independence": 3,
         "roi": 5,
         "cognitiveLoad": 3,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -2363,8 +2557,9 @@
         "reliability": 10,
         "independence": 5,
         "roi": 6,
-        "cognitiveLoad": 2,
-        "overall": 7
+        "cognitiveLoad": 3,
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -2382,7 +2577,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2400,7 +2596,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2414,7 +2611,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -2432,7 +2630,8 @@
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.7
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -2452,7 +2651,8 @@
         "independence": 6,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5.3
+        "overall": 5.3,
+        "bucket": "P1"
       }
     },
     {
@@ -2470,7 +2670,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -2488,7 +2689,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2506,7 +2708,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2522,7 +2725,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -2540,7 +2744,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -2554,7 +2759,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.6
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -2572,7 +2778,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2586,7 +2793,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -2600,7 +2808,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -2614,7 +2823,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -2632,7 +2842,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -2646,7 +2857,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -2664,7 +2876,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -2678,7 +2891,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -2696,7 +2910,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2714,7 +2929,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -2732,7 +2948,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2746,7 +2963,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -2764,7 +2982,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2782,7 +3001,8 @@
         "independence": 9,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.3
+        "overall": 5.3,
+        "bucket": "P1"
       }
     },
     {
@@ -2796,7 +3016,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -2814,7 +3035,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -2832,7 +3054,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -2850,7 +3073,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2868,7 +3092,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -2886,7 +3111,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2904,7 +3130,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -2922,7 +3149,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 4.7
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -2940,7 +3168,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -2958,7 +3187,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -2976,7 +3206,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -2994,7 +3225,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3012,7 +3244,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3030,7 +3263,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3049,7 +3283,8 @@
         "independence": 5,
         "roi": 6,
         "cognitiveLoad": 2,
-        "overall": 5.8
+        "overall": 5.8,
+        "bucket": "P1"
       }
     },
     {
@@ -3063,7 +3298,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -3081,7 +3317,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3099,7 +3336,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -3117,7 +3355,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3135,7 +3374,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.4
+        "overall": 5.4,
+        "bucket": "P1"
       }
     },
     {
@@ -3153,7 +3393,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -3171,7 +3412,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3189,7 +3431,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3207,7 +3450,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3221,7 +3465,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 3,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -3239,7 +3484,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 3,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -3257,7 +3503,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -3275,7 +3522,8 @@
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -3293,7 +3541,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3311,7 +3560,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 5,
-        "overall": 6.2
+        "overall": 6.2,
+        "bucket": "P1"
       }
     },
     {
@@ -3329,7 +3579,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3347,7 +3598,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3365,7 +3617,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3383,7 +3636,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3401,7 +3655,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3415,7 +3670,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -3429,7 +3685,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -3443,7 +3700,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -3459,7 +3717,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -3477,7 +3736,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3491,7 +3751,8 @@
         "independence": 9,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 5.8
+        "overall": 5.8,
+        "bucket": "P1"
       }
     },
     {
@@ -3509,7 +3770,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -3527,7 +3789,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -3545,7 +3808,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -3563,7 +3827,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 7.8
+        "overall": 7.8,
+        "bucket": "P0"
       }
     },
     {
@@ -3581,7 +3846,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 7.5
+        "overall": 7.5,
+        "bucket": "P0"
       }
     },
     {
@@ -3599,7 +3865,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -3617,7 +3884,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -3635,7 +3903,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.7
+        "overall": 6.7,
+        "bucket": "P1"
       }
     },
     {
@@ -3653,7 +3922,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3671,7 +3941,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -3689,7 +3960,8 @@
         "independence": 4,
         "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 7.1
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -3703,7 +3975,8 @@
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -3721,7 +3994,27 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useElementDimensions.ts",
+      "functions": [
+        "useElementDimensions"
+      ],
+      "classes": [],
+      "composables": [
+        "useElementDimensions"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 6,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.1,
+        "bucket": "P1"
       }
     },
     {
@@ -3739,7 +4032,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -3757,7 +4051,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3771,7 +4066,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -3785,7 +4081,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -3799,7 +4096,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -3813,7 +4111,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -3827,7 +4126,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -3841,7 +4141,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -3855,7 +4156,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -3873,7 +4175,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -3891,7 +4194,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -3909,7 +4213,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 6.8
+        "overall": 6.8,
+        "bucket": "P1"
       }
     },
     {
@@ -3927,7 +4232,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.7
+        "overall": 6.7,
+        "bucket": "P1"
       }
     },
     {
@@ -3945,7 +4251,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -3959,7 +4266,8 @@
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6.4
+        "overall": 6.4,
+        "bucket": "P1"
       }
     },
     {
@@ -3977,7 +4285,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 7.8
+        "overall": 7.8,
+        "bucket": "P0"
       }
     },
     {
@@ -3991,7 +4300,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4005,7 +4315,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -4019,7 +4330,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -4033,7 +4345,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4047,7 +4360,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -4061,7 +4375,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4079,7 +4394,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 4.1
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -4093,7 +4409,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 4,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -4111,7 +4428,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -4125,7 +4443,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -4139,7 +4458,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4153,7 +4473,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3
+        "overall": 3,
+        "bucket": "P2"
       }
     },
     {
@@ -4163,11 +4484,27 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
-        "independence": 3,
+        "reliability": 2,
+        "independence": 10,
         "roi": 2,
-        "cognitiveLoad": 7,
-        "overall": 3.5
+        "cognitiveLoad": 0,
+        "overall": 3.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "src/composables/entityCrud/useEntityCrudMutations.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 4,
+        "roi": 2,
+        "cognitiveLoad": 5,
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -4181,7 +4518,42 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3
+        "overall": 3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "src/composables/entityCrud/useEntityCrudState.ts",
+      "functions": [
+        "useEntityCrudState"
+      ],
+      "classes": [],
+      "composables": [
+        "useEntityCrudState"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 5,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 4.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "src/composables/entityCrud/useEntityCrudTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 5,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4195,7 +4567,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -4209,7 +4582,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4223,7 +4597,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -4237,7 +4612,8 @@
         "independence": 9,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -4251,7 +4627,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 3,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -4265,7 +4642,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4279,7 +4657,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4293,7 +4672,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -4311,7 +4691,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -4329,7 +4710,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 3.5
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -4347,7 +4729,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -4361,7 +4744,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4375,7 +4759,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -4389,7 +4774,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4403,7 +4789,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4417,7 +4804,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -4441,7 +4829,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -4457,7 +4846,8 @@
         "independence": 5,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.7
+        "overall": 2.7,
+        "bucket": "P2"
       }
     },
     {
@@ -4481,7 +4871,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 4.7
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -4499,7 +4890,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 4.7
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -4517,7 +4909,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -4531,7 +4924,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4549,7 +4943,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -4567,7 +4962,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -4588,7 +4984,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -4606,7 +5003,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -4620,7 +5018,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4635,10 +5034,11 @@
       "exportCount": 2,
       "priority": {
         "reliability": 4,
-        "independence": 6,
+        "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.3
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -4656,7 +5056,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -4677,7 +5078,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -4695,7 +5097,8 @@
         "independence": 3,
         "roi": 4,
         "cognitiveLoad": 2,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -4709,7 +5112,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -4723,7 +5127,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -4737,7 +5142,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -4751,7 +5157,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -4765,7 +5172,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -4782,7 +5190,8 @@
         "independence": 9,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.5
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -4798,7 +5207,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 1,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4814,7 +5224,8 @@
         "independence": 9,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -4830,7 +5241,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 1,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -4844,7 +5256,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -4858,7 +5271,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -4872,7 +5286,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -4886,7 +5301,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -4900,7 +5316,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -4916,7 +5333,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -4930,7 +5348,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -4944,7 +5363,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -4958,7 +5378,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -4972,7 +5393,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -4986,7 +5408,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -5000,7 +5423,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -5014,7 +5438,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5028,7 +5453,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -5042,7 +5468,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -5056,7 +5483,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -5070,7 +5498,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -5084,7 +5513,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -5098,7 +5528,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -5112,7 +5543,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -5126,7 +5558,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1
+        "overall": 1,
+        "bucket": "P2"
       }
     },
     {
@@ -5140,7 +5573,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5154,7 +5588,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5168,7 +5603,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -5182,7 +5618,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -5196,7 +5633,8 @@
         "independence": 2,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -5210,7 +5648,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5224,7 +5663,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5238,7 +5678,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5254,7 +5695,8 @@
         "independence": 4,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 1.1
+        "overall": 1.1,
+        "bucket": "P2"
       }
     },
     {
@@ -5268,7 +5710,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -5284,7 +5727,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -5301,7 +5745,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -5315,7 +5760,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -5329,7 +5775,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -5343,7 +5790,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -5357,7 +5805,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -5371,7 +5820,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5385,7 +5835,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -5403,7 +5854,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -5419,7 +5871,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -5433,7 +5886,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5447,7 +5901,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -5461,7 +5916,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 3.5
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -5475,7 +5931,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -5489,7 +5946,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -5509,7 +5967,8 @@
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -5523,7 +5982,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.6
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -5537,7 +5997,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5551,7 +6012,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5565,7 +6027,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -5579,7 +6042,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -5593,7 +6057,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -5607,7 +6072,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1
+        "overall": 1,
+        "bucket": "P2"
       }
     },
     {
@@ -5621,7 +6087,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -5635,7 +6102,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5649,7 +6117,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -5663,7 +6132,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5677,7 +6147,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5691,7 +6162,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -5705,7 +6177,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -5719,7 +6192,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -5733,7 +6207,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -5749,7 +6224,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -5769,7 +6245,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -5785,7 +6262,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 4.1
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -5799,7 +6277,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -5825,7 +6304,8 @@
         "independence": 5,
         "roi": 9,
         "cognitiveLoad": 5,
-        "overall": 6.2
+        "overall": 6.2,
+        "bucket": "P1"
       }
     },
     {
@@ -5850,7 +6330,8 @@
         "independence": 8,
         "roi": 10,
         "cognitiveLoad": 4,
-        "overall": 8.2
+        "overall": 8.2,
+        "bucket": "P0"
       }
     },
     {
@@ -5868,7 +6349,8 @@
         "independence": 10,
         "roi": 9,
         "cognitiveLoad": 2,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -5889,7 +6371,8 @@
         "independence": 10,
         "roi": 10,
         "cognitiveLoad": 3,
-        "overall": 8.1
+        "overall": 8.1,
+        "bucket": "P0"
       }
     },
     {
@@ -5906,7 +6389,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -5924,7 +6408,8 @@
         "independence": 10,
         "roi": 9,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -5936,11 +6421,12 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 5,
+        "reliability": 3,
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5.8
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -5954,7 +6440,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -5968,7 +6455,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -5982,7 +6470,8 @@
         "independence": 7,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -5996,7 +6485,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -6013,7 +6503,43 @@
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "src/utils/debug/windowDebug.ts",
+      "functions": [
+        "attachDebugToWindow"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "src/utils/dom/cssVariables.ts",
+      "functions": [
+        "removeCSSVariable",
+        "setCSSVariable"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -6029,7 +6555,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -6043,7 +6570,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -6059,7 +6587,8 @@
         "independence": 7,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 3.5
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -6075,7 +6604,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -6089,7 +6619,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -6103,7 +6634,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 1,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -6119,7 +6651,8 @@
         "independence": 5,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -6133,7 +6666,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -6147,7 +6681,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.1
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -6163,7 +6698,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -6180,7 +6716,8 @@
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -6197,7 +6734,8 @@
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 1,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -6216,7 +6754,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 4.8
+        "overall": 4.8,
+        "bucket": "P1"
       }
     },
     {
@@ -6230,7 +6769,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -6244,7 +6784,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 1,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -6258,7 +6799,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.9
+        "overall": 6.9,
+        "bucket": "P1"
       }
     },
     {
@@ -6274,7 +6816,8 @@
         "independence": 7,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 7.8
+        "overall": 7.8,
+        "bucket": "P0"
       }
     },
     {
@@ -6288,7 +6831,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -6302,7 +6846,8 @@
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8
+        "overall": 0.8,
+        "bucket": "P2"
       }
     },
     {
@@ -6316,7 +6861,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.7
+        "overall": 1.7,
+        "bucket": "P2"
       }
     },
     {
@@ -6330,7 +6876,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -6344,7 +6891,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -6358,7 +6906,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -6372,7 +6921,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -6386,7 +6936,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -6400,7 +6951,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -6414,7 +6966,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.7
+        "overall": 1.7,
+        "bucket": "P2"
       }
     },
     {
@@ -6428,7 +6981,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -6442,7 +6996,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -6456,7 +7011,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -6470,7 +7026,8 @@
         "independence": 1,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -6484,7 +7041,8 @@
         "independence": 1,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -6498,7 +7056,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -6512,7 +7071,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -6526,7 +7086,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -6540,7 +7101,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -6554,7 +7116,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     }
   ],
@@ -6847,9 +7410,9 @@
     },
     {
       "directory": "src/composables/admin/annotationAssignments",
-      "sourceCount": 5,
+      "sourceCount": 7,
       "testCount": 0,
-      "untestedCount": 5
+      "untestedCount": 7
     },
     {
       "directory": "src/composables/admin/tables",
@@ -6871,9 +7434,9 @@
     },
     {
       "directory": "src/composables/booking",
-      "sourceCount": 66,
+      "sourceCount": 67,
       "testCount": 0,
-      "untestedCount": 29
+      "untestedCount": 30
     },
     {
       "directory": "src/composables/businessDataCollections",
@@ -6895,9 +7458,9 @@
     },
     {
       "directory": "src/composables/entityCrud",
-      "sourceCount": 5,
+      "sourceCount": 8,
       "testCount": 0,
-      "untestedCount": 5
+      "untestedCount": 8
     },
     {
       "directory": "src/composables/fieldContext",
@@ -7068,6 +7631,18 @@
       "untestedCount": 4
     },
     {
+      "directory": "src/utils/debug",
+      "sourceCount": 1,
+      "testCount": 0,
+      "untestedCount": 1
+    },
+    {
+      "directory": "src/utils/dom",
+      "sourceCount": 1,
+      "testCount": 0,
+      "untestedCount": 1
+    },
+    {
       "directory": "src/utils/entities",
       "sourceCount": 3,
       "testCount": 0,
@@ -7222,7 +7797,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -7240,7 +7816,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7258,7 +7835,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -7276,7 +7854,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -7294,7 +7873,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7312,7 +7892,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7330,7 +7911,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7348,7 +7930,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -7366,7 +7949,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7384,7 +7968,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7402,7 +7987,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -7420,7 +8006,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -7438,7 +8025,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7456,7 +8044,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7474,7 +8063,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -7492,7 +8082,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -7510,7 +8101,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -7528,7 +8120,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -7546,7 +8139,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -7564,7 +8158,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -7582,7 +8177,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -7600,7 +8196,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -7618,7 +8215,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -7636,7 +8234,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7654,7 +8253,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -7672,7 +8272,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7690,7 +8291,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7708,7 +8310,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7726,7 +8329,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -7744,7 +8348,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.9
+        "overall": 2.9,
+        "bucket": "P2"
       }
     },
     {
@@ -7762,7 +8367,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -7780,7 +8386,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7798,7 +8405,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7818,7 +8426,8 @@
         "independence": 8,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -7838,7 +8447,8 @@
         "independence": 6,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 1.9
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
@@ -7860,7 +8470,8 @@
         "independence": 8,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 4.3
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -7882,7 +8493,8 @@
         "independence": 8,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -7904,7 +8516,8 @@
         "independence": 6,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 1.9
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
@@ -7922,7 +8535,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -7942,7 +8556,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.7
+        "overall": 2.7,
+        "bucket": "P2"
       }
     },
     {
@@ -7960,7 +8575,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.5
+        "overall": 1.5,
+        "bucket": "P2"
       }
     },
     {
@@ -7989,7 +8605,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 5,
-        "overall": 4.1
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -8017,7 +8634,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 4,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -8035,7 +8653,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8053,7 +8672,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8071,7 +8691,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8089,7 +8710,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8107,7 +8729,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8125,7 +8748,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8143,7 +8767,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8165,7 +8790,8 @@
         "independence": 7,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -8183,7 +8809,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8204,7 +8831,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -8228,7 +8856,8 @@
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -8252,7 +8881,8 @@
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -8272,7 +8902,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -8302,7 +8933,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -8322,7 +8954,8 @@
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -8340,7 +8973,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8358,7 +8992,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.9
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
@@ -8376,7 +9011,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -8394,7 +9030,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8412,7 +9049,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -8430,7 +9068,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -8448,7 +9087,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8466,7 +9106,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -8484,7 +9125,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.5
+        "overall": 1.5,
+        "bucket": "P2"
       }
     },
     {
@@ -8502,7 +9144,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -8520,7 +9163,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8538,7 +9182,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8556,7 +9201,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -8574,7 +9220,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8592,7 +9239,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8612,7 +9260,8 @@
         "independence": 7,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -8634,7 +9283,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3
+        "overall": 3,
+        "bucket": "P2"
       }
     },
     {
@@ -8656,7 +9306,8 @@
         "independence": 5,
         "roi": 1,
         "cognitiveLoad": 1,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -8674,7 +9325,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8692,7 +9344,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -8719,7 +9372,8 @@
         "independence": 5,
         "roi": 3,
         "cognitiveLoad": 1,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8737,7 +9391,8 @@
         "independence": 3,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.6
+        "overall": 0.6,
+        "bucket": "P2"
       }
     },
     {
@@ -8755,7 +9410,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -8773,7 +9429,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -8791,7 +9448,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -8809,7 +9467,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 3.3
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -8827,7 +9486,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8845,7 +9505,8 @@
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.7
+        "overall": 1.7,
+        "bucket": "P2"
       }
     },
     {
@@ -8863,7 +9524,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -8881,7 +9543,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -8899,7 +9562,8 @@
         "independence": 3,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -8917,7 +9581,8 @@
         "independence": 1,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 0.6
+        "overall": 0.6,
+        "bucket": "P2"
       }
     },
     {
@@ -8935,7 +9600,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.9
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
@@ -8953,7 +9619,8 @@
         "independence": 3,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 0.9
+        "overall": 0.9,
+        "bucket": "P2"
       }
     },
     {
@@ -8971,7 +9638,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -8989,7 +9657,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9007,7 +9676,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -9025,7 +9695,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -9043,7 +9714,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9061,7 +9733,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9079,7 +9752,8 @@
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9097,7 +9771,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9115,7 +9790,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -9133,7 +9809,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -9151,7 +9828,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9169,7 +9847,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9187,7 +9866,8 @@
         "independence": 3,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -9205,7 +9885,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -9223,7 +9904,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9241,7 +9923,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -9259,7 +9942,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -9277,7 +9961,8 @@
         "independence": 1,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -9295,7 +9980,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 4.3
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -9313,7 +9999,8 @@
         "independence": 0,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -9331,7 +10018,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -9349,7 +10037,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -9367,7 +10056,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -9385,7 +10075,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.7
+        "overall": 2.7,
+        "bucket": "P2"
       }
     },
     {
@@ -9403,7 +10094,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.9
+        "overall": 2.9,
+        "bucket": "P2"
       }
     },
     {
@@ -9421,7 +10113,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -9439,7 +10132,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -9457,7 +10151,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -9475,7 +10170,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9493,7 +10189,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -9508,10 +10205,11 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 6,
+        "independence": 5,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 3.6
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -9529,7 +10227,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -9547,7 +10246,8 @@
         "independence": 2,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9567,7 +10267,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -9587,7 +10288,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -9605,7 +10307,8 @@
         "independence": 2,
         "roi": 2,
         "cognitiveLoad": 3,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -9623,7 +10326,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -9641,7 +10345,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -9659,7 +10364,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -9677,7 +10383,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -9695,7 +10402,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -9713,7 +10421,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -9731,7 +10440,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -9751,7 +10461,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 2,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -9769,7 +10480,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -9787,7 +10499,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -9806,10 +10519,57 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
+        "independence": 5,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 4.5,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts",
+      "functions": [
+        "useAnnotationAssignmentsMutations"
+      ],
+      "classes": [],
+      "composables": [
+        "useAnnotationAssignmentsMutations"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
         "independence": 4,
         "roi": 5,
-        "cognitiveLoad": 6,
-        "overall": 4.9
+        "cognitiveLoad": 5,
+        "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts",
+      "functions": [
+        "useAnnotationAssignmentsOrchestration"
+      ],
+      "classes": [],
+      "composables": [
+        "useAnnotationAssignmentsOrchestration"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 5,
+        "cognitiveLoad": 4,
+        "overall": 5.7,
+        "bucket": "P1"
       }
     },
     {
@@ -9831,7 +10591,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -9849,11 +10610,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
+        "reliability": 7,
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -9874,7 +10636,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -9896,7 +10659,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -9914,7 +10678,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -9936,7 +10701,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -9956,7 +10722,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -9978,7 +10745,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -10000,7 +10768,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10022,7 +10791,8 @@
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -10041,10 +10811,11 @@
       "exportCount": 2,
       "priority": {
         "reliability": 7,
-        "independence": 6,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.7,
+        "bucket": "P1"
       }
     },
     {
@@ -10066,7 +10837,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -10088,7 +10860,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -10110,7 +10883,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.3
+        "overall": 5.3,
+        "bucket": "P1"
       }
     },
     {
@@ -10132,7 +10906,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -10154,7 +10929,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -10176,7 +10952,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -10198,7 +10975,8 @@
         "independence": 3,
         "roi": 5,
         "cognitiveLoad": 3,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -10220,8 +10998,9 @@
         "reliability": 10,
         "independence": 5,
         "roi": 6,
-        "cognitiveLoad": 2,
-        "overall": 7
+        "cognitiveLoad": 3,
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -10243,7 +11022,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10265,7 +11045,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10283,7 +11064,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -10305,7 +11087,8 @@
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.7
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -10329,7 +11112,8 @@
         "independence": 6,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5.3
+        "overall": 5.3,
+        "bucket": "P1"
       }
     },
     {
@@ -10351,7 +11135,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -10373,7 +11158,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10395,7 +11181,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10415,7 +11202,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -10437,7 +11225,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -10455,7 +11244,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.6
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -10477,7 +11267,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10495,7 +11286,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -10513,7 +11305,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -10531,7 +11324,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -10553,7 +11347,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -10571,7 +11366,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -10593,7 +11389,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -10611,7 +11408,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -10633,7 +11431,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10655,7 +11454,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -10677,7 +11477,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10695,7 +11496,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -10717,7 +11519,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10739,7 +11542,8 @@
         "independence": 9,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.3
+        "overall": 5.3,
+        "bucket": "P1"
       }
     },
     {
@@ -10757,7 +11561,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -10779,7 +11584,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -10801,7 +11607,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -10823,7 +11630,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10845,7 +11653,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -10867,7 +11676,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10889,7 +11699,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -10911,7 +11722,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 4.7
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -10933,7 +11745,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -10955,7 +11768,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -10977,7 +11791,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -10999,7 +11814,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11021,7 +11837,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11043,7 +11860,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11066,7 +11884,8 @@
         "independence": 5,
         "roi": 6,
         "cognitiveLoad": 2,
-        "overall": 5.8
+        "overall": 5.8,
+        "bucket": "P1"
       }
     },
     {
@@ -11084,7 +11903,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -11106,7 +11926,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11128,7 +11949,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -11150,7 +11972,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11172,7 +11995,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.4
+        "overall": 5.4,
+        "bucket": "P1"
       }
     },
     {
@@ -11194,7 +12018,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -11216,7 +12041,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11238,7 +12064,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11260,7 +12087,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11278,7 +12106,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 3,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -11300,7 +12129,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 3,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -11322,7 +12152,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -11344,7 +12175,8 @@
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -11366,7 +12198,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11388,7 +12221,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 5,
-        "overall": 6.2
+        "overall": 6.2,
+        "bucket": "P1"
       }
     },
     {
@@ -11410,7 +12244,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11432,7 +12267,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11454,7 +12290,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11476,7 +12313,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11498,7 +12336,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11516,7 +12355,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -11534,7 +12374,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -11552,7 +12393,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -11572,7 +12414,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -11594,7 +12437,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -11612,7 +12456,8 @@
         "independence": 9,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 5.8
+        "overall": 5.8,
+        "bucket": "P1"
       }
     },
     {
@@ -11636,7 +12481,8 @@
         "independence": 8,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6.8
+        "overall": 6.8,
+        "bucket": "P1"
       }
     },
     {
@@ -11658,7 +12504,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11680,7 +12527,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11702,7 +12550,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11724,7 +12573,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.9
+        "overall": 6.9,
+        "bucket": "P1"
       }
     },
     {
@@ -11746,7 +12596,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11768,7 +12619,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -11790,7 +12642,8 @@
         "independence": 9,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 7.8
+        "overall": 7.8,
+        "bucket": "P0"
       }
     },
     {
@@ -11812,7 +12665,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -11834,7 +12688,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -11856,7 +12711,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -11878,7 +12734,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 7.8
+        "overall": 7.8,
+        "bucket": "P0"
       }
     },
     {
@@ -11900,7 +12757,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 7.5
+        "overall": 7.5,
+        "bucket": "P0"
       }
     },
     {
@@ -11922,7 +12780,8 @@
         "independence": 7,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 7.6
+        "overall": 7.6,
+        "bucket": "P0"
       }
     },
     {
@@ -11944,7 +12803,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -11966,7 +12826,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -11988,7 +12849,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 7.4
+        "overall": 7.4,
+        "bucket": "P0"
       }
     },
     {
@@ -12010,7 +12872,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.7
+        "overall": 6.7,
+        "bucket": "P1"
       }
     },
     {
@@ -12032,7 +12895,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12054,7 +12918,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -12076,7 +12941,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -12098,7 +12964,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -12120,7 +12987,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12142,7 +13010,8 @@
         "independence": 4,
         "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 7.1
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -12160,7 +13029,8 @@
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -12182,7 +13052,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -12204,7 +13075,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -12226,7 +13098,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12248,7 +13121,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -12270,7 +13144,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 6.7
+        "overall": 6.7,
+        "bucket": "P1"
       }
     },
     {
@@ -12292,7 +13167,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12314,7 +13190,31 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.7
+        "overall": 6.7,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "src/composables/booking/useElementDimensions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useElementDimensions.ts",
+      "functions": [
+        "useElementDimensions"
+      ],
+      "classes": [],
+      "composables": [
+        "useElementDimensions"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 6,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.1,
+        "bucket": "P1"
       }
     },
     {
@@ -12336,7 +13236,8 @@
         "independence": 7,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -12358,7 +13259,8 @@
         "independence": 7,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -12380,7 +13282,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12402,7 +13305,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12424,7 +13328,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12446,7 +13351,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -12468,7 +13374,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -12490,7 +13397,8 @@
         "independence": 7,
         "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -12512,7 +13420,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.9
+        "overall": 6.9,
+        "bucket": "P1"
       }
     },
     {
@@ -12534,7 +13443,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12556,7 +13466,8 @@
         "independence": 7,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -12578,7 +13489,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12600,7 +13512,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12622,7 +13535,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12644,7 +13558,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.9
+        "overall": 6.9,
+        "bucket": "P1"
       }
     },
     {
@@ -12666,7 +13581,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12687,8 +13603,9 @@
         "reliability": 7,
         "independence": 6,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 6.2
+        "cognitiveLoad": 0,
+        "overall": 6.1,
+        "bucket": "P1"
       }
     },
     {
@@ -12706,7 +13623,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -12724,7 +13642,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -12742,7 +13661,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -12764,7 +13684,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12782,7 +13703,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -12800,7 +13722,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -12818,7 +13741,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -12836,7 +13760,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -12858,7 +13783,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -12880,7 +13806,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -12902,7 +13829,8 @@
         "independence": 7,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 7.8
+        "overall": 7.8,
+        "bucket": "P0"
       }
     },
     {
@@ -12924,7 +13852,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -12946,7 +13875,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 6.8
+        "overall": 6.8,
+        "bucket": "P1"
       }
     },
     {
@@ -12968,7 +13898,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.7
+        "overall": 6.7,
+        "bucket": "P1"
       }
     },
     {
@@ -12990,7 +13921,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 6.6
+        "overall": 6.6,
+        "bucket": "P1"
       }
     },
     {
@@ -13012,7 +13944,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 8
+        "overall": 8,
+        "bucket": "P0"
       }
     },
     {
@@ -13034,7 +13967,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 7.5
+        "overall": 7.5,
+        "bucket": "P0"
       }
     },
     {
@@ -13056,7 +13990,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -13078,7 +14013,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.9
+        "overall": 6.9,
+        "bucket": "P1"
       }
     },
     {
@@ -13100,7 +14036,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -13118,7 +14055,8 @@
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 6.4
+        "overall": 6.4,
+        "bucket": "P1"
       }
     },
     {
@@ -13140,7 +14078,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.9
+        "overall": 6.9,
+        "bucket": "P1"
       }
     },
     {
@@ -13162,7 +14101,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -13184,7 +14124,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 7.8
+        "overall": 7.8,
+        "bucket": "P0"
       }
     },
     {
@@ -13202,7 +14143,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13220,7 +14162,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -13238,7 +14181,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -13256,7 +14200,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13274,7 +14219,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -13292,7 +14238,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13314,7 +14261,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 4.1
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -13332,7 +14280,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 4,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -13354,7 +14303,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -13372,7 +14322,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -13390,7 +14341,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13408,7 +14360,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3
+        "overall": 3,
+        "bucket": "P2"
       }
     },
     {
@@ -13422,11 +14375,31 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
-        "independence": 3,
+        "reliability": 2,
+        "independence": 10,
         "roi": 2,
-        "cognitiveLoad": 7,
-        "overall": 3.5
+        "cognitiveLoad": 0,
+        "overall": 3.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "src/composables/entityCrud/useEntityCrudMutations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutations.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 4,
+        "roi": 2,
+        "cognitiveLoad": 5,
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -13444,7 +14417,50 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3
+        "overall": 3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "src/composables/entityCrud/useEntityCrudState.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudState.ts",
+      "functions": [
+        "useEntityCrudState"
+      ],
+      "classes": [],
+      "composables": [
+        "useEntityCrudState"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 5,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 4.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "src/composables/entityCrud/useEntityCrudTypes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 5,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13462,7 +14478,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -13480,7 +14497,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13498,7 +14516,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -13516,7 +14535,8 @@
         "independence": 9,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -13534,7 +14554,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 3,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -13552,7 +14573,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13570,7 +14592,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13588,7 +14611,8 @@
         "independence": 6,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -13610,7 +14634,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -13632,7 +14657,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 3.5
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -13654,7 +14680,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -13672,7 +14699,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13690,7 +14718,8 @@
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -13708,7 +14737,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13726,7 +14756,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -13744,7 +14775,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -13766,7 +14798,8 @@
         "independence": 2,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 3.6
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -13789,7 +14822,8 @@
         "independence": 7,
         "roi": 6,
         "cognitiveLoad": 1,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -13817,7 +14851,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 2,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -13839,7 +14874,8 @@
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.3
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -13859,7 +14895,8 @@
         "independence": 5,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.7
+        "overall": 2.7,
+        "bucket": "P2"
       }
     },
     {
@@ -13881,7 +14918,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -13903,7 +14941,8 @@
         "independence": 3,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -13925,7 +14964,8 @@
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.3
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -13947,7 +14987,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.4
+        "overall": 5.4,
+        "bucket": "P1"
       }
     },
     {
@@ -13975,7 +15016,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 4.7
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -13997,7 +15039,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 4.7
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -14015,7 +15058,8 @@
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14033,7 +15077,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14055,7 +15100,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -14073,7 +15119,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14091,7 +15138,8 @@
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3
+        "overall": 3,
+        "bucket": "P2"
       }
     },
     {
@@ -14109,7 +15157,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14131,7 +15180,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 3,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -14153,7 +15203,8 @@
         "independence": 3,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -14175,7 +15226,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -14197,7 +15249,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -14222,7 +15275,8 @@
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -14244,7 +15298,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.7
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -14266,7 +15321,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5
+        "overall": 4.5,
+        "bucket": "P1"
       }
     },
     {
@@ -14288,7 +15344,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -14306,7 +15363,8 @@
         "independence": 4,
         "roi": 2,
         "cognitiveLoad": 4,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14328,7 +15386,8 @@
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 4.9
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -14346,7 +15405,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14365,10 +15425,11 @@
       "exportCount": 2,
       "priority": {
         "reliability": 4,
-        "independence": 6,
+        "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.3
+        "overall": 4.7,
+        "bucket": "P1"
       }
     },
     {
@@ -14390,7 +15451,8 @@
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -14412,7 +15474,8 @@
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -14437,7 +15500,8 @@
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -14459,7 +15523,8 @@
         "independence": 3,
         "roi": 4,
         "cognitiveLoad": 2,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -14477,7 +15542,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14495,7 +15561,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14513,7 +15580,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14531,7 +15599,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -14549,7 +15618,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14570,7 +15640,8 @@
         "independence": 9,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.5
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -14590,7 +15661,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 1,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14610,7 +15682,8 @@
         "independence": 9,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -14630,7 +15703,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 1,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14648,7 +15722,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14666,7 +15741,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -14684,7 +15760,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14702,7 +15779,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -14720,7 +15798,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14740,7 +15819,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -14758,7 +15838,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14776,7 +15857,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -14794,7 +15876,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -14812,7 +15895,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14830,7 +15914,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -14848,7 +15933,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -14866,7 +15952,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -14884,7 +15971,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14902,7 +15990,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14920,7 +16009,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14938,7 +16028,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -14956,7 +16047,8 @@
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -14974,7 +16066,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -14992,7 +16085,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -15010,7 +16104,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1
+        "overall": 1,
+        "bucket": "P2"
       }
     },
     {
@@ -15028,7 +16123,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15046,7 +16142,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15064,7 +16161,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -15082,7 +16180,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -15100,7 +16199,8 @@
         "independence": 2,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -15118,7 +16218,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15136,7 +16237,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15154,7 +16256,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15174,7 +16277,8 @@
         "independence": 4,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 1.1
+        "overall": 1.1,
+        "bucket": "P2"
       }
     },
     {
@@ -15192,7 +16296,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -15212,7 +16317,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -15233,7 +16339,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -15251,7 +16358,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -15269,7 +16377,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -15287,7 +16396,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.4
+        "overall": 1.4,
+        "bucket": "P2"
       }
     },
     {
@@ -15305,7 +16415,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -15323,7 +16434,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15341,7 +16453,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8
+        "overall": 1.8,
+        "bucket": "P2"
       }
     },
     {
@@ -15363,7 +16476,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.5
+        "overall": 2.5,
+        "bucket": "P2"
       }
     },
     {
@@ -15394,7 +16508,8 @@
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.3
+        "overall": 2.3,
+        "bucket": "P2"
       }
     },
     {
@@ -15412,7 +16527,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15430,7 +16546,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -15448,7 +16565,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 3.5
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -15466,7 +16584,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -15484,7 +16603,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -15508,7 +16628,8 @@
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -15526,7 +16647,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.6
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -15544,7 +16666,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15562,7 +16685,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15580,7 +16704,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -15598,7 +16723,8 @@
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -15616,7 +16742,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -15634,7 +16761,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1
+        "overall": 1,
+        "bucket": "P2"
       }
     },
     {
@@ -15652,7 +16780,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -15670,7 +16799,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15688,7 +16818,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -15706,7 +16837,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15724,7 +16856,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15742,7 +16875,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -15760,7 +16894,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -15778,7 +16913,8 @@
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2
+        "overall": 2.2,
+        "bucket": "P2"
       }
     },
     {
@@ -15796,7 +16932,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -15816,7 +16953,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -15840,7 +16978,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -15865,7 +17004,8 @@
         "independence": 7,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -15912,7 +17052,8 @@
         "independence": 3,
         "roi": 9,
         "cognitiveLoad": 2,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -15932,7 +17073,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 4.1
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -15950,7 +17092,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -15980,7 +17123,8 @@
         "independence": 5,
         "roi": 9,
         "cognitiveLoad": 5,
-        "overall": 6.2
+        "overall": 6.2,
+        "bucket": "P1"
       }
     },
     {
@@ -16009,7 +17153,8 @@
         "independence": 8,
         "roi": 10,
         "cognitiveLoad": 4,
-        "overall": 8.2
+        "overall": 8.2,
+        "bucket": "P0"
       }
     },
     {
@@ -16031,7 +17176,8 @@
         "independence": 10,
         "roi": 9,
         "cognitiveLoad": 2,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -16052,7 +17198,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -16072,7 +17219,8 @@
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -16094,7 +17242,8 @@
         "independence": 10,
         "roi": 9,
         "cognitiveLoad": 1,
-        "overall": 6.8
+        "overall": 6.8,
+        "bucket": "P1"
       }
     },
     {
@@ -16119,7 +17268,8 @@
         "independence": 10,
         "roi": 10,
         "cognitiveLoad": 3,
-        "overall": 8.1
+        "overall": 8.1,
+        "bucket": "P0"
       }
     },
     {
@@ -16140,7 +17290,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -16161,7 +17312,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -16182,7 +17334,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -16203,7 +17356,8 @@
         "independence": 8,
         "roi": 8,
         "cognitiveLoad": 3,
-        "overall": 6.3
+        "overall": 6.3,
+        "bucket": "P1"
       }
     },
     {
@@ -16225,7 +17379,8 @@
         "independence": 10,
         "roi": 9,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -16246,7 +17401,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 1,
-        "overall": 5.3
+        "overall": 5.3,
+        "bucket": "P1"
       }
     },
     {
@@ -16268,7 +17424,8 @@
         "independence": 10,
         "roi": 9,
         "cognitiveLoad": 0,
-        "overall": 5.5
+        "overall": 5.5,
+        "bucket": "P1"
       }
     },
     {
@@ -16288,7 +17445,8 @@
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -16311,7 +17469,8 @@
         "independence": 10,
         "roi": 9,
         "cognitiveLoad": 0,
-        "overall": 5.9
+        "overall": 5.9,
+        "bucket": "P1"
       }
     },
     {
@@ -16333,7 +17492,8 @@
         "independence": 8,
         "roi": 9,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -16353,7 +17513,8 @@
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -16376,7 +17537,8 @@
         "independence": 8,
         "roi": 9,
         "cognitiveLoad": 0,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -16398,7 +17560,8 @@
         "independence": 10,
         "roi": 9,
         "cognitiveLoad": 1,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -16419,7 +17582,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.6
+        "overall": 5.6,
+        "bucket": "P1"
       }
     },
     {
@@ -16440,7 +17604,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.2
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -16456,11 +17621,12 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 5,
+        "reliability": 3,
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5.8
+        "overall": 5,
+        "bucket": "P1"
       }
     },
     {
@@ -16518,7 +17684,8 @@
         "independence": 2,
         "roi": 10,
         "cognitiveLoad": 9,
-        "overall": 7.1
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -16544,7 +17711,8 @@
         "independence": 5,
         "roi": 10,
         "cognitiveLoad": 5,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -16570,7 +17738,8 @@
         "independence": 8,
         "roi": 10,
         "cognitiveLoad": 3,
-        "overall": 6.5
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -16590,7 +17759,8 @@
         "independence": 9,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -16610,7 +17780,8 @@
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -16628,7 +17799,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -16646,7 +17818,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -16664,7 +17837,8 @@
         "independence": 7,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.1
+        "overall": 3.1,
+        "bucket": "P2"
       }
     },
     {
@@ -16682,7 +17856,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -16703,7 +17878,29 @@
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "src/utils/debug/windowDebug.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/debug/windowDebug.ts",
+      "functions": [
+        "attachDebugToWindow"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -16723,7 +17920,8 @@
         "independence": 4,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 2.9
+        "overall": 2.9,
+        "bucket": "P2"
       }
     },
     {
@@ -16750,7 +17948,30 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 2,
-        "overall": 7.4
+        "overall": 7.4,
+        "bucket": "P0"
+      }
+    },
+    {
+      "repoPath": "src/utils/dom/cssVariables.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/dom/cssVariables.ts",
+      "functions": [
+        "removeCSSVariable",
+        "setCSSVariable"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -16770,7 +17991,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -16788,7 +18010,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -16808,7 +18031,8 @@
         "independence": 7,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 3.5
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -16829,7 +18053,8 @@
         "independence": 7,
         "roi": 6,
         "cognitiveLoad": 2,
-        "overall": 5.8
+        "overall": 5.8,
+        "bucket": "P1"
       }
     },
     {
@@ -16849,7 +18074,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -16867,7 +18093,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -16885,7 +18112,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 1,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -16905,7 +18133,8 @@
         "independence": 5,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 3.9
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -16923,7 +18152,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -16945,7 +18175,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 4.8
+        "overall": 4.8,
+        "bucket": "P1"
       }
     },
     {
@@ -16963,7 +18194,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.1
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -16983,7 +18215,8 @@
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -17003,7 +18236,8 @@
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 3.6
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -17024,7 +18258,8 @@
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -17045,7 +18280,8 @@
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 4.6
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -17066,7 +18302,8 @@
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 1,
-        "overall": 5.1
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -17089,7 +18326,8 @@
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 4.8
+        "overall": 4.8,
+        "bucket": "P1"
       }
     },
     {
@@ -17107,7 +18345,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -17125,7 +18364,8 @@
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -17145,7 +18385,8 @@
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4.4
+        "overall": 4.4,
+        "bucket": "P1"
       }
     },
     {
@@ -17163,7 +18404,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 1,
-        "overall": 4.2
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -17187,7 +18429,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -17210,7 +18453,8 @@
         "independence": 6,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 7
+        "overall": 7,
+        "bucket": "P0"
       }
     },
     {
@@ -17237,7 +18481,8 @@
         "independence": 10,
         "roi": 10,
         "cognitiveLoad": 4,
-        "overall": 8.6
+        "overall": 8.6,
+        "bucket": "P0"
       }
     },
     {
@@ -17257,7 +18502,8 @@
         "independence": 4,
         "roi": 8,
         "cognitiveLoad": 5,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -17278,7 +18524,8 @@
         "independence": 4,
         "roi": 10,
         "cognitiveLoad": 1,
-        "overall": 7.9
+        "overall": 7.9,
+        "bucket": "P0"
       }
     },
     {
@@ -17298,7 +18545,8 @@
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 1,
-        "overall": 8.1
+        "overall": 8.1,
+        "bucket": "P0"
       }
     },
     {
@@ -17316,7 +18564,8 @@
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.9
+        "overall": 6.9,
+        "bucket": "P1"
       }
     },
     {
@@ -17341,7 +18590,8 @@
         "independence": 7,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 7.8
+        "overall": 7.8,
+        "bucket": "P0"
       }
     },
     {
@@ -17371,7 +18621,8 @@
         "independence": 3,
         "roi": 8,
         "cognitiveLoad": 7,
-        "overall": 7.7
+        "overall": 7.7,
+        "bucket": "P0"
       }
     },
     {
@@ -17396,7 +18647,8 @@
         "independence": 7,
         "roi": 8,
         "cognitiveLoad": 1,
-        "overall": 7.1
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -17426,7 +18678,8 @@
         "independence": 5,
         "roi": 8,
         "cognitiveLoad": 2,
-        "overall": 7.6
+        "overall": 7.6,
+        "bucket": "P0"
       }
     },
     {
@@ -17452,7 +18705,8 @@
         "independence": 4,
         "roi": 10,
         "cognitiveLoad": 6,
-        "overall": 8.4
+        "overall": 8.4,
+        "bucket": "P0"
       }
     },
     {
@@ -17470,7 +18724,8 @@
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -17488,7 +18743,8 @@
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8
+        "overall": 0.8,
+        "bucket": "P2"
       }
     },
     {
@@ -17506,7 +18762,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.7
+        "overall": 1.7,
+        "bucket": "P2"
       }
     },
     {
@@ -17524,7 +18781,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -17542,7 +18800,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -17560,7 +18819,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -17578,7 +18838,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -17596,7 +18857,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -17614,7 +18876,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -17632,7 +18895,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 1.7
+        "overall": 1.7,
+        "bucket": "P2"
       }
     },
     {
@@ -17650,7 +18914,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -17668,7 +18933,8 @@
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -17686,7 +18952,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
@@ -17704,7 +18971,8 @@
         "independence": 1,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -17722,7 +18990,8 @@
         "independence": 1,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.2
+        "overall": 1.2,
+        "bucket": "P2"
       }
     },
     {
@@ -17740,7 +19009,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 3.8
+        "overall": 3.8,
+        "bucket": "P2"
       }
     },
     {
@@ -17758,7 +19028,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -17776,7 +19047,8 @@
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1
+        "overall": 2.1,
+        "bucket": "P2"
       }
     },
     {
@@ -17794,7 +19066,8 @@
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6
+        "overall": 2.6,
+        "bucket": "P2"
       }
     },
     {
@@ -17812,7 +19085,8 @@
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6
+        "overall": 1.6,
+        "bucket": "P2"
       }
     }
   ],

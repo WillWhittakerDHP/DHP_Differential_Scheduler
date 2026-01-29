@@ -24,7 +24,6 @@ import { useInstanceSaveHandlers } from '@/composables/admin/useInstanceSaveHand
 import { useInstanceTabHandlers } from '@/composables/admin/useInstanceTabHandlers'
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
-import { useAdmin } from '@/composables/useAdmin'
 import { BLOCK_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 
 /**
@@ -146,8 +145,7 @@ const handleBulkEditConfirm = (blockShapeId: string, data: Record<string, number
  */
 const {
   mainInstancesByShape,
-  groupedInstancesByShape,
-  groupedPanelValue
+  groupedInstancesByShape
 } = useInstanceFiltering({
   blockInstancesByShape
 })
@@ -207,9 +205,13 @@ const handleCreateClick = (blockShapeId: string): void => {
  * WHY: Opens modal with pre-filled values from source entity
  * PATTERN: Set blockShapeId and sourceEntity, then open modal
  */
-const handleDuplicateClick = (sourceEntity: GlobalEntity<'blockInstance'>): void => {
-  createModalBlockShapeId.value = sourceEntity.blockShapeRef
-  createModalSourceEntity.value = sourceEntity
+const handleDuplicateClick = (sourceEntity: GlobalEntity<GlobalEntityKey>): void => {
+  // LEARNING: EntityCard emits union type, but InstancesTab only handles blockInstance
+  // WHY: Type safety - EntityCard can emit any entity type, but we only handle blockInstance
+  // PATTERN: Type assertion since InstancesTab only uses EntityCard with entity-key="blockInstance"
+  const blockInstanceEntity = sourceEntity as GlobalEntity<'blockInstance'>
+  createModalBlockShapeId.value = blockInstanceEntity.blockShapeRef
+  createModalSourceEntity.value = blockInstanceEntity
   createModalOpen.value = true
 }
 

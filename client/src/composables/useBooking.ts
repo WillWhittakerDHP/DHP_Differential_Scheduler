@@ -12,7 +12,7 @@ import { useGlobal } from './useGlobal'
 // Import Vue booking transformer (no React dependencies)
 import { bookingTransformer } from '@/utils/transformers/globalToBookingTransformer'
 import type { BookingData } from '@/utils/transformers/globalToBookingTransformer'
-import { isDevModeEnabled } from '@/utils/env/devMode'
+import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
 // DIAGNOSTICS: Track instance creation
 let instanceCount = 0
@@ -114,25 +114,15 @@ export function useBooking() {
 }
 
 // DIAGNOSTICS: Export instance count for debugging
-if (isDevModeEnabled()) {
-  interface WindowWithDebug extends Window {
-    __useBookingDebug?: {
-      instanceCount: () => number
-      callCount: () => number
-      callSites: () => Array<{ count: number; stack: string }>
-      reset: () => void
-    }
+attachDebugToWindow('__useBookingDebug', {
+  instanceCount: () => instanceCount,
+  callCount: () => callCount,
+  callSites: () => instanceCallSites,
+  reset: () => {
+    instanceCount = 0
+    callCount = 0
+    instanceCallSites.length = 0
+    bookingInstance = null
   }
-  (window as WindowWithDebug).__useBookingDebug = {
-    instanceCount: () => instanceCount,
-    callCount: () => callCount,
-    callSites: () => instanceCallSites,
-    reset: () => {
-      instanceCount = 0
-      callCount = 0
-      instanceCallSites.length = 0
-      bookingInstance = null
-    }
-  }
-}
+})
 

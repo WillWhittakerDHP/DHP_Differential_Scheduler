@@ -1,0 +1,270 @@
+{
+  "generatedAt": "2026-01-29T01:31:36.531Z",
+  "check": "Fallback",
+  "status": "warning",
+  "issues": [
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": ".cursor/commands/tiers/session/atomic/create-session-label.ts",
+      "line": 24,
+      "code": "phase: phase || '',",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": ".cursor/commands/tiers/session/atomic/create-session-label.ts",
+      "line": 25,
+      "code": "subPhase: subPhase || '',",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": ".cursor/commands/tiers/session/composite/mark-session-complete.ts",
+      "line": 24,
+      "code": "const featureName = params.featureName || 'vue-migration';",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Fallback patterns\" keyword: fallback",
+      "file": ".cursor/commands/tiers/session/composite/plan-session.ts",
+      "line": 91,
+      "code": "`WARNING: Session guide template not found, using fallback template\\n` +",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Error ignoring\" keyword: ignore",
+      "file": ".cursor/commands/tiers/session/composite/session-change.ts",
+      "line": 67,
+      "code": "stdio: 'ignore',",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
+      "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+      "line": 119,
+      "code": "runTests?: boolean; // Set by user prompt before command execution. Default: true if not specified, ...",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
+      "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+      "line": 120,
+      "code": "testTarget?: string; // Test target: vue/server/all (default: vue)",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+      "line": 192,
+      "code": "output: vueAudit.summary || `vue-architecture status: ${vueAudit.status}`,",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+      "line": 223,
+      "code": "output: codeQualityAudit.summary || `Code quality audit: ${codeQualityAudit.status}`,",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
+      "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+      "line": 250,
+      "code": "console.warn('runTests not explicitly set - using default: true');",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+      "line": 599,
+      "code": "output: `⚠️ Could not create PR automatically (non-critical): ${prResult.error || 'Unknown error'}\\n...",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Error ignoring\" keyword: ignore",
+      "file": ".cursor/commands/tiers/session/composite/session-start.ts",
+      "line": 149,
+      "code": "stdio: 'ignore',",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": ".cursor/commands/tiers/session/composite/update-handoff.ts",
+      "line": 23,
+      "code": "const featureName = params.featureName || 'vue-migration';",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    }
+  ],
+  "files": [
+    {
+      "repoPath": ".cursor/commands/tiers/session/atomic/create-session-label.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": ".cursor/commands/tiers/session/atomic/create-session-label.ts",
+          "line": 24,
+          "code": "phase: phase || '',",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": ".cursor/commands/tiers/session/atomic/create-session-label.ts",
+          "line": 25,
+          "code": "subPhase: subPhase || '',",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        }
+      ],
+      "score": 2,
+      "priority": "P1"
+    },
+    {
+      "repoPath": ".cursor/commands/tiers/session/composite/mark-session-complete.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": ".cursor/commands/tiers/session/composite/mark-session-complete.ts",
+          "line": 24,
+          "code": "const featureName = params.featureName || 'vue-migration';",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": ".cursor/commands/tiers/session/composite/plan-session.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found \"Fallback patterns\" keyword: fallback",
+          "file": ".cursor/commands/tiers/session/composite/plan-session.ts",
+          "line": 91,
+          "code": "`WARNING: Session guide template not found, using fallback template\\n` +",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": ".cursor/commands/tiers/session/composite/session-change.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found \"Error ignoring\" keyword: ignore",
+          "file": ".cursor/commands/tiers/session/composite/session-change.ts",
+          "line": 67,
+          "code": "stdio: 'ignore',",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": ".cursor/commands/tiers/session/composite/session-end.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+          "line": 119,
+          "code": "runTests?: boolean; // Set by user prompt before command execution. Default: true if not specified, ...",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+          "line": 120,
+          "code": "testTarget?: string; // Test target: vue/server/all (default: vue)",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+          "line": 192,
+          "code": "output: vueAudit.summary || `vue-architecture status: ${vueAudit.status}`,",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+          "line": 223,
+          "code": "output: codeQualityAudit.summary || `Code quality audit: ${codeQualityAudit.status}`,",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+          "line": 250,
+          "code": "console.warn('runTests not explicitly set - using default: true');",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": ".cursor/commands/tiers/session/composite/session-end.ts",
+          "line": 599,
+          "code": "output: `⚠️ Could not create PR automatically (non-critical): ${prResult.error || 'Unknown error'}\\n...",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        }
+      ],
+      "score": 6,
+      "priority": "P0"
+    },
+    {
+      "repoPath": ".cursor/commands/tiers/session/composite/session-start.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found \"Error ignoring\" keyword: ignore",
+          "file": ".cursor/commands/tiers/session/composite/session-start.ts",
+          "line": 149,
+          "code": "stdio: 'ignore',",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": ".cursor/commands/tiers/session/composite/update-handoff.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": ".cursor/commands/tiers/session/composite/update-handoff.ts",
+          "line": 23,
+          "code": "const featureName = params.featureName || 'vue-migration';",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    }
+  ],
+  "recommendations": [
+    "Found 13 warning(s) - review defaults/fallbacks for removal in favor of dynamic/config-driven approaches"
+  ],
+  "summary": "Scanned 10 file(s) in session tier. Found 13 issue(s): 0 critical, 13 warnings"
+}

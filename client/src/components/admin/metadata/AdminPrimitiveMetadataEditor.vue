@@ -285,7 +285,6 @@ const queryClient = useQueryClient()
 // WHY: Encapsulates pending override/deletion tracking and toggle logic
 // PATTERN: Use composable for managing instance-specific metadata override state
 const {
-  pendingOverrides,
   pendingDeletes,
   pendingChanges,
   hasOverride,
@@ -367,24 +366,6 @@ function hasMetadataEntry(fieldKey: string): boolean {
   return !!fieldMetadata.value[fieldKey]
 }
 
-/**
- * LEARNING: Get computed renderAs for display
- * WHY: Show auto-computed renderAs value in UI (read-only)
- * PATTERN: Compute from effective metadata
- */
-function getComputedRenderAs(fieldKey: string): string {
-  const meta = getEffectiveFieldMetadata(fieldKey)
-  if (!meta) {
-    return 'Not configured'
-  }
-  
-  // Use existing renderAs if present, otherwise compute it
-  if (meta.renderAs) {
-    return meta.renderAs
-  }
-  
-  return computeRenderAs(meta.dataType, meta.inputConfig, fieldKey)
-}
 
 // Save all changes
 async function handleSave() {
@@ -502,16 +483,6 @@ const panelOptions = [
   { title: 'None', value: 'none' },
 ] as const
 
-const renderAsOptions = [
-  { title: 'Text', value: 'text' },
-  { title: 'Number', value: 'number' },
-  { title: 'Select', value: 'select' },
-  { title: 'Multiselect', value: 'multiselect' },
-  { title: 'Reference', value: 'reference' },
-  { title: 'Status Button', value: 'statusButton' },
-  { title: 'Icon Select', value: 'iconSelect' },
-  { title: 'Parts Collection', value: 'partsCollection' },
-] as const
 
 // LEARNING: Status button color options ordered by ROY G BIV (Rainbow Order)
 // WHY: Makes it easier to identify colors - explicit color names instead of semantic names

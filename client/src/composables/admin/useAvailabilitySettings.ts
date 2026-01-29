@@ -12,7 +12,8 @@ import type {
   RollingWeekCapacityFilter,
   BufferConfig,
   RangeConstraint,
-  BusinessHoursConfig
+  BusinessHoursConfig,
+  RawAvailabilitySettings
 } from '@/configs/availabilitySettings'
 import { invalidateAvailabilitySettingsCache } from '@/configs/availabilitySettings'
 import { DAY_NAMES } from '@/constants/availabilitySettings'
@@ -91,25 +92,7 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         throw new Error('No settings found in API response')
       }
       
-      const rawSettings = response.data.setting_value as {
-        minuteIncrement: number
-        rangeConstraints: {
-          businessHours: RangeConstraint
-          leadTime?: RangeConstraint
-          dateRange?: RangeConstraint
-        }
-        buffers?: {
-          appointment?: BufferConfig
-          driveTime?: BufferConfig
-          lunch?: BufferConfig
-        }
-        maxWorkHours?: {
-          day?: WorkCapacityFilter
-          calendarWeek?: WorkCapacityFilter
-          rollingWeek?: RollingWeekCapacityFilter
-        }
-        timezone?: string
-      }
+      const rawSettings = response.data.setting_value as RawAvailabilitySettings
       
       // Validate - fail fast if missing required fields
       if (!rawSettings.rangeConstraints?.businessHours) {

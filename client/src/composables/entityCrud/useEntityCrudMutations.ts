@@ -5,7 +5,6 @@ import { globalTransformer, type GlobalData } from '@/utils/transformers/fetchTo
 import { transformApiEntity } from '@/utils/transformers/entityTransformers'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
-import type { ValidAdminValue } from '@/constants/primitives'
 import type { Logger } from '@/utils/logger'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { BulkUpdate, OrderIndexUpdate } from './useEntityCrudTypes'
@@ -60,6 +59,15 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       }
 
       const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)
+      
+      // LEARNING: Explicit error handling for API response
+      // WHY: Ensure response data exists before transformation
+      // PATTERN: Check response data, log error if missing, throw explicit error
+      if (!response.data) {
+        const errorMessage = `API response missing data for ${entityKey} creation`
+        logger.error(errorMessage, { endpoint, payload: backendPayload })
+        throw new Error(errorMessage)
+      }
 
       const transformedResponse = transformApiEntity(response.data as unknown as Record<string, unknown>, entityKey)
       return transformedResponse
@@ -106,10 +114,14 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
         })
       }
     },
-    onError: (_error: unknown, _variables: Partial<GlobalEntity<GlobalEntityTypeKey>>, context: { previousData?: GlobalData } | undefined) => {
-      // LEARNING: Rollback on error
-      // WHY: If creation fails, restore previous cache state
-      // PATTERN: Use context from onMutate to restore previous data
+    onError: (error: unknown, _variables: Partial<GlobalEntity<GlobalEntityTypeKey>>, context: { previousData?: GlobalData } | undefined) => {
+      // LEARNING: Explicit error logging and rollback
+      // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
+      // PATTERN: Log error, then use context from onMutate to restore previous data
+      logger.error(`Failed to create ${entityKey}:`, {
+        error: error instanceof Error ? error.message : String(error),
+        entity: _variables
+      })
       if (context?.previousData) {
         queryClient.setQueryData(['globalData'], context.previousData)
       }
@@ -133,6 +145,16 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       const backendPayload = globalTransformer.dehydrateEntity(rawEntity)
       const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)
+      
+      // LEARNING: Explicit error handling for API response
+      // WHY: Ensure response data exists before returning
+      // PATTERN: Check response data, log error if missing, throw explicit error
+      if (!response.data) {
+        const errorMessage = `API response missing data for ${entityKey} update`
+        logger.error(errorMessage, { endpoint: updateEndpoint, payload: backendPayload, entityId: id })
+        throw new Error(errorMessage)
+      }
+      
       return { ...response.data, id: String(id) }
     },
     onMutate: async (variables) => {
@@ -212,10 +234,15 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
         })
       }
     },
-    onError: (_error: unknown, _variables: { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, context: { previousData?: GlobalData } | undefined) => {
-      // LEARNING: Rollback on error
-      // WHY: If update fails, restore previous cache state
-      // PATTERN: Use context from onMutate to restore previous data
+    onError: (error: unknown, _variables: { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, context: { previousData?: GlobalData } | undefined) => {
+      // LEARNING: Explicit error logging and rollback
+      // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
+      // PATTERN: Log error, then use context from onMutate to restore previous data
+      logger.error(`Failed to update ${entityKey}:`, {
+        error: error instanceof Error ? error.message : String(error),
+        entityId: _variables.id,
+        entity: _variables.entity
+      })
       if (context?.previousData) {
         queryClient.setQueryData(['globalData'], context.previousData)
       }
@@ -225,7 +252,17 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
   const removeMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({
     mutationFn: async (id: GlobalEntityId) => {
       const deleteEndpoint = getEntityByIdEndpoint(entityKey, String(id))
-      await apiClient.delete(deleteEndpoint)
+      const response = await apiClient.delete(deleteEndpoint)
+      
+      // LEARNING: Explicit error handling for delete operation
+      // WHY: Verify delete succeeded - API should return success status
+      // PATTERN: Check response status, log error if failed, throw explicit error
+      if (response.status < 200 || response.status >= 300) {
+        const errorMessage = `Delete operation failed for ${entityKey}`
+        logger.error(errorMessage, { endpoint: deleteEndpoint, entityId: id, status: response.status })
+        throw new Error(errorMessage)
+      }
+      
       return { deletedId: String(id) }
     },
     onMutate: async (id) => {
@@ -247,7 +284,14 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       return { previousData }
     },
-    onError: (_error: unknown, _variables: GlobalEntityId, context: { previousData?: GlobalData } | undefined) => {
+    onError: (error: unknown, _variables: GlobalEntityId, context: { previousData?: GlobalData } | undefined) => {
+      // LEARNING: Explicit error logging and rollback
+      // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
+      // PATTERN: Log error, then use context from onMutate to restore previous data
+      logger.error(`Failed to remove ${entityKey}:`, {
+        error: error instanceof Error ? error.message : String(error),
+        entityId: _variables
+      })
       if (context?.previousData) {
         queryClient.setQueryData(['globalData'], context.previousData)
       }
@@ -289,7 +333,14 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       return { previousData }
     },
-    onError: (_error: unknown, _variables: OrderIndexUpdate, context: { previousData?: GlobalData } | undefined) => {
+    onError: (error: unknown, _variables: OrderIndexUpdate, _onMutateResult: unknown, context: { previousData?: GlobalData } | undefined) => {
+      // LEARNING: Explicit error logging and rollback
+      // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
+      // PATTERN: Log error, then use context from onMutate to restore previous data
+      logger.error(`Failed to update orderIndex for ${entityKey}:`, {
+        error: error instanceof Error ? error.message : String(error),
+        updates: _variables
+      })
       if (context?.previousData) {
         queryClient.setQueryData(['globalData'], context.previousData)
       }
@@ -332,7 +383,14 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       return { previousData }
     },
-    onError: (_error: unknown, _variables: BulkUpdate<GlobalEntityTypeKey>, context: { previousData?: GlobalData } | undefined) => {
+    onError: (error: unknown, _variables: BulkUpdate<GlobalEntityTypeKey>, _onMutateResult: unknown, context: { previousData?: GlobalData } | undefined) => {
+      // LEARNING: Explicit error logging and rollback
+      // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
+      // PATTERN: Log error, then use context from onMutate to restore previous data
+      logger.error(`Failed to bulk update ${entityKey}:`, {
+        error: error instanceof Error ? error.message : String(error),
+        updatesCount: _variables.length
+      })
       if (context?.previousData) {
         queryClient.setQueryData(['globalData'], context.previousData)
       }

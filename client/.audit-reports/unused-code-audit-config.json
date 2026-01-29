@@ -1,0 +1,17 @@
+{
+  "$comment": "Configuration for unused-code-audit.mjs",
+  "priorities": {
+    "p0MinSeverityScore": 10,
+    "p1MinSeverityScore": 5
+  },
+  "allowlist": {
+    "patterns": [
+      {
+        "glob": "src/constants/**/*.ts",
+        "ruleIds": ["unused-export"],
+        "reason": "Constants files may export unused values for future use"
+      }
+    ],
+    "specific": []
+  }
+}

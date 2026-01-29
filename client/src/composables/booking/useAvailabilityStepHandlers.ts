@@ -6,7 +6,7 @@
  * PATTERN: Composable that provides event handler functions
  */
 
-import { nextTick, type Ref } from 'vue'
+import { type Ref } from 'vue'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 
@@ -105,9 +105,6 @@ export function useAvailabilityStepHandlers(
 ): UseAvailabilityStepHandlersReturn {
   const {
     appointmentSlotOrderIndex,
-    hasMoveableParts,
-    selectedSlot,
-    openMoveableModal,
     closeMoveableModal,
     moveableOptions,
     selectedMoveableSlotIndex,

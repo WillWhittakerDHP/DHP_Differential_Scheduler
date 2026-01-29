@@ -11,7 +11,7 @@ import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { toRFC3339DateTime, type RFC3339DateTime } from '@/types/datetime'
 import { getAvailabilitySettings, type BusinessHoursConfig } from '@/configs/availabilitySettings'
-import { fitAvailableTimeSlots, parseUTCDate, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
+import { fitAvailableTimeSlots, parseUTCDate } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
 import { generateMockFreeBusyResponse, extractBusyTimesFromFreeBusyResponse } from '@/utils/booking/mockGoogleCalendar'
 import { validateDateRange } from '@/utils/booking/dateRangeValidation'
 import { DEFAULT_APPOINTMENT_DURATION_MINUTES } from '@/constants/scheduling'
@@ -140,10 +140,6 @@ export function getCalendarAvailability(dateRange: { start: RFC3339DateTime; end
     return []
   }
   
-  // Use validated range for date parsing
-  const startDate = new Date(validatedRange.start)
-  const endDate = new Date(validatedRange.end)
-  
   try {
     const mockResponse = generateMockFreeBusyResponse(dateRange, {
       periodsPerCalendar: 3,  // 3 busy periods per calendar
@@ -158,8 +154,13 @@ export function getCalendarAvailability(dateRange: { start: RFC3339DateTime; end
     // PATTERN: Extract and merge for accurate availability calculation
     const busyTimes = extractBusyTimesFromFreeBusyResponse(mockResponse, true)
     
-
-    return busyTimes
+    // LEARNING: Convert string arrays to RFC3339DateTime arrays
+    // WHY: Function signature requires RFC3339DateTime type
+    // PATTERN: Map over array and convert strings to RFC3339DateTime
+    return busyTimes.map(period => ({
+      start: period.start as RFC3339DateTime,
+      end: period.end as RFC3339DateTime
+    }))
   } catch (error) {
     // LEARNING: Handle errors gracefully
     // WHY: Mock generation might fail with invalid date ranges
@@ -197,14 +198,11 @@ export async function generateTimeSlots(
   // WHY: Past dates shouldn't generate slots
   // LEARNING: Use UTC methods for all date operations
   // WHY: All business logic should use UTC to avoid timezone issues
-  const now = new Date()
-  const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0))
   const startDate = parseUTCDate(dateRange.start)
   if (!startDate) {
     logger.warn('Invalid start date in dateRange:', dateRange.start)
     return []
   }
-  const startDateOnly = new Date(Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate(), 0, 0, 0, 0))
   
   // LEARNING: Extract businessHours from structured rangeConstraints
   // WHY: No top-level businessHours fallback - must use structured format
