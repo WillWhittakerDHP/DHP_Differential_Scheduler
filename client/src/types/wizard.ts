@@ -11,7 +11,7 @@
 import type { BookingBlockInstance, BookingData } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AppointmentResponse } from '@/types/appointment'
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 
 /**
  * Wizard State Interface
@@ -28,6 +28,8 @@ export interface WizardState {
   selectedOptionTypeBlocks: BookingBlockInstance[]
   /** Array of selected property type blocks (multi-select) */
   selectedPropertyTypeBlocks: BookingBlockInstance[]
+  /** Array of selected line item blocks (bookingMode: "addOn") */
+  selectedLineItemBlocks: BookingBlockInstance[]
   /** Whether user only wants a quote (not booking) */
   isQuoteMode: boolean
 }
@@ -47,6 +49,8 @@ export interface WizardSelectionMethods {
   toggleOptionTypeBlock: (block: BookingBlockInstance) => void
   /** Toggle property type block selection (multi-select) */
   togglePropertyTypeBlock: (block: BookingBlockInstance) => void
+  /** Toggle line item block selection (multi-select) */
+  toggleLineItemBlock: (block: BookingBlockInstance) => void
   /** Load appointment data into wizard state */
   loadAppointment: (appointment: AppointmentResponse) => Promise<WizardStateData | null>
   /** Reset wizard state */
@@ -68,6 +72,8 @@ export interface WizardComputedProperties {
   availableOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
   /** Available property type blocks (filtered by selected services) */
   availablePropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
+  /** Available line item blocks (bookingMode: "addOn") */
+  availableLineItemBlocks: ComputedRef<BookingBlockInstance[]>
   
   /** Error messages for cascade filtering */
   servicesCascadeError: ComputedRef<string | null>
@@ -92,6 +98,7 @@ export type UseBookingWizardReturn = {
   selectedServices: import('vue').Ref<BookingBlockInstance[]>
   selectedOptionTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
+  selectedLineItemBlocks: import('vue').Ref<BookingBlockInstance[]>
   isQuoteMode: import('vue').Ref<boolean>
 } & WizardSelectionMethods & WizardComputedProperties & {
   // Internal (for debugging/waiting)
@@ -134,5 +141,25 @@ export interface ContactsStepData {
   showAnotherClient: boolean
   showTransactionManager: boolean
   showSeller: boolean
+}
+
+/**
+ * Wizard Step Data and Validation Refs
+ * 
+ * LEARNING: Shared interface for wizard step data refs and validation state refs
+ * WHY: Eliminates duplication between useWizardStepDataRefs and useWizardAppointmentManagement
+ * PATTERN: Extract common interface properties to shared type
+ */
+export interface WizardStepDataAndValidationRefs {
+  propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
+  contactsStepData: Ref<ContactsStepData | null>
+  availabilityStepData: Ref<AvailabilityStepData | null>
+  propertyDetailsStepValid: Ref<boolean>
+  propertyDetailsStepValidate: Ref<(() => boolean) | null>
+  propertyDetailsFieldErrors: Ref<Record<string, string>>
+  contactsStepValid: Ref<boolean>
+  contactsStepValidate: Ref<(() => boolean) | null>
+  availabilityStepValid: Ref<boolean>
+  availabilityStepValidate: Ref<(() => boolean) | null>
 }
 

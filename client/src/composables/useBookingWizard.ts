@@ -49,6 +49,7 @@ export function useBookingWizard(): UseBookingWizardReturn {
   const selectedServices = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedBaseService
   const selectedOptionTypeBlocks = ref<BookingBlockInstance[]>([])
   const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedPropertyTypeBlock
+  const selectedLineItemBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array for line item blocks (bookingMode: "addOn")
   
   // LEARNING: Quote mode with localStorage persistence
   // WHY: Persists quote mode across page reloads and navigation
@@ -132,11 +133,27 @@ export function useBookingWizard(): UseBookingWizardReturn {
     }
   }
 
+  /**
+   * Toggle line item block selection
+   * LEARNING: Multi-select pattern using findIndex and splice/push
+   * WHY: Allows multiple line item blocks to be selected (bookingMode: "addOn")
+   * PATTERN: Check if exists, remove if found, add if not found
+   */
+  const toggleLineItemBlock = (block: BookingBlockInstance): void => {
+    const index = selectedLineItemBlocks.value.findIndex(b => b.id === block.id)
+    if (index >= 0) {
+      selectedLineItemBlocks.value.splice(index, 1)
+    } else {
+      selectedLineItemBlocks.value.push(block)
+    }
+  }
+
   const {
     availableUserTypeBlocks,
     availableServices,
     availableOptionTypeBlocks,
     availablePropertyTypeBlocks,
+    availableLineItemBlocks,
     servicesCascadeError,
     availabilityOptionsCascadeError,
     propertyTypesCascadeError,
@@ -178,6 +195,7 @@ export function useBookingWizard(): UseBookingWizardReturn {
       selectedServices.value = wizardStateData.services || []
       selectedPropertyTypeBlocks.value = wizardStateData.propertyTypeBlocks || []
       selectedOptionTypeBlocks.value = wizardStateData.optionTypeBlocks
+      selectedLineItemBlocks.value = wizardStateData.lineItemBlocks || []
       isQuoteMode.value = wizardStateData.isQuoteMode || false
       
       // Return wizard state data for form field population
@@ -201,6 +219,7 @@ export function useBookingWizard(): UseBookingWizardReturn {
     selectedServices.value = []
     selectedPropertyTypeBlocks.value = []
     selectedOptionTypeBlocks.value = []
+    selectedLineItemBlocks.value = []
     // LEARNING: Reset quote mode - useStorage will automatically sync to localStorage
     // WHY: Clears quote mode when resetting wizard
     // PATTERN: Setting value will update localStorage via useStorage
@@ -213,12 +232,14 @@ export function useBookingWizard(): UseBookingWizardReturn {
     selectedServices,
     selectedOptionTypeBlocks,
     selectedPropertyTypeBlocks,
+    selectedLineItemBlocks,
     isQuoteMode,
     // Methods
     selectUserTypeBlock,
     toggleService,
     toggleOptionTypeBlock,
     togglePropertyTypeBlock,
+    toggleLineItemBlock,
     loadAppointment,
     resetWizard,
     // Computed
@@ -226,6 +247,7 @@ export function useBookingWizard(): UseBookingWizardReturn {
     availableServices,
     availableOptionTypeBlocks,
     availablePropertyTypeBlocks,
+    availableLineItemBlocks,
     // Errors
     servicesCascadeError,
     availabilityOptionsCascadeError,

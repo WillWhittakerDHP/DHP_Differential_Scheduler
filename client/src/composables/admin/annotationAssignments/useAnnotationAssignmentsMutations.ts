@@ -23,6 +23,7 @@ import {
   optimisticUpsertAssignmentInList,
   type AnnotationAssignmentLike,
 } from '@/utils/optimistic/annotationAssignmentsOptimistic'
+import { cancelQueriesBeforeMutate } from '../../entityCrud/useSharedMutationHandlers'
 
 /**
  * Mutations module options
@@ -305,9 +306,14 @@ export function useAnnotationAssignmentsMutations(
       const currentBlockInstanceId = blockInstanceId.value
       if (!currentBlockInstanceId) throw new Error('Block instance ID required')
 
-      await queryClient.cancelQueries({ queryKey: globalDataKey })
-      await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
-      await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })
+      // LEARNING: Use shared utility to cancel queries in parallel
+      // WHY: Eliminates duplication and combines multiple await calls
+      // PATTERN: Extract shared query cancellation logic
+      await cancelQueriesBeforeMutate(queryClient, [
+        globalDataKey,
+        blockInstanceAnnotationsKey,
+        allBlockInstanceAnnotationsKey,
+      ])
 
       const previousGlobalData = queryClient.getQueryData<GlobalData>(globalDataKey)
       const previousBlockInstanceAnnotations =

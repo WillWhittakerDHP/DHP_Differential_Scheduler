@@ -7,24 +7,10 @@
  * - BookingWizard.vue
  */
 
-import { ref, provide, type Ref } from 'vue'
-import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData } from '@/types/wizard'
+import { ref, provide } from 'vue'
+import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData, WizardStepDataAndValidationRefs } from '@/types/wizard'
 
-export interface UseWizardStepDataRefsReturn {
-  // Step data refs
-  propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
-  contactsStepData: Ref<ContactsStepData | null>
-  availabilityStepData: Ref<AvailabilityStepData | null>
-  
-  // Step validation state refs
-  propertyDetailsStepValid: Ref<boolean>
-  propertyDetailsStepValidate: Ref<(() => boolean) | null>
-  propertyDetailsFieldErrors: Ref<Record<string, string>>
-  contactsStepValid: Ref<boolean>
-  contactsStepValidate: Ref<(() => boolean) | null>
-  availabilityStepValid: Ref<boolean>
-  availabilityStepValidate: Ref<(() => boolean) | null>
-}
+export interface UseWizardStepDataRefsReturn extends WizardStepDataAndValidationRefs {}
 
 /**
  * LEARNING: Create and provide step data refs and validation state refs

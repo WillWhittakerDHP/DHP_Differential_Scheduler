@@ -13,6 +13,7 @@ import type {
   ConstraintEnforcement
 } from '@/configs/availabilitySettings'
 import type { BusinessHoursMap } from './timeSlotFitter'
+import { RANGE_CONSTRAINT_TYPES, TIME_BASIS_TYPES } from '@/constants/constraintTypes'
 
 /**
  * Overlap constraint (buffer) interface
@@ -57,28 +58,33 @@ export function extractRangeConstraints(
   // LEARNING: Fail fast if legacy top-level businessHours exists without structured rangeConstraints
   // WHY: Prevents silent fallback behavior, forces explicit structured configuration
   // PATTERN: Check for legacy fields, throw error directly to surface misconfiguration
-  if (settings.businessHours && !settings.rangeConstraints?.businessHours) {
-    throw new Error('Legacy top-level businessHours field detected. Use rangeConstraints.businessHours instead.')
+  if (settings.businessHours && !settings.rangeConstraints?.[RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS]) {
+    throw new Error(`Legacy top-level businessHours field detected. Use rangeConstraints.${RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS} instead.`)
   }
 
   // LEARNING: Require businessHours constraint to be explicitly provided
   // WHY: Business hours are essential for slot generation, should be explicit
   // PATTERN: Check for required constraint, throw if missing
-  if (!settings.rangeConstraints?.businessHours) {
-    throw new Error('Required rangeConstraints.businessHours is missing. Business hours must be provided in structured format.')
+  if (!settings.rangeConstraints?.[RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS]) {
+    throw new Error(`Required rangeConstraints.${RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS} is missing. Business hours must be provided in structured format.`)
   }
 
   // Extract businessHours constraint (now guaranteed to exist)
-  constraints.push(settings.rangeConstraints.businessHours)
+  const businessHoursConstraint = settings.rangeConstraints[RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS]
+  if (businessHoursConstraint) {
+    constraints.push(businessHoursConstraint)
+  }
 
   // Extract leadTime constraint (optional)
-  if (settings.rangeConstraints?.leadTime) {
-    constraints.push(settings.rangeConstraints.leadTime)
+  const leadTimeConstraint = settings.rangeConstraints?.[RANGE_CONSTRAINT_TYPES.LEAD_TIME]
+  if (leadTimeConstraint) {
+    constraints.push(leadTimeConstraint)
   }
 
   // Extract dateRange constraint (optional but recommended)
-  if (settings.rangeConstraints?.dateRange) {
-    constraints.push(settings.rangeConstraints.dateRange)
+  const dateRangeConstraint = settings.rangeConstraints?.[RANGE_CONSTRAINT_TYPES.DATE_RANGE]
+  if (dateRangeConstraint) {
+    constraints.push(dateRangeConstraint)
   }
 
   return constraints
@@ -145,9 +151,9 @@ export function extractCapacityConstraints(
     type: CapacityConstraint['type']
     settingsKey: 'day' | 'calendarWeek' | 'rollingWeek'
   }> = [
-    { type: 'daily', settingsKey: 'day' },
-    { type: 'calendarWeek', settingsKey: 'calendarWeek' },
-    { type: 'rollingWeek', settingsKey: 'rollingWeek' }
+    { type: TIME_BASIS_TYPES.DAILY, settingsKey: 'day' },
+    { type: TIME_BASIS_TYPES.CALENDAR_WEEK, settingsKey: 'calendarWeek' },
+    { type: TIME_BASIS_TYPES.ROLLING_WEEK, settingsKey: 'rollingWeek' }
   ]
   
   for (const { type, settingsKey } of capacityTypeMap) {
@@ -169,7 +175,7 @@ export function extractCapacityConstraints(
         type,
         enforcement: filter.enforcement,
         maxHours: filter.maxHours,
-        ...(type === 'rollingWeek' && settingsKey === 'rollingWeek'
+        ...(type === TIME_BASIS_TYPES.ROLLING_WEEK && settingsKey === 'rollingWeek'
           ? { 
               direction: (settings.maxWorkHours?.rollingWeek as RollingWeekCapacityFilter | undefined)?.direction 
             }
@@ -193,21 +199,21 @@ export function extractCapacityConstraints(
  */
 export function validateRangeConstraint(constraint: RangeConstraint): { valid: boolean; error?: string } {
   switch (constraint.type) {
-    case 'businessHours': {
+    case RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS: {
       const config = constraint.config as { hours: BusinessHoursMap }
       if (!config?.hours || typeof config.hours !== 'object') {
-        return { valid: false, error: 'Invalid businessHours constraint config' }
+        return { valid: false, error: `Invalid ${RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS} constraint config` }
       }
       return { valid: true }
     }
-    case 'leadTime': {
+    case RANGE_CONSTRAINT_TYPES.LEAD_TIME: {
       const config = constraint.config as { minutes: number }
       if (typeof config?.minutes !== 'number' || config.minutes < 0) {
-        return { valid: false, error: 'Invalid leadTime constraint config' }
+        return { valid: false, error: `Invalid ${RANGE_CONSTRAINT_TYPES.LEAD_TIME} constraint config` }
       }
       return { valid: true }
     }
-    case 'dateRange': {
+    case RANGE_CONSTRAINT_TYPES.DATE_RANGE: {
       const config = constraint.config as { start: string; end: string }
       if (!config?.start || !config?.end || typeof config.start !== 'string' || typeof config.end !== 'string') {
         return { valid: false, error: 'Invalid dateRange constraint config' }
@@ -258,7 +264,7 @@ export function validateCapacityConstraint(constraint: CapacityConstraint): { va
   if (typeof constraint.maxHours !== 'number' || constraint.maxHours < 0) {
     return { valid: false, error: 'Invalid capacity constraint maxHours' }
   }
-  if (constraint.type === 'rollingWeek' && constraint.direction) {
+  if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constraint.direction) {
     const validDirections: Array<'past' | 'centered' | 'future'> = ['past', 'centered', 'future']
     if (!validDirections.includes(constraint.direction)) {
       return { valid: false, error: 'Invalid capacity constraint direction' }

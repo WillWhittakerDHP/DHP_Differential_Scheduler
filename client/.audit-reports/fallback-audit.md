@@ -8,13 +8,13 @@ Scope: `.cursor/commands/tiers/session/**/*.ts`
 
 - Files scanned: **10**
 - Files with issues: **7**
-- Issues found: **13**
+- Issues found: **12**
 - Critical: 0
-- Warnings: 13
+- Warnings: 12
 
 ## Issues by File (sorted by priority)
 
-### `.cursor/commands/tiers/session/composite/session-end.ts` [P0] (score: 6)
+### `.cursor/commands/tiers/session/composite/session-end.ts` [P0] (score: 5)
 
 - **WARNING** (line 119): Found "Default values" keyword: default
   ```
@@ -28,29 +28,23 @@ Scope: `.cursor/commands/tiers/session/**/*.ts`
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 192): Found Logical OR with default string
+- **WARNING** (line 192): Found Nullish coalescing with default string
   ```
-  output: vueAudit.summary || `vue-architecture status: ${vueAudit.status}`,
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 223): Found Logical OR with default string
-  ```
-  output: codeQualityAudit.summary || `Code quality audit: ${codeQualityAudit.status}`,
+  output: vueAudit.summary ?? `vue-architecture status: ${vueAudit.status}`,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 250): Found "Default values" keyword: default
+- **WARNING** (line 223): Found Nullish coalescing with default string
   ```
-  console.warn('runTests not explicitly set - using default: true');
+  output: codeQualityAudit.summary ?? `Code quality audit: ${codeQualityAudit.status}`,
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 287): Found "Default values" keyword: default
+  ```
+  console.info(`testTarget not specified, using default: ${TEST_CONFIG.defaultTarget}`)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 599): Found Logical OR with default string
-  ```
-  output: `⚠️ Could not create PR automatically (non-critical): ${prResult.error || 'Unknown error'}\n...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
 
 ### `.cursor/commands/tiers/session/atomic/create-session-label.ts` [P1] (score: 2)
 

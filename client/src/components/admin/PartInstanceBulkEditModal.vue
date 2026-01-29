@@ -248,19 +248,21 @@ function handleApply() {
   
   const formValues = entityCardRef.value.form.values
   
-  // Extract only fields that have bulkEdit: true and have values
-  const bulkEditData: PartInstanceBulkEditData = {}
-  Object.keys(filteredMetadata.value).forEach(field => {
+  // LEARNING: Use reduce instead of forEach + property assignment
+  // WHY: Functional approach - build object without mutations
+  // PATTERN: Reduce to transform filteredMetadata keys into bulkEditData object
+  const bulkEditData: PartInstanceBulkEditData = Object.keys(filteredMetadata.value).reduce((acc, field) => {
     const value = (formValues as Record<string, unknown>)[field]
     // Only include if value is not null, undefined, or empty string
     if (value !== null && value !== undefined && value !== '') {
       // Convert to number for numeric fields
       const numericValue = Number(value)
       if (!isNaN(numericValue)) {
-        (bulkEditData as Record<string, number>)[field] = numericValue
+        (acc as Record<string, number>)[field] = numericValue
       }
     }
-  })
+    return acc
+  }, {} as PartInstanceBulkEditData)
   
   emit('confirm', bulkEditData)
   updateModelValue(false)

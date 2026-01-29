@@ -1,14 +1,15 @@
-import { toRaw } from 'vue'
 import type { AxiosError } from 'axios'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
-import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
-import type { CreateRelationshipPayload } from '@/types/relationships'
-import { getEntityByIdEndpoint, getRelationshipByParentChildEndpoint, getRelationshipEndpoint } from '@/utils/api'
+import { getEntityByIdEndpoint } from '@/utils/api'
 import apiClient from '@/utils/api'
 import type { UseFieldContextStateReturn } from './useFieldContextState'
+import {
+  saveComponentEntityField,
+  saveRelationshipField,
+  saveRegularField
+} from './useFieldContextSaveHelpers'
 
 export type UseFieldContextActionsReturn = {
   setFocus: (focused: boolean) => void
@@ -23,7 +24,7 @@ export type UseFieldContextActionsReturn = {
 /**
  * Actions module for `useFieldContext`.
  *
- * NOTE: This preserves existing behavior; it’s mainly a mechanical extraction to reduce file size.
+ * NOTE: This preserves existing behavior; it's mainly a mechanical extraction to reduce file size.
  */
 export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   state: UseFieldContextStateReturn<GE, FieldKey>
@@ -96,141 +97,31 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
 
       const fieldKeyString = String(state.fieldKey)
 
+      // LEARNING: Route to appropriate save handler based on field type
+      // WHY: Different field types require different save logic
+      // PATTERN: Check field type and delegate to specialized save function
       if (state.composedEntityComposable) {
-        const { addToComponent, removeFromComponent, getComponents } = state.composedEntityComposable
-
-        const currentComponents = getComponents(String(state.entityId))
-        const oldComponentIds = new Set(currentComponents.map((ea) => ea.childId))
-
-        const rawValue = state.value.value
-        const plainValue = toRaw(rawValue)
-        const newComponentIds = Array.isArray(plainValue)
-          ? new Set(plainValue.map((v: unknown) => String(v)))
-          : plainValue
-            ? new Set([String(plainValue)])
-            : new Set<string>()
-
-        const toAdd = Array.from(newComponentIds).filter((id) => !oldComponentIds.has(id))
-        const toRemove = Array.from(oldComponentIds).filter((id) => !newComponentIds.has(id))
-
-        const promises: Promise<void>[] = [
-          ...toAdd.map((componentId, index) =>
-            addToComponent({
-              composerId: String(state.entityId),
-              componentId,
-              orderIndex: currentComponents.length + index,
-            }).catch((error: unknown) => {
-              const axiosErr = error as AxiosError
-              if (axiosErr?.response?.status === 409) {
-                return Promise.resolve()
-              }
-              throw error
-            })
-          ),
-          ...toRemove.map((componentId) =>
-            removeFromComponent({
-              composerId: String(state.entityId),
-              componentId,
-            })
-          ),
-        ]
-
-        await Promise.all(promises)
+        await saveComponentEntityField({
+          state,
+          currentEntity
+        })
         return
       }
 
       const isRelationshipField = fieldKeyString in RELATIONSHIP_KEYS
 
       if (isRelationshipField) {
-        const relationshipKey = fieldKeyString as GlobalRelationshipKey
-        const relationshipEndpoint = getRelationshipEndpoint(relationshipKey)
-
-        const entityRecord = currentEntity as Record<string, ValidAdminValue | undefined>
-        const currentValue = Object.prototype.hasOwnProperty.call(entityRecord, fieldKeyString)
-          ? entityRecord[fieldKeyString]
-          : undefined
-        const oldValues = Array.isArray(currentValue)
-          ? currentValue.map((v) => String(v))
-          : currentValue
-            ? [String(currentValue)]
-            : []
-
-        const rawValue = state.value.value
-        const plainValue = toRaw(rawValue)
-        const newValues = Array.isArray(plainValue)
-          ? plainValue.map((v) => String(v))
-          : plainValue
-            ? [String(plainValue)]
-            : []
-
-        const parentId = String(state.entityId)
-        const toAdd = newValues.filter((v) => !oldValues.includes(v))
-        const toRemove = oldValues.filter((v) => !newValues.includes(v))
-
-        const promises: Promise<void>[] = [
-          ...toAdd.map((childId) => {
-            const payload: CreateRelationshipPayload = {
-              parent_id: parentId as GlobalEntityId,
-              child_id: childId as GlobalEntityId,
-            }
-            return apiClient.post(relationshipEndpoint, payload).then(() => void 0)
-          }),
-          ...toRemove.map((childId) => {
-            const deleteEndpoint = getRelationshipByParentChildEndpoint(relationshipKey, parentId, childId)
-            return apiClient.delete(deleteEndpoint).then(() => void 0)
-          }),
-        ]
-
-        await Promise.all(promises)
-
-        if (relationshipKey === 'validCascades' || relationshipKey === 'validParts') {
-          try {
-            const { cleanupInvalidActiveRelationships } = await import('@/utils/dependencyCleanup')
-            await cleanupInvalidActiveRelationships(
-              state.entityKey,
-              state.entityId,
-              relationshipKey,
-              newValues as GlobalEntityId[],
-              state.queryClient
-            )
-          } catch (error) {
-            // Dependency cleanup failed (non-critical)
-          }
-        }
-
-        state.queryClient.invalidateQueries({ queryKey: [relationshipKey] })
-        state.queryClient.invalidateQueries({ queryKey: [state.entityKey] })
-        await state.queryClient.refetchQueries({ queryKey: ['globalData'] })
-
-        if (['blockInstance', 'blockShape'].includes(state.entityKey)) {
-          state.queryClient.invalidateQueries({ queryKey: ['schedulerAdmin'] })
-        }
+        await saveRelationshipField({
+          state,
+          currentEntity,
+          fieldKeyString,
+          queryClient: state.queryClient
+        })
       } else {
-        const rawValue = state.value.value
-        const plainValue = toRaw(rawValue)
-
-        const patchPayload = {
-          admin: {
-            key: String(state.fieldKey),
-            value: plainValue as ValidAdminValue,
-          },
-          dynamicId: String(state.entityId),
-        }
-
-        await state.patchFieldAsync(patchPayload)
-
-        state.queryClient.invalidateQueries({ queryKey: [state.entityKey] })
-        if (['blockInstance', 'blockShape'].includes(state.entityKey)) {
-          state.queryClient.invalidateQueries({ queryKey: ['schedulerAdmin'] })
-        }
-        
-        // LEARNING: After save, the store is updated optimistically
-        // WHY: The watch on entityValue in useFieldContextState will sync the field value
-        //      when it detects the store has updated and values match
-        //      The watch on storeEntity in EntityCard will reset the form when values change
-        // PATTERN: Let the reactive watches handle syncing - no need to manually reset here
-        // NOTE: Optimistic update happens synchronously in onMutate, so store is updated immediately
-        //      The watches will detect the change and sync accordingly
+        await saveRegularField({
+          state,
+          queryClient: state.queryClient
+        })
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
@@ -270,5 +161,3 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
     setValue,
   }
 }
-
-

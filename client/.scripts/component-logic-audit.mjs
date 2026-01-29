@@ -166,10 +166,37 @@ function scanLines(lines) {
   return { counts, matches }
 }
 
-function calculateScore(counts) {
+/**
+ * Check if a computed is a simple reactive wrapper (computed(() => props.xyz))
+ * @param {string} line - The line containing the computed
+ * @param {string[]} lines - All lines for context
+ * @param {number} lineIndex - Index of the current line
+ * @returns {boolean}
+ */
+function isSimpleReactiveWrapper(line, lines, lineIndex) {
+  // Check if computed is just wrapping a prop: computed(() => props.xyz)
+  const isPropWrapper = /computed\s*\(\s*\(\)\s*=>\s*props\.\w+/.test(line)
+  // Check if computed is passed to composable (next few lines)
+  const nextLines = lines.slice(lineIndex, Math.min(lineIndex + 5, lines.length)).join('\n')
+  const isComposableParam = /use\w+\([^)]*computed/.test(nextLines)
+  
+  return isPropWrapper || isComposableParam
+}
+
+function calculateScore(counts, matches = [], lines = []) {
+  // Count simple reactive wrappers separately
+  const simpleWrapperCount = matches.filter(m => 
+    m.ruleId === 'computed' && isSimpleReactiveWrapper(m.line, lines, m.lineNumber - 1)
+  ).length
+  
+  // Reduce weight for simple wrappers (count as 0.3 instead of 1)
+  const effectiveComputedCount = (counts.computed || 0) - (simpleWrapperCount * 0.7)
+  
   // Calculate severity score based on risky patterns
-  const riskKeys = ['dom', 'watch', 'watchEffect', 'async', 'await', 'reduce', 'map', 'computed', 'inlineConfig', 'console']
-  return riskKeys.reduce((sum, k) => sum + (counts[k] || 0), 0)
+  const riskKeys = ['dom', 'watch', 'watchEffect', 'async', 'await', 'reduce', 'map', 'inlineConfig', 'console']
+  const baseScore = riskKeys.reduce((sum, k) => sum + (counts[k] || 0), 0)
+  
+  return baseScore + effectiveComputedCount
 }
 
 function assignPriority(score, config) {
@@ -183,8 +210,8 @@ function assignPriority(score, config) {
 
 function compareCounts(a, b) {
   // stable sort: most "risky" first
-  const aScore = calculateScore(a.counts)
-  const bScore = calculateScore(b.counts)
+  const aScore = calculateScore(a.counts, a.matches || [], a.lines || [])
+  const bScore = calculateScore(b.counts, b.matches || [], b.lines || [])
 
   if (bScore !== aScore) return bScore - aScore
   if (b.counts.computed !== a.counts.computed) return b.counts.computed - a.counts.computed
@@ -281,7 +308,7 @@ function main() {
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines)
     
-    const score = calculateScore(counts)
+    const score = calculateScore(counts, matches, lines)
     const priority = assignPriority(score, priorityConfig)
 
     scanned.push({
@@ -290,6 +317,7 @@ function main() {
       absPath: abs,
       counts,
       matches,
+      lines,
       score,
       priority,
     })

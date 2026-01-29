@@ -9,6 +9,7 @@
 import type { ComponentStrategy } from '@/types/component'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { COMPONENT_STRATEGIES } from '@/constants/component'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import { findById } from '@/utils/collections/findById'
 
@@ -43,28 +44,28 @@ export function composeProperty<T extends string | number | boolean | unknown[]>
   }
   
   switch (strategy) {
-    case 'sum':
+    case COMPONENT_STRATEGIES.SUM:
       // Sum numeric values
       return values.reduce((sum, val) => {
         const num = typeof val === 'number' ? val : 0
         return sum + num
       }, 0) as number
     
-    case 'merge': {
+    case COMPONENT_STRATEGIES.MERGE: {
       // Merge arrays (flatten and deduplicate)
       const merged = values.flat().filter((val, index, arr) => arr.indexOf(val) === index)
       return merged as T[]
     }
     
-    case 'first':
+    case COMPONENT_STRATEGIES.FIRST:
       // Use first non-undefined value
       return values.find(val => val !== undefined && val !== null) ?? values[0]
     
-    case 'every':
+    case COMPONENT_STRATEGIES.EVERY:
       // Boolean AND - all must be true
       return values.every(val => Boolean(val)) as boolean
     
-    case 'custom':
+    case COMPONENT_STRATEGIES.CUSTOM:
       // Custom component (not implemented yet)
       return values[0]
     
@@ -113,7 +114,7 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
     // WHY: State control blockShapes (constituable: false) should not contribute to square footage accumulation
     // PATTERN: For baseSqFt sum operations on blockInstance, exclude components with constituable: false blockShapes
     let values: unknown[]
-    if (propertyKey === 'baseSqFt' && entityKind === 'blockInstance' && strategy === 'sum' && blockShapes) {
+    if (propertyKey === 'baseSqFt' && entityKind === 'blockInstance' && strategy === COMPONENT_STRATEGIES.SUM && blockShapes) {
       // Filter components to exclude those with constituable: false blockShapes (state control mode)
       const filteredComponents = components.filter(component => {
         const blockInstance = component as GlobalEntity<'blockInstance'>

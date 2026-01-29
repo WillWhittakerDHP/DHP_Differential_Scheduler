@@ -9,6 +9,7 @@ import { computed, type Ref, type ComputedRef } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
 import type { ValidationRule } from '@/composables/useFormValidation'
 import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
+import { PROPERTY_VALIDATION_STRINGS } from '@/configs/propertyValidationStrings'
 
 /**
  * Property form data structure
@@ -63,26 +64,29 @@ export function usePropertyValidation(params: UsePropertyValidationParams): UseP
    * WHY: Defines validation rules for each form field
    * PATTERN: Computed object with field names as keys and arrays of ValidationRule as values
    * NOTE: Using computed to make rules reactive to isMultiFamily changes
+   * LEARNING: Use centralized validation strings from config
+   * WHY: Reduces hardcoding audit findings, centralizes all validation text for consistency
+   * PATTERN: Import validation strings from config file instead of defining inline
    */
   const validationRules = computed<Record<string, ValidationRule[]>>(() => {
     const baseRules: Record<string, ValidationRule[]> = {
-      address: [required('Address is required'), minLength(3, 'Address must be at least 3 characters')],
-      city: [required('City is required'), minLength(2, 'City must be at least 2 characters')],
-      state: [required('State is required')],
-      zipCode: [required('Zip code is required'), zipCodeValidator()],
+      address: [required(PROPERTY_VALIDATION_STRINGS.address.required), minLength(3, PROPERTY_VALIDATION_STRINGS.address.minLength)],
+      city: [required(PROPERTY_VALIDATION_STRINGS.city.required), minLength(2, PROPERTY_VALIDATION_STRINGS.city.minLength)],
+      state: [required(PROPERTY_VALIDATION_STRINGS.state.required)],
+      zipCode: [required(PROPERTY_VALIDATION_STRINGS.zipCode.required), zipCodeValidator()],
       propertySize: [
-        required('Size is required'),
-        min(1, 'Size must be at least 1 sq-ft'),
-        max(100000, 'Size must be no more than 100,000 sq-ft')
+        required(PROPERTY_VALIDATION_STRINGS.propertySize.required),
+        min(1, PROPERTY_VALIDATION_STRINGS.propertySize.min),
+        max(100000, PROPERTY_VALIDATION_STRINGS.propertySize.max)
       ]
     }
     
     // Add numberOfUnits validation only if multi-family property
     if (isMultiFamily.value) {
       baseRules.numberOfUnits = [
-        required('Number of units is required'),
-        min(1, 'Number of units must be at least 1'),
-        max(1000, 'Number of units must be no more than 1000')
+        required(PROPERTY_VALIDATION_STRINGS.numberOfUnits.required),
+        min(1, PROPERTY_VALIDATION_STRINGS.numberOfUnits.min),
+        max(1000, PROPERTY_VALIDATION_STRINGS.numberOfUnits.max)
       ]
     }
     
@@ -93,7 +97,7 @@ export function usePropertyValidation(params: UsePropertyValidationParams): UseP
   const customValidators = {
     propertyTypeBlock: () => {
       if (!hasPropertyTypeBlock.value) {
-        return 'Please select at least one property type'
+        return PROPERTY_VALIDATION_STRINGS.propertyTypeBlock.required
       }
       return true
     }

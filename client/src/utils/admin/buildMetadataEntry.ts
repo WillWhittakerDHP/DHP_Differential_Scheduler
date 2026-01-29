@@ -36,7 +36,7 @@ export interface BuildMetadataEntryOptions {
  * NOTE: Returns Record<string, unknown> to allow dynamic key (fieldKey or relationshipKey)
  */
 export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<string, unknown> {
-  const { key, renderingUpdates, existingMetadata, isRelationship = false } = options
+  const { renderingUpdates, existingMetadata, isRelationship = false } = options
 
   // Use existing canonical fields
   const canonicalFields = {

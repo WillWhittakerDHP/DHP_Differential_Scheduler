@@ -120,7 +120,7 @@
                 
                 <!-- Panel (only for expandedPanel) -->
                 <VSelect
-                  v-if="getEffectiveFieldMetadata(fieldKey)?.visibility === 'expandedPanel'"
+                  v-if="getEffectiveFieldMetadata(fieldKey)?.visibility === FIELD_VISIBILITY.EXPANDED_PANEL"
                   :model-value="getEffectiveFieldMetadata(fieldKey)?.panel ?? undefined"
                   :items="panelOptions"
                   label="Panel"
@@ -145,7 +145,7 @@
                 />
                 
                 <!-- Input Config (for select/multiselect/reference/partsCollection) -->
-                <template v-if="['select', 'multiselect', 'reference', 'partsCollection'].includes(getEffectiveFieldMetadata(fieldKey)?.renderAs ?? '')">
+                <template v-if="hasSelectRenderAs(fieldKey)">
                   <!-- Options-based selects (like bookingMode) -->
                   <VTextarea
                     v-if="getInputConfigData(fieldKey).options !== null && getInputConfigData(fieldKey).targetMode === null"
@@ -220,6 +220,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { EntityMetadataType } from '@/types/entityMetadata'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
+import { FIELD_VISIBILITY, FIELD_RENDER_AS, FIELD_LAYOUT, FIELD_PANEL } from '@/constants/fieldMetadata'
 
 const logger = createLogger('AdminPrimitiveMetadataEditor')
 
@@ -352,6 +353,18 @@ const { getInputConfigData, updateInputConfigField } = useInputConfigEditor({
   updateFieldRendering,
 })
 
+// LEARNING: Check if renderAs is a select-related type
+// WHY: Type guard for checking if field uses inputConfig (select/multiselect/reference/partsCollection)
+// PATTERN: Helper function to check renderAs value against select-related constants
+function hasSelectRenderAs(fieldKey: string): boolean {
+  const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
+  if (!renderAs) return false
+  return renderAs === FIELD_RENDER_AS.SELECT ||
+         renderAs === FIELD_RENDER_AS.MULTISELECT ||
+         renderAs === FIELD_RENDER_AS.REFERENCE ||
+         renderAs === FIELD_RENDER_AS.PARTS_COLLECTION
+}
+
 // LEARNING: Metadata field ordering
 // WHY: Handles sorting by displayOrder and drag-and-drop reordering
 // PATTERN: Use composable for managing field ordering
@@ -472,15 +485,15 @@ const visibilityOptions = [
 ] as const
 
 const layoutOptions = [
-  { title: 'Inline', value: 'inline' },
-  { title: 'Stacked', value: 'stacked' },
+  { title: 'Inline', value: FIELD_LAYOUT.INLINE },
+  { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
 ] as const
 
 const panelOptions = [
-  { title: 'Parts', value: 'parts' },
-  { title: 'Relationships', value: 'relationships' },
-  { title: 'Annotations', value: 'annotations' },
-  { title: 'None', value: 'none' },
+  { title: 'Parts', value: FIELD_PANEL.PARTS },
+  { title: 'Relationships', value: FIELD_PANEL.RELATIONSHIPS },
+  { title: 'Annotations', value: FIELD_PANEL.ANNOTATIONS },
+  { title: 'None', value: FIELD_PANEL.NONE },
 ] as const
 
 

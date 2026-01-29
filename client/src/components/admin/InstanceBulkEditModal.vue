@@ -216,19 +216,19 @@ function handleApply() {
   
   // LEARNING: Extract only fields that have bulkEdit: true and have values
   // WHY: Use filteredMetadata as source of truth for which fields to extract
-  // PATTERN: Iterate over filteredMetadata keys, extract values from form
-  const bulkEditData: Record<string, number | null | undefined> = {}
-  Object.keys(filteredMetadata.value).forEach(field => {
+  // PATTERN: Use reduce instead of forEach + property assignment - functional approach
+  const bulkEditData: Record<string, number | null | undefined> = Object.keys(filteredMetadata.value).reduce((acc, field) => {
     const value = (formValues as Record<string, unknown>)[field]
     // Only include if value is not null, undefined, or empty string
     if (value !== null && value !== undefined && value !== '') {
       // Convert to number for numeric fields
       const numericValue = Number(value)
       if (!isNaN(numericValue)) {
-        bulkEditData[field] = numericValue
+        acc[field] = numericValue
       }
     }
-  })
+    return acc
+  }, {} as Record<string, number | null | undefined>)
   
   emit('confirm', bulkEditData)
   updateModelValue(false)

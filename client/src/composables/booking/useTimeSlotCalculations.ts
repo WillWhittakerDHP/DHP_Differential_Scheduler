@@ -204,9 +204,14 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     const formatTimeBlock = (start: Date, end: Date): string => {
       // LEARNING: Use composable for UI-boundary formatting
       // WHY: All local time conversions must go through useLocalTime composable
+      // WHY: Create proper TimeRange object with duration calculated from start/end times
+      const startTime = toRFC3339DateTime(start)
+      const endTime = toRFC3339DateTime(end)
+      const duration = Math.round((end.getTime() - start.getTime()) / (1000 * 60)) // minutes
       return formatTimeRangeForDisplay({
-        startTime: toRFC3339DateTime(start),
-        endTime: toRFC3339DateTime(end)
+        startTime,
+        endTime,
+        duration
       })
     }
     

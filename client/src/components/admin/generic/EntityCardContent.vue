@@ -45,7 +45,7 @@ interface Props {
   }
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 </script>
 
 <template>

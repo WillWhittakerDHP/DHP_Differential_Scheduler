@@ -43,7 +43,7 @@ export interface UseConditionalFieldVisibilityReturn {
 export function useConditionalFieldVisibility(
   options: UseConditionalFieldVisibilityOptions
 ): UseConditionalFieldVisibilityReturn {
-  const { fieldsByLocation, entityKey, isComposable, form } = options
+  const { fieldsByLocation, isComposable, form } = options
 
   const filteredFieldsByLocation = computed<FieldsByLocation>(() => {
     const base = fieldsByLocation.value

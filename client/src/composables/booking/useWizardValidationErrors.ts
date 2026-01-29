@@ -8,7 +8,7 @@
  */
 
 import { nextTick, type Ref } from 'vue'
-import type { PropertyDetailsStepData, ContactsStepData } from '@/types/wizard'
+import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
 export interface UseWizardValidationErrorsOptions {

@@ -15,6 +15,7 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { FIELD_VISIBILITY, FIELD_LAYOUT, FIELD_PANEL } from '@/constants/fieldMetadata'
 import { sortFieldsByDisplayOrder } from './fieldSorting'
 
 /**
@@ -22,7 +23,7 @@ import { sortFieldsByDisplayOrder } from './fieldSorting'
  * WHY: Config-driven approach instead of hardcoded string checks
  * PATTERN: Use Set for O(1) lookup instead of multiple OR conditions
  */
-const VALID_PANELS = new Set(['parts', 'relationships', 'annotations'] as const)
+const VALID_PANELS = new Set([FIELD_PANEL.PARTS, FIELD_PANEL.RELATIONSHIPS, FIELD_PANEL.ANNOTATIONS] as const)
 
 /**
  * Field location types with reasons
@@ -81,31 +82,31 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
   // PATTERN: Switch on visibility value, handle each case explicitly
 
   switch (visibility) {
-    case 'titleRow':
+    case FIELD_VISIBILITY.TITLE_ROW:
       // LEARNING: Title row fields render in title row regardless of expansion state
       // WHY: Title row should always show these fields (e.g., status buttons)
       // PATTERN: Return titleRow location immediately
       return { type: 'titleRow', reason: 'titleRow' }
     
-    case 'staticAsTitle':
+    case FIELD_VISIBILITY.STATIC_AS_TITLE:
       // LEARNING: staticAsTitle fields render in title row (left-justified, read-only when collapsed)
       // WHY: Name field should always be visible, read-only when collapsed
       // PATTERN: Treat like titleRow for location, but EntityCard handles special rendering
       return { type: 'titleRow', reason: 'staticAsTitle' }
 
-    case 'hidden':
+    case FIELD_VISIBILITY.HIDDEN:
       // LEARNING: Hidden fields never render
       // WHY: Explicitly hidden fields should not appear anywhere
       // PATTERN: Return hidden immediately
       return { type: 'hidden', reason: 'hidden' }
 
-    case 'notConfigured':
+    case FIELD_VISIBILITY.NOT_CONFIGURED:
       // LEARNING: Not configured fields don't render
       // WHY: Fields must be explicitly configured in metadata to render
       // PATTERN: Return hidden with notConfigured reason
       return { type: 'hidden', reason: 'notConfigured' }
 
-    case 'expandedDirect':
+    case FIELD_VISIBILITY.EXPANDED_DIRECT:
       // LEARNING: Expanded direct fields render in form body when expanded
       // WHY: These fields appear in main card content area, not in sub-panels
       // PATTERN: Check expansion state, then determine layout (inline vs stacked)
@@ -116,14 +117,14 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
       // LEARNING: Determine layout (inline vs stacked)
       // WHY: Layout determines how field is rendered (horizontal row vs vertical stack)
       // PATTERN: Check layout property, default to stacked if not specified
-      if (layout === 'inline') {
+      if (layout === FIELD_LAYOUT.INLINE) {
         return { type: 'directInline', reason: 'expandedDirect' }
       } else {
         // Default to stacked if layout is not 'inline' or not specified
         return { type: 'directStacked', reason: 'expandedDirect' }
       }
 
-    case 'expandedPanel':
+    case FIELD_VISIBILITY.EXPANDED_PANEL:
       // LEARNING: Expanded panel fields render in sub-panels when expanded
       // WHY: These fields appear in collapsible sub-panels (parts, relationships, annotations)
       // PATTERN: Check expansion state, then determine which panel
@@ -134,7 +135,13 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
       // LEARNING: Determine which sub-panel using config-driven approach
       // WHY: Panel property determines which sub-panel the field appears in
       // PATTERN: Use VALID_PANELS Set for O(1) lookup instead of hardcoded OR conditions
-      if (panel && VALID_PANELS.has(panel)) {
+      // LEARNING: Type guard function to narrow panel type
+      // WHY: TypeScript doesn't automatically narrow Set.has, so we use a type guard
+      // PATTERN: Check if panel is valid, then TypeScript knows it's not "none"
+      const isValidPanel = (p: string): p is 'parts' | 'relationships' | 'annotations' => {
+        return VALID_PANELS.has(p as 'parts' | 'relationships' | 'annotations')
+      }
+      if (panel && isValidPanel(panel)) {
         return { type: 'subPanel', panel, reason: 'expandedPanel' }
       }
 

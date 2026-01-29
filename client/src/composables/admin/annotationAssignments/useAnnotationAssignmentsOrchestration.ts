@@ -30,7 +30,7 @@ export interface UseAnnotationAssignmentsOrchestrationOptions {
  * WHY: Handler types are defined once in types.ts and reused here
  * PATTERN: Intersection type to combine orchestration-specific handlers with shared handlers
  */
-export interface UseAnnotationAssignmentsOrchestrationReturn {
+export type UseAnnotationAssignmentsOrchestrationReturn = {
   createMultiple: (annotationIds: string[], userTypeBlockBlockInstanceId?: string | null) => Promise<void>
   updateDefault: (
     annotationId: string,

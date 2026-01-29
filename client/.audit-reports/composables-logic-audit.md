@@ -8,28 +8,27 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **229**
+- Total composable files scanned: **239**
 
 ## Top hotspots (heuristic)
 
 | File | score | vue-query | watch | computed/ref | async/await | DOM | suggestions |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/composables/entityCrud/useEntityCrudMutations.ts` | 39 | 7 | 0 | 0 | 25 | 0 | 1 |
-| `src/composables/componentEntity/useComponentEntityActions.ts` | 29 | 6 | 0 | 0 | 19 | 0 | 1 |
-| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts` | 26 | 5 | 0 | 0 | 18 | 0 | 1 |
-| `src/composables/dataCollections/useDataCollectionActions.ts` | 25 | 6 | 0 | 0 | 16 | 0 | 1 |
-| `src/composables/useRelationship.ts` | 25 | 5 | 0 | 3 | 15 | 0 | 1 |
-| `src/composables/admin/useSelectHandlers.ts` | 25 | 0 | 0 | 1 | 9 | 0 | 1 |
-| `src/composables/fieldContext/useFieldContextActions.ts` | 23 | 0 | 0 | 0 | 11 | 0 | 1 |
+| `src/composables/entityCrud/useEntityCrudMutations.ts` | 35.5 | 7 | 0 | 0 | 25 | 0 | 1 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts` | 22.5 | 5 | 0 | 0 | 17 | 0 | 1 |
+| `src/composables/useRelationship.ts` | 22.5 | 5 | 0 | 3 | 15 | 0 | 1 |
+| `src/composables/dataCollections/useDataCollectionActions.ts` | 22 | 6 | 0 | 0 | 16 | 0 | 1 |
 | `src/composables/admin/useAnnotationsFieldViewModel.ts` | 22 | 0 | 0 | 5 | 16 | 0 | 1 |
-| `src/composables/admin/useAnnotationSelect.ts` | 21 | 6 | 0 | 3 | 12 | 0 | 1 |
-| `src/composables/useAnnotationTypes.ts` | 20 | 7 | 0 | 1 | 12 | 0 | 1 |
+| `src/composables/admin/useSelectHandlers.ts` | 22 | 0 | 0 | 1 | 8 | 0 | 1 |
+| `src/composables/fieldContext/useFieldContextSaveHelpers.ts` | 21 | 0 | 0 | 0 | 9 | 0 | 1 |
 | `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` | 20 | 0 | 0 | 0 | 18 | 0 | 1 |
 | `src/composables/admin/useInstanceGrouping.ts` | 19 | 0 | 1 | 6 | 0 | 0 | 0 |
-| `src/composables/booking/useWizardFilteredOptions.ts` | 17 | 0 | 0 | 10 | 0 | 0 | 1 |
+| `src/composables/booking/dev/usePanelPosition.ts` | 19 | 0 | 1 | 2 | 2 | 8 | 1 |
+| `src/composables/admin/useAnnotationSelect.ts` | 18 | 6 | 0 | 3 | 12 | 0 | 0 |
+| `src/composables/booking/useWizardFilteredOptions.ts` | 18 | 0 | 0 | 11 | 0 | 0 | 1 |
+| `src/composables/componentEntity/useComponentEntityActions.ts` | 17 | 6 | 0 | 0 | 10 | 0 | 0 |
 | `src/composables/useAvailability.ts` | 17 | 0 | 1 | 8 | 8 | 0 | 0 |
 | `src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
-| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsQuery.ts` | 15 | 6 | 0 | 0 | 7 | 0 | 0 |
 | `src/composables/admin/useAvailabilitySettings.ts` | 15 | 0 | 0 | 2 | 4 | 0 | 0 |
 | `src/composables/booking/useMoveablePartsScheduling.ts` | 15 | 0 | 1 | 5 | 6 | 0 | 0 |
 | `src/composables/admin/useAnnotationMetadata.ts` | 14 | 0 | 0 | 3 | 0 | 0 | 0 |
@@ -39,6 +38,7 @@ Scope:
 | `src/composables/useSelectOptions.ts` | 14 | 0 | 0 | 4 | 0 | 0 | 0 |
 | `src/composables/admin/useBlockInstanceForm.ts` | 13 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `src/composables/admin/usePartInstanceForm.ts` | 13 | 0 | 0 | 4 | 4 | 0 | 0 |
+| `src/composables/booking/useElementDimensions.ts` | 13 | 0 | 0 | 0 | 2 | 7 | 1 |
 
 ## Redundancy candidates (heuristic)
 
@@ -68,54 +68,30 @@ Legend:
 ### `src/composables/entityCrud/useEntityCrudMutations.ts`
 
 - exports: (none detected)
-- score: **39**
+- score: **35.5**
 
 - **P0** (split_candidate): High complexity score. Consider splitting into `useXxxState` + `useXxxActions` + `useXxxQuery` and keeping the SFC-facing API thin.
-
-### `src/composables/componentEntity/useComponentEntityActions.ts`
-
-- exports: `useComponentEntityActions`
-- score: **29**
-- return keys (first return): `data`
-
-- **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
 
 ### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts`
 
 - exports: `useAnnotationAssignmentsMutations`
-- score: **26**
+- score: **22.5**
 - return keys (first return): `previousAllBlockInstanceAnnotations`, `previousBlockInstanceAnnotations`, `previousGlobalData`
-
-- **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
-
-### `src/composables/dataCollections/useDataCollectionActions.ts`
-
-- exports: (none detected)
-- score: **25**
-- return keys (first return): `create`, `patch`, `remove`, `update`
 
 - **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
 
 ### `src/composables/useRelationship.ts`
 
 - exports: (none detected)
-- score: **25**
+- score: **22.5**
 
 - **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
 
-### `src/composables/admin/useSelectHandlers.ts`
-
-- exports: `useSelectHandlers`
-- score: **25**
-- return keys (first return): `handleChange`, `handleFocus`, `handleGroupChange`, `isUpdatingProgrammatically`
-
-- **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
-
-### `src/composables/fieldContext/useFieldContextActions.ts`
+### `src/composables/dataCollections/useDataCollectionActions.ts`
 
 - exports: (none detected)
-- score: **23**
-- return keys (first return): `clearError`, `getValue`, `reset`, `save`, `setFocus`, `setValue`, `validate`
+- score: **22**
+- return keys (first return): `create`, `patch`, `remove`, `update`
 
 - **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
 
@@ -127,19 +103,18 @@ Legend:
 
 - **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
 
-### `src/composables/admin/useAnnotationSelect.ts`
+### `src/composables/admin/useSelectHandlers.ts`
 
-- exports: `useAnnotationSelect`
-- score: **21**
-- return keys (first return): `previousGlobalData`
+- exports: `useSelectHandlers`
+- score: **22**
+- return keys (first return): `handleChange`, `handleFocus`, `handleGroupChange`, `isUpdatingProgrammatically`
 
 - **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
 
-### `src/composables/useAnnotationTypes.ts`
+### `src/composables/fieldContext/useFieldContextSaveHelpers.ts`
 
-- exports: `useAnnotationTypes`, `useCreateAnnotationType`, `useDeleteAnnotationType`, `useUpdateAnnotationType`
-- score: **20**
-- return keys (first return): `data`, `error`, `isLoading`
+- exports: (none detected)
+- score: **21**
 
 - **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
 
@@ -151,10 +126,18 @@ Legend:
 
 - **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
 
+### `src/composables/booking/dev/usePanelPosition.ts`
+
+- exports: `usePanelPosition`
+- score: **19**
+- return keys (first return): `calculatePanelPosition`, `isTransitioning`, `panelTransform`, `updatePanelPosition`
+
+- **P0** (side_effects): Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable.
+
 ### `src/composables/booking/useWizardFilteredOptions.ts`
 
 - exports: `useWizardFilteredOptions`
-- score: **17**
+- score: **18**
 - return keys (first return): `error`, `instances`, `success`
 
 - **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
@@ -166,14 +149,6 @@ Legend:
 - return keys (first return): `contentWidth`
 
 - **P0** (side_effects): Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable.
-
-### `src/composables/entityCrud/usePrimitiveMutation.ts`
-
-- exports: (none detected)
-- score: **10**
-- return keys (first return): `success`
-
-- **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
 
 ### `src/composables/componentEntity/useComponentEntityDomain.ts`
 
@@ -199,10 +174,18 @@ Legend:
 
 - **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
 
+### `src/composables/entityCrud/usePrimitiveMutation.ts`
+
+- exports: (none detected)
+- score: **8.5**
+- return keys (first return): `success`
+
+- **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
+
 ### `src/composables/useGlobal.ts`
 
 - exports: `useGlobal`
-- score: **6**
+- score: **4.5**
 - return keys (first return): `caller`, `stack`
 
 - **P0** (side_effects): Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable.
@@ -486,6 +469,14 @@ Legend:
 - exports: `useConfirmationStepData`
 - score: **0**
 - return keys (first return): `summaryData`
+
+- **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
+
+### `src/composables/booking/useDynamicGridConfig.ts`
+
+- exports: `useDynamicGridConfig`
+- score: **0**
+- return keys (first return): `gridColumns`
 
 - **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
 
@@ -793,108 +784,104 @@ vueQuery@35: const createMutation = useMutation<GlobalEntity<GlobalEntityTypeKey
 async@36: mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {
 map@40: currentEntities.length > 0 ? Math.max(...currentEntities.map((e) => e.orderIndex ?? 0)) : -1
 await@61: const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)
-async@66: onMutate: async () => {
-await@70: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-vueQuery@118: const updateMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, { previousData?: GlobalData }>({
-async@119: mutationFn: async ({
-await@134: const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)
-async@137: onMutate: async (variables) => {
-await@141: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-vueQuery@224: const removeMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({
-async@225: mutationFn: async (id: GlobalEntityId) => {
-await@227: await apiClient.delete(deleteEndpoint)
-async@230: onMutate: async (id) => {
-await@231: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-filter@237: const updatedEntities = currentEntities.filter((entity) => String(entity.id) !== String(id))
-vueQuery@256: const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate>({
-async@257: mutationFn: async (updates: OrderIndexUpdate) => {
-await@258: const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), {
-map@259: updates: updates.map((update) => ({
-async@268: onMutate: async (updates) => {
+async@75: onMutate: async () => {
+await@79: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+vueQuery@131: const updateMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, { previousData?: GlobalData }>({
+async@132: mutationFn: async ({
+await@147: const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)
+async@160: onMutate: async (variables) => {
+await@164: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+vueQuery@252: const removeMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({
+async@253: mutationFn: async (id: GlobalEntityId) => {
+await@255: const response = await apiClient.delete(deleteEndpoint)
+async@268: onMutate: async (id) => {
 await@269: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-map@275: const updateMap = new Map(updates.map((update) => [String(update.id), update.orderIndex]))
-map@276: const updatedEntities = currentEntities.map((entity) => ({
-vueQuery@298: const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>>({
-async@299: mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {
-await@300: const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), {
-async@307: onMutate: async (updates) => {
-await@308: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-map@313: const updateMap = new Map(updates.map((update) => [String(update.id), update]))
-map@315: const updatedEntities = currentEntities.map((entity) => {
-async@342: create: async (entity) => createMutation.mutateAsync(entity),
-async@343: update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),
-async@344: remove: async (id) => removeMutation.mutateAsync(id),
-async@345: patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),
-async@346: patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),
-```
-
-### `src/composables/componentEntity/useComponentEntityActions.ts`
-
-- counts: vueQuery=6, watch=0, computed=0, ref=0, async=9, await=10, dom=0, console=0
-
-```
-vueQuery@2: import { useMutation, useQueryClient } from '@tanstack/vue-query'
-vueQuery@33: const queryClient = useQueryClient()
-vueQuery@35: const createComponentMutation = useMutation({
-async@36: mutationFn: async ({ composerId, componentIds }: { composerId: GlobalEntityId; componentIds: GlobalEntityId[] }) => {
-async@38: const promises = componentIds.map(async (componentId, index) => {
-map@38: const promises = componentIds.map(async (componentId, index) => {
-await@40: return await apiClient.post(endpoint, {
-await@58: await Promise.all(promises)
-async@60: onSuccess: async () => {
-await@61: await queryClient.refetchQueries({ queryKey: ['globalData'] })
-vueQuery@65: const addToComponentMutation = useMutation({
-async@66: mutationFn: async ({
-await@77: await apiClient.post(endpoint, {
-async@95: onSuccess: async () => {
-await@96: await queryClient.refetchQueries({ queryKey: ['globalData'] })
-vueQuery@100: const removeFromComponentMutation = useMutation({
-async@101: mutationFn: async ({ composerId, componentId }: { composerId: GlobalEntityId; componentId: GlobalEntityId }) => {
-await@107: await apiClient.delete(deleteEndpoint)
-async@109: onSuccess: async () => {
-await@110: await queryClient.refetchQueries({ queryKey: ['globalData'] })
-vueQuery@114: const updateComponentWithDistributionMutation = useMutation({
-async@115: mutationFn: async ({
-map@130: const promises = Object.entries(distributionValues).map(([componentId, componentChanges]) =>
-await@133: await Promise.all(promises)
-reduce@140: const componentUpdates = Object.entries(changes).reduce((acc, [propertyKey, newValue]) => {
-map@151: const promises = Object.entries(componentUpdates).map(([componentId, componentChanges]) =>
-await@154: await Promise.all(promises)
-async@156: onSuccess: async () => {
-await@157: await queryClient.refetchQueries({ queryKey: ['globalData'] })
+filter@275: const updatedEntities = currentEntities.filter((entity) => String(entity.id) !== String(id))
+vueQuery@301: const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({
+async@302: mutationFn: async (updates: OrderIndexUpdate) => {
+await@303: const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), {
+map@304: updates: updates.map((update) => ({
+async@313: onMutate: async (updates) => {
+await@314: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+map@320: const updateMap = new Map(updates.map((update) => [String(update.id), update.orderIndex]))
+map@321: const updatedEntities = currentEntities.map((entity) => ({
+vueQuery@350: const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>, { previousData?: GlobalData }>({
+async@351: mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {
+await@352: const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), {
+async@359: onMutate: async (updates) => {
+await@360: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+map@365: const updateMap = new Map(updates.map((update) => [String(update.id), update]))
+map@367: const updatedEntities = currentEntities.map((entity) => {
+async@401: create: async (entity) => createMutation.mutateAsync(entity),
+async@402: update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),
+async@403: remove: async (id) => removeMutation.mutateAsync(id),
+async@404: patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),
+async@405: patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),
 ```
 
 ### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts`
 
-- counts: vueQuery=5, watch=0, computed=0, ref=0, async=6, await=12, dom=0, console=0
+- counts: vueQuery=5, watch=0, computed=0, ref=0, async=6, await=11, dom=0, console=0
 
 ```
 vueQuery@10: import { useMutation, useQueryClient } from '@tanstack/vue-query'
-vueQuery@67: const queryClient = useQueryClient()
-vueQuery@73: const createMutation = useMutation({
-async@74: mutationFn: async (data: CreateAssignmentData) => {
-await@76: const response = await apiClient.post(
-async@87: onMutate: async (variables) => {
-await@91: await queryClient.cancelQueries({ queryKey: globalDataKey })
-await@92: await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
-await@93: await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })
-filter@144: const withoutSame = current.filter(
-sort@148: return [...withoutSame, next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-vueQuery@184: const updateMutation = useMutation({
-async@185: mutationFn: async (data: UpdateAssignmentData) => {
-await@187: const response = await apiClient.patch(
-async@197: onMutate: async (variables) => {
-await@201: await queryClient.cancelQueries({ queryKey: globalDataKey })
-await@202: await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
-await@203: await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })
-vueQuery@297: const deleteMutation = useMutation({
-async@298: mutationFn: async (annotationId: string): Promise<void> => {
-await@300: await apiClient.delete(
-async@304: onMutate: async (annotationId) => {
-await@308: await queryClient.cancelQueries({ queryKey: globalDataKey })
-await@309: await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
-await@310: await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })
-filter@336: return current.filter(
+vueQuery@68: const queryClient = useQueryClient()
+vueQuery@74: const createMutation = useMutation({
+async@75: mutationFn: async (data: CreateAssignmentData) => {
+await@77: const response = await apiClient.post(
+async@88: onMutate: async (variables) => {
+await@92: await queryClient.cancelQueries({ queryKey: globalDataKey })
+await@93: await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
+await@94: await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })
+filter@145: const withoutSame = current.filter(
+sort@149: return [...withoutSame, next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+vueQuery@185: const updateMutation = useMutation({
+async@186: mutationFn: async (data: UpdateAssignmentData) => {
+await@188: const response = await apiClient.patch(
+async@198: onMutate: async (variables) => {
+await@202: await queryClient.cancelQueries({ queryKey: globalDataKey })
+await@203: await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
+await@204: await queryClient.cancelQueries({ queryKey: allBlockInstanceAnnotationsKey })
+vueQuery@298: const deleteMutation = useMutation({
+async@299: mutationFn: async (annotationId: string): Promise<void> => {
+await@301: await apiClient.delete(
+async@305: onMutate: async (annotationId) => {
+await@310: // WHY: Eliminates duplication and combines multiple await calls
+await@312: await cancelQueriesBeforeMutate(queryClient, [
+filter@342: return current.filter(
+```
+
+### `src/composables/useRelationship.ts`
+
+- counts: vueQuery=5, watch=0, computed=3, ref=0, async=6, await=9, dom=0, console=1
+
+```
+vueQuery@11: import { useMutation, useQueryClient } from '@tanstack/vue-query'
+vueQuery@32: const queryClient = useQueryClient()
+vueQuery@68: * ARCHITECTURAL CHANGE: Removed direct useQuery, now reads from globalData
+computed@70: const relationships = computed(() => {
+computed@81: const isLoading = computed(() => false)
+computed@82: const error = computed(() => undefined)
+vueQuery@93: const createMutation = useMutation({
+async@94: mutationFn: async (payload: CreateRelationshipPayload) => {
+await@95: const response = await apiClient.post<FetchedRelationship>(endpoint, payload)
+async@98: onMutate: async (payload) => {
+await@103: // WHY: Eliminates duplication and combines multiple await calls
+await@105: await cancelQueriesBeforeMutate(queryClient, [['globalData']])
+await@109: const { RELATIONSHIP_KEYS } = await import('@/constants/relationships')
+console@127: console.warn(
+vueQuery@195: const deleteMutation = useMutation({
+async@196: mutationFn: async ({ parentId, childId }: { parentId: GlobalEntityId; childId: GlobalEntityId }) => {
+await@202: await apiClient.delete(deleteEndpoint)
+async@204: onMutate: async ({ parentId, childId }) => {
+await@209: // WHY: Eliminates duplication and combines multiple await calls
+await@211: await cancelQueriesBeforeMutate(queryClient, [['globalData']])
+filter@231: const updatedChildren = parentRel.children.filter((child: { id: string }) => child.id !== childIdStr)
+filter@235: const updatedRelationships = currentRelationships.filter((_: GlobalRelationship, index: number) => index !== parentRelIndex)
+async@279: create: async (payload: CreateRelationshipPayload) => {
+await@280: const result = await createMutation.mutateAsync(payload)
+async@283: remove: async (parentId: GlobalEntityId, childId: GlobalEntityId) => {
+await@284: await deleteMutation.mutateAsync({ parentId, childId })
 ```
 
 ### `src/composables/dataCollections/useDataCollectionActions.ts`
@@ -903,125 +890,30 @@ filter@336: return current.filter(
 
 ```
 vueQuery@11: import { useMutation, useQueryClient } from '@tanstack/vue-query'
-vueQuery@51: const queryClient = useQueryClient()
-vueQuery@53: const create = useMutation<CollectionItem, unknown, CreatePayload, unknown>({
-async@54: mutationFn: async (payload: CreatePayload): Promise<CollectionItem> => {
-await@55: const response = await apiClient.post<CollectionItem>(config.endpoints.listEndpoint(), payload)
-async@58: onSuccess: async (createdItem: CollectionItem) => {
-await@69: await queryClient.refetchQueries({ queryKey })
-vueQuery@73: const update = useMutation<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>({
-async@74: mutationFn: async (payload: UpdateByIdPayload<UpdatePayload>): Promise<CollectionItem> => {
-await@75: const response = await apiClient.put<CollectionItem>(
-async@81: onSuccess: async (updatedItem: CollectionItem) => {
-map@86: const updatedCollection = currentCollection.map(item =>
-await@94: await queryClient.refetchQueries({ queryKey })
-vueQuery@98: const patch = useMutation<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>({
-async@99: mutationFn: async (payload: UpdateByIdPayload<UpdatePayload>): Promise<CollectionItem> => {
-await@100: const response = await apiClient.patch<CollectionItem>(
-async@106: onSuccess: async (patchedItem: CollectionItem) => {
-map@111: const updatedCollection = currentCollection.map(item =>
-await@119: await queryClient.refetchQueries({ queryKey })
-vueQuery@123: const remove = useMutation<void, unknown, string, unknown>({
-async@124: mutationFn: async (id: string): Promise<void> => {
-await@125: await apiClient.delete(config.endpoints.byIdEndpoint(id))
-async@127: onSuccess: async (_result, deletedId) => {
-filter@132: const updatedCollection = currentCollection.filter(item => item.id !== deletedId)
-await@138: await queryClient.refetchQueries({ queryKey })
-```
-
-### `src/composables/useRelationship.ts`
-
-- counts: vueQuery=5, watch=0, computed=3, ref=0, async=7, await=8, dom=0, console=1
-
-```
-vueQuery@11: import { useMutation, useQueryClient } from '@tanstack/vue-query'
-vueQuery@31: const queryClient = useQueryClient()
-vueQuery@67: * ARCHITECTURAL CHANGE: Removed direct useQuery, now reads from globalData
-computed@69: const relationships = computed(() => {
-computed@80: const isLoading = computed(() => false)
-computed@81: const error = computed(() => undefined)
-async@84: const refetch = async () => {
-await@85: await queryClient.refetchQueries({ queryKey: ['globalData'] })
-vueQuery@89: const createMutation = useMutation({
-async@90: mutationFn: async (payload: CreateRelationshipPayload) => {
-await@91: const response = await apiClient.post<FetchedRelationship>(endpoint, payload)
-async@94: onMutate: async (payload) => {
-await@98: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-await@102: const { RELATIONSHIP_KEYS } = await import('@/constants/relationships')
-console@120: console.warn(
-vueQuery@188: const deleteMutation = useMutation({
-async@189: mutationFn: async ({ parentId, childId }: { parentId: GlobalEntityId; childId: GlobalEntityId }) => {
-await@195: await apiClient.delete(deleteEndpoint)
-async@197: onMutate: async ({ parentId, childId }) => {
-await@201: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-filter@221: const updatedChildren = parentRel.children.filter((child: { id: string }) => child.id !== childIdStr)
-filter@225: const updatedRelationships = currentRelationships.filter((_: GlobalRelationship, index: number) => index !== parentRelIndex)
-async@269: create: async (payload: CreateRelationshipPayload) => {
-await@270: const result = await createMutation.mutateAsync(payload)
-async@273: remove: async (parentId: GlobalEntityId, childId: GlobalEntityId) => {
-await@274: await deleteMutation.mutateAsync({ parentId, childId })
-```
-
-### `src/composables/admin/useSelectHandlers.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=1, async=3, await=6, dom=0, console=0
-
-```
-ref@119: const isUpdatingProgrammatically = ref(false)
-async@126: const handleGroupChange = async (groupKey: string, groupValue: string | string[] | null): Promise<void> => {
-map@129: ? currentValue.map(v => String(v))
-map@137: const groupEntityIds = new Set(group.entities.map((e: unknown) => String((e as { id: unknown }).id)))
-filter@140: const otherGroupValues = currentArray.filter(v => !groupEntityIds.has(v))
-map@144: ? groupValue.map(v => String(v)).filter(v => v !== '')
-filter@144: ? groupValue.map(v => String(v)).filter(v => v !== '')
-async@161: const handleChange = async (value: string | string[] | null): Promise<void> => {
-map@176: annotationSelect.blockInstanceAnnotations.value.map(rel => rel.annotationId)
-map@183: newAnnotationIds = value.map(v => String(v)).filter(v => v !== '')
-filter@183: newAnnotationIds = value.map(v => String(v)).filter(v => v !== '')
-filter@190: const toAdd = newAnnotationIds.filter(id => !currentAnnotationIds.has(id))
-filter@193: const toRemove = Array.from(currentAnnotationIds).filter(id => !newAnnotationIdsSet.has(id))
-await@198: await annotationSelect.createAnnotationRelationship.mutateAsync({
-await@212: await annotationSelect.deleteAnnotationRelationship.mutateAsync(annotationId)
-await@223: await nextTick()
-map@239: normalizedValue = value.map(v => String(v)).filter(v => v !== '')
-filter@239: normalizedValue = value.map(v => String(v)).filter(v => v !== '')
-filter@250: normalizedValue = currentArray.filter(v => v !== newValueStr)
-sort@274: const currentSorted = [...currentArray].sort().join(',')
-sort@275: const normalizedSorted = [...normalizedArray].sort().join(',')
-await@287: await nextTick()
-async@308: const handleBlur = async (): Promise<void> => {
-await@311: const isValid = await fieldContext.validate()
-await@315: await fieldContext.save()
-```
-
-### `src/composables/fieldContext/useFieldContextActions.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=9, dom=0, console=0
-
-```
-async@35: const validate = async (): Promise<boolean> => {
-await@38: await state.validateField()
-async@49: const save = async (): Promise<void> => {
-await@67: await apiClient.get(verifyEndpoint)
-await@92: const isValidResult = await validate()
-map@103: const oldComponentIds = new Set(currentComponents.map((ea) => ea.childId))
-map@108: ? new Set(plainValue.map((v: unknown) => String(v)))
-filter@113: const toAdd = Array.from(newComponentIds).filter((id) => !oldComponentIds.has(id))
-filter@114: const toRemove = Array.from(oldComponentIds).filter((id) => !newComponentIds.has(id))
-map@117: ...toAdd.map((componentId, index) =>
-map@130: ...toRemove.map((componentId) =>
-await@138: await Promise.all(promises)
-map@153: ? currentValue.map((v) => String(v))
-map@161: ? plainValue.map((v) => String(v))
-filter@167: const toAdd = newValues.filter((v) => !oldValues.includes(v))
-filter@168: const toRemove = oldValues.filter((v) => !newValues.includes(v))
-map@171: ...toAdd.map((childId) => {
-map@178: ...toRemove.map((childId) => {
-await@184: await Promise.all(promises)
-await@188: const { cleanupInvalidActiveRelationships } = await import('@/utils/dependencyCleanup')
-await@189: await cleanupInvalidActiveRelationships(
-await@203: await state.queryClient.refetchQueries({ queryKey: ['globalData'] })
-await@220: await state.patchFieldAsync(patchPayload)
+vueQuery@52: const queryClient = useQueryClient()
+vueQuery@59: const create = useMutation<CollectionItem, unknown, CreatePayload, unknown>({
+async@60: mutationFn: async (payload: CreatePayload): Promise<CollectionItem> => {
+await@61: const response = await apiClient.post<CollectionItem>(config.endpoints.listEndpoint(), payload)
+async@64: onSuccess: async (createdItem: CollectionItem) => {
+await@75: await refetchQuery()
+vueQuery@79: const update = useMutation<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>({
+async@80: mutationFn: async (payload: UpdateByIdPayload<UpdatePayload>): Promise<CollectionItem> => {
+await@81: const response = await apiClient.put<CollectionItem>(
+async@87: onSuccess: async (updatedItem: CollectionItem) => {
+map@92: const updatedCollection = currentCollection.map(item =>
+await@100: await refetchQuery()
+vueQuery@104: const patch = useMutation<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>({
+async@105: mutationFn: async (payload: UpdateByIdPayload<UpdatePayload>): Promise<CollectionItem> => {
+await@106: const response = await apiClient.patch<CollectionItem>(
+async@112: onSuccess: async (patchedItem: CollectionItem) => {
+map@117: const updatedCollection = currentCollection.map(item =>
+await@125: await refetchQuery()
+vueQuery@129: const remove = useMutation<void, unknown, string, unknown>({
+async@130: mutationFn: async (id: string): Promise<void> => {
+await@131: await apiClient.delete(config.endpoints.byIdEndpoint(id))
+async@133: onSuccess: async (_result, deletedId) => {
+filter@138: const updatedCollection = currentCollection.filter(item => item.id !== deletedId)
+await@144: await refetchQuery()
 ```
 
 ### `src/composables/admin/useAnnotationsFieldViewModel.ts`
@@ -1053,61 +945,61 @@ async@175: const handleRemoveAnnotation = async (ann: AnnotationWithMetadata): P
 await@178: await assignments.handleRemoveAnnotation(ann.id, ann.text)
 ```
 
-### `src/composables/admin/useAnnotationSelect.ts`
+### `src/composables/admin/useSelectHandlers.ts`
 
-- counts: vueQuery=6, watch=0, computed=3, ref=0, async=5, await=7, dom=0, console=2
-
-```
-vueQuery@16: import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
-computed@117: const annotations = computed(() => {
-vueQuery@126: * PATTERN: Use useQuery to fetch relationships, only when entity exists and is blockInstance
-computed@128: const blockInstanceId = computed(() => {
-vueQuery@141: const blockInstanceAnnotationsQuery = useQuery({
-async@143: queryFn: async () => {
-await@145: const response = await apiClient.get(getBlockInstanceAnnotationsEndpoint(blockInstanceId.value))
-vueQuery@154: const queryClient = useQueryClient()
-vueQuery@161: const createAnnotationRelationship = useMutation<
-async@167: mutationFn: async ({
-await@174: const response = await apiClient.post(getBlockInstanceAnnotationsEndpoint(blockInstanceId.value), {
-async@182: onMutate: async (variables) => {
-await@186: await queryClient.cancelQueries({ queryKey: globalDataKey })
-await@187: await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
-console@232: console.error('[useAnnotationSelect] Failed to create annotation relationship:', error)
-vueQuery@249: const deleteAnnotationRelationship = useMutation<
-async@255: mutationFn: async (annotationId: string) => {
-await@257: await apiClient.delete(getBlockInstanceAnnotationEndpoint(blockInstanceId.value, annotationId))
-async@259: onMutate: async (annotationId) => {
-await@263: await queryClient.cancelQueries({ queryKey: globalDataKey })
-await@264: await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
-console@293: console.error('[useAnnotationSelect] Failed to delete annotation relationship:', error)
-computed@301: blockInstanceAnnotations: computed(() => blockInstanceAnnotationsQuery.data.value ?? []),
-```
-
-### `src/composables/useAnnotationTypes.ts`
-
-- counts: vueQuery=7, watch=0, computed=1, ref=0, async=6, await=6, dom=0, console=0
+- counts: vueQuery=0, watch=0, computed=0, ref=1, async=3, await=5, dom=0, console=0
 
 ```
-vueQuery@14: import { useMutation, useQueryClient } from '@tanstack/vue-query'
-computed@40: const data = computed(() => globalData.value?.annotationTypes ?? [])
-vueQuery@57: const queryClient = useQueryClient()
-vueQuery@59: return useMutation({
-async@60: mutationFn: async (data: { name: string }): Promise<AnnotationType> => {
-await@61: const response = await apiClient.post<AnnotationType>(getAnnotationTypeEndpoint(), data)
-async@64: onSuccess: async () => {
-await@65: await queryClient.refetchQueries({ queryKey: ['globalData'] })
-vueQuery@78: const queryClient = useQueryClient()
-vueQuery@80: return useMutation({
-async@81: mutationFn: async ({ id, data }: { id: string; data: { name: string } }): Promise<AnnotationType> => {
-await@82: const response = await apiClient.put<AnnotationType>(getAnnotationTypeByIdEndpoint(id), data)
-async@85: onSuccess: async () => {
-await@86: await queryClient.refetchQueries({ queryKey: ['globalData'] })
-vueQuery@99: const queryClient = useQueryClient()
-vueQuery@101: return useMutation({
-async@102: mutationFn: async (id: string): Promise<void> => {
-await@103: await apiClient.delete(getAnnotationTypeByIdEndpoint(id))
-async@105: onSuccess: async () => {
-await@106: await queryClient.refetchQueries({ queryKey: ['globalData'] })
+ref@120: const isUpdatingProgrammatically = ref(false)
+async@127: const handleGroupChange = async (groupKey: string, groupValue: string | string[] | null): Promise<void> => {
+map@130: ? currentValue.map(v => String(v))
+map@138: const groupEntityIds = new Set(group.entities.map((e: unknown) => String((e as { id: unknown }).id)))
+filter@141: const otherGroupValues = currentArray.filter(v => !groupEntityIds.has(v))
+map@145: ? groupValue.map(v => String(v)).filter(v => v !== '')
+filter@145: ? groupValue.map(v => String(v)).filter(v => v !== '')
+async@162: const handleChange = async (value: string | string[] | null): Promise<void> => {
+map@177: annotationSelect.blockInstanceAnnotations.value.map(rel => rel.annotationId)
+map@184: newAnnotationIds = value.map(v => String(v)).filter(v => v !== '')
+filter@184: newAnnotationIds = value.map(v => String(v)).filter(v => v !== '')
+await@191: await updateAnnotationRelationships(
+await@202: await nextTick()
+map@218: normalizedValue = value.map(v => String(v)).filter(v => v !== '')
+filter@218: normalizedValue = value.map(v => String(v)).filter(v => v !== '')
+filter@229: normalizedValue = currentArray.filter(v => v !== newValueStr)
+sort@253: const currentSorted = [...currentArray].sort().join(',')
+sort@254: const normalizedSorted = [...normalizedArray].sort().join(',')
+await@266: await nextTick()
+async@287: const handleBlur = async (): Promise<void> => {
+await@290: const isValid = await fieldContext.validate()
+await@294: await fieldContext.save()
+```
+
+### `src/composables/fieldContext/useFieldContextSaveHelpers.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=3, await=6, dom=0, console=0
+
+```
+async@34: export async function saveComponentEntityField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+map@46: const oldComponentIds = new Set(currentComponents.map((ea) => ea.childId))
+map@51: ? new Set(plainValue.map((v: unknown) => String(v)))
+filter@56: const toAdd = Array.from(newComponentIds).filter((id) => !oldComponentIds.has(id))
+filter@57: const toRemove = Array.from(oldComponentIds).filter((id) => !newComponentIds.has(id))
+map@60: ...toAdd.map((componentId, index) =>
+map@73: ...toRemove.map((componentId) =>
+await@81: await Promise.all(promises)
+async@99: export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+map@112: ? currentValue.map((v) => String(v))
+map@120: ? plainValue.map((v: unknown) => String(v))
+filter@126: const toAdd = newValues.filter((v) => !oldValues.includes(v))
+filter@127: const toRemove = oldValues.filter((v) => !newValues.includes(v))
+map@130: ...toAdd.map((childId) => {
+map@137: ...toRemove.map((childId) => {
+await@143: await Promise.all(promises)
+await@150: const { cleanupInvalidActiveRelationships } = await import('@/utils/dependencyCleanup')
+await@151: await cleanupInvalidActiveRelationships(
+await@168: await queryClient.refetchQueries({ queryKey: ['globalData'] })
+async@191: export async function saveRegularField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+await@207: await state.patchFieldAsync(patchPayload)
 ```
 
 ### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts`
@@ -1115,26 +1007,26 @@ await@106: await queryClient.refetchQueries({ queryKey: ['globalData'] })
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=8, await=10, dom=0, console=0
 
 ```
-async@69: const createMultiple = async (
-await@78: await mutations.create({
-async@87: const updateDefault = async (
-filter@95: const otherDefaults = allAnnotations.filter((a) => a.id !== annotationId && a.isDefault)
-await@97: await mutations.update({
-await@104: await mutations.update({
-async@110: const handleAddAnnotations = async (
-filter@116: const newIds = annotationIds.filter((id) => !annotationsWithMetadata.some((a) => a.id === id))
-await@118: await createMultiple(newIds, null)
-async@126: const handleAddSelectedAnnotations = async (
-await@146: await createMultiple(selectedIds, selectedUserTypeBlock)
-async@161: const handleCreateAnnotation = async (
-await@186: const newAnnotation = await orchestrationOptions.annotationsComposable.create.mutateAsync({
-await@194: await mutations.create({
-async@220: const handleUpdateAnnotationType = async (annotationId: string, type: string): Promise<void> => {
-await@224: await orchestrationOptions.annotationsComposable.patch.mutateAsync({
-async@235: const handleUpdateMetadata = async (
-await@255: await mutations.update({
-async@262: const handleRemoveAnnotation = async (
-await@270: await mutations.remove(annotationId)
+async@53: const createMultiple = async (
+await@62: await mutations.create({
+async@71: const updateDefault = async (
+filter@79: const otherDefaults = allAnnotations.filter((a) => a.id !== annotationId && a.isDefault)
+await@81: await mutations.update({
+await@88: await mutations.update({
+async@94: const handleAddAnnotations = async (
+filter@100: const newIds = annotationIds.filter((id) => !annotationsWithMetadata.some((a) => a.id === id))
+await@102: await createMultiple(newIds, null)
+async@110: const handleAddSelectedAnnotations = async (
+await@130: await createMultiple(selectedIds, selectedUserTypeBlock)
+async@145: const handleCreateAnnotation = async (
+await@170: const newAnnotation = await orchestrationOptions.annotationsComposable.create.mutateAsync({
+await@178: await mutations.create({
+async@204: const handleUpdateAnnotationType = async (annotationId: string, type: string): Promise<void> => {
+await@208: await orchestrationOptions.annotationsComposable.patch.mutateAsync({
+async@219: const handleUpdateMetadata = async (
+await@239: await mutations.update({
+async@246: const handleRemoveAnnotation = async (
+await@254: await mutations.remove(annotationId)
 ```
 
 ### `src/composables/admin/useInstanceGrouping.ts`
@@ -1163,9 +1055,65 @@ filter@194: .filter(Boolean) as string[]
 watch@206: watch(sortedBlockShapes, (shapes) => {
 ```
 
+### `src/composables/booking/dev/usePanelPosition.ts`
+
+- counts: vueQuery=0, watch=1, computed=0, ref=2, async=1, await=1, dom=8, console=0
+
+```
+dom@10: * - Handles window resize events
+lifecycle@14: import { ref, watch, onMounted, onUnmounted, nextTick, type Ref } from 'vue'
+ref@81: const panelTransform = ref('translateX(0)')
+ref@82: const isTransitioning = ref(false)
+dom@96: const viewportWidth = window.innerWidth
+dom@128: const viewportWidth = window.innerWidth
+dom@146: * WHY: Recalculate position when window resizes
+watch@158: watch(isExpanded, (newValue) => {
+dom@164: // LEARNING: Setup window resize listener
+dom@165: // WHY: Recalculate position when window resizes
+lifecycle@167: onMounted(() => {
+dom@168: window.addEventListener('resize', handleResize)
+lifecycle@171: onUnmounted(() => {
+dom@172: window.removeEventListener('resize', handleResize)
+async@180: const handleToggle = async (willExpand: boolean): Promise<void> => {
+await@199: await nextTick()
+timers@223: // PATTERN: Use setTimeout to wait for VExpandTransition (300ms)
+timers@224: setTimeout(() => {
+timers@234: setTimeout(() => {
+```
+
+### `src/composables/admin/useAnnotationSelect.ts`
+
+- counts: vueQuery=6, watch=0, computed=3, ref=0, async=5, await=7, dom=0, console=2
+
+```
+vueQuery@16: import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
+computed@118: const annotations = computed(() => {
+vueQuery@127: * PATTERN: Use useQuery to fetch relationships, only when entity exists and is blockInstance
+computed@129: const blockInstanceId = computed(() => {
+vueQuery@142: const blockInstanceAnnotationsQuery = useQuery({
+async@144: queryFn: async () => {
+await@146: const response = await apiClient.get(getBlockInstanceAnnotationsEndpoint(blockInstanceId.value))
+vueQuery@155: const queryClient = useQueryClient()
+vueQuery@162: const createAnnotationRelationship = useMutation<
+async@168: mutationFn: async ({
+await@175: const response = await apiClient.post(getBlockInstanceAnnotationsEndpoint(blockInstanceId.value), {
+async@183: onMutate: async (variables) => {
+await@188: // WHY: Eliminates duplication and combines multiple await calls
+await@190: await cancelQueriesBeforeMutate(queryClient, [
+console@238: console.error('[useAnnotationSelect] Failed to create annotation relationship:', error)
+vueQuery@255: const deleteAnnotationRelationship = useMutation<
+async@261: mutationFn: async (annotationId: string) => {
+await@263: await apiClient.delete(getBlockInstanceAnnotationEndpoint(blockInstanceId.value, annotationId))
+async@265: onMutate: async (annotationId) => {
+await@270: // WHY: Eliminates duplication and combines multiple await calls
+await@272: await cancelQueriesBeforeMutate(queryClient, [
+console@304: console.error('[useAnnotationSelect] Failed to delete annotation relationship:', error)
+computed@312: blockInstanceAnnotations: computed(() => blockInstanceAnnotationsQuery.data.value ?? []),
+```
+
 ### `src/composables/booking/useWizardFilteredOptions.ts`
 
-- counts: vueQuery=0, watch=0, computed=10, ref=0, async=0, await=0, dom=0, console=4
+- counts: vueQuery=0, watch=0, computed=11, ref=0, async=0, await=0, dom=0, console=4
 
 ```
 filter@78: const cascadedInstances = bookingData.blockInstances.filter(
@@ -1186,9 +1134,37 @@ computed@262: const availablePropertyTypeBlocks = computed((): BookingBlockInsta
 console@281: console.warn('[useWizardFilteredOptions] Property block shape (type="property") not found')
 filter@286: return result.instances.filter(
 computed@291: const propertyTypesCascadeError = computed((): string | null => {
-computed@301: const accServices = computed((): BookingBlockInstance[] => selectedServices.value)
-computed@302: const accProperty = computed((): BookingBlockInstance[] => selectedPropertyTypeBlocks.value)
-computed@303: const accAvailability = computed((): BookingBlockInstance[] => selectedAvailabilityOptions.value)
+computed@307: const availableLineItemBlocks = computed((): BookingBlockInstance[] => {
+computed@316: const accServices = computed((): BookingBlockInstance[] => selectedServices.value)
+computed@317: const accProperty = computed((): BookingBlockInstance[] => selectedPropertyTypeBlocks.value)
+computed@318: const accAvailability = computed((): BookingBlockInstance[] => selectedAvailabilityOptions.value)
+```
+
+### `src/composables/componentEntity/useComponentEntityActions.ts`
+
+- counts: vueQuery=6, watch=0, computed=0, ref=0, async=4, await=6, dom=0, console=0
+
+```
+vueQuery@2: import { useMutation, useQueryClient } from '@tanstack/vue-query'
+vueQuery@34: const queryClient = useQueryClient()
+vueQuery@41: const createComponentMutation = useMutation({
+async@42: mutationFn: async ({ composerId, componentIds }: { composerId: GlobalEntityId; componentIds: GlobalEntityId[] }) => {
+await@47: await createMultipleRelationships(endpoint, composerId, componentIds)
+vueQuery@52: const addToComponentMutation = useMutation({
+async@53: mutationFn: async ({
+await@66: await createRelationshipWithConflictHandling(endpoint, composerId, componentId, orderIndex ?? 0)
+vueQuery@71: const removeFromComponentMutation = useMutation({
+async@72: mutationFn: async ({ composerId, componentId }: { composerId: GlobalEntityId; componentId: GlobalEntityId }) => {
+await@78: await apiClient.delete(deleteEndpoint)
+vueQuery@83: const updateComponentWithDistributionMutation = useMutation({
+async@84: mutationFn: async ({
+map@99: const promises = Object.entries(distributionValues).map(([componentId, componentChanges]) =>
+await@102: await Promise.all(promises)
+reduce@109: const componentUpdates = Object.entries(changes).reduce((acc, [propertyKey, newValue]) => {
+reduce@116: return preview.reduce((componentAcc, { componentId, newValue: componentNewValue }) => {
+await@130: // PATTERN: Map entries to promises, then await all
+map@131: const promises = Object.entries(componentUpdates).map(([componentId, componentChanges]) =>
+await@134: await Promise.all(promises)
 ```
 
 ### `src/composables/useAvailability.ts`
@@ -1220,44 +1196,22 @@ computed@230: isLoading: computed(() => isLoading.value) // P1-3: Expose loading
 - counts: vueQuery=0, watch=0, computed=16, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@81: clientFirstName: computed(() => clientInfo.value.firstName),
-computed@82: clientLastName: computed(() => clientInfo.value.lastName),
-computed@83: clientEmail: computed(() => clientInfo.value.email),
-computed@84: agentFirstName: computed(() => agentInfo.value.firstName),
-computed@85: agentLastName: computed(() => agentInfo.value.lastName),
-computed@86: agentEmail: computed(() => agentInfo.value.email),
-computed@87: anotherClientFirstName: computed(() => anotherClientInfo.value.firstName),
-computed@88: anotherClientLastName: computed(() => anotherClientInfo.value.lastName),
-computed@89: anotherClientEmail: computed(() => anotherClientInfo.value.email),
-computed@90: transactionManagerFirstName: computed(() => transactionManagerInfo.value.firstName),
-computed@91: transactionManagerLastName: computed(() => transactionManagerInfo.value.lastName),
-computed@92: transactionManagerEmail: computed(() => transactionManagerInfo.value.email),
-computed@93: sellerFirstName: computed(() => sellerInfo.value.firstName),
-computed@94: sellerLastName: computed(() => sellerInfo.value.lastName),
-computed@95: sellerEmail: computed(() => sellerInfo.value.email)
-computed@99: const reactiveRules = computed(() => {
-```
-
-### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsQuery.ts`
-
-- counts: vueQuery=6, watch=0, computed=0, ref=0, async=3, await=4, dom=0, console=0
-
-```
-vueQuery@2: import { useQuery } from '@tanstack/vue-query'
-vueQuery@18: blockInstanceAnnotations: ReturnType<typeof useQuery<AnnotationAssignmentResponse[]>>['data']
-vueQuery@19: refetchRelationships: ReturnType<typeof useQuery<AnnotationAssignmentResponse[]>>['refetch']
-vueQuery@20: allBlockInstanceAnnotations: ReturnType<typeof useQuery<BlockInstanceAnnotationResponse[]>>['data']
-vueQuery@23: const { data: blockInstanceAnnotations, refetch: refetchRelationships } = useQuery<AnnotationAssignmentResponse[]>({
-async@25: queryFn: async (): Promise<AnnotationAssignmentResponse[]> => {
-await@27: const response = await apiClient.get(getBlockInstanceAnnotationsEndpoint(blockInstanceId.value))
-vueQuery@33: const { data: allBlockInstanceAnnotations } = useQuery<BlockInstanceAnnotationResponse[]>({
-async@35: queryFn: async (): Promise<BlockInstanceAnnotationResponse[]> => {
-await@36: const blockInstancesResponse = await apiClient.get(getEntityEndpoint('blockInstance'))
-map@39: const annotationPromises = blockInstances.map(
-async@40: async (blockInstance: BlockInstanceResponse): Promise<BlockInstanceAnnotationResponse[]> => {
-await@42: const rels = await apiClient.get(getBlockInstanceAnnotationsEndpoint(blockInstance.id))
-map@44: return (rels.data as AnnotationAssignmentResponse[]).map((rel: AnnotationAssignmentResponse) => ({
-await@61: const results = await Promise.all(annotationPromises)
+computed@85: clientFirstName: computed(() => clientInfo.value.firstName),
+computed@86: clientLastName: computed(() => clientInfo.value.lastName),
+computed@87: clientEmail: computed(() => clientInfo.value.email),
+computed@88: agentFirstName: computed(() => agentInfo.value.firstName),
+computed@89: agentLastName: computed(() => agentInfo.value.lastName),
+computed@90: agentEmail: computed(() => agentInfo.value.email),
+computed@91: anotherClientFirstName: computed(() => anotherClientInfo.value.firstName),
+computed@92: anotherClientLastName: computed(() => anotherClientInfo.value.lastName),
+computed@93: anotherClientEmail: computed(() => anotherClientInfo.value.email),
+computed@94: transactionManagerFirstName: computed(() => transactionManagerInfo.value.firstName),
+computed@95: transactionManagerLastName: computed(() => transactionManagerInfo.value.lastName),
+computed@96: transactionManagerEmail: computed(() => transactionManagerInfo.value.email),
+computed@97: sellerFirstName: computed(() => sellerInfo.value.firstName),
+computed@98: sellerLastName: computed(() => sellerInfo.value.lastName),
+computed@99: sellerEmail: computed(() => sellerInfo.value.email)
+computed@103: const reactiveRules = computed(() => {
 ```
 
 ### `src/composables/admin/useAvailabilitySettings.ts`
@@ -1273,13 +1227,13 @@ ref@63: const loading = ref(false)
 ref@64: const saving = ref(false)
 async@83: const loadSettings = async (): Promise<void> => {
 await@88: const response = await apiClient.get('/business-settings/availability_settings')
-map@166: const [startHour, startMin] = startTimeStr.split(':').map(Number)
-map@167: const [endHour, endMin] = endTimeStr.split(':').map(Number)
-async@186: const saveSettings = async (): Promise<void> => {
-await@265: await apiClient.put('/business-settings/availability_settings', {
-timers@275: setTimeout(() => {
-lifecycle@288: * PATTERN: onMounted lifecycle hook for initialization
-lifecycle@290: onMounted(() => {
+map@148: const [startHour, startMin] = startTimeStr.split(':').map(Number)
+map@149: const [endHour, endMin] = endTimeStr.split(':').map(Number)
+async@168: const saveSettings = async (): Promise<void> => {
+await@247: await apiClient.put('/business-settings/availability_settings', {
+timers@257: setTimeout(() => {
+lifecycle@270: * PATTERN: onMounted lifecycle hook for initialization
+lifecycle@272: onMounted(() => {
 ```
 
 ### `src/composables/booking/useMoveablePartsScheduling.ts`
@@ -1469,44 +1423,26 @@ timers@147: setTimeout(() => {
 lifecycle@160: onUnmounted(() => {
 ```
 
-### `src/composables/fieldContext/useFieldContextState.ts`
+### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsQuery.ts`
 
-- counts: vueQuery=3, watch=0, computed=5, ref=3, async=0, await=0, dom=0, console=1
-
-```
-vueQuery@3: import { useQueryClient } from '@tanstack/vue-query'
-vueQuery@50: queryClient: ReturnType<typeof useQueryClient>
-computed@76: const isTempEntity = computed(() => {
-computed@86: const entity = computed(() => {
-map@100: return components.map((ea) => ea.childId)
-computed@191: const error = computed(() => errorMessage.value)
-computed@192: const isValid = computed(() => meta.valid)
-computed@193: const isDirty = computed(() => meta.dirty)
-ref@194: const isValidating = ref(false)
-ref@195: const isFocused = ref(false)
-console@208: console.error(error)
-ref@215: const isDisabled = ref(providedDisplayConfig.disabled === true) // Explicit boolean, no default
-vueQuery@235: const queryClient = useQueryClient()
-```
-
-### `src/composables/booking/useAppointmentLoader.ts`
-
-- counts: vueQuery=2, watch=0, computed=0, ref=1, async=2, await=4, dom=0, console=1
+- counts: vueQuery=6, watch=0, computed=0, ref=0, async=3, await=4, dom=0, console=0
 
 ```
-async@11: * - Provides loading state for async operations
-vueQuery@15: import { useQueryClient } from '@tanstack/vue-query'
-vueQuery@32: const queryClient = useQueryClient()
-ref@33: const isLoading: Ref<boolean> = ref(false)
-async@35: const loadAppointmentById = async (appointmentId: string): Promise<AppointmentResponse | null> => {
-await@44: await new Promise(resolve => setTimeout(resolve, 0))
-timers@44: await new Promise(resolve => setTimeout(resolve, 0))
-await@53: await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
-await@56: await new Promise(resolve => setTimeout(resolve, 500))
-timers@56: await new Promise(resolve => setTimeout(resolve, 500))
-await@60: await new Promise(resolve => setTimeout(resolve, 0))
-timers@60: await new Promise(resolve => setTimeout(resolve, 0))
-console@64: console.error('[useAppointmentLoader] Error loading appointment:', error)
+vueQuery@2: import { useQuery } from '@tanstack/vue-query'
+vueQuery@18: blockInstanceAnnotations: ReturnType<typeof useQuery<AnnotationAssignmentResponse[]>>['data']
+vueQuery@19: refetchRelationships: ReturnType<typeof useQuery<AnnotationAssignmentResponse[]>>['refetch']
+vueQuery@20: allBlockInstanceAnnotations: ReturnType<typeof useQuery<BlockInstanceAnnotationResponse[]>>['data']
+vueQuery@23: const { data: blockInstanceAnnotations, refetch: refetchRelationships } = useQuery<AnnotationAssignmentResponse[]>({
+async@25: queryFn: async (): Promise<AnnotationAssignmentResponse[]> => {
+await@27: const response = await apiClient.get(getBlockInstanceAnnotationsEndpoint(blockInstanceId.value))
+vueQuery@33: const { data: allBlockInstanceAnnotations } = useQuery<BlockInstanceAnnotationResponse[]>({
+async@35: queryFn: async (): Promise<BlockInstanceAnnotationResponse[]> => {
+await@36: const blockInstancesResponse = await apiClient.get(getEntityEndpoint('blockInstance'))
+map@39: const annotationPromises = blockInstances.map(
+async@40: async (blockInstance: BlockInstanceResponse): Promise<BlockInstanceAnnotationResponse[]> => {
+await@42: const rels = await apiClient.get(getBlockInstanceAnnotationsEndpoint(blockInstance.id))
+map@44: return (rels.data as AnnotationAssignmentResponse[]).map((rel: AnnotationAssignmentResponse) => ({
+await@61: const results = await Promise.all(annotationPromises)
 ```
 
 ### `src/composables/admin/useInstanceDragAndDrop.ts`
@@ -1533,72 +1469,38 @@ lifecycle@229: onUnmounted(() => {
 - counts: vueQuery=0, watch=1, computed=8, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@108: const dateRangeForApi = computed(() => {
-computed@190: const propertyDetails = computed(() => {
-computed@206: const accumulatedBlockInstances = computed(() => {
-map@261: return Array.from(slotsByDate.entries()).map(([date, slots]) => {
-map@267: const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
-computed@286: const isDifferentialService = computed(() => {
-computed@296: const hasDifferentialOverride = computed(() => {
-computed@320: const isEffectivelyDifferential = computed(() => {
-watch@332: watch([timeSlots, selectedDate], ([slots, date]) => {
-map@357: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
-computed@376: const selectedDateSingle = computed({
-computed@403: const currentAppointmentSlots = computed(() => {
+computed@112: const dateRangeForApi = computed(() => {
+computed@194: const propertyDetails = computed(() => {
+computed@210: const accumulatedBlockInstances = computed(() => {
+map@265: return Array.from(slotsByDate.entries()).map(([date, slots]) => {
+map@271: const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
+computed@290: const isDifferentialService = computed(() => {
+computed@300: const hasDifferentialOverride = computed(() => {
+computed@324: const isEffectivelyDifferential = computed(() => {
+watch@336: watch([timeSlots, selectedDate], ([slots, date]) => {
+map@361: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
+computed@380: const selectedDateSingle = computed({
+computed@407: const currentAppointmentSlots = computed(() => {
 ```
 
-### `src/composables/admin/useMetadataCache.ts`
+### `src/composables/booking/useAppointmentLoader.ts`
 
-- counts: vueQuery=3, watch=0, computed=3, ref=1, async=3, await=1, dom=0, console=0
-
-```
-vueQuery@15: import { useQuery, useQueryClient } from '@tanstack/vue-query'
-async@43: async function fetchAllAdminMetadata(): Promise<MetadataCache> {
-await@45: const response = await apiClient.get<MetadataCache>(endpoint)
-vueQuery@54: const queryClient = useQueryClient()
-ref@60: const metadataLoadRequested = ref(false)
-vueQuery@68: const metadataQuery = useQuery<MetadataCache>({
-computed@75: enabled: computed(() => metadataLoadRequested.value), // LAZY: Only fetches when enabled
-async@82: * PATTERN: Enable query synchronously, Vue Query handles async fetch and loading state
-async@83: * FIX: Changed from async to sync to prevent race condition with component rendering
-computed@148: const isLoaded = computed(() => !!metadataQuery.data.value)
-computed@180: metadataData: computed(() => metadataQuery.data.value),
-```
-
-### `src/composables/useAppointment.ts`
-
-- counts: vueQuery=3, watch=0, computed=2, ref=0, async=1, await=3, dom=0, console=0
+- counts: vueQuery=2, watch=0, computed=0, ref=1, async=2, await=4, dom=0, console=1
 
 ```
-vueQuery@6: * PATTERN: Vue Query useMutation for data mutations
-vueQuery@16: import { useQueryClient } from '@tanstack/vue-query'
-vueQuery@58: const queryClient = useQueryClient()
-computed@82: isLoading: computed(() => isLoading.value),
-computed@83: error: computed(() => error.value),
-async@93: const fetchRandom = async (): Promise<AppointmentResponse | null> => {
-await@100: await new Promise(resolve => setTimeout(resolve, 100))
-timers@100: await new Promise(resolve => setTimeout(resolve, 100))
-await@107: await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
-await@109: await new Promise(resolve => setTimeout(resolve, 500))
-timers@109: await new Promise(resolve => setTimeout(resolve, 500))
-```
-
-### `src/composables/useBusiness.ts`
-
-- counts: vueQuery=3, watch=0, computed=6, ref=0, async=1, await=1, dom=0, console=0
-
-```
-vueQuery@15: import { useQuery, useQueryClient } from '@tanstack/vue-query'
-vueQuery@43: const queryClient = useQueryClient()
-vueQuery@45: const businessQuery = useQuery<BusinessData>({
-computed@53: businessData: computed(() => businessQuery.data.value),
-computed@54: isLoading: computed(() => businessQuery.isLoading.value),
-computed@55: error: computed(() => businessQuery.error.value),
-async@56: refetch: async () => {
-await@57: await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
-computed@71: return computed(() => businessData.value?.appointments ?? [])
-computed@83: return computed(() => businessData.value?.properties ?? [])
-computed@95: return computed(() => businessData.value?.users ?? [])
+async@11: * - Provides loading state for async operations
+vueQuery@15: import { useQueryClient } from '@tanstack/vue-query'
+vueQuery@32: const queryClient = useQueryClient()
+ref@33: const isLoading: Ref<boolean> = ref(false)
+async@35: const loadAppointmentById = async (appointmentId: string): Promise<AppointmentResponse | null> => {
+await@44: await new Promise(resolve => setTimeout(resolve, 0))
+timers@44: await new Promise(resolve => setTimeout(resolve, 0))
+await@53: await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
+await@56: await new Promise(resolve => setTimeout(resolve, 500))
+timers@56: await new Promise(resolve => setTimeout(resolve, 500))
+await@60: await new Promise(resolve => setTimeout(resolve, 0))
+timers@60: await new Promise(resolve => setTimeout(resolve, 0))
+console@64: console.error('[useAppointmentLoader] Error loading appointment:', error)
 ```
 
 ### `src/composables/admin/useDragAndDrop.ts`
@@ -1685,81 +1587,51 @@ ref@79: : ref(distributionStrategyOption)
 ref@83: : ref(manualValuesOption)
 watch@143: watch(distributionStrategy, (newStrategy) => {
 map@149: const componentIds = componentEntity.getComponents(composerIdValue).map(ac => ac.childId)
-watch@164: watch(modalOpen, (isOpen) => {
-computed@179: const preview = computed(() => {
-map@185: const componentIds = componentEntity.getComponents(composerId.value).map(ac => ac.childId)
-map@186: return componentIds.map(componentId => {
+watch@171: watch(modalOpen, (isOpen) => {
+computed@186: const preview = computed(() => {
+map@192: const componentIds = componentEntity.getComponents(composerId.value).map(ac => ac.childId)
+map@193: return componentIds.map(componentId => {
 ```
 
-### `src/composables/admin/useAdminMetadataMutations.ts`
+### `src/composables/useAnnotationTypes.ts`
 
-- counts: vueQuery=4, watch=0, computed=0, ref=0, async=2, await=4, dom=0, console=0
-
-```
-vueQuery@17: import { useMutation, useQueryClient } from '@tanstack/vue-query'
-vueQuery@41: const queryClient = useQueryClient()
-vueQuery@44: const saveFieldMetadataMutation = useMutation({
-async@45: mutationFn: async ({
-await@117: const response = await apiClient.post(endpoint, fullEntry)
-await@126: // PATTERN: Invalidate in mutation, refetch manually in component to await completion
-vueQuery@131: const deleteFieldMetadataMutation = useMutation({
-async@132: mutationFn: async ({
-await@146: await apiClient.delete(url)
-await@151: // PATTERN: Invalidate in mutation, refetch manually in component to await completion
-```
-
-### `src/composables/admin/useAdminPrimitiveMetadataMutations.ts`
-
-- counts: vueQuery=4, watch=0, computed=0, ref=0, async=4, await=2, dom=0, console=0
+- counts: vueQuery=7, watch=0, computed=1, ref=0, async=3, await=3, dom=0, console=0
 
 ```
-vueQuery@13: import { useMutation, useQueryClient } from '@tanstack/vue-query'
-vueQuery@32: const queryClient = useQueryClient()
-vueQuery@35: const saveFieldRenderingMutation = useMutation({
-async@36: mutationFn: async ({
-await@103: const response = await apiClient.post(endpoint, fullEntry)
-vueQuery@129: const deleteFieldOverrideMutation = useMutation({
-async@130: mutationFn: async ({
-await@140: await apiClient.delete(endpoint)
-async@165: saveFieldRendering: async (
-async@184: deleteFieldOverride: async (
+vueQuery@14: import { useMutation, useQueryClient } from '@tanstack/vue-query'
+computed@41: const data = computed(() => globalData.value?.annotationTypes ?? [])
+vueQuery@58: const queryClient = useQueryClient()
+vueQuery@64: return useMutation({
+async@65: mutationFn: async (data: { name: string }): Promise<AnnotationType> => {
+await@66: const response = await apiClient.post<AnnotationType>(getAnnotationTypeEndpoint(), data)
+vueQuery@81: const queryClient = useQueryClient()
+vueQuery@87: return useMutation({
+async@88: mutationFn: async ({ id, data }: { id: string; data: { name: string } }): Promise<AnnotationType> => {
+await@89: const response = await apiClient.put<AnnotationType>(getAnnotationTypeByIdEndpoint(id), data)
+vueQuery@104: const queryClient = useQueryClient()
+vueQuery@110: return useMutation({
+async@111: mutationFn: async (id: string): Promise<void> => {
+await@112: await apiClient.delete(getAnnotationTypeByIdEndpoint(id))
 ```
 
-### `src/composables/admin/useAdminRelationshipMetadataMutations.ts`
+### `src/composables/fieldContext/useFieldContextState.ts`
 
-- counts: vueQuery=4, watch=0, computed=0, ref=0, async=4, await=2, dom=0, console=0
-
-```
-vueQuery@12: import { useMutation, useQueryClient } from '@tanstack/vue-query'
-vueQuery@28: const queryClient = useQueryClient()
-vueQuery@31: const saveRelationshipFieldRenderingMutation = useMutation({
-async@32: mutationFn: async ({
-await@87: const response = await apiClient.post(endpoint, fullEntry)
-vueQuery@112: const deleteRelationshipFieldOverrideMutation = useMutation({
-async@113: mutationFn: async ({
-await@123: await apiClient.delete(endpoint)
-async@152: saveRelationshipFieldRendering: async (
-async@171: deleteRelationshipFieldOverride: async (
-```
-
-### `src/composables/entityCrud/usePrimitiveMutation.ts`
-
-- counts: vueQuery=3, watch=0, computed=0, ref=0, async=2, await=2, dom=0, console=3
+- counts: vueQuery=3, watch=0, computed=5, ref=3, async=0, await=0, dom=0, console=1
 
 ```
-vueQuery@1: import { useMutation, useQueryClient } from '@tanstack/vue-query'
-vueQuery@24: const queryClient = useQueryClient()
-vueQuery@26: return useMutation({
-async@27: mutationFn: async ({
-await@42: await apiClient.patch(endpoint, admin)
-filter@57: const filteredEntities = currentEntities.filter(
-async@79: onMutate: async (variables) => {
-await@85: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-console@106: console.warn(
-console@135: console.warn(`[usePrimitiveMutation] Field count mismatch:`, {
-filter@142: missingKeys: beforeKeys.filter(key => !afterKeys.includes(key)),
-filter@143: addedKeys: afterKeys.filter(key => !beforeKeys.includes(key))
-console@170: console.error(`[usePrimitiveMutation] Failed to update ${entityKey}:`, error)
+vueQuery@3: import { useQueryClient } from '@tanstack/vue-query'
+vueQuery@50: queryClient: ReturnType<typeof useQueryClient>
+computed@76: const isTempEntity = computed(() => {
+computed@86: const entity = computed(() => {
+map@100: return components.map((ea) => ea.childId)
+computed@191: const error = computed(() => errorMessage.value)
+computed@192: const isValid = computed(() => meta.valid)
+computed@193: const isDirty = computed(() => meta.dirty)
+ref@194: const isValidating = ref(false)
+ref@195: const isFocused = ref(false)
+console@208: console.error(error)
+ref@215: const isDisabled = ref(providedDisplayConfig.disabled === true) // Explicit boolean, no default
+vueQuery@235: const queryClient = useQueryClient()
 ```
 
 ### `src/composables/admin/useFormElementPatching.ts`
@@ -1853,6 +1725,60 @@ sort@125: return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
 filter@160: const matchingPartInstances = allPartInstances.filter((pp) => {
 ```
 
+### `src/composables/admin/useMetadataCache.ts`
+
+- counts: vueQuery=3, watch=0, computed=3, ref=1, async=3, await=1, dom=0, console=0
+
+```
+vueQuery@15: import { useQuery, useQueryClient } from '@tanstack/vue-query'
+async@43: async function fetchAllAdminMetadata(): Promise<MetadataCache> {
+await@45: const response = await apiClient.get<MetadataCache>(endpoint)
+vueQuery@54: const queryClient = useQueryClient()
+ref@60: const metadataLoadRequested = ref(false)
+vueQuery@68: const metadataQuery = useQuery<MetadataCache>({
+computed@75: enabled: computed(() => metadataLoadRequested.value), // LAZY: Only fetches when enabled
+async@82: * PATTERN: Enable query synchronously, Vue Query handles async fetch and loading state
+async@83: * FIX: Changed from async to sync to prevent race condition with component rendering
+computed@148: const isLoaded = computed(() => !!metadataQuery.data.value)
+computed@180: metadataData: computed(() => metadataQuery.data.value),
+```
+
+### `src/composables/useAppointment.ts`
+
+- counts: vueQuery=3, watch=0, computed=2, ref=0, async=1, await=3, dom=0, console=0
+
+```
+vueQuery@6: * PATTERN: Vue Query useMutation for data mutations
+vueQuery@16: import { useQueryClient } from '@tanstack/vue-query'
+vueQuery@58: const queryClient = useQueryClient()
+computed@82: isLoading: computed(() => isLoading.value),
+computed@83: error: computed(() => error.value),
+async@93: const fetchRandom = async (): Promise<AppointmentResponse | null> => {
+await@100: await new Promise(resolve => setTimeout(resolve, 100))
+timers@100: await new Promise(resolve => setTimeout(resolve, 100))
+await@107: await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
+await@109: await new Promise(resolve => setTimeout(resolve, 500))
+timers@109: await new Promise(resolve => setTimeout(resolve, 500))
+```
+
+### `src/composables/useBusiness.ts`
+
+- counts: vueQuery=3, watch=0, computed=6, ref=0, async=1, await=1, dom=0, console=0
+
+```
+vueQuery@15: import { useQuery, useQueryClient } from '@tanstack/vue-query'
+vueQuery@43: const queryClient = useQueryClient()
+vueQuery@45: const businessQuery = useQuery<BusinessData>({
+computed@53: businessData: computed(() => businessQuery.data.value),
+computed@54: isLoading: computed(() => businessQuery.isLoading.value),
+computed@55: error: computed(() => businessQuery.error.value),
+async@56: refetch: async () => {
+await@57: await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
+computed@71: return computed(() => businessData.value?.appointments ?? [])
+computed@83: return computed(() => businessData.value?.properties ?? [])
+computed@95: return computed(() => businessData.value?.users ?? [])
+```
+
 ### `src/composables/admin/useFieldComponent.ts`
 
 - counts: vueQuery=0, watch=0, computed=9, ref=0, async=0, await=0, dom=0, console=3
@@ -1888,34 +1814,75 @@ filter@113: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new
 filter@123: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
 ```
 
-### `src/composables/admin/useStatusButtonToggle.ts`
+### `src/composables/entityCrud/usePrimitiveMutation.ts`
 
-- counts: vueQuery=3, watch=0, computed=2, ref=1, async=1, await=1, dom=0, console=0
-
-```
-vueQuery@14: import { useQueryClient } from '@tanstack/vue-query'
-computed@50: const entityIdRef = computed(() => {
-computed@58: const entityRef = computed(() => {
-vueQuery@75: // PATTERN: Use useQueryClient composable for cache access
-vueQuery@76: const queryClient = useQueryClient()
-ref@79: const pendingToggles = ref(new Set<string>())
-async@81: const toggleStatusButton = async (
-await@131: await mutateAsync({
-```
-
-### `src/composables/admin/usePartInstanceCollection.ts`
-
-- counts: vueQuery=2, watch=0, computed=3, ref=0, async=1, await=2, dom=0, console=0
+- counts: vueQuery=3, watch=0, computed=0, ref=0, async=2, await=2, dom=0, console=3
 
 ```
-vueQuery@2: import { useQueryClient } from '@tanstack/vue-query'
-vueQuery@64: const queryClient = useQueryClient()
-computed@85: const existingPartInstances = computed(() => existingPartInstancesRef.value)
-computed@87: const blockInstance = computed(() => getGlobalEntityById('blockInstance', blockInstanceId.value))
-computed@91: const shouldShowPartInstances = computed(() => {
-async@162: const handleNewPartInstanceSaved = async (
-await@173: await createActivePartsRelationship({
-await@179: await Promise.all([
+vueQuery@1: import { useMutation, useQueryClient } from '@tanstack/vue-query'
+vueQuery@24: const queryClient = useQueryClient()
+vueQuery@26: return useMutation({
+async@27: mutationFn: async ({
+await@42: await apiClient.patch(endpoint, admin)
+filter@57: const filteredEntities = currentEntities.filter(
+async@79: onMutate: async (variables) => {
+await@85: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+console@106: console.warn(
+console@135: console.warn(`[usePrimitiveMutation] Field count mismatch:`, {
+filter@142: missingKeys: beforeKeys.filter(key => !afterKeys.includes(key)),
+filter@143: addedKeys: afterKeys.filter(key => !beforeKeys.includes(key))
+console@170: console.error(`[usePrimitiveMutation] Failed to update ${entityKey}:`, error)
+```
+
+### `src/composables/admin/useAdminMetadataMutations.ts`
+
+- counts: vueQuery=4, watch=0, computed=0, ref=0, async=2, await=4, dom=0, console=0
+
+```
+vueQuery@17: import { useMutation, useQueryClient } from '@tanstack/vue-query'
+vueQuery@41: const queryClient = useQueryClient()
+vueQuery@44: const saveFieldMetadataMutation = useMutation({
+async@45: mutationFn: async ({
+await@117: const response = await apiClient.post(endpoint, fullEntry)
+await@126: // PATTERN: Invalidate in mutation, refetch manually in component to await completion
+vueQuery@131: const deleteFieldMetadataMutation = useMutation({
+async@132: mutationFn: async ({
+await@146: await apiClient.delete(url)
+await@151: // PATTERN: Invalidate in mutation, refetch manually in component to await completion
+```
+
+### `src/composables/admin/useAdminPrimitiveMetadataMutations.ts`
+
+- counts: vueQuery=4, watch=0, computed=0, ref=0, async=4, await=2, dom=0, console=0
+
+```
+vueQuery@13: import { useMutation, useQueryClient } from '@tanstack/vue-query'
+vueQuery@32: const queryClient = useQueryClient()
+vueQuery@35: const saveFieldRenderingMutation = useMutation({
+async@36: mutationFn: async ({
+await@103: const response = await apiClient.post(endpoint, fullEntry)
+vueQuery@129: const deleteFieldOverrideMutation = useMutation({
+async@130: mutationFn: async ({
+await@140: await apiClient.delete(endpoint)
+async@165: saveFieldRendering: async (
+async@184: deleteFieldOverride: async (
+```
+
+### `src/composables/admin/useAdminRelationshipMetadataMutations.ts`
+
+- counts: vueQuery=4, watch=0, computed=0, ref=0, async=4, await=2, dom=0, console=0
+
+```
+vueQuery@12: import { useMutation, useQueryClient } from '@tanstack/vue-query'
+vueQuery@28: const queryClient = useQueryClient()
+vueQuery@31: const saveRelationshipFieldRenderingMutation = useMutation({
+async@32: mutationFn: async ({
+await@87: const response = await apiClient.post(endpoint, fullEntry)
+vueQuery@112: const deleteRelationshipFieldOverrideMutation = useMutation({
+async@113: mutationFn: async ({
+await@123: await apiClient.delete(endpoint)
+async@152: saveRelationshipFieldRendering: async (
+async@171: deleteRelationshipFieldOverride: async (
 ```
 
 ### `src/composables/admin/tables/useAppointmentsTableModel.ts`
@@ -2028,15 +1995,45 @@ watch@166: watch(loadedWizardState, (newState) => {
 - counts: vueQuery=0, watch=0, computed=0, ref=1, async=2, await=5, dom=0, console=1
 
 ```
-ref@92: const isLoadingAppointment = ref(false)
-async@99: const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {
-await@107: appointment = await fetchRandom()
-await@118: appointment = await loadAppointmentById(appointmentIdOrRandom)
-await@136: const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)
-async@190: const handleUpdateAppointment = async (): Promise<void> => {
-await@197: const appointmentData = await collectAppointmentData()
-await@202: await updateAppointment.mutateAsync({
-console@210: console.error('[Wizard] Update appointment error:', error)
+ref@81: const isLoadingAppointment = ref(false)
+async@88: const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {
+await@96: appointment = await fetchRandom()
+await@107: appointment = await loadAppointmentById(appointmentIdOrRandom)
+await@125: const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)
+async@179: const handleUpdateAppointment = async (): Promise<void> => {
+await@186: const appointmentData = await collectAppointmentData()
+await@191: await updateAppointment.mutateAsync({
+console@199: console.error('[Wizard] Update appointment error:', error)
+```
+
+### `src/composables/entityCrud/useSharedMutationHandlers.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=3, await=3, dom=0, console=0
+
+```
+async@18: return async (): Promise<void> => {
+await@19: await queryClient.refetchQueries({ queryKey: ['globalData'] })
+async@32: return async (): Promise<void> => {
+await@33: await Promise.all(
+map@34: queryKeys.map(queryKey => queryClient.refetchQueries({ queryKey: queryKey as unknown[] }))
+async@44: export async function cancelQueriesBeforeMutate(
+await@48: await Promise.all(
+map@49: queryKeys.map(queryKey => queryClient.cancelQueries({ queryKey: queryKey as unknown[] }))
+```
+
+### `src/composables/fieldContext/useFieldContextActions.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=6, dom=0, console=0
+
+```
+async@36: const validate = async (): Promise<boolean> => {
+await@39: await state.validateField()
+async@50: const save = async (): Promise<void> => {
+await@68: await apiClient.get(verifyEndpoint)
+await@93: const isValidResult = await validate()
+await@104: await saveComponentEntityField({
+await@114: await saveRelationshipField({
+await@121: await saveRegularField({
 ```
 
 ### `src/composables/useLoadingIndicator.ts`
@@ -2052,6 +2049,21 @@ timers@40: const interval = ref<ReturnType<typeof setInterval>>()
 timers@49: interval.value = setInterval(() => {
 watch@60: watch([progressValue, isFallbackState], () => {
 timers@88: setTimeout(() => {
+```
+
+### `src/composables/admin/usePartInstanceCollection.ts`
+
+- counts: vueQuery=2, watch=0, computed=3, ref=0, async=1, await=2, dom=0, console=0
+
+```
+vueQuery@2: import { useQueryClient } from '@tanstack/vue-query'
+vueQuery@64: const queryClient = useQueryClient()
+computed@85: const existingPartInstances = computed(() => existingPartInstancesRef.value)
+computed@87: const blockInstance = computed(() => getGlobalEntityById('blockInstance', blockInstanceId.value))
+computed@91: const shouldShowPartInstances = computed(() => {
+async@162: const handleNewPartInstanceSaved = async (
+await@173: await createActivePartsRelationship({
+await@179: await Promise.all([
 ```
 
 ### `src/composables/admin/useFieldInputHandlers.ts`
@@ -2098,6 +2110,20 @@ filter@161: .filter(id => !idsToRemove.includes(id)) // Remove old cards
 filter@162: .concat(idsToAdd.filter(id => !expandedCardIds.value.includes(id))) // Add new cards (avoid duplicates)
 ```
 
+### `src/composables/booking/useAvailabilityDefaults.ts`
+
+- counts: vueQuery=0, watch=4, computed=2, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@132: const inspectorOrderIndex = computed({
+computed@144: const clientOrderIndex = computed({
+watch@156: watch(loadedWizardState, () => {
+watch@178: watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
+map@189: const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({
+watch@211: watch(timeSlots, (slots) => {
+watch@246: watch(isDifferentialService, (isEffectivelyDifferential) => {
+```
+
 ### `src/composables/booking/useCascadeInstances.ts`
 
 - counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
@@ -2126,30 +2152,19 @@ async@91: const save = async (): Promise<void> => {
 await@92: const isValid = await validate()
 ```
 
-### `src/composables/useGlobal.ts`
+### `src/composables/admin/useStatusButtonToggle.ts`
 
-- counts: vueQuery=3, watch=0, computed=0, ref=0, async=1, await=1, dom=1, console=0
-
-```
-vueQuery@12: import { useQuery } from '@tanstack/vue-query'
-vueQuery@57: * PATTERN: useQuery with queryFn that fetches and transforms data
-vueQuery@68: const globalDataQuery = useQuery<GlobalData>({
-async@70: queryFn: async () => {
-await@75: const staged = await globalTransformer.stageForHydration()
-dom@80: refetchOnWindowFocus: false, // Don't refetch on window focus
-```
-
-### `src/composables/entityCrud/useEntityCrudState.ts`
-
-- counts: vueQuery=2, watch=0, computed=2, ref=0, async=1, await=1, dom=0, console=0
+- counts: vueQuery=3, watch=0, computed=2, ref=1, async=1, await=1, dom=0, console=0
 
 ```
-vueQuery@2: import { useQueryClient } from '@tanstack/vue-query'
-vueQuery@16: const queryClient = useQueryClient()
-computed@19: const isLoading = computed((): boolean => false)
-computed@20: const error = computed((): unknown | undefined => undefined)
-async@22: const refetch = async (): Promise<void> => {
-await@23: await queryClient.refetchQueries({ queryKey: ['globalData'] })
+vueQuery@14: import { useQueryClient } from '@tanstack/vue-query'
+computed@50: const entityIdRef = computed(() => {
+computed@58: const entityRef = computed(() => {
+vueQuery@75: // PATTERN: Use useQueryClient composable for cache access
+vueQuery@76: const queryClient = useQueryClient()
+ref@79: const pendingToggles = ref(new Set<string>())
+async@81: const toggleStatusButton = async (
+await@131: await mutateAsync({
 ```
 
 ### `src/composables/admin/tables/useCrudDataTableModel.ts`
@@ -2204,19 +2219,6 @@ filter@131: const normalized = value.map(v => String(v)).filter(v => v !== '')
 filter@137: const validValues = normalized.filter(v => optionValues.has(v))
 ```
 
-### `src/composables/booking/useAvailabilityDefaults.ts`
-
-- counts: vueQuery=0, watch=4, computed=2, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@132: const inspectorOrderIndex = computed({
-computed@144: const clientOrderIndex = computed({
-watch@156: watch(loadedWizardState, () => {
-watch@178: watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
-watch@206: watch(timeSlots, (slots) => {
-watch@241: watch(isDifferentialService, (isEffectivelyDifferential) => {
-```
-
 ### `src/composables/booking/usePropertyFormState.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=5, async=0, await=0, dom=0, console=0
@@ -2228,6 +2230,19 @@ ref@42: const city = ref('')
 ref@43: const state = ref('')
 ref@44: const zipCode = ref('')
 reactive@58: * NOTE: Don't wrap in reactive() - refs are already reactive and wrapping breaks ref access
+```
+
+### `src/composables/entityCrud/useEntityCrudState.ts`
+
+- counts: vueQuery=2, watch=0, computed=2, ref=0, async=1, await=1, dom=0, console=0
+
+```
+vueQuery@2: import { useQueryClient } from '@tanstack/vue-query'
+vueQuery@16: const queryClient = useQueryClient()
+computed@19: const isLoading = computed((): boolean => false)
+computed@20: const error = computed((): unknown | undefined => undefined)
+async@22: const refetch = async (): Promise<void> => {
+await@23: await queryClient.refetchQueries({ queryKey: ['globalData'] })
 ```
 
 ### `src/composables/admin/tables/usePropertiesTableModel.ts`
@@ -2252,6 +2267,30 @@ computed@23: errorSource: computed(() => fetchAll.error.value),
 async@24: createItem: async (payload) => create.mutateAsync(payload),
 async@25: updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),
 async@26: deleteItem: async (id) => remove.mutateAsync(id),
+```
+
+### `src/composables/admin/useEntityCardComputed.ts`
+
+- counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@70: entityId: computed(() => entity.id)
+computed@77: const isMetadataReady = computed(() => {
+computed@86: const fieldKeys = computed(() => {
+computed@103: const entityName = computed(() => {
+computed@110: const isComposable = computed(() => {
+```
+
+### `src/composables/admin/useEntityGrouping.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@70: const entitiesByGroup = computed(() => {
+reduce@77: return groupEntities.reduce((map, groupEntity) => {
+filter@80: .filter(entity => groupBy(entity) === groupId)
+map@84: .map(entity => ({ ...entity }))
+sort@85: .sort((a, b) => a.orderIndex - b.orderIndex)
 ```
 
 ### `src/composables/admin/useEntityStatus.ts`
@@ -2327,15 +2366,39 @@ computed@44: const currentWarning = computed(() => {
 watch@51: watch(isQuoteMode, (isActive) => {
 ```
 
-### `src/composables/admin/useEntityGrouping.ts`
+### `src/composables/useGlobal.ts`
 
-- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+- counts: vueQuery=3, watch=0, computed=0, ref=0, async=1, await=1, dom=1, console=0
 
 ```
-computed@70: const entitiesByGroup = computed(() => {
-filter@78: .filter(entity => groupBy(entity) === groupId)
-map@82: .map(entity => ({ ...entity }))
-sort@83: .sort((a, b) => a.orderIndex - b.orderIndex)
+vueQuery@12: import { useQuery } from '@tanstack/vue-query'
+vueQuery@57: * PATTERN: useQuery with queryFn that fetches and transforms data
+vueQuery@68: const globalDataQuery = useQuery<GlobalData>({
+async@70: queryFn: async () => {
+await@75: const staged = await globalTransformer.stageForHydration()
+dom@80: refetchOnWindowFocus: false, // Don't refetch on window focus
+```
+
+### `src/composables/admin/useEntityCardMetadata.ts`
+
+- counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@70: computed(() => entity)
+computed@76: const composedFieldMetadata = computed(() => {
+computed@90: const isMetadataLoading = computed(() => {
+computed@92: // WHY: useEntityMetadata returns isLoading: computed(() => false)
+```
+
+### `src/composables/admin/useFieldRendererComponent.ts`
+
+- counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@62: ? computed(() => hasFieldContext)
+computed@70: const componentToRender = computed(() => {
+computed@83: const hasValidComponent = computed(() => {
+computed@92: const shouldShowError = computed(() => {
 ```
 
 ### `src/composables/admin/useShapeCreation.ts`
@@ -2426,46 +2489,6 @@ computed@37: const error = computed((): unknown | undefined => undefined)
 computed@46: const item = computed((): CollectionItem | undefined => {
 ```
 
-### `src/composables/entityCrud/useEntityCrud.ts`
-
-- counts: vueQuery=2, watch=0, computed=0, ref=0, async=1, await=0, dom=0, console=0
-
-```
-vueQuery@1: import { useQueryClient } from '@tanstack/vue-query'
-vueQuery@22: const queryClient = useQueryClient()
-async@42: async function updateWithComponentCheck(
-```
-
-### `src/composables/admin/useAnnotationTypeFiltering.ts`
-
-- counts: vueQuery=1, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
-
-```
-vueQuery@24: * PATTERN: useQuery hook from Vue Query
-computed@28: const annotationTypes = computed(() => annotationTypesQuery.data.value ?? [])
-computed@29: const isLoadingAnnotationTypes = computed(() => annotationTypesQuery.isLoading.value)
-```
-
-### `src/composables/useProperty.ts`
-
-- counts: vueQuery=1, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
-
-```
-vueQuery@6: * PATTERN: Vue Query useMutation for data mutations
-computed@78: isLoading: computed(() => isLoading.value),
-computed@79: error: computed(() => error.value),
-```
-
-### `src/composables/useUser.ts`
-
-- counts: vueQuery=1, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
-
-```
-vueQuery@6: * PATTERN: Vue Query useMutation for data mutations
-computed@78: isLoading: computed(() => isLoading.value),
-computed@79: error: computed(() => error.value),
-```
-
 ### `src/composables/admin/useConditionalFieldVisibility.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
@@ -2484,6 +2507,16 @@ filter@70: const filteredRelationships = base.subPanels.relationships.filter(fie
 ref@34: const internalExpanded = ref(expandedValue ?? true)
 watch@40: watch(options.expanded, (newValue) => {
 computed@55: const isExpanded = computed(() => {
+```
+
+### `src/composables/admin/useEntityCardFieldConfiguration.ts`
+
+- counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@83: const finalFieldKeys = computed(() => {
+computed@104: const inlineFieldsConfig = computed(() => fieldLocation.fieldsByLocation.value.directInline)
+computed@105: const stackedFieldsConfig = computed(() => fieldLocation.fieldsByLocation.value.directStacked)
 ```
 
 ### `src/composables/admin/useEntityCardSaveState.ts`
@@ -2694,8 +2727,8 @@ computed@200: const computedRef = computed(() => {
 
 ```
 ref@46: // PATTERN: Use ref for single values, ref([]) for arrays
-async@164: const loadAppointment = async (appointment: AppointmentResponse): Promise<WizardStateData | null> => {
-await@171: const wizardStateData = await transformAppointmentToWizard(appointment, bookingData.value)
+async@181: const loadAppointment = async (appointment: AppointmentResponse): Promise<WizardStateData | null> => {
+await@188: const wizardStateData = await transformAppointmentToWizard(appointment, bookingData.value)
 ```
 
 ### `src/composables/useLocalTime.ts`
@@ -2708,13 +2741,44 @@ map@81: const [year, month, day] = date.split('-').map(Number)
 map@287: const [hours, minutes] = time.split(':').map(Number)
 ```
 
-### `src/composables/useAnnotations.ts`
+### `src/composables/admin/useAnnotationTypeFiltering.ts`
 
-- counts: vueQuery=2, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+- counts: vueQuery=1, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
+
+```
+vueQuery@24: * PATTERN: useQuery hook from Vue Query
+computed@28: const annotationTypes = computed(() => annotationTypesQuery.data.value ?? [])
+computed@29: const isLoadingAnnotationTypes = computed(() => annotationTypesQuery.isLoading.value)
+```
+
+### `src/composables/useProperty.ts`
+
+- counts: vueQuery=1, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
 
 ```
 vueQuery@6: * PATTERN: Vue Query useMutation for data mutations
-vueQuery@35: * PATTERN: Vue Query useMutation for create/update operations
+computed@78: isLoading: computed(() => isLoading.value),
+computed@79: error: computed(() => error.value),
+```
+
+### `src/composables/useUser.ts`
+
+- counts: vueQuery=1, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
+
+```
+vueQuery@6: * PATTERN: Vue Query useMutation for data mutations
+computed@78: isLoading: computed(() => isLoading.value),
+computed@79: error: computed(() => error.value),
+```
+
+### `src/composables/entityCrud/useEntityCrud.ts`
+
+- counts: vueQuery=2, watch=0, computed=0, ref=0, async=1, await=0, dom=0, console=0
+
+```
+vueQuery@1: import { useQueryClient } from '@tanstack/vue-query'
+vueQuery@22: const queryClient = useQueryClient()
+async@42: async function updateWithComponentCheck(
 ```
 
 ### `src/composables/admin/useAnnotationAssignments.ts`
@@ -2769,6 +2833,15 @@ await@183: await remove(id)
 ```
 computed@119: const fieldsByLocation = computed(() => {
 computed@133: const titleRowFields = computed(() => {
+```
+
+### `src/composables/admin/useSelectDomTargets.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@63: const selectDomTargets = computed(() => {
+map@70: return groupedByKey.value.map(group => {
 ```
 
 ### `src/composables/admin/useShapeDisplayNames.ts`
@@ -2897,6 +2970,15 @@ ref@29: const showNotification = ref(false)
 timers@91: setTimeout(() => {
 ```
 
+### `src/composables/useAnnotations.ts`
+
+- counts: vueQuery=2, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+```
+vueQuery@6: * PATTERN: Vue Query useMutation for data mutations
+vueQuery@35: * PATTERN: Vue Query useMutation for create/update operations
+```
+
 ### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsState.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
@@ -2975,6 +3057,14 @@ ref@26: const partInstanceMetadataModalOpen = ref(false)
 
 ```
 computed@67: const fieldMetadataEntry = computed(() => {
+```
+
+### `src/composables/admin/useSelectLabelResolution.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@52: const resolvedLabel = computed(() => {
 ```
 
 ### `src/composables/admin/useShapeEditModal.ts`
@@ -3238,8 +3328,14 @@ console@27: console.error(
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=1
 
 ```
-console@125: // WHY: Debug logging should use proper logger utility, not console.log
+console@152: // WHY: Debug logging should use proper logger utility, not console.log
 ```
+
+### `src/composables/booking/useDynamicGridConfig.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+- (no matches)
 
 ### `src/composables/booking/useInstanceComponentsList.ts`
 

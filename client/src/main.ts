@@ -92,12 +92,13 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
       patchFormElements(element as HTMLFormElement)
     }
     
-    // Collect forms inside element
+    // LEARNING: Use map instead of forEach + push
+    // WHY: Functional approach - transform array without mutations
+    // PATTERN: Map to transform NodeList to array of HTMLFormElement
     const nestedForms = element.querySelectorAll?.('form.dynamic-form-inputs')
     if (nestedForms) {
-      Array.from(nestedForms).forEach((form: Element) => {
-        formsToPatch.push(form as HTMLFormElement)
-      })
+      const nestedFormsArray = Array.from(nestedForms).map((form: Element) => form as HTMLFormElement)
+      formsToPatch.push(...nestedFormsArray)
     }
     
     return formsToPatch

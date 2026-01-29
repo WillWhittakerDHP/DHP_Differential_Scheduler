@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-29T01:31:36.531Z",
+  "generatedAt": "2026-01-29T17:02:07.137Z",
   "check": "Fallback",
   "status": "warning",
   "issues": [
@@ -61,35 +61,27 @@
     },
     {
       "severity": "warning",
-      "message": "Found Logical OR with default string",
+      "message": "Found Nullish coalescing with default string",
       "file": ".cursor/commands/tiers/session/composite/session-end.ts",
       "line": 192,
-      "code": "output: vueAudit.summary || `vue-architecture status: ${vueAudit.status}`,",
+      "code": "output: vueAudit.summary ?? `vue-architecture status: ${vueAudit.status}`,",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
     {
       "severity": "warning",
-      "message": "Found Logical OR with default string",
+      "message": "Found Nullish coalescing with default string",
       "file": ".cursor/commands/tiers/session/composite/session-end.ts",
       "line": 223,
-      "code": "output: codeQualityAudit.summary || `Code quality audit: ${codeQualityAudit.status}`,",
+      "code": "output: codeQualityAudit.summary ?? `Code quality audit: ${codeQualityAudit.status}`,",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
     {
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": ".cursor/commands/tiers/session/composite/session-end.ts",
-      "line": 250,
-      "code": "console.warn('runTests not explicitly set - using default: true');",
+      "line": 287,
+      "code": "console.info(`testTarget not specified, using default: ${TEST_CONFIG.defaultTarget}`)",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Logical OR with default string",
-      "file": ".cursor/commands/tiers/session/composite/session-end.ts",
-      "line": 599,
-      "code": "output: `⚠️ Could not create PR automatically (non-critical): ${prResult.error || 'Unknown error'}\\n...",
-      "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
     {
       "severity": "warning",
@@ -198,38 +190,30 @@
         },
         {
           "severity": "warning",
-          "message": "Found Logical OR with default string",
+          "message": "Found Nullish coalescing with default string",
           "file": ".cursor/commands/tiers/session/composite/session-end.ts",
           "line": 192,
-          "code": "output: vueAudit.summary || `vue-architecture status: ${vueAudit.status}`,",
+          "code": "output: vueAudit.summary ?? `vue-architecture status: ${vueAudit.status}`,",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
         {
           "severity": "warning",
-          "message": "Found Logical OR with default string",
+          "message": "Found Nullish coalescing with default string",
           "file": ".cursor/commands/tiers/session/composite/session-end.ts",
           "line": 223,
-          "code": "output: codeQualityAudit.summary || `Code quality audit: ${codeQualityAudit.status}`,",
+          "code": "output: codeQualityAudit.summary ?? `Code quality audit: ${codeQualityAudit.status}`,",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
         {
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": ".cursor/commands/tiers/session/composite/session-end.ts",
-          "line": 250,
-          "code": "console.warn('runTests not explicitly set - using default: true');",
+          "line": 287,
+          "code": "console.info(`testTarget not specified, using default: ${TEST_CONFIG.defaultTarget}`)",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
-        },
-        {
-          "severity": "warning",
-          "message": "Found Logical OR with default string",
-          "file": ".cursor/commands/tiers/session/composite/session-end.ts",
-          "line": 599,
-          "code": "output: `⚠️ Could not create PR automatically (non-critical): ${prResult.error || 'Unknown error'}\\n...",
-          "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
       ],
-      "score": 6,
+      "score": 5,
       "priority": "P0"
     },
     {
@@ -264,7 +248,7 @@
     }
   ],
   "recommendations": [
-    "Found 13 warning(s) - review defaults/fallbacks for removal in favor of dynamic/config-driven approaches"
+    "Found 12 warning(s) - review defaults/fallbacks for removal in favor of dynamic/config-driven approaches"
   ],
-  "summary": "Scanned 10 file(s) in session tier. Found 13 issue(s): 0 critical, 13 warnings"
+  "summary": "Scanned 10 file(s) in session tier. Found 12 issue(s): 0 critical, 12 warnings"
 }

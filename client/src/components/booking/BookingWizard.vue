@@ -263,7 +263,10 @@ provide('loadedWizardState', loadedWizardState)
 // WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
 // PATTERN: Use composable for managing dev mode
 const isDevMode = isDevModeEnabled()
-const { handleResetMocks } = useWizardDevMode({
+// LEARNING: Dev mode composable called for side effects, handleResetMocks not currently used
+// WHY: Composable may set up watchers or other side effects
+// PATTERN: Call composable without destructuring unused return values
+useWizardDevMode({
   isDevMode,
   selectedAppointmentId,
   appointmentDropdownItems,

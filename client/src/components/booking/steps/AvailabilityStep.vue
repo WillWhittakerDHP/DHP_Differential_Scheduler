@@ -209,8 +209,9 @@ const {
 // LEARNING: Use time slot durations composable
 // WHY: Extracts time slot duration mapping logic from component to composable
 // PATTERN: Composable provides computed Map for time slot durations
+// WHY: Wrap Ref in computed to match ComposablesRef type requirement
 const { timeSlotDurations } = useTimeSlotDurations({
-  timeSlotsPerDay,
+  timeSlotsPerDay: computed(() => timeSlotsPerDay.value),
   selectedDate
 })
 
@@ -280,7 +281,7 @@ const confirmedMoveableScheduling = ref<typeof moveableOptions.value>(null)
 const { emptyStateMessage } = useAvailabilityEmptyState({
   isEffectivelyDifferential,
   startTimeType,
-  appointmentSlotsCount: computed(() => appointmentSlots.length)
+  appointmentSlotsCount: computed(() => appointmentSlots.value.length)
 })
 
 // LEARNING: Use availability step data composable

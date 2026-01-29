@@ -21,8 +21,9 @@ import type { PropertyDetails } from '@/types/availability'
  * LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) for date-only values
  * WHY: Consistent with RFC3339 datetime approach, aligns with international standards
  * PATTERN: ISO8601Date type documents intent and ensures consistency
+ * NOTE: Internal type only - not exported as it's not used outside this file
  */
-export interface DateRange {
+interface DateRange {
   start: ISO8601Date | null
   end: ISO8601Date | null
 }
@@ -38,8 +39,9 @@ export interface TimeSlotsPerDay {
 
 /**
  * useAvailabilityLogic composable parameters
+ * NOTE: Internal type only - not exported as it's not used outside this file
  */
-export interface UseAvailabilityLogicParams {
+interface UseAvailabilityLogicParams {
   selectedDate: Ref<DateRange>
   propertyDetailsStepData: Ref<PropertyDetails | null> | null
   wizard: {
@@ -61,16 +63,18 @@ export interface SelectedTimeSlot {
 
 /**
  * Appointment slots per day structure
+ * NOTE: Internal type only - not exported as it's not used outside this file
  */
-export interface AppointmentSlotsPerDay {
+interface AppointmentSlotsPerDay {
   date: string
   appointmentSlots: AppointmentSlots
 }
 
 /**
  * useAvailabilityLogic composable return type
+ * NOTE: Internal type only - not exported as it's not used outside this file
  */
-export interface UseAvailabilityLogicReturn {
+interface UseAvailabilityLogicReturn {
   dateRangeForApi: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
   propertyDetails: ComputedRef<PropertyDetails | null>
   accumulatedBlockInstances: ComputedRef<BookingBlockInstance[]>
@@ -442,7 +446,5 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
 /**
  * @deprecated Use AppointmentSlotsPerDay instead
+ * NOTE: Removed - deprecated and unused
  */
-export interface AppointmentTimesPerDay extends AppointmentSlotsPerDay {
-  appointmentTimes: AppointmentSlots
-}

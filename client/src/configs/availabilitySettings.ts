@@ -21,8 +21,9 @@ const logger = createLogger('availabilitySettings')
  * LEARNING: Stored as RFC3339 internally, converted to/from HH:mm for UI
  * WHY: Consistent format throughout codebase, matches Google Calendar API
  * PATTERN: Use fixed reference date (2000-01-01) to store time-of-day as RFC3339
+ * NOTE: Internal type only - not exported as it's only used in AvailabilitySettings interface
  */
-export interface DayHours {
+interface DayHours {
   start: RFC3339DateTime // RFC3339 format with reference date (e.g., "2000-01-01T09:00:00Z" for "09:00")
   end: RFC3339DateTime   // RFC3339 format with reference date (e.g., "2000-01-01T19:00:00Z" for "19:00")
 }
@@ -40,8 +41,9 @@ export type ConstraintEnforcement = 'off' | 'flexible' | 'hard'
  * LEARNING: Determines how rolling 7-day window is calculated relative to appointment date
  * WHY: Different businesses may prefer different rolling week calculations
  * PATTERN: Enum-like string literal union type
+ * NOTE: Internal type only - not exported as it's only used in RollingWeekCapacityFilter interface
  */
-export type RollingWeekDirection = 'past' | 'centered' | 'future'
+type RollingWeekDirection = 'past' | 'centered' | 'future'
 
 /**
  * Work capacity filter configuration
@@ -69,6 +71,7 @@ export interface RollingWeekCapacityFilter extends WorkCapacityFilter {
  * LEARNING: Identifies the type of time-based restriction
  * WHY: Allows different range constraint types (businessHours, leadTime, dateRange) to coexist
  * PATTERN: Enum-like string literal union type
+ * NOTE: Exported for use in constraintTypes.ts constants
  */
 export type RangeConstraintType = 'businessHours' | 'leadTime' | 'dateRange'
 
@@ -87,8 +90,9 @@ export interface BusinessHoursConfig {
  * LEARNING: Configuration for lead time constraint
  * WHY: Encapsulates minimum lead time in minutes
  * PATTERN: Interface with minutes field
+ * NOTE: Internal type only - not exported as it's only used in RangeConstraint interface
  */
-export interface LeadTimeConfig {
+interface LeadTimeConfig {
   minutes: number
 }
 
@@ -120,16 +124,18 @@ export interface RangeConstraint {
  * LEARNING: Identifies the purpose of a buffer configuration
  * WHY: Allows different buffer types (appointment, driveTime, lunch) to coexist
  * PATTERN: Enum-like string literal union type
+ * NOTE: Internal type only - not exported as it's only used in BufferConfig interface
  */
-export type BufferType = 'appointment' | 'driveTime' | 'lunch'
+type BufferType = 'appointment' | 'driveTime' | 'lunch'
 
 /**
  * Buffer placement for controlling where buffer is applied
  * LEARNING: Controls where buffer time is placed around slots
  * WHY: Different buffer placements (before, after, both) serve different purposes
  * PATTERN: Enum-like string literal union type
+ * NOTE: Internal type only - not exported as it's only used in BufferConfig interface
  */
-export type BufferPlacement = 'off' | 'before' | 'after' | 'both'
+type BufferPlacement = 'off' | 'before' | 'after' | 'both'
 
 /**
  * Buffer configuration (now OverlapConstraint)

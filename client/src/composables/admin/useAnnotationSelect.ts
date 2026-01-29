@@ -30,6 +30,7 @@ import {
   optimisticUpsertAssignmentInList,
   type AnnotationAssignmentLike,
 } from '@/utils/optimistic/annotationAssignmentsOptimistic'
+import { cancelQueriesBeforeMutate } from '../entityCrud/useSharedMutationHandlers'
 
 type AnnotationAssignmentRelationship = {
   id: string
@@ -183,8 +184,13 @@ export function useAnnotationSelect(
       const currentBlockInstanceId = blockInstanceId.value
       if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
 
-      await queryClient.cancelQueries({ queryKey: globalDataKey })
-      await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
+      // LEARNING: Use shared utility to cancel queries in parallel
+      // WHY: Eliminates duplication and combines multiple await calls
+      // PATTERN: Extract shared query cancellation logic
+      await cancelQueriesBeforeMutate(queryClient, [
+        globalDataKey,
+        blockInstanceAnnotationsKey,
+      ])
 
       const previousGlobalData = queryClient.getQueryData<GlobalData>(globalDataKey)
       const previousRelationships =
@@ -260,8 +266,13 @@ export function useAnnotationSelect(
       const currentBlockInstanceId = blockInstanceId.value
       if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
 
-      await queryClient.cancelQueries({ queryKey: globalDataKey })
-      await queryClient.cancelQueries({ queryKey: blockInstanceAnnotationsKey })
+      // LEARNING: Use shared utility to cancel queries in parallel
+      // WHY: Eliminates duplication and combines multiple await calls
+      // PATTERN: Extract shared query cancellation logic
+      await cancelQueriesBeforeMutate(queryClient, [
+        globalDataKey,
+        blockInstanceAnnotationsKey,
+      ])
 
       const previousGlobalData = queryClient.getQueryData<GlobalData>(globalDataKey)
       const previousRelationships =

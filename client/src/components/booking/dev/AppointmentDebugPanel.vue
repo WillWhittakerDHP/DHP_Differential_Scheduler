@@ -354,8 +354,8 @@ const formatDuration = (minutes: number): string => {
           <VCard variant="outlined" density="compact" class="pa-2">
             <div class="text-caption text-medium-emphasis">Lead Time</div>
             <div class="text-body-2 font-weight-medium">
-              {{ availabilitySettingsValue?.rangeConstraints?.leadTime?.config && 'minutes' in (availabilitySettingsValue.rangeConstraints.leadTime.config || {})
-                ? `${availabilitySettingsValue.rangeConstraints.leadTime.config.minutes} min` 
+              {{ availabilitySettingsValue?.rangeConstraints?.leadTime?.config && availabilitySettingsValue.rangeConstraints.leadTime.type === 'leadTime' && 'minutes' in availabilitySettingsValue.rangeConstraints.leadTime.config
+                ? `${(availabilitySettingsValue.rangeConstraints.leadTime.config as { minutes: number }).minutes} min` 
                 : 'Not configured' }}
             </div>
             <div class="text-caption">

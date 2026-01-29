@@ -12,11 +12,10 @@ import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTr
 import { transformAppointmentToWizard } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingData } from '@/utils/transformers/globalToBookingTransformer'
-import type { UseBookingWizardReturn } from '@/types/wizard'
-import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData } from '@/types/wizard'
+import type { UseBookingWizardReturn, WizardStepDataAndValidationRefs } from '@/types/wizard'
 import type { AppointmentRequest } from '@/types/appointment'
 
-export interface UseWizardAppointmentManagementOptions {
+export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {
   wizard: UseBookingWizardReturn
   bookingData: Ref<BookingData | null>
   loadAppointmentById: (id: string) => Promise<AppointmentResponse | null>
@@ -28,16 +27,6 @@ export interface UseWizardAppointmentManagementOptions {
   }
   activeStep: Ref<number>
   completedSteps: Ref<Set<number>>
-  propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
-  contactsStepData: Ref<ContactsStepData | null>
-  availabilityStepData: Ref<AvailabilityStepData | null>
-  propertyDetailsStepValid: Ref<boolean>
-  propertyDetailsStepValidate: Ref<(() => boolean) | null>
-  propertyDetailsFieldErrors: Ref<Record<string, string>>
-  contactsStepValid: Ref<boolean>
-  contactsStepValidate: Ref<(() => boolean) | null>
-  availabilityStepValid: Ref<boolean>
-  availabilityStepValidate: Ref<(() => boolean) | null>
   showError: (message: string) => void
   success: (message: string) => void
 }

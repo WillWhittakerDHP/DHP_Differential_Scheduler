@@ -81,7 +81,8 @@ export type BookingBlockInstance = {
  * WHY: Single structure with all booking data
  */
 export type BookingData = {
-  blockInstances: BookingBlockInstance[]
+  blockInstances: BookingBlockInstance[] // Main booking blocks (standalone, both) - excludes addOn
+  lineItemBlocks: BookingBlockInstance[] // Line item blocks (bookingMode: "addOn") - separate for line item selection
   blockShapes: BookingBlockShape[] // Block shapes for property-based filtering
 }
 
@@ -145,6 +146,9 @@ export class BookingTransformer {
     /**
      * WHY: // WHY: Need to see all data before filtering to understand what's being filtered out
      */
+    // LEARNING: Filter main booking blocks (excludes addOn and component children)
+    // WHY: Main booking blocks are standalone or both bookingMode, not addOn-only
+    // PATTERN: Filter active, non-component blocks with bookingMode !== 'addOn'
     const bookingBlockInstances = blockInstances
       // LEARNING: Components should not be shown as standalone booking options.
       // WHY: They are only meaningful as parts of composed (composite) services.
@@ -156,6 +160,31 @@ export class BookingTransformer {
         const isComponentChild = componentIds.has(blockInstance.id)
         const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone'
         return isActive && !isComponentChild && bookingMode !== 'addOn'
+      })
+      .map(blockInstance => this.transformBlockInstance(
+        blockInstance,
+        activePartsRelationships,
+        bookingCascadesRelationships,
+        instanceComponentsRelationships,
+        partInstanceById,
+        blockShapeById,
+        partShapeById
+      ))
+      .sort((a, b) => {
+        const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+        const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+        return aOrder - bOrder
+      })
+    
+    // LEARNING: Filter line item blocks (bookingMode: "addOn")
+    // WHY: Line items are separate from main booking blocks and displayed as individual line items
+    // PATTERN: Filter active, non-component blocks with bookingMode === 'addOn'
+    const lineItemBlocks = blockInstances
+      .filter((blockInstance) => {
+        const isActive = this.isEntityActive(blockInstance as unknown as Record<string, unknown>)
+        const isComponentChild = componentIds.has(blockInstance.id)
+        const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone'
+        return isActive && !isComponentChild && bookingMode === 'addOn'
       })
       .map(blockInstance => this.transformBlockInstance(
         blockInstance,
@@ -188,6 +217,7 @@ export class BookingTransformer {
     
     return {
       blockInstances: bookingBlockInstances,
+      lineItemBlocks,
       blockShapes: bookingBlockShapes,
     }
   }

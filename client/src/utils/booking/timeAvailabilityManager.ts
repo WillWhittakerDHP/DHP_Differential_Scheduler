@@ -72,6 +72,7 @@ import {
   validateCapacityConstraint
 } from './constraintExtractors'
 import { rfc3339ToLocalMinutesFromMidnight } from '@/composables/useLocalTime'
+import { RANGE_CONSTRAINT_TYPES, TIME_BASIS_TYPES } from '@/constants/constraintTypes'
 
 /**
  * Custom error for constraint validation failures
@@ -284,7 +285,7 @@ export function checkRangeConstraints(
   now: Date = new Date(),
   businessHoursCache?: ParsedBusinessHoursCache,
   dates?: { start: Date; end: Date },
-  allSlots?: TimeSlot[]
+  _allSlots?: TimeSlot[]
 ): { passes: boolean; violations: string[] } {
   if (constraints.length === 0) {
     return { passes: true, violations: [] }
@@ -303,7 +304,7 @@ export function checkRangeConstraints(
    */
   const checkConstraint = (constraint: RangeConstraint): boolean => {
     switch (constraint.type) {
-      case 'businessHours': {
+      case RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS: {
         const config = constraint.config as { hours: BusinessHoursMap }
         
         // LEARNING: Use UTC day of week for business hours check
@@ -347,7 +348,7 @@ export function checkRangeConstraints(
         }
       }
 
-      case 'leadTime': {
+      case RANGE_CONSTRAINT_TYPES.LEAD_TIME: {
         // Check if slot starts at least leadTime minutes after now
         // LEARNING: Only apply leadTime to slots on or after today
         // WHY: Past dates shouldn't be blocked by leadTime - they're already in the past
@@ -376,7 +377,7 @@ export function checkRangeConstraints(
         }
       }
 
-      case 'dateRange': {
+      case RANGE_CONSTRAINT_TYPES.DATE_RANGE: {
         // Check if slot is within date range boundaries (all UTC)
         const config = constraint.config as { start: string; end: string }
         const rangeStart = new Date(config.start)
@@ -992,13 +993,13 @@ async function applyCapacityFilters(
       let hours = 0
       
       switch (keyParts.type) {
-        case 'daily':
+        case TIME_BASIS_TYPES.DAILY:
           hours = await fetchScheduledHoursForDate(keyParts.date)
           break
-        case 'calendarWeek':
+        case TIME_BASIS_TYPES.CALENDAR_WEEK:
           hours = await fetchScheduledHoursForCalendarWeek(keyParts.date)
           break
-        case 'rollingWeek':
+        case TIME_BASIS_TYPES.ROLLING_WEEK:
           hours = await fetchScheduledHoursForRollingWeek(
             keyParts.date,
             keyParts.direction || 'past'
@@ -1123,7 +1124,7 @@ function validateConstraintArrays(
   // WHY: Avoids forEach with side effects - find first failure, throw if found
   // PATTERN: Use find + early throw instead of forEach + throw
   
-  const rangeFailure = activeRangeConstraints.find((constraint, index) => {
+  const rangeFailure = activeRangeConstraints.find((constraint) => {
     const validation = validateRangeConstraint(constraint)
     return !validation.valid
   })
@@ -1138,7 +1139,7 @@ function validateConstraintArrays(
     )
   }
 
-  const overlapFailure = activeOverlapConstraints.find((constraint, index) => {
+  const overlapFailure = activeOverlapConstraints.find((constraint) => {
     const validation = validateOverlapConstraint(constraint)
     return !validation.valid
   })
@@ -1153,7 +1154,7 @@ function validateConstraintArrays(
     )
   }
 
-  const capacityFailure = activeCapacityConstraints.find((constraint, index) => {
+  const capacityFailure = activeCapacityConstraints.find((constraint) => {
     const validation = validateCapacityConstraint(constraint)
     return !validation.valid
   })
@@ -1210,13 +1211,18 @@ export async function generateSlotsWithAvailability(
   // LEARNING: Pre-populate Date cache for all slots to avoid redundant creation
   // WHY: Date objects are created multiple times for same slot (range checks, overlap checks, earliest completion)
   // PATTERN: Use slot.startTime as key (string) so cache persists through slot transformations
-  const slotDateCache = new Map<string, { start: Date; end: Date }>()
-  allSlots.forEach(slot => {
-    slotDateCache.set(slot.startTime, {
-      start: new Date(slot.startTime),
-      end: new Date(slot.endTime)
-    })
-  })
+  // LEARNING: Use Map constructor with map to build cache functionally
+  // WHY: Avoids Map mutations (set) - builds Map immutably using constructor
+  // PATTERN: Map slots to [key, value] tuples, then construct Map from entries
+  const slotDateCache = new Map(
+    allSlots.map(slot => [
+      slot.startTime,
+      {
+        start: new Date(slot.startTime),
+        end: new Date(slot.endTime)
+      }
+    ] as [string, { start: Date; end: Date }])
+  )
 
   // LEARNING: Apply range constraints (business hours, leadTime, dateRange) post-generation
   // WHY: Single pathway for all time-based restrictions

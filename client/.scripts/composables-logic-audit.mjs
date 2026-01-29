@@ -206,7 +206,13 @@ function classifyFile(repoPath, counts, exportUseFns, importSpecifiers) {
   }
 
   // Heuristic: "god composable" / opacity risk
-  const complexityScore = reactiveCount + orchestrationCount + (counts.map || 0) + (counts.reduce || 0) + (counts.filter || 0) + (counts.sort || 0)
+  // Vue Query usage is the correct pattern, not complexity - reduce its weight
+  const vueQueryCount = counts.vueQuery || 0
+  const vueQueryWeight = vueQueryCount * 0.5 // Count Vue Query as 0.5x instead of full weight
+  
+  const dataShaping = (counts.map || 0) + (counts.reduce || 0) + (counts.filter || 0) + (counts.sort || 0)
+  const complexityScore = reactiveCount + (orchestrationCount - vueQueryCount) + dataShaping + vueQueryWeight
+  
   if (complexityScore >= 35) {
     suggestions.push({
       kind: 'split_candidate',

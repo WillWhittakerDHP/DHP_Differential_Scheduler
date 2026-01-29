@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-29T01:32:42.998Z",
+  "generatedAt": "2026-01-29T17:03:14.354Z",
   "check": "Unused Code",
   "status": "warning",
   "issues": [
@@ -114,15 +114,6 @@
     {
       "severity": "info",
       "type": "unused-function",
-      "message": "Unused function: getComputedRenderAs",
-      "file": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-      "line": 375,
-      "code": "function getComputedRenderAs(fieldKey: string): string {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "info",
-      "type": "unused-function",
       "message": "Unused function: handleCheckboxClick",
       "file": "src/components/booking/IndependentSelectCard.vue",
       "line": 122,
@@ -152,7 +143,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAnnotationAssignmentsMutationsOptions (type)",
       "file": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts",
-      "line": 30,
+      "line": 31,
       "code": "export interface UseAnnotationAssignmentsMutationsOptions {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -170,8 +161,8 @@
       "type": "unused-export",
       "message": "Unused export: UseAnnotationAssignmentsOrchestrationReturn (type)",
       "file": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts",
-      "line": 30,
-      "code": "export interface UseAnnotationAssignmentsOrchestrationReturn {",
+      "line": 33,
+      "code": "export type UseAnnotationAssignmentsOrchestrationReturn = {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -260,7 +251,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAnnotationSelectOptions (type)",
       "file": "src/composables/admin/useAnnotationSelect.ts",
-      "line": 53,
+      "line": 54,
       "code": "export interface UseAnnotationSelectOptions {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -420,6 +411,24 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: UseEntityCardComputedParams (type)",
+      "file": "src/composables/admin/useEntityCardComputed.ts",
+      "line": 20,
+      "code": "export interface UseEntityCardComputedParams<GE extends GlobalEntityKey> {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseEntityCardComputedReturn (type)",
+      "file": "src/composables/admin/useEntityCardComputed.ts",
+      "line": 30,
+      "code": "export interface UseEntityCardComputedReturn {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: UseEntityCardExpansionOptions (type)",
       "file": "src/composables/admin/useEntityCardExpansion.ts",
       "line": 12,
@@ -447,6 +456,24 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: UseEntityCardFieldConfigurationParams (type)",
+      "file": "src/composables/admin/useEntityCardFieldConfiguration.ts",
+      "line": 18,
+      "code": "export interface UseEntityCardFieldConfigurationParams {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseEntityCardFieldConfigurationReturn (type)",
+      "file": "src/composables/admin/useEntityCardFieldConfiguration.ts",
+      "line": 48,
+      "code": "export interface UseEntityCardFieldConfigurationReturn {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: useEntityCardLayout (function)",
       "file": "src/composables/admin/useEntityCardLayout.ts",
       "line": 81,
@@ -469,6 +496,24 @@
       "file": "src/composables/admin/useEntityCardLayout.ts",
       "line": 55,
       "code": "export interface UseEntityCardLayoutReturn {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseEntityCardMetadataParams (type)",
+      "file": "src/composables/admin/useEntityCardMetadata.ts",
+      "line": 18,
+      "code": "export interface UseEntityCardMetadataParams<GE extends GlobalEntityKey> {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseEntityCardMetadataReturn (type)",
+      "file": "src/composables/admin/useEntityCardMetadata.ts",
+      "line": 38,
+      "code": "export interface UseEntityCardMetadataReturn {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -757,6 +802,24 @@
       "file": "src/composables/admin/useFieldMetadataUpdate.ts",
       "line": 21,
       "code": "export type FieldVisibilityConfig = FieldMetadataConfig",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseFieldRendererComponentOptions (type)",
+      "file": "src/composables/admin/useFieldRendererComponent.ts",
+      "line": 12,
+      "code": "export interface UseFieldRendererComponentOptions {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseFieldRendererComponentReturn (type)",
+      "file": "src/composables/admin/useFieldRendererComponent.ts",
+      "line": 29,
+      "code": "export interface UseFieldRendererComponentReturn {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -1158,6 +1221,24 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: UseSelectDomTargetsOptions (type)",
+      "file": "src/composables/admin/useSelectDomTargets.ts",
+      "line": 24,
+      "code": "export interface UseSelectDomTargetsOptions {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseSelectDomTargetsReturn (type)",
+      "file": "src/composables/admin/useSelectDomTargets.ts",
+      "line": 41,
+      "code": "export interface UseSelectDomTargetsReturn {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: UseSelectFieldValueOptions (type)",
       "file": "src/composables/admin/useSelectFieldValue.ts",
       "line": 28,
@@ -1196,7 +1277,7 @@
       "type": "unused-export",
       "message": "Unused export: UseSelectHandlersOptions (type)",
       "file": "src/composables/admin/useSelectHandlers.ts",
-      "line": 26,
+      "line": 27,
       "code": "export interface UseSelectHandlersOptions {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -1205,8 +1286,26 @@
       "type": "unused-export",
       "message": "Unused export: UseSelectHandlersReturn (type)",
       "file": "src/composables/admin/useSelectHandlers.ts",
-      "line": 66,
+      "line": 67,
       "code": "export interface UseSelectHandlersReturn {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseSelectLabelResolutionOptions (type)",
+      "file": "src/composables/admin/useSelectLabelResolution.ts",
+      "line": 17,
+      "code": "export interface UseSelectLabelResolutionOptions {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseSelectLabelResolutionReturn (type)",
+      "file": "src/composables/admin/useSelectLabelResolution.ts",
+      "line": 29,
+      "code": "export interface UseSelectLabelResolutionReturn {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -1405,6 +1504,24 @@
       "file": "src/composables/admin/useTabNavigation.ts",
       "line": 13,
       "code": "export interface UseTabNavigationReturn {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UsePanelPositionOptions (type)",
+      "file": "src/composables/booking/dev/usePanelPosition.ts",
+      "line": 16,
+      "code": "export interface UsePanelPositionOptions {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UsePanelPositionReturn (type)",
+      "file": "src/composables/booking/dev/usePanelPosition.ts",
+      "line": 38,
+      "code": "export interface UsePanelPositionReturn {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -1662,51 +1779,6 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: DateRange (type)",
-      "file": "src/composables/booking/useAvailabilityLogic.ts",
-      "line": 25,
-      "code": "export interface DateRange {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: UseAvailabilityLogicParams (type)",
-      "file": "src/composables/booking/useAvailabilityLogic.ts",
-      "line": 42,
-      "code": "export interface UseAvailabilityLogicParams {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: AppointmentSlotsPerDay (type)",
-      "file": "src/composables/booking/useAvailabilityLogic.ts",
-      "line": 65,
-      "code": "export interface AppointmentSlotsPerDay {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: UseAvailabilityLogicReturn (type)",
-      "file": "src/composables/booking/useAvailabilityLogic.ts",
-      "line": 73,
-      "code": "export interface UseAvailabilityLogicReturn {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: AppointmentTimesPerDay (type)",
-      "file": "src/composables/booking/useAvailabilityLogic.ts",
-      "line": 446,
-      "code": "export interface AppointmentTimesPerDay extends AppointmentSlotsPerDay {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: UseAvailabilitySlotColorParams (type)",
       "file": "src/composables/booking/useAvailabilitySlotColor.ts",
       "line": 14,
@@ -1898,7 +1970,7 @@
       "type": "unused-export",
       "message": "Unused export: UseConfirmationStepDataParams (type)",
       "file": "src/composables/booking/useConfirmationStepData.ts",
-      "line": 48,
+      "line": 55,
       "code": "export interface UseConfirmationStepDataParams {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -1907,7 +1979,7 @@
       "type": "unused-export",
       "message": "Unused export: UseConfirmationStepDataReturn (type)",
       "file": "src/composables/booking/useConfirmationStepData.ts",
-      "line": 62,
+      "line": 69,
       "code": "export interface UseConfirmationStepDataReturn {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -1934,7 +2006,7 @@
       "type": "unused-export",
       "message": "Unused export: UseContactsValidationParams (type)",
       "file": "src/composables/booking/useContactsValidation.ts",
-      "line": 18,
+      "line": 19,
       "code": "export interface UseContactsValidationParams {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -1943,7 +2015,7 @@
       "type": "unused-export",
       "message": "Unused export: UseContactsValidationReturn (type)",
       "file": "src/composables/booking/useContactsValidation.ts",
-      "line": 32,
+      "line": 33,
       "code": "export type UseContactsValidationReturn = UseStepValidationReturn",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -1963,6 +2035,24 @@
       "file": "src/composables/booking/useDependentInstances.ts",
       "line": 41,
       "code": "export interface UseDependentInstancesReturn {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseDynamicGridConfigOptions (type)",
+      "file": "src/composables/booking/useDynamicGridConfig.ts",
+      "line": 13,
+      "code": "export interface UseDynamicGridConfigOptions {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseDynamicGridConfigReturn (type)",
+      "file": "src/composables/booking/useDynamicGridConfig.ts",
+      "line": 25,
+      "code": "export interface UseDynamicGridConfigReturn {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -2222,7 +2312,7 @@
       "type": "unused-export",
       "message": "Unused export: UsePropertyValidationParams (type)",
       "file": "src/composables/booking/usePropertyValidation.ts",
-      "line": 28,
+      "line": 29,
       "code": "export interface UsePropertyValidationParams {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -2231,7 +2321,7 @@
       "type": "unused-export",
       "message": "Unused export: UsePropertyValidationReturn (type)",
       "file": "src/composables/booking/usePropertyValidation.ts",
-      "line": 44,
+      "line": 45,
       "code": "export type UsePropertyValidationReturn = UseStepValidationReturn",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -2348,8 +2438,8 @@
       "type": "unused-export",
       "message": "Unused export: UseWizardAppointmentManagementOptions (type)",
       "file": "src/composables/booking/useWizardAppointmentManagement.ts",
-      "line": 19,
-      "code": "export interface UseWizardAppointmentManagementOptions {",
+      "line": 18,
+      "code": "export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -2357,7 +2447,7 @@
       "type": "unused-export",
       "message": "Unused export: UseWizardAppointmentManagementReturn (type)",
       "file": "src/composables/booking/useWizardAppointmentManagement.ts",
-      "line": 45,
+      "line": 34,
       "code": "export interface UseWizardAppointmentManagementReturn {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -2448,7 +2538,7 @@
       "message": "Unused export: UseWizardStepDataRefsReturn (type)",
       "file": "src/composables/booking/useWizardStepDataRefs.ts",
       "line": 13,
-      "code": "export interface UseWizardStepDataRefsReturn {",
+      "code": "export interface UseWizardStepDataRefsReturn extends WizardStepDataAndValidationRefs {}",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -2537,7 +2627,7 @@
       "type": "unused-export",
       "message": "Unused export: UseComponentEntityActionsReturn (type)",
       "file": "src/composables/componentEntity/useComponentEntityActions.ts",
-      "line": 9,
+      "line": 10,
       "code": "export type UseComponentEntityActionsReturn = {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -2582,7 +2672,7 @@
       "type": "unused-export",
       "message": "Unused export: DataCollectionCrudConfig (type)",
       "file": "src/composables/dataCollections/useDataCollectionActions.ts",
-      "line": 17,
+      "line": 18,
       "code": "export interface DataCollectionCrudConfig<",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -2616,10 +2706,55 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: createRestorePreviousDataHandler (function)",
+      "file": "src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "line": 58,
+      "code": "export function createRestorePreviousDataHandler(",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: MutationContextWithPreviousData (type)",
+      "file": "src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "line": 83,
+      "code": "export interface MutationContextWithPreviousData {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: UseFieldContextActionsReturn (type)",
       "file": "src/composables/fieldContext/useFieldContextActions.ts",
-      "line": 13,
+      "line": 14,
       "code": "export type UseFieldContextActionsReturn = {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: SaveComponentEntityParams (type)",
+      "file": "src/composables/fieldContext/useFieldContextSaveHelpers.ts",
+      "line": 25,
+      "code": "export interface SaveComponentEntityParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: SaveRelationshipFieldParams (type)",
+      "file": "src/composables/fieldContext/useFieldContextSaveHelpers.ts",
+      "line": 88,
+      "code": "export interface SaveRelationshipFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: SaveRegularFieldParams (type)",
+      "file": "src/composables/fieldContext/useFieldContextSaveHelpers.ts",
+      "line": 182,
+      "code": "export interface SaveRegularFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -2681,7 +2816,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAnnotationTypesReturn (type)",
       "file": "src/composables/useAnnotationTypes.ts",
-      "line": 22,
+      "line": 23,
       "code": "export type UseAnnotationTypesReturn = {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -2832,15 +2967,6 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: GroupedEntities (type)",
-      "file": "src/composables/useSelectOptions.ts",
-      "line": 31,
-      "code": "export interface GroupedEntities {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: UseSelectOptionsOptions (type)",
       "file": "src/composables/useSelectOptions.ts",
       "line": 40,
@@ -2868,118 +2994,10 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: buildInstanceConfig (function)",
-      "file": "src/configs/adminConfig.ts",
-      "line": 80,
-      "code": "export function buildInstanceConfig() {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: buildAdminConfig (function)",
       "file": "src/configs/adminConfig.ts",
-      "line": 164,
-      "code": "export function buildAdminConfig(): AdminConfig {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: FieldVisibility (type)",
-      "file": "src/configs/adminConfig.ts",
-      "line": 21,
-      "code": "export type FieldVisibility = 'titleRow' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: SubPanelType (type)",
-      "file": "src/configs/adminConfig.ts",
-      "line": 22,
-      "code": "export type SubPanelType = 'parts' | 'relationships' | 'annotations' | 'none'",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: FieldLayout (type)",
-      "file": "src/configs/adminConfig.ts",
-      "line": 23,
-      "code": "export type FieldLayout = 'inline' | 'stacked'",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: FieldRenderAs (type)",
-      "file": "src/configs/adminConfig.ts",
-      "line": 24,
-      "code": "export type FieldRenderAs = 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect'",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: getAvailabilitySettingsCacheStatus (function)",
-      "file": "src/configs/availabilitySettings.ts",
-      "line": 399,
-      "code": "export function getAvailabilitySettingsCacheStatus(): {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: DayHours (type)",
-      "file": "src/configs/availabilitySettings.ts",
-      "line": 25,
-      "code": "export interface DayHours {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: RollingWeekDirection (type)",
-      "file": "src/configs/availabilitySettings.ts",
-      "line": 44,
-      "code": "export type RollingWeekDirection = 'past' | 'centered' | 'future'",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: RangeConstraintType (type)",
-      "file": "src/configs/availabilitySettings.ts",
-      "line": 73,
-      "code": "export type RangeConstraintType = 'businessHours' | 'leadTime' | 'dateRange'",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: LeadTimeConfig (type)",
-      "file": "src/configs/availabilitySettings.ts",
-      "line": 91,
-      "code": "export interface LeadTimeConfig {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: BufferType (type)",
-      "file": "src/configs/availabilitySettings.ts",
-      "line": 124,
-      "code": "export type BufferType = 'appointment' | 'driveTime' | 'lunch'",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: BufferPlacement (type)",
-      "file": "src/configs/availabilitySettings.ts",
-      "line": 132,
-      "code": "export type BufferPlacement = 'off' | 'before' | 'after' | 'both'",
+      "line": 86,
+      "code": "* NOTE: Internal function only - not exported as it's only used by buildAdminConfig",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -3167,7 +3185,7 @@
       "type": "unused-function",
       "message": "Unused function: prefetchGlobalData",
       "file": "src/main.ts",
-      "line": 152,
+      "line": 175,
       "code": "const prefetchGlobalData = async () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3552,56 +3570,47 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: sumDuration (function)",
-      "file": "src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 63,
-      "code": "export function sumDuration(",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: sumOnSite (function)",
-      "file": "src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 75,
-      "code": "export function sumOnSite(parts: BookingPartInstance[]): number {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: sumClientPresent (function)",
-      "file": "src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 82,
-      "code": "export function sumClientPresent(parts: BookingPartInstance[]): number {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: sumMoveable (function)",
-      "file": "src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 89,
-      "code": "export function sumMoveable(parts: BookingPartInstance[]): number {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: sumTotal (function)",
-      "file": "src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 96,
-      "code": "export function sumTotal(parts: BookingPartInstance[]): number {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: calculateTotalDurationFromAppointmentSlots (function)",
       "file": "src/utils/booking/appointmentTimeCalculations.ts",
       "line": 259,
       "code": "export function calculateTotalDurationFromAppointmentSlots(appointmentSlots: AppointmentSlots): number {",
       "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: BlockInstanceFeeResult (type)",
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 27,
+      "code": "export interface BlockInstanceFeeResult {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "todo-marker",
+      "message": "TODO/FIXME marker about unused code",
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 252,
+      "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
+      "suggestion": "Review and clean up unused code"
+    },
+    {
+      "severity": "info",
+      "type": "todo-marker",
+      "message": "TODO/FIXME marker about unused code",
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 254,
+      "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
+      "suggestion": "Review and clean up unused code"
+    },
+    {
+      "severity": "info",
+      "type": "todo-marker",
+      "message": "TODO/FIXME marker about unused code",
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 255,
+      "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
+      "suggestion": "Review and clean up unused code"
     },
     {
       "severity": "warning",
@@ -3644,7 +3653,7 @@
       "type": "unused-export",
       "message": "Unused export: clearScheduledHoursCache (function)",
       "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 739,
+      "line": 753,
       "code": "export function clearScheduledHoursCache(): void {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3653,7 +3662,7 @@
       "type": "unused-export",
       "message": "Unused export: markSlotAvailability (function)",
       "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 884,
+      "line": 898,
       "code": "export function markSlotAvailability(",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3662,7 +3671,7 @@
       "type": "unused-export",
       "message": "Unused export: AvailabilityManagerResult (type)",
       "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 235,
+      "line": 240,
       "code": "export interface AvailabilityManagerResult {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3671,7 +3680,7 @@
       "type": "unused-export",
       "message": "Unused export: GenerateSlotsWithAvailabilityParams (type)",
       "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 243,
+      "line": 248,
       "code": "export interface GenerateSlotsWithAvailabilityParams {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3680,7 +3689,7 @@
       "type": "unused-function",
       "message": "Unused function: validateBusyPeriod",
       "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 121,
+      "line": 122,
       "code": "function validateBusyPeriod(busy: BusyTimeRange): boolean {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3754,15 +3763,6 @@
       "file": "src/utils/booking/timeSlotMatching.ts",
       "line": 242,
       "code": "export function matchLoadedTimeSlotsToAppointmentSlots(",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: LoadedTimeSlot (type)",
-      "file": "src/utils/booking/timeSlotMatching.ts",
-      "line": 91,
-      "code": "export interface LoadedTimeSlot {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -3966,18 +3966,9 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: BusinessTransformer (class)",
-      "file": "src/utils/transformers/fetchToBusinessTransformer.ts",
-      "line": 44,
-      "code": "export class BusinessTransformer {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: composePropertiesFromRelationships (function)",
       "file": "src/utils/transformers/relationshipTransformers.ts",
-      "line": 268,
+      "line": 276,
       "code": "export function composePropertiesFromRelationships<GE extends GlobalEntityKey>(",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -4004,7 +3995,7 @@
       "type": "unused-function",
       "message": "Unused function: ensureMaxWorkHours",
       "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 211,
+      "line": 135,
       "code": "const ensureMaxWorkHours = (current: MaxWorkHours | undefined) => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -4013,7 +4004,7 @@
       "type": "unused-function",
       "message": "Unused function: ensureRangeConstraints",
       "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 398,
+      "line": 322,
       "code": "const ensureRangeConstraints = (current: RangeConstraints | undefined) => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -4267,22 +4258,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-      "issues": [
-        {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: getComputedRenderAs",
-          "file": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-          "line": 375,
-          "code": "function getComputedRenderAs(fieldKey: string): string {",
-          "suggestion": "Remove if unused or document why kept"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
       "repoPath": "src/components/booking/IndependentSelectCard.vue",
       "issues": [
         {
@@ -4338,7 +4313,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAnnotationAssignmentsMutationsOptions (type)",
           "file": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts",
-          "line": 30,
+          "line": 31,
           "code": "export interface UseAnnotationAssignmentsMutationsOptions {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -4363,8 +4338,8 @@
           "type": "unused-export",
           "message": "Unused export: UseAnnotationAssignmentsOrchestrationReturn (type)",
           "file": "src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts",
-          "line": 30,
-          "code": "export interface UseAnnotationAssignmentsOrchestrationReturn {",
+          "line": 33,
+          "code": "export type UseAnnotationAssignmentsOrchestrationReturn = {",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
@@ -4509,7 +4484,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAnnotationSelectOptions (type)",
           "file": "src/composables/admin/useAnnotationSelect.ts",
-          "line": 53,
+          "line": 54,
           "code": "export interface UseAnnotationSelectOptions {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -4727,6 +4702,31 @@
       "priority": "P1"
     },
     {
+      "repoPath": "src/composables/admin/useEntityCardComputed.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseEntityCardComputedParams (type)",
+          "file": "src/composables/admin/useEntityCardComputed.ts",
+          "line": 20,
+          "code": "export interface UseEntityCardComputedParams<GE extends GlobalEntityKey> {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseEntityCardComputedReturn (type)",
+          "file": "src/composables/admin/useEntityCardComputed.ts",
+          "line": 30,
+          "code": "export interface UseEntityCardComputedReturn {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "src/composables/admin/useEntityCardExpansion.ts",
       "issues": [
         {
@@ -4761,6 +4761,31 @@
       "priority": "P1"
     },
     {
+      "repoPath": "src/composables/admin/useEntityCardFieldConfiguration.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseEntityCardFieldConfigurationParams (type)",
+          "file": "src/composables/admin/useEntityCardFieldConfiguration.ts",
+          "line": 18,
+          "code": "export interface UseEntityCardFieldConfigurationParams {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseEntityCardFieldConfigurationReturn (type)",
+          "file": "src/composables/admin/useEntityCardFieldConfiguration.ts",
+          "line": 48,
+          "code": "export interface UseEntityCardFieldConfigurationReturn {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "src/composables/admin/useEntityCardLayout.ts",
       "issues": [
         {
@@ -4792,6 +4817,31 @@
         }
       ],
       "score": 9,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "src/composables/admin/useEntityCardMetadata.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseEntityCardMetadataParams (type)",
+          "file": "src/composables/admin/useEntityCardMetadata.ts",
+          "line": 18,
+          "code": "export interface UseEntityCardMetadataParams<GE extends GlobalEntityKey> {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseEntityCardMetadataReturn (type)",
+          "file": "src/composables/admin/useEntityCardMetadata.ts",
+          "line": 38,
+          "code": "export interface UseEntityCardMetadataReturn {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 6,
       "priority": "P1"
     },
     {
@@ -5192,6 +5242,31 @@
         }
       ],
       "score": 9,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "src/composables/admin/useFieldRendererComponent.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseFieldRendererComponentOptions (type)",
+          "file": "src/composables/admin/useFieldRendererComponent.ts",
+          "line": 12,
+          "code": "export interface UseFieldRendererComponentOptions {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseFieldRendererComponentReturn (type)",
+          "file": "src/composables/admin/useFieldRendererComponent.ts",
+          "line": 29,
+          "code": "export interface UseFieldRendererComponentReturn {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 6,
       "priority": "P1"
     },
     {
@@ -5745,6 +5820,31 @@
       "priority": "P1"
     },
     {
+      "repoPath": "src/composables/admin/useSelectDomTargets.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseSelectDomTargetsOptions (type)",
+          "file": "src/composables/admin/useSelectDomTargets.ts",
+          "line": 24,
+          "code": "export interface UseSelectDomTargetsOptions {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseSelectDomTargetsReturn (type)",
+          "file": "src/composables/admin/useSelectDomTargets.ts",
+          "line": 41,
+          "code": "export interface UseSelectDomTargetsReturn {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "src/composables/admin/useSelectFieldValue.ts",
       "issues": [
         {
@@ -5809,7 +5909,7 @@
           "type": "unused-export",
           "message": "Unused export: UseSelectHandlersOptions (type)",
           "file": "src/composables/admin/useSelectHandlers.ts",
-          "line": 26,
+          "line": 27,
           "code": "export interface UseSelectHandlersOptions {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -5818,8 +5918,33 @@
           "type": "unused-export",
           "message": "Unused export: UseSelectHandlersReturn (type)",
           "file": "src/composables/admin/useSelectHandlers.ts",
-          "line": 66,
+          "line": 67,
           "code": "export interface UseSelectHandlersReturn {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "src/composables/admin/useSelectLabelResolution.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseSelectLabelResolutionOptions (type)",
+          "file": "src/composables/admin/useSelectLabelResolution.ts",
+          "line": 17,
+          "code": "export interface UseSelectLabelResolutionOptions {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseSelectLabelResolutionReturn (type)",
+          "file": "src/composables/admin/useSelectLabelResolution.ts",
+          "line": 29,
+          "code": "export interface UseSelectLabelResolutionReturn {",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
@@ -6088,6 +6213,31 @@
           "file": "src/composables/admin/useTabNavigation.ts",
           "line": 13,
           "code": "export interface UseTabNavigationReturn {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "src/composables/booking/dev/usePanelPosition.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UsePanelPositionOptions (type)",
+          "file": "src/composables/booking/dev/usePanelPosition.ts",
+          "line": 16,
+          "code": "export interface UsePanelPositionOptions {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UsePanelPositionReturn (type)",
+          "file": "src/composables/booking/dev/usePanelPosition.ts",
+          "line": 38,
+          "code": "export interface UsePanelPositionReturn {",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
@@ -6445,58 +6595,6 @@
       "priority": "P1"
     },
     {
-      "repoPath": "src/composables/booking/useAvailabilityLogic.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: DateRange (type)",
-          "file": "src/composables/booking/useAvailabilityLogic.ts",
-          "line": 25,
-          "code": "export interface DateRange {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: UseAvailabilityLogicParams (type)",
-          "file": "src/composables/booking/useAvailabilityLogic.ts",
-          "line": 42,
-          "code": "export interface UseAvailabilityLogicParams {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: AppointmentSlotsPerDay (type)",
-          "file": "src/composables/booking/useAvailabilityLogic.ts",
-          "line": 65,
-          "code": "export interface AppointmentSlotsPerDay {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: UseAvailabilityLogicReturn (type)",
-          "file": "src/composables/booking/useAvailabilityLogic.ts",
-          "line": 73,
-          "code": "export interface UseAvailabilityLogicReturn {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: AppointmentTimesPerDay (type)",
-          "file": "src/composables/booking/useAvailabilityLogic.ts",
-          "line": 446,
-          "code": "export interface AppointmentTimesPerDay extends AppointmentSlotsPerDay {",
-          "suggestion": "Remove if unused or document why kept"
-        }
-      ],
-      "score": 15,
-      "priority": "P0"
-    },
-    {
       "repoPath": "src/composables/booking/useAvailabilitySlotColor.ts",
       "issues": [
         {
@@ -6756,7 +6854,7 @@
           "type": "unused-export",
           "message": "Unused export: UseConfirmationStepDataParams (type)",
           "file": "src/composables/booking/useConfirmationStepData.ts",
-          "line": 48,
+          "line": 55,
           "code": "export interface UseConfirmationStepDataParams {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -6765,7 +6863,7 @@
           "type": "unused-export",
           "message": "Unused export: UseConfirmationStepDataReturn (type)",
           "file": "src/composables/booking/useConfirmationStepData.ts",
-          "line": 62,
+          "line": 69,
           "code": "export interface UseConfirmationStepDataReturn {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -6806,7 +6904,7 @@
           "type": "unused-export",
           "message": "Unused export: UseContactsValidationParams (type)",
           "file": "src/composables/booking/useContactsValidation.ts",
-          "line": 18,
+          "line": 19,
           "code": "export interface UseContactsValidationParams {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -6815,7 +6913,7 @@
           "type": "unused-export",
           "message": "Unused export: UseContactsValidationReturn (type)",
           "file": "src/composables/booking/useContactsValidation.ts",
-          "line": 32,
+          "line": 33,
           "code": "export type UseContactsValidationReturn = UseStepValidationReturn",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -6842,6 +6940,31 @@
           "file": "src/composables/booking/useDependentInstances.ts",
           "line": 41,
           "code": "export interface UseDependentInstancesReturn {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "src/composables/booking/useDynamicGridConfig.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseDynamicGridConfigOptions (type)",
+          "file": "src/composables/booking/useDynamicGridConfig.ts",
+          "line": 13,
+          "code": "export interface UseDynamicGridConfigOptions {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseDynamicGridConfigReturn (type)",
+          "file": "src/composables/booking/useDynamicGridConfig.ts",
+          "line": 25,
+          "code": "export interface UseDynamicGridConfigReturn {",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
@@ -7213,7 +7336,7 @@
           "type": "unused-export",
           "message": "Unused export: UsePropertyValidationParams (type)",
           "file": "src/composables/booking/usePropertyValidation.ts",
-          "line": 28,
+          "line": 29,
           "code": "export interface UsePropertyValidationParams {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -7222,7 +7345,7 @@
           "type": "unused-export",
           "message": "Unused export: UsePropertyValidationReturn (type)",
           "file": "src/composables/booking/usePropertyValidation.ts",
-          "line": 44,
+          "line": 45,
           "code": "export type UsePropertyValidationReturn = UseStepValidationReturn",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -7381,8 +7504,8 @@
           "type": "unused-export",
           "message": "Unused export: UseWizardAppointmentManagementOptions (type)",
           "file": "src/composables/booking/useWizardAppointmentManagement.ts",
-          "line": 19,
-          "code": "export interface UseWizardAppointmentManagementOptions {",
+          "line": 18,
+          "code": "export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {",
           "suggestion": "Remove if unused or document why kept"
         },
         {
@@ -7390,7 +7513,7 @@
           "type": "unused-export",
           "message": "Unused export: UseWizardAppointmentManagementReturn (type)",
           "file": "src/composables/booking/useWizardAppointmentManagement.ts",
-          "line": 45,
+          "line": 34,
           "code": "export interface UseWizardAppointmentManagementReturn {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -7523,7 +7646,7 @@
           "message": "Unused export: UseWizardStepDataRefsReturn (type)",
           "file": "src/composables/booking/useWizardStepDataRefs.ts",
           "line": 13,
-          "code": "export interface UseWizardStepDataRefsReturn {",
+          "code": "export interface UseWizardStepDataRefsReturn extends WizardStepDataAndValidationRefs {}",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
@@ -7654,7 +7777,7 @@
           "type": "unused-export",
           "message": "Unused export: UseComponentEntityActionsReturn (type)",
           "file": "src/composables/componentEntity/useComponentEntityActions.ts",
-          "line": 9,
+          "line": 10,
           "code": "export type UseComponentEntityActionsReturn = {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -7720,7 +7843,7 @@
           "type": "unused-export",
           "message": "Unused export: DataCollectionCrudConfig (type)",
           "file": "src/composables/dataCollections/useDataCollectionActions.ts",
-          "line": 17,
+          "line": 18,
           "code": "export interface DataCollectionCrudConfig<",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -7770,6 +7893,31 @@
       "priority": "P2"
     },
     {
+      "repoPath": "src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: createRestorePreviousDataHandler (function)",
+          "file": "src/composables/entityCrud/useSharedMutationHandlers.ts",
+          "line": 58,
+          "code": "export function createRestorePreviousDataHandler(",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: MutationContextWithPreviousData (type)",
+          "file": "src/composables/entityCrud/useSharedMutationHandlers.ts",
+          "line": 83,
+          "code": "export interface MutationContextWithPreviousData {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "src/composables/fieldContext/useFieldContextActions.ts",
       "issues": [
         {
@@ -7777,13 +7925,47 @@
           "type": "unused-export",
           "message": "Unused export: UseFieldContextActionsReturn (type)",
           "file": "src/composables/fieldContext/useFieldContextActions.ts",
-          "line": 13,
+          "line": 14,
           "code": "export type UseFieldContextActionsReturn = {",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
       "score": 3,
       "priority": "P2"
+    },
+    {
+      "repoPath": "src/composables/fieldContext/useFieldContextSaveHelpers.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: SaveComponentEntityParams (type)",
+          "file": "src/composables/fieldContext/useFieldContextSaveHelpers.ts",
+          "line": 25,
+          "code": "export interface SaveComponentEntityParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: SaveRelationshipFieldParams (type)",
+          "file": "src/composables/fieldContext/useFieldContextSaveHelpers.ts",
+          "line": 88,
+          "code": "export interface SaveRelationshipFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: SaveRegularFieldParams (type)",
+          "file": "src/composables/fieldContext/useFieldContextSaveHelpers.ts",
+          "line": 182,
+          "code": "export interface SaveRegularFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 9,
+      "priority": "P1"
     },
     {
       "repoPath": "src/composables/fieldContext/useFieldContextState.ts",
@@ -7875,7 +8057,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAnnotationTypesReturn (type)",
           "file": "src/composables/useAnnotationTypes.ts",
-          "line": 22,
+          "line": 23,
           "code": "export type UseAnnotationTypesReturn = {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -8089,15 +8271,6 @@
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: GroupedEntities (type)",
-          "file": "src/composables/useSelectOptions.ts",
-          "line": 31,
-          "code": "export interface GroupedEntities {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
           "message": "Unused export: UseSelectOptionsOptions (type)",
           "file": "src/composables/useSelectOptions.ts",
           "line": 40,
@@ -8114,7 +8287,7 @@
           "suggestion": "Remove if unused or document why kept"
         }
       ],
-      "score": 9,
+      "score": 6,
       "priority": "P1"
     },
     {
@@ -8139,130 +8312,15 @@
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: buildInstanceConfig (function)",
-          "file": "src/configs/adminConfig.ts",
-          "line": 80,
-          "code": "export function buildInstanceConfig() {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
           "message": "Unused export: buildAdminConfig (function)",
           "file": "src/configs/adminConfig.ts",
-          "line": 164,
-          "code": "export function buildAdminConfig(): AdminConfig {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: FieldVisibility (type)",
-          "file": "src/configs/adminConfig.ts",
-          "line": 21,
-          "code": "export type FieldVisibility = 'titleRow' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: SubPanelType (type)",
-          "file": "src/configs/adminConfig.ts",
-          "line": 22,
-          "code": "export type SubPanelType = 'parts' | 'relationships' | 'annotations' | 'none'",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: FieldLayout (type)",
-          "file": "src/configs/adminConfig.ts",
-          "line": 23,
-          "code": "export type FieldLayout = 'inline' | 'stacked'",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: FieldRenderAs (type)",
-          "file": "src/configs/adminConfig.ts",
-          "line": 24,
-          "code": "export type FieldRenderAs = 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect'",
+          "line": 86,
+          "code": "* NOTE: Internal function only - not exported as it's only used by buildAdminConfig",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
-      "score": 18,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "src/configs/availabilitySettings.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: getAvailabilitySettingsCacheStatus (function)",
-          "file": "src/configs/availabilitySettings.ts",
-          "line": 399,
-          "code": "export function getAvailabilitySettingsCacheStatus(): {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: DayHours (type)",
-          "file": "src/configs/availabilitySettings.ts",
-          "line": 25,
-          "code": "export interface DayHours {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: RollingWeekDirection (type)",
-          "file": "src/configs/availabilitySettings.ts",
-          "line": 44,
-          "code": "export type RollingWeekDirection = 'past' | 'centered' | 'future'",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: RangeConstraintType (type)",
-          "file": "src/configs/availabilitySettings.ts",
-          "line": 73,
-          "code": "export type RangeConstraintType = 'businessHours' | 'leadTime' | 'dateRange'",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: LeadTimeConfig (type)",
-          "file": "src/configs/availabilitySettings.ts",
-          "line": 91,
-          "code": "export interface LeadTimeConfig {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: BufferType (type)",
-          "file": "src/configs/availabilitySettings.ts",
-          "line": 124,
-          "code": "export type BufferType = 'appointment' | 'driveTime' | 'lunch'",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: BufferPlacement (type)",
-          "file": "src/configs/availabilitySettings.ts",
-          "line": 132,
-          "code": "export type BufferPlacement = 'off' | 'before' | 'after' | 'both'",
-          "suggestion": "Remove if unused or document why kept"
-        }
-      ],
-      "score": 21,
-      "priority": "P0"
+      "score": 3,
+      "priority": "P2"
     },
     {
       "repoPath": "src/configs/field/display/fullFieldDisplayConfig.ts",
@@ -8515,7 +8573,7 @@
           "type": "unused-function",
           "message": "Unused function: prefetchGlobalData",
           "file": "src/main.ts",
-          "line": 152,
+          "line": 175,
           "code": "const prefetchGlobalData = async () => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -9049,58 +9107,6 @@
       "priority": "P0"
     },
     {
-      "repoPath": "src/utils/booking/appointmentSlotBuilder.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: sumDuration (function)",
-          "file": "src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 63,
-          "code": "export function sumDuration(",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: sumOnSite (function)",
-          "file": "src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 75,
-          "code": "export function sumOnSite(parts: BookingPartInstance[]): number {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: sumClientPresent (function)",
-          "file": "src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 82,
-          "code": "export function sumClientPresent(parts: BookingPartInstance[]): number {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: sumMoveable (function)",
-          "file": "src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 89,
-          "code": "export function sumMoveable(parts: BookingPartInstance[]): number {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: sumTotal (function)",
-          "file": "src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 96,
-          "code": "export function sumTotal(parts: BookingPartInstance[]): number {",
-          "suggestion": "Remove if unused or document why kept"
-        }
-      ],
-      "score": 15,
-      "priority": "P0"
-    },
-    {
       "repoPath": "src/utils/booking/appointmentTimeCalculations.ts",
       "issues": [
         {
@@ -9115,6 +9121,49 @@
       ],
       "score": 3,
       "priority": "P2"
+    },
+    {
+      "repoPath": "src/utils/booking/confirmationStepData.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: BlockInstanceFeeResult (type)",
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 27,
+          "code": "export interface BlockInstanceFeeResult {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "info",
+          "type": "todo-marker",
+          "message": "TODO/FIXME marker about unused code",
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 252,
+          "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
+          "suggestion": "Review and clean up unused code"
+        },
+        {
+          "severity": "info",
+          "type": "todo-marker",
+          "message": "TODO/FIXME marker about unused code",
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 254,
+          "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
+          "suggestion": "Review and clean up unused code"
+        },
+        {
+          "severity": "info",
+          "type": "todo-marker",
+          "message": "TODO/FIXME marker about unused code",
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 255,
+          "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
+          "suggestion": "Review and clean up unused code"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
     },
     {
       "repoPath": "src/utils/booking/partShapeTimeSlotMapping.ts",
@@ -9174,7 +9223,7 @@
           "type": "unused-export",
           "message": "Unused export: clearScheduledHoursCache (function)",
           "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 739,
+          "line": 753,
           "code": "export function clearScheduledHoursCache(): void {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -9183,7 +9232,7 @@
           "type": "unused-export",
           "message": "Unused export: markSlotAvailability (function)",
           "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 884,
+          "line": 898,
           "code": "export function markSlotAvailability(",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -9192,7 +9241,7 @@
           "type": "unused-export",
           "message": "Unused export: AvailabilityManagerResult (type)",
           "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 235,
+          "line": 240,
           "code": "export interface AvailabilityManagerResult {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -9201,7 +9250,7 @@
           "type": "unused-export",
           "message": "Unused export: GenerateSlotsWithAvailabilityParams (type)",
           "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 243,
+          "line": 248,
           "code": "export interface GenerateSlotsWithAvailabilityParams {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -9210,7 +9259,7 @@
           "type": "unused-function",
           "message": "Unused function: validateBusyPeriod",
           "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 121,
+          "line": 122,
           "code": "function validateBusyPeriod(busy: BusyTimeRange): boolean {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -9299,19 +9348,10 @@
           "line": 242,
           "code": "export function matchLoadedTimeSlotsToAppointmentSlots(",
           "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: LoadedTimeSlot (type)",
-          "file": "src/utils/booking/timeSlotMatching.ts",
-          "line": 91,
-          "code": "export interface LoadedTimeSlot {",
-          "suggestion": "Remove if unused or document why kept"
         }
       ],
-      "score": 12,
-      "priority": "P0"
+      "score": 9,
+      "priority": "P1"
     },
     {
       "repoPath": "src/utils/collections/resolveByIds.ts",
@@ -9610,22 +9650,6 @@
       "priority": "P1"
     },
     {
-      "repoPath": "src/utils/transformers/fetchToBusinessTransformer.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: BusinessTransformer (class)",
-          "file": "src/utils/transformers/fetchToBusinessTransformer.ts",
-          "line": 44,
-          "code": "export class BusinessTransformer {",
-          "suggestion": "Remove if unused or document why kept"
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
       "repoPath": "src/utils/transformers/relationshipTransformers.ts",
       "issues": [
         {
@@ -9633,7 +9657,7 @@
           "type": "unused-export",
           "message": "Unused export: composePropertiesFromRelationships (function)",
           "file": "src/utils/transformers/relationshipTransformers.ts",
-          "line": 268,
+          "line": 276,
           "code": "export function composePropertiesFromRelationships<GE extends GlobalEntityKey>(",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -9681,7 +9705,7 @@
           "type": "unused-function",
           "message": "Unused function: ensureMaxWorkHours",
           "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 211,
+          "line": 135,
           "code": "const ensureMaxWorkHours = (current: MaxWorkHours | undefined) => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -9690,7 +9714,7 @@
           "type": "unused-function",
           "message": "Unused function: ensureRangeConstraints",
           "file": "src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 398,
+          "line": 322,
           "code": "const ensureRangeConstraints = (current: RangeConstraints | undefined) => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -9797,8 +9821,9 @@
     }
   ],
   "recommendations": [
-    "Found 405 unused export(s) - review for removal",
-    "Found 51 unused function(s) - review for removal"
+    "Found 402 unused export(s) - review for removal",
+    "Found 50 unused function(s) - review for removal",
+    "Found 3 TODO/FIXME marker(s) about unused code - review and clean up"
   ],
-  "summary": "Scanned 649 file(s). Found 456 issue(s): 405 unused exports, 0 commented exports, 51 unused functions, 0 TODO markers"
+  "summary": "Scanned 672 file(s). Found 455 issue(s): 402 unused exports, 0 commented exports, 50 unused functions, 3 TODO markers"
 }

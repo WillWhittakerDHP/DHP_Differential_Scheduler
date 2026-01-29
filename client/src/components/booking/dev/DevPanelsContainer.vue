@@ -20,7 +20,7 @@ interface Props {
   visible: boolean
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 
 const isDevMode = isDevModeEnabled()
 const activeTab = ref<'appointment' | 'calendar'>('appointment')

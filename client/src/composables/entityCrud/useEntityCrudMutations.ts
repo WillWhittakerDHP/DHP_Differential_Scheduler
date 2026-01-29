@@ -298,7 +298,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
     },
   })
 
-  const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate>({
+  const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({
     mutationFn: async (updates: OrderIndexUpdate) => {
       const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), {
         updates: updates.map((update) => ({
@@ -333,7 +333,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       return { previousData }
     },
-    onError: (error: unknown, _variables: OrderIndexUpdate, _onMutateResult: unknown, context: { previousData?: GlobalData } | undefined) => {
+    onError: (error: unknown, _variables: OrderIndexUpdate, context: { previousData?: GlobalData } | undefined) => {
       // LEARNING: Explicit error logging and rollback
       // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
       // PATTERN: Log error, then use context from onMutate to restore previous data
@@ -347,7 +347,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
     },
   })
 
-  const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>>({
+  const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>, { previousData?: GlobalData }>({
     mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {
       const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), {
         updates,
@@ -383,7 +383,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       return { previousData }
     },
-    onError: (error: unknown, _variables: BulkUpdate<GlobalEntityTypeKey>, _onMutateResult: unknown, context: { previousData?: GlobalData } | undefined) => {
+    onError: (error: unknown, _variables: BulkUpdate<GlobalEntityTypeKey>, context: { previousData?: GlobalData } | undefined) => {
       // LEARNING: Explicit error logging and rollback
       // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
       // PATTERN: Log error, then use context from onMutate to restore previous data

@@ -100,33 +100,35 @@ const displaySlots = computed(() => {
   // WHY: New structure supports dual-time display for differential scheduling
   // PATTERN: Transform AppointmentSlots based on timeBasis, include orderIndex
   if (props.appointmentSlots && props.appointmentSlots.length > 0) {
-    const slots: SlotData[] = []
-    
-    props.appointmentSlots.forEach(appointmentSlot => {
-      // LEARNING: slot can be TimeSlot or TimeRange (TimeSlot extends TimeRange)
-      // WHY: totalTime and timeOnSite are TimeRange, but category slots are TimeSlot
-      // PATTERN: Accept both types since TimeSlot extends TimeRange
-      let slot: TimeSlot | TimeRange | null = null
-      
-      if (props.timeBasis === 'client' && props.isDifferentialService) {
-        // LEARNING: Show client perspective time slot
-        // WHY: Client sees their arrival time for differential appointments
-        // PATTERN: Use clientPresentation (TimeSlot) or totalTime (TimeRange) from client perspective
-        slot = appointmentSlot.clientPresentation || appointmentSlot.totalTime
-      } else {
-        // LEARNING: Show inspector perspective time slot (default)
-        // WHY: Inspector sees their start time, or same time for non-differential
-        // PATTERN: Prefer TimeSlot (dataCollection), fallback to TimeRange (totalTime, totalOnSite)
-        slot = appointmentSlot.dataCollection || appointmentSlot.totalTime || appointmentSlot.totalOnSite
-      }
-      
-      if (slot) {
-        const orderIndex = typeof appointmentSlot.orderIndex === 'number' ? appointmentSlot.orderIndex : 0
-        slots.push({ slot, orderIndex })
-      }
-    })
-    
-    return slots
+    // LEARNING: Use map + filter instead of forEach + push
+    // WHY: Functional approach - transform array without mutations
+    // PATTERN: Map to transform, filter to remove nulls
+    return props.appointmentSlots
+      .map(appointmentSlot => {
+        // LEARNING: slot can be TimeSlot or TimeRange (TimeSlot extends TimeRange)
+        // WHY: totalTime and timeOnSite are TimeRange, but category slots are TimeSlot
+        // PATTERN: Accept both types since TimeSlot extends TimeRange
+        let slot: TimeSlot | TimeRange | null = null
+        
+        if (props.timeBasis === 'client' && props.isDifferentialService) {
+          // LEARNING: Show client perspective time slot
+          // WHY: Client sees their arrival time for differential appointments
+          // PATTERN: Use clientPresentation (TimeSlot) or totalTime (TimeRange) from client perspective
+          slot = appointmentSlot.clientPresentation || appointmentSlot.totalTime
+        } else {
+          // LEARNING: Show inspector perspective time slot (default)
+          // WHY: Inspector sees their start time, or same time for non-differential
+          // PATTERN: Prefer TimeSlot (dataCollection), fallback to TimeRange (totalTime, totalOnSite)
+          slot = appointmentSlot.dataCollection || appointmentSlot.totalTime || appointmentSlot.totalOnSite
+        }
+        
+        if (slot) {
+          const orderIndex = typeof appointmentSlot.orderIndex === 'number' ? appointmentSlot.orderIndex : 0
+          return { slot, orderIndex } as SlotData
+        }
+        return null
+      })
+      .filter((item): item is SlotData => item !== null)
   }
   
   // LEARNING: Fallback to legacy slots prop

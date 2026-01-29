@@ -7,7 +7,7 @@
  * - AdminPrimitiveMetadataEditor.vue
  */
 
-import { ref, reactive, computed, type Ref } from 'vue'
+import { ref, reactive, type Ref } from 'vue'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 
 export interface UseInstanceOverrideStateOptions {

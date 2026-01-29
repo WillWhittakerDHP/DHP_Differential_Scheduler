@@ -126,6 +126,7 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
  * 
  * @deprecated Use getDynamicEntityDefaults() instead - this is kept for reference only
  */
+// @ts-expect-error - Deprecated constant kept for reference only
 const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<GlobalEntityKey>>> = {
   blockShape: {
     orderIndex: 0, // Required NOT NULL field

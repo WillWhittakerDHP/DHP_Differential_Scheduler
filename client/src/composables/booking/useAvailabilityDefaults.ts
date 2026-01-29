@@ -183,10 +183,15 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
       // Temporary: Use TimeSlot matching for now, will be updated to orderIndex matching
       // This requires AppointmentSlots to be available, which will be handled in useAvailabilityUI
       // For now, we'll match by time and find the orderIndex in the UI layer
+      // WHY: Transform selectedTimeSlots from { time, duration } format to { startTime, endTime } format
       const tempInspectorSlot = ref<TimeSlot | null>(null)
       const tempClientSlot = ref<TimeSlot | null>(null)
+      const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({
+        startTime: slot.time,
+        endTime: undefined // endTime is optional in LoadedTimeSlot
+      }))
       matchLoadedTimeSlots(
-        newState.availability.selectedTimeSlots,
+        transformedSlots,
         availableSlots,
         tempInspectorSlot,
         tempClientSlot

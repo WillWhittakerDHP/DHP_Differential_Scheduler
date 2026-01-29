@@ -13,44 +13,44 @@ Exception handling:
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): `description`
-- Total files scanned: **455**
-- **Requiring review: 579**
-- Allowed (with justification): 5 (inline: 0, pattern: 5, specific: 0)
+- Total files scanned: **462**
+- **Requiring review: 379**
+- Allowed (with justification): 163 (inline: 0, pattern: 163, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/utils/forms/fieldLocationDispatcher.ts` | 44 | 0 | 0 | 11 | 0 | 0 | 0 | 0 | 0 |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 31 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/utils/booking/timeAvailabilityManager.ts` | 25 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/booking/SelectionCardGroup.vue` | 24 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/configs/field/display/selectableDisplayConfig.ts` | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/utils/booking/constraintExtractors.ts` | 20 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `src/utils/logger.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
-| `src/utils/transformers/composePropertyValue.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 25 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/forms/fieldLocationDispatcher.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/iconMapper.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/components/PropertiesTable.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useContactsValidation.ts` | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/types/annotations.ts` | 12 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/booking/appointmentSlotBuilder.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/steps/PropertyDetailsStep.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/layouts/components/NavbarShortcuts.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/layouts/components/NavSearchBar.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/usePropertyValidation.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/booking/useWizardAppointmentManagement.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/components/AppointmentsTable.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/utils/admin/entityDisplayText.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/configs/wizardSteps.ts` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityCard.vue` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useAnnotationsFieldViewModel.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/configs/availabilitySettings.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/_archived/useFieldMetadata.ts` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/layouts/components/NavBarNotifications.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/router/index.ts` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/booking/constraintExtractors.ts` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/views/admin/tabs/components/UsersTable.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCardSubPanels.vue` | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/booking/TimeOnSiteGraph.vue` | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useAppointmentDataCollection.ts` | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useTimeSlotCalculations.ts` | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useWizardValidationErrors.ts` | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/useFormValidation.ts` | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/utils/booking/slotGenerationValidation.ts` | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/BlockInstanceCreateModal.vue` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useAnnotationSelect.ts` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/admin/useAvailabilitySettings.ts` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -59,34 +59,180 @@ Review periodically to ensure exceptions are still valid.
 
 | File | Rule | Line | Source | Reason |
 | --- | --- | ---: | --- | --- |
-| `src/constants/availabilitySettings.ts` | magicLabel | 15 | pattern | Constants files are the canonical source for hardcoded va... |
-| `src/constants/availabilitySettings.ts` | magicLabel | 16 | pattern | Constants files are the canonical source for hardcoded va... |
-| `src/constants/availabilitySettings.ts` | magicLabel | 17 | pattern | Constants files are the canonical source for hardcoded va... |
-| `src/constants/availabilitySettings.ts` | magicLabel | 19 | pattern | Constants files are the canonical source for hardcoded va... |
-| `src/constants/entities.ts` | entityKeyString | 15 | pattern | Constants files are the canonical source for hardcoded va... |
+| `src/components/booking/SelectionCardGroup.vue` | entityKeyString | 170 | pattern | Vue slot names and template attributes legitimately use e... |
+| `src/components/booking/SelectionCardGroup.vue` | entityKeyString | 216 | pattern | Vue slot names and template attributes legitimately use e... |
+| `src/components/booking/SelectionCardGroup.vue` | entityKeyString | 266 | pattern | Vue slot names and template attributes legitimately use e... |
+| `src/components/booking/SelectionCardGroup.vue` | entityKeyString | 306 | pattern | Vue slot names and template attributes legitimately use e... |
+| `src/configs/availabilitySettings.ts` | magicLabel | 298 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/availabilitySettings.ts` | magicLabel | 319 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/availabilitySettings.ts` | magicLabel | 326 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/availabilitySettings.ts` | magicLabel | 368 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/availabilitySettings.ts` | magicLabel | 375 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/availabilitySettings.ts` | magicLabel | 378 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/availabilitySettings.ts` | magicLabel | 397 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 11 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 12 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 13 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 14 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 15 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 19 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 20 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 21 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 24 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 25 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 27 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 28 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 30 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 31 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 33 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 35 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 38 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 39 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 41 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 42 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 43 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 44 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 45 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 46 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 47 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 51 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 52 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 61 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 64 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 65 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 69 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 71 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 73 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 77 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 78 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 82 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/businessControlsTabStrings.ts` | magicLabel | 83 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/contactsValidationStrings.ts` | magicLabel | 10 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/contactsValidationStrings.ts` | magicLabel | 13 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/contactsValidationStrings.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/baseEntityDisplays.ts` | magicLabel | 14 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | magicLabel | 35 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | magicLabel | 44 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | magicLabel | 62 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | magicLabel | 79 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | magicLabel | 88 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 35 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 53 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 54 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 63 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 64 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 74 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/partInstanceDisplays.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/partInstanceDisplays.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/partInstanceDisplays.ts` | magicLabel | 35 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/partInstanceDisplays.ts` | magicLabel | 53 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/partShapeDisplays.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/partShapeDisplays.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/appliedDisplay/partShapeDisplays.ts` | magicLabel | 35 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 158 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 159 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 165 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 194 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 195 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 201 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 231 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 232 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 238 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 267 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 268 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 274 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 310 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 341 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 342 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 343 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 349 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 378 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 379 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 385 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 416 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 417 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 423 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 114 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 239 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 240 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 270 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 271 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 295 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/baseEntityFields.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/baseEntityFields.ts` | magicLabel | 24 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 26 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 50 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 58 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 66 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 74 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 82 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 90 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 94 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 95 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 96 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts` | magicLabel | 26 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts` | magicLabel | 33 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts` | magicLabel | 40 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts` | magicLabel | 47 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 26 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 40 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 47 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 54 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 61 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 68 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 75 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 82 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 89 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partShapePrimitiveFields.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/field/form/appliedForm/partShapePrimitiveFields.ts` | magicLabel | 26 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 10 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 11 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 14 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 15 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 21 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 24 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 25 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 29 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 30 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 31 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/propertyValidationStrings.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/wizardSteps.ts` | magicLabel | 35 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/wizardSteps.ts` | magicLabel | 36 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/wizardSteps.ts` | magicLabel | 40 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/wizardSteps.ts` | magicLabel | 41 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/wizardSteps.ts` | magicLabel | 45 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/wizardSteps.ts` | magicLabel | 50 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/wizardSteps.ts` | magicLabel | 55 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/configs/wizardSteps.ts` | magicLabel | 56 | pattern | Config files are intentional sources of hardcoded values ... |
+| `src/types/annotations.ts` | entityKeyString | 14 | pattern | Type definitions legitimately use string literals for typ... |
+| `src/types/annotations.ts` | entityKeyString | 20 | pattern | Type definitions legitimately use string literals for typ... |
+| `src/utils/logger.ts` | caseString | 46 | pattern | Log level strings are standard and intentional - part of ... |
+| `src/utils/logger.ts` | caseString | 48 | pattern | Log level strings are standard and intentional - part of ... |
+| `src/utils/logger.ts` | caseString | 50 | pattern | Log level strings are standard and intentional - part of ... |
+| `src/utils/logger.ts` | caseString | 52 | pattern | Log level strings are standard and intentional - part of ... |
+| `src/utils/logger.ts` | caseString | 54 | pattern | Log level strings are standard and intentional - part of ... |
 
 
 ## Per-file suggestions
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
-### `src/views/admin/tabs/BusinessControlsTab.vue`
-
-- score: **42**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
 ### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
 
-- score: **31**
+- score: **25**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `src/components/booking/SelectionCardGroup.vue`
-
-- score: **24**
-
-- **P1** (config_driven): Entity-key branching detected. Consider mapping via config (e.g. a record keyed by entityKey) rather than switch/case, especially if the logic repeats across files.
 
 ### `src/views/admin/tabs/components/PropertiesTable.vue`
 
@@ -99,12 +245,6 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 - score: **12**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `src/types/annotations.ts`
-
-- score: **12**
-
-- **P1** (config_driven): Entity-key branching detected. Consider mapping via config (e.g. a record keyed by entityKey) rather than switch/case, especially if the logic repeats across files.
 
 ### `src/components/booking/steps/PropertyDetailsStep.vue`
 
@@ -160,12 +300,6 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `src/components/admin/generic/fields/SelectInputs.vue`
-
-- score: **5**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
 ### `src/components/booking/TimeOnSiteGraph.vue`
 
 - score: **5**
@@ -188,80 +322,10 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 Legend: `ruleId@lineNumber: line`
 
-### `src/utils/forms/fieldLocationDispatcher.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=11, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 12, allowed: 0
-
-```
-caseString@77: case 'titleRow':
-caseString@83: case 'staticAsTitle':
-caseString@89: case 'hidden':
-caseString@95: case 'notConfigured':
-caseString@101: case 'expandedDirect':
-caseString@119: case 'expandedPanel':
-switchTypeLike@186: switch (location.type) {
-caseString@187: case 'titleRow':
-caseString@190: case 'directInline':
-caseString@193: case 'directStacked':
-caseString@196: case 'subPanel':
-caseString@199: case 'hidden':
-```
-
-### `src/views/admin/tabs/BusinessControlsTab.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=42
-- requiring review: 42, allowed: 0
-
-```
-magicLabel@38: constraints: 'Constraints',
-magicLabel@39: businessHours: 'Business Hours',
-magicLabel@40: leadTimeConstraint: 'Lead Time Constraint',
-magicLabel@41: dateRangeConstraint: 'Date Range Constraint',
-magicLabel@42: perDayLimit: 'Per Day Limit',
-magicLabel@45: appointmentBuffers: 'Appointment Buffers',
-magicLabel@46: driveTimeBuffer: 'Drive Time Buffer',
-magicLabel@47: lunchBuffer: 'Lunch Buffer',
-magicLabel@48: calendar: 'Calendar'
-magicLabel@51: startTime: 'Start Time',
-magicLabel@52: endTime: 'End Time',
-magicLabel@54: maximumHoursPerDay: 'Maximum Hours Per Day',
-magicLabel@55: maximumHoursPerWeek: 'Maximum Hours Per Week',
-magicLabel@57: enforcement: 'Enforcement',
-magicLabel@58: direction: 'Direction',
-magicLabel@60: placement: 'Placement',
-magicLabel@61: timeSlotIncrement: 'Time Slot Increment',
-magicLabel@62: timezone: 'Timezone'
-magicLabel@65: startTimeRequired: 'Start time is required',
-magicLabel@66: endTimeRequired: 'End time is required',
-magicLabel@68: leadTimeRequired: 'Lead time is required',
-magicLabel@69: leadTimeMin: 'Lead time must be 0 or greater',
-magicLabel@70: mustBeZeroOrGreater: 'Must be 0 or greater',
-magicLabel@71: cannotExceed24Hours: 'Cannot exceed 24 hours',
-magicLabel@72: bufferTimeMin: 'Buffer time must be 0 or greater',
-magicLabel@73: timeIncrementRequired: 'Time increment is required',
-magicLabel@74: timezoneRequired: 'Timezone is required'
-magicLabel@78: direction: 'How the 7-day window is calculated relative to appointment date',
-magicLabel@79: bufferTime: 'Time to add around candidate appointments when checking availability',
-magicLabel@88: timeSlots: 'Time slots will be generated at intervals of',
-magicLabel@91: notSet: 'Not set',
-magicLabel@92: leadTimeDescription: 'Appointments must be scheduled at least',
-magicLabel@96: dateRangeNotSetup: 'Not Set-up',
-magicLabel@98: driveTimeNotSetup: 'Not Set-up',
-magicLabel@100: lunchNotSetup: 'Not Set-up',
-magicLabel@104: saveSettings: 'Save Settings',
-magicLabel@105: resetToDefaults: 'Reset to Defaults'
-magicLabel@109: capacity: 'Capacity',
-magicLabel@110: overlap: 'Overlap'
-magicLabel@325: { title: 'Flexible', value: 'flexible' },
-magicLabel@331: { title: 'Past 7 days', value: 'past' },
-magicLabel@333: { title: 'Future 7 days', value: 'future' }
-```
-
 ### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=31
-- requiring review: 31, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=25
+- requiring review: 25, allowed: 0
 
 ```
 magicLabel@58: {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
@@ -277,130 +341,32 @@ magicLabel@158: hint="Array of option values"
 magicLabel@176: label="Select Mode"
 magicLabel@179: placeholder="Select mode"
 magicLabel@190: label="Enable Bulk Edit"
-magicLabel@224: const logger = createLogger('AdminPrimitiveMetadataEditor')
-magicLabel@378: return 'Not configured'
-magicLabel@466: logger.debug('Metadata cache refetched successfully')
-magicLabel@485: { title: 'Not Configured', value: 'notConfigured' },
-magicLabel@486: { title: 'Title Row', value: 'titleRow' },
-magicLabel@487: { title: 'Static As Title', value: 'staticAsTitle' },
-magicLabel@488: { title: 'Expanded Direct', value: 'expandedDirect' },
-magicLabel@489: { title: 'Expanded Panel', value: 'expandedPanel' },
-magicLabel@495: { title: 'Stacked', value: 'stacked' },
-magicLabel@500: { title: 'Relationships', value: 'relationships' },
-magicLabel@501: { title: 'Annotations', value: 'annotations' },
-magicLabel@509: { title: 'Multiselect', value: 'multiselect' },
-magicLabel@510: { title: 'Reference', value: 'reference' },
-magicLabel@511: { title: 'Status Button', value: 'statusButton' },
-magicLabel@512: { title: 'Icon Select', value: 'iconSelect' },
-magicLabel@513: { title: 'Parts Collection', value: 'partsCollection' },
-magicLabel@536: { title: 'Multiple', value: 'Multiple' },
-magicLabel@537: { title: 'Required', value: 'Required' },
+magicLabel@225: const logger = createLogger('AdminPrimitiveMetadataEditor')
+magicLabel@460: logger.debug('Metadata cache refetched successfully')
+magicLabel@479: { title: 'Not Configured', value: 'notConfigured' },
+magicLabel@480: { title: 'Title Row', value: 'titleRow' },
+magicLabel@481: { title: 'Static As Title', value: 'staticAsTitle' },
+magicLabel@482: { title: 'Expanded Direct', value: 'expandedDirect' },
+magicLabel@483: { title: 'Expanded Panel', value: 'expandedPanel' },
+magicLabel@489: { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
+magicLabel@494: { title: 'Relationships', value: FIELD_PANEL.RELATIONSHIPS },
+magicLabel@495: { title: 'Annotations', value: FIELD_PANEL.ANNOTATIONS },
+magicLabel@520: { title: 'Multiple', value: 'Multiple' },
+magicLabel@521: { title: 'Required', value: 'Required' },
 ```
 
-### `src/utils/booking/timeAvailabilityManager.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=6, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 9, allowed: 0
-
-```
-magicLabel@90: this.name = 'ConstraintValidationError'
-switchTypeLike@304: switch (constraint.type) {
-caseString@305: case 'businessHours': {
-caseString@350: case 'leadTime': {
-caseString@380: case 'dateRange': {
-switchTypeLike@976: switch (keyParts.type) {
-caseString@977: case 'daily':
-caseString@980: case 'calendarWeek':
-caseString@983: case 'rollingWeek':
-```
-
-### `src/components/booking/SelectionCardGroup.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=4, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 4, allowed: 0
-
-```
-entityKeyString@170: <slot name="description" :item="item" />
-entityKeyString@216: <slot name="description" :item="item" />
-entityKeyString@266: <slot name="description" :item="item" />
-entityKeyString@306: <slot name="description" :item="item" />
-```
-
-### `src/configs/field/display/selectableDisplayConfig.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=23
-- requiring review: 23, allowed: 0
-
-```
-magicLabel@158: label: "Block Type",
-magicLabel@159: placeholder: "No block type selected",
-magicLabel@165: emptyStateText: "No type assigned",
-magicLabel@194: label: "Booking Cascade",
-magicLabel@195: placeholder: "No cascades selected",
-magicLabel@201: emptyStateText: "No cascades assigned",
-magicLabel@231: label: "Active Parts",
-magicLabel@232: placeholder: "No parts selected",
-magicLabel@238: emptyStateText: "No parts assigned",
-magicLabel@267: label: "Dependent Instances",
-magicLabel@268: placeholder: "No dependent instances",
-magicLabel@274: emptyStateText: "No dependent instances defined",
-magicLabel@310: emptyStateText: "No service components selected",
-magicLabel@341: label: "Valid Booking Cascade",
-magicLabel@342: placeholder: "No valid cascades",
-magicLabel@343: tooltip: "Defines which block shapes can be selected as children in booking cascades. BlockInstances of this BlockShape can only select from these valid cascades in their 'Active Cascades' field. This controls the hierarchical relationship options available during booking.",
-magicLabel@349: emptyStateText: "No valid cascades defined",
-magicLabel@378: label: "Valid Part Shapes",
-magicLabel@379: placeholder: "No valid part shapes",
-magicLabel@385: emptyStateText: "No valid part shapes defined",
-magicLabel@416: label: "Part Type",
-magicLabel@417: placeholder: "No part type selected",
-magicLabel@423: emptyStateText: "No type assigned",
-```
-
-### `src/utils/booking/constraintExtractors.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
-- requiring review: 12, allowed: 0
-
-```
-switchTypeLike@195: switch (constraint.type) {
-caseString@196: case 'businessHours': {
-magicLabel@199: return { valid: false, error: 'Invalid businessHours constraint config' }
-caseString@203: case 'leadTime': {
-magicLabel@206: return { valid: false, error: 'Invalid leadTime constraint config' }
-caseString@210: case 'dateRange': {
-magicLabel@213: return { valid: false, error: 'Invalid dateRange constraint config' }
-magicLabel@218: return { valid: false, error: 'Invalid dateRange dates' }
-magicLabel@236: return { valid: false, error: 'Invalid overlap constraint minutes' }
-magicLabel@243: return { valid: false, error: 'Invalid overlap constraint placement' }
-magicLabel@259: return { valid: false, error: 'Invalid capacity constraint maxHours' }
-magicLabel@264: return { valid: false, error: 'Invalid capacity constraint direction' }
-```
-
-### `src/utils/logger.ts`
+### `src/utils/forms/fieldLocationDispatcher.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=5, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 5, allowed: 0
+- requiring review: 6, allowed: 0
 
 ```
-caseString@46: case 'debug':
-caseString@48: case 'info':
-caseString@50: case 'warn':
-caseString@52: case 'error':
-caseString@54: case 'silent':
-```
-
-### `src/utils/transformers/composePropertyValue.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=5, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 5, allowed: 0
-
-```
-caseString@46: case 'sum':
-caseString@53: case 'merge': {
-caseString@59: case 'first':
-caseString@63: case 'every':
-caseString@67: case 'custom':
+switchTypeLike@188: switch (location.type) {
+caseString@189: case 'titleRow':
+caseString@191: case 'directInline':
+caseString@193: case 'directStacked':
+caseString@195: case 'subPanel':
+caseString@203: case 'hidden':
 ```
 
 ### `src/utils/iconMapper.ts`
@@ -452,29 +418,6 @@ magicLabel@163: label="Additional Units"
 magicLabel@182: No properties found. Click "Create Property" to add one.
 ```
 
-### `src/composables/booking/useContactsValidation.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=15
-- requiring review: 15, allowed: 0
-
-```
-magicLabel@60: clientFirstName: [required('First name is required')],
-magicLabel@61: clientLastName: [required('Last name is required')],
-magicLabel@62: clientEmail: [required('Email is required'), email()],
-magicLabel@63: agentFirstName: [required('First name is required')],
-magicLabel@64: agentLastName: [required('Last name is required')],
-magicLabel@65: agentEmail: [required('Email is required'), email()],
-magicLabel@66: anotherClientFirstName: [required('First name is required')],
-magicLabel@67: anotherClientLastName: [required('Last name is required')],
-magicLabel@68: anotherClientEmail: [required('Email is required'), email()],
-magicLabel@69: transactionManagerFirstName: [required('First name is required')],
-magicLabel@70: transactionManagerLastName: [required('Last name is required')],
-magicLabel@71: transactionManagerEmail: [required('Email is required'), email()],
-magicLabel@72: sellerFirstName: [required('First name is required')],
-magicLabel@73: sellerLastName: [required('Last name is required')],
-magicLabel@74: sellerEmail: [required('Email is required'), email()]
-```
-
 ### `src/components/booking/steps/ContactsStep.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
@@ -493,36 +436,6 @@ magicLabel@287: placeholder="Johnson"
 magicLabel@330: label="First Name"
 magicLabel@341: label="Last Name"
 magicLabel@342: placeholder="Williams"
-```
-
-### `src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
-- requiring review: 12, allowed: 0
-
-```
-magicLabel@18: placeholder: "Enter name",
-magicLabel@26: placeholder: "This Field Should Be Hidden",
-magicLabel@34: placeholder: "Enter a Base Sq Ft",
-magicLabel@50: placeholder: "Composite",
-magicLabel@58: placeholder: "Select an icon",
-magicLabel@66: placeholder: "Allow Multiple",
-magicLabel@74: placeholder: "Requires Unit Number",
-magicLabel@82: placeholder: "Differential",
-magicLabel@90: placeholder: "Select booking mode",
-magicLabel@94: { value: 'standalone', label: 'Standalone Only' },
-magicLabel@95: { value: 'addOn', label: 'Add-On Only' },
-magicLabel@96: { value: 'both', label: 'Standalone or Add-On' },
-```
-
-### `src/types/annotations.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=2, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 2, allowed: 0
-
-```
-entityKeyString@14: * LEARNING: Represents an annotation type entity (e.g., 'frontPage', 'description', 'tooltip')
-entityKeyString@20: name: string // e.g., 'frontPage', 'description', 'tooltip'
 ```
 
 ### `src/utils/booking/appointmentSlotBuilder.ts`
@@ -593,58 +506,22 @@ magicLabel@79: { icon: 'tabler-file-invoice', title: 'Form Layouts', url: { name
 magicLabel@89: title: 'Analytics',
 ```
 
-### `src/composables/booking/usePropertyValidation.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
-- requiring review: 10, allowed: 0
-
-```
-magicLabel@69: address: [required('Address is required'), minLength(3, 'Address must be at least 3 characters')],
-magicLabel@70: city: [required('City is required'), minLength(2, 'City must be at least 2 characters')],
-magicLabel@71: state: [required('State is required')],
-magicLabel@72: zipCode: [required('Zip code is required'), zipCodeValidator()],
-magicLabel@74: required('Size is required'),
-magicLabel@75: min(1, 'Size must be at least 1 sq-ft'),
-magicLabel@83: required('Number of units is required'),
-magicLabel@84: min(1, 'Number of units must be at least 1'),
-magicLabel@85: max(1000, 'Number of units must be no more than 1000')
-magicLabel@96: return 'Please select at least one property type'
-```
-
 ### `src/composables/booking/useWizardAppointmentManagement.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
 - requiring review: 10, allowed: 0
 
 ```
-magicLabel@109: showError('No appointments available to load')
-magicLabel@120: showError('Appointment not found')
-magicLabel@125: showError('Appointment not found')
-magicLabel@131: showError('Unable to load appointment data')
-magicLabel@174: success('Appointment loaded successfully')
-magicLabel@178: const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
-magicLabel@192: showError('No appointment loaded')
-magicLabel@207: success('Appointment updated successfully')
-magicLabel@209: const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
-magicLabel@248: success('Wizard reset successfully')
-```
-
-### `src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
-- requiring review: 10, allowed: 0
-
-```
-magicLabel@18: placeholder: "Enter name",
-magicLabel@26: placeholder: "This Field Should Be Hidden",
-magicLabel@40: placeholder: "Zero Out Part",
-magicLabel@47: placeholder: "On Site",
-magicLabel@54: placeholder: "Client Present",
-magicLabel@61: placeholder: "Moveable",
-magicLabel@68: placeholder: "Base Time",
-magicLabel@75: placeholder: "Rate Over Base Time",
-magicLabel@82: placeholder: "Base Fee",
-magicLabel@89: placeholder: "Rate Over Base Fee",
+magicLabel@98: showError('No appointments available to load')
+magicLabel@109: showError('Appointment not found')
+magicLabel@114: showError('Appointment not found')
+magicLabel@120: showError('Unable to load appointment data')
+magicLabel@163: success('Appointment loaded successfully')
+magicLabel@167: const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
+magicLabel@181: showError('No appointment loaded')
+magicLabel@196: success('Appointment updated successfully')
+magicLabel@198: const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
+magicLabel@237: success('Wizard reset successfully')
 ```
 
 ### `src/views/admin/tabs/components/AppointmentsTable.vue`
@@ -682,51 +559,19 @@ magicLabel@23: blockInstance: 'Block Instance',
 magicLabel@24: partInstance: 'Part Instance',
 ```
 
-### `src/configs/field/display/appliedDisplay/blockShapeDisplays.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
-- requiring review: 8, allowed: 0
-
-```
-magicLabel@16: placeholder: "Give me a name",
-magicLabel@34: label: "Order Index",
-magicLabel@35: placeholder: "This should be hidden",
-magicLabel@53: label: "Composable",
-magicLabel@54: placeholder: "Allow BlockInstances of this type to be composed together",
-magicLabel@63: label: "State Control",
-magicLabel@64: placeholder: "BlockInstances of this type do not display or interact with PartInstances",
-magicLabel@74: placeholder: "Select block shape type",
-```
-
-### `src/configs/wizardSteps.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
-- requiring review: 8, allowed: 0
-
-```
-magicLabel@35: title: 'Service Selection',
-magicLabel@36: subtitle: 'Identifying your needs',
-magicLabel@40: title: 'Property Details',
-magicLabel@41: subtitle: 'Provide property info',
-magicLabel@45: title: 'Appointment Availability',
-magicLabel@50: title: 'Personal Information',
-magicLabel@55: title: 'Summary',
-magicLabel@56: subtitle: 'Summary of services',
-```
-
 ### `src/components/admin/generic/EntityCard.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
 - requiring review: 7, allowed: 0
 
 ```
-magicLabel@160: const logger = createLogger('EntityCard')
-magicLabel@190: if (isScopeExplicitlyEnabled('EntityCard')) {
-magicLabel@191: logger.debug('Form initialized', {
-magicLabel@331: logger.debug('Fields needing contexts', {
-magicLabel@459: logger.debug('Save triggered', {
-magicLabel@477: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-magicLabel@491: logger.debug('Form reset after save', { entityId: props.entity.id })
+magicLabel@158: const logger = createLogger('EntityCard')
+magicLabel@188: if (isScopeExplicitlyEnabled('EntityCard')) {
+magicLabel@189: logger.debug('Form initialized', {
+magicLabel@287: logger.debug('Fields needing contexts', {
+magicLabel@395: logger.debug('Save triggered', {
+magicLabel@413: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+magicLabel@427: logger.debug('Form reset after save', { entityId: props.entity.id })
 ```
 
 ### `src/composables/admin/useAnnotationsFieldViewModel.ts`
@@ -742,36 +587,6 @@ magicLabel@149: notifyError('Failed to update annotation type')
 magicLabel@161: notifyError('Failed to update annotation')
 magicLabel@171: notifyError('Failed to update default')
 magicLabel@181: notifyError('Failed to remove annotation')
-```
-
-### `src/configs/availabilitySettings.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
-- requiring review: 7, allowed: 0
-
-```
-magicLabel@268: logger.debug('Cache expired', {
-magicLabel@289: logger.debug('Returning cached settings', {
-magicLabel@296: logger.info('Fetching settings from API', {
-magicLabel@356: logger.info('Settings cached', { ttl: `${(CACHE_TTL_MS / 1000).toFixed(0)}s` })
-magicLabel@363: logger.error('Failed to fetch settings from API', { error })
-magicLabel@366: const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
-magicLabel@385: logger.info('Cache invalidated manually')
-```
-
-### `src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
-- requiring review: 7, allowed: 0
-
-```
-magicLabel@16: placeholder: "Give me a name",
-magicLabel@34: label: "Order Index",
-magicLabel@35: placeholder: "This should be hidden",
-magicLabel@44: label: "Base Sq Ft",
-magicLabel@62: label: "Composite",
-magicLabel@79: label: "Allow Multiple",
-magicLabel@88: label: "Requires Unit Number",
 ```
 
 ### `src/composables/_archived/useFieldMetadata.ts`
@@ -790,26 +605,12 @@ fieldEqualsString@254: } else if (key === 'required' || key === 'disabled' || ke
 - requiring review: 6, allowed: 0
 
 ```
-magicLabel@75: if (!blockInstanceId.value) throw new Error('Block instance ID required')
-magicLabel@89: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
-magicLabel@186: if (!blockInstanceId.value) throw new Error('Block instance ID required')
-magicLabel@199: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
-magicLabel@299: if (!blockInstanceId.value) throw new Error('Block instance ID required')
-magicLabel@306: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
-```
-
-### `src/configs/field/form/_archived/selectableFieldConfig.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@114: placeholder: "Select a block shape",
-magicLabel@239: removedItems: "Block Shapes",
-magicLabel@240: affectedEntities: "Block Instances",
-magicLabel@270: removedItems: "Part Shapes",
-magicLabel@271: affectedEntities: "Part Instances",
-magicLabel@295: placeholder: "Select a part type",
+magicLabel@76: if (!blockInstanceId.value) throw new Error('Block instance ID required')
+magicLabel@90: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
+magicLabel@187: if (!blockInstanceId.value) throw new Error('Block instance ID required')
+magicLabel@200: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
+magicLabel@300: if (!blockInstanceId.value) throw new Error('Block instance ID required')
+magicLabel@307: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
 ```
 
 ### `src/layouts/components/NavBarNotifications.vue`
@@ -840,6 +641,21 @@ magicLabel@84: if (isScopeExplicitlyEnabled('Router Guard')) {
 magicLabel@85: logger.debug('Admin metadata prefetched successfully')
 ```
 
+### `src/utils/booking/constraintExtractors.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 7, allowed: 0
+
+```
+switchTypeLike@201: switch (constraint.type) {
+magicLabel@219: return { valid: false, error: 'Invalid dateRange constraint config' }
+magicLabel@224: return { valid: false, error: 'Invalid dateRange dates' }
+magicLabel@242: return { valid: false, error: 'Invalid overlap constraint minutes' }
+magicLabel@249: return { valid: false, error: 'Invalid overlap constraint placement' }
+magicLabel@265: return { valid: false, error: 'Invalid capacity constraint maxHours' }
+magicLabel@270: return { valid: false, error: 'Invalid capacity constraint direction' }
+```
+
 ### `src/views/admin/tabs/components/UsersTable.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
@@ -865,19 +681,6 @@ magicLabel@242: relationshipTypes.push('Valid Cascades')
 magicLabel@245: relationshipTypes.push('Valid Parts')
 magicLabel@283: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
 magicLabel@330: <!-- PATTERN: Simple panel with just "Annotations" label -->
-```
-
-### `src/components/admin/generic/fields/SelectInputs.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@203: // WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
-magicLabel@219: if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
-magicLabel@223: const shapeName = blockShape?.name as string || 'Instance'
-magicLabel@251: { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
-magicLabel@252: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
 ```
 
 ### `src/components/booking/TimeOnSiteGraph.vue`
@@ -915,8 +718,8 @@ magicLabel@296: const errorMessage = error instanceof Error ? error.message : 'F
 magicLabel@173: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
 magicLabel@183: label: 'Inspector',
 magicLabel@188: label: 'Client Formal Presentation',
-magicLabel@234: label: 'Inspector',
-magicLabel@239: label: 'Client Formal Presentation',
+magicLabel@239: label: 'Inspector',
+magicLabel@244: label: 'Client Formal Presentation',
 ```
 
 ### `src/composables/booking/useWizardValidationErrors.ts`
@@ -943,19 +746,6 @@ magicLabel@68: const email = (message = 'Please enter a valid email address'): V
 magicLabel@83: const phone = (message = 'Please enter a valid phone number'): ValidationRule => {
 magicLabel@162: const zipCode = (message = 'Please enter a valid zip code'): ValidationRule => {
 magicLabel@177: const dateNotInPast = (message = 'Date cannot be in the past'): ValidationRule => {
-```
-
-### `src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@18: placeholder: "Enter name",
-magicLabel@26: placeholder: "This Field Should Be Hidden",
-magicLabel@33: placeholder: "Composable",
-magicLabel@40: placeholder: "State Control",
-magicLabel@47: placeholder: "Select block shape type",
 ```
 
 ### `src/utils/booking/slotGenerationValidation.ts`
@@ -989,10 +779,10 @@ magicLabel@114: return props.sourceEntity ? 'Duplicate' : 'Create'
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@173: if (!blockInstanceId.value) throw new Error('Block instance ID is required')
-magicLabel@184: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
-magicLabel@256: if (!blockInstanceId.value) throw new Error('Block instance ID is required')
-magicLabel@261: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
+magicLabel@174: if (!blockInstanceId.value) throw new Error('Block instance ID is required')
+magicLabel@185: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
+magicLabel@262: if (!blockInstanceId.value) throw new Error('Block instance ID is required')
+magicLabel@267: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
 ```
 
 ### `src/composables/admin/useAvailabilitySettings.ts`
@@ -1002,9 +792,9 @@ magicLabel@261: if (!currentBlockInstanceId) throw new Error('Block instance ID 
 
 ```
 magicLabel@91: throw new Error('No settings found in API response')
-magicLabel@140: error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
-magicLabel@155: error.value = 'Settings must be loaded before validation'
-magicLabel@192: error.value = 'Settings must be loaded before saving'
+magicLabel@122: error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
+magicLabel@137: error.value = 'Settings must be loaded before validation'
+magicLabel@174: error.value = 'Settings must be loaded before saving'
 ```
 
 ### `src/composables/admin/usePartInstanceBulkEdit.ts`
@@ -1016,19 +806,7 @@ magicLabel@192: error.value = 'Settings must be loaded before saving'
 magicLabel@150: showError('No PartInstances to update')
 magicLabel@187: showError('No changes to apply')
 magicLabel@206: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
-magicLabel@242: showError('No valid fields to update')
-```
-
-### `src/configs/field/display/appliedDisplay/partInstanceDisplays.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@16: placeholder: "Give me a name",
-magicLabel@34: label: "Order Index",
-magicLabel@35: placeholder: "This should be hidden",
-magicLabel@53: label: "Zero Out Part",
+magicLabel@245: showError('No valid fields to update')
 ```
 
 ### `src/layouts/components/UserProfile.vue`
@@ -1049,10 +827,10 @@ magicLabel@43: { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricin
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@102: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
-magicLabel@106: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
-magicLabel@117: const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'
-magicLabel@123: : 'Not specified'
+magicLabel@145: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
+magicLabel@149: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
+magicLabel@160: const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'
+magicLabel@166: : 'Not specified'
 ```
 
 ### `src/utils/entityDefaults.ts`
@@ -1093,9 +871,9 @@ fieldEqualsString@26: if ((event.ctrlKey || event.metaKey) && event.shiftKey && 
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@154: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
-magicLabel@182: throw new Error('Please select an annotation type')
-magicLabel@204: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
+magicLabel@138: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
+magicLabel@166: throw new Error('Please select an annotation type')
+magicLabel@188: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
 ```
 
 ### `src/composables/admin/usePartInstanceCollection.ts`
@@ -1109,6 +887,17 @@ magicLabel@140: const partShapeName = partShape?.name || 'PartShape'
 magicLabel@193: notifyError('Failed to link PartInstance to BlockInstance')
 ```
 
+### `src/composables/admin/useSelectLabelResolution.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@49: * WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
+magicLabel@66: if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
+magicLabel@70: const shapeName = blockShape?.name as string || 'Instance'
+```
+
 ### `src/composables/booking/useAvailabilityValidation.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
@@ -1118,17 +907,6 @@ magicLabel@193: notifyError('Failed to link PartInstance to BlockInstance')
 magicLabel@42: selectedDate: [required('Please select a date'), dateNotInPast()]
 magicLabel@49: return 'Please select a time slot'
 magicLabel@53: return 'Selected time slot is invalid'
-```
-
-### `src/configs/field/display/appliedDisplay/partShapeDisplays.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@16: placeholder: "Give me a name",
-magicLabel@34: label: "Order Index",
-magicLabel@35: placeholder: "This should be hidden",
 ```
 
 ### `src/main.ts`
@@ -1206,6 +984,17 @@ magicLabel@29: label="Order Index"
 magicLabel@104: error.value = err instanceof Error ? err.message : 'Failed to save part type'
 ```
 
+### `src/views/admin/tabs/BusinessControlsTab.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@249: { title: 'Flexible', value: 'flexible' },
+magicLabel@255: { title: 'Past 7 days', value: 'past' },
+magicLabel@257: { title: 'Future 7 days', value: 'future' }
+```
+
 ### `src/components/admin/component/ComponentDistributionModal.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
@@ -1214,6 +1003,16 @@ magicLabel@104: error.value = err instanceof Error ? err.message : 'Failed to sa
 ```
 magicLabel@28: label="Distribution Strategy"
 magicLabel@132: { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTIONAL },
+```
+
+### `src/components/admin/generic/fields/SelectInputs.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@245: { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
+magicLabel@246: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
 ```
 
 ### `src/components/admin/MetadataEditModal.vue`
@@ -1242,8 +1041,8 @@ magicLabel@80: label="Deadline Time"
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@384: aria-label="Select appointment date"
-magicLabel@582: // LEARNING: Hide calendar header (removes "SELECT DATE" text and thick bar)
+magicLabel@385: aria-label="Select appointment date"
+magicLabel@583: // LEARNING: Hide calendar header (removes "SELECT DATE" text and thick bar)
 ```
 
 ### `src/components/booking/types/selectionCardTypes.ts`
@@ -1312,8 +1111,8 @@ magicLabel@225: const errorMessage = err instanceof Error ? err.message : 'Unkno
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@265: throw new Error('Failed to update orderIndex')
-magicLabel@304: throw new Error('Failed to update entities')
+magicLabel@310: throw new Error('Failed to update orderIndex')
+magicLabel@356: throw new Error('Failed to update entities')
 ```
 
 ### `src/composables/entityCrud/usePrimitiveMutation.ts`
@@ -1324,26 +1123,6 @@ magicLabel@304: throw new Error('Failed to update entities')
 ```
 magicLabel@34: if (!dynamicId) throw new Error('Missing dynamicId for primitive mutation')
 magicLabel@47: const errorMessage = axiosError.response?.data?.error || 'Entity not found'
-```
-
-### `src/configs/field/form/appliedForm/baseEntityFields.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@16: placeholder: "This Field Should Be Hidden",
-magicLabel@24: placeholder: "This Field Should Be Hidden",
-```
-
-### `src/configs/field/form/appliedForm/partShapePrimitiveFields.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@18: placeholder: "Enter name",
-magicLabel@26: placeholder: "This Field Should Be Hidden",
 ```
 
 ### `src/types/datetime.ts`
@@ -1381,8 +1160,8 @@ magicLabel@58: // PATTERN: Filter out known system/special fields to prevent "Un
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@314: : 'No Cascades'
-magicLabel@334: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+magicLabel@316: : 'No Cascades'
+magicLabel@336: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
 ```
 
 ### `src/components/admin/generic/fields/BooleanInput.vue`
@@ -1391,7 +1170,7 @@ magicLabel@334: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@61: // LEARNING: Handle inverted logic for constituable field (displayed as "State Control")
+magicLabel@62: // LEARNING: Handle inverted logic for constituable field (displayed as "State Control")
 ```
 
 ### `src/components/admin/generic/fields/FieldRenderer.vue`
@@ -1400,7 +1179,7 @@ magicLabel@61: // LEARNING: Handle inverted logic for constituable field (displa
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@289: : 'Unknown error - check field metadata configuration'
+magicLabel@290: : 'Unknown error - check field metadata configuration'
 ```
 
 ### `src/components/admin/generic/fields/IconInput.vue`
@@ -1436,7 +1215,7 @@ magicLabel@124: return 'Unavailable'
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@346: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
+magicLabel@349: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
 ```
 
 ### `src/components/booking/dev/AppointmentDebugPanel.vue`
@@ -1472,7 +1251,7 @@ magicLabel@252: label="Quantity"
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@166: {{ slotData.slot ? formatTimeRange(slotData.slot) : 'Unavailable' }}
+magicLabel@168: {{ slotData.slot ? formatTimeRange(slotData.slot) : 'Unavailable' }}
 ```
 
 ### `src/composables/admin/annotationAssignments/useAnnotationAssignmentsQuery.ts`
@@ -1589,7 +1368,7 @@ magicLabel@62: onSite: TimeRange | null      // "Inspector" bar
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@302: // Check selected option type blocks (e.g., "No Client Presentation" option)
+magicLabel@306: // Check selected option type blocks (e.g., "No Client Presentation" option)
 ```
 
 ### `src/composables/booking/useAvailabilityUI.ts`
@@ -1661,7 +1440,16 @@ magicLabel@81: const errorMessage = error instanceof Error ? error.message : 'Fa
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@127: if (!globalData) throw new Error('Global data not available')
+magicLabel@96: if (!globalData) throw new Error('Global data not available')
+```
+
+### `src/composables/fieldContext/useFieldContextSaveHelpers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@40: throw new Error('Component entity composable not available')
 ```
 
 ### `src/composables/useApiErrorMessage.ts`
@@ -1689,15 +1477,6 @@ magicLabel@212: const errorMessage = err instanceof Error ? err.message : 'Unkno
 
 ```
 magicLabel@94: throw new Error('Form validation failed')
-```
-
-### `src/configs/field/display/appliedDisplay/baseEntityDisplays.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@14: placeholder: "This should be hidden",
 ```
 
 ### `src/layouts/blank.vue`
@@ -1790,6 +1569,17 @@ magicLabel@6: selectionGroup: 'VRadioGroup',
 magicLabel@8: return config.selectionGroup || 'VRadioGroup'
 ```
 
+### `src/utils/booking/timeAvailabilityManager.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@91: this.name = 'ConstraintValidationError'
+switchTypeLike@306: switch (constraint.type) {
+switchTypeLike@995: switch (keyParts.type) {
+```
+
 ### `src/utils/booking/timeSlotFitter.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
@@ -1814,7 +1604,7 @@ magicLabel@70: if (element.tagName === 'INPUT' || element.tagName === 'SELECT' |
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@143: // Removed hardcoded "User Type" diagnostic logging - now using property-based filtering
+magicLabel@144: // Removed hardcoded "User Type" diagnostic logging - now using property-based filtering
 ```
 
 ### `src/views/admin/components/AnnotationTypeCard.vue`

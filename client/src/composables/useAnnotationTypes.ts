@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAnnotationTypeEndpoint, getAnnotationTypeByIdEndpoint } from '@/utils/api'
 import type { AnnotationType } from '@/types/annotations'
 import { useGlobal } from './useGlobal'
+import { createRefetchGlobalDataHandler } from './entityCrud/useSharedMutationHandlers'
 
 /**
  * Return type for useAnnotationTypes (matches vue-query pattern for backward compatibility)
@@ -55,15 +56,17 @@ export function useAnnotationTypes(): UseAnnotationTypesReturn {
  */
 export function useCreateAnnotationType() {
   const queryClient = useQueryClient()
+  // LEARNING: Use shared mutation handler for refetching globalData
+  // WHY: Eliminates duplication of common refetch pattern
+  // PATTERN: Extract shared handler to utility function
+  const refetchGlobalData = createRefetchGlobalDataHandler(queryClient)
 
   return useMutation({
     mutationFn: async (data: { name: string }): Promise<AnnotationType> => {
       const response = await apiClient.post<AnnotationType>(getAnnotationTypeEndpoint(), data)
       return response.data
     },
-    onSuccess: async () => {
-      await queryClient.refetchQueries({ queryKey: ['globalData'] })
-    },
+    onSuccess: refetchGlobalData,
   })
 }
 
@@ -76,15 +79,17 @@ export function useCreateAnnotationType() {
  */
 export function useUpdateAnnotationType() {
   const queryClient = useQueryClient()
+  // LEARNING: Use shared mutation handler for refetching globalData
+  // WHY: Eliminates duplication of common refetch pattern
+  // PATTERN: Extract shared handler to utility function
+  const refetchGlobalData = createRefetchGlobalDataHandler(queryClient)
 
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: { name: string } }): Promise<AnnotationType> => {
       const response = await apiClient.put<AnnotationType>(getAnnotationTypeByIdEndpoint(id), data)
       return response.data
     },
-    onSuccess: async () => {
-      await queryClient.refetchQueries({ queryKey: ['globalData'] })
-    },
+    onSuccess: refetchGlobalData,
   })
 }
 
@@ -97,13 +102,15 @@ export function useUpdateAnnotationType() {
  */
 export function useDeleteAnnotationType() {
   const queryClient = useQueryClient()
+  // LEARNING: Use shared mutation handler for refetching globalData
+  // WHY: Eliminates duplication of common refetch pattern
+  // PATTERN: Extract shared handler to utility function
+  const refetchGlobalData = createRefetchGlobalDataHandler(queryClient)
 
   return useMutation({
     mutationFn: async (id: string): Promise<void> => {
       await apiClient.delete(getAnnotationTypeByIdEndpoint(id))
     },
-    onSuccess: async () => {
-      await queryClient.refetchQueries({ queryKey: ['globalData'] })
-    },
+    onSuccess: refetchGlobalData,
   })
 }

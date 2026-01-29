@@ -17,6 +17,7 @@ import type { GlobalEntityId } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { useGlobal } from './useGlobal'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import { cancelQueriesBeforeMutate, createRefetchGlobalDataHandler } from './entityCrud/useSharedMutationHandlers'
 
 /**
  * Relationship CRUD composable
@@ -80,10 +81,13 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
   const isLoading = computed(() => false)
   const error = computed(() => undefined)
   
+  // LEARNING: Use shared mutation handler for refetching globalData
+  // WHY: Eliminates duplication of common refetch pattern
+  // PATTERN: Extract shared handler to utility function
+  const refetchGlobalData = createRefetchGlobalDataHandler(queryClient)
+  
   // Refetch function that invalidates globalData
-  const refetch = async () => {
-    await queryClient.refetchQueries({ queryKey: ['globalData'] })
-  }
+  const refetch = refetchGlobalData
   
   // Mutation: Create relationship
   const createMutation = useMutation({
@@ -95,7 +99,10 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
       // LEARNING: Optimistic update pattern for relationship creation
       // WHY: Add relationship immediately for instant UI feedback
       // PATTERN: Cancel → Snapshot → Add relationship → Return context
-      await queryClient.cancelQueries({ queryKey: ['globalData'] })
+      // LEARNING: Use shared utility to cancel queries
+      // WHY: Eliminates duplication and combines multiple await calls
+      // PATTERN: Extract shared query cancellation logic
+      await cancelQueriesBeforeMutate(queryClient, [['globalData']])
       const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
 
       // Get relationship config to determine parent/child entity types
@@ -198,7 +205,10 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
       // LEARNING: Optimistic update pattern for relationship deletion
       // WHY: Remove relationship immediately for instant UI feedback
       // PATTERN: Cancel → Snapshot → Remove relationship → Return context
-      await queryClient.cancelQueries({ queryKey: ['globalData'] })
+      // LEARNING: Use shared utility to cancel queries
+      // WHY: Eliminates duplication and combines multiple await calls
+      // PATTERN: Extract shared query cancellation logic
+      await cancelQueriesBeforeMutate(queryClient, [['globalData']])
       const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
 
       // Optimistically remove relationship from cache

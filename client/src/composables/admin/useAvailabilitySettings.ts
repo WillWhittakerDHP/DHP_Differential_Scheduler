@@ -11,7 +11,6 @@ import type {
   WorkCapacityFilter,
   RollingWeekCapacityFilter,
   BufferConfig,
-  RangeConstraint,
   BusinessHoursConfig,
   RawAvailabilitySettings
 } from '@/configs/availabilitySettings'

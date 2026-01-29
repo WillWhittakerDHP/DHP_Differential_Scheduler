@@ -402,7 +402,6 @@ export class GlobalTransformer {
   dehydrateEntity<GE extends GlobalEntityKey>(
     entity: Partial<GlobalEntity<GE>> & { entityKey?: GE }
   ): Record<string, unknown> {
-    const result: Record<string, unknown> = {}
 
     // LEARNING: Extract entityKey from entity to determine entity type
     // WHY: Need entity type to fetch correct metadata for boolean field detection
@@ -470,52 +469,70 @@ export class GlobalTransformer {
     // LEARNING: Build maps of boolean and number fields by nullable status
     // WHY: Need to know which fields are nullable vs non-nullable to convert empty strings correctly
     // PATTERN: Use schema as source of truth, override metadata when they conflict
-    const nullableBooleanFields = new Set<string>()
-    const nonNullableBooleanFields = new Set<string>()
-    const requiredNumberFields = new Set<string>()
-    const requiredFields = new Set<string>() // Track all required fields (not just booleans)
-
+    
     // LEARNING: Start with schema-based classification (database schema is source of truth)
     // WHY: Metadata may be incorrect, but database schema is authoritative
     const schemaRequiredBooleans = SCHEMA_REQUIRED_BOOLEANS[entityType] || []
     const schemaNullableBooleans = SCHEMA_NULLABLE_BOOLEANS[entityType] || []
     const schemaRequiredNumbers = SCHEMA_REQUIRED_NUMBERS[entityType] || []
 
-    for (const fieldKey of schemaRequiredBooleans) {
-      nonNullableBooleanFields.add(fieldKey)
-      requiredFields.add(fieldKey)
-    }
-    for (const fieldKey of schemaNullableBooleans) {
-      nullableBooleanFields.add(fieldKey)
-    }
-    for (const fieldKey of schemaRequiredNumbers) {
-      requiredNumberFields.add(fieldKey)
-      requiredFields.add(fieldKey)
-    }
+    // LEARNING: Build Sets from schema arrays functionally
+    // WHY: Avoids Set mutations (add) - builds Sets immutably using Set constructor
+    // PATTERN: Use Set constructor with arrays to build Sets functionally
+    const schemaNonNullableBooleansSet = new Set(schemaRequiredBooleans)
+    const schemaNullableBooleansSet = new Set(schemaNullableBooleans)
+    const schemaRequiredNumbersSet = new Set(schemaRequiredNumbers)
 
-    // LEARNING: Add other fields from metadata (for fields not in schema mapping)
-    // WHY: Schema mapping may not include all fields, use metadata as fallback
-    for (const [fieldKey, fieldMetadata] of Object.entries(metadata)) {
-      if (fieldMetadata.isRequired) {
-        requiredFields.add(fieldKey)
-      }
-      if (fieldMetadata.dataType === 'boolean') {
-        // Only add if not already classified by schema
-        if (!nonNullableBooleanFields.has(fieldKey) && !nullableBooleanFields.has(fieldKey)) {
-          if (fieldMetadata.isRequired) {
-            nonNullableBooleanFields.add(fieldKey)
-          } else {
-            nullableBooleanFields.add(fieldKey)
-          }
+    // LEARNING: Process metadata using reduce to build Sets functionally
+    // WHY: Avoids Set mutations (add) - builds Sets immutably
+    // PATTERN: Reduce metadata entries to arrays, then build Sets from arrays
+    const metadataRequiredFields = Object.entries(metadata)
+      .filter(([, fieldMetadata]) => fieldMetadata.isRequired)
+      .map(([fieldKey]) => fieldKey)
+
+    const metadataBooleanFields = Object.entries(metadata)
+      .filter(([fieldKey, fieldMetadata]) => 
+        fieldMetadata.dataType === 'boolean' &&
+        !schemaNonNullableBooleansSet.has(fieldKey) &&
+        !schemaNullableBooleansSet.has(fieldKey)
+      )
+      .reduce((acc, [fieldKey, fieldMetadata]) => {
+        if (fieldMetadata.isRequired) {
+          acc.nonNullable.push(fieldKey)
+        } else {
+          acc.nullable.push(fieldKey)
         }
-      }
-      if (fieldMetadata.dataType === 'number' && fieldMetadata.isRequired) {
-        // Only add if not already classified by schema
-        if (!requiredNumberFields.has(fieldKey)) {
-          requiredNumberFields.add(fieldKey)
-        }
-      }
-    }
+        return acc
+      }, { nonNullable: [] as string[], nullable: [] as string[] })
+
+    const metadataRequiredNumbers = Object.entries(metadata)
+      .filter(([fieldKey, fieldMetadata]) =>
+        fieldMetadata.dataType === 'number' &&
+        fieldMetadata.isRequired &&
+        !schemaRequiredNumbersSet.has(fieldKey)
+      )
+      .map(([fieldKey]) => fieldKey)
+
+    // LEARNING: Build final Sets by combining schema and metadata arrays functionally
+    // WHY: Combine all sources into final Sets using Set constructor - no mutations
+    // PATTERN: Use Set constructor with spread arrays to combine sources immutably
+    const nullableBooleanFields = new Set([
+      ...schemaNullableBooleans,
+      ...metadataBooleanFields.nullable
+    ])
+    const nonNullableBooleanFields = new Set([
+      ...schemaRequiredBooleans,
+      ...metadataBooleanFields.nonNullable
+    ])
+    const requiredNumberFields = new Set([
+      ...schemaRequiredNumbers,
+      ...metadataRequiredNumbers
+    ])
+    const requiredFields = new Set([
+      ...schemaRequiredBooleans,
+      ...schemaRequiredNumbers,
+      ...metadataRequiredFields
+    ]) // Track all required fields (not just booleans)
 
     /**
      * LEARNING: Extract field transformation logic to pure function

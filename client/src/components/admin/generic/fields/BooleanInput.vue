@@ -34,6 +34,7 @@ import { computed } from 'vue'
 import BaseInput from './BaseInput.vue'
 import StatusButton from '../StatusButton.vue'
 import type { GlobalEntityKey } from '../../../../constants/entities'
+import type { GlobalEntity } from '../../../../types/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
@@ -93,10 +94,13 @@ const statusButtonColor = computed(() => {
 // WHY: useStatusButtonToggle uses usePrimitiveMutation which properly updates the store
 //      This ensures status buttons persist correctly after clicking
 // PATTERN: Use composable instead of fieldContext.save() for status buttons
+// LEARNING: Type assertion - function handles null/undefined at runtime by reading from store
+// WHY: useStatusButtonToggle signature expects ComputedRef<GlobalEntity<GE>> but implementation handles null
+// PATTERN: Assert type since runtime behavior is correct
 const statusButtonToggle = useStatusButtonToggle({
   entityKey: fieldContext.entityKey!,
   entityId: fieldContext.entityId!,
-  entity: entityForMetadata
+  entity: entityForMetadata as ReturnType<typeof computed<GlobalEntity<GlobalEntityKey>>>
 })
 
 // LEARNING: Handle click to toggle value using composable

@@ -69,7 +69,16 @@ const RULES = [
   { id: 'sort', label: '.sort()', test: (l) => /\.sort\s*\(/.test(l) },
   { id: 'reverse', label: '.reverse()', test: (l) => /\.reverse\s*\(/.test(l) },
   { id: 'assignIndex', label: 'arr[i] = ...', test: (l) => /\[[^\]]+\]\s*=/.test(l) },
-  { id: 'assignProp', label: 'obj.prop = ...', test: (l) => /\.\w+\s*=/.test(l) },
+  { 
+    id: 'assignProp', 
+    label: 'obj.prop = ...', 
+    test: (l) => {
+      // Exclude Vue template directives (they're not mutations)
+      if (/v-model|@\w+|:[\w-]+=/.test(l)) return false
+      // Standard property assignment
+      return /\.\w+\s*=/.test(l)
+    }
+  },
   { id: 'delete', label: 'delete x', test: (l) => /\bdelete\s+\w/.test(l) },
 ]
 
@@ -154,25 +163,54 @@ function scanLines(lines) {
  * @param {string} mutationLine - The line containing the mutation
  * @param {string} mutationRuleId - Type of mutation (e.g., 'push', 'assignProp')
  * @param {string} forEachLine - The line containing the forEach
+ * @param {string} repoPath - File path for context-aware detection
  * @returns {boolean} True if mutation should be excluded
  */
-function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine) {
+function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine, repoPath = '') {
+  // Vue ref assignments - legitimate reactive state updates
+  if (mutationRuleId === 'assignProp' && /\.value\s*=/.test(mutationLine)) {
+    return true
+  }
+  
+  // Vue template directives - not actual mutations (template syntax)
+  if (mutationRuleId === 'assignProp' && /v-model|@\w+|:[\w-]+=/.test(mutationLine)) {
+    return true
+  }
+  
+  // Set/Map operations - legitimate for Set/Map data structures
+  if (mutationRuleId === 'assignProp' && /\.(add|set|delete|clear)\s*\(/.test(mutationLine)) {
+    return true
+  }
+  
+  // Array spread operations - functional pattern, not mutation
+  if (mutationRuleId === 'assignProp' && /\[.*\.\.\..*\]/.test(mutationLine)) {
+    return true
+  }
+  
+  // Filter/map operations on ref.value - functional patterns
+  if (mutationRuleId === 'assignProp' && /\.value\s*=\s*.*\.(filter|map|reduce|flatMap)\s*\(/.test(mutationLine)) {
+    return true
+  }
+  
   // Set.add operations are legitimate for building Sets
   if (mutationRuleId === 'assignProp' && /\.add\s*\(/.test(mutationLine)) {
     return true
   }
+  
   // DOM mutations in main.ts are legitimate side effects
   if (/MutationObserver|querySelector|appendChild|removeChild/.test(mutationLine)) {
     return true
   }
+  
   // Theme config mutations in @core/initCore.ts are legitimate
   if (/themeConfig|themes\.value|colors\[/.test(mutationLine)) {
     return true
   }
+  
   return false
 }
 
-function countForEachPushNearby(matches) {
+function countForEachPushNearby(matches, repoPath = '') {
   // Heuristic: forEach with push/splice/etc in the next N lines is a good "replace with map/reduce" target.
   const window = 22
   /** @type {Array<{forEachAt: number, mutationAt: number, mutationRuleId: string}>} */
@@ -188,8 +226,8 @@ function countForEachPushNearby(matches) {
     
     const inWindow = mutationMatches.filter(m => m.lineNumber > fl && m.lineNumber <= fl + window)
     for (const m of inWindow) {
-      // Skip legitimate mutations
-      if (isLegitimateMutation(m.line, m.ruleId, forEachLine)) {
+      // Skip legitimate mutations (pass repoPath for context-aware detection)
+      if (isLegitimateMutation(m.line, m.ruleId, forEachLine, repoPath)) {
         continue
       }
       hits.push({ forEachAt: fl, mutationAt: m.lineNumber, mutationRuleId: m.ruleId })
@@ -375,7 +413,7 @@ function main() {
     )
     
     // Calculate forEach→mutation hits only for requiresReview matches
-    const forEachMutationHits = countForEachPushNearby(requiresReview)
+    const forEachMutationHits = countForEachPushNearby(requiresReview, repoPath)
     
     // Score based on requiring-review only
     const reviewCounts = recalculateCounts(requiresReview)

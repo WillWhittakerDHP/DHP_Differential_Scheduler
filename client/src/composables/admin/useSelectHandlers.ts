@@ -19,6 +19,7 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '../useFieldContext'
 import type { UseAnnotationSelectReturn } from './useAnnotationSelect'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
+import { updateAnnotationRelationships } from '@/utils/api/annotationRelationshipHelpers'
 
 /**
  * Select Handlers Composable Options
@@ -184,36 +185,14 @@ export function useSelectHandlers(
       } else {
         newAnnotationIds = [String(value)]
       }
-      const newAnnotationIdsSet = new Set(newAnnotationIds)
-      
-      // Find annotations to add (in new but not in current)
-      const toAdd = newAnnotationIds.filter(id => !currentAnnotationIds.has(id))
-      
-      // Find annotations to remove (in current but not in new)
-      const toRemove = Array.from(currentAnnotationIds).filter(id => !newAnnotationIdsSet.has(id))
-      
-      // Create relationships for added annotations
-      for (const annotationId of toAdd) {
-        try {
-          await annotationSelect.createAnnotationRelationship.mutateAsync({
-            annotationId,
-            orderIndex: 0,
-            isDefault: false,
-            userTypeBlockBlockInstanceId: null
-          })
-        } catch (error) {
-          // Error creating annotation relationship
-        }
-      }
-      
-      // Delete relationships for removed annotations
-      for (const annotationId of toRemove) {
-        try {
-          await annotationSelect.deleteAnnotationRelationship.mutateAsync(annotationId)
-        } catch (error) {
-          // Error deleting annotation relationship
-        }
-      }
+      // LEARNING: Use shared utility for updating annotation relationships
+      // WHY: Eliminates duplication and combines create/delete operations in parallel
+      // PATTERN: Extract shared annotation relationship logic to utility function
+      await updateAnnotationRelationships(
+        annotationSelect,
+        currentAnnotationIds,
+        newAnnotationIds
+      )
       
       // Update form value with new annotation IDs
       // LEARNING: Set flag before programmatic update to prevent recursive @update events

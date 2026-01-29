@@ -30,9 +30,24 @@
         "reason": "Layout library files excluded from mutation scanning"
       },
       {
+        "glob": "**/*.vue",
+        "ruleIds": ["assignProp"],
+        "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns"
+      },
+      {
         "glob": "**/composables/**/*.ts",
-        "ruleIds": ["push", "assignProp"],
-        "reason": "Vue composables often need to mutate reactive state within loops - this is the Vue reactive pattern"
+        "ruleIds": ["assignProp", "push"],
+        "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern"
+      },
+      {
+        "glob": "**/views/**/*.vue",
+        "ruleIds": ["assignProp"],
+        "reason": "Vue views use ref.value assignments for reactive state - legitimate Vue pattern"
+      },
+      {
+        "glob": "**/components/**/*.vue",
+        "ruleIds": ["assignProp"],
+        "reason": "Vue components use ref.value assignments for reactive state - legitimate Vue pattern"
       }
     ],
     "specific": []

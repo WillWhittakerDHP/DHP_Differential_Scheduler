@@ -1,10 +1,11 @@
 import type { Ref } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { AxiosError } from 'axios'
 import apiClient, { getRelationshipEndpoint, getRelationshipByParentChildEndpoint } from '@/utils/api'
 import type { GlobalEntityId } from '@/types/entities'
 import type { DistributionStrategy } from '@/types/component'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import { createRefetchGlobalDataHandler } from '../entityCrud/useSharedMutationHandlers'
+import { createMultipleRelationships, createRelationshipWithConflictHandling } from '@/utils/api/relationshipApiHelpers'
 
 export type UseComponentEntityActionsReturn = {
   createComponent: (args: { composerId: GlobalEntityId; componentIds: GlobalEntityId[] }) => Promise<void>
@@ -32,34 +33,20 @@ export function useComponentEntityActions(params: {
   const { entityKey, getGlobalData, calculateDistributionPreview } = params
   const queryClient = useQueryClient()
 
+  // LEARNING: Use shared mutation handler for refetching globalData
+  // WHY: Eliminates duplication of common refetch pattern
+  // PATTERN: Extract shared handler to utility function
+  const refetchGlobalData = createRefetchGlobalDataHandler(queryClient)
+
   const createComponentMutation = useMutation({
     mutationFn: async ({ composerId, componentIds }: { composerId: GlobalEntityId; componentIds: GlobalEntityId[] }) => {
       const endpoint = getRelationshipEndpoint('instanceComponents')
-      const promises = componentIds.map(async (componentId, index) => {
-        try {
-          return await apiClient.post(endpoint, {
-            parent_id: composerId,
-            child_id: componentId,
-            order_index: index,
-          })
-        } catch (error: unknown) {
-          // LEARNING: Handle 409 Conflict as success (idempotent operation)
-          // WHY: If relationship already exists, desired state is already achieved
-          // PATTERN: Treat duplicate creation as success
-          const axiosError = error as AxiosError<{ error?: string; parent_id?: string; child_id?: string }>
-          if (axiosError?.response?.status === 409) {
-            // Return successfully - relationship already exists, which is the desired state
-            return { data: { parent_id: composerId, child_id: componentId } }
-          }
-          // Re-throw other errors
-          throw error
-        }
-      })
-      await Promise.all(promises)
+      // LEARNING: Use shared utility for creating multiple relationships
+      // WHY: Eliminates duplication of conflict handling logic
+      // PATTERN: Extract shared API call logic to utility function
+      await createMultipleRelationships(endpoint, composerId, componentIds)
     },
-    onSuccess: async () => {
-      await queryClient.refetchQueries({ queryKey: ['globalData'] })
-    },
+    onSuccess: refetchGlobalData,
   })
 
   const addToComponentMutation = useMutation({
@@ -73,28 +60,12 @@ export function useComponentEntityActions(params: {
       orderIndex?: number
     }) => {
       const endpoint = getRelationshipEndpoint('instanceComponents')
-      try {
-        await apiClient.post(endpoint, {
-          parent_id: composerId,
-          child_id: componentId,
-          order_index: orderIndex ?? 0,
-        })
-      } catch (error: unknown) {
-        // LEARNING: Handle 409 Conflict as success (idempotent operation)
-        // WHY: If relationship already exists, desired state is already achieved
-        // PATTERN: Treat duplicate creation as success
-        const axiosError = error as AxiosError<{ error?: string; parent_id?: string; child_id?: string }>
-        if (axiosError?.response?.status === 409) {
-          // Return successfully - relationship already exists, which is the desired state
-          return
-        }
-        // Re-throw other errors
-        throw error
-      }
+      // LEARNING: Use shared utility for creating relationship with conflict handling
+      // WHY: Eliminates duplication of conflict handling logic
+      // PATTERN: Extract shared API call logic to utility function
+      await createRelationshipWithConflictHandling(endpoint, composerId, componentId, orderIndex ?? 0)
     },
-    onSuccess: async () => {
-      await queryClient.refetchQueries({ queryKey: ['globalData'] })
-    },
+    onSuccess: refetchGlobalData,
   })
 
   const removeFromComponentMutation = useMutation({
@@ -106,9 +77,7 @@ export function useComponentEntityActions(params: {
       )
       await apiClient.delete(deleteEndpoint)
     },
-    onSuccess: async () => {
-      await queryClient.refetchQueries({ queryKey: ['globalData'] })
-    },
+    onSuccess: refetchGlobalData,
   })
 
   const updateComponentWithDistributionMutation = useMutation({
@@ -136,26 +105,35 @@ export function useComponentEntityActions(params: {
 
       // LEARNING: Use reduce to build componentUpdates object instead of forEach with mutations
       // WHY: Functional approach avoids forEach with object mutations
-      // PATTERN: Reduce changes entries into componentUpdates object
+      // PATTERN: Reduce changes entries into componentUpdates object, then reduce preview items
       const componentUpdates = Object.entries(changes).reduce((acc, [propertyKey, newValue]) => {
         if (typeof newValue !== 'number') return acc
 
         const preview = calculateDistributionPreview(composerId, propertyKey, newValue, distributionStrategy)
-        preview.forEach(({ componentId, newValue: componentNewValue }) => {
-          if (!acc[componentId]) acc[componentId] = {}
-          acc[componentId][propertyKey] = componentNewValue
-        })
-        return acc
+        // LEARNING: Use reduce to build componentUpdates immutably instead of forEach with mutations
+        // WHY: Functional approach avoids mutations, aligns with workspace rules
+        // PATTERN: Reduce preview items into componentUpdates object
+        return preview.reduce((componentAcc, { componentId, newValue: componentNewValue }) => {
+          const existing = componentAcc[componentId] || {}
+          return {
+            ...componentAcc,
+            [componentId]: {
+              ...existing,
+              [propertyKey]: componentNewValue
+            }
+          }
+        }, acc)
       }, {} as Record<string, Record<string, unknown>>)
 
+      // LEARNING: Use map to create promises immutably
+      // WHY: Functional approach avoids mutations, aligns with workspace rules
+      // PATTERN: Map entries to promises, then await all
       const promises = Object.entries(componentUpdates).map(([componentId, componentChanges]) =>
         apiClient.patch(`/api/internal/entities/${entityKey}/${componentId}`, componentChanges)
       )
       await Promise.all(promises)
     },
-    onSuccess: async () => {
-      await queryClient.refetchQueries({ queryKey: ['globalData'] })
-    },
+    onSuccess: refetchGlobalData,
   })
 
   return {

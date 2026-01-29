@@ -75,7 +75,8 @@ export function useFieldContextMetadataEntity<
       // LEARNING: Type assertion for minimal entity object
       // WHY: We only need id, entityKey, and shape references for metadata lookup, not full entity
       // PATTERN: Assert as GlobalEntity type - useEntityMetadata accepts partial entities
-      return entity as GlobalEntity<GlobalEntityTypeKey>
+      // WHY: Convert through unknown first to satisfy TypeScript's type conversion rules
+      return entity as unknown as GlobalEntity<GlobalEntityTypeKey>
     }
 
     // LEARNING: For existing entities, use store lookup

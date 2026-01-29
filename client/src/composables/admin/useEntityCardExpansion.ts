@@ -7,14 +7,14 @@
  * - EntityCard.vue
  */
 
-import { ref, computed, watch, isRef, type Ref } from 'vue'
+import { ref, computed, watch, isRef, type Ref, type ComputedRef } from 'vue'
 
 export interface UseEntityCardExpansionOptions {
   expanded: Ref<boolean> | boolean
 }
 
 export interface UseEntityCardExpansionReturn {
-  isExpanded: Ref<boolean>
+  isExpanded: ComputedRef<boolean>
   handleExpansionChange: (event: { value: boolean }) => void
 }
 

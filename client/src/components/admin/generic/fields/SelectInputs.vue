@@ -110,7 +110,6 @@ import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
 import { useAdmin } from '@/composables/useAdmin'
 import type { GlobalEntity } from '../../../../types/entities'
-import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import { useSelectOptions, type SelectOption } from '@/composables/useSelectOptions'
 import { useSelectConfig } from '@/composables/admin/useSelectConfig'
 import { useSelectFiltering } from '@/composables/admin/useSelectFiltering'
@@ -118,6 +117,8 @@ import { useAnnotationSelect } from '@/composables/admin/useAnnotationSelect'
 import { useSelectHandlers } from '@/composables/admin/useSelectHandlers'
 import { useSelectFieldValue } from '@/composables/admin/useSelectFieldValue'
 import { useSelectFormAssociation } from '@/composables/admin/useSelectFormAssociation'
+import { useSelectLabelResolution } from '@/composables/admin/useSelectLabelResolution'
+import { useSelectDomTargets } from '@/composables/admin/useSelectDomTargets'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 
@@ -195,34 +196,27 @@ const allEntities = computed(() => {
 // LEARNING: Get current entity from admin store (with relationships attached)
 // WHY: Need AdminEntity with relationships for filtering logic
 // PATTERN: Use admin store getEntity which returns AdminEntity
-const currentEntity = computed(() => {
+const currentEntityRaw = computed(() => {
   return adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
 })
 
-// LEARNING: Resolve dynamic label placeholders like {blockShapeName}
-// WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
-// PATTERN: Replace placeholders in label with actual values from entity relationships
-const resolvedLabel = computed(() => {
-  const rawLabel = fieldContext.displayConfig.label || ''
-  
-  // Check if label contains the {blockShapeName} placeholder
-  if (!rawLabel.includes('{blockShapeName}')) {
-    return rawLabel
-  }
-  
-  // Get the block shape name from the current entity
-  const entity = currentEntity.value
-  if (!entity) return rawLabel
-  
-  // Get blockShapeRef from entity - it's stored as a string ID reference
-  const blockShapeRef = getEntityFieldValue(entity, 'blockShapeRef') as string | undefined
-  if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
-  
-  // Look up the block shape entity to get its name
-  const blockShape = adminComp.getEntity('blockShape', blockShapeRef)
-  const shapeName = blockShape?.name as string || 'Instance'
-  
-  return rawLabel.replace('{blockShapeName}', shapeName)
+// LEARNING: Convert AdminObject to GlobalEntity for useSelectLabelResolution and useSelectFiltering
+// WHY: useSelectLabelResolution expects GlobalEntity | null, useSelectFiltering expects GlobalEntity | undefined
+//      getEntity returns AdminObject | undefined
+// PATTERN: Map undefined to null for useSelectLabelResolution, keep undefined for useSelectFiltering
+const currentEntity = computed<GlobalEntity<GlobalEntityKey> | null>(() => {
+  return currentEntityRaw.value ?? null
+})
+const currentEntityForFiltering = computed<GlobalEntity<GlobalEntityKey> | undefined>(() => {
+  return currentEntityRaw.value ?? undefined
+})
+
+// LEARNING: Use select label resolution composable
+// WHY: Extracts label placeholder replacement logic from component to composable
+// PATTERN: Composable provides resolved label with placeholders replaced
+const { resolvedLabel } = useSelectLabelResolution({
+  fieldContext,
+  currentEntity
 })
 
 // LEARNING: Use select filtering composable for all filtering logic
@@ -231,7 +225,7 @@ const resolvedLabel = computed(() => {
 const selectFilteringComposable = useSelectFiltering({
   allEntities,
   selectConfig,
-  currentEntity,
+  currentEntity: currentEntityForFiltering,
   optionEntityKey,
   fieldContext,
   rawFieldValue,
@@ -346,23 +340,21 @@ const {
   handleBlur
 } = selectHandlersComposable
 
-// LEARNING: Move DOM association + browser-extension compatibility patching into a composable
-// WHY: Components should remain thin UI shells; DOM patching belongs in a dedicated composable.
-const selectDomTargets = computed(() => {
-  const fieldKeyString = String(fieldContext.fieldKey)
-
-  if (shouldUseMultipleSelects.value) {
-    return groupedByKey.value.map(group => {
-      const id = `field-${fieldKeyString}-${group.groupKey}`
-      return {
-        appSelectId: `app-select-${id}`,
-        expectedName: `${fieldKeyString}-${group.groupKey}`,
-      }
-    })
-  }
-
-  const id = `field-${fieldKeyString}`
-  return [{ appSelectId: `app-select-${id}`, expectedName: fieldKeyString }]
+// LEARNING: Use select DOM targets composable
+// WHY: Extracts DOM target calculation logic from component to composable
+// PATTERN: Composable provides DOM targets for form association
+// LEARNING: Convert Ref to ComputedRef and GroupedEntities[] to SelectGroup[]
+// WHY: useSelectDomTargets expects ComputedRef types and SelectGroup[] (without entities)
+// PATTERN: Map types appropriately - SelectGroup is subset of GroupedEntities
+const shouldUseMultipleSelectsComputed = computed(() => shouldUseMultipleSelects.value)
+const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({
+  groupKey: group.groupKey,
+  groupLabel: group.groupLabel
+})))
+const { selectDomTargets } = useSelectDomTargets({
+  fieldContext,
+  shouldUseMultipleSelects: shouldUseMultipleSelectsComputed,
+  groupedByKey: groupedByKeyComputed
 })
 
 useSelectFormAssociation({ targets: selectDomTargets })

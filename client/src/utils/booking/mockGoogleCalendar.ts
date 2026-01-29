@@ -318,11 +318,11 @@ export function generateMockFreeBusyResponse(
     calendars[calendarId] = { busy: busyPeriods }
   }
   
-  const response = {
+  const response: GoogleFreeBusyResponse = {
     kind: 'calendar#freeBusy',
     timeMin: dateRange.start,
     timeMax: toRFC3339DateTime(constrainedEndDateTime), // Use constrained end time
-    calendars
+    calendars: Object.keys(calendars).length > 0 ? calendars : undefined
   }
   
   return response
