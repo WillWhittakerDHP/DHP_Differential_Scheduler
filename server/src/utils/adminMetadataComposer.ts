@@ -14,7 +14,7 @@ import { Op } from 'sequelize';
  */
 export interface FieldMetadataEntry {
   fieldKey: string;
-  dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   label: string;
   isRequired: boolean;
   visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
@@ -167,7 +167,7 @@ export async function getAdminMetadata(
 function buildMetadataRecord(
   metadata: Array<{
     fieldKey: string;
-    dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+    dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
     label: string;
     isRequired: boolean;
     visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';

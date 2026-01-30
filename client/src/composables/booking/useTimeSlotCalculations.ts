@@ -7,13 +7,9 @@
  */
 
 import { computed, type Ref, type ComputedRef } from 'vue'
-import type { TimeSlot } from '@/types/appointment'
-import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { TimeSlot, AppointmentShape } from '@/types/appointment'
+import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
-import {
-  createFinalizedParts,
-  filterZeroedParts
-} from '@/utils/booking/partShapeAggregator'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { toRFC3339DateTime } from '@/types/datetime'
 import { useDurationRounding } from '@/composables/booking/useDurationRounding'
@@ -21,7 +17,7 @@ import { useDurationRounding } from '@/composables/booking/useDurationRounding'
 /**
  * Time block structure for display
  */
-export interface TimeBlock {
+interface TimeBlock {
   label: string
   duration: string
   timeBlock: string | null
@@ -38,10 +34,11 @@ export interface TimeOnSiteBlocks {
 /**
  * useTimeSlotCalculations composable parameters
  */
-export interface UseTimeSlotCalculationsParams {
+interface UseTimeSlotCalculationsParams {
   wizard: {
     selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
   }
+  appointmentShape: ComputedRef<AppointmentShape | null>
   inspectorTimeSlot: Ref<TimeSlot | null>
   clientTimeSlot: Ref<TimeSlot | null>
   isDifferentialService: ComputedRef<boolean>
@@ -50,7 +47,7 @@ export interface UseTimeSlotCalculationsParams {
 /**
  * useTimeSlotCalculations composable return type
  */
-export interface UseTimeSlotCalculationsReturn {
+interface UseTimeSlotCalculationsReturn {
   onSiteTotal: ComputedRef<number>
   presentationDuration: ComputedRef<number>
   timeOnSiteBlocks: ComputedRef<TimeOnSiteBlocks>
@@ -65,7 +62,7 @@ export interface UseTimeSlotCalculationsReturn {
  */
 export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): UseTimeSlotCalculationsReturn {
   const {
-    wizard,
+    appointmentShape,
     inspectorTimeSlot,
     clientTimeSlot,
     isDifferentialService
@@ -80,52 +77,16 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   const { roundDuration } = useDurationRounding()
 
   /**
-   * Filter out parts from zeroed finalized parts
-   * LEARNING: Creates finalized parts and filters out zeroed parts
-   * WHY: Zeroed parts should not contribute to duration calculations
-   * PATTERN: Group by part shape, create finalized parts, filter zeroed, extract source parts
-   */
-  const getNonZeroedParts = (parts: BookingPartInstance[]): BookingPartInstance[] => {
-    const finalizedParts = createFinalizedParts(parts)
-    const nonZeroedFinalizedParts = filterZeroedParts(finalizedParts)
-    
-    // Extract source part instances from non-zeroed finalized parts
-    return nonZeroedFinalizedParts.flatMap(fp => fp.sourcePartInstances)
-  }
-
-  /**
-   * LEARNING: Calculate on-site total with configurable rounding
-   * WHY: Sum of all part instances' baseTime where onSite = true across all selected services
-   * PATTERN: Sum across all selected services, filter part instances by onSite, sum baseTime values, then apply rounding
-   * NOTE: Excludes parts from zeroed categories, applies rounding based on availability settings
+   * LEARNING: Get on-site total from SlotShape (source of truth)
+   * WHY: SlotShape already contains calculated onSite duration, no need to filter raw parts
+   * PATTERN: Access slotShape.onSite directly, apply rounding
+   * NOTE: Applies rounding based on availability settings
    */
   const onSiteTotal = computed(() => {
-    if (wizard.selectedServiceTypeBlocks.value.length === 0) return 0
+    const shape = appointmentShape.value
+    if (!shape) return 0
     
-    // Sum across all selected services
-    const unroundedTotal = wizard.selectedServiceTypeBlocks.value.reduce((total, service) => {
-      if (!service?.partInstances || service.partInstances.length === 0) return total
-      
-      // LEARNING: Filter out zeroed categories before calculating onSite total
-      // WHY: Zeroed categories should not contribute to duration
-      const nonZeroedParts = getNonZeroedParts(service.partInstances)
-      
-      // LEARNING: Filter by onSite=true first, but fallback to all if none found
-      // WHY: Some services might not have onSite flag set correctly
-      // PATTERN: Try filtered first, fallback to all if result is 0
-      const onSiteParts = nonZeroedParts.filter(pi => pi.onSite === true)
-      const onSiteSum = onSiteParts.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)
-      
-      // LEARNING: Fallback to all part instances if no onSite parts found
-      // WHY: Ensures we always have a duration to display
-      // PATTERN: Return onSiteSum if > 0, otherwise sum all baseTime
-      if (onSiteSum > 0) {
-        return total + onSiteSum
-      }
-      
-      // Fallback: sum all baseTime values from non-zeroed parts
-      return total + nonZeroedParts.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)
-    }, 0)
+    const unroundedTotal = shape.slotShape.onSite
     
     // LEARNING: Apply configurable rounding based on availability settings
     // WHY: Allows admin to control rounding behavior via Business Controls tab
@@ -134,25 +95,15 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   })
 
   /**
-   * WHY: Sum of all part instances' baseTime where clientPresent = true across all selected services
-   * PATTERN: Sum across all selected services, filter part instances by clientPresent, sum baseTime values
-   * NOTE: Excludes parts from zeroed categories
+   * LEARNING: Get client presentation duration from SlotShape (source of truth)
+   * WHY: SlotShape already contains calculated clientPresent duration, no need to filter raw parts
+   * PATTERN: Access slotShape.clientPresent directly
    */
   const presentationDuration = computed(() => {
-    if (wizard.selectedServiceTypeBlocks.value.length === 0) return 0
+    const shape = appointmentShape.value
+    if (!shape) return 0
     
-    // Sum across all selected services
-    return wizard.selectedServiceTypeBlocks.value.reduce((total, service) => {
-      if (!service?.partInstances || service.partInstances.length === 0) return total
-      
-      // LEARNING: Filter out zeroed categories before calculating presentation duration
-      // WHY: Zeroed categories should not contribute to duration
-      const nonZeroedParts = getNonZeroedParts(service.partInstances)
-      
-      return total + nonZeroedParts
-        .filter(pi => pi.clientPresent === true)
-        .reduce((sum, pi) => sum + (pi.baseTime || 0), 0)
-    }, 0)
+    return shape.slotShape.clientPresent
   })
 
   /**

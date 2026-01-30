@@ -18,7 +18,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 /**
  * Annotation Display Object
  */
-export interface AnnotationDisplay {
+interface AnnotationDisplay {
   id: string
   text: string
   label: string
@@ -29,7 +29,7 @@ export interface AnnotationDisplay {
 /**
  * Annotation Display Composable Options
  */
-export interface UseAnnotationDisplayOptions {
+interface UseAnnotationDisplayOptions {
   /**
    * Entity key
    */
@@ -44,7 +44,7 @@ export interface UseAnnotationDisplayOptions {
 /**
  * Annotation Display Composable Return Type
  */
-export interface UseAnnotationDisplayReturn {
+interface UseAnnotationDisplayReturn {
   /**
    * Active annotations display array
    */

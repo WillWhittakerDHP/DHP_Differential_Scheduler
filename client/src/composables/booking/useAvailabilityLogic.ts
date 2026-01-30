@@ -15,6 +15,7 @@ import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from
 import { parseUTCDate } from '@/utils/booking/timeSlotFitter'
 import { toRFC3339DateTime, type ISO8601Date, type RFC3339DateTime } from '@/types/datetime'
 import type { PropertyDetails } from '@/types/availability'
+import { equals } from '@/utils/ternary/ternaryUtils'
 
 /**
  * Date range structure
@@ -287,27 +288,27 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   /**
    * LEARNING: Computed property to check if service supports differential scheduling
    * WHY: Determines whether to show Inspector/Client toggle
-   * PATTERN: Check if any selected service has differential === true
+   * PATTERN: Check if any selected service has differential === 'true' (using ternary equals)
    */
   const isDifferentialService = computed(() => {
     const selectedServices = wizard.selectedServiceTypeBlocks.value
-    return selectedServices.some(s => s.differential === true)
+    return selectedServices.some(s => equals(s.differential, 'true'))
   })
 
   /**
-   * LEARNING: Check if any part instance has differentialOverride: true
-   * WHY: Allows explicit override of differential behavior
-   * PATTERN: Check all selected services and option type blocks for parts with differentialOverride
+   * LEARNING: Check if any block instance has differential: 'override'
+   * WHY: Allows explicit override of differential behavior at blockInstance level
+   * PATTERN: Check all selected services and option type blocks for differential === 'override'
    */
   const hasDifferentialOverride = computed(() => {
     // Check selected services
     const serviceHasOverride = wizard.selectedServiceTypeBlocks.value.some(service =>
-      service.partInstances?.some(part => part.differentialOverride === true)
+      service.differential === 'override'
     )
     
     // Check selected option type blocks (e.g., "No Client Presentation" option)
     const optionHasOverride = wizard.selectedOptionTypeBlocks.value.some(option =>
-      option.partInstances?.some(part => part.differentialOverride === true)
+      option.differential === 'override'
     )
     
     return serviceHasOverride || optionHasOverride
@@ -319,9 +320,9 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    * PATTERN: Returns false if service is not differential OR if override exists
    * 
    * Logic:
-   * - If service.differential === false → return false (non-differential)
-   * - If service.differential === true AND any part has differentialOverride === true → return false (overridden to non-differential)
-   * - If service.differential === true AND no override → return true (differential)
+   * - If no service has differential === 'true' → return false (non-differential)
+   * - If any blockInstance has differential === 'override' → return false (overridden to non-differential)
+   * - If service.differential === 'true' AND no override → return true (differential)
    */
   const isEffectivelyDifferential = computed(() => {
     if (!isDifferentialService.value) return false

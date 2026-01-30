@@ -46,7 +46,7 @@ onUnmounted(() => {
     color="info"
     variant="elevated"
     class="dev-panel-toggle"
-    @click="emit('toggle')"
+    @click.stop="emit('toggle')"
   >
     <VIcon>tabler-bug</VIcon>
     <VTooltip activator="parent" location="left">

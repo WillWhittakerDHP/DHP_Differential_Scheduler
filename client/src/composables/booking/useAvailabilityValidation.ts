@@ -49,7 +49,7 @@ export function useAvailabilityValidation(
         return 'Please select a time slot'
       }
       // Validate that selectedSlot has valid totals
-      if (!selectedSlot.value.totalOnSite && !selectedSlot.value.totalTime) {
+      if (!selectedSlot.value.onSiteTimeRange && !selectedSlot.value.totalTimeRange) {
         return 'Selected time slot is invalid'
       }
       return true

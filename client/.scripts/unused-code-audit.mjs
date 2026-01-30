@@ -26,12 +26,13 @@ const AUDIT_TYPE = 'unused-code'
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
+const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
 
-const IS_CLIENT_DIR = fs.existsSync(CLIENT_SRC)
-const PROJECT_ROOT = IS_CLIENT_DIR ? CWD : CWD
-const SRC_DIR = IS_CLIENT_DIR ? CLIENT_SRC : PROJECT_ROOT_SRC
+const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
+const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
+const SERVER_SRC = path.join(SERVER_ROOT, 'src')
 
 const OUT_DIR = IS_CLIENT_DIR
   ? path.join(CWD, '.audit-reports')
@@ -49,23 +50,31 @@ function toRepoPath(absPath) {
 }
 
 function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue')
+  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
 }
 
 function isExcluded(repoPath) {
-  // Exclude test files and directories
+  // Exclude migration files (one-time scripts, exports may be intentionally unused)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return true
+  }
+  // Exclude test files and directories (test utilities may appear unused but are used by tests)
   if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
     return true
   }
-  // Exclude @core and @layouts
-  if (repoPath.includes('@core/') || repoPath.includes('@layouts/')) {
+  // Exclude @core and @layouts for client files only
+  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
+    return true
+  }
+  // Exclude node_modules, dist, etc.
+  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
     return true
   }
   return false
 }
 
 /**
- * Recursively list all TypeScript/JavaScript/Vue files
+ * Recursively list all TypeScript/JavaScript/Vue/MJS files
  */
 function listFilesRecursive(dir) {
   const files = []
@@ -75,6 +84,13 @@ function listFilesRecursive(dir) {
     const entries = fs.readdirSync(dir, { withFileTypes: true })
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name)
+      const repoPath = toRepoPath(fullPath)
+      
+      // Skip excluded directories/files
+      if (isExcluded(repoPath)) {
+        continue
+      }
+      
       if (entry.isDirectory()) {
         files.push(...listFilesRecursive(fullPath))
       } else if (entry.isFile() && isScannable(fullPath)) {
@@ -214,9 +230,89 @@ function isFunctionUsed(funcName, allFiles, currentFile) {
 }
 
 /**
+ * Load pattern-detection data if available
+ */
+function loadPatternDetectionData() {
+  try {
+    const patternJson = path.join(OUT_DIR, 'pattern-detection-audit.json')
+    if (fs.existsSync(patternJson)) {
+      const data = JSON.parse(fs.readFileSync(patternJson, 'utf8'))
+      return data.aggregated || null
+    }
+  } catch (error) {
+    // Pattern-detection not run or invalid
+  }
+  return null
+}
+
+/**
+ * Load hardcoding audit data if available
+ */
+function loadHardcodingData() {
+  try {
+    const hardcodingJson = path.join(OUT_DIR, 'hardcoding-audit.json')
+    if (fs.existsSync(hardcodingJson)) {
+      const data = JSON.parse(fs.readFileSync(hardcodingJson, 'utf8'))
+      return data.files || null
+    }
+  } catch (error) {
+    // Hardcoding audit not run or invalid
+  }
+  return null
+}
+
+/**
+ * Load typecheck audit data if available
+ */
+function loadTypecheckData() {
+  try {
+    const typecheckJson = path.join(OUT_DIR, 'typecheck', 'typecheck-audit.json')
+    if (fs.existsSync(typecheckJson)) {
+      const data = JSON.parse(fs.readFileSync(typecheckJson, 'utf8'))
+      // Extract files with P0/P1 errors
+      const errorFiles = new Set()
+      if (data.errors) {
+        for (const error of data.errors) {
+          if (error.priority === 'P0' || error.priority === 'P1') {
+            errorFiles.add(error.file)
+          }
+        }
+      }
+      return errorFiles.size > 0 ? errorFiles : null
+    }
+  } catch (error) {
+    // Typecheck audit not run or invalid
+  }
+  return null
+}
+
+/**
+ * Check if an export is found in pattern-detection data
+ */
+function isExportInPatternDetection(exportName, patternData) {
+  if (!patternData) return false
+  
+  // Check type definitions
+  if (patternData.typeDefinitions && patternData.typeDefinitions[exportName]) {
+    return true
+  }
+  
+  // Check function patterns (extract name from pattern like "useAvailability" -> "Availability")
+  if (patternData.functionPatterns) {
+    for (const [pattern, data] of Object.entries(patternData.functionPatterns)) {
+      if (pattern.includes(exportName) || exportName.includes(pattern.replace(/^(use|get|create|update|delete)/, ''))) {
+        return true
+      }
+    }
+  }
+  
+  return false
+}
+
+/**
  * Scan a file for unused code patterns
  */
-function scanFile(filePath, allFiles, configAllowlist) {
+function scanFile(filePath, allFiles, configAllowlist, patternData, hardcodingData, typecheckErrorFiles) {
   const issues = []
   const repoPath = toRepoPath(filePath)
   
@@ -251,6 +347,9 @@ function scanFile(filePath, allFiles, configAllowlist) {
         continue
       }
       
+      // Prioritize exports found in pattern-detection (they're more likely to be actual exports)
+      const isInPatternDetection = patternData ? isExportInPatternDetection(exp.name, patternData) : false
+      
       if (!isExportUsed(exp.name, allFiles, filePath)) {
         issues.push({
           severity: 'warning',
@@ -260,6 +359,7 @@ function scanFile(filePath, allFiles, configAllowlist) {
           line: exp.line || 1,
           code: lines[exp.line - 1]?.trim() || '',
           suggestion: 'Remove if unused or document why kept',
+          fromPatternDetection: isInPatternDetection, // Flag for prioritization
         })
       }
     }
@@ -383,17 +483,23 @@ function renderMarkdownReport(filesWithPriority, issues, summary, totalFiles) {
   lines.push('')
   lines.push('This file is generated by `client/.scripts/unused-code-audit.mjs`.')
   lines.push('')
-  lines.push('Scope: `client/src/**/*.{ts,js,vue}`')
+  lines.push('Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`')
   lines.push('')
   lines.push('## Summary')
   lines.push('')
   lines.push(`- Files scanned: **${totalFiles}**`)
+  if (summary.skippedFilesCount > 0) {
+    lines.push(`- Files skipped (type errors): **${summary.skippedFilesCount}**`)
+  }
   lines.push(`- Files with issues: **${filesWithPriority.length}**`)
   lines.push(`- Issues found: **${issues.length}**`)
   lines.push(`- Unused exports: ${issues.filter(i => i.type === 'unused-export').length}`)
   lines.push(`- Commented exports: ${issues.filter(i => i.type === 'commented-export').length}`)
   lines.push(`- Unused functions: ${issues.filter(i => i.type === 'unused-function').length}`)
   lines.push(`- TODO markers: ${issues.filter(i => i.type === 'todo-marker').length}`)
+  if (summary.usingPatternDetection) {
+    lines.push(`- Using pattern-detection data: **Yes** (prioritizing exports found by pattern-detection)`)
+  }
   lines.push('')
   
   if (issues.length === 0) {
@@ -447,30 +553,44 @@ function main() {
     // Config might not exist or be invalid, use defaults
   }
   
+  // Load data from other audits for pipeline optimization
+  const patternData = loadPatternDetectionData()
+  const hardcodingData = loadHardcodingData()
+  const typecheckErrorFiles = loadTypecheckData()
+  
+  let skippedFilesCount = 0
+  
   const issues = []
   const recommendations = []
   const filesWithIssues = new Map()
   
   try {
-    // List all files
-    const allFiles = listFilesRecursive(SRC_DIR)
+    // List all files from both client and server
+    const clientFiles = listFilesRecursive(CLIENT_SRC)
+    const serverFiles = listFilesRecursive(SERVER_SRC)
+    const allFiles = [...clientFiles, ...serverFiles]
     
     if (allFiles.length === 0) {
       issues.push({
         severity: 'info',
         type: 'no-files',
-        message: 'No files found in src directory',
-        file: toRepoPath(SRC_DIR),
+        message: 'No files found in client/src or server/src directories',
+        file: '',
       })
     }
     
     // Scan each file
     for (const file of allFiles) {
+      const repoPath = toRepoPath(file)
+      // Double-check exclusion (in case file listing missed it)
+      if (isExcluded(repoPath)) {
+        continue
+      }
+      
       const fileIssues = scanFile(file, allFiles, configAllowlist)
       issues.push(...fileIssues)
       
       if (fileIssues.length > 0) {
-        const repoPath = toRepoPath(file)
         filesWithIssues.set(repoPath, fileIssues)
       }
     }
@@ -503,7 +623,7 @@ function main() {
       severity: 'error',
       type: 'scan-error',
       message: `Failed to audit files: ${error instanceof Error ? error.message : String(error)}`,
-      file: toRepoPath(SRC_DIR),
+      file: '',
     })
   }
   
@@ -530,8 +650,25 @@ function main() {
     }
   })
   
-  const allFiles = listFilesRecursive(SRC_DIR)
-  const summary = `Scanned ${allFiles.length} file(s). Found ${issues.length} issue(s): ${issues.filter(i => i.type === 'unused-export').length} unused exports, ${issues.filter(i => i.type === 'commented-export').length} commented exports, ${issues.filter(i => i.type === 'unused-function').length} unused functions, ${issues.filter(i => i.type === 'todo-marker').length} TODO markers`
+  const clientFiles = listFilesRecursive(CLIENT_SRC)
+  const serverFiles = listFilesRecursive(SERVER_SRC)
+  const totalFiles = clientFiles.length + serverFiles.length
+  
+  const summaryText = `Scanned ${totalFiles} file(s) (${clientFiles.length} client, ${serverFiles.length} server). Found ${issues.length} issue(s): ${issues.filter(i => i.type === 'unused-export').length} unused exports, ${issues.filter(i => i.type === 'commented-export').length} commented exports, ${issues.filter(i => i.type === 'unused-function').length} unused functions, ${issues.filter(i => i.type === 'todo-marker').length} TODO markers`
+  
+  const summary = {
+    totalFiles,
+    skippedFilesCount,
+    filesWithIssues: filesWithPriority.length,
+    totalIssues: issues.length,
+    unusedExports: issues.filter(i => i.type === 'unused-export').length,
+    commentedExports: issues.filter(i => i.type === 'commented-export').length,
+    unusedFunctions: issues.filter(i => i.type === 'unused-function').length,
+    todoMarkers: issues.filter(i => i.type === 'todo-marker').length,
+    usingPatternDetection: !!patternData,
+    usingHardcoding: !!hardcodingData,
+    usingTypecheck: !!typecheckErrorFiles,
+  }
   
   const output = {
     generatedAt: new Date().toISOString(),
@@ -540,13 +677,16 @@ function main() {
     issues,
     files: filesWithPriority,
     recommendations,
-    summary,
+    summary: summaryText,
+    summaryData: summary,
   }
   
   fs.writeFileSync(OUT_JSON, JSON.stringify(output, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithPriority, issues, summary, allFiles.length))
+  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithPriority, issues, summary, totalFiles))
   
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${allFiles.length}, Issues: ${issues.length}`)
+  const skippedMsg = skippedFilesCount > 0 ? `, Skipped: ${skippedFilesCount} (type errors)` : ''
+  const pipelineMsg = (patternData || hardcodingData || typecheckErrorFiles) ? ', Using pipeline data' : ''
+  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${totalFiles} (${clientFiles.length} client, ${serverFiles.length} server)${skippedMsg}${pipelineMsg}, Issues: ${issues.length}`)
 }
 
 main()

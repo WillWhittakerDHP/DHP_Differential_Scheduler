@@ -100,12 +100,12 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
   // Detection: does current appointment have moveable parts?
   const hasMoveableParts = computed(() => {
     const shape = appointmentShape.value
-    return shape !== null && shape.totalMoveableDuration > 0
+    return shape !== null && shape.slotShape.moveable > 0
   })
   
   // Moveable duration from shape
   const moveableDuration = computed(() => {
-    return appointmentShape.value?.totalMoveableDuration ?? 0
+    return appointmentShape.value?.slotShape.moveable ?? 0
   })
   
   // Calculate available slots using fitTimeSlots
@@ -122,7 +122,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     const duration = moveableDuration.value
     
     // Inner boundary: end of on-site work
-    const innerBoundary = slot.totalOnSite?.endTime ?? slot.totalTime?.endTime
+    const innerBoundary = slot.onSiteTimeRange?.endTime ?? slot.totalTimeRange?.endTime
     if (!innerBoundary) {
       moveableOptions.value = null
       return

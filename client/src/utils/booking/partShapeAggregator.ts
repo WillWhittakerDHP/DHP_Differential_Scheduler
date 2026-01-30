@@ -9,6 +9,7 @@
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { FinalizedPart } from './FinalizedPart'
 import { createFinalizedPart } from './FinalizedPart'
+import { toBoolean } from '@/utils/ternary/ternaryUtils'
 
 /**
  * Group parts by part shape
@@ -67,28 +68,49 @@ export function filterZeroedParts(
 }
 
 /**
- * Group finalized parts by flag combinations for UI display and calculations
- * LEARNING: No hardcoded categories - derive groups from boolean flags
- * WHY: Extensible - new part shapes automatically work without code changes
- * PATTERN: Filter finalized parts by flag combinations
+ * Calculate SlotShape from finalized parts (single-pass optimization)
+ * LEARNING: Single iteration through finalizedParts instead of 5 separate filter+reduce operations
+ * WHY: More efficient - O(n) instead of O(5n), reduces array iterations
+ * PATTERN: Accumulate all totals in one pass
  * 
  * @param finalizedParts - Array of FinalizedPart instances
- * @returns Object with flag-based groups
+ * @returns SlotShape with all duration totals
  */
-export function groupFinalizedPartsByFlags(
+export function calculateSlotShape(
   finalizedParts: FinalizedPart[]
-): {
-  clientPresentation: FinalizedPart[]  // clientPresent === true
-  dataCollection: FinalizedPart[]     // onSite === true && clientPresent === false
-  earlyArrival: FinalizedPart[]      // moveable === true && onSite === true
-  reportWriting: FinalizedPart[]     // onSite === false
-} {
-  return {
-    clientPresentation: finalizedParts.filter(p => p.clientPresent === true),
-    dataCollection: finalizedParts.filter(p => p.onSite === true && p.clientPresent === false),
-    earlyArrival: finalizedParts.filter(p => p.moveable === true && p.onSite === true),
-    reportWriting: finalizedParts.filter(p => p.onSite === false)
+): import('@/types/appointment').SlotShape {
+  let totalDuration = 0
+  let onSite = 0
+  let clientPresent = 0
+  let moveable = 0
+  let clientStartOffset = 0
+  
+  for (const part of finalizedParts) {
+    const baseTime = part.baseTime
+    // LEARNING: totalDuration always includes all parts (override contributes to totalDuration)
+    totalDuration += baseTime
+    
+    // LEARNING: Use toBoolean with 'strict' mode - only 'true' contributes to onSite calculation
+    // WHY: 'override' parts contribute to totalDuration but NOT to onSite
+    if (toBoolean(part.onSite, 'strict')) {
+      onSite += baseTime
+      // LEARNING: clientStartOffset only applies when onSite is true AND clientPresent is false
+      if (!toBoolean(part.clientPresent, 'strict')) {
+        clientStartOffset += baseTime
+      }
+    }
+    
+    // LEARNING: Use toBoolean with 'strict' mode - only 'true' contributes to clientPresent calculation
+    if (toBoolean(part.clientPresent, 'strict')) {
+      clientPresent += baseTime
+    }
+    
+    if (part.moveable === true) {
+      moveable += baseTime
+    }
   }
+  
+  return { totalDuration, onSite, clientPresent, moveable, clientStartOffset }
 }
 
 /**

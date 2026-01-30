@@ -19,7 +19,7 @@ export type SelectionMode = 'single' | 'multiple'
 /**
  * Generic block instance selection parameters
  */
-export interface UseBlockInstanceSelectionParams {
+interface UseBlockInstanceSelectionParams {
   selectedBlocks: Ref<BookingBlockInstance[]>
   availableBlocks: ComputedRef<BookingBlockInstance[]>
   toggleBlock?: (block: BookingBlockInstance) => void
@@ -29,21 +29,21 @@ export interface UseBlockInstanceSelectionParams {
 /**
  * Single-select return type (radio mode)
  */
-export interface UseBlockInstanceSelectionReturnSingle {
+interface UseBlockInstanceSelectionReturnSingle {
   selectedBlockId: ComputedRef<string | null>
 }
 
 /**
  * Multi-select return type (checkbox mode)
  */
-export interface UseBlockInstanceSelectionReturnMultiple {
+interface UseBlockInstanceSelectionReturnMultiple {
   selectedBlockIds: ComputedRef<string[]>
 }
 
 /**
  * Union return type based on selection mode
  */
-export type UseBlockInstanceSelectionReturn<Mode extends SelectionMode> = 
+type UseBlockInstanceSelectionReturn<Mode extends SelectionMode> = 
   Mode extends 'single' 
     ? UseBlockInstanceSelectionReturnSingle 
     : UseBlockInstanceSelectionReturnMultiple

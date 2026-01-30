@@ -70,7 +70,9 @@ export function useMetadataFieldUpdates(
     }
     
     // Base renderAs on dataType
-    if (dataType === 'boolean') {
+    // LEARNING: Ternary fields use 'boolean' dataType but render as statusButton
+    // WHY: Ternary is a boolean variant with three states, still renders as status button
+    if (dataType === 'boolean' || dataType === 'ternary') {
       return 'statusButton'
     }
     if (dataType === 'number') {

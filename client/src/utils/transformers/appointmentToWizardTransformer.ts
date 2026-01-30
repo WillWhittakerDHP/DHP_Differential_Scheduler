@@ -12,6 +12,7 @@ import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
 import type { RFC3339DateTime } from '@/types/datetime'
+import type { TernaryBoolean } from '@/types/ternary'
 import { findById } from '@/utils/collections/findById'
 import { findBlockInstanceByIdAndShapeId, getBlockShapeIdByType, getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
@@ -88,7 +89,7 @@ interface VersionBlockInstance {
   icon: string
   baseSqFt: number
   allowMultiple: boolean
-  differential: boolean
+  differential: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
   partInstances: Array<{
     id: string // partInstanceId
     name: string
@@ -96,6 +97,8 @@ interface VersionBlockInstance {
     baseTime: number
     rateOverBaseFee: number
     rateOverBaseTime: number
+    onSite?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
+    clientPresent?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
   }>
 }
 
@@ -196,6 +199,16 @@ function transformVersionToBookingInstance(
   }
 
   // Transform part instances from version format to BookingPartInstance format
+  // LEARNING: Convert boolean to TernaryBoolean for backward compatibility
+  // WHY: During migration, some values may still be boolean
+  // PATTERN: Convert boolean to TernaryBoolean, default to 'false'
+  const convertToTernary = (value: TernaryBoolean | boolean | undefined, defaultValue: TernaryBoolean = 'false'): TernaryBoolean => {
+    if (value === true) return 'true'
+    if (value === false) return 'false'
+    if (value === 'true' || value === 'false' || value === 'override') return value
+    return defaultValue
+  }
+
   const partInstances: BookingPartInstance[] = version.partInstances.map(pi => {
     // Try to find matching part instance from current instance for metadata
     const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
@@ -208,9 +221,10 @@ function transformVersionToBookingInstance(
       baseTime: pi.baseTime,
       rateOverBaseFee: pi.rateOverBaseFee,
       rateOverBaseTime: pi.rateOverBaseTime,
-      // Use current part metadata if available, otherwise defaults
-      onSite: currentPart?.onSite ?? true,
-      clientPresent: currentPart?.clientPresent ?? false,
+      // LEARNING: Convert boolean to TernaryBoolean for onSite and clientPresent
+      // WHY: Version data may have boolean values, need to convert to TernaryBoolean
+      onSite: convertToTernary(pi.onSite ?? currentPart?.onSite, 'true'),
+      clientPresent: convertToTernary(pi.clientPresent ?? currentPart?.clientPresent, 'false'),
       moveable: currentPart?.moveable ?? false,
       active: currentPart?.active ?? true,
       orderIndex: currentPart?.orderIndex ?? 0,
@@ -228,7 +242,8 @@ function transformVersionToBookingInstance(
     icon: version.icon || '',
     baseSqFt: version.baseSqFt || 0,
     allowMultiple: version.allowMultiple,
-    differential: version.differential,
+    // LEARNING: Convert boolean to TernaryBoolean for differential
+    differential: convertToTernary(version.differential, 'false'),
     partInstances,
   } as BookingBlockInstance
 }

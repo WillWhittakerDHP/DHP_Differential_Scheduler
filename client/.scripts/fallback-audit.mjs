@@ -4,11 +4,12 @@ import path from 'node:path'
 /**
  * Fallback Audit Script
  *
- * Goal: Scan session-tier command files for defaults, silent fallbacks, and legacy/backwards compatibility patterns
+ * Goal: Scan application code for defaults, silent fallbacks, and legacy/backwards compatibility patterns
  * that should be removed for dynamic/config-driven, explicit failures, and fresh code.
  *
  * Scope:
- * - Included: .cursor/commands/tiers/session directory (all .ts files)
+ * - Included: client/src (ts, js, vue files) and server/src (ts, mjs files)
+ * - Excluded: __tests__, test files, spec files, @core, @layouts
  *
  * Output:
  * - client/.audit-reports/fallback-audit.json
@@ -24,7 +25,11 @@ const CWD = path.resolve(process.cwd())
 const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
 const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
 
-const SESSION_TIER_PATH = path.join(PROJECT_ROOT, '.cursor', 'commands', 'tiers', 'session')
+const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
+const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
+const SERVER_SRC = path.join(SERVER_ROOT, 'src')
+
 const OUT_DIR = IS_CLIENT_DIR
   ? path.join(CWD, '.audit-reports')
   : path.join(CWD, 'client', '.audit-reports')
@@ -51,6 +56,10 @@ const PROBLEMATIC_PATTERNS = [
   { pattern: /try\s*\{[^}]*\}\s*catch[^}]*\{\s*\}/, label: 'Silent catch block', severity: 'critical' },
   { pattern: /@ts-ignore|@ts-expect-error/, label: 'Type suppression', severity: 'warning' },
   { pattern: /eslint-disable/, label: 'ESLint suppression', severity: 'warning' },
+  // New patterns for default parameters, optional chaining, and config objects
+  { pattern: /(?:function\s+\w+|const\s+\w+\s*=\s*(?:async\s*)?\([^)]*\)\s*=>)\s*\([^)]*=\s*['"`][^'"`]+['"`]/, label: 'Default function parameter with string literal', severity: 'warning' },
+  { pattern: /\?\.\w+\s*\?\?\s*['"`\w]/, label: 'Optional chaining with default value', severity: 'warning' },
+  { pattern: /\{\s*\w+\s*:\s*\w+\s*\?\?\s*['"`]/, label: 'Configuration object property with default', severity: 'warning' },
 ]
 
 function ensureDir(dirPath) {
@@ -62,9 +71,44 @@ function toRepoPath(absPath) {
 }
 
 /**
- * Recursively list all TypeScript files in a directory
+ * Check if a file should be excluded from scanning
  */
-function listTypeScriptFiles(dirPath) {
+function isExcluded(repoPath) {
+  // Exclude migration files (one-time scripts with intentional patterns)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return true
+  }
+  // Exclude test files and directories (test setup often uses defaults intentionally)
+  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+    return true
+  }
+  // Exclude @core and @layouts for client files only
+  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
+    return true
+  }
+  // Exclude node_modules, dist, etc.
+  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
+    return true
+  }
+  return false
+}
+
+/**
+ * Extract script content from Vue files
+ */
+function extractVueScriptBlocks(vueContent) {
+  const blocks = []
+  const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gi
+  for (const match of vueContent.matchAll(re)) {
+    blocks.push(match[1] || '')
+  }
+  return blocks
+}
+
+/**
+ * Recursively list files with specified extensions
+ */
+function listFilesRecursive(dirPath, extensions) {
   const files = []
   
   if (!fs.existsSync(dirPath)) {
@@ -76,11 +120,20 @@ function listTypeScriptFiles(dirPath) {
     
     for (const entry of entries) {
       const fullPath = path.join(dirPath, entry.name)
+      const repoPath = toRepoPath(fullPath)
+      
+      // Skip excluded directories/files
+      if (isExcluded(repoPath)) {
+        continue
+      }
       
       if (entry.isDirectory()) {
-        files.push(...listTypeScriptFiles(fullPath))
-      } else if (entry.isFile() && entry.name.endsWith('.ts')) {
-        files.push(fullPath)
+        files.push(...listFilesRecursive(fullPath, extensions))
+      } else if (entry.isFile()) {
+        const ext = path.extname(entry.name)
+        if (extensions.includes(ext)) {
+          files.push(fullPath)
+        }
       }
     }
   } catch (error) {
@@ -97,9 +150,19 @@ function scanFile(filePath) {
   const issues = []
   
   try {
-    const content = fs.readFileSync(filePath, 'utf-8')
-    const lines = content.split('\n')
+    let content = fs.readFileSync(filePath, 'utf-8')
     const repoPath = toRepoPath(filePath)
+    
+    // Extract script blocks from Vue files
+    if (filePath.endsWith('.vue')) {
+      const scriptBlocks = extractVueScriptBlocks(content)
+      if (scriptBlocks.length === 0) {
+        return issues // No script blocks to scan
+      }
+      content = scriptBlocks.join('\n') // Combine all script blocks
+    }
+    
+    const lines = content.split('\n')
     
     // Scan for keywords
     for (let i = 0; i < lines.length; i++) {
@@ -180,7 +243,7 @@ function renderMarkdownReport(filesWithPriority, issues, summary, totalFiles) {
   lines.push('')
   lines.push('This file is generated by `client/.scripts/fallback-audit.mjs`.')
   lines.push('')
-  lines.push('Scope: `.cursor/commands/tiers/session/**/*.ts`')
+  lines.push('Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)')
   lines.push('')
   lines.push('## Summary')
   lines.push('')
@@ -246,24 +309,31 @@ function main() {
   const filesWithIssues = new Map() // Track issues per file for priority calculation
   
   try {
-    // List all TypeScript files in session tier directory
-    const files = listTypeScriptFiles(SESSION_TIER_PATH)
+    // List all files in client/src and server/src
+    const clientFiles = listFilesRecursive(CLIENT_SRC, ['.ts', '.js', '.vue'])
+    const serverFiles = listFilesRecursive(SERVER_SRC, ['.ts', '.mjs'])
+    const allFiles = [...clientFiles, ...serverFiles]
     
-    if (files.length === 0) {
+    if (allFiles.length === 0) {
       issues.push({
         severity: 'info',
-        message: 'No TypeScript files found in session tier directory',
-        file: toRepoPath(SESSION_TIER_PATH),
+        message: 'No files found in client/src or server/src directories',
+        file: '',
       })
     }
     
     // Scan each file
-    for (const file of files) {
+    for (const file of allFiles) {
+      const repoPath = toRepoPath(file)
+      // Double-check exclusion (in case file listing missed it)
+      if (isExcluded(repoPath)) {
+        continue
+      }
+      
       const fileIssues = scanFile(file)
       issues.push(...fileIssues)
       
       if (fileIssues.length > 0) {
-        const repoPath = toRepoPath(file)
         filesWithIssues.set(repoPath, fileIssues)
       }
     }
@@ -319,8 +389,11 @@ function main() {
     }
   })
   
-  const files = listTypeScriptFiles(SESSION_TIER_PATH)
-  const summary = `Scanned ${files.length} file(s) in session tier. Found ${issues.length} issue(s): ${issues.filter(i => i.severity === 'critical' || i.severity === 'error').length} critical, ${issues.filter(i => i.severity === 'warning').length} warnings`
+  const clientFiles = listFilesRecursive(CLIENT_SRC, ['.ts', '.js', '.vue'])
+  const serverFiles = listFilesRecursive(SERVER_SRC, ['.ts', '.mjs'])
+  const totalFiles = clientFiles.length + serverFiles.length
+  
+  const summary = `Scanned ${totalFiles} file(s) (${clientFiles.length} client, ${serverFiles.length} server). Found ${issues.length} issue(s): ${issues.filter(i => i.severity === 'critical' || i.severity === 'error').length} critical, ${issues.filter(i => i.severity === 'warning').length} warnings`
   
   const output = {
     generatedAt: new Date().toISOString(),
@@ -333,9 +406,9 @@ function main() {
   }
   
   fs.writeFileSync(OUT_JSON, JSON.stringify(output, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithPriority, issues, summary, files.length))
+  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithPriority, issues, summary, totalFiles))
   
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${files.length}, Issues: ${issues.length}`)
+  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${totalFiles} (${clientFiles.length} client, ${serverFiles.length} server), Issues: ${issues.length}`)
 }
 
 main()

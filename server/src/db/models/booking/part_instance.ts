@@ -16,8 +16,8 @@ export class PartInstance extends Model<
   declare orderIndex: CreationOptional<number>;
   declare partShapeRef: ForeignKey<string>;
   declare name: CreationOptional<string>;
-  declare onSite: boolean;
-  declare clientPresent: boolean;
+  declare onSite: 'true' | 'false' | 'override';
+  declare clientPresent: 'true' | 'false' | 'override';
   declare moveable: boolean;
   declare baseFee: number;
   declare rateOverBaseFee: number;
@@ -25,7 +25,6 @@ export class PartInstance extends Model<
   declare rateOverBaseTime: number;
   declare active: boolean;
   declare zeroOutPart: boolean;
-  declare differentialOverride: CreationOptional<boolean | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -56,11 +55,11 @@ export function PartInstanceFactory(sequelize: Sequelize) {
         allowNull: true,
       },
       onSite: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
       },
       clientPresent: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
       },
       moveable: {
@@ -92,11 +91,6 @@ export function PartInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-      },
-      differentialOverride: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-        defaultValue: null,
       },
       createdAt: {
         type: DataTypes.DATE,

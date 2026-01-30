@@ -20,6 +20,7 @@ import type { FieldContextType } from '../useFieldContext'
 import type { UseAnnotationSelectReturn } from './useAnnotationSelect'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 import { updateAnnotationRelationships } from '@/utils/api/annotationRelationshipHelpers'
+import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
 
 /**
  * Select Handlers Composable Options
@@ -59,6 +60,16 @@ export interface UseSelectHandlersOptions {
    * Annotation select composable return (for annotation handling)
    */
   annotationSelect?: UseAnnotationSelectReturn
+  
+  /**
+   * EntityCard save context (for isNew check)
+   */
+  entityCardSaveContext?: EntityCardSaveContext | null
+  
+  /**
+   * Disable auto-save flag
+   */
+  disableAutoSave?: boolean
 }
 
 /**
@@ -108,7 +119,9 @@ export function useSelectHandlers(
     isMultiple,
     isDescriptionSelect,
     groupedByKey,
-    annotationSelect
+    annotationSelect,
+    entityCardSaveContext = null,
+    disableAutoSave = false
   } = options
 
   /**
@@ -286,6 +299,20 @@ export function useSelectHandlers(
    */
   const handleBlur = async (): Promise<void> => {
     fieldContext.setFocus(false)
+    
+    // LEARNING: Skip auto-save for new entities
+    // WHY: New entities haven't been created yet - fields should wait for explicit form save
+    // PATTERN: Match useFieldInputHandlers behavior - new entities use handleSave, not field-level save
+    if (entityCardSaveContext?.isNew) {
+      return
+    }
+    
+    // LEARNING: Check if auto-save is disabled before saving
+    // WHY: Bulk edit modals use template entities that shouldn't be auto-saved on blur
+    // PATTERN: Skip auto-save if disableAutoSave flag is set
+    if (disableAutoSave) {
+      return
+    }
     
     const isValid = await fieldContext.validate()
     

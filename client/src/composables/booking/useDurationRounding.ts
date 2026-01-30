@@ -9,7 +9,6 @@
 import { computed, type ComputedRef } from 'vue'
 import { roundDuration as roundDurationUtil, type DurationRoundingConfig } from '@/utils/booking/durationRounding'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 
 /**
  * useDurationRounding composable return type

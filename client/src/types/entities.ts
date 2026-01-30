@@ -43,9 +43,10 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
    */
   requiresUnitNumber?: boolean | null;
   /**
-   * If true, this service supports differential scheduling (inspector and client have different arrival times).
+   * Whether this service supports differential scheduling (inspector and client have different arrival times).
+   * 'override' means differential is disabled regardless of service setting.
    */
-  differential?: boolean;
+  differential?: TernaryBoolean;
 }
 
 export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
@@ -57,8 +58,8 @@ export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
 
 export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
   partShapeRef: string;
-  onSite: boolean;
-  clientPresent: boolean;
+  onSite: TernaryBoolean;
+  clientPresent: TernaryBoolean;
   moveable: boolean;
   baseTime: number;
   rateOverBaseTime: number;

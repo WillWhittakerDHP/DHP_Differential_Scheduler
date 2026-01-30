@@ -1,7 +1,4 @@
 import { Router, Request, Response } from 'express';
-import { makeAvailabilities } from "../../utils/availabilities/makeAvailabilties.js";
-import { BusinessSettings } from "../../config/app.js";
-import type { AvailabilitySettingsData } from "../../db/models/admin/business_settings.js";
 import {
   sumWorkHoursForDay,
   sumWorkHoursForDateRange,
@@ -13,165 +10,40 @@ import {
 const router = Router();
 
 /**
- * POST /availability
- * Get available time slots for a date range
- * LEARNING: Availability API endpoint that calculates time slots from calendar data
- * WHY: Provides available appointment times based on service configuration and calendar availability
- * PATTERN: POST endpoint that accepts date range and service info, returns time slots
- */
-router.post('/', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { serviceId, dateRange, duration, timezone } = req.body;
-
-    // Validate required fields
-    if (!serviceId) {
-      res.status(400).json({ error: "serviceId is required." });
-      return;
-    }
-
-    if (!dateRange || !dateRange.start || !dateRange.end) {
-      res.status(400).json({ error: "dateRange with start and end is required." });
-      return;
-    }
-
-    if (!duration || typeof duration !== 'number') {
-      res.status(400).json({ error: "duration (number) is required." });
-      return;
-    }
-
-    // Mock free/busy calendar data for now
-    // TODO: Replace with real calendar API integration
-    const freeBusyResponse = {
-      calendars: {
-        primary: {
-          busy: [
-            // Example: No busy periods for now - all times available
-            // In real implementation, this would come from Google Calendar API
-          ]
-        }
-      }
-    };
-
-    // Load availability settings from database
-    // LEARNING: Fetches admin-configurable settings from business_settings table
-    // WHY: Replaces hardcoded settings with database-backed configuration
-    const availabilitySettingsRecord = await BusinessSettings.findOne({
-      where: { settingKey: 'availability_settings' },
-    });
-
-    // Default settings if none exist in database
-    const defaultSettings: AvailabilitySettingsData = {
-      businessHours: {
-        0: { start: "09:00", end: "19:00" }, // Sunday
-        1: { start: "09:00", end: "19:00" }, // Monday
-        2: { start: "09:00", end: "19:00" }, // Tuesday
-        3: { start: "09:00", end: "19:00" }, // Wednesday
-        4: { start: "09:00", end: "19:00" }, // Thursday
-        5: { start: "09:00", end: "19:00" }, // Friday
-        6: { start: "09:00", end: "19:00" }, // Saturday
-      },
-      minuteIncrement: 15,
-      rangeConstraints: {
-        businessHours: {
-          type: 'businessHours',
-          enforcement: 'hard',
-          config: {
-            hours: {
-              0: { start: "09:00", end: "19:00" }, // Sunday
-              1: { start: "09:00", end: "19:00" }, // Monday
-              2: { start: "09:00", end: "19:00" }, // Tuesday
-              3: { start: "09:00", end: "19:00" }, // Wednesday
-              4: { start: "09:00", end: "19:00" }, // Thursday
-              5: { start: "09:00", end: "19:00" }, // Friday
-              6: { start: "09:00", end: "19:00" }, // Saturday
-            }
-          }
-        },
-        leadTime: {
-          type: 'leadTime',
-          enforcement: 'hard',
-          config: {
-            minutes: 60 // 1 hour lead time
-          }
-        }
-      }
-    };
-
-    const availabilitySettings = availabilitySettingsRecord?.settingValue || defaultSettings;
-
-    // Use configured timezone - no fallbacks
-    // Timezone must be explicitly configured by admin
-    const targetTimezone = availabilitySettings.timezone || timezone;
-
-    // Transform AvailabilitySettings to adminSettings format expected by makeAvailabilities
-    // LEARNING: Maps businessHours to freeHours and derives workHours/permissibleStartRule
-    // WHY: makeAvailabilities expects different structure than AvailabilitySettings
-    const minuteIncrement = availabilitySettings.minuteIncrement;
-    const permissibleStartRule = `every :${minuteIncrement}`; // e.g., "every :15" for 15-minute increments
-
-    // Calculate workHours from maxWorkHours.day.maxHours or businessHours max
-    const workHours = availabilitySettings.maxWorkHours?.day?.maxHours !== undefined
-      ? availabilitySettings.maxWorkHours.day.maxHours
-      : Math.max(
-          ...Object.values(availabilitySettings.businessHours).map(day => {
-            const [startHour, startMin] = day.start.split(':').map(Number);
-            const [endHour, endMin] = day.end.split(':').map(Number);
-            const startMinutes = startHour * 60 + startMin;
-            const endMinutes = endHour * 60 + endMin;
-            return (endMinutes - startMinutes) / 60;
-          })
-        );
-
-    // LEARNING: Extract leadTime from rangeConstraints.leadTime
-    // WHY: leadTime moved from buffers to rangeConstraints in unified constraint system
-    // PATTERN: Check constraint type is 'leadTime' before accessing config.minutes, fallback to 60 if not configured
-    const leadTimeConstraint = availabilitySettings.rangeConstraints?.leadTime
-    const leadTimeMinutes = (leadTimeConstraint?.type === 'leadTime' && leadTimeConstraint.config && 'minutes' in leadTimeConstraint.config)
-      ? (leadTimeConstraint.config as { minutes: number }).minutes
-      : 60;
-
-    const adminSettings = {
-      leadTime: leadTimeMinutes, // Already in minutes
-      freeHours: availabilitySettings.businessHours, // Map businessHours to freeHours
-      workHours: workHours, // Use configured limit or calculated max
-      timezone: targetTimezone, // Use configured timezone or fallback
-      minuteIncrement: minuteIncrement,
-      permissibleStartRule: permissibleStartRule,
-    };
-
-    // Call makeAvailabilities
-    const availabilities = await makeAvailabilities(
-      freeBusyResponse,
-      dateRange.start,
-      dateRange.end,
-      duration,
-      serviceId,
-      adminSettings
-    );
-
-    // Transform TimeSlot objects to JSON-serializable format
-    const serializedAvailabilities = availabilities.map(slot => ({
-      slotStart: slot.slotStart.toISOString(),
-      slotEnd: slot.slotEnd.toISOString(),
-      duration: slot.duration
-    }));
-
-    res.status(200).json({ availabilities: serializedAvailabilities });
-  } catch (error) {
-    console.error("Error in /availability route:", error);
-    res.status(500).json({ 
-      error: "Failed to generate availabilities.",
-      details: error instanceof Error ? error.message : 'Unknown error'
-    });
-  }
-});
-
-/**
  * GET /availability/scheduled-hours
  * Get scheduled work hours for a date or date range
+ * 
  * LEARNING: API endpoint for capacity checking - returns scheduled hours for capacity filters
  * WHY: Allows client-side filtering to check if capacity limits would be exceeded
  * PATTERN: GET endpoint with query parameters for date range or specific date
+ * 
+ * ============================================================================
+ * ASYNCHRONOUS APPOINTMENT CREATION WORKFLOW SUPPORT
+ * ============================================================================
+ * 
+ * This endpoint supports asynchronous appointment creation workflows where appointments
+ * exist in the database with 'submitted' or 'confirmed' status before being synced to
+ * Google Calendar. This ensures capacity limits are enforced even when appointments
+ * haven't yet appeared in free-busy calendar data.
+ * 
+ * APPOINTMENT STATUS WORKFLOW:
+ * - 'started': Non-quote mode appointment creation in progress (not counted)
+ * - 'submitted': Submitted through app, awaiting confirmation (COUNTED)
+ * - 'confirmed': Submitted and confirmed (COUNTED)
+ * 
+ * See: client/src/types/appointment.ts for AppointmentStatus union type definition
+ * 
+ * SEPARATION OF CONCERNS:
+ * - Free-busy checking: Uses Google Calendar API to check external calendar events
+ * - Capacity checking: Uses database appointments (this endpoint) to check internal workflow state
+ * 
+ * WHY BOTH ARE NEEDED:
+ * - Free-busy blocks slots based on calendar events (external, already synced)
+ * - Capacity blocks slots based on database appointments (internal, including pending/confirmed but not-yet-synced)
+ * 
+ * This endpoint queries database appointments directly (not calendar events) and only
+ * counts appointments with status 'submitted' or 'confirmed'. This ensures capacity
+ * limits are enforced during the asynchronous workflow period before Google Calendar sync.
  * 
  * Query parameters:
  * - date: YYYY-MM-DD format for single date (returns hours for that day)
@@ -198,6 +70,8 @@ router.get('/scheduled-hours', async (req: Request, res: Response): Promise<void
 
     if (date) {
       // Single date query
+      // LEARNING: sumWorkHoursForDay queries database appointments with status 'submitted' or 'confirmed'
+      // WHY: Supports asynchronous appointment workflow where appointments exist in DB before calendar sync
       const dateObj = new Date(date as string);
       if (isNaN(dateObj.getTime())) {
         res.status(400).json({ error: "Invalid date format. Use YYYY-MM-DD." });
@@ -206,6 +80,8 @@ router.get('/scheduled-hours', async (req: Request, res: Response): Promise<void
       hours = await sumWorkHoursForDay(dateObj);
     } else if (startDate && endDate) {
       // Date range query
+      // LEARNING: sumWorkHoursForDateRange queries database appointments with status 'submitted' or 'confirmed'
+      // WHY: Supports asynchronous appointment workflow where appointments exist in DB before calendar sync
       const startDateObj = new Date(startDate as string);
       const endDateObj = new Date(endDate as string);
       if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
@@ -227,6 +103,8 @@ router.get('/scheduled-hours', async (req: Request, res: Response): Promise<void
       hours = await sumWorkHoursForCalendarWeek(dateObj);
     } else if (rollingWeek) {
       // Rolling week query
+      // LEARNING: sumWorkHoursForRollingWeek queries database appointments with status 'submitted' or 'confirmed'
+      // WHY: Supports asynchronous appointment workflow where appointments exist in DB before calendar sync
       if (!direction) {
         res.status(400).json({ error: "direction parameter required for rollingWeek query. Use 'past', 'centered', or 'future'." });
         return;

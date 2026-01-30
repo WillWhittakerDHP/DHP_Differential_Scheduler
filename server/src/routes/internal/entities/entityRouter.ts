@@ -442,6 +442,18 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
   const fieldKey = req.body.key;
   const newValue = req.body.value;
   
+  // LEARNING: Reject PATCH requests for temporary entity IDs
+  // WHY: Temporary IDs (starting with "new-") are used for unsaved entities that should be created via POST, not updated via PATCH
+  // PATTERN: Validate entity ID format before attempting database operations
+  if (entityId.startsWith('new-') || entityId === '00000000-0000-0000-0000-000000000000') {
+    res.status(400).json({ 
+      error: `Cannot update ${entityConfig.displayName} with temporary ID`,
+      details: `Entity ID "${entityId}" is a temporary ID. Use POST to create the entity first.`,
+      id: entityId
+    });
+    return;
+  }
+  
   try {
     // LEARNING: Parse update data from request body
     // WHY: Support both {key, value} format and direct field updates

@@ -9,6 +9,7 @@
 import { computed, type ComputedRef } from 'vue'
 import { useDurationRounding } from '@/composables/booking/useDurationRounding'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { toBoolean } from '@/utils/ternary/ternaryUtils'
 
 /**
  * useAppointmentDuration composable parameters
@@ -63,12 +64,13 @@ export function useAppointmentDuration(
     
     // LEARNING: Calculate on-site duration, not total duration
     // WHY: Report writing can happen off-site, so we only need to ensure on-site work fits in business hours
-    // PATTERN: Sum baseTime from parts where onSite === true
+    // PATTERN: Sum baseTime from parts where onSite is 'true' (using strict mode - override excluded)
     const onSiteDuration = instances.reduce((sum, bi) => {
       if (!bi.partInstances || bi.partInstances.length === 0) return sum
       return sum + bi.partInstances.reduce((partSum, part) => {
-        // Only count parts that require being on-site
-        return partSum + (part.onSite === true ? (part.baseTime || 0) : 0)
+        // LEARNING: Use toBoolean with 'strict' mode - only 'true' contributes to onSite calculation
+        // WHY: 'override' parts contribute to totalDuration but NOT to onSite
+        return partSum + (toBoolean(part.onSite, 'strict') ? (part.baseTime || 0) : 0)
       }, 0)
     }, 0)
     

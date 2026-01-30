@@ -17,6 +17,7 @@ import { useGlobal } from '../useGlobal'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
+import type { TernaryBoolean } from '@/types/ternary'
 
 export interface UseStatusButtonToggleOptions<GE extends GlobalEntityKey> {
   entityKey: GE
@@ -109,11 +110,52 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
     }
     
     try {
-      // LEARNING: Handle nullable boolean fields
+      // LEARNING: Handle ternary boolean fields and nullable boolean fields
+      // WHY: Some fields are ternary ('true' | 'false' | 'override'), others are boolean or nullable boolean
+      // PATTERN: Check if field is ternary, otherwise treat as boolean
+      const currentRaw = currentEntity[fieldKey]
+      
+      // Check if field is ternary boolean
+      const isTernary = currentRaw === 'true' || currentRaw === 'false' || currentRaw === 'override'
+      
+      if (isTernary) {
+        // LEARNING: Cycle through ternary states: 'false' → 'true' → 'override' → 'false'
+        // WHY: Provides three-state toggle for ternary fields
+        // PATTERN: Explicit state cycling
+        const currentTernary = currentRaw as TernaryBoolean
+        let newTernary: TernaryBoolean
+        
+        if (currentTernary === 'false') {
+          newTernary = 'true'
+        } else if (currentTernary === 'true') {
+          newTernary = 'override'
+        } else {
+          // currentTernary === 'override'
+          newTernary = 'false'
+        }
+        
+        const updatePayload: Array<{ admin: { key: string; value: TernaryBoolean }; dynamicId: string }> = [
+          {
+            admin: { key: String(fieldKey), value: newTernary },
+            dynamicId: String(currentEntity.id)
+          }
+        ]
+        
+        // Execute update
+        for (const payload of updatePayload) {
+          await mutateAsync(payload)
+        }
+        
+        // Invalidate metadata cache
+        queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
+        onToggle?.(String(fieldKey))
+        return
+      }
+      
+      // Handle nullable boolean fields
       // WHY: Some booleans are intentionally nullable in the DB (e.g., requiresUnitNumber)
       //      In the admin UI, we still want the status chip to be toggleable even when null
       // PATTERN: Treat null/undefined as false, but guard against non-boolean unexpected types
-      const currentRaw = currentEntity[fieldKey]
       const isBooleanish = currentRaw === true || currentRaw === false || 
                           currentRaw === null || currentRaw === undefined
       

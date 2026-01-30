@@ -267,6 +267,7 @@ const isDevMode = isDevModeEnabled()
 // WHY: Composable may set up watchers or other side effects
 // PATTERN: Call composable without destructuring unused return values
 useWizardDevMode({
+  wizard,
   isDevMode,
   selectedAppointmentId,
   appointmentDropdownItems,

@@ -36,6 +36,13 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
   const handleBlur = async (): Promise<void> => {
     fieldContext.setFocus(false)
     
+    // LEARNING: Skip auto-save for new entities
+    // WHY: New entities haven't been created yet - fields should wait for explicit form save
+    // PATTERN: Match handleEnterKey behavior - new entities use handleSave, not field-level save
+    if (entityCardSaveContext?.isNew) {
+      return
+    }
+    
     // LEARNING: Check if auto-save is disabled before saving
     // WHY: Bulk edit modals use template entities that shouldn't be auto-saved on blur
     // PATTERN: Skip auto-save if disableAutoSave flag is set

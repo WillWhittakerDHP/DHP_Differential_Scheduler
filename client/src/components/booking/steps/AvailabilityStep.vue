@@ -351,6 +351,7 @@ const {
 useAvailabilityDevPanel({
   selectedBlockInstances: accumulatedBlockInstances,
   appointmentSlots,
+  appointmentShape,
   selectedDate,
   selectedSlot,
   dateRange: dateRangeForApi,

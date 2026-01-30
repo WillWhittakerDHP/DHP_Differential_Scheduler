@@ -93,6 +93,18 @@
                   @update:model-value="(value) => toggleOverride(fieldKey, value ?? false)"
                 />
 
+                <!-- Data Type -->
+                <VSelect
+                  :model-value="getEffectiveFieldMetadata(fieldKey)?.dataType ?? undefined"
+                  :items="dataTypeOptions"
+                  label="Data Type"
+                  density="compact"
+                  variant="outlined"
+                  placeholder="Not Configured"
+                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
+                  @update:model-value="(value) => updateFieldRendering(fieldKey, { dataType: value })"
+                />
+
                 <!-- Visibility -->
                 <VSelect
                   :model-value="getEffectiveFieldMetadata(fieldKey)?.visibility ?? undefined"
@@ -131,9 +143,9 @@
                   @update:model-value="(value) => updateFieldRendering(fieldKey, { panel: value })"
                 />
                 
-                <!-- Status Button Color (only for booleans) -->
+                <!-- Status Button Color (only for booleans and ternary) -->
                 <VSelect
-                  v-if="getEffectiveFieldMetadata(fieldKey)?.dataType === 'boolean'"
+                  v-if="getEffectiveFieldMetadata(fieldKey)?.dataType === 'boolean' || getEffectiveFieldMetadata(fieldKey)?.dataType === 'ternary'"
                   :model-value="getEffectiveFieldMetadata(fieldKey)?.statusButtonColor ?? undefined"
                   :items="colorOptions"
                   label="Status Button Color"
@@ -500,6 +512,15 @@ const panelOptions = [
 // LEARNING: Status button color options ordered by ROY G BIV (Rainbow Order)
 // WHY: Makes it easier to identify colors - explicit color names instead of semantic names
 // PATTERN: ROY G BIV order: Red, Orange, Yellow, Green, Blue, Indigo, Violet, plus Grey and Brown
+const dataTypeOptions = [
+  { title: 'String', value: 'string' },
+  { title: 'Number', value: 'number' },
+  { title: 'Boolean', value: 'boolean' },
+  { title: 'Ternary', value: 'ternary' },
+  { title: 'Array', value: 'array' },
+  { title: 'Reference', value: 'reference' },
+] as const
+
 const colorOptions = [
   { title: 'Red', value: 'error' },
   { title: 'Orange', value: 'secondary' },

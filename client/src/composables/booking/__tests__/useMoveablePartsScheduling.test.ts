@@ -37,15 +37,14 @@ function createAppointmentShape(options: {
   totalDuration?: number
 } = {}): AppointmentShape {
   return {
-    earlyArrival: null,
-    dataCollection: null,
-    reportWriting: null,
-    clientPresentation: null,
-    totalOnSiteDuration: options.totalOnSiteDuration ?? 60,
-    totalClientPresentDuration: 60,
-    totalMoveableDuration: options.totalMoveableDuration ?? 0,
-    totalDuration: options.totalDuration ?? 120,
-    clientStartOffset: 0
+    finalizedParts: [],
+    slotShape: {
+      totalDuration: options.totalDuration ?? 120,
+      onSite: options.totalOnSiteDuration ?? 60,
+      clientPresent: 60,
+      moveable: options.totalMoveableDuration ?? 0,
+      clientStartOffset: 0
+    }
   }
 }
 
@@ -60,31 +59,34 @@ function createAppointmentSlot(options: {
   const onSiteEnd = options.totalOnSiteEndTime || '2026-01-15T11:00:00Z'
   const totalEnd = options.totalTimeEndTime || '2026-01-15T12:00:00Z'
   
+  const shape: AppointmentShape = {
+    finalizedParts: [],
+    slotShape: {
+      totalDuration: 120,
+      onSite: 60,
+      clientPresent: 60,
+      moveable: 0,
+      clientStartOffset: 0
+    }
+  }
+  
   return {
     buttonIndex: 0,
-    earlyArrival: null,
-    dataCollection: {
-      startTime: baseTime,
-      endTime: onSiteEnd,
-      duration: 60,
-      onSite: true,
-      clientPresent: true,
-      moveable: false
-    },
-    reportWriting: null,
-    clientPresentation: null,
-    totalOnSite: {
+    isAvailable: true,
+    shape,
+    startTime: baseTime,
+    onSiteTimeRange: {
       startTime: baseTime,
       endTime: onSiteEnd,
       duration: 60
     },
-    totalClientPresent: {
+    clientPresentTimeRange: {
       startTime: baseTime,
       endTime: onSiteEnd,
       duration: 60
     },
-    totalMoveable: null,
-    totalTime: {
+    moveableTimeRange: null,
+    totalTimeRange: {
       startTime: baseTime,
       endTime: totalEnd,
       duration: 120

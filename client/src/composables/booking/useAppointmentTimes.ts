@@ -7,10 +7,10 @@
  */
 
 import { computed, type ComputedRef } from 'vue'
-import type { AppointmentSlots, TimeSlot } from '@/types/appointment'
+import type { AppointmentSlots, TimeSlot, TimeRange } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
-import { transformToInspectorPerspective, transformToClientPerspective, calculateOnSiteTotal } from '@/utils/differentialScheduling'
+import { transformToInspectorPerspective, transformToClientPerspective } from '@/utils/differentialScheduling'
 
 /**
  * useAppointmentTimes composable parameters
@@ -91,21 +91,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
   })
 
   /**
-   * LEARNING: Calculate onSiteTotal for differential transformations
-   * WHY: Needed to transform between inspector and client perspectives
-   * PATTERN: Sum onSite parts from first service (or all services)
-   */
-  const onSiteTotal = computed(() => {
-    const instances = blockInstancesRef.value
-    if (instances.length === 0) return 0
-    
-    // Use first service for onSiteTotal calculation
-    // TODO: Consider summing across all services if needed
-    const firstService = instances.find(instance => instance.differential === true) || instances[0]
-    return calculateOnSiteTotal(firstService)
-  })
-
-  /**
    * LEARNING: Transform AppointmentSlots to inspector perspective
    * WHY: Provides inspector time slots for UI display
    * PATTERN: Transform each AppointmentSlot using inspector start time
@@ -123,8 +108,8 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     // PATTERN: Map over AppointmentSlots, transform each one
     return slots.map(appointmentSlot => {
       const transformed = transformToInspectorPerspective(appointmentSlot, startTime)
-      // Return the totalTime TimeSlot for inspector perspective (or first available)
-      return transformed.totalTime || transformed.totalOnSite || transformed.dataCollection || transformed.earlyArrival || transformed.reportWriting || transformed.clientPresentation
+      // Return the totalTimeRange for inspector perspective (or first available)
+      return transformed.totalTimeRange || transformed.onSiteTimeRange || transformed.clientPresentTimeRange || transformed.moveableTimeRange
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
@@ -146,15 +131,14 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     // WHY: Client arrives at the selected time slot
     // PATTERN: Use baseStartTime as client start time
     const clientStartTime = startTime
-    const onSite = onSiteTotal.value
 
     // LEARNING: Transform each AppointmentSlot to client perspective
     // WHY: Each normalized position needs client perspective transformation
-    // PATTERN: Map over AppointmentSlots, transform each one
+    // PATTERN: Map over AppointmentSlots, transform each one (onSiteTotal now comes from SlotShape)
     return slots.map(appointmentSlot => {
-      const transformed = transformToClientPerspective(appointmentSlot, clientStartTime, onSite)
-      // Return the clientPresentation TimeSlot for client perspective (or totalTime)
-      return transformed.clientPresentation || transformed.totalTime || transformed.totalOnSite || transformed.dataCollection || transformed.earlyArrival || transformed.reportWriting
+      const transformed = transformToClientPerspective(appointmentSlot, clientStartTime)
+      // Return the clientPresentTimeRange for client perspective (or totalTimeRange)
+      return transformed.clientPresentTimeRange || transformed.totalTimeRange || transformed.onSiteTimeRange || transformed.moveableTimeRange
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
@@ -173,10 +157,10 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     if (!appointmentSlot) return null
 
     const transformed = transformToInspectorPerspective(appointmentSlot, startTime)
-    // LEARNING: Prefer TimeSlot properties (which extend TimeRange), fallback to TimeRange properties
-    // WHY: TimeSlot has more information (onSite, clientPresent, moveable), but TimeRange is acceptable fallback
-    // PATTERN: Return TimeSlot first, then TimeRange
-    return transformed.dataCollection || transformed.earlyArrival || transformed.reportWriting || transformed.clientPresentation || transformed.totalOnSite || transformed.totalTime || null
+    // LEARNING: Return TimeRange properties (no categorized slots in new structure)
+    // WHY: New structure uses TimeRanges directly, no categorized TimeSlots
+    // PATTERN: Return TimeRange properties
+    return transformed.onSiteTimeRange || transformed.totalTimeRange || transformed.clientPresentTimeRange || transformed.moveableTimeRange || null
   }
 
   /**
@@ -195,12 +179,11 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     if (!appointmentSlot) return null
 
     const clientStartTime = startTime
-    const onSite = onSiteTotal.value
-    const transformed = transformToClientPerspective(appointmentSlot, clientStartTime, onSite)
-    // LEARNING: Prefer TimeSlot properties (which extend TimeRange), fallback to TimeRange properties
-    // WHY: TimeSlot has more information (onSite, clientPresent, moveable), but TimeRange is acceptable fallback
-    // PATTERN: Return TimeSlot first, then TimeRange
-    return transformed.clientPresentation || transformed.dataCollection || transformed.earlyArrival || transformed.reportWriting || transformed.totalOnSite || transformed.totalTime || null
+    const transformed = transformToClientPerspective(appointmentSlot, clientStartTime)
+    // LEARNING: Return TimeRange properties (no categorized slots in new structure)
+    // WHY: New structure uses TimeRanges directly, no categorized TimeSlots
+    // PATTERN: Return TimeRange properties
+    return transformed.clientPresentTimeRange || transformed.totalTimeRange || transformed.onSiteTimeRange || transformed.moveableTimeRange || null
   }
 
   return {

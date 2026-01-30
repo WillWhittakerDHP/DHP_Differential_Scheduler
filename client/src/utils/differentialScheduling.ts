@@ -8,14 +8,15 @@
  */
 
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { createTimeRange, createTimeSlot as createTimeSlotWithFlags } from './booking/appointmentSlotBuilder'
-import type { TimeSlot } from '@/types/appointment'
+import { createTimeRange, createTimeRangesFromSlotShape } from './booking/appointmentSlotBuilder'
 
 /**
  * Calculate total time inspector is on-site before client arrives
  * LEARNING: Sums all part instances' baseTime where onSite = true
  * WHY: Inspector needs to arrive this many minutes before client start time
  * PATTERN: Filter part instances by onSite, sum baseTime values
+ * 
+ * @deprecated Use `AppointmentShape.slotShape.onSite` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
  * 
  * @param service - BookingBlockInstance with partInstances
  * @returns Total on-site time in minutes, defaults to 0 if no part instances
@@ -45,6 +46,8 @@ export function calculateOnSiteTotal(service: BookingBlockInstance | null): numb
  * LEARNING: Sums all part instances' baseTime where clientPresent = true
  * WHY: Duration of time client needs to be present
  * PATTERN: Filter part instances by clientPresent, sum baseTime values
+ * 
+ * @deprecated Use `AppointmentShape.slotShape.clientPresent` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
  * 
  * @param service - BookingBlockInstance with partInstances
  * @returns Total client presence time in minutes, defaults to 0 if no part instances
@@ -152,50 +155,42 @@ export function transformToInspectorPerspective(
   appointmentSlot: import('@/types/appointment').AppointmentSlot,
   inspectorStartTime: string
 ): import('@/types/appointment').AppointmentSlot {
-  // LEARNING: Calculate durations from existing TimeSlots/TimeRanges or use 0
-  // WHY: Preserves duration information even if TimeSlots/TimeRanges are null
-  // PATTERN: Extract duration from TimeSlot/TimeRange or default to 0
-  const totalDuration = appointmentSlot.totalTime?.duration || 0
-  const totalOnSiteDuration = appointmentSlot.totalOnSite?.duration || 0
-  const earlyArrivalDuration = appointmentSlot.earlyArrival?.duration || 0
-  const dataCollectionDuration = appointmentSlot.dataCollection?.duration || 0
-  const reportWritingDuration = appointmentSlot.reportWriting?.duration || 0
-  const clientPresentationDuration = appointmentSlot.clientPresentation?.duration || 0
+  // LEARNING: Get durations from SlotShape (source of truth)
+  // WHY: SlotShape contains all duration information needed
+  // PATTERN: Access durations via slot.shape.slotShape
+  const slotShape = appointmentSlot.shape.slotShape
+  const totalOnSiteDuration = slotShape.onSite
+  const clientPresentDuration = slotShape.clientPresent
   
-  // LEARNING: Calculate client start time for clientPresentation
+  // LEARNING: Calculate client start time for clientPresentTimeRange
   // WHY: Client presentation happens after inspector has completed on-site work
   // PATTERN: Add totalOnSiteDuration to inspector start time
   const clientStartTime = calculateClientStartTimeFromInspector(inspectorStartTime, totalOnSiteDuration)
   
-  // LEARNING: Helper to get flags from existing TimeSlot or use defaults
-  // WHY: Preserves flags when transforming TimeSlots
-  // PATTERN: Extract flags from existing TimeSlot or use false as default
-  const getTimeSlotFlags = (timeSlot: TimeSlot | null): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } => {
-    if (!timeSlot) return { onSite: false, clientPresent: false, moveable: false, isAvailable: true }
-    return {
-      onSite: timeSlot.onSite ?? false,
-      clientPresent: timeSlot.clientPresent ?? false,
-      moveable: timeSlot.moveable ?? false,
-      isAvailable: timeSlot.isAvailable ?? true  // Preserve availability status, default to true
+  // LEARNING: Create time ranges from SlotShape with new start time
+  // WHY: Transform slot to use inspector start time as base
+  // PATTERN: Use createTimeRangesFromSlotShape utility
+  const timeRanges = createTimeRangesFromSlotShape(slotShape, inspectorStartTime)
+  
+  // LEARNING: Adjust clientPresentTimeRange to end when inspector finishes on-site work
+  // WHY: Client-present time should end when inspector finishes on-site work
+  let clientPresentTimeRange = timeRanges.clientPresentTimeRange
+  if (timeRanges.onSiteTimeRange && clientPresentDuration > 0 && slotShape.clientStartOffset >= 0) {
+    const clientPresentDurationAdjusted = timeRanges.onSiteTimeRange.duration - slotShape.clientStartOffset
+    if (clientPresentDurationAdjusted > 0) {
+      clientPresentTimeRange = createTimeRange(clientStartTime, clientPresentDurationAdjusted)
+    } else {
+      clientPresentTimeRange = null
     }
   }
   
   return {
     ...appointmentSlot,
-    totalTime: totalDuration > 0 ? createTimeRange(inspectorStartTime, totalDuration) : null,
-    totalOnSite: totalOnSiteDuration > 0 ? createTimeRange(inspectorStartTime, totalOnSiteDuration) : null,
-    earlyArrival: earlyArrivalDuration > 0 
-      ? createTimeSlotWithFlags(inspectorStartTime, earlyArrivalDuration, getTimeSlotFlags(appointmentSlot.earlyArrival))
-      : null,
-    dataCollection: dataCollectionDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, dataCollectionDuration, getTimeSlotFlags(appointmentSlot.dataCollection))
-      : null,
-    reportWriting: reportWritingDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, reportWritingDuration, getTimeSlotFlags(appointmentSlot.reportWriting))
-      : null,
-    clientPresentation: clientPresentationDuration > 0
-      ? createTimeSlotWithFlags(clientStartTime, clientPresentationDuration, getTimeSlotFlags(appointmentSlot.clientPresentation))
-      : null,
+    startTime: inspectorStartTime,
+    totalTimeRange: timeRanges.totalTimeRange,
+    onSiteTimeRange: timeRanges.onSiteTimeRange,
+    clientPresentTimeRange,
+    moveableTimeRange: timeRanges.moveableTimeRange
   }
 }
 
@@ -207,57 +202,51 @@ export function transformToInspectorPerspective(
  * 
  * @param appointmentSlot - AppointmentSlot object (may have null TimeSlots)
  * @param clientStartTime - Client start time as ISO date string
- * @param onSiteTotal - Total minutes inspector needs before client arrives
  * @returns AppointmentSlot with TimeSlot objects calculated from client start time
  */
 export function transformToClientPerspective(
   appointmentSlot: import('@/types/appointment').AppointmentSlot,
-  clientStartTime: string,
-  onSiteTotal: number
+  clientStartTime: string
 ): import('@/types/appointment').AppointmentSlot {
+  // LEARNING: Get onSite duration from SlotShape (source of truth)
+  // WHY: SlotShape already contains calculated onSite duration, no need for separate parameter
+  // PATTERN: Access slotShape.onSite directly
+  const slotShape = appointmentSlot.shape.slotShape
+  const onSiteTotal = slotShape.onSite
+  
   // LEARNING: Calculate inspector start time (before client arrives)
   // WHY: Inspector perspective times are calculated backwards from client start
   // PATTERN: Subtract onSiteTotal from client start time
   const inspectorStartTime = calculateInspectorStartTime(clientStartTime, onSiteTotal)
   
-  // LEARNING: Calculate durations from existing TimeSlots/TimeRanges or use 0
-  // WHY: Preserves duration information even if TimeSlots/TimeRanges are null
-  // PATTERN: Extract duration from TimeSlot/TimeRange or default to 0
-  const totalDuration = appointmentSlot.totalTime?.duration || 0
-  const totalOnSiteDuration = appointmentSlot.totalOnSite?.duration || 0
-  const earlyArrivalDuration = appointmentSlot.earlyArrival?.duration || 0
-  const dataCollectionDuration = appointmentSlot.dataCollection?.duration || 0
-  const reportWritingDuration = appointmentSlot.reportWriting?.duration || 0
-  const clientPresentationDuration = appointmentSlot.clientPresentation?.duration || 0
+  // LEARNING: Create time ranges from SlotShape with inspector start time
+  // WHY: Transform slot to use inspector start time as base for on-site work
+  // PATTERN: Use createTimeRangesFromSlotShape utility with inspector start time
+  const timeRanges = createTimeRangesFromSlotShape(slotShape, inspectorStartTime)
   
-  // LEARNING: Helper to get flags from existing TimeSlot or use defaults
-  // WHY: Preserves flags when transforming TimeSlots
-  // PATTERN: Extract flags from existing TimeSlot or use false as default
-  const getTimeSlotFlags = (timeSlot: TimeSlot | null): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } => {
-    if (!timeSlot) return { onSite: false, clientPresent: false, moveable: false, isAvailable: true }
-    return {
-      onSite: timeSlot.onSite ?? false,
-      clientPresent: timeSlot.clientPresent ?? false,
-      moveable: timeSlot.moveable ?? false,
-      isAvailable: timeSlot.isAvailable ?? true  // Preserve availability status, default to true
+  // LEARNING: Adjust clientPresentTimeRange to start at client start time
+  // WHY: Client-present time starts when client arrives
+  // PATTERN: Create clientPresentTimeRange starting at clientStartTime, ending when inspector finishes on-site work
+  let clientPresentTimeRange = null
+  if (timeRanges.onSiteTimeRange && slotShape.clientPresent > 0 && slotShape.clientStartOffset >= 0) {
+    const clientPresentDurationAdjusted = timeRanges.onSiteTimeRange.duration - slotShape.clientStartOffset
+    if (clientPresentDurationAdjusted > 0) {
+      clientPresentTimeRange = createTimeRange(clientStartTime, clientPresentDurationAdjusted)
     }
   }
   
+  // LEARNING: Create totalTimeRange starting at client start time
+  // WHY: Total appointment time from client perspective starts when client arrives
+  const totalTimeRange = slotShape.totalDuration > 0
+    ? createTimeRange(clientStartTime, slotShape.totalDuration)
+    : null
+  
   return {
     ...appointmentSlot,
-    totalTime: totalDuration > 0 ? createTimeRange(clientStartTime, totalDuration) : null,
-    totalOnSite: totalOnSiteDuration > 0 ? createTimeRange(inspectorStartTime, totalOnSiteDuration) : null,
-    earlyArrival: earlyArrivalDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, earlyArrivalDuration, getTimeSlotFlags(appointmentSlot.earlyArrival))
-      : null,
-    dataCollection: dataCollectionDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, dataCollectionDuration, getTimeSlotFlags(appointmentSlot.dataCollection))
-      : null,
-    reportWriting: reportWritingDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, reportWritingDuration, getTimeSlotFlags(appointmentSlot.reportWriting))
-      : null,
-    clientPresentation: clientPresentationDuration > 0
-      ? createTimeSlotWithFlags(clientStartTime, clientPresentationDuration, getTimeSlotFlags(appointmentSlot.clientPresentation))
-      : null,
+    startTime: clientStartTime,
+    totalTimeRange,
+    onSiteTimeRange: timeRanges.onSiteTimeRange,
+    clientPresentTimeRange,
+    moveableTimeRange: timeRanges.moveableTimeRange
   }
 }

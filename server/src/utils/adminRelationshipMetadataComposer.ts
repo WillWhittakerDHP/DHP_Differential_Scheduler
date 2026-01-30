@@ -13,7 +13,7 @@ import { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipM
  */
 export interface RelationshipMetadataEntry {
   relationshipKey: string;
-  dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   label: string;
   isRequired: boolean;
   visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';

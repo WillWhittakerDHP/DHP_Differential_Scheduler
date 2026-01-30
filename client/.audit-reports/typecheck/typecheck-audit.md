@@ -8,17 +8,21 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-01-29T17:12:05.642Z**
-- Command: `node_modules/.bin/vue-tsc -b --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Generated at: **2026-01-30T00:41:26.232Z**
+- Client command: `vue-tsc -b --pretty false`
+- Server command: `tsc --noEmit --pretty false`
+- Exit code: **1**
+- **Errors requiring review: 3**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **3**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P1 | `TS2304-ts2304-cannot-find-name-entitycardsavecontext` | 13 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-inject-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6192-ts6192-all-imports-in-import-declaration-are-unused` | 6 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -29,3 +33,13 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `src/components/admin/generic/fields/IconInput.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@109:25 'inject' is declared but its value is never read.
+TS6192@118:1 All imports in import declaration are unused.
+TS2304@173:7 Cannot find name 'entityCardSaveContext'.
+```

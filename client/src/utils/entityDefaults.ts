@@ -94,10 +94,15 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
 
       // LEARNING: Set defaults based on dataType and isRequired
       // WHY: Different field types need different default values
-      // PATTERN: Boolean fields default to false (required) or undefined (nullable), numbers to 0, strings to ''
-      if (dataType === 'boolean') {
+      // PATTERN: Boolean fields default to false (required) or undefined (nullable), ternary fields default to 'false', numbers to 0, strings to ''
+      if (dataType === 'boolean' || dataType === 'ternary') {
         // Required booleans default to false, nullable booleans default to undefined
-        defaults[fieldKey] = isRequired ? false : undefined
+        // Ternary fields default to 'false' (string enum)
+        if (dataType === 'ternary') {
+          defaults[fieldKey] = 'false'
+        } else {
+          defaults[fieldKey] = isRequired ? false : undefined
+        }
       } else if (dataType === 'number') {
         // Required numbers default to 0
         if (isRequired) {
@@ -139,12 +144,13 @@ const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<Glo
     active: true,
     bookingMode: 'standalone' as BookingMode,
     composite: false, // Boolean field must have explicit default
+    differential: 'false' as const, // Ternary field defaults to 'false'
     baseSqFt: 0,
   },
   partInstance: {
     orderIndex: 0, // Required NOT NULL field
-    onSite: false,
-    clientPresent: false,
+    onSite: 'false' as const, // Ternary field defaults to 'false'
+    clientPresent: 'false' as const, // Ternary field defaults to 'false'
     moveable: false,
     baseFee: 0,
     rateOverBaseFee: 0,

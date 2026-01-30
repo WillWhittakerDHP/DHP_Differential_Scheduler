@@ -1,22 +1,165 @@
 {
-  "generatedAt": "2026-01-29T17:12:05.642Z",
+  "generatedAt": "2026-01-30T00:41:26.232Z",
   "scope": {
-    "command": "node_modules/.bin/vue-tsc -b --pretty false",
-    "cwd": ""
+    "client": {
+      "command": "vue-tsc -b --pretty false",
+      "cwd": "client"
+    },
+    "server": {
+      "command": "tsc --noEmit --pretty false",
+      "cwd": "server"
+    }
   },
-  "exitCode": 0,
-  "command": "node_modules/.bin/vue-tsc -b --pretty false",
+  "exitCode": 1,
+  "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "file": "src/components/admin/generic/fields/IconInput.vue",
+      "line": 109,
+      "col": 25,
+      "code": "TS6133",
+      "message": "'inject' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/fields/IconInput.vue(109,25): error TS6133: 'inject' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+    },
+    {
+      "file": "src/components/admin/generic/fields/IconInput.vue",
+      "line": 118,
+      "col": 1,
+      "code": "TS6192",
+      "message": "All imports in import declaration are unused.",
+      "raw": "src/components/admin/generic/fields/IconInput.vue(118,1): error TS6192: All imports in import declaration are unused.",
+      "scope": "client",
+      "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+    },
+    {
+      "file": "src/components/admin/generic/fields/IconInput.vue",
+      "line": 173,
+      "col": 7,
+      "code": "TS2304",
+      "message": "Cannot find name 'entityCardSaveContext'.",
+      "raw": "src/components/admin/generic/fields/IconInput.vue(173,7): error TS2304: Cannot find name 'entityCardSaveContext'.",
+      "scope": "client",
+      "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+    }
+  ],
   "allowedErrors": [],
-  "pools": [],
-  "files": []
+  "pools": [
+    {
+      "poolId": "TS2304-ts2304-cannot-find-name-entitycardsavecontext",
+      "groupKey": "TS2304::Cannot find name 'entityCardSaveContext'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/fields/IconInput.vue",
+          "line": 173,
+          "col": 7,
+          "code": "TS2304",
+          "message": "Cannot find name 'entityCardSaveContext'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS6133-ts6133-inject-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'inject' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/fields/IconInput.vue",
+          "line": 109,
+          "col": 25,
+          "code": "TS6133",
+          "message": "'inject' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6192-ts6192-all-imports-in-import-declaration-are-unused",
+      "groupKey": "TS6192::All imports in import declaration are unused.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/fields/IconInput.vue",
+          "line": 118,
+          "col": 1,
+          "code": "TS6192",
+          "message": "All imports in import declaration are unused."
+        }
+      ],
+      "priority": "P2"
+    }
+  ],
+  "files": [
+    {
+      "repoPath": "src/components/admin/generic/fields/IconInput.vue",
+      "errorCount": 3,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/fields/IconInput.vue",
+          "line": 109,
+          "col": 25,
+          "code": "TS6133",
+          "message": "'inject' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/fields/IconInput.vue(109,25): error TS6133: 'inject' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+        },
+        {
+          "file": "src/components/admin/generic/fields/IconInput.vue",
+          "line": 118,
+          "col": 1,
+          "code": "TS6192",
+          "message": "All imports in import declaration are unused.",
+          "raw": "src/components/admin/generic/fields/IconInput.vue(118,1): error TS6192: All imports in import declaration are unused.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+        },
+        {
+          "file": "src/components/admin/generic/fields/IconInput.vue",
+          "line": 173,
+          "col": 7,
+          "code": "TS2304",
+          "message": "Cannot find name 'entityCardSaveContext'.",
+          "raw": "src/components/admin/generic/fields/IconInput.vue(173,7): error TS2304: Cannot find name 'entityCardSaveContext'.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+        }
+      ]
+    }
+  ]
 }

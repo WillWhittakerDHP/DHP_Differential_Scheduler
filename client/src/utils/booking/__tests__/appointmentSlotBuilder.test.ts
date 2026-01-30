@@ -25,16 +25,14 @@
 import { describe, it, expect, vi } from 'vitest'
 import {
   createTimeRange,
-  createTimeSlot,
-  sumDuration,
-  sumOnSite,
-  sumClientPresent,
-  sumMoveable,
-  sumTotal,
+  createTimeRangesFromSlotShape,
   buildAppointmentShape,
   applyShapeToTime,
   derivePerspective
 } from '../appointmentSlotBuilder'
+import { calculateSlotShape } from '../partShapeAggregator'
+import { createFinalizedParts, filterZeroedParts } from '../partShapeAggregator'
+import type { FinalizedPart } from '../FinalizedPart'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 
@@ -50,8 +48,8 @@ function createPartInstance(
   id: string,
   baseTime: number,
   options: {
-    onSite?: boolean
-    clientPresent?: boolean
+    onSite?: 'true' | 'false' | 'override'
+    clientPresent?: 'true' | 'false' | 'override'
     moveable?: boolean
     zeroOutPart?: boolean
     name?: string
@@ -63,8 +61,8 @@ function createPartInstance(
     entityKey: 'partInstance',
     name: options.name || `Part ${id}`,
     partShape: options.partShape || 'shape-1',
-    onSite: options.onSite ?? false,
-    clientPresent: options.clientPresent ?? false,
+      onSite: (options.onSite ?? 'false') as 'true' | 'false' | 'override',
+      clientPresent: (options.clientPresent ?? 'false') as 'true' | 'false' | 'override',
     moveable: options.moveable ?? false,
     baseTime,
     rateOverBaseTime: 0,
@@ -131,8 +129,8 @@ describe('appointmentSlotBuilder', () => {
       const startTime = '2026-01-15T10:00:00Z'
       const duration = 60
       const flags = {
-        onSite: true,
-        clientPresent: true,
+        onSite: 'true',
+        clientPresent: 'true',
         moveable: false,
         isAvailable: true
       }
@@ -142,91 +140,49 @@ describe('appointmentSlotBuilder', () => {
       expect(result.startTime).toBe('2026-01-15T10:00:00.000Z')
       expect(result.endTime).toBe('2026-01-15T11:00:00.000Z')
       expect(result.duration).toBe(60)
-      expect(result.onSite).toBe(true)
-      expect(result.clientPresent).toBe(true)
+      expect(result.onSite).toBe('true')
+      expect(result.clientPresent).toBe('true')
       expect(result.moveable).toBe(false)
       expect(result.isAvailable).toBe(true)
     })
   })
 
-  describe('sumDuration', () => {
-    it('should sum baseTime for parts matching predicate', () => {
-      const parts = [
-        createPartInstance('1', 30, { onSite: true }),
-        createPartInstance('2', 45, { onSite: false }),
-        createPartInstance('3', 60, { onSite: true })
-      ]
+  describe('createTimeRangesFromSlotShape', () => {
+    it('should create time ranges from SlotShape and start time', () => {
+      const slotShape = {
+        totalDuration: 120,
+        onSite: 90,
+        clientPresent: 60,
+        moveable: 30,
+        clientStartOffset: 30
+      }
+      const startTime = '2026-01-15T10:00:00Z'
       
-      const result = sumDuration(parts, part => part.onSite === true)
+      const result = createTimeRangesFromSlotShape(slotShape, startTime)
       
-      expect(result).toBe(90) // 30 + 60
+      expect(result.totalTimeRange?.duration).toBe(120)
+      expect(result.onSiteTimeRange?.duration).toBe(90)
+      expect(result.clientPresentTimeRange?.duration).toBe(60)
+      expect(result.moveableTimeRange?.duration).toBe(30)
+      expect(result.clientPresentTimeRange?.startTime).toBe('2026-01-15T10:30:00.000Z') // startTime + 30 min offset
     })
 
-    it('should return 0 for empty array', () => {
-      const result = sumDuration([], () => true)
-      expect(result).toBe(0)
-    })
-
-    it('should handle parts with undefined baseTime', () => {
-      const parts = [
-        createPartInstance('1', 30),
-        { ...createPartInstance('2', 0), baseTime: undefined } as BookingPartInstance
-      ]
+    it('should return null for zero durations', () => {
+      const slotShape = {
+        totalDuration: 0,
+        onSite: 0,
+        clientPresent: 0,
+        moveable: 0,
+        clientStartOffset: 0
+      }
+      const startTime = '2026-01-15T10:00:00Z'
       
-      const result = sumDuration(parts, () => true)
-      expect(result).toBe(30)
-    })
-  })
-
-  describe('sumOnSite', () => {
-    it('should sum baseTime for parts where onSite is true', () => {
-      const parts = [
-        createPartInstance('1', 30, { onSite: true }),
-        createPartInstance('2', 45, { onSite: false }),
-        createPartInstance('3', 60, { onSite: true })
-      ]
+      const result = createTimeRangesFromSlotShape(slotShape, startTime)
       
-      const result = sumOnSite(parts)
-      expect(result).toBe(90)
-    })
-  })
-
-  describe('sumClientPresent', () => {
-    it('should sum baseTime for parts where clientPresent is true', () => {
-      const parts = [
-        createPartInstance('1', 30, { clientPresent: true }),
-        createPartInstance('2', 45, { clientPresent: false }),
-        createPartInstance('3', 60, { clientPresent: true })
-      ]
-      
-      const result = sumClientPresent(parts)
-      expect(result).toBe(90)
-    })
-  })
-
-  describe('sumMoveable', () => {
-    it('should sum baseTime for parts where moveable is true', () => {
-      const parts = [
-        createPartInstance('1', 30, { moveable: true }),
-        createPartInstance('2', 45, { moveable: false }),
-        createPartInstance('3', 60, { moveable: true })
-      ]
-      
-      const result = sumMoveable(parts)
-      expect(result).toBe(90)
-    })
-  })
-
-  describe('sumTotal', () => {
-    it('should sum baseTime for all parts', () => {
-      const parts = [
-        createPartInstance('1', 30),
-        createPartInstance('2', 45),
-        createPartInstance('3', 60)
-      ]
-      
-      const result = sumTotal(parts)
-      expect(result).toBe(135)
+      expect(result.totalTimeRange).toBeNull()
+      expect(result.onSiteTimeRange).toBeNull()
+      expect(result.clientPresentTimeRange).toBeNull()
+      expect(result.moveableTimeRange).toBeNull()
     })
   })
 
@@ -234,224 +190,272 @@ describe('appointmentSlotBuilder', () => {
     it('should return empty shape for empty block instances', () => {
       const result = buildAppointmentShape([])
       
-      expect(result.earlyArrivalShape).toBeNull()
-      expect(result.dataCollectionShape).toBeNull()
-      expect(result.reportWritingShape).toBeNull()
-      expect(result.clientPresentationShape).toBeNull()
-      expect(result.totalOnSiteDuration).toBe(0)
-      expect(result.totalClientPresentDuration).toBe(0)
-      expect(result.totalMoveableDuration).toBe(0)
-      expect(result.totalDuration).toBe(0)
-      expect(result.clientStartOffset).toBe(0)
+      expect(result.finalizedParts).toEqual([])
+      expect(result.slotShape.totalDuration).toBe(0)
+      expect(result.slotShape.onSite).toBe(0)
+      expect(result.slotShape.clientPresent).toBe(0)
+      expect(result.slotShape.moveable).toBe(0)
+      expect(result.slotShape.clientStartOffset).toBe(0)
     })
 
     it('should build shape from block instances with parts', () => {
       const parts = [
-        createPartInstance('1', 30, { onSite: true, clientPresent: true, moveable: true, partShape: 'early-arrival' }),
-        createPartInstance('2', 45, { onSite: true, clientPresent: false, partShape: 'data-collection' }),
-        createPartInstance('3', 60, { onSite: false, clientPresent: true, partShape: 'report-writing' })
+        createPartInstance('1', 30, { onSite: 'true', clientPresent: 'true', moveable: true, partShape: 'shape-1' }),
+        createPartInstance('2', 45, { onSite: 'true', clientPresent: 'false', partShape: 'shape-2' }),
+        createPartInstance('3', 60, { onSite: 'false', clientPresent: 'true', partShape: 'shape-3' })
       ]
       const blockInstance = createBlockInstance('block-1', parts)
       
       const result = buildAppointmentShape([blockInstance])
       
-      expect(result.totalDuration).toBe(135)
-      expect(result.totalOnSiteDuration).toBe(75) // 30 + 45, rounded
-      expect(result.totalClientPresentDuration).toBe(90) // 30 + 60
-      expect(result.totalMoveableDuration).toBe(30) // moveable=true
-      expect(result.clientStartOffset).toBe(45) // onSite=true, clientPresent=false
+      expect(result.finalizedParts.length).toBe(3) // Three different part shapes
+      expect(result.slotShape.totalDuration).toBe(135) // 30 + 45 + 60
+      expect(result.slotShape.onSite).toBe(75) // 30 + 45 (rounded)
+      expect(result.slotShape.clientPresent).toBe(90) // 30 + 60
+      expect(result.slotShape.moveable).toBe(30) // moveable=true
+      expect(result.slotShape.clientStartOffset).toBe(45) // onSite=true, clientPresent=false
     })
 
     it('should zero out finalized parts when zeroOutPart is true', () => {
       const parts = [
-        createPartInstance('1', 30, { onSite: true, moveable: true, partShape: 'early-arrival', zeroOutPart: true }),
-        createPartInstance('2', 45, { onSite: true, moveable: true, partShape: 'early-arrival' })
+        createPartInstance('1', 30, { onSite: 'true', moveable: true, partShape: 'shape-1', zeroOutPart: true }),
+        createPartInstance('2', 45, { onSite: 'true', moveable: true, partShape: 'shape-1' })
       ]
       const blockInstance = createBlockInstance('block-1', parts)
       
       const result = buildAppointmentShape([blockInstance])
       
-      // Early arrival shape should be null (zeroed out)
-      expect(result.earlyArrivalShape).toBeNull()
-      // Total duration should exclude zeroed parts
-      expect(result.totalDuration).toBe(0)
+      // Zeroed parts should be filtered out
+      expect(result.finalizedParts.length).toBe(0)
+      expect(result.slotShape.totalDuration).toBe(0)
     })
 
     it('should handle multiple block instances', () => {
       const block1 = createBlockInstance('block-1', [
-        createPartInstance('1', 30, { onSite: true, moveable: true, partShape: 'early-arrival' })
+        createPartInstance('1', 30, { onSite: 'true', moveable: true, partShape: 'shape-1' })
       ])
       const block2 = createBlockInstance('block-2', [
-        createPartInstance('2', 45, { onSite: true, clientPresent: false, partShape: 'data-collection' })
+        createPartInstance('2', 45, { onSite: 'true', clientPresent: 'false', partShape: 'shape-2' })
       ])
       
       const result = buildAppointmentShape([block1, block2])
       
-      expect(result.totalDuration).toBe(75)
+      expect(result.slotShape.totalDuration).toBe(75)
+      expect(result.finalizedParts.length).toBe(2) // Two different part shapes
     })
   })
 
   describe('applyShapeToTime', () => {
     it('should apply shape to start time', () => {
+      const finalizedParts = createFinalizedParts([
+        createPartInstance('1', 30, { onSite: 'true', clientPresent: 'true', moveable: true, partShape: 'shape-1' })
+      ])
       const shape: AppointmentShape = {
-        earlyArrivalShape: { duration: 30, onSite: true, clientPresent: true, moveable: false },
-        dataCollectionShape: null,
-        reportWritingShape: null,
-        clientPresentationShape: null,
-        totalOnSiteDuration: 30,
-        totalClientPresentDuration: 30,
-        totalMoveableDuration: 0,
-        totalDuration: 30,
-        clientStartOffset: 0
+        finalizedParts: filterZeroedParts(finalizedParts),
+        slotShape: calculateSlotShape(filterZeroedParts(finalizedParts))
       }
       
       const result = applyShapeToTime(shape, '2026-01-15T10:00:00Z', 0, undefined, true)
       
       expect(result.buttonIndex).toBe(0)
       expect(result.isAvailable).toBe(true)
-      expect(result.earlyArrivalSlot?.startTime).toBe('2026-01-15T10:00:00.000Z')
-      expect(result.earlyArrivalSlot?.endTime).toBe('2026-01-15T10:30:00.000Z')
-      expect(result.totalTime.startTime).toBe('2026-01-15T10:00:00.000Z')
-      expect(result.totalTime.endTime).toBe('2026-01-15T10:30:00.000Z')
+      expect(result.shape).toBe(shape)
+      expect(result.startTime).toBe('2026-01-15T10:00:00Z')
+      expect(result.totalTimeRange?.startTime).toBe('2026-01-15T10:00:00.000Z')
+      expect(result.totalTimeRange?.endTime).toBe('2026-01-15T10:30:00.000Z')
+      expect(result.onSiteTimeRange?.duration).toBe(30)
     })
 
     it('should use fallbackDuration when totalDuration is 0', () => {
       const shape: AppointmentShape = {
-        earlyArrivalShape: null,
-        dataCollectionShape: null,
-        reportWritingShape: null,
-        clientPresentationShape: null,
-        totalOnSiteDuration: 0,
-        totalClientPresentDuration: 0,
-        totalMoveableDuration: 0,
-        totalDuration: 0,
-        clientStartOffset: 0
+        finalizedParts: [],
+        slotShape: {
+          totalDuration: 0,
+          onSite: 0,
+          clientPresent: 0,
+          moveable: 0,
+          clientStartOffset: 0
+        }
       }
       
       const result = applyShapeToTime(shape, '2026-01-15T10:00:00Z', 0, 60, true)
       
-      expect(result.totalTime.duration).toBe(60)
+      expect(result.totalTimeRange?.duration).toBe(60)
     })
 
-    it('should validate that totalClientPresent and totalOnSite end at same time', () => {
+    it('should validate that clientPresentTimeRange and onSiteTimeRange end at same time', () => {
+      const finalizedParts = createFinalizedParts([
+        createPartInstance('1', 30, { onSite: true, clientPresent: false, partShape: 'shape-1' }),
+        createPartInstance('2', 30, { onSite: true, clientPresent: true, partShape: 'shape-2' })
+      ])
       const shape: AppointmentShape = {
-        earlyArrivalShape: null,
-        dataCollectionShape: null,
-        reportWritingShape: null,
-        clientPresentationShape: null,
-        totalOnSiteDuration: 60,
-        totalClientPresentDuration: 30,
-        totalMoveableDuration: 0,
-        totalDuration: 60,
-        clientStartOffset: 30
+        finalizedParts: filterZeroedParts(finalizedParts),
+        slotShape: calculateSlotShape(filterZeroedParts(finalizedParts))
       }
       
-      // Should not throw - clientPresent ends when onSite ends
+      // Should not throw - clientPresentTimeRange ends when onSiteTimeRange ends
       const result = applyShapeToTime(shape, '2026-01-15T10:00:00Z', 0, undefined, true)
       
-      expect(result.totalOnSite?.endTime).toBe(result.totalClientPresent?.endTime)
+      expect(result.onSiteTimeRange?.endTime).toBe(result.clientPresentTimeRange?.endTime)
     })
 
-    it('should ensure totalClientPresent and totalOnSite end times match when both exist', () => {
-      // The implementation calculates totalClientPresent to end when totalOnSite ends
+    it('should ensure clientPresentTimeRange and onSiteTimeRange end times match when both exist', () => {
+      // The implementation calculates clientPresentTimeRange to end when onSiteTimeRange ends
       // This test verifies that the validation ensures they match
+      const finalizedParts = createFinalizedParts([
+        createPartInstance('1', 30, { onSite: true, clientPresent: false, partShape: 'shape-1' }),
+        createPartInstance('2', 30, { onSite: true, clientPresent: true, partShape: 'shape-2' })
+      ])
       const shape: AppointmentShape = {
-        earlyArrivalShape: null,
-        dataCollectionShape: null,
-        reportWritingShape: null,
-        clientPresentationShape: null,
-        totalOnSiteDuration: 60,
-        totalClientPresentDuration: 30,
-        totalMoveableDuration: 0,
-        totalDuration: 60,
-        clientStartOffset: 30 // Client starts 30 minutes after inspector
+        finalizedParts: filterZeroedParts(finalizedParts),
+        slotShape: calculateSlotShape(filterZeroedParts(finalizedParts))
       }
       
       const result = applyShapeToTime(shape, '2026-01-15T10:00:00Z', 0, undefined, true)
       
       // Both should exist
-      expect(result.totalOnSite).toBeTruthy()
-      expect(result.totalClientPresent).toBeTruthy()
+      expect(result.onSiteTimeRange).toBeTruthy()
+      expect(result.clientPresentTimeRange).toBeTruthy()
       // They should end at the same time (when inspector finishes on-site work)
-      expect(result.totalOnSite?.endTime).toBe(result.totalClientPresent?.endTime)
+      expect(result.onSiteTimeRange?.endTime).toBe(result.clientPresentTimeRange?.endTime)
     })
   })
 
   describe('derivePerspective', () => {
     it('should derive onSite perspective', () => {
+      const shape: AppointmentShape = {
+        finalizedParts: [],
+        slotShape: {
+          totalDuration: 120,
+          onSite: 60,
+          clientPresent: 0,
+          moveable: 0,
+          clientStartOffset: 0
+        }
+      }
       const slot: AppointmentSlot = {
         buttonIndex: 0,
         isAvailable: true,
-        earlyArrivalSlot: null,
-        dataCollectionSlot: null,
-        reportWritingSlot: null,
-        clientPresentationSlot: null,
-        totalOnSite: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 60 },
-        totalClientPresent: null,
-        totalMoveable: null,
-        totalTime: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T12:00:00Z' as any, duration: 120 }
+        shape,
+        startTime: '2026-01-15T10:00:00Z',
+        onSiteTimeRange: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 60 },
+        clientPresentTimeRange: null,
+        moveableTimeRange: null,
+        totalTimeRange: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T12:00:00Z' as any, duration: 120 }
       }
       
       const result = derivePerspective(slot, 'onSite')
       
-      expect(result).toBe(slot.totalOnSite)
+      expect(result).toBe(slot.onSiteTimeRange)
     })
 
-    it('should fallback to totalTime when totalOnSite is null', () => {
+
+    it('should fallback to totalTimeRange when onSiteTimeRange is null', () => {
+      const shape: AppointmentShape = {
+        finalizedParts: [],
+        slotShape: {
+          totalDuration: 120,
+          onSite: 0,
+          clientPresent: 0,
+          moveable: 0,
+          clientStartOffset: 0
+        }
+      }
       const slot: AppointmentSlot = {
         buttonIndex: 0,
         isAvailable: true,
-        earlyArrivalSlot: null,
-        dataCollectionSlot: null,
-        reportWritingSlot: null,
-        clientPresentationSlot: null,
-        totalOnSite: null,
-        totalClientPresent: null,
-        totalMoveable: null,
-        totalTime: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T12:00:00Z' as any, duration: 120 }
+        shape,
+        startTime: '2026-01-15T10:00:00Z',
+        onSiteTimeRange: null,
+        clientPresentTimeRange: null,
+        moveableTimeRange: null,
+        totalTimeRange: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T12:00:00Z' as any, duration: 120 }
       }
       
       const result = derivePerspective(slot, 'onSite')
       
-      expect(result).toBe(slot.totalTime)
+      expect(result).toBe(slot.totalTimeRange)
     })
 
     it('should derive clientPresent perspective', () => {
+      const shape: AppointmentShape = {
+        finalizedParts: [],
+        slotShape: {
+          totalDuration: 120,
+          onSite: 60,
+          clientPresent: 30,
+          moveable: 0,
+          clientStartOffset: 30
+        }
+      }
       const slot: AppointmentSlot = {
         buttonIndex: 0,
         isAvailable: true,
-        earlyArrivalSlot: null,
-        dataCollectionSlot: null,
-        reportWritingSlot: null,
-        clientPresentationSlot: null,
-        totalOnSite: null,
-        totalClientPresent: { startTime: '2026-01-15T10:30:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 30 },
-        totalMoveable: null,
-        totalTime: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T12:00:00Z' as any, duration: 120 }
+        shape,
+        startTime: '2026-01-15T10:00:00Z',
+        onSiteTimeRange: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 60 },
+        clientPresentTimeRange: { startTime: '2026-01-15T10:30:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 30 },
+        moveableTimeRange: null,
+        totalTimeRange: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T12:00:00Z' as any, duration: 120 }
       }
       
       const result = derivePerspective(slot, 'clientPresent')
       
-      expect(result).toBe(slot.totalClientPresent)
+      expect(result).toBe(slot.clientPresentTimeRange)
     })
 
-    it('should derive nonDifferential perspective', () => {
+    it('should fallback to totalTimeRange when clientPresentTimeRange is null', () => {
+      const shape: AppointmentShape = {
+        finalizedParts: [],
+        slotShape: {
+          totalDuration: 120,
+          onSite: 60,
+          clientPresent: 0,
+          moveable: 0,
+          clientStartOffset: 0
+        }
+      }
       const slot: AppointmentSlot = {
         buttonIndex: 0,
         isAvailable: true,
-        earlyArrivalSlot: null,
-        dataCollectionSlot: null,
-        reportWritingSlot: null,
-        clientPresentationSlot: null,
-        totalOnSite: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 60 },
-        totalClientPresent: null,
-        totalMoveable: null,
-        totalTime: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T12:00:00Z' as any, duration: 120 }
+        shape,
+        startTime: '2026-01-15T10:00:00Z',
+        onSiteTimeRange: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 60 },
+        clientPresentTimeRange: null,
+        moveableTimeRange: null,
+        totalTimeRange: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T12:00:00Z' as any, duration: 120 }
+      }
+      
+      const result = derivePerspective(slot, 'clientPresent')
+      
+      expect(result).toBe(slot.totalTimeRange)
+    })
+
+    it('should derive nonDifferential perspective', () => {
+      const shape: AppointmentShape = {
+        finalizedParts: [],
+        slotShape: {
+          totalDuration: 120,
+          onSite: 60,
+          clientPresent: 0,
+          moveable: 0,
+          clientStartOffset: 0
+        }
+      }
+      const slot: AppointmentSlot = {
+        buttonIndex: 0,
+        isAvailable: true,
+        shape,
+        startTime: '2026-01-15T10:00:00Z',
+        onSiteTimeRange: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T11:00:00Z' as any, duration: 60 },
+        clientPresentTimeRange: null,
+        moveableTimeRange: null,
+        totalTimeRange: { startTime: '2026-01-15T10:00:00Z' as any, endTime: '2026-01-15T12:00:00Z' as any, duration: 120 }
       }
       
       const result = derivePerspective(slot, 'nonDifferential')
       
-      expect(result).toBe(slot.totalOnSite)
+      expect(result).toBe(slot.onSiteTimeRange)
     })
   })
 })

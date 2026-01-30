@@ -23,7 +23,7 @@ export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 
  */
 export interface FieldMetadataEntry {
   // Canonical properties (from old field_metadata)
-  dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference'
+  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference'
   label: string
   isRequired: boolean
   

@@ -640,10 +640,6 @@ declare module 'vue' {
     readonly getAvailableUserTypeBlocksForAnnotation: UnwrapRef<typeof import('./src/utils/annotationUtils')['getAvailableUserTypeBlocksForAnnotation']>
     readonly getBlockInstanceAnnotationEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBlockInstanceAnnotationEndpoint']>
     readonly getBlockInstanceAnnotationsEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBlockInstanceAnnotationsEndpoint']>
-    readonly getBlockInstancesByShapeId: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockInstancesByShapeId']>
-    readonly getBlockInstancesByShapeIdFromBooking: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockInstancesByShapeIdFromBooking']>
-    readonly getBlockInstancesByShapeName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockInstancesByShapeName']>
-    readonly getBlockInstancesByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockInstancesByType']>
     readonly getBlockShapeIdByName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByName']>
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
     readonly getBulkPatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBulkPatchEndpoint']>
@@ -666,7 +662,6 @@ declare module 'vue' {
     readonly getRelationshipEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipEndpoint']>
     readonly getStateControlBlockInstanceOptions: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstanceOptions']>
     readonly getStateControlBlockInstances: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstances']>
-    readonly getStateControlBlockShapes: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockShapes']>
     readonly getUserByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getUserByIdEndpoint']>
     readonly getUserEndpoint: UnwrapRef<typeof import('./src/utils/api')['getUserEndpoint']>
     readonly getUserTypeBlockOptionsFromGlobalData: UnwrapRef<typeof import('./src/utils/annotationUtils')['getUserTypeBlockOptionsFromGlobalData']>

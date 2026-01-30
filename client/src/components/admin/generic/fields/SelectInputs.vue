@@ -100,7 +100,7 @@
  *             once adminConfig is ported. For now, accepts config as props.
  */
 
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { AUTCOMPLETE_OFF } from '../../../../utils/autocomplete'
 import BaseInput from './BaseInput.vue'
 import AppSelect from '@/@core/components/app-form-elements/AppSelect.vue'
@@ -121,6 +121,7 @@ import { useSelectLabelResolution } from '@/composables/admin/useSelectLabelReso
 import { useSelectDomTargets } from '@/composables/admin/useSelectDomTargets'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -321,6 +322,20 @@ const logChipRender = (item: { title: string; value: string | number }): string 
   return item.title // Return title for display
 }
 
+/**
+ * LEARNING: Inject EntityCard save context for create cards
+ * WHY: When creating new entities, selects should not trigger mutations
+ * PATTERN: Match TextInput/NumberInput pattern - inject context and pass to handlers
+ */
+const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
+
+/**
+ * LEARNING: Inject disableAutoSave flag from EntityCard
+ * WHY: Allows parent to disable field blur auto-save (e.g., in bulk edit modals)
+ * PATTERN: Match TextInput/NumberInput pattern
+ */
+const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
+
 // LEARNING: Use select handlers composable for all event handling logic
 // WHY: Moves event handling logic out of component into reusable composable
 // PATTERN: Composable handles change, group change, focus, and blur events
@@ -331,7 +346,9 @@ const selectHandlersComposable = useSelectHandlers({
   isMultiple,
   isDescriptionSelect,
   groupedByKey,
-  annotationSelect: annotationSelectComposable
+  annotationSelect: annotationSelectComposable,
+  entityCardSaveContext,
+  disableAutoSave
 })
 const {
   handleGroupChange,

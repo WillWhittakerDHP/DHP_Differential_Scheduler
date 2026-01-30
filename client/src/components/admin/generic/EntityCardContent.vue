@@ -6,7 +6,6 @@
 <script setup lang="ts">
 import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
-import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'

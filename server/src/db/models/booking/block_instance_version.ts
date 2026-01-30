@@ -27,7 +27,7 @@ export class BlockInstanceVersion extends Model<
   declare icon: string | null;
   declare baseSqFt: number | null;
   declare allowMultiple: boolean;
-  declare differential: boolean;
+  declare differential: 'true' | 'false' | 'override';
   declare createdAt: CreationOptional<Date>;
   
   // Relationships
@@ -69,9 +69,9 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         field: 'allow_multiple',
       },
       differential: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'false',
       },
       createdAt: {
         type: DataTypes.DATE,

@@ -7,16 +7,22 @@
  * PATTERN: Teleport to body, fixed positioning, tab interface with VWindow
  */
 
-import { ref, inject, computed, onMounted, onUnmounted, type Ref, type ComputedRef } from 'vue'
+import { ref, inject, computed, onMounted, onUnmounted, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { AppointmentSlots, AppointmentResponse, AppointmentShape } from '@/types/appointment'
+import type { AppointmentResponse, AppointmentShape, SlotShape } from '@/types/appointment'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
+import type { AppointmentSlot } from '@/types/appointment'
+import type { FinalizedPart } from '@/utils/booking/FinalizedPart'
+import { useBooking } from '@/composables/useBooking'
+import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import type { useBookingWizard } from '@/composables/useBookingWizard'
 
 interface Props {
   visible: boolean
@@ -43,7 +49,15 @@ const devPanelData = useDevPanelData()
 // PATTERN: Computed properties that provide defaults, unwrapping refs with .value
 // WHY: Access ComputedRef.value inside computed to ensure reactivity tracking
 // WHY: Access the shared ref first, then the nested ComputedRefs to ensure Vue tracks all dependencies
-const appointmentData = computed(() => {
+interface AppointmentData {
+  selectedBlockInstances: BookingBlockInstance[]
+  appointmentSlots: AppointmentSlot[]
+  appointmentShape: AppointmentShape | null
+  selectedDate: string | undefined
+  selectedTime: string | undefined
+}
+
+const appointmentData = computed<AppointmentData>(() => {
   // LEARNING: Access shared ref first to establish dependency
   // WHY: Ensures Vue tracks changes to the shared ref
   const data = devPanelData.value
@@ -55,6 +69,8 @@ const appointmentData = computed(() => {
   const appointmentSlotsRef = data.appointmentSlots
   const appointmentShapeRef = data.appointmentShape
   const selectedBlockInstancesRef = data.selectedBlockInstances
+  // LEARNING: Access ComputedRef values - these are ComputedRef<string | undefined> | undefined
+  // WHY: TypeScript needs to know these are ComputedRefs to properly access .value
   const selectedDateRef = data.selectedDate
   const selectedTimeRef = data.selectedTime
   
@@ -62,21 +78,32 @@ const appointmentData = computed(() => {
   // WHY: Each .value access tells Vue to track that ComputedRef as a dependency
   // WHY: Handle both ComputedRef and direct array values (Vue may auto-unwrap in some cases)
   // PATTERN: Check if it's a ComputedRef by checking for .value property, otherwise use directly
-  const slots = (appointmentSlotsRef && typeof appointmentSlotsRef === 'object' && 'value' in appointmentSlotsRef)
-    ? appointmentSlotsRef.value
-    : (Array.isArray(appointmentSlotsRef) ? appointmentSlotsRef : [])
-  const appointmentShape = (appointmentShapeRef && typeof appointmentShapeRef === 'object' && 'value' in appointmentShapeRef)
-    ? appointmentShapeRef.value
+  const slots: AppointmentSlot[] = (appointmentSlotsRef && typeof appointmentSlotsRef === 'object' && 'value' in appointmentSlotsRef)
+    ? (appointmentSlotsRef.value as AppointmentSlot[])
+    : (Array.isArray(appointmentSlotsRef) ? (appointmentSlotsRef as AppointmentSlot[]) : [])
+  
+  const appointmentShape: AppointmentShape | null = (appointmentShapeRef && typeof appointmentShapeRef === 'object' && 'value' in appointmentShapeRef)
+    ? (appointmentShapeRef.value as AppointmentShape | null)
     : (appointmentShapeRef as AppointmentShape | null | undefined) ?? null
-  const selectedBlockInstances = (selectedBlockInstancesRef && typeof selectedBlockInstancesRef === 'object' && 'value' in selectedBlockInstancesRef)
-    ? selectedBlockInstancesRef.value
-    : (Array.isArray(selectedBlockInstancesRef) ? selectedBlockInstancesRef : [])
-  const selectedDate = (selectedDateRef && typeof selectedDateRef === 'object' && 'value' in selectedDateRef)
-    ? selectedDateRef.value
-    : selectedDateRef
-  const selectedTime = (selectedTimeRef && typeof selectedTimeRef === 'object' && 'value' in selectedTimeRef)
-    ? selectedTimeRef.value
-    : selectedTimeRef
+  
+  const selectedBlockInstances: BookingBlockInstance[] = (selectedBlockInstancesRef && typeof selectedBlockInstancesRef === 'object' && 'value' in selectedBlockInstancesRef)
+    ? (selectedBlockInstancesRef.value as BookingBlockInstance[])
+    : (Array.isArray(selectedBlockInstancesRef) ? (selectedBlockInstancesRef as BookingBlockInstance[]) : [])
+  
+  // LEARNING: Unwrap selectedDate and selectedTime with proper type guards
+  // WHY: These are ComputedRef<string | undefined> | undefined that need proper unwrapping
+  // PATTERN: Check if ComputedRef exists before accessing .value
+  let selectedDate: string | undefined = undefined
+  if (selectedDateRef && typeof selectedDateRef === 'object' && 'value' in selectedDateRef) {
+    const computedRef = selectedDateRef as ComputedRef<string | undefined>
+    selectedDate = computedRef.value
+  }
+  
+  let selectedTime: string | undefined = undefined
+  if (selectedTimeRef && typeof selectedTimeRef === 'object' && 'value' in selectedTimeRef) {
+    const computedRef = selectedTimeRef as ComputedRef<string | undefined>
+    selectedTime = computedRef.value
+  }
   
   return {
     selectedBlockInstances,
@@ -103,8 +130,18 @@ const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? 
 // LEARNING: Calculate services summary
 // WHY: Shows overview of selected services
 // PATTERN: Map block instances to summary objects
-const servicesSummary = computed(() => {
-  return appointmentData.value.selectedBlockInstances.map(block => ({
+interface ServiceSummary {
+  name: string
+  differential: boolean
+  bookingMode: string
+  baseSqFt: number
+  partCount: number
+}
+
+const servicesSummary = computed<ServiceSummary[]>(() => {
+  const instances = appointmentData.value.selectedBlockInstances
+  if (!instances || !Array.isArray(instances)) return []
+  return instances.map((block: BookingBlockInstance) => ({
     name: block.name,
     differential: block.differential,
     bookingMode: block.bookingMode,
@@ -116,17 +153,21 @@ const servicesSummary = computed(() => {
 // LEARNING: Get finalized parts directly from AppointmentShape
 // WHY: Shows finalized parts directly from source of truth without any filtering
 // PATTERN: Direct access to appointmentShape.finalizedParts
-const finalizedParts = computed(() => {
-  return appointmentData.value.appointmentShape?.finalizedParts || []
+const finalizedParts = computed<FinalizedPart[]>(() => {
+  const shape = appointmentData.value.appointmentShape
+  if (!shape || !shape.finalizedParts) {
+    return []
+  }
+  return shape.finalizedParts
 })
 
 // LEARNING: Get SlotShape totals directly from AppointmentShape
 // WHY: Shows SlotShape properties directly without any filtering or categorization
 // PATTERN: Direct access to appointmentShape.slotShape properties
-const slotShapeTotals = computed(() => {
+const slotShapeTotals = computed<SlotShape>(() => {
   const shape = appointmentData.value.appointmentShape
   
-  if (!shape) {
+  if (!shape || !shape.slotShape) {
     return {
       totalDuration: 0,
       onSite: 0,
@@ -207,7 +248,23 @@ const formatDuration = (minutes: number): string => {
 // PATTERN: Add click listener to document, check if click is outside panel element
 // WHY: Only handle clicks when panel is visible to prevent closing immediately after opening
 const handleClickOutside = (event: MouseEvent): void => {
-  if (props.visible && panelRef.value && !panelRef.value.contains(event.target as Node)) {
+  if (!props.visible || !panelRef.value) return
+  
+  // LEARNING: Ignore clicks on the toggle button itself
+  // WHY: Toggle button click should open/close panel, not trigger click-outside
+  // PATTERN: Check if click target is within toggle button element
+  const target = event.target as HTMLElement | null
+  if (target?.closest('.dev-panel-toggle')) {
+    return
+  }
+  
+  // LEARNING: Access DOM element from component ref
+  // WHY: VCard component ref exposes DOM via $el property
+  // PATTERN: Use $el to get actual HTMLElement for contains() check
+  // WHY: Type assertion through unknown to safely convert HTMLElement ref to ComponentPublicInstance
+  const panelEl = (panelRef.value as unknown as ComponentPublicInstance).$el as HTMLElement | null
+  
+  if (panelEl && !panelEl.contains(target as Node)) {
     emit('close')
   }
 }
@@ -244,7 +301,10 @@ const calendarData = computed(() => {
     // WHY: Handle both ComputedRef and direct object values
     // WHY: Accessing .value inside computed ensures Vue tracks this ComputedRef
     if (typeof dateRangeRef === 'object' && 'value' in dateRangeRef) {
-      dateRangeValue = dateRangeRef.value
+      const value = dateRangeRef.value
+      if (value && typeof value === 'object' && 'start' in value && 'end' in value) {
+        dateRangeValue = value as { start: RFC3339DateTime; end: RFC3339DateTime }
+      }
     } else if (dateRangeRef && typeof dateRangeRef === 'object' && 'start' in dateRangeRef && 'end' in dateRangeRef) {
       // Direct object value
       dateRangeValue = dateRangeRef as { start: RFC3339DateTime; end: RFC3339DateTime }
@@ -261,15 +321,24 @@ const calendarData = computed(() => {
   let busyPeriodsValue: BusyTimeRange[] = []
   if (busyPeriodsRef) {
     if (typeof busyPeriodsRef === 'object' && 'value' in busyPeriodsRef) {
-      busyPeriodsValue = busyPeriodsRef.value || []
+      const value = busyPeriodsRef.value
+      if (Array.isArray(value)) {
+        busyPeriodsValue = value as BusyTimeRange[]
+      }
     } else if (Array.isArray(busyPeriodsRef)) {
-      busyPeriodsValue = busyPeriodsRef
+      busyPeriodsValue = busyPeriodsRef as BusyTimeRange[]
     }
   }
   
   // LEARNING: Access refreshKey to establish dependency tracking
   // WHY: Ensures Vue tracks changes to refreshKey
-  const refreshKeyValue = data.refreshKey?.value
+  // PATTERN: refreshKey is a Ref<number> | undefined, so access .value directly
+  const refreshKeyRef = data.refreshKey
+  let refreshKeyValue: number | undefined = undefined
+  if (refreshKeyRef && typeof refreshKeyRef === 'object' && 'value' in refreshKeyRef) {
+    const ref = refreshKeyRef as Ref<number>
+    refreshKeyValue = ref.value
+  }
   
   return {
     dateRange: dateRangeValue,
@@ -360,6 +429,7 @@ const devPanelButtonsRef = inject<Ref<{
   handleLoadAppointment: (id: string | null) => Promise<void>
   handleResetWizard: () => void
   handleResetMocks: () => void
+  wizard: ReturnType<typeof useBookingWizard> | null
 } | null>>('devPanelButtons', ref(null))
 
 // LEARNING: Computed to access the actual buttons object
@@ -378,6 +448,70 @@ const devPanelButtons = computed(() => {
 const hasDevPanelButtons = computed(() => {
   return devPanelButtons.value !== null
 })
+
+// LEARNING: Get wizard instance from dev panel buttons
+// WHY: Wizard instance is provided through devPanelButtons for accessing selection methods
+// PATTERN: Safely unwrap wizard from devPanelButtons
+const wizard = computed(() => {
+  return devPanelButtons.value?.wizard ?? null
+})
+
+// LEARNING: Get booking data for service type filtering
+// WHY: Need bookingData to get all active service block instances
+// PATTERN: Use useBooking composable to get booking data
+const { bookingData } = useBooking()
+
+// LEARNING: Get all active service block instances (not filtered by cascades)
+// WHY: Debug panel should allow selecting any active service type for testing
+// PATTERN: Filter bookingData.blockInstances by service block shape ID and active status
+const allActiveServiceTypes = computed((): BookingBlockInstance[] => {
+  const data = bookingData.value
+  if (!data || !data.blockInstances || !Array.isArray(data.blockInstances)) return []
+  
+  const serviceBlockShapeId = getBlockShapeIdByType(data, BLOCK_SHAPE_TYPES.SERVICE)
+  if (!serviceBlockShapeId) return []
+  
+  return data.blockInstances
+    .filter(instance => 
+      instance.blockShapeRef === serviceBlockShapeId && 
+      instance.active === true
+    )
+    .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+})
+
+// LEARNING: Map service instances to dropdown options format
+// WHY: VSelect component needs options in { title: string, value: string } format
+// PATTERN: Map instances to select options
+const serviceTypeOptions = computed(() => {
+  return allActiveServiceTypes.value.map(service => ({
+    title: service.name,
+    value: service.id
+  }))
+})
+
+// LEARNING: Get currently selected service type for dropdown
+// WHY: Dropdown needs to show current selection
+// PATTERN: Get first selected service or null
+const selectedServiceTypeId = computed(() => {
+  const wizardInstance = wizard.value
+  if (!wizardInstance) return null
+  const selected = wizardInstance.selectedServiceTypeBlocks?.value
+  if (!selected || !Array.isArray(selected) || selected.length === 0) return null
+  return selected[0].id
+})
+
+// LEARNING: Handle service type change from dropdown
+// WHY: Updates wizard selection when user selects a different service type
+// PATTERN: Find service instance by ID and call wizard toggle method
+const handleServiceTypeChange = (serviceId: string | null): void => {
+  const wizardInstance = wizard.value
+  if (!wizardInstance || !serviceId) return
+  
+  const serviceInstance = allActiveServiceTypes.value.find(s => s.id === serviceId)
+  if (serviceInstance) {
+    wizardInstance.toggleServiceTypeBlock(serviceInstance)
+  }
+}
 
 </script>
 
@@ -572,6 +706,28 @@ const hasDevPanelButtons = computed(() => {
           <!-- Tab 3: Selected Services -->
           <VWindowItem value="services">
             <div class="pa-3">
+              <!-- Service Type Dropdown -->
+              <div class="mb-4">
+                <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
+                  Change Service Type
+                </VCardTitle>
+                <VSelect
+                  :model-value="selectedServiceTypeId"
+                  :items="serviceTypeOptions"
+                  item-title="title"
+                  item-value="value"
+                  label="Service Type"
+                  density="compact"
+                  variant="outlined"
+                  :disabled="!wizard"
+                  @update:model-value="handleServiceTypeChange"
+                >
+                  <template #prepend-inner>
+                    <VIcon size="small">tabler-settings</VIcon>
+                  </template>
+                </VSelect>
+              </div>
+              
               <!-- Selected Services Summary -->
               <div v-if="servicesSummary.length > 0" class="mb-4">
                 <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">

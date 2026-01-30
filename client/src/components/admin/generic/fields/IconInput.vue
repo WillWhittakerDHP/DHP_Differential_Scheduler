@@ -106,7 +106,7 @@
  * COMPARISON: Similar to DateInput pattern - readonly input with picker dialog
  */
 
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
 import { Icon } from '@iconify/vue'
 import { AUTCOMPLETE_OFF } from '../../../../utils/autocomplete'
 import BaseInput from './BaseInput.vue'
@@ -115,6 +115,7 @@ import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
+import { ENTITY_CARD_SAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -165,6 +166,13 @@ const openPicker = () => {
 const handleIconSelect = (icon: string) => {
   fieldContext.setValue(icon)
   showPicker.value = false
+  
+  // LEARNING: Skip auto-save for new entities
+  // WHY: New entities haven't been created yet - icon selection should wait for explicit form save
+  // PATTERN: Match TextInput/NumberInput behavior - new entities use handleSave, not field-level save
+  if (entityCardSaveContext?.isNew) {
+    return
+  }
   
   // Trigger validation and save
   fieldContext.validate().then((isValid) => {

@@ -10,7 +10,7 @@ import { loadConfigAllowlist, checkConfigAllowlist } from './audit-exceptions.mj
  * for extraction into shared utilities/composables.
  *
  * Scope:
- * - Included: client/src directory (ts, js, vue files)
+ * - Included: client/src (ts, js, vue files) and server/src (ts, mjs files)
  * - Excluded: __tests__, test files, spec files, @core, @layouts
  *
  * For `.vue`, we only scan `<script>` blocks (to avoid template-driven noise).
@@ -29,12 +29,13 @@ import { loadConfigAllowlist, checkConfigAllowlist } from './audit-exceptions.mj
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
+const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
 
-// If src exists in cwd, we're in client/; otherwise assume project root
-const SRC_DIR = fs.existsSync(CLIENT_SRC) ? CLIENT_SRC : PROJECT_ROOT_SRC
-const PROJECT_ROOT = fs.existsSync(CLIENT_SRC) ? CWD : CWD
+const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
+const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
+const SERVER_SRC = path.join(SERVER_ROOT, 'src')
 
 const OUT_DIR = fs.existsSync(CLIENT_SRC) 
   ? path.join(CWD, '.audit-reports')
@@ -72,7 +73,30 @@ function isExcluded(repoPath, configAllowlist) {
 }
 
 function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue')
+  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
+}
+
+/**
+ * Check if a file should be excluded from scanning
+ */
+function shouldExcludeDir(repoPath) {
+  // Exclude migration files (one-time scripts, duplication is expected)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return true
+  }
+  // Exclude test files and directories (test patterns are often intentionally duplicated)
+  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+    return true
+  }
+  // Exclude @core and @layouts for client files only
+  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
+    return true
+  }
+  // Exclude node_modules, dist, etc.
+  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
+    return true
+  }
+  return false
 }
 
 /**
@@ -86,6 +110,13 @@ function listFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const abs = path.join(dir, e.name)
+    const repoPath = toRepoPath(abs)
+    
+    // Skip excluded directories/files
+    if (shouldExcludeDir(repoPath)) {
+      continue
+    }
+    
     if (e.isDirectory()) {
       out.push(...listFilesRecursive(abs))
       continue
@@ -243,6 +274,47 @@ function compareGroups(a, b) {
   return a.groupId.localeCompare(b.groupId)
 }
 
+/**
+ * Load pattern-detection candidates if available
+ */
+function loadPatternDetectionCandidates() {
+  try {
+    const patternJson = path.join(OUT_DIR, 'pattern-detection-audit.json')
+    if (fs.existsSync(patternJson)) {
+      const data = JSON.parse(fs.readFileSync(patternJson, 'utf8'))
+      return data.candidates || null
+    }
+  } catch (error) {
+    // Pattern-detection not run or invalid, continue without candidates
+  }
+  return null
+}
+
+/**
+ * Prioritize files that have candidates from pattern-detection
+ */
+function prioritizeFilesWithCandidates(absFiles, candidates) {
+  if (!candidates) return absFiles
+  
+  const candidateFiles = new Set()
+  
+  // Collect all candidate files
+  if (candidates.similarTypeNames) {
+    candidates.similarTypeNames.forEach(c => c.files.forEach(f => candidateFiles.add(f)))
+  }
+  if (candidates.similarFunctionPatterns) {
+    candidates.similarFunctionPatterns.forEach(c => c.files.forEach(f => candidateFiles.add(f)))
+  }
+  if (candidates.repeatedStringFiles) {
+    candidates.repeatedStringFiles.forEach(c => c.files.forEach(f => candidateFiles.add(f)))
+  }
+  
+  // Sort: candidate files first
+  const candidate = absFiles.filter(f => candidateFiles.has(toRepoPath(f)))
+  const nonCandidate = absFiles.filter(f => !candidateFiles.has(toRepoPath(f)))
+  return [...candidate, ...nonCandidate]
+}
+
 function renderMarkdownReport(data) {
   const lines = []
   lines.push('# Duplication Audit (Generated)')
@@ -257,10 +329,74 @@ function renderMarkdownReport(data) {
   lines.push('Exception handling:')
   lines.push('- Config: `.audit/duplication-audit-config.json` (allowlist patterns/specific)')
   lines.push('')
+  
+  // Candidate Findings Section
+  if (data.candidates) {
+    lines.push('## Candidate Findings (from Pattern-Detection Audit)')
+    lines.push('')
+    lines.push('These candidates were identified by pattern-detection audit as high-probability duplication opportunities:')
+    lines.push('')
+    
+    if (data.candidates.similarTypeNames && data.candidates.similarTypeNames.length > 0) {
+      lines.push('### Similar Type Names')
+      lines.push('')
+      lines.push('| Types | Files | Distance |')
+      lines.push('| --- | --- | ---: |')
+      for (const candidate of data.candidates.similarTypeNames.slice(0, 20)) {
+        const types = candidate.types.map(t => `\`${t}\``).join(' vs ')
+        const files = candidate.files.slice(0, 3).map(f => `\`${f}\``).join(', ')
+        const moreFiles = candidate.files.length > 3 ? ` (+${candidate.files.length - 3} more)` : ''
+        lines.push(`| ${types} | ${files}${moreFiles} | ${candidate.distance} |`)
+      }
+      if (data.candidates.similarTypeNames.length > 20) {
+        lines.push(`| ... | ... | (+${data.candidates.similarTypeNames.length - 20} more) |`)
+      }
+      lines.push('')
+    }
+    
+    if (data.candidates.similarFunctionPatterns && data.candidates.similarFunctionPatterns.length > 0) {
+      lines.push('### Similar Function Patterns')
+      lines.push('')
+      lines.push('| Prefix | Files | Pattern Count |')
+      lines.push('| --- | --- | ---: |')
+      for (const candidate of data.candidates.similarFunctionPatterns.slice(0, 20)) {
+        const files = candidate.files.slice(0, 3).map(f => `\`${f}\``).join(', ')
+        const moreFiles = candidate.files.length > 3 ? ` (+${candidate.files.length - 3} more)` : ''
+        lines.push(`| \`${candidate.prefix}*\` | ${files}${moreFiles} | ${candidate.patternCount} |`)
+      }
+      if (data.candidates.similarFunctionPatterns.length > 20) {
+        lines.push(`| ... | ... | (+${data.candidates.similarFunctionPatterns.length - 20} more) |`)
+      }
+      lines.push('')
+    }
+    
+    if (data.candidates.repeatedStringFiles && data.candidates.repeatedStringFiles.length > 0) {
+      lines.push('### Repeated String Literals (across multiple files)')
+      lines.push('')
+      lines.push('| Value | Files | Occurrences |')
+      lines.push('| --- | --- | ---: |')
+      for (const candidate of data.candidates.repeatedStringFiles.slice(0, 20)) {
+        const files = candidate.files.slice(0, 3).map(f => `\`${f}\``).join(', ')
+        const moreFiles = candidate.files.length > 3 ? ` (+${candidate.files.length - 3} more)` : ''
+        lines.push(`| \`${candidate.value}\` | ${files}${moreFiles} | ${candidate.occurrences} |`)
+      }
+      if (data.candidates.repeatedStringFiles.length > 20) {
+        lines.push(`| ... | ... | (+${data.candidates.repeatedStringFiles.length - 20} more) |`)
+      }
+      lines.push('')
+    }
+  }
+  
   lines.push('## Summary')
   lines.push('')
   lines.push(`- Files scanned: **${data.fileCount}**`)
   lines.push(`- Groups (window=${data.windowLines} lines, minOccurrences=${data.minGroupOccurrences}): **${data.groups.length}**`)
+  if (data.candidates) {
+    const candidateCount = (data.candidates.similarTypeNames?.length || 0) + 
+                          (data.candidates.similarFunctionPatterns?.length || 0) + 
+                          (data.candidates.repeatedStringFiles?.length || 0)
+    lines.push(`- Candidate findings from pattern-detection: **${candidateCount}**`)
+  }
   lines.push('')
 
   lines.push('## Top duplication groups (by leverage)')
@@ -322,13 +458,24 @@ function main() {
     // Config might not exist or be invalid, use defaults
   }
 
-  const absFiles = listFilesRecursive(SRC_DIR)
+  const clientFiles = listFilesRecursive(CLIENT_SRC)
+  const serverFiles = listFilesRecursive(SERVER_SRC)
+  let absFiles = [...clientFiles, ...serverFiles]
+  
+  // Load pattern-detection candidates and prioritize files
+  const candidates = loadPatternDetectionCandidates()
+  if (candidates) {
+    absFiles = prioritizeFilesWithCandidates(absFiles, candidates)
+  }
+  
   /** @type {Array<{id: string, repoPath: string, windows: Array<{hash: string, windowText: string, startLine: number, endLine: number, lineCount: number}>}>} */
   const perFile = []
 
   for (const abs of absFiles) {
     const repoPath = toRepoPath(abs)
     if (isExcluded(repoPath, configAllowlist)) continue
+    // Double-check exclusion
+    if (shouldExcludeDir(repoPath)) continue
     const contents = fs.readFileSync(abs, 'utf8')
     const targets = extractTargets(repoPath, contents)
     const allWindows = []
@@ -405,20 +552,23 @@ function main() {
   const out = {
     generatedAt: new Date().toISOString(),
     scope: {
-      included: ['client/src/**/*.{ts,js,vue}'],
-      excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'src/@core/**', 'src/@layouts/**'],
+      included: ['client/src/**/*.{ts,js,vue}', 'server/src/**/*.{ts,mjs}'],
+      excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'client/src/@core/**', 'client/src/@layouts/**'],
       vueScanning: 'script-only',
     },
     windowLines: WINDOW_LINES,
     minGroupOccurrences: MIN_WINDOWS_PER_GROUP,
     fileCount: perFile.length,
+    candidates: candidates || null,
     groups,
   }
 
   fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
   fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${perFile.length}, Groups: ${groups.length}`)
+  const clientFilesCount = clientFiles.length
+  const serverFilesCount = serverFiles.length
+  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${perFile.length} (${clientFilesCount} client, ${serverFilesCount} server), Groups: ${groups.length}`)
   process.exitCode = 0
 }
 

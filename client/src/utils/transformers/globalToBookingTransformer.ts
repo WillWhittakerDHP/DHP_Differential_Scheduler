@@ -11,6 +11,7 @@ import type { GlobalEntity } from '@/types/entities'
 import type { AnnotationWithMetadata } from '@/types/annotations'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
+import type { TernaryBoolean } from '@/types/ternary'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 
 /**
@@ -24,8 +25,8 @@ export type BookingPartInstance = {
   name: string
   partShape: string // Denormalized: partShape name instead of ID
   disabled: boolean
-  onSite: boolean
-  clientPresent: boolean
+  onSite: TernaryBoolean
+  clientPresent: TernaryBoolean
   moveable: boolean
   baseTime: number
   rateOverBaseTime: number
@@ -34,7 +35,6 @@ export type BookingPartInstance = {
   orderIndex: number
   active: boolean
   zeroOutPart: boolean
-  differentialOverride?: boolean // When true, forces non-differential UI behavior
 }
 
 /**
@@ -65,7 +65,7 @@ export type BookingBlockInstance = {
   icon: string
   active: boolean
   bookingMode: import('@/constants/entities').BookingMode // Controls where instance appears in booking flows
-  differential: boolean // Whether this service supports differential scheduling (inspector and client have different arrival times)
+  differential: TernaryBoolean // Whether this service supports differential scheduling (inspector and client have different arrival times). 'override' means differential is disabled.
   orderIndex: number
   blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
   blockShapeRef: string // Block shape ID reference for filtering
@@ -348,13 +348,21 @@ export class BookingTransformer {
       descriptions?: AnnotationWithMetadata[]
       icon?: string
       bookingMode?: import('@/constants/entities').BookingMode
-      differential?: boolean
+      differential?: TernaryBoolean | boolean
       number?: number | null
       allowMultiple?: boolean
       requiresUnitNumber?: boolean | null
     }
     
-    const differentialValue = blockInstanceWithProps.differential === true ? true : false
+    // LEARNING: Convert boolean to TernaryBoolean for backward compatibility during migration
+    // WHY: During migration, some values may still be boolean
+    // PATTERN: Convert boolean to TernaryBoolean, default to 'false'
+    const convertDifferentialToTernary = (value: TernaryBoolean | boolean | undefined): TernaryBoolean => {
+      if (value === true) return 'true'
+      if (value === false) return 'false'
+      if (value === 'true' || value === 'false' || value === 'override') return value
+      return 'false'
+    }
     
     return {
       id: blockInstance.id,
@@ -365,7 +373,7 @@ export class BookingTransformer {
       icon: blockInstanceWithProps.icon || '',
       active: this.isEntityActive(blockInstance as unknown as Record<string, unknown>),
       bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
-      differential: differentialValue, // Use explicit boolean check
+      differential: convertDifferentialToTernary(blockInstanceWithProps.differential),
       orderIndex: blockInstance.orderIndex,
       blockShape, // Keep for backward compatibility
       blockShapeRef, // Add block shape ID reference for filtering
@@ -392,15 +400,24 @@ export class BookingTransformer {
     const partShape = partShapeEntity?.name || partShapeRef
     
     const partInstanceWithProps = partInstance as GlobalEntity<'partInstance'> & {
-      onSite?: boolean
-      clientPresent?: boolean
+      onSite?: TernaryBoolean | boolean
+      clientPresent?: TernaryBoolean | boolean
       moveable?: boolean
       baseTime?: number
       rateOverBaseTime?: number
       baseFee?: number
       rateOverBaseFee?: number
       zeroOutPart?: boolean
-      differentialOverride?: boolean
+    }
+    
+    // LEARNING: Convert boolean to TernaryBoolean for backward compatibility during migration
+    // WHY: During migration, some values may still be boolean
+    // PATTERN: Convert boolean to TernaryBoolean, default to 'false'
+    const convertToTernary = (value: TernaryBoolean | boolean | undefined, defaultValue: TernaryBoolean = 'false'): TernaryBoolean => {
+      if (value === true) return 'true'
+      if (value === false) return 'false'
+      if (value === 'true' || value === 'false' || value === 'override') return value
+      return defaultValue
     }
     
     return {
@@ -409,8 +426,8 @@ export class BookingTransformer {
       name: partInstance.name,
       partShape,
       disabled: (partInstance as unknown as Record<string, unknown>).disabled === true,
-      onSite: partInstanceWithProps.onSite || false,
-      clientPresent: partInstanceWithProps.clientPresent || false,
+      onSite: convertToTernary(partInstanceWithProps.onSite, 'false'),
+      clientPresent: convertToTernary(partInstanceWithProps.clientPresent, 'false'),
       moveable: partInstanceWithProps.moveable || false,
       baseTime: partInstanceWithProps.baseTime || 0,
       rateOverBaseTime: partInstanceWithProps.rateOverBaseTime || 0,
@@ -419,7 +436,6 @@ export class BookingTransformer {
       orderIndex: partInstance.orderIndex,
       active: this.isEntityActive(partInstance as unknown as Record<string, unknown>),
       zeroOutPart: partInstanceWithProps.zeroOutPart || false,
-      differentialOverride: partInstanceWithProps.differentialOverride,
     }
   }
 }

@@ -8,6 +8,7 @@
 
 import type { MoveableSchedulingOptions } from './moveableScheduling'
 import type { RFC3339DateTime, ISO8601Date } from './datetime'
+import type { FinalizedPart } from '@/utils/booking/FinalizedPart'
 
 /**
  * Appointment status workflow type
@@ -117,15 +118,6 @@ export interface TimeSlot extends TimeRange {
 }
 
 
-/**
- * TimeSlotKind: Valid category keys for AppointmentShape/Slot
- * Matches PartShape categories
- */
-export type TimeSlotKind =
-  | 'earlyArrival'
-  | 'dataCollection'
-  | 'reportWriting'
-  | 'clientPresentation'
 
 /**
  * PerspectiveKey: Keys for deriving display times
@@ -134,47 +126,35 @@ export type TimeSlotKind =
 export type PerspectiveKey = 'onSite' | 'clientPresent' | 'nonDifferential'
 
 /**
- * FlagBasedShape: Duration and flags for a flag-based group (no times)
- * LEARNING: Replaces CategoryShape - groups parts by boolean flags instead of hardcoded categories
- * WHY: Extensible - new part shapes automatically work without code changes
- * PATTERN: Groups parts by flag combinations (clientPresent, onSite, moveable)
+ * SlotShape: Durations needed to create AppointmentSlot time ranges
+ * LEARNING: Contains durations only - no times, no flags
+ * WHY: Separates duration calculations from time range creation
+ * PATTERN: Pure duration data that can be applied to any start time
  */
-export interface FlagBasedShape {
-  duration: number      // minutes
-  onSite: boolean       // OR of all parts in group
-  clientPresent: boolean
-  moveable: boolean
+export interface SlotShape {
+  totalDuration: number        // Sum of all finalizedParts.baseTime
+  onSite: number               // Sum of finalizedParts where onSite === true
+  clientPresent: number         // Sum of finalizedParts where clientPresent === true
+  moveable: number             // Sum of finalizedParts where moveable === true
+  clientStartOffset: number    // Duration of finalizedParts where onSite === true && clientPresent === false
 }
 
 /**
- * AppointmentShape: Time-independent structure (durations + characteristics)
+ * AppointmentShape: Time-independent structure (durations + finalized parts)
  * Calculated once from block instances, then applied to each available start time
  * 
  * This is the "what does this appointment look like?" answer
  * 
- * LEARNING: Uses flag-based shapes instead of category-based shapes
- * WHY: Extensible - new part shapes automatically work without code changes
- * PATTERN: Groups finalized parts by boolean flag combinations
+ * LEARNING: Holds finalized parts (source of truth) and SlotShape (durations)
+ * WHY: Finalized parts are the source of truth, SlotShape provides precomputed durations
+ * PATTERN: Source data (finalizedParts) + computed totals (slotShape)
  */
 export interface AppointmentShape {
-  // Flag-based shapes (duration + flags, no times)
-  // LEARNING: Groups are derived from boolean flags, not hardcoded categories
-  // WHY: Extensible - new part shapes automatically work
-  clientPresentationShape: FlagBasedShape | null  // Parts where clientPresent === true
-  dataCollectionShape: FlagBasedShape | null     // Parts where onSite === true && clientPresent === false
-  earlyArrivalShape: FlagBasedShape | null      // Parts where moveable === true && onSite === true
-  reportWritingShape: FlagBasedShape | null     // Parts where onSite === false
+  // Source of truth: finalized parts grouped by part shape only
+  finalizedParts: FinalizedPart[]
   
-  // Precomputed total durations (in minutes)
-  totalOnSiteDuration: number        // Sum of parts where onSite === true
-  totalClientPresentDuration: number // Sum of parts where clientPresent === true
-  totalMoveableDuration: number      // Sum of parts where moveable === true
-  totalDuration: number              // Sum of all parts
-  
-  // Offset for perspective calculation (in minutes)
-  // Duration of parts where onSite=true AND clientPresent=false
-  // Client arrives at: startTime + clientStartOffset
-  clientStartOffset: number
+  // Slot shape: durations needed to create AppointmentSlot time ranges
+  slotShape: SlotShape
 }
 
 /**
@@ -183,28 +163,33 @@ export interface AppointmentShape {
  * 
  * This is the "when does this appointment happen?" answer
  * 
- * LEARNING: Uses flag-based time slots instead of category-based time slots
- * WHY: Extensible - new part shapes automatically work without code changes
- * PATTERN: Groups finalized parts by boolean flag combinations
+ * LEARNING: References AppointmentShape and contains precomputed TimeRanges
+ * WHY: Memory efficient - many slots share same shape, avoids duplicating SlotShape
+ * PATTERN: Reference shape, precompute TimeRanges for frequent UI access
  */
 export interface AppointmentSlot {
   buttonIndex: number  // UI grid position (0-based)
   isAvailable: boolean  // true = available, false = busy/unavailable
   orderIndex?: number  // Optional: normalized position for multiple appointments (0-based)
   
-  // Flag-based TimeSlots (shape applied to startTime)
-  // LEARNING: Groups are derived from boolean flags, not hardcoded categories
-  // WHY: Extensible - new part shapes automatically work
-  clientPresentationSlot: TimeSlot | null  // Parts where clientPresent === true
-  dataCollectionSlot: TimeSlot | null     // Parts where onSite === true && clientPresent === false
-  earlyArrivalSlot: TimeSlot | null      // Parts where moveable === true && onSite === true
-  reportWritingSlot: TimeSlot | null     // Parts where onSite === false
+  // Reference to AppointmentShape (contains SlotShape, avoids duplication)
+  // LEARNING: Reference instead of duplicating SlotShape in each slot
+  // WHY: Memory efficiency - many slots share same shape, avoids duplicating 5 numbers per slot
+  // PATTERN: Reference shape, access slotShape via shape.slotShape
+  // NOTE: Access pattern: slot.shape.slotShape.totalDuration (one level deeper, but no duplication)
+  shape: AppointmentShape
   
-  // Precomputed totals (all share same endTime, different startTime)
-  totalOnSite: TimeRange | null        // Inspector's view
-  totalClientPresent: TimeRange | null // Client's view
-  totalMoveable: TimeRange | null      // Moveable parts
-  totalTime: TimeRange | null          // Full appointment
+  // Base start time for this slot
+  startTime: string
+  
+  // Precomputed time ranges (accessed frequently, so precompute for performance)
+  // LEARNING: Clear naming - these are TimeRanges, not durations
+  // WHY: Makes it clear these are time ranges with start/end times, not duration numbers
+  // WHY: Precomputed because accessed frequently in UI (graphBars, derivePerspective, etc.)
+  totalTimeRange: TimeRange | null          // From shape.slotShape.totalDuration + startTime
+  onSiteTimeRange: TimeRange | null        // From shape.slotShape.onSite + startTime
+  clientPresentTimeRange: TimeRange | null // From shape.slotShape.clientPresent + startTime (adjusted for clientStartOffset)
+  moveableTimeRange: TimeRange | null      // From shape.slotShape.moveable + startTime
 }
 
 /**
@@ -215,34 +200,15 @@ export interface AppointmentSlot {
  */
 export type AppointmentSlots = AppointmentSlot[]
 
-/**
- * AvailabilityRequest interface for API request
- * LEARNING: Request payload for fetching available time slots
- * WHY: Type-safe request structure for availability API
- */
-export interface AvailabilityRequest {
-  serviceId: string;
-  dateRange: {
-    start: string; // ISO date string
-    end: string; // ISO date string
-  };
-  duration: number; // Duration in minutes
-  timezone?: string; // Optional timezone (defaults to server default)
-}
-
-/**
- * AvailabilityResponse interface for API response
- * LEARNING: Response structure from availability API
- * WHY: Type-safe response handling
- */
-export interface AvailabilityResponse {
-  availabilities: TimeSlot[];
-}
+// Removed unused exports: AvailabilityRequest, AvailabilityResponse
+// LEARNING: These types were exported but never imported elsewhere
+// WHY: Removes dead code to improve maintainability
 
 /**
  * Part Instance Snapshot Type
  * LEARNING: Represents a snapshot of part instance data at booking time
  * WHY: Preserves pricing/time data for historical accuracy
+ * NOTE: Still used in deprecated fields of AppointmentRequest/AppointmentResponse
  */
 export interface PartInstanceSnapshot {
   id: string
@@ -257,6 +223,7 @@ export interface PartInstanceSnapshot {
  * Block Instance Snapshot Type
  * LEARNING: Represents a snapshot of block instance data at booking time
  * WHY: Preserves pricing/names for historical accuracy
+ * NOTE: Still used in deprecated fields of AppointmentRequest/AppointmentResponse
  */
 export interface BlockInstanceSnapshot {
   id: string

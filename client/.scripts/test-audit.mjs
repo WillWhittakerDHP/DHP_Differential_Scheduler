@@ -11,8 +11,8 @@ import path from 'node:path'
  * - Provide actionable recommendations for test alignment
  *
  * Scope:
- * - Included: client/src (excluding tests)
- * - Test files: *.test.{ts,tsx}, *.spec.{ts,tsx}, __tests__ directories
+ * - Included: client/src and server/src (excluding tests)
+ * - Test files: *.test.{ts,tsx,mjs}, *.spec.{ts,tsx,mjs}, __tests__ directories
  *
  * Output:
  * - client/.audit/test-audit.json
@@ -25,14 +25,13 @@ import path from 'node:path'
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
+const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
 
-const IS_CLIENT_DIR = fs.existsSync(CLIENT_SRC)
-const PROJECT_ROOT = IS_CLIENT_DIR ? CWD : CWD
-const SRC_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, 'src')
-  : path.join(CWD, 'client', 'src')
+const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
+const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
+const SERVER_SRC = path.join(SERVER_ROOT, 'src')
 
 const OUT_DIR = IS_CLIENT_DIR
   ? path.join(CWD, '.audit-reports')
@@ -58,11 +57,15 @@ function isTestFile(repoPath) {
 
 function isSourceFile(repoPath) {
   if (isTestFile(repoPath)) return false
+  // Exclude migration files (one-time scripts, not part of application code)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return false
+  }
   if (repoPath.includes('/node_modules/')) return false
   if (repoPath.includes('/dist/')) return false
   if (repoPath.includes('/.audit/')) return false
   if (repoPath.includes('/.typecheck/')) return false
-  return /\.(ts|tsx|js|jsx|vue)$/.test(repoPath)
+  return /\.(ts|tsx|js|jsx|vue|mjs)$/.test(repoPath)
 }
 
 function listFilesRecursive(dir) {
@@ -447,11 +450,18 @@ function main() {
     // Config might not exist or be invalid, use defaults
   }
   
-  const allFiles = listFilesRecursive(SRC_DIR)
+  const clientFiles = listFilesRecursive(CLIENT_SRC)
+  const serverFiles = listFilesRecursive(SERVER_SRC)
+  const allFiles = [...clientFiles, ...serverFiles]
   const sourceFiles = allFiles.filter(f => isSourceFile(toRepoPath(f)))
   const testFiles = allFiles.filter(f => isTestFile(toRepoPath(f)))
   
-  console.log(`Scanning ${sourceFiles.length} source files and ${testFiles.length} test files...`)
+  const clientSourceCount = clientFiles.filter(f => isSourceFile(toRepoPath(f))).length
+  const serverSourceCount = serverFiles.filter(f => isSourceFile(toRepoPath(f))).length
+  const clientTestCount = clientFiles.filter(f => isTestFile(toRepoPath(f))).length
+  const serverTestCount = serverFiles.filter(f => isTestFile(toRepoPath(f))).length
+  
+  console.log(`Scanning ${sourceFiles.length} source files (${clientSourceCount} client, ${serverSourceCount} server) and ${testFiles.length} test files (${clientTestCount} client, ${serverTestCount} server)...`)
   
   // Analyze source files
   const sourceAnalysis = sourceFiles.map(absPath => {

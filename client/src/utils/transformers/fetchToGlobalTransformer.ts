@@ -451,7 +451,6 @@ export class GlobalTransformer {
       partShape: [],
     }
     const SCHEMA_NULLABLE_BOOLEANS: Record<string, string[]> = {
-      partInstance: ['differentialOverride'],
       blockInstance: ['requiresUnitNumber'],
       blockShape: [],
       partShape: [],

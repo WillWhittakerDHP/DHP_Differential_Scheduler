@@ -40,25 +40,34 @@ function createAppointmentSlot(params: {
   totalClientPresentEndTime?: RFC3339DateTime
   totalClientPresentDuration?: number
 }): AppointmentSlot {
+  const shape: import('@/types/appointment').AppointmentShape = {
+    finalizedParts: [],
+    slotShape: {
+      totalDuration: 0,
+      onSite: params.totalOnSiteDuration || 0,
+      clientPresent: params.totalClientPresentDuration || 0,
+      moveable: 0,
+      clientStartOffset: 0
+    }
+  }
+  
   return {
     buttonIndex: 0,
     isAvailable: true,
-    earlyArrival: null,
-    dataCollection: null,
-    reportWriting: null,
-    clientPresentation: null,
-    totalOnSite: params.totalOnSiteStartTime && params.totalOnSiteEndTime ? {
+    shape,
+    startTime: params.totalOnSiteStartTime || '2026-01-15T10:00:00Z',
+    onSiteTimeRange: params.totalOnSiteStartTime && params.totalOnSiteEndTime ? {
       startTime: params.totalOnSiteStartTime,
       endTime: params.totalOnSiteEndTime,
       duration: params.totalOnSiteDuration || 120,
     } : null,
-    totalClientPresent: params.totalClientPresentStartTime && params.totalClientPresentEndTime ? {
+    clientPresentTimeRange: params.totalClientPresentStartTime && params.totalClientPresentEndTime ? {
       startTime: params.totalClientPresentStartTime,
       endTime: params.totalClientPresentEndTime,
       duration: params.totalClientPresentDuration || 30,
     } : null,
-    totalMoveable: null,
-    totalTime: null,
+    moveableTimeRange: null,
+    totalTimeRange: null,
   }
 }
 

@@ -12,7 +12,7 @@
     <StatusButton
       :label="fieldContext.displayConfig.label"
       :color="statusButtonColor"
-      :is-active="fieldValue"
+      :is-active="normalizedValue"
       :disabled="fieldContext.displayConfig.disabled || fieldContext.displayConfig.readOnly"
       @click.stop="handleClick"
     />
@@ -30,7 +30,7 @@
  * COMPARISON: Previously used VSwitch toggle, now uses StatusButton chip for consistency
  */
 
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import BaseInput from './BaseInput.vue'
 import StatusButton from '../StatusButton.vue'
 import type { GlobalEntityKey } from '../../../../constants/entities'
@@ -41,6 +41,7 @@ import { useFieldValue } from '../../../../composables/useFieldValue'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import { useStatusButtonToggle } from '@/composables/admin/useStatusButtonToggle'
+import { ENTITY_CARD_SAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -53,20 +54,46 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { fieldContext } = props
 
+/**
+ * LEARNING: Inject EntityCard save context for create cards
+ * WHY: When creating new entities, status buttons should not trigger mutations
+ *      User must save the entire form first to create the entity
+ * PATTERN: Match TextInput/NumberInput pattern - inject context and check isNew
+ */
+const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
+
 // LEARNING: Use unified field value composable
 // WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
 // PATTERN: Always use useFieldValue for accessing field values
 const rawFieldValue = useFieldValue(fieldContext)
 
-
-// LEARNING: No inversion needed - isStateControl and canHaveParts are now separate fields
-// WHY: Previously canHaveParts was inverted to represent state control, but now we have explicit isStateControl field
-// PATTERN: Direct value display (no inversion)
-const isInverted = computed(() => false)
-const fieldValue = computed(() => {
+// LEARNING: Normalize field value for StatusButton
+// WHY: StatusButton expects boolean | TernaryBoolean, but rawFieldValue can be undefined or ''
+// PATTERN: Normalize undefined/'' to false for booleans, 'false' for ternary fields
+const normalizedValue = computed(() => {
   const value = rawFieldValue.value
-  const boolValue = typeof value === 'boolean' ? value : false
-  return isInverted.value ? !boolValue : boolValue
+  
+  // Check if it's a ternary value first (string enum)
+  if (value === 'true' || value === 'false' || value === 'override') {
+    return value as 'true' | 'false' | 'override'
+  }
+  
+  // Handle undefined, null, or empty string - default to false for booleans
+  if (value === undefined || value === null || value === '') {
+    // Check if this is a known ternary field by field name
+    const fieldKeyStr = String(fieldContext.fieldKey)
+    const isTernaryField = fieldKeyStr === 'onSite' || fieldKeyStr === 'clientPresent' || fieldKeyStr === 'differential'
+    
+    if (isTernaryField) {
+      return 'false' as const
+    }
+    
+    // Default to boolean false for regular boolean fields
+    return false
+  }
+  
+  // Otherwise, it's a boolean - normalize to boolean
+  return value === true
 })
 
 
@@ -120,6 +147,68 @@ const handleClick = async (event: Event) => {
   // WHY: Don't allow toggling if field is disabled or readonly
   // PATTERN: Early return if field cannot be edited
   if (fieldContext.displayConfig.disabled || fieldContext.displayConfig.readOnly) {
+    return
+  }
+  
+  // LEARNING: For new entities, update form value directly instead of triggering mutation
+  // WHY: New entities haven't been created yet - form values are stored in Vee-Validate form instance
+  //      When user clicks Save, form values will be sent to create the entity
+  // PATTERN: Match TextInput/NumberInput behavior - update form value, not store
+  if (entityCardSaveContext?.isNew) {
+    // Get current form value
+    const currentRaw = rawFieldValue.value
+    
+    // LEARNING: Handle ternary boolean fields for new entities
+    // WHY: Ternary fields need to cycle through states, boolean fields toggle
+    // PATTERN: Check if ternary, then cycle or toggle accordingly
+    const isTernary = currentRaw === 'true' || currentRaw === 'false' || currentRaw === 'override'
+    
+    if (isTernary) {
+      // Cycle through ternary states: 'false' → 'true' → 'override' → 'false'
+      let newTernary: 'true' | 'false' | 'override'
+      if (currentRaw === 'false') {
+        newTernary = 'true'
+      } else if (currentRaw === 'true') {
+        newTernary = 'override'
+      } else {
+        // currentRaw === 'override' or undefined/null
+        newTernary = 'false'
+      }
+      fieldContext.setValue(newTernary)
+      return
+    }
+    
+    // Handle boolean fields
+    // LEARNING: Handle empty strings for boolean fields in new entities
+    // WHY: useFieldContextState returns empty string '' for temp entities, but we need to treat it as false
+    // PATTERN: Normalize empty string to false for boolean fields
+    const normalizedRaw = currentRaw === '' ? false : currentRaw
+    const isBooleanish = normalizedRaw === true || normalizedRaw === false || 
+                        normalizedRaw === null || normalizedRaw === undefined
+    if (!isBooleanish) {
+      return
+    }
+    
+    const currentValue = normalizedRaw === true
+    const newValue = !currentValue
+    
+    // Update form value
+    fieldContext.setValue(newValue)
+    
+    // Handle mutual exclusivity for blockShape fields (isStateControl and canHaveParts)
+    if (fieldContext.entityKey === 'blockShape' && newValue === true) {
+      const formInstance = fieldContext.formInstance
+      if (formInstance) {
+        if (fieldContext.fieldKey === 'isStateControl') {
+          // Setting isStateControl to true - clear canHaveParts
+          formInstance.setFieldValue('canHaveParts', false)
+        } else if (fieldContext.fieldKey === 'canHaveParts') {
+          // Setting canHaveParts to true - clear isStateControl
+          formInstance.setFieldValue('isStateControl', false)
+        }
+      }
+    }
+    
     return
   }
   

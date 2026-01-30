@@ -8,7 +8,7 @@
 
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { AppointmentSlot } from '@/types/appointment'
+import type { AppointmentSlot, AppointmentShape } from '@/types/appointment'
 import type { RFC3339DateTime } from '@/types/datetime'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import type { ISO8601Date } from '@/types/datetime'
@@ -22,6 +22,7 @@ import type { ISO8601Date } from '@/types/datetime'
 const sharedDevPanelData = ref<{
   selectedBlockInstances?: ComputedRef<BookingBlockInstance[]>
   appointmentSlots?: ComputedRef<AppointmentSlot[]>
+  appointmentShape?: ComputedRef<AppointmentShape | null>
   selectedDate?: ComputedRef<string | undefined>
   selectedTime?: ComputedRef<string | undefined>
   dateRange?: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
@@ -42,6 +43,11 @@ export interface UseAvailabilityDevPanelParams {
    * Appointment slots
    */
   appointmentSlots: ComputedRef<AppointmentSlot[]>
+  
+  /**
+   * Appointment shape
+   */
+  appointmentShape: ComputedRef<AppointmentShape | null>
   
   /**
    * Selected date
@@ -82,6 +88,7 @@ export function useAvailabilityDevPanel(
   const {
     selectedBlockInstances,
     appointmentSlots,
+    appointmentShape,
     selectedDate,
     selectedSlot,
     dateRange,
@@ -95,15 +102,16 @@ export function useAvailabilityDevPanel(
   sharedDevPanelData.value = {
     selectedBlockInstances,
     appointmentSlots,
+    appointmentShape,
     selectedDate: computed(() => selectedDate.value.start ?? undefined),
     selectedTime: computed(() => {
       if (!selectedSlot.value) {
         return undefined
       }
-      if (!selectedSlot.value.totalTime) {
+      if (!selectedSlot.value.totalTimeRange) {
         return undefined
       }
-      return selectedSlot.value.totalTime.startTime
+      return selectedSlot.value.totalTimeRange.startTime
     }),
     dateRange,
     busyPeriods,

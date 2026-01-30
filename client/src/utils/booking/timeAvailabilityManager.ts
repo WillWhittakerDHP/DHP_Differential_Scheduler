@@ -237,7 +237,7 @@ function parseBusyPeriods(busyTimes: BusyTimeRange[]): ParsedBusyTimeRange[] {
 /**
  * Result from availability manager
  */
-export interface AvailabilityManagerResult {
+interface AvailabilityManagerResult {
   slots: TimeSlot[]  // P3-3: Use TimeSlot directly instead of TimeSlotWithAvailability
   earliestCompletion: RFC3339DateTime | null  // RFC3339 datetime of earliest available slot end time
 }
@@ -245,7 +245,7 @@ export interface AvailabilityManagerResult {
 /**
  * Parameters for generating slots with availability
  */
-export interface GenerateSlotsWithAvailabilityParams {
+interface GenerateSlotsWithAvailabilityParams {
   startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
   endBoundary: RFC3339DateTime           // RFC3339 datetime - latest possible end
   duration: number                        // Required duration in minutes
@@ -744,15 +744,9 @@ const CACHE_TTL_MS = 5 * 60 * 1000 // 5 minutes
  */
 const scheduledHoursCache = new Map<string, CacheEntry>()
 
-/**
- * Clear scheduled hours cache
- * LEARNING: Allows cache invalidation when needed
- * WHY: Cache may become stale if appointments are added/removed
- * PATTERN: Export function to clear cache
- */
-export function clearScheduledHoursCache(): void {
-  scheduledHoursCache.clear()
-}
+// Removed unused function: clearScheduledHoursCache
+// LEARNING: Function was declared but never used
+// WHY: Removes dead code to improve maintainability
 
 /**
  * Get cached value if it exists and hasn't expired
@@ -791,9 +785,15 @@ function setCachedValue(key: string, value: number): void {
 
 /**
  * Fetch scheduled hours for a specific date
- * LEARNING: Calls API to get scheduled hours, with caching
- * WHY: Capacity checking needs current scheduled hours
+ * LEARNING: Calls GET /availability/scheduled-hours API endpoint to get scheduled hours, with caching
+ * WHY: Capacity checking needs current scheduled hours from database appointments
  * PATTERN: Check cache first, call API if not cached, cache result
+ * 
+ * ASYNCHRONOUS WORKFLOW SUPPORT:
+ * - Calls GET /availability/scheduled-hours endpoint which queries database appointments
+ * - Endpoint returns hours from appointments with status 'submitted' or 'confirmed' (not Google Calendar events)
+ * - Supports asynchronous appointment creation workflow where appointments exist in DB before calendar sync
+ * - See: client/src/types/appointment.ts for AppointmentStatus union type definition
  */
 async function fetchScheduledHoursForDate(date: string): Promise<number> {
   const cacheKey = `date:${date}`
@@ -833,9 +833,15 @@ async function fetchScheduledHoursForCalendarWeek(date: string): Promise<number>
 
 /**
  * Fetch scheduled hours for rolling week
- * LEARNING: Calls API to get scheduled hours for rolling 7-day window
- * WHY: Rolling week capacity filter needs rolling window hours
+ * LEARNING: Calls GET /availability/scheduled-hours API endpoint to get scheduled hours for rolling 7-day window, with caching
+ * WHY: Rolling week capacity filter needs rolling window hours from database appointments
  * PATTERN: Check cache first, call API if not cached, cache result
+ * 
+ * ASYNCHRONOUS WORKFLOW SUPPORT:
+ * - Calls GET /availability/scheduled-hours endpoint which queries database appointments
+ * - Endpoint returns hours from appointments with status 'submitted' or 'confirmed' (not Google Calendar events)
+ * - Supports asynchronous appointment creation workflow where appointments exist in DB before calendar sync
+ * - See: client/src/types/appointment.ts for AppointmentStatus union type definition
  */
 async function fetchScheduledHoursForRollingWeek(
   date: string,
@@ -927,6 +933,35 @@ export function markSlotAvailability(
  * WHY: Separates capacity checking from busy period checking
  * PATTERN: Batch capacity checks by unique date/week keys to reduce API calls
  * 
+ * ============================================================================
+ * ASYNCHRONOUS APPOINTMENT CREATION WORKFLOW SUPPORT
+ * ============================================================================
+ * 
+ * This function applies capacity constraints by calling the server endpoint
+ * GET /availability/scheduled-hours, which queries database appointments directly
+ * (not Google Calendar events). This supports asynchronous appointment creation
+ * workflows where appointments exist in the database with 'submitted' or 'confirmed'
+ * status before being synced to Google Calendar.
+ * 
+ * APPOINTMENT STATUS WORKFLOW:
+ * - 'started': Non-quote mode appointment creation in progress (NOT COUNTED)
+ * - 'submitted': Submitted through app, awaiting confirmation (COUNTED)
+ * - 'confirmed': Submitted and confirmed (COUNTED)
+ * 
+ * See: client/src/types/appointment.ts for AppointmentStatus union type definition
+ * 
+ * SEPARATION OF CONCERNS:
+ * - Free-busy checking: Uses Google Calendar API to check external calendar events
+ * - Capacity checking: Uses database appointments (this function) to check internal workflow state
+ * 
+ * WHY BOTH ARE NEEDED:
+ * - Free-busy blocks slots based on calendar events (external, already synced)
+ * - Capacity blocks slots based on database appointments (internal, including pending/confirmed but not-yet-synced)
+ * 
+ * The server endpoint (GET /availability/scheduled-hours) queries database appointments
+ * and only counts appointments with status 'submitted' or 'confirmed'. This ensures
+ * capacity limits are enforced during the asynchronous workflow period before Google Calendar sync.
+ * 
  * @param slots - Array of slots to check (already marked with busy period availability)
  * @param duration - Appointment duration in minutes
  * @param capacityConstraints - Optional array of capacity constraints (daily, calendar week, rolling week)
@@ -986,6 +1021,10 @@ async function applyCapacityFilters(
   })
 
   // Fetch scheduled hours for all unique keys
+  // LEARNING: These fetch functions call GET /availability/scheduled-hours endpoint
+  // WHY: Server endpoint queries database appointments (status 'submitted' or 'confirmed'), not Google Calendar events
+  // PATTERN: Supports asynchronous appointment workflow where appointments exist in DB before calendar sync
+  // See: client/src/types/appointment.ts for AppointmentStatus union type definition
   const capacityHoursByKey = new Map<string, number>()
   await Promise.all(
     Array.from(capacityKeyPartsSet).map(async (keyString) => {

@@ -204,15 +204,15 @@ export function findMatchingAppointmentSlot(
   const appointmentSlot = findAppointmentSlotByOrderIndex(appointmentSlots, orderIndex)
   if (!appointmentSlot) return undefined
 
-  // LEARNING: Extract TimeSlot or TimeRange based on time perspective
+  // LEARNING: Extract TimeRange based on time perspective
   // WHY: Different perspectives show different times at the same position
-  // PATTERN: Prefer TimeSlot (clientPresentation, dataCollection), fallback to TimeRange (totalTime, totalOnSite)
-  let slot: TimeSlot | TimeRange | null = null
+  // PATTERN: Use TimeRange properties (no categorized slots in new structure)
+  let slot: TimeRange | null = null
   
   if (timeBasis === 'client') {
-    slot = appointmentSlot.clientPresentation || appointmentSlot.totalTime
+    slot = appointmentSlot.clientPresentTimeRange || appointmentSlot.totalTimeRange
   } else {
-    slot = appointmentSlot.dataCollection || appointmentSlot.totalTime || appointmentSlot.totalOnSite
+    slot = appointmentSlot.onSiteTimeRange || appointmentSlot.totalTimeRange
   }
 
   if (!slot) return undefined

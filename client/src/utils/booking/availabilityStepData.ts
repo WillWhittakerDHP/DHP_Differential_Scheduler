@@ -27,21 +27,21 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
   const slots: SelectedTimeSlot[] = []
 
   // Add onSite slot (inspector)
-  if (params.selectedSlot.totalOnSite) {
+  if (params.selectedSlot.onSiteTimeRange) {
     slots.push({
-      startTime: params.selectedSlot.totalOnSite.startTime,
-      endTime: params.selectedSlot.totalOnSite.endTime,
-      duration: params.selectedSlot.totalOnSite.duration,
+      startTime: params.selectedSlot.onSiteTimeRange.startTime,
+      endTime: params.selectedSlot.onSiteTimeRange.endTime,
+      duration: params.selectedSlot.onSiteTimeRange.duration,
     })
   }
 
   // Add clientPresent slot if different from onSite
-  if (params.selectedSlot.totalClientPresent && 
-      params.selectedSlot.totalClientPresent.startTime !== params.selectedSlot.totalOnSite?.startTime) {
+  if (params.selectedSlot.clientPresentTimeRange && 
+      params.selectedSlot.clientPresentTimeRange.startTime !== params.selectedSlot.onSiteTimeRange?.startTime) {
     slots.push({
-      startTime: params.selectedSlot.totalClientPresent.startTime,
-      endTime: params.selectedSlot.totalClientPresent.endTime,
-      duration: params.selectedSlot.totalClientPresent.duration,
+      startTime: params.selectedSlot.clientPresentTimeRange.startTime,
+      endTime: params.selectedSlot.clientPresentTimeRange.endTime,
+      duration: params.selectedSlot.clientPresentTimeRange.duration,
     })
   }
 

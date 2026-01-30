@@ -84,6 +84,14 @@ function ensureDir(dirPath) {
  * Uses config-based allowlist for file-level exclusions
  */
 function isExcluded(repoPath, configAllowlist) {
+  // Exclude migration files (one-time scripts, not composables)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return true
+  }
+  // Exclude test files and directories (test utilities have different patterns)
+  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+    return true
+  }
   // Check if file matches any exclusion pattern in config
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
@@ -100,6 +108,15 @@ function listFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const abs = path.join(dir, e.name)
+    const repoPath = toRepoPath(abs)
+    
+    // Skip migrations and test files
+    if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || 
+        /migration.*\.(js|mjs|ts)$/i.test(repoPath) ||
+        repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+      continue
+    }
+    
     if (e.isDirectory()) {
       out.push(...listFilesRecursive(abs))
       continue

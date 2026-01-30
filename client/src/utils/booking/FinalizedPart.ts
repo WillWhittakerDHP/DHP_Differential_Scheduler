@@ -10,6 +10,8 @@
  */
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { TernaryBoolean } from '@/types/ternary'
+import { aggregate } from '@/utils/ternary/ternaryUtils'
 
 /**
  * FinalizedPart: Aggregated part instance representing all parts of a given shape
@@ -27,11 +29,11 @@ export interface FinalizedPart {
   rateOverBaseTime: number
   rateOverBaseFee: number
   
-  // Computed boolean flags (OR of all parts in group)
-  // LEARNING: Boolean flags are computed as OR - if ANY part has the flag, the finalized part has it
+  // Computed ternary flags (aggregated from all parts in group)
+  // LEARNING: Ternary flags are aggregated using ternary logic - if ANY part has 'override', result is 'override'
   // WHY: Ensures all characteristics are preserved when aggregating multiple instances
-  onSite: boolean
-  clientPresent: boolean
+  onSite: TernaryBoolean
+  clientPresent: TernaryBoolean
   moveable: boolean
   
   // Special flags
@@ -41,53 +43,21 @@ export interface FinalizedPart {
   sourcePartInstances: BookingPartInstance[]
 }
 
-/**
- * Get total duration from a finalized part
- * LEARNING: Simple accessor for baseTime
- * WHY: Provides consistent interface for duration access
- * 
- * @param part - FinalizedPart instance
- * @returns Total duration in minutes
- */
-export function getTotalDuration(part: FinalizedPart): number {
-  return part.baseTime
-}
+// Removed unused export: getTotalDuration
+// LEARNING: Function was exported but never imported elsewhere
+// WHY: Removes dead code to improve maintainability
 
-/**
- * Check if finalized part requires on-site work
- * LEARNING: Checks onSite flag
- * WHY: Provides consistent interface for flag checking
- * 
- * @param part - FinalizedPart instance
- * @returns True if part requires on-site work
- */
-export function isOnSite(part: FinalizedPart): boolean {
-  return part.onSite === true
-}
+// Removed unused export: isOnSite
+// LEARNING: Function was exported but never imported elsewhere
+// WHY: Removes dead code to improve maintainability
 
-/**
- * Check if finalized part requires client presence
- * LEARNING: Checks clientPresent flag
- * WHY: Provides consistent interface for flag checking
- * 
- * @param part - FinalizedPart instance
- * @returns True if part requires client presence
- */
-export function isClientPresent(part: FinalizedPart): boolean {
-  return part.clientPresent === true
-}
+// Removed unused export: isClientPresent
+// LEARNING: Function was exported but never imported elsewhere
+// WHY: Removes dead code to improve maintainability
 
-/**
- * Check if finalized part should be zeroed out
- * LEARNING: Checks zeroOutPart flag
- * WHY: Provides consistent interface for zero-out logic
- * 
- * @param part - FinalizedPart instance
- * @returns True if part should be zeroed out (excluded from calculations)
- */
-export function shouldZeroOut(part: FinalizedPart): boolean {
-  return part.zeroOutPart === true
-}
+// Removed unused export: shouldZeroOut
+// LEARNING: Function was exported but never imported elsewhere
+// WHY: Removes dead code to improve maintainability
 
 /**
  * Create a FinalizedPart from a group of part instances with the same part shape
@@ -95,9 +65,9 @@ export function shouldZeroOut(part: FinalizedPart): boolean {
  * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
  * PATTERN: Sum numeric values, use OR logic for boolean flags
  * 
- * Boolean Computation Rules:
- * - onSite: true if ANY part has onSite === true
- * - clientPresent: true if ANY part has clientPresent === true
+ * Ternary Computation Rules:
+ * - onSite: aggregated using ternaryUtils.aggregate() - if ANY part has 'override', result is 'override'; otherwise OR of 'true' values
+ * - clientPresent: aggregated using ternaryUtils.aggregate() - if ANY part has 'override', result is 'override'; otherwise OR of 'true' values
  * - moveable: true if ANY part has moveable === true
  * - zeroOutPart: true if ANY part has zeroOutPart === true
  * 
@@ -115,8 +85,8 @@ export function createFinalizedPart(
     baseFee: parts.reduce((sum, p) => sum + (p.baseFee ?? 0), 0),
     rateOverBaseTime: parts.reduce((sum, p) => sum + (p.rateOverBaseTime ?? 0), 0),
     rateOverBaseFee: parts.reduce((sum, p) => sum + (p.rateOverBaseFee ?? 0), 0),
-    onSite: parts.some(p => p.onSite === true),
-    clientPresent: parts.some(p => p.clientPresent === true),
+    onSite: aggregate(parts.map(p => p.onSite)),
+    clientPresent: aggregate(parts.map(p => p.clientPresent)),
     moveable: parts.some(p => p.moveable === true),
     zeroOutPart: parts.some(p => p.zeroOutPart === true),
     sourcePartInstances: parts

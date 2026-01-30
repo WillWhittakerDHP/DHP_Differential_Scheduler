@@ -9,6 +9,7 @@
 
 import { ref, provide, inject, type Ref, type ComputedRef } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
+import type { useBookingWizard } from '@/composables/useBookingWizard'
 
 export interface UseWizardDevModeOptions {
   isDevMode: boolean
@@ -22,6 +23,7 @@ export interface UseWizardDevModeOptions {
   }
   handleLoadAppointment: (id: string | null) => Promise<void>
   handleResetWizard: () => void
+  wizard: ReturnType<typeof useBookingWizard>
 }
 
 export interface UseWizardDevModeReturn {
@@ -46,6 +48,7 @@ export function useWizardDevMode(
     fetchAll,
     handleLoadAppointment,
     handleResetWizard,
+    wizard,
   } = options
 
   // LEARNING: Reset mocks signal for provide/inject
@@ -78,6 +81,7 @@ export function useWizardDevMode(
       handleLoadAppointment: (id: string | null) => Promise<void>
       handleResetWizard: () => void
       handleResetMocks: () => void
+      wizard: ReturnType<typeof useBookingWizard> | null
     } | null>>('devPanelButtons')
 
     if (appDevPanelButtons) {
@@ -89,7 +93,8 @@ export function useWizardDevMode(
         fetchAll,
         handleLoadAppointment,
         handleResetWizard,
-        handleResetMocks
+        handleResetMocks,
+        wizard
       }
     }
   }

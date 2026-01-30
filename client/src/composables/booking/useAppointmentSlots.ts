@@ -224,8 +224,8 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     }
     
     return {
-      onSite: slot.totalOnSite,
-      clientPresent: isDifferentialService.value ? slot.totalClientPresent : null
+      onSite: slot.onSiteTimeRange,
+      clientPresent: isDifferentialService.value ? slot.clientPresentTimeRange : null
     }
   })
 

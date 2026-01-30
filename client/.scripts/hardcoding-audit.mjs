@@ -15,7 +15,7 @@ import {
  * config-driven or generic. This is NOT a ban on hardcoding — it's a review queue.
  *
  * Scope:
- * - Included: client/src directory (ts, js, vue files)
+ * - Included: client/src (ts, js, vue files) and server/src (ts, mjs files)
  * - Excluded: __tests__, test files, spec files, @core, @layouts
  *
  * Output:
@@ -33,13 +33,14 @@ import {
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
+const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
 
-// If src exists in cwd, we're in client/; otherwise assume project root
-const SRC_DIR = fs.existsSync(CLIENT_SRC) ? CLIENT_SRC : PROJECT_ROOT_SRC
-const PROJECT_ROOT = fs.existsSync(CLIENT_SRC) ? CWD : CWD
-const ENTITIES_CONST = path.join(SRC_DIR, 'constants', 'entities.ts')
+const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
+const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
+const SERVER_SRC = path.join(SERVER_ROOT, 'src')
+const ENTITIES_CONST = path.join(CLIENT_SRC, 'constants', 'entities.ts')
 
 const OUT_DIR = fs.existsSync(CLIENT_SRC) 
   ? path.join(CWD, '.audit-reports')
@@ -73,7 +74,30 @@ function isExcluded(repoPath, configAllowlist) {
 }
 
 function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue')
+  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
+}
+
+/**
+ * Check if a file should be excluded from scanning
+ */
+function shouldExcludeDir(repoPath) {
+  // Exclude migration files (one-time scripts with intentionally hardcoded values)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return true
+  }
+  // Exclude test files and directories (test data often has hardcoded values intentionally)
+  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+    return true
+  }
+  // Exclude @core and @layouts for client files only
+  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
+    return true
+  }
+  // Exclude node_modules, dist, etc.
+  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
+    return true
+  }
+  return false
 }
 
 /**
@@ -87,6 +111,13 @@ function listFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const abs = path.join(dir, e.name)
+    const repoPath = toRepoPath(abs)
+    
+    // Skip excluded directories/files
+    if (shouldExcludeDir(repoPath)) {
+      continue
+    }
+    
     if (e.isDirectory()) {
       out.push(...listFilesRecursive(abs))
       continue
@@ -356,12 +387,16 @@ function main() {
     // Config might not exist or be invalid, use defaults
   }
 
-  const absFiles = listFilesRecursive(SRC_DIR)
+  const clientFiles = listFilesRecursive(CLIENT_SRC)
+  const serverFiles = listFilesRecursive(SERVER_SRC)
+  const absFiles = [...clientFiles, ...serverFiles]
   const scanned = []
 
   for (const abs of absFiles) {
     const repoPath = toRepoPath(abs)
     if (isExcluded(repoPath, configAllowlist)) continue
+    // Double-check exclusion
+    if (shouldExcludeDir(repoPath)) continue
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines, entityKeyRe)
@@ -402,8 +437,8 @@ function main() {
   const out = {
     generatedAt: new Date().toISOString(),
     scope: {
-      included: ['client/src/**/*.{ts,js,vue}'],
-      excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'src/@core/**', 'src/@layouts/**'],
+      included: ['client/src/**/*.{ts,js,vue}', 'server/src/**/*.{ts,mjs}'],
+      excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'client/src/@core/**', 'client/src/@layouts/**'],
     },
     exceptionSummary,
     entityKeys,
@@ -413,8 +448,10 @@ function main() {
   fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
   fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
 
+  const clientFilesCount = clientFiles.length
+  const serverFilesCount = serverFiles.length
   console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
-  console.log(`Files scanned: ${scanned.length}`)
+  console.log(`Files scanned: ${scanned.length} (${clientFilesCount} client, ${serverFilesCount} server)`)
   console.log(`Findings: ${exceptionSummary.totalRequiresReview} requiring review, ${exceptionSummary.totalAllowed} allowed`)
   process.exitCode = 0
 }

@@ -300,12 +300,15 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
   const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({
     mutationFn: async (updates: OrderIndexUpdate) => {
-      const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), {
-        updates: updates.map((update) => ({
+      // LEARNING: Send array directly with snake_case field names
+      // WHY: Server expects array (not wrapped) with order_index (snake_case)
+      // PATTERN: Server transforms order_index → orderIndex for Sequelize, so send snake_case directly
+      const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), 
+        updates.map((update) => ({
           id: update.id,
-          orderIndex: update.orderIndex,
-        })),
-      })
+          order_index: update.orderIndex, // Convert camelCase to snake_case for API
+        }))
+      )
       if (!response?.data) {
         throw new Error('Failed to update orderIndex')
       }

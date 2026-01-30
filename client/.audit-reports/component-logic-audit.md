@@ -6,18 +6,18 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **78**
+- Total files: **77**
 
 ## Top hotspots (by heuristic score)
 
 | File | computed | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `src/components/booking/dev/DevPanelsContainer.vue` | 12 | 0 | 0 | 3 | 4 | 0 | 0 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityCard.vue` | 6 | 1 | 4 | 1 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/SelectInputs.vue` | 7 | 0 | 0 | 2 | 0 | 0 | 0 |
 | `src/components/booking/steps/AvailabilityStep.vue` | 7 | 0 | 0 | 0 | 1 | 1 | 0 |
 | `src/components/admin/generic/fields/FieldRenderer.vue` | 7 | 1 | 0 | 0 | 0 | 0 | 1 |
-| `src/components/booking/dev/AppointmentDebugPanel.vue` | 5 | 0 | 0 | 3 | 0 | 0 | 0 |
 | `src/components/admin/generic/DynamicForm.vue` | 5 | 1 | 1 | 0 | 0 | 0 | 0 |
 | `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 1 | 0 | 6 | 0 | 0 | 0 | 0 |
 | `src/components/booking/TimeOnSiteGraph.vue` | 6 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -25,22 +25,57 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 | `src/components/admin/generic/EntityCardSubPanels.vue` | 4 | 1 | 0 | 1 | 0 | 0 | 0 |
 | `src/components/admin/BlockInstanceCreateModal.vue` | 3 | 1 | 2 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BooleanInput.vue` | 3 | 0 | 3 | 0 | 0 | 0 | 0 |
-| `src/components/booking/dev/CalendarMockDevPanel.vue` | 3 | 0 | 2 | 1 | 0 | 0 | 0 |
 | `src/views/admin/entities/BlockShapeForm.vue` | 2 | 0 | 4 | 0 | 0 | 0 | 0 |
 | `src/views/admin/entities/PartShapeForm.vue` | 2 | 0 | 4 | 0 | 0 | 0 | 0 |
 | `src/components/booking/SelectionCard.vue` | 13 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/TextInput.vue` | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/booking/dev/DevPanelsContainer.vue` | 4 | 0 | 0 | 0 | 1 | 0 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | 3 | 0 | 2 | 0 | 0 | 0 | 0 |
 | `src/components/admin/PartInstanceBulkEditModal.vue` | 2 | 0 | 0 | 2 | 0 | 0 | 1 |
 | `src/components/admin/generic/CardButton.vue` | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/collections/PartsCollection.vue` | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/BusinessControlsTab.vue` | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/wrappers/ServiceSelectCards.vue` | 3 | 0 | 0 | 1 | 0 | 0 | 0 |
+| `src/components/admin/MetadataEditModal.vue` | 1 | 0 | 2 | 0 | 0 | 0 | 1 |
+| `src/components/booking/steps/PropertyDetailsStep.vue` | 1 | 3 | 0 | 0 | 0 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `src/components/booking/dev/DevPanelsContainer.vue`
+
+- counts: computed=12, ref=1, watch=0, async=0, await=0, map=2, reduce=1, dom=4, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@10: import { ref, inject, computed, onMounted, onUnmounted, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
+provideInject@44: // PATTERN: Use shared ref pattern instead of provide/inject for cross-tree access
+provideInject@49: // PATTERN: Computed properties that provide defaults, unwrapping refs with .value
+computed@128: const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
+map@144: return instances.map((block: BookingBlockInstance) => ({
+computed@186: const timeSlotResults = computed(() => {
+dom@248: // PATTERN: Add click listener to document, check if click is outside panel element
+dom@273: document.addEventListener('click', handleClickOutside)
+dom@277: document.removeEventListener('click', handleClickOutside)
+provideInject@282: // PATTERN: Computed properties that provide defaults, unwrapping refs with .value
+computed@284: const calendarData = computed(() => {
+computed@354: const busyPeriods = computed(() => {
+computed@407: const totalBlockedMinutes = computed(() => {
+reduce@408: return busyPeriods.value.reduce((total, period) => {
+computed@416: const totalBlockedHours = computed(() => {
+provideInject@421: // WHY: DevPanelsContainer is rendered in App.vue, so it injects from app-level provide
+provideInject@423: const devPanelButtonsRef = inject<Ref<{
+ref@433: } | null>>('devPanelButtons', ref(null))
+computed@438: const devPanelButtons = computed(() => {
+computed@448: const hasDevPanelButtons = computed(() => {
+computed@455: const wizard = computed(() => {
+computed@467: const allActiveServiceTypes = computed((): BookingBlockInstance[] => {
+filter@475: .filter(instance =>
+sort@479: .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+computed@485: const serviceTypeOptions = computed(() => {
+map@486: return allActiveServiceTypes.value.map(service => ({
+computed@495: const selectedServiceTypeId = computed(() => {
+dom@958: :deep(.v-window-item) {
+```
 
 ### `src/components/booking/steps/ServiceSelectionStep.vue`
 
@@ -54,9 +89,9 @@ provideInject@37: const loadedWizardState = inject<Ref<WizardStateData | null>>(
 computed@43: availableInstances: computed(() => wizard.availableUserTypeBlocks.value),
 computed@44: selectedInstances: computed(() => wizard.selectedUserTypeBlock.value ? [wizard.selectedUserTypeBlock.value] : []),
 computed@50: availableInstances: computed(() => wizard.availableServices.value),
-computed@51: selectedInstances: computed(() => wizard.selectedServices.value),
+computed@51: selectedInstances: computed(() => wizard.selectedServiceTypeBlocks.value),
 computed@60: selectedValue: computed(() => wizard.selectedUserTypeBlock.value)
-computed@66: selectedValue: computed(() => wizard.selectedServices.value)
+computed@66: selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
 computed@76: instances: computed(() => wizard.availableUserTypeBlocks.value)
 computed@85: itemCount: computed(() => wizardStateSelector.value.length)
 computed@89: instances: computed(() => wizard.availableServices.value),
@@ -72,23 +107,23 @@ computed@101: const baseServicesWithIcons = computed(() => {
 
 ```
 provideInject@9: import { ref, computed, provide, watch, nextTick, type Ref } from 'vue'
-provideInject@70: * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
-computed@122: expanded: computed(() => props.expanded ?? true)
-computed@142: entity: computed(() => props.entity)
-computed@210: entityId: computed(() => String(props.entity.id)),
-computed@273: entityId: computed(() => props.entity.id),
-watch@285: watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
-map@290: fieldsNeedingContexts: fieldsNeedingContexts.map(String)
-computed@298: const isFormReady = computed(() => formFields.isFormReady.value)
-computed@340: entity: computed(() => props.entity),
-async@394: const handleSave = async (): Promise<void> => {
-await@402: await _handleSave()
-await@408: await nextTick()
-async@450: const handleDuplicate = async (): Promise<void> => {
-provideInject@467: * PATTERN: Use provide/inject to pass parent methods to children
-provideInject@469: provide(ENTITY_CARD_SAVE_KEY, {
-provideInject@478: * PATTERN: Use provide/inject to pass flag to children
-provideInject@480: provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
+provideInject@71: * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
+computed@123: expanded: computed(() => props.expanded ?? true)
+computed@143: entity: computed(() => props.entity)
+computed@211: entityId: computed(() => String(props.entity.id)),
+computed@274: entityId: computed(() => props.entity.id),
+watch@286: watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
+map@291: fieldsNeedingContexts: fieldsNeedingContexts.map(String)
+computed@299: const isFormReady = computed(() => formFields.isFormReady.value)
+computed@341: entity: computed(() => props.entity),
+async@395: const handleSave = async (): Promise<void> => {
+await@403: await _handleSave()
+await@409: await nextTick()
+async@451: const handleDuplicate = async (): Promise<void> => {
+provideInject@468: * PATTERN: Use provide/inject to pass parent methods to children
+provideInject@470: provide(ENTITY_CARD_SAVE_KEY, {
+provideInject@479: * PATTERN: Use provide/inject to pass flag to children
+provideInject@481: provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 ```
 
 ### `src/components/admin/generic/fields/SelectInputs.vue`
@@ -96,15 +131,19 @@ provideInject@480: provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSa
 - counts: computed=7, ref=0, watch=0, async=0, await=0, map=2, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@175: const allEntities = computed(() => {
-map@182: return anns.map(ann => ({
-computed@199: const currentEntityRaw = computed(() => {
-computed@240: const enumOptions = computed(() => {
-computed@254: const fieldKey = computed(() => String(fieldContext.fieldKey))
-computed@279: const options = computed(() => {
-computed@349: const shouldUseMultipleSelectsComputed = computed(() => shouldUseMultipleSelects.value)
-computed@350: const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({
-map@350: const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({
+provideInject@103: import { computed, inject } from 'vue'
+computed@176: const allEntities = computed(() => {
+map@183: return anns.map(ann => ({
+computed@200: const currentEntityRaw = computed(() => {
+computed@241: const enumOptions = computed(() => {
+computed@255: const fieldKey = computed(() => String(fieldContext.fieldKey))
+computed@280: const options = computed(() => {
+provideInject@328: * PATTERN: Match TextInput/NumberInput pattern - inject context and pass to handlers
+provideInject@330: const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
+provideInject@337: const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
+computed@366: const shouldUseMultipleSelectsComputed = computed(() => shouldUseMultipleSelects.value)
+computed@367: const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({
+map@367: const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({
 ```
 
 ### `src/components/booking/steps/AvailabilityStep.vue`
@@ -120,13 +159,13 @@ provideInject@67: const propertyDetailsStepData = inject<Ref<{ squareFootage?: n
 computed@83: const timeSlotsForDefaults = computed(() => {
 computed@88: const timeSlotsForLogic = computed(() => {
 computed@99: const isEffectivelyDifferentialForDefaults = computed(() => {
-computed@214: timeSlotsPerDay: computed(() => timeSlotsPerDay.value),
-computed@228: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
-computed@284: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
-computed@293: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
-provideInject@349: // PATTERN: Composable provides reactive computed object via provide
-inlineConfig@487: :config="{
-dom@621: // WHY: Native fixed width prevents clipping during window resize
+computed@215: timeSlotsPerDay: computed(() => timeSlotsPerDay.value),
+computed@229: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
+computed@285: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
+computed@294: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
+provideInject@350: // PATTERN: Composable provides reactive computed object via provide
+inlineConfig@489: :config="{
+dom@623: // WHY: Native fixed width prevents clipping during window resize
 ```
 
 ### `src/components/admin/generic/fields/FieldRenderer.vue`
@@ -144,22 +183,6 @@ computed@244: hasFieldContext: computed(() => !!effectiveFieldContext.value)
 watch@250: watch(
 provideInject@264: // WHY: Console logs provide full diagnostic data without cluttering UI
 console@266: console.error('[FieldRenderer] Unknown input type detected', {
-```
-
-### `src/components/booking/dev/AppointmentDebugPanel.vue`
-
-- counts: computed=5, ref=0, watch=0, async=0, await=0, map=2, reduce=1, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-computed@44: const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
-computed@49: const servicesSummary = computed(() => {
-map@50: return props.selectedBlockInstances.map(block => ({
-computed@62: const partsBreakdown = computed(() => {
-map@64: (block.partInstances || []).map(part => ({
-computed@84: const calculations = computed(() => {
-filter@102: .filter(part => part.onSite && !part.clientPresent && !part.zeroedOut)
-reduce@103: .reduce((sum, part) => sum + part.baseTime, 0)
-computed@119: const timeSlotResults = computed(() => {
 ```
 
 ### `src/components/admin/generic/DynamicForm.vue`
@@ -251,26 +274,15 @@ await@198: await entityCardRef.value.handleSave()
 - counts: computed=3, ref=0, watch=0, async=2, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@65: const isInverted = computed(() => String(fieldContext.fieldKey) === 'constituable')
-computed@66: const fieldValue = computed(() => {
-computed@86: const statusButtonColor = computed(() => {
-async@112: const handleClick = async (event: Event) => {
-async@115: // PATTERN: Stop propagation and prevent default before any async operations
-await@130: await statusButtonToggle.toggleStatusButton(fieldContext.fieldKey, event)
-```
-
-### `src/components/booking/dev/CalendarMockDevPanel.vue`
-
-- counts: computed=3, ref=1, watch=0, async=1, await=1, map=0, reduce=1, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-ref@31: const isExpanded = ref(false)
-computed@57: const busyPeriods = computed(() => {
-computed@110: const totalBlockedMinutes = computed(() => {
-reduce@111: return busyPeriods.value.reduce((total, period) => {
-computed@119: const totalBlockedHours = computed(() => {
-async@126: const handleToggle = async (): Promise<void> => {
-await@128: await handlePanelToggle(willExpand)
+provideInject@33: import { computed, inject } from 'vue'
+provideInject@61: * PATTERN: Match TextInput/NumberInput pattern - inject context and check isNew
+provideInject@63: const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
+computed@74: const isInverted = computed(() => false)
+computed@75: const fieldValue = computed(() => {
+computed@95: const statusButtonColor = computed(() => {
+async@121: const handleClick = async (event: Event) => {
+async@124: // PATTERN: Stop propagation and prevent default before any async operations
+await@180: await statusButtonToggle.toggleStatusButton(fieldContext.fieldKey, event)
 ```
 
 ### `src/views/admin/entities/BlockShapeForm.vue`
@@ -343,28 +355,6 @@ computed@180: const shouldUseTextarea = computed(() => {
 computed@213: const handlers = computed(() => {
 ```
 
-### `src/components/booking/dev/DevPanelsContainer.vue`
-
-- counts: computed=4, ref=1, watch=0, async=0, await=0, map=0, reduce=0, dom=1, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@10: import { ref, inject, computed, type Ref, type ComputedRef } from 'vue'
-provideInject@28: // LEARNING: Inject dev panel data from AvailabilityStep via provide/inject
-provideInject@29: // WHY: Allows AvailabilityStep to provide data without prop drilling
-provideInject@30: // PATTERN: Use inject with default values for optional data
-provideInject@31: const devPanelData = inject<{
-provideInject@43: // PATTERN: Computed properties that provide defaults
-computed@44: const appointmentPanelProps = computed(() => ({
-provideInject@53: // PATTERN: Computed properties that provide defaults
-computed@54: const calendarPanelProps = computed(() => ({
-provideInject@64: // WHY: DevPanelsContainer is rendered in App.vue, so it injects from app-level provide
-provideInject@66: const devPanelButtonsRef = inject<Ref<{
-ref@75: } | null>>('devPanelButtons', ref(null))
-computed@80: const devPanelButtons = computed(() => {
-computed@90: const hasDevPanelButtons = computed(() => {
-dom@189: :deep(.v-window-item) {
-```
-
 ### `src/views/admin/tabs/ShapesTab.vue`
 
 - counts: computed=3, ref=7, watch=0, async=1, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -433,9 +423,9 @@ computed@212: const isBulkEditModalOpen = computed(() => bulkEditModeRef.value)
 
 ```
 computed@41: const businessHoursForUI = computed(() => {
-computed@98: const maxBusinessHours = computed(() => {
-computed@116: return computed({
-computed@378: const saveButtonProps = computed(() => ({
+computed@108: const maxBusinessHours = computed(() => {
+computed@126: return computed({
+computed@388: const saveButtonProps = computed(() => ({
 ```
 
 ### `src/components/booking/wrappers/ServiceSelectCards.vue`
@@ -445,8 +435,8 @@ computed@378: const saveButtonProps = computed(() => ({
 ```
 computed@61: instances: computed(() => wizard.availableServices.value),
 computed@62: selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)
-computed@69: selectedValue: computed(() => wizard.selectedServices.value)
-map@94: get: () => wizard.selectedServices.value.map(s => s.id),
+computed@69: selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
+map@94: get: () => wizard.selectedServiceTypeBlocks.value.map(s => s.id),
 ```
 
 ### `src/components/admin/MetadataEditModal.vue`
@@ -572,9 +562,10 @@ computed@69: const fieldId = computed(() => `field-${props.fieldKey}`)
 - counts: computed=2, ref=1, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@135: const iconValue = computed((): string => {
-computed@143: const displayValue = computed(() => {
-ref@151: const showPicker = ref(false)
+provideInject@109: import { ref, computed, inject } from 'vue'
+computed@136: const iconValue = computed((): string => {
+computed@144: const displayValue = computed(() => {
+ref@152: const showPicker = ref(false)
 ```
 
 ### `src/components/booking/IndependentSelectCard.vue`
@@ -625,7 +616,7 @@ provideInject@47: // WHY: Encapsulates step data and validation state refs creat
 vueQuery@135: // PATTERN: useMutation from useAppointment composable
 computed@236: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
 provideInject@260: provide('loadedWizardState', loadedWizardState)
-dom@423: // NOTE: useThemeMode composable also updates document root CSS variables for global scope
+dom@424: // NOTE: useThemeMode composable also updates document root CSS variables for global scope
 ```
 
 ### `src/components/admin/InstanceBulkEditModal.vue`
@@ -751,6 +742,12 @@ watch@16: watch([isFallbackStateActive, refLoadingIndicator], () => {
 ```
 
 ### `src/components/admin/generic/EntityCardContent.vue`
+
+- counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+- (no matches)
+
+### `src/components/admin/generic/EntityCardPartsTotals.vue`
 
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 

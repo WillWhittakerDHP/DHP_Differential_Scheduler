@@ -162,4 +162,3 @@ export interface WizardStepDataAndValidationRefs {
   availabilityStepValid: Ref<boolean>
   availabilityStepValidate: Ref<(() => boolean) | null>
 }
-

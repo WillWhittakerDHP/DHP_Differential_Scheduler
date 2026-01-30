@@ -26,7 +26,7 @@ export class AdminMetadata extends Model<
   declare fieldKey: string; // Unified - replaces both fieldKey and relationshipKey
   declare blockShapeRef: CreationOptional<string | null>; // BlockShape ID for BlockShape-specific instance metadata
   // Canonical properties
-  declare dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+  declare dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   declare label: string;
   declare isRequired: boolean;
   // Layout/rendering properties
@@ -84,7 +84,7 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
       },
       // Canonical properties
       dataType: {
-        type: DataTypes.ENUM('string', 'number', 'boolean', 'array', 'reference'),
+        type: DataTypes.ENUM('string', 'number', 'boolean', 'ternary', 'array', 'reference'),
         allowNull: false,
         field: 'data_type',
         comment: 'Field data type',
