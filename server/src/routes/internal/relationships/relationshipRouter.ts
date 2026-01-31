@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance, BookingCascade, PartAssignment, AnnotationAssignment, EventAssignment, InstanceComponent, BlockInstance, BlockShape, EventInstance, EventShape, PartShape, PartInstance, AnnotationInstance, AnnotationShape } from '../../../config/app.js';
+import { ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance, BookingCascade, PartAssignment, AnnotationAssignment, EventAssignment, EventShapeAttendee, InstanceComponent, BlockInstance, BlockShape, EventInstance, EventShape, PartShape, PartInstance, AnnotationInstance, AnnotationShape } from '../../../config/app.js';
 import { Model, ModelStatic } from 'sequelize';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
 
@@ -21,7 +21,7 @@ const router = Router();
  * - activeComponents → serviceComponents → instanceComponents (Instance Components) (2026-01-07)
  * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions → dependentInstances (2026-01-20, final naming)
  */
-type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' | 'dependentInstances' | 'bookingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'instanceComponents';
+type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' | 'dependentInstances' | 'bookingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'attendeeAssignments' | 'instanceComponents';
 
 interface RelationshipConfig {
   model: ModelStatic<Model>;
@@ -31,7 +31,7 @@ interface RelationshipConfig {
 }
 
 // Verify models are available
-if (!ValidCascade || !ValidPart || !ValidAnnotation || !DependentInstance || !BookingCascade || !PartAssignment || !AnnotationAssignment || !EventAssignment || !InstanceComponent) {
+if (!ValidCascade || !ValidPart || !ValidAnnotation || !DependentInstance || !BookingCascade || !PartAssignment || !AnnotationAssignment || !EventAssignment || !EventShapeAttendee || !InstanceComponent) {
   console.error('[RelationshipRouter] Missing models:', {
     ValidCascade: !!ValidCascade,
     ValidPart: !!ValidPart,
@@ -41,6 +41,7 @@ if (!ValidCascade || !ValidPart || !ValidAnnotation || !DependentInstance || !Bo
     PartAssignment: !!PartAssignment,
     AnnotationAssignment: !!AnnotationAssignment,
     EventAssignment: !!EventAssignment,
+    EventShapeAttendee: !!EventShapeAttendee,
     InstanceComponent: !!InstanceComponent
   });
 }
@@ -100,6 +101,12 @@ const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
     parentEntity: 'partInstance', // Can be partInstance or blockInstance (determined by parent_kind)
     childEntity: 'eventInstance'
   },
+  attendeeAssignments: {
+    model: EventShapeAttendee,
+    displayName: 'Attendee Assignment',
+    parentEntity: 'eventShape',
+    childEntity: 'blockInstance'
+  },
   instanceComponents: {
     model: InstanceComponent,
     displayName: 'Instance Component',
@@ -139,6 +146,11 @@ async function mapRelationshipFields(
       return {
         blockInstanceId: parentId,
         annotationId: childId,
+      };
+    case 'attendeeAssignments':
+      return {
+        eventShapeId: parentId,
+        userTypeBlockInstanceId: childId,
       };
     case 'eventAssignments': {
       // LEARNING: eventAssignments uses parent_id/child_id pattern with parent_kind enum

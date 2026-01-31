@@ -34,7 +34,7 @@ describe('useTimeSlotCalculations', () => {
     clientPresent?: number
     totalDuration?: number
     moveable?: number
-    clientStartOffset?: number
+    differentialOffset?: number
   }): AppointmentShape => ({
     finalizedParts: [],
     slotShape: {
@@ -42,7 +42,7 @@ describe('useTimeSlotCalculations', () => {
       onSite: params.onSite ?? 0,
       clientPresent: params.clientPresent ?? 0,
       moveable: params.moveable ?? 0,
-      clientStartOffset: params.clientStartOffset ?? 0
+      differentialOffset: params.differentialOffset ?? 0
     }
   })
 

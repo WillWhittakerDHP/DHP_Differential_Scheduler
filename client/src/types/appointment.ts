@@ -110,8 +110,8 @@ export interface TimeRange {
  * - Display times are converted to local timezone in UI components
  */
 export interface TimeSlot extends TimeRange {
-  onSite: boolean
-  clientPresent: boolean
+  major: boolean
+  minor: boolean
   moveable: boolean
   isAvailable: boolean  // true = available, false = busy/unavailable (required)
   hasFlexibleViolations?: boolean  // true if slot violates flexible constraints
@@ -124,7 +124,7 @@ export interface TimeSlot extends TimeRange {
  * PerspectiveKey: Keys for deriving display times
  * Logic names (not UI labels)
  */
-export type PerspectiveKey = 'onSite' | 'clientPresent' | 'nonDifferential'
+export type PerspectiveKey = 'major' | 'minor' | 'nonDifferential'
 
 /**
  * EventFinal: Aggregated event duration for a given event shape
@@ -133,7 +133,7 @@ export type PerspectiveKey = 'onSite' | 'clientPresent' | 'nonDifferential'
  * PATTERN: Plain interface with event shape reference and calculated duration
  */
 export interface EventFinal {
-  eventShape: EventShape  // The event shape definition (e.g., OnSite, ClientPresent, Moveable)
+  eventShape: EventShape  // The event shape definition (e.g., major event, minor event, Moveable)
   duration: number        // Calculated duration for this event in minutes
 }
 
@@ -149,8 +149,8 @@ export interface EventFinal {
  */
 export interface SlotShape {
   totalDuration: number        // Sum of all finalizedParts.baseTime
-  eventFinals: EventFinal[]   // Array of event shapes with their durations (e.g., [{ eventShape: OnSite, duration: 120 }, ...])
-  clientStartOffset: number    // Duration of partFinals where onSite === true && clientPresent === false
+  eventFinals: EventFinal[]   // Array of event shapes with their durations (e.g., [{ eventShape: majorEvent, duration: 120 }, ...])
+  differentialOffset: number    // Duration offset when major event exists but minor event does not
 }
 
 /**
@@ -211,7 +211,7 @@ export interface AppointmentSlot {
   // WHY: Makes it clear these are time ranges with start/end times, not duration numbers
   // WHY: Precomputed because accessed frequently in UI (graphBars, derivePerspective, etc.)
   totalTimeRange: TimeRange | null          // From shape.slotShape.totalDuration + startTime
-  eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "OnSite": {...}, "ClientPresent": {...}, "Moveable": {...} })
+  eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "majorEvent": {...}, "minorEvent": {...}, "Moveable": {...} })
 }
 
 /**

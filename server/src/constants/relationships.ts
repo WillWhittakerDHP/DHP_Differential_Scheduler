@@ -21,6 +21,7 @@ export const RELATIONSHIP_KEYS = {
   partAssignments: true,
   annotationAssignments: true,
   eventAssignments: true,
+  attendeeAssignments: true,
   instanceComponents: true,
 } as const;
 

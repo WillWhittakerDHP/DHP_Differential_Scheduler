@@ -125,7 +125,8 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         buffers: rawSettings.buffers,
         maxWorkHours: rawSettings.maxWorkHours,
         timezone: rawSettings.timezone,
-        durationRounding
+        durationRounding,
+        differentialPerspectives: rawSettings.differentialPerspectives
       }
     } catch (err: any) {
       // Explicit error - no fallbacks
@@ -262,6 +263,11 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
       // PATTERN: Include optional config if present in formData
       if (formData.value.durationRounding) {
         settingsToSave.durationRounding = formData.value.durationRounding
+      }
+      
+      // Include differentialPerspectives if configured
+      if (formData.value.differentialPerspectives) {
+        settingsToSave.differentialPerspectives = formData.value.differentialPerspectives
       }
       
       // Save settings to API

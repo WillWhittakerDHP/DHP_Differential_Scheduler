@@ -11,6 +11,13 @@ import type { PartFinal } from './PartFinal'
 import type { EventInstance, EventShape } from '@/types/events'
 import { createPartFinal } from './PartFinal'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
+import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import { 
+  getMajorEventShape, 
+  getMinorEventShape 
+} from '@/utils/eventAttendeeUtils'
+import type { EventShapeEntity } from '@/types/entities'
+import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 
 /**
  * Group parts by part shape
@@ -86,18 +93,19 @@ export function filterZeroedParts(
  * @param partFinals - Array of PartFinal instances
  * @param eventAssignmentsByPartShape - Record mapping partShape name → EventInstance[]
  * @param eventShapes - Array of EventShape objects for metadata lookup
+ * @param globalData - Optional GlobalData for attendee-based logic (if not provided, falls back to name-based logic)
+ * @param availabilitySettings - Optional AvailabilitySettings for major/minor attendee configuration
  * @returns SlotShape with eventFinals array and duration totals
  */
 export function calculateSlotShape(
   partFinals: PartFinal[],
   eventAssignmentsByPartShape: Record<string, EventInstance[]> = {},
-  eventShapes: EventShape[] = []
+  eventShapes: EventShape[] = [],
+  globalData?: GlobalData,
+  availabilitySettings?: AvailabilitySettings | null
 ): import('@/types/appointment').SlotShape {
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:91',message:'calculateSlotShape entry',data:{partFinalsCount:partFinals.length,eventShapesCount:eventShapes.length,eventAssignmentsKeys:Object.keys(eventAssignmentsByPartShape),eventAssignmentsCounts:Object.fromEntries(Object.entries(eventAssignmentsByPartShape).map(([k,v])=>[k,v.length]))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-  // #endregion
   let totalDuration = 0
-  let clientStartOffset = 0
+  let differentialOffset = 0
   
   // LEARNING: Use Map to accumulate durations by event shape ID
   // WHY: Groups durations by event shape, then converts to EventFinal[] array
@@ -106,9 +114,33 @@ export function calculateSlotShape(
   
   // Create lookup map for EventShape by ID
   const eventShapeById = new Map(eventShapes.map(es => [es.id, es]))
+  
+  // LEARNING: Find major and minor UserTypeBlock IDs for attendee-based logic
+  // WHY: Enables dynamic event identification based on attendees instead of hardcoded names
+  // PATTERN: Use availabilitySettings to get major/minor attendee IDs, fall back to name-based logic if not available
+  let majorAttendeeIds: string[] = []
+  let minorAttendeeIds: string[] = []
+  let useAttendeeBasedLogic = false
+  
   // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:105',message:'eventShapeById created',data:{eventShapeByIdSize:eventShapeById.size,eventShapeIds:Array.from(eventShapeById.keys())},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
   // #endregion
+  
+  if (globalData && availabilitySettings?.differentialPerspectives) {
+    majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
+    minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
+    useAttendeeBasedLogic = majorAttendeeIds.length > 0 || minorAttendeeIds.length > 0
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+    // #endregion
+  } else {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+    // #endregion
+  }
+  
+  // Convert EventShape[] to EventShapeEntity[] for attendee helper functions
+  const eventShapeEntities = eventShapes as EventShapeEntity[]
   
   for (const part of partFinals) {
     const baseTime = part.baseTime
@@ -117,17 +149,11 @@ export function calculateSlotShape(
     
     // Get EventInstance[] for this partShape
     const events = eventAssignmentsByPartShape[part.partShape] || []
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:113',message:'processing part',data:{partShape:part.partShape,baseTime:part.baseTime,eventsCount:events.length,eventInstanceIds:events.map(ei=>ei.id)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
     
     // Process each event for this partShape
     for (const eventInstance of events) {
       // Look up EventShape to get event shape name and metadata
       const eventShape = eventShapeById.get(eventInstance.eventShapeRef)
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:118',message:'looking up event shape',data:{eventInstanceId:eventInstance.id,eventShapeRef:eventInstance.eventShapeRef,eventShapeFound:!!eventShape,eventShapeName:eventShape?.name},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
       if (!eventShape) continue
       
       const eventShapeId = eventShape.id
@@ -152,26 +178,57 @@ export function calculateSlotShape(
           const currentDuration = eventDurationsByShapeId.get(eventShapeId) || 0
           const newDuration = currentDuration + baseTime
           eventDurationsByShapeId.set(eventShapeId, newDuration)
-          // #region agent log
-          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:141',message:'accumulated ternary event duration',data:{eventShapeId,eventShapeName:eventShape.name,baseTime,currentDuration,newDuration},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-          // #endregion
           
-          // LEARNING: clientStartOffset only applies when OnSite is true AND ClientPresent is false
-          // WHY: Need to check if OnSite event exists and is active, and ClientPresent is not active
-          // PATTERN: Look for OnSite event shape by checking isTernary and name, then check ClientPresent
-          if (eventShape.name === 'OnSite') {
-            // Check if ClientPresent is false for this partShape
-            const hasClientPresent = events.some(ei => {
-              const es = eventShapeById.get(ei.eventShapeRef)
-              if (!es || !es.isTernary || es.name !== 'ClientPresent') return false
-              const clientPresentValue = es.ternaryDefault
-              if (clientPresentValue === null) return false
-              return toBoolean(clientPresentValue, 'strict')
-            })
-            
-            if (!hasClientPresent) {
-              clientStartOffset += baseTime
+          // LEARNING: differentialOffset only applies when major event exists but minor event does not
+          // WHY: Need to check if major event exists and is active, and minor event is not active
+          // PATTERN: Use attendee-based logic when available, fall back to name-based logic for backward compatibility
+          let shouldAddToDifferentialOffset = false
+          
+          if (useAttendeeBasedLogic) {
+            // Attendee-based logic: Check if this event shape has major attendee
+            const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: major event shape lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventShapeName:eventShape.name,eventShapeAttendees:eventShape.attendees,majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,isMajorEvent:majorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+            // #endregion
+            if (majorEventShape && majorEventShape.id === eventShape.id) {
+              // This is a major event - check if there's a minor event for this partShape
+              const minorEventShape = getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+              // #region agent log
+              fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:181',message:'calculateSlotShape: minor event shape lookup',data:{minorAttendeeIds,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,partShape:part.partShape},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+              // #endregion
+              if (minorEventShape) {
+                // Check if minor event is active for this partShape
+                const hasMinorEvent = events.some(ei => {
+                  if (ei.eventShapeRef !== minorEventShape.id) return false
+                  const es = eventShapeById.get(ei.eventShapeRef)
+                  if (!es || !es.isTernary) return false
+                  const minorValue = es.ternaryDefault
+                  if (minorValue === null) return false
+                  return toBoolean(minorValue, 'strict')
+                })
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:184',message:'calculateSlotShape: minor event active check',data:{hasMinorEvent,eventsCount:events.length,events:events.map(ei=>({id:ei.id,eventShapeRef:ei.eventShapeRef}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                // #endregion
+                if (!hasMinorEvent) {
+                  shouldAddToDifferentialOffset = true
+                }
+              } else {
+                // No minor event shape exists - add to differential offset
+                shouldAddToDifferentialOffset = true
+              }
             }
+          } else {
+            // LEARNING: No fallback to name-based logic
+            // WHY: If attendee-based logic is not available, don't calculate differential offset
+            // PATTERN: Skip differential offset calculation if attendee-based logic is disabled
+            // NOTE: This ensures we don't use hardcoded event names
+          }
+          
+          if (shouldAddToDifferentialOffset) {
+            differentialOffset += baseTime
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:220',message:'calculateSlotShape: adding to differentialOffset',data:{baseTime,differentialOffsetBefore:differentialOffset-baseTime,differentialOffsetAfter:differentialOffset,partShape:part.partShape,eventShapeId:eventShape.id,eventShapeName:eventShape.name},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+            // #endregion
           }
         }
       } else {
@@ -179,37 +236,39 @@ export function calculateSlotShape(
         const currentDuration = eventDurationsByShapeId.get(eventShapeId) || 0
         const newDuration = currentDuration + baseTime
         eventDurationsByShapeId.set(eventShapeId, newDuration)
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:164',message:'accumulated boolean event duration',data:{eventShapeId,eventShapeName:eventShape.name,baseTime,currentDuration,newDuration},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-        // #endregion
       }
     }
   }
   
   // LEARNING: Convert Map to EventFinal[] array
   // WHY: Provides array of event shapes with durations, matching PartFinal[] pattern
-  // PATTERN: Map over eventShapeById entries, create EventFinal for each with accumulated duration
-  const eventFinalsBeforeFilter = Array.from(eventShapeById.entries())
-    .map(([eventShapeId, eventShape]) => {
-      const duration = eventDurationsByShapeId.get(eventShapeId) || 0
+  // PATTERN: Map over eventDurationsByShapeId entries, create EventFinal for each with accumulated duration
+  // LEARNING: Only create EventFinals for event shapes that have been assigned to parts
+  // WHY: Don't create EventFinals for all event shapes - only those that are actually assigned
+  // PATTERN: Iterate over eventDurationsByShapeId to only include event shapes that have durations accumulated
+  const eventFinals: import('@/types/appointment').EventFinal[] = Array.from(eventDurationsByShapeId.entries())
+    .map(([eventShapeId, duration]) => {
+      const eventShape = eventShapeById.get(eventShapeId)
+      if (!eventShape) {
+        return null
+      }
       return {
         eventShape,
         duration
       }
     })
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:172',message:'eventFinals before filter',data:{eventFinalsBeforeFilter:eventFinalsBeforeFilter.map(ef=>({eventShapeId:ef.eventShape.id,eventShapeName:ef.eventShape.name,duration:ef.duration})),eventDurationsByShapeIdEntries:Array.from(eventDurationsByShapeId.entries())},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-  // #endregion
-  const eventFinals: import('@/types/appointment').EventFinal[] = eventFinalsBeforeFilter.filter(ef => ef.duration > 0) // Only include events with duration > 0
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:180',message:'calculateSlotShape exit',data:{totalDuration,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventShapeName:ef.eventShape.name,duration:ef.duration})),clientStartOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-  // #endregion
+    .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
+    .filter(ef => ef.duration > 0) // Only include events with duration > 0
   
-  return { 
+  const result = { 
     totalDuration, 
     eventFinals,
-    clientStartOffset
+    differentialOffset
   }
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventShapeName:ef.eventShape.name,eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+  // #endregion
+  return result
 }
 
 /**

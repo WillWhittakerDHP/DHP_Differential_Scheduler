@@ -1,13 +1,13 @@
 <script setup lang="ts">
 /**
- * TimeOnSiteGraph Component
+ * DifferentialGraph Component
  * 
- * LEARNING: Visual bars showing inspector and client time blocks for differential scheduling
+ * LEARNING: Visual bars showing major and minor time blocks for differential scheduling
  * WHY: Encapsulates time bar display logic and styling
  * PATTERN: Self-contained component with props for time block data
  * 
  * Features:
- * - Differential service: Two stacked bars (inspector full width, client right-justified half width)
+ * - Differential service: Two stacked bars (major full width, minor right-justified half width)
  * - Non-differential services: Not shown (component only renders for differential services)
  * - Bar states: Selected/Active based on time basis selector
  * - Responsive design with touch-friendly sizing
@@ -17,39 +17,49 @@ import { computed } from 'vue'
 import type { TimeRange } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 interface Props {
   isDifferentialService: boolean
   graphBars: {
-    onSite: TimeRange | null      // "Inspector" bar
-    clientPresent: TimeRange | null // "Client" bar (null if non-differential)
+    major: TimeRange | null
+    minor: TimeRange | null
   }
   selectedServices: BookingBlockInstance[]
-  startTimeType: 'onSite' | 'clientPresent' | 'nonDifferential'
+  startTimeType: 'major' | 'minor' | 'nonDifferential'
 }
 
 const props = defineProps<Props>()
 
 interface Emits {
-  (e: 'time-basis-change', type: 'inspector' | 'client'): void
+  (e: 'time-basis-change', type: 'major' | 'minor'): void
 }
 
 const emit = defineEmits<Emits>()
 
+// LEARNING: Get configured labels from availability settings
+// WHY: Labels are configurable in admin panel
+const { settings: availabilitySettings } = useAvailabilitySettings()
+const majorLabel = computed(() => 
+  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
+)
+const minorLabel = computed(() => 
+  availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+)
+
 // LEARNING: Handler for bar clicks
-// WHY: Toggles between Inspector/Client perspectives when bars are clicked
+// WHY: Toggles between major/minor perspectives when bars are clicked
 // PATTERN: Same toggle logic as TimeBasisButtonGrid
-const handleBarClick = (type: 'inspector' | 'client'): void => {
+const handleBarClick = (type: 'major' | 'minor'): void => {
   // For non-differential services, cannot change
   if (!props.isDifferentialService) {
     return
   }
   
   // Toggle: clicking selected bar switches to other, clicking active bar selects it
-  const currentType = props.startTimeType === 'onSite' ? 'inspector' : 'client'
-  if (currentType === type) {
+  if (props.startTimeType === type) {
     // Clicking selected bar switches to the other option
-    const newType = type === 'inspector' ? 'client' : 'inspector'
+    const newType = type === 'major' ? 'minor' : 'major'
     emit('time-basis-change', newType)
   } else {
     // Clicking active bar selects it
@@ -62,33 +72,33 @@ const handleBarClick = (type: 'inspector' | 'client'): void => {
 // PATTERN: Composable provides pure utility functions
 const { formatTimeRange } = useTimeFormatting()
 
-// LEARNING: Computed properties for Time On-Site Graph bar states
+// LEARNING: Computed properties for Differential Graph bar states
 // WHY: Reflects Time Basis Selector selection visually per user story
 // PATTERN: Computed properties that return 'selected', 'active', or 'single' based on state
 // USER_STORY: Corresponding bar becomes Selected when Time Basis Selector is selected, other remains Active
-const inspectorBarState = computed(() => {
+const majorBarState = computed(() => {
   if (!props.isDifferentialService) return 'single'
-  return props.startTimeType === 'onSite' ? 'selected' : 'active'
+  return props.startTimeType === 'major' ? 'selected' : 'active'
 })
 
-const clientBarState = computed(() => {
+const minorBarState = computed(() => {
   if (!props.isDifferentialService) return null
-  return props.startTimeType === 'clientPresent' ? 'selected' : 'active'
+  return props.startTimeType === 'minor' ? 'selected' : 'active'
 })
 
 // LEARNING: Format time ranges for display
 // WHY: Converts TimeRange objects to display strings
 // PATTERN: Use formatTimeRange helper, fallback to duration if no time range
-const inspectorTimeDisplay = computed(() => {
-  if (props.graphBars.onSite) {
-    return formatTimeRange(props.graphBars.onSite)
+const majorTimeDisplay = computed(() => {
+  if (props.graphBars.major) {
+    return formatTimeRange(props.graphBars.major)
   }
   return null
 })
 
-const clientTimeDisplay = computed(() => {
-  if (props.graphBars.clientPresent) {
-    return formatTimeRange(props.graphBars.clientPresent)
+const minorTimeDisplay = computed(() => {
+  if (props.graphBars.minor) {
+    return formatTimeRange(props.graphBars.minor)
   }
   return null
 })
@@ -97,8 +107,8 @@ const clientTimeDisplay = computed(() => {
 // WHY: Explains what the buttons represent based on selected perspective
 const stateLabel = computed(() => {
   if (!props.isDifferentialService) return null
-  if (props.startTimeType === 'onSite') return 'Showing inspector times'
-  if (props.startTimeType === 'clientPresent') return 'Showing client times'
+  if (props.startTimeType === 'major') return `Showing ${majorLabel.value} times`
+  if (props.startTimeType === 'minor') return `Showing ${minorLabel.value} times`
   return null
 })
 
@@ -106,17 +116,17 @@ const stateLabel = computed(() => {
 // WHY: Only show label when relevant (differential service with selected time slot)
 const showStateLabel = computed(() => {
   return props.isDifferentialService && 
-         (props.graphBars.onSite || props.graphBars.clientPresent) &&
+         (props.graphBars.major || props.graphBars.minor) &&
          stateLabel.value !== null
 })
 </script>
 
 <template>
-  <!-- LEARNING: Time On-Site Graph -->
-  <!-- WHY: Visual bars showing inspector and client time blocks for differential scheduling -->
+  <!-- LEARNING: Differential Graph -->
+  <!-- WHY: Visual bars showing major and minor time blocks for differential scheduling -->
   <!-- PATTERN: Stacked horizontal bars with conditional rendering based on differential -->
   <!-- Show graph when service is differential -->
-  <div v-if="isDifferentialService" class="time-on-site-graph">
+  <div v-if="isDifferentialService" class="differential-graph">
     <!-- LEARNING: State label when selected -->
     <!-- WHY: Explains what the time slot buttons represent -->
     <div v-if="showStateLabel" class="state-label">
@@ -124,54 +134,54 @@ const showStateLabel = computed(() => {
     </div>
     
     <!-- LEARNING: Differential Service - Two stacked bars -->
-    <!-- WHY: Shows inspector and client time blocks separately for differential services -->
-    <!-- PATTERN: Top bar full width (Inspector), bottom bar right-justified half width (Client) -->
+    <!-- WHY: Shows major and minor time blocks separately for differential services -->
+    <!-- PATTERN: Top bar full width (Major), bottom bar right-justified half width (Minor) -->
     <!-- Always show bars so users can click them, even when no time slot is selected -->
-    <!-- LEARNING: Inspector Time Bar - Full Width, Clickable, Outline Only -->
-    <!-- WHY: Shows inspector time block outline, full width, primary color border, clickable to select perspective -->
+    <!-- LEARNING: Major Time Bar - Full Width, Clickable, Outline Only -->
+    <!-- WHY: Shows major time block outline, full width, primary color border, clickable to select perspective -->
     <!-- USER_STORY: Top bar extends across full length, outline style only -->
     <!-- USER_STORY: Bar becomes Selected when clicked, Active otherwise -->
     <div 
-      class="time-bar inspector-bar clickable-bar" 
-      :class="[inspectorBarState, { filled: !!graphBars.onSite }]"
+      class="time-bar major-bar clickable-bar" 
+      :class="[majorBarState, { filled: !!graphBars.major }]"
       role="button"
       tabindex="0"
-      aria-label="Select Inspector time view"
-      @click="handleBarClick('inspector')"
-      @keydown.enter="handleBarClick('inspector')"
-      @keydown.space.prevent="handleBarClick('inspector')"
+      :aria-label="`Select ${majorLabel} time view`"
+      @click="handleBarClick('major')"
+      @keydown.enter="handleBarClick('major')"
+      @keydown.space.prevent="handleBarClick('major')"
     >
-      <span v-if="inspectorTimeDisplay" class="bar-text">{{ inspectorTimeDisplay }}</span>
+      <span v-if="majorTimeDisplay" class="bar-text">{{ majorTimeDisplay }}</span>
       <span v-else class="bar-text">Select a Time Slot</span>
     </div>
     
-    <!-- LEARNING: Client Time Bar - Right-Justified Half Width, Clickable, Outline Only -->
-    <!-- WHY: Shows client presentation time block outline, right-justified, half width, secondary color border, clickable to select perspective -->
+    <!-- LEARNING: Minor Time Bar - Right-Justified Half Width, Clickable, Outline Only -->
+    <!-- WHY: Shows minor time block outline, right-justified, half width, secondary color border, clickable to select perspective -->
     <!-- USER_STORY: Bottom bar is right justified, extends across half the length, outline style only -->
     <!-- USER_STORY: Bar becomes Selected when clicked, Active otherwise -->
     <div 
-      class="time-bar client-bar clickable-bar" 
-      :class="[clientBarState, { filled: !!graphBars.clientPresent }]"
+      class="time-bar minor-bar clickable-bar" 
+      :class="[minorBarState, { filled: !!graphBars.minor }]"
       role="button"
       tabindex="0"
-      aria-label="Select Client time view"
-      @click="handleBarClick('client')"
-      @keydown.enter="handleBarClick('client')"
-      @keydown.space.prevent="handleBarClick('client')"
+      :aria-label="`Select ${minorLabel} time view`"
+      @click="handleBarClick('minor')"
+      @keydown.enter="handleBarClick('minor')"
+      @keydown.space.prevent="handleBarClick('minor')"
     >
-      <span v-if="clientTimeDisplay" class="bar-text">{{ clientTimeDisplay }}</span>
+      <span v-if="minorTimeDisplay" class="bar-text">{{ minorTimeDisplay }}</span>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-// LEARNING: Time On-Site Graph styling
-// WHY: Visual bars showing inspector and client time blocks
+// LEARNING: Differential Graph styling
+// WHY: Visual bars showing major and minor time blocks
 // PATTERN: Stacked horizontal bars with different widths and colors
 // USER_STORY: Top bar full width, bottom bar right-justified half width, aligned on right edge
 // LEARNING: Constrain graph width to calendar width
 // WHY: Largest bar should be no wider than calendar
-.time-on-site-graph {
+.differential-graph {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -225,6 +235,11 @@ const showStateLabel = computed(() => {
 // LEARNING: Bar text styling
 // WHY: Text displayed inside the bar
 .bar-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
   font-size: 0.875rem;
   font-weight: 500;
   color: rgb(var(--v-theme-on-surface));
@@ -233,16 +248,32 @@ const showStateLabel = computed(() => {
   position: relative;
 }
 
+// LEARNING: Bar label styling (major/minor label)
+// WHY: Shows configured label prominently on each bar
+.bar-label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// LEARNING: Bar time styling (time range display)
+// WHY: Shows time range below the label
+.bar-time {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
 // LEARNING: Filled bar state
 // WHY: Shows filled background when time slot is selected
 .time-bar.filled {
   background-color: rgba(var(--v-theme-primary), 0.1);
   
-  &.inspector-bar.selected {
+  &.major-bar.selected {
     background-color: rgba(var(--v-theme-primary), 0.15);
   }
   
-  &.client-bar.selected {
+  &.minor-bar.selected {
     background-color: rgba(var(--v-theme-secondary), 0.15);
   }
   
@@ -252,17 +283,17 @@ const showStateLabel = computed(() => {
   }
 }
 
-// LEARNING: Inspector bar - Full width outline (constrained to graph width)
+// LEARNING: Major bar - Full width outline (constrained to graph width)
 // WHY: Full width bar outline in primary color, but width is constrained by parent graph
-.inspector-bar {
+.major-bar {
   width: 100%;
   max-width: 100%; // Ensure it doesn't exceed parent
   box-sizing: border-box; // Include border in width calculation
 }
 
-// LEARNING: Client bar - Right-justified half width outline
+// LEARNING: Minor bar - Right-justified half width outline
 // WHY: Half width bar aligned to right, secondary color
-.client-bar {
+.minor-bar {
   width: 50%;
   max-width: 50%; // Ensure it doesn't exceed half of parent
   margin-left: auto; // Right-justify
@@ -298,27 +329,27 @@ const showStateLabel = computed(() => {
 // LEARNING: Bar states - Selected/Active border colors
 // WHY: Visual distinction between Selected and Active bars
 // PATTERN: Selected bars have colored border, Active bars have muted border
-.inspector-bar.selected {
+.major-bar.selected {
   border-color: rgb(var(--v-theme-primary));
 }
 
-.inspector-bar.active {
+.major-bar.active {
   border-color: rgba(var(--v-theme-primary), 0.4);
 }
 
-.client-bar.selected {
+.minor-bar.selected {
   border-color: rgb(var(--v-theme-secondary));
 }
 
-.client-bar.active {
+.minor-bar.active {
   border-color: rgba(var(--v-theme-secondary), 0.4);
 }
 
 // LEARNING: Selected bar shadow for emphasis
 // WHY: Makes selected bar more prominent
 // PATTERN: Box shadow on selected state
-.inspector-bar.selected,
-.client-bar.selected {
+.major-bar.selected,
+.minor-bar.selected {
   box-shadow: 0 2px 4px rgba(var(--v-theme-on-surface), 0.2);
 }
 </style>

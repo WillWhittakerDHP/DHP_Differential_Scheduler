@@ -48,6 +48,7 @@ enum RelationshipSelectTypeEnum {
   InstanceComponentSelect = "instanceComponentSelect",
   EventAssignmentSelect = "eventAssignmentSelect",
   AnnotationAssignmentSelect = "annotationAssignmentSelect", // LEARNING: Annotations are now core entities, use standard relationship select pattern
+  AttendeeSelect = "attendeeSelect", // LEARNING: Attendee assignments filter BlockInstances by BlockShape.isStateControl === true
 }
 
 enum RelationshipSelectModeEnum {

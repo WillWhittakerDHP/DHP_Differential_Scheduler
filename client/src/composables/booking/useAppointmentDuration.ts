@@ -1,7 +1,7 @@
 /**
  * useAppointmentDuration Composable
  * 
- * LEARNING: Calculates on-site appointment duration from block instances
+ * LEARNING: Calculates major event appointment duration from block instances (legacy: on-site)
  * WHY: Extracts duration calculation logic from AvailabilityStep component
  * PATTERN: Composable that provides computed property for appointment duration
  */
@@ -42,7 +42,7 @@ export interface UseAppointmentDurationReturn {
 /**
  * useAppointmentDuration composable
  * 
- * LEARNING: Calculates on-site duration from block instances
+ * LEARNING: Calculates major event duration from block instances (legacy: on-site)
  * WHY: Extracts duration calculation logic from component to composable
  * PATTERN: Composable that returns reactive computed property
  */
@@ -62,9 +62,9 @@ export function useAppointmentDuration(
   const { getGlobalData, getGlobalEntities } = useGlobal()
 
   /**
-   * LEARNING: Calculate on-site duration from AppointmentShape
+   * LEARNING: Calculate major event duration from AppointmentShape (legacy: on-site)
    * WHY: Events are now stored on AppointmentShape, not on PartFinal
-   * PATTERN: Build AppointmentShape and read OnSite duration from slotShape.eventFinals using helper function
+   * PATTERN: Build AppointmentShape and read major event duration from slotShape.eventFinals using helper function
    */
   const appointmentDuration = computed<number | null>(() => {
     const instances = accumulatedBlockInstances.value
@@ -75,8 +75,8 @@ export function useAppointmentDuration(
     try {
       // Get events data from globalData
       const globalData = getGlobalData()
-      const eventInstances = (globalData?.events?.eventInstance || []) as EventInstance[]
-      const eventShapes = (globalData?.events?.eventShape || []) as EventShape[]
+      const eventInstances = getGlobalEntities('eventInstance') as EventInstance[]
+      const eventShapes = getGlobalEntities('eventShape') as EventShape[]
       const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
       const validPartsRelationships = (globalData?.relationships?.validParts || []) as GlobalRelationship[]
       
@@ -94,21 +94,31 @@ export function useAppointmentDuration(
         eventShapes,
         eventAssignmentsRelationships,
         partShapeById,
-        validPartsRelationships
+        validPartsRelationships,
+        globalData || undefined
       )
       
-      // LEARNING: Read OnSite duration from slotShape.eventFinals using helper function
+      // LEARNING: Read major event duration from slotShape.eventFinals using helper function
       // WHY: Events are stored on AppointmentShape, durations computed in SlotShape as EventFinal[]
       // PATTERN: Use helper function to find event by name, eliminates hardcoded access
-      const onSiteEventFinal = findEventFinalByName(shape.slotShape, 'OnSite')
-      const onSiteDuration = onSiteEventFinal?.duration || 0
+      // NOTE: Uses 'OnSite' as fallback for backward compatibility, but should use major event from availabilitySettings
+      const majorEventFinal = findEventFinalByName(shape.slotShape, 'OnSite')
+      const majorDuration = majorEventFinal?.duration || 0
       
       // LEARNING: Apply configurable rounding based on availability settings
       // WHY: Allows admin to control rounding behavior via Business Controls tab
       // PATTERN: Use composable rounding function that respects settings
-      const roundedDuration = roundDuration(onSiteDuration)
+      const roundedDuration = roundDuration(majorDuration)
       
-      return roundedDuration > 0 ? roundedDuration : null
+      // LEARNING: If major event duration is 0, fall back to total duration for slot generation
+      // WHY: Slot generation needs a duration > 0, and if major event is 0, we should use total duration
+      // PATTERN: Return total duration if major event duration is not available
+      if (roundedDuration <= 0) {
+        const totalDuration = shape.slotShape.totalDuration
+        return totalDuration > 0 ? totalDuration : null
+      }
+      
+      return roundedDuration
     } catch (error) {
       // LEARNING: Return null on error to prevent breaking UI
       // WHY: Graceful degradation if events data is unavailable

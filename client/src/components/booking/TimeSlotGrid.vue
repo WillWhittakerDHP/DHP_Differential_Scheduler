@@ -11,7 +11,7 @@
  * - ResizeObserver for responsive behavior
  * - Touch-friendly button sizing
  * - Configurable min/max columns and button sizing
- * - Support for AppointmentSlots with dual-time display (inspector/client perspectives)
+ * - Support for AppointmentSlots with dual-time display (major/minor perspectives)
  */
 
 import { computed, ref } from 'vue'
@@ -24,7 +24,7 @@ interface Props {
   slots?: TimeSlot[] // Legacy prop for backward compatibility
   appointmentSlots?: AppointmentSlots // New prop for normalized AppointmentSlots structure
   selectedSlot?: TimeSlot | null
-  timeBasis?: 'inspector' | 'client' | 'nonDifferential' // Time perspective for differential scheduling
+  timeBasis?: 'major' | 'minor' | 'nonDifferential' // Time perspective for differential scheduling
   color?: 'primary' | 'secondary'
   variant?: 'flat' | 'outlined'
   loading?: boolean
@@ -110,16 +110,20 @@ const displaySlots = computed(() => {
         // PATTERN: Accept both types since TimeSlot extends TimeRange
         let slot: TimeSlot | TimeRange | null = null
         
-        if (props.timeBasis === 'client' && props.isDifferentialService) {
-          // LEARNING: Show client perspective time slot
-          // WHY: Client sees their arrival time for differential appointments
-          // PATTERN: Use clientPresentTimeRange from AppointmentSlot
-          slot = appointmentSlot.clientPresentTimeRange || appointmentSlot.totalTimeRange
+        if (props.timeBasis === 'minor' && props.isDifferentialService) {
+          // LEARNING: Show minor perspective time slot
+          // WHY: Minor sees their arrival time for differential appointments
+          // PATTERN: Use minor event time range from AppointmentSlot, fallback to totalTimeRange
+          // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
+          const minorEventName = 'ClientPresent' // TODO: Get from availabilitySettings
+          slot = appointmentSlot.eventTimeRanges?.[minorEventName] || appointmentSlot.totalTimeRange
         } else {
-          // LEARNING: Show inspector perspective time slot (default)
-          // WHY: Inspector sees their start time, or same time for non-differential
-          // PATTERN: Use onSiteTimeRange, fallback to totalTimeRange
-          slot = appointmentSlot.onSiteTimeRange || appointmentSlot.totalTimeRange
+          // LEARNING: Show major perspective time slot (default)
+          // WHY: Major sees their start time, or same time for non-differential
+          // PATTERN: Use major event time range from AppointmentSlot, fallback to totalTimeRange
+          // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
+          const majorEventName = 'OnSite' // TODO: Get from availabilitySettings
+          slot = appointmentSlot.eventTimeRanges?.[majorEventName] || appointmentSlot.totalTimeRange
         }
         
         if (slot) {

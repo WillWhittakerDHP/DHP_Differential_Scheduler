@@ -52,14 +52,17 @@ export function calculateAppointmentSlots(
     eventInstances,
     eventShapes,
     eventAssignmentsRelationships,
-    partShapeById
+    partShapeById,
+    undefined,
+    undefined,
+    undefined // globalData not available in this utility function
   )
   
   // LEARNING: Apply shape to start time if provided
   // WHY: Creates AppointmentSlot with TimeRanges from SlotShape
   // PATTERN: Use applyShapeToTime to create slot
   if (baseStartTime) {
-    const appointmentSlot = applyShapeToTime(shape, baseStartTime, 0, undefined, true)
+    const appointmentSlot = applyShapeToTime(shape, baseStartTime, 0, undefined, true, undefined, undefined)
     return [appointmentSlot]
   }
   

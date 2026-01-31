@@ -28,7 +28,8 @@ import {
   createTimeRangesFromSlotShape,
   buildAppointmentShape,
   applyShapeToTime,
-  derivePerspective
+  derivePerspective,
+  findEventFinalByName
 } from '../appointmentSlotBuilder'
 import { calculateSlotShape } from '../partFinalizer'
 import { createPartFinals, filterZeroedParts } from '../partFinalizer'
@@ -154,7 +155,7 @@ describe('appointmentSlotBuilder', () => {
         onSite: 90,
         clientPresent: 60,
         moveable: 30,
-        clientStartOffset: 30
+        differentialOffset: 30
       }
       const startTime = '2026-01-15T10:00:00Z'
       
@@ -173,7 +174,7 @@ describe('appointmentSlotBuilder', () => {
         onSite: 0,
         clientPresent: 0,
         moveable: 0,
-        clientStartOffset: 0
+        differentialOffset: 0
       }
       const startTime = '2026-01-15T10:00:00Z'
       
@@ -188,14 +189,12 @@ describe('appointmentSlotBuilder', () => {
 
   describe('buildAppointmentShape', () => {
     it('should return empty shape for empty block instances', () => {
-      const result = buildAppointmentShape([])
+      const result = buildAppointmentShape([], undefined, undefined, undefined, undefined, undefined, undefined, undefined)
       
       expect(result.finalizedParts).toEqual([])
       expect(result.slotShape.totalDuration).toBe(0)
-      expect(result.slotShape.onSite).toBe(0)
-      expect(result.slotShape.clientPresent).toBe(0)
-      expect(result.slotShape.moveable).toBe(0)
-      expect(result.slotShape.clientStartOffset).toBe(0)
+      expect(result.slotShape.eventFinals).toEqual([])
+      expect(result.slotShape.differentialOffset).toBe(0)
     })
 
     it('should build shape from block instances with parts', () => {
@@ -210,10 +209,15 @@ describe('appointmentSlotBuilder', () => {
       
       expect(result.finalizedParts.length).toBe(3) // Three different part shapes
       expect(result.slotShape.totalDuration).toBe(135) // 30 + 45 + 60
-      expect(result.slotShape.onSite).toBe(75) // 30 + 45 (rounded)
-      expect(result.slotShape.clientPresent).toBe(90) // 30 + 60
-      expect(result.slotShape.moveable).toBe(30) // moveable=true
-      expect(result.slotShape.clientStartOffset).toBe(45) // onSite=true, clientPresent=false
+      // LEARNING: Use eventFinals array instead of individual properties
+      // WHY: New structure uses eventFinals array for dynamic event types
+      const onSiteEventFinal = findEventFinalByName(result.slotShape, 'OnSite')
+      const clientPresentEventFinal = findEventFinalByName(result.slotShape, 'ClientPresent')
+      const moveableEventFinal = findEventFinalByName(result.slotShape, 'Moveable')
+      expect(onSiteEventFinal?.duration).toBe(75) // 30 + 45 (rounded)
+      expect(clientPresentEventFinal?.duration).toBe(90) // 30 + 60
+      expect(moveableEventFinal?.duration).toBe(30) // moveable=true
+      expect(result.slotShape.differentialOffset).toBe(45) // onSite=true, clientPresent=false
     })
 
     it('should zero out finalized parts when zeroOutPart is true', () => {
@@ -238,7 +242,7 @@ describe('appointmentSlotBuilder', () => {
         createPartInstance('2', 45, { onSite: 'true', clientPresent: 'false', partShape: 'shape-2' })
       ])
       
-      const result = buildAppointmentShape([block1, block2])
+      const result = buildAppointmentShape([block1, block2], undefined, undefined, undefined, undefined, undefined, undefined, undefined)
       
       expect(result.slotShape.totalDuration).toBe(75)
       expect(result.finalizedParts.length).toBe(2) // Two different part shapes
@@ -271,10 +275,8 @@ describe('appointmentSlotBuilder', () => {
         finalizedParts: [],
         slotShape: {
           totalDuration: 0,
-          onSite: 0,
-          clientPresent: 0,
-          moveable: 0,
-          clientStartOffset: 0
+          eventFinals: [],
+          differentialOffset: 0
         }
       }
       
@@ -327,10 +329,10 @@ describe('appointmentSlotBuilder', () => {
         finalizedParts: [],
         slotShape: {
           totalDuration: 120,
-          onSite: 60,
-          clientPresent: 0,
-          moveable: 0,
-          clientStartOffset: 0
+          eventFinals: [
+            { eventShape: { id: 'onsite-id', name: 'OnSite' } as any, duration: 60 }
+          ],
+          differentialOffset: 0
         }
       }
       const slot: AppointmentSlot = {
@@ -355,10 +357,8 @@ describe('appointmentSlotBuilder', () => {
         finalizedParts: [],
         slotShape: {
           totalDuration: 120,
-          onSite: 0,
-          clientPresent: 0,
-          moveable: 0,
-          clientStartOffset: 0
+          eventFinals: [],
+          differentialOffset: 0
         }
       }
       const slot: AppointmentSlot = {
@@ -382,10 +382,11 @@ describe('appointmentSlotBuilder', () => {
         finalizedParts: [],
         slotShape: {
           totalDuration: 120,
-          onSite: 60,
-          clientPresent: 30,
-          moveable: 0,
-          clientStartOffset: 30
+          eventFinals: [
+            { eventShape: { id: 'onsite-id', name: 'OnSite' } as any, duration: 60 },
+            { eventShape: { id: 'client-id', name: 'ClientPresent' } as any, duration: 30 }
+          ],
+          differentialOffset: 30
         }
       }
       const slot: AppointmentSlot = {
@@ -409,10 +410,10 @@ describe('appointmentSlotBuilder', () => {
         finalizedParts: [],
         slotShape: {
           totalDuration: 120,
-          onSite: 60,
-          clientPresent: 0,
-          moveable: 0,
-          clientStartOffset: 0
+          eventFinals: [
+            { eventShape: { id: 'onsite-id', name: 'OnSite' } as any, duration: 60 }
+          ],
+          differentialOffset: 0
         }
       }
       const slot: AppointmentSlot = {
@@ -436,10 +437,10 @@ describe('appointmentSlotBuilder', () => {
         finalizedParts: [],
         slotShape: {
           totalDuration: 120,
-          onSite: 60,
-          clientPresent: 0,
-          moveable: 0,
-          clientStartOffset: 0
+          eventFinals: [
+            { eventShape: { id: 'onsite-id', name: 'OnSite' } as any, duration: 60 }
+          ],
+          differentialOffset: 0
         }
       }
       const slot: AppointmentSlot = {

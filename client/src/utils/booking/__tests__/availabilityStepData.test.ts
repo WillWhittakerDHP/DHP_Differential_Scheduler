@@ -47,7 +47,7 @@ function createAppointmentSlot(params: {
       onSite: params.totalOnSiteDuration || 0,
       clientPresent: params.totalClientPresentDuration || 0,
       moveable: 0,
-      clientStartOffset: 0
+      differentialOffset: 0
     }
   }
   

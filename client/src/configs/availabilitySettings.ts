@@ -8,6 +8,7 @@ Session 1.3.7: Created to replace hardcoded values in generateTimeSlots
 Session 1.4.1: Updated to fetch from API instead of hardcoded defaults
  */
 import type { RFC3339DateTime } from '@/types/datetime'
+import type { GlobalEntityId } from '@/types/entities'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
 
@@ -236,6 +237,19 @@ export interface AvailabilitySettings {
     increment?: number  // Minutes (defaults to minuteIncrement if not specified)
     method?: 'roundUp' | 'roundDown' | 'roundNearest'
   }
+  
+  /**
+   * Differential perspectives configuration (optional)
+   * LEARNING: Configures which attendees make an event "major" vs "minor" for differential scheduling
+   * WHY: Makes differential scheduling configurable instead of hardcoded to inspector/client
+   * PATTERN: Optional nested object with arrays of UserTypeBlock IDs and display labels
+   */
+  differentialPerspectives?: {
+    majorAttendees?: GlobalEntityId[]  // UserTypeBlock IDs that make an event "major" (e.g., inspector)
+    minorAttendees?: GlobalEntityId[]   // UserTypeBlock IDs that make an event "minor" (e.g., client)
+    majorLabel?: string  // Display label for major perspective (e.g., "Inspector")
+    minorLabel?: string  // Display label for minor perspective (e.g., "Client Formal Presentation")
+  }
 }
 
 /**
@@ -265,6 +279,12 @@ export interface RawAvailabilitySettings {
     enabled: boolean
     increment?: number
     method?: 'roundUp' | 'roundDown' | 'roundNearest'
+  }
+  differentialPerspectives?: {
+    majorAttendees?: string[]
+    minorAttendees?: string[]
+    majorLabel?: string
+    minorLabel?: string
   }
 }
 
@@ -368,7 +388,8 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         buffers: rawSettings.buffers,
         maxWorkHours: rawSettings.maxWorkHours,
         timezone: rawSettings.timezone,
-        durationRounding: rawSettings.durationRounding
+        durationRounding: rawSettings.durationRounding,
+        differentialPerspectives: rawSettings.differentialPerspectives
       }
       
       // Update cache with timestamp

@@ -19,6 +19,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
+import { RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { useAdmin } from '../useAdmin'
 import { useComponentEntity } from '../useComponentEntity'
 import type { FieldContextType } from '../useFieldContext'
@@ -64,6 +65,12 @@ export interface UseSelectFilteringOptions {
    * LEARNING: Annotations are now core entities, use standard relationship select pattern
    */
   isAnnotationAssignmentSelect: ComputedRef<boolean>
+  
+  /**
+   * Whether this is an AttendeeSelect field
+   * LEARNING: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
+   */
+  isAttendeeSelect: ComputedRef<boolean>
 }
 
 /**
@@ -266,6 +273,19 @@ export function useSelectFiltering(
     if (!parentTypeEntityKey.value || !parentTypeRef.value) return null
     const entity = adminComp.getEntity(parentTypeEntityKey.value, parentTypeRef.value)
     return entity || null
+  })
+
+  /**
+   * LEARNING: Check if this is an AttendeeSelect field
+   * WHY: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
+   * PATTERN: Check selectType from selectConfig
+   */
+  const isAttendeeSelect = computed(() => {
+    const config = selectConfig.value
+    if (!config || !('selectType' in config)) {
+      return false
+    }
+    return config.selectType === RelationshipSelectTypeEnum.AttendeeSelect || config.selectType === 'attendeeSelect'
   })
 
   /**
@@ -513,8 +533,42 @@ export function useSelectFiltering(
       return allEntities.value
     }
     
-    // Apply filterOptions if provided
+    // Get config once for reuse
     const config = selectConfig.value
+    
+    // LEARNING: Attendee assignments filter BlockInstances by BlockShape.isStateControl === true
+    // WHY: Attendees are UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)
+    // PATTERN: Filter BlockInstances by checking their BlockShape's isStateControl property
+    if (isAttendeeSelect.value && optionEntityKey.value === 'blockInstance') {
+      // Get all block shapes to check isStateControl property
+      const allBlockShapes = adminComp.getEntities('blockShape')
+      
+      // LEARNING: Filter block shapes to only those with isStateControl === true
+      // WHY: UserTypeBlock instances belong to BlockShapes where isStateControl === true
+      // PATTERN: Filter block shapes, then filter block instances by their blockShapeRef
+      const stateControlBlockShapeIds = new Set(
+        allBlockShapes
+          .filter((bs: GlobalEntity<'blockShape'>) => {
+            const blockShapeTyped = bs as GlobalEntity<'blockShape'> & { isStateControl?: boolean }
+            return blockShapeTyped.isStateControl === true
+          })
+          .map((bs: GlobalEntity<'blockShape'>) => bs.id)
+      )
+      
+      // LEARNING: Filter BlockInstances to only include those whose blockShapeRef matches a state control BlockShape
+      // WHY: Only show UserTypeBlock instances (BlockInstances belonging to state control BlockShapes)
+      // PATTERN: Check each BlockInstance's blockShapeRef against the Set of state control BlockShape IDs
+      const filtered = allEntities.value.filter((candidate) => {
+        const blockInstanceTyped = candidate as GlobalEntity<'blockInstance'>
+        const blockShapeRef = getEntityFieldValue(blockInstanceTyped, 'blockShapeRef')
+        if (!blockShapeRef) return false
+        return stateControlBlockShapeIds.has(String(blockShapeRef))
+      })
+      
+      return filtered
+    }
+    
+    // Apply filterOptions if provided
     if (config && 'filterOptions' in config && typeof config.filterOptions === 'function' && currentEntity.value) {
       return allEntities.value.filter((candidate) => 
         (config.filterOptions as (candidate: unknown, currentEntity: unknown) => boolean)(candidate, currentEntity.value)
@@ -532,7 +586,8 @@ export function useSelectFiltering(
     isDirectMatchingSelect,
     parentTypeEntityKey,
     parentTypeRef,
-    parentTypeEntity
+    parentTypeEntity,
+    isAttendeeSelect
   }
 }
 

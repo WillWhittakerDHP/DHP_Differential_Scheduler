@@ -38,9 +38,13 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
     entityKey,
   }
 
+  // NOTE: Attendees are now fetched via /relationships/attendeeAssignments endpoint
+  // They are attached to event shapes during transformation in globalToAdminTransformer
+  // No special handling needed here - attendees come through relationships
+
   // Transform fields: convert any snake_case to camelCase (defensive)
   for (const [backendKey, value] of Object.entries(rawEntity)) {
-    if (backendKey === 'id' || backendKey === 'entity_key' || backendKey === 'descriptions') continue
+    if (backendKey === 'id' || backendKey === 'entity_key' || backendKey === 'descriptions' || backendKey === 'event_shape_attendees') continue
     
     // Convert snake_case to camelCase if needed (most fields should already be camelCase)
     const frontendKey = snakeToCamel(backendKey)

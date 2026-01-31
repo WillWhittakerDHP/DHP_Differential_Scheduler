@@ -67,4 +67,10 @@ export const eventShapeFields = {
       { value: 'override', label: 'Override' },
     ],
   },
+
+  // NOTE: attendees is a relationship field (many-to-many with UserTypeBlock instances)
+  // It is configured via admin_metadata as a relationship select field
+  // The field is stored in event_shape_attendees table and transformed to attendees: GlobalEntityId[]
+  // See: server/src/db/models/booking/event_shape_attendee.ts
+  // See: client/src/utils/transformers/fetchToGlobalTransformer.ts for transformation logic
 } as const;

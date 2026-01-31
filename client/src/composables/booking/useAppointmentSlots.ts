@@ -21,7 +21,15 @@ import {
   derivePerspective 
 } from '@/utils/booking/appointmentSlotBuilder'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { useGlobal } from '@/composables/useGlobal'
 import { createLogger } from '@/utils/logger'
+import { 
+  getMajorEventShape, 
+  getMinorEventShape 
+} from '@/utils/eventAttendeeUtils'
+import type { EventShapeEntity } from '@/types/entities'
+import type { EventShape, EventInstance } from '@/types/events'
+import type { GlobalRelationship } from '@/types/entities'
 
 // LEARNING: Use scoped logger for controllable debug output
 // WHY: Prevents debug logs in production, allows scope-based filtering
@@ -58,10 +66,10 @@ export interface UseAppointmentSlotsReturn {
   getDisplayTime: (buttonIndex: number) => TimeRange | null
   
   // Graph bar data (convenience wrapper around selectedSlot totals)
-  // When selectedSlot is null, returns { onSite: null, clientPresent: null }
+  // When selectedSlot is null, returns { major: null, minor: null }
   graphBars: ComputedRef<{
-    onSite: TimeRange | null      // "Inspector" bar
-    clientPresent: TimeRange | null // "Client" bar (null if non-differential)
+    major: TimeRange | null
+    minor: TimeRange | null
   }>
 }
 
@@ -105,10 +113,35 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       // Get events data from globalData
       const globalData = getGlobalData()
       
-      const eventInstances = (globalData?.events?.eventInstance || []) as EventInstance[]
-      const eventShapes = (globalData?.events?.eventShape || []) as EventShape[]
+      // LEARNING: Access events from entities, not events (events don't exist in GlobalData structure)
+      // WHY: Events are stored in globalData.entities.eventInstance and globalData.entities.eventShape
+      // PATTERN: Use getGlobalEntities helper (already destructured from useGlobal() on line 94)
+      const eventInstances = getGlobalEntities('eventInstance') as EventInstance[]
+      let eventShapes = getGlobalEntities('eventShape') as EventShape[]
       const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
       const validPartsRelationships = (globalData?.relationships?.validParts || []) as GlobalRelationship[]
+      const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]
+      
+      // LEARNING: Attach attendeeAssignments relationships to event shapes
+      // WHY: Event shapes need attendees property populated for attendee-based differential logic
+      // PATTERN: Map over event shapes, attach attendees array from attendeeAssignments relationships
+      if (attendeeAssignmentsRelationships.length > 0) {
+        eventShapes = eventShapes.map(eventShape => {
+          const attendees = attendeeAssignmentsRelationships
+            .filter(rel => rel.parent_id === eventShape.id)
+            .map(rel => rel.child_id)
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:123',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventShapeName:eventShape.name,attendeesCount:attendees.length,attendees},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+          // #endregion
+          return { ...eventShape, attendees }
+        })
+      } else {
+        // Initialize empty attendees array if no relationships exist
+        eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:131',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+        // #endregion
+      }
       
       // Build partShapeById map
       const partShapes = getGlobalEntities('partShape')
@@ -119,6 +152,9 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       // LEARNING: Pass events data to buildAppointmentShape for event lookup
       // WHY: Events are appointment-level features, stored on AppointmentShape
       // PATTERN: Extract events data from globalData and pass to builder
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});
+      // #endregion
       const shape = buildAppointmentShape(
         instances, 
         settings.value,
@@ -126,7 +162,8 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         eventShapes,
         eventAssignmentsRelationships,
         partShapeById,
-        validPartsRelationships
+        validPartsRelationships,
+        globalData || undefined
       )
       
       return shape
@@ -211,7 +248,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         // WHY: Ensures buttonIndex always matches UI grid position - single source of truth
         // PATTERN: Pass map index directly to builder, which uses it as buttonIndex
         // NOTE: index is the array position, which becomes slot.buttonIndex in applyShapeToTime
-        const slot = applyShapeToTime(shape, time, index, fallbackDuration, isAvailable)
+        const slot = applyShapeToTime(shape, time, index, fallbackDuration, isAvailable, globalData || undefined, settings.value || null)
         
         return slot
       })
@@ -241,23 +278,92 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     
     // LEARNING: Read perspective.value each time function is called
     // WHY: Ensures we always use the current perspective value
-    return derivePerspective(slot, perspective.value)
+    // LEARNING: Pass globalData and availabilitySettings for attendee-based logic
+    // WHY: Enables dynamic event identification based on attendees
+    const globalData = getGlobalData()
+    return derivePerspective(slot, perspective.value, globalData.value || undefined, settings.value || null)
   }
 
   // Graph bar data
+  // LEARNING: Use attendee-based logic to find major and minor event shapes dynamically
+  // WHY: Enables configurable event identification based on attendees instead of hardcoded names
+  // PATTERN: Find event shapes by attendees from availabilitySettings, then use their names to look up time ranges
   const graphBars = computed(() => {
     const slot = selectedSlot.value
     if (!slot) {
-      return { onSite: null, clientPresent: null }
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+      // #endregion
+      return { major: null, minor: null }
     }
     
-    // Session Event Refactor: Use eventTimeRanges Record instead of hardcoded properties
-    return {
-      onSite: slot.eventTimeRanges?.['OnSite'] ?? null,
-      clientPresent: isDifferentialService.value 
-        ? (slot.eventTimeRanges?.['ClientPresent'] ?? null)
+    const globalData = getGlobalData()
+    const availabilitySettingsValue = settings.value
+    
+    // LEARNING: Require globalData and availabilitySettings for attendee-based logic
+    // WHY: No fallbacks to hardcoded names - fail gracefully if configuration is missing
+    // PATTERN: Return null if required data is not available
+    if (!globalData || !availabilitySettingsValue?.differentialPerspectives) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+      // #endregion
+      return { major: null, minor: null }
+    }
+    
+    // Get major and minor attendee IDs from availabilitySettings
+    const majorAttendeeIds = availabilitySettingsValue.differentialPerspectives.majorAttendees || []
+    const minorAttendeeIds = availabilitySettingsValue.differentialPerspectives.minorAttendees || []
+    
+    // Get event shapes from appointment shape
+    const shape = appointmentShape.value
+    if (!shape || !shape.slotShape.eventFinals) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+      // #endregion
+      return { major: null, minor: null }
+    }
+    
+    // Convert eventFinals to EventShapeEntity[] for attendee helper functions
+    const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+    
+    // Find major and minor event shapes by attendees
+    const majorEventShape = majorAttendeeIds.length > 0 
+      ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+      : null
+    const minorEventShape = minorAttendeeIds.length > 0 && isDifferentialService.value
+      ? getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+      : null
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+    // #endregion
+    
+    // LEARNING: Require major event shape to be found - no fallbacks to hardcoded names
+    // WHY: If attendee-based logic can't find event shapes, fail gracefully
+    // PATTERN: Return null if event shapes are not found
+    if (!majorEventShape) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+      // #endregion
+      return { major: null, minor: null }
+    }
+    
+    // Use event shape names to look up time ranges (no fallbacks)
+    const majorEventName = majorEventShape.name
+    const minorEventName = minorEventShape?.name ?? null
+    
+    const result = {
+      major: slot.eventTimeRanges?.[majorEventName] ?? null,
+      minor: isDifferentialService.value && minorEventName
+        ? (slot.eventTimeRanges?.[minorEventName] ?? null)
         : null
     }
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+    // #endregion
+    
+    return result
   })
 
   return {

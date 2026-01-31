@@ -19,6 +19,7 @@ import { AnnotationShapeFactory } from "./booking/annotation_shape.js";
 import { EventShapeFactory } from "./booking/event_shape.js";
 import { EventInstanceFactory } from "./booking/event_instance.js";
 import { EventAssignmentFactory } from "./booking/event_assignment.js";
+import { EventShapeAttendeeFactory } from "./booking/event_shape_attendee.js";
 import { PropertyFactory } from "./booking/property.js";
 import { AddressFactory } from "./booking/address.js";
 import { PropertyVersionFactory } from "./booking/property_version.js";
@@ -77,6 +78,8 @@ export function initializeModels(sequelize: Sequelize) {
   const EventInstance = EventInstanceFactory(sequelize);
   // EventAssignment: Assignment relationship table for PartShape/BlockShape ↔ EventInstance many-to-many
   const EventAssignment = EventAssignmentFactory(sequelize);
+  // EventShapeAttendee: Relationship table for EventShape ↔ UserTypeBlock many-to-many (attendees)
+  const EventShapeAttendee = EventShapeAttendeeFactory(sequelize);
 
   // 6️⃣ Define Booking Data Models
   // Address: Stable address information from client input
@@ -231,6 +234,30 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'event_instances',
   });
 
+  // 📅 Event Shape Attendee Relationships (EventShape ↔ UserTypeBlock)
+  // LEARNING: EventShapeAttendee links event shapes to user type BlockInstances (attendees)
+  // WHY: Enables dynamic configuration of which user types attend which events
+  // PATTERN: Matches annotation_assignment pattern with userTypeBlockInstanceId
+  EventShape.hasMany(EventShapeAttendee, {
+    foreignKey: 'event_shape_id',
+    as: 'event_shape_attendees',
+  });
+
+  EventShapeAttendee.belongsTo(EventShape, {
+    foreignKey: 'event_shape_id',
+    as: 'eventShape',
+  });
+
+  EventShapeAttendee.belongsTo(BlockInstance, {
+    foreignKey: 'user_type_block_instance_id',
+    as: 'userTypeBlockInstance',
+  });
+
+  BlockInstance.hasMany(EventShapeAttendee, {
+    foreignKey: 'user_type_block_instance_id',
+    as: 'event_shape_attendees',
+  });
+
   // 🏠 Address → PropertyVersion → PropertyDetails Relationships
   Address.hasMany(PropertyVersion, { foreignKey: 'address_id', as: 'propertyVersions' });
   PropertyVersion.belongsTo(Address, { foreignKey: 'address_id', as: 'address' });
@@ -282,7 +309,7 @@ export function initializeModels(sequelize: Sequelize) {
     ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance,
     BookingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationAssignment,
-    EventShape, EventInstance, EventAssignment,
+    EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
     BusinessSettings,
     AdminMetadata

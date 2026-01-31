@@ -28,6 +28,11 @@ declare global {
   const calculateDurationFromBlockInstances: typeof import('./src/utils/timeSlotCalculations').calculateDurationFromBlockInstances
   const calculateDurationFromPartInstances: typeof import('./src/utils/timeSlotCalculations').calculateDurationFromPartInstances
   const calculateInspectorStartTime: typeof import('./src/utils/differentialScheduling').calculateInspectorStartTime
+  const calculateMajorStartTime: typeof import('./src/utils/differentialScheduling').calculateMajorStartTime
+  const calculateMajorTotal: typeof import('./src/utils/differentialScheduling').calculateMajorTotal
+  const calculateMinorPresenceDuration: typeof import('./src/utils/differentialScheduling').calculateMinorPresenceDuration
+  const calculateMinorStartTime: typeof import('./src/utils/differentialScheduling').calculateMinorStartTime
+  const calculateMinorStartTimeFromMajor: typeof import('./src/utils/differentialScheduling').calculateMinorStartTimeFromMajor
   const calculateOnSiteTotal: typeof import('./src/utils/differentialScheduling').calculateOnSiteTotal
   const calculatePropertyAdjustments: typeof import('./src/utils/differentialScheduling').calculatePropertyAdjustments
   const cleanupInvalidActiveRelationships: typeof import('./src/utils/dependencyCleanup').cleanupInvalidActiveRelationships
@@ -70,6 +75,7 @@ declare global {
   const extractServiceComponents: typeof import('./src/utils/serviceComponentUtils').extractServiceComponents
   const fetchUserTypeBlockBlockInstances: typeof import('./src/utils/userTypeBlockUtils').fetchUserTypeBlockBlockInstances
   const findBlockInstanceByIdAndShapeId: typeof import('./src/utils/blockInstanceUtils').findBlockInstanceByIdAndShapeId
+  const findUserTypeBlockIdsByName: typeof import('./src/utils/eventAttendeeUtils').findUserTypeBlockIdsByName
   const formatAnnotationForDisplay: typeof import('./src/utils/annotationUtils').formatAnnotationForDisplay
   const formatDate: typeof import('./src/@core/utils/formatters').formatDate
   const formatDateToMonthShort: typeof import('./src/@core/utils/formatters').formatDateToMonthShort
@@ -82,6 +88,8 @@ declare global {
   const getAdminMetadataEndpoint: typeof import('./src/utils/api').getAdminMetadataEndpoint
   const getAdminPrimitiveMetadataEndpoint: typeof import('./src/utils/api').getAdminPrimitiveMetadataEndpoint
   const getAdminRelationshipMetadataEndpoint: typeof import('./src/utils/api').getAdminRelationshipMetadataEndpoint
+  const getAgentEventShape: typeof import('./src/utils/eventAttendeeUtils').getAgentEventShape
+  const getAllUserTypeBlockIds: typeof import('./src/utils/eventAttendeeUtils').getAllUserTypeBlockIds
   const getAnnotationAssignmentsEndpoint: typeof import('./src/utils/api').getAnnotationAssignmentsEndpoint
   const getAnnotationByIdEndpoint: typeof import('./src/utils/api').getAnnotationByIdEndpoint
   const getAnnotationEndpoint: typeof import('./src/utils/api').getAnnotationEndpoint
@@ -110,6 +118,7 @@ declare global {
   const getBlockShapeIdByType: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByType
   const getBulkPatchEndpoint: typeof import('./src/utils/api').getBulkPatchEndpoint
   const getCalendarAvailability: typeof import('./src/utils/timeSlotCalculations').getCalendarAvailability
+  const getClientEventShape: typeof import('./src/utils/eventAttendeeUtils').getClientEventShape
   const getComposedFormConfigEndpoint: typeof import('./src/utils/api').getComposedFormConfigEndpoint
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
@@ -130,6 +139,9 @@ declare global {
   const getEventShapeEndpoint: typeof import('./src/utils/api').getEventShapeEndpoint
   const getFieldMetadata: typeof import('./src/composables/useFieldMetadata').getFieldMetadata
   const getIcon: typeof import('./src/utils/iconMapper').getIcon
+  const getInspectorEventShape: typeof import('./src/utils/eventAttendeeUtils').getInspectorEventShape
+  const getMajorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMajorEventShape
+  const getMinorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMinorEventShape
   const getOrderIndexEndpoint: typeof import('./src/utils/api').getOrderIndexEndpoint
   const getPartShapeEventEndpoint: typeof import('./src/utils/api').getPartShapeEventEndpoint
   const getPartShapeEventsEndpoint: typeof import('./src/utils/api').getPartShapeEventsEndpoint
@@ -155,6 +167,7 @@ declare global {
   const getUserTypeBlockName: typeof import('./src/utils/userTypeBlockUtils').getUserTypeBlockName
   const getUserTypeBlockOptionsFromGlobalData: typeof import('./src/utils/annotationUtils').getUserTypeBlockOptionsFromGlobalData
   const h: typeof import('vue').h
+  const hasAttendee: typeof import('./src/utils/eventAttendeeUtils').hasAttendee
   const hasDuplicateUserTypeBlock: typeof import('./src/utils/annotationUtils').hasDuplicateUserTypeBlock
   const hexToRgb: typeof import('./src/@core/utils/colorConverter').hexToRgb
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
@@ -262,6 +275,8 @@ declare global {
   const toValue: typeof import('vue').toValue
   const transformToClientPerspective: typeof import('./src/utils/differentialScheduling').transformToClientPerspective
   const transformToInspectorPerspective: typeof import('./src/utils/differentialScheduling').transformToInspectorPerspective
+  const transformToMajorPerspective: typeof import('./src/utils/differentialScheduling').transformToMajorPerspective
+  const transformToMinorPerspective: typeof import('./src/utils/differentialScheduling').transformToMinorPerspective
   const triggerRef: typeof import('vue').triggerRef
   const tryOnBeforeMount: typeof import('@vueuse/core').tryOnBeforeMount
   const tryOnBeforeUnmount: typeof import('@vueuse/core').tryOnBeforeUnmount
@@ -586,12 +601,10 @@ declare module 'vue' {
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly avatarText: UnwrapRef<typeof import('./src/@core/utils/formatters')['avatarText']>
     readonly betweenValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['betweenValidator']>
-    readonly calculateClientPresenceDuration: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateClientPresenceDuration']>
-    readonly calculateClientStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateClientStartTime']>
-    readonly calculateClientStartTimeFromInspector: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateClientStartTimeFromInspector']>
     readonly calculateDurationFromBlockInstances: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['calculateDurationFromBlockInstances']>
-    readonly calculateInspectorStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateInspectorStartTime']>
-    readonly calculateOnSiteTotal: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateOnSiteTotal']>
+    readonly calculateMajorStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateMajorStartTime']>
+    readonly calculateMinorStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateMinorStartTime']>
+    readonly calculateMinorStartTimeFromMajor: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateMinorStartTimeFromMajor']>
     readonly calculatePropertyAdjustments: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculatePropertyAdjustments']>
     readonly cleanupInvalidActiveRelationships: UnwrapRef<typeof import('./src/utils/dependencyCleanup')['cleanupInvalidActiveRelationships']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
@@ -629,6 +642,7 @@ declare module 'vue' {
     readonly extractBusinessHoursMinutes: UnwrapRef<typeof import('./src/composables/useLocalTime')['extractBusinessHoursMinutes']>
     readonly extractInstanceComponents: UnwrapRef<typeof import('./src/utils/instanceComponentUtils')['extractInstanceComponents']>
     readonly findBlockInstanceByIdAndShapeId: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['findBlockInstanceByIdAndShapeId']>
+    readonly findUserTypeBlockIdsByName: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['findUserTypeBlockIdsByName']>
     readonly formatAnnotationForDisplay: UnwrapRef<typeof import('./src/utils/annotationUtils')['formatAnnotationForDisplay']>
     readonly formatDate: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDate']>
     readonly formatDateToMonthShort: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDateToMonthShort']>
@@ -639,6 +653,8 @@ declare module 'vue' {
     readonly getAdminMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminMetadataEndpoint']>
     readonly getAdminPrimitiveMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminPrimitiveMetadataEndpoint']>
     readonly getAdminRelationshipMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminRelationshipMetadataEndpoint']>
+    readonly getAgentEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getAgentEventShape']>
+    readonly getAllUserTypeBlockIds: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getAllUserTypeBlockIds']>
     readonly getAnnotationsForUserTypeBlock: UnwrapRef<typeof import('./src/utils/annotationUtils')['getAnnotationsForUserTypeBlock']>
     readonly getApiErrorMessage: UnwrapRef<typeof import('./src/composables/useApiErrorMessage')['getApiErrorMessage']>
     readonly getAppointmentByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentByIdEndpoint']>
@@ -653,6 +669,7 @@ declare module 'vue' {
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
     readonly getBulkPatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBulkPatchEndpoint']>
     readonly getCalendarAvailability: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getCalendarAvailability']>
+    readonly getClientEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getClientEventShape']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
@@ -662,6 +679,9 @@ declare module 'vue' {
     readonly getEntityEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityEndpoint']>
     readonly getEntityOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityOrderIndexEndpoint']>
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
+    readonly getInspectorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getInspectorEventShape']>
+    readonly getMajorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMajorEventShape']>
+    readonly getMinorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMinorEventShape']>
     readonly getOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getOrderIndexEndpoint']>
     readonly getPropertyByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyByIdEndpoint']>
     readonly getPropertyEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyEndpoint']>
@@ -676,6 +696,7 @@ declare module 'vue' {
     readonly getUserEndpoint: UnwrapRef<typeof import('./src/utils/api')['getUserEndpoint']>
     readonly getUserTypeBlockOptionsFromGlobalData: UnwrapRef<typeof import('./src/utils/annotationUtils')['getUserTypeBlockOptionsFromGlobalData']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly hasAttendee: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['hasAttendee']>
     readonly hasDuplicateUserTypeBlock: UnwrapRef<typeof import('./src/utils/annotationUtils')['hasDuplicateUserTypeBlock']>
     readonly hexToRgb: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['hexToRgb']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
@@ -777,8 +798,8 @@ declare module 'vue' {
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
-    readonly transformToClientPerspective: UnwrapRef<typeof import('./src/utils/differentialScheduling')['transformToClientPerspective']>
-    readonly transformToInspectorPerspective: UnwrapRef<typeof import('./src/utils/differentialScheduling')['transformToInspectorPerspective']>
+    readonly transformToMajorPerspective: UnwrapRef<typeof import('./src/utils/differentialScheduling')['transformToMajorPerspective']>
+    readonly transformToMinorPerspective: UnwrapRef<typeof import('./src/utils/differentialScheduling')['transformToMinorPerspective']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
     readonly tryOnBeforeUnmount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeUnmount']>

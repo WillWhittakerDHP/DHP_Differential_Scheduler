@@ -34,9 +34,10 @@ import { useAvailabilityStepHandlers } from '@/composables/booking/useAvailabili
 import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDevPanel'
 import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
 import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'
+import { equals } from '@/utils/ternary/ternaryUtils'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
-import TimeOnSiteGraph from '@/components/booking/TimeOnSiteGraph.vue'
+import DifferentialGraph from '@/components/booking/DifferentialGraph.vue'
 import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
@@ -100,8 +101,11 @@ const isEffectivelyDifferentialForDefaults = computed(() => {
   const selectedServices = wizard.selectedServiceTypeBlocks.value
   const selectedOptions = wizard.selectedOptionTypeBlocks.value
   
+  // LEARNING: Use equals() helper for ternary boolean comparison
+  // WHY: differential is TernaryBoolean ('true'/'false'/'override'), not boolean
+  // PATTERN: Use equals() helper from ternaryUtils for proper comparison
   // Check if any service is differential
-  const isDifferential = selectedServices.some(s => s.differential === true)
+  const isDifferential = selectedServices.some(s => equals(s.differential, 'true'))
   if (!isDifferential) return false
   
   // Check if any part has differentialOverride: true
@@ -395,7 +399,7 @@ useAvailabilityDevPanel({
           <!-- LEARNING: Time On-Site Graph Component - Under Calendar -->
           <!-- WHY: Always visible, shows time breakdown for selected date/time -->
           <!-- PATTERN: Interactive bars that control perspective selection -->
-          <TimeOnSiteGraph
+          <DifferentialGraph
             :is-differential-service="isEffectivelyDifferential"
             :graph-bars="graphBars"
             :selected-services="wizard.selectedServiceTypeBlocks.value"

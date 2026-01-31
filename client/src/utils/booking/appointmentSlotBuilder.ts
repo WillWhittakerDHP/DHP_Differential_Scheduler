@@ -17,12 +17,17 @@ import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
+import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { roundDuration } from '@/utils/booking/durationRounding'
 import {
   createPartFinals,
   filterZeroedParts,
   calculateSlotShape
 } from './partFinalizer'
+import { 
+  getMajorEventShape, 
+  getMinorEventShape 
+} from '@/utils/eventAttendeeUtils'
 
 /**
  * Create a TimeRange from start time and duration
@@ -124,15 +129,9 @@ export function createTimeRangesFromSlotShape(
     const eventName = eventFinal.eventShape.name
     const duration = eventFinal.duration
     if (duration > 0) {
-      // Special handling for ClientPresent (needs clientStartOffset)
-      if (eventName === 'ClientPresent' && slotShape.clientStartOffset >= 0) {
-        eventTimeRanges[eventName] = createTimeRange(
-          addMinutes(startTime, slotShape.clientStartOffset),
-          duration
-        )
-      } else {
-        eventTimeRanges[eventName] = createTimeRange(startTime, duration)
-      }
+      // LEARNING: Create time range for all events - differential offset adjustment handled in applyShapeToTime
+      // WHY: No special handling needed here - applyShapeToTime handles minor time range adjustment using attendee-based logic
+      eventTimeRanges[eventName] = createTimeRange(startTime, duration)
     } else {
       eventTimeRanges[eventName] = null
     }
@@ -179,18 +178,12 @@ function lookupEventsForPartShape(
   validPartsRelationships: GlobalRelationship[],
   blockInstances: BookingBlockInstance[]
 ): EventInstance[] {
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:174',message:'lookupEventsForPartShape entry',data:{partShapeName,eventAssignmentsRelationshipsCount:eventAssignmentsRelationships.length,eventInstancesCount:eventInstances.length,blockInstancesCount:blockInstances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-  // #endregion
   // Find partShape entity by name
   const partShapeEntity = Array.from(partShapeById.values()).find(
     ps => ps.name === partShapeName
   )
   
   if (!partShapeEntity) {
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:188',message:'partShape entity not found',data:{partShapeName,partShapeByIdKeys:Array.from(partShapeById.keys())},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
     return []
   }
   
@@ -203,18 +196,12 @@ function lookupEventsForPartShape(
     .flatMap(bi => bi.partInstances || [])
     .filter(pi => pi.partShape === partShapeName)
     .map(pi => pi.id)
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:200',message:'found part instances',data:{partShapeName,partInstanceIdsCount:partInstanceIds.length,partInstanceIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-  // #endregion
   
   // Filter eventAssignments relationships by PartInstances that match this partShape
   const instanceEventAssignmentsRels = eventAssignmentsRelationships.filter(rel => {
     // Check if parent is one of our PartInstances
     return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
   })
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:204',message:'filtered event assignments',data:{partShapeName,instanceEventAssignmentsRelsCount:instanceEventAssignmentsRels.length,relationships:instanceEventAssignmentsRels.map(rel=>({parentId:rel.parent.id,parentEntityKey:rel.parent.entityKey,childrenCount:rel.children.length,childrenIds:rel.children.map(c=>c.id)}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-  // #endregion
   
   // Extract child IDs and map to EventInstance[]
   const eventInstanceIds = instanceEventAssignmentsRels.flatMap(rel => 
@@ -226,9 +213,6 @@ function lookupEventsForPartShape(
   const result = Array.from(uniqueEventInstanceIds)
     .map(id => eventInstances.find(ei => ei.id === id))
     .filter((ei): ei is EventInstance => ei !== undefined)
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:217',message:'lookupEventsForPartShape exit',data:{partShapeName,resultCount:result.length,resultEventInstanceIds:result.map(ei=>ei.id)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-  // #endregion
   
   return result
 }
@@ -257,7 +241,8 @@ export function buildAppointmentShape(
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
-  validPartsRelationships?: GlobalRelationship[]
+  validPartsRelationships?: GlobalRelationship[],
+  globalData?: GlobalData
 ): AppointmentShape {
   // Collect all parts from block instances
   // LEARNING: Use flatMap to collect all parts from all block instances
@@ -305,22 +290,38 @@ export function buildAppointmentShape(
   // LEARNING: Single-pass calculation for efficiency
   // WHY: More efficient than multiple filter+reduce operations
   // PATTERN: Use calculateSlotShape to get all durations in one pass
-  let slotShape = calculateSlotShape(nonZeroedParts, eventAssignmentsByPartShape, eventShapes || [])
+  // LEARNING: Pass globalData and settings for attendee-based differential offset calculation
+  // WHY: Enables dynamic event identification based on attendees instead of hardcoded names
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+  // #endregion
+  let slotShape = calculateSlotShape(nonZeroedParts, eventAssignmentsByPartShape, eventShapes || [], globalData, settings || null)
   
-  // LEARNING: Round on-site duration based on availability settings
+  // LEARNING: Round major event duration based on availability settings
   // WHY: Ensures end times align with configured time increments when rounding is enabled
   // PATTERN: Use configurable rounding function that respects settings
-  // Session Event Refactor: Round OnSite event duration in eventFinals array using helper function
-  const onSiteEventFinal = findEventFinalByName(slotShape, 'OnSite')
-  if (onSiteEventFinal) {
-    const roundedDuration = roundDuration(onSiteEventFinal.duration, settings || null)
-    slotShape = {
-      ...slotShape,
-      eventFinals: slotShape.eventFinals.map(ef => 
-        ef.eventShape.name === 'OnSite' 
-          ? { ...ef, duration: roundedDuration }
-          : ef
-      )
+  // Session Event Refactor: Round major event duration in eventFinals array using helper function
+  // LEARNING: Find major event using attendee-based logic - no fallback to hardcoded name
+  // WHY: Must use attendee-based logic to find major event shape
+  if (globalData && settings?.differentialPerspectives && slotShape.eventFinals.length > 0) {
+    const majorAttendeeIds = settings.differentialPerspectives.majorAttendees || []
+    if (majorAttendeeIds.length > 0) {
+      const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as import('@/types/entities').EventShapeEntity[]
+      const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+      if (majorEventShape) {
+        const majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
+        if (majorEventFinal) {
+          const roundedDuration = roundDuration(majorEventFinal.duration, settings || null)
+          slotShape = {
+            ...slotShape,
+            eventFinals: slotShape.eventFinals.map(ef => 
+              ef.eventShape.id === majorEventFinal.eventShape.id
+                ? { ...ef, duration: roundedDuration }
+                : ef
+            )
+          }
+        }
+      }
     }
   }
   
@@ -351,7 +352,9 @@ export function applyShapeToTime(
   startTime: string,
   buttonIndex: number,
   fallbackDuration?: number,
-  isAvailable: boolean = true
+  isAvailable: boolean = true,
+  globalData?: GlobalData,
+  availabilitySettings?: AvailabilitySettings | null
 ): AppointmentSlot {
   // Use fallback duration if shape has no duration
   // LEARNING: Always create totalTimeRange, using fallbackDuration if shape.slotShape.totalDuration is 0
@@ -369,41 +372,66 @@ export function applyShapeToTime(
   // PATTERN: Use utility function to create all TimeRanges at once
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
   
-  // LEARNING: For differential services, clientPresentTimeRange should end when inspector finishes on-site work
-  // WHY: Client perspective should show time from client arrival to when inspector finishes on-site work
-  // PATTERN: Adjust clientPresentTimeRange to end at onSiteTimeRange.endTime if both exist
-  // Session Event Refactor: Update eventTimeRanges Record with adjusted ClientPresent time range
-  const onSiteTimeRange = timeRanges.eventTimeRanges['OnSite']
-  const clientPresentTimeRange = timeRanges.eventTimeRanges['ClientPresent']
+  // LEARNING: For differential services, minorTimeRange should end when major finishes work
+  // WHY: Minor perspective should show time from minor arrival to when major finishes work
+  // PATTERN: Adjust minorTimeRange to end at majorTimeRange.endTime if both exist
+  // LEARNING: Find major/minor event shapes using attendee-based logic - no fallback to hardcoded names
+  // WHY: Must use attendee-based logic to find major/minor events
+  let majorTimeRange: TimeRange | null = null
+  let minorTimeRange: TimeRange | null = null
+  let majorEventName: string | null = null
+  let minorEventName: string | null = null
   
-  const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
-  let adjustedClientPresentTimeRange = clientPresentTimeRange
-  
-  if (onSiteTimeRange && clientPresentTimeRange && effectiveSlotShape.clientStartOffset >= 0) {
-    // Client-present time should end when inspector finishes on-site work
-    const clientPresentDuration = onSiteTimeRange.duration - effectiveSlotShape.clientStartOffset
-    if (clientPresentDuration > 0) {
-      adjustedClientPresentTimeRange = createTimeRange(
-        addMinutes(startTime, effectiveSlotShape.clientStartOffset),
-        clientPresentDuration
-      )
-      adjustedEventTimeRanges['ClientPresent'] = adjustedClientPresentTimeRange
-    } else {
-      adjustedClientPresentTimeRange = null
-      adjustedEventTimeRanges['ClientPresent'] = null
+  if (globalData && availabilitySettings?.differentialPerspectives && effectiveSlotShape.eventFinals.length > 0) {
+    const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
+    const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
+    const eventShapeEntities = effectiveSlotShape.eventFinals.map(ef => ef.eventShape) as import('@/types/entities').EventShapeEntity[]
+    
+    const majorEventShape = majorAttendeeIds.length > 0
+      ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+      : null
+    const minorEventShape = minorAttendeeIds.length > 0
+      ? getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+      : null
+    
+    if (majorEventShape) {
+      majorEventName = majorEventShape.name
+      majorTimeRange = timeRanges.eventTimeRanges[majorEventName] ?? null
+    }
+    if (minorEventShape) {
+      minorEventName = minorEventShape.name
+      minorTimeRange = timeRanges.eventTimeRanges[minorEventName] ?? null
     }
   }
   
-  // Validate: clientPresentTimeRange and onSiteTimeRange must end at the same time
-  // LEARNING: For differential services, both perspectives should end when inspector finishes on-site work
-  // WHY: Client-present time ends when inspector finishes on-site work, not when total appointment ends
-  // PATTERN: Validate that client-present and on-site times align
-  if (adjustedClientPresentTimeRange && onSiteTimeRange) {
-    if (adjustedClientPresentTimeRange.endTime !== onSiteTimeRange.endTime) {
+  const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
+  let adjustedMinorTimeRange = minorTimeRange
+  
+  if (majorTimeRange && minorTimeRange && majorEventName && minorEventName && effectiveSlotShape.differentialOffset >= 0) {
+    // Minor time should end when major finishes work
+    const minorDuration = majorTimeRange.duration - effectiveSlotShape.differentialOffset
+    if (minorDuration > 0) {
+      adjustedMinorTimeRange = createTimeRange(
+        addMinutes(startTime, effectiveSlotShape.differentialOffset),
+        minorDuration
+      )
+      adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange
+    } else {
+      adjustedMinorTimeRange = null
+      adjustedEventTimeRanges[minorEventName] = null
+    }
+  }
+  
+  // Validate: minorTimeRange and majorTimeRange must end at the same time
+  // LEARNING: For differential services, both perspectives should end when major finishes work
+  // WHY: Minor time ends when major finishes work, not when total appointment ends
+  // PATTERN: Validate that minor and major times align
+  if (adjustedMinorTimeRange && majorTimeRange) {
+    if (adjustedMinorTimeRange.endTime !== majorTimeRange.endTime) {
       throw new Error(
         `AppointmentSlot validation failed: ` +
-        `clientPresentTimeRange.endTime (${adjustedClientPresentTimeRange.endTime}) !== ` +
-        `onSiteTimeRange.endTime (${onSiteTimeRange.endTime})`
+        `minorTimeRange.endTime (${adjustedMinorTimeRange.endTime}) !== ` +
+        `majorTimeRange.endTime (${majorTimeRange.endTime})`
       )
     }
   }
@@ -424,37 +452,84 @@ export function applyShapeToTime(
  * Derive the TimeRange for a given perspective
  * 
  * @param slot - AppointmentSlot with precomputed totals
- * @param perspective - Which perspective to derive
+ * @param perspective - Which perspective to derive ('major' | 'minor' | 'nonDifferential', with legacy 'onSite' | 'clientPresent' for backward compatibility)
+ * @param globalData - Optional GlobalData for attendee-based logic (if not provided, falls back to name-based logic)
+ * @param availabilitySettings - Optional AvailabilitySettings for major/minor attendee configuration
  * @returns TimeRange for display, or null if not applicable
  * 
  * LEARNING: Falls back to totalTimeRange if perspective-specific range is null
  * WHY: Ensures buttons always have a display time, even when specific perspective ranges are null
+ * LEARNING: Uses attendee-based logic to find major/minor event names dynamically
+ * WHY: Enables configurable event identification based on attendees instead of hardcoded names
  */
 export function derivePerspective(
   slot: AppointmentSlot,
-  perspective: 'onSite' | 'clientPresent' | 'nonDifferential'
+  perspective: 'major' | 'minor' | 'nonDifferential' | 'onSite' | 'clientPresent',
+  globalData?: GlobalData,
+  availabilitySettings?: AvailabilitySettings | null
 ): TimeRange | null {
   let result: TimeRange | null = null
   
-  switch (perspective) {
-    case 'onSite':
-      // LEARNING: Fallback to totalTimeRange if onSiteTimeRange is null
+  // LEARNING: Require globalData and availabilitySettings for attendee-based logic
+  // WHY: No fallbacks to hardcoded names - fail gracefully if configuration is missing
+  // PATTERN: Return null if required data is not available
+  if (!globalData || !slot.shape.slotShape.eventFinals || !availabilitySettings?.differentialPerspectives) {
+    // Handle legacy perspective names for backward compatibility (but still return null if no data)
+    const normalizedPerspective = perspective === 'onSite' ? 'major' : perspective === 'clientPresent' ? 'minor' : perspective
+    if (normalizedPerspective === 'nonDifferential' || normalizedPerspective === 'major') {
+      return slot.totalTimeRange
+    }
+    return null
+  }
+  
+  const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
+  const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
+  const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as import('@/types/entities').EventShapeEntity[]
+  
+  const majorEventShape = majorAttendeeIds.length > 0
+    ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+    : null
+  const minorEventShape = minorAttendeeIds.length > 0
+    ? getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+    : null
+  
+  // LEARNING: Require event shapes to be found - no fallbacks to hardcoded names
+  // WHY: If attendee-based logic can't find event shapes, fail gracefully
+  // PATTERN: Return null or totalTimeRange if event shapes are not found
+  if (!majorEventShape) {
+    // For non-differential, fall back to totalTimeRange so buttons still work
+    const normalizedPerspective = perspective === 'onSite' ? 'major' : perspective === 'clientPresent' ? 'minor' : perspective
+    if (normalizedPerspective === 'nonDifferential' || normalizedPerspective === 'major') {
+      return slot.totalTimeRange
+    }
+    return null
+  }
+  
+  const majorEventName = majorEventShape.name
+  const minorEventName = minorEventShape?.name ?? null
+  
+  // Handle legacy perspective names for backward compatibility
+  const normalizedPerspective = perspective === 'onSite' ? 'major' : perspective === 'clientPresent' ? 'minor' : perspective
+  
+  switch (normalizedPerspective) {
+    case 'major':
+      // LEARNING: Fallback to totalTimeRange if majorTimeRange is null (but use attendee-based name)
       // WHY: Ensures buttons always have a display time
-      // Session Event Refactor: Use eventTimeRanges["OnSite"]
-      result = slot.eventTimeRanges?.['OnSite'] ?? slot.totalTimeRange
+      result = slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange
       break
-    case 'clientPresent':
-      // LEARNING: Fallback to totalTimeRange if clientPresentTimeRange is null
-      // WHY: Ensures buttons always have a display time
-      // Session Event Refactor: Use eventTimeRanges["ClientPresent"]
-      result = slot.eventTimeRanges?.['ClientPresent'] ?? slot.totalTimeRange
+    case 'minor':
+      // LEARNING: Require minor event shape - no fallback to hardcoded name
+      // WHY: If minor event shape not found, return null (don't show incorrect time)
+      if (!minorEventShape || !minorEventName) {
+        result = null
+      } else {
+        result = slot.eventTimeRanges?.[minorEventName] ?? slot.totalTimeRange
+      }
       break
     case 'nonDifferential':
-      // LEARNING: Show on-site time for non-differential (same as inspector view)
-      // WHY: Non-differential services should show inspector times on buttons, not total appointment time
-      // PATTERN: Use onSiteTimeRange with fallback to totalTimeRange if null
-      // Session Event Refactor: Use eventTimeRanges["OnSite"]
-      result = slot.eventTimeRanges?.['OnSite'] ?? slot.totalTimeRange
+      // LEARNING: Show major time for non-differential (same as major view)
+      // WHY: Non-differential services should show major times on buttons, not total appointment time
+      result = slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange
       break
     default:
       result = null

@@ -102,7 +102,7 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
     // WHY: Most entity types (blockInstance, blockShape, partInstance, partShape) have orderIndex fields,
     //      but some (eventShape, eventInstance) do not
     // PATTERN: Conditionally add order option only if model has orderIndex field
-    const options: { attributes?: string[]; order?: any[] } = {};
+    const options: { attributes?: string[]; order?: any[]; include?: any[] } = {};
     if (isModelUnderscored(entityConfig.model)) {
       options.attributes = getModelAttributes(entityConfig.model);
     }
@@ -118,6 +118,9 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
         options.order = [['id', 'ASC']];
       }
     }
+    
+    // NOTE: Attendees are now fetched via /relationships/attendeeAssignments endpoint
+    // No special include needed - attendees come through relationships endpoint
     
     const data = await fetchAll(entityConfig.model, options);
     
@@ -179,7 +182,21 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
   }
   
   try {
-    const created = await createRecord(entityConfig.model, req.body);
+    // LEARNING: Sanitize empty strings for enum fields to prevent database errors
+    // WHY: PostgreSQL enums don't accept empty strings, need to convert to default or null
+    // PATTERN: Convert empty strings for known enum fields to their default values
+    const sanitizedData = { ...req.body };
+    
+    // For blockInstance, convert empty booking_mode to default 'standalone'
+    if (req.params.entityType === 'blockInstance' && sanitizedData.bookingMode === '') {
+      sanitizedData.bookingMode = 'standalone';
+    }
+    // Handle snake_case version too
+    if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {
+      sanitizedData.booking_mode = 'standalone';
+    }
+    
+    const created = await createRecord(entityConfig.model, sanitizedData);
     res.status(201).json(created);
   } catch (error) {
     // LEARNING: Handle Sequelize validation errors as 400 Bad Request
@@ -259,6 +276,22 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
   const entityId = req.params.id;
   
   try {
+    // LEARNING: Sanitize empty strings for enum fields to prevent database errors
+    // WHY: PostgreSQL enums don't accept empty strings, need to convert to default or null
+    // PATTERN: Convert empty strings for known enum fields to their default values
+    const sanitizedData = { ...req.body };
+    
+    // For blockInstance, convert empty booking_mode to default 'standalone'
+    if (req.params.entityType === 'blockInstance') {
+      if (sanitizedData.bookingMode === '') {
+        sanitizedData.bookingMode = 'standalone';
+      }
+      // Handle snake_case version too
+      if (sanitizedData.booking_mode === '') {
+        sanitizedData.booking_mode = 'standalone';
+      }
+    }
+    
     // CRITICAL: For block instances, capture old state BEFORE update for versioning
     if (req.params.entityType === 'blockInstance') {
       const oldInstance = await BlockInstance.findByPk(entityId, {
@@ -285,8 +318,8 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
       await createBlockInstanceVersionIfReferenced(entityId, oldInstance);
     }
     
-    // Perform the update
-    const updatedCount = await updateRecord(entityConfig.model, entityId, req.body);
+    // Perform the update (using sanitizedData to ensure enum fields are properly handled)
+    const updatedCount = await updateRecord(entityConfig.model, entityId, sanitizedData);
     
     if (updatedCount === 0) {
       res.status(404).json({ 

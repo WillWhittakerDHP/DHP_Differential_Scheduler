@@ -59,7 +59,7 @@ export const {
   ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance,
   BookingCascade, PartAssignment, InstanceComponent,
   AnnotationShape, AnnotationInstance, AnnotationAssignment,
-  EventShape, EventInstance, EventAssignment,
+  EventShape, EventInstance, EventAssignment, EventShapeAttendee,
   Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
   BusinessSettings,
   AdminMetadata

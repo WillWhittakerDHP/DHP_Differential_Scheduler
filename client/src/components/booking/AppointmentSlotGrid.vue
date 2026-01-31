@@ -11,7 +11,7 @@
  * - ResizeObserver for responsive behavior
  * - Touch-friendly button sizing
  * - Configurable min/max columns and button sizing
- * - Support for AppointmentSlots with dual-time display (inspector/client perspectives)
+ * - Support for AppointmentSlots with dual-time display (major/minor perspectives)
  * - Emits orderIndex along with TimeSlot for proper selection tracking
  */
 
@@ -24,7 +24,7 @@ import { derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
 interface Props {
   appointmentSlots: AppointmentSlots // AppointmentSlots structure
   selectedButtonIndex?: number | null // Selection by buttonIndex
-  timeBasis?: 'onSite' | 'clientPresent' | 'nonDifferential' // Time perspective for differential scheduling
+  timeBasis?: 'major' | 'minor' | 'nonDifferential' // Time perspective for differential scheduling
   color?: 'primary' | 'secondary'
   variant?: 'flat' | 'outlined'
   loading?: boolean

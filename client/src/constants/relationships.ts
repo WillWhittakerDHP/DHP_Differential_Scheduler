@@ -80,6 +80,12 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'partInstance' as GlobalEntityKey, // Instance-level, not shape-level
     childEntity: 'eventInstance' as GlobalEntityKey,
   },
+  attendeeAssignments: {
+    backendName: 'event_shape_attendees',
+    frontendKey: 'attendeeAssignments',
+    parentEntity: 'eventShape' as GlobalEntityKey,
+    childEntity: 'blockInstance' as GlobalEntityKey,
+  },
   instanceComponents: {
     backendName: 'instance_components',
     frontendKey: 'instanceComponents',

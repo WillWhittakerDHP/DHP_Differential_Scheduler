@@ -166,6 +166,12 @@ export interface AvailabilitySettingsData {
     increment?: number; // Minutes (defaults to minuteIncrement if not specified)
     method?: 'roundUp' | 'roundDown' | 'roundNearest';
   };
+  differentialPerspectives?: {
+    majorAttendees?: string[];  // UserTypeBlock IDs that make an event "major" (e.g., inspector)
+    minorAttendees?: string[];   // UserTypeBlock IDs that make an event "minor" (e.g., client)
+    majorLabel?: string;  // Display label for major perspective (e.g., "Inspector")
+    minorLabel?: string;  // Display label for minor perspective (e.g., "Client Formal Presentation")
+  };
 }
 
 export class BusinessSettings extends Model<

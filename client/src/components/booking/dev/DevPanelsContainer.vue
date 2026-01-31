@@ -26,6 +26,7 @@ import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { useBookingWizard } from '@/composables/useBookingWizard'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
+import { equals } from '@/utils/ternary/ternaryUtils'
 
 interface Props {
   visible: boolean
@@ -174,7 +175,7 @@ const slotShapeTotals = computed<SlotShape>(() => {
     return {
       totalDuration: 0,
       eventFinals: [],
-      clientStartOffset: 0
+      differentialOffset: 0
     }
   }
   
@@ -190,28 +191,29 @@ const timeSlotResults = computed(() => {
   
   if (slots.length === 0 || !selectedTime) {
     return {
-      inspectorArrival: null,
-      clientArrival: null,
+      majorArrival: null,
+      minorArrival: null,
       appointmentEnd: null
     }
   }
   
   const slot = slots[0]
   
-  // Inspector arrival is the start of totalTimeRange
-  const inspectorArrival = slot.totalTimeRange?.startTime || null
+  // Major arrival is the start of totalTimeRange
+  const majorArrival = slot.totalTimeRange?.startTime || null
   
-  // Client arrival is the start of clientPresentTimeRange (or totalTimeRange if no clientPresentTimeRange)
-  // Session Event Refactor: Use eventTimeRanges Record instead of hardcoded properties
-  const clientPresentTimeRange = slot.eventTimeRanges?.['ClientPresent']
-  const clientArrival = clientPresentTimeRange?.startTime || slot.totalTimeRange?.startTime || null
+  // Minor arrival is the start of minor event time range (or totalTimeRange if no minor event)
+  // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
+  const minorEventName = 'ClientPresent' // TODO: Get from availabilitySettings
+  const minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]
+  const minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null
   
   // Appointment end is the end of totalTimeRange
   const appointmentEnd = slot.totalTimeRange?.endTime || null
   
   return {
-    inspectorArrival,
-    clientArrival,
+    majorArrival,
+    minorArrival,
     appointmentEnd
   }
 })
@@ -518,14 +520,41 @@ const handleServiceTypeChange = (serviceId: string | null): void => {
 
 // LEARNING: Get global data accessor
 // WHY: Need to access event shapes from global data
-const { getGlobalData } = useGlobal()
+const { getGlobalData, getGlobalEntities } = useGlobal()
 
 // LEARNING: Get all event shapes from global data for dynamic iteration
 // WHY: Event shapes are dynamic entities, need to iterate through all of them
-// PATTERN: Computed property that reads from globalData
+// PATTERN: Computed property that reads from globalData using getGlobalEntities helper
 const eventShapes = computed<EventShape[]>(() => {
-  const globalData = getGlobalData()
-  return (globalData?.events?.eventShape || []) as EventShape[]
+  return getGlobalEntities('eventShape') as EventShape[]
+})
+
+// LEARNING: Check if selected service is differential
+// WHY: Shows differential status in dev panel for debugging
+// PATTERN: Check if any selected service has differential === 'true' using equals helper
+const isSelectedServiceDifferential = computed(() => {
+  const wizardInstance = wizard.value
+  if (!wizardInstance) {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:537',message:'isSelectedServiceDifferential=false: no wizard',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
+    return false
+  }
+  
+  const selectedServices = wizardInstance.selectedServiceTypeBlocks?.value || []
+  if (selectedServices.length === 0) {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:540',message:'isSelectedServiceDifferential=false: no services',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
+    return false
+  }
+  
+  // Check if any service is differential
+  const result = selectedServices.some(s => equals(s.differential, 'true'))
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:543',message:'isSelectedServiceDifferential result',data:{result,selectedServices:selectedServices.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+  // #endregion
+  return result
 })
 
 // LEARNING: Check if a partShape has a specific event shape
@@ -540,8 +569,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   if (events.length === 0) return false
   
   // Get EventShapes from globalData to look up event shapes
-  const globalData = getGlobalData()
-  const allEventShapes = (globalData?.events?.eventShape || []) as EventShape[]
+  const allEventShapes = getGlobalEntities('eventShape') as EventShape[]
   const eventShapeById = new Map(allEventShapes.map(es => [es.id, es]))
   
   // Check if any event has matching shape ID
@@ -580,7 +608,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
       <!-- Button Row Above Tabs -->
       <VCardText v-if="hasDevPanelButtons" class="pa-2 pb-1">
         <VRow v-if="devPanelButtons" dense no-gutters>
-          <VCol cols="12" class="d-flex gap-2 mb-2">
+          <VCol cols="12" class="d-flex gap-2 mb-2 align-center">
             <VBtn
               color="primary"
               variant="outlined"
@@ -609,6 +637,15 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
             >
               RESET MOCKS
             </VBtn>
+            <!-- Differential Service Indicator -->
+            <VChip
+              :color="isSelectedServiceDifferential ? 'success' : 'default'"
+              variant="outlined"
+              size="small"
+              prepend-icon="tabler-toggle-left"
+            >
+              {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
+            </VChip>
           </VCol>
         </VRow>
       </VCardText>
@@ -645,8 +682,9 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                 <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
                   SlotShape Totals
                 </VCardTitle>
-                <VRow dense class="ma-0">
-                  <VCol cols="6" sm="4" md="3">
+                <!-- First row: Total Duration and Differential Offset -->
+                <VRow dense class="ma-0 mb-2">
+                  <VCol cols="6">
                     <VCard variant="outlined" density="compact" class="pa-2">
                       <div class="text-caption text-medium-emphasis">Total Duration</div>
                       <div class="text-body-2 font-weight-medium">
@@ -654,12 +692,21 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                       </div>
                     </VCard>
                   </VCol>
+                  <VCol cols="6">
+                    <VCard variant="outlined" density="compact" class="pa-2">
+                      <div class="text-caption text-medium-emphasis">Differential Offset</div>
+                      <div class="text-body-2 font-weight-medium">
+                        {{ formatDuration(slotShapeTotals.differentialOffset) }}
+                      </div>
+                    </VCard>
+                  </VCol>
+                </VRow>
+                <!-- Second row: Event boxes (1/x width where x is number of events) -->
+                <VRow v-if="slotShapeTotals.eventFinals.length > 0" dense class="ma-0">
                   <VCol 
                     v-for="eventFinal in slotShapeTotals.eventFinals" 
                     :key="eventFinal.eventShape.id"
-                    cols="6" 
-                    sm="4" 
-                    md="3"
+                    :cols="12 / slotShapeTotals.eventFinals.length"
                   >
                     <VCard variant="outlined" density="compact" class="pa-2">
                       <div class="text-caption text-medium-emphasis">{{ eventFinal.eventShape.name }}</div>
@@ -668,43 +715,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                       </div>
                     </VCard>
                   </VCol>
-                  <VCol cols="6" sm="4" md="3">
-                    <VCard variant="outlined" density="compact" class="pa-2">
-                      <div class="text-caption text-medium-emphasis">Client Start Offset</div>
-                      <div class="text-body-2 font-weight-medium">
-                        {{ formatDuration(slotShapeTotals.clientStartOffset) }}
-                      </div>
-                    </VCard>
-                  </VCol>
                 </VRow>
-                
-                <!-- Durations Section -->
-                <div v-if="slotShapeTotals.eventFinals.length > 0" class="mb-4">
-                  <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
-                    Durations
-                  </VCardTitle>
-                  <VRow dense class="ma-0">
-                    <VCol
-                      v-for="eventFinal in slotShapeTotals.eventFinals"
-                      :key="eventFinal.eventShape.id"
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                      <VCard variant="outlined" density="compact" class="pa-2">
-                        <div class="text-caption text-medium-emphasis font-weight-bold mb-1">
-                          {{ eventFinal.eventShape.name }}
-                        </div>
-                        <div class="text-body-2 mb-1">
-                          <div>Duration: {{ formatDuration(eventFinal.duration) }}</div>
-                        </div>
-                      </VCard>
-                    </VCol>
-                  </VRow>
-                </div>
-                <div v-else-if="appointmentData.appointmentShape" class="text-center pa-4 text-medium-emphasis">
-                  No durations available
-                </div>
               </div>
               <div v-else class="text-center pa-4 text-medium-emphasis">
                 No appointment shape available
@@ -723,9 +734,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                   <VCol
                     v-for="(part, index) in finalizedParts"
                     :key="index"
-                    cols="12"
-                    sm="6"
-                    md="4"
+                    :cols="12 / finalizedParts.length"
                   >
                     <VCard variant="outlined" density="compact" class="pa-2">
                       <div class="text-caption text-medium-emphasis font-weight-bold mb-1">
@@ -829,15 +838,15 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                 </VCardTitle>
                 <VList density="compact">
                   <VListItem>
-                    <VListItemTitle class="text-body-2">Inspector Arrival</VListItemTitle>
+                    <VListItemTitle class="text-body-2">Major Arrival</VListItemTitle>
                     <VListItemSubtitle class="text-caption">
-                      {{ formatTime(timeSlotResults.inspectorArrival) }}
+                      {{ formatTime(timeSlotResults.majorArrival) }}
                     </VListItemSubtitle>
                   </VListItem>
                   <VListItem>
-                    <VListItemTitle class="text-body-2">Client Arrival</VListItemTitle>
+                    <VListItemTitle class="text-body-2">Minor Arrival</VListItemTitle>
                     <VListItemSubtitle class="text-caption">
-                      {{ formatTime(timeSlotResults.clientArrival) }}
+                      {{ formatTime(timeSlotResults.minorArrival) }}
                     </VListItemSubtitle>
                   </VListItem>
                   <VListItem>

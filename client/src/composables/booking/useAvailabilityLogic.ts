@@ -325,8 +325,24 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    * - If service.differential === 'true' AND no override → return true (differential)
    */
   const isEffectivelyDifferential = computed(() => {
-    if (!isDifferentialService.value) return false
-    if (hasDifferentialOverride.value) return false
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:327',message:'isEffectivelyDifferential calculation',data:{isDifferentialService:isDifferentialService.value,hasDifferentialOverride:hasDifferentialOverride.value,selectedServices:wizard.selectedServiceTypeBlocks.value.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
+    if (!isDifferentialService.value) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:329',message:'isEffectivelyDifferential=false: not differential service',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+      // #endregion
+      return false
+    }
+    if (hasDifferentialOverride.value) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:330',message:'isEffectivelyDifferential=false: has override',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+      // #endregion
+      return false
+    }
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:331',message:'isEffectivelyDifferential=true',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
     return true
   })
 

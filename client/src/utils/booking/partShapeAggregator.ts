@@ -89,7 +89,7 @@ export function calculateSlotShape(
   finalizedParts: PartFinal[]
 ): import('@/types/appointment').SlotShape {
   let totalDuration = 0
-  let clientStartOffset = 0
+  let differentialOffset = 0
   
   // Initialize eventDurations Record
   // LEARNING: Use Record to store durations for each event shape name
@@ -124,9 +124,9 @@ export function calculateSlotShape(
     if (isOnSite) {
       const eventName = eventMappings['onSite']
       eventDurations[eventName] = (eventDurations[eventName] || 0) + baseTime
-      // LEARNING: clientStartOffset only applies when onSite is true AND clientPresent is false
+      // LEARNING: differentialOffset only applies when onSite is true AND clientPresent is false
       if (!isClientPresent) {
-        clientStartOffset += baseTime
+        differentialOffset += baseTime
       }
     }
     
@@ -144,7 +144,7 @@ export function calculateSlotShape(
   return { 
     totalDuration, 
     eventDurations,
-    clientStartOffset
+    differentialOffset
   }
 }
 

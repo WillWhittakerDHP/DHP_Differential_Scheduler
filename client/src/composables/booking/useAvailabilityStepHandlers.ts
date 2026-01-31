@@ -56,8 +56,9 @@ export interface UseAvailabilityStepHandlersParams {
   
   /**
    * Start time type ref (for time basis change handler)
+   * NOTE: Uses 'major' | 'minor' for new terminology, with legacy 'inspector' | 'client' for backward compatibility
    */
-  startTimeType: Ref<'inspector' | 'client' | 'nonDifferential'>
+  startTimeType: Ref<'major' | 'minor' | 'nonDifferential' | 'inspector' | 'client'>
 }
 
 /**
@@ -87,10 +88,11 @@ export interface UseAvailabilityStepHandlersReturn {
   
   /**
    * Handler for Time Basis Graph time basis change event
-   * LEARNING: Updates startTimeType when TimeOnSiteGraph component emits change event
+   * LEARNING: Updates startTimeType when DifferentialGraph component emits change event
    * WHY: Maps UI labels to internal state
+   * NOTE: Accepts 'major' | 'minor' for new terminology, with legacy 'inspector' | 'client' for backward compatibility
    */
-  handleTimeBasisChange: (type: 'inspector' | 'client') => void
+  handleTimeBasisChange: (type: 'major' | 'minor' | 'inspector' | 'client') => void
 }
 
 /**
@@ -161,11 +163,14 @@ export function useAvailabilityStepHandlers(
 
   /**
    * LEARNING: Handler for Time Basis Graph time basis change event
-   * WHY: Updates startTimeType when TimeOnSiteGraph component emits change event
+   * WHY: Updates startTimeType when DifferentialGraph component emits change event
    * PATTERN: Event handler that maps UI labels to internal state
+   * NOTE: Normalizes legacy 'inspector'/'client' to 'major'/'minor' for internal use
    */
-  const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
-    startTimeType.value = type
+  const handleTimeBasisChange = (type: 'major' | 'minor' | 'inspector' | 'client'): void => {
+    // Normalize legacy names to new terminology
+    const normalizedType = type === 'inspector' ? 'major' : type === 'client' ? 'minor' : type
+    startTimeType.value = normalizedType as 'major' | 'minor' | 'nonDifferential'
   }
 
   return {

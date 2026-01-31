@@ -162,9 +162,6 @@ const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<Glo
   },
   partInstance: {
     orderIndex: 0, // Required NOT NULL field
-    onSite: 'false' as const, // Ternary field defaults to 'false'
-    clientPresent: 'false' as const, // Ternary field defaults to 'false'
-    moveable: false,
     baseFee: 0,
     rateOverBaseFee: 0,
     baseTime: 0,

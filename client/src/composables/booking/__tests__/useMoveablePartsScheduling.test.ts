@@ -43,7 +43,7 @@ function createAppointmentShape(options: {
       onSite: options.totalOnSiteDuration ?? 60,
       clientPresent: 60,
       moveable: options.totalMoveableDuration ?? 0,
-      clientStartOffset: 0
+      differentialOffset: 0
     }
   }
 }
@@ -66,7 +66,7 @@ function createAppointmentSlot(options: {
       onSite: 60,
       clientPresent: 60,
       moveable: 0,
-      clientStartOffset: 0
+      differentialOffset: 0
     }
   }
   

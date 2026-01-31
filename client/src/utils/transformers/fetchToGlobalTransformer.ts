@@ -90,11 +90,25 @@ function transformApiRelationship(
   const parentKind = config?.parentEntity ?? ''
   const childKind = config?.childEntity ?? ''
   
-  // LEARNING: All relationships use standard parent_id/child_id pattern
-  // WHY: Consistent field naming across all relationship types
-  // PATTERN: Standard field mapping for all relationships
-  const parentId = (raw.parent_id ?? raw.parentId) as string | undefined
-  const childId = (raw.child_id ?? raw.childId) as string | undefined
+  // LEARNING: Different relationship types use different field names
+  // WHY: Some models use domain-specific field names (blockInstanceId, eventShapeId) instead of generic parent_id/child_id
+  // PATTERN: Handle model-specific field names before falling back to standard parent_id/child_id
+  let parentId: string | undefined
+  let childId: string | undefined
+  
+  if (relationshipKey === 'annotationAssignments') {
+    // annotationAssignments uses blockInstanceId/annotationId (model-specific field names)
+    parentId = (raw.block_instance_id ?? raw.blockInstanceId ?? raw.parent_id ?? raw.parentId) as string | undefined
+    childId = (raw.annotation_id ?? raw.annotationId ?? raw.child_id ?? raw.childId) as string | undefined
+  } else if (relationshipKey === 'attendeeAssignments') {
+    // attendeeAssignments uses eventShapeId/userTypeBlockInstanceId (model-specific field names)
+    parentId = (raw.event_shape_id ?? raw.eventShapeId ?? raw.parent_id ?? raw.parentId) as string | undefined
+    childId = (raw.user_type_block_instance_id ?? raw.userTypeBlockInstanceId ?? raw.child_id ?? raw.childId) as string | undefined
+  } else {
+    // Standard relationships use parent_id/child_id pattern
+    parentId = (raw.parent_id ?? raw.parentId) as string | undefined
+    childId = (raw.child_id ?? raw.childId) as string | undefined
+  }
   
   // LEARNING: eventAssignments uses parent_kind enum to determine parent type dynamically
   // WHY: parent_id can reference either partInstance or blockInstance based on parent_kind
@@ -102,13 +116,6 @@ function transformApiRelationship(
   let parentKindOverride: GlobalEntityKey | undefined
   if (relationshipKey === 'eventAssignments' && raw.parent_kind) {
     parentKindOverride = raw.parent_kind as GlobalEntityKey
-  } else if (relationshipKey === 'annotationAssignments') {
-    // annotationAssignments uses blockInstanceId (model-specific field name)
-    const annotationParentId = (raw.block_instance_id ?? raw.blockInstanceId ?? raw.parent_id ?? raw.parentId) as string | undefined
-    if (annotationParentId && annotationParentId !== parentId) {
-      // If blockInstanceId is different from parent_id, use blockInstanceId
-      parentKindOverride = 'blockInstance'
-    }
   }
   
   // LEARNING: Extract relationship-specific fields that are NOT metadata

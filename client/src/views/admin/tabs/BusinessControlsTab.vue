@@ -13,6 +13,9 @@ import { DAY_NAMES, TIME_INCREMENT_OPTIONS, TIMEZONE_OPTIONS } from '@/constants
 import { useLocalTime } from '@/composables/useLocalTime'
 import type { BusinessHoursConfig, AvailabilitySettings } from '@/configs/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
+import { useGlobal } from '@/composables/useGlobal'
+import { getAllUserTypeBlockIds } from '@/utils/eventAttendeeUtils'
+import type { GlobalEntityId } from '@/types/entities'
 
 /**
  * LEARNING: Use availability settings composable
@@ -98,9 +101,81 @@ const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constrain
 const { currentTab: currentSubTab } = useTabNavigation({ initialTab: 'range' })
 
 // LEARNING: Tab navigation for Calendar panel subtabs
-// WHY: Provides tabbed interface for Slot Increment, Duration Rounding, and Timezone
+// WHY: Provides tabbed interface for Duration Rounding, Timezone, and Grid (Slot Increment moved to Grid tab)
 // PATTERN: Use tab navigation composable for state management
-const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'increment' })
+const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'rounding' })
+
+// LEARNING: Get global data for UserTypeBlock selection
+// WHY: Need to display available UserTypeBlock instances for major/minor attendee configuration
+// PATTERN: Use useGlobal composable to access global entities
+const { getGlobalData, getGlobalEntities } = useGlobal()
+
+// LEARNING: Get available UserTypeBlock instances for attendee selection
+// WHY: Provides list of all state control blocks (UserTypeBlocks) for major/minor configuration
+// PATTERN: Filter BlockInstances by blockShape.isStateControl
+const availableUserTypeBlocks = computed(() => {
+  const globalData = getGlobalData()
+  if (!globalData) return []
+  
+  const userTypeBlockIds = getAllUserTypeBlockIds(globalData)
+  const blockInstances = getGlobalEntities('blockInstance')
+  
+  return userTypeBlockIds
+    .map(id => blockInstances.find(bi => bi.id === id))
+    .filter((bi): bi is NonNullable<typeof bi> => bi !== undefined)
+    .map(bi => ({
+      id: bi.id,
+      title: bi.name || `Block ${bi.id}`,
+      value: bi.id
+    }))
+})
+
+// LEARNING: Computed properties for major/minor attendee selection
+// WHY: Provides v-model bindings for multi-select components
+// PATTERN: Computed with getter/setter for two-way binding
+const majorAttendees = computed({
+  get: () => formData.value?.differentialPerspectives?.majorAttendees || [],
+  set: (value: GlobalEntityId[]) => {
+    if (!formData.value) return
+    if (!formData.value.differentialPerspectives) {
+      formData.value.differentialPerspectives = {}
+    }
+    formData.value.differentialPerspectives.majorAttendees = value
+  }
+})
+
+const minorAttendees = computed({
+  get: () => formData.value?.differentialPerspectives?.minorAttendees || [],
+  set: (value: GlobalEntityId[]) => {
+    if (!formData.value) return
+    if (!formData.value.differentialPerspectives) {
+      formData.value.differentialPerspectives = {}
+    }
+    formData.value.differentialPerspectives.minorAttendees = value
+  }
+})
+
+const majorLabel = computed({
+  get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
+  set: (value: string) => {
+    if (!formData.value) return
+    if (!formData.value.differentialPerspectives) {
+      formData.value.differentialPerspectives = {}
+    }
+    formData.value.differentialPerspectives.majorLabel = value
+  }
+})
+
+const minorLabel = computed({
+  get: () => formData.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation',
+  set: (value: string) => {
+    if (!formData.value) return
+    if (!formData.value.differentialPerspectives) {
+      formData.value.differentialPerspectives = {}
+    }
+    formData.value.differentialPerspectives.minorLabel = value
+  }
+})
 
 // LEARNING: Computed max business hours for workHoursLimit hint
 // WHY: Provides default value for workHoursLimit if not configured
@@ -801,36 +876,12 @@ const roundingMethodOptions = [
           <!-- WHY: Provides tabbed interface for switching between Slot Increment, Duration Rounding, and Timezone -->
           <!-- PATTERN: VTabs/VWindow pattern matching Constraints panel -->
           <VTabs v-model="currentCalendarTab" class="mb-4">
-            <VTab value="increment">{{ UI_STRINGS.tabs.increment }}</VTab>
             <VTab value="rounding">{{ UI_STRINGS.tabs.rounding }}</VTab>
             <VTab value="timezone">{{ UI_STRINGS.tabs.timezone }}</VTab>
+            <VTab value="grid">Grid</VTab>
           </VTabs>
           
           <VWindow v-model="currentCalendarTab">
-              <!-- Slot Increment Tab -->
-              <VWindowItem key="increment" value="increment">
-                <div class="mb-6">
-                  <div class="text-subtitle-1 mb-3">Slot Increment</div>
-                  <VSelect
-                    v-if="formData"
-                    v-model="formData.minuteIncrement"
-                    :items="timeIncrementOptions"
-                    :label="UI_STRINGS.labels.timeSlotIncrement"
-                    required
-                    :rules="[(v: number) => !!v || UI_STRINGS.validation.timeIncrementRequired]"
-                  />
-                  <div v-if="formData" class="text-caption mt-2">
-                    {{ UI_STRINGS.help.timeSlots }} {{ formData.minuteIncrement }} minutes
-                  </div>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex gap-2 mt-4">
-                  <VBtn v-bind="saveButtonProps">
-                    {{ UI_STRINGS.buttons.saveSettings }}
-                  </VBtn>
-                </div>
-              </VWindowItem>
               
               <!-- Duration Rounding Tab -->
               <VWindowItem key="rounding" value="rounding">
@@ -894,6 +945,94 @@ const roundingMethodOptions = [
                   <div v-if="formData" class="text-caption mt-2">
                     {{ UI_STRINGS.help.timezone }}
                     {{ UI_STRINGS.help.currentSelection }} {{ formData.timezone || UI_STRINGS.help.notSet }}
+                  </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2 mt-4">
+                  <VBtn v-bind="saveButtonProps">
+                    {{ UI_STRINGS.buttons.saveSettings }}
+                  </VBtn>
+                </div>
+              </VWindowItem>
+              
+              <!-- Grid Tab -->
+              <VWindowItem key="grid" value="grid">
+                <div class="mb-6">
+                  <div class="text-subtitle-1 mb-3">Grid Configuration</div>
+                  
+                  <!-- Slot Increment Section -->
+                  <div class="mb-6">
+                    <div class="text-subtitle-2 mb-3">Slot Increment</div>
+                    <VSelect
+                      v-if="formData"
+                      v-model="formData.minuteIncrement"
+                      :items="timeIncrementOptions"
+                      :label="UI_STRINGS.labels.timeSlotIncrement"
+                      required
+                      :rules="[(v: number) => !!v || UI_STRINGS.validation.timeIncrementRequired]"
+                      class="mb-2"
+                    />
+                    <div v-if="formData" class="text-caption">
+                      {{ UI_STRINGS.help.timeSlots }} {{ formData.minuteIncrement }} minutes
+                    </div>
+                  </div>
+                  
+                  <VDivider class="my-6" />
+                  
+                  <!-- Differential Perspectives Section -->
+                  <div class="mb-6">
+                    <div class="text-subtitle-2 mb-3">Differential Perspectives</div>
+                    <div class="text-body-2 mb-4 text-medium-emphasis">
+                      Configure which attendees make an event "major" vs "minor" for differential scheduling, and customize display labels.
+                      Major attendees arrive earlier than minor attendees.
+                    </div>
+                    
+                    <VSelect
+                      v-model="majorAttendees"
+                      :items="availableUserTypeBlocks"
+                      label="Major Attendees"
+                      hint="UserTypeBlock instances that make an event &quot;major&quot; (e.g., Inspector)"
+                      persistent-hint
+                      multiple
+                      chips
+                      closable-chips
+                      class="mb-4"
+                    />
+                    
+                    <VTextField
+                      v-model="majorLabel"
+                      label="Major Label"
+                      hint="Display label for major perspective (e.g., Inspector)"
+                      persistent-hint
+                      class="mb-4"
+                    />
+                    
+                    <VSelect
+                      v-model="minorAttendees"
+                      :items="availableUserTypeBlocks"
+                      label="Minor Attendees"
+                      hint="UserTypeBlock instances that make an event &quot;minor&quot; (e.g., Client)"
+                      persistent-hint
+                      multiple
+                      chips
+                      closable-chips
+                      class="mb-4"
+                    />
+                    
+                    <VTextField
+                      v-model="minorLabel"
+                      label="Minor Label"
+                      hint="Display label for minor perspective (e.g., Client Formal Presentation)"
+                      persistent-hint
+                    />
+                    
+                    <div class="text-caption mt-4 text-medium-emphasis">
+                      <div class="mb-1"><strong>Major Attendees:</strong> Events with these attendees are considered "major" perspective.</div>
+                      <div class="mb-1"><strong>Minor Attendees:</strong> Events with these attendees are considered "minor" perspective.</div>
+                      <div class="mb-1"><strong>Labels:</strong> Customize how major and minor perspectives are displayed in the UI.</div>
+                      <div>If not configured, the system falls back to hardcoded "OnSite" (major) and "ClientPresent" (minor) event names, and default labels.</div>
+                    </div>
                   </div>
                 </div>
                 

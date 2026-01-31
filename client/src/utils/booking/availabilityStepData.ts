@@ -26,22 +26,28 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
 
   const slots: SelectedTimeSlot[] = []
 
-  // Add onSite slot (inspector)
-  if (params.selectedSlot.onSiteTimeRange) {
+  // Add major slot
+  // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
+  const majorEventName = 'OnSite' // TODO: Get from availabilitySettings
+  const majorTimeRange = params.selectedSlot.eventTimeRanges?.[majorEventName]
+  if (majorTimeRange) {
     slots.push({
-      startTime: params.selectedSlot.onSiteTimeRange.startTime,
-      endTime: params.selectedSlot.onSiteTimeRange.endTime,
-      duration: params.selectedSlot.onSiteTimeRange.duration,
+      startTime: majorTimeRange.startTime,
+      endTime: majorTimeRange.endTime,
+      duration: majorTimeRange.duration,
     })
   }
 
-  // Add clientPresent slot if different from onSite
-  if (params.selectedSlot.clientPresentTimeRange && 
-      params.selectedSlot.clientPresentTimeRange.startTime !== params.selectedSlot.onSiteTimeRange?.startTime) {
+  // Add minor slot if different from major
+  // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
+  const minorEventName = 'ClientPresent' // TODO: Get from availabilitySettings
+  const minorTimeRange = params.selectedSlot.eventTimeRanges?.[minorEventName]
+  if (minorTimeRange && 
+      minorTimeRange.startTime !== majorTimeRange?.startTime) {
     slots.push({
-      startTime: params.selectedSlot.clientPresentTimeRange.startTime,
-      endTime: params.selectedSlot.clientPresentTimeRange.endTime,
-      duration: params.selectedSlot.clientPresentTimeRange.duration,
+      startTime: minorTimeRange.startTime,
+      endTime: minorTimeRange.endTime,
+      duration: minorTimeRange.duration,
     })
   }
 
