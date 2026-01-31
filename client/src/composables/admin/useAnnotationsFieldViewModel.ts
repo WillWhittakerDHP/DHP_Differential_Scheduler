@@ -5,7 +5,7 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { AnnotationWithMetadata } from '@/types/annotations'
 import { useNotification } from '@/composables/useNotification'
 import { useAnnotations } from '@/composables/useAnnotations'
-import { useAnnotationTypes } from '@/composables/useAnnotationTypes'
+import { useAnnotationShapes } from '@/composables/useAnnotationTypes'
 import { useAnnotationAssignments } from '@/composables/admin/useAnnotationAssignments'
 import { useAnnotationMetadata } from '@/composables/admin/useAnnotationMetadata'
 import { useAnnotationDialogState } from '@/composables/admin/useAnnotationDialogState'
@@ -51,7 +51,7 @@ export function useAnnotationsFieldViewModel(
   const annotationsComposable = useAnnotations()
   const { data: allAnnotations } = annotationsComposable.fetchAll
   // LEARNING: Avoid destructuring `data = []` from vue-query (creates a union that breaks `.value` access).
-  const annotationTypesQuery = useAnnotationTypes()
+  const annotationTypesQuery = useAnnotationShapes()
   const annotationTypes = computed(() => annotationTypesQuery.data.value ?? [])
 
   const metadata = useAnnotationMetadata()

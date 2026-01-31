@@ -1,203 +1,24 @@
 <template>
-    <div class="annotations-field">
-      <!-- Button to add/select annotations -->
-      <VBtn
-        color="primary"
-        variant="outlined"
-        size="small"
-        prepend-icon="tabler-plus"
-        class="mb-4"
-        @click="dialogState.openDialog()"
-      >
-      Add Annotation
-      </VBtn>
-
-      <!-- List of selected annotations with metadata editing -->
-      <!-- LEARNING: Restructured columns per user request -->
-      <!-- WHY: State Context, Type, Text columns - removed Default column (redundant) -->
-      <!-- PATTERN: State Context = Generic (if userTypeBlock null) or userTypeBlock value -->
-      <VCard v-if="annotationsWithMetadata.length > 0" class="mt-4">
-        <VCardTitle class="text-subtitle-1">Selected Annotations</VCardTitle>
-        <VCardText>
-          <VTable density="compact">
-            <thead>
-              <tr>
-                <th class="text-left">State Context</th>
-                <th class="text-left">Type</th>
-                <th class="text-left">Text</th>
-                <th class="text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="ann in sortedAnnotations"
-                :key="ann.id"
-              >
-                <!-- State Context: Generic or UserTypeBlock selection -->
-                <td>
-                  <VSelect
-                    v-model="ann.userTypeBlock"
-                    :items="getAvailableUserTypeBlocksForAnnotationLocal(ann)"
-                    density="compact"
-                    variant="outlined"
-                    hide-details
-                    style="width: 150px"
-                    :error="hasDuplicateUserTypeBlockLocal(ann)"
-                    :error-messages="hasDuplicateUserTypeBlockLocal(ann) ? ['Another annotation already uses this user type'] : []"
-                    @update:model-value="handleUpdateMetadata(ann)"
-                  />
-                </td>
-                <!-- Type: Annotation type/shape -->
-                <td>
-                  <VSelect
-                    v-model="ann.type"
-                    :items="annotationTypeOptions"
-                    density="compact"
-                    variant="outlined"
-                    hide-details
-                    style="width: 150px"
-                    item-title="name"
-                    item-value="id"
-                    :placeholder="(ann as typeof ann & { typeName?: string }).typeName || 'Select type...'"
-                    @update:model-value="handleUpdateAnnotationType(ann)"
-                  />
-                </td>
-                <!-- Text: Annotation text content -->
-                <td>
-                  <div class="text-body-2">{{ ann.text }}</div>
-                </td>
-                <!-- Actions: Remove button -->
-                <td class="text-right">
-                  <VBtn
-                    icon="tabler-trash"
-                    size="x-small"
-                    variant="text"
-                    color="error"
-                    @click="handleRemoveAnnotation(ann)"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </VTable>
-        </VCardText>
-      </VCard>
-
-      <!-- Empty state -->
-      <VAlert
-        v-else-if="blockInstanceId"
-        type="info"
-        variant="tonal"
-        class="mt-4"
-      >
-        No annotations selected. Add annotations using the selector above or create a new one.
-      </VAlert>
-      
-      <!-- New block instance message -->
-      <VAlert
-        v-else
-        type="warning"
-        variant="tonal"
-        class="mt-4"
-      >
-        Save the block instance first to manage annotations.
-      </VAlert>
-
-    <!-- Dialog for selecting or creating annotation -->
-    <VDialog
-      v-model="showDialog"
-      max-width="700"
-    >
-      <VCard>
-        <VCardTitle>Add or Create Annotation</VCardTitle>
-        <VCardText>
-          <VTabs v-model="dialogState.dialogTab" class="mb-4">
-            <VTab value="select">Select Existing</VTab>
-            <VTab value="create">Create New</VTab>
-          </VTabs>
-          
-          <VWindow v-model="dialogState.dialogTab">
-            <!-- Select Existing Tab -->
-            <VWindowItem value="select">
-              <AppSelect
-                v-model="selectedAnnotationIds"
-                :items="allAnnotationsWithBlockInstances"
-                :label="'Select Annotations'"
-                :placeholder="'Choose annotations to add...'"
-                :multiple="true"
-                :chips="true"
-                :closable-chips="true"
-                item-title="displayText"
-                item-value="id"
-                class="mb-4"
-              />
-              
-              <!-- User Type selector for selected annotations -->
-              <VSelect
-                v-model="dialogState.selectedUserTypeBlock"
-                :items="userTypeBlockOptions"
-                label="User Type (optional)"
-                placeholder="Select user type for all selected annotations..."
-                variant="outlined"
-                :disabled="!selectedAnnotationIds || selectedAnnotationIds.length === 0"
-              />
-            </VWindowItem>
-            
-            <!-- Create New Tab -->
-            <VWindowItem value="create">
-              <VSelect
-                v-model="dialogState.newAnnotationType"
-                :items="annotationTypeOptions"
-                label="Type *"
-                placeholder="Select annotation type..."
-                variant="outlined"
-                item-title="name"
-                item-value="id"
-                class="mb-4"
-                required
-              />
-              <VTextField
-                v-model="dialogState.newAnnotationText"
-                label="Annotation Text"
-                placeholder="Enter annotation text..."
-                variant="outlined"
-                class="mb-4"
-              />
-              <VSelect
-                v-model="dialogState.newAnnotationUserTypeBlock"
-                :items="userTypeBlockOptions"
-                label="User Type (optional)"
-                variant="outlined"
-              />
-            </VWindowItem>
-          </VWindow>
-        </VCardText>
-        <VCardActions>
-          <VSpacer />
-          <VBtn
-            variant="text"
-            @click="handleCloseDialog"
-          >
-            Cancel
-          </VBtn>
-          <VBtn
-            v-if="dialogState.dialogTab.value === 'select'"
-            color="primary"
-            :disabled="!selectedAnnotationIds || selectedAnnotationIds.length === 0"
-            @click="handleAddSelectedAnnotations"
-          >
-            Add Selected
-          </VBtn>
-          <VBtn
-            v-else
-            color="primary"
-            :disabled="!dialogState.newAnnotationText.value.trim() || !dialogState.newAnnotationType"
-            @click="handleCreateAnnotation"
-          >
-            Create
-          </VBtn>
-        </VCardActions>
-      </VCard>
-    </VDialog>
+  <div class="annotations-field">
+    <!--
+      LEARNING: Use RelationshipCollection for annotations display and creation
+      WHY: Unified pattern with parts collection, handles EntityCard rendering and inline creation
+      PATTERN: RelationshipCollection handles basic CRUD, metadata editing handled separately below
+    -->
+    <RelationshipCollection
+      :field-context="fieldContext"
+      collection-type="annotations"
+      ref="relationshipCollectionRef"
+    />
+    
+    <!--
+      LEARNING: Metadata editing panel for annotations
+      WHY: Annotations have relationship-level metadata (userTypeBlock, isDefault, orderIndex) that needs editing
+      PATTERN: Show metadata editing table below the collection display
+      NOTE: This could be integrated into RelationshipCollection in the future, but keeping separate for now
+    -->
+    <!-- TODO: Add metadata editing UI here if needed -->
+    <!-- For now, metadata editing can be done via EntityCard sub-panels or relationship editing -->
   </div>
 </template>
 
@@ -205,21 +26,23 @@
 /**
  * AnnotationsField Component
  * 
- * LEARNING: Comprehensive field component for managing annotations with metadata
- * WHY: Allows admins to select annotations, edit metadata (userTypeBlock, isDefault, orderIndex), 
- *      create new annotations, and reorder them
- * PATTERN: Uses AnnotationAssignment relationships to manage metadata
+ * LEARNING: Field component for managing annotations using RelationshipCollection
+ * WHY: Uses unified collection pattern with parts, handles basic CRUD via RelationshipCollection
+ * PATTERN: Wraps RelationshipCollection for annotations, metadata editing can be added separately
  * 
  * Features:
- * - Multi-select from existing annotations
- * - Create new annotations inline
- * - Edit metadata (userTypeBlock, isDefault, orderIndex) for each annotation
- * - Reorder annotations (up/down buttons)
- * - Remove annotations
+ * - Display annotations using RelationshipCollection
+ * - Inline creation via EntityCard
+ * - Basic CRUD operations
+ * 
+ * NOTE: Metadata editing (userTypeBlock, isDefault, orderIndex) can be handled via:
+ * - EntityCard sub-panels for relationship metadata
+ * - Separate metadata editing component
+ * - Or integrated into RelationshipCollection in the future
  */
 
-import { useAnnotationsFieldViewModel } from '@/composables/admin/useAnnotationsFieldViewModel'
-import AppSelect from '@/@core/components/app-form-elements/AppSelect.vue'
+import { ref } from 'vue'
+import RelationshipCollection from '../collections/RelationshipCollection.vue'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
 import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
@@ -231,51 +54,11 @@ interface Props {
 const props = defineProps<Props>()
 const { fieldContext } = props
 
-const {
-  blockInstanceId,
-  metadata,
-  dialogState,
-  annotationsWithMetadata,
-  sortedAnnotations,
-  availableAnnotations: _availableAnnotations,
-  allAnnotationsWithBlockInstances,
-  hasDuplicateUserTypeBlock: hasDuplicateUserTypeBlockLocal,
-  getAvailableUserTypeBlocksForAnnotation: getAvailableUserTypeBlocksForAnnotationLocal,
-  handleCloseDialog,
-  handleAddAnnotations: _handleAddAnnotations,
-  handleAddSelectedAnnotations,
-  handleCreateAnnotation,
-  handleUpdateAnnotationType,
-  handleUpdateMetadata,
-  handleUpdateDefault: _handleUpdateDefault,
-  handleRemoveAnnotation,
-} = useAnnotationsFieldViewModel(fieldContext)
-
-// NOTE: Unused handlers prefixed with _ - quick add and default features removed from UI
-
-// LEARNING: Destructure showDialog from dialogState for v-model binding
-// WHY: v-model needs direct ref access, not nested property access
-// PATTERN: Destructure refs that are used with v-model for proper reactivity
-const { showDialog, selectedAnnotationIds } = dialogState
-
-// LEARNING: Destructure computed properties from metadata for template binding
-// WHY: VSelect items prop expects array, not computed ref object
-// PATTERN: Destructure computed properties that are passed to component props
-const { annotationTypeOptions, userTypeBlockOptions } = metadata
+const relationshipCollectionRef = ref<InstanceType<typeof RelationshipCollection> | null>(null)
 
 </script>
 
 <style scoped lang="scss">
-// LEARNING: Add border around entire annotations field including label
-// WHY: Visual separation for the annotations management area
-// PATTERN: Use :deep() to style parent BaseInput wrapper
-:deep(.field-wrapper) {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  border-radius: 4px;
-  padding: 12px;
-  background-color: rgba(var(--v-theme-surface), 1);
-}
-
 .annotations-field {
   width: 100%;
 }

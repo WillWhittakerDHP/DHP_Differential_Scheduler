@@ -24,8 +24,8 @@ import {
   getBlockInstanceAnnotationsEndpoint,
   getBlockInstanceAnnotationEndpoint,
   getAnnotationAssignmentsEndpoint,
-  getAnnotationTypeEndpoint,
-  getAnnotationTypeByIdEndpoint,
+  getAnnotationShapeEndpoint,
+  getAnnotationShapeByIdEndpoint,
   getAvailabilityEndpoint,
   getAppointmentEndpoint,
   getAppointmentByIdEndpoint,
@@ -65,24 +65,24 @@ describe('API Endpoint Builders', () => {
 
   describe('Relationship endpoints', () => {
     it('should build relationship endpoint', () => {
-      expect(getRelationshipEndpoint('active-annotation')).toBe('/relationships/active-annotation')
+      expect(getRelationshipEndpoint('annotationAssignments')).toBe('/relationships/annotationAssignments')
     })
 
     it('should build relationship by ID endpoint', () => {
-      expect(getRelationshipByIdEndpoint('active-annotation', 'rel-123')).toBe('/relationships/active-annotation/rel-123')
+      expect(getRelationshipByIdEndpoint('annotationAssignments', 'rel-123')).toBe('/relationships/annotationAssignments/rel-123')
     })
 
     it('should build relationship by parent-child endpoint', () => {
-      expect(getRelationshipByParentChildEndpoint('active-annotation', 'parent-123', 'child-456')).toBe(
-        '/relationships/active-annotation/parent-123/child-456'
+      expect(getRelationshipByParentChildEndpoint('annotation-assignment', 'parent-123', 'child-456')).toBe(
+        '/relationships/annotation-assignment/parent-123/child-456'
       )
     })
 
     it('should handle UUIDs in relationship IDs', () => {
       const parentId = '550e8400-e29b-41d4-a716-446655440000'
       const childId = '660e8400-e29b-41d4-a716-446655440001'
-      expect(getRelationshipByParentChildEndpoint('active-annotation', parentId, childId)).toBe(
-        `/relationships/active-annotation/${parentId}/${childId}`
+      expect(getRelationshipByParentChildEndpoint('annotationAssignments', parentId, childId)).toBe(
+        `/relationships/annotationAssignments/${parentId}/${childId}`
       )
     })
   })
@@ -99,35 +99,35 @@ describe('API Endpoint Builders', () => {
 
   describe('Annotation endpoints', () => {
     it('should build annotation endpoint', () => {
-      expect(getAnnotationEndpoint()).toBe('/annotation-instances')
+      expect(getAnnotationEndpoint('annotationInstance')).toBe('/annotations/annotationInstance')
     })
 
     it('should build annotation by ID endpoint', () => {
-      expect(getAnnotationByIdEndpoint('ann-123')).toBe('/annotation-instances/ann-123')
+      expect(getAnnotationByIdEndpoint('ann-123')).toBe('/annotations/annotationInstance/ann-123')
     })
 
     it('should build block instance annotations endpoint', () => {
-      expect(getBlockInstanceAnnotationsEndpoint('block-123')).toBe('/annotation-instances/block-instance/block-123')
+      expect(getBlockInstanceAnnotationsEndpoint('block-123')).toBe('/annotations/annotationInstance/block-instance/block-123')
     })
 
     it('should build block instance annotation endpoint', () => {
       expect(getBlockInstanceAnnotationEndpoint('block-123', 'ann-456')).toBe(
-        '/annotation-instances/block-instance/block-123/ann-456'
+        '/annotations/annotationInstance/block-instance/block-123/ann-456'
       )
     })
 
     it('should build annotation assignments endpoint', () => {
-      expect(getAnnotationAssignmentsEndpoint()).toBe('/annotation-instances/active-annotations')
+      expect(getAnnotationAssignmentsEndpoint()).toBe('/annotations/annotationInstance/annotation-assignments')
     })
   })
 
-  describe('Annotation type endpoints', () => {
-    it('should build annotation type endpoint', () => {
-      expect(getAnnotationTypeEndpoint()).toBe('/annotation-shapes')
+  describe('Annotation shape endpoints', () => {
+    it('should build annotation shape endpoint', () => {
+      expect(getAnnotationShapeEndpoint()).toBe('/annotations/annotationShape')
     })
 
-    it('should build annotation type by ID endpoint', () => {
-      expect(getAnnotationTypeByIdEndpoint('shape-123')).toBe('/annotation-shapes/shape-123')
+    it('should build annotation shape by ID endpoint', () => {
+      expect(getAnnotationShapeByIdEndpoint('shape-123')).toBe('/annotations/annotationShape/shape-123')
     })
   })
 

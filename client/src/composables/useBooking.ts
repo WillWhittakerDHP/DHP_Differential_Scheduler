@@ -74,8 +74,7 @@ function createBookingInstance() {
     // Transform globalData to bookingData
     // The transformer expects GlobalData format, which matches the type from useGlobal
     try {
-      const transformed = bookingTransformer.transformGlobalToBooking(data)
-      return transformed
+      return bookingTransformer.transformGlobalToBooking(data)
     } catch (error) {
       return null
     }

@@ -79,14 +79,15 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   /**
    * LEARNING: Get on-site total from SlotShape (source of truth)
    * WHY: SlotShape already contains calculated onSite duration, no need to filter raw parts
-   * PATTERN: Access slotShape.onSite directly, apply rounding
+   * PATTERN: Access slotShape.eventDurations["OnSite"], apply rounding
    * NOTE: Applies rounding based on availability settings
+   * Session Event Refactor: Use eventDurations Record instead of hardcoded properties
    */
   const onSiteTotal = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
     
-    const unroundedTotal = shape.slotShape.onSite
+    const unroundedTotal = shape.slotShape.eventDurations?.['OnSite'] ?? 0
     
     // LEARNING: Apply configurable rounding based on availability settings
     // WHY: Allows admin to control rounding behavior via Business Controls tab
@@ -97,13 +98,14 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   /**
    * LEARNING: Get client presentation duration from SlotShape (source of truth)
    * WHY: SlotShape already contains calculated clientPresent duration, no need to filter raw parts
-   * PATTERN: Access slotShape.clientPresent directly
+   * PATTERN: Access slotShape.eventDurations["ClientPresent"]
+   * Session Event Refactor: Use eventDurations Record instead of hardcoded properties
    */
   const presentationDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
     
-    return shape.slotShape.clientPresent
+    return shape.slotShape.eventDurations?.['ClientPresent'] ?? 0
   })
 
   /**

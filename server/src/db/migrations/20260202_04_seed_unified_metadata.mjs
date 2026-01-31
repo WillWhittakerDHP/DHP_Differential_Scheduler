@@ -36,9 +36,10 @@ export default {
     // Helper function to infer data type from field key
     function inferDataType(fieldKey, entityType) {
       // Boolean fields
+      // NOTE: onSite, clientPresent, and moveable are NOT stored as primitive fields on partInstance.
+      // They are computed from EventAssignment relationships and only exist in BookingPartInstance (computed type).
       const booleanFields = ['active', 'composite', 'differential', 'composable', 'canHaveParts', 'isStateControl',
-        'allowMultiple', 'requiresUnitNumber', 'onSite', 'clientPresent', 
-        'moveable', 'zeroOutPart', 'differentialOverride']
+        'allowMultiple', 'requiresUnitNumber', 'zeroOutPart', 'differentialOverride']
       if (booleanFields.includes(fieldKey)) {
         return 'boolean'
       }
@@ -50,7 +51,7 @@ export default {
       }
       
       // Array/reference fields
-      const arrayFields = ['activeParts', 'bookingCascades', 'instanceComponents', 
+      const arrayFields = ['partAssignments', 'bookingCascades', 'instanceComponents', 
         'dependentInstances', 'validCascades', 'validParts']
       if (arrayFields.includes(fieldKey)) {
         return 'array'
@@ -87,10 +88,10 @@ export default {
         { fieldKey: 'bookingMode', dataType: 'string' },
       ],
       partInstance: [
+        // NOTE: onSite, clientPresent, and moveable are NOT stored as primitive fields on partInstance.
+        // They are computed from EventAssignment relationships and only exist in BookingPartInstance (computed type).
+        // These fields must be configured at the shape level via EventAssignment relationships, not at the instance level.
         { fieldKey: 'name', dataType: 'string' },
-        { fieldKey: 'onSite', dataType: 'boolean' },
-        { fieldKey: 'clientPresent', dataType: 'boolean' },
-        { fieldKey: 'moveable', dataType: 'boolean' },
         { fieldKey: 'baseFee', dataType: 'number' },
         { fieldKey: 'rateOverBaseFee', dataType: 'number' },
         { fieldKey: 'baseTime', dataType: 'number' },
@@ -285,25 +286,25 @@ export default {
         metadata_type: 'relationship',
         entity_type: 'blockInstance',
         entity_id: BLOCK_INSTANCE_GLOBAL_CONFIG_ID,
-        field_key: 'activeParts',
+        field_key: 'partAssignments',
         data_type: 'reference',
-        label: 'Active Parts',
+        label: 'Part Assignments',
         is_required: false,
         visibility: 'expandedPanel',
         layout: 'stacked',
         display_order: 2,
         section: null,
-        render_as: 'partsCollection',
+        render_as: 'relationshipCollection',
         status_button_color: null,
         panel: 'parts',
         bulk_edit: false,
         input_config: jsonbLiteral({
           targetMode: 'relationship',
-          targetKey: 'activeParts',
-          globalField: 'activeParts',
+          targetKey: 'partAssignments',
+          globalField: 'partAssignments',
           selectedParentKey: 'blockInstance',
           selectedChildKey: 'partInstance',
-          selectedChildPath: ['activeParts'],
+          selectedChildPath: ['partAssignments'],
           candidateParentKey: 'blockShape',
           candidateParentPath: ['blockShapeRef'],
           candidateChildKey: 'partInstance',

@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { Attributes, Model, Op } from 'sequelize';
 import { getEntityConfig, isValidEntityType } from '../../../config/entityRegistry.js';
-import { BlockInstance, PartInstance, ActivePart } from '../../../config/app.js';
+import { BlockInstance, PartInstance, PartAssignment } from '../../../config/app.js';
 import { 
   fetchAll, 
   fetchById, 
@@ -98,15 +98,26 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
     
     // IMPORTANT: For models with `underscored: true`, always specify `attributes` explicitly
     // to avoid duplicate columns in SQL queries (both snake_case and camelCase versions)
-    // LEARNING: Order entities by orderIndex to ensure consistent ordering
-    // WHY: All entity types (blockInstance, blockShape, partInstance, partShape) have orderIndex fields
-    // PATTERN: Use Sequelize order option to sort by orderIndex ascending
+    // LEARNING: Order entities by orderIndex to ensure consistent ordering (if field exists)
+    // WHY: Most entity types (blockInstance, blockShape, partInstance, partShape) have orderIndex fields,
+    //      but some (eventShape, eventInstance) do not
+    // PATTERN: Conditionally add order option only if model has orderIndex field
     const options: { attributes?: string[]; order?: any[] } = {};
     if (isModelUnderscored(entityConfig.model)) {
       options.attributes = getModelAttributes(entityConfig.model);
     }
-    // Order by orderIndex to ensure entities are returned in correct order
-    options.order = [['orderIndex', 'ASC']];
+    // Order by orderIndex if the model has that field (check model attributes)
+    const modelAttributes = Object.keys(entityConfig.model.rawAttributes || {});
+    if (modelAttributes.includes('orderIndex')) {
+      options.order = [['orderIndex', 'ASC']];
+    } else {
+      // For models without orderIndex, order by createdAt or id
+      if (modelAttributes.includes('createdAt')) {
+        options.order = [['createdAt', 'ASC']];
+      } else {
+        options.order = [['id', 'ASC']];
+      }
+    }
     
     const data = await fetchAll(entityConfig.model, options);
     
@@ -226,7 +237,7 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
         include: [
           {
             model: PartInstance,
-            as: 'active_part_instances',
+            as: 'part_assignment_instances',
             through: {
               where: { disabled: false },
             },
@@ -257,8 +268,8 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
       return;
     }
     
-    // LEARNING: For partInstance updates, disable old activeParts relationships
-    // WHY: When a part instance is updated, we need to ensure only one activeParts relationship exists
+    // LEARNING: For partInstance updates, disable old partAssignments relationships
+    // WHY: When a part instance is updated, we need to ensure only one partAssignments relationship exists
     //      per (parent_id, name, partShapeRef) group. Old relationships pointing to other part instances
     //      with the same logical identity should be disabled.
     // PATTERN: After successful update, find and disable old relationships
@@ -266,9 +277,9 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
       try {
         const updatedPartInstance = await PartInstance.findByPk(entityId);
         if (updatedPartInstance) {
-          // Find all activeParts relationships pointing to this part instance
+          // Find all partAssignments relationships pointing to this part instance
           // This tells us which block instances reference this part
-          const currentRelationships = await ActivePart.findAll({
+          const currentRelationships = await PartAssignment.findAll({
             where: {
               child_id: entityId,
               disabled: false
@@ -290,9 +301,9 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
             if (duplicatePartInstances.length > 0) {
               const duplicatePartIds = duplicatePartInstances.map(p => p.id);
               
-              // Disable activeParts relationships pointing to these duplicate part instances
+              // Disable partAssignments relationships pointing to these duplicate part instances
               // for the same parent_id (block instance)
-              await ActivePart.update(
+              await PartAssignment.update(
                 { disabled: true },
                 {
                   where: {
@@ -307,7 +318,7 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
         }
       } catch (versioningError) {
         // Log error but don't fail the update - versioning cleanup is best effort
-        console.error('[EntityRouter] Error disabling old activeParts relationships:', versioningError);
+        console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);
       }
     }
     
@@ -398,7 +409,7 @@ router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<v
           include: [
             {
               model: PartInstance,
-              as: 'active_part_instances',
+              as: 'part_assignment_instances',
               through: {
                 where: { disabled: false },
               },
@@ -486,8 +497,8 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
       return;
     }
     
-    // LEARNING: For partInstance updates, disable old activeParts relationships
-    // WHY: When a part instance is updated, we need to ensure only one activeParts relationship exists
+    // LEARNING: For partInstance updates, disable old partAssignments relationships
+    // WHY: When a part instance is updated, we need to ensure only one partAssignments relationship exists
     //      per (parent_id, name, partShapeRef) group. Old relationships pointing to other part instances
     //      with the same logical identity should be disabled.
     // PATTERN: After successful update, find and disable old relationships
@@ -495,9 +506,9 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
       try {
         const updatedPartInstance = await PartInstance.findByPk(entityId);
         if (updatedPartInstance) {
-          // Find all activeParts relationships pointing to this part instance
+          // Find all partAssignments relationships pointing to this part instance
           // This tells us which block instances reference this part
-          const currentRelationships = await ActivePart.findAll({
+          const currentRelationships = await PartAssignment.findAll({
             where: {
               child_id: entityId,
               disabled: false
@@ -519,9 +530,9 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
             if (duplicatePartInstances.length > 0) {
               const duplicatePartIds = duplicatePartInstances.map(p => p.id);
               
-              // Disable activeParts relationships pointing to these duplicate part instances
+              // Disable partAssignments relationships pointing to these duplicate part instances
               // for the same parent_id (block instance)
-              await ActivePart.update(
+              await PartAssignment.update(
                 { disabled: true },
                 {
                   where: {
@@ -536,7 +547,7 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
         }
       } catch (versioningError) {
         // Log error but don't fail the update - versioning cleanup is best effort
-        console.error('[EntityRouter] Error disabling old activeParts relationships:', versioningError);
+        console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);
       }
     }
     

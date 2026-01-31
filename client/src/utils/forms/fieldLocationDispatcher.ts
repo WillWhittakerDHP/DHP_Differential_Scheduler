@@ -16,6 +16,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { FIELD_VISIBILITY, FIELD_LAYOUT, FIELD_PANEL } from '@/constants/fieldMetadata'
+import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import { sortFieldsByDisplayOrder } from './fieldSorting'
 
 /**
@@ -23,7 +24,33 @@ import { sortFieldsByDisplayOrder } from './fieldSorting'
  * WHY: Config-driven approach instead of hardcoded string checks
  * PATTERN: Use Set for O(1) lookup instead of multiple OR conditions
  */
-const VALID_PANELS = new Set([FIELD_PANEL.PARTS, FIELD_PANEL.RELATIONSHIPS, FIELD_PANEL.ANNOTATIONS] as const)
+const VALID_PANELS = new Set([FIELD_PANEL.PARTS, FIELD_PANEL.RELATIONSHIPS, FIELD_PANEL.ANNOTATIONS, FIELD_PANEL.EVENTS] as const)
+
+/**
+ * LEARNING: Determine panel type from field key
+ * WHY: Panel is automatically determined from field key, not manually configured
+ * PATTERN: Check RELATIONSHIP_KEYS to determine panel for relationship fields
+ */
+export function determinePanelFromFieldKey(fieldKey: string): 'none' | 'parts' | 'relationships' | 'annotations' | 'events' {
+  // Check if fieldKey is a relationship field
+  if (fieldKey in RELATIONSHIP_KEYS) {
+    // Map relationship fields to their panels
+    if (fieldKey === 'partAssignments') {
+      return 'parts'
+    }
+    if (fieldKey === 'annotationAssignments') {
+      return 'annotations'
+    }
+    if (fieldKey === 'eventAssignments') {
+      return 'events'
+    }
+    // All other relationship fields go to relationships panel
+    return 'relationships'
+  }
+  
+  // Primitive fields don't use panels
+  return 'none'
+}
 
 /**
  * Field location types with reasons
@@ -34,7 +61,7 @@ export type FieldLocation =
   | { type: 'titleRow'; reason: 'titleRow' | 'staticAsTitle' } // Renders in title row area
   | { type: 'directInline'; reason: 'expandedDirect' } // Renders in form body, inline layout
   | { type: 'directStacked'; reason: 'expandedDirect' } // Renders in form body, stacked layout
-  | { type: 'subPanel'; panel: 'parts' | 'relationships' | 'annotations'; reason: 'expandedPanel' }
+  | { type: 'subPanel'; panel: 'parts' | 'relationships' | 'annotations' | 'events'; reason: 'expandedPanel' }
   | { type: 'hidden'; reason: 'hidden' | 'notConfigured' | 'notExpanded' }
 
 /**
@@ -63,7 +90,7 @@ export interface FieldLocationContext {
  * 3. For expandedPanel: Check expansion state, then panel assignment
  */
 export function getFieldLocation<GE extends GlobalEntityKey>(
-  _fieldKey: GlobalFieldKey<GE>,
+  fieldKey: GlobalFieldKey<GE>,
   fieldMetadata: FieldMetadataEntry | undefined,
   context: FieldLocationContext
 ): FieldLocation {
@@ -132,17 +159,23 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
         return { type: 'hidden', reason: 'notExpanded' }
       }
 
-      // LEARNING: Determine which sub-panel using config-driven approach
-      // WHY: Panel property determines which sub-panel the field appears in
-      // PATTERN: Use VALID_PANELS Set for O(1) lookup instead of hardcoded OR conditions
+      // LEARNING: Determine which sub-panel automatically from field key
+      // WHY: Panel is automatically determined from field key, not manually configured
+      // PATTERN: Use determinePanelFromFieldKey to get panel, fallback to metadata panel if valid
+      const fieldKeyString = String(fieldKey)
+      const determinedPanel = determinePanelFromFieldKey(fieldKeyString)
+      
+      // Use determined panel if it's valid, otherwise check metadata panel
+      const panelToUse = determinedPanel !== 'none' ? determinedPanel : panel
+      
       // LEARNING: Type guard function to narrow panel type
       // WHY: TypeScript doesn't automatically narrow Set.has, so we use a type guard
       // PATTERN: Check if panel is valid, then TypeScript knows it's not "none"
-      const isValidPanel = (p: string): p is 'parts' | 'relationships' | 'annotations' => {
-        return VALID_PANELS.has(p as 'parts' | 'relationships' | 'annotations')
+      const isValidPanel = (p: string): p is 'parts' | 'relationships' | 'annotations' | 'events' => {
+        return VALID_PANELS.has(p as 'parts' | 'relationships' | 'annotations' | 'events')
       }
-      if (panel && isValidPanel(panel)) {
-        return { type: 'subPanel', panel, reason: 'expandedPanel' }
+      if (panelToUse && isValidPanel(panelToUse)) {
+        return { type: 'subPanel', panel: panelToUse, reason: 'expandedPanel' }
       }
 
       // LEARNING: Fallback for expandedPanel without valid panel assignment
@@ -175,6 +208,7 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
     parts: GlobalFieldKey<GE>[]
     relationships: GlobalFieldKey<GE>[]
     annotations: GlobalFieldKey<GE>[]
+    events: GlobalFieldKey<GE>[]
   }
   hidden: GlobalFieldKey<GE>[]
 } {
@@ -212,7 +246,8 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
     subPanels: {
       parts: [] as GlobalFieldKey<GE>[],
       relationships: [] as GlobalFieldKey<GE>[],
-      annotations: [] as GlobalFieldKey<GE>[]
+      annotations: [] as GlobalFieldKey<GE>[],
+      events: [] as GlobalFieldKey<GE>[]
     },
     hidden: [] as GlobalFieldKey<GE>[]
   })
@@ -227,7 +262,8 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
     subPanels: {
       parts: sortFieldsByDisplayOrder(grouped.subPanels.parts, fieldMetadata),
       relationships: sortFieldsByDisplayOrder(grouped.subPanels.relationships, fieldMetadata),
-      annotations: sortFieldsByDisplayOrder(grouped.subPanels.annotations, fieldMetadata)
+      annotations: sortFieldsByDisplayOrder(grouped.subPanels.annotations, fieldMetadata),
+      events: sortFieldsByDisplayOrder(grouped.subPanels.events, fieldMetadata)
     },
     hidden: sortFieldsByDisplayOrder(grouped.hidden, fieldMetadata)
   }

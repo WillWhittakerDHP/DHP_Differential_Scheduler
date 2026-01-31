@@ -240,12 +240,21 @@ export function useFieldComponent(
   })
   
   /**
-   * LEARNING: Whether field is partsCollection type
-   * WHY: PartsCollection fields use PartsCollection component
-   * PATTERN: Determined from dispatcher: component.type === 'partsCollection'
+   * LEARNING: Whether field is relationshipCollection type
+   * WHY: RelationshipCollection fields use RelationshipCollection component
+   * PATTERN: Determined from dispatcher: component.type === 'relationshipCollection'
    */
   const isPartsCollection = computed(() => {
-    return componentType.value.type === 'partsCollection'
+    return componentType.value.type === 'relationshipCollection'
+  })
+  
+  /**
+   * LEARNING: Whether field is relationshipCollection type (alias for clarity)
+   * WHY: Alias for isPartsCollection for clarity
+   * PATTERN: Same logic as isPartsCollection
+   */
+  const isRelationshipCollection = computed(() => {
+    return isPartsCollection.value
   })
   
   /**
@@ -273,6 +282,7 @@ export function useFieldComponent(
     isIcon,
     isPrimitive,
     isPartsCollection,
+    isRelationshipCollection,
     isAnnotations,
     isSelect
   }

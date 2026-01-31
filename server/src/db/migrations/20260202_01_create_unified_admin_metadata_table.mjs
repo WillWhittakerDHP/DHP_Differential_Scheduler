@@ -70,7 +70,7 @@ export default {
         -- Panel enum
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'enum_admin_metadata_panel') THEN
           CREATE TYPE enum_admin_metadata_panel AS ENUM (
-            'none', 'parts', 'relationships', 'annotations'
+            'none', 'parts', 'relationships', 'annotations', 'events'
           );
         END IF;
       END $$;

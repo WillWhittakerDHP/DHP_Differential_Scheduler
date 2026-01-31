@@ -6,8 +6,8 @@
  * PATTERN: Pure function that determines component type from metadata
  * 
  * This utility handles:
- * - Component type determination (icon, primitive, partsCollection, annotations, select)
- * - RenderAs-based type checking (iconSelect, text, number, statusButton, select, multiselect, reference, partsCollection)
+ * - Component type determination (icon, primitive, relationshipCollection, annotations, select)
+ * - RenderAs-based type checking (iconSelect, text, number, statusButton, select, multiselect, reference, relationshipCollection)
  * - Special case handling (annotations field)
  */
 
@@ -23,8 +23,8 @@ import type { FieldMetadataEntry } from '@/types/entityMetadata'
 export type FieldComponent =
   | { type: 'icon'; reason: 'iconSelect' } // Renders IconInput component
   | { type: 'primitive'; reason: 'text' | 'number' | 'statusButton' } // Renders PrimitiveInputs component
-  | { type: 'partsCollection'; reason: 'partsCollection' } // Renders PartsCollection component
-  | { type: 'annotations'; reason: 'annotationsField' } // Renders AnnotationsField component
+  | { type: 'relationshipCollection'; reason: 'relationshipCollection' } // Renders RelationshipCollection component
+  | { type: 'annotations'; reason: 'annotationsField' } // Renders AnnotationsField component (uses RelationshipCollection internally)
   | { type: 'select'; reason: 'select' | 'multiselect' | 'reference' } // Renders SelectInputs component
   | { type: 'unknown'; reason: 'notConfigured' | 'invalidRenderAs' } // Unknown/invalid field
 
@@ -40,7 +40,7 @@ export type FieldComponent =
  * 2. Check for annotations field → annotations component
  * 3. Check renderAs for iconSelect → icon component
  * 4. Check renderAs for text/number/statusButton → primitive component
- * 5. Check renderAs for partsCollection → partsCollection component
+ * 5. Check renderAs for relationshipCollection → relationshipCollection component
  * 6. Check renderAs for select/multiselect/reference → select component (with enum select exception)
  * 7. Unknown renderAs → unknown component
  */
@@ -79,11 +79,11 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
   if (primitiveRenderAs.includes(renderAs)) {
     return { type: 'primitive', reason: renderAs as 'text' | 'number' | 'statusButton' }
   }
-  // LEARNING: Check for partsCollection renderAs (declarative partsCollection)
-  // WHY: PartsCollection is now explicitly declared via renderAs, not inferred from selectMode
-  // PATTERN: Check renderAs for 'partsCollection' directly
-  if (renderAs === 'partsCollection') {
-    return { type: 'partsCollection', reason: 'partsCollection' }
+  // LEARNING: Check for relationshipCollection renderAs (generic collection component)
+  // WHY: RelationshipCollection is the generic component for parts, annotations, events
+  // PATTERN: Check renderAs for 'relationshipCollection'
+  if (renderAs === 'relationshipCollection') {
+    return { type: 'relationshipCollection', reason: 'relationshipCollection' }
   }
 
   // LEARNING: Check for select-like fields (select, multiselect, reference)

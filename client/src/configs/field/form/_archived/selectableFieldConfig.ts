@@ -134,21 +134,21 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
         placeholder: "Which block instances are children of this block instance?",
       },
             
-      activeParts: {
+      partAssignments: {
         targetMode: "relationship",
-        targetKey: "activeParts",
-        globalField: "activeParts" as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>,
+        targetKey: "partAssignments",
+        globalField: "partAssignments" as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>,
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: ENTITY_KEY_PART_INSTANCE,
-        selectedChildPath: ["activeParts"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
+        selectedChildPath: ["partAssignments"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                 
         candidateParentPath: ["blockShapeRef"],             
         candidateChildKey: ENTITY_KEY_PART_INSTANCE,
         candidateChildPath: [],                          
 
-        selectType: RelationshipSelectTypeEnum.ActivePartSelect,
+        selectType: RelationshipSelectTypeEnum.PartAssignmentSelect,
         selectMode: RelationshipSelectModeEnum.Nested,
         placeholder: "Which part instances are used by this block instance?",
       },
@@ -264,7 +264,7 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
         // 🆕 Dependency impact configuration
         dependencyImpact: {
           affectedEntityKey: ENTITY_KEY_PART_INSTANCE,
-          affectedField: "activeParts",
+          affectedField: "partAssignments",
           linkingField: "partShapeRef", 
           displayNames: {
             removedItems: "Part Shapes",

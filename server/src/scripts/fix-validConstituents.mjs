@@ -90,7 +90,7 @@ async function fixValidConstituents() {
 
       const [updateActive] = await sequelize.query(`
         UPDATE admin_relationship_metadata
-        SET relationship_key = 'activeParts',
+        SET relationship_key = 'partAssignments',
             updated_at = CURRENT_TIMESTAMP
         WHERE relationship_key = 'activeConstituents'
         RETURNING id, entity_type, entity_id, relationship_key

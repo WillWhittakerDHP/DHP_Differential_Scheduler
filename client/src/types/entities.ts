@@ -2,8 +2,8 @@
 export type GlobalEntityId = string;
 
 import type { GlobalEntityKey } from "@/constants/entities";
-import type { AnnotationWithMetadata } from "./annotations";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
+import type { TernaryBoolean } from "./ternary";
 
 /**
  * Base entity interface with common properties
@@ -34,7 +34,7 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
   baseSqFt: number;
   active: boolean;
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
-  annotations?: AnnotationWithMetadata[]; // Array of annotations with metadata for user-type filtering
+  // NOTE: Annotations are accessed via relationships.annotationAssignments, not attached directly to entities
   icon: string;
   allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
   /**
@@ -58,9 +58,9 @@ export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
 
 export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
   partShapeRef: string;
-  onSite: TernaryBoolean;
-  clientPresent: TernaryBoolean;
-  moveable: boolean;
+  // NOTE: onSite, clientPresent, and moveable are no longer stored in the database.
+  // They are computed from EventAssignment relationships in globalToBookingTransformer
+  // and only exist in BookingPartInstance (computed type).
   baseTime: number;
   rateOverBaseTime: number;
   baseFee: number;

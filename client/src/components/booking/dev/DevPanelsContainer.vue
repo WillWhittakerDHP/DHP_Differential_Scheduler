@@ -18,11 +18,14 @@ import { useLocalTime } from '@/composables/useLocalTime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import type { AppointmentSlot } from '@/types/appointment'
-import type { FinalizedPart } from '@/utils/booking/FinalizedPart'
+import type { PartFinal } from '@/utils/booking/PartFinal'
+import type { EventInstance, EventShape } from '@/types/events'
 import { useBooking } from '@/composables/useBooking'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { useBookingWizard } from '@/composables/useBookingWizard'
+import { toBoolean } from '@/utils/ternary/ternaryUtils'
+import { useGlobal } from '@/composables/useGlobal'
 
 interface Props {
   visible: boolean
@@ -153,7 +156,7 @@ const servicesSummary = computed<ServiceSummary[]>(() => {
 // LEARNING: Get finalized parts directly from AppointmentShape
 // WHY: Shows finalized parts directly from source of truth without any filtering
 // PATTERN: Direct access to appointmentShape.finalizedParts
-const finalizedParts = computed<FinalizedPart[]>(() => {
+const finalizedParts = computed<PartFinal[]>(() => {
   const shape = appointmentData.value.appointmentShape
   if (!shape || !shape.finalizedParts) {
     return []
@@ -170,9 +173,7 @@ const slotShapeTotals = computed<SlotShape>(() => {
   if (!shape || !shape.slotShape) {
     return {
       totalDuration: 0,
-      onSite: 0,
-      clientPresent: 0,
-      moveable: 0,
+      eventDurations: {},
       clientStartOffset: 0
     }
   }
@@ -201,7 +202,9 @@ const timeSlotResults = computed(() => {
   const inspectorArrival = slot.totalTimeRange?.startTime || null
   
   // Client arrival is the start of clientPresentTimeRange (or totalTimeRange if no clientPresentTimeRange)
-  const clientArrival = slot.clientPresentTimeRange?.startTime || slot.totalTimeRange?.startTime || null
+  // Session Event Refactor: Use eventTimeRanges Record instead of hardcoded properties
+  const clientPresentTimeRange = slot.eventTimeRanges?.['ClientPresent']
+  const clientArrival = clientPresentTimeRange?.startTime || slot.totalTimeRange?.startTime || null
   
   // Appointment end is the end of totalTimeRange
   const appointmentEnd = slot.totalTimeRange?.endTime || null
@@ -513,6 +516,38 @@ const handleServiceTypeChange = (serviceId: string | null): void => {
   }
 }
 
+// LEARNING: Check if a partShape has a specific event
+// WHY: Events are stored on AppointmentShape.eventAssignmentsByPartShape, need helper to check
+// PATTERN: Look up EventInstance[] for partShape, check EventShape name via eventInstance.eventShapeRef
+const hasEventForPart = (partShapeName: string, eventShapeName: string): boolean => {
+  const shape = appointmentData.value.appointmentShape
+  if (!shape || !shape.eventAssignmentsByPartShape) return false
+  
+  const events = shape.eventAssignmentsByPartShape[partShapeName] || []
+  if (events.length === 0) return false
+  
+  // Get EventShapes from globalData to look up event shape names
+  const globalData = getGlobalData()
+  const eventShapes = (globalData?.events?.eventShape || []) as EventShape[]
+  const eventShapeById = new Map(eventShapes.map(es => [es.id, es]))
+  
+  // Check if any event has matching shape name
+  for (const eventInstance of events) {
+    const eventShape = eventShapeById.get(eventInstance.eventShapeRef)
+    if (eventShape?.name === eventShapeName) {
+      // For ternary events (OnSite, ClientPresent), check defaultTernaryValue
+      if (eventShapeName === 'OnSite' || eventShapeName === 'ClientPresent') {
+        const ternaryValue = eventShape.defaultTernaryValue ?? 'true'
+        return toBoolean(ternaryValue as import('@/types/ternary').TernaryBoolean, 'strict')
+      }
+      // For boolean events (Moveable), existence means it's active
+      return true
+    }
+  }
+  
+  return false
+}
+
 </script>
 
 <template>
@@ -601,27 +636,17 @@ const handleServiceTypeChange = (serviceId: string | null): void => {
                       </div>
                     </VCard>
                   </VCol>
-                  <VCol cols="6" sm="4" md="3">
+                  <VCol 
+                    v-for="(duration, eventName) in slotShapeTotals.eventDurations" 
+                    :key="eventName"
+                    cols="6" 
+                    sm="4" 
+                    md="3"
+                  >
                     <VCard variant="outlined" density="compact" class="pa-2">
-                      <div class="text-caption text-medium-emphasis">On Site</div>
+                      <div class="text-caption text-medium-emphasis">{{ eventName }}</div>
                       <div class="text-body-2 font-weight-medium">
-                        {{ formatDuration(slotShapeTotals.onSite) }}
-                      </div>
-                    </VCard>
-                  </VCol>
-                  <VCol cols="6" sm="4" md="3">
-                    <VCard variant="outlined" density="compact" class="pa-2">
-                      <div class="text-caption text-medium-emphasis">Client Present</div>
-                      <div class="text-body-2 font-weight-medium">
-                        {{ formatDuration(slotShapeTotals.clientPresent) }}
-                      </div>
-                    </VCard>
-                  </VCol>
-                  <VCol cols="6" sm="4" md="3">
-                    <VCard variant="outlined" density="compact" class="pa-2">
-                      <div class="text-caption text-medium-emphasis">Moveable</div>
-                      <div class="text-body-2 font-weight-medium">
-                        {{ formatDuration(slotShapeTotals.moveable) }}
+                        {{ formatDuration(duration) }}
                       </div>
                     </VCard>
                   </VCol>
@@ -665,24 +690,24 @@ const handleServiceTypeChange = (serviceId: string | null): void => {
                         <div>Fee: ${{ part.baseFee.toFixed(2) }}</div>
                       </div>
                       <div class="d-flex flex-wrap gap-2 mt-2">
-                        <div class="d-flex align-center gap-1">
-                          <VIcon size="x-small" :color="part.onSite ? 'success' : 'default'">
-                            {{ part.onSite ? 'tabler-check' : 'tabler-x' }}
-                          </VIcon>
-                          <span class="text-caption">On Site</span>
-                        </div>
-                        <div class="d-flex align-center gap-1">
-                          <VIcon size="x-small" :color="part.clientPresent ? 'success' : 'default'">
-                            {{ part.clientPresent ? 'tabler-check' : 'tabler-x' }}
-                          </VIcon>
-                          <span class="text-caption">Client Present</span>
-                        </div>
-                        <div class="d-flex align-center gap-1">
-                          <VIcon size="x-small" :color="part.moveable ? 'success' : 'default'">
-                            {{ part.moveable ? 'tabler-check' : 'tabler-x' }}
-                          </VIcon>
-                          <span class="text-caption">Moveable</span>
-                        </div>
+                        <!-- LEARNING: Read events from AppointmentShape.eventAssignmentsByPartShape -->
+                        <!-- WHY: Events are appointment-level features, not part properties -->
+                        <!-- PATTERN: Look up EventInstance[] for this partShape and check event shape names -->
+                        <template v-if="appointmentData.appointmentShape">
+                          <div 
+                            v-for="eventName in ['OnSite', 'ClientPresent', 'Moveable']" 
+                            :key="eventName"
+                            class="d-flex align-center gap-1"
+                          >
+                            <VIcon 
+                              size="x-small" 
+                              :color="hasEventForPart(part.partShape, eventName) ? 'success' : 'default'"
+                            >
+                              {{ hasEventForPart(part.partShape, eventName) ? 'tabler-check' : 'tabler-x' }}
+                            </VIcon>
+                            <span class="text-caption">{{ eventName }}</span>
+                          </div>
+                        </template>
                         <div class="d-flex align-center gap-1">
                           <VIcon size="x-small" :color="part.zeroOutPart ? 'warning' : 'default'">
                             {{ part.zeroOutPart ? 'tabler-check' : 'tabler-x' }}

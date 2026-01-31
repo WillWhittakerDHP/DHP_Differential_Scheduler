@@ -20,8 +20,8 @@ type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInsta
 // PATTERN: Explicitly map entity types to their valid relationship keys
 // NOTE: Using string literals here because TypeScript type system needs literal types, not typeof constants
 type ValidRelationshipKeys<GE extends GlobalEntityKey> = 
-  GE extends "blockShape" ? "validCascades" | "validParts" :
-  GE extends "blockInstance" ? "bookingCascades" | "activeParts" | "instanceComponents" | "dependentInstances" :
+  GE extends "blockShape" ? "validCascades" | "validParts" | "validAnnotations" | "eventAssignments" :
+  GE extends "blockInstance" ? "bookingCascades" | "partAssignments" | "annotationAssignments" | "instanceComponents" | "dependentInstances" :
   never;
 
 // LEARNING: Union type that includes both field keys, valid relationship keys, and annotation keys
@@ -210,25 +210,25 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         },
       },
             
-      activeParts: {
+      partAssignments: {
         targetMode: "relationship",
-        targetKey: "activeParts",
-        globalField: "activeParts",
+        targetKey: "partAssignments",
+        globalField: "partAssignments",
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: ENTITY_KEY_PART_INSTANCE,
-        selectedChildPath: ["activeParts"],
+        selectedChildPath: ["partAssignments"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                 
         candidateParentPath: ["blockShapeRef"],             
         candidateChildKey: ENTITY_KEY_PART_INSTANCE,
         candidateChildPath: [],                          
 
-        selectType: RelationshipSelectTypeEnum.ActivePartSelect,
+        selectType: RelationshipSelectTypeEnum.PartAssignmentSelect,
         selectMode: RelationshipSelectModeEnum.Nested,
         
         // Display properties
-        label: "Active Parts",
+        label: "Part Assignments",
         placeholder: "No parts selected",
         inline: false,
         stacked: true,

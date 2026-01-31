@@ -29,7 +29,7 @@ import {
  * COMPARISON: AnnotationShape is shape-level (definitions), AnnotationInstance is instance-level (concrete entities)
  * 
  * NOTE: The userType field on this model is kept for backward compatibility but is being
- * phased out in favor of user_type_block_instance_id in the active_annotations table.
+ * phased out in favor of user_type_block_instance_id in the annotation_assignments table.
  */
 export class AnnotationInstance extends Model<
   InferAttributes<AnnotationInstance>,
@@ -70,7 +70,7 @@ export function AnnotationInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: true,
         field: 'user_type',
-        comment: 'User type filter: state control block instance ID or null for generic annotations. DEPRECATED: use active_annotations.user_type_block_instance_id',
+        comment: 'User type filter: state control block instance ID or null for generic annotations. DEPRECATED: use annotation_assignments.user_type_block_instance_id',
       },
       createdAt: {
         type: DataTypes.DATE,

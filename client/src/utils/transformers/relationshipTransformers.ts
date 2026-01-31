@@ -13,10 +13,12 @@
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { FetchedRelationship } from '@/types/relationships'
-import type { ComponentStrategy } from '@/types/component'
-import { DEFAULT_COMPONENT_RULES } from '@/constants/component'
+import type { AnnotationInstance, AnnotationShape } from '@/types/annotations'
+import type { EventInstance, EventShape } from '@/types/events'
 import { RELATIONSHIP_KEYS, GlobalRelationshipKey } from '@/constants/relationships'
 import { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalAnnotationKey } from '@/constants/annotations'
+import type { GlobalEventKey } from '@/constants/events'
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { composePropertiesFromComponents } from './composePropertyValue'
@@ -35,7 +37,9 @@ import { composePropertiesFromComponents } from './composePropertyValue'
 export function transformApiRelationships(
   fetchedRelationships: FetchedRelationship[],
   relationshipKey: GlobalRelationshipKey,
-  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>,
+  annotations?: Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>,
+  events?: Record<GlobalEventKey, EventShape[] | EventInstance[]>
 ): GlobalRelationship[] {
   const config = RELATIONSHIP_KEYS[relationshipKey]
   if (!config) return []
@@ -72,7 +76,23 @@ export function transformApiRelationships(
       }
       
       // Find child entities
-      const { resolved: childEntities } = resolveByIds(entities[config.childEntity] || [], childIds)
+      // LEARNING: Resolve child entities from correct source based on childEntity type
+      // WHY: annotationInstance and eventInstance are in annotations/events Records, not entities Record
+      // PATTERN: Check childEntity type and resolve from appropriate source
+      // NOTE: childEntity is typed as GlobalEntityKey but RELATIONSHIP_KEYS uses 'annotationInstance'/'eventInstance' via type assertion
+      //       We check the string value to determine the correct source
+      const childEntityKeyStr = String(config.childEntity)
+      let childEntityArray: GlobalEntity<GlobalEntityKey>[]
+      
+      if (childEntityKeyStr === 'annotationInstance') {
+        childEntityArray = (annotations?.annotationInstance || []) as GlobalEntity<GlobalEntityKey>[]
+      } else if (childEntityKeyStr === 'eventInstance') {
+        childEntityArray = (events?.eventInstance || []) as GlobalEntity<GlobalEntityKey>[]
+      } else {
+        childEntityArray = entities[config.childEntity] || []
+      }
+      
+      const { resolved: childEntities } = resolveByIds(childEntityArray, childIds)
       
       if (childEntities.length > 0) {
         return {
@@ -270,15 +290,13 @@ export function getComponentsRecursive(
  * @param entityKind - Entity type key
  * @param relationships - GlobalRelationship[] for instanceComponents
  * @param entities - Entity map from GlobalData
- * @param componentRules - Component strategy rules per property
  * @returns Partial entity with composed properties
  */
 export function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
   relationships: GlobalRelationship[],
-  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>,
-  componentRules: Record<string, ComponentStrategy> = DEFAULT_COMPONENT_RULES
+  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 ): Partial<GlobalEntity<GE>> {
   // Filter to instanceComponents relationships for this entity kind
   const componentRelationships = relationships.filter(
@@ -304,7 +322,6 @@ export function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
   const composed = composePropertiesFromComponents(
     components,
     entityKind,
-    componentRules,
     entities.blockShape
   )
   
@@ -324,15 +341,13 @@ export function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
  * @param entityKind - Entity type key
  * @param relationships - GlobalRelationship[] for instanceComponents
  * @param entities - Entity map from GlobalData
- * @param componentRules - Component strategy rules per property
  * @returns Composed entity or null if not found
  */
 export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
   relationships: GlobalRelationship[],
-  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>,
-  componentRules: Record<string, ComponentStrategy> = DEFAULT_COMPONENT_RULES
+  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 ): GlobalEntity<GE> | null {
   // Get composer entity (base properties)
   const composerEntity = findById(entities[entityKind] || [], composerId)
@@ -357,8 +372,7 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
     composerId,
     entityKind,
     componentRelationships,
-    entities,
-    componentRules
+    entities
   )
   
   // Merge composer with composed properties
@@ -382,12 +396,12 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
  * 
  * LEARNING: When composing block instances, compose all part instances from all composed blocks
  * WHY: Composer should show all part instances from all component blocks
- * PATTERN: Merge activeParts relationships from all composed blocks
+ * PATTERN: Merge partAssignments relationships from all composed blocks
  * 
  * ARCHITECTURAL CHANGE: Now works with GlobalRelationship[] instead of ActiveComponent[]
  * 
  * @param composedBlockIds - Array of composed block instance IDs
- * @param relationships - GlobalRelationship[] for activeParts
+ * @param relationships - GlobalRelationship[] for partAssignments
  * @returns Array of part instance IDs
  */
 export function composePartInstances(
@@ -396,9 +410,9 @@ export function composePartInstances(
 ): string[] {
   const allPartInstanceIds = new Set<string>()
   
-  // Filter to activeParts relationships
+  // Filter to partAssignments relationships
   const constituentRelationships = relationships.filter(
-    rel => rel.relationshipKind === 'activeParts'
+    rel => rel.relationshipKind === 'partAssignments'
   )
   
   // LEARNING: Use flatMap to collect part instance IDs functionally

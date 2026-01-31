@@ -45,40 +45,13 @@ export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<s
     isRequired: existingMetadata.isRequired,
   }
 
-  // Wrap inputConfig in FormFieldConfig structure
-  const wrapInputConfig = (): Record<string, unknown> | null => {
-    const rawInputConfig = renderingUpdates.inputConfig !== undefined 
+  // LEARNING: inputConfig is stored in direct format (not wrapped)
+  // WHY: Database stores inputConfig directly, not wrapped in relationshipSelect/typeSelect
+  // PATTERN: Return inputConfig as-is, no wrapping needed
+  const getInputConfig = (): Record<string, unknown> | null => {
+    return renderingUpdates.inputConfig !== undefined 
       ? renderingUpdates.inputConfig 
       : existingMetadata.inputConfig ?? null
-    
-    // If no inputConfig, return null (for non-select fields)
-    if (!rawInputConfig) {
-      return null
-    }
-    
-    // If already in FormFieldConfig format, return as-is
-    const config = rawInputConfig as Record<string, unknown>
-    if ('relationshipSelect' in config || 'typeSelect' in config || 'primitiveInput' in config) {
-      return rawInputConfig
-    }
-    
-    // For relationship metadata, always use relationshipSelect
-    if (isRelationship) {
-      return { relationshipSelect: config }
-    }
-    
-    // For primitive metadata, check targetMode to determine relationshipSelect or typeSelect
-    if ('targetMode' in config) {
-      const targetMode = config.targetMode as string
-      if (targetMode === 'relationship') {
-        return { relationshipSelect: config }
-      } else if (targetMode === 'property') {
-        return { typeSelect: config }
-      }
-    }
-    
-    // If we can't determine the type, return as-is (backward compatibility)
-    return rawInputConfig
   }
 
   // LEARNING: Normalize panel based on visibility
@@ -111,7 +84,7 @@ export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<s
     statusButtonColor: renderingUpdates.statusButtonColor ?? existingMetadata.statusButtonColor,
     panel,
     bulkEdit: renderingUpdates.bulkEdit ?? existingMetadata.bulkEdit,
-    inputConfig: wrapInputConfig(),
+    inputConfig: getInputConfig(),
   }
   
   return entry

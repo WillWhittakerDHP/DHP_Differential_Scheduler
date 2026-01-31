@@ -8,10 +8,11 @@
 
 import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import type { GlobalEntity } from '@/types/entities'
-import type { AnnotationWithMetadata } from '@/types/annotations'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { TernaryBoolean } from '@/types/ternary'
+import type { EventShape, EventInstance } from '@/types/events'
+import type { AnnotationInstance, AnnotationShape } from '@/types/annotations'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 
 /**
@@ -23,17 +24,13 @@ export type BookingPartInstance = {
   id: string
   entityKey: 'partInstance'
   name: string
+  active: boolean
   partShape: string // Denormalized: partShape name instead of ID
-  disabled: boolean
-  onSite: TernaryBoolean
-  clientPresent: TernaryBoolean
-  moveable: boolean
   baseTime: number
   rateOverBaseTime: number
   baseFee: number
   rateOverBaseFee: number
   orderIndex: number
-  active: boolean
   zeroOutPart: boolean
 }
 
@@ -60,10 +57,9 @@ export type BookingBlockInstance = {
   id: string
   entityKey: 'blockInstance'
   name: string
-  baseSqFt: number
-  descriptions?: AnnotationWithMetadata[] // Array of annotations (descriptions) with metadata for user-type filtering
-  icon: string
   active: boolean
+  baseSqFt: number
+  icon: string
   bookingMode: import('@/constants/entities').BookingMode // Controls where instance appears in booking flows
   differential: TernaryBoolean // Whether this service supports differential scheduling (inspector and client have different arrival times). 'override' means differential is disabled.
   orderIndex: number
@@ -110,15 +106,24 @@ export class BookingTransformer {
    * WHY: Fast read-only access without class overhead
    * PATTERN: Single transformation pass with denormalization
    */
+
+
   transformGlobalToBooking(globalData: GlobalData): BookingData {
-    const { entities, relationships } = globalData
-    const blockInstances = (entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
-    const partInstances = (entities.partInstance || []) as GlobalEntity<'partInstance'>[]
+    const { entities, relationships, annotations, events } = globalData
     const blockShapes = (entities.blockShape || []) as GlobalEntity<'blockShape'>[]
+    const blockInstances = (entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
     const partShapes = (entities.partShape || []) as GlobalEntity<'partShape'>[]
-    const activePartsRelationships = relationships.activeParts || []
+    const partInstances = (entities.partInstance || []) as GlobalEntity<'partInstance'>[]
+    const annotationShapes = (annotations?.annotationShape || []) as AnnotationShape[]
+    const annotationInstances = (annotations?.annotationInstance || []) as AnnotationInstance[]
+    const eventShapes = (events?.eventShape || []) as EventShape[]
+    const eventInstances = (events?.eventInstance || []) as EventInstance[]
+    const partAssignmentsRelationships = relationships.partAssignments || []
+    const eventAssignmentsRelationships = relationships.eventAssignments || []
+    const annotationAssignmentsRelationships = relationships.annotationAssignments || []
     const bookingCascadesRelationships = relationships.bookingCascades || []
     const instanceComponentsRelationships = relationships.instanceComponents || []
+    
     
     // Create lookup maps for denormalization
     const partInstanceById = new Map(
@@ -164,12 +169,18 @@ export class BookingTransformer {
       })
       .map(blockInstance => this.transformBlockInstance(
         blockInstance,
-        activePartsRelationships,
+        partAssignmentsRelationships,
+        eventAssignmentsRelationships,
+        annotationAssignmentsRelationships,
         bookingCascadesRelationships,
         instanceComponentsRelationships,
         partInstanceById,
         blockShapeById,
-        partShapeById
+        partShapeById,
+        eventInstances,
+        eventShapes,
+        annotationInstances,
+        annotationShapes
       ))
       .sort((a, b) => {
         const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
@@ -189,12 +200,18 @@ export class BookingTransformer {
       })
       .map(blockInstance => this.transformBlockInstance(
         blockInstance,
-        activePartsRelationships,
+        partAssignmentsRelationships,
+        eventAssignmentsRelationships,
+        annotationAssignmentsRelationships,
         bookingCascadesRelationships,
         instanceComponentsRelationships,
         partInstanceById,
         blockShapeById,
-        partShapeById
+        partShapeById,
+        eventInstances,
+        eventShapes,
+        annotationInstances,
+        annotationShapes
       ))
       .sort((a, b) => {
         const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
@@ -235,19 +252,25 @@ export class BookingTransformer {
    */
   private transformBlockInstance(
     blockInstance: GlobalEntity<'blockInstance'>,
-    activePartsRelationships: GlobalRelationship[],
+    partAssignmentsRelationships: GlobalRelationship[],
+    eventAssignmentsRelationships: GlobalRelationship[],
+    annotationAssignmentsRelationships: GlobalRelationship[],
     bookingCascadesRelationships: GlobalRelationship[],
     instanceComponentsRelationships: GlobalRelationship[],
     partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
     blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
-    partShapeById: Map<string, GlobalEntity<'partShape'>>
+    partShapeById: Map<string, GlobalEntity<'partShape'>>,
+    eventInstances: EventInstance[],
+    eventShapes: EventShape[],
+    annotationInstances: AnnotationInstance[],
+    annotationShapes: AnnotationShape[],
   ): BookingBlockInstance {
-    // Get blockInstance's own activeParts
-    const activePartsRels = findRelationshipsByParent(
+    // Get blockInstance's own partAssignments
+    const partAssignmentsRels = findRelationshipsByParent(
       blockInstance.id,
-      activePartsRelationships
+      partAssignmentsRelationships
     )
-    const activePartsRel = activePartsRels[0] // Get first relationship (should be only one)
+    const partAssignmentsRel = partAssignmentsRels[0] // Get first relationship (should be only one)
     
     // LEARNING: Use Set to deduplicate part instance IDs
     // WHY: Prevents double-counting when composite has own parts AND component parts
@@ -258,8 +281,8 @@ export class BookingTransformer {
     // LEARNING: Use filter + forEach on Set instead of forEach with Set.add mutations
     // WHY: Functional approach - filter active parts, then add to Set
     // PATTERN: Filter children to active parts, then add IDs to Set
-    if (activePartsRel) {
-      const activePartIds = activePartsRel.children
+    if (partAssignmentsRel) {
+      const partAssignmentIds = partAssignmentsRel.children
         .filter(child => {
           const partInstance = partInstanceById.get(child.id)
           return this.isEntityActive(partInstance as unknown as Record<string, unknown>)
@@ -270,13 +293,13 @@ export class BookingTransformer {
       // WHY: Functional approach - spread array into Set constructor instead of forEach
       // FIX: Use for...of instead of forEach for side effects (Set.add)
       // Note: Set.add in forEach is acceptable for building accumulator Sets, but for...of is preferred for side effects
-      for (const id of activePartIds) {
+      for (const id of partAssignmentIds) {
         partInstanceIds.add(id)
       }
     }
     
     // LEARNING: For composite instances, also merge parts from components
-    // WHY: Composites can have parts from both their own activeParts and from components
+    // WHY: Composites can have parts from both their own partAssignments and from components
     // PATTERN: Check composite property, get component IDs, then compose their parts
     const blockInstanceTyped = blockInstance as BlockInstanceEntity
     const composite = blockInstanceTyped.composite === true
@@ -296,7 +319,7 @@ export class BookingTransformer {
         // PATTERN: Merge component parts into the Set
         const componentPartIds = composePartInstances(
           componentIds,
-          activePartsRelationships
+          partAssignmentsRelationships
         )
         
         // Add component parts to the Set (Set automatically deduplicates)
@@ -320,7 +343,13 @@ export class BookingTransformer {
       .filter((partInstance: GlobalEntity<'partInstance'> | undefined): partInstance is GlobalEntity<'partInstance'> =>
         partInstance !== undefined && this.isEntityActive(partInstance as unknown as Record<string, unknown>)
       )
-      .map((partInstance: GlobalEntity<'partInstance'>) => this.transformPartInstance(partInstance, partShapeById))
+      .map((partInstance: GlobalEntity<'partInstance'>) => this.transformPartInstance(
+        partInstance,
+        partShapeById,
+        eventAssignmentsRelationships,
+        eventInstances,
+        eventShapes
+      ))
       .sort((a: BookingPartInstance, b: BookingPartInstance) => {
         const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
         const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
@@ -345,7 +374,6 @@ export class BookingTransformer {
     
     const blockInstanceWithProps = blockInstance as GlobalEntity<'blockInstance'> & {
       baseSqFt?: number
-      descriptions?: AnnotationWithMetadata[]
       icon?: string
       bookingMode?: import('@/constants/entities').BookingMode
       differential?: TernaryBoolean | boolean
@@ -368,10 +396,9 @@ export class BookingTransformer {
       id: blockInstance.id,
       entityKey: 'blockInstance',
       name: blockInstance.name,
-      baseSqFt: blockInstanceWithProps.baseSqFt || 0,
-      descriptions: blockInstanceWithProps.descriptions, // Pass through descriptions array for user-type filtering
-      icon: blockInstanceWithProps.icon || '',
       active: this.isEntityActive(blockInstance as unknown as Record<string, unknown>),
+      baseSqFt: blockInstanceWithProps.baseSqFt || 0,
+      icon: blockInstanceWithProps.icon || '',
       bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
       differential: convertDifferentialToTernary(blockInstanceWithProps.differential),
       orderIndex: blockInstance.orderIndex,
@@ -386,12 +413,23 @@ export class BookingTransformer {
   
   /**
    * Transform a single part instance
-   * LEARNING: Denormalizes partShape to name
-   * WHY: Simple string property instead of nested object
+   * LEARNING: Denormalizes partShape to name and computes booleans from activeEvents relationships
+   * WHY: Simple string property instead of nested object, events configured at shape level
+   * 
+   * ARCHITECTURAL CHANGE: Reads metadata from event_shapes table columns, not from relationships
+   * WHY: Shape columns are always metadata - relationships just indicate which shapes are active
+   * PATTERN: Use GlobalRelationship[] to determine which event shapes are active, read metadata from eventShape columns
+   * 
+   * Session Event Refactor: Computes onSite/clientPresent/moveable from eventAssignments relationships
+   * WHY: Events are configured at shape level, all instances of a shape inherit same configuration
+   * PATTERN: Look up eventAssignments by part shape, read metadata from eventShape.defaultTernaryValue column
    */
   private transformPartInstance(
     partInstance: GlobalEntity<'partInstance'>,
-    partShapeById: Map<string, GlobalEntity<'partShape'>>
+    partShapeById: Map<string, GlobalEntity<'partShape'>>,
+    eventAssignmentsRelationships: GlobalRelationship[],
+    eventInstances: EventInstance[],
+    eventShapes: EventShape[]
   ): BookingPartInstance {
     // Denormalize partShape
     const partInstanceTyped = partInstance as GlobalEntity<'partInstance'> & { partShapeRef: string }
@@ -399,10 +437,56 @@ export class BookingTransformer {
     const partShapeEntity = partShapeById.get(partShapeRef)
     const partShape = partShapeEntity?.name || partShapeRef
     
+    // Get eventAssignments relationships for this part's shape (not instance)
+    // LEARNING: Events are configured at shape level, all instances inherit same configuration
+    // WHY: Aligns with FinalizedPart grouping by part shape
+    // PATTERN: Filter GlobalRelationship[] where parent.id matches partShapeRef
+    // NOTE: For eventAssignments, parent is a shape (blockShape or partShape)
+    const shapeEventAssignmentsRels = eventAssignmentsRelationships.filter(rel => {
+      // Check if parent.id matches partShapeRef (parent is the shape for eventAssignments)
+      return rel.parent.id === partShapeRef
+    })
+    
+    // Helper function to get event shape name and metadata from a relationship
+    // LEARNING: Read metadata from eventShape columns, not from relationships
+    // WHY: Metadata (ternaryValue) is stored in event_shapes table, not relationship tables
+    // PATTERN: Look up eventShape by eventInstance.eventShapeRef, read defaultTernaryValue from shape
+    const getEventData = (childId: string): { shapeName?: string; ternaryValue?: 'true' | 'false' | 'override' | null } => {
+      const eventInstance = eventInstances.find(ei => ei.id === childId)
+      if (!eventInstance) return {}
+      const eventShape = eventShapes.find(es => es.id === eventInstance.eventShapeRef)
+      return {
+        shapeName: eventShape?.name,
+        ternaryValue: eventShape?.defaultTernaryValue ?? 'true' // Read from eventShape column, default to 'true'
+      }
+    }
+    
+    // Compute onSite from eventAssignments relationships
+    // LEARNING: Find relationships with OnSite event shape, read ternaryValue from eventShape.defaultTernaryValue
+    // WHY: Events are configured at shape level, metadata stored in event_shapes table columns
+    // PATTERN: Filter by event shape name, read metadata from eventShape.defaultTernaryValue column
+    const onSiteEvents = shapeEventAssignmentsRels
+      .flatMap(rel => rel.children.map(child => ({ childId: child.id, ...getEventData(child.id) })))
+      .filter(item => item.shapeName === "OnSite")
+    const onSite: TernaryBoolean = onSiteEvents.length > 0
+      ? (onSiteEvents[0].ternaryValue || 'true') // Use ternaryValue from eventShape column, default to 'true'
+      : 'false'
+    
+    // Compute clientPresent from eventAssignments relationships
+    const clientPresentEvents = shapeEventAssignmentsRels
+      .flatMap(rel => rel.children.map(child => ({ childId: child.id, ...getEventData(child.id) })))
+      .filter(item => item.shapeName === "ClientPresent")
+    const clientPresent: TernaryBoolean = clientPresentEvents.length > 0
+      ? (clientPresentEvents[0].ternaryValue || 'true') // Use ternaryValue from eventShape column, default to 'true'
+      : 'false'
+    
+    // Compute moveable from eventAssignments relationships
+    const moveableEvents = shapeEventAssignmentsRels
+      .flatMap(rel => rel.children.map(child => ({ childId: child.id, ...getEventData(child.id) })))
+      .filter(item => item.shapeName === "Moveable")
+    const moveable = moveableEvents.length > 0
+    
     const partInstanceWithProps = partInstance as GlobalEntity<'partInstance'> & {
-      onSite?: TernaryBoolean | boolean
-      clientPresent?: TernaryBoolean | boolean
-      moveable?: boolean
       baseTime?: number
       rateOverBaseTime?: number
       baseFee?: number
@@ -410,31 +494,17 @@ export class BookingTransformer {
       zeroOutPart?: boolean
     }
     
-    // LEARNING: Convert boolean to TernaryBoolean for backward compatibility during migration
-    // WHY: During migration, some values may still be boolean
-    // PATTERN: Convert boolean to TernaryBoolean, default to 'false'
-    const convertToTernary = (value: TernaryBoolean | boolean | undefined, defaultValue: TernaryBoolean = 'false'): TernaryBoolean => {
-      if (value === true) return 'true'
-      if (value === false) return 'false'
-      if (value === 'true' || value === 'false' || value === 'override') return value
-      return defaultValue
-    }
-    
     return {
       id: partInstance.id,
       entityKey: 'partInstance',
       name: partInstance.name,
+      active: this.isEntityActive(partInstance as unknown as Record<string, unknown>),
       partShape,
-      disabled: (partInstance as unknown as Record<string, unknown>).disabled === true,
-      onSite: convertToTernary(partInstanceWithProps.onSite, 'false'),
-      clientPresent: convertToTernary(partInstanceWithProps.clientPresent, 'false'),
-      moveable: partInstanceWithProps.moveable || false,
       baseTime: partInstanceWithProps.baseTime || 0,
       rateOverBaseTime: partInstanceWithProps.rateOverBaseTime || 0,
       baseFee: partInstanceWithProps.baseFee || 0,
       rateOverBaseFee: partInstanceWithProps.rateOverBaseFee || 0,
       orderIndex: partInstance.orderIndex,
-      active: this.isEntityActive(partInstance as unknown as Record<string, unknown>),
       zeroOutPart: partInstanceWithProps.zeroOutPart || false,
     }
   }

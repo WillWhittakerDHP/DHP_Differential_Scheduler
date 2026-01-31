@@ -7,7 +7,7 @@
  * 
  * This composable handles:
  * - Field metadata retrieval from /admin-input-metadata
- * - Select config extraction from metadata.inputConfig (relationshipSelect or typeSelect)
+ * - Select config extraction from metadata.inputConfig (direct format)
  * - Select mode determination (single, multiple, nested)
  * - Option entity key determination
  * - Option label key determination
@@ -38,7 +38,7 @@ export interface UseSelectConfigOptions {
  */
 export interface UseSelectConfigReturn {
   /**
-   * Select config (relationshipSelect or typeSelect) from metadata.inputConfig
+   * Select config (direct format) from metadata.inputConfig
    */
   selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
   
@@ -219,10 +219,9 @@ export function useSelectConfig(
   })
 
   /**
-   * LEARNING: Extract select config from metadata.inputConfig - supports FormFieldConfig structure
-   * WHY: inputConfig stores select behavior in FormFieldConfig format (relationshipSelect or typeSelect)
-   *      or directly (backward compatibility with old format)
-   * PATTERN: Check for FormFieldConfig structure first, fall back to direct config for backward compatibility
+   * LEARNING: Extract select config from metadata.inputConfig (direct format)
+   * WHY: inputConfig stores select behavior directly, not wrapped
+   * PATTERN: Use inputConfig directly, check targetMode to determine type
    */
   const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> | undefined => {
     // LEARNING: Return undefined if metadata isn't loaded yet
@@ -262,32 +261,25 @@ export function useSelectConfig(
       )
     }
     
-    // LEARNING: Check for FormFieldConfig structure (new format)
-    // WHY: inputConfig should follow FormFieldConfig pattern with relationshipSelect or typeSelect properties
-    // PATTERN: Check for new format first, fall back to old format for backward compatibility
+    // LEARNING: inputConfig is stored in direct format (not wrapped)
+    // WHY: Database stores inputConfig directly, not wrapped in relationshipSelect/typeSelect
+    // PATTERN: Use inputConfig directly, check targetMode to determine type
     const inputConfig = meta.inputConfig as Record<string, unknown>
     
-    // Check if inputConfig has FormFieldConfig structure (new format)
-    if ('relationshipSelect' in inputConfig && inputConfig.relationshipSelect) {
-      return inputConfig.relationshipSelect as RelationshipFieldType<typeof fieldContext.entityKey>
-    }
-    
-    if ('typeSelect' in inputConfig && inputConfig.typeSelect) {
-      return inputConfig.typeSelect as VirtualFieldType<typeof fieldContext.entityKey>
-    }
-    
-    // LEARNING: Backward compatibility - handle old format (direct select config)
-    // WHY: Existing data may have select config stored directly, not wrapped in FormFieldConfig structure
-    // PATTERN: If new format properties don't exist, treat inputConfig as direct select config
-    // Check if inputConfig has targetMode (indicates it's a direct select config)
+    // Check if inputConfig has targetMode (indicates it's a select config)
     if ('targetMode' in inputConfig) {
-      return inputConfig as RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey>
+      const targetMode = inputConfig.targetMode as string
+      if (targetMode === 'relationship') {
+        return inputConfig as RelationshipFieldType<typeof fieldContext.entityKey>
+      } else if (targetMode === 'property') {
+        return inputConfig as VirtualFieldType<typeof fieldContext.entityKey>
+      }
     }
     
     // If we get here, inputConfig exists but doesn't match expected format
     throw new Error(
       `[useSelectConfig] Invalid inputConfig format for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-      `Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config with targetMode.`
+      `Expected direct select config with targetMode ('relationship' or 'property').`
     )
   })
 

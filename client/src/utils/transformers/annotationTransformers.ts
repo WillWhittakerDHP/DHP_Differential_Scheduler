@@ -6,24 +6,10 @@
  * PATTERN: Utility functions for annotation transformation, filtering, and sorting
  */
 
-import type { Annotation, AnnotationWithMetadata, AnnotationType } from '@/types/annotations'
+import type { AnnotationInstance, AnnotationWithMetadata, AnnotationShape } from '@/types/annotations'
 import type { UserTypeBlock } from '@/types/userTypes'
 import type { GlobalEntityId } from '@/types/entities'
-
-/**
- * ActiveAnnotation relationship type (from API)
- * LEARNING: Structure of ActiveAnnotation through-table data
- * WHY: Type-safe transformation of API response
- * NOTE: Backend uses active_annotations table, frontend uses friendly "AnnotationAssignment" terminology
- */
-type ActiveAnnotationRelationship = {
-  id: string
-  blockInstanceId: string
-  annotationId: string
-  userTypeBlockBlockInstanceId: GlobalEntityId | null // BlockInstance ID for user type, or null for generic
-  orderIndex: number
-  isDefault: boolean
-}
+import type { FetchedRelationship } from '@/types/relationships'
 
 /**
  * Transform API annotation type to AnnotationType
@@ -34,12 +20,12 @@ type ActiveAnnotationRelationship = {
  * @param rawAnnotationType - Raw annotationType from API
  * @returns Transformed AnnotationType or null
  */
-export function transformApiAnnotationType(rawAnnotationType: unknown): AnnotationType | null {
-  if (!rawAnnotationType || typeof rawAnnotationType !== 'object') {
+export function transformApiAnnotationShape(rawAnnotationShape: unknown): AnnotationShape | null {
+  if (!rawAnnotationShape || typeof rawAnnotationShape !== 'object') {
     return null
   }
   
-  const type = rawAnnotationType as Record<string, unknown>
+  const type = rawAnnotationShape as Record<string, unknown>
   
   // LEARNING: Filter disabled annotation types
   // WHY: Tests expect disabled types to return null
@@ -60,19 +46,20 @@ export function transformApiAnnotationType(rawAnnotationType: unknown): Annotati
 }
 
 /**
- * Transform API annotation to Annotation type
+ * Transform API annotation to AnnotationInstance type
  * LEARNING: Converts snake_case API response to camelCase frontend format
  * WHY: Backend uses snake_case (user_type_block_block_instance_id), frontend uses camelCase (userTypeBlock)
  * PATTERN: Simple field name mapping and type normalization
  * 
- * NOTE: The userTypeBlock field on Annotation entity is deprecated. The effective userTypeBlock
+ * NOTE: The userTypeBlock field on AnnotationInstance entity is deprecated. The effective userTypeBlock
  * comes from AnnotationAssignment.userTypeBlockBlockInstanceId (see transformAnnotationsWithMetadata)
  * 
  * @param rawAnnotation - Raw annotation from API
- * @returns Transformed Annotation
+ * @returns Transformed AnnotationInstance
+ * NOTE: Renamed from Annotation to AnnotationInstance (2026-01-30)
  */
-export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): Annotation {
-  // Note: userTypeBlock on Annotation entity is deprecated, but we keep it for backward compatibility
+export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): AnnotationInstance {
+  // Note: userTypeBlock on AnnotationInstance entity is deprecated, but we keep it for backward compatibility
   // The effective userTypeBlock comes from AnnotationAssignment.userTypeBlockBlockInstanceId
   const userTypeBlock = rawAnnotation.userTypeBlock ?? rawAnnotation.user_type_block ?? null
   const normalizedUserTypeBlock: UserTypeBlock = typeof userTypeBlock === 'string' 
@@ -83,10 +70,10 @@ export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): 
   const type = rawAnnotation.type ?? rawAnnotation.Type ?? rawAnnotation.annotation_type_id ?? rawAnnotation.annotationTypeId
   const normalizedType: string = typeof type === 'string' ? type : ''
 
-  // Extract annotationShape association if present (backend uses annotationShape, frontend maps to annotationType)
+  // Extract annotationShape association if present (backend uses annotationShape)
   const annotationShape = rawAnnotation.annotationShape ?? rawAnnotation.annotation_shape ?? rawAnnotation.AnnotationShape
     ?? rawAnnotation.annotationType ?? rawAnnotation.annotation_type ?? rawAnnotation.AnnotationType // Fallback for backward compatibility
-  const transformedAnnotationType = transformApiAnnotationType(annotationShape)
+  const transformedAnnotationShape = transformApiAnnotationShape(annotationShape)
 
   // LEARNING: Include name property for backward compatibility
   // WHY: Tests expect name property, which maps to text
@@ -94,52 +81,18 @@ export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): 
   const name = rawAnnotation.name ?? rawAnnotation.Name ?? rawAnnotation.text ?? rawAnnotation.Text ?? ''
   const text = rawAnnotation.text ?? rawAnnotation.Text ?? name
 
-  const result: Annotation & { name?: string } = {
+  const result: AnnotationInstance & { name?: string } = {
     id: typeof rawAnnotation.id === 'string' ? rawAnnotation.id : '',
     text: typeof text === 'string' ? text : '',
     name: typeof name === 'string' ? name : (typeof text === 'string' ? text : ''),
     type: normalizedType,
     userTypeBlock: normalizedUserTypeBlock,
-    annotationType: transformedAnnotationType ?? undefined,
+    annotationShape: transformedAnnotationShape ?? undefined,
   }
   
   return result
 }
 
-/**
- * Transform annotations with metadata from relationships
- * LEARNING: Merges base annotations with relationship-level metadata
- * WHY: ActiveAnnotation through-table contains per-instance metadata
- * PATTERN: Map relationships to annotations, merge metadata
- * NOTE: Backend uses active_annotations, frontend uses friendly "AnnotationAssignment" terminology
- * 
- * @param annotations - Base annotations (from AnnotationInstance entities)
- * @param relationships - ActiveAnnotation relationships
- * @returns Annotations with merged metadata
- */
-export function transformAnnotationsWithMetadata(
-  annotations: Annotation[],
-  relationships: ActiveAnnotationRelationship[]
-): AnnotationWithMetadata[] {
-  return relationships.map(rel => {
-    const annotation = annotations.find(a => a.id === rel.annotationId)
-    if (!annotation) {
-      // Skip if annotation not found (shouldn't happen, but handle gracefully)
-      return null
-    }
-
-    // Effective user type: through-table override (userTypeBlockBlockInstanceId) takes precedence, else Annotation.userTypeBlock
-    // userTypeBlockBlockInstanceId is a BlockInstance ID (GlobalEntityId) or null
-    const effectiveUserTypeBlock: UserTypeBlock = rel.userTypeBlockBlockInstanceId ?? annotation.userTypeBlock
-
-    return {
-      ...annotation,
-      userTypeBlock: effectiveUserTypeBlock,
-      orderIndex: rel.orderIndex ?? 0,
-      isDefault: rel.isDefault ?? false,
-    }
-  }).filter((a): a is AnnotationWithMetadata => a !== null)
-}
 
 /**
  * Filter annotations by user type
@@ -216,7 +169,7 @@ export function getDefaultAnnotation(
  * LEARNING: Sequelize through-table attributes may be in different formats
  * WHY: Through-table data structure depends on Sequelize version and configuration
  * PATTERN: Try multiple possible property names and formats
- * NOTE: Backend uses active_annotations, frontend uses friendly "AnnotationAssignment" terminology
+ * NOTE: Backend uses annotation_assignments, frontend uses friendly "AnnotationAssignment" terminology
  * 
  * @param annotation - Annotation object with potential through-table data
  * @returns Through-table attributes or null
@@ -226,18 +179,18 @@ export function getThroughAttributes(annotation: Record<string, unknown>): {
   orderIndex: number
   isDefault: boolean
 } | null {
-  // Try PascalCase first (ActiveAnnotation - backend name)
-  if (annotation.ActiveAnnotation && typeof annotation.ActiveAnnotation === 'object') {
-    const through = annotation.ActiveAnnotation as Record<string, unknown>
+  // Try PascalCase first (AnnotationAssignment - backend name)
+  if (annotation.AnnotationAssignment && typeof annotation.AnnotationAssignment === 'object') {
+    const through = annotation.AnnotationAssignment as Record<string, unknown>
     return {
       userTypeBlockBlockInstanceId: (through.userTypeBlockBlockInstanceId ?? through.user_type_block_block_instance_id ?? null) as GlobalEntityId | null,
       orderIndex: (through.orderIndex ?? through.order_index ?? 0) as number,
       isDefault: (through.isDefault ?? through.is_default ?? false) as boolean,
     }
   }
-  // Try camelCase (activeAnnotation - backend name)
-  if (annotation.activeAnnotation && typeof annotation.activeAnnotation === 'object') {
-    const through = annotation.activeAnnotation as Record<string, unknown>
+  // Try camelCase (annotationAssignment - backend name)
+  if (annotation.annotationAssignment && typeof annotation.annotationAssignment === 'object') {
+    const through = annotation.annotationAssignment as Record<string, unknown>
     return {
       userTypeBlockBlockInstanceId: (through.userTypeBlockBlockInstanceId ?? through.user_type_block_block_instance_id ?? null) as GlobalEntityId | null,
       orderIndex: (through.orderIndex ?? through.order_index ?? 0) as number,
@@ -265,93 +218,4 @@ export function getThroughAttributes(annotation: Record<string, unknown>): {
   return null
 }
 
-/**
- * Group annotations by entity ID (similar to transformApiRelationships)
- * LEARNING: Groups active annotations by blockInstanceId and merges with annotation instance data
- * WHY: Creates map of entity ID to annotations for efficient attachment during hydration
- * PATTERN: Similar to relationship grouping - creates entity-to-annotations mapping
- * NOTE: Backend uses active_annotations, frontend uses friendly "assignments" terminology
- * 
- * @param annotations - Base annotations (from AnnotationInstance entities)
- * @param assignments - ActiveAnnotation relationships with includes
- * @returns Map of entity ID to AnnotationWithMetadata array
- */
-export function groupAnnotationsByEntity(
-  annotations: Annotation[] | Array<Annotation & { blockInstanceId?: string; name?: string }>,
-  assignments?: Array<{
-    blockInstanceId: string
-    annotationId: string
-    userTypeBlockBlockInstanceId: GlobalEntityId | null
-    orderIndex: number
-    isDefault: boolean
-    annotation?: Annotation
-  }>
-): Map<GlobalEntityId, AnnotationWithMetadata[]> {
-  // LEARNING: Handle case where assignments is undefined or not provided
-  // WHY: Tests may call with just annotations array that have blockInstanceId property
-  // PATTERN: If assignments not provided, group by blockInstanceId from annotations
-  if (!assignments || assignments.length === 0) {
-    // LEARNING: Use reduce instead of forEach to build Map
-    // WHY: Functional approach avoids mutations, aligns with workspace rules
-    // PATTERN: Reduce array to Map structure
-    return annotations
-      .filter((annotation): annotation is Annotation & { blockInstanceId: string; name?: string } => {
-        const annotationWithBlockId = annotation as Annotation & { blockInstanceId?: string; name?: string }
-        return !!annotationWithBlockId.blockInstanceId
-      })
-      .reduce((acc, annotation) => {
-        const annotationWithBlockId = annotation as Annotation & { blockInstanceId: string; name?: string; orderIndex?: number; isDefault?: boolean }
-        const existing = acc.get(annotationWithBlockId.blockInstanceId) || []
-        const annotationWithMetadata: AnnotationWithMetadata = {
-          ...annotation,
-          text: annotation.text || annotationWithBlockId.name || '',
-          orderIndex: annotationWithBlockId.orderIndex ?? 0,
-          isDefault: annotationWithBlockId.isDefault ?? false,
-        }
-        acc.set(annotationWithBlockId.blockInstanceId, [...existing, annotationWithMetadata])
-        return acc
-      }, new Map<GlobalEntityId, AnnotationWithMetadata[]>())
-  }
-  
-  // LEARNING: Use reduce instead of forEach to build Map
-  // WHY: Functional approach avoids mutations, aligns with workspace rules
-  // PATTERN: Reduce assignments array to Map structure
-  const unsortedMap = assignments.reduce((acc, assignment) => {
-    // Get base annotation (from includes or lookup)
-    // assignment.annotation may include annotationType association
-    const baseAnnotation = assignment.annotation 
-      ? transformApiAnnotation(assignment.annotation as Record<string, unknown>)
-      : annotations.find(a => a.id === assignment.annotationId)
-    
-    if (!baseAnnotation) {
-      // Skip if annotation not found
-      return acc
-    }
-    
-    // Effective user type: through-table override takes precedence
-    const effectiveUserTypeBlock: UserTypeBlock = assignment.userTypeBlockBlockInstanceId ?? baseAnnotation.userTypeBlock
-    
-    const annotationWithMetadata: AnnotationWithMetadata = {
-      ...baseAnnotation,
-      userTypeBlock: effectiveUserTypeBlock,
-      orderIndex: assignment.orderIndex ?? 0,
-      isDefault: assignment.isDefault ?? false,
-    }
-    
-    // Add to map for this blockInstance
-    const existing = acc.get(assignment.blockInstanceId) || []
-    acc.set(assignment.blockInstanceId, [...existing, annotationWithMetadata])
-    return acc
-  }, new Map<GlobalEntityId, AnnotationWithMetadata[]>())
-  
-  // LEARNING: Create new Map with sorted values instead of mutating existing Map
-  // WHY: Functional approach avoids mutations, aligns with workspace rules
-  // PATTERN: Build new Map from entries with sorted values
-  return new Map(
-    Array.from(unsortedMap.entries()).map(([entityId, anns]) => [
-      entityId,
-      sortAnnotationsByOrderIndex(anns)
-    ])
-  )
-}
 

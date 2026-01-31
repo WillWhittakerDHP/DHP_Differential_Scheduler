@@ -11,9 +11,8 @@
 
 import type { GlobalEntity } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities';
-import type { InstanceComponent, ComponentStrategy } from '@/types/component'
+import type { InstanceComponent } from '@/types/component'
 import type { GlobalData } from './fetchToGlobalTransformer'
-import { DEFAULT_COMPONENT_RULES } from '@/constants/component'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { composePropertiesFromComponents } from './composePropertyValue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
@@ -114,7 +113,7 @@ export function getComponentsRecursive(
  * 
  * LEARNING: When composing block instances, compose all part instances from all composed blocks
  * WHY: Composer should show all part instances from all component blocks
- * PATTERN: Merge activeParts relationships from all composed blocks
+ * PATTERN: Merge partAssignments relationships from all composed blocks
  */
 export function composePartInstances(
   composedBlockIds: string[],
@@ -126,13 +125,13 @@ export function composePartInstances(
     const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)
     if (!blockInstance) continue
     
-    // Get activeParts relationships for this block
-    const activePartsRelationships = globalData.relationships.activeParts || []
-    const blockRelationships = activePartsRelationships.filter(
+    // Get partAssignments relationships for this block
+    const partAssignmentsRelationships = globalData.relationships.partAssignments || []
+    const blockRelationships = partAssignmentsRelationships.filter(
       rel => rel.parent.id === blockId
     )
     
-    // Collect all part instance IDs from this block's activeParts
+    // Collect all part instance IDs from this block's partAssignments
     blockRelationships.forEach(rel => {
       rel.children.forEach(partInstance => {
         allPartInstanceIds.add(partInstance.id)
@@ -153,8 +152,7 @@ export function composePartInstances(
 export function composeProperties<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
-  globalData: GlobalData,
-  componentRules: Record<string, ComponentStrategy> = DEFAULT_COMPONENT_RULES
+  globalData: GlobalData
 ): Partial<GlobalEntity<GE>> {
   const instanceComponents = getActiveComponentsFromRelationships(entityKind, globalData)
   
@@ -188,12 +186,11 @@ export function composeProperties<GE extends GlobalEntityKey>(
   const composed = composePropertiesFromComponents(
     components,
     entityKind,
-    componentRules,
     globalData.entities.blockShape
   )
   
   // Special handling for blockInstance component: compose part instances
-  // Note: activeParts is a relationship, not a direct property
+  // Note: partAssignments is a relationship, not a direct property
   // This will be handled separately in the relationship component
   if (entityKind === 'blockInstance') {
     // Future: composePartInstances(componentIds, globalData) could be used here
@@ -213,8 +210,7 @@ export function composeProperties<GE extends GlobalEntityKey>(
 export function getComposedEntity<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
-  globalData: GlobalData,
-  componentRules: Record<string, ComponentStrategy> = DEFAULT_COMPONENT_RULES
+  globalData: GlobalData
 ): GlobalEntity<GE> | null {
   // Get composer entity (base properties)
   const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)
@@ -228,7 +224,7 @@ export function getComposedEntity<GE extends GlobalEntityKey>(
   const composer = composerEntity as GlobalEntity<GE>
   
   // Compose properties from components
-  const composed = composeProperties(composerId, entityKind, globalData, componentRules)
+  const composed = composeProperties(composerId, entityKind, globalData)
   
   // Merge composer with composed properties
   // Composed properties override composer properties (computed view)

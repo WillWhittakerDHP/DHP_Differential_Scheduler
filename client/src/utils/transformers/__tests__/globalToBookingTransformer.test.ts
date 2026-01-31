@@ -3,7 +3,7 @@
  * 
  * Unit tests for the globalToBookingTransformer.
  * Tests transformation of GlobalData to booking-optimized format, including:
- * - Atomic block instances with activeParts
+ * - Atomic block instances with partAssignments
  * - Composite block instances merging own parts with component parts
  * - Deduplication to prevent double-counting parts
  * - Filtering of disabled entities and components
@@ -114,14 +114,14 @@ function createPartShape(id: string, name: string): GlobalEntity<'partShape'> {
 }
 
 /**
- * Helper to create an activeParts relationship
+ * Helper to create a partAssignments relationship
  */
-function createActivePartsRel(
+function createPartAssignmentsRel(
   parentId: string,
   childIds: string[]
 ): GlobalRelationship {
   return {
-    relationshipKind: 'activeParts',
+    relationshipKind: 'partAssignments',
     parent: { id: parentId, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>,
     children: childIds.map(id => ({ id, entityKey: 'partInstance' } as GlobalEntity<'partInstance'>)),
   }
@@ -147,7 +147,7 @@ function createActiveComponentsRel(
 
 describe('BookingTransformer', () => {
   describe('transformGlobalToBooking', () => {
-    it('should transform atomic block instance with activeParts', () => {
+    it('should transform atomic block instance with partAssignments', () => {
       // Setup: Atomic block instance with parts
       const blockInstance = createBlockInstance('block-1', 'Atomic Block', {
         blockShapeRef: 'shape-1',
@@ -173,8 +173,8 @@ describe('BookingTransformer', () => {
           partShape: [partShape1, partShape2],
         },
         relationships: {
-          activeParts: [
-            createActivePartsRel('block-1', ['part-1', 'part-2']),
+          partAssignments: [
+            createPartAssignmentsRel('block-1', ['part-1', 'part-2']),
           ],
           bookingCascades: [],
           instanceComponents: [],
@@ -195,7 +195,7 @@ describe('BookingTransformer', () => {
       expect(result.blockInstances[0].partInstances[1].id).toBe('part-2')
     })
 
-    it('should transform composite block instance with only own activeParts', () => {
+    it('should transform composite block instance with only own partAssignments', () => {
       // Setup: Composite block instance with its own parts (no components)
       const compositeBlock = createBlockInstance('composite-1', 'Composite Block', {
         composite: true,
@@ -217,8 +217,8 @@ describe('BookingTransformer', () => {
           partShape: [partShape1],
         },
         relationships: {
-          activeParts: [
-            createActivePartsRel('composite-1', ['part-1']),
+          partAssignments: [
+            createPartAssignmentsRel('composite-1', ['part-1']),
           ],
           bookingCascades: [],
           instanceComponents: [],
@@ -273,9 +273,9 @@ describe('BookingTransformer', () => {
           partShape: [partShape1, partShape2],
         },
         relationships: {
-          activeParts: [
-            createActivePartsRel('component-1', ['part-1']),
-            createActivePartsRel('component-2', ['part-2']),
+          partAssignments: [
+            createPartAssignmentsRel('component-1', ['part-1']),
+            createPartAssignmentsRel('component-2', ['part-2']),
           ],
           bookingCascades: [],
           instanceComponents: [
@@ -348,13 +348,13 @@ describe('BookingTransformer', () => {
           partShape: [partShape1, partShape2, partShape3],
         },
         relationships: {
-          activeParts: [
+          partAssignments: [
             // Composite's own parts
-            createActivePartsRel('composite-1', ['part-1']),
+            createPartAssignmentsRel('composite-1', ['part-1']),
             // Component 1 parts (includes duplicate part-1)
-            createActivePartsRel('component-1', ['part-1', 'part-2']),
+            createPartAssignmentsRel('component-1', ['part-1', 'part-2']),
             // Component 2 parts (includes duplicate part-2)
-            createActivePartsRel('component-2', ['part-2', 'part-3']),
+            createPartAssignmentsRel('component-2', ['part-2', 'part-3']),
           ],
           bookingCascades: [],
           instanceComponents: [
@@ -416,8 +416,8 @@ describe('BookingTransformer', () => {
           partShape: [partShape1, partShape2, partShape3],
         },
         relationships: {
-          activeParts: [
-            createActivePartsRel('block-1', ['part-1', 'part-2', 'part-3']),
+          partAssignments: [
+            createPartAssignmentsRel('block-1', ['part-1', 'part-2', 'part-3']),
           ],
           bookingCascades: [],
           instanceComponents: [],
@@ -463,8 +463,8 @@ describe('BookingTransformer', () => {
           partShape: [partShape1, partShape2],
         },
         relationships: {
-          activeParts: [
-            createActivePartsRel('block-1', ['part-1', 'part-2']),
+          partAssignments: [
+            createPartAssignmentsRel('block-1', ['part-1', 'part-2']),
           ],
           bookingCascades: [],
           instanceComponents: [],
@@ -503,7 +503,7 @@ describe('BookingTransformer', () => {
           partShape: [],
         },
         relationships: {
-          activeParts: [],
+          partAssignments: [],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],
@@ -542,7 +542,7 @@ describe('BookingTransformer', () => {
           partShape: [],
         },
         relationships: {
-          activeParts: [],
+          partAssignments: [],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],

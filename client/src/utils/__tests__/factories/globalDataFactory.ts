@@ -7,7 +7,7 @@
 
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { createBlockInstance, createPartInstance, createBlockShape, createPartShape } from './entityFactory'
-import { createActivePartsRel, createActiveComponentsRel } from './relationshipFactory'
+import { createPartAssignmentsRel, createActiveComponentsRel } from './relationshipFactory'
 
 /**
  * Create an empty GlobalData object
@@ -21,7 +21,7 @@ export function createEmptyGlobalData(): GlobalData {
       partShape: [],
     },
     relationships: {
-      activeParts: [],
+      partAssignments: [],
       bookingCascades: [],
       instanceComponents: [],
       validCascades: [],
@@ -72,8 +72,8 @@ export function createAtomicBlockGlobalData() {
       partShape: [partShape1, partShape2],
     },
     relationships: {
-      activeParts: [
-        createActivePartsRel(blockInstance.id, [partInstance1.id, partInstance2.id]),
+      partAssignments: [
+        createPartAssignmentsRel(blockInstance.id, [partInstance1.id, partInstance2.id]),
       ],
       bookingCascades: [],
       instanceComponents: [],
@@ -145,9 +145,9 @@ export function createCompositeBlockGlobalData() {
       partShape: [partShape1, partShape2, partShape3],
     },
     relationships: {
-      activeParts: [
-        createActivePartsRel(component1.id, [part1.id]),
-        createActivePartsRel(component2.id, [part2.id, part3.id]),
+      partAssignments: [
+        createPartAssignmentsRel(component1.id, [part1.id]),
+        createPartAssignmentsRel(component2.id, [part2.id, part3.id]),
       ],
       bookingCascades: [],
       instanceComponents: [
@@ -183,8 +183,8 @@ export function createMultipleBlocksGlobalData(count: number = 3) {
     })
   })
   
-  const activeParts = blockInstances.map((block, i) =>
-    createActivePartsRel(block.id, [partInstances[i].id])
+  const partAssignments = blockInstances.map((block, i) =>
+    createPartAssignmentsRel(block.id, [partInstances[i].id])
   )
   
   return {
@@ -195,7 +195,7 @@ export function createMultipleBlocksGlobalData(count: number = 3) {
       partShape: [partShape],
     },
     relationships: {
-      activeParts,
+      partAssignments,
       bookingCascades: [],
       instanceComponents: [],
       validCascades: [],
@@ -246,9 +246,9 @@ export function createGlobalDataWithDisabledEntities() {
       partShape: [partShape],
     },
     relationships: {
-      activeParts: [
-        createActivePartsRel(enabledBlock.id, [enabledPart.id, disabledPart.id]),
-        createActivePartsRel(disabledBlock.id, [enabledPart.id]),
+      partAssignments: [
+        createPartAssignmentsRel(enabledBlock.id, [enabledPart.id, disabledPart.id]),
+        createPartAssignmentsRel(disabledBlock.id, [enabledPart.id]),
       ],
       bookingCascades: [],
       instanceComponents: [],

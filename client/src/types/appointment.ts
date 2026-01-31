@@ -8,7 +8,8 @@
 
 import type { MoveableSchedulingOptions } from './moveableScheduling'
 import type { RFC3339DateTime, ISO8601Date } from './datetime'
-import type { FinalizedPart } from '@/utils/booking/FinalizedPart'
+import type { PartFinal } from '@/utils/booking/PartFinal'
+import type { EventInstance } from './events'
 
 /**
  * Appointment status workflow type
@@ -130,13 +131,15 @@ export type PerspectiveKey = 'onSite' | 'clientPresent' | 'nonDifferential'
  * LEARNING: Contains durations only - no times, no flags
  * WHY: Separates duration calculations from time range creation
  * PATTERN: Pure duration data that can be applied to any start time
+ * 
+ * Session Event Refactor: Uses dynamic eventDurations Record instead of hardcoded properties
+ * WHY: Enables extensible event system - new event types can be added without code changes
+ * PATTERN: eventDurations maps event shape names to duration sums
  */
 export interface SlotShape {
   totalDuration: number        // Sum of all finalizedParts.baseTime
-  onSite: number               // Sum of finalizedParts where onSite === true
-  clientPresent: number         // Sum of finalizedParts where clientPresent === true
-  moveable: number             // Sum of finalizedParts where moveable === true
-  clientStartOffset: number    // Duration of finalizedParts where onSite === true && clientPresent === false
+  eventDurations: Record<string, number>  // Map of event shape name to duration sum (e.g., { "OnSite": 120, "ClientPresent": 60, "Moveable": 30 })
+  clientStartOffset: number    // Duration of partFinals where onSite === true && clientPresent === false
 }
 
 /**
@@ -148,13 +151,23 @@ export interface SlotShape {
  * LEARNING: Holds finalized parts (source of truth) and SlotShape (durations)
  * WHY: Finalized parts are the source of truth, SlotShape provides precomputed durations
  * PATTERN: Source data (finalizedParts) + computed totals (slotShape)
+ * 
+ * LEARNING: Events are appointment-level features, not part-level properties
+ * WHY: Events are configured at shape level (PartShape → EventInstance), parts determine which events apply
+ * PATTERN: Store EventInstance[] keyed by partShape name on AppointmentShape
  */
 export interface AppointmentShape {
   // Source of truth: finalized parts grouped by part shape only
-  finalizedParts: FinalizedPart[]
+  finalizedParts: PartFinal[]
   
   // Slot shape: durations needed to create AppointmentSlot time ranges
   slotShape: SlotShape
+  
+  // Event assignments for each part shape (appointment-level feature)
+  // LEARNING: Events are appointment features, parts just determine which events apply
+  // WHY: Events configured at shape level, stored here for efficient lookup during SlotShape calculation
+  // PATTERN: Map partShape name → EventInstance[] for that shape
+  eventAssignmentsByPartShape: Record<string, EventInstance[]>
 }
 
 /**
@@ -187,9 +200,7 @@ export interface AppointmentSlot {
   // WHY: Makes it clear these are time ranges with start/end times, not duration numbers
   // WHY: Precomputed because accessed frequently in UI (graphBars, derivePerspective, etc.)
   totalTimeRange: TimeRange | null          // From shape.slotShape.totalDuration + startTime
-  onSiteTimeRange: TimeRange | null        // From shape.slotShape.onSite + startTime
-  clientPresentTimeRange: TimeRange | null // From shape.slotShape.clientPresent + startTime (adjusted for clientStartOffset)
-  moveableTimeRange: TimeRange | null      // From shape.slotShape.moveable + startTime
+  eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "OnSite": {...}, "ClientPresent": {...}, "Moveable": {...} })
 }
 
 /**

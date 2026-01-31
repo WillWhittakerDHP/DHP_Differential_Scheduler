@@ -20,7 +20,7 @@ import { buildDisplayFieldConfig as buildDynamicDisplayFieldConfig } from './fie
  * NOTE: These types are used internally in FieldMetadata interface - not exported as they're not used outside this file
  */
 type FieldVisibility = 'titleRow' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
-type SubPanelType = 'parts' | 'relationships' | 'annotations' | 'none'
+type SubPanelType = 'parts' | 'relationships' | 'annotations' | 'events' | 'none'
 type FieldLayout = 'inline' | 'stacked'
 type FieldRenderAs = 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect'
 

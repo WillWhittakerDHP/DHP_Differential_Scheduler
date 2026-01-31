@@ -6,7 +6,7 @@
  * PATTERN: Composable that provides filtered entities based on select config
  * 
  * This composable handles:
- * - Active child select filtering (bookingCascades, activeParts)
+ * - Active child select filtering (bookingCascades, partAssignments)
  * - Direct matching select filtering (dependentInstances)
  * - Active components filtering (composable services)
  * - Filter options function application
@@ -35,7 +35,7 @@ export interface UseSelectFilteringOptions {
   allEntities: ComputedRef<GlobalEntity<GlobalEntityKey>[]>
   
   /**
-   * Select config (relationshipSelect or typeSelect)
+   * Select config (direct format, relationship or type based on targetMode)
    */
   selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
   
@@ -280,7 +280,7 @@ export function useSelectFiltering(
    * LEARNING: Filter entities based on select config
    * WHY: Different select types need different filtering:
    * - instanceComponents: Filter by component availability
-   * - bookingCascades/activeParts: Filter by parent's type's valid children
+   * - bookingCascades/partAssignments: Filter by parent's type's valid children
    * - Direct matching: Filter by matching path values
    * - Annotations: No filtering needed
    * - filterOptions: Apply custom filter function
@@ -349,7 +349,7 @@ export function useSelectFiltering(
       return Array.from(uniqueComponents.values())
     }
     
-    // Special case: bookingCascades/activeParts
+    // Special case: bookingCascades/partAssignments
     // Filter by parent's type's valid children
     if (isActiveChildSelect.value) {
       // LEARNING: For new entities, parentTypeRef might come from form values
@@ -378,7 +378,7 @@ export function useSelectFiltering(
       
       // Get valid children array from parent type entity
       // For bookingCascades: blockShape.validCascades
-      // For activeParts: blockShape.validParts (or partShape.validParts)
+      // For partAssignments: blockShape.validParts (or partShape.validParts)
       const validChildrenKey = fieldKey.value === 'bookingCascades' ? 'validCascades' : 'validParts'
       
       // LEARNING: Use type-safe property access with fallback

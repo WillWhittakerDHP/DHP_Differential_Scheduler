@@ -1,12 +1,12 @@
 /**
  * usePartsCollectionField Composable
  * 
- * LEARNING: Parses relationshipSelect config from metadata and determines display conditions
+ * LEARNING: Parses relationship select config from metadata and determines display conditions
  * WHY: Extracts config parsing logic from PartsCollection component
  * PATTERN: Composable that provides config-derived values and display validation
  * 
  * Features:
- * - Parse relationshipSelect config from metadata.inputConfig
+ * - Parse relationship select config from metadata.inputConfig (direct format)
  * - Determine child entity key
  * - Determine relationship key
  * - Hardcode options field key to 'validParts' (always the same for partsCollection)
@@ -73,7 +73,7 @@ export function usePartsCollectionField<
 
   /**
    * LEARNING: Extract select config from metadata.inputConfig - NO FALLBACKS
-   * WHY: inputConfig stores relationshipSelect config for partsCollection fields
+   * WHY: inputConfig stores relationship select config for partsCollection fields (direct format)
    * PATTERN: Read inputConfig from metadata entry, fail explicitly if missing
    */
   const selectConfig = computed<RelationshipFieldType<GE>>(() => {
@@ -117,7 +117,7 @@ export function usePartsCollectionField<
   /**
    * Get child entity key from config - NO FALLBACKS
    * LEARNING: Extract candidateChildKey from config
-   * WHY: Determines which entity type to display (e.g., "partInstance" for activeParts)
+   * WHY: Determines which entity type to display (e.g., "partInstance" for partAssignments)
    * PATTERN: Read candidateChildKey from config, fail if missing
    */
   const childEntityKey = computed<GlobalEntityKey>(() => {
@@ -139,7 +139,7 @@ export function usePartsCollectionField<
   /**
    * Get relationship key from config - NO FALLBACKS
    * LEARNING: Extract targetKey from config
-   * WHY: Determines which relationship field to use (e.g., "activeParts")
+   * WHY: Determines which relationship field to use (e.g., "partAssignments")
    * PATTERN: Read targetKey from config, fail if missing
    */
   const relationshipKey = computed<string>(() => {
@@ -291,7 +291,7 @@ export function usePartsCollectionField<
       )
     }
     
-    // For activeParts relationship, check if child ID is in parent's activeParts array
+    // For partAssignments relationship, check if child ID is in parent's partAssignments array
     const parentRelationshipIds = getEntityFieldValue(parentEntity.value, String(relationshipKey.value))
     if (Array.isArray(parentRelationshipIds) && parentRelationshipIds.includes(child.id)) {
       return parentEntity.value.id

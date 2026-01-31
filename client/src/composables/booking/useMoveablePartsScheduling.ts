@@ -98,14 +98,20 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
   const isLoadingOptions = ref(false)
   
   // Detection: does current appointment have moveable parts?
+  // Session Event Refactor: Use eventDurations Record instead of hardcoded properties
   const hasMoveableParts = computed(() => {
     const shape = appointmentShape.value
-    return shape !== null && shape.slotShape.moveable > 0
+    if (!shape) return false
+    const moveableDuration = shape.slotShape.eventDurations?.['Moveable'] ?? 0
+    return moveableDuration > 0
   })
   
   // Moveable duration from shape
+  // Session Event Refactor: Use eventDurations Record instead of hardcoded properties
   const moveableDuration = computed(() => {
-    return appointmentShape.value?.slotShape.moveable ?? 0
+    const shape = appointmentShape.value
+    if (!shape) return 0
+    return shape.slotShape.eventDurations?.['Moveable'] ?? 0
   })
   
   // Calculate available slots using fitTimeSlots
@@ -122,7 +128,9 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     const duration = moveableDuration.value
     
     // Inner boundary: end of on-site work
-    const innerBoundary = slot.onSiteTimeRange?.endTime ?? slot.totalTimeRange?.endTime
+    // Session Event Refactor: Use eventTimeRanges Record instead of hardcoded properties
+    const onSiteTimeRange = slot.eventTimeRanges?.['OnSite']
+    const innerBoundary = onSiteTimeRange?.endTime ?? slot.totalTimeRange?.endTime
     if (!innerBoundary) {
       moveableOptions.value = null
       return

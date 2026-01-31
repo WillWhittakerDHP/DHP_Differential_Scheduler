@@ -1,27 +1,19 @@
 /**
- * WHY: Annotation Constants
-
-LEARNING: Annotation configurations define annotation types (descriptions, tooltips, etc.)
-WHY: Type-safe annotation definitions with metadata
-PATTERN: Const object with annotation metadata, following RELATIONSHIP_KEYS pattern
-
-Annotations are UI metadata that can be attached to entities (currently descriptions
-attached to block instances)
+ * Annotation Constants
+ * 
+ * LEARNING: Annotation keys for configuration data (annotation shapes and instances)
+ * WHY: Type-safe annotation key references, following ENTITY_KEYS pattern
+ * PATTERN: Const array with annotation keys, matching ENTITY_KEYS structure
+ * NOTE: Annotations are configuration data (like event shapes/instances), not core entities
  */
-export const ANNOTATION_KEYS = {
-  descriptions: {
-    backendName: 'descriptions',
-    frontendKey: 'descriptions',
-    // Descriptions are attached to block instances via BlockInstanceDescription through-table
-  },
-} as const;
+export const ANNOTATION_SHAPE_KEY = "annotationShape" as const
+export const ANNOTATION_INSTANCE_KEY = "annotationInstance" as const
 
-/**
- * Annotation key type
- * LEARNING: Derived from ANNOTATION_KEYS object keys
- * WHY: Type-safe annotation key references
- * PATTERN: keyof typeof pattern for type extraction
- */
-export type GlobalAnnotationKey = keyof typeof ANNOTATION_KEYS;
+export const ANNOTATION_KEYS = [
+  ANNOTATION_SHAPE_KEY,
+  ANNOTATION_INSTANCE_KEY
+] as const
+
+export type GlobalAnnotationKey = (typeof ANNOTATION_KEYS)[number]
 
 

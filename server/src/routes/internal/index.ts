@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { EntityRouter } from "./entities/entityRouter.js";
 import { RelationshipRouter } from "./relationships/relationshipRouter.js";
-import { AnnotationInstanceRouter } from "./annotation-instances/annotationInstanceRouter.js";
-import { AnnotationShapeRouter } from "./annotation-shapes/annotationShapeRouter.js";
+import { AnnotationRouter } from "./annotations/annotationRouter.js";
+import { EventRouter } from "./events/eventRouter.js";
 import { PropertyRouter } from "./properties/propertyRouter.js";
 import { UserRouter } from "./users/userRouter.js";
 import { AppointmentRouter } from "./appointments/appointmentRouter.js";
@@ -18,11 +18,11 @@ router.use('/entities', EntityRouter);
 // ✅ Generic relationship CRUD routes (includes instanceComponents)
 router.use('/relationships', RelationshipRouter);
 
-// ✅ Annotation instance CRUD routes (annotation instances are NOT in ENTITY_KEYS, so they need their own router)
-router.use('/annotation-instances', AnnotationInstanceRouter);
+// ✅ Annotation CRUD routes (matching entities/relationships pattern)
+router.use('/annotations', AnnotationRouter);
 
-// ✅ Annotation shape CRUD routes (annotation shapes are NOT in ENTITY_KEYS, so they need their own router)
-router.use('/annotation-shapes', AnnotationShapeRouter);
+// ✅ Event CRUD routes (matching entities/relationships pattern)
+router.use('/events', EventRouter);
 
 // ✅ Scheduler data CRUD routes (properties, users, appointments)
 router.use('/properties', PropertyRouter);

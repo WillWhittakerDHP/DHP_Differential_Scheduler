@@ -99,6 +99,12 @@ const displaySlots = computed(() => {
   const slots = props.appointmentSlots.map(appointmentSlot => {
     const displayTime = derivePerspective(appointmentSlot, currentPerspective)
     
+    // #region agent log
+    if (appointmentSlot.buttonIndex < 3) {
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:100',message:'AppointmentSlotGrid: derivePerspective result',data:{buttonIndex:appointmentSlot.buttonIndex,currentPerspective,displayTime:displayTime?{startTime:displayTime.startTime,endTime:displayTime.endTime,duration:displayTime.duration}:null,slotTotalTimeRange:appointmentSlot.totalTimeRange?{startTime:appointmentSlot.totalTimeRange.startTime,endTime:appointmentSlot.totalTimeRange.endTime,duration:appointmentSlot.totalTimeRange.duration}:null,slotEventTimeRangesOnSite:appointmentSlot.eventTimeRanges?.['OnSite']?{startTime:appointmentSlot.eventTimeRanges['OnSite'].startTime,endTime:appointmentSlot.eventTimeRanges['OnSite'].endTime,duration:appointmentSlot.eventTimeRanges['OnSite'].duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+    }
+    // #endregion
+    
     return {
       buttonIndex: appointmentSlot.buttonIndex,
       displayTime,

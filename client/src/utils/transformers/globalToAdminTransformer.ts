@@ -23,7 +23,7 @@ export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
   validCascades?: GlobalEntityId[]
   validParts?: GlobalEntityId[]
   bookingCascades?: GlobalEntityId[]
-  activeParts?: GlobalEntityId[]
+  partAssignments?: GlobalEntityId[]
 }
 
 /**
@@ -134,7 +134,7 @@ export class AdminTransformer {
     // WHY: Relationships (validCascades, validParts, etc.) are attached as properties but may not be in formFieldConfig
     // PATTERN: Use reduce to build relationship object without mutations
     //          Use type-safe property access - check if property exists before accessing
-    const relationshipKeys = ['validCascades', 'validParts', 'bookingCascades', 'activeParts', 'instanceComponents'] as const
+    const relationshipKeys = ['validCascades', 'validParts', 'bookingCascades', 'partAssignments', 'instanceComponents'] as const
     const relationshipData = relationshipKeys.reduce((acc, relKey) => {
       // LEARNING: Type-safe property access - check if property exists before accessing
       // WHY: entityWithKey is typed as GlobalEntity<GE> but has AdminObject<GE> properties after attachRelationshipData
@@ -165,7 +165,7 @@ export class AdminTransformer {
   /**
    * Attach relationship data to entity
    * LEARNING: Extracts child IDs from GlobalRelationship[] and attaches as arrays
-   * WHY: Select fields need relationship arrays (validCascades, validParts, bookingCascades, activeParts) attached
+   * WHY: Select fields need relationship arrays (validCascades, validParts, bookingCascades, partAssignments) attached
    * PATTERN: Find relationships where entity is parent → Extract child IDs → Attach as array property
    * 
    * LEARNING: Always initializes relationship arrays (even if empty) for consistency
@@ -186,7 +186,7 @@ export class AdminTransformer {
       validCascades: 'validCascades',
       validParts: 'validParts', 
       bookingCascades: 'bookingCascades',
-      activeParts: 'activeParts',
+      partAssignments: 'partAssignments',
       instanceComponents: 'instanceComponents'
     }
 

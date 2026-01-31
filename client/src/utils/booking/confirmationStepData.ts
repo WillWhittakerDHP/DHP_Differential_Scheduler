@@ -2,9 +2,9 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { PriceData, SummaryData } from '@/composables/booking/useConfirmationStepData'
 import { calculatePartsTotals } from './partsTotals'
 import {
-  createFinalizedParts,
+  createPartFinals,
   filterZeroedParts
-} from './partShapeAggregator'
+} from './partFinalizer'
 
 type WizardSelectionState = {
   selectedServices: readonly BookingBlockInstance[] // Note: This is the parameter name, receives selectedServiceTypeBlocks
@@ -64,7 +64,7 @@ export function calculateBlockInstanceFee(
   // LEARNING: Create finalized parts and filter out zeroed parts
   // WHY: Zeroed parts should not contribute to fees
   // PATTERN: Group by part shape, create finalized parts, filter zeroed
-  const finalizedParts = createFinalizedParts(blockInstance.partInstances || [])
+  const finalizedParts = createPartFinals(blockInstance.partInstances || [])
   const nonZeroedFinalizedParts = filterZeroedParts(finalizedParts)
   
   // LEARNING: Extract non-zeroed part instances from finalized parts

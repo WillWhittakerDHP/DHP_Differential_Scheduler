@@ -11,6 +11,7 @@
       :is="componentToRender"
       :field-context="effectiveFieldContext"
       :show-label="componentsWithLabel.includes(fieldComponent.componentType.value.type) ? showLabel : undefined"
+      :collection-type="fieldComponent.componentType.value.type === 'relationshipCollection' ? collectionType : undefined"
     />
     
     <!-- Unknown Input Type -->
@@ -57,6 +58,7 @@ import { computed, toRef, watch, type Component, type ComputedRef } from 'vue'
 import PrimitiveInputs from './PrimitiveInputs.vue'
 import SelectInputs from './SelectInputs.vue'
 import PartsCollection from '../collections/PartsCollection.vue'
+import RelationshipCollection from '../collections/RelationshipCollection.vue'
 import IconInput from './IconInput.vue'
 import AnnotationsField from './AnnotationsField.vue'
 import type { GlobalEntityKey } from '../../../../constants/entities'
@@ -213,21 +215,33 @@ const fieldComponent = useFieldComponent({
 })
 
 
+// LEARNING: Determine collectionType for RelationshipCollection based on fieldKey
+// WHY: RelationshipCollection needs collectionType prop to customize behavior
+// PATTERN: Infer collectionType from fieldKey or use default
+const collectionType = computed(() => {
+  const key = String(fieldKey.value)
+  if (key.includes('annotation')) return 'annotations'
+  if (key.includes('event')) return 'events'
+  if (key.includes('part')) return 'parts'
+  return 'parts' // default
+})
+
 // LEARNING: Component map for dynamic rendering based on componentType
 // WHY: Single source of truth for component type → component mapping
 // PATTERN: Map FieldComponent type to Vue component
 // NOTE: Using Component type to allow all Vue component types
+// NOTE: relationshipCollection type uses RelationshipCollection component
 const componentMap: Record<FieldComponent['type'], Component | null> = {
   icon: IconInput,
   primitive: PrimitiveInputs,
-  partsCollection: PartsCollection,
-  annotations: AnnotationsField,
+  relationshipCollection: RelationshipCollection,
+  annotations: AnnotationsField, // Uses RelationshipCollection internally
   select: SelectInputs,
   unknown: null
 }
 
 // LEARNING: Components that accept showLabel prop
-// WHY: Not all components accept showLabel (PartsCollection, AnnotationsField don't)
+// WHY: Not all components accept showLabel (RelationshipCollection, PartsCollection, AnnotationsField don't)
 // PATTERN: Array of component types that accept the prop
 const componentsWithLabel: Array<FieldComponent['type']> = ['icon', 'primitive', 'select']
 

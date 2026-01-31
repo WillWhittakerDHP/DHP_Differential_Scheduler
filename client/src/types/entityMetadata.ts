@@ -31,9 +31,9 @@ export interface FieldMetadataEntry {
   visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
   layout: 'inline' | 'stacked'
   displayOrder: number
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection'
+  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection'
   statusButtonColor?: string
-  panel: 'none' | 'parts' | 'relationships' | 'annotations'
+  panel: 'none' | 'parts' | 'relationships' | 'annotations' | 'events'
   bulkEdit: boolean
   
   // Input configuration (for select/multiselect/reference fields)

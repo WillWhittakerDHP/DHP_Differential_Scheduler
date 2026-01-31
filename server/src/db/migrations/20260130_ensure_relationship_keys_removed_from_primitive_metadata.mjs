@@ -27,7 +27,8 @@ export default {
       'bookingCascades',
       'activeParts',
       'instanceComponents',
-      'dependentInstanceOptions',
+      'dependentInstances', // Current name
+      'dependentInstanceOptions', // Old name - catch legacy data
       // Old names that might have been used before renaming
       'activeConstituents', // Old name for activeParts
       'validConstituents', // Old name for validParts

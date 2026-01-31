@@ -22,7 +22,7 @@ function computeRenderAs(
   dataType: string | undefined,
   inputConfig: Record<string, unknown> | null | undefined,
   fieldKey: string
-): 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection' {
+): 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection' {
   // Special cases first
   if (fieldKey === 'icon') {
     return 'iconSelect'
@@ -32,7 +32,7 @@ function computeRenderAs(
   if (inputConfig && typeof inputConfig === 'object') {
     const selectType = inputConfig.selectType as string | undefined
     if (selectType === 'partsCollectionSelect') {
-      return 'partsCollection'
+      return 'relationshipCollection'
     }
     const selectMode = inputConfig.selectMode as string | undefined
     if (selectMode === 'multiple') {
@@ -170,11 +170,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       return;
     }
 
-    // Validate inputConfig - required for select/multiselect/reference/partsCollection fields
+    // Validate inputConfig - required for select/multiselect/reference/relationshipCollection fields
     // LEARNING: Accepts both FormFieldConfig structure (new format) and direct select config (old format)
     // WHY: Supports backward compatibility during transition
     // PATTERN: Validate that inputConfig exists and is an object, accept any valid JSONB structure
-    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'partsCollection') {
+    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'relationshipCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
         res.status(400).json({
           error: 'Missing inputConfig',

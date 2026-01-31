@@ -21,7 +21,7 @@ import { useMetadataCache } from '@/composables/admin/useMetadataCache'
  * 
  * @param entityType - Entity type (blockShape, partShape, blockInstance, partInstance)
  * @param entityId - Entity ID (sentinel UUID for shapes, actual ID for instances)
- * @param relationshipKey - Relationship key to update (e.g., 'activeParts')
+ * @param relationshipKey - Relationship key to update (e.g., 'partAssignments')
  * @param renderingUpdates - Rendering field updates (visibility, layout, displayOrder, etc.)
  */
 export function useAdminRelationshipMetadataMutations() {

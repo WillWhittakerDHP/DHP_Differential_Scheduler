@@ -5,7 +5,7 @@ import type { GlobalEntityId } from '@/types/entities'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 /**
- * Optimistic update helpers for AnnotationAssignment (aka ActiveAnnotation) mutations.
+ * Optimistic update helpers for AnnotationAssignment mutations.
  *
  * LEARNING: Annotation assignments impact *two* client-side data surfaces:
  * - The relationship query cache: `['blockInstanceAnnotations', blockInstanceId]`

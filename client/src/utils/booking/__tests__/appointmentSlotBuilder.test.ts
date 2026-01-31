@@ -30,9 +30,9 @@ import {
   applyShapeToTime,
   derivePerspective
 } from '../appointmentSlotBuilder'
-import { calculateSlotShape } from '../partShapeAggregator'
-import { createFinalizedParts, filterZeroedParts } from '../partShapeAggregator'
-import type { FinalizedPart } from '../FinalizedPart'
+import { calculateSlotShape } from '../partFinalizer'
+import { createPartFinals, filterZeroedParts } from '../partFinalizer'
+import type { PartFinal } from '../PartFinal'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 
@@ -284,7 +284,7 @@ describe('appointmentSlotBuilder', () => {
     })
 
     it('should validate that clientPresentTimeRange and onSiteTimeRange end at same time', () => {
-      const finalizedParts = createFinalizedParts([
+      const finalizedParts = createPartFinals([
         createPartInstance('1', 30, { onSite: true, clientPresent: false, partShape: 'shape-1' }),
         createPartInstance('2', 30, { onSite: true, clientPresent: true, partShape: 'shape-2' })
       ])
@@ -302,7 +302,7 @@ describe('appointmentSlotBuilder', () => {
     it('should ensure clientPresentTimeRange and onSiteTimeRange end times match when both exist', () => {
       // The implementation calculates clientPresentTimeRange to end when onSiteTimeRange ends
       // This test verifies that the validation ensures they match
-      const finalizedParts = createFinalizedParts([
+      const finalizedParts = createPartFinals([
         createPartInstance('1', 30, { onSite: true, clientPresent: false, partShape: 'shape-1' }),
         createPartInstance('2', 30, { onSite: true, clientPresent: true, partShape: 'shape-2' })
       ])

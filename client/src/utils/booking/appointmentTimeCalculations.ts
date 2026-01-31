@@ -8,6 +8,9 @@
 
 import type { AppointmentSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { EventInstance, EventShape } from '@/types/events'
+import type { GlobalRelationship } from '@/types/relationships'
+import type { GlobalEntity } from '@/types/entities'
 import { buildAppointmentShape, applyShapeToTime } from './appointmentSlotBuilder'
 
 /**
@@ -16,22 +19,41 @@ import { buildAppointmentShape, applyShapeToTime } from './appointmentSlotBuilde
  * WHY: Creates normalized AppointmentSlots structure using the new architecture
  * PATTERN: Build shape once, apply to start time
  * 
+ * LEARNING: Events are optional - if not provided, AppointmentShape will have empty eventAssignmentsByPartShape
+ * WHY: Backward compatibility - some callers may not have access to events data
+ * PATTERN: Make events data optional parameters
+ * 
  * @param blockInstances - Array of BookingBlockInstance objects (service, property type block, availability options)
  * @param baseStartTime - Optional base start time (ISO date string) - if provided, calculates TimeRange objects
+ * @param eventInstances - Optional array of EventInstance objects
+ * @param eventShapes - Optional array of EventShape objects
+ * @param eventAssignmentsRelationships - Optional array of eventAssignments relationships
+ * @param partShapeById - Optional map of partShape ID → partShape entity
  * @returns Array of AppointmentSlot objects with orderIndex 0
  */
 export function calculateAppointmentSlots(
   blockInstances: BookingBlockInstance[],
-  baseStartTime?: string | null
+  baseStartTime?: string | null,
+  eventInstances?: EventInstance[],
+  eventShapes?: EventShape[],
+  eventAssignmentsRelationships?: GlobalRelationship[],
+  partShapeById?: Map<string, GlobalEntity<'partShape'>>
 ): AppointmentSlots {
   if (!blockInstances || blockInstances.length === 0) {
     return []
   }
   
-  // LEARNING: Build AppointmentShape from block instances
+  // LEARNING: Build AppointmentShape from block instances with optional events data
   // WHY: Shape contains finalized parts and SlotShape (source of truth)
-  // PATTERN: Use buildAppointmentShape to create shape
-  const shape = buildAppointmentShape(blockInstances, null)
+  // PATTERN: Use buildAppointmentShape to create shape, pass events data if available
+  const shape = buildAppointmentShape(
+    blockInstances, 
+    null,
+    eventInstances,
+    eventShapes,
+    eventAssignmentsRelationships,
+    partShapeById
+  )
   
   // LEARNING: Apply shape to start time if provided
   // WHY: Creates AppointmentSlot with TimeRanges from SlotShape
@@ -44,6 +66,7 @@ export function calculateAppointmentSlots(
   // LEARNING: Return slot without time ranges if no start time provided
   // WHY: Some callers may only need the shape structure
   // PATTERN: Create minimal slot with shape reference
+  // Session Event Refactor: Use eventTimeRanges Record instead of hardcoded properties
   const appointmentSlot: AppointmentSlot = {
     buttonIndex: 0,
     isAvailable: true,
@@ -51,9 +74,7 @@ export function calculateAppointmentSlots(
     shape,
     startTime: '',
     totalTimeRange: null,
-    onSiteTimeRange: null,
-    clientPresentTimeRange: null,
-    moveableTimeRange: null
+    eventTimeRanges: {}
   }
   
   return [appointmentSlot]

@@ -19,7 +19,7 @@ export interface RelationshipMetadataEntry {
   visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   layout: 'inline' | 'stacked';
   displayOrder: number;
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   statusButtonColor?: string | null;
   panel: 'none' | 'parts' | 'relationships' | 'annotations';
   bulkEdit: boolean;
@@ -51,7 +51,7 @@ export async function getAdminRelationshipMetadata(
 
   // If this is an instance entity, handle metadata
   // LEARNING: Instances do NOT inherit relationship fields from shapes - they have their own relationships
-  // WHY: blockInstance has relationships like activeParts that don't exist in blockShape
+  // WHY: blockInstance has relationships like partAssignments that don't exist in blockShape
   //      partInstance has relationships that don't exist in partShape
   // PATTERN: Return instance metadata directly, no inheritance merging
   if (entityType === 'blockInstance' || entityType === 'partInstance') {

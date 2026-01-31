@@ -1,16 +1,17 @@
 <!--
-  LEARNING: AnnotationType Card Component
-  WHY: Displays annotation type with edit/delete functionality
+  LEARNING: AnnotationShape Card Component
+  WHY: Displays annotation shape with edit/delete functionality
   PATTERN: Simple card with inline editing
+  NOTE: Renamed from AnnotationTypeCard (2026-01-30)
 -->
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { AnnotationType } from '@/types/annotations'
-import { useUpdateAnnotationType, useDeleteAnnotationType } from '@/composables/useAnnotationTypes'
+import type { AnnotationShape } from '@/types/annotations'
+import { useUpdateAnnotationShape, useDeleteAnnotationShape } from '@/composables/useAnnotationTypes'
 import { createLogger } from '@/utils/logger'
 
 interface Props {
-  annotationType: AnnotationType
+  annotationShape: AnnotationShape
 }
 
 const props = defineProps<Props>()
@@ -22,14 +23,14 @@ interface Emits {
 const emit = defineEmits<Emits>()
 
 const isEditing = ref(false)
-const editedName = ref(props.annotationType.name)
+const editedName = ref(props.annotationShape.name)
 
-const updateMutation = useUpdateAnnotationType()
-const deleteMutation = useDeleteAnnotationType()
-const logger = createLogger('AnnotationTypeCard')
+const updateMutation = useUpdateAnnotationShape()
+const deleteMutation = useDeleteAnnotationShape()
+const logger = createLogger('AnnotationShapeCard')
 
 const handleEdit = () => {
-  editedName.value = props.annotationType.name
+  editedName.value = props.annotationShape.name
   isEditing.value = true
 }
 
@@ -40,32 +41,32 @@ const handleSave = async () => {
 
   try {
     await updateMutation.mutateAsync({
-      id: props.annotationType.id,
+      id: props.annotationShape.id,
       data: { name: editedName.value.trim() }
     })
     isEditing.value = false
   } catch (error) {
-    logger.error('Failed to update annotation type:', error)
+    logger.error('Failed to update annotation shape:', error)
   }
 }
 
 const handleCancel = () => {
-  editedName.value = props.annotationType.name
+  editedName.value = props.annotationShape.name
   isEditing.value = false
 }
 
 const handleDelete = async () => {
-  if (!confirm(`Are you sure you want to delete annotation type "${props.annotationType.name}"?`)) {
+  if (!confirm(`Are you sure you want to delete annotation shape "${props.annotationShape.name}"?`)) {
     return
   }
 
   try {
-    await deleteMutation.mutateAsync(props.annotationType.id)
-    emit('delete', props.annotationType.id)
+    await deleteMutation.mutateAsync(props.annotationShape.id)
+    emit('delete', props.annotationShape.id)
   } catch (error) {
-    logger.error('Failed to delete annotation type:', error)
+    logger.error('Failed to delete annotation shape:', error)
     if (error instanceof Error && error.message.includes('annotations are using it')) {
-      alert(`Cannot delete annotation type: ${error.message}`)
+      alert(`Cannot delete annotation shape: ${error.message}`)
     }
   }
 }
@@ -76,8 +77,8 @@ const handleDelete = async () => {
     <VCardText>
       <div class="d-flex align-center justify-space-between">
         <div v-if="!isEditing" class="flex-grow-1">
-          <div class="text-h6">{{ annotationType.name }}</div>
-          <div class="text-caption text-medium-emphasis">ID: {{ annotationType.id }}</div>
+          <div class="text-h6">{{ annotationShape.name }}</div>
+          <div class="text-caption text-medium-emphasis">ID: {{ annotationShape.id }}</div>
         </div>
         
         <VTextField
@@ -127,4 +128,3 @@ const handleDelete = async () => {
     </VCardText>
   </VCard>
 </template>
-

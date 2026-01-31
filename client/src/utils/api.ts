@@ -8,6 +8,8 @@
  */
 
 import axios, { type AxiosInstance, type AxiosError } from 'axios'
+import type { GlobalAnnotationKey } from '@/constants/annotations'
+import type { GlobalEventKey } from '@/constants/events'
 
 /**
  * Base API URL
@@ -130,44 +132,100 @@ export function getBulkPatchEndpoint(entityKey: string): string {
 
 /**
  * Annotation API endpoints
- * LEARNING: Endpoints for AnnotationInstance CRUD and ActiveAnnotation management
- * WHY: AnnotationInstances are NOT in ENTITY_KEYS, so they need their own endpoints
- * PATTERN: Helper functions for annotation endpoints
- * NOTE: Frontend uses friendly "annotation" terminology, but calls backend annotation-instances endpoints
+ * LEARNING: Generic endpoint builder for annotation keys, following getEntityEndpoint pattern
+ * WHY: Type-safe annotation endpoint construction matching entity pattern
+ * PATTERN: Helper function that maps annotation keys to endpoints
  */
-export function getAnnotationEndpoint(): string {
-  return `/annotation-instances`
+export function getAnnotationEndpoint(annotationKey: GlobalAnnotationKey): string {
+  switch (annotationKey) {
+    case 'annotationShape':
+      return `/annotations/annotationShape`
+    case 'annotationInstance':
+      return `/annotations/annotationInstance`
+    default:
+      throw new Error(`Unknown annotation key: ${annotationKey}`)
+  }
 }
 
 export function getAnnotationByIdEndpoint(id: string): string {
-  return `/annotation-instances/${id}`
+  return `/annotations/annotationInstance/${id}`
 }
 
 export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
-  return `/annotation-instances/block-instance/${blockInstanceId}`
+  return `/annotations/annotationInstance/block-instance/${blockInstanceId}`
 }
 
 export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
-  return `/annotation-instances/block-instance/${blockInstanceId}/${annotationId}`
+  return `/annotations/annotationInstance/block-instance/${blockInstanceId}/${annotationId}`
 }
 
 export function getAnnotationAssignmentsEndpoint(): string {
-  return `/annotation-instances/active-annotations`
+  return `/annotations/annotationInstance/annotation-assignments`
 }
 
 /**
- * AnnotationType API endpoints
+ * AnnotationShape API endpoints
  * LEARNING: Endpoints for AnnotationShape CRUD operations
  * WHY: AnnotationShapes are NOT in ENTITY_KEYS, so they need their own endpoints
- * PATTERN: Helper functions for annotation type endpoints
- * NOTE: Frontend uses friendly "annotationType" terminology, but calls backend annotation-shapes endpoints
+ * PATTERN: Helper functions for annotation shape endpoints
+ * NOTE: Renamed from getAnnotationTypeEndpoint (2026-01-30)
+ *       Restructured to nested endpoint (2026-01-30)
  */
-export function getAnnotationTypeEndpoint(): string {
-  return `/annotation-shapes`
+export function getAnnotationShapeEndpoint(): string {
+  return `/annotations/annotationShape`
 }
 
-export function getAnnotationTypeByIdEndpoint(id: string): string {
-  return `/annotation-shapes/${id}`
+export function getAnnotationShapeByIdEndpoint(id: string): string {
+  return `/annotations/annotationShape/${id}`
+}
+
+
+/**
+ * Event API endpoints
+ * LEARNING: Generic endpoint builder for event keys, following getEntityEndpoint pattern
+ * WHY: Type-safe event endpoint construction matching entity pattern
+ * PATTERN: Helper function that maps event keys to endpoints
+ */
+export function getEventEndpoint(eventKey: GlobalEventKey): string {
+  switch (eventKey) {
+    case 'eventShape':
+      return `/events/eventShape`
+    case 'eventInstance':
+      return `/events/eventInstance`
+    default:
+      throw new Error(`Unknown event key: ${eventKey}`)
+  }
+}
+
+export function getEventByIdEndpoint(id: string): string {
+  return `/events/eventInstance/${id}`
+}
+
+export function getPartShapeEventsEndpoint(partShapeId: string): string {
+  return `/events/eventInstance/part-shape/${partShapeId}`
+}
+
+export function getPartShapeEventEndpoint(partShapeId: string, eventId: string): string {
+  return `/events/eventInstance/part-shape/${partShapeId}/${eventId}`
+}
+
+export function getEventAssignmentsEndpoint(): string {
+  return `/events/eventInstance/event-assignments`
+}
+
+/**
+ * EventShape API endpoints
+ * LEARNING: Endpoints for EventShape CRUD operations
+ * WHY: EventShapes are NOT in ENTITY_KEYS, so they need their own endpoints
+ * PATTERN: Helper functions for event shape endpoints
+ * NOTE: Restructured to nested endpoint (2026-01-30)
+ */
+export function getEventShapeEndpoint(): string {
+  return `/events/eventShape`
+}
+
+export function getEventShapeByIdEndpoint(id: string): string {
+  return `/events/eventShape/${id}`
 }
 
 /**

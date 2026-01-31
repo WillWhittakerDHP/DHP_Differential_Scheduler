@@ -31,9 +31,10 @@ async function cleanup() {
       'validCascades',
       'validParts',
       'bookingCascades',
-      'activeParts',
+      'partAssignments',
       'instanceComponents',
-      'dependentInstanceOptions',
+      'dependentInstances', // Current name
+      'dependentInstanceOptions', // Old name - catch legacy data
       // Old names
       'activeConstituents',
       'validConstituents',

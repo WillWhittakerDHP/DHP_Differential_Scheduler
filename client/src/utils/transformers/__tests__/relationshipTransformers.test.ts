@@ -32,7 +32,7 @@ describe('relationshipTransformers', () => {
       const fetchedRelationships: FetchedRelationship[] = [
         {
           id: 'rel-1',
-          kind: 'activeParts', // FetchedRelationship uses 'kind' not 'relationship_kind'
+          kind: 'partAssignments', // FetchedRelationship uses 'kind' not 'relationship_kind'
           parent_id: 'block-1',
           parent_kind: 'blockInstance', // FetchedRelationship uses 'parent_kind' not 'parent_entity_key'
           child_id: 'part-1',
@@ -41,7 +41,7 @@ describe('relationshipTransformers', () => {
         },
         {
           id: 'rel-2',
-          kind: 'activeParts',
+          kind: 'partAssignments',
           parent_id: 'block-1',
           parent_kind: 'blockInstance',
           child_id: 'part-2',
@@ -50,7 +50,7 @@ describe('relationshipTransformers', () => {
         },
       ]
       
-      const result = transformApiRelationships(fetchedRelationships, 'activeParts', entities)
+      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities, undefined, undefined)
       
       expect(result).toHaveLength(1)
       expect(result[0].parent.id).toBe('block-1')
@@ -68,7 +68,7 @@ describe('relationshipTransformers', () => {
       const fetchedRelationships: FetchedRelationship[] = [
         {
           id: 'rel-1',
-          kind: 'activeParts',
+          kind: 'partAssignments',
           parent_id: 'block-1',
           parent_kind: 'blockInstance',
           child_id: 'part-1',
@@ -77,7 +77,7 @@ describe('relationshipTransformers', () => {
         },
       ]
       
-      const result = transformApiRelationships(fetchedRelationships, 'activeParts', entities)
+      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities, undefined, undefined)
       
       expect(result).toHaveLength(0)
     })
@@ -93,7 +93,7 @@ describe('relationshipTransformers', () => {
       const fetchedRelationships: FetchedRelationship[] = [
         {
           id: 'rel-1',
-          kind: 'activeParts',
+          kind: 'partAssignments',
           parent_id: 'nonexistent-block',
           parent_kind: 'blockInstance',
           child_id: 'part-1',
@@ -102,7 +102,7 @@ describe('relationshipTransformers', () => {
         },
       ]
       
-      const result = transformApiRelationships(fetchedRelationships, 'activeParts', entities)
+      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities, undefined, undefined)
       
       expect(result).toHaveLength(0)
     })
@@ -118,7 +118,7 @@ describe('relationshipTransformers', () => {
       const fetchedRelationships: FetchedRelationship[] = [
         {
           id: 'rel-1',
-          kind: 'activeParts',
+          kind: 'partAssignments',
           parent_id: 'block-1',
           parent_kind: 'blockInstance',
           child_id: 'nonexistent-part',
@@ -127,7 +127,7 @@ describe('relationshipTransformers', () => {
         },
       ]
       
-      const result = transformApiRelationships(fetchedRelationships, 'activeParts', entities)
+      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities, undefined, undefined)
       
       expect(result).toHaveLength(0)
     })
@@ -137,12 +137,12 @@ describe('relationshipTransformers', () => {
     it('should find relationships by parent ID', () => {
       const relationships = [
         {
-          relationshipKind: 'activeParts' as const,
+          relationshipKind: 'partAssignments' as const,
           parent: createBlockInstance('block-1', 'Block 1'),
           children: [createPartInstance('part-1', 'Part 1')],
         },
         {
-          relationshipKind: 'activeParts' as const,
+          relationshipKind: 'partAssignments' as const,
           parent: createBlockInstance('block-2', 'Block 2'),
           children: [createPartInstance('part-2', 'Part 2')],
         },
@@ -157,7 +157,7 @@ describe('relationshipTransformers', () => {
     it('should return empty array when no matches', () => {
       const relationships = [
         {
-          relationshipKind: 'activeParts' as const,
+          relationshipKind: 'partAssignments' as const,
           parent: createBlockInstance('block-1', 'Block 1'),
           children: [createPartInstance('part-1', 'Part 1')],
         },
@@ -173,7 +173,7 @@ describe('relationshipTransformers', () => {
     it('should extract all child IDs from relationships', () => {
       const relationships = [
         {
-          relationshipKind: 'activeParts' as const,
+          relationshipKind: 'partAssignments' as const,
           parent: createBlockInstance('block-1', 'Block 1'),
           children: [
             createPartInstance('part-1', 'Part 1'),
@@ -181,7 +181,7 @@ describe('relationshipTransformers', () => {
           ],
         },
         {
-          relationshipKind: 'activeParts' as const,
+          relationshipKind: 'partAssignments' as const,
           parent: createBlockInstance('block-2', 'Block 2'),
           children: [createPartInstance('part-3', 'Part 3')],
         },
@@ -206,7 +206,7 @@ describe('relationshipTransformers', () => {
     it('should filter relationships by kind', () => {
       const relationships = [
         {
-          relationshipKind: 'activeParts' as const,
+          relationshipKind: 'partAssignments' as const,
           parent: createBlockInstance('block-1', 'Block 1'),
           children: [createPartInstance('part-1', 'Part 1')],
         },
@@ -217,10 +217,10 @@ describe('relationshipTransformers', () => {
         },
       ]
       
-      const result = filterRelationshipsByKind(relationships, 'activeParts')
+      const result = filterRelationshipsByKind(relationships, 'partAssignments')
       
       expect(result).toHaveLength(1)
-      expect(result[0].relationshipKind).toBe('activeParts')
+      expect(result[0].relationshipKind).toBe('partAssignments')
     })
   })
   
@@ -228,17 +228,17 @@ describe('relationshipTransformers', () => {
     it('should group relationships by parent ID', () => {
       const relationships = [
         {
-          relationshipKind: 'activeParts' as const,
+          relationshipKind: 'partAssignments' as const,
           parent: createBlockInstance('block-1', 'Block 1'),
           children: [createPartInstance('part-1', 'Part 1')],
         },
         {
-          relationshipKind: 'activeParts' as const,
+          relationshipKind: 'partAssignments' as const,
           parent: createBlockInstance('block-1', 'Block 1'),
           children: [createPartInstance('part-2', 'Part 2')],
         },
         {
-          relationshipKind: 'activeParts' as const,
+          relationshipKind: 'partAssignments' as const,
           parent: createBlockInstance('block-2', 'Block 2'),
           children: [createPartInstance('part-3', 'Part 3')],
         },

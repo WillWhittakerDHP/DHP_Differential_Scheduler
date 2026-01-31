@@ -65,7 +65,7 @@ export function usePartInstanceCollection(
   const { success: _notifySuccess, error: notifyError } = useNotification()
   // NOTE: notifySuccess not used after refactor - EntityCard shows its own success messages
 
-  const { create: createActivePartsRelationship } = useRelationshipCrud('activeParts')
+  const { create: createPartAssignmentsRelationship } = useRelationshipCrud('partAssignments')
   const { create: _createPartInstance } = useEntityCrud('partInstance')
   // NOTE: createPartInstance is available but EntityCard handles entity creation
   // We only need to create the relationship after EntityCard saves
@@ -170,7 +170,7 @@ export function usePartInstanceCollection(
       
       // Use the entity passed from the saved event instead of looking it up
       // This avoids timing issues where getPartInstanceForShape might not find it yet
-      await createActivePartsRelationship({
+      await createPartAssignmentsRelationship({
         parent_id: blockInstanceEntity.id,
         child_id: createdEntity.id,
       })
@@ -179,7 +179,7 @@ export function usePartInstanceCollection(
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['blockInstance'] }),
         queryClient.invalidateQueries({ queryKey: ['partInstance'] }),
-        queryClient.invalidateQueries({ queryKey: ['activeParts'] }),
+        queryClient.invalidateQueries({ queryKey: ['partAssignments'] }),
         queryClient.invalidateQueries({ queryKey: ['globalData'] }),
       ])
 

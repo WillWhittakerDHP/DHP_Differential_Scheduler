@@ -25,6 +25,12 @@ import { useInstanceTabHandlers } from '@/composables/admin/useInstanceTabHandle
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
 import { BLOCK_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
+import EventInstanceCard from '../components/EventInstanceCard.vue'
+import { useEventInstances, useCreateEventInstance } from '@/composables/useEventInstances'
+import { useEventShapes } from '@/composables/useEventShapes'
+import { useNotification } from '@/composables/useNotification'
+import { computed } from 'vue'
+import type { EventInstance } from '@/types/events'
 
 /**
  * LEARNING: Reactive active tab state
@@ -231,6 +237,72 @@ const handleInstanceCreated = (_entity: GlobalEntity<'blockInstance'>): void => 
  */
 const { handleTabClick } = useInstanceTabHandlers({ activeTab })
 
+/**
+ * LEARNING: Event Instances state and handlers
+ * WHY: Event instances are now part of InstancesTab
+ */
+const { success } = useNotification()
+const isCreatingEventInstance = ref(false)
+const newEventInstanceData = ref<{
+  eventShapeRef: string
+  name: string
+  titleTemplate: string
+  descriptionTemplate: string
+  locationTemplate: string
+} | null>(null)
+
+const createEventInstanceMutation = useCreateEventInstance()
+const eventInstancesQuery = useEventInstances()
+const eventInstances = computed(() => eventInstancesQuery.data.value ?? [])
+const isLoadingEventInstances = computed(() => eventInstancesQuery.isLoading.value)
+const eventShapesQuery = useEventShapes()
+const eventShapes = computed(() => eventShapesQuery.data.value ?? [])
+
+const createEventInstance = () => {
+  if (eventShapes.value.length === 0) {
+    alert('Please create an event shape first')
+    return
+  }
+  newEventInstanceData.value = {
+    eventShapeRef: eventShapes.value[0].id,
+    name: '',
+    titleTemplate: '',
+    descriptionTemplate: '',
+    locationTemplate: '',
+  }
+  isCreatingEventInstance.value = true
+  expandedInstances.value = ['new-eventInstance', ...expandedInstances.value]
+}
+
+const handleEventInstanceCreate = async () => {
+  if (!newEventInstanceData.value || !newEventInstanceData.value.name.trim()) return
+  
+  try {
+    await createEventInstanceMutation.mutateAsync({
+      eventShapeRef: newEventInstanceData.value.eventShapeRef,
+      name: newEventInstanceData.value.name.trim(),
+      titleTemplate: newEventInstanceData.value.titleTemplate.trim() || null,
+      descriptionTemplate: newEventInstanceData.value.descriptionTemplate.trim() || null,
+      locationTemplate: newEventInstanceData.value.locationTemplate.trim() || null,
+    })
+    success('Event instance created successfully')
+    isCreatingEventInstance.value = false
+    newEventInstanceData.value = null
+    expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+  } catch (error) {
+    // Failed to create event instance
+  }
+}
+
+const handleEventInstanceCancelled = () => {
+  isCreatingEventInstance.value = false
+  newEventInstanceData.value = null
+  expandedEventInstances.value = expandedEventInstances.value.filter(id => id !== 'new-eventInstance')
+}
+
+function handleDeleteEventInstance(_id: string) {
+  // EventInstanceCard already handled the deletion - this is just for parent awareness
+}
 
 // All watch blocks and lifecycle hooks moved to useInstanceDragAndDrop composable
 </script>
@@ -245,7 +317,6 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
     <VTabs 
       v-model="activeTab" 
       class="mb-4 instances-tabs-container"
-      v-if="sortedBlockShapes.length > 0"
     >
       <VTab
         v-for="blockShape in sortedBlockShapes"
@@ -254,6 +325,14 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
         @click="handleTabClick(String(blockShape.id))"
       >
         {{ blockShape.name }} ({{ blockInstancesCountByShape.get(String(blockShape.id)) || 0 }})
+      </VTab>
+      <VSpacer />
+      <VTab
+        value="eventInstances"
+        @click="activeTab = 'eventInstances'"
+        class="event-instances-tab"
+      >
+        Events
       </VTab>
     </VTabs>
     
@@ -264,7 +343,6 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
     -->
     <VWindow 
       v-model="activeTab"
-      v-if="sortedBlockShapes.length > 0"
     >
       <VWindowItem
         v-for="blockShape in sortedBlockShapes"
@@ -451,15 +529,144 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
           
         </div>
       </VWindowItem>
+      
+      <!-- Event Instances Tab Content -->
+      <VWindowItem value="eventInstances">
+        <div class="event-instances-tab-content">
+          <div class="d-flex justify-space-between align-center mb-4">
+            <h3 class="text-h6">Event Instances</h3>
+            <VBtn
+              color="primary"
+              prepend-icon="tabler-plus"
+              @click="createEventInstance"
+            >
+              Create Event Instance
+            </VBtn>
+          </div>
+          
+          <div v-if="isLoadingEventInstances" class="text-center py-4">
+            <VProgressCircular indeterminate />
+          </div>
+          
+          <VExpansionPanels 
+            v-else-if="isCreatingEventInstance || eventInstances.length > 0"
+            v-model="expandedInstances" 
+            multiple 
+          >
+            <!-- Inline creation card for EventInstance -->
+            <VExpansionPanel
+              v-if="isCreatingEventInstance"
+              key="new-eventInstance"
+              value="new-eventInstance"
+              class="new-shape-card"
+            >
+              <template #title>
+                <div class="d-flex align-center gap-2 flex-grow-1">
+                  <VIcon icon="tabler-plus" size="small" color="primary" />
+                  <span class="text-primary font-weight-medium">New Event Instance</span>
+                </div>
+              </template>
+              
+              <template #text>
+                <div v-if="newEventInstanceData" class="d-flex flex-column gap-3">
+                  <VSelect
+                    v-model="newEventInstanceData.eventShapeRef"
+                    :items="eventShapes"
+                    item-title="name"
+                    item-value="id"
+                    label="Event Shape"
+                    variant="outlined"
+                    density="compact"
+                  />
+                  <VTextField
+                    v-model="newEventInstanceData.name"
+                    label="Name"
+                    variant="outlined"
+                    density="compact"
+                    @keyup.enter="handleEventInstanceCreate"
+                  />
+                  <VTextarea
+                    v-model="newEventInstanceData.titleTemplate"
+                    label="Title Template"
+                    variant="outlined"
+                    density="compact"
+                    rows="2"
+                    hint="Template for event title (e.g., '{service} on {propertyType}')"
+                  />
+                  <VTextarea
+                    v-model="newEventInstanceData.descriptionTemplate"
+                    label="Description Template"
+                    variant="outlined"
+                    density="compact"
+                    rows="2"
+                    hint="Template for event description (e.g., '{clientName} - {propertyAddress}')"
+                  />
+                  <VTextarea
+                    v-model="newEventInstanceData.locationTemplate"
+                    label="Location Template"
+                    variant="outlined"
+                    density="compact"
+                    rows="2"
+                    hint="Template for event location (e.g., '{propertyAddress}')"
+                  />
+                  <div class="d-flex gap-2 justify-end">
+                    <VBtn
+                      color="primary"
+                      :loading="createEventInstanceMutation.isPending.value"
+                      :disabled="!newEventInstanceData.name.trim()"
+                      @click="handleEventInstanceCreate"
+                    >
+                      Create
+                    </VBtn>
+                    <VBtn
+                      variant="outlined"
+                      @click="handleEventInstanceCancelled"
+                    >
+                      Cancel
+                    </VBtn>
+                  </div>
+                </div>
+              </template>
+            </VExpansionPanel>
+            
+            <!-- Existing EventInstances -->
+            <VExpansionPanel
+              v-for="eventInstance in eventInstances"
+              :key="eventInstance.id"
+              :value="String(eventInstance.id)"
+            >
+              <template #title>
+                <span>{{ eventInstance.name || `Event Instance ${eventInstance.id}` }}</span>
+              </template>
+              
+              <template #text>
+                <EventInstanceCard
+                  :event-instance="eventInstance"
+                  @delete="handleDeleteEventInstance"
+                />
+              </template>
+            </VExpansionPanel>
+          </VExpansionPanels>
+          
+          <VAlert
+            v-else
+            type="info"
+            variant="tonal"
+            class="mt-4"
+          >
+            No event instances found. Create one to get started.
+          </VAlert>
+        </div>
+      </VWindowItem>
     </VWindow>
     
     <!--
       LEARNING: Empty state when no BlockShapes exist
       WHY: Provides feedback when no BlockShapes are configured
-      PATTERN: Conditional rendering with v-else
+      PATTERN: Conditional rendering with v-if
     -->
     <VAlert
-      v-else
+      v-if="sortedBlockShapes.length === 0 && activeTab !== 'eventInstances'"
       type="info"
       variant="tonal"
       class="mt-4"
@@ -497,7 +704,6 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
           id: BLOCK_INSTANCE_GLOBAL_CONFIG_ID,
           blockShapeRef: blockShape.id 
         } as GlobalEntity<'blockInstance'>"
-        mode="global"
         :block-shape-ref="String(blockShape.id)"
         :entity-name="blockShape.name || `BlockShape ${blockShape.id}`"
         @update:model-value="(value) => shapeEditModalOpen.set(String(blockShape.id), value)"
@@ -570,5 +776,13 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
 .instances-tabs-container :deep(.v-slide-group__content) {
   display: flex;
   flex: 1;
+}
+
+.event-instances-tab {
+  margin-left: auto;
+}
+
+.event-instances-tab-content {
+  padding: 0.5rem 0;
 }
 </style>

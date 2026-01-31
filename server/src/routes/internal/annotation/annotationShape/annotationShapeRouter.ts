@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { Op } from 'sequelize';
-import { AnnotationShape } from '../../../config/app.js';
+import { AnnotationShape } from '../../../../config/app.js';
 import { 
   fetchAll, 
   fetchById, 
@@ -8,8 +8,8 @@ import {
   updateRecord, 
   patchRecord, 
   deleteRecord 
-} from '../../helpers/dataController.js';
-import { getModelAttributes } from '../../../utils/sequelizeHelpers.js';
+} from '../../../helpers/dataController.js';
+import { getModelAttributes } from '../../../../utils/sequelizeHelpers.js';
 
 const router = Router();
 
@@ -251,7 +251,7 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
  */
 router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { AnnotationInstance } = await import('../../../config/app.js');
+    const { AnnotationInstance } = await import('../../../../config/app.js');
     
     // Check if any annotation instances are using this shape
     const annotationInstancesUsingShape = await AnnotationInstance.count({

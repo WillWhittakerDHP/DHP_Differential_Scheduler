@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { ValidCascade, ValidPart, DependentInstance, BookingCascade, ActivePart, InstanceComponent, BlockInstance, BlockShape } from '../../../config/app.js';
+import { ValidCascade, ValidPart, ValidAnnotation, DependentInstance, BookingCascade, PartAssignment, AnnotationAssignment, EventAssignment, InstanceComponent, BlockInstance, BlockShape, EventInstance, EventShape, PartShape, AnnotationInstance, AnnotationShape } from '../../../config/app.js';
 import { Model, ModelStatic } from 'sequelize';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
 
@@ -19,9 +19,9 @@ const router = Router();
  * NOTE: Renamed for clearer domain terminology:
  * - activeCascades → bookingCascades (Booking Cascade) (2026-01-08)
  * - activeComponents → serviceComponents → instanceComponents (Instance Components) (2026-01-07)
- * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions → dependentInstances (2026-01-20)
+ * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions → dependentInstances (2026-01-20, final naming)
  */
-type RelationshipKind = 'validCascades' | 'validParts' | 'dependentInstances' | 'bookingCascades' | 'activeParts' | 'instanceComponents';
+type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'dependentInstances' | 'bookingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'instanceComponents';
 
 interface RelationshipConfig {
   model: ModelStatic<Model>;
@@ -31,13 +31,16 @@ interface RelationshipConfig {
 }
 
 // Verify models are available
-if (!ValidCascade || !ValidPart || !DependentInstance || !BookingCascade || !ActivePart || !InstanceComponent) {
+if (!ValidCascade || !ValidPart || !ValidAnnotation || !DependentInstance || !BookingCascade || !PartAssignment || !AnnotationAssignment || !EventAssignment || !InstanceComponent) {
   console.error('[RelationshipRouter] Missing models:', {
     ValidCascade: !!ValidCascade,
     ValidPart: !!ValidPart,
+    ValidAnnotation: !!ValidAnnotation,
     DependentInstance: !!DependentInstance,
     BookingCascade: !!BookingCascade,
-    ActivePart: !!ActivePart,
+    PartAssignment: !!PartAssignment,
+    AnnotationAssignment: !!AnnotationAssignment,
+    EventAssignment: !!EventAssignment,
     InstanceComponent: !!InstanceComponent
   });
 }
@@ -55,6 +58,12 @@ const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
     parentEntity: 'blockShape',
     childEntity: 'partShape'
   },
+  validAnnotations: {
+    model: ValidAnnotation,
+    displayName: 'Valid Annotation',
+    parentEntity: 'blockShape',
+    childEntity: 'annotationShape'
+  },
   dependentInstances: {
     model: DependentInstance,
     displayName: 'Dependent Instance',
@@ -67,11 +76,23 @@ const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
     parentEntity: 'blockInstance',
     childEntity: 'blockInstance'
   },
-  activeParts: {
-    model: ActivePart,
-    displayName: 'Active Part',
+  partAssignments: {
+    model: PartAssignment,
+    displayName: 'Part Assignment',
     parentEntity: 'blockInstance',
     childEntity: 'partInstance'
+  },
+  annotationAssignments: {
+    model: AnnotationAssignment,
+    displayName: 'Annotation Assignment',
+    parentEntity: 'blockInstance',
+    childEntity: 'annotationInstance'
+  },
+  eventAssignments: {
+    model: EventAssignment,
+    displayName: 'Event Assignment',
+    parentEntity: 'blockShape', // Shape-level, not instance-level
+    childEntity: 'eventInstance'
   },
   instanceComponents: {
     model: InstanceComponent,
@@ -93,6 +114,53 @@ function normalizeRelationshipKind(value: string): RelationshipKind {
   }
   // No backward compatibility - throw error for unknown relationship kinds
   throw new Error(`Unknown relationship kind: ${value}`);
+}
+
+/**
+ * Helper function to map generic parent_id/child_id to model-specific field names
+ * 
+ * LEARNING: Different relationship models use different field names
+ * WHY: Models have domain-specific field names (blockInstanceId vs parent_id)
+ * PATTERN: Map generic API field names to model-specific attributes
+ */
+function mapRelationshipFields(
+  relationshipKind: RelationshipKind,
+  parentId: string,
+  childId: string
+): Record<string, string> {
+  switch (relationshipKind) {
+    case 'annotationAssignments':
+      return {
+        blockInstanceId: parentId,
+        annotationId: childId,
+      };
+    case 'eventAssignments': {
+      const config = RELATIONSHIP_REGISTRY[relationshipKind];
+      // For eventAssignments, parentEntity determines which shape field to use
+      if (config.parentEntity === 'blockShape') {
+        return {
+          blockShapeId: parentId,
+          eventInstanceId: childId,
+        };
+      } else if (config.parentEntity === 'partShape') {
+        return {
+          partShapeId: parentId,
+          eventInstanceId: childId,
+        };
+      }
+      // Fallback (shouldn't happen)
+      return {
+        blockShapeId: parentId,
+        eventInstanceId: childId,
+      };
+    }
+    default:
+      // Standard models use parent_id/child_id
+      return {
+        parent_id: parentId,
+        child_id: childId,
+      };
+  }
 }
 
 /**
@@ -188,12 +256,18 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
   
   try {
     const { parent_id } = req.query;
-    const where: any = {
-      // LEARNING: Always filter out disabled relationships
+    const where: any = {};
+    
+    // LEARNING: Conditionally filter disabled relationships only if model has disabled field
+    // WHY: Not all relationship models have a disabled field (e.g., annotationAssignments, eventAssignments)
+    // PATTERN: Check if model has disabled attribute before filtering
+    const modelAttributes = relationshipConfig.model.getAttributes();
+    if ('disabled' in modelAttributes) {
+      // LEARNING: Filter out disabled relationships for models that support it
       // WHY: Disabled relationships represent old/superseded versions and should not be returned
       // PATTERN: Explicitly filter disabled relationships at query level
-      disabled: false
-    };
+      where.disabled = false;
+    }
     
     // Support parent_id filtering for instanceComponents
     // LEARNING: Validate parent_id is a valid UUID before using it
@@ -214,12 +288,73 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
       where
     };
     
-    // Order by orderIndex for instanceComponents
+    // Order by orderIndex for instanceComponents only
     // LEARNING: Use Sequelize attribute name (orderIndex), not database column name (order_index)
     // WHY: Sequelize handles the mapping from camelCase attribute to snake_case column
     // PATTERN: Use attribute names in Sequelize queries, not database column names
+    // NOTE: annotationAssignments and eventAssignments no longer have orderIndex - metadata moved to shape tables
     if (req.params.relationshipType === 'instanceComponents') {
       options.order = [['orderIndex', 'ASC']];
+    }
+    
+    // Add includes for eventAssignments to get nested data (EventInstance.eventShape, PartShape, BlockShape)
+    // LEARNING: Include nested data for eventAssignments similar to separate endpoint
+    // WHY: Provides richer data structure matching separate endpoint behavior
+    // PATTERN: Conditional includes based on relationship type
+    if (req.params.relationshipType === 'eventAssignments') {
+      options.include = [
+        {
+          model: EventInstance,
+          as: 'eventInstance',
+          attributes: ['id', 'name', 'event_shape_ref', 'title_template', 'description_template', 'location_template'],
+          include: [
+            {
+              model: EventShape,
+              as: 'eventShape',
+              attributes: ['id', 'name']
+            }
+          ]
+        },
+        {
+          model: PartShape,
+          as: 'partShape',
+          attributes: ['id', 'name'],
+          required: false
+        },
+        {
+          model: BlockShape,
+          as: 'blockShape',
+          attributes: ['id', 'name'],
+          required: false
+        }
+      ];
+    }
+    
+    // Add includes for annotationAssignments to get nested data (AnnotationInstance.annotationShape, BlockInstance)
+    // LEARNING: Include nested data for annotationAssignments similar to separate endpoint
+    // WHY: Provides richer data structure matching separate endpoint behavior
+    // PATTERN: Conditional includes based on relationship type
+    if (req.params.relationshipType === 'annotationAssignments') {
+      options.include = [
+        {
+          model: AnnotationInstance,
+          as: 'annotation',
+          attributes: ['id', 'text', 'userType', 'type'],
+          include: [
+            {
+              model: AnnotationShape,
+              as: 'annotationShape',
+              attributes: ['id', 'name']
+            }
+          ]
+        },
+        {
+          model: BlockInstance,
+          as: 'userTypeBlockInstance',
+          attributes: ['id', 'name'],
+          required: false
+        }
+      ];
     }
     
     // IMPORTANT: For models with `underscored: true`, always specify `attributes` explicitly
@@ -421,13 +556,18 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
   }
   
   try {
-    const createData: any = { parent_id, child_id };
+    const normalizedKind = normalizeRelationshipKind(req.params.relationshipType);
+    
+    // Map generic parent_id/child_id to model-specific field names
+    const createData: any = mapRelationshipFields(normalizedKind, parent_id, child_id);
     
     // Add order_index for instanceComponents
     if (req.params.relationshipType === 'instanceComponents') {
       createData.orderIndex = order_index ?? 0;
       createData.disabled = false;
     }
+    
+    // NOTE: annotationAssignments no longer supports orderIndex - metadata moved to annotation_shapes table
     
     const created = await relationshipConfig.model.create(createData);
     
@@ -572,10 +712,14 @@ router.delete('/:relationshipType/:parentId/:childId', async (req: Request, res:
   }
   
   const { parentId, childId } = req.params;
+  const normalizedKind = normalizeRelationshipKind(req.params.relationshipType);
+  
+  // Map generic parent_id/child_id to model-specific field names
+  const whereClause = mapRelationshipFields(normalizedKind, parentId, childId);
   
   try {
     const deletedCount = await relationshipConfig.model.destroy({
-      where: { parent_id: parentId, child_id: childId }
+      where: whereClause
     });
     
     if (deletedCount === 0) {

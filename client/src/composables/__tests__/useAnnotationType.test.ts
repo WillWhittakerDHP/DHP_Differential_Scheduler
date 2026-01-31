@@ -1,25 +1,27 @@
 /**
- * USE ANNOTATION TYPE TESTS
+ * USE ANNOTATION SHAPE TESTS
  * 
- * Unit tests for useAnnotationType composable.
- * Tests annotation type CRUD operations and queries.
+ * Unit tests for useAnnotationShape composable.
+ * Tests annotation shape CRUD operations and queries.
  * Phase 7: Config Composables
  * 
  * Session 1.4.7: Updated to test globalData cache pattern
- * - useAnnotationTypes now reads from globalData.annotationTypes
- * - Mutations use refetchQueries(['globalData']) instead of invalidateQueries(['annotationTypes'])
+ * - useAnnotationShapes now reads from globalData.annotationShapes
+ * - Mutations use refetchQueries(['globalData']) instead of invalidateQueries(['annotationShapes'])
+ * 
+ * NOTE: Renamed from useAnnotationType tests (2026-01-30)
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref, type Ref } from 'vue'
 import {
-  useAnnotationTypes,
-  useCreateAnnotationType,
-  useUpdateAnnotationType,
-  useDeleteAnnotationType,
+  useAnnotationShapes,
+  useCreateAnnotationShape,
+  useUpdateAnnotationShape,
+  useDeleteAnnotationShape,
 } from '../useAnnotationTypes'
 import apiClient from '@/utils/api'
-import type { AnnotationType } from '@/types/annotations'
+import type { AnnotationShape } from '@/types/annotations'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 
 // Mock Vue Query
@@ -67,54 +69,65 @@ vi.mock('@/utils/api', () => ({
     put: vi.fn(),
     delete: vi.fn(),
   },
-  getAnnotationTypeEndpoint: vi.fn(() => '/api/annotation-types'),
-  getAnnotationTypeByIdEndpoint: vi.fn((id) => `/api/annotation-types/${id}`),
+  getAnnotationShapeEndpoint: vi.fn(() => '/api/annotations/annotationShape'),
+  getAnnotationShapeByIdEndpoint: vi.fn((id) => `/api/annotations/annotationShape/${id}`),
 }))
 
-describe('useAnnotationType', () => {
+describe('useAnnotationShape', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     // Reset mock globalData
     mockGlobalData.value = null
   })
 
-  describe('useAnnotationTypes', () => {
-    it('should return annotation types from globalData', () => {
-      const mockTypes: AnnotationType[] = [
-        { id: 'type-1', name: 'description' },
-        { id: 'type-2', name: 'tooltip' },
+  describe('useAnnotationShapes', () => {
+    it('should return annotation shapes from globalData', () => {
+      const mockShapes: AnnotationShape[] = [
+        { id: 'shape-1', name: 'description' },
+        { id: 'shape-2', name: 'tooltip' },
       ]
       
-      // Set up globalData with annotation types
+      // Set up globalData with annotation shapes
       mockGlobalData.value = {
         entities: { blockInstance: [], blockShape: [], partInstance: [], partShape: [] },
         relationships: {} as GlobalData['relationships'],
-        annotations: [],
-        annotationTypes: mockTypes,
+        annotations: {
+          annotationShape: mockShapes,
+          annotationInstance: [],
+        },
+        events: {
+          eventShape: [],
+          eventInstance: [],
+        },
       }
 
-      const { data } = useAnnotationTypes()
+      const { data } = useAnnotationShapes()
 
-      expect(data.value).toEqual(mockTypes)
+      expect(data.value).toEqual(mockShapes)
     })
 
     it('should return empty array when globalData is null', () => {
       mockGlobalData.value = null
 
-      const { data } = useAnnotationTypes()
+      const { data } = useAnnotationShapes()
 
       expect(data.value).toEqual([])
     })
 
-    it('should return empty array when annotationTypes is undefined', () => {
+    it('should return empty array when annotationShapes is undefined', () => {
       mockGlobalData.value = {
         entities: { blockInstance: [], blockShape: [], partInstance: [], partShape: [] },
         relationships: {} as GlobalData['relationships'],
-        annotations: [],
-        // annotationTypes intentionally undefined
+        annotations: {
+          annotationInstance: [],
+        },
+        events: {
+          eventShape: [],
+          eventInstance: [],
+        },
       }
 
-      const { data } = useAnnotationTypes()
+      const { data } = useAnnotationShapes()
 
       expect(data.value).toEqual([])
     })
@@ -122,7 +135,7 @@ describe('useAnnotationType', () => {
     it('should expose isLoading and error from useGlobal', () => {
       mockGlobalData.value = null
       
-      const result = useAnnotationTypes()
+      const result = useAnnotationShapes()
       
       expect(result).toHaveProperty('data')
       expect(result).toHaveProperty('isLoading')
@@ -130,28 +143,28 @@ describe('useAnnotationType', () => {
     })
   })
 
-  describe('useCreateAnnotationType', () => {
-    it('should create annotation type', async () => {
-      const newType: AnnotationType = { id: 'type-1', name: 'newType' }
-      vi.mocked(apiClient.post).mockResolvedValue({ data: newType })
+  describe('useCreateAnnotationShape', () => {
+    it('should create annotation shape', async () => {
+      const newShape: AnnotationShape = { id: 'shape-1', name: 'newShape' }
+      vi.mocked(apiClient.post).mockResolvedValue({ data: newShape })
 
-      const mutation = useCreateAnnotationType()
+      const mutation = useCreateAnnotationShape()
 
-      const result = await mutation.mutateAsync({ name: 'newType' })
+      const result = await mutation.mutateAsync({ name: 'newShape' })
 
       expect(apiClient.post).toHaveBeenCalledWith(
-        '/api/annotation-types',
-        { name: 'newType' }
+        '/api/annotations/annotationShape',
+        { name: 'newShape' }
       )
-      expect(result).toEqual(newType)
+      expect(result).toEqual(newShape)
     })
 
     it('should refetch globalData query on success', async () => {
-      vi.mocked(apiClient.post).mockResolvedValue({ data: { id: 'type-1', name: 'newType' } })
+      vi.mocked(apiClient.post).mockResolvedValue({ data: { id: 'shape-1', name: 'newShape' } })
 
-      const mutation = useCreateAnnotationType()
+      const mutation = useCreateAnnotationShape()
 
-      await mutation.mutateAsync({ name: 'newType' })
+      await mutation.mutateAsync({ name: 'newShape' })
 
       // Session 1.4.7: Use refetchQueries for consistency with globalData pattern
       expect(mockQueryClient.refetchQueries).toHaveBeenCalledWith({
@@ -160,42 +173,42 @@ describe('useAnnotationType', () => {
     })
 
     it('should handle creation errors', async () => {
-      const error = new Error('Failed to create annotation type')
+      const error = new Error('Failed to create annotation shape')
       vi.mocked(apiClient.post).mockRejectedValue(error)
 
-      const mutation = useCreateAnnotationType()
+      const mutation = useCreateAnnotationShape()
 
-      await expect(mutation.mutateAsync({ name: 'newType' })).rejects.toThrow('Failed to create annotation type')
+      await expect(mutation.mutateAsync({ name: 'newShape' })).rejects.toThrow('Failed to create annotation shape')
     })
   })
 
-  describe('useUpdateAnnotationType', () => {
-    it('should update annotation type', async () => {
-      const updatedType: AnnotationType = { id: 'type-1', name: 'updatedType' }
-      vi.mocked(apiClient.put).mockResolvedValue({ data: updatedType })
+  describe('useUpdateAnnotationShape', () => {
+    it('should update annotation shape', async () => {
+      const updatedShape: AnnotationShape = { id: 'shape-1', name: 'updatedShape' }
+      vi.mocked(apiClient.put).mockResolvedValue({ data: updatedShape })
 
-      const mutation = useUpdateAnnotationType()
+      const mutation = useUpdateAnnotationShape()
 
       const result = await mutation.mutateAsync({
-        id: 'type-1',
-        data: { name: 'updatedType' },
+        id: 'shape-1',
+        data: { name: 'updatedShape' },
       })
 
       expect(apiClient.put).toHaveBeenCalledWith(
-        '/api/annotation-types/type-1',
-        { name: 'updatedType' }
+        '/api/annotations/annotationShape/shape-1',
+        { name: 'updatedShape' }
       )
-      expect(result).toEqual(updatedType)
+      expect(result).toEqual(updatedShape)
     })
 
     it('should refetch globalData query on success', async () => {
-      vi.mocked(apiClient.put).mockResolvedValue({ data: { id: 'type-1', name: 'updatedType' } })
+      vi.mocked(apiClient.put).mockResolvedValue({ data: { id: 'shape-1', name: 'updatedShape' } })
 
-      const mutation = useUpdateAnnotationType()
+      const mutation = useUpdateAnnotationShape()
 
       await mutation.mutateAsync({
-        id: 'type-1',
-        data: { name: 'updatedType' },
+        id: 'shape-1',
+        data: { name: 'updatedShape' },
       })
 
       // Session 1.4.7: Use refetchQueries for consistency with globalData pattern
@@ -205,35 +218,35 @@ describe('useAnnotationType', () => {
     })
 
     it('should handle update errors', async () => {
-      const error = new Error('Failed to update annotation type')
+      const error = new Error('Failed to update annotation shape')
       vi.mocked(apiClient.put).mockRejectedValue(error)
 
-      const mutation = useUpdateAnnotationType()
+      const mutation = useUpdateAnnotationShape()
 
       await expect(mutation.mutateAsync({
-        id: 'type-1',
-        data: { name: 'updatedType' },
-      })).rejects.toThrow('Failed to update annotation type')
+        id: 'shape-1',
+        data: { name: 'updatedShape' },
+      })).rejects.toThrow('Failed to update annotation shape')
     })
   })
 
-  describe('useDeleteAnnotationType', () => {
-    it('should delete annotation type', async () => {
+  describe('useDeleteAnnotationShape', () => {
+    it('should delete annotation shape', async () => {
       vi.mocked(apiClient.delete).mockResolvedValue({})
 
-      const mutation = useDeleteAnnotationType()
+      const mutation = useDeleteAnnotationShape()
 
-      await mutation.mutateAsync('type-1')
+      await mutation.mutateAsync('shape-1')
 
-      expect(apiClient.delete).toHaveBeenCalledWith('/api/annotation-types/type-1')
+      expect(apiClient.delete).toHaveBeenCalledWith('/api/annotations/annotationShape/shape-1')
     })
 
     it('should refetch globalData query on success', async () => {
       vi.mocked(apiClient.delete).mockResolvedValue({})
 
-      const mutation = useDeleteAnnotationType()
+      const mutation = useDeleteAnnotationShape()
 
-      await mutation.mutateAsync('type-1')
+      await mutation.mutateAsync('shape-1')
 
       // Session 1.4.7: Use refetchQueries for consistency with globalData pattern
       expect(mockQueryClient.refetchQueries).toHaveBeenCalledWith({
@@ -242,13 +255,12 @@ describe('useAnnotationType', () => {
     })
 
     it('should handle delete errors', async () => {
-      const error = new Error('Failed to delete annotation type')
+      const error = new Error('Failed to delete annotation shape')
       vi.mocked(apiClient.delete).mockRejectedValue(error)
 
-      const mutation = useDeleteAnnotationType()
+      const mutation = useDeleteAnnotationShape()
 
-      await expect(mutation.mutateAsync('type-1')).rejects.toThrow('Failed to delete annotation type')
+      await expect(mutation.mutateAsync('shape-1')).rejects.toThrow('Failed to delete annotation shape')
     })
   })
 })
-

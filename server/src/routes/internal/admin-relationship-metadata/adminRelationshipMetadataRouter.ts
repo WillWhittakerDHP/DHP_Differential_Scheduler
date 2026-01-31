@@ -110,7 +110,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     // WHY: Supports backward compatibility during transition
     // PATTERN: Validate that inputConfig exists and is an object, accept any valid JSONB structure
     // NOTE: Relationship metadata always uses relationshipSelect (never typeSelect)
-    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'partsCollection') {
+    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'relationshipCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
         res.status(400).json({
           error: 'Missing inputConfig',

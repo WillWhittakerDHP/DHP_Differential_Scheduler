@@ -48,7 +48,7 @@ export const FIELD_RENDER_AS = {
   REFERENCE: 'reference' as const satisfies FieldMetadataEntry['renderAs'],
   STATUS_BUTTON: 'statusButton' as const satisfies FieldMetadataEntry['renderAs'],
   ICON_SELECT: 'iconSelect' as const satisfies FieldMetadataEntry['renderAs'],
-  PARTS_COLLECTION: 'partsCollection' as const satisfies FieldMetadataEntry['renderAs'],
+  RELATIONSHIP_COLLECTION: 'relationshipCollection' as const satisfies FieldMetadataEntry['renderAs'],
 } as const
 
 /**
@@ -62,4 +62,5 @@ export const FIELD_PANEL = {
   PARTS: 'parts' as const satisfies FieldMetadataEntry['panel'],
   RELATIONSHIPS: 'relationships' as const satisfies FieldMetadataEntry['panel'],
   ANNOTATIONS: 'annotations' as const satisfies FieldMetadataEntry['panel'],
+  EVENTS: 'events' as const satisfies FieldMetadataEntry['panel'],
 } as const

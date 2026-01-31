@@ -111,8 +111,8 @@ const { entities: partInstances } = useEntityCrud('partInstance')
  * PATTERN: Get first PartInstance, extract partShapeRef from it
  */
 const firstPartInstanceForMetadata = computed(() => {
-  // Get PartInstances for this BlockInstance via relationships.activeParts
-  const relationships = globalData.value?.relationships?.activeParts ?? []
+  // Get PartInstances for this BlockInstance via relationships.partAssignments
+  const relationships = globalData.value?.relationships?.partAssignments ?? []
   const constituentIds = new Set(
     relationships
       .filter(rel => String(rel.parent.id) === String(props.blockInstanceId))

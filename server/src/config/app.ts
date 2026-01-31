@@ -50,15 +50,16 @@ export const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB
 
 // ✅ Ensure Models Are Loaded
 // NOTE: Renamed for clearer domain terminology:
-// - ValidIndependentComponent → AdditionalServiceOption → DependentInstanceOption → DependentInstance (2026-01-20)
+// - ValidIndependentComponent → AdditionalServiceOption → DependentInstanceOption → DependentInstance (2026-01-20, final naming)
 // - ActiveCascade → BookingCascade (2026-01-08)
 // - ActiveComponent → ServiceComponent → InstanceComponent (2026-01-07)
 export const { 
   PartShape, PartInstance, BlockShape, BlockInstance, 
   BlockInstanceVersion, PartInstanceVersion,
-  ValidCascade, ValidPart, DependentInstance,
-  BookingCascade, ActivePart, InstanceComponent,
-  AnnotationShape, AnnotationInstance, ActiveAnnotation,
+  ValidCascade, ValidPart, ValidAnnotation, DependentInstance,
+  BookingCascade, PartAssignment, InstanceComponent,
+  AnnotationShape, AnnotationInstance, AnnotationAssignment,
+  EventShape, EventInstance, EventAssignment,
   Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
   BusinessSettings,
   AdminMetadata
@@ -94,13 +95,17 @@ export default {
   PartInstanceVersion,
   ValidCascade,
   ValidPart,
+  ValidAnnotation,
   DependentInstance,
   BookingCascade,
-  ActivePart,
+  PartAssignment,
   InstanceComponent,
   AnnotationShape,
   AnnotationInstance,
-  ActiveAnnotation,
+  AnnotationAssignment,
+  EventShape,
+  EventInstance,
+  EventAssignment,
   Address,
   PropertyVersion,
   PropertyDetails,

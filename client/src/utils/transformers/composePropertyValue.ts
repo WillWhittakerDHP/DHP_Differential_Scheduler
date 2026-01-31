@@ -83,14 +83,12 @@ export function composeProperty<T extends string | number | boolean | unknown[]>
  * 
  * @param components - Array of component entities
  * @param entityKind - Entity type key
- * @param componentRules - Component strategy rules per property
  * @param blockShapes - Array of blockShape entities (for baseSqFt filtering)
  * @returns Partial entity with composed properties
  */
 export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
   components: GlobalEntity<GE>[],
   entityKind: GE,
-  componentRules: Record<string, ComponentStrategy>,
   blockShapes?: GlobalEntity<GlobalEntityKey>[]
 ): Partial<GlobalEntity<GE>> {
   if (components.length === 0) {
@@ -108,12 +106,36 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
 
   // Compose properties using functional approach
   const composed = Array.from(propertyKeys).reduce((acc, propertyKey) => {
-    const strategy = componentRules[propertyKey] || 'first'
+    // Get values from components
+    let values: unknown[] = components
+      .map((component) => (component as Partial<GlobalEntity<GE>>)[propertyKey as keyof GlobalEntity<GE>])
+      .filter((val) => val !== undefined)
+    
+    // Filter to composable values
+    const composableValues = values.filter(isComposablePropertyValue)
+    if (composableValues.length === 0) {
+      return acc
+    }
+    
+    // Determine strategy from value type
+    // LEARNING: Strategy determined from actual value types, not configuration
+    // WHY: Eliminates need for configuration object and prevents stale rules for removed properties
+    // PATTERN: Check value type to determine appropriate composition strategy
+    const firstValue = composableValues[0]
+    let strategy: ComponentStrategy
+    if (Array.isArray(firstValue)) {
+      strategy = 'merge'
+    } else if (typeof firstValue === 'boolean') {
+      strategy = 'every'
+    } else if (typeof firstValue === 'number') {
+      strategy = 'sum'
+    } else {
+      strategy = 'first'
+    }
     
     // LEARNING: Filter out baseSqFt from state control blockInstances when summing
     // WHY: State control blockShapes (isStateControl: true) should not contribute to square footage accumulation
     // PATTERN: For baseSqFt sum operations on blockInstance, exclude components with isStateControl: true blockShapes
-    let values: unknown[]
     if (propertyKey === 'baseSqFt' && entityKind === 'blockInstance' && strategy === COMPONENT_STRATEGIES.SUM && blockShapes) {
       // Filter components to exclude those with isStateControl: true blockShapes (state control mode)
       const filteredComponents = components.filter(component => {
@@ -136,17 +158,16 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
         return !isStateControl
       })
       
+      // Re-get values from filtered components
       values = filteredComponents
         .map((component) => (component as Partial<GlobalEntity<GE>>)[propertyKey as keyof GlobalEntity<GE>])
         .filter((val) => val !== undefined)
+      
+      const filteredComposableValues = values.filter(isComposablePropertyValue)
+      if (filteredComposableValues.length > 0) {
+        acc[propertyKey] = composeProperty(filteredComposableValues, strategy)
+      }
     } else {
-      values = components
-        .map((component) => (component as Partial<GlobalEntity<GE>>)[propertyKey as keyof GlobalEntity<GE>])
-        .filter((val) => val !== undefined)
-    }
-    
-    const composableValues = values.filter(isComposablePropertyValue)
-    if (composableValues.length > 0) {
       acc[propertyKey] = composeProperty(composableValues, strategy)
     }
     return acc

@@ -82,8 +82,8 @@ vi.mock('@/utils/api', () => ({
     patch: vi.fn(),
     delete: vi.fn(),
   },
-  getAnnotationEndpoint: vi.fn(() => '/api/annotation-instances'),
-  getAnnotationByIdEndpoint: vi.fn((id) => `/api/annotation-instances/${id}`),
+  getAnnotationEndpoint: vi.fn(() => '/api/annotations/annotationInstance'),
+  getAnnotationByIdEndpoint: vi.fn((id) => `/api/annotations/annotationInstance/${id}`),
 }))
 
 describe('useAnnotations', () => {
@@ -106,7 +106,7 @@ describe('useAnnotations', () => {
       const result = await create.mutateAsync(annotationData)
       
       expect(apiClient.post).toHaveBeenCalledWith(
-        '/api/annotation-instances',
+        '/api/annotations/annotationInstance',
         annotationData
       )
       
@@ -164,7 +164,7 @@ describe('useAnnotations', () => {
       })
       
       expect(apiClient.put).toHaveBeenCalledWith(
-        '/api/annotation-instances/ann-1',
+        '/api/annotations/annotationInstance/ann-1',
         updateData
       )
       
@@ -217,7 +217,7 @@ describe('useAnnotations', () => {
       })
       
       expect(apiClient.patch).toHaveBeenCalledWith(
-        '/api/annotation-instances/ann-1',
+        '/api/annotations/annotationInstance/ann-1',
         patchData
       )
       
@@ -261,7 +261,7 @@ describe('useAnnotations', () => {
       
       await remove.mutateAsync('ann-1')
       
-      expect(apiClient.delete).toHaveBeenCalledWith('/api/annotation-instances/ann-1')
+      expect(apiClient.delete).toHaveBeenCalledWith('/api/annotations/annotationInstance/ann-1')
     })
 
     it('should invalidate globalData query on success', async () => {

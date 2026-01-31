@@ -10,14 +10,14 @@ import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 
 /**
- * Create an activeParts relationship (blockInstance -> partInstances)
+ * Create a partAssignments relationship (blockInstance -> partInstances)
  */
-export function createActivePartsRel(
+export function createPartAssignmentsRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'activeParts'> {
+): GlobalRelationship<'partAssignments'> {
   return {
-    relationshipKind: 'activeParts',
+    relationshipKind: 'partAssignments',
     parent: { id: parentId, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>,
     children: childIds.map(id => ({ id, entityKey: 'partInstance' } as GlobalEntity<'partInstance'>)),
   }
@@ -120,13 +120,13 @@ export function createCompositeRelationships(
 ) {
   const instanceComponents = createActiveComponentsRel(compositeBlockId, componentIds)
   
-  const activeParts = componentIds.map(componentId =>
-    createActivePartsRel(componentId, partIdsByComponent[componentId] || [])
+  const partAssignments = componentIds.map(componentId =>
+    createPartAssignmentsRel(componentId, partIdsByComponent[componentId] || [])
   )
   
   return {
     instanceComponents,
-    activeParts,
+    partAssignments,
   }
 }
 

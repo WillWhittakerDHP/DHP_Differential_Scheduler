@@ -50,11 +50,16 @@ export function useAppointmentDuration(
   // WHY: Provides reactive rounding that respects availability settings
   // PATTERN: Use composable for rounding logic
   const { roundDuration } = useDurationRounding()
+  
+  // LEARNING: Get globalData to access events and relationships
+  // WHY: Events are stored in globalData, need to pass to buildAppointmentShape
+  // PATTERN: Use useGlobal composable to access globalData
+  const { getGlobalData, getGlobalEntities } = useGlobal()
 
   /**
-   * LEARNING: Calculate on-site duration from block instances
-   * WHY: Need to ensure last appointment ends at or before day end
-   * PATTERN: Sum baseTime from parts where onSite === true, apply configurable rounding
+   * LEARNING: Calculate on-site duration from AppointmentShape
+   * WHY: Events are now stored on AppointmentShape, not on PartFinal
+   * PATTERN: Build AppointmentShape and read OnSite duration from slotShape.eventDurations
    */
   const appointmentDuration = computed<number | null>(() => {
     const instances = accumulatedBlockInstances.value
@@ -62,24 +67,47 @@ export function useAppointmentDuration(
       return null
     }
     
-    // LEARNING: Calculate on-site duration, not total duration
-    // WHY: Report writing can happen off-site, so we only need to ensure on-site work fits in business hours
-    // PATTERN: Sum baseTime from parts where onSite is 'true' (using strict mode - override excluded)
-    const onSiteDuration = instances.reduce((sum, bi) => {
-      if (!bi.partInstances || bi.partInstances.length === 0) return sum
-      return sum + bi.partInstances.reduce((partSum, part) => {
-        // LEARNING: Use toBoolean with 'strict' mode - only 'true' contributes to onSite calculation
-        // WHY: 'override' parts contribute to totalDuration but NOT to onSite
-        return partSum + (toBoolean(part.onSite, 'strict') ? (part.baseTime || 0) : 0)
-      }, 0)
-    }, 0)
-    
-    // LEARNING: Apply configurable rounding based on availability settings
-    // WHY: Allows admin to control rounding behavior via Business Controls tab
-    // PATTERN: Use composable rounding function that respects settings
-    const roundedDuration = roundDuration(onSiteDuration)
-    
-    return roundedDuration > 0 ? roundedDuration : null
+    try {
+      // Get events data from globalData
+      const globalData = getGlobalData()
+      const eventInstances = (globalData?.events?.eventInstance || []) as EventInstance[]
+      const eventShapes = (globalData?.events?.eventShape || []) as EventShape[]
+      const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
+      const validPartsRelationships = (globalData?.relationships?.validParts || []) as GlobalRelationship[]
+      
+      // Build partShapeById map
+      const partShapes = getGlobalEntities('partShape')
+      const partShapeById = new Map(
+        partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
+      )
+      
+      // Build AppointmentShape to get event durations
+      const shape = buildAppointmentShape(
+        instances,
+        null,
+        eventInstances,
+        eventShapes,
+        eventAssignmentsRelationships,
+        partShapeById,
+        validPartsRelationships
+      )
+      
+      // LEARNING: Read OnSite duration from slotShape.eventDurations
+      // WHY: Events are stored on AppointmentShape, durations computed in SlotShape
+      // PATTERN: Read from eventDurations Record
+      const onSiteDuration = shape.slotShape.eventDurations['OnSite'] || 0
+      
+      // LEARNING: Apply configurable rounding based on availability settings
+      // WHY: Allows admin to control rounding behavior via Business Controls tab
+      // PATTERN: Use composable rounding function that respects settings
+      const roundedDuration = roundDuration(onSiteDuration)
+      
+      return roundedDuration > 0 ? roundedDuration : null
+    } catch (error) {
+      // LEARNING: Return null on error to prevent breaking UI
+      // WHY: Graceful degradation if events data is unavailable
+      return null
+    }
   })
 
   return {

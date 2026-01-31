@@ -5,7 +5,7 @@
  */
 
 import type { Ref } from 'vue'
-import { useCreateAnnotationType } from '@/composables/useAnnotationTypes'
+import { useCreateAnnotationShape } from '@/composables/useAnnotationTypes'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -14,10 +14,10 @@ export interface UseShapeSaveHandlersOptions {
   expandedShapes: Ref<string[]>
   isCreatingBlockShape: Ref<boolean>
   isCreatingPartShape: Ref<boolean>
-  isCreatingAnnotationType: Ref<boolean>
+  isCreatingAnnotationShape: Ref<boolean>
   newBlockShapeInitialValues: Ref<GlobalEntity<'blockShape'> | null>
   newPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>
-  newAnnotationTypeName: Ref<string>
+  newAnnotationShapeName: Ref<string>
 }
 
 export interface UseShapeSaveHandlersReturn {
@@ -25,8 +25,8 @@ export interface UseShapeSaveHandlersReturn {
   handleBlockShapeCancelled: () => void
   handlePartShapeCreated: (entity: GlobalEntity<GlobalEntityKey>) => void
   handlePartShapeCancelled: () => void
-  handleAnnotationTypeCreate: () => Promise<void>
-  handleAnnotationTypeCancelled: () => void
+  handleAnnotationShapeCreate: () => Promise<void>
+  handleAnnotationShapeCancelled: () => void
   handleExistingShapeSaved: (entity: GlobalEntity<GlobalEntityKey>) => void
 }
 
@@ -42,13 +42,13 @@ export function useShapeSaveHandlers(
     expandedShapes,
     isCreatingBlockShape,
     isCreatingPartShape,
-    isCreatingAnnotationType,
+    isCreatingAnnotationShape,
     newBlockShapeInitialValues,
     newPartShapeInitialValues,
-    newAnnotationTypeName
+    newAnnotationShapeName
   } = options
 
-  const createAnnotationTypeMutation = useCreateAnnotationType()
+  const createAnnotationShapeMutation = useCreateAnnotationShape()
   const { success } = useNotification()
 
   /**
@@ -88,29 +88,29 @@ export function useShapeSaveHandlers(
   }
 
   /**
-   * LEARNING: Handle AnnotationType creation save
+   * LEARNING: Handle AnnotationShape creation save
    */
-  const handleAnnotationTypeCreate = async (): Promise<void> => {
-    if (!newAnnotationTypeName.value.trim()) return
+  const handleAnnotationShapeCreate = async (): Promise<void> => {
+    if (!newAnnotationShapeName.value.trim()) return
     
     try {
-      await createAnnotationTypeMutation.mutateAsync({ name: newAnnotationTypeName.value.trim() })
-      success('Annotation type created successfully')
-      isCreatingAnnotationType.value = false
-      newAnnotationTypeName.value = ''
-      expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
+      await createAnnotationShapeMutation.mutateAsync({ name: newAnnotationShapeName.value.trim() })
+      success('Annotation shape created successfully')
+      isCreatingAnnotationShape.value = false
+      newAnnotationShapeName.value = ''
+      expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
     } catch (_error) {
-      // Failed to create annotation type
+      // Failed to create annotation shape
     }
   }
 
   /**
-   * LEARNING: Handle AnnotationType creation cancel
+   * LEARNING: Handle AnnotationShape creation cancel
    */
-  const handleAnnotationTypeCancelled = (): void => {
-    isCreatingAnnotationType.value = false
-    newAnnotationTypeName.value = ''
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationType')
+  const handleAnnotationShapeCancelled = (): void => {
+    isCreatingAnnotationShape.value = false
+    newAnnotationShapeName.value = ''
+    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
   }
 
   /**
@@ -128,8 +128,8 @@ export function useShapeSaveHandlers(
     handleBlockShapeCancelled,
     handlePartShapeCreated,
     handlePartShapeCancelled,
-    handleAnnotationTypeCreate,
-    handleAnnotationTypeCancelled,
+    handleAnnotationShapeCreate,
+    handleAnnotationShapeCancelled,
     handleExistingShapeSaved
   }
 }

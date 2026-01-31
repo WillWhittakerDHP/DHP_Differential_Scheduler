@@ -1,5 +1,5 @@
 /**
- * FinalizedPart: Aggregated part instance representing all parts of a given shape
+ * PartFinal: Aggregated part instance representing all parts of a given shape
  * 
  * LEARNING: Groups multiple part instances by part shape and totals their values
  * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
@@ -10,16 +10,14 @@
  */
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { TernaryBoolean } from '@/types/ternary'
-import { aggregate } from '@/utils/ternary/ternaryUtils'
 
 /**
- * FinalizedPart: Aggregated part instance representing all parts of a given shape
+ * PartFinal: Aggregated part instance representing all parts of a given shape
  * LEARNING: Groups multiple part instances by part shape and totals their values
  * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
  * PATTERN: Plain interface with utility functions for calculations
  */
-export interface FinalizedPart {
+export interface PartFinal {
   // Identity
   partShape: string  // Part shape name (e.g., "Client Presentation")
   
@@ -60,34 +58,29 @@ export interface FinalizedPart {
 // WHY: Removes dead code to improve maintainability
 
 /**
- * Create a FinalizedPart from a group of part instances with the same part shape
+ * Create a PartFinal from a group of part instances with the same part shape
  * LEARNING: Aggregates multiple part instances into a single finalized part
  * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
  * PATTERN: Sum numeric values, use OR logic for boolean flags
  * 
- * Ternary Computation Rules:
- * - onSite: aggregated using ternaryUtils.aggregate() - if ANY part has 'override', result is 'override'; otherwise OR of 'true' values
- * - clientPresent: aggregated using ternaryUtils.aggregate() - if ANY part has 'override', result is 'override'; otherwise OR of 'true' values
- * - moveable: true if ANY part has moveable === true
- * - zeroOutPart: true if ANY part has zeroOutPart === true
+ * LEARNING: Events are not part properties - they are appointment-level features
+ * WHY: Events are configured at shape level (PartShape → EventInstance), stored on AppointmentShape
+ * PATTERN: Events are looked up from AppointmentShape.eventAssignmentsByPartShape[partShape] when needed
  * 
  * @param partShape - Part shape name (e.g., "Client Presentation")
  * @param parts - Array of BookingPartInstance objects with the same part shape
- * @returns FinalizedPart instance with totaled values and computed flags
+ * @returns PartFinal instance with totaled values
  */
-export function createFinalizedPart(
+export function createPartFinal(
   partShape: string,
   parts: BookingPartInstance[]
-): FinalizedPart {
+): PartFinal {
   return {
     partShape,
     baseTime: parts.reduce((sum, p) => sum + (p.baseTime ?? 0), 0),
     baseFee: parts.reduce((sum, p) => sum + (p.baseFee ?? 0), 0),
     rateOverBaseTime: parts.reduce((sum, p) => sum + (p.rateOverBaseTime ?? 0), 0),
     rateOverBaseFee: parts.reduce((sum, p) => sum + (p.rateOverBaseFee ?? 0), 0),
-    onSite: aggregate(parts.map(p => p.onSite)),
-    clientPresent: aggregate(parts.map(p => p.clientPresent)),
-    moveable: parts.some(p => p.moveable === true),
     zeroOutPart: parts.some(p => p.zeroOutPart === true),
     sourcePartInstances: parts
   }

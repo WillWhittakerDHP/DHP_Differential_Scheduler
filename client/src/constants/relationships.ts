@@ -14,7 +14,7 @@
  * NOTE: Renamed for clearer domain terminology:
  * - activeCascades → bookingCascades (Booking Cascade) (2026-01-08)
  * - activeComponents → instanceComponents → instanceComponents (Instance Components) (2026-01-07)
- * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions → dependentInstances (2026-01-20)
+ * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions → dependentInstances (2026-01-20, final naming)
  */
 
 import type { GlobalEntityKey } from './entities'
@@ -38,6 +38,12 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'partShape' as GlobalEntityKey,
   },
+  validAnnotations: {
+    backendName: 'valid_annotations',
+    frontendKey: 'validAnnotations',
+    parentEntity: 'blockShape' as GlobalEntityKey,
+    childEntity: 'annotationShape' as GlobalEntityKey,
+  },
   dependentInstances: {
     backendName: 'dependent_instances',
     frontendKey: 'dependentInstances',
@@ -50,11 +56,23 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'blockInstance' as GlobalEntityKey,
   },
-  activeParts: {
-    backendName: 'active_parts',
-    frontendKey: 'activeParts',
+  partAssignments: {
+    backendName: 'part_assignments',
+    frontendKey: 'partAssignments',
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'partInstance' as GlobalEntityKey,
+  },
+  annotationAssignments: {
+    backendName: 'annotation_assignments',
+    frontendKey: 'annotationAssignments',
+    parentEntity: 'blockInstance' as GlobalEntityKey,
+    childEntity: 'annotationInstance' as GlobalEntityKey,
+  },
+  eventAssignments: {
+    backendName: 'event_assignments',
+    frontendKey: 'eventAssignments',
+    parentEntity: 'blockShape' as GlobalEntityKey, // Shape-level, not instance-level
+    childEntity: 'eventInstance' as GlobalEntityKey,
   },
   instanceComponents: {
     backendName: 'instance_components',

@@ -11,7 +11,7 @@
  */
 
 import { getAnnotationByIdEndpoint, getAnnotationEndpoint } from '@/utils/api'
-import type { Annotation } from '@/types/annotations'
+import type { AnnotationInstance } from '@/types/annotations'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { GlobalDataCollectionCrudComposableReturn } from '@/composables/globalDataCollections/types'
 import { useGlobalDataCollectionCrud } from '@/composables/globalDataCollections/useGlobalDataCollectionCrud'
@@ -24,7 +24,7 @@ import { useGlobalDataCollectionCrud } from '@/composables/globalDataCollections
  */
 export type AnnotationRequest = {
   text: string
-  type: string // AnnotationType ID
+  type: string // AnnotationShape ID
   userTypeBlock?: string | null // BlockInstance ID or null
 }
 
@@ -36,20 +36,23 @@ export type AnnotationRequest = {
  * Session 1.4.6: Follows useAppointment pattern for consistency
  */
 type UseAnnotationsReturn = Omit<
-  GlobalDataCollectionCrudComposableReturn<Annotation, AnnotationRequest, Partial<AnnotationRequest>>,
+  GlobalDataCollectionCrudComposableReturn<AnnotationInstance, AnnotationRequest, Partial<AnnotationRequest>>,
   'extras'
 >
 
 export function useAnnotations(): UseAnnotationsReturn {
-  return useGlobalDataCollectionCrud<Annotation, AnnotationRequest, Partial<AnnotationRequest>>({
+  return useGlobalDataCollectionCrud<AnnotationInstance, AnnotationRequest, Partial<AnnotationRequest>>({
     collectionName: 'annotations',
-    selectCollection: (globalData: GlobalData) => globalData.annotations,
-    updateCollection: (globalData: GlobalData, updatedCollection: readonly Annotation[]): GlobalData => ({
+    selectCollection: (globalData: GlobalData) => (globalData.annotations?.annotationInstance || []) as AnnotationInstance[],
+    updateCollection: (globalData: GlobalData, updatedCollection: readonly AnnotationInstance[]): GlobalData => ({
       ...globalData,
-      annotations: [...updatedCollection],
+      annotations: {
+        ...globalData.annotations,
+        annotationInstance: [...updatedCollection],
+      },
     }),
     endpoints: {
-      listEndpoint: getAnnotationEndpoint,
+      listEndpoint: () => getAnnotationEndpoint('annotationInstance'),
       byIdEndpoint: getAnnotationByIdEndpoint,
     },
   })

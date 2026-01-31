@@ -33,7 +33,7 @@ export class AdminMetadata extends Model<
   declare visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
-  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
@@ -122,11 +122,11 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         comment: 'Display order (lower = first). 999 = not configured.',
       },
       renderAs: {
-        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect', 'partsCollection'),
+        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect', 'relationshipCollection'),
         allowNull: false,
         defaultValue: 'text',
         field: 'render_as',
-        comment: 'How to render the field',
+        comment: 'How to render the field (relationshipCollection is the generic collection type)',
       },
       statusButtonColor: {
         type: DataTypes.STRING,
@@ -135,7 +135,7 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         comment: 'Color for statusButton rendering (Vuetify color name)',
       },
       panel: {
-        type: DataTypes.ENUM('none', 'parts', 'relationships', 'annotations'),
+        type: DataTypes.ENUM('none', 'parts', 'relationships', 'annotations', 'events'),
         allowNull: false,
         defaultValue: 'none',
         comment: 'Panel name for expandedPanel visibility',
@@ -151,7 +151,7 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         type: DataTypes.JSONB,
         allowNull: true,
         field: 'input_config',
-        comment: 'Input configuration for select/multiselect/reference/partsCollection fields',
+        comment: 'Input configuration for select/multiselect/reference/relationshipCollection fields',
       },
       createdAt: {
         type: DataTypes.DATE,

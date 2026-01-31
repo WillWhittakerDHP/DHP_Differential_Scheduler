@@ -10,14 +10,20 @@ import type { UserTypeBlock } from './userTypes'
 import type { GlobalAnnotationKey } from '@/constants/annotations'
 
 /**
- * AnnotationType type (from API)
- * LEARNING: Represents an annotation type entity (e.g., 'frontPage', 'description', 'tooltip')
+ * AnnotationShape type (from API)
+ * LEARNING: Represents an annotation shape entity (e.g., 'frontPage', 'description', 'tooltip')
  * WHY: Types are fully dynamic and managed via CRUD
  * PATTERN: Simple entity with id and name
+ * 
+ * ARCHITECTURAL CHANGE: Metadata stored as columns in annotation_shapes table
+ * WHY: Shape columns are always metadata - relationships just indicate which shapes are active
+ * PATTERN: Metadata (orderIndex, isDefault) lives in shape table, not in relationship tables
  */
-export type AnnotationType = {
+export type AnnotationShape = {
   id: string
   name: string // e.g., 'frontPage', 'description', 'tooltip'
+  defaultOrderIndex?: number  // Default order index for this annotation shape
+  defaultIsDefault?: boolean  // Default isDefault flag for this annotation shape
 }
 
 /**
@@ -26,12 +32,12 @@ export type AnnotationType = {
  * WHY: Shared structure for all annotation types
  * PATTERN: Simple object with id, text, type, and user type
  */
-export type Annotation = {
+export type AnnotationInstance = {
   id: string
   text: string
-  type: string // Foreign key to AnnotationType.id (UUID)
+  type: string // Foreign key to AnnotationShape.id (UUID)
   userTypeBlock: UserTypeBlock // BlockInstance ID (GlobalEntityId) or null for generic annotations
-  annotationType?: AnnotationType // Optional association from API (includes type name)
+  annotationShape?: AnnotationShape // Optional association from API (includes type name)
 }
 
 /**
@@ -52,7 +58,7 @@ export type AnnotationMetadata = {
  * WHY: Merges base annotation with relationship-level metadata
  * PATTERN: Combines Annotation + AnnotationMetadata
  */
-export type AnnotationWithMetadata = Annotation & AnnotationMetadata
+export type AnnotationWithMetadata = AnnotationInstance & AnnotationMetadata
 
 /**
  * Annotation map type

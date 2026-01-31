@@ -35,6 +35,7 @@ export interface CategorizedFields {
     parts: GlobalFieldKey<GlobalEntityKey>[]
     relationships: GlobalFieldKey<GlobalEntityKey>[]
     annotations: GlobalFieldKey<GlobalEntityKey>[]
+    events: GlobalFieldKey<GlobalEntityKey>[]
   }
   /**
    * LEARNING: Status button fields extracted from config
@@ -87,7 +88,8 @@ export function categorizeFieldsBySection(
     subPanelFields: {
       parts: [],
       relationships: [],
-      annotations: []
+      annotations: [],
+      events: []
     },
     statusButtonFields: []
   }
@@ -202,7 +204,7 @@ export function categorizeFieldsBySection(
       } else {
         return { ...acc, directStackedEntries: [...acc.directStackedEntries, fieldEntry] }
       }
-    } else if (panel === 'parts' || panel === 'relationships' || panel === 'annotations') {
+    } else if (panel === 'parts' || panel === 'relationships' || panel === 'annotations' || panel === 'events') {
       // Fields with panel assignment go to sub-panel
       return {
         ...acc,
@@ -220,7 +222,8 @@ export function categorizeFieldsBySection(
     subPanelEntries: {
       parts: [] as string[],
       relationships: [] as string[],
-      annotations: [] as string[]
+      annotations: [] as string[],
+      events: [] as string[]
     }
   })
   
@@ -242,7 +245,8 @@ export function categorizeFieldsBySection(
   result.subPanelFields = {
     parts: normalize(categorized.subPanelEntries.parts),
     relationships: normalize(categorized.subPanelEntries.relationships),
-    annotations: normalize(categorized.subPanelEntries.annotations)
+    annotations: normalize(categorized.subPanelEntries.annotations),
+    events: normalize(categorized.subPanelEntries.events)
   }
 
   return {

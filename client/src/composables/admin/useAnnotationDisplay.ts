@@ -48,7 +48,7 @@ interface UseAnnotationDisplayReturn {
   /**
    * Active annotations display array
    */
-  activeAnnotationsDisplay: ComputedRef<AnnotationDisplay[]>
+  annotationAssignmentsDisplay: ComputedRef<AnnotationDisplay[]>
 }
 
 /**

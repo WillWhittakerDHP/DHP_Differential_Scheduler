@@ -25,7 +25,7 @@ import { cancelQueriesBeforeMutate, createRefetchGlobalDataHandler } from './ent
  * WHY: Encapsulates all relationship operations in one composable
  * PATTERN: Composable that wraps Vue Query hooks
  * 
- * @param relationshipKey - The relationship type key (validCascades, validParts, bookingCascades, activeParts, dependentInstances, instanceComponents)
+ * @param relationshipKey - The relationship type key (validCascades, validParts, bookingCascades, partAssignments, dependentInstances, instanceComponents)
  * @returns CRUD operations and relationship list
  */
 export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationshipKey: RK) {

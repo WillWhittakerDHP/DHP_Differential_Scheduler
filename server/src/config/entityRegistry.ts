@@ -1,5 +1,5 @@
 import { ModelStatic, Model } from 'sequelize';
-import { PartShape, PartInstance, BlockShape, BlockInstance } from './app.js';
+import { PartShape, PartInstance, BlockShape, BlockInstance, EventShape, EventInstance } from './app.js';
 
 /**
  * Helper function to check if a BlockInstance can be a component
@@ -53,7 +53,7 @@ export function getComponentConfig(entityType: EntityType): ComponentConfig | un
         baseFee: 'sum',
         baseTime: 'sum',
         rateOverBaseFee: 'sum',
-        activeParts: 'merge', // Merge all part instances from composed blocks
+        partAssignments: 'merge', // Merge all part instances from composed blocks
         onSite: 'every', // All must be true
         clientPresent: 'every', // All must be true
         name: 'first', // Use first particle's name
@@ -68,8 +68,12 @@ export function getComponentConfig(entityType: EntityType): ComponentConfig | un
 /**
  * Supported entity types that map to frontend PROPERTY_KEYS
  * These strings MUST match the keys used in client/src/global/constants/propertyConstants.ts
+ * 
+ * Session Event Refactor: Added eventShape and eventInstance to entity registry
+ * WHY: Enables admin CRUD operations for event shapes and instances
+ * PATTERN: Follows annotation pattern but includes in registry for admin UI
  */
-export type EntityType = 'partInstance' | 'blockInstance' | 'partShape' | 'blockShape';
+export type EntityType = 'partInstance' | 'blockInstance' | 'partShape' | 'blockShape' | 'eventShape' | 'eventInstance';
 
 /**
  * Component strategy for combining properties
@@ -90,7 +94,7 @@ export type ComponentStrategy = 'sum' | 'merge' | 'first' | 'every' | 'custom';
 export interface ComponentConfig {
   enabled: boolean;
   componentRules?: Record<string, ComponentStrategy>;
-  // Property-specific component strategies (e.g., baseFee: 'sum', activeParts: 'merge', onSite: 'every')
+  // Property-specific component strategies (e.g., baseFee: 'sum', partAssignments: 'merge', onSite: 'every')
 }
 
 /**
@@ -107,12 +111,14 @@ export interface EntityConfig {
 }
 
 // Verify models are available (log warning but don't throw - models may be initialized later)
-if (!PartShape || !PartInstance || !BlockShape || !BlockInstance) {
+if (!PartShape || !PartInstance || !BlockShape || !BlockInstance || !EventShape || !EventInstance) {
   const missingModels = {
     PartShape: !!PartShape,
     PartInstance: !!PartInstance,
     BlockShape: !!BlockShape,
-    BlockInstance: !!BlockInstance
+    BlockInstance: !!BlockInstance,
+    EventShape: !!EventShape,
+    EventInstance: !!EventInstance
   };
   console.warn('[EntityRegistry] Models not yet initialized:', missingModels);
   console.warn('[EntityRegistry] This is normal during module loading - models will be available after app initialization');
@@ -150,6 +156,18 @@ export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
     tableName: 'block_shapes',
     displayName: 'Block Shape',
     description: 'Block shape definitions and constraints'
+  },
+  eventShape: {
+    model: EventShape,
+    tableName: 'event_shapes',
+    displayName: 'Event Shape',
+    description: 'Event shape definitions (e.g., OnSite, Moveable, ClientPresent)'
+  },
+  eventInstance: {
+    model: EventInstance,
+    tableName: 'event_instances',
+    displayName: 'Event Instance',
+    description: 'Event instance configurations with calendar event templates'
   }
 };
 

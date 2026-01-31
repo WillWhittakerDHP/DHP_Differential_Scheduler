@@ -201,8 +201,8 @@ describe('useFieldValue', () => {
     })
 
     it('should handle array values', () => {
-      const fieldContext: FieldContextType<'blockInstance', 'activeParts'> = {
-        fieldKey: 'activeParts',
+      const fieldContext: FieldContextType<'blockInstance', 'partAssignments'> = {
+        fieldKey: 'partAssignments',
         entityKey: 'blockInstance',
         entityId: 'block-1',
         value: ref(['part-1', 'part-2']),

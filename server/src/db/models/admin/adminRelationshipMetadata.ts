@@ -30,7 +30,7 @@ export class AdminRelationshipMetadata extends Model<
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
   declare section: CreationOptional<string | null>;
-  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
@@ -68,7 +68,7 @@ export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'relationship_key',
-        comment: 'Relationship name/key (e.g., activeParts, validCascades)',
+        comment: 'Relationship name/key (e.g., partAssignments, validCascades)',
       },
       // Canonical properties
       dataType: {
@@ -115,11 +115,11 @@ export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {
         comment: 'Optional section/group name',
       },
       renderAs: {
-        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect'),
+        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect', 'relationshipCollection'),
         allowNull: false,
         defaultValue: 'reference',
         field: 'render_as',
-        comment: 'How to render the relationship field (typically reference)',
+        comment: 'How to render the relationship field (typically reference, or relationshipCollection for collection fields)',
       },
       statusButtonColor: {
         type: DataTypes.STRING,

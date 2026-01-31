@@ -8,12 +8,10 @@
  */
 
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { determinePanelFromFieldKey } from '@/utils/forms/fieldLocationDispatcher'
 
 export interface UseMetadataFieldUpdatesOptions {
   getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
-  hasOverride: (fieldKey: string) => boolean
-  toggleOverride: (fieldKey: string, enabled: boolean) => void
-  mode: 'global' | 'instanceOverride'
   pendingChanges: Record<string, Partial<FieldMetadataEntry>>
 }
 
@@ -34,7 +32,7 @@ export interface UseMetadataFieldUpdatesReturn {
 export function useMetadataFieldUpdates(
   options: UseMetadataFieldUpdatesOptions
 ): UseMetadataFieldUpdatesReturn {
-  const { getEffectiveFieldMetadata, hasOverride, toggleOverride, mode, pendingChanges } = options
+  const { getEffectiveFieldMetadata, pendingChanges } = options
 
   /**
    * LEARNING: Auto-compute renderAs based on dataType and inputConfig
@@ -55,7 +53,7 @@ export function useMetadataFieldUpdates(
     if (inputConfig) {
       const selectType = inputConfig.selectType as string | undefined
       if (selectType === 'partsCollectionSelect') {
-        return 'partsCollection'
+        return 'relationshipCollection'
       }
       const selectMode = inputConfig.selectMode as string | undefined
       if (selectMode === 'multiple') {
@@ -89,40 +87,33 @@ export function useMetadataFieldUpdates(
   /**
    * LEARNING: Update field rendering configuration
    * WHY: Handles field updates with automatic renderAs computation and validation
-   * PATTERN: Enable override if needed, compute renderAs, validate panel/layout, update pending changes
+   * PATTERN: Compute renderAs, validate panel/layout, update pending changes
    */
   function updateFieldRendering(fieldKey: string, updates: Partial<FieldMetadataEntry>): void {
-    if (mode === 'instanceOverride' && !hasOverride(fieldKey)) {
-      // Enable override first
-      toggleOverride(fieldKey, true)
-    }
-    
-    // LEARNING: Auto-compute renderAs when dataType or inputConfig changes
+    // LEARNING: Auto-compute renderAs when inputConfig changes
     // WHY: renderAs should always be computed, not manually set
-    // PATTERN: Compute renderAs if dataType or inputConfig is being updated
+    // PATTERN: Compute renderAs if inputConfig is being updated
     const effectiveMeta = getEffectiveFieldMetadata(fieldKey)
-    const newDataType = updates.dataType ?? effectiveMeta?.dataType
+    const newDataType = effectiveMeta?.dataType
     const newInputConfig = updates.inputConfig !== undefined ? updates.inputConfig : effectiveMeta?.inputConfig
     
-    // Auto-compute renderAs if dataType or inputConfig changed
-    if (updates.dataType !== undefined || updates.inputConfig !== undefined) {
+    // Auto-compute renderAs if inputConfig changed
+    if (updates.inputConfig !== undefined) {
       updates.renderAs = computeRenderAs(newDataType, newInputConfig, fieldKey)
     }
     
     // LEARNING: Validate panel based on visibility
-    // WHY: Panel must be 'none' for titleRow and expandedDirect, required for expandedPanel
-    // PATTERN: Normalize panel value when visibility changes
+    // WHY: Panel must be 'none' for titleRow and expandedDirect, automatically determined for expandedPanel
+    // PATTERN: Normalize panel value when visibility changes, auto-determine from field key for expandedPanel
     if (updates.visibility !== undefined) {
       const newVisibility = updates.visibility
       if (newVisibility === 'titleRow' || newVisibility === 'expandedDirect' || newVisibility === 'staticAsTitle') {
         // Panel must be 'none' for these visibility types
         updates.panel = 'none'
       } else if (newVisibility === 'expandedPanel') {
-        // Panel must be set for expandedPanel (default to 'parts' if not set)
-        const currentPanel = updates.panel ?? effectiveMeta?.panel
-        if (!currentPanel || currentPanel === 'none') {
-          updates.panel = 'parts'
-        }
+        // Panel is automatically determined from field key
+        const determinedPanel = determinePanelFromFieldKey(fieldKey)
+        updates.panel = determinedPanel !== 'none' ? determinedPanel : 'parts'
       }
     }
     

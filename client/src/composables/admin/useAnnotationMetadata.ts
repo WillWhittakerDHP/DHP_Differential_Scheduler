@@ -15,10 +15,10 @@
 
 import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
-import { useAnnotationTypes } from '@/composables/useAnnotationTypes'
+import { useAnnotationShapes } from '@/composables/useAnnotationTypes'
 import { getStateControlBlockInstanceOptions } from '@/utils/blockInstanceUtils'
 import { hasDuplicateUserTypeBlock, getAvailableUserTypeBlocksForAnnotation } from '@/utils/annotationUtils'
-import type { Annotation, AnnotationType, AnnotationWithMetadata } from '@/types/annotations'
+import type { AnnotationInstance, AnnotationShape, AnnotationWithMetadata } from '@/types/annotations'
 import type { AnnotationAssignmentResponse, BlockInstanceAnnotationResponse } from '@/types/annotations'
 
 /**
@@ -34,7 +34,7 @@ export function useAnnotationMetadata() {
    * WHY: `data = []` creates a union like `never[] | Ref<T[] | undefined>`, which breaks `.value` access.
    * PATTERN: Keep the query object, then derive a normalized computed list.
    */
-  const annotationTypesQuery = useAnnotationTypes()
+  const annotationTypesQuery = useAnnotationShapes()
   const annotationTypes = computed(() => annotationTypesQuery.data.value ?? [])
 
   /**
@@ -55,7 +55,7 @@ export function useAnnotationMetadata() {
    * PATTERN: Map annotation types to select options
    */
   const annotationTypeOptions = computed(() => {
-    return annotationTypes.value.map((type: AnnotationType) => ({
+    return annotationTypes.value.map((type: AnnotationShape) => ({
       id: type.id,
       name: type.name,
     }))
@@ -69,8 +69,8 @@ export function useAnnotationMetadata() {
    */
   const computeAnnotationsWithMetadata = (
     blockInstanceAnnotations: AnnotationAssignmentResponse[],
-    allAnnotations: Annotation[],
-    annotationTypes: AnnotationType[],
+    allAnnotations: AnnotationInstance[],
+    annotationTypes: AnnotationShape[],
     allBlockInstanceAnnotations: BlockInstanceAnnotationResponse[],
     blockInstanceId: string
   ): Array<AnnotationWithMetadata & { blockInstanceNames?: string[] }> => {
@@ -79,12 +79,12 @@ export function useAnnotationMetadata() {
     }
     
     return blockInstanceAnnotations.map((rel: AnnotationAssignmentResponse) => {
-      const annotation = (allAnnotations || []).find((a: Annotation) => a.id === rel.annotationId)
+      const annotation = (allAnnotations || []).find((a: AnnotationInstance) => a.id === rel.annotationId)
       
-      // Find annotation type name
-      const annotationType = annotation?.annotationType || 
-        annotationTypes.find((at: AnnotationType) => at.id === annotation?.type)
-      const typeName = annotationType?.name || ''
+      // Find annotation shape name
+      const annotationShape = annotation?.annotationShape || 
+        annotationTypes.find((at: AnnotationShape) => at.id === annotation?.type)
+      const typeName = annotationShape?.name || ''
       
       // Find all block instances that use this annotation
       const blockInstancesUsingThis = (allBlockInstanceAnnotations || []).filter(
@@ -124,14 +124,14 @@ export function useAnnotationMetadata() {
    * PATTERN: Filter out annotations that exist in assigned list
    */
   const getAvailableAnnotations = (
-    allAnnotations: Annotation[],
+    allAnnotations: AnnotationInstance[],
     assignedAnnotationIds: string[]
-  ): Annotation[] => {
+  ): AnnotationInstance[] => {
     if (!allAnnotations || !Array.isArray(allAnnotations)) {
       return []
     }
     const selectedIds = new Set(assignedAnnotationIds)
-    return allAnnotations.filter((ann: Annotation) => !selectedIds.has(ann.id))
+    return allAnnotations.filter((ann: AnnotationInstance) => !selectedIds.has(ann.id))
   }
 
   /**
@@ -141,14 +141,14 @@ export function useAnnotationMetadata() {
    * PATTERN: Map annotations and add blockInstanceNames from allBlockInstanceAnnotations
    */
   const computeAnnotationsWithBlockInstances = (
-    allAnnotations: Annotation[],
+    allAnnotations: AnnotationInstance[],
     allBlockInstanceAnnotations: BlockInstanceAnnotationResponse[]
-  ): Array<Annotation & { displayText: string; blockInstanceNames: string[] }> => {
+  ): Array<AnnotationInstance & { displayText: string; blockInstanceNames: string[] }> => {
     if (!allAnnotations || !Array.isArray(allAnnotations)) {
       return []
     }
     
-    return allAnnotations.map((ann: Annotation) => {
+    return allAnnotations.map((ann: AnnotationInstance) => {
       // Find all block instances that use this annotation
       const blockInstancesUsingThis = allBlockInstanceAnnotations.filter(
         (bid: BlockInstanceAnnotationResponse) => bid.annotationId === ann.id

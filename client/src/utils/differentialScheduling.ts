@@ -16,7 +16,7 @@ import { createTimeRange, createTimeRangesFromSlotShape } from './booking/appoin
  * WHY: Inspector needs to arrive this many minutes before client start time
  * PATTERN: Filter part instances by onSite, sum baseTime values
  * 
- * @deprecated Use `AppointmentShape.slotShape.onSite` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
+ * @deprecated Use `AppointmentShape.slotShape.eventDurations["OnSite"]` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
  * 
  * @param service - BookingBlockInstance with partInstances
  * @returns Total on-site time in minutes, defaults to 0 if no part instances
@@ -47,7 +47,7 @@ export function calculateOnSiteTotal(service: BookingBlockInstance | null): numb
  * WHY: Duration of time client needs to be present
  * PATTERN: Filter part instances by clientPresent, sum baseTime values
  * 
- * @deprecated Use `AppointmentShape.slotShape.clientPresent` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
+ * @deprecated Use `AppointmentShape.slotShape.eventDurations["ClientPresent"]` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
  * 
  * @param service - BookingBlockInstance with partInstances
  * @returns Total client presence time in minutes, defaults to 0 if no part instances
@@ -158,9 +158,10 @@ export function transformToInspectorPerspective(
   // LEARNING: Get durations from SlotShape (source of truth)
   // WHY: SlotShape contains all duration information needed
   // PATTERN: Access durations via slot.shape.slotShape
+  // Session Event Refactor: Use eventDurations Record instead of hardcoded properties
   const slotShape = appointmentSlot.shape.slotShape
-  const totalOnSiteDuration = slotShape.onSite
-  const clientPresentDuration = slotShape.clientPresent
+  const totalOnSiteDuration = slotShape.eventDurations?.['OnSite'] ?? 0
+  const clientPresentDuration = slotShape.eventDurations?.['ClientPresent'] ?? 0
   
   // LEARNING: Calculate client start time for clientPresentTimeRange
   // WHY: Client presentation happens after inspector has completed on-site work
@@ -174,9 +175,12 @@ export function transformToInspectorPerspective(
   
   // LEARNING: Adjust clientPresentTimeRange to end when inspector finishes on-site work
   // WHY: Client-present time should end when inspector finishes on-site work
-  let clientPresentTimeRange = timeRanges.clientPresentTimeRange
-  if (timeRanges.onSiteTimeRange && clientPresentDuration > 0 && slotShape.clientStartOffset >= 0) {
-    const clientPresentDurationAdjusted = timeRanges.onSiteTimeRange.duration - slotShape.clientStartOffset
+  // Session Event Refactor: Use eventTimeRanges Record
+  const onSiteTimeRange = timeRanges.eventTimeRanges?.['OnSite']
+  let clientPresentTimeRange = timeRanges.eventTimeRanges?.['ClientPresent']
+  
+  if (onSiteTimeRange && clientPresentDuration > 0 && slotShape.clientStartOffset >= 0) {
+    const clientPresentDurationAdjusted = onSiteTimeRange.duration - slotShape.clientStartOffset
     if (clientPresentDurationAdjusted > 0) {
       clientPresentTimeRange = createTimeRange(clientStartTime, clientPresentDurationAdjusted)
     } else {
@@ -184,13 +188,17 @@ export function transformToInspectorPerspective(
     }
   }
   
+  // Update eventTimeRanges Record with adjusted ClientPresent
+  const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
+  if (clientPresentTimeRange) {
+    adjustedEventTimeRanges['ClientPresent'] = clientPresentTimeRange
+  }
+  
   return {
     ...appointmentSlot,
     startTime: inspectorStartTime,
     totalTimeRange: timeRanges.totalTimeRange,
-    onSiteTimeRange: timeRanges.onSiteTimeRange,
-    clientPresentTimeRange,
-    moveableTimeRange: timeRanges.moveableTimeRange
+    eventTimeRanges: adjustedEventTimeRanges
   }
 }
 
@@ -210,9 +218,10 @@ export function transformToClientPerspective(
 ): import('@/types/appointment').AppointmentSlot {
   // LEARNING: Get onSite duration from SlotShape (source of truth)
   // WHY: SlotShape already contains calculated onSite duration, no need for separate parameter
-  // PATTERN: Access slotShape.onSite directly
+  // PATTERN: Access slotShape.eventDurations["OnSite"]
+  // Session Event Refactor: Use eventDurations Record instead of hardcoded properties
   const slotShape = appointmentSlot.shape.slotShape
-  const onSiteTotal = slotShape.onSite
+  const onSiteTotal = slotShape.eventDurations?.['OnSite'] ?? 0
   
   // LEARNING: Calculate inspector start time (before client arrives)
   // WHY: Inspector perspective times are calculated backwards from client start
@@ -227,12 +236,22 @@ export function transformToClientPerspective(
   // LEARNING: Adjust clientPresentTimeRange to start at client start time
   // WHY: Client-present time starts when client arrives
   // PATTERN: Create clientPresentTimeRange starting at clientStartTime, ending when inspector finishes on-site work
+  // Session Event Refactor: Use eventTimeRanges Record
+  const onSiteTimeRange = timeRanges.eventTimeRanges?.['OnSite']
+  const clientPresentDuration = slotShape.eventDurations?.['ClientPresent'] ?? 0
+  
   let clientPresentTimeRange = null
-  if (timeRanges.onSiteTimeRange && slotShape.clientPresent > 0 && slotShape.clientStartOffset >= 0) {
-    const clientPresentDurationAdjusted = timeRanges.onSiteTimeRange.duration - slotShape.clientStartOffset
+  if (onSiteTimeRange && clientPresentDuration > 0 && slotShape.clientStartOffset >= 0) {
+    const clientPresentDurationAdjusted = onSiteTimeRange.duration - slotShape.clientStartOffset
     if (clientPresentDurationAdjusted > 0) {
       clientPresentTimeRange = createTimeRange(clientStartTime, clientPresentDurationAdjusted)
     }
+  }
+  
+  // Update eventTimeRanges Record with adjusted ClientPresent
+  const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
+  if (clientPresentTimeRange) {
+    adjustedEventTimeRanges['ClientPresent'] = clientPresentTimeRange
   }
   
   // LEARNING: Create totalTimeRange starting at client start time
@@ -245,8 +264,6 @@ export function transformToClientPerspective(
     ...appointmentSlot,
     startTime: clientStartTime,
     totalTimeRange,
-    onSiteTimeRange: timeRanges.onSiteTimeRange,
-    clientPresentTimeRange,
-    moveableTimeRange: timeRanges.moveableTimeRange
+    eventTimeRanges: adjustedEventTimeRanges
   }
 }

@@ -15,9 +15,12 @@
 export const RELATIONSHIP_KEYS = {
   validCascades: true,
   validParts: true,
+  validAnnotations: true,
   dependentInstances: true,
   bookingCascades: true,
-  activeParts: true,
+  partAssignments: true,
+  annotationAssignments: true,
+  eventAssignments: true,
   instanceComponents: true,
 } as const;
 

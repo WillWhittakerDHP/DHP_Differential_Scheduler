@@ -170,7 +170,7 @@ export function useAvailableStartTimes(
     // Create start of day in local timezone (midnight local), convert to UTC RFC3339
     const startBoundaryLocal = new Date(year, month - 1, day, 0, 0, 0, 0)
     const startBoundaryUTCString = startBoundaryLocal.toISOString() as RFC3339DateTime
-    let startBoundaryUTC = new Date(startBoundaryUTCString)
+    const startBoundaryUTC = new Date(startBoundaryUTCString)
     
     // Create end boundary in local timezone using business hours, convert to UTC RFC3339
     const endBoundaryLocal = new Date(year, month - 1, day, endHour, endMinute, 0, 0)

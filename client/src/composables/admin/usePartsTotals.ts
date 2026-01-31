@@ -37,7 +37,7 @@ export function usePartsTotals(
   entityId: string
 ): UsePartsTotalsReturn {
   const { getGlobalEntityById } = useGlobal()
-  const { relationships: activeParts } = useRelationshipCrud('activeParts')
+  const { relationships: partAssignments } = useRelationshipCrud('partAssignments')
   const { entities: partInstances } = useEntityCrud('partInstance')
 
   /**
@@ -72,19 +72,19 @@ export function usePartsTotals(
   /**
    * LEARNING: Get part instances for this blockInstance
    * WHY: Need part instances to calculate totals
-   * PATTERN: Filter activeParts relationships by parent_id, resolve to partInstance entities
+   * PATTERN: Filter partAssignments relationships by parent_id, resolve to partInstance entities
    */
   const partInstancesForEntity = computed((): GlobalEntity<'partInstance'>[] => {
     if (!canHaveParts.value) {
       return []
     }
 
-    if (!activeParts.value) {
+    if (!partAssignments.value) {
       return []
     }
 
-    // Filter activeParts relationships where parent_id matches entityId
-    const relationships = activeParts.value.filter(
+    // Filter partAssignments relationships where parent_id matches entityId
+    const relationships = partAssignments.value.filter(
       rel => String(rel.parent_id) === entityId && !rel.disabled
     )
 

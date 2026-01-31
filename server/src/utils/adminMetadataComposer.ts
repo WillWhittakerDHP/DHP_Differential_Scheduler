@@ -20,7 +20,7 @@ export interface FieldMetadataEntry {
   visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   layout: 'inline' | 'stacked';
   displayOrder: number;
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   statusButtonColor?: string | null;
   panel: 'none' | 'parts' | 'relationships' | 'annotations';
   bulkEdit: boolean;
@@ -173,7 +173,7 @@ function buildMetadataRecord(
     visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
     layout: 'inline' | 'stacked';
     displayOrder: number;
-    renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+    renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
     statusButtonColor?: string | null;
     panel: 'none' | 'parts' | 'relationships' | 'annotations';
     bulkEdit: boolean;

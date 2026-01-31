@@ -108,8 +108,8 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     // PATTERN: Map over AppointmentSlots, transform each one
     return slots.map(appointmentSlot => {
       const transformed = transformToInspectorPerspective(appointmentSlot, startTime)
-      // Return the totalTimeRange for inspector perspective (or first available)
-      return transformed.totalTimeRange || transformed.onSiteTimeRange || transformed.clientPresentTimeRange || transformed.moveableTimeRange
+      // Return the totalTimeRange for inspector perspective (or first available event time range)
+      return transformed.totalTimeRange || transformed.eventTimeRanges?.['OnSite'] || transformed.eventTimeRanges?.['ClientPresent'] || transformed.eventTimeRanges?.['Moveable'] || null
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
@@ -137,8 +137,8 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     // PATTERN: Map over AppointmentSlots, transform each one (onSiteTotal now comes from SlotShape)
     return slots.map(appointmentSlot => {
       const transformed = transformToClientPerspective(appointmentSlot, clientStartTime)
-      // Return the clientPresentTimeRange for client perspective (or totalTimeRange)
-      return transformed.clientPresentTimeRange || transformed.totalTimeRange || transformed.onSiteTimeRange || transformed.moveableTimeRange
+      // Return the clientPresentTimeRange for client perspective (or totalTimeRange or other event time ranges)
+      return transformed.eventTimeRanges?.['ClientPresent'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['OnSite'] || transformed.eventTimeRanges?.['Moveable'] || null
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
@@ -159,8 +159,8 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     const transformed = transformToInspectorPerspective(appointmentSlot, startTime)
     // LEARNING: Return TimeRange properties (no categorized slots in new structure)
     // WHY: New structure uses TimeRanges directly, no categorized TimeSlots
-    // PATTERN: Return TimeRange properties
-    return transformed.onSiteTimeRange || transformed.totalTimeRange || transformed.clientPresentTimeRange || transformed.moveableTimeRange || null
+    // PATTERN: Return TimeRange properties from eventTimeRanges
+    return transformed.eventTimeRanges?.['OnSite'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['ClientPresent'] || transformed.eventTimeRanges?.['Moveable'] || null
   }
 
   /**
@@ -182,8 +182,8 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     const transformed = transformToClientPerspective(appointmentSlot, clientStartTime)
     // LEARNING: Return TimeRange properties (no categorized slots in new structure)
     // WHY: New structure uses TimeRanges directly, no categorized TimeSlots
-    // PATTERN: Return TimeRange properties
-    return transformed.clientPresentTimeRange || transformed.totalTimeRange || transformed.onSiteTimeRange || transformed.moveableTimeRange || null
+    // PATTERN: Return TimeRange properties from eventTimeRanges
+    return transformed.eventTimeRanges?.['ClientPresent'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['OnSite'] || transformed.eventTimeRanges?.['Moveable'] || null
   }
 
   return {

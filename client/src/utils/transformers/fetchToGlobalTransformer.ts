@@ -6,18 +6,23 @@
  * PATTERN: Transformer class that handles entity and relationship transformation
  */
 
-import apiClient, { getEntityEndpoint, getRelationshipEndpoint, getAnnotationEndpoint, getAnnotationAssignmentsEndpoint, getAnnotationTypeEndpoint } from '../api'
+import apiClient, { getEntityEndpoint, getRelationshipEndpoint, getAnnotationEndpoint, getEventEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
+import { ANNOTATION_KEYS } from '@/constants/annotations'
+import { EVENT_KEYS } from '@/constants/events'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity, GlobalEntityId, BlockInstanceEntity } from '@/types/entities'
+import type { GlobalAnnotationKey } from '@/constants/annotations'
+import type { GlobalEventKey } from '@/constants/events'
+import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { FetchedRelationship } from '@/types/relationships'
-import type { Annotation, AnnotationType } from '@/types/annotations'
+import type { AnnotationInstance, AnnotationShape } from '@/types/annotations'
+import type { EventShape, EventInstance } from '@/types/events'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { transformApiEntity } from './entityTransformers'
 import { transformApiRelationships } from './relationshipTransformers'
-import { transformApiAnnotation, groupAnnotationsByEntity } from './annotationTransformers'
+import { transformApiAnnotation } from './annotationTransformers'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 
@@ -49,9 +54,10 @@ export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
  * WHY: Annotations are configuration data that changes infrequently
  * PATTERN: Keep annotations in globalData as they're part of configuration
  * 
- * Session 1.4.7: Added annotationTypes to globalData cache
- * WHY: AnnotationTypes are configuration data (like blockShape), not business data
+ * Session 1.4.7: Added annotationShapes to globalData cache
+ * WHY: AnnotationShapes are configuration data (like blockShape), not business data
  * PATTERN: Keep all configuration data together in globalData for unified cache management
+ * NOTE: Renamed from annotationTypes to annotationShapes (2026-01-30)
  * 
  * METADATA REFACTOR: Removed metadata from globalData
  * WHY: Metadata is only needed for admin page - lazy load via ['adminMetadata'] cache instead
@@ -62,10 +68,12 @@ export type GlobalData = {
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
   relationships: Record<GlobalRelationshipKey, GlobalRelationship[]>
   // NOTE: instanceComponents are now stored in relationships.instanceComponents as GlobalRelationship[]
-  // Session 1.4.6: Annotations added to globalData cache (configuration data)
-  annotations?: Annotation[]
-  // Session 1.4.7: AnnotationTypes added to globalData cache (configuration data)
-  annotationTypes?: AnnotationType[]
+  // NOTE: eventAssignments and annotationAssignments are now stored in relationships.eventAssignments and relationships.annotationAssignments
+  // LEARNING: Annotations and events follow entity pattern with Record<Key, ...> structure
+  // WHY: Consistent structure with entities pattern for configuration data
+  // PATTERN: Record type matching entity structure
+  annotations: Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>
+  events: Record<GlobalEventKey, EventShape[] | EventInstance[]>
   // NOTE: Metadata removed from globalData - use useMetadataCache() for admin metadata access
 }
 
@@ -90,9 +98,20 @@ function transformApiRelationship(
   const parentKind = config?.parentEntity ?? ''
   const childKind = config?.childEntity ?? ''
   
-  // Handle both snake_case and camelCase for IDs
-  const parentId = raw.parent_id ?? raw.parentId
-  const childId = raw.child_id ?? raw.childId
+  // LEARNING: All relationships use standard parent_id/child_id fields
+  // WHY: Consistent field naming across all relationship types
+  // PATTERN: Standard field mapping for all relationships (no special accommodations)
+  const parentId = (raw.parent_id ?? raw.parentId) as string | undefined
+  const childId = (raw.child_id ?? raw.childId) as string | undefined
+  
+  // LEARNING: Extract relationship-specific fields that are NOT metadata
+  // WHY: Metadata (ternaryValue, orderIndex, isDefault) is now stored in shape tables, not relationship tables
+  //      Only extract fields that are relationship-specific (like userTypeBlockBlockInstanceId for activeAnnotations,
+  //      partShapeId/blockShapeId for activeEvents to indicate which shape uses the event)
+  // PATTERN: Relationships just indicate which shapes are active - metadata lives in shape tables
+  const partShapeId = raw.partShapeId ?? raw.part_shape_id
+  const blockShapeId = raw.blockShapeId ?? raw.block_shape_id
+  const userTypeBlockBlockInstanceId = raw.userTypeBlockBlockInstanceId ?? raw.user_type_block_block_instance_id
   
   return {
     id: (raw.id ?? '') as GlobalEntityId,
@@ -102,6 +121,14 @@ function transformApiRelationship(
     parent_id: (parentId ?? '') as GlobalEntityId,
     child_id: (childId ?? '') as GlobalEntityId,
     disabled: Boolean(raw.disabled ?? false),
+    // LEARNING: Only include relationship-specific fields, not metadata
+    // WHY: Metadata (ternaryValue, orderIndex, isDefault) is stored in shape tables
+    //      Relationships just indicate which shapes are active
+    // NOTE: partShapeId/blockShapeId are relationship-specific (which shape uses the event)
+    //       userTypeBlockBlockInstanceId is relationship-specific override for activeAnnotations
+    ...(partShapeId !== undefined && (partShapeId === null || typeof partShapeId === 'string') && { partShapeId }),
+    ...(blockShapeId !== undefined && (blockShapeId === null || typeof blockShapeId === 'string') && { blockShapeId }),
+    ...(userTypeBlockBlockInstanceId !== undefined && (userTypeBlockBlockInstanceId === null || typeof userTypeBlockBlockInstanceId === 'string') && { userTypeBlockBlockInstanceId: userTypeBlockBlockInstanceId as GlobalEntityId | null }),
   }
 }
 
@@ -129,17 +156,8 @@ export class GlobalTransformer {
   async stageForHydration(): Promise<{
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
-    fetchedAnnotations: Annotation[]
-    fetchedAnnotationTypes: AnnotationType[]
-    fetchedAnnotationAssignments: Array<{
-      id: string
-      blockInstanceId: string
-      annotationId: string
-      userTypeBlockBlockInstanceId: GlobalEntityId | null
-      orderIndex: number
-      isDefault: boolean
-      annotation?: Annotation
-    }>
+    fetchedAnnotations: Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>
+    fetchedEvents: Record<GlobalEventKey, EventShape[] | EventInstance[]>
   }> {
     try {
       // LEARNING: Fetch all entities in parallel using same processor pattern
@@ -174,59 +192,139 @@ export class GlobalTransformer {
       // LEARNING: Fetch all relationships in parallel using same processor pattern
       // WHY: Consistent parallel fetching pattern across all data types
       // PATTERN: map() → Promise.all() for parallel execution
-      // NOTE: All 6 relationship types (validCascades, validParts, dependentInstances, bookingCascades, activeParts, instanceComponents) fetched in parallel
+      // NOTE: All relationship types (including activeEvents and activeAnnotations) fetched in parallel
       const relationshipPromises = (Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]).map(async (relationshipKey) => {
         const endpoint = getRelationshipEndpoint(relationshipKey)
         const response = await apiClient.get<Record<string, unknown>[]>(endpoint)
+        
+        // #region agent log
+        if (relationshipKey === 'eventAssignments') {
+          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fetchToGlobalTransformer.ts:197',message:'fetchToGlobalTransformer: eventAssignments API response',data:{endpoint,responseDataLength:response.data?.length||0,responseDataSample:Array.isArray(response.data)?response.data.slice(0,2):response.data},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+        }
+        // #endregion
         
         // Transform each relationship from API format to FetchedRelationship format
         // LEARNING: API endpoint already filters by relationship type, so response doesn't include 'kind'
         // WHY: Endpoint is /relationships/{relationshipKey}, so we pass relationshipKey to transformer
         // PATTERN: Transform raw API response to expected FetchedRelationship format using relationshipKey
-        return response.data.map(raw => transformApiRelationship(raw, relationshipKey))
+        const transformed = response.data.map(raw => transformApiRelationship(raw, relationshipKey))
+        
+        // #region agent log
+        if (relationshipKey === 'eventAssignments') {
+          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fetchToGlobalTransformer.ts:204',message:'fetchToGlobalTransformer: eventAssignments transformed',data:{transformedLength:transformed.length,transformedSample:transformed.slice(0,2)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+        }
+        // #endregion
+        
+        return transformed
       })
       
       const relationshipResults = await Promise.all(relationshipPromises)
       const fetchedRelationships = relationshipResults.flat()
       
-      // LEARNING: Fetch all annotations, annotation types, and assignments in parallel using same processor pattern
+      // LEARNING: Fetch all annotations using parallel pattern like entities
       // WHY: Consistent parallel fetching pattern across all data types
-      // PATTERN: Promise.all() for parallel execution
-      // NOTE: Annotations, annotation types, and assignments fetched in parallel
-      // ARCHITECTURAL REFACTOR: Removed business entity fetching (appointments, properties, users)
-      // WHY: Business entities use separate cache key ['businessData'] and are fetched by useBusiness composable
-      // Session 1.4.7: Added annotation types to parallel fetch (configuration data belongs in globalData)
-      const [annotationsResponse, annotationTypesResponse, assignmentsResponse] = await Promise.all([
-        apiClient.get<Record<string, unknown>[]>(getAnnotationEndpoint()),
-        apiClient.get<AnnotationType[]>(getAnnotationTypeEndpoint()),
-        apiClient.get<Array<Record<string, unknown>>>(getAnnotationAssignmentsEndpoint())
-      ])
-      
-      // Transform annotations
-      const fetchedAnnotations = annotationsResponse.data.map(raw => transformApiAnnotation(raw))
-      
-      // Transform assignments (extract from Sequelize include structure)
-      const fetchedAnnotationAssignments = assignmentsResponse.data.map((raw: Record<string, unknown>) => {
-        const annotation = raw.annotation as Record<string, unknown> | undefined
-        // Transform full annotation if present (includes type and annotationType)
-        const transformedAnnotation = annotation ? transformApiAnnotation(annotation) : undefined
-        return {
-          id: typeof raw.id === 'string' ? raw.id : '',
-          blockInstanceId: typeof raw.blockInstanceId === 'string' ? raw.blockInstanceId : (typeof raw.block_instance_id === 'string' ? raw.block_instance_id : ''),
-          annotationId: typeof raw.annotationId === 'string' ? raw.annotationId : (typeof raw.annotation_id === 'string' ? raw.annotation_id : ''),
-          userTypeBlockBlockInstanceId: (raw.userTypeBlockBlockInstanceId ?? raw.user_type_block_block_instance_id ?? null) as GlobalEntityId | null,
-          orderIndex: (raw.orderIndex ?? raw.order_index ?? 0) as number,
-          isDefault: (raw.isDefault ?? raw.is_default ?? false) as boolean,
-          annotation: transformedAnnotation
+      // PATTERN: map() → Promise.all() for parallel execution, matching entity fetching pattern
+      const annotationPromises = ANNOTATION_KEYS.map(async (annotationKey) => {
+        const endpoint = getAnnotationEndpoint(annotationKey)
+        const response = await apiClient.get<Record<string, unknown>[]>(endpoint)
+        
+        // Transform API responses based on annotation key type
+        let transformed: AnnotationInstance[] | AnnotationShape[]
+        if (annotationKey === 'annotationInstance') {
+          transformed = response.data.map((raw: Record<string, unknown>) => 
+            transformApiAnnotation(raw)
+          )
+        } else if (annotationKey === 'annotationShape') {
+          transformed = response.data
+            .map((raw: Record<string, unknown>) => {
+              const disabled = raw.disabled ?? raw.Disabled ?? false
+              if (disabled === true) return null
+              const id = raw.id ?? raw.ID
+              const name = raw.name ?? raw.Name
+              const defaultOrderIndex = raw.defaultOrderIndex ?? raw.default_order_index
+              const defaultIsDefault = raw.defaultIsDefault ?? raw.default_is_default
+              if (typeof id === 'string' && typeof name === 'string') {
+                return {
+                  id,
+                  name,
+                  ...(typeof defaultOrderIndex === 'number' && { defaultOrderIndex }),
+                  ...(typeof defaultIsDefault === 'boolean' && { defaultIsDefault }),
+                } as AnnotationShape
+              }
+              return null
+            })
+            .filter((item): item is AnnotationShape => item !== null)
+        } else {
+          transformed = []
         }
+        
+        return { annotationKey, data: transformed }
       })
       
-      // LEARNING: Validation logging to verify all data types are loaded
-      // WHY: Helps debug missing data and ensures all expected types are present
-      // PATTERN: Log counts for each data type in dev mode
+      // LEARNING: Fetch all events using parallel pattern like entities
+      // WHY: Consistent parallel fetching pattern across all data types
+      // PATTERN: map() → Promise.all() for parallel execution, matching entity fetching pattern
+      const eventPromises = EVENT_KEYS.map(async (eventKey) => {
+        const endpoint = getEventEndpoint(eventKey)
+        const response = await apiClient.get<Record<string, unknown>[]>(endpoint)
+        
+        // Transform API responses based on event key type
+        let transformed: EventShape[] | EventInstance[]
+        if (eventKey === 'eventShape') {
+          transformed = response.data.map((raw: Record<string, unknown>) => {
+            const defaultTernaryValue = raw.defaultTernaryValue ?? raw.default_ternary_value
+            const defaultOrderIndex = raw.defaultOrderIndex ?? raw.default_order_index
+            return {
+              id: (raw.id ?? '') as string,
+              name: (raw.name ?? '') as string,
+              ...(defaultTernaryValue !== undefined && (defaultTernaryValue === null || typeof defaultTernaryValue === 'string') && { defaultTernaryValue: defaultTernaryValue as 'true' | 'false' | 'override' | null }),
+              ...(typeof defaultOrderIndex === 'number' && { defaultOrderIndex }),
+            } as EventShape
+          })
+        } else if (eventKey === 'eventInstance') {
+          transformed = response.data.map((raw: Record<string, unknown>) => ({
+            id: (raw.id ?? '') as string,
+            eventShapeRef: (raw.eventShapeRef ?? raw.event_shape_ref ?? '') as string,
+            name: (raw.name ?? '') as string,
+            titleTemplate: (raw.titleTemplate ?? raw.title_template ?? null) as string | null,
+            descriptionTemplate: (raw.descriptionTemplate ?? raw.description_template ?? null) as string | null,
+            locationTemplate: (raw.locationTemplate ?? raw.location_template ?? null) as string | null,
+          } as EventInstance))
+        } else {
+          transformed = []
+        }
+        
+        return { eventKey, data: transformed }
+      })
       
-      // Session 1.4.7: Extract annotation types from response
-      const fetchedAnnotationTypes = annotationTypesResponse.data
+      const [annotationResults, eventResults] = await Promise.all([
+        Promise.all(annotationPromises),
+        Promise.all(eventPromises)
+      ])
+      
+      // LEARNING: Reduce annotation results to Record<GlobalAnnotationKey, ...>
+      // WHY: Consistent structure with entities pattern
+      // PATTERN: Reduce array to Record type matching entity structure
+      const fetchedAnnotations = annotationResults.reduce((acc, { annotationKey, data }) => {
+        if (annotationKey === 'annotationInstance') {
+          acc[annotationKey] = data as AnnotationInstance[]
+        } else if (annotationKey === 'annotationShape') {
+          acc[annotationKey] = data as AnnotationShape[]
+        }
+        return acc
+      }, {} as Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>)
+      
+      // LEARNING: Reduce event results to Record<GlobalEventKey, ...>
+      // WHY: Consistent structure with entities pattern
+      // PATTERN: Reduce array to Record type matching entity structure
+      const fetchedEvents = eventResults.reduce((acc, { eventKey, data }) => {
+        if (eventKey === 'eventShape') {
+          acc[eventKey] = data as EventShape[]
+        } else if (eventKey === 'eventInstance') {
+          acc[eventKey] = data as EventInstance[]
+        }
+        return acc
+      }, {} as Record<GlobalEventKey, EventShape[] | EventInstance[]>)
       
       // NOTE: Metadata is no longer fetched here
       // WHY: Metadata is lazy-loaded via useMetadataCache() only when admin page is accessed
@@ -236,8 +334,7 @@ export class GlobalTransformer {
         fetchedEntities,
         fetchedRelationships,
         fetchedAnnotations,
-        fetchedAnnotationTypes,
-        fetchedAnnotationAssignments,
+        fetchedEvents,
       }
     } catch (_error) {
       return {
@@ -248,9 +345,14 @@ export class GlobalTransformer {
           partShape: [],
         },
         fetchedRelationships: [],
-        fetchedAnnotations: [],
-        fetchedAnnotationTypes: [],
-        fetchedAnnotationAssignments: [],
+        fetchedAnnotations: {
+          annotationShape: [],
+          annotationInstance: [],
+        },
+        fetchedEvents: {
+          eventShape: [],
+          eventInstance: [],
+        },
       }
     }
   }
@@ -271,23 +373,9 @@ export class GlobalTransformer {
   hydrate(staged: {
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
-    fetchedAnnotations: Annotation[]
-    fetchedAnnotationTypes: AnnotationType[]
-    fetchedAnnotationAssignments: Array<{
-      id: string
-      blockInstanceId: string
-      annotationId: string
-      userTypeBlockBlockInstanceId: GlobalEntityId | null
-      orderIndex: number
-      isDefault: boolean
-      annotation?: Annotation
-    }>
+    fetchedAnnotations: Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>
+    fetchedEvents: Record<GlobalEventKey, EventShape[] | EventInstance[]>
   }): GlobalData {
-    // Session 1.4.6: Extract annotations from staged data
-    const fetchedAnnotations = staged.fetchedAnnotations || []
-    // Session 1.4.7: Extract annotation types from staged data
-    const fetchedAnnotationTypes = staged.fetchedAnnotationTypes || []
-    
     // Attach instanceComponents arrays to entities (for backward compatibility)
     // LEARNING: This metadata helps identify composers, but components are computed from relationships
     // WHY: Some code may still check isComposer flag
@@ -329,59 +417,36 @@ export class GlobalTransformer {
       return acc
     }, {} as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>)
     
-    // Attach annotations to entities
-    // LEARNING: Group annotations by blockInstanceId and attach to entities
-    // WHY: Consistent pattern with relationships - annotations attached during hydration
-    // PATTERN: Group annotations, then attach to entities (future-proof for other entity types)
-    const annotationsByEntity = groupAnnotationsByEntity(
-      staged.fetchedAnnotations,
-      staged.fetchedAnnotationAssignments
-    )
-    
-    // Attach annotations to blockInstance entities
-    // LEARNING: Type assertion needed because entities are typed as union
-    // WHY: TypeScript can't infer specific entity types from GlobalData.entities
-    // PATTERN: Assert to specific entity type when we know the entityKey
-    // LEARNING: Use map to create new entities instead of mutating in place
-    const blockInstances = entities.blockInstance || []
-    const entitiesWithAnnotations = {
-      ...entities,
-      blockInstance: blockInstances.map(blockInstance => {
-      const annotations = annotationsByEntity.get(blockInstance.id)
-      // Type assertion: we know this is blockInstance, so it's BlockInstanceEntity
-      const blockInstanceEntity = blockInstance as BlockInstanceEntity
-      if (annotations && annotations.length > 0) {
-        return {
-          ...blockInstanceEntity,
-          annotations
-        }
-      } else {
-        // No annotations, ensure empty array
-        return {
-          ...blockInstanceEntity,
-          annotations: []
-        }
-      }
-    })
-    }
+    // LEARNING: Annotations follow the same pattern as entities and relationships
+    // WHY: Annotations are entities (AnnotationInstance, AnnotationShape), relationships are GlobalRelationship[]
+    // PATTERN: No special attachment - annotations accessed via relationships.annotationAssignments like other relationships
     
     // Transform all relationships (including components) to GlobalRelationship format
+    // LEARNING: Pass annotations and events to transformApiRelationships so it can resolve annotationInstance/eventInstance child entities
+    // WHY: annotationInstance and eventInstance are in annotations/events Records, not entities Record
+    // PATTERN: Provide all data sources needed for relationship resolution
     const relationships = (Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]).reduce(
       (acc, relType) => {
-        acc[relType] = transformApiRelationships(staged.fetchedRelationships, relType, entitiesWithAnnotations)
+        acc[relType] = transformApiRelationships(
+          staged.fetchedRelationships, 
+          relType, 
+          entities,
+          staged.fetchedAnnotations,
+          staged.fetchedEvents
+        )
         return acc
       },
       {} as Record<GlobalRelationshipKey, GlobalRelationship[]>
     )
     
     return {
-      entities: entitiesWithAnnotations,
+      entities,
       relationships,
-      // NOTE: instanceComponents are now in relationships.instanceComponents
-      // Session 1.4.6: Include annotations in globalData (configuration data)
-      annotations: fetchedAnnotations,
-      // Session 1.4.7: Include annotation types in globalData (configuration data)
-      annotationTypes: fetchedAnnotationTypes,
+      // LEARNING: Annotations and events follow entity pattern with Record<Key, ...> structure
+      // WHY: Consistent structure with entities pattern for configuration data
+      // PATTERN: Record type matching entity structure
+      annotations: staged.fetchedAnnotations,
+      events: staged.fetchedEvents,
       // NOTE: Metadata removed - use useMetadataCache() for admin metadata access
     }
   }
@@ -445,7 +510,7 @@ export class GlobalTransformer {
     // WHY: Metadata may incorrectly mark fields as not required, but database schema requires them
     // PATTERN: Use database schema (from model definitions) to determine required fields, override metadata
     const SCHEMA_REQUIRED_BOOLEANS: Record<string, string[]> = {
-      partInstance: ['active', 'onSite', 'clientPresent', 'moveable', 'zeroOutPart'],
+      partInstance: ['active', 'zeroOutPart'], // NOTE: onSite, clientPresent, moveable removed - now computed from EventAssignment relationships
       blockInstance: ['active', 'composite', 'differential', 'allowMultiple'],
       blockShape: ['composable', 'canHaveParts', 'isStateControl'],
       partShape: [],
