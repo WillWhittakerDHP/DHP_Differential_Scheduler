@@ -47,25 +47,44 @@
 Phase 1.4 completed all admin panel data flow fixes, established dual-cache architecture (globalData/businessData), completed wizard UI setup, and verified all CRUD operations work correctly. Business controls infrastructure is in place for admin-configurable settings.
 
 **What you need to start Phase 1.5:**
-- Database structure supports annotations and annotationTypes (already in globalData) ✅
+- Database structure supports annotation entities (annotationShape, annotationInstance in entities) ✅
 - Admin panel tabs infrastructure in place (can add new tabs) ✅
 - Business controls pattern established (reference for business rules tab) ✅
 - Wizard modal workflows exist (reference for confirmation/agent modals) ✅
 
 **Key Architecture from Phase 1.4:**
 ```
-┌─────────────────────────────────┬───────────────────────────────────────┐
-│ GlobalData ['globalData']       │ BusinessData ['businessData']         │
-├─────────────────────────────────┼───────────────────────────────────────┤
-│ • entities (4 types)            │ • appointments                        │
-│ • relationships (6 types)       │ • properties                          │
-│ • annotations                   │ • users                               │
-│ • annotationTypes               │                                       │
-├─────────────────────────────────┼───────────────────────────────────────┤
-│ Pattern: refetchQueries         │ Pattern: optimistic + refetchQueries  │
-│ Change Frequency: Low           │ Change Frequency: High                │
-└─────────────────────────────────┴───────────────────────────────────────┘
+┌──────────────────────────────────────────────┬───────────────────────────────────────┐
+│ GlobalData ['globalData']                    │ BusinessData ['businessData']         │
+├──────────────────────────────────────────────┼───────────────────────────────────────┤
+│ • entities (8 types):                        │ • appointments                        │
+│   - blockInstance                            │ • properties                          │
+│   - blockShape                               │ • users                               │
+│   - partInstance                             │                                       │
+│   - partShape                                │                                       │
+│   - eventShape                               │                                       │
+│   - eventInstance                            │                                       │
+│   - annotationShape                          │                                       │
+│   - annotationInstance                       │                                       │
+│                                              │                                       │
+│ • relationships (10 types):                  │                                       │
+│   - validCascades                            │                                       │
+│   - validParts                               │                                       │
+│   - validAnnotations                         │                                       │
+│   - dependentInstances                       │                                       │
+│   - bookingCascades                          │                                       │
+│   - partAssignments                          │                                       │
+│   - annotationAssignments                    │                                       │
+│   - eventAssignments                         │                                       │
+│   - attendeeAssignments                      │                                       │
+│   - instanceComponents                       │                                       │
+├──────────────────────────────────────────────┼───────────────────────────────────────┤
+│ Pattern: refetchQueries                      │ Pattern: optimistic + refetchQueries  │
+│ Change Frequency: Low                        │ Change Frequency: High                │
+└──────────────────────────────────────────────┴───────────────────────────────────────┘
 ```
+
+**Note:** Annotations (annotationShape, annotationInstance) are core entities in the entities section, not separate top-level properties.
 
 ---
 

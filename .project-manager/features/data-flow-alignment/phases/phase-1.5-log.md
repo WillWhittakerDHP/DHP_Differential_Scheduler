@@ -94,8 +94,8 @@ _No decisions yet - Phase just started_
 
 - Begin Session 1.5.1: Business Rules Database Infrastructure
 - Review Phase 1.4 completion to ensure all dependencies satisfied
-- Confirm database structure supports required relationships (block_instances, annotations)
-- Review annotation sets structure for validation message integration
+- Confirm database structure supports required relationships (blockInstance, annotationInstance)
+- Review annotationShape and annotationInstance structure for validation message integration
 
 ---
 

@@ -69,8 +69,8 @@
 
 **Prerequisites:**
 - Phase 1.4 Complete (Admin Panel Data Flow Fixes, Business Controls Tab, Dual-Cache Architecture) ✅
-- Database structure supports annotations and annotationTypes ✅
-- GlobalData cache includes annotations ✅
+- Database structure supports annotation entities (annotationShape, annotationInstance) ✅
+- GlobalData cache includes all 8 entity types and 10 relationship types ✅
 - Admin panel tabs infrastructure in place ✅
 
 **Downstream Impact:**
