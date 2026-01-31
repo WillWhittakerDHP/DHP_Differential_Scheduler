@@ -53,7 +53,7 @@ Integrate Google Calendar API (availability fetching, event creation), Google Ma
 - Display connected calendars as removable chips
 - Add informational alert for upcoming OAuth feature
 
-**Session 5.0.3: Integration Preparation**
+**Session 2.0.3: Integration Preparation**
 - Update getCalendarAvailability to read calendar emails from settings
 - Create calendar provider plugin interface structure
 - Add placeholder for calendar service factory pattern
@@ -71,7 +71,7 @@ Integrate Google Calendar API (availability fetching, event creation), Google Ma
 - [ ] Email validation working (format check)
 - [ ] Provider dropdown functional (Google, Outlook, None)
 - [ ] Enable/disable toggle functional
-- [ ] Structure ready for OAuth integration in Phase 5.1
+- [ ] Structure ready for OAuth integration in Phase 2.1
 
 ### Architecture Notes
 
@@ -110,11 +110,11 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 1. Should calendar emails be validated against actual calendar accounts? (Defer to OAuth phase)
 2. How should we handle calendar access permissions? (Defer to OAuth phase)
 3. Should we support calendar groups/teams? (Future enhancement)
-4. What's the fallback behavior when calendar API fails? (Document in Phase 5.1)
+4. What's the fallback behavior when calendar API fails? (Document in Phase 2.1)
 
 ---
 
-## Phase 5.1: Google Calendar API Integration
+## Phase 2.1: Google Calendar API Integration
 
 **Status:** Not Started  
 **Description:** Integrate Google Calendar API for fetching availability and creating events.
@@ -134,9 +134,9 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 
 ### Sessions
 
-**Session 5.1.1: Calendar Availability Fetching**
-- **Prerequisite:** Phase 5.0 complete (calendar configuration available)
-- Set up Google Calendar API client using plugin architecture from 5.0.3
+**Session 2.1.1: Calendar Availability Fetching**
+- **Prerequisite:** Phase 2.0 complete (calendar configuration available)
+- Set up Google Calendar API client using plugin architecture from 2.0.3
 - Read calendar emails from AvailabilitySettings.calendarConfig
 - Implement OAuth flow for Google Calendar authentication
 - Implement date range logic (1st-21st vs 22nd-end of month)
@@ -146,7 +146,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - Extract home address from events
 - Handle on-demand month fetching
 
-**Session 5.1.2: Event Creation & Invitations**
+**Session 2.1.2: Event Creation & Invitations**
 - Create event creation function
 - Map appointment data to calendar event format
 - Add participant emails
@@ -155,7 +155,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - Send calendar invitations
 - Handle multiple user types (Buyer, Agent, Owner, Inspector)
 
-**Session 5.1.3: Error Handling & Fallbacks**
+**Session 2.1.3: Error Handling & Fallbacks**
 - Handle API authentication errors
 - Handle rate limiting
 - Handle network errors
@@ -173,7 +173,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 
 ---
 
-## Phase 5.2: Google Maps API Integration
+## Phase 2.2: Google Maps API Integration
 
 **Status:** Not Started  
 **Description:** Integrate Google Maps API for address autocomplete and drive time calculations.
@@ -192,7 +192,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 
 ### Sessions
 
-**Session 5.2.1: Address Autocomplete**
+**Session 2.2.1: Address Autocomplete**
 - Set up Google Maps Places API client
 - Implement address autocomplete input
 - Handle autocomplete suggestions
@@ -200,7 +200,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - Handle address selection
 - Validate address completeness
 
-**Session 5.2.2: Drive Time Calculations**
+**Session 2.2.2: Drive Time Calculations**
 - Set up Google Maps Distance Matrix API client
 - Calculate drive time FROM appointment address to busy event locations
 - Calculate drive time TO appointment address FROM home
@@ -209,7 +209,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - Calculate total drive time for day
 - Integrate drive times into availability calculations
 
-**Session 5.2.3: Error Handling & Fallbacks**
+**Session 2.2.3: Error Handling & Fallbacks**
 - Handle API errors gracefully
 - Implement base drive time fallback
 - Handle address autocomplete failures (manual entry)
@@ -230,7 +230,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 
 ---
 
-## Phase 5.3: MLS API Integration
+## Phase 2.3: MLS API Integration
 
 **Status:** Not Started (Deferrable)  
 **Description:** Integrate MLS API to retrieve property data and auto-populate property details form.
@@ -257,21 +257,21 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 
 ### Sessions
 
-**Session 5.3.0: Database Migration (Prerequisite)**
+**Session 2.3.0: Database Migration (Prerequisite)**
 - Complete Property and Address table separation migration
 - See: `../data-flow-alignment/sessions/session-1.3.8-guide.md`
 - Migrate existing Property data to Address + PropertyVersion + PropertyDetails structure
 - Update API endpoints and frontend components
 - Verify all relationships working correctly
 
-**Session 5.3.1: MLS API Client Setup**
+**Session 2.3.1: MLS API Client Setup**
 - Research MLS API provider and documentation
 - Set up API client
 - Implement authentication
 - Create API request/response types
 - Test API connection
 
-**Session 5.3.2: Property Data Retrieval & Versioning**
+**Session 2.3.2: Property Data Retrieval & Versioning**
 - Create property lookup function (by address)
 - Map MLS dwelling type to application property type
 - Extract total square footage (above + below grade)
@@ -282,7 +282,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - Auto-populate property details form
 - Handle partial data scenarios
 
-**Session 5.3.3: Error Handling & Fallbacks**
+**Session 2.3.3: Error Handling & Fallbacks**
 - Handle API errors gracefully
 - Handle property not found scenarios
 - Prompt user to input required information manually
@@ -292,7 +292,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 
 ### Success Criteria
 
-- Database migration completed successfully (Session 5.3.0)
+- Database migration completed successfully (Session 2.3.0)
 - MLS API client functional
 - Property data retrieved and mapped correctly
 - Versioning logic implemented and working
@@ -323,9 +323,9 @@ This phase is **deferrable** - MLS API integration can be deferred with manual e
 
 ### Internal Phase Dependencies
 
-- Phase 5.0 → Phase 5.1 (Calendar config required before API integration)
-- Phase 5.0 → Phase 5.2 (Calendar config may inform Maps integration)
-- Phase 5.1 → Phase 5.3 (Calendar integration before MLS, though MLS is independent)
+- Phase 2.0 → Phase 2.1 (Calendar config required before API integration)
+- Phase 2.0 → Phase 2.2 (Calendar config may inform Maps integration)
+- Phase 2.1 → Phase 2.3 (Calendar integration before MLS, though MLS is independent)
 
 ---
 
@@ -350,5 +350,5 @@ This phase is **deferrable** - MLS API integration can be deferred with manual e
 ---
 
 **Last Updated:** 2025-01-07  
-**Status:** Planning - Phase 5.0 Ready for Implementation
+**Status:** Planning - Phase 2.0 Ready for Implementation
 

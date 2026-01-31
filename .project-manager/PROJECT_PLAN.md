@@ -651,7 +651,7 @@ This document serves as the master project plan for the Vue.js migration. All ph
 
 **Branch:** `feature/ui-polish`
 
-### Phase 2.1: Admin Panel UI Polish
+### Phase 7.1: Admin Panel UI Polish
 
 **Status:** Not Started
 **Description:** Polish admin panel UI, improve visual design, ensure consistent styling.
@@ -670,7 +670,7 @@ This document serves as the master project plan for the Vue.js migration. All ph
 - Clear visual hierarchy
 - Forms and dialogs are well-designed
 
-### Phase 2.2: Booking Wizard UI Polish
+### Phase 7.2: Booking Wizard UI Polish
 
 **Status:** Not Started
 **Description:** Polish booking wizard UI, improve visual design, ensure consistent styling.
@@ -689,7 +689,7 @@ This document serves as the master project plan for the Vue.js migration. All ph
 - Clear visual hierarchy
 - Smooth step navigation and transitions
 
-### Phase 2.3: Responsive Design and Mobile Optimization
+### Phase 7.3: Responsive Design and Mobile Optimization
 
 **Status:** Not Started
 **Description:** Optimize responsive design and mobile experience.
@@ -706,7 +706,7 @@ This document serves as the master project plan for the Vue.js migration. All ph
 - Touch interactions are smooth
 - Tested on various devices
 
-### Phase 2.4: Bulk Updates Enhancement
+### Phase 7.4: Bulk Updates Enhancement
 
 **Status:** Not Started
 **Description:** Add bulk update functionality for composite/composable members as a small admin UI enhancement.
@@ -880,14 +880,22 @@ This document serves as the master project plan for the Vue.js migration. All ph
 
 ---
 
-## Feature 5: Google APIs Integration
+## Feature 2: Google APIs Integration
 
 **Status:** Planning
 **Description:** Integrate Google Calendar API (availability fetching, event creation), Google Maps API (address autocomplete, drive time), and MLS API (property data - deferrable).
 
 **Branch:** `feature/google-apis-integration`
 
-### Phase 5.1: Google Calendar API Integration
+### Phase 2.0: Calendar Configuration UI (Prerequisite)
+
+**Status:** Planning
+**Description:** Build admin interface for configuring which calendars to check for free-busy calculations.
+
+**Related Documents:**
+- **Feature Plan:** `project-manager/features/feature-2-google-apis-integration/feature-plan.md`
+
+### Phase 2.1: Google Calendar API Integration
 
 **Status:** Not Started
 **Description:** Integrate Google Calendar API for fetching availability and creating events.
@@ -898,9 +906,9 @@ This document serves as the master project plan for the Vue.js migration. All ph
 - `client-vue/src/composables/useGoogleCalendar.ts` (new)
 
 **Sessions:**
-- Session 5.1.1: Calendar Availability Fetching
-- Session 5.1.2: Event Creation & Invitations
-- Session 5.1.3: Error Handling & Fallbacks
+- Session 2.1.1: Calendar Availability Fetching
+- Session 2.1.2: Event Creation & Invitations
+- Session 2.1.3: Error Handling & Fallbacks
 
 **Success Criteria:**
 - Calendar availability fetched correctly
@@ -909,7 +917,7 @@ This document serves as the master project plan for the Vue.js migration. All ph
 - Error handling working with fallbacks
 - Performance: API response times <2s
 
-### Phase 5.2: Google Maps API Integration
+### Phase 2.2: Google Maps API Integration
 
 **Status:** Not Started
 **Description:** Integrate Google Maps API for address autocomplete and drive time calculations.
@@ -919,9 +927,9 @@ This document serves as the master project plan for the Vue.js migration. All ph
 - `client-vue/src/composables/useGoogleMaps.ts` (new)
 
 **Sessions:**
-- Session 5.2.1: Address Autocomplete
-- Session 5.2.2: Drive Time Calculations
-- Session 5.2.3: Error Handling & Fallbacks
+- Session 2.2.1: Address Autocomplete
+- Session 2.2.2: Drive Time Calculations
+- Session 2.2.3: Error Handling & Fallbacks
 
 **Success Criteria:**
 - Address autocomplete working correctly
@@ -930,7 +938,7 @@ This document serves as the master project plan for the Vue.js migration. All ph
 - Error handling working with fallbacks
 - Performance: API response times <2s
 
-### Phase 5.3: MLS API Integration
+### Phase 2.3: MLS API Integration
 
 **Status:** Not Started (Deferrable)
 **Description:** Integrate MLS API to retrieve property data and auto-populate property details form.
@@ -954,7 +962,7 @@ This document serves as the master project plan for the Vue.js migration. All ph
 - MLS API fails → Manual property details entry
 
 **Related Documents:**
-- **Feature Plan:** `project-manager/features/google-apis-integration/feature-plan.md`
+- **Feature Plan:** `project-manager/features/feature-2-google-apis-integration/feature-plan.md`
 - **Old Project Plan:** `project-manager/archive/project-plan.md.old` (Feature 4 reference)
 
 ---
@@ -1204,8 +1212,8 @@ See `.cursor/project-manager/future-features-catalog.md` for comprehensive catal
   - Phase 11: Moved to Feature 2: UI Polish (small enhancement)
 - **New Features Created:**
   - Feature 1: Data Flow Alignment - Fix data flow issues and interactions
-  - Feature 2: UI Polish - Polish admin panel and wizard UI (includes bulk updates)
+  - Feature 2: Google APIs Integration - Integrate external APIs
   - Feature 3: Booking Calculations - Extract and implement calculation logic
   - Feature 4: Calendar & Appointment Availability - Build calendar and availability features
-  - Feature 5: Google APIs Integration - Integrate external APIs
-- **Feature 6:** GPT-Powered Admin Panel Automation - Natural language automation (separate feature, not part of migration)
+  - Feature 6: GPT-Powered Admin Panel Automation - Natural language automation (separate feature, not part of migration)
+  - Feature 7: UI Polish - Polish admin panel and wizard UI (includes bulk updates)

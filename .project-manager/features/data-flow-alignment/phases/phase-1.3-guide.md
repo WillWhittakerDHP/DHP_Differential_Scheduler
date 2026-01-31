@@ -98,7 +98,7 @@
 - Consider using Pinia store if state becomes complex (evaluate need)
 
 **Related Phases:**
-- Feature 2: UI Polish (quote mode color palette implementation)
+- Feature 7: UI Polish (quote mode color palette implementation)
 - Phase 1.5: Business Rules & Validation (validation logic may depend on user type)
 
 ---
@@ -181,7 +181,7 @@
 
 **Related Phases:**
 - Phase 1.5: Business Rules & Validation (business rule validation)
-- Feature 2: UI Polish (error message styling)
+- Feature 7: UI Polish (error message styling)
 
 ---
 

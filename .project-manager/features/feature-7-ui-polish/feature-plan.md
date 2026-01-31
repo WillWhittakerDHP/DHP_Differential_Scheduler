@@ -1,4 +1,4 @@
-# Feature 2: UI Polish
+# Feature 7: UI Polish
 
 **Feature:** UI Polish  
 **Status:** Planning  
@@ -16,7 +16,7 @@ Polish admin panel and booking wizard UI to be "niceish". Fix flow/interactions,
 
 ---
 
-## Phase 2.1: Admin Panel UI Polish
+## Phase 7.1: Admin Panel UI Polish
 
 **Status:** Not Started  
 **Description:** Polish admin panel UI, improve visual design, ensure consistent styling.
@@ -45,7 +45,7 @@ Polish admin panel and booking wizard UI to be "niceish". Fix flow/interactions,
 
 ---
 
-## Phase 2.2: Booking Wizard UI Polish
+## Phase 7.2: Booking Wizard UI Polish
 
 **Status:** Not Started  
 **Description:** Polish booking wizard UI, improve visual design, ensure consistent styling. Comprehensive redesign based on vision notes.
@@ -136,7 +136,7 @@ Polish admin panel and booking wizard UI to be "niceish". Fix flow/interactions,
 
 ---
 
-## Phase 2.3: Responsive Design and Mobile Optimization
+## Phase 7.3: Responsive Design and Mobile Optimization
 
 **Status:** Not Started  
 **Description:** Optimize responsive design and mobile experience.
@@ -163,7 +163,7 @@ Polish admin panel and booking wizard UI to be "niceish". Fix flow/interactions,
 
 ---
 
-## Phase 2.4: Bulk Updates Enhancement
+## Phase 7.4: Bulk Updates Enhancement
 
 **Status:** Not Started  
 **Description:** Add bulk update functionality for composite/composable members as a small admin UI enhancement.
@@ -216,6 +216,7 @@ This is a **small admin UI enhancement**, not a separate feature. It's included 
 
 - Feature 0: Vue.js Migration (Core Complete)
 - Feature 1: Data Flow Alignment (recommended but not required)
+- Feature 2: Google APIs Integration (recommended but not required)
 
 ---
 

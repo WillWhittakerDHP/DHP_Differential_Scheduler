@@ -1,4 +1,4 @@
-# Feature 5: Google APIs Integration
+# Feature 2: Google APIs Integration
 
 **Status:** Planning  
 **Description:** Integrate Google Calendar API, Google Maps API, and MLS API.
@@ -15,13 +15,14 @@ This feature provides the external API integration layer for the scheduling appl
 
 ## Phases
 
-- **Phase 5.1**: Google Calendar API Integration
-- **Phase 5.2**: Google Maps API Integration
-- **Phase 5.3**: MLS API Integration (deferrable)
+- **Phase 2.0**: Calendar Configuration UI (Prerequisite)
+- **Phase 2.1**: Google Calendar API Integration
+- **Phase 2.2**: Google Maps API Integration
+- **Phase 2.3**: MLS API Integration (deferrable)
 
 ## Note on MLS API
 
-MLS API integration (Phase 5.3) is **deferrable** - it can be deferred with manual entry fallback. It's not critical for MVP.
+MLS API integration (Phase 2.3) is **deferrable** - it can be deferred with manual entry fallback. It's not critical for MVP.
 
 ## Fallback Plans
 

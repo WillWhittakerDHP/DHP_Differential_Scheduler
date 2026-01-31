@@ -1,4 +1,4 @@
-# Feature 2: UI Polish
+# Feature 7: UI Polish
 
 **Status:** Planning  
 **Description:** Polish admin panel and booking wizard UI to be "niceish". Includes bulk updates as small enhancement.
@@ -16,14 +16,14 @@ This feature focuses on polishing the UI to transform it from functional but unp
 
 ## Phases
 
-- **Phase 2.1**: Admin Panel UI Polish
-- **Phase 2.2**: Booking Wizard UI Polish
-- **Phase 2.3**: Responsive Design and Mobile Optimization
-- **Phase 2.4**: Bulk Updates Enhancement (small feature)
+- **Phase 7.1**: Admin Panel UI Polish
+- **Phase 7.2**: Booking Wizard UI Polish
+- **Phase 7.3**: Responsive Design and Mobile Optimization
+- **Phase 7.4**: Bulk Updates Enhancement (small feature)
 
 ## Note on Bulk Updates
 
-Bulk updates (Phase 2.4) is **NOT a separate feature** - it's a small admin UI enhancement included here as part of UI polish work. It was originally planned as Phase 11 but has been moved here.
+Bulk updates (Phase 7.4) is **NOT a separate feature** - it's a small admin UI enhancement included here as part of UI polish work. It was originally planned as Phase 11 but has been moved here.
 
 ## Related Documents
 

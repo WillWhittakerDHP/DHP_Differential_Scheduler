@@ -21,10 +21,10 @@
 │   │   ├── phases/ (phase-level guides - historical)
 │   │   └── sessions/ (session logs - historical)
 │   ├── data-flow-alignment/ (Feature 1)
-│   ├── ui-polish/ (Feature 2)
+│   ├── feature-2-google-apis-integration/ (Feature 2)
 │   ├── booking-calculations/ (Feature 3)
 │   ├── calendar-appointment-availability/ (Feature 4)
-│   ├── google-apis-integration/ (Feature 5)
+│   ├── feature-7-ui-polish/ (Feature 7)
 │   └── gpt-admin-automation/ (Feature 6)
 └── project-plan.md.old (archived - for reference only)
 ```
@@ -65,11 +65,11 @@
 
 ### New Features (Post-Migration)
 - **Feature 1:** Data Flow Alignment - Fix data flow issues and interactions
-- **Feature 2:** UI Polish - Polish admin panel and wizard UI (includes bulk updates)
+- **Feature 2:** Google APIs Integration - Integrate external APIs
 - **Feature 3:** Booking Calculations - Extract and implement calculation logic
 - **Feature 4:** Calendar & Appointment Availability - Build calendar and availability features
-- **Feature 5:** Google APIs Integration - Integrate external APIs
 - **Feature 6:** GPT-Powered Admin Panel Automation - Natural language automation (separate feature)
+- **Feature 7:** UI Polish - Polish admin panel and wizard UI (includes bulk updates)
 
 ### Recent Changes (2025-02-01)
 - **Vue Migration Closed:** Marked as "Core Complete" with completion summary
@@ -134,7 +134,7 @@ The `.cursor/` directory contains codebase-agnostic tools and commands, while `.
 - **Archived Documents:** `project-plan.md.old` is archived and should not be modified
 - **Path Consistency:** Always use `project-manager` (not `workflow-manager`) in new documents
 - **Vue Migration:** Core Complete - Structural migration achieved. See completion summary for details.
-- **Current Focus:** Feature development (Features 1-5) - Data flow, UI polish, calculations, calendar, APIs
+- **Current Focus:** Feature development (Features 1-4, 6-7) - Data flow, APIs, calculations, calendar, UI polish
 - **Feature-Level Docs Requirement:** Feature-level planning documents (`feature-plan.md`, `README.md`) MUST be created before any phase planning documents. See `FEATURE_VALIDATION_CHECKLIST.md` for validation requirements.
 
 ---
