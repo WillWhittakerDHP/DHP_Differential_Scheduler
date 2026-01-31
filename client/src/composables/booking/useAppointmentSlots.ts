@@ -122,16 +122,38 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       const validPartsRelationships = (globalData?.relationships?.validParts || []) as GlobalRelationship[]
       const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]
       
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+      // #endregion
+      
       // LEARNING: Attach attendeeAssignments relationships to event shapes
       // WHY: Event shapes need attendees property populated for attendee-based differential logic
       // PATTERN: Map over event shapes, attach attendees array from attendeeAssignments relationships
+      // LEARNING: GlobalRelationship format uses parent/children objects, not parent_id/child_id
+      // WHY: Relationships are transformed to nested format with parent and children arrays
+      // PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format
       if (attendeeAssignmentsRelationships.length > 0) {
+        // LEARNING: Determine event perspectives for logging (major/minor/other)
+        // WHY: Use perspective labels instead of hardcoded event names in logs
+        // PATTERN: Find major/minor event shapes once, then use for all event shapes
+        const majorEventShape = settings.value?.differentialPerspectives?.majorAttendees && globalData
+          ? getMajorEventShape(eventShapes as EventShapeEntity[], settings.value.differentialPerspectives.majorAttendees)
+          : null
+        // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
+        // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
+        const eventShapesExcludingMajor = majorEventShape
+          ? (eventShapes as EventShapeEntity[]).filter(es => es.id !== majorEventShape.id)
+          : (eventShapes as EventShapeEntity[])
+        const minorEventShape = settings.value?.differentialPerspectives?.minorAttendees && globalData
+          ? getMinorEventShape(eventShapesExcludingMajor, settings.value.differentialPerspectives.minorAttendees)
+          : null
+        
         eventShapes = eventShapes.map(eventShape => {
-          const attendees = attendeeAssignmentsRelationships
-            .filter(rel => rel.parent_id === eventShape.id)
-            .map(rel => rel.child_id)
+          const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)
+          const attendees = matchingRel?.children?.map(child => child.id) || []
+          const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
           // #region agent log
-          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:123',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventShapeName:eventShape.name,attendeesCount:attendees.length,attendees},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
           // #endregion
           return { ...eventShape, attendees }
         })
@@ -139,7 +161,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         // Initialize empty attendees array if no relationships exist
         eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))
         // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:131',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
         // #endregion
       }
       
@@ -184,34 +206,25 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     
     const times = availableStartTimes.value
     if (times.length === 0) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+      // #endregion
       return []
     }
     
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+    // #endregion
+    
     const durations = timeSlotDurations?.value
+    
+    // LEARNING: Get globalData for applyShapeToTime
+    // WHY: applyShapeToTime needs globalData for attendee-based logic
+    // PATTERN: Get globalData in this computed scope
+    const globalData = getGlobalData()
     
     try {
       const availabilityMap = slotAvailability?.value
-      
-      // LEARNING: Log availability map and times for comparison
-      // WHY: Helps verify that Map keys match the time values being looked up
-      // PATTERN: Log sample values from both sources to compare formats
-      if (times.length > 0 && availabilityMap) {
-        const sampleTimes = times.slice(0, 5)
-        const sampleMapKeys = Array.from(availabilityMap.keys()).slice(0, 5)
-        logger.debug('Comparing times vs Map keys:', {
-          timesCount: times.length,
-          mapSize: availabilityMap.size,
-          sampleTimes,
-          sampleMapKeys,
-          firstTimeMatches: times[0] === sampleMapKeys[0],
-          firstTimeInMap: availabilityMap.has(times[0]),
-          sampleMatches: sampleTimes.map(time => ({
-            time,
-            inMap: availabilityMap.has(time),
-            matchingKey: sampleMapKeys.find(key => key === time)
-          }))
-        })
-      }
       
       const slots = times.map((time, index) => {
         // Get fallback duration from time slot if shape duration is 0
@@ -222,39 +235,26 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         // PATTERN: Check availability map, default to true if not found (backward compatibility)
         const isAvailable = availabilityMap?.get(time) ?? true
         
-        // LEARNING: Log first few slots to verify lookup
-        // WHY: Helps debug why busy slots aren't being marked correctly
-        // PATTERN: Log sample lookups to verify Map keys match time values
-        // NOTE: Debug logging disabled by default - enable via VITE_DEBUG_SCOPES=useAppointmentSlots if needed
-        if (index < 10) {
-          // Unused in commented-out debug logging - kept for potential future debugging
-          // const busyEntries = availabilityMap ? Array.from(availabilityMap.entries()).filter(([_, isAvail]) => !isAvail) : []
-          // const busyTimes = busyEntries.map(([time, _]) => time)
-          // Debug logging disabled by default - enable via VITE_DEBUG_SCOPES=useAppointmentSlots if needed
-          // logger.debug('Slot lookup:', {
-          //   index,
-          //   time,
-          //   mapHasKey: availabilityMap?.has(time),
-          //   isAvailable,
-          //   mapSize: availabilityMap?.size,
-          //   busyTimesCount: busyTimes.length,
-          //   isTimeInBusyList: busyTimes.includes(time),
-          //   sampleBusyTimes: busyTimes.slice(0, 5),
-          //   sampleKeys: availabilityMap ? Array.from(availabilityMap.keys()).slice(0, 5) : []
-          // })
+        try {
+          // LEARNING: Derive buttonIndex from array position (index parameter from map)
+          // WHY: Ensures buttonIndex always matches UI grid position - single source of truth
+          // PATTERN: Pass map index directly to builder, which uses it as buttonIndex
+          // NOTE: index is the array position, which becomes slot.buttonIndex in applyShapeToTime
+          const slot = applyShapeToTime(shape, time, index, fallbackDuration, isAvailable, globalData || undefined, settings.value || null)
+          return slot
+        } catch (error) {
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+          // #endregion
+          throw error
         }
-        
-        // LEARNING: Derive buttonIndex from array position (index parameter from map)
-        // WHY: Ensures buttonIndex always matches UI grid position - single source of truth
-        // PATTERN: Pass map index directly to builder, which uses it as buttonIndex
-        // NOTE: index is the array position, which becomes slot.buttonIndex in applyShapeToTime
-        const slot = applyShapeToTime(shape, time, index, fallbackDuration, isAvailable, globalData || undefined, settings.value || null)
-        
-        return slot
       })
       
       return slots
     } catch (error) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+      // #endregion
       logger.error('Error applying shape to times:', error)
       return []
     }
@@ -281,7 +281,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     // LEARNING: Pass globalData and availabilitySettings for attendee-based logic
     // WHY: Enables dynamic event identification based on attendees
     const globalData = getGlobalData()
-    return derivePerspective(slot, perspective.value, globalData.value || undefined, settings.value || null)
+    return derivePerspective(slot, perspective.value, globalData || undefined, settings.value || null)
   }
 
   // Graph bar data
@@ -330,8 +330,13 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     const majorEventShape = majorAttendeeIds.length > 0 
       ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
       : null
+    // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
+    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
+    const eventShapesExcludingMajor = majorEventShape
+      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+      : eventShapeEntities
     const minorEventShape = minorAttendeeIds.length > 0 && isDifferentialService.value
-      ? getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
       : null
     
     // #region agent log

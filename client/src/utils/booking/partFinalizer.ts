@@ -105,7 +105,9 @@ export function calculateSlotShape(
   availabilitySettings?: AvailabilitySettings | null
 ): import('@/types/appointment').SlotShape {
   let totalDuration = 0
-  let differentialOffset = 0
+  // LEARNING: differentialOffset is now calculated at the end from event durations
+  // WHY: Offset should be majorDuration - minorDuration, not accumulated baseTimes
+  // NOTE: Old accumulation logic removed - will be recalculated from final durations
   
   // LEARNING: Use Map to accumulate durations by event shape ID
   // WHY: Groups durations by event shape, then converts to EventFinal[] array
@@ -179,56 +181,21 @@ export function calculateSlotShape(
           const newDuration = currentDuration + baseTime
           eventDurationsByShapeId.set(eventShapeId, newDuration)
           
-          // LEARNING: differentialOffset only applies when major event exists but minor event does not
-          // WHY: Need to check if major event exists and is active, and minor event is not active
-          // PATTERN: Use attendee-based logic when available, fall back to name-based logic for backward compatibility
-          let shouldAddToDifferentialOffset = false
-          
+          // LEARNING: differentialOffset is now calculated at the end from event durations
+          // WHY: Offset should be majorDuration - minorDuration, not accumulated during part processing
+          // PATTERN: Just log event processing, offset calculation happens after all events are processed
           if (useAttendeeBasedLogic) {
-            // Attendee-based logic: Check if this event shape has major attendee
             const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+            const minorEventShape = getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+            const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
             // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: major event shape lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventShapeName:eventShape.name,eventShapeAttendees:eventShape.attendees,majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,isMajorEvent:majorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+            fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
             // #endregion
             if (majorEventShape && majorEventShape.id === eventShape.id) {
-              // This is a major event - check if there's a minor event for this partShape
-              const minorEventShape = getMinorEventShape(eventShapeEntities, minorAttendeeIds)
               // #region agent log
-              fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:181',message:'calculateSlotShape: minor event shape lookup',data:{minorAttendeeIds,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,partShape:part.partShape},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+              fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
               // #endregion
-              if (minorEventShape) {
-                // Check if minor event is active for this partShape
-                const hasMinorEvent = events.some(ei => {
-                  if (ei.eventShapeRef !== minorEventShape.id) return false
-                  const es = eventShapeById.get(ei.eventShapeRef)
-                  if (!es || !es.isTernary) return false
-                  const minorValue = es.ternaryDefault
-                  if (minorValue === null) return false
-                  return toBoolean(minorValue, 'strict')
-                })
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:184',message:'calculateSlotShape: minor event active check',data:{hasMinorEvent,eventsCount:events.length,events:events.map(ei=>({id:ei.id,eventShapeRef:ei.eventShapeRef}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-                // #endregion
-                if (!hasMinorEvent) {
-                  shouldAddToDifferentialOffset = true
-                }
-              } else {
-                // No minor event shape exists - add to differential offset
-                shouldAddToDifferentialOffset = true
-              }
             }
-          } else {
-            // LEARNING: No fallback to name-based logic
-            // WHY: If attendee-based logic is not available, don't calculate differential offset
-            // PATTERN: Skip differential offset calculation if attendee-based logic is disabled
-            // NOTE: This ensures we don't use hardcoded event names
-          }
-          
-          if (shouldAddToDifferentialOffset) {
-            differentialOffset += baseTime
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:220',message:'calculateSlotShape: adding to differentialOffset',data:{baseTime,differentialOffsetBefore:differentialOffset-baseTime,differentialOffsetAfter:differentialOffset,partShape:part.partShape,eventShapeId:eventShape.id,eventShapeName:eventShape.name},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-            // #endregion
           }
         }
       } else {
@@ -236,6 +203,23 @@ export function calculateSlotShape(
         const currentDuration = eventDurationsByShapeId.get(eventShapeId) || 0
         const newDuration = currentDuration + baseTime
         eventDurationsByShapeId.set(eventShapeId, newDuration)
+        
+        // LEARNING: differentialOffset is now calculated at the end from event durations
+        // WHY: Offset should be majorDuration - minorDuration, not accumulated during part processing
+        // PATTERN: Just log event processing, offset calculation happens after all events are processed
+        if (useAttendeeBasedLogic) {
+          const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+          const minorEventShape = getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+          const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+          // #endregion
+          if (majorEventShape && majorEventShape.id === eventShape.id) {
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+            // #endregion
+          }
+        }
       }
     }
   }
@@ -260,13 +244,58 @@ export function calculateSlotShape(
     .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
     .filter(ef => ef.duration > 0) // Only include events with duration > 0
   
+  // LEARNING: Calculate differentialOffset as the difference between major and minor event durations
+  // WHY: The offset should be majorDuration - minorDuration, not an accumulation of baseTimes
+  // PATTERN: Calculate offset from final event durations after all parts have been processed
+  let finalDifferentialOffset = 0
+  if (useAttendeeBasedLogic) {
+    const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+    // LEARNING: Find minor event shape, but exclude the major event shape to avoid matching the same event
+    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event from minor search
+    // PATTERN: Filter out major event shape before searching for minor event shape
+    const eventShapesExcludingMajor = majorEventShape 
+      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+      : eventShapeEntities
+    const minorEventShape = getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
+    
+    if (majorEventShape) {
+      const majorDuration = eventDurationsByShapeId.get(majorEventShape.id) || 0
+      if (minorEventShape) {
+        const minorDuration = eventDurationsByShapeId.get(minorEventShape.id) || 0
+        // LEARNING: Offset is the difference between major and minor durations
+        // WHY: Represents the time difference between when major finishes and minor finishes
+        finalDifferentialOffset = majorDuration - minorDuration
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+        // #endregion
+      } else {
+        // No minor event shape - offset is the full major duration
+        finalDifferentialOffset = majorDuration
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+        // #endregion
+      }
+    }
+  }
+  
   const result = { 
     totalDuration, 
     eventFinals,
-    differentialOffset
+    differentialOffset: finalDifferentialOffset
   }
   // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventShapeName:ef.eventShape.name,eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+  let logMajorEventShape: EventShapeEntity | null = null
+  let logMinorEventShape: EventShapeEntity | null = null
+  if (useAttendeeBasedLogic) {
+    logMajorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+    // LEARNING: Exclude major event shape when finding minor for logging consistency
+    // WHY: Matches the calculation logic to ensure logging shows correct minor event
+    const eventShapesExcludingMajorForLog = logMajorEventShape 
+      ? eventShapeEntities.filter(es => es.id !== logMajorEventShape!.id)
+      : eventShapeEntities
+    logMinorEventShape = getMinorEventShape(eventShapesExcludingMajorForLog, minorAttendeeIds)
+  }
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
   // #endregion
   return result
 }

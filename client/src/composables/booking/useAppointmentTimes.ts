@@ -1,7 +1,7 @@
 /**
  * useAppointmentTimes Composable
  * 
- * LEARNING: Provides normalized AppointmentSlots and inspector/client perspective transformations
+ * LEARNING: Provides normalized AppointmentSlots and major/minor perspective transformations
  * WHY: Extracts AppointmentSlots calculation and transformation logic from components
  * PATTERN: Composable that provides reactive computed properties for AppointmentSlots
  */
@@ -28,10 +28,10 @@ export interface UseAppointmentTimesParams {
  */
 export interface UseAppointmentTimesReturn {
   appointmentSlots: ComputedRef<AppointmentSlots>
-  inspectorTimeSlots: ComputedRef<TimeSlot[]>  // Major time slots (legacy name for backward compatibility)
-  clientTimeSlots: ComputedRef<TimeSlot[]>  // Minor time slots (legacy name for backward compatibility)
-  getInspectorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null  // Get major time slot (legacy name)
-  getClientTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null  // Get minor time slot (legacy name)
+  majorTimeSlots: ComputedRef<TimeSlot[]>  // Major time slots
+  minorTimeSlots: ComputedRef<TimeSlot[]>  // Minor time slots
+  getMajorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null  // Get major time slot
+  getMinorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null  // Get minor time slot
 }
 
 /**
@@ -97,7 +97,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
    * WHY: Provides major time slots for UI display
    * PATTERN: Transform each AppointmentSlot using major start time
    */
-  const inspectorTimeSlots = computed(() => {
+  const majorTimeSlots = computed(() => {
     const slots = appointmentSlots.value
     const startTime = baseStartTimeRef.value
     
@@ -114,8 +114,8 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     return slots.map(appointmentSlot => {
       const transformed = transformToMajorPerspective(appointmentSlot, startTime, globalData.value || undefined, availabilitySettings.value || null)
       // Return the totalTimeRange for major perspective (or first available event time range)
-      // NOTE: Uses 'OnSite'/'ClientPresent' as fallback for backward compatibility
-      return transformed.totalTimeRange || transformed.eventTimeRanges?.['OnSite'] || transformed.eventTimeRanges?.['ClientPresent'] || transformed.eventTimeRanges?.['Moveable'] || null
+      // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
+      return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
@@ -148,9 +148,9 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
       const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData.value || undefined, availabilitySettings.value || null)
       // Return the minorTimeRange for minor perspective (or totalTimeRange or other event time ranges)
       // LEARNING: Use dynamic event names based on attendees (fallback to hardcoded names for backward compatibility)
-      // NOTE: Uses 'ClientPresent' as fallback for backward compatibility
-      const minorEventName = transformed.eventTimeRanges?.['ClientPresent'] ? 'ClientPresent' : Object.keys(transformed.eventTimeRanges || {})[0] || 'ClientPresent'
-      return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['OnSite'] || transformed.eventTimeRanges?.['Moveable'] || null
+      // NOTE: Uses 'Minor' as fallback for backward compatibility
+      const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.eventTimeRanges || {})[0] || 'Minor'
+      return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
@@ -159,7 +159,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
    * WHY: Allows lookup of major time slot by normalized position
    * PATTERN: Find AppointmentSlot by orderIndex, transform to major perspective, return TimeSlot or TimeRange
    */
-  const getInspectorTimeSlot = (orderIndex: number): TimeSlot | TimeRange | null => {
+  const getMajorTimeSlot = (orderIndex: number): TimeSlot | TimeRange | null => {
     const slots = appointmentSlots.value
     const startTime = baseStartTimeRef.value
     
@@ -174,8 +174,8 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     // LEARNING: Return TimeRange properties (no categorized slots in new structure)
     // WHY: New structure uses TimeRanges directly, no categorized TimeSlots
     // PATTERN: Return TimeRange properties from eventTimeRanges
-    // NOTE: Uses 'OnSite'/'ClientPresent' as fallback for backward compatibility
-    return transformed.eventTimeRanges?.['OnSite'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['ClientPresent'] || transformed.eventTimeRanges?.['Moveable'] || null
+    // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
+    return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
   }
 
   /**
@@ -183,7 +183,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
    * WHY: Allows lookup of minor time slot by normalized position
    * PATTERN: Find AppointmentSlot by orderIndex, transform to minor perspective, return TimeSlot or TimeRange
    */
-  const getClientTimeSlot = (orderIndex: number): TimeSlot | TimeRange | null => {
+  const getMinorTimeSlot = (orderIndex: number): TimeSlot | TimeRange | null => {
     const slots = appointmentSlots.value
     const startTime = baseStartTimeRef.value
     const isDifferential = isDifferentialServiceRef.value
@@ -202,9 +202,9 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     // WHY: New structure uses TimeRanges directly, no categorized TimeSlots
     // PATTERN: Return TimeRange properties from eventTimeRanges
     // LEARNING: Use dynamic event names based on attendees (fallback to hardcoded names for backward compatibility)
-    // NOTE: Uses 'ClientPresent' as fallback for backward compatibility
-    const minorEventName = transformed.eventTimeRanges?.['ClientPresent'] ? 'ClientPresent' : Object.keys(transformed.eventTimeRanges || {})[0] || 'ClientPresent'
-    return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['OnSite'] || transformed.eventTimeRanges?.['Moveable'] || null
+    // NOTE: Uses 'Minor' as fallback for backward compatibility
+    const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.eventTimeRanges || {})[0] || 'Minor'
+    return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
   }
 
   return {

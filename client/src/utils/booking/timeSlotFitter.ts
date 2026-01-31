@@ -32,8 +32,8 @@ const logger = createLogger('timeSlotFitter')
  * PATTERN: Exported constant that can be used by callers and tests
  */
 export const DEFAULT_INCLUDE_FLAGS = {
-  onSite: false,
-  clientPresent: false,
+  major: false,
+  minor: false,
   moveable: false
 } as const
 
@@ -89,11 +89,11 @@ export interface FitTimeSlotsParams {
   busyTimes?: BusyTimeRange[]             // Optional exclusions
   /**
    * Flags to include in TimeSlot objects
-   * @default { onSite: false, clientPresent: false, moveable: false }
+   * @default { major: false, minor: false, moveable: false }
    */
   includeFlags: {
-    onSite: boolean
-    clientPresent: boolean
+    major: boolean
+    minor: boolean
     moveable: boolean
   }
   /**

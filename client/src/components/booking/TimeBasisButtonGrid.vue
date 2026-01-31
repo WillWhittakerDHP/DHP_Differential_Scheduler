@@ -33,7 +33,7 @@ const emit = defineEmits<Emits>()
 // WHY: Labels are configurable in admin panel
 const { settings: availabilitySettings } = useAvailabilitySettings()
 const majorLabel = computed(() => 
-  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
+  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
 )
 const minorLabel = computed(() => 
   availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'

@@ -10,6 +10,7 @@
  */
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { TernaryBoolean } from '@/types/ternary'
 
 /**
  * PartFinal: Aggregated part instance representing all parts of a given shape
@@ -30,8 +31,8 @@ export interface PartFinal {
   // Computed ternary flags (aggregated from all parts in group)
   // LEARNING: Ternary flags are aggregated using ternary logic - if ANY part has 'override', result is 'override'
   // WHY: Ensures all characteristics are preserved when aggregating multiple instances
-  onSite: TernaryBoolean
-  clientPresent: TernaryBoolean
+  major: TernaryBoolean
+  minor: TernaryBoolean
   moveable: boolean
   
   // Special flags

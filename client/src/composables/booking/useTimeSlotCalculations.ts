@@ -99,14 +99,14 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    * WHY: SlotShape already contains calculated major event duration, no need to filter raw parts
    * PATTERN: Use helper function to find major event, apply rounding
    * NOTE: Applies rounding based on availability settings
-   * NOTE: Uses 'OnSite' as fallback for backward compatibility, but should use major event from availabilitySettings
+   * NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings
    * Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
    */
   const majorDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
     
-    const majorEventFinal = findEventFinalByName(shape.slotShape, 'OnSite')
+    const majorEventFinal = findEventFinalByName(shape.slotShape, 'Major')
     const unroundedTotal = majorEventFinal?.duration ?? 0
     
     // LEARNING: Apply configurable rounding based on availability settings
@@ -119,14 +119,14 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    * LEARNING: Get minor event duration from SlotShape (source of truth)
    * WHY: SlotShape already contains calculated minor event duration, no need to filter raw parts
    * PATTERN: Use helper function to find minor event
-   * NOTE: Uses 'ClientPresent' as fallback for backward compatibility, but should use minor event from availabilitySettings
+   * NOTE: Uses 'Minor' as fallback for backward compatibility, but should use minor event from availabilitySettings
    * Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
    */
   const minorDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
     
-    const minorEventFinal = findEventFinalByName(shape.slotShape, 'ClientPresent')
+    const minorEventFinal = findEventFinalByName(shape.slotShape, 'Minor')
     return minorEventFinal?.duration ?? 0
   })
 

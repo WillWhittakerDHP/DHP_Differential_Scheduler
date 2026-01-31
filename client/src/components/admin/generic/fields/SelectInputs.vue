@@ -6,6 +6,47 @@
     :show-label="false"
     :is-disabled="fieldContext.isDisabled.value"
   >
+    <!-- LEARNING: Quick-select buttons for AttendeeSelect fields -->
+    <!-- WHY: Allows users to quickly select major/minor attendees from business settings -->
+    <!-- PATTERN: Conditionally render buttons above select field only for AttendeeSelect type -->
+    <div v-if="isAttendeeSelect" class="attendee-quick-select mb-3">
+      <div class="d-flex gap-2 flex-wrap">
+        <VBtn
+          size="small"
+          variant="outlined"
+          :disabled="quickSelect.isLoading.value || !quickSelect.hasMajorAttendees.value || fieldContext.isDisabled.value"
+          :loading="quickSelect.isLoading.value"
+          @click="handleQuickSelectMajor"
+        >
+          Select Major
+        </VBtn>
+        <VBtn
+          size="small"
+          variant="outlined"
+          :disabled="quickSelect.isLoading.value || !quickSelect.hasMinorAttendees.value || fieldContext.isDisabled.value"
+          :loading="quickSelect.isLoading.value"
+          @click="handleQuickSelectMinor"
+        >
+          Select Minor
+        </VBtn>
+        <VBtn
+          size="small"
+          variant="outlined"
+          :disabled="quickSelect.isLoading.value || (!quickSelect.hasMajorAttendees.value && !quickSelect.hasMinorAttendees.value) || fieldContext.isDisabled.value"
+          :loading="quickSelect.isLoading.value"
+          @click="handleQuickSelectAll"
+        >
+          Select All
+        </VBtn>
+      </div>
+      <div v-if="quickSelect.error.value" class="text-caption text-error mt-1">
+        {{ quickSelect.error.value }}
+      </div>
+      <div v-else-if="!quickSelect.hasMajorAttendees.value && !quickSelect.hasMinorAttendees.value && !quickSelect.isLoading.value" class="text-caption text-medium-emphasis mt-1">
+        Configure major/minor attendees in Business Controls to use quick-select
+      </div>
+    </div>
+    
     <!-- LEARNING: Multiple select fields when groupByKey configured and multiple groups exist -->
     <!-- WHY: Provides clearer separation with one select per group (e.g., one per blockShapeRef) -->
     <!-- PATTERN: Render one AppSelect per group, each labeled with group name -->
@@ -118,6 +159,7 @@ import { useSelectFieldValue } from '@/composables/admin/useSelectFieldValue'
 import { useSelectFormAssociation } from '@/composables/admin/useSelectFormAssociation'
 import { useSelectLabelResolution } from '@/composables/admin/useSelectLabelResolution'
 import { useSelectDomTargets } from '@/composables/admin/useSelectDomTargets'
+import { useAttendeeQuickSelect } from '@/composables/admin/useAttendeeQuickSelect'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
@@ -154,6 +196,7 @@ const {
   isOptionsSelect,
   optionsSelectOptions,
   isAnnotationAssignmentSelect,
+  isAttendeeSelect,
   isMultiple,
   chipsProps,
   optionEntityKey,
@@ -349,6 +392,65 @@ const { selectDomTargets } = useSelectDomTargets({
 })
 
 useSelectFormAssociation({ targets: selectDomTargets })
+
+// LEARNING: Use attendee quick-select composable for AttendeeSelect fields
+// WHY: Provides quick-select functionality for major/minor attendees from business settings
+// PATTERN: Conditionally initialize composable only when needed
+const quickSelect = useAttendeeQuickSelect()
+
+/**
+ * LEARNING: Get valid option IDs for quick-select filtering
+ * WHY: Quick-select should only select attendees that are actually available in the select field
+ * PATTERN: Extract value from options array
+ */
+const validOptionIds = computed(() => {
+  return options.value
+    .map(opt => {
+      // Handle nested options (grouped selects)
+      if (opt.children) {
+        return opt.children.map((child: SelectOption) => String(child.value))
+      }
+      return String(opt.value)
+    })
+    .flat()
+    .filter((id): id is string => id !== '' && id !== '__NULL__')
+})
+
+/**
+ * LEARNING: Handle quick-select for major attendees
+ * WHY: Replaces current selection with major attendees from business settings
+ * PATTERN: Get IDs from quick-select composable, then call handleChange
+ */
+const handleQuickSelectMajor = async (): Promise<void> => {
+  const majorIds = quickSelect.selectMajor(validOptionIds.value)
+  if (majorIds.length > 0) {
+    await handleChange(majorIds)
+  }
+}
+
+/**
+ * LEARNING: Handle quick-select for minor attendees
+ * WHY: Replaces current selection with minor attendees from business settings
+ * PATTERN: Get IDs from quick-select composable, then call handleChange
+ */
+const handleQuickSelectMinor = async (): Promise<void> => {
+  const minorIds = quickSelect.selectMinor(validOptionIds.value)
+  if (minorIds.length > 0) {
+    await handleChange(minorIds)
+  }
+}
+
+/**
+ * LEARNING: Handle quick-select for all attendees (major + minor)
+ * WHY: Replaces current selection with all configured attendees from business settings
+ * PATTERN: Get IDs from quick-select composable, then call handleChange
+ */
+const handleQuickSelectAll = async (): Promise<void> => {
+  const allIds = quickSelect.selectAll(validOptionIds.value)
+  if (allIds.length > 0) {
+    await handleChange(allIds)
+  }
+}
 </script>
 
 <style scoped>
@@ -404,6 +506,13 @@ useSelectFormAssociation({ targets: selectDomTargets })
 
 .select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {
   opacity: 1 !important;
+}
+
+/* LEARNING: Style attendee quick-select button group */
+/* WHY: Provides visual separation and proper spacing for quick-select buttons */
+/* PATTERN: Add margin-bottom to separate from select field */
+.attendee-quick-select {
+  margin-bottom: 12px;
 }
 </style>
 

@@ -75,12 +75,12 @@ export function filterZeroedParts(
  * 
  * Session Event Refactor: Computes eventDurations dynamically from part properties
  * WHY: Enables extensible event system - new event types can be added without code changes
- * PATTERN: Build eventDurations Record from finalizedPart properties (onSite, clientPresent, moveable)
+ * PATTERN: Build eventDurations Record from finalizedPart properties (major, minor, moveable)
  * NOTE: Properties are computed from eventAssignments relationships in booking transformer
  * 
  * ARCHITECTURAL CHANGE: Removed eventAssignments parameter - events are now computed in booking transformer
  * WHY: Uniform relationship handling - events flow through GlobalRelationship[], not special types
- * PATTERN: Use properties computed from relationships (onSite, clientPresent, moveable) instead of direct relationship access
+ * PATTERN: Use properties computed from relationships (major, minor, moveable) instead of direct relationship access
  * 
  * @param finalizedParts - Array of PartFinal instances
  * @returns SlotShape with eventDurations Record and duration totals
@@ -101,8 +101,8 @@ export function calculateSlotShape(
   // WHY: Properties are computed from relationships in booking transformer, map to event names here
   // PATTERN: Use properties computed from GlobalRelationship[] with metadata lookups
   const eventMappings: Record<string, string> = {
-    'onSite': 'OnSite',
-    'clientPresent': 'ClientPresent',
+    'major': 'Major',
+    'minor': 'Minor',
     'moveable': 'Moveable'
   }
   
@@ -113,25 +113,25 @@ export function calculateSlotShape(
     
     // LEARNING: Use toBoolean with 'strict' mode - only 'true' contributes to event calculations
     // WHY: 'override' parts contribute to totalDuration but NOT to specific events
-    const isOnSite = toBoolean(part.onSite, 'strict')
-    const isClientPresent = toBoolean(part.clientPresent, 'strict')
+    const isMajor = toBoolean(part.major, 'strict')
+    const isMinor = toBoolean(part.minor, 'strict')
     const isMoveable = part.moveable === true
     
     // Compute event durations from part properties
-    // LEARNING: Properties (onSite, clientPresent, moveable) are computed from eventAssignments relationships in booking transformer
+    // LEARNING: Properties (major, minor, moveable) are computed from eventAssignments relationships in booking transformer
     // WHY: Uniform relationship handling - events flow through GlobalRelationship[], properties computed during transformation
     // PATTERN: Use properties computed from relationships, map to event shape names
-    if (isOnSite) {
-      const eventName = eventMappings['onSite']
+    if (isMajor) {
+      const eventName = eventMappings['major']
       eventDurations[eventName] = (eventDurations[eventName] || 0) + baseTime
-      // LEARNING: differentialOffset only applies when onSite is true AND clientPresent is false
-      if (!isClientPresent) {
+      // LEARNING: differentialOffset only applies when major is true AND minor is false
+      if (!isMinor) {
         differentialOffset += baseTime
       }
     }
     
-    if (isClientPresent) {
-      const eventName = eventMappings['clientPresent']
+    if (isMinor) {
+      const eventName = eventMappings['minor']
       eventDurations[eventName] = (eventDurations[eventName] || 0) + baseTime
     }
     

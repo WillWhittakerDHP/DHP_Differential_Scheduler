@@ -585,6 +585,54 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
   try {
     const normalizedKind = normalizeRelationshipKind(req.params.relationshipType);
     
+    // LEARNING: Validate attendeeAssignments - ensure parent and child exist
+    // WHY: Provides better error messages and prevents foreign key constraint violations
+    // PATTERN: Check entity existence before creating relationship
+    if (normalizedKind === 'attendeeAssignments') {
+      const eventShape = await EventShape.findByPk(parent_id);
+      if (!eventShape) {
+        res.status(400).json({
+          error: 'Invalid parent entity',
+          details: `EventShape with ID ${parent_id} does not exist`,
+          relationshipType: req.params.relationshipType,
+        });
+        return;
+      }
+      
+      const blockInstance = await BlockInstance.findByPk(child_id);
+      if (!blockInstance) {
+        res.status(400).json({
+          error: 'Invalid child entity',
+          details: `BlockInstance with ID ${child_id} does not exist`,
+          relationshipType: req.params.relationshipType,
+        });
+        return;
+      }
+      
+      // LEARNING: Verify that the BlockInstance is a UserTypeBlock (state control block)
+      // WHY: Attendee assignments should only reference UserTypeBlock instances
+      // PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing
+      if (blockInstance.blockShapeRef) {
+        const blockShape = await BlockShape.findByPk(blockInstance.blockShapeRef);
+        if (!blockShape) {
+          res.status(400).json({
+            error: 'Invalid block shape reference',
+            details: `BlockInstance ${child_id} references non-existent BlockShape ${blockInstance.blockShapeRef}`,
+            relationshipType: req.params.relationshipType,
+          });
+          return;
+        }
+        if (!blockShape.isStateControl) {
+          res.status(400).json({
+            error: 'Invalid attendee type',
+            details: `BlockInstance ${child_id} is not a UserTypeBlock (isStateControl must be true)`,
+            relationshipType: req.params.relationshipType,
+          });
+          return;
+        }
+      }
+    }
+    
     // Map generic parent_id/child_id to model-specific field names
     createData = await mapRelationshipFields(normalizedKind, parent_id, child_id);
     
@@ -618,11 +666,40 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
     }
     
     res.status(201).json(created);
-  } catch (error) {
+  } catch (error: any) {
     console.error('[RelationshipRouter] Error creating relationship:', error);
     console.error('[RelationshipRouter] Relationship type:', req.params.relationshipType);
     console.error('[RelationshipRouter] Create data:', createData ? JSON.stringify(createData, null, 2) : 'undefined');
     console.error('[RelationshipRouter] Error details:', error instanceof Error ? error.stack : String(error));
+    
+    // LEARNING: Handle unique constraint violations (duplicate relationships)
+    // WHY: Provides better error messages for duplicate relationship attempts
+    // PATTERN: Check for Sequelize UniqueConstraintError and return 409 Conflict
+    if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
+      res.status(409).json({
+        error: 'Relationship already exists',
+        details: `This ${relationshipConfig.displayName} relationship already exists`,
+        relationshipType: req.params.relationshipType,
+        parent_id,
+        child_id,
+      });
+      return;
+    }
+    
+    // LEARNING: Handle foreign key constraint violations
+    // WHY: Provides better error messages for invalid entity references
+    // PATTERN: Check for Sequelize ForeignKeyConstraintError and return 400 Bad Request
+    if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
+      res.status(400).json({
+        error: 'Invalid entity reference',
+        details: error.message || 'One of the referenced entities does not exist',
+        relationshipType: req.params.relationshipType,
+        parent_id,
+        child_id,
+      });
+      return;
+    }
+    
     res.status(500).json({ 
       error: `Error creating ${relationshipConfig.displayName}`,
       details: error instanceof Error ? error.message : 'Unknown error',

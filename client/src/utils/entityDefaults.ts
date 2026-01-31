@@ -31,6 +31,10 @@ const ENTITY_DISPLAY_NAMES: Record<GlobalEntityKey, string> = {
   blockShape: 'Block Shape',
   partInstance: 'Part Profile',
   partShape: 'Part Shape',
+  eventShape: 'Event Shape',
+  eventInstance: 'Event Profile',
+  annotationShape: 'Annotation Shape',
+  annotationInstance: 'Annotation Profile',
 }
 
 export function getEntityDisplayName(entityKey: GlobalEntityKey): string {

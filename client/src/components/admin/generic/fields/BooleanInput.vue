@@ -82,7 +82,7 @@ const normalizedValue = computed(() => {
   if (value === undefined || value === null || value === '') {
     // Check if this is a known ternary field by field name
     const fieldKeyStr = String(fieldContext.fieldKey)
-    const isTernaryField = fieldKeyStr === 'onSite' || fieldKeyStr === 'clientPresent' || fieldKeyStr === 'differential'
+    const isTernaryField = fieldKeyStr === 'major' || fieldKeyStr === 'minor' || fieldKeyStr === 'differential'
     
     if (isTernaryField) {
       return 'false' as const

@@ -253,11 +253,11 @@ interface GenerateSlotsWithAvailabilityParams {
   busyTimes?: BusyTimeRange[]             // Calendar busy periods
   /**
    * Flags to include in TimeSlot objects
-   * @default { onSite: false, clientPresent: false, moveable: false }
+   * @default { major: false, minor: false, moveable: false }
    */
   includeFlags: {
-    onSite: boolean
-    clientPresent: boolean
+    major: boolean
+    minor: boolean
     moveable: boolean
   }
 }
@@ -608,8 +608,8 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
           startTime: currentSlotStart.toISOString() as RFC3339DateTime,
           endTime: slotEnd.toISOString() as RFC3339DateTime,
           duration,
-          onSite: includeFlags.onSite,
-          clientPresent: includeFlags.clientPresent,
+          major: includeFlags.major,
+          minor: includeFlags.minor,
           moveable: includeFlags.moveable,
           isAvailable: false  // Will be updated by markSlotAvailability
         }

@@ -204,7 +204,7 @@ const timeSlotResults = computed(() => {
   
   // Minor arrival is the start of minor event time range (or totalTimeRange if no minor event)
   // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
-  const minorEventName = 'ClientPresent' // TODO: Get from availabilitySettings
+  const minorEventName = 'Minor' // TODO: Get from availabilitySettings
   const minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]
   const minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null
   

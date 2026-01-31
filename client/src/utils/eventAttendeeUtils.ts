@@ -17,7 +17,7 @@ import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 /**
  * Find UserTypeBlock BlockInstance IDs by name
  * LEARNING: Searches for BlockInstances that are state control blocks with matching name
- * WHY: Provides lookup by name (e.g., "Inspector", "Client", "Agent") to get BlockInstance ID
+ * WHY: Provides lookup by name (e.g., "Major", "Minor", "Agent") to get BlockInstance ID
  * PATTERN: Filter BlockInstances by blockShape.isStateControl and name match
  * 
  * @param globalData - GlobalData containing all entities
@@ -61,52 +61,6 @@ export function hasAttendee(
     return false
   }
   return eventShape.attendees.includes(userTypeBlockId)
-}
-
-/**
- * Find event shape with inspector attendee
- * LEARNING: Finds the first event shape that has an inspector UserTypeBlock in its attendees
- * WHY: Used to identify which event represents inspector time (replaces hardcoded "OnSite" check)
- * PATTERN: Filter event shapes by attendee presence
- * 
- * @param eventShapes - Array of EventShapeEntity to search
- * @param inspectorUserTypeBlockIds - Array of inspector UserTypeBlock BlockInstance IDs
- * @returns EventShapeEntity with inspector attendee, or null if not found
- */
-export function getInspectorEventShape(
-  eventShapes: EventShapeEntity[],
-  inspectorUserTypeBlockIds: GlobalEntityId[]
-): EventShapeEntity | null {
-  if (inspectorUserTypeBlockIds.length === 0) {
-    return null
-  }
-  
-  return eventShapes.find(eventShape => 
-    inspectorUserTypeBlockIds.some(id => hasAttendee(eventShape, id))
-  ) || null
-}
-
-/**
- * Find event shape with client attendee
- * LEARNING: Finds the first event shape that has a client UserTypeBlock in its attendees
- * WHY: Used to identify which event represents client time (replaces hardcoded "ClientPresent" check)
- * PATTERN: Filter event shapes by attendee presence
- * 
- * @param eventShapes - Array of EventShapeEntity to search
- * @param clientUserTypeBlockIds - Array of client UserTypeBlock BlockInstance IDs
- * @returns EventShapeEntity with client attendee, or null if not found
- */
-export function getClientEventShape(
-  eventShapes: EventShapeEntity[],
-  clientUserTypeBlockIds: GlobalEntityId[]
-): EventShapeEntity | null {
-  if (clientUserTypeBlockIds.length === 0) {
-    return null
-  }
-  
-  return eventShapes.find(eventShape => 
-    clientUserTypeBlockIds.some(id => hasAttendee(eventShape, id))
-  ) || null
 }
 
 /**

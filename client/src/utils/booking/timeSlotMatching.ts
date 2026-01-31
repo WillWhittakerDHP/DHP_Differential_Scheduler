@@ -211,11 +211,11 @@ export function findMatchingAppointmentSlot(
   
   if (timeBasis === 'minor') {
     // TODO: Get minor event name from availabilitySettings
-    const minorEventName = 'ClientPresent'
+    const minorEventName = 'Minor'
     slot = appointmentSlot.eventTimeRanges?.[minorEventName] || appointmentSlot.totalTimeRange
   } else {
     // TODO: Get major event name from availabilitySettings
-    const majorEventName = 'OnSite'
+    const majorEventName = 'Major'
     slot = appointmentSlot.eventTimeRanges?.[majorEventName] || appointmentSlot.totalTimeRange
   }
 

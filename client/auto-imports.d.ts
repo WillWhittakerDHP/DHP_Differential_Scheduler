@@ -669,7 +669,6 @@ declare module 'vue' {
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
     readonly getBulkPatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBulkPatchEndpoint']>
     readonly getCalendarAvailability: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getCalendarAvailability']>
-    readonly getClientEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getClientEventShape']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
@@ -679,7 +678,6 @@ declare module 'vue' {
     readonly getEntityEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityEndpoint']>
     readonly getEntityOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityOrderIndexEndpoint']>
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
-    readonly getInspectorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getInspectorEventShape']>
     readonly getMajorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMajorEventShape']>
     readonly getMinorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMinorEventShape']>
     readonly getOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getOrderIndexEndpoint']>

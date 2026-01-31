@@ -171,6 +171,9 @@ export interface AvailabilitySettingsData {
     minorAttendees?: string[];   // UserTypeBlock IDs that make an event "minor" (e.g., client)
     majorLabel?: string;  // Display label for major perspective (e.g., "Inspector")
     minorLabel?: string;  // Display label for minor perspective (e.g., "Client Formal Presentation")
+    differentialGraphDefaultLabel?: string;  // Label shown when no time slot is selected (e.g., "Select a Time Slot")
+    majorStateLabel?: string;  // State message when major perspective is selected (e.g., "Showing Major Times")
+    minorStateLabel?: string;  // State message when minor perspective is selected (e.g., "Showing Client FormalPresentation Times")
   };
 }
 

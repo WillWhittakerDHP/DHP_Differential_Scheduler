@@ -167,13 +167,46 @@ const majorLabel = computed({
 })
 
 const minorLabel = computed({
-  get: () => formData.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation',
+  get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
   set: (value: string) => {
     if (!formData.value) return
     if (!formData.value.differentialPerspectives) {
       formData.value.differentialPerspectives = {}
     }
     formData.value.differentialPerspectives.minorLabel = value
+  }
+})
+
+const differentialGraphDefaultLabel = computed({
+  get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',
+  set: (value: string) => {
+    if (!formData.value) return
+    if (!formData.value.differentialPerspectives) {
+      formData.value.differentialPerspectives = {}
+    }
+    formData.value.differentialPerspectives.differentialGraphDefaultLabel = value
+  }
+})
+
+const majorStateLabel = computed({
+  get: () => formData.value?.differentialPerspectives?.majorStateLabel || '',
+  set: (value: string) => {
+    if (!formData.value) return
+    if (!formData.value.differentialPerspectives) {
+      formData.value.differentialPerspectives = {}
+    }
+    formData.value.differentialPerspectives.majorStateLabel = value
+  }
+})
+
+const minorStateLabel = computed({
+  get: () => formData.value?.differentialPerspectives?.minorStateLabel || '',
+  set: (value: string) => {
+    if (!formData.value) return
+    if (!formData.value.differentialPerspectives) {
+      formData.value.differentialPerspectives = {}
+    }
+    formData.value.differentialPerspectives.minorStateLabel = value
   }
 })
 
@@ -1003,7 +1036,7 @@ const roundingMethodOptions = [
                     <VTextField
                       v-model="majorLabel"
                       label="Major Label"
-                      hint="Display label for major perspective (e.g., Inspector)"
+                      hint="Display label for major perspective (e.g., Major)"
                       persistent-hint
                       class="mb-4"
                     />
@@ -1023,7 +1056,31 @@ const roundingMethodOptions = [
                     <VTextField
                       v-model="minorLabel"
                       label="Minor Label"
-                      hint="Display label for minor perspective (e.g., Client Formal Presentation)"
+                      hint="Display label for minor perspective (e.g., Minor Formal Presentation)"
+                      persistent-hint
+                      class="mb-4"
+                    />
+                    
+                    <VTextField
+                      v-model="differentialGraphDefaultLabel"
+                      label="Differential Graph Default Label"
+                      hint="Message shown when no time slot is selected (e.g., Select a Time Slot)"
+                      persistent-hint
+                      class="mb-4"
+                    />
+                    
+                    <VTextField
+                      v-model="majorStateLabel"
+                      label="Major State Label"
+                      hint="Message shown when major perspective is selected (e.g., Showing Major Times). Leave empty to use default format."
+                      persistent-hint
+                      class="mb-4"
+                    />
+                    
+                    <VTextField
+                      v-model="minorStateLabel"
+                      label="Minor State Label"
+                      hint="Message shown when minor perspective is selected (e.g., Showing Client FormalPresentation Times). Leave empty to use default format."
                       persistent-hint
                     />
                     
@@ -1031,7 +1088,9 @@ const roundingMethodOptions = [
                       <div class="mb-1"><strong>Major Attendees:</strong> Events with these attendees are considered "major" perspective.</div>
                       <div class="mb-1"><strong>Minor Attendees:</strong> Events with these attendees are considered "minor" perspective.</div>
                       <div class="mb-1"><strong>Labels:</strong> Customize how major and minor perspectives are displayed in the UI.</div>
-                      <div>If not configured, the system falls back to hardcoded "OnSite" (major) and "ClientPresent" (minor) event names, and default labels.</div>
+                      <div class="mb-1"><strong>Differential Graph Default Label:</strong> Large message shown over the differential graph when no time slot is selected.</div>
+                      <div class="mb-1"><strong>State Labels:</strong> Messages shown when a time slot is selected. If left empty, defaults to "Showing {Major/Minor Label} times".</div>
+                      <div>If not configured, the system falls back to hardcoded "Major" (major) and "Minor" (minor) event names, and default labels.</div>
                     </div>
                   </div>
                 </div>

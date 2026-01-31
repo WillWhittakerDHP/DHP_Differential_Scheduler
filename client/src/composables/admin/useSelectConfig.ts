@@ -64,6 +64,12 @@ export interface UseSelectConfigReturn {
   isAnnotationAssignmentSelect: ComputedRef<boolean>
   
   /**
+   * Whether this is an AttendeeSelect field
+   * LEARNING: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
+   */
+  isAttendeeSelect: ComputedRef<boolean>
+  
+  /**
    * Whether select allows multiple selections
    */
   isMultiple: ComputedRef<boolean>
@@ -304,6 +310,22 @@ export function useSelectConfig(
   })
 
   /**
+   * LEARNING: Check if this is an AttendeeSelect field
+   * WHY: Attendee selects need special quick-select UI for major/minor attendees
+   * PATTERN: Check selectType from metadata inputConfig
+   */
+  const isAttendeeSelect = computed(() => {
+    const meta = fieldMetadataEntry.value
+    if (!meta || !meta.inputConfig || typeof meta.inputConfig !== 'object') {
+      return false
+    }
+    
+    const inputConfig = meta.inputConfig as Record<string, unknown>
+    return inputConfig.selectType === RelationshipSelectTypeEnum.AttendeeSelect || 
+           inputConfig.selectType === 'attendeeSelect'
+  })
+
+  /**
    * LEARNING: Determine if select is multiple from config - NO DEFAULTS (except enum selects)
    * WHY: Config determines selectMode (single, multiple, required)
    * PATTERN: Read selectMode from config, fail if missing (except enum selects)
@@ -465,6 +487,7 @@ export function useSelectConfig(
     isOptionsSelect,
     optionsSelectOptions,
     isAnnotationAssignmentSelect,
+    isAttendeeSelect,
     isMultiple,
     chipsProps,
     optionEntityKey,

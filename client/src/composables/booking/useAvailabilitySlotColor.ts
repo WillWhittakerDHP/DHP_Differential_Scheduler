@@ -13,9 +13,9 @@ import { computed, type ComputedRef, type Ref } from 'vue'
  */
 export interface UseAvailabilitySlotColorParams {
   /**
-   * Start time type
+   * Start time type (perspective: major, minor, or nonDifferential)
    */
-  startTimeType: Ref<'inspector' | 'client' | 'nonDifferential'>
+  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
 }
 
 /**
@@ -25,7 +25,8 @@ export interface UseAvailabilitySlotColorReturn {
   /**
    * Color for appointment slot grid
    * LEARNING: Maps startTimeType to Vuetify color prop
-   * WHY: Provides visual distinction between inspector and client perspectives
+   * WHY: Provides visual distinction between major and minor perspectives
+   * PATTERN: Minor uses secondary color, major/nonDifferential use primary color
    */
   slotColor: ComputedRef<'primary' | 'secondary'>
 }
@@ -44,11 +45,11 @@ export function useAvailabilitySlotColor(
 
   /**
    * LEARNING: Map startTimeType to color
-   * WHY: Inspector uses primary, client uses secondary, nonDifferential uses primary
-   * PATTERN: Return 'secondary' for client, 'primary' otherwise
+   * WHY: Minor perspective uses secondary color, major/nonDifferential use primary color
+   * PATTERN: Return 'secondary' for minor, 'primary' for major/nonDifferential
    */
   const slotColor = computed<'primary' | 'secondary'>(() => {
-    if (startTimeType.value === 'client') {
+    if (startTimeType.value === 'minor') {
       return 'secondary'
     }
     return 'primary'

@@ -54,10 +54,7 @@ export function getComponentConfig(entityType: EntityType): ComponentConfig | un
         baseTime: 'sum',
         rateOverBaseFee: 'sum',
         partAssignments: 'merge', // Merge all part instances from composed blocks
-        onSite: 'every', // All must be true
-        clientPresent: 'every', // All must be true
         name: 'first', // Use first particle's name
-        description: 'first', // Use first particle's description
       },
     };
   }

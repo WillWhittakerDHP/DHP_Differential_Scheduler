@@ -87,7 +87,7 @@ interface UseAvailabilityLogicReturn {
   isDifferentialService: ComputedRef<boolean>
   isEffectivelyDifferential: ComputedRef<boolean>
   selectedTimeSlots: ComputedRef<SelectedTimeSlot[] | null>
-  matchLoadedTimeSlots: (loadedSlots: Array<{ startTime: string; endTime?: string }>, availableSlots: TimeSlot[], inspectorAppointmentSlot: Ref<TimeSlot | null>, clientAppointmentSlot: Ref<TimeSlot | null>) => void
+  matchLoadedTimeSlots: (loadedSlots: Array<{ startTime: string; endTime?: string }>, availableSlots: TimeSlot[], majorAppointmentSlot: Ref<TimeSlot | null>, minorAppointmentSlot: Ref<TimeSlot | null>) => void
 }
 
 /**
@@ -434,8 +434,8 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       return []
     }
     
-    // Return inspector time slots (component will filter by startTimeType if needed)
-    return daySlots.inspectorTimeSlots
+    // Return major time slots (component will filter by startTimeType if needed)
+    return daySlots.majorTimeSlots
   })
 
   /**

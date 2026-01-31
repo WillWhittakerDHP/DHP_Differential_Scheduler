@@ -7,7 +7,7 @@
  * Session 1.3.7: Client-Side Availability Calculations
  * 
  * NOTE: "Major" and "minor" are configurable via AvailabilitySettings.differentialPerspectives
- * Defaults to inspector (major) and client (minor) for backward compatibility
+ * Defaults to major and minor for backward compatibility
  */
 
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -133,8 +133,13 @@ export function transformToMajorPerspective(
     const majorEventShape = majorAttendeeIds.length > 0
       ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
       : null
+    // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
+    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
+    const eventShapesExcludingMajor = majorEventShape
+      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+      : eventShapeEntities
     const minorEventShape = minorAttendeeIds.length > 0
-      ? getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
       : null
     
     // Find event finals by event shape ID
@@ -148,10 +153,10 @@ export function transformToMajorPerspective(
   
   // Fallback to name-based lookup if attendee-based logic didn't find events
   if (!majorEventFinal) {
-    majorEventFinal = findEventFinalByName(slotShape, 'OnSite')
+    majorEventFinal = findEventFinalByName(slotShape, 'Major')
   }
   if (!minorEventFinal) {
-    minorEventFinal = findEventFinalByName(slotShape, 'ClientPresent')
+    minorEventFinal = findEventFinalByName(slotShape, 'Minor')
   }
   
   const majorDuration = majorEventFinal?.duration ?? 0
@@ -170,8 +175,8 @@ export function transformToMajorPerspective(
   // LEARNING: Adjust minorTimeRange to end when major finishes work
   // WHY: Minor time should end when major finishes work
   // PATTERN: Use event shape names to look up time ranges (backward compatible with name-based keys)
-  const majorEventName = majorEventFinal?.eventShape.name ?? 'OnSite'
-  const minorEventName = minorEventFinal?.eventShape.name ?? 'ClientPresent'
+  const majorEventName = majorEventFinal?.eventShape.name ?? 'Major'
+  const minorEventName = minorEventFinal?.eventShape.name ?? 'Minor'
   
   const majorTimeRange = timeRanges.eventTimeRanges?.[majorEventName]
   let minorTimeRange = timeRanges.eventTimeRanges?.[minorEventName]
@@ -234,8 +239,13 @@ export function transformToMinorPerspective(
     const majorEventShape = majorAttendeeIds.length > 0
       ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
       : null
+    // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
+    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
+    const eventShapesExcludingMajor = majorEventShape
+      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+      : eventShapeEntities
     const minorEventShape = minorAttendeeIds.length > 0
-      ? getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
       : null
     
     // Find event finals by event shape ID
@@ -249,10 +259,10 @@ export function transformToMinorPerspective(
   
   // Fallback to name-based lookup if attendee-based logic didn't find events
   if (!majorEventFinal) {
-    majorEventFinal = findEventFinalByName(slotShape, 'OnSite')
+    majorEventFinal = findEventFinalByName(slotShape, 'Major')
   }
   if (!minorEventFinal) {
-    minorEventFinal = findEventFinalByName(slotShape, 'ClientPresent')
+    minorEventFinal = findEventFinalByName(slotShape, 'Minor')
   }
   
   const majorTotal = majorEventFinal?.duration ?? 0
@@ -270,8 +280,8 @@ export function transformToMinorPerspective(
   // LEARNING: Adjust minorTimeRange to start at minor start time
   // WHY: Minor time starts when minor arrives
   // PATTERN: Use event shape names to look up time ranges (backward compatible with name-based keys)
-  const majorEventName = majorEventFinal?.eventShape.name ?? 'OnSite'
-  const minorEventName = minorEventFinal?.eventShape.name ?? 'ClientPresent'
+  const majorEventName = majorEventFinal?.eventShape.name ?? 'Major'
+  const minorEventName = minorEventFinal?.eventShape.name ?? 'Minor'
   
   const majorTimeRange = timeRanges.eventTimeRanges?.[majorEventName]
   const minorDuration = minorEventFinal?.duration ?? 0

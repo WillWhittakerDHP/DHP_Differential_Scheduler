@@ -180,7 +180,7 @@ export function useAvailability(
           duration,
           minuteIncrement: settingsValue.minuteIncrement,
           busyTimes,
-          includeFlags: { onSite: false, clientPresent: false, moveable: false }
+          includeFlags: { major: false, minor: false, moveable: false }
         }, rangeConstraints, overlapConstraints, capacityConstraints)
         if (signal.aborted) return
 

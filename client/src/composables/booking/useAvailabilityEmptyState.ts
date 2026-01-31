@@ -7,6 +7,7 @@
  */
 
 import { computed, type ComputedRef, type Ref } from 'vue'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 /**
  * useAvailabilityEmptyState composable parameters
@@ -20,7 +21,7 @@ export interface UseAvailabilityEmptyStateParams {
   /**
    * Start time type
    */
-  startTimeType: Ref<'inspector' | 'client' | 'nonDifferential'>
+  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
   
   /**
    * Number of appointment slots
@@ -51,6 +52,16 @@ export function useAvailabilityEmptyState(
   params: UseAvailabilityEmptyStateParams
 ): UseAvailabilityEmptyStateReturn {
   const { isEffectivelyDifferential, startTimeType, appointmentSlotsCount } = params
+  
+  // LEARNING: Get configured labels from availability settings
+  // WHY: Labels are configurable in admin panel, use configured values instead of hardcoded names
+  const { settings: availabilitySettings } = useAvailabilitySettings()
+  const majorLabel = computed(() => 
+    availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
+  )
+  const minorLabel = computed(() => 
+    availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Minor'
+  )
 
   /**
    * LEARNING: Compute empty state message based on service type and perspective
@@ -63,7 +74,7 @@ export function useAvailabilityEmptyState(
     }
     
     if (isEffectivelyDifferential.value && startTimeType.value === 'nonDifferential') {
-      return 'Click on the Inspector or Client bars below the calendar to view available times.'
+      return `Click on the ${majorLabel.value} or ${minorLabel.value} bars below the calendar to view available times.`
     }
     
     return 'No time slots available for selected date.'

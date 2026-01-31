@@ -68,7 +68,7 @@ function addMinutes(startTime: string, minutes: number): string {
  * PATTERN: Array.find() to search eventFinals array
  * 
  * @param slotShape - SlotShape with eventFinals array
- * @param name - Event shape name (e.g., 'OnSite', 'ClientPresent', 'Moveable')
+ * @param name - Event shape name (e.g., 'Major', 'Minor', 'Moveable')
  * @returns EventFinal if found, undefined otherwise
  */
 export function findEventFinalByName(
@@ -116,8 +116,8 @@ export function createTimeRangesFromSlotShape(
   totalTimeRange: TimeRange | null
   eventTimeRanges: Record<string, TimeRange | null>
   // Legacy properties for backward compatibility during migration
-  onSiteTimeRange: TimeRange | null
-  clientPresentTimeRange: TimeRange | null
+  majorTimeRange: TimeRange | null
+  minorTimeRange: TimeRange | null
   moveableTimeRange: TimeRange | null
 } {
   // Build eventTimeRanges Record dynamically from eventFinals array
@@ -138,8 +138,8 @@ export function createTimeRangesFromSlotShape(
   }
   
   // Legacy properties for backward compatibility during migration
-  const onSiteTimeRange = eventTimeRanges['OnSite'] ?? null
-  const clientPresentTimeRange = eventTimeRanges['ClientPresent'] ?? null
+  const majorTimeRange = eventTimeRanges['Major'] ?? null
+  const minorTimeRange = eventTimeRanges['Minor'] ?? null
   const moveableTimeRange = eventTimeRanges['Moveable'] ?? null
   
   const result = {
@@ -148,8 +148,8 @@ export function createTimeRangesFromSlotShape(
       : null,
     eventTimeRanges,
     // Legacy properties for backward compatibility during migration
-    onSiteTimeRange,
-    clientPresentTimeRange,
+    majorTimeRange,
+    minorTimeRange,
     moveableTimeRange
   }
   
@@ -390,8 +390,13 @@ export function applyShapeToTime(
     const majorEventShape = majorAttendeeIds.length > 0
       ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
       : null
+    // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
+    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
+    const eventShapesExcludingMajor = majorEventShape
+      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+      : eventShapeEntities
     const minorEventShape = minorAttendeeIds.length > 0
-      ? getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
       : null
     
     if (majorEventShape) {
@@ -452,7 +457,7 @@ export function applyShapeToTime(
  * Derive the TimeRange for a given perspective
  * 
  * @param slot - AppointmentSlot with precomputed totals
- * @param perspective - Which perspective to derive ('major' | 'minor' | 'nonDifferential', with legacy 'onSite' | 'clientPresent' for backward compatibility)
+ * @param perspective - Which perspective to derive ('major' | 'minor' | 'nonDifferential')
  * @param globalData - Optional GlobalData for attendee-based logic (if not provided, falls back to name-based logic)
  * @param availabilitySettings - Optional AvailabilitySettings for major/minor attendee configuration
  * @returns TimeRange for display, or null if not applicable
@@ -464,7 +469,7 @@ export function applyShapeToTime(
  */
 export function derivePerspective(
   slot: AppointmentSlot,
-  perspective: 'major' | 'minor' | 'nonDifferential' | 'onSite' | 'clientPresent',
+  perspective: 'major' | 'minor' | 'nonDifferential',
   globalData?: GlobalData,
   availabilitySettings?: AvailabilitySettings | null
 ): TimeRange | null {
@@ -474,9 +479,8 @@ export function derivePerspective(
   // WHY: No fallbacks to hardcoded names - fail gracefully if configuration is missing
   // PATTERN: Return null if required data is not available
   if (!globalData || !slot.shape.slotShape.eventFinals || !availabilitySettings?.differentialPerspectives) {
-    // Handle legacy perspective names for backward compatibility (but still return null if no data)
-    const normalizedPerspective = perspective === 'onSite' ? 'major' : perspective === 'clientPresent' ? 'minor' : perspective
-    if (normalizedPerspective === 'nonDifferential' || normalizedPerspective === 'major') {
+    // Return totalTimeRange for major/nonDifferential if no configuration available
+    if (perspective === 'nonDifferential' || perspective === 'major') {
       return slot.totalTimeRange
     }
     return null
@@ -489,8 +493,13 @@ export function derivePerspective(
   const majorEventShape = majorAttendeeIds.length > 0
     ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
     : null
+  // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
+  // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
+  const eventShapesExcludingMajor = majorEventShape
+    ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+    : eventShapeEntities
   const minorEventShape = minorAttendeeIds.length > 0
-    ? getMinorEventShape(eventShapeEntities, minorAttendeeIds)
+    ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
     : null
   
   // LEARNING: Require event shapes to be found - no fallbacks to hardcoded names
@@ -498,8 +507,7 @@ export function derivePerspective(
   // PATTERN: Return null or totalTimeRange if event shapes are not found
   if (!majorEventShape) {
     // For non-differential, fall back to totalTimeRange so buttons still work
-    const normalizedPerspective = perspective === 'onSite' ? 'major' : perspective === 'clientPresent' ? 'minor' : perspective
-    if (normalizedPerspective === 'nonDifferential' || normalizedPerspective === 'major') {
+    if (perspective === 'nonDifferential' || perspective === 'major') {
       return slot.totalTimeRange
     }
     return null
@@ -508,22 +516,26 @@ export function derivePerspective(
   const majorEventName = majorEventShape.name
   const minorEventName = minorEventShape?.name ?? null
   
-  // Handle legacy perspective names for backward compatibility
-  const normalizedPerspective = perspective === 'onSite' ? 'major' : perspective === 'clientPresent' ? 'minor' : perspective
-  
-  switch (normalizedPerspective) {
+  switch (perspective) {
     case 'major':
       // LEARNING: Fallback to totalTimeRange if majorTimeRange is null (but use attendee-based name)
       // WHY: Ensures buttons always have a display time
       result = slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange
       break
     case 'minor':
-      // LEARNING: Require minor event shape - no fallback to hardcoded name
-      // WHY: If minor event shape not found, return null (don't show incorrect time)
+      // LEARNING: Fallback to totalTimeRange if minor event shape not found
+      // WHY: Ensures buttons always have a display time, even if minor event shape isn't identified
+      // PATTERN: Show totalTimeRange as fallback so slot remains visible and clickable
       if (!minorEventShape || !minorEventName) {
-        result = null
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+        // #endregion
+        result = slot.totalTimeRange
       } else {
         result = slot.eventTimeRanges?.[minorEventName] ?? slot.totalTimeRange
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+        // #endregion
       }
       break
     case 'nonDifferential':

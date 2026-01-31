@@ -101,8 +101,8 @@ export function useAppointmentDuration(
       // LEARNING: Read major event duration from slotShape.eventFinals using helper function
       // WHY: Events are stored on AppointmentShape, durations computed in SlotShape as EventFinal[]
       // PATTERN: Use helper function to find event by name, eliminates hardcoded access
-      // NOTE: Uses 'OnSite' as fallback for backward compatibility, but should use major event from availabilitySettings
-      const majorEventFinal = findEventFinalByName(shape.slotShape, 'OnSite')
+      // NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings
+      const majorEventFinal = findEventFinalByName(shape.slotShape, 'Major')
       const majorDuration = majorEventFinal?.duration || 0
       
       // LEARNING: Apply configurable rounding based on availability settings

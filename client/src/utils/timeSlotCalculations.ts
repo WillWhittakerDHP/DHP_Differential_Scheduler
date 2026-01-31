@@ -225,7 +225,7 @@ export async function generateTimeSlots(
     businessHours,
     minuteIncrement: settings.minuteIncrement,
     busyTimes,
-    includeFlags: { onSite: false, clientPresent: false, moveable: false }
+    includeFlags: { major: false, minor: false, moveable: false }
   })
   
   return result.slots

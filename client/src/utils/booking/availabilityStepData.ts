@@ -28,7 +28,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
 
   // Add major slot
   // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
-  const majorEventName = 'OnSite' // TODO: Get from availabilitySettings
+  const majorEventName = 'Major' // TODO: Get from availabilitySettings
   const majorTimeRange = params.selectedSlot.eventTimeRanges?.[majorEventName]
   if (majorTimeRange) {
     slots.push({
@@ -40,7 +40,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
 
   // Add minor slot if different from major
   // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
-  const minorEventName = 'ClientPresent' // TODO: Get from availabilitySettings
+  const minorEventName = 'Minor' // TODO: Get from availabilitySettings
   const minorTimeRange = params.selectedSlot.eventTimeRanges?.[minorEventName]
   if (minorTimeRange && 
       minorTimeRange.startTime !== majorTimeRange?.startTime) {

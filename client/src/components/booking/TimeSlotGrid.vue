@@ -115,14 +115,14 @@ const displaySlots = computed(() => {
           // WHY: Minor sees their arrival time for differential appointments
           // PATTERN: Use minor event time range from AppointmentSlot, fallback to totalTimeRange
           // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
-          const minorEventName = 'ClientPresent' // TODO: Get from availabilitySettings
+          const minorEventName = 'Minor' // TODO: Get from availabilitySettings
           slot = appointmentSlot.eventTimeRanges?.[minorEventName] || appointmentSlot.totalTimeRange
         } else {
           // LEARNING: Show major perspective time slot (default)
           // WHY: Major sees their start time, or same time for non-differential
           // PATTERN: Use major event time range from AppointmentSlot, fallback to totalTimeRange
           // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
-          const majorEventName = 'OnSite' // TODO: Get from availabilitySettings
+          const majorEventName = 'Major' // TODO: Get from availabilitySettings
           slot = appointmentSlot.eventTimeRanges?.[majorEventName] || appointmentSlot.totalTimeRange
         }
         

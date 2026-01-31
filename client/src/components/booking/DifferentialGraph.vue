@@ -41,10 +41,31 @@ const emit = defineEmits<Emits>()
 // WHY: Labels are configurable in admin panel
 const { settings: availabilitySettings } = useAvailabilitySettings()
 const majorLabel = computed(() => 
-  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
+  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
 )
 const minorLabel = computed(() => 
   availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+)
+
+// LEARNING: Get configured labels from availability settings
+// WHY: Labels are configurable in admin panel
+const selectTimeSlotLabel = computed(() => 
+  availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
+)
+
+// LEARNING: Get configured state labels from availability settings
+// WHY: State labels are configurable in admin panel
+const majorStateLabel = computed(() => 
+  availabilitySettings.value?.differentialPerspectives?.majorStateLabel || `Showing ${majorLabel.value} times`
+)
+const minorStateLabel = computed(() => 
+  availabilitySettings.value?.differentialPerspectives?.minorStateLabel || `Showing ${minorLabel.value} times`
+)
+
+// LEARNING: Check if a slot is selected
+// WHY: Determines when to show overlay vs filled bars
+const hasSelectedSlot = computed(() => 
+  props.graphBars.major !== null || props.graphBars.minor !== null
 )
 
 // LEARNING: Handler for bar clicks
@@ -105,10 +126,11 @@ const minorTimeDisplay = computed(() => {
 
 // LEARNING: Computed label for selected state
 // WHY: Explains what the buttons represent based on selected perspective
+// PATTERN: Uses configurable state labels with fallback to default format
 const stateLabel = computed(() => {
   if (!props.isDifferentialService) return null
-  if (props.startTimeType === 'major') return `Showing ${majorLabel.value} times`
-  if (props.startTimeType === 'minor') return `Showing ${minorLabel.value} times`
+  if (props.startTimeType === 'major') return majorStateLabel.value
+  if (props.startTimeType === 'minor') return minorStateLabel.value
   return null
 })
 
@@ -126,7 +148,13 @@ const showStateLabel = computed(() => {
   <!-- WHY: Visual bars showing major and minor time blocks for differential scheduling -->
   <!-- PATTERN: Stacked horizontal bars with conditional rendering based on differential -->
   <!-- Show graph when service is differential -->
-  <div v-if="isDifferentialService" class="differential-graph">
+  <div v-if="isDifferentialService" class="differential-graph" :class="{ 'has-overlay': !hasSelectedSlot }">
+    <!-- LEARNING: Overlay when no slot is selected -->
+    <!-- WHY: Shows configurable "Select a Time Slot" message over entire graph with large text and greys it out -->
+    <div v-if="!hasSelectedSlot" class="overlay">
+      <span class="overlay-text">{{ selectTimeSlotLabel }}</span>
+    </div>
+    
     <!-- LEARNING: State label when selected -->
     <!-- WHY: Explains what the time slot buttons represent -->
     <div v-if="showStateLabel" class="state-label">
@@ -137,13 +165,13 @@ const showStateLabel = computed(() => {
     <!-- WHY: Shows major and minor time blocks separately for differential services -->
     <!-- PATTERN: Top bar full width (Major), bottom bar right-justified half width (Minor) -->
     <!-- Always show bars so users can click them, even when no time slot is selected -->
-    <!-- LEARNING: Major Time Bar - Full Width, Clickable, Outline Only -->
-    <!-- WHY: Shows major time block outline, full width, primary color border, clickable to select perspective -->
-    <!-- USER_STORY: Top bar extends across full length, outline style only -->
+    <!-- LEARNING: Major Time Bar - Full Width, Clickable, Filled with Color -->
+    <!-- WHY: Shows major time block with filled background, full width, primary color, clickable to select perspective -->
+    <!-- USER_STORY: Top bar extends across full length, filled with color when slot selected -->
     <!-- USER_STORY: Bar becomes Selected when clicked, Active otherwise -->
     <div 
       class="time-bar major-bar clickable-bar" 
-      :class="[majorBarState, { filled: !!graphBars.major }]"
+      :class="[majorBarState, { filled: hasSelectedSlot && !!graphBars.major }]"
       role="button"
       tabindex="0"
       :aria-label="`Select ${majorLabel} time view`"
@@ -151,17 +179,16 @@ const showStateLabel = computed(() => {
       @keydown.enter="handleBarClick('major')"
       @keydown.space.prevent="handleBarClick('major')"
     >
-      <span v-if="majorTimeDisplay" class="bar-text">{{ majorTimeDisplay }}</span>
-      <span v-else class="bar-text">Select a Time Slot</span>
+      <span v-if="majorTimeDisplay" class="bar-text" :class="{ 'selected-text': startTimeType === 'major' }">{{ majorTimeDisplay }}</span>
     </div>
     
-    <!-- LEARNING: Minor Time Bar - Right-Justified Half Width, Clickable, Outline Only -->
-    <!-- WHY: Shows minor time block outline, right-justified, half width, secondary color border, clickable to select perspective -->
-    <!-- USER_STORY: Bottom bar is right justified, extends across half the length, outline style only -->
+    <!-- LEARNING: Minor Time Bar - Right-Justified Half Width, Clickable, Filled with Color -->
+    <!-- WHY: Shows minor time block with filled background, right-justified, half width, secondary color, clickable to select perspective -->
+    <!-- USER_STORY: Bottom bar is right justified, extends across half the length, filled with color when slot selected -->
     <!-- USER_STORY: Bar becomes Selected when clicked, Active otherwise -->
     <div 
       class="time-bar minor-bar clickable-bar" 
-      :class="[minorBarState, { filled: !!graphBars.minor }]"
+      :class="[minorBarState, { filled: hasSelectedSlot && !!graphBars.minor }]"
       role="button"
       tabindex="0"
       :aria-label="`Select ${minorLabel} time view`"
@@ -169,7 +196,7 @@ const showStateLabel = computed(() => {
       @keydown.enter="handleBarClick('minor')"
       @keydown.space.prevent="handleBarClick('minor')"
     >
-      <span v-if="minorTimeDisplay" class="bar-text">{{ minorTimeDisplay }}</span>
+      <span v-if="minorTimeDisplay" class="bar-text" :class="{ 'selected-text': startTimeType === 'minor' }">{{ minorTimeDisplay }}</span>
     </div>
   </div>
 </template>
@@ -182,6 +209,7 @@ const showStateLabel = computed(() => {
 // LEARNING: Constrain graph width to calendar width
 // WHY: Largest bar should be no wider than calendar
 .differential-graph {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -246,6 +274,14 @@ const showStateLabel = computed(() => {
   opacity: 0.7;
   z-index: 1;
   position: relative;
+  
+  // LEARNING: Larger text for selected bar
+  // WHY: Makes selected bar text more prominent
+  &.selected-text {
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 1;
+  }
 }
 
 // LEARNING: Bar label styling (major/minor label)
@@ -266,20 +302,38 @@ const showStateLabel = computed(() => {
 
 // LEARNING: Filled bar state
 // WHY: Shows filled background when time slot is selected
+// PATTERN: Always show color when slot selected, with opacity based on selection state
 .time-bar.filled {
-  background-color: rgba(var(--v-theme-primary), 0.1);
-  
-  &.major-bar.selected {
-    background-color: rgba(var(--v-theme-primary), 0.15);
+  // Major bar - always show primary color
+  &.major-bar {
+    background-color: rgba(var(--v-theme-primary), 0.4);
+    
+    &.selected {
+      background-color: rgb(var(--v-theme-primary));
+      opacity: 1;
+    }
+    
+    &.active {
+      opacity: 0.4;
+    }
   }
   
-  &.minor-bar.selected {
-    background-color: rgba(var(--v-theme-secondary), 0.15);
+  // Minor bar - always show secondary color
+  &.minor-bar {
+    background-color: rgba(var(--v-theme-secondary), 0.4);
+    
+    &.selected {
+      background-color: rgb(var(--v-theme-secondary));
+      opacity: 1;
+    }
+    
+    &.active {
+      opacity: 0.4;
+    }
   }
   
   .bar-text {
-    opacity: 1;
-    font-weight: 600;
+    opacity: 0.9;
   }
 }
 
@@ -351,5 +405,46 @@ const showStateLabel = computed(() => {
 .major-bar.selected,
 .minor-bar.selected {
   box-shadow: 0 2px 4px rgba(var(--v-theme-on-surface), 0.2);
+}
+
+// LEARNING: Overlay styling - covers entire graph with large text
+// WHY: Shows prominent message when no time slot is selected
+// PATTERN: Absolute positioning with large, bold, centered text
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  pointer-events: none; // Allow clicks to pass through to bars
+  
+  .overlay-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgb(var(--v-theme-on-surface));
+    text-align: center;
+    padding: 1rem;
+    
+    @media (max-width: 599px) {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+// LEARNING: Grey out graph when overlay is visible
+// WHY: Visual indication that graph is disabled until slot is selected
+// PATTERN: Apply filter/opacity when has-overlay class is present
+.differential-graph.has-overlay {
+  filter: grayscale(0.5);
+  opacity: 0.6;
+  
+  .time-bar {
+    pointer-events: auto; // Ensure bars are still clickable
+  }
 }
 </style>

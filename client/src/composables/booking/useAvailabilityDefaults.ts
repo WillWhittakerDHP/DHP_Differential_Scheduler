@@ -9,7 +9,7 @@
  * - Auto-select first available date when time slots load
  * - Match loaded time slots from appointment
  * - Watch loaded wizard state and populate selectedDate
- * - Manage selectedDate, startTimeType, inspectorTimeSlot, clientTimeSlot state
+ * - Manage selectedDate, startTimeType, majorTimeSlot, minorTimeSlot state
  */
 
 import { ref, computed, watch, type Ref, type ComputedRef } from 'vue'
@@ -50,9 +50,9 @@ export interface UseAvailabilityDefaultsReturn {
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   
   /**
-   * Start time type (inspector, client, or nonDifferential for non-differential services)
+   * Start time type (major, minor, or nonDifferential for non-differential services)
    */
-  startTimeType: Ref<'inspector' | 'client' | 'nonDifferential'>
+  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
   
   /**
    * Appointment slot order index (position in availability grid)
@@ -62,16 +62,16 @@ export interface UseAvailabilityDefaultsReturn {
   appointmentSlotOrderIndex: Ref<number | null>
   
   /**
-   * Inspector order index (backward compatibility)
+   * Major order index (backward compatibility)
    * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility
    */
-  inspectorOrderIndex: Ref<number | null>
+  majorOrderIndex: Ref<number | null>
   
   /**
-   * Client order index (backward compatibility)
+   * Minor order index (backward compatibility)
    * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility
    */
-  clientOrderIndex: Ref<number | null>
+  minorOrderIndex: Ref<number | null>
 }
 
 /**
@@ -108,40 +108,40 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
    * LEARNING: Tracks whether to show major or minor time slots
    * WHY: Differential services need separate major/minor views, non-differential always uses 'nonDifferential'
    * PATTERN: ref for string literal union type - 'nonDifferential' for non-differential services, 'major' | 'minor' for differential
-   * NOTE: Defaults to 'major' so step 3 starts in major view (legacy 'inspector' supported for backward compatibility)
+   * NOTE: Defaults to 'major' so step 3 starts in major view
    */
-  const startTimeType = ref<'major' | 'minor' | 'nonDifferential' | 'inspector' | 'client'>('major')
+  const startTimeType = ref<'major' | 'minor' | 'nonDifferential'>('major')
 
   /**
    * Appointment slot order index state
    * LEARNING: Tracks selected appointment slot by orderIndex (position in availability grid)
    * WHY: Selection persists across perspective changes - same button, only display time and color change
    * PATTERN: ref for number (orderIndex) or null
-   * NOTE: For differential services, inspector and client may see different times at same position,
+   * NOTE: For differential services, major and minor may see different times at same position,
    *       but it's the same appointment slot button. Selection state persists when switching perspectives.
    */
   const appointmentSlotOrderIndex = ref<number | null>(null)
 
   /**
-   * Inspector order index state (backward compatibility)
+   * Major order index state (backward compatibility)
    * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
-   * WHY: Step data may need separate inspector/client TimeSlots, but selection uses single orderIndex
+   * WHY: Step data may need separate major/minor TimeSlots, but selection uses single orderIndex
    * PATTERN: Writable computed ref that syncs with appointmentSlotOrderIndex
    * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
    */
-  const inspectorOrderIndex = computed({
+  const majorOrderIndex = computed({
     get: () => appointmentSlotOrderIndex.value,
     set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
   }) as Ref<number | null>
 
   /**
-   * Client order index state (backward compatibility)
+   * Minor order index state (backward compatibility)
    * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
-   * WHY: Step data may need separate inspector/client TimeSlots, but selection uses single orderIndex
+   * WHY: Step data may need separate major/minor TimeSlots, but selection uses single orderIndex
    * PATTERN: Writable computed ref that syncs with appointmentSlotOrderIndex
    * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
    */
-  const clientOrderIndex = computed({
+  const minorOrderIndex = computed({
     get: () => appointmentSlotOrderIndex.value,
     set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
   }) as Ref<number | null>
@@ -184,8 +184,8 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
       // This requires AppointmentSlots to be available, which will be handled in useAvailabilityUI
       // For now, we'll match by time and find the orderIndex in the UI layer
       // WHY: Transform selectedTimeSlots from { time, duration } format to { startTime, endTime } format
-      const tempInspectorSlot = ref<TimeSlot | null>(null)
-      const tempClientSlot = ref<TimeSlot | null>(null)
+      const tempMajorSlot = ref<TimeSlot | null>(null)
+      const tempMinorSlot = ref<TimeSlot | null>(null)
       const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({
         startTime: slot.time,
         endTime: undefined // endTime is optional in LoadedTimeSlot
@@ -193,8 +193,8 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
       matchLoadedTimeSlots(
         transformedSlots,
         availableSlots,
-        tempInspectorSlot,
-        tempClientSlot
+        tempMajorSlot,
+        tempMinorSlot
       )
       // Note: orderIndex matching will be handled in useAvailabilityUI when AppointmentSlots are available
     }
@@ -259,8 +259,8 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
     selectedDate,
     startTimeType,
     appointmentSlotOrderIndex,
-    inspectorOrderIndex,
-    clientOrderIndex,
+    majorOrderIndex,
+    minorOrderIndex,
   }
 }
 
