@@ -26,11 +26,11 @@ Scope:
 | `src/composables/admin/useSelectHandlers.ts` | 17 | 0 | 0 | 1 | 6 | 0 | 0 |
 | `src/composables/useAvailability.ts` | 17 | 0 | 1 | 8 | 8 | 0 | 0 |
 | `src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
+| `src/composables/booking/useMoveablePartsScheduling.ts` | 16 | 0 | 1 | 5 | 6 | 0 | 0 |
 | `src/composables/admin/useAvailabilitySettings.ts` | 15 | 0 | 0 | 2 | 4 | 0 | 0 |
 | `src/composables/admin/useSelectConfig.ts` | 15 | 0 | 0 | 12 | 0 | 0 | 0 |
 | `src/composables/admin/useSelectInputsAsync.ts` | 15 | 0 | 0 | 1 | 11 | 0 | 0 |
 | `src/composables/booking/useAppointmentSlots.ts` | 15 | 0 | 0 | 4 | 0 | 0 | 0 |
-| `src/composables/booking/useMoveablePartsScheduling.ts` | 15 | 0 | 1 | 5 | 6 | 0 | 0 |
 | `src/composables/admin/useSelectFiltering.ts` | 14 | 0 | 0 | 3 | 0 | 0 | 0 |
 | `src/composables/booking/useAppointmentDataCollection.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `src/composables/booking/useAvailableStartTimes.ts` | 14 | 0 | 2 | 3 | 6 | 0 | 0 |
@@ -1066,6 +1066,29 @@ computed@99: sellerEmail: computed(() => sellerInfo.value.email)
 computed@103: const reactiveRules = computed(() => {
 ```
 
+### `src/composables/booking/useMoveablePartsScheduling.ts`
+
+- counts: vueQuery=0, watch=1, computed=3, ref=2, async=4, await=2, dom=0, console=0
+
+```
+ref@95: const showModal = ref(false)
+async@103: // Moveable options (computed via watchEffect since it's async)
+ref@105: const isLoadingOptions = ref(false)
+computed@109: const hasMoveableParts = computed(() => {
+computed@119: const moveableDuration = computed(() => {
+async@127: // LEARNING: Use watchEffect for async operations
+async@128: // WHY: Computed properties can't be async, so we use watchEffect to update a ref
+watchEffect@130: watchEffect(async () => {
+async@130: watchEffect(async () => {
+map@148: const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+map@172: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
+map@174: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
+await@196: const settings = await getAvailabilitySettings()
+await@210: const result = await fitAvailableTimeSlots({  // P3-6: Renamed for clarity
+map@220: const availableSlots: MoveableSlot[] = result.slots.map((slot) => ({
+computed@279: moveableOptions: computed(() => moveableOptions.value),
+```
+
 ### `src/composables/admin/useAvailabilitySettings.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=2, async=2, await=2, dom=0, console=0
@@ -1137,43 +1160,21 @@ await@93: await handleChange(allIds)
 - counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@106: const appointmentShape = computed(() => {
-map@135: // PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format
-filter@146: ? (eventShapes as EventShapeEntity[]).filter(es => es.id !== majorEventShape.id)
-map@152: eventShapes = eventShapes.map(eventShape => {
-map@154: const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
-map@163: eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))
-map@172: partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
-computed@202: const appointmentSlots = computed(() => {
-map@230: const slots = times.map((time, index) => {
-computed@265: const selectedSlot = computed(() => {
-computed@292: const graphBars = computed(() => {
-map@328: const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-filter@337: ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-map@344: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-map@352: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-```
-
-### `src/composables/booking/useMoveablePartsScheduling.ts`
-
-- counts: vueQuery=0, watch=1, computed=3, ref=2, async=4, await=2, dom=0, console=0
-
-```
-ref@89: const showModal = ref(false)
-async@97: // Moveable options (computed via watchEffect since it's async)
-ref@99: const isLoadingOptions = ref(false)
-computed@103: const hasMoveableParts = computed(() => {
-computed@113: const moveableDuration = computed(() => {
-async@121: // LEARNING: Use watchEffect for async operations
-async@122: // WHY: Computed properties can't be async, so we use watchEffect to update a ref
-watchEffect@124: watchEffect(async () => {
-async@124: watchEffect(async () => {
-map@153: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
-map@155: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
-await@177: const settings = await getAvailabilitySettings()
-await@191: const result = await fitAvailableTimeSlots({  // P3-6: Renamed for clarity
-map@201: const availableSlots: MoveableSlot[] = result.slots.map((slot) => ({
-computed@260: moveableOptions: computed(() => moveableOptions.value),
+computed@107: const appointmentShape = computed(() => {
+map@136: // PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format
+filter@147: ? (eventShapes as EventShapeEntity[]).filter(es => es.id !== majorEventShape.id)
+map@153: eventShapes = eventShapes.map(eventShape => {
+map@155: const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
+map@167: eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))
+map@176: partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
+computed@206: const appointmentSlots = computed(() => {
+map@234: const slots = times.map((time, index) => {
+computed@269: const selectedSlot = computed(() => {
+computed@296: const graphBars = computed(() => {
+map@332: const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+filter@341: ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+map@348: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+map@356: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
 ```
 
 ### `src/composables/admin/useSelectFiltering.ts`

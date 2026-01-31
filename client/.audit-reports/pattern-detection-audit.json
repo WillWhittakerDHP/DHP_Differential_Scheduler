@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T22:43:30.130Z",
+  "generatedAt": "2026-01-31T23:40:22.048Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 592,
+  "fileCount": 596,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -47,6 +47,7 @@
           "client/src/composables/useApiErrorMessage.ts",
           "client/src/configs/adminConfig.ts",
           "client/src/configs/availabilitySettings.ts",
+          "client/src/configs/eventPerspectiveLabels.ts",
           "client/src/plugins/3.vue-query.ts",
           "client/src/types/datetime.ts",
           "client/src/utils/admin/entityDisplayText.ts",
@@ -82,7 +83,7 @@
           "server/src/utils/adminRelationshipMetadataComposer.ts",
           "server/src/utils/sequelizeHelpers.ts"
         ],
-        "patternCount": 80
+        "patternCount": 81
       },
       {
         "prefix": "use",
@@ -2080,7 +2081,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentSlots.ts",
-            "line": 43
+            "line": 44
           }
         ]
       },
@@ -2090,7 +2091,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentSlots.ts",
-            "line": 56
+            "line": 57
           }
         ]
       },
@@ -3696,6 +3697,16 @@
           }
         ]
       },
+      "EventPerspectiveKey": {
+        "definition": "export type EventPerspectiveKey = typeof EVENT_PERSPECTIVE_KEYS[keyof typeof EVENT_PERSPECTIVE_KEYS]",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/configs/eventPerspectiveLabels.ts",
+            "line": 43
+          }
+        ]
+      },
       "DisplayFieldType": {
         "definition": "export interface DisplayFieldType<GE extends GlobalEntityKey, _FieldKey extends GlobalFieldKey<GE>> ",
         "isInterface": true,
@@ -4882,7 +4893,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-            "line": 60
+            "line": 63
           }
         ]
       },
@@ -4892,7 +4903,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-            "line": 72
+            "line": 75
           }
         ]
       },
@@ -5136,6 +5147,26 @@
           }
         ]
       },
+      "EntityKey": {
+        "definition": "export type EntityKey = typeof ENTITY_KEYS[keyof typeof ENTITY_KEYS]",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/constants/entities.ts",
+            "line": 32
+          }
+        ]
+      },
+      "RelationshipType": {
+        "definition": "export type RelationshipType = typeof RELATIONSHIP_TYPES[keyof typeof RELATIONSHIP_TYPES]",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/constants/relationshipTypes.ts",
+            "line": 35
+          }
+        ]
+      },
       "RollingWeekDirection": {
         "definition": "export type RollingWeekDirection = 'past' | 'centered' | 'future'",
         "isInterface": false,
@@ -5268,6 +5299,11 @@
       {
         "type": "config-file",
         "file": "client/src/configs/contactsValidationStrings.ts",
+        "description": "Configuration file location"
+      },
+      {
+        "type": "config-file",
+        "file": "client/src/configs/eventPerspectiveLabels.ts",
         "description": "Configuration file location"
       },
       {
@@ -6477,7 +6513,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentSlots.ts",
-            "line": 84,
+            "line": 85,
             "name": "AppointmentSlots"
           }
         ]
@@ -6797,7 +6833,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-            "line": 84,
+            "line": 88,
             "name": "MoveablePartsScheduling"
           }
         ]
@@ -7612,6 +7648,16 @@
           }
         ]
       },
+      "getPerspectiveLabel": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "client/src/configs/eventPerspectiveLabels.ts",
+            "line": 51,
+            "name": "PerspectiveLabel"
+          }
+        ]
+      },
       "getQueryClient": {
         "prefix": "get",
         "locations": [
@@ -7757,7 +7803,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 107,
+            "line": 100,
             "name": "RelationshipByParentChildEndpoint"
           }
         ]
@@ -7767,7 +7813,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 121,
+            "line": 114,
             "name": "OrderIndexEndpoint"
           }
         ]
@@ -7777,7 +7823,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 137,
+            "line": 124,
             "name": "BulkPatchEndpoint"
           }
         ]
@@ -7787,7 +7833,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 151,
+            "line": 138,
             "name": "AdminMetadataEndpoint"
           }
         ]
@@ -7797,7 +7843,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 161,
+            "line": 148,
             "name": "AdminMetadataBatchEndpoint"
           }
         ]
@@ -7807,7 +7853,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 172,
+            "line": 159,
             "name": "AdminPrimitiveMetadataEndpoint"
           }
         ]
@@ -7817,7 +7863,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 183,
+            "line": 170,
             "name": "AdminRelationshipMetadataEndpoint"
           }
         ]
@@ -7827,7 +7873,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 194,
+            "line": 181,
             "name": "AvailabilityEndpoint"
           }
         ]
@@ -7837,7 +7883,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 204,
+            "line": 191,
             "name": "AppointmentEndpoint"
           }
         ]
@@ -7847,7 +7893,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 208,
+            "line": 195,
             "name": "AppointmentByIdEndpoint"
           }
         ]
@@ -7857,7 +7903,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 212,
+            "line": 199,
             "name": "AppointmentVersionsEndpoint"
           }
         ]
@@ -7867,7 +7913,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 222,
+            "line": 209,
             "name": "PropertyEndpoint"
           }
         ]
@@ -7877,7 +7923,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 226,
+            "line": 213,
             "name": "PropertyByIdEndpoint"
           }
         ]
@@ -7887,7 +7933,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 247,
+            "line": 223,
             "name": "UserEndpoint"
           }
         ]
@@ -7897,7 +7943,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 251,
+            "line": 227,
             "name": "UserByIdEndpoint"
           }
         ]
@@ -7907,7 +7953,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 263,
+            "line": 239,
             "name": "BlockInstanceAnnotationsEndpoint"
           }
         ]
@@ -7917,7 +7963,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 270,
+            "line": 246,
             "name": "BlockInstanceAnnotationEndpoint"
           }
         ]
@@ -8017,7 +8063,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/partFinalizer.ts",
-            "line": 53,
+            "line": 54,
             "name": "PartFinals"
           },
           {
@@ -8192,7 +8238,7 @@
         "locations": [
           {
             "file": "client/src/utils/entityDefaults.ts",
-            "line": 231,
+            "line": 242,
             "name": "DefaultEntityValues"
           }
         ]
@@ -8252,7 +8298,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-            "line": 92,
+            "line": 95,
             "name": "FieldLocation"
           }
         ]
@@ -8575,56 +8621,56 @@
       {
         "type": "status-workflow",
         "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 794,
+        "line": 855,
         "pattern": "AppointmentStatus workflow",
         "code": "* - Endpoint returns hours from appointments with status 'submitted' or 'confirmed' (not Google Cale"
       },
       {
         "type": "status-workflow",
         "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 842,
+        "line": 903,
         "pattern": "AppointmentStatus workflow",
         "code": "* - Endpoint returns hours from appointments with status 'submitted' or 'confirmed' (not Google Cale"
       },
       {
         "type": "status-workflow",
         "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 943,
+        "line": 1004,
         "pattern": "AppointmentStatus workflow",
         "code": "* workflows where appointments exist in the database with 'submitted' or 'confirmed'"
       },
       {
         "type": "status-workflow",
         "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 947,
+        "line": 1008,
         "pattern": "AppointmentStatus workflow",
         "code": "* - 'started': Non-quote mode appointment creation in progress (NOT COUNTED)"
       },
       {
         "type": "status-workflow",
         "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 948,
+        "line": 1009,
         "pattern": "AppointmentStatus workflow",
         "code": "* - 'submitted': Submitted through app, awaiting confirmation (COUNTED)"
       },
       {
         "type": "status-workflow",
         "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 949,
+        "line": 1010,
         "pattern": "AppointmentStatus workflow",
         "code": "* - 'confirmed': Submitted and confirmed (COUNTED)"
       },
       {
         "type": "status-workflow",
         "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 962,
+        "line": 1023,
         "pattern": "AppointmentStatus workflow",
         "code": "* and only counts appointments with status 'submitted' or 'confirmed'. This ensures"
       },
       {
         "type": "status-workflow",
         "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 1025,
+        "line": 1088,
         "pattern": "AppointmentStatus workflow",
         "code": "// WHY: Server endpoint queries database appointments (status 'submitted' or 'confirmed'), not Googl"
       },

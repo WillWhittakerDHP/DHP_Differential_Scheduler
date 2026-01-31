@@ -6,8 +6,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 
 | File | Priority | Score | Unused Exports | Commented | Unused Functions | TODO Markers |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `client/src/utils/api.ts` | P0 | 20 | 5 | 1 | 3 | 0 |
-| `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` | P0 | 19 | 6 | 0 | 1 | 0 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 15 | 5 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/ShapesTab.vue` | P0 | 15 | 0 | 0 | 15 | 0 |
 | `client/src/types/annotations.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
@@ -43,9 +41,11 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/composables/componentEntity/useComponentEntityDomain.ts` | P1 | 9 | 2 | 0 | 3 | 0 |
 | `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/composables/useBusiness.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
+| `client/src/configs/eventPerspectiveLabels.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/types/googleCalendar.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/types/shapeFieldMetadata.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
+| `client/src/utils/api.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/utils/booking/confirmationStepData.ts` | P1 | 9 | 2 | 0 | 0 | 3 |
 | `client/src/utils/eventAttendeeUtils.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/utils/optimistic/listByIdOptimistic.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
@@ -168,6 +168,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/services/appointmentSnapshotLoader.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/collections/RelationshipCollection.vue` | P1 | 5 | 1 | 0 | 2 | 0 |
 | `client/src/composables/useLocalTime.ts` | P1 | 5 | 1 | 0 | 2 | 0 |
+| `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` | P1 | 5 | 0 | 0 | 5 | 0 |
 | `client/src/composables/formFields/useFormFieldsContext.ts` | P2 | 4 | 1 | 0 | 1 | 0 |
 | `client/src/composables/useFormValidation.ts` | P2 | 4 | 1 | 0 | 1 | 0 |
 | `client/src/layouts/components/NavBarNotifications.vue` | P2 | 4 | 0 | 0 | 4 | 0 |
@@ -268,6 +269,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/routes/external/googleFetchRoutes.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/test/setup/testDb.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/adminRelationshipMetadataComposer.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/utils/propertyTransformers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/sequelizeHelpers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `client/src/components/booking/steps/PropertyDetailsStep.vue` | P2 | 2 | 0 | 0 | 2 | 0 |
@@ -278,6 +280,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/config/app.js` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `server/src/db/models/booking/active_annotation.js` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `server/src/routes/internal/participantRoutes/login-routes.ts` | P2 | 2 | 0 | 1 | 0 | 0 |
+| `server/src/routes/internal/relationships/relationshipRouter.ts` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `client/src/components/admin/BlockInstanceCreateModal.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/admin/MetadataEditModal.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/admin/generic/EntityCardSubPanels.vue` | P2 | 1 | 0 | 0 | 1 | 0 |

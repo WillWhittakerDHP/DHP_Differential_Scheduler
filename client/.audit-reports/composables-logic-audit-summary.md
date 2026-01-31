@@ -18,11 +18,11 @@ Generated from `.audit-reports/composables-logic-audit.json`.
 | `src/composables/admin/useSelectHandlers.ts` | P2 | 11 | 1 | 0 | 0 | 0 | 1 | 3 | 3 | 0 | 0 |
 | `src/composables/useAvailability.ts` | P2 | 17 | 1 | 0 | 1 | 7 | 1 | 6 | 2 | 0 | 0 |
 | `src/composables/booking/useContactsValidation.ts` | P2 | 16 | 1 | 0 | 0 | 16 | 0 | 0 | 0 | 0 | 0 |
+| `src/composables/booking/useMoveablePartsScheduling.ts` | P2 | 16 | 1 | 0 | 1 | 3 | 2 | 4 | 2 | 0 | 0 |
 | `src/composables/admin/useAvailabilitySettings.ts` | P2 | 11 | 1 | 0 | 0 | 0 | 2 | 2 | 2 | 0 | 0 |
 | `src/composables/admin/useSelectConfig.ts` | P2 | 14 | 1 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useSelectInputsAsync.ts` | P2 | 14 | 1 | 0 | 0 | 1 | 0 | 8 | 3 | 0 | 0 |
 | `src/composables/booking/useAppointmentSlots.ts` | P2 | 13 | 1 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useMoveablePartsScheduling.ts` | P2 | 15 | 1 | 0 | 1 | 3 | 2 | 4 | 2 | 0 | 0 |
 | `src/composables/admin/useSelectFiltering.ts` | P2 | 7 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/booking/useAppointmentDataCollection.ts` | P2 | 14 | 1 | 0 | 0 | 0 | 0 | 1 | 6 | 0 | 0 |
 | `src/composables/booking/useAvailableStartTimes.ts` | P2 | 14 | 1 | 0 | 2 | 2 | 1 | 4 | 2 | 0 | 0 |

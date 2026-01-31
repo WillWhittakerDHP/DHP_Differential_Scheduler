@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-01-31T22:45:07.830Z
+Generated at: 2026-01-31T23:41:44.177Z
 
 ## Summary
 
-- **Total source files**: 671
+- **Total source files**: 675
 - **Total test files**: 128
-- **Untested source files**: 554
+- **Untested source files**: 558
 - **Orphaned test files**: 10
 - **Coverage**: 17%
 
@@ -58,6 +58,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/admin/useFieldMetadataUpdate.ts` | **5.6** | 5 | 5 | 10 | 1 | 2 |
 | `client/src/utils/blockInstanceUtils.ts` | **5.6** | 5 | 8 | 5 | 2 | 6 |
 | `client/src/utils/booking/dateRangeValidation.ts` | **5.6** | 3 | 8 | 10 | 0 | 2 |
+| `server/src/utils/propertyTransformers.ts` | **5.6** | 6 | 4 | 10 | 0 | 1 |
 | `client/src/composables/admin/useEntityList.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 | `client/src/composables/admin/useInstanceSaveHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 | `client/src/composables/admin/useInstanceTabHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
@@ -66,7 +67,6 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/admin/usePartInstanceBulkEdit.ts` | **5.4** | 7 | 5 | 5 | 1 | 2 |
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | **5.3** | 5 | 7 | 6 | 0 | 5 |
 | `client/src/composables/admin/useFieldInputSetup.ts` | **5.3** | 5 | 5 | 9 | 0 | 2 |
-| `client/src/composables/admin/useSelectHandlers.ts` | **5.3** | 5 | 5 | 7 | 4 | 2 |
 
 ## Orphaned Test Files (Priority: Medium)
 

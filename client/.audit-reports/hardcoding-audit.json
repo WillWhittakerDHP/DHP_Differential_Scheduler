@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T22:43:29.251Z",
+  "generatedAt": "2026-01-31T23:40:21.191Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,11 +14,11 @@
     ]
   },
   "exceptionSummary": {
-    "totalAllowed": 209,
-    "totalRequiresReview": 884,
+    "totalAllowed": 211,
+    "totalRequiresReview": 874,
     "bySource": {
       "inline": 0,
-      "pattern": 209,
+      "pattern": 211,
       "specific": 0
     }
   },
@@ -42,182 +42,182 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 127,
+          "lineNumber": 128,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 127,
+          "lineNumber": 128,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 127,
+          "lineNumber": 128,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 157,
+          "lineNumber": 161,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 157,
+          "lineNumber": 161,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 157,
+          "lineNumber": 161,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 165,
+          "lineNumber": 169,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 165,
+          "lineNumber": 169,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 165,
+          "lineNumber": 169,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 179,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 179,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 179,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 211,
+          "lineNumber": 215,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 211,
+          "lineNumber": 215,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 217,
+          "lineNumber": 221,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 217,
+          "lineNumber": 221,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 217,
+          "lineNumber": 221,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 248,
+          "lineNumber": 252,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 248,
+          "lineNumber": 252,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 257,
+          "lineNumber": 261,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 257,
+          "lineNumber": 261,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 296,
+          "lineNumber": 300,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 296,
+          "lineNumber": 300,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 309,
+          "lineNumber": 313,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 309,
+          "lineNumber": 313,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 322,
+          "lineNumber": 326,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 322,
+          "lineNumber": 326,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 344,
+          "lineNumber": 348,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 344,
+          "lineNumber": 348,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 344,
+          "lineNumber": 348,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 352,
+          "lineNumber": 356,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 352,
+          "lineNumber": 356,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 352,
+          "lineNumber": 356,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 369,
+          "lineNumber": 373,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 369,
+          "lineNumber": 373,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 369,
+          "lineNumber": 373,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         }
       ],
@@ -225,182 +225,182 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 127,
+          "lineNumber": 128,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 127,
+          "lineNumber": 128,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 127,
+          "lineNumber": 128,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 157,
+          "lineNumber": 161,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 157,
+          "lineNumber": 161,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 157,
+          "lineNumber": 161,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 165,
+          "lineNumber": 169,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 165,
+          "lineNumber": 169,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 165,
+          "lineNumber": 169,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 179,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 179,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 179,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 211,
+          "lineNumber": 215,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 211,
+          "lineNumber": 215,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 217,
+          "lineNumber": 221,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 217,
+          "lineNumber": 221,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 217,
+          "lineNumber": 221,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 248,
+          "lineNumber": 252,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 248,
+          "lineNumber": 252,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 257,
+          "lineNumber": 261,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 257,
+          "lineNumber": 261,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 296,
+          "lineNumber": 300,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 296,
+          "lineNumber": 300,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 309,
+          "lineNumber": 313,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 309,
+          "lineNumber": 313,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 322,
+          "lineNumber": 326,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 322,
+          "lineNumber": 326,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 344,
+          "lineNumber": 348,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 344,
+          "lineNumber": 348,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 344,
+          "lineNumber": 348,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 352,
+          "lineNumber": 356,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 352,
+          "lineNumber": 356,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 352,
+          "lineNumber": 356,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 369,
+          "lineNumber": 373,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 369,
+          "lineNumber": 373,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 369,
+          "lineNumber": 373,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         }
       ],
@@ -421,7 +421,7 @@
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
-        "caseString": 3,
+        "caseString": 0,
         "fieldEqualsString": 0,
         "fieldMapping": 0,
         "inlineLabelMap": 0,
@@ -486,183 +486,168 @@
           "line": "displayName: 'Instance Component',"
         },
         {
-          "ruleId": "caseString",
-          "lineNumber": 145,
-          "line": "case 'annotationAssignments':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 150,
-          "line": "case 'attendeeAssignments':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 155,
-          "line": "case 'eventAssignments': {"
-        },
-        {
           "ruleId": "magicLabel",
-          "lineNumber": 268,
+          "lineNumber": 283,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 401,
+          "lineNumber": 417,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 421,
+          "lineNumber": 437,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 439,
+          "lineNumber": 455,
           "line": "error: 'Parent and child cannot be the same entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 473,
+          "lineNumber": 489,
           "line": "error: 'BlockInstance not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 524,
+          "lineNumber": 540,
           "line": "error: 'Components must have the same BlockShape as their parent',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 533,
+          "lineNumber": 549,
           "line": "error: 'Error validating entities',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 534,
+          "lineNumber": 550,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 552,
+          "lineNumber": 568,
           "line": "error: 'Error checking circular references',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 553,
+          "lineNumber": 569,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 576,
+          "lineNumber": 592,
           "line": "error: 'Component relationship already exists',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 596,
+          "lineNumber": 612,
           "line": "error: 'Invalid parent entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 606,
+          "lineNumber": 622,
           "line": "error: 'Invalid child entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 620,
+          "lineNumber": 636,
           "line": "error: 'Invalid block shape reference',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 628,
+          "lineNumber": 644,
           "line": "error: 'Invalid attendee type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 679,
+          "lineNumber": 701,
           "line": "if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 681,
+          "lineNumber": 703,
           "line": "error: 'Relationship already exists',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 693,
+          "lineNumber": 715,
           "line": "if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 695,
+          "lineNumber": 717,
           "line": "error: 'Invalid entity reference',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 696,
+          "lineNumber": 718,
           "line": "details: error.message || 'One of the referenced entities does not exist',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 706,
+          "lineNumber": 728,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 728,
+          "lineNumber": 750,
           "line": "error: 'Instance component not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 748,
+          "lineNumber": 770,
           "line": "error: 'Error updating instance component',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 749,
+          "lineNumber": 771,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 768,
+          "lineNumber": 790,
           "line": "error: 'Instance component not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 799,
+          "lineNumber": 821,
           "line": "message: 'Instance component deleted successfully',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 805,
+          "lineNumber": 827,
           "line": "error: 'Error deleting instance component',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 806,
+          "lineNumber": 828,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 834,
+          "lineNumber": 856,
           "line": "error: 'Annotation assignment not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 854,
+          "lineNumber": 876,
           "line": "error: 'Error updating annotation assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 855,
+          "lineNumber": 877,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 869,
+          "lineNumber": 891,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 901,
+          "lineNumber": 923,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
@@ -724,187 +709,172 @@
           "line": "displayName: 'Instance Component',"
         },
         {
-          "ruleId": "caseString",
-          "lineNumber": 145,
-          "line": "case 'annotationAssignments':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 150,
-          "line": "case 'attendeeAssignments':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 155,
-          "line": "case 'eventAssignments': {"
-        },
-        {
           "ruleId": "magicLabel",
-          "lineNumber": 268,
+          "lineNumber": 283,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 401,
+          "lineNumber": 417,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 421,
+          "lineNumber": 437,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 439,
+          "lineNumber": 455,
           "line": "error: 'Parent and child cannot be the same entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 473,
+          "lineNumber": 489,
           "line": "error: 'BlockInstance not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 524,
+          "lineNumber": 540,
           "line": "error: 'Components must have the same BlockShape as their parent',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 533,
+          "lineNumber": 549,
           "line": "error: 'Error validating entities',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 534,
+          "lineNumber": 550,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 552,
+          "lineNumber": 568,
           "line": "error: 'Error checking circular references',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 553,
+          "lineNumber": 569,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 576,
+          "lineNumber": 592,
           "line": "error: 'Component relationship already exists',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 596,
+          "lineNumber": 612,
           "line": "error: 'Invalid parent entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 606,
+          "lineNumber": 622,
           "line": "error: 'Invalid child entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 620,
+          "lineNumber": 636,
           "line": "error: 'Invalid block shape reference',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 628,
+          "lineNumber": 644,
           "line": "error: 'Invalid attendee type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 679,
+          "lineNumber": 701,
           "line": "if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 681,
+          "lineNumber": 703,
           "line": "error: 'Relationship already exists',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 693,
+          "lineNumber": 715,
           "line": "if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 695,
+          "lineNumber": 717,
           "line": "error: 'Invalid entity reference',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 696,
+          "lineNumber": 718,
           "line": "details: error.message || 'One of the referenced entities does not exist',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 706,
+          "lineNumber": 728,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 728,
+          "lineNumber": 750,
           "line": "error: 'Instance component not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 748,
+          "lineNumber": 770,
           "line": "error: 'Error updating instance component',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 749,
+          "lineNumber": 771,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 768,
+          "lineNumber": 790,
           "line": "error: 'Instance component not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 799,
+          "lineNumber": 821,
           "line": "message: 'Instance component deleted successfully',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 805,
+          "lineNumber": 827,
           "line": "error: 'Error deleting instance component',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 806,
+          "lineNumber": 828,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 834,
+          "lineNumber": 856,
           "line": "error: 'Annotation assignment not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 854,
+          "lineNumber": 876,
           "line": "error: 'Error updating annotation assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 855,
+          "lineNumber": 877,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 869,
+          "lineNumber": 891,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 901,
+          "lineNumber": 923,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
-      "score": 56,
+      "score": 44,
       "priority": "P0",
       "suggestions": []
     },
@@ -926,217 +896,217 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 95,
+          "lineNumber": 67,
           "line": "error: 'Failed to fetch properties',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 96,
+          "lineNumber": 68,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 116,
+          "lineNumber": 88,
           "line": "error: 'Property not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 127,
+          "lineNumber": 99,
           "line": "error: 'Error fetching property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 128,
+          "lineNumber": 100,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 161,
+          "lineNumber": 133,
           "line": "error: 'Missing required fields',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 212,
+          "lineNumber": 184,
           "line": "error: 'Failed to create property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 213,
+          "lineNumber": 185,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 234,
+          "lineNumber": 206,
           "line": "error: 'Property not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 284,
+          "lineNumber": 256,
           "line": "error: 'Failed to update property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 285,
+          "lineNumber": 257,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 305,
+          "lineNumber": 277,
           "line": "error: 'Property not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 337,
+          "lineNumber": 309,
           "line": "error: 'Failed to patch property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 338,
+          "lineNumber": 310,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 355,
+          "lineNumber": 327,
           "line": "error: 'Property not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 368,
+          "lineNumber": 340,
           "line": "error: 'Failed to delete property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 369,
+          "lineNumber": 341,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 404,
+          "lineNumber": 376,
           "line": "error: 'Failed to fetch property types',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 405,
+          "lineNumber": 377,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 415,
+          "lineNumber": 387,
           "line": "* - blockInstanceId: UUID of the block_instance (must be \"Properties\" block_shape)"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 420,
+          "lineNumber": 392,
           "line": "* PATTERN: Validate block_shape is \"Properties\" before attempting insert"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 439,
+          "lineNumber": 411,
           "line": "error: 'Property version not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 445,
+          "lineNumber": 417,
           "line": "// Application-level validation: Verify blockInstance has \"Properties\" block_shape"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 452,
+          "lineNumber": 424,
           "line": "error: 'Block instance not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 461,
+          "lineNumber": 433,
           "line": "if (!blockShape || blockShape.name !== 'Properties') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 463,
+          "lineNumber": 435,
           "line": "error: 'Block instance must have \"Properties\" block_shape',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 487,
+          "lineNumber": 459,
           "line": "error: 'Block instance must have \"Properties\" block_shape',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 496,
+          "lineNumber": 468,
           "line": "error: 'Property type already assigned to this property version',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 503,
+          "lineNumber": 475,
           "line": "error: 'Failed to add property type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 504,
+          "lineNumber": 476,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 522,
+          "lineNumber": 494,
           "line": "error: 'Property type not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 541,
+          "lineNumber": 513,
           "line": "error: 'Failed to update property type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 542,
+          "lineNumber": 514,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 559,
+          "lineNumber": 531,
           "line": "error: 'Property type not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 571,
+          "lineNumber": 543,
           "line": "error: 'Failed to remove property type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 572,
+          "lineNumber": 544,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 597,
+          "lineNumber": 569,
           "line": "error: 'Property version not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 603,
+          "lineNumber": 575,
           "line": "// Validate all blockInstanceIds have \"Properties\" block_shape"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 611,
+          "lineNumber": 583,
           "line": "!bi.block_shape || bi.block_shape.name !== 'Properties'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 616,
+          "lineNumber": 588,
           "line": "error: 'All block instances must have \"Properties\" block_shape',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 627,
+          "lineNumber": 599,
           "line": "error: 'Some block instances not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 666,
+          "lineNumber": 638,
           "line": "error: 'Failed to replace property types',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 667,
+          "lineNumber": 639,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
@@ -1144,217 +1114,217 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 95,
+          "lineNumber": 67,
           "line": "error: 'Failed to fetch properties',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 96,
+          "lineNumber": 68,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 116,
+          "lineNumber": 88,
           "line": "error: 'Property not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 127,
+          "lineNumber": 99,
           "line": "error: 'Error fetching property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 128,
+          "lineNumber": 100,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 161,
+          "lineNumber": 133,
           "line": "error: 'Missing required fields',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 212,
+          "lineNumber": 184,
           "line": "error: 'Failed to create property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 213,
+          "lineNumber": 185,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 234,
+          "lineNumber": 206,
           "line": "error: 'Property not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 284,
+          "lineNumber": 256,
           "line": "error: 'Failed to update property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 285,
+          "lineNumber": 257,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 305,
+          "lineNumber": 277,
           "line": "error: 'Property not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 337,
+          "lineNumber": 309,
           "line": "error: 'Failed to patch property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 338,
+          "lineNumber": 310,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 355,
+          "lineNumber": 327,
           "line": "error: 'Property not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 368,
+          "lineNumber": 340,
           "line": "error: 'Failed to delete property',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 369,
+          "lineNumber": 341,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 404,
+          "lineNumber": 376,
           "line": "error: 'Failed to fetch property types',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 405,
+          "lineNumber": 377,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 415,
+          "lineNumber": 387,
           "line": "* - blockInstanceId: UUID of the block_instance (must be \"Properties\" block_shape)"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 420,
+          "lineNumber": 392,
           "line": "* PATTERN: Validate block_shape is \"Properties\" before attempting insert"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 439,
+          "lineNumber": 411,
           "line": "error: 'Property version not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 445,
+          "lineNumber": 417,
           "line": "// Application-level validation: Verify blockInstance has \"Properties\" block_shape"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 452,
+          "lineNumber": 424,
           "line": "error: 'Block instance not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 461,
+          "lineNumber": 433,
           "line": "if (!blockShape || blockShape.name !== 'Properties') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 463,
+          "lineNumber": 435,
           "line": "error: 'Block instance must have \"Properties\" block_shape',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 487,
+          "lineNumber": 459,
           "line": "error: 'Block instance must have \"Properties\" block_shape',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 496,
+          "lineNumber": 468,
           "line": "error: 'Property type already assigned to this property version',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 503,
+          "lineNumber": 475,
           "line": "error: 'Failed to add property type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 504,
+          "lineNumber": 476,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 522,
+          "lineNumber": 494,
           "line": "error: 'Property type not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 541,
+          "lineNumber": 513,
           "line": "error: 'Failed to update property type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 542,
+          "lineNumber": 514,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 559,
+          "lineNumber": 531,
           "line": "error: 'Property type not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 571,
+          "lineNumber": 543,
           "line": "error: 'Failed to remove property type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 572,
+          "lineNumber": 544,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 597,
+          "lineNumber": 569,
           "line": "error: 'Property version not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 603,
+          "lineNumber": 575,
           "line": "// Validate all blockInstanceIds have \"Properties\" block_shape"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 611,
+          "lineNumber": 583,
           "line": "!bi.block_shape || bi.block_shape.name !== 'Properties'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 616,
+          "lineNumber": 588,
           "line": "error: 'All block instances must have \"Properties\" block_shape',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 627,
+          "lineNumber": 599,
           "line": "error: 'Some block instances not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 666,
+          "lineNumber": 638,
           "line": "error: 'Failed to replace property types',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 667,
+          "lineNumber": 639,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
@@ -1380,246 +1350,246 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 128,
+          "lineNumber": 129,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 128,
+          "lineNumber": 129,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 128,
+          "lineNumber": 129,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 136,
+          "lineNumber": 137,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 136,
+          "lineNumber": 137,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 140,
+          "lineNumber": 141,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 140,
+          "lineNumber": 141,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 192,
+          "lineNumber": 196,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 192,
+          "lineNumber": 196,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 196,
+          "lineNumber": 200,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 196,
+          "lineNumber": 200,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 196,
+          "lineNumber": 200,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 215,
+          "lineNumber": 219,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 215,
+          "lineNumber": 219,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 219,
+          "lineNumber": 223,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 219,
+          "lineNumber": 223,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 219,
+          "lineNumber": 223,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 269,
+          "lineNumber": 273,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 269,
+          "lineNumber": 273,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 275,
+          "lineNumber": 279,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 275,
+          "lineNumber": 279,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 298,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+          "lineNumber": 302,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 298,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+          "lineNumber": 302,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 298,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+          "lineNumber": 302,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 128,
+          "lineNumber": 129,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 128,
+          "lineNumber": 129,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 128,
+          "lineNumber": 129,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 136,
+          "lineNumber": 137,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 136,
+          "lineNumber": 137,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 140,
+          "lineNumber": 141,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 140,
+          "lineNumber": 141,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 192,
+          "lineNumber": 196,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 192,
+          "lineNumber": 196,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 196,
+          "lineNumber": 200,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 196,
+          "lineNumber": 200,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 196,
+          "lineNumber": 200,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 215,
+          "lineNumber": 219,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 215,
+          "lineNumber": 219,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 219,
+          "lineNumber": 223,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 219,
+          "lineNumber": 223,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 219,
+          "lineNumber": 223,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 269,
+          "lineNumber": 273,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 269,
+          "lineNumber": 273,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 275,
+          "lineNumber": 279,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 275,
+          "lineNumber": 279,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 298,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+          "lineNumber": 302,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 298,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+          "lineNumber": 302,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 298,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+          "lineNumber": 302,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         }
       ],
       "score": 42,
@@ -1655,62 +1625,62 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 143,
-          "line": "const moveableTimeRange = eventTimeRanges['Moveable'] ?? null"
+          "lineNumber": 142,
+          "line": "// WHY: Eliminates hardcoded event name strings ('Major', 'Minor', 'Moveable')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 165,
+          "lineNumber": 164,
           "line": "* @param partShapeName - Part shape name (e.g., \"Client Presentation\")"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 296,
+          "lineNumber": 295,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 296,
+          "lineNumber": 295,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 296,
+          "lineNumber": 295,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 520,
+          "lineNumber": 519,
           "line": "case 'major':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 525,
+          "lineNumber": 524,
           "line": "case 'minor':"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 531,
+          "lineNumber": 530,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 531,
+          "lineNumber": 530,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 537,
+          "lineNumber": 536,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 537,
+          "lineNumber": 536,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 541,
+          "lineNumber": 540,
           "line": "case 'nonDifferential':"
         }
       ],
@@ -1723,62 +1693,62 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 143,
-          "line": "const moveableTimeRange = eventTimeRanges['Moveable'] ?? null"
+          "lineNumber": 142,
+          "line": "// WHY: Eliminates hardcoded event name strings ('Major', 'Minor', 'Moveable')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 165,
+          "lineNumber": 164,
           "line": "* @param partShapeName - Part shape name (e.g., \"Client Presentation\")"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 296,
+          "lineNumber": 295,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 296,
+          "lineNumber": 295,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 296,
+          "lineNumber": 295,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 520,
+          "lineNumber": 519,
           "line": "case 'major':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 525,
+          "lineNumber": 524,
           "line": "case 'minor':"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 531,
+          "lineNumber": 530,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 531,
+          "lineNumber": 530,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 537,
+          "lineNumber": 536,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 537,
+          "lineNumber": 536,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 541,
+          "lineNumber": 540,
           "line": "case 'nonDifferential':"
         }
       ],
@@ -1804,137 +1774,137 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 45,
+          "lineNumber": 46,
           "line": "error: 'Failed to fetch entity configuration',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 46,
+          "lineNumber": 47,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 72,
+          "lineNumber": 76,
           "line": "return res.status(500).json({ error: 'Entity configuration error' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 90,
+          "lineNumber": 94,
           "line": "res.status(500).json({ error: 'Entity configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 132,
+          "lineNumber": 137,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 146,
+          "lineNumber": 151,
           "line": "res.status(500).json({ error: 'Entity configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 166,
+          "lineNumber": 171,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 180,
+          "lineNumber": 185,
           "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 206,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 207,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
         },
         {
           "ruleId": "magicLabel",
           "lineNumber": 213,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 233,
-          "line": "const message = err.message || 'Validation error';"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 258,
-          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 272,
-          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 394,
-          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 408,
-          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 427,
-          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 447,
-          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 457,
-          "line": "error: 'Request body must be an array of update objects',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 500,
-          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 514,
-          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 637,
-          "line": "error: 'Mutual exclusivity violation',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 647,
           "line": "(error.name === 'SequelizeValidationError' ||"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 648,
+          "lineNumber": 214,
           "line": "error.name === 'SequelizeUniqueConstraintError')) {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 663,
+          "lineNumber": 220,
+          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 240,
+          "line": "const message = err.message || 'Validation error';"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 265,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 677,
+          "lineNumber": 279,
           "line": "res.status(500).json({ error: 'Entity configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 719,
+          "lineNumber": 404,
+          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 418,
+          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 437,
+          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 457,
+          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 467,
+          "line": "error: 'Request body must be an array of update objects',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 510,
+          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 524,
+          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 650,
+          "line": "error: 'Mutual exclusivity violation',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 660,
+          "line": "(error.name === 'SequelizeValidationError' ||"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 661,
+          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 676,
+          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 690,
+          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 732,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
@@ -1942,137 +1912,137 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 45,
+          "lineNumber": 46,
           "line": "error: 'Failed to fetch entity configuration',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 46,
+          "lineNumber": 47,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 72,
+          "lineNumber": 76,
           "line": "return res.status(500).json({ error: 'Entity configuration error' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 90,
+          "lineNumber": 94,
           "line": "res.status(500).json({ error: 'Entity configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 132,
+          "lineNumber": 137,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 146,
+          "lineNumber": 151,
           "line": "res.status(500).json({ error: 'Entity configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 166,
+          "lineNumber": 171,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 180,
+          "lineNumber": 185,
           "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 206,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 207,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
         },
         {
           "ruleId": "magicLabel",
           "lineNumber": 213,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 233,
-          "line": "const message = err.message || 'Validation error';"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 258,
-          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 272,
-          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 394,
-          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 408,
-          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 427,
-          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 447,
-          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 457,
-          "line": "error: 'Request body must be an array of update objects',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 500,
-          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 514,
-          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 637,
-          "line": "error: 'Mutual exclusivity violation',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 647,
           "line": "(error.name === 'SequelizeValidationError' ||"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 648,
+          "lineNumber": 214,
           "line": "error.name === 'SequelizeUniqueConstraintError')) {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 663,
+          "lineNumber": 220,
+          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 240,
+          "line": "const message = err.message || 'Validation error';"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 265,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 677,
+          "lineNumber": 279,
           "line": "res.status(500).json({ error: 'Entity configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 719,
+          "lineNumber": 404,
+          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 418,
+          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 437,
+          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 457,
+          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 467,
+          "line": "error: 'Request body must be an array of update objects',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 510,
+          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 524,
+          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 650,
+          "line": "error: 'Mutual exclusivity violation',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 660,
+          "line": "(error.name === 'SequelizeValidationError' ||"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 661,
+          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 676,
+          "line": "details: error instanceof Error ? error.message : 'Unknown error'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 690,
+          "line": "res.status(500).json({ error: 'Entity configuration missing' });"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 732,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
@@ -2335,106 +2305,6 @@
       "suggestions": []
     },
     {
-      "id": "client__src__utils__optimistic__annotationAssignmentsOptimistic.ts",
-      "repoPath": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 7,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0
-      },
-      "matches": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 134,
-          "line": "{ annotationId: assignment.annotationId }"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 185,
-          "line": "...(patch.orderIndex !== undefined ? { orderIndex: patch.orderIndex } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 186,
-          "line": "...(patch.isDefault !== undefined ? { isDefault: patch.isDefault } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 187,
-          "line": "...(patch.userTypeBlockBlockInstanceId !== undefined ? { userTypeBlock: patch.userTypeBlockBlockInstanceId } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 256,
-          "line": "...(patch.orderIndex !== undefined ? { orderIndex: patch.orderIndex } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 257,
-          "line": "...(patch.isDefault !== undefined ? { isDefault: patch.isDefault } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 258,
-          "line": "...(patch.userTypeBlockBlockInstanceId !== undefined ? { userTypeBlockBlockInstanceId: patch.userTypeBlockBlockInstanceId } : {}),"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 134,
-          "line": "{ annotationId: assignment.annotationId }"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 185,
-          "line": "...(patch.orderIndex !== undefined ? { orderIndex: patch.orderIndex } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 186,
-          "line": "...(patch.isDefault !== undefined ? { isDefault: patch.isDefault } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 187,
-          "line": "...(patch.userTypeBlockBlockInstanceId !== undefined ? { userTypeBlock: patch.userTypeBlockBlockInstanceId } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 256,
-          "line": "...(patch.orderIndex !== undefined ? { orderIndex: patch.orderIndex } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 257,
-          "line": "...(patch.isDefault !== undefined ? { isDefault: patch.isDefault } : {}),"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 258,
-          "line": "...(patch.userTypeBlockBlockInstanceId !== undefined ? { userTypeBlockBlockInstanceId: patch.userTypeBlockBlockInstanceId } : {}),"
-        }
-      ],
-      "score": 21,
-      "priority": "P0",
-      "suggestions": [
-        {
-          "priority": "P1",
-          "kind": "casing_utility",
-          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
-        }
-      ]
-    },
-    {
       "id": "client__src__components__admin__metadata__AdminPrimitiveMetadataEditor.vue",
       "repoPath": "client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
@@ -2682,32 +2552,32 @@
       "matches": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 222,
+          "lineNumber": 225,
           "line": "switch (location.type) {"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 223,
+          "lineNumber": 226,
           "line": "case 'titleRow':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 225,
+          "lineNumber": 228,
           "line": "case 'directInline':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 227,
+          "lineNumber": 230,
           "line": "case 'directStacked':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 229,
+          "lineNumber": 232,
           "line": "case 'subPanel':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 237,
+          "lineNumber": 240,
           "line": "case 'hidden':"
         }
       ],
@@ -2715,32 +2585,32 @@
       "requiresReview": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 222,
+          "lineNumber": 225,
           "line": "switch (location.type) {"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 223,
+          "lineNumber": 226,
           "line": "case 'titleRow':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 225,
+          "lineNumber": 228,
           "line": "case 'directInline':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 227,
+          "lineNumber": 230,
           "line": "case 'directStacked':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 229,
+          "lineNumber": 232,
           "line": "case 'subPanel':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 237,
+          "lineNumber": 240,
           "line": "case 'hidden':"
         }
       ],
@@ -7327,7 +7197,7 @@
         },
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 1034,
+          "lineNumber": 1097,
           "line": "switch (keyParts.type) {"
         }
       ],
@@ -7355,7 +7225,7 @@
         },
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 1034,
+          "lineNumber": 1097,
           "line": "switch (keyParts.type) {"
         }
       ],
@@ -9281,17 +9151,17 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 54,
+          "lineNumber": 58,
           "line": "if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 106,
+          "lineNumber": 112,
           "line": "const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 116,
+          "lineNumber": 122,
           "line": "const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')"
         }
       ],
@@ -9299,17 +9169,17 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 54,
+          "lineNumber": 58,
           "line": "if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 106,
+          "lineNumber": 112,
           "line": "const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 116,
+          "lineNumber": 122,
           "line": "const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')"
         }
       ],
@@ -18952,6 +18822,54 @@
       "suggestions": []
     },
     {
+      "id": "client__src__configs__eventPerspectiveLabels.ts",
+      "repoPath": "client/src/configs/eventPerspectiveLabels.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/eventPerspectiveLabels.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 2
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 32,
+          "line": "nonDifferential: 'Non-Differential',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 34,
+          "line": "moveable: 'Moveable',"
+        }
+      ],
+      "allowed": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 32,
+          "line": "nonDifferential: 'Non-Differential',",
+          "reason": "Config files are intentional sources of hardcoded values - canonical source of truth",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 34,
+          "line": "moveable: 'Moveable',",
+          "reason": "Config files are intentional sources of hardcoded values - canonical source of truth",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": [],
+      "score": 0,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__configs__field__display__appliedDisplay__annotationInstanceDisplays.ts",
       "repoPath": "client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
@@ -23008,6 +22926,28 @@
       "suggestions": []
     },
     {
+      "id": "client__src__utils__optimistic__annotationAssignmentsOptimistic.ts",
+      "repoPath": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__utils__optimistic__listByIdOptimistic.ts",
       "repoPath": "client/src/utils/optimistic/listByIdOptimistic.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/optimistic/listByIdOptimistic.ts",
@@ -24749,6 +24689,28 @@
       "id": "server__src__utils__adminRelationshipMetadataComposer.ts",
       "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/utils/adminRelationshipMetadataComposer.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "score": 0,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "server__src__utils__propertyTransformers.ts",
+      "repoPath": "server/src/utils/propertyTransformers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/utils/propertyTransformers.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,

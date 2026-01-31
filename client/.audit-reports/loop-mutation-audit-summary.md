@@ -6,24 +6,22 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 
 | File | Priority | score | forEach | for-loops | mutators | assigns | forEach→mutation hits |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | P0 | 62 | 0 | 1 | 2 | 30 | 0 |
-| `server/src/routes/internal/entities/entityRouter.ts` | P0 | 58 | 0 | 4 | 0 | 27 | 0 |
-| `client/src/utils/booking/timeAvailabilityManager.ts` | P0 | 39 | 1 | 2 | 2 | 17 | 0 |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P0 | 36 | 0 | 0 | 3 | 15 | 0 |
-| `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 35 | 1 | 0 | 0 | 17 | 0 |
+| `server/src/routes/internal/relationships/relationshipRouter.ts` | P0 | 56 | 0 | 0 | 2 | 27 | 0 |
+| `server/src/routes/internal/entities/entityRouter.ts` | P0 | 46 | 0 | 0 | 0 | 23 | 0 |
+| `client/src/utils/booking/timeAvailabilityManager.ts` | P0 | 38 | 0 | 1 | 2 | 17 | 0 |
 | `server/src/config/app.js` | P0 | 35 | 0 | 4 | 5 | 14 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | P0 | 32 | 0 | 4 | 0 | 14 | 0 |
-| `client/src/utils/entityDefaults.ts` | P0 | 32 | 0 | 2 | 0 | 15 | 0 |
+| `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 34 | 0 | 0 | 0 | 17 | 0 |
+| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P0 | 32 | 0 | 0 | 1 | 15 | 0 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | P0 | 32 | 0 | 4 | 4 | 10 | 0 |
 | `client/src/utils/transformers/componentAggregator.ts` | P0 | 30 | 2 | 8 | 3 | 7 | 0 |
 | `client/src/utils/booking/mockGoogleCalendar.ts` | P0 | 29 | 0 | 7 | 6 | 5 | 0 |
 | `server/src/scripts/importCalendarData.ts` | P0 | 28 | 0 | 6 | 2 | 9 | 0 |
 | `client/src/types/admin/AdminEntity.ts` | P0 | 26 | 0 | 0 | 0 | 13 | 0 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | P0 | 26 | 0 | 2 | 0 | 12 | 0 |
 | `server/src/scripts/fixUserRolesAndEmails.ts` | P0 | 25 | 0 | 7 | 2 | 7 | 0 |
 | `client/src/utils/booking/constraintExtractors.ts` | P0 | 22 | 0 | 4 | 5 | 4 | 0 |
 | `client/src/utils/booking/partFinalizer.ts` | P0 | 22 | 0 | 4 | 1 | 8 | 0 |
 | `client/src/utils/booking/selectionCardStyles.ts` | P0 | 22 | 0 | 0 | 7 | 4 | 0 |
-| `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` | P0 | 22 | 0 | 0 | 3 | 8 | 0 |
 | `client/src/utils/forms/fieldSectionCategorization.ts` | P0 | 20 | 0 | 0 | 2 | 8 | 0 |
 | `server/src/routes/helpers/dataController.ts` | P0 | 20 | 0 | 4 | 0 | 8 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | P0 | 18 | 0 | 0 | 1 | 8 | 0 |
@@ -33,6 +31,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `client/src/utils/booking/timeSlotMatching.ts` | P0 | 16 | 0 | 0 | 0 | 8 | 0 |
 | `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | P0 | 16 | 0 | 2 | 0 | 7 | 0 |
 | `client/src/components/admin/generic/EntityCardSubPanels.vue` | P0 | 14 | 0 | 0 | 7 | 10 | 0 |
+| `client/src/utils/entityDefaults.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `server/src/db/models/admin/block_shape.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `server/src/db/models/admin/business_settings.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `server/src/db/models/admin/part_shape.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
@@ -61,6 +60,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `client/src/utils/booking/selectionCardComponent.ts` | P1 | 10 | 0 | 0 | 0 | 5 | 0 |
 | `client/src/utils/booking/selectionCardGroupConfig.ts` | P1 | 10 | 0 | 0 | 0 | 5 | 0 |
 | `client/src/utils/dependencyCleanup.ts` | P1 | 10 | 0 | 2 | 2 | 2 | 0 |
+| `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` | P1 | 10 | 0 | 0 | 1 | 4 | 0 |
 | `server/src/scripts/createAppointmentsFromCalendar.ts` | P1 | 10 | 0 | 6 | 0 | 2 | 0 |
 | `server/src/scripts/importFromMCPEvents.ts` | P1 | 10 | 0 | 4 | 2 | 1 | 0 |
 | `server/src/utils/adminMetadataComposer.ts` | P1 | 10 | 0 | 2 | 0 | 4 | 0 |
@@ -403,6 +403,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `client/src/configs/availabilitySettings.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/businessControlsTabStrings.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/contactsValidationStrings.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/configs/eventPerspectiveLabels.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/field/display/appliedDisplay/baseEntityDisplays.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -523,7 +524,9 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `server/src/api/api.routes.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/app.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/config/app.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/constants/entities.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/constants/relationships.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/constants/relationshipTypes.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/db/models/admin/adminMetadata.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/db/models/admin/adminPrimitiveMetadata.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/db/models/admin/adminRelationshipMetadata.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -582,6 +585,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `server/src/test/setup/seedTestData.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/test/setup/testDb.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/types/express.d.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/utils/propertyTransformers.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Notes
 

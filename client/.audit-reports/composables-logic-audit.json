@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T22:43:28.594Z",
+  "generatedAt": "2026-01-31T23:40:20.570Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -1933,6 +1933,145 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__booking__useMoveablePartsScheduling.ts",
+      "repoPath": "src/composables/booking/useMoveablePartsScheduling.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useMoveablePartsScheduling.ts",
+      "counts": {
+        "computed": 3,
+        "ref": 2,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 1,
+        "lifecycle": 0,
+        "async": 4,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 4,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 95,
+          "line": "const showModal = ref(false)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 103,
+          "line": "// Moveable options (computed via watchEffect since it's async)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 105,
+          "line": "const isLoadingOptions = ref(false)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 109,
+          "line": "const hasMoveableParts = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 119,
+          "line": "const moveableDuration = computed(() => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 127,
+          "line": "// LEARNING: Use watchEffect for async operations"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 128,
+          "line": "// WHY: Computed properties can't be async, so we use watchEffect to update a ref"
+        },
+        {
+          "ruleId": "watchEffect",
+          "lineNumber": 130,
+          "line": "watchEffect(async () => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 130,
+          "line": "watchEffect(async () => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 148,
+          "line": "const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 172,
+          "line": "const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 174,
+          "line": "const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 196,
+          "line": "const settings = await getAvailabilitySettings()"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 210,
+          "line": "const result = await fitAvailableTimeSlots({  // P3-6: Renamed for clarity"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 220,
+          "line": "const availableSlots: MoveableSlot[] = result.slots.map((slot) => ({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 279,
+          "line": "moveableOptions: computed(() => moveableOptions.value),"
+        }
+      ],
+      "exportUseFunctions": [
+        "useMoveablePartsScheduling"
+      ],
+      "importSpecifiers": [
+        "@/composables/booking/useAvailabilitySettings",
+        "@/composables/useGlobal",
+        "@/composables/useLocalTime",
+        "@/configs/availabilitySettings",
+        "@/types/appointment",
+        "@/types/datetime",
+        "@/types/entities",
+        "@/types/moveableScheduling",
+        "@/utils/booking/appointmentSlotBuilder",
+        "@/utils/booking/timeSlotFitter",
+        "@/utils/eventAttendeeUtils",
+        "@/utils/logger",
+        "vue"
+      ],
+      "returnKeys": [
+        "closeModal",
+        "contingencyPeriod",
+        "hasMoveableParts",
+        "isLoadingOptions",
+        "moveableDuration",
+        "moveableOptions",
+        "openModal",
+        "selectSlot",
+        "selectedMoveableSlot",
+        "selectedSlotIndex",
+        "showModal"
+      ],
+      "complexityScore": 16,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "src__composables__admin__useAvailabilitySettings.ts",
       "repoPath": "src/composables/admin/useAvailabilitySettings.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAvailabilitySettings.ts",
@@ -2317,77 +2456,77 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 106,
+          "lineNumber": 107,
           "line": "const appointmentShape = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 135,
+          "lineNumber": 136,
           "line": "// PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 146,
+          "lineNumber": 147,
           "line": "? (eventShapes as EventShapeEntity[]).filter(es => es.id !== majorEventShape.id)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 152,
+          "lineNumber": 153,
           "line": "eventShapes = eventShapes.map(eventShape => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 154,
+          "lineNumber": 155,
           "line": "const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []"
         },
         {
           "ruleId": "map",
-          "lineNumber": 163,
+          "lineNumber": 167,
           "line": "eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 172,
+          "lineNumber": 176,
           "line": "partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 202,
+          "lineNumber": 206,
           "line": "const appointmentSlots = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 230,
+          "lineNumber": 234,
           "line": "const slots = times.map((time, index) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 265,
+          "lineNumber": 269,
           "line": "const selectedSlot = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 292,
+          "lineNumber": 296,
           "line": "const graphBars = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 328,
+          "lineNumber": 332,
           "line": "const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 337,
+          "lineNumber": 341,
           "line": "? eventShapeEntities.filter(es => es.id !== majorEventShape.id)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 344,
+          "lineNumber": 348,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         },
         {
           "ruleId": "map",
-          "lineNumber": 352,
+          "lineNumber": 356,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});"
         }
       ],
@@ -2397,6 +2536,7 @@
       "importSpecifiers": [
         "@/composables/booking/useAvailabilitySettings",
         "@/composables/useGlobal",
+        "@/configs/eventPerspectiveLabels",
         "@/constants/entities",
         "@/types/appointment",
         "@/types/entities",
@@ -2409,136 +2549,6 @@
         "vue"
       ],
       "returnKeys": [],
-      "complexityScore": 15,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useMoveablePartsScheduling.ts",
-      "repoPath": "src/composables/booking/useMoveablePartsScheduling.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "counts": {
-        "computed": 3,
-        "ref": 2,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 1,
-        "lifecycle": 0,
-        "async": 4,
-        "await": 2,
-        "vueQuery": 0,
-        "map": 3,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "ref",
-          "lineNumber": 89,
-          "line": "const showModal = ref(false)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 97,
-          "line": "// Moveable options (computed via watchEffect since it's async)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 99,
-          "line": "const isLoadingOptions = ref(false)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 103,
-          "line": "const hasMoveableParts = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 113,
-          "line": "const moveableDuration = computed(() => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 121,
-          "line": "// LEARNING: Use watchEffect for async operations"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 122,
-          "line": "// WHY: Computed properties can't be async, so we use watchEffect to update a ref"
-        },
-        {
-          "ruleId": "watchEffect",
-          "lineNumber": 124,
-          "line": "watchEffect(async () => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 124,
-          "line": "watchEffect(async () => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 153,
-          "line": "const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 155,
-          "line": "const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 177,
-          "line": "const settings = await getAvailabilitySettings()"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 191,
-          "line": "const result = await fitAvailableTimeSlots({  // P3-6: Renamed for clarity"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 201,
-          "line": "const availableSlots: MoveableSlot[] = result.slots.map((slot) => ({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 260,
-          "line": "moveableOptions: computed(() => moveableOptions.value),"
-        }
-      ],
-      "exportUseFunctions": [
-        "useMoveablePartsScheduling"
-      ],
-      "importSpecifiers": [
-        "@/composables/useLocalTime",
-        "@/configs/availabilitySettings",
-        "@/types/appointment",
-        "@/types/datetime",
-        "@/types/moveableScheduling",
-        "@/utils/booking/appointmentSlotBuilder",
-        "@/utils/booking/timeSlotFitter",
-        "@/utils/logger",
-        "vue"
-      ],
-      "returnKeys": [
-        "closeModal",
-        "contingencyPeriod",
-        "hasMoveableParts",
-        "isLoadingOptions",
-        "moveableDuration",
-        "moveableOptions",
-        "openModal",
-        "selectSlot",
-        "selectedMoveableSlot",
-        "selectedSlotIndex",
-        "showModal"
-      ],
       "complexityScore": 15,
       "priority": "P2",
       "suggestions": []

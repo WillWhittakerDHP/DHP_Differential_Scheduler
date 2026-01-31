@@ -12,32 +12,30 @@ Exception handling:
 
 ## Summary
 
-- Total files scanned: **576**
-- **Requiring review: 915**
+- Total files scanned: **580**
+- **Requiring review: 878**
 - Allowed (with justification): 850 (inline: 0, pattern: 850, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | forEach | for-loops | push/splice/sort/reverse | assign | forEach→mutation hits | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | 62 | 0 | 1 | 1 | 30 | 0 | 0 |
-| `server/src/routes/internal/entities/entityRouter.ts` | 58 | 0 | 4 | 0 | 27 | 0 | 0 |
-| `client/src/utils/booking/timeAvailabilityManager.ts` | 39 | 1 | 2 | 2 | 17 | 0 | 0 |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | 36 | 0 | 0 | 3 | 15 | 0 | 0 |
-| `client/src/utils/transformers/relationshipTransformers.ts` | 35 | 1 | 0 | 0 | 17 | 0 | 0 |
+| `server/src/routes/internal/relationships/relationshipRouter.ts` | 56 | 0 | 0 | 1 | 27 | 0 | 0 |
+| `server/src/routes/internal/entities/entityRouter.ts` | 46 | 0 | 0 | 0 | 23 | 0 | 0 |
+| `client/src/utils/booking/timeAvailabilityManager.ts` | 38 | 0 | 1 | 2 | 17 | 0 | 0 |
 | `server/src/config/app.js` | 35 | 0 | 4 | 2 | 14 | 0 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | 32 | 0 | 4 | 0 | 14 | 0 | 0 |
-| `client/src/utils/entityDefaults.ts` | 32 | 0 | 2 | 0 | 15 | 0 | 0 |
+| `client/src/utils/transformers/relationshipTransformers.ts` | 34 | 0 | 0 | 0 | 17 | 0 | 0 |
+| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | 32 | 0 | 0 | 1 | 15 | 0 | 0 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | 32 | 0 | 4 | 4 | 10 | 0 | 0 |
 | `client/src/utils/transformers/componentAggregator.ts` | 30 | 2 | 8 | 3 | 7 | 0 | 0 |
 | `client/src/utils/booking/mockGoogleCalendar.ts` | 29 | 0 | 7 | 6 | 5 | 0 | 0 |
 | `server/src/scripts/importCalendarData.ts` | 28 | 0 | 6 | 2 | 9 | 0 | 0 |
 | `client/src/types/admin/AdminEntity.ts` | 26 | 0 | 0 | 0 | 13 | 0 | 0 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | 26 | 0 | 2 | 0 | 12 | 0 | 0 |
 | `server/src/scripts/fixUserRolesAndEmails.ts` | 25 | 0 | 7 | 2 | 7 | 0 | 0 |
 | `client/src/utils/booking/constraintExtractors.ts` | 22 | 0 | 4 | 5 | 4 | 0 | 0 |
 | `client/src/utils/booking/partFinalizer.ts` | 22 | 0 | 4 | 1 | 8 | 0 | 0 |
 | `client/src/utils/booking/selectionCardStyles.ts` | 22 | 0 | 0 | 7 | 4 | 0 | 0 |
-| `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` | 22 | 0 | 0 | 3 | 8 | 0 | 0 |
 | `client/src/utils/forms/fieldSectionCategorization.ts` | 20 | 0 | 0 | 2 | 8 | 0 | 0 |
 | `server/src/routes/helpers/dataController.ts` | 20 | 0 | 4 | 0 | 8 | 0 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | 18 | 0 | 0 | 1 | 8 | 0 | 0 |
@@ -47,9 +45,11 @@ Exception handling:
 | `client/src/utils/booking/timeSlotMatching.ts` | 16 | 0 | 0 | 0 | 8 | 0 | 0 |
 | `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | 16 | 0 | 2 | 0 | 7 | 0 | 0 |
 | `client/src/components/admin/generic/EntityCardSubPanels.vue` | 14 | 0 | 0 | 7 | 10 | 0 | 10 |
+| `client/src/utils/entityDefaults.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `server/src/db/models/admin/block_shape.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `server/src/db/models/admin/business_settings.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `server/src/db/models/admin/part_shape.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/admin/valid_cascade.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 
 ## Action signals (heuristic)
 
@@ -66,87 +66,75 @@ Legend: `ruleId@lineNumber: line`
 
 ### `server/src/routes/internal/relationships/relationshipRouter.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=30
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=26
 
 ```
-while@203: while (queue.length > 0) {
-shift@204: const currentId = queue.shift()!;
-push@229: queue.push(...childIds);
-assignProp@252: req.relationshipConfig = RELATIONSHIP_REGISTRY[normalizedKind];
-assignProp@293: where.disabled = false;
-assignProp@300: if (req.params.relationshipType === 'instanceComponents' && parent_id) {
-assignProp@304: where.parent_id = parent_id;
-assignProp@315: if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {
-assignProp@319: where.blockInstanceId = blockInstanceId;
-assignProp@335: if (req.params.relationshipType === 'instanceComponents') {
-assignProp@336: options.order = [['orderIndex', 'ASC']];
-assignProp@343: if (req.params.relationshipType === 'eventAssignments') {
-assignProp@344: options.include = [
-assignProp@364: if (req.params.relationshipType === 'annotationAssignments') {
-assignProp@365: options.include = [
-assignProp@390: options.attributes = getModelAttributes(relationshipConfig.model);
-assignProp@435: if (req.params.relationshipType === 'instanceComponents') {
-assignProp@569: existing.disabled = false;
-assignProp@570: existing.orderIndex = order_index ?? existing.orderIndex;
-assignProp@615: // PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing
-assignProp@641: if (req.params.relationshipType === 'instanceComponents') {
-assignProp@642: createData.orderIndex = order_index ?? 0;
-assignProp@643: createData.disabled = false;
-assignProp@651: if (req.params.relationshipType === 'instanceComponents') {
-assignProp@657: childBlockInstance.active = false;
-assignProp@664: parentBlockInstance.active = true;
-assignProp@679: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
-assignProp@693: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
-assignProp@735: component.orderIndex = order_index;
-assignProp@739: component.disabled = disabled;
-delete@756: * Delete an instance component by ID (soft delete by setting disabled=true)
-assignProp@775: component.disabled = true;
-assignProp@793: childBlockInstance.active = true;
-assignProp@845: assignment.userTypeBlockInstanceId = userTypeBlockInstanceId || null;
+push@205: * WHY: Avoids queue.shift() and queue.push() mutations
+shift@205: * WHY: Avoids queue.shift() and queue.push() mutations
+assignProp@209: if (queue.length === 0) {
+assignIndex@213: const [currentId, ...remainingQueue] = queue;
+assignProp@267: req.relationshipConfig = RELATIONSHIP_REGISTRY[normalizedKind];
+assignProp@315: if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parent_id) {
+assignProp@331: if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {
+assignProp@351: if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {
+assignProp@352: options.order = [['orderIndex', 'ASC']];
+assignProp@359: if (req.params.relationshipType === 'eventAssignments') {
+assignProp@360: options.include = [
+assignProp@380: if (req.params.relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {
+assignProp@381: options.include = [
+assignProp@406: options.attributes = getModelAttributes(relationshipConfig.model);
+assignProp@451: if (req.params.relationshipType === 'instanceComponents') {
+assignProp@585: existing.disabled = false;
+assignProp@586: existing.orderIndex = order_index ?? existing.orderIndex;
+assignProp@631: // PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing
+assignProp@660: createData = req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS
+assignProp@673: if (req.params.relationshipType === 'instanceComponents') {
+assignProp@679: childBlockInstance.active = false;
+assignProp@686: parentBlockInstance.active = true;
+assignProp@701: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
+assignProp@715: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
+assignProp@757: component.orderIndex = order_index;
+assignProp@761: component.disabled = disabled;
+delete@778: * Delete an instance component by ID (soft delete by setting disabled=true)
+assignProp@797: component.disabled = true;
+assignProp@815: childBlockInstance.active = true;
+assignProp@867: assignment.userTypeBlockInstanceId = userTypeBlockInstanceId || null;
 ```
 
 ### `server/src/routes/internal/entities/entityRouter.ts`
 
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=27
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=23
 
 ```
-assignProp@68: req.entityConfig = getEntityConfig(entityType);
-assignProp@107: options.attributes = getModelAttributes(entityConfig.model);
-assignProp@112: options.order = [['orderIndex', 'ASC']];
-assignProp@116: options.order = [['createdAt', 'ASC']];
-assignProp@118: options.order = [['id', 'ASC']];
-assignProp@191: if (req.params.entityType === 'blockInstance' && sanitizedData.bookingMode === '') {
-assignProp@192: sanitizedData.bookingMode = 'standalone';
-assignProp@195: if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {
-assignProp@196: sanitizedData.booking_mode = 'standalone';
-assignProp@206: (error.name === 'SequelizeValidationError' ||
-assignProp@207: error.name === 'SequelizeUniqueConstraintError')) {
-assignProp@213: if (validationError.name === 'SequelizeUniqueConstraintError') {
-assignProp@285: if (req.params.entityType === 'blockInstance') {
-assignProp@286: if (sanitizedData.bookingMode === '') {
-assignProp@287: sanitizedData.bookingMode = 'standalone';
-assignProp@290: if (sanitizedData.booking_mode === '') {
-assignProp@291: sanitizedData.booking_mode = 'standalone';
-assignProp@296: if (req.params.entityType === 'blockInstance') {
-assignProp@337: if (req.params.entityType === 'partInstance') {
-forLoop@352: for (const currentRel of currentRelationships) {
-forOf@352: for (const currentRel of currentRelationships) {
-assignProp@464: if (req.params.entityType === 'blockInstance') {
-assignProp@571: if (req.params.entityType === 'partInstance') {
-forLoop@586: for (const currentRel of currentRelationships) {
-forOf@586: for (const currentRel of currentRelationships) {
-assignProp@630: typeof error.parent === 'object' &&
-assignProp@632: error.parent.code === '23514') {
-assignProp@635: error.parent.constraint === 'check_state_control_mutual_exclusivity') {
-assignProp@647: (error.name === 'SequelizeValidationError' ||
-assignProp@648: error.name === 'SequelizeUniqueConstraintError')) {
-delete@684: // CRITICAL: For block instances, capture old state BEFORE delete for versioning
-assignProp@685: if (req.params.entityType === 'blockInstance') {
+assignProp@72: req.entityConfig = getEntityConfig(entityType);
+assignProp@198: if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE && sanitizedData.bookingMode === '') {
+assignProp@199: sanitizedData.bookingMode = 'standalone';
+assignProp@202: if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {
+assignProp@203: sanitizedData.booking_mode = 'standalone';
+assignProp@213: (error.name === 'SequelizeValidationError' ||
+assignProp@214: error.name === 'SequelizeUniqueConstraintError')) {
+assignProp@220: if (validationError.name === 'SequelizeUniqueConstraintError') {
+assignProp@292: if (req.params.entityType === 'blockInstance') {
+assignProp@293: if (sanitizedData.bookingMode === '') {
+assignProp@294: sanitizedData.bookingMode = 'standalone';
+assignProp@297: if (sanitizedData.booking_mode === '') {
+assignProp@298: sanitizedData.booking_mode = 'standalone';
+assignProp@303: if (req.params.entityType === 'blockInstance') {
+assignProp@344: if (req.params.entityType === 'partInstance') {
+assignProp@474: if (req.params.entityType === 'blockInstance') {
+assignProp@581: if (req.params.entityType === 'partInstance') {
+assignProp@643: typeof error.parent === 'object' &&
+assignProp@645: error.parent.code === '23514') {
+assignProp@648: error.parent.constraint === 'check_state_control_mutual_exclusivity') {
+assignProp@660: (error.name === 'SequelizeValidationError' ||
+assignProp@661: error.name === 'SequelizeUniqueConstraintError')) {
+delete@697: // CRITICAL: For block instances, capture old state BEFORE delete for versioning
+assignProp@698: if (req.params.entityType === 'blockInstance') {
 ```
 
 ### `client/src/utils/booking/timeAvailabilityManager.ts`
 
-- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=2, push=1, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=17
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=1, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=17
 
 ```
 assignProp@91: this.name = 'ConstraintValidationError'
@@ -163,65 +151,13 @@ assignProp@461: if (constraint.placement === 'before' || constraint.placement ==
 assignProp@465: if (constraint.placement === 'after' || constraint.placement === 'both') {
 assignProp@479: constraint => constraint.enforcement === 'hard' && checkConstraintOverlap(constraint)
 assignProp@488: constraint.enforcement === 'flexible' && checkConstraintOverlap(constraint)
-while@575: while (currentDate < endDateOnly) {
-while@601: while (currentSlotStart < slotEndBoundary) {
-push@617: slots.push(slot)
-assignProp@668: direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined
-delete@755: * PATTERN: Check timestamp, delete if expired, return value if valid
-assignProp@976: if (!capacityConstraints || capacityConstraints.length === 0) {
-assignProp@986: if (availableSlots.length === 0) {
-assignProp@992: if (activeCapacityConstraints.length === 0) {
-forEach@1006: availableSlots.forEach((slot) => {
-```
-
-### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=2, splice=0, sort=1, reverse=0, assignIndex=5, assignProp=10
-
-```
-sort@184: const sortedEntities = [...transformedEntities].sort((a, b) => {
-assignProp@200: entityWithName.name = entityWithName.text
-assignIndex@204: acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]
-assignIndex@206: acc[entityKey] = normalizedEntities
-assignProp@282: rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
-assignIndex@297: acc[entityKey] = entityList.map(entity => {
-assignIndex@323: acc[relType] = transformApiRelationships(
-assignProp@446: fieldMetadata.dataType === 'boolean' &&
-push@452: acc.nonNullable.push(fieldKey)
-push@454: acc.nullable.push(fieldKey)
-assignProp@461: fieldMetadata.dataType === 'number' &&
-assignProp@506: if (fieldMetadata.dataType === 'reference') {
-assignProp@509: if (fieldMetadata.dataType === 'boolean') {
-assignProp@511: } else if (fieldMetadata.dataType === 'number') {
-assignProp@513: } else if (fieldMetadata.dataType === 'string') {
-assignProp@528: const isReferenceField = fieldMetadata?.dataType === 'reference' ||
-assignProp@562: const isReferenceField = fieldMetadata?.dataType === 'reference' ||
-assignIndex@587: .filter((entry): entry is [string, unknown] => entry !== null)
-```
-
-### `client/src/utils/transformers/relationshipTransformers.ts`
-
-- counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=17
-
-```
-assignProp@47: rel => rel.kind === relationshipKey
-assignProp@111: rel => rel.parent && rel.parent.id === parentId
-assignProp@208: return relationships.filter(rel => rel.relationshipKind === relationshipKind)
-assignProp@229: rel => rel.relationshipKind === 'instanceComponents' &&
-assignProp@230: rel.parent.id === composerId &&
-assignProp@231: rel.parent.entityKey === entityKind
-assignProp@245: rel => rel.relationshipKind === 'instanceComponents' &&
-assignProp@246: rel.parent.id === componentId &&
-assignProp@247: rel.parent.entityKey === entityKind
-assignProp@286: rel => rel.relationshipKind === 'instanceComponents' &&
-assignProp@287: rel.parent.entityKey === entityKind
-assignProp@293: if (componentIds.length === 0) {
-assignProp@300: if (components.length === 0) {
-assignProp@349: rel => rel.relationshipKind === 'instanceComponents' &&
-assignProp@350: rel.parent.entityKey === entityKind
-assignProp@398: rel => rel.relationshipKind === 'partAssignments'
-assignProp@406: rel => rel.parent.id === blockId
-forEach@414: partInstanceIds.forEach(id => allPartInstanceIds.add(id))
+while@586: while (dayIterator < endDateOnly) {
+push@587: days.push(new Date(dayIterator))
+assignProp@729: direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined
+delete@816: * PATTERN: Check timestamp, delete if expired, return value if valid
+assignProp@1037: if (!capacityConstraints || capacityConstraints.length === 0) {
+assignProp@1047: if (availableSlots.length === 0) {
+assignProp@1053: if (activeCapacityConstraints.length === 0) {
 ```
 
 ### `server/src/config/app.js`
@@ -254,53 +190,51 @@ assignProp@118: exports.initializeDatabase = initializeDatabase;
 assignProp@120: exports.default = __assign(__assign({}, config), { PartShape: exports.PartShape, PartInstance: exports.PartInstance, BlockShape: exports.BlockShape, BlockInstance: exports.BlockInstance, ValidCascade: exports.ValidCascade, ValidConstituent: exports.ValidConstituent, DependentInstanceOption: exports.DependentInstanceOption, BookingCascade: exports.BookingCascade, ActiveConstituent: exports.ActiveConstituent, InstanceComponent: exports.InstanceComponent, AnnotationShape: exports.AnnotationShape, AnnotationInstance: exports.AnnotationInstance, ActiveAnnotation: exports.ActiveAnnotation, Address: exports.Address, PropertyVersion: exports.PropertyVersion, PropertyDetails: exports.PropertyDetails, PropertyVersionType: exports.PropertyVersionType, Property: exports.Property, User: exports.User, Appointment: exports.Appointment, BusinessSettings: exports.BusinessSettings });
 ```
 
-### `client/src/utils/booking/appointmentSlotBuilder.ts`
+### `client/src/utils/transformers/relationshipTransformers.ts`
 
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=5, assignProp=9
-
-```
-assignProp@78: return slotShape.eventFinals.find(ef => ef.eventShape.name === name)
-assignProp@95: return slotShape.eventFinals.find(ef => ef.eventShape.id === id)
-forLoop@128: for (const eventFinal of slotShape.eventFinals || []) {
-forOf@128: for (const eventFinal of slotShape.eventFinals || []) {
-assignIndex@134: eventTimeRanges[eventName] = createTimeRange(startTime, duration)
-assignIndex@136: eventTimeRanges[eventName] = null
-assignProp@163: * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
-assignProp@183: ps => ps.name === partShapeName
-assignProp@197: .filter(pi => pi.partShape === partShapeName)
-assignProp@203: return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
-assignProp@214: .map(id => eventInstances.find(ei => ei.id === id))
-forLoop@274: for (const partShapeName of uniquePartShapes) {
-forOf@274: for (const partShapeName of uniquePartShapes) {
-assignIndex@284: eventAssignmentsByPartShape[partShapeName] = events
-assignProp@312: const majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
-assignProp@318: ef.eventShape.id === majorEventFinal.eventShape.id
-assignIndex@423: adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange
-assignIndex@426: adjustedEventTimeRanges[minorEventName] = null
-```
-
-### `client/src/utils/entityDefaults.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=6, assignProp=9
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=17
 
 ```
-assignProp@79: if (!metadata || Object.keys(metadata).length === 0) {
-assignProp@87: defaults.orderIndex = 0
-forLoop@93: for (const [fieldKey, fieldMetadata] of Object.entries(metadata || {})) {
-forOf@93: for (const [fieldKey, fieldMetadata] of Object.entries(metadata || {})) {
-assignIndex@107: defaults[fieldKey] = 'false'
-assignIndex@118: defaults[fieldKey] = true
-assignIndex@120: defaults[fieldKey] = isRequired ? false : undefined
-assignIndex@126: defaults[fieldKey] = 0
-assignIndex@131: defaults[fieldKey] = ''
-assignIndex@134: defaults[fieldKey] = []
-assignProp@209: if (merged.orderIndex === null || merged.orderIndex === undefined) {
-assignProp@210: const defaultOrderIndex = typeof defaults.orderIndex === 'number' ? defaults.orderIndex : 0
-assignProp@211: merged.orderIndex = defaultOrderIndex
-assignProp@245: if (result.name === undefined) {
-assignProp@246: result.name = ''
-assignProp@252: if (result.orderIndex === null || result.orderIndex === undefined) {
-assignProp@253: result.orderIndex = 0
+assignProp@47: rel => rel.kind === relationshipKey
+assignProp@111: rel => rel.parent && rel.parent.id === parentId
+assignProp@208: return relationships.filter(rel => rel.relationshipKind === relationshipKind)
+assignProp@229: rel => rel.relationshipKind === 'instanceComponents' &&
+assignProp@230: rel.parent.id === composerId &&
+assignProp@231: rel.parent.entityKey === entityKind
+assignProp@245: rel => rel.relationshipKind === 'instanceComponents' &&
+assignProp@246: rel.parent.id === componentId &&
+assignProp@247: rel.parent.entityKey === entityKind
+assignProp@286: rel => rel.relationshipKind === 'instanceComponents' &&
+assignProp@287: rel.parent.entityKey === entityKind
+assignProp@293: if (componentIds.length === 0) {
+assignProp@300: if (components.length === 0) {
+assignProp@349: rel => rel.relationshipKind === 'instanceComponents' &&
+assignProp@350: rel.parent.entityKey === entityKind
+assignProp@396: rel => rel.relationshipKind === 'partAssignments'
+assignProp@404: rel => rel.parent.id === blockId
+```
+
+### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=5, assignProp=10
+
+```
+sort@184: const sortedEntities = [...transformedEntities].sort((a, b) => {
+assignProp@200: entityWithName.name = entityWithName.text
+assignIndex@204: acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]
+assignIndex@206: acc[entityKey] = normalizedEntities
+assignProp@282: rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
+assignIndex@297: acc[entityKey] = entityList.map(entity => {
+assignIndex@323: acc[relType] = transformApiRelationships(
+assignProp@449: fieldMetadata.dataType === 'boolean' &&
+assignProp@463: fieldMetadata.dataType === 'number' &&
+assignProp@508: if (fieldMetadata.dataType === 'reference') {
+assignProp@511: if (fieldMetadata.dataType === 'boolean') {
+assignProp@513: } else if (fieldMetadata.dataType === 'number') {
+assignProp@515: } else if (fieldMetadata.dataType === 'string') {
+assignProp@530: const isReferenceField = fieldMetadata?.dataType === 'reference' ||
+assignProp@564: const isReferenceField = fieldMetadata?.dataType === 'reference' ||
+assignIndex@589: .filter((entry): entry is [string, unknown] => entry !== null)
 ```
 
 ### `client/src/utils/transformers/globalToBookingTransformer.ts`
@@ -424,6 +358,27 @@ assignIndex@211: this[fieldKey as string] = value
 assignProp@212: this.isDirty = true
 ```
 
+### `client/src/utils/booking/appointmentSlotBuilder.ts`
+
+- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=9
+
+```
+assignProp@78: return slotShape.eventFinals.find(ef => ef.eventShape.name === name)
+assignProp@95: return slotShape.eventFinals.find(ef => ef.eventShape.id === id)
+assignProp@162: * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
+assignProp@182: ps => ps.name === partShapeName
+assignProp@196: .filter(pi => pi.partShape === partShapeName)
+assignProp@202: return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
+assignProp@213: .map(id => eventInstances.find(ei => ei.id === id))
+forLoop@273: for (const partShapeName of uniquePartShapes) {
+forOf@273: for (const partShapeName of uniquePartShapes) {
+assignIndex@283: eventAssignmentsByPartShape[partShapeName] = events
+assignProp@311: const majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
+assignProp@317: ef.eventShape.id === majorEventFinal.eventShape.id
+assignIndex@422: adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange
+assignIndex@425: adjustedEventTimeRanges[minorEventName] = null
+```
+
 ### `server/src/scripts/fixUserRolesAndEmails.ts`
 
 - counts: forEach=0, forLoop=4, forOf=3, forIn=0, while=0, push=2, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
@@ -472,19 +427,19 @@ assignProp@267: if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constra
 - counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
 
 ```
-push@39: grouped.get(partShape)!.push(part)
-forLoop@147: for (const part of partFinals) {
-forOf@147: for (const part of partFinals) {
-forLoop@156: for (const eventInstance of events) {
-forOf@156: for (const eventInstance of events) {
-assignProp@190: const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
-assignProp@192: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-assignProp@194: if (majorEventShape && majorEventShape.id === eventShape.id) {
-assignProp@213: const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
-assignProp@215: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-assignProp@217: if (majorEventShape && majorEventShape.id === eventShape.id) {
-assignProp@244: .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
-assignProp@298: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+push@40: grouped.get(partShape)!.push(part)
+forLoop@148: for (const part of partFinals) {
+forOf@148: for (const part of partFinals) {
+forLoop@157: for (const eventInstance of events) {
+forOf@157: for (const eventInstance of events) {
+assignProp@194: const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
+assignProp@196: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+assignProp@198: if (majorEventShape && majorEventShape.id === eventShape.id) {
+assignProp@217: const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
+assignProp@219: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+assignProp@221: if (majorEventShape && majorEventShape.id === eventShape.id) {
+assignProp@248: .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
+assignProp@302: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
 ```
 
 ### `client/src/utils/booking/selectionCardStyles.ts`
@@ -503,24 +458,6 @@ assignProp@44: if (config.controlPosition === 'left') {
 push@45: classes.push('align-start', 'text-start')
 push@47: classes.push('align-center', 'text-center')
 push@50: classes.push('align-center', 'text-center')
-```
-
-### `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=3, reverse=0, assignIndex=2, assignProp=6
-
-```
-sort@47: return [...annotations].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-assignProp@55: if (annotation.id === keepDefaultAnnotationId) return annotation
-assignProp@75: const defaultAnnotation = annotations.find((ann) => ann.isDefault === true)
-assignProp@76: const selected = defaultAnnotation ?? annotations.find((ann) => ann.userTypeBlock === null) ?? annotations[0]
-assignIndex@107: updatedBlockInstances[found.index] = updatedEntity as GlobalEntity<'blockInstance'>
-assignProp@129: const baseAnnotation = baseAnnotations.find((ann) => ann.id === assignment.annotationId)
-assignProp@179: const index = currentAnnotations.findIndex((ann: AnnotationWithMetadata) => ann.id === annotationId)
-assignIndex@191: updatedAnnotations[index] = nextAnnotation
-assignProp@194: patch.isDefault === true ? clearOtherDefaults(updatedAnnotations, annotationId) : updatedAnnotations
-sort@241: return [...withoutSame, next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-sort@262: return [...next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
 ```
 
 ### `client/src/utils/forms/fieldSectionCategorization.ts`
@@ -684,6 +621,20 @@ assignProp@246: } else if (props.entityKey === 'blockShape') {
 push@251: relationshipTypes.push('Valid Cascades')
 push@254: relationshipTypes.push('Valid Parts')
 assignProp@285: v-if="props.entityKey === 'blockInstance'"
+```
+
+### `client/src/utils/entityDefaults.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
+
+```
+assignProp@79: if (!metadata || Object.keys(metadata).length === 0) {
+assignProp@218: const finalMerged = (merged.orderIndex === null || merged.orderIndex === undefined)
+assignProp@221: orderIndex: typeof defaults.orderIndex === 'number' ? defaults.orderIndex : 0
+assignProp@256: if (result.name === undefined) {
+assignProp@257: result.name = ''
+assignProp@263: if (result.orderIndex === null || result.orderIndex === undefined) {
+assignProp@264: result.orderIndex = 0
 ```
 
 ### `server/src/db/models/admin/block_shape.js`
@@ -1069,6 +1020,18 @@ forOf@98: for (const childId of activeRelationships) {
 push@102: invalidRelationships.push({
 push@115: invalidRelationships.push({
 delete@142: // WHY: Multiple cleanup calls or concurrent operations might try to delete same relationship
+```
+
+### `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=1, assignProp=3
+
+```
+sort@47: return [...annotations].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+assignProp@55: if (annotation.id === keepDefaultAnnotationId) return annotation
+assignProp@75: const defaultAnnotation = annotations.find((ann) => ann.isDefault === true)
+assignProp@76: const selected = defaultAnnotation ?? annotations.find((ann) => ann.userTypeBlock === null) ?? annotations[0]
+assignIndex@107: updatedBlockInstances[found.index] = updatedEntity as GlobalEntity<'blockInstance'>
 ```
 
 ### `server/src/scripts/createAppointmentsFromCalendar.ts`
@@ -1506,19 +1469,19 @@ sort@161: return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.order
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=11
 
 ```
-assignProp@126: moveableOptions.value = null
-assignProp@140: moveableOptions.value = null
-assignProp@145: isLoadingOptions.value = true
-assignIndex@153: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
-assignIndex@155: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
-assignProp@209: moveableOptions.value = {
-assignProp@219: moveableOptions.value = null
-assignProp@221: isLoadingOptions.value = false
-assignProp@227: if (selectedSlotIndex.value === null || !moveableOptions.value) {
-assignProp@235: showModal.value = true
-assignProp@239: showModal.value = false
-assignProp@243: selectedSlotIndex.value = index
-assignProp@247: contingencyPeriod.value = { ...DEFAULT_CONTINGENCY }
+assignProp@132: moveableOptions.value = null
+assignProp@159: moveableOptions.value = null
+assignProp@164: isLoadingOptions.value = true
+assignIndex@172: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
+assignIndex@174: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
+assignProp@228: moveableOptions.value = {
+assignProp@238: moveableOptions.value = null
+assignProp@240: isLoadingOptions.value = false
+assignProp@246: if (selectedSlotIndex.value === null || !moveableOptions.value) {
+assignProp@254: showModal.value = true
+assignProp@258: showModal.value = false
+assignProp@262: selectedSlotIndex.value = index
+assignProp@266: contingencyPeriod.value = { ...DEFAULT_CONTINGENCY }
 ```
 
 ### `client/src/composables/booking/useWizardDisplay.ts`
@@ -3536,12 +3499,12 @@ assignProp@67: isLoading.value = false
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
 
 ```
-assignProp@109: if (instances.length === 0) {
-assignProp@153: const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)
-assignProp@155: const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
-assignProp@209: if (times.length === 0) {
-assignProp@269: return appointmentSlots.value.find(s => s.buttonIndex === index) ?? null
-assignProp@277: const slot = appointmentSlots.value.find(s => s.buttonIndex === buttonIndex)
+assignProp@110: if (instances.length === 0) {
+assignProp@154: const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)
+assignProp@159: const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
+assignProp@213: if (times.length === 0) {
+assignProp@273: return appointmentSlots.value.find(s => s.buttonIndex === index) ?? null
+assignProp@281: const slot = appointmentSlots.value.find(s => s.buttonIndex === buttonIndex)
 ```
 
 ### `client/src/composables/booking/useAppointmentTimes.ts`
@@ -4397,6 +4360,12 @@ assignProp@92: showProgress.value = false
 
 - (no matches)
 
+### `client/src/configs/eventPerspectiveLabels.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
 ### `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -5204,7 +5173,19 @@ assignProp@524: expandedShapes.value = expandedShapes.value.filter(id => id !== 
 
 - (no matches)
 
+### `server/src/constants/entities.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
 ### `server/src/constants/relationships.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `server/src/constants/relationshipTypes.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
@@ -5533,7 +5514,7 @@ delete@17: * - Dynamic shape management (admins can create/edit/delete shapes)
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
 ```
-delete@368: error: 'Failed to delete property',
+delete@340: error: 'Failed to delete property',
 ```
 
 ### `server/src/routes/internal/users/userRouter.ts`
@@ -5563,6 +5544,12 @@ delete@148: error: 'Failed to delete user',
 - (no matches)
 
 ### `server/src/types/express.d.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `server/src/utils/propertyTransformers.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 

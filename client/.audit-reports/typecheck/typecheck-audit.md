@@ -8,28 +8,30 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-01-31T22:43:28.040Z**
+- Generated at: **2026-01-31T23:40:20.048Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 48**
+- **Errors requiring review: 57**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **47**
+- Pools: **49**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P0 | `TS2304-ts2304-cannot-find-name-relationship-types` | 90 | 8 | 1 | 0 | 0 |
 | P1 | `TS2304-ts2304-cannot-find-name-allactiveservicetypes` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2339-ts2339-prop-servicetypeoptions` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-values-does-not-exist-in-type-draganddrop-unknown` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS6133-ts6133-partscollection-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
 | P1 | `TS7006-ts7006-parameter-s-implicitly-has-an-any-type` | 10 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-applyoptimisticassignmentpatchtoglobaldata-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-blockshapeid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-bookingblockinstance-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-clearotherdefaults-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-collectionmodel-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-deletefieldmetadata-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-deriveblockinstancedescriptionfromannotations-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-entity-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-eventshape-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-fetchedrelationship-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
@@ -38,12 +40,10 @@ Exception handling:
 | P2 | `TS6133-ts6133-getannotationsforusertypeblock-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-getglobaldata-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-getglobalentitybyid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-getpropertytypebyidendpoint-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-getpropertytypesendpoint-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-getrelationshipbyidendpoint-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-getusertypeblockoptionsfromglobaldata-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-globalentitykey-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-hasduplicateusertypeblock-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-isdevmodeenabled-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-isrelationship-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
@@ -55,6 +55,35 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `server/src/routes/internal/relationships/relationshipRouter.ts`
+
+- errors: 8, unsafeCasts: 0, suppressions: 0
+
+```
+TS2304@145:10 Cannot find name 'RELATIONSHIP_TYPES'.
+TS2304@150:10 Cannot find name 'RELATIONSHIP_TYPES'.
+TS2304@155:10 Cannot find name 'RELATIONSHIP_TYPES'.
+TS2304@315:43 Cannot find name 'RELATIONSHIP_TYPES'.
+TS2304@351:41 Cannot find name 'RELATIONSHIP_TYPES'.
+TS2304@380:41 Cannot find name 'RELATIONSHIP_TYPES'.
+TS2304@608:28 Cannot find name 'RELATIONSHIP_TYPES'.
+TS2304@660:50 Cannot find name 'RELATIONSHIP_TYPES'.
+```
+
+### `src/utils/optimistic/annotationAssignmentsOptimistic.ts`
+
+- errors: 7, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@5:1 'isDevModeEnabled' is declared but its value is never read.
+TS6196@33:6 'AnnotationAssignmentPatch' is declared but never used.
+TS6133@46:10 'sortByOrderIndex' is declared but its value is never read.
+TS6133@50:10 'clearOtherDefaults' is declared but its value is never read.
+TS6133@72:10 'deriveBlockInstanceDescriptionFromAnnotations' is declared but its value is never read.
+TS6133@80:10 'toAnnotationWithMetadata' is declared but its value is never read.
+TS6133@94:10 'updateBlockInstanceEntityInGlobalData' is declared but its value is never read.
+```
 
 ### `src/components/booking/dev/DevPanelsContainer.vue`
 
@@ -78,27 +107,6 @@ TS6133@29:10 'hasDuplicateUserTypeBlock' is declared but its value is never read
 TS6133@75:10 'formatAnnotationForDisplay' is declared but its value is never read.
 TS6133@92:10 'getAnnotationsForUserTypeBlock' is declared but its value is never read.
 TS6133@134:10 'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.
-```
-
-### `src/utils/api.ts`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@11:1 'GlobalEntityKey' is declared but its value is never read.
-TS6133@103:10 'getRelationshipByIdEndpoint' is declared but its value is never read.
-TS6133@233:10 'getPropertyTypesEndpoint' is declared but its value is never read.
-TS6133@237:10 'getPropertyTypeByIdEndpoint' is declared but its value is never read.
-```
-
-### `src/utils/optimistic/annotationAssignmentsOptimistic.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@166:10 'applyOptimisticAssignmentPatchToGlobalData' is declared but its value is never read.
-TS6133@233:10 'optimisticUpsertAssignmentInList' is declared but its value is never read.
-TS6133@268:10 'optimisticRemoveAssignmentFromList' is declared but its value is never read.
 ```
 
 ### `src/utils/transformers/fetchToGlobalTransformer.ts`
@@ -245,12 +253,20 @@ TS6133@9:1 'PrimitiveFormField' is declared but its value is never read.
 TS6133@39:47 'isRelationship' is declared but its value is never read.
 ```
 
+### `src/utils/api.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@11:1 'GlobalEntityKey' is declared but its value is never read.
+```
+
 ### `src/utils/booking/appointmentSlotBuilder.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@178:3 'validPartsRelationships' is declared but its value is never read.
+TS6133@177:3 'validPartsRelationships' is declared but its value is never read.
 ```
 
 ### `src/utils/booking/timeSlotMatching.ts`

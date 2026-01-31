@@ -1,4 +1,4 @@
-# Feature 5: Google APIs Integration
+# Feature 2: Google APIs Integration
 
 **Feature:** Google APIs Integration  
 **Status:** Planning  
@@ -16,7 +16,7 @@ Integrate Google Calendar API (availability fetching, event creation), Google Ma
 
 ---
 
-## Phase 5.0: Calendar Configuration UI (Prerequisite)
+## Phase 2.0: Calendar Configuration UI (Prerequisite)
 
 **Status:** Planning  
 **Description:** Build admin interface for configuring which calendars to check for free-busy calculations. This phase establishes the configuration foundation before API integration.
@@ -38,14 +38,14 @@ Integrate Google Calendar API (availability fetching, event creation), Google Ma
 
 ### Sessions
 
-**Session 5.0.1: Calendar Configuration Data Structure**
+**Session 2.0.1: Calendar Configuration Data Structure**
 - Extend AvailabilitySettings interface with CalendarConfig
 - Define CalendarConfig type (provider, enabled, calendarEmails)
 - Add calendarConfig to default settings
 - Update API types for settings persistence
 - Add validation for calendar email format
 
-**Session 5.0.2: Calendar Management UI**
+**Session 2.0.2: Calendar Management UI**
 - Add calendar configuration section to BusinessControlsTab
 - Implement email list input (textarea with validation)
 - Add provider selection dropdown (Google, Outlook, None)

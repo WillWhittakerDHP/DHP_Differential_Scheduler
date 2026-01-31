@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-01-31T22:45:07.830Z",
+  "generatedAt": "2026-01-31T23:41:44.177Z",
   "summary": {
-    "totalSourceFiles": 671,
+    "totalSourceFiles": 675,
     "totalTestFiles": 128,
-    "untestedSourceFiles": 554,
+    "untestedSourceFiles": 558,
     "orphanedTestFiles": 10,
     "coveragePercentage": 17
   },
@@ -5098,6 +5098,23 @@
       }
     },
     {
+      "repoPath": "client/src/configs/eventPerspectiveLabels.ts",
+      "functions": [
+        "getPerspectiveLabel"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 1.9,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
       "functions": [],
       "classes": [],
@@ -6977,21 +6994,17 @@
     },
     {
       "repoPath": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "functions": [
-        "applyOptimisticAssignmentCreateToGlobalData",
-        "applyOptimisticAssignmentDeleteToGlobalData",
-        "applyOptimisticAssignmentPatchToGlobalData"
-      ],
+      "functions": [],
       "classes": [],
       "composables": [],
-      "exportCount": 3,
+      "exportCount": 0,
       "priority": {
         "reliability": 4,
         "independence": 5,
-        "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 4.8,
-        "bucket": "P1"
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -7437,6 +7450,36 @@
         "roi": 4,
         "cognitiveLoad": 1,
         "overall": 3.7,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/entities.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/relationshipTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -9154,6 +9197,23 @@
       }
     },
     {
+      "repoPath": "server/src/utils/propertyTransformers.ts",
+      "functions": [
+        "transformPropertyVersion"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 6,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "server/src/utils/sequelizeHelpers.ts",
       "functions": [],
       "classes": [],
@@ -9532,9 +9592,9 @@
     },
     {
       "directory": "client/src/configs",
-      "sourceCount": 6,
+      "sourceCount": 7,
       "testCount": 0,
-      "untestedCount": 6
+      "untestedCount": 7
     },
     {
       "directory": "client/src/configs/field/display/appliedDisplay",
@@ -9790,9 +9850,9 @@
     },
     {
       "directory": "server/src/constants",
-      "sourceCount": 1,
+      "sourceCount": 3,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 3
     },
     {
       "directory": "server/src/db/config",
@@ -9934,9 +9994,9 @@
     },
     {
       "directory": "server/src/utils",
-      "sourceCount": 4,
+      "sourceCount": 5,
       "testCount": 0,
-      "untestedCount": 4
+      "untestedCount": 5
     },
     {
       "directory": "server/src/utils/availabilities",
@@ -15679,10 +15739,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 7,
+        "independence": 6,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 7.8,
+        "overall": 7.6,
         "bucket": "P0"
       }
     },
@@ -17840,6 +17900,27 @@
       }
     },
     {
+      "repoPath": "client/src/configs/eventPerspectiveLabels.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/eventPerspectiveLabels.ts",
+      "functions": [
+        "getPerspectiveLabel"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 1.9,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
       "functions": [],
@@ -19585,7 +19666,6 @@
         "getOrderIndexEndpoint",
         "getPropertyByIdEndpoint",
         "getPropertyEndpoint",
-        "getRelationshipByIdEndpoint",
         "getRelationshipByParentChildEndpoint",
         "getRelationshipEndpoint",
         "getUserByIdEndpoint",
@@ -19596,7 +19676,7 @@
       "classMethods": {},
       "hasTest": true,
       "testFile": "client/src/utils/__tests__/api.test.ts",
-      "exportCount": 21,
+      "exportCount": 20,
       "priority": {
         "reliability": 6,
         "independence": 3,
@@ -20979,24 +21059,20 @@
     {
       "repoPath": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "functions": [
-        "applyOptimisticAssignmentCreateToGlobalData",
-        "applyOptimisticAssignmentDeleteToGlobalData",
-        "applyOptimisticAssignmentPatchToGlobalData"
-      ],
+      "functions": [],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 3,
+      "exportCount": 0,
       "priority": {
         "reliability": 4,
         "independence": 5,
-        "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 4.8,
-        "bucket": "P1"
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -21393,8 +21469,8 @@
         "reliability": 10,
         "independence": 4,
         "roi": 10,
-        "cognitiveLoad": 5,
-        "overall": 8.3,
+        "cognitiveLoad": 4,
+        "overall": 8.2,
         "bucket": "P0"
       }
     },
@@ -21877,6 +21953,44 @@
         "roi": 4,
         "cognitiveLoad": 1,
         "overall": 3.7,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/entities.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/entities.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/relationshipTypes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/relationshipTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -24318,6 +24432,27 @@
         "roi": 5,
         "cognitiveLoad": 2,
         "overall": 5.3,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/utils/propertyTransformers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/utils/propertyTransformers.ts",
+      "functions": [
+        "transformPropertyVersion"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 6,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 5.6,
         "bucket": "P1"
       }
     },

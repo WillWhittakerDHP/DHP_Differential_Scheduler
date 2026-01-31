@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T22:43:28.947Z",
+  "generatedAt": "2026-01-31T23:40:20.904Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -15,7 +15,7 @@
   },
   "exceptionSummary": {
     "totalAllowed": 850,
-    "totalRequiresReview": 915,
+    "totalRequiresReview": 878,
     "bySource": {
       "inline": 0,
       "pattern": 850,
@@ -32,7 +32,7 @@
         "forLoop": 0,
         "forOf": 0,
         "forIn": 0,
-        "while": 1,
+        "while": 0,
         "doWhile": 0,
         "push": 1,
         "pop": 0,
@@ -41,357 +41,317 @@
         "splice": 0,
         "sort": 0,
         "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 30,
+        "assignIndex": 1,
+        "assignProp": 26,
         "delete": 1
       },
       "matches": [
         {
-          "ruleId": "while",
-          "lineNumber": 203,
-          "line": "while (queue.length > 0) {"
+          "ruleId": "push",
+          "lineNumber": 205,
+          "line": "* WHY: Avoids queue.shift() and queue.push() mutations"
         },
         {
           "ruleId": "shift",
-          "lineNumber": 204,
-          "line": "const currentId = queue.shift()!;"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 229,
-          "line": "queue.push(...childIds);"
+          "lineNumber": 205,
+          "line": "* WHY: Avoids queue.shift() and queue.push() mutations"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 252,
+          "lineNumber": 209,
+          "line": "if (queue.length === 0) {"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 213,
+          "line": "const [currentId, ...remainingQueue] = queue;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 267,
           "line": "req.relationshipConfig = RELATIONSHIP_REGISTRY[normalizedKind];"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 293,
-          "line": "where.disabled = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 300,
-          "line": "if (req.params.relationshipType === 'instanceComponents' && parent_id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 304,
-          "line": "where.parent_id = parent_id;"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 315,
+          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parent_id) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 331,
           "line": "if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 319,
-          "line": "where.blockInstanceId = blockInstanceId;"
+          "lineNumber": 351,
+          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 335,
-          "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 336,
+          "lineNumber": 352,
           "line": "options.order = [['orderIndex', 'ASC']];"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 343,
+          "lineNumber": 359,
           "line": "if (req.params.relationshipType === 'eventAssignments') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 344,
+          "lineNumber": 360,
           "line": "options.include = ["
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 364,
-          "line": "if (req.params.relationshipType === 'annotationAssignments') {"
+          "lineNumber": 380,
+          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 365,
+          "lineNumber": 381,
           "line": "options.include = ["
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 390,
+          "lineNumber": 406,
           "line": "options.attributes = getModelAttributes(relationshipConfig.model);"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 435,
+          "lineNumber": 451,
           "line": "if (req.params.relationshipType === 'instanceComponents') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 569,
+          "lineNumber": 585,
           "line": "existing.disabled = false;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 570,
+          "lineNumber": 586,
           "line": "existing.orderIndex = order_index ?? existing.orderIndex;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 615,
+          "lineNumber": 631,
           "line": "// PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 641,
+          "lineNumber": 660,
+          "line": "createData = req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 673,
           "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 642,
-          "line": "createData.orderIndex = order_index ?? 0;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 643,
-          "line": "createData.disabled = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 651,
-          "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 657,
-          "line": "childBlockInstance.active = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 664,
-          "line": "parentBlockInstance.active = true;"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 679,
+          "line": "childBlockInstance.active = false;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 686,
+          "line": "parentBlockInstance.active = true;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 701,
           "line": "if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 693,
+          "lineNumber": 715,
           "line": "if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 735,
+          "lineNumber": 757,
           "line": "component.orderIndex = order_index;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 739,
+          "lineNumber": 761,
           "line": "component.disabled = disabled;"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 756,
+          "lineNumber": 778,
           "line": "* Delete an instance component by ID (soft delete by setting disabled=true)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 775,
+          "lineNumber": 797,
           "line": "component.disabled = true;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 793,
+          "lineNumber": 815,
           "line": "childBlockInstance.active = true;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 845,
+          "lineNumber": 867,
           "line": "assignment.userTypeBlockInstanceId = userTypeBlockInstanceId || null;"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "while",
-          "lineNumber": 203,
-          "line": "while (queue.length > 0) {"
+          "ruleId": "push",
+          "lineNumber": 205,
+          "line": "* WHY: Avoids queue.shift() and queue.push() mutations"
         },
         {
           "ruleId": "shift",
-          "lineNumber": 204,
-          "line": "const currentId = queue.shift()!;"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 229,
-          "line": "queue.push(...childIds);"
+          "lineNumber": 205,
+          "line": "* WHY: Avoids queue.shift() and queue.push() mutations"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 252,
+          "lineNumber": 209,
+          "line": "if (queue.length === 0) {"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 213,
+          "line": "const [currentId, ...remainingQueue] = queue;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 267,
           "line": "req.relationshipConfig = RELATIONSHIP_REGISTRY[normalizedKind];"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 293,
-          "line": "where.disabled = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 300,
-          "line": "if (req.params.relationshipType === 'instanceComponents' && parent_id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 304,
-          "line": "where.parent_id = parent_id;"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 315,
+          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parent_id) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 331,
           "line": "if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 319,
-          "line": "where.blockInstanceId = blockInstanceId;"
+          "lineNumber": 351,
+          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 335,
-          "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 336,
+          "lineNumber": 352,
           "line": "options.order = [['orderIndex', 'ASC']];"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 343,
+          "lineNumber": 359,
           "line": "if (req.params.relationshipType === 'eventAssignments') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 344,
+          "lineNumber": 360,
           "line": "options.include = ["
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 364,
-          "line": "if (req.params.relationshipType === 'annotationAssignments') {"
+          "lineNumber": 380,
+          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 365,
+          "lineNumber": 381,
           "line": "options.include = ["
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 390,
+          "lineNumber": 406,
           "line": "options.attributes = getModelAttributes(relationshipConfig.model);"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 435,
+          "lineNumber": 451,
           "line": "if (req.params.relationshipType === 'instanceComponents') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 569,
+          "lineNumber": 585,
           "line": "existing.disabled = false;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 570,
+          "lineNumber": 586,
           "line": "existing.orderIndex = order_index ?? existing.orderIndex;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 615,
+          "lineNumber": 631,
           "line": "// PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 641,
+          "lineNumber": 660,
+          "line": "createData = req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 673,
           "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 642,
-          "line": "createData.orderIndex = order_index ?? 0;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 643,
-          "line": "createData.disabled = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 651,
-          "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 657,
-          "line": "childBlockInstance.active = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 664,
-          "line": "parentBlockInstance.active = true;"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 679,
+          "line": "childBlockInstance.active = false;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 686,
+          "line": "parentBlockInstance.active = true;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 701,
           "line": "if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 693,
+          "lineNumber": 715,
           "line": "if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 735,
+          "lineNumber": 757,
           "line": "component.orderIndex = order_index;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 739,
+          "lineNumber": 761,
           "line": "component.disabled = disabled;"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 756,
+          "lineNumber": 778,
           "line": "* Delete an instance component by ID (soft delete by setting disabled=true)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 775,
+          "lineNumber": 797,
           "line": "component.disabled = true;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 793,
+          "lineNumber": 815,
           "line": "childBlockInstance.active = true;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 845,
+          "lineNumber": 867,
           "line": "assignment.userTypeBlockInstanceId = userTypeBlockInstanceId || null;"
         }
       ],
       "forEachMutationHits": [],
-      "score": 62,
+      "score": 56,
       "priority": "P0"
     },
     {
@@ -400,8 +360,8 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityRouter.ts",
       "counts": {
         "forEach": 0,
-        "forLoop": 2,
-        "forOf": 2,
+        "forLoop": 0,
+        "forOf": 0,
         "forIn": 0,
         "while": 0,
         "doWhile": 0,
@@ -413,168 +373,128 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 27,
+        "assignProp": 23,
         "delete": 1
       },
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 68,
+          "lineNumber": 72,
           "line": "req.entityConfig = getEntityConfig(entityType);"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 107,
-          "line": "options.attributes = getModelAttributes(entityConfig.model);"
+          "lineNumber": 198,
+          "line": "if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE && sanitizedData.bookingMode === '') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 112,
-          "line": "options.order = [['orderIndex', 'ASC']];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 116,
-          "line": "options.order = [['createdAt', 'ASC']];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 118,
-          "line": "options.order = [['id', 'ASC']];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 191,
-          "line": "if (req.params.entityType === 'blockInstance' && sanitizedData.bookingMode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 192,
+          "lineNumber": 199,
           "line": "sanitizedData.bookingMode = 'standalone';"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 195,
+          "lineNumber": 202,
           "line": "if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 196,
+          "lineNumber": 203,
           "line": "sanitizedData.booking_mode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 206,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 207,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 213,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 285,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 286,
-          "line": "if (sanitizedData.bookingMode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 287,
-          "line": "sanitizedData.bookingMode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 290,
-          "line": "if (sanitizedData.booking_mode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 291,
-          "line": "sanitizedData.booking_mode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 296,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 337,
-          "line": "if (req.params.entityType === 'partInstance') {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 352,
-          "line": "for (const currentRel of currentRelationships) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 352,
-          "line": "for (const currentRel of currentRelationships) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 464,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 571,
-          "line": "if (req.params.entityType === 'partInstance') {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 586,
-          "line": "for (const currentRel of currentRelationships) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 586,
-          "line": "for (const currentRel of currentRelationships) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 630,
-          "line": "typeof error.parent === 'object' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 632,
-          "line": "error.parent.code === '23514') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 635,
-          "line": "error.parent.constraint === 'check_state_control_mutual_exclusivity') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 647,
           "line": "(error.name === 'SequelizeValidationError' ||"
         },
         {
           "ruleId": "assignProp",
+          "lineNumber": 214,
+          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 220,
+          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 292,
+          "line": "if (req.params.entityType === 'blockInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 293,
+          "line": "if (sanitizedData.bookingMode === '') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 294,
+          "line": "sanitizedData.bookingMode = 'standalone';"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 297,
+          "line": "if (sanitizedData.booking_mode === '') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 298,
+          "line": "sanitizedData.booking_mode = 'standalone';"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 303,
+          "line": "if (req.params.entityType === 'blockInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 344,
+          "line": "if (req.params.entityType === 'partInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 474,
+          "line": "if (req.params.entityType === 'blockInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 581,
+          "line": "if (req.params.entityType === 'partInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 643,
+          "line": "typeof error.parent === 'object' &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 645,
+          "line": "error.parent.code === '23514') {"
+        },
+        {
+          "ruleId": "assignProp",
           "lineNumber": 648,
+          "line": "error.parent.constraint === 'check_state_control_mutual_exclusivity') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 660,
+          "line": "(error.name === 'SequelizeValidationError' ||"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 661,
           "line": "error.name === 'SequelizeUniqueConstraintError')) {"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 684,
+          "lineNumber": 697,
           "line": "// CRITICAL: For block instances, capture old state BEFORE delete for versioning"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 685,
+          "lineNumber": 698,
           "line": "if (req.params.entityType === 'blockInstance') {"
         }
       ],
@@ -582,167 +502,127 @@
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 68,
+          "lineNumber": 72,
           "line": "req.entityConfig = getEntityConfig(entityType);"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 107,
-          "line": "options.attributes = getModelAttributes(entityConfig.model);"
+          "lineNumber": 198,
+          "line": "if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE && sanitizedData.bookingMode === '') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 112,
-          "line": "options.order = [['orderIndex', 'ASC']];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 116,
-          "line": "options.order = [['createdAt', 'ASC']];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 118,
-          "line": "options.order = [['id', 'ASC']];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 191,
-          "line": "if (req.params.entityType === 'blockInstance' && sanitizedData.bookingMode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 192,
+          "lineNumber": 199,
           "line": "sanitizedData.bookingMode = 'standalone';"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 195,
+          "lineNumber": 202,
           "line": "if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 196,
+          "lineNumber": 203,
           "line": "sanitizedData.booking_mode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 206,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 207,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 213,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 285,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 286,
-          "line": "if (sanitizedData.bookingMode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 287,
-          "line": "sanitizedData.bookingMode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 290,
-          "line": "if (sanitizedData.booking_mode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 291,
-          "line": "sanitizedData.booking_mode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 296,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 337,
-          "line": "if (req.params.entityType === 'partInstance') {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 352,
-          "line": "for (const currentRel of currentRelationships) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 352,
-          "line": "for (const currentRel of currentRelationships) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 464,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 571,
-          "line": "if (req.params.entityType === 'partInstance') {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 586,
-          "line": "for (const currentRel of currentRelationships) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 586,
-          "line": "for (const currentRel of currentRelationships) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 630,
-          "line": "typeof error.parent === 'object' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 632,
-          "line": "error.parent.code === '23514') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 635,
-          "line": "error.parent.constraint === 'check_state_control_mutual_exclusivity') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 647,
           "line": "(error.name === 'SequelizeValidationError' ||"
         },
         {
           "ruleId": "assignProp",
+          "lineNumber": 214,
+          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 220,
+          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 292,
+          "line": "if (req.params.entityType === 'blockInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 293,
+          "line": "if (sanitizedData.bookingMode === '') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 294,
+          "line": "sanitizedData.bookingMode = 'standalone';"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 297,
+          "line": "if (sanitizedData.booking_mode === '') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 298,
+          "line": "sanitizedData.booking_mode = 'standalone';"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 303,
+          "line": "if (req.params.entityType === 'blockInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 344,
+          "line": "if (req.params.entityType === 'partInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 474,
+          "line": "if (req.params.entityType === 'blockInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 581,
+          "line": "if (req.params.entityType === 'partInstance') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 643,
+          "line": "typeof error.parent === 'object' &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 645,
+          "line": "error.parent.code === '23514') {"
+        },
+        {
+          "ruleId": "assignProp",
           "lineNumber": 648,
+          "line": "error.parent.constraint === 'check_state_control_mutual_exclusivity') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 660,
+          "line": "(error.name === 'SequelizeValidationError' ||"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 661,
           "line": "error.name === 'SequelizeUniqueConstraintError')) {"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 684,
+          "lineNumber": 697,
           "line": "// CRITICAL: For block instances, capture old state BEFORE delete for versioning"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 685,
+          "lineNumber": 698,
           "line": "if (req.params.entityType === 'blockInstance') {"
         }
       ],
       "forEachMutationHits": [],
-      "score": 58,
+      "score": 46,
       "priority": "P0"
     },
     {
@@ -750,11 +630,11 @@
       "repoPath": "client/src/utils/booking/timeAvailabilityManager.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeAvailabilityManager.ts",
       "counts": {
-        "forEach": 1,
+        "forEach": 0,
         "forLoop": 0,
         "forOf": 0,
         "forIn": 0,
-        "while": 2,
+        "while": 1,
         "doWhile": 0,
         "push": 1,
         "pop": 0,
@@ -840,48 +720,38 @@
         },
         {
           "ruleId": "while",
-          "lineNumber": 575,
-          "line": "while (currentDate < endDateOnly) {"
-        },
-        {
-          "ruleId": "while",
-          "lineNumber": 601,
-          "line": "while (currentSlotStart < slotEndBoundary) {"
+          "lineNumber": 586,
+          "line": "while (dayIterator < endDateOnly) {"
         },
         {
           "ruleId": "push",
-          "lineNumber": 617,
-          "line": "slots.push(slot)"
+          "lineNumber": 587,
+          "line": "days.push(new Date(dayIterator))"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 668,
+          "lineNumber": 729,
           "line": "direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 755,
+          "lineNumber": 816,
           "line": "* PATTERN: Check timestamp, delete if expired, return value if valid"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 976,
+          "lineNumber": 1037,
           "line": "if (!capacityConstraints || capacityConstraints.length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 986,
+          "lineNumber": 1047,
           "line": "if (availableSlots.length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 992,
+          "lineNumber": 1053,
           "line": "if (activeCapacityConstraints.length === 0) {"
-        },
-        {
-          "ruleId": "forEach",
-          "lineNumber": 1006,
-          "line": "availableSlots.forEach((slot) => {"
         }
       ],
       "allowed": [],
@@ -958,474 +828,42 @@
         },
         {
           "ruleId": "while",
-          "lineNumber": 575,
-          "line": "while (currentDate < endDateOnly) {"
-        },
-        {
-          "ruleId": "while",
-          "lineNumber": 601,
-          "line": "while (currentSlotStart < slotEndBoundary) {"
+          "lineNumber": 586,
+          "line": "while (dayIterator < endDateOnly) {"
         },
         {
           "ruleId": "push",
-          "lineNumber": 617,
-          "line": "slots.push(slot)"
+          "lineNumber": 587,
+          "line": "days.push(new Date(dayIterator))"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 668,
+          "lineNumber": 729,
           "line": "direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 755,
+          "lineNumber": 816,
           "line": "* PATTERN: Check timestamp, delete if expired, return value if valid"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 976,
+          "lineNumber": 1037,
           "line": "if (!capacityConstraints || capacityConstraints.length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 986,
+          "lineNumber": 1047,
           "line": "if (availableSlots.length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 992,
+          "lineNumber": 1053,
           "line": "if (activeCapacityConstraints.length === 0) {"
-        },
-        {
-          "ruleId": "forEach",
-          "lineNumber": 1006,
-          "line": "availableSlots.forEach((slot) => {"
         }
       ],
       "forEachMutationHits": [],
-      "score": 39,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__transformers__fetchToGlobalTransformer.ts",
-      "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 2,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 1,
-        "reverse": 0,
-        "assignIndex": 5,
-        "assignProp": 10,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "sort",
-          "lineNumber": 184,
-          "line": "const sortedEntities = [...transformedEntities].sort((a, b) => {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 200,
-          "line": "entityWithName.name = entityWithName.text"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 204,
-          "line": "acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 206,
-          "line": "acc[entityKey] = normalizedEntities"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 282,
-          "line": "rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 297,
-          "line": "acc[entityKey] = entityList.map(entity => {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 323,
-          "line": "acc[relType] = transformApiRelationships("
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 446,
-          "line": "fieldMetadata.dataType === 'boolean' &&"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 452,
-          "line": "acc.nonNullable.push(fieldKey)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 454,
-          "line": "acc.nullable.push(fieldKey)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 461,
-          "line": "fieldMetadata.dataType === 'number' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 506,
-          "line": "if (fieldMetadata.dataType === 'reference') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 509,
-          "line": "if (fieldMetadata.dataType === 'boolean') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 511,
-          "line": "} else if (fieldMetadata.dataType === 'number') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 513,
-          "line": "} else if (fieldMetadata.dataType === 'string') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 528,
-          "line": "const isReferenceField = fieldMetadata?.dataType === 'reference' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 562,
-          "line": "const isReferenceField = fieldMetadata?.dataType === 'reference' ||"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 587,
-          "line": ".filter((entry): entry is [string, unknown] => entry !== null)"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "sort",
-          "lineNumber": 184,
-          "line": "const sortedEntities = [...transformedEntities].sort((a, b) => {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 200,
-          "line": "entityWithName.name = entityWithName.text"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 204,
-          "line": "acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 206,
-          "line": "acc[entityKey] = normalizedEntities"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 282,
-          "line": "rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 297,
-          "line": "acc[entityKey] = entityList.map(entity => {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 323,
-          "line": "acc[relType] = transformApiRelationships("
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 446,
-          "line": "fieldMetadata.dataType === 'boolean' &&"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 452,
-          "line": "acc.nonNullable.push(fieldKey)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 454,
-          "line": "acc.nullable.push(fieldKey)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 461,
-          "line": "fieldMetadata.dataType === 'number' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 506,
-          "line": "if (fieldMetadata.dataType === 'reference') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 509,
-          "line": "if (fieldMetadata.dataType === 'boolean') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 511,
-          "line": "} else if (fieldMetadata.dataType === 'number') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 513,
-          "line": "} else if (fieldMetadata.dataType === 'string') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 528,
-          "line": "const isReferenceField = fieldMetadata?.dataType === 'reference' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 562,
-          "line": "const isReferenceField = fieldMetadata?.dataType === 'reference' ||"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 587,
-          "line": ".filter((entry): entry is [string, unknown] => entry !== null)"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 36,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__transformers__relationshipTransformers.ts",
-      "repoPath": "client/src/utils/transformers/relationshipTransformers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/relationshipTransformers.ts",
-      "counts": {
-        "forEach": 1,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 17,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 47,
-          "line": "rel => rel.kind === relationshipKey"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 111,
-          "line": "rel => rel.parent && rel.parent.id === parentId"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 208,
-          "line": "return relationships.filter(rel => rel.relationshipKind === relationshipKind)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 229,
-          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 230,
-          "line": "rel.parent.id === composerId &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 231,
-          "line": "rel.parent.entityKey === entityKind"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 245,
-          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 246,
-          "line": "rel.parent.id === componentId &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 247,
-          "line": "rel.parent.entityKey === entityKind"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 286,
-          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 287,
-          "line": "rel.parent.entityKey === entityKind"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 293,
-          "line": "if (componentIds.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 300,
-          "line": "if (components.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 349,
-          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 350,
-          "line": "rel.parent.entityKey === entityKind"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 398,
-          "line": "rel => rel.relationshipKind === 'partAssignments'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 406,
-          "line": "rel => rel.parent.id === blockId"
-        },
-        {
-          "ruleId": "forEach",
-          "lineNumber": 414,
-          "line": "partInstanceIds.forEach(id => allPartInstanceIds.add(id))"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 47,
-          "line": "rel => rel.kind === relationshipKey"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 111,
-          "line": "rel => rel.parent && rel.parent.id === parentId"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 208,
-          "line": "return relationships.filter(rel => rel.relationshipKind === relationshipKind)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 229,
-          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 230,
-          "line": "rel.parent.id === composerId &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 231,
-          "line": "rel.parent.entityKey === entityKind"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 245,
-          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 246,
-          "line": "rel.parent.id === componentId &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 247,
-          "line": "rel.parent.entityKey === entityKind"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 286,
-          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 287,
-          "line": "rel.parent.entityKey === entityKind"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 293,
-          "line": "if (componentIds.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 300,
-          "line": "if (components.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 349,
-          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 350,
-          "line": "rel.parent.entityKey === entityKind"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 398,
-          "line": "rel => rel.relationshipKind === 'partAssignments'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 406,
-          "line": "rel => rel.parent.id === blockId"
-        },
-        {
-          "ruleId": "forEach",
-          "lineNumber": 414,
-          "line": "partInstanceIds.forEach(id => allPartInstanceIds.add(id))"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 35,
+      "score": 38,
       "priority": "P0"
     },
     {
@@ -1690,13 +1128,13 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__utils__booking__appointmentSlotBuilder.ts",
-      "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentSlotBuilder.ts",
+      "id": "client__src__utils__transformers__relationshipTransformers.ts",
+      "repoPath": "client/src/utils/transformers/relationshipTransformers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/relationshipTransformers.ts",
       "counts": {
         "forEach": 0,
-        "forLoop": 2,
-        "forOf": 2,
+        "forLoop": 0,
+        "forOf": 0,
         "forIn": 0,
         "while": 0,
         "doWhile": 0,
@@ -1707,207 +1145,197 @@
         "splice": 0,
         "sort": 0,
         "reverse": 0,
-        "assignIndex": 5,
-        "assignProp": 9,
+        "assignIndex": 0,
+        "assignProp": 17,
         "delete": 0
       },
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 78,
-          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.name === name)"
+          "lineNumber": 47,
+          "line": "rel => rel.kind === relationshipKey"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 95,
-          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.id === id)"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 128,
-          "line": "for (const eventFinal of slotShape.eventFinals || []) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 128,
-          "line": "for (const eventFinal of slotShape.eventFinals || []) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 134,
-          "line": "eventTimeRanges[eventName] = createTimeRange(startTime, duration)"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 136,
-          "line": "eventTimeRanges[eventName] = null"
+          "lineNumber": 111,
+          "line": "rel => rel.parent && rel.parent.id === parentId"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 163,
-          "line": "* PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]"
+          "lineNumber": 208,
+          "line": "return relationships.filter(rel => rel.relationshipKind === relationshipKind)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 183,
-          "line": "ps => ps.name === partShapeName"
+          "lineNumber": 229,
+          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 197,
-          "line": ".filter(pi => pi.partShape === partShapeName)"
+          "lineNumber": 230,
+          "line": "rel.parent.id === composerId &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 203,
-          "line": "return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)"
+          "lineNumber": 231,
+          "line": "rel.parent.entityKey === entityKind"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 214,
-          "line": ".map(id => eventInstances.find(ei => ei.id === id))"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 274,
-          "line": "for (const partShapeName of uniquePartShapes) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 274,
-          "line": "for (const partShapeName of uniquePartShapes) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 284,
-          "line": "eventAssignmentsByPartShape[partShapeName] = events"
+          "lineNumber": 245,
+          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 312,
-          "line": "const majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)"
+          "lineNumber": 246,
+          "line": "rel.parent.id === componentId &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 318,
-          "line": "ef.eventShape.id === majorEventFinal.eventShape.id"
+          "lineNumber": 247,
+          "line": "rel.parent.entityKey === entityKind"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 423,
-          "line": "adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange"
+          "ruleId": "assignProp",
+          "lineNumber": 286,
+          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 426,
-          "line": "adjustedEventTimeRanges[minorEventName] = null"
+          "ruleId": "assignProp",
+          "lineNumber": 287,
+          "line": "rel.parent.entityKey === entityKind"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 293,
+          "line": "if (componentIds.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 300,
+          "line": "if (components.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 349,
+          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 350,
+          "line": "rel.parent.entityKey === entityKind"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 396,
+          "line": "rel => rel.relationshipKind === 'partAssignments'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 404,
+          "line": "rel => rel.parent.id === blockId"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 78,
-          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.name === name)"
+          "lineNumber": 47,
+          "line": "rel => rel.kind === relationshipKey"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 95,
-          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.id === id)"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 128,
-          "line": "for (const eventFinal of slotShape.eventFinals || []) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 128,
-          "line": "for (const eventFinal of slotShape.eventFinals || []) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 134,
-          "line": "eventTimeRanges[eventName] = createTimeRange(startTime, duration)"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 136,
-          "line": "eventTimeRanges[eventName] = null"
+          "lineNumber": 111,
+          "line": "rel => rel.parent && rel.parent.id === parentId"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 163,
-          "line": "* PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]"
+          "lineNumber": 208,
+          "line": "return relationships.filter(rel => rel.relationshipKind === relationshipKind)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 183,
-          "line": "ps => ps.name === partShapeName"
+          "lineNumber": 229,
+          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 197,
-          "line": ".filter(pi => pi.partShape === partShapeName)"
+          "lineNumber": 230,
+          "line": "rel.parent.id === composerId &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 203,
-          "line": "return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)"
+          "lineNumber": 231,
+          "line": "rel.parent.entityKey === entityKind"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 214,
-          "line": ".map(id => eventInstances.find(ei => ei.id === id))"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 274,
-          "line": "for (const partShapeName of uniquePartShapes) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 274,
-          "line": "for (const partShapeName of uniquePartShapes) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 284,
-          "line": "eventAssignmentsByPartShape[partShapeName] = events"
+          "lineNumber": 245,
+          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 312,
-          "line": "const majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)"
+          "lineNumber": 246,
+          "line": "rel.parent.id === componentId &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 318,
-          "line": "ef.eventShape.id === majorEventFinal.eventShape.id"
+          "lineNumber": 247,
+          "line": "rel.parent.entityKey === entityKind"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 423,
-          "line": "adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange"
+          "ruleId": "assignProp",
+          "lineNumber": 286,
+          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 426,
-          "line": "adjustedEventTimeRanges[minorEventName] = null"
+          "ruleId": "assignProp",
+          "lineNumber": 287,
+          "line": "rel.parent.entityKey === entityKind"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 293,
+          "line": "if (componentIds.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 300,
+          "line": "if (components.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 349,
+          "line": "rel => rel.relationshipKind === 'instanceComponents' &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 350,
+          "line": "rel.parent.entityKey === entityKind"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 396,
+          "line": "rel => rel.relationshipKind === 'partAssignments'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 404,
+          "line": "rel => rel.parent.id === blockId"
         }
       ],
       "forEachMutationHits": [],
-      "score": 32,
+      "score": 34,
       "priority": "P0"
     },
     {
-      "id": "client__src__utils__entityDefaults.ts",
-      "repoPath": "client/src/utils/entityDefaults.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/entityDefaults.ts",
+      "id": "client__src__utils__transformers__fetchToGlobalTransformer.ts",
+      "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/fetchToGlobalTransformer.ts",
       "counts": {
         "forEach": 0,
-        "forLoop": 1,
-        "forOf": 1,
+        "forLoop": 0,
+        "forOf": 0,
         "forIn": 0,
         "while": 0,
         "doWhile": 0,
@@ -1916,185 +1344,175 @@
         "shift": 0,
         "unshift": 0,
         "splice": 0,
-        "sort": 0,
+        "sort": 1,
         "reverse": 0,
-        "assignIndex": 6,
-        "assignProp": 9,
+        "assignIndex": 5,
+        "assignProp": 10,
         "delete": 0
       },
       "matches": [
         {
-          "ruleId": "assignProp",
-          "lineNumber": 79,
-          "line": "if (!metadata || Object.keys(metadata).length === 0) {"
+          "ruleId": "sort",
+          "lineNumber": 184,
+          "line": "const sortedEntities = [...transformedEntities].sort((a, b) => {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 87,
-          "line": "defaults.orderIndex = 0"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 93,
-          "line": "for (const [fieldKey, fieldMetadata] of Object.entries(metadata || {})) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 93,
-          "line": "for (const [fieldKey, fieldMetadata] of Object.entries(metadata || {})) {"
+          "lineNumber": 200,
+          "line": "entityWithName.name = entityWithName.text"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 107,
-          "line": "defaults[fieldKey] = 'false'"
+          "lineNumber": 204,
+          "line": "acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 118,
-          "line": "defaults[fieldKey] = true"
+          "lineNumber": 206,
+          "line": "acc[entityKey] = normalizedEntities"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 282,
+          "line": "rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 120,
-          "line": "defaults[fieldKey] = isRequired ? false : undefined"
+          "lineNumber": 297,
+          "line": "acc[entityKey] = entityList.map(entity => {"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 126,
-          "line": "defaults[fieldKey] = 0"
+          "lineNumber": 323,
+          "line": "acc[relType] = transformApiRelationships("
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 449,
+          "line": "fieldMetadata.dataType === 'boolean' &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 463,
+          "line": "fieldMetadata.dataType === 'number' &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 508,
+          "line": "if (fieldMetadata.dataType === 'reference') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 511,
+          "line": "if (fieldMetadata.dataType === 'boolean') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 513,
+          "line": "} else if (fieldMetadata.dataType === 'number') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 515,
+          "line": "} else if (fieldMetadata.dataType === 'string') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 530,
+          "line": "const isReferenceField = fieldMetadata?.dataType === 'reference' ||"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 564,
+          "line": "const isReferenceField = fieldMetadata?.dataType === 'reference' ||"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 131,
-          "line": "defaults[fieldKey] = ''"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 134,
-          "line": "defaults[fieldKey] = []"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 209,
-          "line": "if (merged.orderIndex === null || merged.orderIndex === undefined) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 210,
-          "line": "const defaultOrderIndex = typeof defaults.orderIndex === 'number' ? defaults.orderIndex : 0"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 211,
-          "line": "merged.orderIndex = defaultOrderIndex"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 245,
-          "line": "if (result.name === undefined) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 246,
-          "line": "result.name = ''"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 252,
-          "line": "if (result.orderIndex === null || result.orderIndex === undefined) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 253,
-          "line": "result.orderIndex = 0"
+          "lineNumber": 589,
+          "line": ".filter((entry): entry is [string, unknown] => entry !== null)"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "assignProp",
-          "lineNumber": 79,
-          "line": "if (!metadata || Object.keys(metadata).length === 0) {"
+          "ruleId": "sort",
+          "lineNumber": 184,
+          "line": "const sortedEntities = [...transformedEntities].sort((a, b) => {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 87,
-          "line": "defaults.orderIndex = 0"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 93,
-          "line": "for (const [fieldKey, fieldMetadata] of Object.entries(metadata || {})) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 93,
-          "line": "for (const [fieldKey, fieldMetadata] of Object.entries(metadata || {})) {"
+          "lineNumber": 200,
+          "line": "entityWithName.name = entityWithName.text"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 107,
-          "line": "defaults[fieldKey] = 'false'"
+          "lineNumber": 204,
+          "line": "acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 118,
-          "line": "defaults[fieldKey] = true"
+          "lineNumber": 206,
+          "line": "acc[entityKey] = normalizedEntities"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 282,
+          "line": "rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 120,
-          "line": "defaults[fieldKey] = isRequired ? false : undefined"
+          "lineNumber": 297,
+          "line": "acc[entityKey] = entityList.map(entity => {"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 126,
-          "line": "defaults[fieldKey] = 0"
+          "lineNumber": 323,
+          "line": "acc[relType] = transformApiRelationships("
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 449,
+          "line": "fieldMetadata.dataType === 'boolean' &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 463,
+          "line": "fieldMetadata.dataType === 'number' &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 508,
+          "line": "if (fieldMetadata.dataType === 'reference') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 511,
+          "line": "if (fieldMetadata.dataType === 'boolean') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 513,
+          "line": "} else if (fieldMetadata.dataType === 'number') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 515,
+          "line": "} else if (fieldMetadata.dataType === 'string') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 530,
+          "line": "const isReferenceField = fieldMetadata?.dataType === 'reference' ||"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 564,
+          "line": "const isReferenceField = fieldMetadata?.dataType === 'reference' ||"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 131,
-          "line": "defaults[fieldKey] = ''"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 134,
-          "line": "defaults[fieldKey] = []"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 209,
-          "line": "if (merged.orderIndex === null || merged.orderIndex === undefined) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 210,
-          "line": "const defaultOrderIndex = typeof defaults.orderIndex === 'number' ? defaults.orderIndex : 0"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 211,
-          "line": "merged.orderIndex = defaultOrderIndex"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 245,
-          "line": "if (result.name === undefined) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 246,
-          "line": "result.name = ''"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 252,
-          "line": "if (result.orderIndex === null || result.orderIndex === undefined) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 253,
-          "line": "result.orderIndex = 0"
+          "lineNumber": 589,
+          "line": ".filter((entry): entry is [string, unknown] => entry !== null)"
         }
       ],
       "forEachMutationHits": [],
@@ -3117,6 +2535,177 @@
       "priority": "P0"
     },
     {
+      "id": "client__src__utils__booking__appointmentSlotBuilder.ts",
+      "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentSlotBuilder.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 1,
+        "forOf": 1,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 3,
+        "assignProp": 9,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 78,
+          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.name === name)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 95,
+          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.id === id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 162,
+          "line": "* PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 182,
+          "line": "ps => ps.name === partShapeName"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 196,
+          "line": ".filter(pi => pi.partShape === partShapeName)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 202,
+          "line": "return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 213,
+          "line": ".map(id => eventInstances.find(ei => ei.id === id))"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 273,
+          "line": "for (const partShapeName of uniquePartShapes) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 273,
+          "line": "for (const partShapeName of uniquePartShapes) {"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 283,
+          "line": "eventAssignmentsByPartShape[partShapeName] = events"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 311,
+          "line": "const majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 317,
+          "line": "ef.eventShape.id === majorEventFinal.eventShape.id"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 422,
+          "line": "adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 425,
+          "line": "adjustedEventTimeRanges[minorEventName] = null"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 78,
+          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.name === name)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 95,
+          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.id === id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 162,
+          "line": "* PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 182,
+          "line": "ps => ps.name === partShapeName"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 196,
+          "line": ".filter(pi => pi.partShape === partShapeName)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 202,
+          "line": "return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 213,
+          "line": ".map(id => eventInstances.find(ei => ei.id === id))"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 273,
+          "line": "for (const partShapeName of uniquePartShapes) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 273,
+          "line": "for (const partShapeName of uniquePartShapes) {"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 283,
+          "line": "eventAssignmentsByPartShape[partShapeName] = events"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 311,
+          "line": "const majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 317,
+          "line": "ef.eventShape.id === majorEventFinal.eventShape.id"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 422,
+          "line": "adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 425,
+          "line": "adjustedEventTimeRanges[minorEventName] = null"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 26,
+      "priority": "P0"
+    },
+    {
       "id": "server__src__scripts__fixUserRolesAndEmails.ts",
       "repoPath": "server/src/scripts/fixUserRolesAndEmails.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/fixUserRolesAndEmails.ts",
@@ -3493,136 +3082,136 @@
       "matches": [
         {
           "ruleId": "push",
-          "lineNumber": 39,
+          "lineNumber": 40,
           "line": "grouped.get(partShape)!.push(part)"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 147,
+          "lineNumber": 148,
           "line": "for (const part of partFinals) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 147,
+          "lineNumber": 148,
           "line": "for (const part of partFinals) {"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 156,
+          "lineNumber": 157,
           "line": "for (const eventInstance of events) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 156,
+          "lineNumber": 157,
           "line": "for (const eventInstance of events) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 190,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
+          "lineNumber": 194,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 192,
+          "lineNumber": 196,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 194,
+          "lineNumber": 198,
           "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 213,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 215,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 217,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 219,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 221,
           "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 244,
+          "lineNumber": 248,
           "line": ".filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 298,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+          "lineNumber": 302,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "push",
-          "lineNumber": 39,
+          "lineNumber": 40,
           "line": "grouped.get(partShape)!.push(part)"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 147,
+          "lineNumber": 148,
           "line": "for (const part of partFinals) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 147,
+          "lineNumber": 148,
           "line": "for (const part of partFinals) {"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 156,
+          "lineNumber": 157,
           "line": "for (const eventInstance of events) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 156,
+          "lineNumber": 157,
           "line": "for (const eventInstance of events) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 190,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
+          "lineNumber": 194,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 192,
+          "lineNumber": 196,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 194,
+          "lineNumber": 198,
           "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 213,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 215,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 217,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 219,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 221,
           "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 244,
+          "lineNumber": 248,
           "line": ".filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 298,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?'major':(logMinorEventShape?.id===ef.eventShape.id?'minor':'other'),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
+          "lineNumber": 302,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         }
       ],
       "forEachMutationHits": [],
@@ -3764,147 +3353,6 @@
           "ruleId": "push",
           "lineNumber": 50,
           "line": "classes.push('align-center', 'text-center')"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__optimistic__annotationAssignmentsOptimistic.ts",
-      "repoPath": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 3,
-        "reverse": 0,
-        "assignIndex": 2,
-        "assignProp": 6,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "sort",
-          "lineNumber": 47,
-          "line": "return [...annotations].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 55,
-          "line": "if (annotation.id === keepDefaultAnnotationId) return annotation"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 75,
-          "line": "const defaultAnnotation = annotations.find((ann) => ann.isDefault === true)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 76,
-          "line": "const selected = defaultAnnotation ?? annotations.find((ann) => ann.userTypeBlock === null) ?? annotations[0]"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 107,
-          "line": "updatedBlockInstances[found.index] = updatedEntity as GlobalEntity<'blockInstance'>"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 129,
-          "line": "const baseAnnotation = baseAnnotations.find((ann) => ann.id === assignment.annotationId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": "const index = currentAnnotations.findIndex((ann: AnnotationWithMetadata) => ann.id === annotationId)"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 191,
-          "line": "updatedAnnotations[index] = nextAnnotation"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 194,
-          "line": "patch.isDefault === true ? clearOtherDefaults(updatedAnnotations, annotationId) : updatedAnnotations"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 241,
-          "line": "return [...withoutSame, next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 262,
-          "line": "return [...next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "sort",
-          "lineNumber": 47,
-          "line": "return [...annotations].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 55,
-          "line": "if (annotation.id === keepDefaultAnnotationId) return annotation"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 75,
-          "line": "const defaultAnnotation = annotations.find((ann) => ann.isDefault === true)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 76,
-          "line": "const selected = defaultAnnotation ?? annotations.find((ann) => ann.userTypeBlock === null) ?? annotations[0]"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 107,
-          "line": "updatedBlockInstances[found.index] = updatedEntity as GlobalEntity<'blockInstance'>"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 129,
-          "line": "const baseAnnotation = baseAnnotations.find((ann) => ann.id === assignment.annotationId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": "const index = currentAnnotations.findIndex((ann: AnnotationWithMetadata) => ann.id === annotationId)"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 191,
-          "line": "updatedAnnotations[index] = nextAnnotation"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 194,
-          "line": "patch.isDefault === true ? clearOtherDefaults(updatedAnnotations, annotationId) : updatedAnnotations"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 241,
-          "line": "return [...withoutSame, next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 262,
-          "line": "return [...next].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
         }
       ],
       "forEachMutationHits": [],
@@ -5210,6 +4658,107 @@
           "ruleId": "push",
           "lineNumber": 254,
           "line": "relationshipTypes.push('Valid Parts')"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 14,
+      "priority": "P0"
+    },
+    {
+      "id": "client__src__utils__entityDefaults.ts",
+      "repoPath": "client/src/utils/entityDefaults.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/entityDefaults.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 7,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 79,
+          "line": "if (!metadata || Object.keys(metadata).length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 218,
+          "line": "const finalMerged = (merged.orderIndex === null || merged.orderIndex === undefined)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 221,
+          "line": "orderIndex: typeof defaults.orderIndex === 'number' ? defaults.orderIndex : 0"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 256,
+          "line": "if (result.name === undefined) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 257,
+          "line": "result.name = ''"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 263,
+          "line": "if (result.orderIndex === null || result.orderIndex === undefined) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 264,
+          "line": "result.orderIndex = 0"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 79,
+          "line": "if (!metadata || Object.keys(metadata).length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 218,
+          "line": "const finalMerged = (merged.orderIndex === null || merged.orderIndex === undefined)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 221,
+          "line": "orderIndex: typeof defaults.orderIndex === 'number' ? defaults.orderIndex : 0"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 256,
+          "line": "if (result.name === undefined) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 257,
+          "line": "result.name = ''"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 263,
+          "line": "if (result.orderIndex === null || result.orderIndex === undefined) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 264,
+          "line": "result.orderIndex = 0"
         }
       ],
       "forEachMutationHits": [],
@@ -7973,6 +7522,87 @@
           "ruleId": "delete",
           "lineNumber": 142,
           "line": "// WHY: Multiple cleanup calls or concurrent operations might try to delete same relationship"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__utils__optimistic__annotationAssignmentsOptimistic.ts",
+      "repoPath": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 1,
+        "reverse": 0,
+        "assignIndex": 1,
+        "assignProp": 3,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "sort",
+          "lineNumber": 47,
+          "line": "return [...annotations].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 55,
+          "line": "if (annotation.id === keepDefaultAnnotationId) return annotation"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 75,
+          "line": "const defaultAnnotation = annotations.find((ann) => ann.isDefault === true)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 76,
+          "line": "const selected = defaultAnnotation ?? annotations.find((ann) => ann.userTypeBlock === null) ?? annotations[0]"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 107,
+          "line": "updatedBlockInstances[found.index] = updatedEntity as GlobalEntity<'blockInstance'>"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "sort",
+          "lineNumber": 47,
+          "line": "return [...annotations].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 55,
+          "line": "if (annotation.id === keepDefaultAnnotationId) return annotation"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 75,
+          "line": "const defaultAnnotation = annotations.find((ann) => ann.isDefault === true)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 76,
+          "line": "const selected = defaultAnnotation ?? annotations.find((ann) => ann.userTypeBlock === null) ?? annotations[0]"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 107,
+          "line": "updatedBlockInstances[found.index] = updatedEntity as GlobalEntity<'blockInstance'>"
         }
       ],
       "forEachMutationHits": [],
@@ -11250,144 +10880,144 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 126,
+          "lineNumber": 132,
           "line": "moveableOptions.value = null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 140,
+          "lineNumber": 159,
           "line": "moveableOptions.value = null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 145,
+          "lineNumber": 164,
           "line": "isLoadingOptions.value = true"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 153,
+          "lineNumber": 172,
           "line": "const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 155,
+          "lineNumber": 174,
           "line": "const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 228,
           "line": "moveableOptions.value = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 219,
+          "lineNumber": 238,
           "line": "moveableOptions.value = null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 221,
+          "lineNumber": 240,
           "line": "isLoadingOptions.value = false"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 227,
+          "lineNumber": 246,
           "line": "if (selectedSlotIndex.value === null || !moveableOptions.value) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 235,
+          "lineNumber": 254,
           "line": "showModal.value = true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 239,
+          "lineNumber": 258,
           "line": "showModal.value = false"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 243,
+          "lineNumber": 262,
           "line": "selectedSlotIndex.value = index"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 247,
+          "lineNumber": 266,
           "line": "contingencyPeriod.value = { ...DEFAULT_CONTINGENCY }"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 126,
+          "lineNumber": 132,
           "line": "moveableOptions.value = null",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 140,
+          "lineNumber": 159,
           "line": "moveableOptions.value = null",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 145,
+          "lineNumber": 164,
           "line": "isLoadingOptions.value = true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 228,
           "line": "moveableOptions.value = {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 219,
+          "lineNumber": 238,
           "line": "moveableOptions.value = null",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 221,
+          "lineNumber": 240,
           "line": "isLoadingOptions.value = false",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 227,
+          "lineNumber": 246,
           "line": "if (selectedSlotIndex.value === null || !moveableOptions.value) {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 235,
+          "lineNumber": 254,
           "line": "showModal.value = true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 239,
+          "lineNumber": 258,
           "line": "showModal.value = false",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 243,
+          "lineNumber": 262,
           "line": "selectedSlotIndex.value = index",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 247,
+          "lineNumber": 266,
           "line": "contingencyPeriod.value = { ...DEFAULT_CONTINGENCY }",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -11396,12 +11026,12 @@
       "requiresReview": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 153,
+          "lineNumber": 172,
           "line": "const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 155,
+          "lineNumber": 174,
           "line": "const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)"
         }
       ],
@@ -24943,74 +24573,74 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 109,
+          "lineNumber": 110,
           "line": "if (instances.length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 153,
+          "lineNumber": 154,
           "line": "const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 155,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
+          "lineNumber": 159,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 213,
           "line": "if (times.length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 269,
+          "lineNumber": 273,
           "line": "return appointmentSlots.value.find(s => s.buttonIndex === index) ?? null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 277,
+          "lineNumber": 281,
           "line": "const slot = appointmentSlots.value.find(s => s.buttonIndex === buttonIndex)"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 109,
+          "lineNumber": 110,
           "line": "if (instances.length === 0) {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 153,
+          "lineNumber": 154,
           "line": "const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 155,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')",
+          "lineNumber": 159,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 213,
           "line": "if (times.length === 0) {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 269,
+          "lineNumber": 273,
           "line": "return appointmentSlots.value.find(s => s.buttonIndex === index) ?? null",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 277,
+          "lineNumber": 281,
           "line": "const slot = appointmentSlots.value.find(s => s.buttonIndex === buttonIndex)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -30497,6 +30127,35 @@
       "priority": "P2"
     },
     {
+      "id": "client__src__configs__eventPerspectiveLabels.ts",
+      "repoPath": "client/src/configs/eventPerspectiveLabels.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/eventPerspectiveLabels.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 0,
+        "delete": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "forEachMutationHits": [],
+      "score": 0,
+      "priority": "P2"
+    },
+    {
       "id": "client__src__configs__field__display__appliedDisplay__annotationInstanceDisplays.ts",
       "repoPath": "client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
@@ -34948,9 +34607,67 @@
       "priority": "P2"
     },
     {
+      "id": "server__src__constants__entities.ts",
+      "repoPath": "server/src/constants/entities.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/entities.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 0,
+        "delete": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "forEachMutationHits": [],
+      "score": 0,
+      "priority": "P2"
+    },
+    {
       "id": "server__src__constants__relationships.ts",
       "repoPath": "server/src/constants/relationships.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/relationships.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 0,
+        "delete": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "forEachMutationHits": [],
+      "score": 0,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__constants__relationshipTypes.ts",
+      "repoPath": "server/src/constants/relationshipTypes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/relationshipTypes.ts",
       "counts": {
         "forEach": 0,
         "forLoop": 0,
@@ -36545,7 +36262,7 @@
       "matches": [
         {
           "ruleId": "delete",
-          "lineNumber": 368,
+          "lineNumber": 340,
           "line": "error: 'Failed to delete property',"
         }
       ],
@@ -36553,7 +36270,7 @@
       "requiresReview": [
         {
           "ruleId": "delete",
-          "lineNumber": 368,
+          "lineNumber": 340,
           "line": "error: 'Failed to delete property',"
         }
       ],
@@ -36693,6 +36410,35 @@
       "id": "server__src__types__express.d.ts",
       "repoPath": "server/src/types/express.d.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/types/express.d.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 0,
+        "delete": 0
+      },
+      "matches": [],
+      "allowed": [],
+      "requiresReview": [],
+      "forEachMutationHits": [],
+      "score": 0,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__utils__propertyTransformers.ts",
+      "repoPath": "server/src/utils/propertyTransformers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/utils/propertyTransformers.ts",
       "counts": {
         "forEach": 0,
         "forLoop": 0,

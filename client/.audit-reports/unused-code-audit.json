@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T22:45:02.756Z",
+  "generatedAt": "2026-01-31T23:41:39.494Z",
   "check": "Unused Code",
   "status": "warning",
   "issues": [
@@ -1894,7 +1894,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAppointmentSlotsParams (type)",
       "file": "client/src/composables/booking/useAppointmentSlots.ts",
-      "line": 43,
+      "line": 44,
       "code": "export interface UseAppointmentSlotsParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1904,7 +1904,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAppointmentSlotsReturn (type)",
       "file": "client/src/composables/booking/useAppointmentSlots.ts",
-      "line": 56,
+      "line": 57,
       "code": "export interface UseAppointmentSlotsReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2494,7 +2494,7 @@
       "type": "unused-function",
       "message": "Unused function: openModal",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 234,
+      "line": 253,
       "code": "const openModal = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -2503,7 +2503,7 @@
       "type": "unused-function",
       "message": "Unused function: closeModal",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 238,
+      "line": 257,
       "code": "const closeModal = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -2512,7 +2512,7 @@
       "type": "unused-function",
       "message": "Unused function: resetContingency",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 246,
+      "line": 265,
       "code": "const resetContingency = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3457,6 +3457,36 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: getPerspectiveLabel (function)",
+      "file": "client/src/configs/eventPerspectiveLabels.ts",
+      "line": 51,
+      "code": "export function getPerspectiveLabel(perspective: EventPerspectiveKey): string {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: EVENT_PERSPECTIVE_LABELS (const)",
+      "file": "client/src/configs/eventPerspectiveLabels.ts",
+      "line": 29,
+      "code": "export const EVENT_PERSPECTIVE_LABELS = {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: EventPerspectiveKey (type)",
+      "file": "client/src/configs/eventPerspectiveLabels.ts",
+      "line": 43,
+      "code": "export type EventPerspectiveKey = typeof EVENT_PERSPECTIVE_KEYS[keyof typeof EVENT_PERSPECTIVE_KEYS]",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: annotationInstanceDisplays (const)",
       "file": "client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
       "line": 8,
@@ -4074,19 +4104,9 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: getRelationshipByIdEndpoint (function)",
-      "file": "client/src/utils/api.ts",
-      "line": 1,
-      "code": "",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: getAvailabilityEndpoint (function)",
       "file": "client/src/utils/api.ts",
-      "line": 194,
+      "line": 181,
       "code": "export function getAvailabilityEndpoint(): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4096,7 +4116,7 @@
       "type": "unused-export",
       "message": "Unused export: getBlockInstanceAnnotationsEndpoint (function)",
       "file": "client/src/utils/api.ts",
-      "line": 263,
+      "line": 239,
       "code": "export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4106,56 +4126,10 @@
       "type": "unused-export",
       "message": "Unused export: getBlockInstanceAnnotationEndpoint (function)",
       "file": "client/src/utils/api.ts",
-      "line": 270,
+      "line": 246,
       "code": "export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: getEntityOrderIndexEndpoint (const)",
-      "file": "client/src/utils/api.ts",
-      "line": 128,
-      "code": "// export const getEntityOrderIndexEndpoint = getOrderIndexEndpoint",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "info",
-      "type": "commented-export",
-      "message": "Commented-out export found",
-      "file": "client/src/utils/api.ts",
-      "line": 128,
-      "code": "// export const getEntityOrderIndexEndpoint = getOrderIndexEndpoint",
-      "suggestion": "Review and either uncomment or remove"
-    },
-    {
-      "severity": "info",
-      "type": "unused-function",
-      "message": "Unused function: getRelationshipByIdEndpoint",
-      "file": "client/src/utils/api.ts",
-      "line": 103,
-      "code": "function getRelationshipByIdEndpoint(relationshipKey: string, id: string): string {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "info",
-      "type": "unused-function",
-      "message": "Unused function: getPropertyTypesEndpoint",
-      "file": "client/src/utils/api.ts",
-      "line": 233,
-      "code": "function getPropertyTypesEndpoint(propertyVersionId: string): string {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "info",
-      "type": "unused-function",
-      "message": "Unused function: getPropertyTypeByIdEndpoint",
-      "file": "client/src/utils/api.ts",
-      "line": 237,
-      "code": "function getPropertyTypeByIdEndpoint(propertyVersionId: string, typeId: string): string {",
-      "suggestion": "Remove if unused or document why kept"
     },
     {
       "severity": "warning",
@@ -4369,7 +4343,7 @@
       "type": "unused-export",
       "message": "Unused export: markSlotAvailability (function)",
       "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 904,
+      "line": 965,
       "code": "export function markSlotAvailability(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4557,7 +4531,7 @@
       "type": "unused-export",
       "message": "Unused export: mergeEntityDefaults (function)",
       "file": "client/src/utils/entityDefaults.ts",
-      "line": 191,
+      "line": 197,
       "code": "export function mergeEntityDefaults<GE extends GlobalEntityKey>(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4663,72 +4637,48 @@
       "fromPatternDetection": false
     },
     {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: applyOptimisticAssignmentCreateToGlobalData (function)",
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: sortByOrderIndex",
       "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 118,
-      "code": "export function applyOptimisticAssignmentCreateToGlobalData(params: {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: applyOptimisticAssignmentPatchToGlobalData (function)",
-      "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 1,
-      "code": "",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: applyOptimisticAssignmentDeleteToGlobalData (function)",
-      "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 207,
-      "code": "export function applyOptimisticAssignmentDeleteToGlobalData(params: {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: optimisticUpsertAssignmentInList (function)",
-      "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 1,
-      "code": "",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: optimisticPatchAssignmentInList (function)",
-      "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 244,
-      "code": "export function optimisticPatchAssignmentInList<TAssignment extends AnnotationAssignmentLike>(params: {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: optimisticRemoveAssignmentFromList (function)",
-      "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 1,
-      "code": "",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
+      "line": 46,
+      "code": "function sortByOrderIndex(annotations: AnnotationWithMetadata[]): AnnotationWithMetadata[] {",
+      "suggestion": "Remove if unused or document why kept"
     },
     {
       "severity": "info",
       "type": "unused-function",
-      "message": "Unused function: applyOptimisticAssignmentPatchToGlobalData",
+      "message": "Unused function: clearOtherDefaults",
       "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 166,
-      "code": "function applyOptimisticAssignmentPatchToGlobalData(params: {",
+      "line": 50,
+      "code": "function clearOtherDefaults(",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: deriveBlockInstanceDescriptionFromAnnotations",
+      "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "line": 72,
+      "code": "function deriveBlockInstanceDescriptionFromAnnotations(",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: toAnnotationWithMetadata",
+      "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "line": 80,
+      "code": "function toAnnotationWithMetadata(",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: updateBlockInstanceEntityInGlobalData",
+      "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "line": 94,
+      "code": "function updateBlockInstanceEntityInGlobalData(params: {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -5467,6 +5417,24 @@
       "suggestion": "Review and either uncomment or remove"
     },
     {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: whereWithParentId",
+      "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "line": 314,
+      "code": "const whereWithParentId = (() => {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: whereClause",
+      "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "line": 330,
+      "code": "const whereClause = (() => {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
       "severity": "warning",
       "type": "unused-export",
       "message": "Unused export: loadBlockInstanceFromVersion (function)",
@@ -5543,6 +5511,16 @@
       "file": "server/src/utils/adminRelationshipMetadataComposer.ts",
       "line": 14,
       "code": "export interface RelationshipMetadataEntry {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: PROPERTY_FIELD_MAPPINGS (const)",
+      "file": "server/src/utils/propertyTransformers.ts",
+      "line": 15,
+      "code": "export const PROPERTY_FIELD_MAPPINGS = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -8152,7 +8130,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAppointmentSlotsParams (type)",
           "file": "client/src/composables/booking/useAppointmentSlots.ts",
-          "line": 43,
+          "line": 44,
           "code": "export interface UseAppointmentSlotsParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8162,7 +8140,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAppointmentSlotsReturn (type)",
           "file": "client/src/composables/booking/useAppointmentSlots.ts",
-          "line": 56,
+          "line": 57,
           "code": "export interface UseAppointmentSlotsReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8955,7 +8933,7 @@
           "type": "unused-function",
           "message": "Unused function: openModal",
           "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-          "line": 234,
+          "line": 253,
           "code": "const openModal = () => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -8964,7 +8942,7 @@
           "type": "unused-function",
           "message": "Unused function: closeModal",
           "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-          "line": 238,
+          "line": 257,
           "code": "const closeModal = () => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -8973,7 +8951,7 @@
           "type": "unused-function",
           "message": "Unused function: resetContingency",
           "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-          "line": 246,
+          "line": 265,
           "code": "const resetContingency = () => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -10284,6 +10262,43 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/configs/eventPerspectiveLabels.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: getPerspectiveLabel (function)",
+          "file": "client/src/configs/eventPerspectiveLabels.ts",
+          "line": 51,
+          "code": "export function getPerspectiveLabel(perspective: EventPerspectiveKey): string {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: EVENT_PERSPECTIVE_LABELS (const)",
+          "file": "client/src/configs/eventPerspectiveLabels.ts",
+          "line": 29,
+          "code": "export const EVENT_PERSPECTIVE_LABELS = {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: EventPerspectiveKey (type)",
+          "file": "client/src/configs/eventPerspectiveLabels.ts",
+          "line": 43,
+          "code": "export type EventPerspectiveKey = typeof EVENT_PERSPECTIVE_KEYS[keyof typeof EVENT_PERSPECTIVE_KEYS]",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 9,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
       "issues": [
         {
@@ -11158,19 +11173,9 @@
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: getRelationshipByIdEndpoint (function)",
-          "file": "client/src/utils/api.ts",
-          "line": 1,
-          "code": "",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
           "message": "Unused export: getAvailabilityEndpoint (function)",
           "file": "client/src/utils/api.ts",
-          "line": 194,
+          "line": 181,
           "code": "export function getAvailabilityEndpoint(): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11180,7 +11185,7 @@
           "type": "unused-export",
           "message": "Unused export: getBlockInstanceAnnotationsEndpoint (function)",
           "file": "client/src/utils/api.ts",
-          "line": 263,
+          "line": 239,
           "code": "export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11190,60 +11195,14 @@
           "type": "unused-export",
           "message": "Unused export: getBlockInstanceAnnotationEndpoint (function)",
           "file": "client/src/utils/api.ts",
-          "line": 270,
+          "line": 246,
           "code": "export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: getEntityOrderIndexEndpoint (const)",
-          "file": "client/src/utils/api.ts",
-          "line": 128,
-          "code": "// export const getEntityOrderIndexEndpoint = getOrderIndexEndpoint",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "info",
-          "type": "commented-export",
-          "message": "Commented-out export found",
-          "file": "client/src/utils/api.ts",
-          "line": 128,
-          "code": "// export const getEntityOrderIndexEndpoint = getOrderIndexEndpoint",
-          "suggestion": "Review and either uncomment or remove"
-        },
-        {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: getRelationshipByIdEndpoint",
-          "file": "client/src/utils/api.ts",
-          "line": 103,
-          "code": "function getRelationshipByIdEndpoint(relationshipKey: string, id: string): string {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: getPropertyTypesEndpoint",
-          "file": "client/src/utils/api.ts",
-          "line": 233,
-          "code": "function getPropertyTypesEndpoint(propertyVersionId: string): string {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: getPropertyTypeByIdEndpoint",
-          "file": "client/src/utils/api.ts",
-          "line": 237,
-          "code": "function getPropertyTypeByIdEndpoint(propertyVersionId: string, typeId: string): string {",
-          "suggestion": "Remove if unused or document why kept"
         }
       ],
-      "score": 20,
-      "priority": "P0"
+      "score": 9,
+      "priority": "P1"
     },
     {
       "repoPath": "client/src/utils/appointmentFieldFormatters.ts",
@@ -11551,7 +11510,7 @@
           "type": "unused-export",
           "message": "Unused export: markSlotAvailability (function)",
           "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-          "line": 904,
+          "line": 965,
           "code": "export function markSlotAvailability(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11809,7 +11768,7 @@
           "type": "unused-export",
           "message": "Unused export: mergeEntityDefaults (function)",
           "file": "client/src/utils/entityDefaults.ts",
-          "line": 191,
+          "line": 197,
           "code": "export function mergeEntityDefaults<GE extends GlobalEntityKey>(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11964,77 +11923,53 @@
       "repoPath": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
       "issues": [
         {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: applyOptimisticAssignmentCreateToGlobalData (function)",
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: sortByOrderIndex",
           "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 118,
-          "code": "export function applyOptimisticAssignmentCreateToGlobalData(params: {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: applyOptimisticAssignmentPatchToGlobalData (function)",
-          "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 1,
-          "code": "",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: applyOptimisticAssignmentDeleteToGlobalData (function)",
-          "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 207,
-          "code": "export function applyOptimisticAssignmentDeleteToGlobalData(params: {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: optimisticUpsertAssignmentInList (function)",
-          "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 1,
-          "code": "",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: optimisticPatchAssignmentInList (function)",
-          "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 244,
-          "code": "export function optimisticPatchAssignmentInList<TAssignment extends AnnotationAssignmentLike>(params: {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: optimisticRemoveAssignmentFromList (function)",
-          "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 1,
-          "code": "",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
+          "line": 46,
+          "code": "function sortByOrderIndex(annotations: AnnotationWithMetadata[]): AnnotationWithMetadata[] {",
+          "suggestion": "Remove if unused or document why kept"
         },
         {
           "severity": "info",
           "type": "unused-function",
-          "message": "Unused function: applyOptimisticAssignmentPatchToGlobalData",
+          "message": "Unused function: clearOtherDefaults",
           "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 166,
-          "code": "function applyOptimisticAssignmentPatchToGlobalData(params: {",
+          "line": 50,
+          "code": "function clearOtherDefaults(",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: deriveBlockInstanceDescriptionFromAnnotations",
+          "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+          "line": 72,
+          "code": "function deriveBlockInstanceDescriptionFromAnnotations(",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: toAnnotationWithMetadata",
+          "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+          "line": 80,
+          "code": "function toAnnotationWithMetadata(",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: updateBlockInstanceEntityInGlobalData",
+          "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+          "line": 94,
+          "code": "function updateBlockInstanceEntityInGlobalData(params: {",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
-      "score": 19,
-      "priority": "P0"
+      "score": 5,
+      "priority": "P1"
     },
     {
       "repoPath": "client/src/utils/optimistic/listByIdOptimistic.ts",
@@ -13017,6 +12952,31 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "issues": [
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: whereWithParentId",
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "line": 314,
+          "code": "const whereWithParentId = (() => {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: whereClause",
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "line": 330,
+          "code": "const whereClause = (() => {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/services/appointmentSnapshotLoader.ts",
       "issues": [
         {
@@ -13125,6 +13085,23 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/utils/propertyTransformers.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: PROPERTY_FIELD_MAPPINGS (const)",
+          "file": "server/src/utils/propertyTransformers.ts",
+          "line": 15,
+          "code": "export const PROPERTY_FIELD_MAPPINGS = {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/utils/sequelizeHelpers.ts",
       "issues": [
         {
@@ -13143,20 +13120,20 @@
     }
   ],
   "recommendations": [
-    "Found 468 unused export(s) - review for removal",
-    "Found 4 commented-out export(s) - review and clean up",
-    "Found 90 unused function(s) - review for removal",
+    "Found 464 unused export(s) - review for removal",
+    "Found 3 commented-out export(s) - review and clean up",
+    "Found 93 unused function(s) - review for removal",
     "Found 3 TODO/FIXME marker(s) about unused code - review and clean up"
   ],
-  "summary": "Scanned 592 file(s) (477 client, 115 server). Found 565 issue(s): 468 unused exports, 4 commented exports, 90 unused functions, 3 TODO markers",
+  "summary": "Scanned 596 file(s) (478 client, 118 server). Found 563 issue(s): 464 unused exports, 3 commented exports, 93 unused functions, 3 TODO markers",
   "summaryData": {
-    "totalFiles": 592,
+    "totalFiles": 596,
     "skippedFilesCount": 0,
-    "filesWithIssues": 290,
-    "totalIssues": 565,
-    "unusedExports": 468,
-    "commentedExports": 4,
-    "unusedFunctions": 90,
+    "filesWithIssues": 293,
+    "totalIssues": 563,
+    "unusedExports": 464,
+    "commentedExports": 3,
+    "unusedFunctions": 93,
     "todoMarkers": 3,
     "usingPatternDetection": true,
     "usingHardcoding": true,

@@ -257,7 +257,7 @@ Generated from `.audit-reports/duplication-audit.json`.
 | `dup-a560dcd62523` | P0 | 2 | 2 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@545`, `server/src/scripts/importRealCalendarEvents.ts@172` |
 | `dup-a70f55660fc9` | P0 | 2 | 2 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@694`, `server/src/scripts/importRealCalendarEvents.ts@321` |
 | `dup-a72710788167` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@40`, `server/src/db/models/booking/part_assignment.ts@40` |
-| `dup-a80286b512fe` | P0 | 2 | 2 | 10 | `client/src/utils/booking/partFinalizer.ts@32`, `client/src/utils/booking/partShapeAggregator.ts@24` |
+| `dup-a80286b512fe` | P0 | 2 | 2 | 10 | `client/src/utils/booking/partFinalizer.ts@33`, `client/src/utils/booking/partShapeAggregator.ts@24` |
 | `dup-a80df1aaab51` | P0 | 2 | 2 | 10 | `server/src/db/models/admin/valid_cascade.ts@72`, `server/src/db/models/admin/valid_component.ts@72` |
 | `dup-a924026fbef4` | P0 | 2 | 2 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@445`, `server/src/scripts/importRealCalendarEvents.ts@72` |
 | `dup-ad649df8b499` | P0 | 2 | 2 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@448`, `server/src/scripts/importRealCalendarEvents.ts@75` |

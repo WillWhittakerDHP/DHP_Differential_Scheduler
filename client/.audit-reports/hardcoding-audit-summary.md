@@ -11,13 +11,12 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | File | Priority | score | switch(entityKey) | entityKey strings | case | field===string | omitFields | headers | label maps |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `client/src/composables/booking/useAppointmentSlots.ts` | P0 | 66 | 0 | 0 | 0 | 0 | 0 | 0 | 14 |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | P0 | 56 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/relationships/relationshipRouter.ts` | P0 | 44 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/properties/propertyRouter.ts` | P0 | 43 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/partFinalizer.ts` | P0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 10 |
 | `client/src/utils/booking/appointmentSlotBuilder.ts` | P0 | 27 | 0 | 0 | 3 | 0 | 0 | 0 | 3 |
 | `server/src/routes/internal/entities/entityRouter.ts` | P0 | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/scripts/backfill-input-config-from-selectable.mjs` | P0 | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` | P0 | 21 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | P0 | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/forms/fieldLocationDispatcher.ts` | P0 | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/appointments/appointmentRouter.ts` | P0 | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -411,6 +410,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `client/src/configs/availabilitySettings.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/businessControlsTabStrings.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/contactsValidationStrings.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/configs/eventPerspectiveLabels.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/configs/field/display/appliedDisplay/baseEntityDisplays.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -512,6 +512,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `client/src/utils/forms/selectDomAssociation.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/instanceComponentUtils.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/logger.ts` | P2 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
+| `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/optimistic/listByIdOptimistic.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/orderIndexUtils.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/patchFormElements.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -592,6 +593,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `server/src/utils/adminMetadataComposer.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/utils/adminPrimitiveMetadataComposer.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/utils/adminRelationshipMetadataComposer.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/utils/propertyTransformers.ts` | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Notes
 

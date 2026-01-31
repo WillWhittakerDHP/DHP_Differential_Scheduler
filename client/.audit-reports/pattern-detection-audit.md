@@ -10,12 +10,12 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **592**
+- Files scanned: **596**
 - String literals found: **2** (showing those with 3+ occurrences)
-- Type definitions found: **476**
+- Type definitions found: **479**
 - Enum patterns found: **2**
-- Config locations found: **33**
-- Function patterns found: **304**
+- Config locations found: **34**
+- Function patterns found: **305**
 - Common patterns found: **52**
 
 ## String Literals (Potential Enum/Key Candidates)
@@ -107,12 +107,14 @@ _No frequent string literals found._
 | `DurationRoundingConfig` | interface | `client/src/utils/booking/durationRounding.ts:25` |
 | `EntityCardSaveContext` | interface | `client/src/components/admin/generic/entityCardConstants.ts:20` |
 | `EntityConfig` | interface | `server/src/config/entityRegistry.ts:106` |
+| `EntityKey` | type | `server/src/constants/entities.ts:32` |
 | `EntityMetadataType` | type | `client/src/types/entityMetadata.ts:14` |
 | `EntityType` | type | `server/src/config/entityRegistry.ts:77` |
 | `EntityWithStringId` | type | `client/src/utils/optimistic/listByIdOptimistic.ts:1` |
 | `EventFinal` | interface | `client/src/types/appointment.ts:135` |
 | `EventInstance` | type | `client/src/types/events.ts:25` |
 | `EventInstanceEntity` | interface | `client/src/types/entities.ts:93` |
+| `EventPerspectiveKey` | type | `client/src/configs/eventPerspectiveLabels.ts:43` |
 | `EventShape` | type | `client/src/types/events.ts:17` |
 | `EventShapeEntity` | interface | `client/src/types/entities.ts:86` |
 | `FetchedInstanceComponent` | interface | `client/src/types/component.ts:35` |
@@ -121,14 +123,12 @@ _No frequent string literals found._
 | `FieldContextType` | interface | `client/src/composables/fieldContext/types.ts:46` |
 | `FieldDisplayConfig` | interface | `client/src/composables/fieldContext/types.ts:13` |
 | `FieldFormatter` | type | `client/src/utils/appointmentFieldFormatters.ts:19` |
-| `FieldLocation` | type | `client/src/utils/forms/fieldLocationDispatcher.ts:60` |
-| `FieldLocationContext` | interface | `client/src/utils/forms/fieldLocationDispatcher.ts:72` |
+| `FieldLocation` | type | `client/src/utils/forms/fieldLocationDispatcher.ts:63` |
+| `FieldLocationContext` | interface | `client/src/utils/forms/fieldLocationDispatcher.ts:75` |
 | `FieldMetadata` | type | `client/src/composables/_archived/useFieldMetadata.ts:48` |
 | `FieldMetadataConfig` | interface | `client/src/composables/admin/useFieldMetadataUpdate.ts:13` |
 | `FieldMetadataEntry` | interface | `client/src/types/entityMetadata.ts:24` |
-| `FieldsByLayout` | interface | `client/src/composables/admin/useEntityCardLayout.ts:26` |
-| `FieldsByLocation` | interface | `client/src/composables/admin/useConditionalFieldVisibility.ts:15` |
-| ... | ... | (+376 more) |
+| ... | ... | (+379 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 
@@ -145,6 +145,7 @@ _No frequent string literals found._
 | `client/src/configs/availabilitySettings.ts` | config-file |
 | `client/src/configs/businessControlsTabStrings.ts` | config-file |
 | `client/src/configs/contactsValidationStrings.ts` | config-file |
+| `client/src/configs/eventPerspectiveLabels.ts` | config-file |
 | `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | config-file |
 | `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | config-file |
 | `client/src/configs/field/display/appliedDisplay/baseEntityDisplays.ts` | config-file |
@@ -211,7 +212,7 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useEntityCardExpansion` | `use*` | 1 |
 | `useEntityCardFieldConfiguration` | `use*` | 1 |
 | `useEntityCardLayout` | `use*` | 1 |
-| ... | ... | (+274 more) |
+| ... | ... | (+275 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 

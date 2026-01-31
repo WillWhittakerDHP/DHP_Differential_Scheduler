@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T22:45:03.251Z",
+  "generatedAt": "2026-01-31T23:41:39.966Z",
   "check": "Fallback",
   "status": "warning",
   "issues": [
@@ -647,7 +647,7 @@
       "severity": "warning",
       "message": "Found \"Fallback patterns\" keyword: fallback",
       "file": "client/src/composables/booking/useAppointmentSlots.ts",
-      "line": 47,
+      "line": 48,
       "code": "timeSlotDurations?: ComputedRef<Map<string, number>> // Optional: durations from time slots for fall...",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -655,7 +655,7 @@
       "severity": "warning",
       "message": "Found \"Fallback patterns\" keyword: fallback",
       "file": "client/src/composables/booking/useAppointmentSlots.ts",
-      "line": 309,
+      "line": 313,
       "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -663,7 +663,7 @@
       "severity": "warning",
       "message": "Found \"Fallback patterns\" keyword: fallback",
       "file": "client/src/composables/booking/useAppointmentSlots.ts",
-      "line": 322,
+      "line": 326,
       "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -671,7 +671,7 @@
       "severity": "warning",
       "message": "Found \"Fallback patterns\" keyword: fallback",
       "file": "client/src/composables/booking/useAppointmentSlots.ts",
-      "line": 352,
+      "line": 356,
       "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -679,7 +679,7 @@
       "severity": "warning",
       "message": "Found Optional chaining with default value",
       "file": "client/src/composables/booking/useAppointmentSlots.ts",
-      "line": 359,
+      "line": 363,
       "code": "const minorEventName = minorEventShape?.name ?? null",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -935,7 +935,7 @@
       "severity": "warning",
       "message": "Found Optional chaining with default value",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 107,
+      "line": 113,
       "code": "const moveableDuration = moveableEventFinal?.duration ?? 0",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -943,7 +943,7 @@
       "severity": "warning",
       "message": "Found Optional chaining with default value",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 117,
+      "line": 123,
       "code": "return moveableEventFinal?.duration ?? 0",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -951,7 +951,7 @@
       "severity": "warning",
       "message": "Found Optional chaining with default value",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 138,
+      "line": 157,
       "code": "const innerBoundary = majorTimeRange?.endTime ?? slot.totalTimeRange?.endTime",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1759,7 +1759,7 @@
       "severity": "warning",
       "message": "Found Optional chaining with default value",
       "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 517,
+      "line": 516,
       "code": "const minorEventName = minorEventShape?.name ?? null",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1767,7 +1767,7 @@
       "severity": "warning",
       "message": "Found \"Fallback patterns\" keyword: fallback",
       "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 531,
+      "line": 530,
       "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -1775,7 +1775,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 546,
+      "line": 545,
       "code": "default:",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -1807,7 +1807,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/utils/booking/partFinalizer.ts",
-      "line": 35,
+      "line": 36,
       "code": "const partShape = part.partShape || ''",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1839,7 +1839,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 668,
+      "line": 729,
       "code": "direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1847,7 +1847,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 1044,
+      "line": 1107,
       "code": "keyParts.direction || 'past'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1855,7 +1855,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 1174,
+      "line": 1237,
       "code": "`Invalid range constraint at index ${index}: ${validation.error || 'unknown error'}`,",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1863,7 +1863,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 1189,
+      "line": 1252,
       "code": "`Invalid overlap constraint at index ${index}: ${validation.error || 'unknown error'}`,",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1871,7 +1871,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 1204,
+      "line": 1267,
       "code": "`Invalid capacity constraint at index ${index}: ${validation.error || 'unknown error'}`,",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1983,7 +1983,7 @@
       "severity": "warning",
       "message": "Found Type suppression",
       "file": "client/src/utils/entityDefaults.ts",
-      "line": 151,
+      "line": 157,
       "code": "// @ts-expect-error - Deprecated constant kept for reference only",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1991,7 +1991,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/entityDefaults.ts",
-      "line": 155,
+      "line": 161,
       "code": "composable: false, // Boolean field must have explicit default",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -1999,7 +1999,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/entityDefaults.ts",
-      "line": 156,
+      "line": 162,
       "code": "canHaveParts: false, // Boolean field must have explicit default",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2007,7 +2007,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/entityDefaults.ts",
-      "line": 157,
+      "line": 163,
       "code": "isStateControl: false, // Boolean field must have explicit default",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2015,7 +2015,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/entityDefaults.ts",
-      "line": 163,
+      "line": 169,
       "code": "composite: false, // Boolean field must have explicit default",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2023,7 +2023,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-      "line": 186,
+      "line": 189,
       "code": "default:",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2031,7 +2031,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-      "line": 239,
+      "line": 242,
       "code": "default:",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2153,14 +2153,6 @@
       "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
       "line": 77,
       "code": "return selected?.text ?? ''",
-      "suggestion": "Review for removal - prefer explicit error handling or type safety"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Nullish coalescing with default string",
-      "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 133,
-      "code": "`${devWarningPrefix ?? '[annotationAssignmentsOptimistic]'} Base annotation not found in globalData....",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
     {
@@ -2599,7 +2591,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 510,
+      "line": 512,
       "code": "return [frontendKey, false] // Required booleans default to false",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2607,7 +2599,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 512,
+      "line": 514,
       "code": "return [frontendKey, 0] // Required numbers default to 0",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2615,7 +2607,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 514,
+      "line": 516,
       "code": "return [frontendKey, ''] // Required strings default to empty string",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2991,7 +2983,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/internal/entities/entityRouter.ts",
-      "line": 232,
+      "line": 239,
       "code": "const fieldName = err.path || 'field';",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2999,7 +2991,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/internal/entities/entityRouter.ts",
-      "line": 233,
+      "line": 240,
       "code": "const message = err.message || 'Validation error';",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -3015,7 +3007,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "server/src/routes/internal/properties/propertyRouter.ts",
-      "line": 155,
+      "line": 127,
       "code": "source = 'client', // Default to 'client' for booking wizard",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -3023,7 +3015,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/internal/properties/propertyRouter.ts",
-      "line": 465,
+      "line": 437,
       "code": "actualBlockShape: blockShape?.name || 'NULL',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -3039,7 +3031,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 696,
+      "line": 718,
       "code": "details: error.message || 'One of the referenced entities does not exist',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -4784,7 +4776,7 @@
           "severity": "warning",
           "message": "Found \"Fallback patterns\" keyword: fallback",
           "file": "client/src/composables/booking/useAppointmentSlots.ts",
-          "line": 47,
+          "line": 48,
           "code": "timeSlotDurations?: ComputedRef<Map<string, number>> // Optional: durations from time slots for fall...",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -4792,7 +4784,7 @@
           "severity": "warning",
           "message": "Found \"Fallback patterns\" keyword: fallback",
           "file": "client/src/composables/booking/useAppointmentSlots.ts",
-          "line": 309,
+          "line": 313,
           "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -4800,7 +4792,7 @@
           "severity": "warning",
           "message": "Found \"Fallback patterns\" keyword: fallback",
           "file": "client/src/composables/booking/useAppointmentSlots.ts",
-          "line": 322,
+          "line": 326,
           "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -4808,7 +4800,7 @@
           "severity": "warning",
           "message": "Found \"Fallback patterns\" keyword: fallback",
           "file": "client/src/composables/booking/useAppointmentSlots.ts",
-          "line": 352,
+          "line": 356,
           "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -4816,7 +4808,7 @@
           "severity": "warning",
           "message": "Found Optional chaining with default value",
           "file": "client/src/composables/booking/useAppointmentSlots.ts",
-          "line": 359,
+          "line": 363,
           "code": "const minorEventName = minorEventShape?.name ?? null",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -5142,7 +5134,7 @@
           "severity": "warning",
           "message": "Found Optional chaining with default value",
           "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-          "line": 107,
+          "line": 113,
           "code": "const moveableDuration = moveableEventFinal?.duration ?? 0",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -5150,7 +5142,7 @@
           "severity": "warning",
           "message": "Found Optional chaining with default value",
           "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-          "line": 117,
+          "line": 123,
           "code": "return moveableEventFinal?.duration ?? 0",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -5158,7 +5150,7 @@
           "severity": "warning",
           "message": "Found Optional chaining with default value",
           "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-          "line": 138,
+          "line": 157,
           "code": "const innerBoundary = majorTimeRange?.endTime ?? slot.totalTimeRange?.endTime",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -6253,7 +6245,7 @@
           "severity": "warning",
           "message": "Found Optional chaining with default value",
           "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 517,
+          "line": 516,
           "code": "const minorEventName = minorEventShape?.name ?? null",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -6261,7 +6253,7 @@
           "severity": "warning",
           "message": "Found \"Fallback patterns\" keyword: fallback",
           "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 531,
+          "line": 530,
           "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -6269,7 +6261,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 546,
+          "line": 545,
           "code": "default:",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         }
@@ -6322,7 +6314,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/utils/booking/partFinalizer.ts",
-          "line": 35,
+          "line": 36,
           "code": "const partShape = part.partShape || ''",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -6382,7 +6374,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-          "line": 668,
+          "line": 729,
           "code": "direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -6390,7 +6382,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1044,
+          "line": 1107,
           "code": "keyParts.direction || 'past'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -6398,7 +6390,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1174,
+          "line": 1237,
           "code": "`Invalid range constraint at index ${index}: ${validation.error || 'unknown error'}`,",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -6406,7 +6398,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1189,
+          "line": 1252,
           "code": "`Invalid overlap constraint at index ${index}: ${validation.error || 'unknown error'}`,",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -6414,7 +6406,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1204,
+          "line": 1267,
           "code": "`Invalid capacity constraint at index ${index}: ${validation.error || 'unknown error'}`,",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -6561,7 +6553,7 @@
           "severity": "warning",
           "message": "Found Type suppression",
           "file": "client/src/utils/entityDefaults.ts",
-          "line": 151,
+          "line": 157,
           "code": "// @ts-expect-error - Deprecated constant kept for reference only",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -6569,7 +6561,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/entityDefaults.ts",
-          "line": 155,
+          "line": 161,
           "code": "composable: false, // Boolean field must have explicit default",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -6577,7 +6569,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/entityDefaults.ts",
-          "line": 156,
+          "line": 162,
           "code": "canHaveParts: false, // Boolean field must have explicit default",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -6585,7 +6577,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/entityDefaults.ts",
-          "line": 157,
+          "line": 163,
           "code": "isStateControl: false, // Boolean field must have explicit default",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -6593,7 +6585,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/entityDefaults.ts",
-          "line": 163,
+          "line": 169,
           "code": "composite: false, // Boolean field must have explicit default",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         }
@@ -6608,7 +6600,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-          "line": 186,
+          "line": 189,
           "code": "default:",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -6616,7 +6608,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-          "line": 239,
+          "line": 242,
           "code": "default:",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         }
@@ -6788,17 +6780,9 @@
           "line": 77,
           "code": "return selected?.text ?? ''",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
-        },
-        {
-          "severity": "warning",
-          "message": "Found Nullish coalescing with default string",
-          "file": "client/src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 133,
-          "code": "`${devWarningPrefix ?? '[annotationAssignmentsOptimistic]'} Base annotation not found in globalData....",
-          "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
       ],
-      "score": 3,
+      "score": 2,
       "priority": "P1"
     },
     {
@@ -7275,7 +7259,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 510,
+          "line": 512,
           "code": "return [frontendKey, false] // Required booleans default to false",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -7283,7 +7267,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 512,
+          "line": 514,
           "code": "return [frontendKey, 0] // Required numbers default to 0",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -7291,7 +7275,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 514,
+          "line": 516,
           "code": "return [frontendKey, ''] // Required strings default to empty string",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         }
@@ -7793,7 +7777,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 232,
+          "line": 239,
           "code": "const fieldName = err.path || 'field';",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7801,7 +7785,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 233,
+          "line": 240,
           "code": "const message = err.message || 'Validation error';",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -7831,7 +7815,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 155,
+          "line": 127,
           "code": "source = 'client', // Default to 'client' for booking wizard",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -7839,7 +7823,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 465,
+          "line": 437,
           "code": "actualBlockShape: blockShape?.name || 'NULL',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -7862,7 +7846,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 696,
+          "line": 718,
           "code": "details: error.message || 'One of the referenced entities does not exist',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -8859,7 +8843,7 @@
     }
   ],
   "recommendations": [
-    "Found 485 warning(s) - review defaults/fallbacks for removal in favor of dynamic/config-driven approaches"
+    "Found 484 warning(s) - review defaults/fallbacks for removal in favor of dynamic/config-driven approaches"
   ],
-  "summary": "Scanned 581 file(s) (477 client, 104 server). Found 485 issue(s): 0 critical, 485 warnings"
+  "summary": "Scanned 585 file(s) (478 client, 107 server). Found 484 issue(s): 0 critical, 484 warnings"
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T22:43:30.446Z",
+  "generatedAt": "2026-01-31T23:40:22.366Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 444,
+  "fileCount": 447,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -50,6 +50,7 @@
           "client/src/composables/useApiErrorMessage.ts",
           "client/src/configs/adminConfig.ts",
           "client/src/configs/availabilitySettings.ts",
+          "client/src/configs/eventPerspectiveLabels.ts",
           "client/src/plugins/3.vue-query.ts",
           "client/src/types/datetime.ts",
           "client/src/utils/admin/entityDisplayText.ts",
@@ -85,7 +86,7 @@
           "server/src/utils/adminRelationshipMetadataComposer.ts",
           "server/src/utils/sequelizeHelpers.ts"
         ],
-        "patternCount": 80
+        "patternCount": 81
       },
       {
         "prefix": "use",
@@ -7140,8 +7141,8 @@
       "locations": [
         {
           "repoPath": "client/src/utils/booking/partFinalizer.ts",
-          "startLine": 32,
-          "endLine": 54,
+          "startLine": 33,
+          "endLine": 55,
           "windowText": "parts: BookingPartInstance[]\n): Map<string, BookingPartInstance[]> {\nreturn parts.reduce((grouped, part) => {\nconst partShape = part.partShape || ''\nif (!grouped.has(partShape)) {\ngrouped.set(partShape, [])\ngrouped.get(partShape)!.push(part)\n}, new Map<string, BookingPartInstance[]>())\nexport function createPartFinals(\nparts: BookingPartInstance[]",
           "target": "client/src/utils/booking/partFinalizer.ts"
         },

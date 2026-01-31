@@ -6,104 +6,16 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ## Summary
 
-- Files scanned: **592**
-- Files with issues: **290**
-- Issues found: **565**
-- Unused exports: 468
-- Commented exports: 4
-- Unused functions: 90
+- Files scanned: **596**
+- Files with issues: **293**
+- Issues found: **563**
+- Unused exports: 464
+- Commented exports: 3
+- Unused functions: 93
 - TODO markers: 3
 - Using pattern-detection data: **Yes** (prioritizing exports found by pattern-detection)
 
 ## Issues by File (sorted by priority)
-
-### `client/src/utils/api.ts` [P0] (score: 20)
-
-- **WARNING** [unused-export] (line 1): Unused export: getRelationshipByIdEndpoint (function)
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 194): Unused export: getAvailabilityEndpoint (function)
-  ```
-  export function getAvailabilityEndpoint(): string {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 263): Unused export: getBlockInstanceAnnotationsEndpoint (function)
-  ```
-  export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 270): Unused export: getBlockInstanceAnnotationEndpoint (function)
-  ```
-  export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 128): Unused export: getEntityOrderIndexEndpoint (const)
-  ```
-  // export const getEntityOrderIndexEndpoint = getOrderIndexEndpoint
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [commented-export] (line 128): Commented-out export found
-  ```
-  // export const getEntityOrderIndexEndpoint = getOrderIndexEndpoint
-  ```
-  💡 Review and either uncomment or remove
-
-- **INFO** [unused-function] (line 103): Unused function: getRelationshipByIdEndpoint
-  ```
-  function getRelationshipByIdEndpoint(relationshipKey: string, id: string): string {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 233): Unused function: getPropertyTypesEndpoint
-  ```
-  function getPropertyTypesEndpoint(propertyVersionId: string): string {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 237): Unused function: getPropertyTypeByIdEndpoint
-  ```
-  function getPropertyTypeByIdEndpoint(propertyVersionId: string, typeId: string): string {
-  ```
-  💡 Remove if unused or document why kept
-
-### `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` [P0] (score: 19)
-
-- **WARNING** [unused-export] (line 118): Unused export: applyOptimisticAssignmentCreateToGlobalData (function)
-  ```
-  export function applyOptimisticAssignmentCreateToGlobalData(params: {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 1): Unused export: applyOptimisticAssignmentPatchToGlobalData (function)
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 207): Unused export: applyOptimisticAssignmentDeleteToGlobalData (function)
-  ```
-  export function applyOptimisticAssignmentDeleteToGlobalData(params: {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 1): Unused export: optimisticUpsertAssignmentInList (function)
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 244): Unused export: optimisticPatchAssignmentInList (function)
-  ```
-  export function optimisticPatchAssignmentInList<TAssignment extends AnnotationAssignmentLike>(params: {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 1): Unused export: optimisticRemoveAssignmentFromList (function)
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 166): Unused function: applyOptimisticAssignmentPatchToGlobalData
-  ```
-  function applyOptimisticAssignmentPatchToGlobalData(params: {
-  ```
-  💡 Remove if unused or document why kept
 
 ### `client/src/utils/transformers/relationshipTransformers.ts` [P0] (score: 15)
 
@@ -437,7 +349,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 904): Unused export: markSlotAvailability (function)
+- **WARNING** [unused-export] (line 965): Unused export: markSlotAvailability (function)
   ```
   export function markSlotAvailability(
   ```
@@ -961,6 +873,26 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/configs/eventPerspectiveLabels.ts` [P1] (score: 9)
+
+- **WARNING** [unused-export] (line 51): Unused export: getPerspectiveLabel (function)
+  ```
+  export function getPerspectiveLabel(perspective: EventPerspectiveKey): string {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 29): Unused export: EVENT_PERSPECTIVE_LABELS (const)
+  ```
+  export const EVENT_PERSPECTIVE_LABELS = {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 43): Unused export: EventPerspectiveKey (type)
+  ```
+  export type EventPerspectiveKey = typeof EVENT_PERSPECTIVE_KEYS[keyof typeof EVENT_PERSPECTIVE_KEYS]
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/configs/field/display/selectableDisplayConfig.ts` [P1] (score: 9)
 
 - **WARNING** [unused-export] (line 32): Unused export: RelationshipDisplayType (type)
@@ -1018,6 +950,26 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 49): Unused export: ComposedFieldConfig (type)
   ```
   export interface ComposedFieldConfig {
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/utils/api.ts` [P1] (score: 9)
+
+- **WARNING** [unused-export] (line 181): Unused export: getAvailabilityEndpoint (function)
+  ```
+  export function getAvailabilityEndpoint(): string {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 239): Unused export: getBlockInstanceAnnotationsEndpoint (function)
+  ```
+  export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 246): Unused export: getBlockInstanceAnnotationEndpoint (function)
+  ```
+  export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
   ```
   💡 Remove if unused or document why kept
 
@@ -1921,13 +1873,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useAppointmentSlots.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 43): Unused export: UseAppointmentSlotsParams (type)
+- **WARNING** [unused-export] (line 44): Unused export: UseAppointmentSlotsParams (type)
   ```
   export interface UseAppointmentSlotsParams {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 56): Unused export: UseAppointmentSlotsReturn (type)
+- **WARNING** [unused-export] (line 57): Unused export: UseAppointmentSlotsReturn (type)
   ```
   export interface UseAppointmentSlotsReturn {
   ```
@@ -2813,6 +2765,38 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` [P1] (score: 5)
+
+- **INFO** [unused-function] (line 46): Unused function: sortByOrderIndex
+  ```
+  function sortByOrderIndex(annotations: AnnotationWithMetadata[]): AnnotationWithMetadata[] {
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 50): Unused function: clearOtherDefaults
+  ```
+  function clearOtherDefaults(
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 72): Unused function: deriveBlockInstanceDescriptionFromAnnotations
+  ```
+  function deriveBlockInstanceDescriptionFromAnnotations(
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 80): Unused function: toAnnotationWithMetadata
+  ```
+  function toAnnotationWithMetadata(
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 94): Unused function: updateBlockInstanceEntityInGlobalData
+  ```
+  function updateBlockInstanceEntityInGlobalData(params: {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/composables/formFields/useFormFieldsContext.ts` [P2] (score: 4)
 
 - **WARNING** [unused-export] (line 25): Unused export: UseFormFieldsContextReturn (type)
@@ -3157,19 +3141,19 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useMoveablePartsScheduling.ts` [P2] (score: 3)
 
-- **INFO** [unused-function] (line 234): Unused function: openModal
+- **INFO** [unused-function] (line 253): Unused function: openModal
   ```
   const openModal = () => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 238): Unused function: closeModal
+- **INFO** [unused-function] (line 257): Unused function: closeModal
   ```
   const closeModal = () => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 246): Unused function: resetContingency
+- **INFO** [unused-function] (line 265): Unused function: resetContingency
   ```
   const resetContingency = () => {
   ```
@@ -3569,7 +3553,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/entityDefaults.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 191): Unused export: mergeEntityDefaults (function)
+- **WARNING** [unused-export] (line 197): Unused export: mergeEntityDefaults (function)
   ```
   export function mergeEntityDefaults<GE extends GlobalEntityKey>(
   ```
@@ -3703,6 +3687,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/utils/propertyTransformers.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 15): Unused export: PROPERTY_FIELD_MAPPINGS (const)
+  ```
+  export const PROPERTY_FIELD_MAPPINGS = {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/utils/sequelizeHelpers.ts` [P2] (score: 3)
 
 - **WARNING** [unused-export] (line 50): Unused export: getModelAttributesExcluding (function)
@@ -3830,6 +3822,20 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   // export const login = async (req: Request, res: Response) => {
   ```
   💡 Review and either uncomment or remove
+
+### `server/src/routes/internal/relationships/relationshipRouter.ts` [P2] (score: 2)
+
+- **INFO** [unused-function] (line 314): Unused function: whereWithParentId
+  ```
+  const whereWithParentId = (() => {
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 330): Unused function: whereClause
+  ```
+  const whereClause = (() => {
+  ```
+  💡 Remove if unused or document why kept
 
 ### `client/src/components/admin/BlockInstanceCreateModal.vue` [P2] (score: 1)
 
