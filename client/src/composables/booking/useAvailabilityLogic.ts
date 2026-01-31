@@ -435,7 +435,9 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     }
     
     // Return major time slots (component will filter by startTimeType if needed)
-    return daySlots.majorTimeSlots
+    // LEARNING: Use inspectorTimeSlots property name to match TimeSlotsPerDay interface
+    // WHY: Interface uses inspectorTimeSlots, not majorTimeSlots
+    return daySlots.inspectorTimeSlots
   })
 
   /**

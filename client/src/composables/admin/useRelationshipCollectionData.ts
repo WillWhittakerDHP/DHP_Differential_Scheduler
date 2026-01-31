@@ -122,7 +122,9 @@ export function useRelationshipCollectionData(
   // Initialize composables
   const { getGlobalEntityById } = useGlobal()
   const adminComp = useAdmin()
-  const { relationships: relationshipsRef } = useRelationshipCrud(relationshipKey.value)
+  // LEARNING: Add type assertion for relationshipKey to GlobalRelationshipKey
+  // WHY: useRelationshipCrud expects GlobalRelationshipKey, but relationshipKey is ComputedRef<string>
+  const { relationships: relationshipsRef } = useRelationshipCrud(relationshipKey.value as import('@/constants/relationships').GlobalRelationshipKey)
   
   /**
    * LEARNING: Get parent entity

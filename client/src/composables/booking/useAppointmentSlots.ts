@@ -27,9 +27,11 @@ import {
   getMajorEventShape, 
   getMinorEventShape 
 } from '@/utils/eventAttendeeUtils'
-import type { EventShapeEntity } from '@/types/entities'
+import type { EventShapeEntity, GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
 import type { EventShape, EventInstance } from '@/types/events'
-import type { GlobalRelationship } from '@/types/entities'
+import type { GlobalRelationship } from '@/types/relationships'
+import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
 
 // LEARNING: Use scoped logger for controllable debug output
 // WHY: Prevents debug logs in production, allows scope-based filtering
@@ -150,8 +152,11 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         
         eventShapes = eventShapes.map(eventShape => {
           const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)
-          const attendees = matchingRel?.children?.map(child => child.id) || []
-          const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
+          const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
+          // LEARNING: Use perspective key constants instead of hardcoded strings
+          // WHY: Eliminates hardcoded perspective strings, enables config-driven approach
+          // PATTERN: Use EVENT_PERSPECTIVE_KEYS constants for perspective determination
+          const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
           // #region agent log
           fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
           // #endregion

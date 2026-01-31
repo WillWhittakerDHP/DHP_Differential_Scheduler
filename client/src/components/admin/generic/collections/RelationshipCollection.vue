@@ -42,7 +42,7 @@
           :entity-key="childEntityKey"
           :entity="getChildForShape(String(shape.id))!"
           :expanded="isPanelExpanded(String(getChildForShape(String(shape.id))!.id))"
-          @delete="handleDeleteChild"
+          @delete="handleDeleteChildById"
         />
       </template>
     </VExpansionPanels>
@@ -113,7 +113,7 @@
  * PATTERN: Generic rendering of EntityCard component, exposes bulk edit state to parent (when applicable)
  */
 
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import EntityCard from '../EntityCard.vue'
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -241,8 +241,22 @@ const isBulkEditModalOpen = computed(() => {
 // Deletion handler
 const queryClient = useQueryClient()
 const { error: notifyError } = useNotification()
-const relationshipCrud = useRelationshipCrud(relationshipKey.value)
+// LEARNING: Add type assertion for relationshipKey to GlobalRelationshipKey
+// WHY: useRelationshipCrud expects GlobalRelationshipKey, but relationshipKey is ComputedRef<string>
+const relationshipCrud = useRelationshipCrud(relationshipKey.value as import('@/constants/relationships').GlobalRelationshipKey)
 const { relationships, remove: removeRelationship } = relationshipCrud
+
+// LEARNING: Wrapper to handle EntityCard delete event signature (id: string)
+// WHY: EntityCard emits delete event with id: string, but we need the full entity
+// PATTERN: Look up entity from existingChildren using the id
+const handleDeleteChildById = async (id: string) => {
+  const entity = existingChildren.value.find(child => String(child.id) === id)
+  if (!entity) {
+    console.warn(`[RelationshipCollection] Could not find entity with id: ${id}`)
+    return
+  }
+  await handleDeleteChild(entity)
+}
 
 const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
   if (!effectiveParentEntity.value) return
@@ -255,7 +269,9 @@ const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
     )
     
     if (relationship) {
-      await removeRelationship(relationship.id)
+      // LEARNING: removeRelationship expects parentId and childId, not relationship.id
+      // WHY: Function signature is remove(parentId: GlobalEntityId, childId: GlobalEntityId)
+      await removeRelationship(effectiveParentEntity.value.id, entity.id)
       
       // Invalidate queries to refresh data
       await Promise.all([

@@ -81,15 +81,15 @@ export function useContactsStepData(
   // WHY: Tracks form values for all contact types
   // PATTERN: Refs for always-visible contacts, reactive object for optional sections
   const clientInfo = ref<ContactInfo>({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
+    firstName: '',
+    lastName: '',
+    email: '',
   })
 
   const agentInfo = ref<ContactInfo>({
-    firstName: 'Jane',
-    lastName: 'Smith',
-    email: 'jane.smith@realty.com',
+    firstName: '',
+    lastName: '',
+    email: '',
   })
 
   const anotherClientInfo = ref<ContactInfo>({

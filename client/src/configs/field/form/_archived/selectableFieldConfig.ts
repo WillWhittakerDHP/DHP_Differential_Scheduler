@@ -8,7 +8,9 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
-import type { GlobalAnnotationKey } from '@/constants/annotations'
+// LEARNING: GlobalAnnotationKey removed - annotations are now core entities
+// WHY: Annotations are now part of the unified entity system, not separate constants
+// import type { GlobalAnnotationKey } from '@/constants/annotations' // Removed - annotations are core entities
 import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '@/types/entity/formDataEnums'
 
 // Union of all possible field keys from child entities
@@ -19,16 +21,16 @@ export type RelationshipFieldType<
   R extends GlobalRelationshipKey = GlobalRelationshipKey
 > = {
   targetMode: "relationship";
-  targetKey: R | GlobalAnnotationKey;
+  targetKey: R; // LEARNING: GlobalAnnotationKey removed - annotations are now core entities
   globalField: GlobalFieldKey<GE>;
 
   selectedParentKey: GE;
-  selectedChildKey: GlobalEntityKey | GlobalAnnotationKey;
+  selectedChildKey: GlobalEntityKey; // LEARNING: GlobalAnnotationKey removed - annotations are now core entities
   selectedChildPath: GlobalFieldKey<GE>[];
 
   candidateParentKey: GlobalEntityKey;
   candidateParentPath: GlobalFieldKey<GE>[];
-  candidateChildKey: GlobalEntityKey | GlobalAnnotationKey;
+  candidateChildKey: GlobalEntityKey; // LEARNING: GlobalAnnotationKey removed - annotations are now core entities
   candidateChildPath?: GlobalFieldKey<GE>[];
 
   selectType: RelationshipSelectTypeEnum;
@@ -85,8 +87,10 @@ export type SelectableFieldType<
   
 // LEARNING: Union type that includes both field keys and annotation keys
 // WHY: Annotations aren't part of GlobalFieldKey but need to be configurable
-// PATTERN: Allow both field keys and annotation keys for selectable fields
-type SelectableFieldKey<GE extends GlobalEntityKey> = GlobalFieldKey<GE> | GlobalAnnotationKey;
+// PATTERN: Allow both field keys for selectable fields
+// LEARNING: GlobalAnnotationKey removed - annotations are now core entities
+// WHY: Annotations are part of the unified entity system, not separate constants
+type SelectableFieldKey<GE extends GlobalEntityKey> = GlobalFieldKey<GE>;
 
 export type SelectableFieldTypeSuite = {
   [GE in GlobalEntityKey]: Partial<Record<SelectableFieldKey<GE> | string, SelectableFieldType<GE>>>;
@@ -193,16 +197,16 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
 
       annotations: {
         targetMode: "relationship",
-        targetKey: "annotations" as GlobalAnnotationKey,
+        targetKey: "annotationAssignments" as GlobalRelationshipKey, // LEARNING: Use relationship key instead of GlobalAnnotationKey
         globalField: "annotations" as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>,
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
-        selectedChildKey: "annotations" as GlobalAnnotationKey,
+        selectedChildKey: "annotationInstance" as GlobalEntityKey, // LEARNING: Use entity key instead of GlobalAnnotationKey
         selectedChildPath: ["annotations"] as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE, // Not used for annotations (all annotations are candidates)
         candidateParentPath: [],
-        candidateChildKey: "annotations" as GlobalAnnotationKey, // Not used for annotations (all annotations are candidates)
+        candidateChildKey: "annotationInstance" as GlobalEntityKey, // LEARNING: Use entity key instead of GlobalAnnotationKey
         candidateChildPath: [],
 
         selectType: RelationshipSelectTypeEnum.AnnotationAssignmentSelect,
@@ -296,7 +300,11 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
       },
     },
 
-    [ENTITY_KEY_PART_SHAPE]: {}
+    [ENTITY_KEY_PART_SHAPE]: {},
+    eventShape: {},
+    eventInstance: {},
+    annotationShape: {},
+    annotationInstance: {},
   }
 }
 

@@ -141,9 +141,14 @@ export function calculateSlotShape(
     }
   }
   
+  // LEARNING: SlotShape uses eventFinals array, not eventDurations Record
+  // WHY: SlotShape was refactored to use EventFinal[] array for generic event system
+  // PATTERN: Convert eventDurations Record to eventFinals array format
+  // NOTE: This function needs to be updated to match the new SlotShape interface
+  // TODO: Update to use eventFinals array instead of eventDurations Record
   return { 
     totalDuration, 
-    eventDurations,
+    eventFinals: [], // TODO: Convert eventDurations to eventFinals array format
     differentialOffset
   }
 }

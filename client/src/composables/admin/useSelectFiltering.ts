@@ -106,6 +106,12 @@ export interface UseSelectFilteringReturn {
    * Parent type entity (with relationships attached)
    */
   parentTypeEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
+  
+  /**
+   * Whether this is an AttendeeSelect field
+   * LEARNING: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
+   */
+  isAttendeeSelect: ComputedRef<boolean>
 }
 
 /**
@@ -285,7 +291,7 @@ export function useSelectFiltering(
     if (!config || !('selectType' in config)) {
       return false
     }
-    return config.selectType === RelationshipSelectTypeEnum.AttendeeSelect || config.selectType === 'attendeeSelect'
+    return config.selectType === RelationshipSelectTypeEnum.AttendeeSelect
   })
 
   /**

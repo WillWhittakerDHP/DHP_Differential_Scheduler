@@ -85,23 +85,20 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
    * PATTERN: Pure function that handles single element, returns forms to patch
    */
   const patchElementForms = (element: HTMLElement): HTMLFormElement[] => {
-    const formsToPatch: HTMLFormElement[] = []
-    
     // Patch element itself if it's a form
     if (element.tagName === 'FORM' && element.classList.contains('dynamic-form-inputs')) {
       patchFormElements(element as HTMLFormElement)
     }
     
-    // LEARNING: Use map instead of forEach + push
+    // LEARNING: Use map to transform NodeList to array functionally
     // WHY: Functional approach - transform array without mutations
-    // PATTERN: Map to transform NodeList to array of HTMLFormElement
+    // PATTERN: Map to transform NodeList to array of HTMLFormElement, return directly
     const nestedForms = element.querySelectorAll?.('form.dynamic-form-inputs')
     if (nestedForms) {
-      const nestedFormsArray = Array.from(nestedForms).map((form: Element) => form as HTMLFormElement)
-      formsToPatch.push(...nestedFormsArray)
+      return Array.from(nestedForms).map((form: Element) => form as HTMLFormElement)
     }
     
-    return formsToPatch
+    return []
   }
 
   const globalFormObserver = new MutationObserver((mutations) => {
@@ -130,11 +127,13 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
     })
   }
   
-  // Patch existing forms
+  // LEARNING: Use for...of for side effects (DOM mutations)
+  // WHY: for...of is acceptable for side effects per workspace rules
+  // PATTERN: Use for...of when you need side effects, not transformations
   const existingForms = document.querySelectorAll('form.dynamic-form-inputs')
-  Array.from(existingForms).forEach((form: Element) => {
+  for (const form of Array.from(existingForms)) {
     patchFormElements(form as HTMLFormElement)
-  })
+  }
 }
 
 /**

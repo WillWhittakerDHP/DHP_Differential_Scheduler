@@ -296,7 +296,7 @@ function hasSelectRenderAs(fieldKey: string): boolean {
   return renderAs === FIELD_RENDER_AS.SELECT ||
          renderAs === FIELD_RENDER_AS.MULTISELECT ||
          renderAs === FIELD_RENDER_AS.REFERENCE ||
-         renderAs === FIELD_RENDER_AS.PARTS_COLLECTION
+         renderAs === FIELD_RENDER_AS.RELATIONSHIP_COLLECTION
 }
 
 // LEARNING: Metadata field ordering

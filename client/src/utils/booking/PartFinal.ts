@@ -76,12 +76,20 @@ export function createPartFinal(
   partShape: string,
   parts: BookingPartInstance[]
 ): PartFinal {
+  // LEARNING: major, minor, and moveable are computed from eventAssignments relationships
+  // WHY: These properties were deprecated on BookingPartInstance - they should be computed from events
+  // PATTERN: For now, use default values - these should be computed from eventAssignments in the future
+  // NOTE: This is a temporary solution - these properties should be computed from events when creating PartFinal
+  // TODO: Compute major/minor/moveable from eventAssignments relationships using globalData and event shapes
   return {
     partShape,
     baseTime: parts.reduce((sum, p) => sum + (p.baseTime ?? 0), 0),
     baseFee: parts.reduce((sum, p) => sum + (p.baseFee ?? 0), 0),
     rateOverBaseTime: parts.reduce((sum, p) => sum + (p.rateOverBaseTime ?? 0), 0),
     rateOverBaseFee: parts.reduce((sum, p) => sum + (p.rateOverBaseFee ?? 0), 0),
+    major: 'false' as const, // TODO: Compute from eventAssignments relationships
+    minor: 'false' as const, // TODO: Compute from eventAssignments relationships
+    moveable: false, // TODO: Compute from eventAssignments relationships
     zeroOutPart: parts.some(p => p.zeroOutPart === true),
     sourcePartInstances: parts
   }

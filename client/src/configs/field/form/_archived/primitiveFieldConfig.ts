@@ -21,6 +21,10 @@ export function buildPrimitiveFieldType(): PrimitiveFieldTypeMap {
     partInstance: partInstancePrimitiveFields as PrimitiveFieldType<"partInstance">,
     blockShape: blockShapePrimitiveFields as PrimitiveFieldType<"blockShape">,
     partShape: partShapePrimitiveFields as PrimitiveFieldType<"partShape">,
+    eventShape: {} as PrimitiveFieldType<"eventShape">,
+    eventInstance: {} as PrimitiveFieldType<"eventInstance">,
+    annotationShape: {} as PrimitiveFieldType<"annotationShape">,
+    annotationInstance: {} as PrimitiveFieldType<"annotationInstance">,
   };
 }
 

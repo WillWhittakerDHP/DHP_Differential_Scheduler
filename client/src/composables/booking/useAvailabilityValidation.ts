@@ -49,7 +49,9 @@ export function useAvailabilityValidation(
         return 'Please select a time slot'
       }
       // Validate that selectedSlot has valid totals
-      if (!selectedSlot.value.onSiteTimeRange && !selectedSlot.value.totalTimeRange) {
+      // LEARNING: onSite->major rename was part of recent refactor
+      // WHY: Use majorTimeRange instead of deprecated onSiteTimeRange
+      if (!selectedSlot.value.majorTimeRange && !selectedSlot.value.totalTimeRange) {
         return 'Selected time slot is invalid'
       }
       return true

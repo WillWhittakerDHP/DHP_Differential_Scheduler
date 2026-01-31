@@ -60,13 +60,13 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
             
             // LEARNING: For partInstance 404, also clean up orphaned partAssignments relationships
             // WHY: If partInstance doesn't exist, relationships pointing to it are orphaned
-            // PATTERN: Filter out relationships with child_id matching the deleted partInstance
+            // PATTERN: Filter out relationships with children array containing the deleted partInstance
             let updatedRelationships = old.relationships
             if (entityKey === 'partInstance' && old.relationships?.partAssignments) {
               updatedRelationships = {
                 ...old.relationships,
                 partAssignments: old.relationships.partAssignments.filter(
-                  rel => String(rel.child_id) !== String(errorId)
+                  rel => !rel.children.some(child => String(child.id) === String(errorId))
                 )
               }
             }

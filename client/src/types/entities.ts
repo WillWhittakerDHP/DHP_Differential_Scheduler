@@ -35,6 +35,9 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
   active: boolean;
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
   // NOTE: Annotations are accessed via relationships.annotationAssignments, not attached directly to entities
+  // However, annotations are also embedded on blockInstance during hydration for fast reads (see annotationAssignmentsOptimistic.ts)
+  annotations?: import('@/types/annotations').AnnotationWithMetadata[]; // Embedded annotations for optimistic updates and fast reads
+  description?: string; // Derived description from annotations (for legacy support)
   icon: string;
   allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
   /**

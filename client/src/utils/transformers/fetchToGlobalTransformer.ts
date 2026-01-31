@@ -13,8 +13,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { FetchedRelationship } from '@/types/relationships'
-import type { AnnotationInstance, AnnotationShape } from '@/types/annotations'
-import type { EventShape, EventInstance } from '@/types/events'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { transformApiEntity } from './entityTransformers'
 import { transformApiRelationships } from './relationshipTransformers'
@@ -443,6 +441,9 @@ export class GlobalTransformer {
       .filter(([, fieldMetadata]) => fieldMetadata.isRequired)
       .map(([fieldKey]) => fieldKey)
 
+    // LEARNING: Build boolean fields arrays functionally using reduce
+    // WHY: Avoids array mutations (push) - builds arrays immutably
+    // PATTERN: Use spread operator to create new arrays instead of mutating
     const metadataBooleanFields = Object.entries(metadata)
       .filter(([fieldKey, fieldMetadata]) => 
         fieldMetadata.dataType === 'boolean' &&
@@ -451,11 +452,10 @@ export class GlobalTransformer {
       )
       .reduce((acc, [fieldKey, fieldMetadata]) => {
         if (fieldMetadata.isRequired) {
-          acc.nonNullable.push(fieldKey)
+          return { ...acc, nonNullable: [...acc.nonNullable, fieldKey] }
         } else {
-          acc.nullable.push(fieldKey)
+          return { ...acc, nullable: [...acc.nullable, fieldKey] }
         }
-        return acc
       }, { nonNullable: [] as string[], nullable: [] as string[] })
 
     const metadataRequiredNumbers = Object.entries(metadata)

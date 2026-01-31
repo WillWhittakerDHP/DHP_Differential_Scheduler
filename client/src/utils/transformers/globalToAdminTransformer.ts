@@ -142,7 +142,10 @@ export class AdminTransformer {
     // WHY: Relationships (validCascades, validParts, etc.) are attached as properties but may not be in formFieldConfig
     // PATTERN: Use reduce to build relationship object without mutations
     //          Use type-safe property access - check if property exists before accessing
-    const relationshipKeys = ['validCascades', 'validParts', 'validEvents', 'bookingCascades', 'partAssignments', 'annotationAssignments', 'eventAssignments', 'attendees', 'instanceComponents'] as const
+    // LEARNING: Handle 'attendees' separately because it only exists on EventShapeEntity
+    // WHY: 'attendees' is not on all entity types, so we need a type guard before accessing
+    // PATTERN: Check entityKey before accessing entity-specific properties
+    const relationshipKeys = ['validCascades', 'validParts', 'validEvents', 'bookingCascades', 'partAssignments', 'annotationAssignments', 'eventAssignments', 'instanceComponents'] as const
     const relationshipData = relationshipKeys.reduce((acc, relKey) => {
       // LEARNING: Type-safe property access - check if property exists before accessing
       // WHY: entityWithKey is typed as GlobalEntity<GE> but has AdminObject<GE> properties after attachRelationshipData
@@ -160,6 +163,19 @@ export class AdminTransformer {
       }
       return acc
     }, {} as Partial<AdminObject<GE>>)
+    
+    // LEARNING: Handle 'attendees' property separately for EventShapeEntity
+    // WHY: 'attendees' only exists on EventShapeEntity, not all entity types
+    // PATTERN: Type guard to check entityKey before accessing entity-specific property
+    if (entityKey === 'eventShape' && Object.prototype.hasOwnProperty.call(entityWithKey, 'attendees')) {
+      const eventShapeEntity = entityWithKey as AdminObject<'eventShape'>
+      if (eventShapeEntity.attendees !== undefined) {
+        // LEARNING: Type assertion needed because relationshipData is Partial<AdminObject<GE>>
+        // WHY: TypeScript can't narrow GE to 'eventShape' in the reduce context
+        // PATTERN: Assert the assignment is valid since we've verified entityKey is 'eventShape'
+        ;(relationshipData as Record<string, unknown>).attendees = eventShapeEntity.attendees
+      }
+    }
     
     // LEARNING: Merge relationship data into plainObject
     // WHY: Spread relationship data into plainObject to include relationships

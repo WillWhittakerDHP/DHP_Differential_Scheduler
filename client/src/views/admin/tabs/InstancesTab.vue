@@ -309,7 +309,7 @@ onMounted(() => {
       eventInstancesDragInstance = dragAndDrop({
         parent: panelsElement,
         values: eventInstanceIds,
-        draggable: (el) => {
+        draggable: (el: HTMLElement) => {
           return el instanceof HTMLElement && el.classList?.contains('draggable-event-instance')
         },
         plugins: [animations()],
@@ -822,7 +822,7 @@ function handleDeleteEventInstance(_id: string) {
     <MetadataEditModal
       v-model="eventInstanceMetadataModalOpen"
       entity-key="eventInstance"
-      :entity="{ id: '00000000-0000-0000-0000-000000000012', name: 'Event Instance Fields (Global)', entityKey: 'eventInstance', orderIndex: 0, active: true, eventShapeRef: '' }"
+      :entity="{ id: '00000000-0000-0000-0000-000000000012', name: 'Event Instance Fields (Global)', entityKey: 'eventInstance', orderIndex: 0, active: true, eventShapeRef: '', titleTemplate: null, descriptionTemplate: null, locationTemplate: null }"
       entity-name="Event Instance Fields (Global)"
     />
   </div>

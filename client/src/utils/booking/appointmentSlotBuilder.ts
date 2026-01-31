@@ -123,34 +123,33 @@ export function createTimeRangesFromSlotShape(
   // Build eventTimeRanges Record dynamically from eventFinals array
   // LEARNING: Create TimeRange for each event final in eventFinals array
   // WHY: Enables fully generic event system without hardcoded event names
-  const eventTimeRanges: Record<string, TimeRange | null> = {}
-  
-  for (const eventFinal of slotShape.eventFinals || []) {
+  // LEARNING: Build eventTimeRanges functionally using reduce instead of for-of loop with mutations
+  // WHY: Avoids object property mutations - builds object immutably
+  // PATTERN: Reduce eventFinals to Record object
+  const eventTimeRanges = (slotShape.eventFinals || []).reduce((acc, eventFinal) => {
     const eventName = eventFinal.eventShape.name
     const duration = eventFinal.duration
     if (duration > 0) {
       // LEARNING: Create time range for all events - differential offset adjustment handled in applyShapeToTime
       // WHY: No special handling needed here - applyShapeToTime handles minor time range adjustment using attendee-based logic
-      eventTimeRanges[eventName] = createTimeRange(startTime, duration)
+      return { ...acc, [eventName]: createTimeRange(startTime, duration) }
     } else {
-      eventTimeRanges[eventName] = null
+      return { ...acc, [eventName]: null }
     }
-  }
+  }, {} as Record<string, TimeRange | null>)
   
-  // Legacy properties for backward compatibility during migration
-  const majorTimeRange = eventTimeRanges['Major'] ?? null
-  const minorTimeRange = eventTimeRanges['Minor'] ?? null
-  const moveableTimeRange = eventTimeRanges['Moveable'] ?? null
-  
+  // LEARNING: Legacy properties removed - use eventTimeRanges with dynamic event names instead
+  // WHY: Eliminates hardcoded event name strings ('Major', 'Minor', 'Moveable')
+  // PATTERN: Legacy properties are calculated dynamically in applyShapeToTime using attendee-based logic
   const result = {
     totalTimeRange: slotShape.totalDuration > 0
       ? createTimeRange(startTime, slotShape.totalDuration)
       : null,
     eventTimeRanges,
-    // Legacy properties for backward compatibility during migration
-    majorTimeRange,
-    minorTimeRange,
-    moveableTimeRange
+    // Legacy properties set to null - use eventTimeRanges with dynamic event names instead
+    majorTimeRange: null,
+    minorTimeRange: null,
+    moveableTimeRange: null
   }
   
   return result

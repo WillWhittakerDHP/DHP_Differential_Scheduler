@@ -22,6 +22,7 @@ export interface UseFieldContextManagerOptions {
       parts: GlobalFieldKey<GlobalEntityKey>[]
       relationships: GlobalFieldKey<GlobalEntityKey>[]
       annotations: GlobalFieldKey<GlobalEntityKey>[]
+      events: GlobalFieldKey<GlobalEntityKey>[]
     }
   }>
   isMetadataLoading: ComputedRef<boolean>

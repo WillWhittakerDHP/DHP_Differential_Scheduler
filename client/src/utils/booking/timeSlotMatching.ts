@@ -22,13 +22,16 @@ import { rfc3339ToLocalHHmm } from '@/composables/useLocalTime'
  * WHY: Time slot matching needs to compare times, but RFC3339 is UTC - convert to local for matching
  * PATTERN: Use useLocalTime composable to extract local HH:mm from RFC3339
  * 
+ * LEARNING: Function used internally - not exported as it's not part of public API
+ * WHY: This function is only used within this file by other functions
+ * 
  * NOTE: This function is used for matching time slots, not display.
  * For display formatting, use useLocalTime composable directly.
  * 
  * @param value - RFC3339 datetime string or Date object
  * @returns Time string in HH:mm format (local timezone), or null if invalid
  */
-export function extractTimeString(value: string | Date): string | null {
+function extractTimeString(value: string | Date): string | null {
   try {
     // LEARNING: Only accept RFC3339 format (ISO timestamp)
     // WHY: HH:mm format should only exist at UI boundary, not in business logic
@@ -66,11 +69,14 @@ export function extractTimeString(value: string | Date): string | null {
  * WHY: Need to map loaded appointment times to available TimeSlot objects
  * PATTERN: Pure function that returns matching slot or undefined
  * 
+ * LEARNING: Function used internally - not exported as it's not part of public API
+ * WHY: This function is only used within this file by other functions
+ * 
  * @param timeString - Time to match in any format (will be normalized to HH:mm)
  * @param availableSlots - Array of available TimeSlot objects
  * @returns Matching TimeSlot or undefined if no match found
  */
-export function findMatchingTimeSlot(
+function findMatchingTimeSlot(
   timeString: string,
   availableSlots: TimeSlot[]
 ): TimeSlot | undefined {
@@ -171,11 +177,14 @@ export function matchLoadedTimeSlotsImmutable(
  * WHY: AppointmentSlots are normalized by orderIndex for consistent UI positioning
  * PATTERN: Find AppointmentSlot with matching orderIndex
  * 
+ * LEARNING: Function used internally - not exported as it's not part of public API
+ * WHY: This function is only used within this file by other functions
+ * 
  * @param appointmentSlots - Array of AppointmentSlot objects
  * @param orderIndex - Normalized order index to find
  * @returns Matching AppointmentSlot or undefined if not found
  */
-export function findAppointmentSlotByOrderIndex(
+function findAppointmentSlotByOrderIndex(
   appointmentSlots: AppointmentSlots,
   orderIndex: number
 ): import('@/types/appointment').AppointmentSlot | undefined {
@@ -237,13 +246,17 @@ export function findMatchingAppointmentSlot(
  * WHY: For AppointmentSlots structure, matching is by orderIndex (position) rather than exact time
  * PATTERN: Match first loaded slot to first AppointmentSlot (orderIndex 0), second to second, etc.
  * 
+ * LEARNING: Function not exported - unused in codebase
+ * WHY: This function is not currently used, kept for potential future use
+ * NOTE: If needed in future, uncomment export
+ * 
  * @param loadedSlots - Array of loaded time slots from saved appointment
  * @param appointmentSlots - Array of AppointmentSlot objects
  * @param majorAppointmentSlotRef - Ref to update with matched major appointment slot
  * @param minorAppointmentSlotRef - Ref to update with matched minor appointment slot
  * @param timeBasis - Current time perspective ('major' | 'minor' | 'nonDifferential')
  */
-export function matchLoadedTimeSlotsToAppointmentSlots(
+function matchLoadedTimeSlotsToAppointmentSlots(
   loadedSlots: LoadedTimeSlot[],
   appointmentSlots: AppointmentSlots,
   majorAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,

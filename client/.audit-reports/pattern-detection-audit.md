@@ -10,12 +10,12 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **582**
+- Files scanned: **592**
 - String literals found: **2** (showing those with 3+ occurrences)
-- Type definitions found: **475**
+- Type definitions found: **476**
 - Enum patterns found: **2**
-- Config locations found: **25**
-- Function patterns found: **322**
+- Config locations found: **33**
+- Function patterns found: **304**
 - Common patterns found: **52**
 
 ## String Literals (Potential Enum/Key Candidates)
@@ -28,78 +28,77 @@ _No frequent string literals found._
 
 | Type Name | Kind | Definition Location |
 | --- | --- | --- |
-| `AdminConfig` | interface | `client/src/configs/adminConfig.ts:163` |
+| `AdminConfig` | interface | `client/src/configs/adminConfig.ts:179` |
 | `AdminEntityMap` | type | `client/src/types/admin/AdminEntity.ts:287` |
-| `AdminObjectMap` | type | `client/src/utils/transformers/globalToAdminTransformer.ts:32` |
-| `Annotation` | type | `client/src/types/annotations.ts:29` |
-| `AnnotationAssignmentHandlers` | interface | `client/src/composables/admin/annotationAssignments/types.ts:59` |
-| `AnnotationAssignmentLike` | type | `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts:22` |
-| `AnnotationAssignmentPatch` | type | `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts:31` |
-| `AnnotationAssignmentResponse` | interface | `client/src/types/annotations.ts:83` |
-| `AnnotationMap` | type | `client/src/types/annotations.ts:63` |
-| `AnnotationMetadata` | type | `client/src/types/annotations.ts:43` |
-| `AnnotationRequest` | type | `client/src/composables/useAnnotations.ts:25` |
-| `AnnotationsFieldViewModel` | interface | `client/src/composables/admin/useAnnotationsFieldViewModel.ts:13` |
-| `AnnotationType` | type | `client/src/types/annotations.ts:18` |
-| `AnnotationWithMetadata` | type | `client/src/types/annotations.ts:55` |
+| `AdminObjectMap` | type | `client/src/utils/transformers/globalToAdminTransformer.ts:36` |
+| `AnnotationAssignmentResponse` | interface | `client/src/types/annotations.ts:81` |
+| `AnnotationInstance` | type | `client/src/types/annotations.ts:29` |
+| `AnnotationInstanceEntity` | interface | `client/src/types/entities.ts:103` |
+| `AnnotationMap` | type | `client/src/types/annotations.ts:61` |
+| `AnnotationMetadata` | type | `client/src/types/annotations.ts:41` |
+| `AnnotationShape` | type | `client/src/types/annotations.ts:18` |
+| `AnnotationShapeEntity` | interface | `client/src/types/entities.ts:100` |
+| `AnnotationWithMetadata` | type | `client/src/types/annotations.ts:53` |
 | `AppLogger` | type | `client/src/utils/logger.ts:17` |
-| `AppointmentRequest` | interface | `client/src/types/appointment.ts:244` |
-| `AppointmentResponse` | interface | `client/src/types/appointment.ts:324` |
-| `AppointmentShape` | interface | `client/src/types/appointment.ts:152` |
-| `AppointmentSlot` | interface | `client/src/types/appointment.ts:170` |
-| `AppointmentSlots` | type | `client/src/types/appointment.ts:201` |
+| `AppointmentRequest` | interface | `client/src/types/appointment.ts:274` |
+| `AppointmentResponse` | interface | `client/src/types/appointment.ts:354` |
+| `AppointmentShape` | interface | `client/src/types/appointment.ts:170` |
+| `AppointmentSlot` | interface | `client/src/types/appointment.ts:194` |
+| `AppointmentSlots` | type | `client/src/types/appointment.ts:231` |
 | `AppointmentsTableModel` | interface | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:12` |
-| `AppointmentStatus` | type | `client/src/types/appointment.ts:68` |
+| `AppointmentStatus` | type | `client/src/types/appointment.ts:69` |
 | `AutocompleteValue` | type | `client/src/utils/autocomplete.ts:4` |
-| `AvailabilitySettings` | interface | `client/src/configs/availabilitySettings.ts:159` |
+| `AvailabilitySettings` | interface | `client/src/configs/availabilitySettings.ts:160` |
 | `AvailabilitySettingsData` | interface | `server/src/db/models/admin/business_settings.ts:137` |
 | `AvailabilityStepData` | interface | `client/src/composables/booking/useAppointmentDataCollection.ts:40` |
-| `BlockInstanceAnnotationResponse` | interface | `client/src/types/annotations.ts:100` |
+| `BlockInstanceAnnotationResponse` | interface | `client/src/types/annotations.ts:98` |
 | `BlockInstanceEntity` | interface | `client/src/types/entities.ts:32` |
 | `BlockInstanceFeeResult` | interface | `client/src/utils/booking/confirmationStepData.ts:32` |
 | `BlockInstanceFormData` | interface | `client/src/composables/admin/useBlockInstanceForm.ts:24` |
-| `BlockInstanceResponse` | interface | `client/src/types/annotations.ts:71` |
-| `BlockInstanceSnapshot` | interface | `client/src/types/appointment.ts:228` |
-| `BlockShapeEntity` | interface | `client/src/types/entities.ts:51` |
+| `BlockInstanceResponse` | interface | `client/src/types/annotations.ts:69` |
+| `BlockInstanceSnapshot` | interface | `client/src/types/appointment.ts:258` |
+| `BlockShapeEntity` | interface | `client/src/types/entities.ts:55` |
 | `BlockShapeType` | type | `client/src/constants/blockShapeTypes.ts:16` |
-| `BookingBlockInstance` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:59` |
-| `BookingBlockShape` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:45` |
-| `BookingData` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:84` |
-| `BookingMode` | type | `client/src/constants/entities.ts:24` |
+| `BookingBlockInstance` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:54` |
+| `BookingBlockShape` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:40` |
+| `BookingData` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:78` |
+| `BookingMode` | type | `client/src/constants/entities.ts:31` |
 | `BookingPartInstance` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:21` |
 | `BookingWizardStepValidators` | interface | `client/src/composables/booking/useBookingWizardStepValidators.ts:6` |
-| `BufferConfig` | interface | `client/src/configs/availabilitySettings.ts:146` |
+| `BufferConfig` | interface | `client/src/configs/availabilitySettings.ts:147` |
 | `BufferPlacement` | type | `server/src/db/models/admin/business_settings.ts:122` |
 | `BufferType` | type | `server/src/db/models/admin/business_settings.ts:114` |
 | `BuildBookingWizardStepValidatorsOptions` | type | `client/src/utils/booking/bookingWizardStepValidators.ts:3` |
 | `BuildMetadataEntryOptions` | interface | `client/src/utils/admin/buildMetadataEntry.ts:12` |
 | `BusinessData` | type | `client/src/utils/transformers/fetchToBusinessTransformer.ts:31` |
 | `BusinessDataCollectionEndpoints` | type | `client/src/composables/businessDataCollections/types.ts:51` |
-| `BusinessHoursConfig` | interface | `client/src/configs/availabilitySettings.ts:84` |
+| `BusinessHoursConfig` | interface | `client/src/configs/availabilitySettings.ts:85` |
 | `BusinessHoursMap` | type | `client/src/utils/booking/timeSlotFitter.ts:70` |
 | `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotFitter.ts:75` |
 | `CapacityConstraint` | interface | `client/src/utils/booking/constraintExtractors.ts:37` |
 | `CategorizedFields` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:24` |
-| `CategorizeFieldsOptions` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:51` |
+| `CategorizeFieldsOptions` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:52` |
+| `CollectionType` | type | `client/src/components/admin/generic/collections/RelationshipCollection.vue:26` |
 | `Component` | interface | `client/src/types/component.ts:64` |
 | `ComponentConfig` | interface | `client/src/types/component.ts:24` |
 | `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts:8` |
 | `ComponentStrategy` | type | `client/src/types/component.ts:10` |
 | `ComposablePropertyValue` | type | `client/src/utils/transformers/composePropertyValue.ts:16` |
 | `ComposedFieldConfig` | interface | `client/src/types/shapeFieldMetadata.ts:49` |
-| `ConstraintEnforcement` | type | `client/src/configs/availabilitySettings.ts:37` |
+| `ConstraintEnforcement` | type | `client/src/configs/availabilitySettings.ts:38` |
 | `ContactInfo` | interface | `client/src/composables/booking/useContactsStepData.ts:20` |
 | `ContactsStepData` | interface | `client/src/composables/booking/useAppointmentDataCollection.ts:26` |
 | `ContingencyPeriod` | interface | `client/src/types/moveableScheduling.ts:13` |
-| `CreateAssignmentData` | interface | `client/src/composables/admin/annotationAssignments/types.ts:3` |
-| `CreateRelationshipPayload` | interface | `client/src/types/relationships.ts:53` |
+| `CreateRelationshipPayload` | interface | `client/src/types/relationships.ts:64` |
 | `CrudDataTableModel` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:43` |
 | `CrudDataTableModelOptions` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:11` |
 | `CustomValidator` | type | `client/src/composables/booking/useStepValidation.ts:15` |
 | `DataCollectionCrudConfig` | interface | `client/src/composables/dataCollections/useDataCollectionActions.ts:18` |
-| `DateRangeConfig` | interface | `client/src/configs/availabilitySettings.ts:105` |
+| `DateRangeConfig` | interface | `client/src/configs/availabilitySettings.ts:106` |
 | `DayOfWeek` | type | `client/src/types/datetime.ts:161` |
 | `DependentDelete` | type | `server/src/routes/helpers/dataController.ts:250` |
+| `DevPanelsComputedData` | interface | `client/src/composables/booking/useDevPanelsComputed.ts:20` |
+| `DifferentialTimeBlocks` | interface | `client/src/composables/booking/useTimeSlotCalculations.ts:32` |
 | `DisplayFieldConfigMap` | type | `client/src/configs/field/display/fullFieldDisplayConfig.ts:45` |
 | `DisplayFieldType` | interface | `client/src/configs/field/display/fullFieldDisplayConfig.ts:20` |
 | `DistributionPreview` | interface | `client/src/types/component.ts:74` |
@@ -107,34 +106,35 @@ _No frequent string literals found._
 | `DragEndHandler` | type | `client/src/composables/admin/useDragAndDrop.ts:18` |
 | `DurationRoundingConfig` | interface | `client/src/utils/booking/durationRounding.ts:25` |
 | `EntityCardSaveContext` | interface | `client/src/components/admin/generic/entityCardConstants.ts:20` |
-| `EntityConfig` | interface | `server/src/config/entityRegistry.ts:101` |
+| `EntityConfig` | interface | `server/src/config/entityRegistry.ts:106` |
 | `EntityMetadataType` | type | `client/src/types/entityMetadata.ts:14` |
-| `EntityType` | type | `server/src/config/entityRegistry.ts:72` |
+| `EntityType` | type | `server/src/config/entityRegistry.ts:77` |
 | `EntityWithStringId` | type | `client/src/utils/optimistic/listByIdOptimistic.ts:1` |
+| `EventFinal` | interface | `client/src/types/appointment.ts:135` |
+| `EventInstance` | type | `client/src/types/events.ts:25` |
+| `EventInstanceEntity` | interface | `client/src/types/entities.ts:93` |
+| `EventShape` | type | `client/src/types/events.ts:17` |
+| `EventShapeEntity` | interface | `client/src/types/entities.ts:86` |
 | `FetchedInstanceComponent` | interface | `client/src/types/component.ts:35` |
-| `FetchedRelationship` | interface | `client/src/types/relationships.ts:19` |
+| `FetchedRelationship` | interface | `client/src/types/relationships.ts:26` |
 | `FieldComponent` | type | `client/src/utils/forms/fieldComponentDispatcher.ts:23` |
 | `FieldContextType` | interface | `client/src/composables/fieldContext/types.ts:46` |
 | `FieldDisplayConfig` | interface | `client/src/composables/fieldContext/types.ts:13` |
 | `FieldFormatter` | type | `client/src/utils/appointmentFieldFormatters.ts:19` |
-| `FieldLocation` | type | `client/src/utils/forms/fieldLocationDispatcher.ts:33` |
-| `FieldLocationContext` | interface | `client/src/utils/forms/fieldLocationDispatcher.ts:45` |
+| `FieldLocation` | type | `client/src/utils/forms/fieldLocationDispatcher.ts:60` |
+| `FieldLocationContext` | interface | `client/src/utils/forms/fieldLocationDispatcher.ts:72` |
 | `FieldMetadata` | type | `client/src/composables/_archived/useFieldMetadata.ts:48` |
 | `FieldMetadataConfig` | interface | `client/src/composables/admin/useFieldMetadataUpdate.ts:13` |
 | `FieldMetadataEntry` | interface | `client/src/types/entityMetadata.ts:24` |
 | `FieldsByLayout` | interface | `client/src/composables/admin/useEntityCardLayout.ts:26` |
 | `FieldsByLocation` | interface | `client/src/composables/admin/useConditionalFieldVisibility.ts:15` |
-| `FieldValidationRules` | interface | `client/src/composables/fieldContext/types.ts:30` |
-| `FieldVisibilityConfig` | type | `client/src/composables/admin/useFieldMetadataUpdate.ts:21` |
-| `FinalizedPart` | interface | `client/src/utils/booking/FinalizedPart.ts:20` |
-| `FitTimeSlotsParams` | interface | `client/src/utils/booking/timeSlotFitter.ts:83` |
-| ... | ... | (+375 more) |
+| ... | ... | (+376 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 
 | Enum Name | Values | Definition Location |
 | --- | --- | --- |
-| `BOOKING_MODES` | `standalone`, `addOn`, `both` | `client/src/constants/entities.ts:23` |
+| `BOOKING_MODES` | `standalone`, `addOn`, `both` | `client/src/constants/entities.ts:30` |
 | `BUSINESS_DATA_QUERY_KEY` | `businessData` | `client/src/composables/useBusiness.ts:23` |
 
 ## Config File Locations
@@ -145,18 +145,26 @@ _No frequent string literals found._
 | `client/src/configs/availabilitySettings.ts` | config-file |
 | `client/src/configs/businessControlsTabStrings.ts` | config-file |
 | `client/src/configs/contactsValidationStrings.ts` | config-file |
+| `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | config-file |
+| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | config-file |
 | `client/src/configs/field/display/appliedDisplay/baseEntityDisplays.ts` | config-file |
 | `client/src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | config-file |
 | `client/src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | config-file |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | config-file |
+| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | config-file |
 | `client/src/configs/field/display/appliedDisplay/partInstanceDisplays.ts` | config-file |
 | `client/src/configs/field/display/appliedDisplay/partShapeDisplays.ts` | config-file |
 | `client/src/configs/field/display/fullFieldDisplayConfig.ts` | config-file |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | config-file |
 | `client/src/configs/field/form/_archived/primitiveFieldConfig.ts` | config-file |
 | `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | config-file |
+| `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | config-file |
+| `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | config-file |
 | `client/src/configs/field/form/appliedForm/baseEntityFields.ts` | config-file |
 | `client/src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | config-file |
 | `client/src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts` | config-file |
+| `client/src/configs/field/form/appliedForm/eventInstanceFields.ts` | config-file |
+| `client/src/configs/field/form/appliedForm/eventShapeFields.ts` | config-file |
 | `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | config-file |
 | `client/src/configs/field/form/appliedForm/partShapePrimitiveFields.ts` | config-file |
 | `client/src/configs/field/form/fullFieldFormConfig.ts` | config-file |
@@ -174,15 +182,11 @@ Common function naming patterns (use*, get*, create*, etc.):
 | Pattern | Prefix | Occurrences |
 | --- | --- | ---: |
 | `useAvailabilitySettings` | `use*` | 2 |
+| `createPartFinals` | `create*` | 2 |
 | `getComponentsRecursive` | `get*` | 2 |
 | `createLocalStatePlugin` | `create*` | 1 |
 | `createWizardStatePlugin` | `create*` | 1 |
 | `getFieldMetadata` | `get*` | 1 |
-| `useAnnotationAssignmentsActions` | `use*` | 1 |
-| `useAnnotationAssignmentsMutations` | `use*` | 1 |
-| `useAnnotationAssignmentsOrchestration` | `use*` | 1 |
-| `useAnnotationAssignmentsQuery` | `use*` | 1 |
-| `useAnnotationAssignmentsState` | `use*` | 1 |
 | `getStatusColor` | `get*` | 1 |
 | `getRoleColor` | `get*` | 1 |
 | `useAppointmentsTableModel` | `use*` | 1 |
@@ -193,17 +197,21 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useAdminMetadataMutations` | `use*` | 1 |
 | `useAdminPrimitiveMetadataMutations` | `use*` | 1 |
 | `useAdminRelationshipMetadataMutations` | `use*` | 1 |
-| `useAnnotationAssignments` | `use*` | 1 |
-| `useAnnotationDialogState` | `use*` | 1 |
-| `useAnnotationDisplay` | `use*` | 1 |
-| `useAnnotationMetadata` | `use*` | 1 |
-| `useAnnotationSelect` | `use*` | 1 |
-| `useAnnotationTypeFiltering` | `use*` | 1 |
-| `useAnnotationsFieldViewModel` | `use*` | 1 |
+| `useAttendeeQuickSelect` | `use*` | 1 |
 | `useBlockInstanceForm` | `use*` | 1 |
 | `useConditionalFieldVisibility` | `use*` | 1 |
 | `useDialogFormState` | `use*` | 1 |
-| ... | ... | (+292 more) |
+| `useDragAndDrop` | `use*` | 1 |
+| `getPanelsElement` | `get*` | 1 |
+| `createSingleClassDraggableChecker` | `create*` | 1 |
+| `createMultiClassDraggableChecker` | `create*` | 1 |
+| `createExpansionPanelDraggableChecker` | `create*` | 1 |
+| `useEntityCardActions` | `use*` | 1 |
+| `useEntityCardComputed` | `use*` | 1 |
+| `useEntityCardExpansion` | `use*` | 1 |
+| `useEntityCardFieldConfiguration` | `use*` | 1 |
+| `useEntityCardLayout` | `use*` | 1 |
+| ... | ... | (+274 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 

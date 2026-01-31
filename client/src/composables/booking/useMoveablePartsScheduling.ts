@@ -17,6 +17,10 @@ import { createLogger } from '@/utils/logger'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { toRFC3339DateTime, type RFC3339DateTime } from '@/types/datetime'
 import { findEventFinalByName } from '@/utils/booking/appointmentSlotBuilder'
+import { getMajorEventShape } from '@/utils/eventAttendeeUtils'
+import type { EventShapeEntity } from '@/types/entities'
+import { useGlobal } from '@/composables/useGlobal'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 // LEARNING: Use scoped logger for controllable debug output
 // WHY: Prevents debug logs in production, allows scope-based filtering
@@ -84,6 +88,8 @@ function formatTimeLabel(
 export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingParams) {
   const { appointmentShape, selectedSlot } = params
   const { formatDateForDisplay, formatTimeForDisplay } = useLocalTime()
+  const { getGlobalData } = useGlobal()
+  const { settings } = useAvailabilitySettings()
   
   // Modal visibility state
   const showModal = ref(false)
@@ -130,10 +136,25 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     const slot = selectedSlot.value
     const duration = moveableDuration.value
     
-    // Inner boundary: end of on-site work
-    // Session Event Refactor: Use eventTimeRanges Record instead of hardcoded properties
-    const onSiteTimeRange = slot.eventTimeRanges?.['OnSite']
-    const innerBoundary = onSiteTimeRange?.endTime ?? slot.totalTimeRange?.endTime
+    // Inner boundary: end of major (on-site) work
+    // LEARNING: Use attendee-based logic to find major event name dynamically
+    // WHY: Eliminates hardcoded 'Major' event name string
+    // PATTERN: Find major event shape using attendee-based logic, then use its name to look up time range
+    let majorTimeRange: import('@/types/appointment').TimeRange | null = null
+    const globalData = getGlobalData()
+    if (globalData && settings.value?.differentialPerspectives && slot.shape.slotShape.eventFinals.length > 0) {
+      const majorAttendeeIds = settings.value.differentialPerspectives.majorAttendees || []
+      if (majorAttendeeIds.length > 0) {
+        const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+        const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+        if (majorEventShape) {
+          const majorEventName = majorEventShape.name
+          majorTimeRange = slot.eventTimeRanges?.[majorEventName] ?? null
+        }
+      }
+    }
+    // Fallback to totalTimeRange if major event not found
+    const innerBoundary = majorTimeRange?.endTime ?? slot.totalTimeRange?.endTime
     if (!innerBoundary) {
       moveableOptions.value = null
       return
@@ -192,7 +213,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         duration,
         businessHours,
         minuteIncrement: settings.minuteIncrement,
-        includeFlags: { onSite: false, clientPresent: false, moveable: true }
+        includeFlags: { major: false, minor: false, moveable: true }
       })
       
       // Transform to MoveableSlot format with labels

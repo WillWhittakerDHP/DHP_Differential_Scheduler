@@ -20,6 +20,7 @@ import { usePropertyFormState } from '@/composables/booking/usePropertyFormState
 import { usePropertyTypeBlockConfig } from '@/composables/booking/usePropertyTypeBlockConfig'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import { createWizardStatePlugin } from '@/components/booking/plugins/wizardStatePlugin'
+import PropertyConfirmationModal from '@/components/booking/modals/PropertyConfirmationModal.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import type { PropertyDetailsStepData } from '@/types/wizard'
@@ -207,6 +208,29 @@ watch(fieldErrors, (newErrors) => {
     parentPropertyDetailsFieldErrors.value = newErrors
   }
 }, { immediate: true, deep: true })
+
+// LEARNING: Modal state for property confirmation
+// WHY: Controls visibility of property confirmation modal
+// PATTERN: Ref for modal visibility
+const showPropertyConfirmationModal = ref(false)
+
+/**
+ * LEARNING: Handle property confirmation modal confirm
+ * WHY: User confirmed property details, modal can close
+ * PATTERN: Close modal - user can proceed with Next button
+ */
+function handlePropertyConfirm(): void {
+  // Modal closes automatically, user can proceed with Next button
+}
+
+/**
+ * LEARNING: Handle property confirmation modal edit
+ * WHY: User wants to edit, modal closes and they can make changes
+ * PATTERN: Close modal - user can edit form
+ */
+function handlePropertyEdit(): void {
+  // Modal closes automatically, user can edit form
+}
 </script>
 
 <template>
@@ -408,6 +432,32 @@ watch(fieldErrors, (newErrors) => {
           full-width
           required
         />
+      </VCol>
+    </VRow>
+
+    <!-- LEARNING: Property Confirmation Modal -->
+    <!-- WHY: Allows users to review property details before proceeding -->
+    <!-- PATTERN: VDialog modal with property details summary -->
+    <PropertyConfirmationModal
+      v-model="showPropertyConfirmationModal"
+      :property-details="stepData"
+      :selected-property-types="wizard.selectedPropertyTypeBlocks.value"
+      @confirm="handlePropertyConfirm"
+      @edit="handlePropertyEdit"
+    />
+
+    <!-- LEARNING: Review & Continue Button -->
+    <!-- WHY: Triggers property confirmation modal when form is valid -->
+    <!-- PATTERN: Button that shows modal when clicked -->
+    <VRow v-if="isFormValid" class="mt-6">
+      <VCol cols="12" class="d-flex justify-end">
+        <VBtn
+          color="primary"
+          variant="elevated"
+          @click="showPropertyConfirmationModal = true"
+        >
+          Review & Continue
+        </VBtn>
       </VCol>
     </VRow>
   </VForm>

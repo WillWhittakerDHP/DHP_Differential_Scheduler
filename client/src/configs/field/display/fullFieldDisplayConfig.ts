@@ -85,6 +85,10 @@ export function buildDisplayFieldConfig(): DisplayFieldConfigMap {
       partShapeDisplays,
       selectableDisplayConfig.partShape
     ),
+    eventShape: {},
+    eventInstance: {},
+    annotationShape: {},
+    annotationInstance: {},
   };
 }
 

@@ -8,21 +8,43 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-01-30T00:41:26.232Z**
+- Generated at: **2026-01-31T22:43:28.040Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 3**
+- **Errors requiring review: 48**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **3**
+- Pools: **47**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P1 | `TS2304-ts2304-cannot-find-name-entitycardsavecontext` | 13 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-inject-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6192-ts6192-all-imports-in-import-declaration-are-unused` | 6 | 1 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-allactiveservicetypes` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-servicetypeoptions` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-values-does-not-exist-in-type-draganddrop-unknown` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS6133-ts6133-partscollection-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
+| P1 | `TS7006-ts7006-parameter-s-implicitly-has-an-any-type` | 10 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-applyoptimisticassignmentpatchtoglobaldata-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-blockshapeid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-bookingblockinstance-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-collectionmodel-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-deletefieldmetadata-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-entity-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-eventshape-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-fetchedrelationship-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-field-visibility-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-formatannotationfordisplay-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-getannotationsforusertypeblock-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-getglobaldata-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-getglobalentitybyid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-getpropertytypebyidendpoint-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-getpropertytypesendpoint-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-getrelationshipbyidendpoint-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-getusertypeblockoptionsfromglobaldata-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-globalentitykey-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-hasduplicateusertypeblock-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-isrelationship-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -34,12 +56,239 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/components/admin/generic/fields/IconInput.vue`
+### `src/components/booking/dev/DevPanelsContainer.vue`
+
+- errors: 6, unsafeCasts: 0, suppressions: 0
+
+```
+TS6196@23:15 'EventInstance' is declared but never used.
+TS6133@28:1 'useDevPanelsComputed' is declared but its value is never read.
+TS2304@484:27 Cannot find name 'allActiveServiceTypes'.
+TS7006@484:60 Parameter 's' implicitly has an 'any' type.
+TS6133@492:9 'getGlobalData' is declared but its value is never read.
+TS2339@765:27 Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: "services" | "finalizedParts" | "slotShape" | "constraints" | "calendar"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.
+```
+
+### `src/utils/annotationUtils.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@29:10 'hasDuplicateUserTypeBlock' is declared but its value is never read.
+TS6133@75:10 'formatAnnotationForDisplay' is declared but its value is never read.
+TS6133@92:10 'getAnnotationsForUserTypeBlock' is declared but its value is never read.
+TS6133@134:10 'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.
+```
+
+### `src/utils/api.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@11:1 'GlobalEntityKey' is declared but its value is never read.
+TS6133@103:10 'getRelationshipByIdEndpoint' is declared but its value is never read.
+TS6133@233:10 'getPropertyTypesEndpoint' is declared but its value is never read.
+TS6133@237:10 'getPropertyTypeByIdEndpoint' is declared but its value is never read.
+```
+
+### `src/utils/optimistic/annotationAssignmentsOptimistic.ts`
 
 - errors: 3, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@109:25 'inject' is declared but its value is never read.
-TS6192@118:1 All imports in import declaration are unused.
-TS2304@173:7 Cannot find name 'entityCardSaveContext'.
+TS6133@166:10 'applyOptimisticAssignmentPatchToGlobalData' is declared but its value is never read.
+TS6133@233:10 'optimisticUpsertAssignmentInList' is declared but its value is never read.
+TS6133@268:10 'optimisticRemoveAssignmentFromList' is declared but its value is never read.
+```
+
+### `src/utils/transformers/fetchToGlobalTransformer.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@19:1 'transformApiAnnotation' is declared but its value is never read.
+TS6133@124:9 'partShapeId' is declared but its value is never read.
+TS6133@125:9 'blockShapeId' is declared but its value is never read.
+```
+
+### `src/components/admin/generic/collections/RelationshipCollection.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@161:56 'optionsFieldKey' is declared but its value is never read.
+TS6133@186:17 'parentEntityFromModel' is declared but its value is never read.
+```
+
+### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@164:10 'FIELD_VISIBILITY' is declared but its value is never read.
+TS6133@217:28 'deleteFieldMetadata' is declared but its value is never read.
+```
+
+### `src/composables/admin/useRelationshipCollection.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@109:9 'getGlobalEntityById' is declared but its value is never read.
+TS6133@122:5 'parentTypeEntity' is declared but its value is never read.
+```
+
+### `src/composables/booking/useDevPanelsComputed.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@14:1 'RFC3339DateTime' is declared but its value is never read.
+TS6133@15:1 'useLocalTime' is declared but its value is never read.
+```
+
+### `src/utils/booking/serviceDescriptions.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@9:47 'service' is declared but its value is never read.
+TS6133@9:78 'userTypeBlockName' is declared but its value is never read.
+```
+
+### `src/views/admin/tabs/InstancesTab.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@31:1 'useDragAndDrop' is declared but its value is never read.
+TS2353@311:9 Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.
+```
+
+### `src/components/admin/generic/collections/PartsCollection.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@87:7 'collectionModel' is declared but its value is never read.
+```
+
+### `src/components/admin/generic/EntityCardSubPanels.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@11:1 'PartsCollection' is declared but its value is never read.
+```
+
+### `src/components/admin/generic/fields/FieldRenderer.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@60:1 'PartsCollection' is declared but its value is never read.
+```
+
+### `src/components/admin/generic/fields/SelectInputs.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@406:3 'validOptionIds' is declared but its value is never read.
+```
+
+### `src/components/booking/steps/AvailabilityStep.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@102:9 'selectedOptions' is declared but its value is never read.
+```
+
+### `src/composables/admin/useMetadataEditorEntity.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@44:3 'entity' is declared but its value is never read.
+```
+
+### `src/composables/admin/useRelationshipCollectionData.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@134:9 'parentEntity' is declared but its value is never read.
+```
+
+### `src/composables/entityCrud/usePrimitiveMutation.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@175:22 'variables' is declared but its value is never read.
+```
+
+### `src/configs/field/form/appliedForm/annotationInstanceFields.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@9:1 'PrimitiveFormField' is declared but its value is never read.
+```
+
+### `src/utils/admin/buildMetadataEntry.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@39:47 'isRelationship' is declared but its value is never read.
+```
+
+### `src/utils/booking/appointmentSlotBuilder.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@178:3 'validPartsRelationships' is declared but its value is never read.
+```
+
+### `src/utils/booking/timeSlotMatching.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@259:10 'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.
+```
+
+### `src/utils/differentialScheduling.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@13:1 'BookingBlockInstance' is declared but its value is never read.
+```
+
+### `src/utils/eventAttendeeUtils.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6196@13:15 'GlobalEntity' is declared but never used.
+```
+
+### `src/utils/transformers/annotationTransformers.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@12:1 'FetchedRelationship' is declared but its value is never read.
+```
+
+### `src/views/admin/tabs/ShapesTab.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@24:1 'EventShape' is declared but its value is never read.
 ```

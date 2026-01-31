@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { Address, PropertyVersion, PropertyDetails, PropertyVersionType, BlockInstance, BlockShape } from '../../../config/app.js';
 import { Op } from 'sequelize';
+import { transformPropertyVersion } from '../../../utils/propertyTransformers.js';
 
 const router = Router();
 
@@ -41,38 +42,9 @@ async function findOrCreateAddress(addressData: {
   });
 }
 
-/**
- * Helper function to transform PropertyVersion with relationships to flat property object
- * LEARNING: Combines Address, PropertyVersion, and PropertyDetails into single response
- * WHY: Maintains backward compatibility with existing API consumers
- */
-function transformPropertyVersion(propertyVersion: any) {
-  const address = propertyVersion.address;
-  const propertyDetails = propertyVersion.propertyDetails?.[0] || propertyVersion.propertyDetails; // Handle array or single object
-
-  return {
-    id: propertyVersion.id,
-    propertyVersionId: propertyVersion.id,
-    addressId: propertyVersion.addressId,
-    // Address fields
-    address: address?.address,
-    unit: address?.unit,
-    city: address?.city,
-    state: address?.state,
-    zipCode: address?.zipCode,
-    // Property details fields
-    mlsNumber: propertyDetails?.mlsNumber,
-    squareFootage: propertyDetails?.squareFootage,
-    bedrooms: propertyDetails?.bedrooms,
-    bathrooms: propertyDetails?.bathrooms,
-    foundationAccess: propertyDetails?.foundationAccess,
-    additionalUnits: propertyDetails?.additionalUnits,
-    source: propertyDetails?.source,
-    // Timestamps
-    createdAt: propertyVersion.createdAt,
-    updatedAt: propertyVersion.updatedAt,
-  };
-}
+// LEARNING: transformPropertyVersion moved to utils/propertyTransformers.ts
+// WHY: Eliminates hardcoded field names, enables config-driven field mapping
+// PATTERN: Import utility function instead of inline transformation
 
 /**
  * GET /properties

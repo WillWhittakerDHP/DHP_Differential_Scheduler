@@ -49,6 +49,12 @@ export interface UseSelectFieldValueOptions {
    * Field context
    */
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  
+  /**
+   * Whether this is an AnnotationAssignmentSelect field
+   * LEARNING: Annotations are now core entities, use standard relationship select pattern
+   */
+  isAnnotationAssignmentSelect?: ComputedRef<boolean>
 }
 
 /**

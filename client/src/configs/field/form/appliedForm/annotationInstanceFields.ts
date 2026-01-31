@@ -19,7 +19,7 @@ export const annotationInstanceFields = {
 
   text: {
     primitiveType: PrimitiveTypeEnum.String,
-    primitiveMode: PrimitiveModeEnum.Textarea,
+    primitiveMode: PrimitiveModeEnum.TextArea,
     placeholder: "Enter annotation text",
     globalField: "text" as const,
     expandable: false,

@@ -142,17 +142,17 @@ async function mapRelationshipFields(
   childId: string
 ): Promise<Record<string, string>> {
   switch (relationshipKind) {
-    case 'annotationAssignments':
+    case RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS:
       return {
         blockInstanceId: parentId,
         annotationId: childId,
       };
-    case 'attendeeAssignments':
+    case RELATIONSHIP_TYPES.ATTENDEE_ASSIGNMENTS:
       return {
         eventShapeId: parentId,
         userTypeBlockInstanceId: childId,
       };
-    case 'eventAssignments': {
+    case RELATIONSHIP_TYPES.EVENT_ASSIGNMENTS: {
       // LEARNING: eventAssignments uses parent_id/child_id pattern with parent_kind enum
       // WHY: Matches partAssignments pattern exactly for consistency
       // PATTERN: Determine parent_kind by checking which table parentId exists in
@@ -191,24 +191,34 @@ async function mapRelationshipFields(
  * 
  * LEARNING: Circular reference detection prevents infinite loops
  * WHY: Components can themselves be parents, but we must prevent cycles
- * PATTERN: Recursive traversal with visited set
+ * PATTERN: Functional BFS traversal without array mutations
  */
 async function hasCircularReference(
   parentId: string,
   childId: string
 ): Promise<boolean> {
   const visited = new Set<string>();
-  const queue: string[] = [childId];
   
-  while (queue.length > 0) {
-    const currentId = queue.shift()!;
+  /**
+   * Functional BFS helper that processes queue without mutations
+   * LEARNING: Uses array destructuring and spread to rebuild queue functionally
+   * WHY: Avoids queue.shift() and queue.push() mutations
+   * PATTERN: Process head of queue, rebuild tail with new items
+   */
+  async function processQueue(queue: string[]): Promise<boolean> {
+    if (queue.length === 0) {
+      return false;
+    }
+    
+    const [currentId, ...remainingQueue] = queue;
     
     if (currentId === parentId) {
       return true; // Circular reference detected
     }
     
     if (visited.has(currentId)) {
-      continue; // Already visited
+      // Skip already visited nodes, continue with remaining queue
+      return processQueue(remainingQueue);
     }
     
     visited.add(currentId);
@@ -222,13 +232,19 @@ async function hasCircularReference(
       },
     });
     
-    // Add all children of these parents to queue
-    for (const parent of parents) {
-      queue.push(parent.child_id);
-    }
+    // LEARNING: Build new queue functionally using spread operator
+    // WHY: Creates new array instead of mutating existing queue
+    // PATTERN: Map parents to child_ids, filter unvisited, append to remaining queue
+    const childIds = parents
+      .map(parent => parent.child_id)
+      .filter(id => !visited.has(id));
+    
+    const nextQueue = [...remainingQueue, ...childIds];
+    
+    return processQueue(nextQueue);
   }
   
-  return false;
+  return processQueue([childId]);
 }
 
 /**
@@ -279,51 +295,52 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
   
   try {
     const { parent_id, blockInstanceId } = req.query;
-    const where: any = {};
     
-    // LEARNING: Conditionally filter disabled relationships only if model has disabled field
-    // WHY: Not all relationship models have a disabled field (e.g., annotationAssignments, eventAssignments)
-    // PATTERN: Check if model has disabled attribute before filtering
+    // LEARNING: Build where clause functionally using object spread
+    // WHY: Avoids mutating objects, uses immutable patterns
+    // PATTERN: Build where clause conditionally with spread operator
     const modelAttributes = relationshipConfig.model.getAttributes();
-    if ('disabled' in modelAttributes) {
-      // LEARNING: Filter out disabled relationships for models that support it
-      // WHY: Disabled relationships represent old/superseded versions and should not be returned
-      // PATTERN: Explicitly filter disabled relationships at query level
-      where.disabled = false;
-    }
+    const baseWhere: any = {};
+    
+    // Conditionally filter disabled relationships only if model has disabled field
+    const whereWithDisabled = 'disabled' in modelAttributes
+      ? { ...baseWhere, disabled: false }
+      : baseWhere;
     
     // Support parent_id filtering for instanceComponents
     // LEARNING: Validate parent_id is a valid UUID before using it
     // WHY: parent_id must be a UUID, not an entity key string
     // PATTERN: Only filter if parent_id is provided and looks like a UUID
-    if (req.params.relationshipType === 'instanceComponents' && parent_id) {
-      // Validate that parent_id is a UUID (basic check)
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      if (typeof parent_id === 'string' && uuidRegex.test(parent_id)) {
-        where.parent_id = parent_id;
-      } else {
-        // Invalid UUID - ignore the filter (return all relationships)
-        console.warn(`[RelationshipRouter] Invalid parent_id format: ${parent_id}. Expected UUID, ignoring filter.`);
+    const whereWithParentId = (() => {
+      if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parent_id) {
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (typeof parent_id === 'string' && uuidRegex.test(parent_id)) {
+          return { ...whereWithDisabled, parent_id };
+        } else {
+          console.warn(`[RelationshipRouter] Invalid parent_id format: ${parent_id}. Expected UUID, ignoring filter.`);
+        }
       }
-    }
+      return whereWithDisabled;
+    })();
     
     // Support blockInstanceId filtering for annotationAssignments
     // LEARNING: annotationAssignments uses blockInstanceId field (not parent_id)
     // WHY: Different relationship models use different field names for parent reference
     // PATTERN: Filter by model-specific field name when query parameter matches
-    if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {
-      // Validate that blockInstanceId is a valid UUID
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      if (typeof blockInstanceId === 'string' && uuidRegex.test(blockInstanceId)) {
-        where.blockInstanceId = blockInstanceId;
-      } else {
-        // Invalid UUID - ignore the filter (return all relationships)
-        console.warn(`[RelationshipRouter] Invalid blockInstanceId format: ${blockInstanceId}. Expected UUID, ignoring filter.`);
+    const whereClause = (() => {
+      if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (typeof blockInstanceId === 'string' && uuidRegex.test(blockInstanceId)) {
+          return { ...whereWithParentId, blockInstanceId };
+        } else {
+          console.warn(`[RelationshipRouter] Invalid blockInstanceId format: ${blockInstanceId}. Expected UUID, ignoring filter.`);
+        }
       }
-    }
+      return whereWithParentId;
+    })();
     
     const options: any = {
-      where
+      where: whereClause
     };
     
     // Order by orderIndex for instanceComponents only
@@ -331,7 +348,7 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
     // WHY: Sequelize handles the mapping from camelCase attribute to snake_case column
     // PATTERN: Use attribute names in Sequelize queries, not database column names
     // NOTE: annotationAssignments and eventAssignments no longer have orderIndex - metadata moved to shape tables
-    if (req.params.relationshipType === 'instanceComponents') {
+    if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {
       options.order = [['orderIndex', 'ASC']];
     }
     
@@ -360,7 +377,7 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
     // LEARNING: Include nested data for annotationAssignments similar to separate endpoint
     // WHY: Provides richer data structure matching separate endpoint behavior
     // PATTERN: Conditional includes based on relationship type
-    if (req.params.relationshipType === 'annotationAssignments') {
+    if (req.params.relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {
       options.include = [
         {
           model: AnnotationInstance,
@@ -588,7 +605,7 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
     // LEARNING: Validate attendeeAssignments - ensure parent and child exist
     // WHY: Provides better error messages and prevents foreign key constraint violations
     // PATTERN: Check entity existence before creating relationship
-    if (normalizedKind === 'attendeeAssignments') {
+    if (normalizedKind === RELATIONSHIP_TYPES.ATTENDEE_ASSIGNMENTS) {
       const eventShape = await EventShape.findByPk(parent_id);
       if (!eventShape) {
         res.status(400).json({
@@ -634,13 +651,19 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
     }
     
     // Map generic parent_id/child_id to model-specific field names
-    createData = await mapRelationshipFields(normalizedKind, parent_id, child_id);
+    const baseCreateData = await mapRelationshipFields(normalizedKind, parent_id, child_id);
     
-    // Add order_index for instanceComponents
-    if (req.params.relationshipType === 'instanceComponents') {
-      createData.orderIndex = order_index ?? 0;
-      createData.disabled = false;
-    }
+    // Add order_index for instanceComponents using object spread
+    // LEARNING: Use object spread instead of property assignment
+    // WHY: Avoids mutating the baseCreateData object
+    // PATTERN: Build final object with spread operator
+    createData = req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS
+      ? {
+          ...baseCreateData,
+          orderIndex: order_index ?? 0,
+          disabled: false,
+        }
+      : baseCreateData;
     
     // NOTE: annotationAssignments no longer supports orderIndex - metadata moved to annotation_shapes table
     

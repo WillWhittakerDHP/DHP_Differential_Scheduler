@@ -21,6 +21,7 @@ interface FieldsByLocation {
     parts: GlobalFieldKey<GlobalEntityKey>[]
     relationships: GlobalFieldKey<GlobalEntityKey>[]
     annotations: GlobalFieldKey<GlobalEntityKey>[]
+    events: GlobalFieldKey<GlobalEntityKey>[]
   }
 }
 

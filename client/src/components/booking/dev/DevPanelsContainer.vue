@@ -11,6 +11,7 @@ import { ref, inject, computed, onMounted, onUnmounted, type Ref, type ComputedR
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { TernaryBoolean } from '@/types/ternary'
 import type { AppointmentResponse, AppointmentShape, SlotShape } from '@/types/appointment'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import type { RFC3339DateTime } from '@/types/datetime'
@@ -20,13 +21,11 @@ import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { EventInstance, EventShape } from '@/types/events'
-import { useBooking } from '@/composables/useBooking'
-import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
-import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { useBookingWizard } from '@/composables/useBookingWizard'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
 import { equals } from '@/utils/ternary/ternaryUtils'
+import { useDevPanelsComputed } from '@/composables/booking/useDevPanelsComputed'
 
 interface Props {
   visible: boolean
@@ -136,7 +135,7 @@ const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? 
 // PATTERN: Map block instances to summary objects
 interface ServiceSummary {
   name: string
-  differential: boolean
+  differential: TernaryBoolean // LEARNING: Changed from boolean to TernaryBoolean to match BookingBlockInstance.differential
   bookingMode: string
   baseSqFt: number
   partCount: number
@@ -461,38 +460,8 @@ const wizard = computed(() => {
   return devPanelButtons.value?.wizard ?? null
 })
 
-// LEARNING: Get booking data for service type filtering
-// WHY: Need bookingData to get all active service block instances
-// PATTERN: Use useBooking composable to get booking data
-const { bookingData } = useBooking()
-
-// LEARNING: Get all active service block instances (not filtered by cascades)
-// WHY: Debug panel should allow selecting any active service type for testing
-// PATTERN: Filter bookingData.blockInstances by service block shape ID and active status
-const allActiveServiceTypes = computed((): BookingBlockInstance[] => {
-  const data = bookingData.value
-  if (!data || !data.blockInstances || !Array.isArray(data.blockInstances)) return []
-  
-  const serviceBlockShapeId = getBlockShapeIdByType(data, BLOCK_SHAPE_TYPES.SERVICE)
-  if (!serviceBlockShapeId) return []
-  
-  return data.blockInstances
-    .filter(instance => 
-      instance.blockShapeRef === serviceBlockShapeId && 
-      instance.active === true
-    )
-    .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-})
-
-// LEARNING: Map service instances to dropdown options format
-// WHY: VSelect component needs options in { title: string, value: string } format
-// PATTERN: Map instances to select options
-const serviceTypeOptions = computed(() => {
-  return allActiveServiceTypes.value.map(service => ({
-    title: service.name,
-    value: service.id
-  }))
-})
+// LEARNING: allActiveServiceTypes and serviceTypeOptions are now provided by useDevPanelsComputed composable
+// WHY: Extracted to composable to reduce component complexity
 
 // LEARNING: Get currently selected service type for dropdown
 // WHY: Dropdown needs to show current selection

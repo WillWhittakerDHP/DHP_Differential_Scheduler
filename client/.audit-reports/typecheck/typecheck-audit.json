@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-30T00:41:26.232Z",
+  "generatedAt": "2026-01-31T22:43:28.040Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -14,7 +14,7 @@
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 3,
+    "totalRequiresReview": 48,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -23,41 +23,491 @@
   },
   "errors": [
     {
-      "file": "src/components/admin/generic/fields/IconInput.vue",
-      "line": 109,
-      "col": 25,
-      "code": "TS6133",
-      "message": "'inject' is declared but its value is never read.",
-      "raw": "src/components/admin/generic/fields/IconInput.vue(109,25): error TS6133: 'inject' is declared but its value is never read.",
-      "scope": "client",
-      "repoPath": "src/components/admin/generic/fields/IconInput.vue"
-    },
-    {
-      "file": "src/components/admin/generic/fields/IconInput.vue",
-      "line": 118,
-      "col": 1,
-      "code": "TS6192",
-      "message": "All imports in import declaration are unused.",
-      "raw": "src/components/admin/generic/fields/IconInput.vue(118,1): error TS6192: All imports in import declaration are unused.",
-      "scope": "client",
-      "repoPath": "src/components/admin/generic/fields/IconInput.vue"
-    },
-    {
-      "file": "src/components/admin/generic/fields/IconInput.vue",
-      "line": 173,
+      "file": "src/components/admin/generic/collections/PartsCollection.vue",
+      "line": 87,
       "col": 7,
-      "code": "TS2304",
-      "message": "Cannot find name 'entityCardSaveContext'.",
-      "raw": "src/components/admin/generic/fields/IconInput.vue(173,7): error TS2304: Cannot find name 'entityCardSaveContext'.",
+      "code": "TS6133",
+      "message": "'collectionModel' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/collections/PartsCollection.vue(87,7): error TS6133: 'collectionModel' is declared but its value is never read.",
       "scope": "client",
-      "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+      "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
+    },
+    {
+      "file": "src/components/admin/generic/collections/RelationshipCollection.vue",
+      "line": 161,
+      "col": 56,
+      "code": "TS6133",
+      "message": "'optionsFieldKey' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(161,56): error TS6133: 'optionsFieldKey' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue"
+    },
+    {
+      "file": "src/components/admin/generic/collections/RelationshipCollection.vue",
+      "line": 186,
+      "col": 17,
+      "code": "TS6133",
+      "message": "'parentEntityFromModel' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(186,17): error TS6133: 'parentEntityFromModel' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue"
+    },
+    {
+      "file": "src/components/admin/generic/EntityCardSubPanels.vue",
+      "line": 11,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'PartsCollection' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/EntityCardSubPanels.vue(11,1): error TS6133: 'PartsCollection' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/generic/EntityCardSubPanels.vue"
+    },
+    {
+      "file": "src/components/admin/generic/fields/FieldRenderer.vue",
+      "line": 60,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'PartsCollection' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/fields/FieldRenderer.vue(60,1): error TS6133: 'PartsCollection' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/generic/fields/FieldRenderer.vue"
+    },
+    {
+      "file": "src/components/admin/generic/fields/SelectInputs.vue",
+      "line": 406,
+      "col": 3,
+      "code": "TS6133",
+      "message": "'validOptionIds' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/fields/SelectInputs.vue(406,3): error TS6133: 'validOptionIds' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/generic/fields/SelectInputs.vue"
+    },
+    {
+      "file": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+      "line": 164,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'FIELD_VISIBILITY' is declared but its value is never read.",
+      "raw": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue(164,10): error TS6133: 'FIELD_VISIBILITY' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue"
+    },
+    {
+      "file": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+      "line": 217,
+      "col": 28,
+      "code": "TS6133",
+      "message": "'deleteFieldMetadata' is declared but its value is never read.",
+      "raw": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue(217,28): error TS6133: 'deleteFieldMetadata' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue"
+    },
+    {
+      "file": "src/components/booking/dev/DevPanelsContainer.vue",
+      "line": 23,
+      "col": 15,
+      "code": "TS6196",
+      "message": "'EventInstance' is declared but never used.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(23,15): error TS6196: 'EventInstance' is declared but never used.",
+      "scope": "client",
+      "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+    },
+    {
+      "file": "src/components/booking/dev/DevPanelsContainer.vue",
+      "line": 28,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'useDevPanelsComputed' is declared but its value is never read.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(28,1): error TS6133: 'useDevPanelsComputed' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+    },
+    {
+      "file": "src/components/booking/dev/DevPanelsContainer.vue",
+      "line": 484,
+      "col": 27,
+      "code": "TS2304",
+      "message": "Cannot find name 'allActiveServiceTypes'.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(484,27): error TS2304: Cannot find name 'allActiveServiceTypes'.",
+      "scope": "client",
+      "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+    },
+    {
+      "file": "src/components/booking/dev/DevPanelsContainer.vue",
+      "line": 484,
+      "col": 60,
+      "code": "TS7006",
+      "message": "Parameter 's' implicitly has an 'any' type.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(484,60): error TS7006: Parameter 's' implicitly has an 'any' type.",
+      "scope": "client",
+      "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+    },
+    {
+      "file": "src/components/booking/dev/DevPanelsContainer.vue",
+      "line": 492,
+      "col": 9,
+      "code": "TS6133",
+      "message": "'getGlobalData' is declared but its value is never read.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(492,9): error TS6133: 'getGlobalData' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+    },
+    {
+      "file": "src/components/booking/dev/DevPanelsContainer.vue",
+      "line": 765,
+      "col": 27,
+      "code": "TS2339",
+      "message": "Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(765,27): error TS2339: Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
+      "scope": "client",
+      "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+    },
+    {
+      "file": "src/components/booking/steps/AvailabilityStep.vue",
+      "line": 102,
+      "col": 9,
+      "code": "TS6133",
+      "message": "'selectedOptions' is declared but its value is never read.",
+      "raw": "src/components/booking/steps/AvailabilityStep.vue(102,9): error TS6133: 'selectedOptions' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/booking/steps/AvailabilityStep.vue"
+    },
+    {
+      "file": "src/composables/admin/useMetadataEditorEntity.ts",
+      "line": 44,
+      "col": 3,
+      "code": "TS6133",
+      "message": "'entity' is declared but its value is never read.",
+      "raw": "src/composables/admin/useMetadataEditorEntity.ts(44,3): error TS6133: 'entity' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/composables/admin/useMetadataEditorEntity.ts"
+    },
+    {
+      "file": "src/composables/admin/useRelationshipCollection.ts",
+      "line": 109,
+      "col": 9,
+      "code": "TS6133",
+      "message": "'getGlobalEntityById' is declared but its value is never read.",
+      "raw": "src/composables/admin/useRelationshipCollection.ts(109,9): error TS6133: 'getGlobalEntityById' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/composables/admin/useRelationshipCollection.ts"
+    },
+    {
+      "file": "src/composables/admin/useRelationshipCollection.ts",
+      "line": 122,
+      "col": 5,
+      "code": "TS6133",
+      "message": "'parentTypeEntity' is declared but its value is never read.",
+      "raw": "src/composables/admin/useRelationshipCollection.ts(122,5): error TS6133: 'parentTypeEntity' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/composables/admin/useRelationshipCollection.ts"
+    },
+    {
+      "file": "src/composables/admin/useRelationshipCollectionData.ts",
+      "line": 134,
+      "col": 9,
+      "code": "TS6133",
+      "message": "'parentEntity' is declared but its value is never read.",
+      "raw": "src/composables/admin/useRelationshipCollectionData.ts(134,9): error TS6133: 'parentEntity' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/composables/admin/useRelationshipCollectionData.ts"
+    },
+    {
+      "file": "src/composables/booking/useDevPanelsComputed.ts",
+      "line": 14,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'RFC3339DateTime' is declared but its value is never read.",
+      "raw": "src/composables/booking/useDevPanelsComputed.ts(14,1): error TS6133: 'RFC3339DateTime' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/composables/booking/useDevPanelsComputed.ts"
+    },
+    {
+      "file": "src/composables/booking/useDevPanelsComputed.ts",
+      "line": 15,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'useLocalTime' is declared but its value is never read.",
+      "raw": "src/composables/booking/useDevPanelsComputed.ts(15,1): error TS6133: 'useLocalTime' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/composables/booking/useDevPanelsComputed.ts"
+    },
+    {
+      "file": "src/composables/entityCrud/usePrimitiveMutation.ts",
+      "line": 175,
+      "col": 22,
+      "code": "TS6133",
+      "message": "'variables' is declared but its value is never read.",
+      "raw": "src/composables/entityCrud/usePrimitiveMutation.ts(175,22): error TS6133: 'variables' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/composables/entityCrud/usePrimitiveMutation.ts"
+    },
+    {
+      "file": "src/configs/field/form/appliedForm/annotationInstanceFields.ts",
+      "line": 9,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'PrimitiveFormField' is declared but its value is never read.",
+      "raw": "src/configs/field/form/appliedForm/annotationInstanceFields.ts(9,1): error TS6133: 'PrimitiveFormField' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/configs/field/form/appliedForm/annotationInstanceFields.ts"
+    },
+    {
+      "file": "src/utils/admin/buildMetadataEntry.ts",
+      "line": 39,
+      "col": 47,
+      "code": "TS6133",
+      "message": "'isRelationship' is declared but its value is never read.",
+      "raw": "src/utils/admin/buildMetadataEntry.ts(39,47): error TS6133: 'isRelationship' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/admin/buildMetadataEntry.ts"
+    },
+    {
+      "file": "src/utils/annotationUtils.ts",
+      "line": 29,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'hasDuplicateUserTypeBlock' is declared but its value is never read.",
+      "raw": "src/utils/annotationUtils.ts(29,10): error TS6133: 'hasDuplicateUserTypeBlock' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/annotationUtils.ts"
+    },
+    {
+      "file": "src/utils/annotationUtils.ts",
+      "line": 75,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'formatAnnotationForDisplay' is declared but its value is never read.",
+      "raw": "src/utils/annotationUtils.ts(75,10): error TS6133: 'formatAnnotationForDisplay' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/annotationUtils.ts"
+    },
+    {
+      "file": "src/utils/annotationUtils.ts",
+      "line": 92,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
+      "raw": "src/utils/annotationUtils.ts(92,10): error TS6133: 'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/annotationUtils.ts"
+    },
+    {
+      "file": "src/utils/annotationUtils.ts",
+      "line": 134,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
+      "raw": "src/utils/annotationUtils.ts(134,10): error TS6133: 'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/annotationUtils.ts"
+    },
+    {
+      "file": "src/utils/api.ts",
+      "line": 11,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'GlobalEntityKey' is declared but its value is never read.",
+      "raw": "src/utils/api.ts(11,1): error TS6133: 'GlobalEntityKey' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/api.ts"
+    },
+    {
+      "file": "src/utils/api.ts",
+      "line": 103,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'getRelationshipByIdEndpoint' is declared but its value is never read.",
+      "raw": "src/utils/api.ts(103,10): error TS6133: 'getRelationshipByIdEndpoint' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/api.ts"
+    },
+    {
+      "file": "src/utils/api.ts",
+      "line": 233,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'getPropertyTypesEndpoint' is declared but its value is never read.",
+      "raw": "src/utils/api.ts(233,10): error TS6133: 'getPropertyTypesEndpoint' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/api.ts"
+    },
+    {
+      "file": "src/utils/api.ts",
+      "line": 237,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'getPropertyTypeByIdEndpoint' is declared but its value is never read.",
+      "raw": "src/utils/api.ts(237,10): error TS6133: 'getPropertyTypeByIdEndpoint' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/api.ts"
+    },
+    {
+      "file": "src/utils/booking/appointmentSlotBuilder.ts",
+      "line": 178,
+      "col": 3,
+      "code": "TS6133",
+      "message": "'validPartsRelationships' is declared but its value is never read.",
+      "raw": "src/utils/booking/appointmentSlotBuilder.ts(178,3): error TS6133: 'validPartsRelationships' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/appointmentSlotBuilder.ts"
+    },
+    {
+      "file": "src/utils/booking/serviceDescriptions.ts",
+      "line": 9,
+      "col": 47,
+      "code": "TS6133",
+      "message": "'service' is declared but its value is never read.",
+      "raw": "src/utils/booking/serviceDescriptions.ts(9,47): error TS6133: 'service' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/serviceDescriptions.ts"
+    },
+    {
+      "file": "src/utils/booking/serviceDescriptions.ts",
+      "line": 9,
+      "col": 78,
+      "code": "TS6133",
+      "message": "'userTypeBlockName' is declared but its value is never read.",
+      "raw": "src/utils/booking/serviceDescriptions.ts(9,78): error TS6133: 'userTypeBlockName' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/serviceDescriptions.ts"
+    },
+    {
+      "file": "src/utils/booking/timeSlotMatching.ts",
+      "line": 259,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
+      "raw": "src/utils/booking/timeSlotMatching.ts(259,10): error TS6133: 'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/timeSlotMatching.ts"
+    },
+    {
+      "file": "src/utils/differentialScheduling.ts",
+      "line": 13,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'BookingBlockInstance' is declared but its value is never read.",
+      "raw": "src/utils/differentialScheduling.ts(13,1): error TS6133: 'BookingBlockInstance' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/differentialScheduling.ts"
+    },
+    {
+      "file": "src/utils/eventAttendeeUtils.ts",
+      "line": 13,
+      "col": 15,
+      "code": "TS6196",
+      "message": "'GlobalEntity' is declared but never used.",
+      "raw": "src/utils/eventAttendeeUtils.ts(13,15): error TS6196: 'GlobalEntity' is declared but never used.",
+      "scope": "client",
+      "repoPath": "src/utils/eventAttendeeUtils.ts"
+    },
+    {
+      "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "line": 166,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'applyOptimisticAssignmentPatchToGlobalData' is declared but its value is never read.",
+      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(166,10): error TS6133: 'applyOptimisticAssignmentPatchToGlobalData' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
+    },
+    {
+      "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "line": 233,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'optimisticUpsertAssignmentInList' is declared but its value is never read.",
+      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(233,10): error TS6133: 'optimisticUpsertAssignmentInList' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
+    },
+    {
+      "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+      "line": 268,
+      "col": 10,
+      "code": "TS6133",
+      "message": "'optimisticRemoveAssignmentFromList' is declared but its value is never read.",
+      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(268,10): error TS6133: 'optimisticRemoveAssignmentFromList' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
+    },
+    {
+      "file": "src/utils/transformers/annotationTransformers.ts",
+      "line": 12,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'FetchedRelationship' is declared but its value is never read.",
+      "raw": "src/utils/transformers/annotationTransformers.ts(12,1): error TS6133: 'FetchedRelationship' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/transformers/annotationTransformers.ts"
+    },
+    {
+      "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+      "line": 19,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'transformApiAnnotation' is declared but its value is never read.",
+      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(19,1): error TS6133: 'transformApiAnnotation' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+    },
+    {
+      "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+      "line": 124,
+      "col": 9,
+      "code": "TS6133",
+      "message": "'partShapeId' is declared but its value is never read.",
+      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(124,9): error TS6133: 'partShapeId' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+    },
+    {
+      "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+      "line": 125,
+      "col": 9,
+      "code": "TS6133",
+      "message": "'blockShapeId' is declared but its value is never read.",
+      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(125,9): error TS6133: 'blockShapeId' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+    },
+    {
+      "file": "src/views/admin/tabs/InstancesTab.vue",
+      "line": 31,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'useDragAndDrop' is declared but its value is never read.",
+      "raw": "src/views/admin/tabs/InstancesTab.vue(31,1): error TS6133: 'useDragAndDrop' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+    },
+    {
+      "file": "src/views/admin/tabs/InstancesTab.vue",
+      "line": 311,
+      "col": 9,
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
+      "raw": "src/views/admin/tabs/InstancesTab.vue(311,9): error TS2353: Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
+      "scope": "client",
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+    },
+    {
+      "file": "src/views/admin/tabs/ShapesTab.vue",
+      "line": 24,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'EventShape' is declared but its value is never read.",
+      "raw": "src/views/admin/tabs/ShapesTab.vue(24,1): error TS6133: 'EventShape' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/views/admin/tabs/ShapesTab.vue"
     }
   ],
   "allowedErrors": [],
   "pools": [
     {
-      "poolId": "TS2304-ts2304-cannot-find-name-entitycardsavecontext",
-      "groupKey": "TS2304::Cannot find name 'entityCardSaveContext'.",
+      "poolId": "TS2304-ts2304-cannot-find-name-allactiveservicetypes",
+      "groupKey": "TS2304::Cannot find name 'allActiveServiceTypes'.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 10,
@@ -68,18 +518,113 @@
       "totalScore": 13,
       "sample": [
         {
-          "repoPath": "src/components/admin/generic/fields/IconInput.vue",
-          "line": 173,
-          "col": 7,
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 484,
+          "col": 27,
           "code": "TS2304",
-          "message": "Cannot find name 'entityCardSaveContext'."
+          "message": "Cannot find name 'allActiveServiceTypes'."
         }
       ],
       "priority": "P1"
     },
     {
-      "poolId": "TS6133-ts6133-inject-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'inject' is declared but its value is never read.",
+      "poolId": "TS2339-ts2339-prop-servicetypeoptions",
+      "groupKey": "TS2339::prop:serviceTypeOptions@{...}",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 765,
+          "col": 27,
+          "code": "TS2339",
+          "message": "Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2353-ts2353-object-literal-may-only-specify-known-properties-and-values-does-not-exist-in-type-draganddrop-unknown",
+      "groupKey": "TS2353::Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 311,
+          "col": 9,
+          "code": "TS2353",
+          "message": "Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS6133-ts6133-partscollection-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'PartsCollection' is declared but its value is never read.",
+      "errorCount": 2,
+      "fileCount": 2,
+      "severityScore": 6,
+      "blastRadiusScore": 4,
+      "repetitionScore": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 12,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/EntityCardSubPanels.vue",
+          "line": 11,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'PartsCollection' is declared but its value is never read."
+        },
+        {
+          "repoPath": "src/components/admin/generic/fields/FieldRenderer.vue",
+          "line": 60,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'PartsCollection' is declared but its value is never read."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS7006-ts7006-parameter-s-implicitly-has-an-any-type",
+      "groupKey": "TS7006::Parameter 's' implicitly has an 'any' type.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 7,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 10,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 484,
+          "col": 60,
+          "code": "TS7006",
+          "message": "Parameter 's' implicitly has an 'any' type."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS6133-ts6133-applyoptimisticassignmentpatchtoglobaldata-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'applyOptimisticAssignmentPatchToGlobalData' is declared but its value is never read.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 3,
@@ -90,18 +635,18 @@
       "totalScore": 6,
       "sample": [
         {
-          "repoPath": "src/components/admin/generic/fields/IconInput.vue",
-          "line": 109,
-          "col": 25,
+          "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+          "line": 166,
+          "col": 10,
           "code": "TS6133",
-          "message": "'inject' is declared but its value is never read."
+          "message": "'applyOptimisticAssignmentPatchToGlobalData' is declared but its value is never read."
         }
       ],
       "priority": "P2"
     },
     {
-      "poolId": "TS6192-ts6192-all-imports-in-import-declaration-are-unused",
-      "groupKey": "TS6192::All imports in import declaration are unused.",
+      "poolId": "TS6133-ts6133-blockshapeid-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'blockShapeId' is declared but its value is never read.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 3,
@@ -112,11 +657,891 @@
       "totalScore": 6,
       "sample": [
         {
-          "repoPath": "src/components/admin/generic/fields/IconInput.vue",
-          "line": 118,
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 125,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'blockShapeId' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-bookingblockinstance-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'BookingBlockInstance' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/differentialScheduling.ts",
+          "line": 13,
           "col": 1,
-          "code": "TS6192",
-          "message": "All imports in import declaration are unused."
+          "code": "TS6133",
+          "message": "'BookingBlockInstance' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-collectionmodel-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'collectionModel' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/collections/PartsCollection.vue",
+          "line": 87,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'collectionModel' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-deletefieldmetadata-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'deleteFieldMetadata' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+          "line": 217,
+          "col": 28,
+          "code": "TS6133",
+          "message": "'deleteFieldMetadata' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-entity-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'entity' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useMetadataEditorEntity.ts",
+          "line": 44,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'entity' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-eventshape-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'EventShape' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/ShapesTab.vue",
+          "line": 24,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'EventShape' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-fetchedrelationship-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'FetchedRelationship' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/transformers/annotationTransformers.ts",
+          "line": 12,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'FetchedRelationship' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-field-visibility-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'FIELD_VISIBILITY' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+          "line": 164,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'FIELD_VISIBILITY' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-formatannotationfordisplay-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'formatAnnotationForDisplay' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/annotationUtils.ts",
+          "line": 75,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'formatAnnotationForDisplay' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-getannotationsforusertypeblock-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/annotationUtils.ts",
+          "line": 92,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getAnnotationsForUserTypeBlock' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-getglobaldata-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getGlobalData' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 492,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'getGlobalData' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-getglobalentitybyid-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getGlobalEntityById' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useRelationshipCollection.ts",
+          "line": 109,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'getGlobalEntityById' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-getpropertytypebyidendpoint-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getPropertyTypeByIdEndpoint' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/api.ts",
+          "line": 237,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getPropertyTypeByIdEndpoint' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-getpropertytypesendpoint-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getPropertyTypesEndpoint' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/api.ts",
+          "line": 233,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getPropertyTypesEndpoint' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-getrelationshipbyidendpoint-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getRelationshipByIdEndpoint' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/api.ts",
+          "line": 103,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getRelationshipByIdEndpoint' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-getusertypeblockoptionsfromglobaldata-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/annotationUtils.ts",
+          "line": 134,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-globalentitykey-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'GlobalEntityKey' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/api.ts",
+          "line": 11,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'GlobalEntityKey' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-hasduplicateusertypeblock-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'hasDuplicateUserTypeBlock' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/annotationUtils.ts",
+          "line": 29,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'hasDuplicateUserTypeBlock' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-isrelationship-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'isRelationship' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/admin/buildMetadataEntry.ts",
+          "line": 39,
+          "col": 47,
+          "code": "TS6133",
+          "message": "'isRelationship' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-matchloadedtimeslotstoappointmentslots-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/booking/timeSlotMatching.ts",
+          "line": 259,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-optimisticremoveassignmentfromlist-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'optimisticRemoveAssignmentFromList' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+          "line": 268,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'optimisticRemoveAssignmentFromList' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-optimisticupsertassignmentinlist-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'optimisticUpsertAssignmentInList' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+          "line": 233,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'optimisticUpsertAssignmentInList' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-optionsfieldkey-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'optionsFieldKey' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue",
+          "line": 161,
+          "col": 56,
+          "code": "TS6133",
+          "message": "'optionsFieldKey' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-parententity-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'parentEntity' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useRelationshipCollectionData.ts",
+          "line": 134,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'parentEntity' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-parententityfrommodel-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'parentEntityFromModel' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue",
+          "line": 186,
+          "col": 17,
+          "code": "TS6133",
+          "message": "'parentEntityFromModel' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-parenttypeentity-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'parentTypeEntity' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useRelationshipCollection.ts",
+          "line": 122,
+          "col": 5,
+          "code": "TS6133",
+          "message": "'parentTypeEntity' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-partshapeid-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'partShapeId' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 124,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'partShapeId' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-primitiveformfield-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'PrimitiveFormField' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/configs/field/form/appliedForm/annotationInstanceFields.ts",
+          "line": 9,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'PrimitiveFormField' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-rfc3339datetime-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'RFC3339DateTime' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/booking/useDevPanelsComputed.ts",
+          "line": 14,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'RFC3339DateTime' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-selectedoptions-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'selectedOptions' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/steps/AvailabilityStep.vue",
+          "line": 102,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'selectedOptions' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-service-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'service' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/booking/serviceDescriptions.ts",
+          "line": 9,
+          "col": 47,
+          "code": "TS6133",
+          "message": "'service' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-transformapiannotation-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'transformApiAnnotation' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 19,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'transformApiAnnotation' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-usedevpanelscomputed-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'useDevPanelsComputed' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 28,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'useDevPanelsComputed' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-usedraganddrop-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'useDragAndDrop' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 31,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'useDragAndDrop' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-uselocaltime-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'useLocalTime' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/booking/useDevPanelsComputed.ts",
+          "line": 15,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'useLocalTime' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-usertypeblockname-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'userTypeBlockName' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/booking/serviceDescriptions.ts",
+          "line": 9,
+          "col": 78,
+          "code": "TS6133",
+          "message": "'userTypeBlockName' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-validoptionids-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'validOptionIds' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/fields/SelectInputs.vue",
+          "line": 406,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'validOptionIds' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-validpartsrelationships-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'validPartsRelationships' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/booking/appointmentSlotBuilder.ts",
+          "line": 178,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'validPartsRelationships' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-variables-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'variables' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/entityCrud/usePrimitiveMutation.ts",
+          "line": 175,
+          "col": 22,
+          "code": "TS6133",
+          "message": "'variables' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6196-ts6196-eventinstance-is-declared-but-never-used",
+      "groupKey": "TS6196::'EventInstance' is declared but never used.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 23,
+          "col": 15,
+          "code": "TS6196",
+          "message": "'EventInstance' is declared but never used."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6196-ts6196-globalentity-is-declared-but-never-used",
+      "groupKey": "TS6196::'GlobalEntity' is declared but never used.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/eventAttendeeUtils.ts",
+          "line": 13,
+          "col": 15,
+          "code": "TS6196",
+          "message": "'GlobalEntity' is declared but never used."
         }
       ],
       "priority": "P2"
@@ -124,40 +1549,698 @@
   ],
   "files": [
     {
-      "repoPath": "src/components/admin/generic/fields/IconInput.vue",
+      "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
+      "errorCount": 6,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 23,
+          "col": 15,
+          "code": "TS6196",
+          "message": "'EventInstance' is declared but never used.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(23,15): error TS6196: 'EventInstance' is declared but never used.",
+          "scope": "client",
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+        },
+        {
+          "file": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 28,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'useDevPanelsComputed' is declared but its value is never read.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(28,1): error TS6133: 'useDevPanelsComputed' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+        },
+        {
+          "file": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 484,
+          "col": 27,
+          "code": "TS2304",
+          "message": "Cannot find name 'allActiveServiceTypes'.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(484,27): error TS2304: Cannot find name 'allActiveServiceTypes'.",
+          "scope": "client",
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+        },
+        {
+          "file": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 484,
+          "col": 60,
+          "code": "TS7006",
+          "message": "Parameter 's' implicitly has an 'any' type.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(484,60): error TS7006: Parameter 's' implicitly has an 'any' type.",
+          "scope": "client",
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+        },
+        {
+          "file": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 492,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'getGlobalData' is declared but its value is never read.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(492,9): error TS6133: 'getGlobalData' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+        },
+        {
+          "file": "src/components/booking/dev/DevPanelsContainer.vue",
+          "line": 765,
+          "col": 27,
+          "code": "TS2339",
+          "message": "Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(765,27): error TS2339: Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
+          "scope": "client",
+          "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/annotationUtils.ts",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/annotationUtils.ts",
+          "line": 29,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'hasDuplicateUserTypeBlock' is declared but its value is never read.",
+          "raw": "src/utils/annotationUtils.ts(29,10): error TS6133: 'hasDuplicateUserTypeBlock' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/annotationUtils.ts"
+        },
+        {
+          "file": "src/utils/annotationUtils.ts",
+          "line": 75,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'formatAnnotationForDisplay' is declared but its value is never read.",
+          "raw": "src/utils/annotationUtils.ts(75,10): error TS6133: 'formatAnnotationForDisplay' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/annotationUtils.ts"
+        },
+        {
+          "file": "src/utils/annotationUtils.ts",
+          "line": 92,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
+          "raw": "src/utils/annotationUtils.ts(92,10): error TS6133: 'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/annotationUtils.ts"
+        },
+        {
+          "file": "src/utils/annotationUtils.ts",
+          "line": 134,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
+          "raw": "src/utils/annotationUtils.ts(134,10): error TS6133: 'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/annotationUtils.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/api.ts",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/api.ts",
+          "line": 11,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'GlobalEntityKey' is declared but its value is never read.",
+          "raw": "src/utils/api.ts(11,1): error TS6133: 'GlobalEntityKey' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/api.ts"
+        },
+        {
+          "file": "src/utils/api.ts",
+          "line": 103,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getRelationshipByIdEndpoint' is declared but its value is never read.",
+          "raw": "src/utils/api.ts(103,10): error TS6133: 'getRelationshipByIdEndpoint' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/api.ts"
+        },
+        {
+          "file": "src/utils/api.ts",
+          "line": 233,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getPropertyTypesEndpoint' is declared but its value is never read.",
+          "raw": "src/utils/api.ts(233,10): error TS6133: 'getPropertyTypesEndpoint' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/api.ts"
+        },
+        {
+          "file": "src/utils/api.ts",
+          "line": 237,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'getPropertyTypeByIdEndpoint' is declared but its value is never read.",
+          "raw": "src/utils/api.ts(237,10): error TS6133: 'getPropertyTypeByIdEndpoint' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/api.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
       "errorCount": 3,
       "unsafeCastHits": 0,
       "suppressionHits": 0,
       "errors": [
         {
-          "file": "src/components/admin/generic/fields/IconInput.vue",
-          "line": 109,
-          "col": 25,
+          "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+          "line": 166,
+          "col": 10,
           "code": "TS6133",
-          "message": "'inject' is declared but its value is never read.",
-          "raw": "src/components/admin/generic/fields/IconInput.vue(109,25): error TS6133: 'inject' is declared but its value is never read.",
+          "message": "'applyOptimisticAssignmentPatchToGlobalData' is declared but its value is never read.",
+          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(166,10): error TS6133: 'applyOptimisticAssignmentPatchToGlobalData' is declared but its value is never read.",
           "scope": "client",
-          "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+          "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
         },
         {
-          "file": "src/components/admin/generic/fields/IconInput.vue",
-          "line": 118,
+          "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+          "line": 233,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'optimisticUpsertAssignmentInList' is declared but its value is never read.",
+          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(233,10): error TS6133: 'optimisticUpsertAssignmentInList' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
+        },
+        {
+          "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
+          "line": 268,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'optimisticRemoveAssignmentFromList' is declared but its value is never read.",
+          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(268,10): error TS6133: 'optimisticRemoveAssignmentFromList' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
+      "errorCount": 3,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 19,
           "col": 1,
-          "code": "TS6192",
-          "message": "All imports in import declaration are unused.",
-          "raw": "src/components/admin/generic/fields/IconInput.vue(118,1): error TS6192: All imports in import declaration are unused.",
+          "code": "TS6133",
+          "message": "'transformApiAnnotation' is declared but its value is never read.",
+          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(19,1): error TS6133: 'transformApiAnnotation' is declared but its value is never read.",
           "scope": "client",
-          "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
         },
         {
-          "file": "src/components/admin/generic/fields/IconInput.vue",
-          "line": 173,
-          "col": 7,
-          "code": "TS2304",
-          "message": "Cannot find name 'entityCardSaveContext'.",
-          "raw": "src/components/admin/generic/fields/IconInput.vue(173,7): error TS2304: Cannot find name 'entityCardSaveContext'.",
+          "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 124,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'partShapeId' is declared but its value is never read.",
+          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(124,9): error TS6133: 'partShapeId' is declared but its value is never read.",
           "scope": "client",
-          "repoPath": "src/components/admin/generic/fields/IconInput.vue"
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+        },
+        {
+          "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 125,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'blockShapeId' is declared but its value is never read.",
+          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(125,9): error TS6133: 'blockShapeId' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/collections/RelationshipCollection.vue",
+          "line": 161,
+          "col": 56,
+          "code": "TS6133",
+          "message": "'optionsFieldKey' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(161,56): error TS6133: 'optionsFieldKey' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue"
+        },
+        {
+          "file": "src/components/admin/generic/collections/RelationshipCollection.vue",
+          "line": 186,
+          "col": 17,
+          "code": "TS6133",
+          "message": "'parentEntityFromModel' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(186,17): error TS6133: 'parentEntityFromModel' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+          "line": 164,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'FIELD_VISIBILITY' is declared but its value is never read.",
+          "raw": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue(164,10): error TS6133: 'FIELD_VISIBILITY' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue"
+        },
+        {
+          "file": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+          "line": 217,
+          "col": 28,
+          "code": "TS6133",
+          "message": "'deleteFieldMetadata' is declared but its value is never read.",
+          "raw": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue(217,28): error TS6133: 'deleteFieldMetadata' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/admin/useRelationshipCollection.ts",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/admin/useRelationshipCollection.ts",
+          "line": 109,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'getGlobalEntityById' is declared but its value is never read.",
+          "raw": "src/composables/admin/useRelationshipCollection.ts(109,9): error TS6133: 'getGlobalEntityById' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/composables/admin/useRelationshipCollection.ts"
+        },
+        {
+          "file": "src/composables/admin/useRelationshipCollection.ts",
+          "line": 122,
+          "col": 5,
+          "code": "TS6133",
+          "message": "'parentTypeEntity' is declared but its value is never read.",
+          "raw": "src/composables/admin/useRelationshipCollection.ts(122,5): error TS6133: 'parentTypeEntity' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/composables/admin/useRelationshipCollection.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/booking/useDevPanelsComputed.ts",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/booking/useDevPanelsComputed.ts",
+          "line": 14,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'RFC3339DateTime' is declared but its value is never read.",
+          "raw": "src/composables/booking/useDevPanelsComputed.ts(14,1): error TS6133: 'RFC3339DateTime' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/composables/booking/useDevPanelsComputed.ts"
+        },
+        {
+          "file": "src/composables/booking/useDevPanelsComputed.ts",
+          "line": 15,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'useLocalTime' is declared but its value is never read.",
+          "raw": "src/composables/booking/useDevPanelsComputed.ts(15,1): error TS6133: 'useLocalTime' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/composables/booking/useDevPanelsComputed.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/booking/serviceDescriptions.ts",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/booking/serviceDescriptions.ts",
+          "line": 9,
+          "col": 47,
+          "code": "TS6133",
+          "message": "'service' is declared but its value is never read.",
+          "raw": "src/utils/booking/serviceDescriptions.ts(9,47): error TS6133: 'service' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/serviceDescriptions.ts"
+        },
+        {
+          "file": "src/utils/booking/serviceDescriptions.ts",
+          "line": 9,
+          "col": 78,
+          "code": "TS6133",
+          "message": "'userTypeBlockName' is declared but its value is never read.",
+          "raw": "src/utils/booking/serviceDescriptions.ts(9,78): error TS6133: 'userTypeBlockName' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/serviceDescriptions.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 31,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'useDragAndDrop' is declared but its value is never read.",
+          "raw": "src/views/admin/tabs/InstancesTab.vue(31,1): error TS6133: 'useDragAndDrop' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+        },
+        {
+          "file": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 311,
+          "col": 9,
+          "code": "TS2353",
+          "message": "Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
+          "raw": "src/views/admin/tabs/InstancesTab.vue(311,9): error TS2353: Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
+          "scope": "client",
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/generic/collections/PartsCollection.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/collections/PartsCollection.vue",
+          "line": 87,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'collectionModel' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/collections/PartsCollection.vue(87,7): error TS6133: 'collectionModel' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/generic/EntityCardSubPanels.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/EntityCardSubPanels.vue",
+          "line": 11,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'PartsCollection' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/EntityCardSubPanels.vue(11,1): error TS6133: 'PartsCollection' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/EntityCardSubPanels.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/generic/fields/FieldRenderer.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/fields/FieldRenderer.vue",
+          "line": 60,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'PartsCollection' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/fields/FieldRenderer.vue(60,1): error TS6133: 'PartsCollection' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/fields/FieldRenderer.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/generic/fields/SelectInputs.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/fields/SelectInputs.vue",
+          "line": 406,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'validOptionIds' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/fields/SelectInputs.vue(406,3): error TS6133: 'validOptionIds' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/fields/SelectInputs.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/booking/steps/AvailabilityStep.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/booking/steps/AvailabilityStep.vue",
+          "line": 102,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'selectedOptions' is declared but its value is never read.",
+          "raw": "src/components/booking/steps/AvailabilityStep.vue(102,9): error TS6133: 'selectedOptions' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/booking/steps/AvailabilityStep.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/admin/useMetadataEditorEntity.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/admin/useMetadataEditorEntity.ts",
+          "line": 44,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'entity' is declared but its value is never read.",
+          "raw": "src/composables/admin/useMetadataEditorEntity.ts(44,3): error TS6133: 'entity' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/composables/admin/useMetadataEditorEntity.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/admin/useRelationshipCollectionData.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/admin/useRelationshipCollectionData.ts",
+          "line": 134,
+          "col": 9,
+          "code": "TS6133",
+          "message": "'parentEntity' is declared but its value is never read.",
+          "raw": "src/composables/admin/useRelationshipCollectionData.ts(134,9): error TS6133: 'parentEntity' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/composables/admin/useRelationshipCollectionData.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/entityCrud/usePrimitiveMutation.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/entityCrud/usePrimitiveMutation.ts",
+          "line": 175,
+          "col": 22,
+          "code": "TS6133",
+          "message": "'variables' is declared but its value is never read.",
+          "raw": "src/composables/entityCrud/usePrimitiveMutation.ts(175,22): error TS6133: 'variables' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/composables/entityCrud/usePrimitiveMutation.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/configs/field/form/appliedForm/annotationInstanceFields.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/configs/field/form/appliedForm/annotationInstanceFields.ts",
+          "line": 9,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'PrimitiveFormField' is declared but its value is never read.",
+          "raw": "src/configs/field/form/appliedForm/annotationInstanceFields.ts(9,1): error TS6133: 'PrimitiveFormField' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/configs/field/form/appliedForm/annotationInstanceFields.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/admin/buildMetadataEntry.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/admin/buildMetadataEntry.ts",
+          "line": 39,
+          "col": 47,
+          "code": "TS6133",
+          "message": "'isRelationship' is declared but its value is never read.",
+          "raw": "src/utils/admin/buildMetadataEntry.ts(39,47): error TS6133: 'isRelationship' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/admin/buildMetadataEntry.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/booking/appointmentSlotBuilder.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/booking/appointmentSlotBuilder.ts",
+          "line": 178,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'validPartsRelationships' is declared but its value is never read.",
+          "raw": "src/utils/booking/appointmentSlotBuilder.ts(178,3): error TS6133: 'validPartsRelationships' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/appointmentSlotBuilder.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/booking/timeSlotMatching.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/booking/timeSlotMatching.ts",
+          "line": 259,
+          "col": 10,
+          "code": "TS6133",
+          "message": "'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
+          "raw": "src/utils/booking/timeSlotMatching.ts(259,10): error TS6133: 'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/timeSlotMatching.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/differentialScheduling.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/differentialScheduling.ts",
+          "line": 13,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'BookingBlockInstance' is declared but its value is never read.",
+          "raw": "src/utils/differentialScheduling.ts(13,1): error TS6133: 'BookingBlockInstance' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/differentialScheduling.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/eventAttendeeUtils.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/eventAttendeeUtils.ts",
+          "line": 13,
+          "col": 15,
+          "code": "TS6196",
+          "message": "'GlobalEntity' is declared but never used.",
+          "raw": "src/utils/eventAttendeeUtils.ts(13,15): error TS6196: 'GlobalEntity' is declared but never used.",
+          "scope": "client",
+          "repoPath": "src/utils/eventAttendeeUtils.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/transformers/annotationTransformers.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/transformers/annotationTransformers.ts",
+          "line": 12,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'FetchedRelationship' is declared but its value is never read.",
+          "raw": "src/utils/transformers/annotationTransformers.ts(12,1): error TS6133: 'FetchedRelationship' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/transformers/annotationTransformers.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/views/admin/tabs/ShapesTab.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/views/admin/tabs/ShapesTab.vue",
+          "line": 24,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'EventShape' is declared but its value is never read.",
+          "raw": "src/views/admin/tabs/ShapesTab.vue(24,1): error TS6133: 'EventShape' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/views/admin/tabs/ShapesTab.vue"
         }
       ]
     }

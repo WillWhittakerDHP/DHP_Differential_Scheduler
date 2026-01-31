@@ -18,35 +18,31 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+10 more) | 20 |
-| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+36 more) | 85 |
-| `use*` | `client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsActions.ts`, `client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts`, `client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts` (+205 more) | 215 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+11 more) | 20 |
+| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+38 more) | 80 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+196 more) | 203 |
 
 ## Summary
 
-- Files scanned: **448**
-- Groups (window=10 lines, minOccurrences=2): **274**
+- Files scanned: **444**
+- Groups (window=10 lines, minOccurrences=2): **347**
 - Candidate findings from pattern-detection: **3**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-5efb219d3fd5` | 10 | 10 | 10 | `server/src/db/models/admin/block_shape.js@3`, `server/src/db/models/admin/business_settings.js@3`, `server/src/db/models/admin/part_shape.js@3`, … |
-| `dup-a5f4a54a1350` | 10 | 10 | 10 | `server/src/db/models/admin/block_shape.js@5`, `server/src/db/models/admin/business_settings.js@5`, `server/src/db/models/admin/part_shape.js@5`, … |
-| `dup-c74311b96206` | 10 | 10 | 10 | `server/src/db/models/admin/block_shape.js@2`, `server/src/db/models/admin/business_settings.js@2`, `server/src/db/models/admin/part_shape.js@2`, … |
-| `dup-cdc4ac254f80` | 10 | 10 | 10 | `server/src/db/models/admin/block_shape.js@4`, `server/src/db/models/admin/business_settings.js@4`, `server/src/db/models/admin/part_shape.js@4`, … |
-| `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@92`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@43`, `server/src/utils/adminPrimitiveMetadataComposer.ts@70`, … |
-| `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@93`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@44`, `server/src/utils/adminPrimitiveMetadataComposer.ts@71`, … |
-| `dup-38ee9dbb7c1c` | 3 | 4 | 10 | `server/src/utils/adminMetadataComposer.ts@17`, `server/src/utils/adminMetadataComposer.ts@170`, `server/src/utils/adminPrimitiveMetadataComposer.ts@18`, … |
-| `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@188`, `server/src/utils/adminPrimitiveMetadataComposer.ts@156`, `server/src/utils/adminRelationshipMetadataComposer.ts@154` |
+| `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@94`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@43`, `server/src/utils/adminPrimitiveMetadataComposer.ts@70`, … |
+| `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@95`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@44`, `server/src/utils/adminPrimitiveMetadataComposer.ts@71`, … |
+| `dup-a95a81e0c832` | 3 | 4 | 10 | `server/src/utils/adminMetadataComposer.ts@17`, `server/src/utils/adminMetadataComposer.ts@168`, `server/src/utils/adminPrimitiveMetadataComposer.ts@18`, … |
+| `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@186`, `server/src/utils/adminPrimitiveMetadataComposer.ts@156`, `server/src/utils/adminRelationshipMetadataComposer.ts@154` |
 | `dup-11ee84441edb` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@71`, `server/src/db/models/booking/booking_cascade.ts@69`, `server/src/db/models/booking/dependent_instance.ts@73` |
 | `dup-1668da95d212` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@416`, `server/src/scripts/importFromMCPEvents.ts@31`, `server/src/scripts/importRealCalendarEvents.ts@43` |
 | `dup-1c4b860b6066` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@64`, `server/src/db/models/booking/booking_cascade.ts@62`, `server/src/db/models/booking/dependent_instance.ts@66` |
 | `dup-23dc8d6847f0` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@411`, `server/src/scripts/importFromMCPEvents.ts@26`, `server/src/scripts/importRealCalendarEvents.ts@38` |
 | `dup-27eb72adfb70` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@401`, `server/src/scripts/importFromMCPEvents.ts@16`, `server/src/scripts/importRealCalendarEvents.ts@28` |
 | `dup-2c7082786d05` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@402`, `server/src/scripts/importFromMCPEvents.ts@17`, `server/src/scripts/importRealCalendarEvents.ts@29` |
-| `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@187`, `server/src/utils/adminPrimitiveMetadataComposer.ts@155`, `server/src/utils/adminRelationshipMetadataComposer.ts@153` |
+| `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@185`, `server/src/utils/adminPrimitiveMetadataComposer.ts@155`, `server/src/utils/adminRelationshipMetadataComposer.ts@153` |
 | `dup-687fcb72cc8c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@419`, `server/src/scripts/importFromMCPEvents.ts@34`, `server/src/scripts/importRealCalendarEvents.ts@46` |
 | `dup-6b7db959e8c4` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@412`, `server/src/scripts/importFromMCPEvents.ts@27`, `server/src/scripts/importRealCalendarEvents.ts@39` |
 | `dup-70e1e9d10a19` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@399`, `server/src/scripts/importFromMCPEvents.ts@14`, `server/src/scripts/importRealCalendarEvents.ts@26` |
@@ -57,133 +53,21 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-b35c50fd2c1c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@404`, `server/src/scripts/importFromMCPEvents.ts@19`, `server/src/scripts/importRealCalendarEvents.ts@31` |
 | `dup-bd822504c01d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@406`, `server/src/scripts/importFromMCPEvents.ts@21`, `server/src/scripts/importRealCalendarEvents.ts@33` |
 | `dup-c03e46169b8e` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@409`, `server/src/scripts/importFromMCPEvents.ts@24`, `server/src/scripts/importRealCalendarEvents.ts@36` |
+| `dup-c47b819ceac0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@62`, `server/src/db/models/booking/booking_cascade.ts@60`, `server/src/db/models/booking/dependent_instance.ts@64` |
+| `dup-c6a6995e461d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@410`, `server/src/scripts/importFromMCPEvents.ts@25`, `server/src/scripts/importRealCalendarEvents.ts@37` |
+| `dup-e6b94ea82365` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@400`, `server/src/scripts/importFromMCPEvents.ts@15`, `server/src/scripts/importRealCalendarEvents.ts@27` |
+| `dup-ef36d1842f4c` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
 
 ## Per-group details (top)
 
 LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
-
-### Group `dup-5efb219d3fd5`
-
-- unique files: **10**, occurrences: **10**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/admin/block_shape.js` @ lines 3-13
-- `server/src/db/models/admin/business_settings.js` @ lines 3-13
-- `server/src/db/models/admin/part_shape.js` @ lines 3-13
-- `server/src/db/models/admin/valid_cascade.js` @ lines 3-13
-- `server/src/db/models/booking/active_annotation.js` @ lines 3-13
-- `server/src/db/models/booking/address.js` @ lines 3-13
-- `server/src/db/models/booking/annotation_instance.js` @ lines 3-13
-- `server/src/db/models/booking/annotation_shape.js` @ lines 3-13
-- `server/src/db/models/booking/appointment.js` @ lines 3-13
-- `server/src/db/models/booking/block_instance.js` @ lines 3-13
-
-```
-var extendStatics = function (d, b) {
-extendStatics = Object.setPrototypeOf ||
-({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-return extendStatics(d, b);
-return function (d, b) {
-if (typeof b !== "function" && b !== null)
-throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-extendStatics(d, b);
-function __() { this.constructor = d; }
-```
-
-### Group `dup-a5f4a54a1350`
-
-- unique files: **10**, occurrences: **10**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/admin/block_shape.js` @ lines 5-17
-- `server/src/db/models/admin/business_settings.js` @ lines 5-17
-- `server/src/db/models/admin/part_shape.js` @ lines 5-17
-- `server/src/db/models/admin/valid_cascade.js` @ lines 5-17
-- `server/src/db/models/booking/active_annotation.js` @ lines 5-17
-- `server/src/db/models/booking/address.js` @ lines 5-17
-- `server/src/db/models/booking/annotation_instance.js` @ lines 5-17
-- `server/src/db/models/booking/annotation_shape.js` @ lines 5-17
-- `server/src/db/models/booking/appointment.js` @ lines 5-17
-- `server/src/db/models/booking/block_instance.js` @ lines 5-17
-
-```
-({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-return extendStatics(d, b);
-return function (d, b) {
-if (typeof b !== "function" && b !== null)
-throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-extendStatics(d, b);
-function __() { this.constructor = d; }
-d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-Object.defineProperty(exports, "__esModule", { value: true });
-```
-
-### Group `dup-c74311b96206`
-
-- unique files: **10**, occurrences: **10**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/admin/block_shape.js` @ lines 2-12
-- `server/src/db/models/admin/business_settings.js` @ lines 2-12
-- `server/src/db/models/admin/part_shape.js` @ lines 2-12
-- `server/src/db/models/admin/valid_cascade.js` @ lines 2-12
-- `server/src/db/models/booking/active_annotation.js` @ lines 2-12
-- `server/src/db/models/booking/address.js` @ lines 2-12
-- `server/src/db/models/booking/annotation_instance.js` @ lines 2-12
-- `server/src/db/models/booking/annotation_shape.js` @ lines 2-12
-- `server/src/db/models/booking/appointment.js` @ lines 2-12
-- `server/src/db/models/booking/block_instance.js` @ lines 2-12
-
-```
-var __extends = (this && this.__extends) || (function () {
-var extendStatics = function (d, b) {
-extendStatics = Object.setPrototypeOf ||
-({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-return extendStatics(d, b);
-return function (d, b) {
-if (typeof b !== "function" && b !== null)
-throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-extendStatics(d, b);
-```
-
-### Group `dup-cdc4ac254f80`
-
-- unique files: **10**, occurrences: **10**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/admin/block_shape.js` @ lines 4-14
-- `server/src/db/models/admin/business_settings.js` @ lines 4-14
-- `server/src/db/models/admin/part_shape.js` @ lines 4-14
-- `server/src/db/models/admin/valid_cascade.js` @ lines 4-14
-- `server/src/db/models/booking/active_annotation.js` @ lines 4-14
-- `server/src/db/models/booking/address.js` @ lines 4-14
-- `server/src/db/models/booking/annotation_instance.js` @ lines 4-14
-- `server/src/db/models/booking/annotation_shape.js` @ lines 4-14
-- `server/src/db/models/booking/appointment.js` @ lines 4-14
-- `server/src/db/models/booking/block_instance.js` @ lines 4-14
-
-```
-extendStatics = Object.setPrototypeOf ||
-({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-return extendStatics(d, b);
-return function (d, b) {
-if (typeof b !== "function" && b !== null)
-throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-extendStatics(d, b);
-function __() { this.constructor = d; }
-d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-```
 
 ### Group `dup-132c63251d30`
 
 - unique files: **4**, occurrences: **10**, lineCount: **10**
 
 Locations:
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 92-101
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 94-103
 - `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 43-52
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 70-79
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 88-97
@@ -212,7 +96,7 @@ bulkEdit: meta.bulkEdit,
 - unique files: **4**, occurrences: **10**, lineCount: **10**
 
 Locations:
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 93-102
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 95-104
 - `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 44-53
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 71-80
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 89-98
@@ -236,23 +120,23 @@ bulkEdit: meta.bulkEdit,
 inputConfig: meta.inputConfig || null,
 ```
 
-### Group `dup-38ee9dbb7c1c`
+### Group `dup-a95a81e0c832`
 
 - unique files: **3**, occurrences: **4**, lineCount: **10**
 
 Locations:
 - `server/src/utils/adminMetadataComposer.ts` @ lines 17-27
-- `server/src/utils/adminMetadataComposer.ts` @ lines 170-180
+- `server/src/utils/adminMetadataComposer.ts` @ lines 168-178
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 18-28
 - `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 16-26
 
 ```
-dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
 isRequired: boolean;
 visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
 layout: 'inline' | 'stacked';
 displayOrder: number;
-renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
 statusButtonColor?: string | null;
 panel: 'none' | 'parts' | 'relationships' | 'annotations';
 bulkEdit: boolean;
@@ -264,7 +148,7 @@ inputConfig?: Record<string, unknown> | null;
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/utils/adminMetadataComposer.ts` @ lines 188-197
+- `server/src/utils/adminMetadataComposer.ts` @ lines 186-195
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 156-165
 - `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 154-163
 
@@ -418,7 +302,7 @@ summary: "Home Inspection Results Meeting for Royi & Lucciola",
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/utils/adminMetadataComposer.ts` @ lines 187-196
+- `server/src/utils/adminMetadataComposer.ts` @ lines 185-194
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 155-164
 - `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 153-162
 
@@ -543,4 +427,92 @@ model: 'block_instances',
 type: DataTypes.BOOLEAN,
 defaultValue: false,
 type: DataTypes.DATE,
+```
+
+### Group `dup-957d31420829`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 414-427
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 29-42
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 41-54
+
+```
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+start: { dateTime: "2024-12-06T14:30:00-05:00" },
+end: { dateTime: "2024-12-06T16:00:00-05:00" },
+{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+{ email: "rgavish@yahoo.com", displayName: "Royi", responseStatus: "needsAction" },
+{ email: "jenn@alwaysbethriving.com", displayName: "Jenn", responseStatus: "needsAction" },
+```
+
+### Group `dup-b310fa6a5478`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 76-101
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 74-99
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 78-103
+
+```
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+timestamps: false,
+underscored: true,
+```
+
+### Group `dup-b35c50fd2c1c`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 404-420
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 19-35
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 31-47
+
+```
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Buyer's Inspection for Tom Miller",
+location: "730 24th St NW 803, Washington, DC 20037",
+start: { dateTime: "2024-12-04T09:00:00-05:00" },
+end: { dateTime: "2024-12-04T10:00:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+```
+
+### Group `dup-bd822504c01d`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 406-421
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 21-36
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 33-48
+
+```
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Buyer's Inspection for Tom Miller",
+location: "730 24th St NW 803, Washington, DC 20037",
+start: { dateTime: "2024-12-04T09:00:00-05:00" },
+end: { dateTime: "2024-12-04T10:00:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+start: { dateTime: "2024-12-06T14:30:00-05:00" },
 ```

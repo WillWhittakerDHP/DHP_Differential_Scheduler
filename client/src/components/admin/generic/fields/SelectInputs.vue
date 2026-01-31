@@ -159,10 +159,10 @@ import { useSelectFieldValue } from '@/composables/admin/useSelectFieldValue'
 import { useSelectFormAssociation } from '@/composables/admin/useSelectFormAssociation'
 import { useSelectLabelResolution } from '@/composables/admin/useSelectLabelResolution'
 import { useSelectDomTargets } from '@/composables/admin/useSelectDomTargets'
-import { useAttendeeQuickSelect } from '@/composables/admin/useAttendeeQuickSelect'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
+import { useSelectInputsAsync } from '@/composables/admin/useSelectInputsAsync'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -242,6 +242,7 @@ const { resolvedLabel } = useSelectLabelResolution({
 // LEARNING: Use select filtering composable for all filtering logic
 // WHY: Moves complex filtering logic out of component into reusable composable
 // PATTERN: Composable handles active child selects, direct matching, component filtering, etc.
+// NOTE: isAttendeeSelect is already computed in selectConfigComposable and destructured above
 const selectFilteringComposable = useSelectFiltering({
   allEntities,
   selectConfig,
@@ -249,7 +250,8 @@ const selectFilteringComposable = useSelectFiltering({
   optionEntityKey,
   fieldContext,
   rawFieldValue,
-  isAnnotationAssignmentSelect
+  isAnnotationAssignmentSelect,
+  isAttendeeSelect // Already computed from selectConfigComposable above
 })
 const {
   filteredEntities,
@@ -393,64 +395,20 @@ const { selectDomTargets } = useSelectDomTargets({
 
 useSelectFormAssociation({ targets: selectDomTargets })
 
-// LEARNING: Use attendee quick-select composable for AttendeeSelect fields
-// WHY: Provides quick-select functionality for major/minor attendees from business settings
-// PATTERN: Conditionally initialize composable only when needed
-const quickSelect = useAttendeeQuickSelect()
-
-/**
- * LEARNING: Get valid option IDs for quick-select filtering
- * WHY: Quick-select should only select attendees that are actually available in the select field
- * PATTERN: Extract value from options array
- */
-const validOptionIds = computed(() => {
-  return options.value
-    .map(opt => {
-      // Handle nested options (grouped selects)
-      if (opt.children) {
-        return opt.children.map((child: SelectOption) => String(child.value))
-      }
-      return String(opt.value)
-    })
-    .flat()
-    .filter((id): id is string => id !== '' && id !== '__NULL__')
+// LEARNING: Extract async logic from component to composable
+// WHY: Reduces component complexity, improves testability
+// PATTERN: Use composable for async quick-select handlers
+const selectInputsAsync = useSelectInputsAsync({
+  options,
+  handleChange
 })
-
-/**
- * LEARNING: Handle quick-select for major attendees
- * WHY: Replaces current selection with major attendees from business settings
- * PATTERN: Get IDs from quick-select composable, then call handleChange
- */
-const handleQuickSelectMajor = async (): Promise<void> => {
-  const majorIds = quickSelect.selectMajor(validOptionIds.value)
-  if (majorIds.length > 0) {
-    await handleChange(majorIds)
-  }
-}
-
-/**
- * LEARNING: Handle quick-select for minor attendees
- * WHY: Replaces current selection with minor attendees from business settings
- * PATTERN: Get IDs from quick-select composable, then call handleChange
- */
-const handleQuickSelectMinor = async (): Promise<void> => {
-  const minorIds = quickSelect.selectMinor(validOptionIds.value)
-  if (minorIds.length > 0) {
-    await handleChange(minorIds)
-  }
-}
-
-/**
- * LEARNING: Handle quick-select for all attendees (major + minor)
- * WHY: Replaces current selection with all configured attendees from business settings
- * PATTERN: Get IDs from quick-select composable, then call handleChange
- */
-const handleQuickSelectAll = async (): Promise<void> => {
-  const allIds = quickSelect.selectAll(validOptionIds.value)
-  if (allIds.length > 0) {
-    await handleChange(allIds)
-  }
-}
+const {
+  validOptionIds,
+  handleQuickSelectMajor,
+  handleQuickSelectMinor,
+  handleQuickSelectAll,
+  quickSelect
+} = selectInputsAsync
 </script>
 
 <style scoped>

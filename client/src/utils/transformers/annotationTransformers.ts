@@ -17,10 +17,13 @@ import type { FetchedRelationship } from '@/types/relationships'
  * WHY: API returns annotationShape association with id and name
  * PATTERN: Simple field mapping
  * 
+ * LEARNING: Function used internally - not exported as it's not part of public API
+ * WHY: This function is only used within this file (by transformApiAnnotation)
+ * 
  * @param rawAnnotationShape - Raw annotationShape from API
  * @returns Transformed AnnotationShape or null
  */
-export function transformApiAnnotationShape(rawAnnotationShape: unknown): AnnotationShape | null {
+function transformApiAnnotationShape(rawAnnotationShape: unknown): AnnotationShape | null {
   if (!rawAnnotationShape || typeof rawAnnotationShape !== 'object') {
     return null
   }
@@ -39,7 +42,16 @@ export function transformApiAnnotationShape(rawAnnotationShape: unknown): Annota
   const name = type.name ?? type.Name
   
   if (typeof id === 'string' && typeof name === 'string') {
-    return { id, name }
+    // LEARNING: Add required BaseGlobalEntity properties to match AnnotationShapeEntity interface
+    // WHY: AnnotationShapeEntity extends BaseGlobalEntity which requires entityKey, orderIndex, active
+    // PATTERN: Include all BaseGlobalEntity properties when transforming API response
+    return { 
+      id, 
+      name,
+      entityKey: 'annotationShape' as const,
+      orderIndex: 0,
+      active: true
+    }
   }
   
   return null
@@ -81,8 +93,14 @@ export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): 
   const name = rawAnnotation.name ?? rawAnnotation.Name ?? rawAnnotation.text ?? rawAnnotation.Text ?? ''
   const text = rawAnnotation.text ?? rawAnnotation.Text ?? name
 
+  // LEARNING: Add required BaseGlobalEntity properties to match AnnotationInstanceEntity interface
+  // WHY: AnnotationInstanceEntity extends BaseGlobalEntity which requires entityKey, orderIndex, active
+  // PATTERN: Include all BaseGlobalEntity properties when transforming API response
   const result: AnnotationInstance & { name?: string } = {
     id: typeof rawAnnotation.id === 'string' ? rawAnnotation.id : '',
+    entityKey: 'annotationInstance' as const,
+    orderIndex: 0,
+    active: true,
     text: typeof text === 'string' ? text : '',
     name: typeof name === 'string' ? name : (typeof text === 'string' ? text : ''),
     type: normalizedType,

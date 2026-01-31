@@ -12,6 +12,7 @@
  */
 
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import type { GlobalEntityKey } from '@/constants/entities'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useGlobal } from '@/composables/useGlobal'
 import { useRelationshipCrud } from '@/composables/useRelationship'
@@ -20,7 +21,6 @@ import { useRelationshipCollectionData } from './useRelationshipCollectionData'
 import { useRelationshipCollectionField } from './useRelationshipCollectionField'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import type { GlobalEntity } from '@/types/entities'
-import type { GlobalEntityKey } from '@/constants/entities'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
@@ -119,8 +119,9 @@ export function useRelationshipCollection(
     parentEntity: parentEntityFromField,
     parentTypeEntityKey,
     parentTypeRef,
-    parentTypeEntity,
-    shapeRefProperty: _shapeRefProperty
+    parentTypeEntity
+    // LEARNING: shapeRefProperty removed - not used in this composable
+    // WHY: shapeRefProperty is not part of the return type, removed from destructuring
   } = fieldConfig
   
   // Determine shape entity key from child entity key
@@ -150,6 +151,10 @@ export function useRelationshipCollection(
   const parentEntityId = computed(() => fieldContext.entityId)
   
   // Use generic data composable
+  // LEARNING: parentTypeEntityKey can be null, but useRelationshipCollectionData expects non-null
+  // WHY: For shape-level entities, parentTypeEntityKey is the entity itself (non-null)
+  //      For instance-level entities, it's derived from the entity (should be non-null)
+  // PATTERN: Add type assertion since we know it should be non-null at runtime
   const collectionData = useRelationshipCollectionData({
     parentEntityId,
     parentEntityKey: computed(() => fieldContext.entityKey),
@@ -157,7 +162,7 @@ export function useRelationshipCollection(
     shapeEntityKey,
     relationshipKey,
     optionsFieldKey,
-    parentTypeEntityKey,
+    parentTypeEntityKey: parentTypeEntityKey as ComputedRef<GlobalEntityKey>,
     parentTypeRef,
     shapeRefProperty: shapeRefProperty.value
   })
@@ -176,7 +181,9 @@ export function useRelationshipCollection(
   })
   
   // Get relationship CRUD
-  const { create: createRelationship } = useRelationshipCrud(relationshipKey.value)
+  // LEARNING: Add type assertion for relationshipKey to GlobalRelationshipKey
+  // WHY: useRelationshipCrud expects GlobalRelationshipKey, but relationshipKey is ComputedRef<string>
+  const { create: createRelationship } = useRelationshipCrud(relationshipKey.value as import('@/constants/relationships').GlobalRelationshipKey)
   
   // Inline creation state
   const expandedPlaceholders = ref<string[]>([])

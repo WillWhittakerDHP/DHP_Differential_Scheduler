@@ -29,6 +29,10 @@ export function buildFormFieldConfig(): FormFieldConfigMap {
     blockShape: {},
     partInstance: {},
     partShape: {},
+    eventShape: {},
+    eventInstance: {},
+    annotationShape: {},
+    annotationInstance: {},
   }
 }
 

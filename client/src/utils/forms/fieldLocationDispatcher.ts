@@ -34,14 +34,17 @@ const VALID_PANELS = new Set([FIELD_PANEL.PARTS, FIELD_PANEL.RELATIONSHIPS, FIEL
 export function determinePanelFromFieldKey(fieldKey: string): 'none' | 'parts' | 'relationships' | 'annotations' | 'events' {
   // Check if fieldKey is a relationship field
   if (fieldKey in RELATIONSHIP_KEYS) {
+    // LEARNING: Use RELATIONSHIP_KEYS constants instead of hardcoded strings
+    // WHY: Eliminates hardcoded relationship key strings, enables type-safe checks
+    // PATTERN: Use RELATIONSHIP_KEYS.frontendKey for comparison
     // Map relationship fields to their panels
-    if (fieldKey === 'partAssignments') {
+    if (fieldKey === RELATIONSHIP_KEYS.partAssignments.frontendKey) {
       return 'parts'
     }
-    if (fieldKey === 'annotationAssignments') {
+    if (fieldKey === RELATIONSHIP_KEYS.annotationAssignments.frontendKey) {
       return 'annotations'
     }
-    if (fieldKey === 'eventAssignments') {
+    if (fieldKey === RELATIONSHIP_KEYS.eventAssignments.frontendKey) {
       return 'events'
     }
     // All other relationship fields go to relationships panel

@@ -221,11 +221,9 @@ function transformVersionToBookingInstance(
       baseTime: pi.baseTime,
       rateOverBaseFee: pi.rateOverBaseFee,
       rateOverBaseTime: pi.rateOverBaseTime,
-      // LEARNING: Convert boolean to TernaryBoolean for onSite and clientPresent
-      // WHY: Version data may have boolean values, need to convert to TernaryBoolean
-      onSite: convertToTernary(pi.onSite ?? currentPart?.onSite, 'true'),
-      clientPresent: convertToTernary(pi.clientPresent ?? currentPart?.clientPresent, 'false'),
-      moveable: currentPart?.moveable ?? false,
+      // LEARNING: onSite, clientPresent, and moveable are deprecated - removed when converting to events
+      // WHY: These properties were deprecated when converting to using events (EventAssignment relationships)
+      // PATTERN: Events should be accessed via EventAssignment relationships instead
       active: currentPart?.active ?? true,
       orderIndex: currentPart?.orderIndex ?? 0,
       partShape: currentPart?.partShape || '',

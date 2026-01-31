@@ -178,7 +178,13 @@ const getRelationshipCollectionInstance = (): InstanceType<typeof RelationshipCo
 // PATTERN: Access exposed property directly
 const partsBulkEditMode = computed(() => {
   const instance = getRelationshipCollectionInstance()
-  return instance?.bulkEditMode?.value ?? false
+  // LEARNING: bulkEditMode is a Ref<boolean>, so access .value
+  // WHY: TypeScript needs explicit check that bulkEditMode exists and is a Ref
+  // PATTERN: Check if bulkEditMode exists and has a value property (is a Ref)
+  if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {
+    return (instance.bulkEditMode as { value: boolean }).value
+  }
+  return false
 })
 
 const togglePartsBulkEditMode = () => {

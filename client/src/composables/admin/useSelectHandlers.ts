@@ -58,6 +58,12 @@ export interface UseSelectHandlersOptions {
    * Disable auto-save flag
    */
   disableAutoSave?: boolean
+  
+  /**
+   * Whether this is an AnnotationAssignmentSelect field
+   * LEARNING: Annotations are now core entities, use standard relationship select pattern
+   */
+  isAnnotationAssignmentSelect?: ComputedRef<boolean>
 }
 
 /**

@@ -23,7 +23,7 @@
  * PATTERN: Thin wrapper component that adds collection-specific features
  */
 
-import { computed, ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import RelationshipCollection from './RelationshipCollection.vue'
 import PartInstanceBulkEditModal from '../../PartInstanceBulkEditModal.vue'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -47,11 +47,13 @@ const generatePartInstanceName = (
   _partShapeId: string,
   existingChildren: GlobalEntity<GlobalEntityKey>[]
 ): string => {
-  // Get all existing part instances with same blockInstanceRef and partShapeRef
+  // Get all existing part instances with same partShapeRef
+  // LEARNING: blockInstanceRef doesn't exist on PartInstanceEntity - removed when converting to relationships
+  // WHY: existingChildren are already filtered by parent blockInstance (via partAssignments relationship)
+  // PATTERN: Only check partShapeRef since blockInstance is already known from the relationship parent
   const matchingPartInstances = existingChildren.filter((child) => {
     const partInstance = child as import('@/types/entities').PartInstanceEntity
-    return partInstance.blockInstanceRef === _blockInstanceId && 
-           partInstance.partShapeRef === _partShapeId
+    return partInstance.partShapeRef === _partShapeId
   })
   
   // Base name without number
@@ -96,12 +98,14 @@ const collectionModel = useRelationshipCollection({
     })
     
     return {
-      bulkEditMode: bulkEdit.bulkEditMode,
-      bulkEditData: bulkEdit.bulkEditData as any,
+      // LEARNING: Ensure bulkEditMode is Ref<boolean> not Ref<boolean | undefined>
+      // WHY: Interface expects Ref<boolean>, need to ensure type is correct
+      bulkEditMode: bulkEdit.bulkEditMode as Ref<boolean>,
+      bulkEditData: bulkEdit.bulkEditData as Ref<Record<string, unknown>>,
       toggleBulkEditMode: bulkEdit.toggleBulkEditMode,
       applyBulkEdit: bulkEdit.applyPartInstanceBulkEdit,
       handleBulkEditModalUpdate: bulkEdit.handleBulkEditModalUpdate,
-      handleBulkEditConfirm: bulkEdit.handleBulkEditConfirm
+      handleBulkEditConfirm: bulkEdit.handleBulkEditConfirm as (data: Record<string, unknown>) => void
     }
   }
 })

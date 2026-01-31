@@ -112,7 +112,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     const { settings: availabilitySettings } = useAvailabilitySettings()
     
     return slots.map(appointmentSlot => {
-      const transformed = transformToMajorPerspective(appointmentSlot, startTime, globalData.value || undefined, availabilitySettings.value || null)
+      const transformed = transformToMajorPerspective(appointmentSlot, startTime, globalData || undefined, availabilitySettings.value || null)
       // Return the totalTimeRange for major perspective (or first available event time range)
       // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
       return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
@@ -124,7 +124,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
    * WHY: Provides minor time slots for UI display
    * PATTERN: Transform each AppointmentSlot using minor start time
    */
-  const clientTimeSlots = computed(() => {
+  const minorTimeSlots = computed(() => {
     const slots = appointmentSlots.value
     const startTime = baseStartTimeRef.value
     const isDifferential = isDifferentialServiceRef.value
@@ -145,7 +145,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     const { settings: availabilitySettings } = useAvailabilitySettings()
     
     return slots.map(appointmentSlot => {
-      const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData.value || undefined, availabilitySettings.value || null)
+      const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData || undefined, availabilitySettings.value || null)
       // Return the minorTimeRange for minor perspective (or totalTimeRange or other event time ranges)
       // LEARNING: Use dynamic event names based on attendees (fallback to hardcoded names for backward compatibility)
       // NOTE: Uses 'Minor' as fallback for backward compatibility
@@ -170,7 +170,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
 
     const globalData = useGlobal().getGlobalData()
     const { settings: availabilitySettings } = useAvailabilitySettings()
-    const transformed = transformToMajorPerspective(appointmentSlot, startTime, globalData.value || undefined, availabilitySettings.value || null)
+    const transformed = transformToMajorPerspective(appointmentSlot, startTime, globalData || undefined, availabilitySettings.value || null)
     // LEARNING: Return TimeRange properties (no categorized slots in new structure)
     // WHY: New structure uses TimeRanges directly, no categorized TimeSlots
     // PATTERN: Return TimeRange properties from eventTimeRanges
@@ -197,7 +197,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     // Get globalData and availabilitySettings for attendee-based logic
     const globalData = useGlobal().getGlobalData()
     const { settings: availabilitySettings } = useAvailabilitySettings()
-    const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData.value || undefined, availabilitySettings.value || null)
+    const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData || undefined, availabilitySettings.value || null)
     // LEARNING: Return TimeRange properties (no categorized slots in new structure)
     // WHY: New structure uses TimeRanges directly, no categorized TimeSlots
     // PATTERN: Return TimeRange properties from eventTimeRanges
@@ -209,10 +209,10 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
 
   return {
     appointmentSlots,
-    inspectorTimeSlots,
-    clientTimeSlots,
-    getInspectorTimeSlot,
-    getClientTimeSlot
+    majorTimeSlots,
+    minorTimeSlots,
+    getMajorTimeSlot,
+    getMinorTimeSlot
   }
 }
 

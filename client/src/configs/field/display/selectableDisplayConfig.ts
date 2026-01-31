@@ -431,7 +431,11 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
       },
     },
 
-    [ENTITY_KEY_PART_SHAPE]: {}
+    [ENTITY_KEY_PART_SHAPE]: {},
+    eventShape: {},
+    eventInstance: {},
+    annotationShape: {},
+    annotationInstance: {},
   }
 }
 

@@ -106,6 +106,22 @@ function buildInstanceConfig() {
       titleField: 'name',
       fields: undefined, // Metadata-driven (was hardcoded)
     },
+    eventShape: {
+      titleField: 'name',
+      fields: undefined, // Metadata-driven
+    },
+    eventInstance: {
+      titleField: 'name',
+      fields: undefined, // Metadata-driven
+    },
+    annotationShape: {
+      titleField: 'name',
+      fields: undefined, // Metadata-driven
+    },
+    annotationInstance: {
+      titleField: 'name',
+      fields: undefined, // Metadata-driven
+    },
     partInstance: {
       titleField: 'partShapeRef',
       fields: undefined, // Metadata-driven

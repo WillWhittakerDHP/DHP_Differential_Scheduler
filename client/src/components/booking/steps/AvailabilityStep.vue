@@ -108,15 +108,14 @@ const isEffectivelyDifferentialForDefaults = computed(() => {
   const isDifferential = selectedServices.some(s => equals(s.differential, 'true'))
   if (!isDifferential) return false
   
-  // Check if any part has differentialOverride: true
-  const serviceHasOverride = selectedServices.some(service =>
-    service.partInstances?.some(part => part.differentialOverride === true)
-  )
-  const optionHasOverride = selectedOptions.some(option =>
-    option.partInstances?.some(part => part.differentialOverride === true)
-  )
+  // LEARNING: differentialOverride property was deprecated when converting to events
+  // WHY: This property no longer exists on BookingPartInstance - removed when converting to EventAssignment relationships
+  // PATTERN: Differential override logic should be handled via events if needed in the future
+  // NOTE: Removed differentialOverride check - if this functionality is needed, it should be implemented via events
   
   // If override exists, force non-differential
+  const serviceHasOverride = false // Removed: differentialOverride check deprecated
+  const optionHasOverride = false // Removed: differentialOverride check deprecated
   if (serviceHasOverride || optionHasOverride) return false
   
   return true

@@ -92,6 +92,13 @@ function shouldExcludeDir(repoPath) {
   if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
     return true
   }
+  // Exclude compiled JavaScript files (TypeScript-generated code)
+  // LEARNING: Compiled JS files contain TypeScript helper code (__extends, etc.) that is intentionally duplicated
+  // WHY: These are generated files - duplication is expected and not actionable
+  // PATTERN: Exclude .js files in server/src/db/models/ directory (compiled from TypeScript)
+  if (repoPath.startsWith('server/src') && repoPath.endsWith('.js') && repoPath.includes('/db/models/')) {
+    return true
+  }
   // Exclude node_modules, dist, etc.
   if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
     return true

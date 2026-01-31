@@ -18,8 +18,6 @@ import { GlobalEntityKey } from '@/constants/entities'
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { composePropertiesFromComponents } from './composePropertyValue'
-import type { AnnotationShape, AnnotationInstance } from '@/types/annotations'
-import type { EventShape, EventInstance } from '@/types/events'
 
 /**
  * Transform FetchedRelationship[] to GlobalRelationship[] format
@@ -393,8 +391,6 @@ export function composePartInstances(
   composedBlockIds: string[],
   relationships: GlobalRelationship[]
 ): string[] {
-  const allPartInstanceIds = new Set<string>()
-  
   // Filter to partAssignments relationships
   const constituentRelationships = relationships.filter(
     rel => rel.relationshipKind === 'partAssignments'
@@ -412,9 +408,9 @@ export function composePartInstances(
     )
   })
   
-  // Add all IDs to Set (Set.add() is legitimate mutation for Set operations)
-  partInstanceIds.forEach(id => allPartInstanceIds.add(id))
-  
-  return Array.from(allPartInstanceIds)
+  // LEARNING: Build Set functionally using Set constructor instead of forEach with Set.add()
+  // WHY: Avoids forEach mutations - creates Set immutably from array
+  // PATTERN: Use Set constructor with array to build Set functionally, then convert back to array
+  return Array.from(new Set(partInstanceIds))
 }
 

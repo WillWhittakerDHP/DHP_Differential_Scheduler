@@ -97,10 +97,6 @@ export function getRelationshipEndpoint(relationshipKey: string): string {
   return `/relationships/${relationshipKey}`
 }
 
-export function getRelationshipByIdEndpoint(relationshipKey: string, id: string): string {
-  return `/relationships/${relationshipKey}/${id}`
-}
-
 export function getRelationshipByParentChildEndpoint(
   relationshipKey: string, 
   parentId: string, 
@@ -118,15 +114,6 @@ export function getRelationshipByParentChildEndpoint(
 export function getOrderIndexEndpoint(entityKey: string): string {
   return `/entities/${entityKey}/order_index`
 }
-
-/**
- * Entity Order Index API endpoint (alias)
- * LEARNING: Alias for getOrderIndexEndpoint for consistency with other entity endpoint naming
- * WHY: Some composables use getEntityOrderIndexEndpoint naming convention
- * PATTERN: Alias export maintains backward compatibility
- */
-export const getEntityOrderIndexEndpoint = getOrderIndexEndpoint
-
 
 /**
  * Bulk PATCH API endpoint
@@ -225,20 +212,6 @@ export function getPropertyEndpoint(): string {
 
 export function getPropertyByIdEndpoint(id: string): string {
   return `/properties/${id}`
-}
-
-/**
- * Property Types API endpoints
- * LEARNING: Endpoints for property type (property_version_types) CRUD operations
- * WHY: Properties can have multiple types (e.g., Single-Family with ADU)
- * PATTERN: RESTful nested endpoints under properties
- */
-export function getPropertyTypesEndpoint(propertyVersionId: string): string {
-  return `/properties/${propertyVersionId}/types`
-}
-
-export function getPropertyTypeByIdEndpoint(propertyVersionId: string, typeId: string): string {
-  return `/properties/${propertyVersionId}/types/${typeId}`
 }
 
 /**

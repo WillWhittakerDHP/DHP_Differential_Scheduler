@@ -52,10 +52,10 @@ export function calculateAppointmentSlots(
     eventInstances,
     eventShapes,
     eventAssignmentsRelationships,
-    partShapeById,
-    undefined,
-    undefined,
-    undefined // globalData not available in this utility function
+    partShapeById
+    // LEARNING: Removed 3 undefined arguments (validPartsRelationships, globalData)
+    // WHY: Function signature only accepts 8 parameters, not 9
+    // PATTERN: Only pass required parameters, omit optional ones that aren't needed
   )
   
   // LEARNING: Apply shape to start time if provided

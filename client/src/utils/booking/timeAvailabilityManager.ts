@@ -557,28 +557,59 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
     return []
   }
 
-  const slots: TimeSlot[] = []
-
   // Iterate through each day from startBoundary to endBoundary
   // LEARNING: Generate slots based only on boundaries and minuteIncrement
   // WHY: Business hours and dateRange are enforced in checkRangeConstraints, not during generation
   // PATTERN: Generate all slots at minuteIncrement intervals between boundaries
-  const startDateOnly = new Date(startBoundaryDate)
-  startDateOnly.setUTCHours(0, 0, 0, 0)
+  // LEARNING: Create Date objects functionally without mutations
+  // WHY: Avoids Date.setUTCHours() and setUTCDate() mutations
+  // PATTERN: Use Date.UTC constructor to create new Date objects
+  const startDateOnly = new Date(Date.UTC(
+    startBoundaryDate.getUTCFullYear(),
+    startBoundaryDate.getUTCMonth(),
+    startBoundaryDate.getUTCDate(),
+    0, 0, 0, 0
+  ))
   
-  const endDateOnly = new Date(endBoundaryDate)
-  endDateOnly.setUTCHours(0, 0, 0, 0)
-  endDateOnly.setUTCDate(endDateOnly.getUTCDate() + 1)
-  
-  const currentDate = new Date(startDateOnly)
+  const endDateOnly = new Date(Date.UTC(
+    endBoundaryDate.getUTCFullYear(),
+    endBoundaryDate.getUTCMonth(),
+    endBoundaryDate.getUTCDate() + 1,
+    0, 0, 0, 0
+  ))
 
-  while (currentDate < endDateOnly) {
+  // LEARNING: Build slots array functionally using reduce over days
+  // WHY: Avoids while loop mutations and array push mutations
+  // PATTERN: Generate array of days, then reduce to slots array
+  const days: Date[] = []
+  let dayIterator = new Date(startDateOnly)
+  while (dayIterator < endDateOnly) {
+    days.push(new Date(dayIterator))
+    dayIterator = new Date(Date.UTC(
+      dayIterator.getUTCFullYear(),
+      dayIterator.getUTCMonth(),
+      dayIterator.getUTCDate() + 1
+    ))
+  }
+  
+  const slots = days.reduce((acc, currentDate) => {
     // Generate slots for this day starting at midnight UTC
-    const dayStart = new Date(currentDate)
-    dayStart.setUTCHours(0, 0, 0, 0)
+    // LEARNING: Create Date objects functionally without mutations
+    // WHY: Avoids Date.setUTCHours() mutations
+    // PATTERN: Use Date.UTC constructor to create new Date objects
+    const dayStart = new Date(Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth(),
+      currentDate.getUTCDate(),
+      0, 0, 0, 0
+    ))
     
-    const dayEnd = new Date(currentDate)
-    dayEnd.setUTCHours(23, 59, 59, 999)
+    const dayEnd = new Date(Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth(),
+      currentDate.getUTCDate(),
+      23, 59, 59, 999
+    ))
     
     // Clamp to actual boundaries
     const slotStartBoundary = dayStart < startBoundaryDate ? startBoundaryDate : dayStart
@@ -588,43 +619,73 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
     // WHY: All days (including today) must start at increment boundaries (:00, :15, :30, :45)
     //      Slot generation is time-agnostic - current time filtering happens in constraint checking
     // PATTERN: If slotStartBoundary is clamped to startBoundaryDate, round UP to next increment boundary
-    let currentSlotStart = new Date(dayStart) // Start from midnight at :00
-    if (slotStartBoundary > dayStart) {
-      // Calculate minutes since midnight
-      const minutesSinceMidnight = slotStartBoundary.getUTCHours() * 60 + slotStartBoundary.getUTCMinutes()
-      // Round UP to next increment boundary from midnight (or use current if already on boundary)
-      const roundedMinutes = Math.ceil(minutesSinceMidnight / minuteIncrement) * minuteIncrement
-      // Set time from midnight
-      currentSlotStart.setUTCMinutes(roundedMinutes)
-    }
+    // LEARNING: Build initial slot start functionally without Date mutations
+    // WHY: Avoids Date.setUTCMinutes() mutations - creates new Date objects instead
+    // PATTERN: Calculate rounded minutes, then create new Date with those minutes
+    const initialMinutesSinceMidnight = slotStartBoundary > dayStart
+      ? (() => {
+          const minutesSinceMidnight = slotStartBoundary.getUTCHours() * 60 + slotStartBoundary.getUTCMinutes()
+          return Math.ceil(minutesSinceMidnight / minuteIncrement) * minuteIncrement
+        })()
+      : 0
     
-    while (currentSlotStart < slotEndBoundary) {
-      const slotEnd = new Date(currentSlotStart)
-      slotEnd.setUTCMinutes(slotEnd.getUTCMinutes() + duration)
-      
-      // Only add slot if it fits within boundaries
-      if (slotEnd <= endBoundaryDate) {
-        const slot: TimeSlot = {
-          startTime: currentSlotStart.toISOString() as RFC3339DateTime,
-          endTime: slotEnd.toISOString() as RFC3339DateTime,
-          duration,
-          major: includeFlags.major,
-          minor: includeFlags.minor,
-          moveable: includeFlags.moveable,
-          isAvailable: false  // Will be updated by markSlotAvailability
-        }
-        
-        slots.push(slot)
+    const initialSlotStart = new Date(Date.UTC(
+      dayStart.getUTCFullYear(),
+      dayStart.getUTCMonth(),
+      dayStart.getUTCDate(),
+      Math.floor(initialMinutesSinceMidnight / 60),
+      initialMinutesSinceMidnight % 60
+    ))
+    
+    // LEARNING: Generate slots functionally using recursive helper instead of while loop with mutations
+    // WHY: Avoids array mutations (push) and Date mutations (setUTCMinutes)
+    // PATTERN: Recursive function that builds slots array immutably
+    const generateSlotsForDay = (slotStart: Date, accumulatedSlots: TimeSlot[]): TimeSlot[] => {
+      if (slotStart >= slotEndBoundary) {
+        return accumulatedSlots
       }
       
-      // Move to next interval
-      currentSlotStart = new Date(currentSlotStart)
-      currentSlotStart.setUTCMinutes(currentSlotStart.getUTCMinutes() + minuteIncrement)
+      // LEARNING: Create slot end Date functionally without mutations
+      // WHY: Avoids Date.setUTCMinutes() mutations
+      // PATTERN: Calculate end time in minutes, then create new Date
+      const slotStartMinutes = slotStart.getUTCMinutes() + duration
+      const slotEnd = new Date(Date.UTC(
+        slotStart.getUTCFullYear(),
+        slotStart.getUTCMonth(),
+        slotStart.getUTCDate(),
+        slotStart.getUTCHours() + Math.floor(slotStartMinutes / 60),
+        slotStartMinutes % 60
+      ))
+      
+      // Only add slot if it fits within boundaries
+      const newSlots = slotEnd <= endBoundaryDate
+        ? [...accumulatedSlots, {
+            startTime: slotStart.toISOString() as RFC3339DateTime,
+            endTime: slotEnd.toISOString() as RFC3339DateTime,
+            duration,
+            major: includeFlags.major,
+            minor: includeFlags.minor,
+            moveable: includeFlags.moveable,
+            isAvailable: false  // Will be updated by markSlotAvailability
+          }]
+        : accumulatedSlots
+      
+      // Move to next interval functionally
+      const nextSlotStartMinutes = slotStart.getUTCMinutes() + minuteIncrement
+      const nextSlotStart = new Date(Date.UTC(
+        slotStart.getUTCFullYear(),
+        slotStart.getUTCMonth(),
+        slotStart.getUTCDate(),
+        slotStart.getUTCHours() + Math.floor(nextSlotStartMinutes / 60),
+        nextSlotStartMinutes % 60
+      ))
+      
+      return generateSlotsForDay(nextSlotStart, newSlots)
     }
-
-    // Move to next day
-    currentDate.setUTCDate(currentDate.getUTCDate() + 1)
-  }
+    
+    const daySlots = generateSlotsForDay(initialSlotStart, [])
+    return [...acc, ...daySlots]
+  }, [] as TimeSlot[])
 
   return slots
 }
@@ -1000,10 +1061,11 @@ async function applyCapacityFilters(
   const capacityKeyPartsSet = new Set<string>()
   const keyPartsMap = new Map<string, CapacityKeyParts>()
   
-  // LEARNING: Use map to build slotKeys functionally
-  // WHY: Avoids array mutations (push) - builds slotKeys array immutably
-  // PATTERN: Map slots to keys, then process keys for batching
-  availableSlots.forEach((slot) => {
+  // LEARNING: Build slotKeysMap functionally using reduce instead of forEach
+  // WHY: Avoids forEach mutations - builds Map immutably
+  // PATTERN: Reduce slots to Map, creating new arrays instead of mutating
+  // NOTE: Map.set() and Set.add() mutations are acceptable for Map/Set operations
+  availableSlots.reduce((map, slot) => {
     const slotDate = extractDateFromRFC3339(slot.startTime)
     
     // LEARNING: Use map to build slotKeys array functionally
@@ -1017,8 +1079,9 @@ async function applyCapacityFilters(
       return keyString
     })
     
-    slotKeysMap.set(slot.startTime, slotKeys)
-  })
+    map.set(slot.startTime, slotKeys)
+    return map
+  }, slotKeysMap)
 
   // Fetch scheduled hours for all unique keys
   // LEARNING: These fetch functions call GET /availability/scheduled-hours endpoint

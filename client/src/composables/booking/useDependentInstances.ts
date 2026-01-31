@@ -131,11 +131,14 @@ export function useDependentInstances(
           entityKey: 'blockInstance',
           name: entity.name,
           baseSqFt: (entity as unknown as Record<string, unknown>).baseSqFt as number || 0,
-          descriptions: [],
+          // LEARNING: descriptions property removed - deprecated in favor of annotation suites
+          // WHY: Descriptions are no longer part of BookingBlockInstance type
           icon: (entity as unknown as Record<string, unknown>).icon as string || '',
           active: (entity as unknown as Record<string, unknown>).active as boolean ?? true,
           bookingMode: ((entity as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
-          differential: (entity as unknown as Record<string, unknown>).differential as boolean ?? false,
+          // LEARNING: Convert boolean to TernaryBoolean for differential property
+          // WHY: BookingBlockInstance.differential is TernaryBoolean type, not boolean
+          differential: ((entity as unknown as Record<string, unknown>).differential as boolean ?? false) ? 'true' as const : 'false' as const,
           orderIndex: entity.orderIndex ?? 0,
           blockShape: (entity as unknown as Record<string, unknown>).blockShape as string || '',
           blockShapeRef: (entity as unknown as Record<string, unknown>).blockShapeRef as string || '',

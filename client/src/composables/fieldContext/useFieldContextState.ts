@@ -3,7 +3,7 @@ import { useField, useForm, type FieldOptions } from 'vee-validate'
 import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
 import { usePrimitiveMutation } from '@/composables/useEntity'
 import { useAdmin } from '@/composables/useAdmin'
 import { useComponentEntity } from '@/composables/useComponentEntity'
@@ -94,7 +94,15 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
   // LEARNING: Get field metadata to check for globalField mapping
   // WHY: Some fields (like attendeeAssignments) use globalField to map to different property names (attendees)
   // PATTERN: Use useEntityMetadata to get inputConfig.globalField if available
-  const { fieldMetadata } = useEntityMetadata(entityKey, entity)
+  // LEARNING: Convert AdminObject to GlobalEntity for useEntityMetadata
+  // WHY: useEntityMetadata expects GlobalEntity | null, but entity is AdminObject | undefined
+  // PATTERN: Map undefined to null and cast AdminObject to GlobalEntity (they're compatible)
+  const entityForMetadata = computed(() => {
+    const entityValue = entity.value
+    if (!entityValue) return null
+    return entityValue as GlobalEntity<GE>
+  })
+  const { fieldMetadata } = useEntityMetadata(entityKey, entityForMetadata)
   const fieldMetadataEntry = computed(() => {
     if (!fieldMetadata.value) {
       return undefined

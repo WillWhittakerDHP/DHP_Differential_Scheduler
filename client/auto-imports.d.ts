@@ -643,7 +643,6 @@ declare module 'vue' {
     readonly extractInstanceComponents: UnwrapRef<typeof import('./src/utils/instanceComponentUtils')['extractInstanceComponents']>
     readonly findBlockInstanceByIdAndShapeId: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['findBlockInstanceByIdAndShapeId']>
     readonly findUserTypeBlockIdsByName: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['findUserTypeBlockIdsByName']>
-    readonly formatAnnotationForDisplay: UnwrapRef<typeof import('./src/utils/annotationUtils')['formatAnnotationForDisplay']>
     readonly formatDate: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDate']>
     readonly formatDateToMonthShort: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDateToMonthShort']>
     readonly generateIncrementedName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['generateIncrementedName']>
@@ -655,7 +654,6 @@ declare module 'vue' {
     readonly getAdminRelationshipMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminRelationshipMetadataEndpoint']>
     readonly getAgentEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getAgentEventShape']>
     readonly getAllUserTypeBlockIds: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getAllUserTypeBlockIds']>
-    readonly getAnnotationsForUserTypeBlock: UnwrapRef<typeof import('./src/utils/annotationUtils')['getAnnotationsForUserTypeBlock']>
     readonly getApiErrorMessage: UnwrapRef<typeof import('./src/composables/useApiErrorMessage')['getApiErrorMessage']>
     readonly getAppointmentByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentByIdEndpoint']>
     readonly getAppointmentEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentEndpoint']>
@@ -676,26 +674,20 @@ declare module 'vue' {
     readonly getEntityByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityByIdEndpoint']>
     readonly getEntityDisplayName: UnwrapRef<typeof import('./src/utils/entityDefaults')['getEntityDisplayName']>
     readonly getEntityEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityEndpoint']>
-    readonly getEntityOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityOrderIndexEndpoint']>
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getMajorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMajorEventShape']>
     readonly getMinorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMinorEventShape']>
     readonly getOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getOrderIndexEndpoint']>
     readonly getPropertyByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyByIdEndpoint']>
     readonly getPropertyEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyEndpoint']>
-    readonly getPropertyTypeByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyTypeByIdEndpoint']>
-    readonly getPropertyTypesEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyTypesEndpoint']>
-    readonly getRelationshipByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipByIdEndpoint']>
     readonly getRelationshipByParentChildEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipByParentChildEndpoint']>
     readonly getRelationshipEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipEndpoint']>
     readonly getStateControlBlockInstanceOptions: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstanceOptions']>
     readonly getStateControlBlockInstances: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstances']>
     readonly getUserByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getUserByIdEndpoint']>
     readonly getUserEndpoint: UnwrapRef<typeof import('./src/utils/api')['getUserEndpoint']>
-    readonly getUserTypeBlockOptionsFromGlobalData: UnwrapRef<typeof import('./src/utils/annotationUtils')['getUserTypeBlockOptionsFromGlobalData']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hasAttendee: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['hasAttendee']>
-    readonly hasDuplicateUserTypeBlock: UnwrapRef<typeof import('./src/utils/annotationUtils')['hasDuplicateUserTypeBlock']>
     readonly hexToRgb: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['hexToRgb']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>

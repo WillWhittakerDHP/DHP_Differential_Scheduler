@@ -40,7 +40,7 @@ export const eventInstanceFields = {
 
   titleTemplate: {
     primitiveType: PrimitiveTypeEnum.String,
-    primitiveMode: PrimitiveModeEnum.Textarea,
+    primitiveMode: PrimitiveModeEnum.TextArea,
     placeholder: "Template for event title (e.g., '{service} on {propertyType}')",
     globalField: "titleTemplate" as const,
     expandable: false,
@@ -48,7 +48,7 @@ export const eventInstanceFields = {
 
   descriptionTemplate: {
     primitiveType: PrimitiveTypeEnum.String,
-    primitiveMode: PrimitiveModeEnum.Textarea,
+    primitiveMode: PrimitiveModeEnum.TextArea,
     placeholder: "Template for event description (e.g., '{clientName} - {propertyAddress}')",
     globalField: "descriptionTemplate" as const,
     expandable: false,
@@ -56,7 +56,7 @@ export const eventInstanceFields = {
 
   locationTemplate: {
     primitiveType: PrimitiveTypeEnum.String,
-    primitiveMode: PrimitiveModeEnum.Textarea,
+    primitiveMode: PrimitiveModeEnum.TextArea,
     placeholder: "Template for event location (e.g., '{propertyAddress}')",
     globalField: "locationTemplate" as const,
     expandable: false,

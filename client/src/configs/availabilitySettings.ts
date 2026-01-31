@@ -252,6 +252,7 @@ export interface AvailabilitySettings {
     differentialGraphDefaultLabel?: string  // Label shown when no time slot is selected (e.g., "Select a Time Slot")
     majorStateLabel?: string  // State message when major perspective is selected (e.g., "Showing Major Times")
     minorStateLabel?: string  // State message when minor perspective is selected (e.g., "Showing Client FormalPresentation Times")
+    selectTimeSlotLabel?: string  // Label for time slot selection (e.g., "Select a Time Slot")
   }
 }
 
@@ -291,6 +292,7 @@ export interface RawAvailabilitySettings {
     differentialGraphDefaultLabel?: string
     majorStateLabel?: string
     minorStateLabel?: string
+    selectTimeSlotLabel?: string
   }
 }
 

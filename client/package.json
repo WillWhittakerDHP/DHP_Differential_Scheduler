@@ -32,7 +32,9 @@
     "audit:unused-code:summary": "node .scripts/unused-code-audit-summary.mjs",
     "audit:pattern-detection": "node .scripts/pattern-detection-audit.mjs",
     "audit:pattern-detection:summary": "node .scripts/pattern-detection-audit-summary.mjs",
-    "audit:all": "npm run typecheck:audit && npm run audit:component-logic && npm run audit:composables-logic && npm run audit:loop-mutations && npm run audit:hardcoding && npm run audit:pattern-detection && npm run audit:duplication && npm run audit:unused-code && npm run audit:fallback && npm run audit:test && npm run typecheck:summary && npm run audit:component-logic:summary && npm run audit:composables-logic:summary && npm run audit:loop-mutations:summary && npm run audit:hardcoding:summary && npm run audit:pattern-detection:summary && npm run audit:duplication:summary && npm run audit:unused-code:summary && npm run audit:test:summary",
+    "audit:security": "node .scripts/security-audit.mjs",
+    "audit:security:summary": "node .scripts/security-audit-summary.mjs",
+    "audit:all": "npm run typecheck:audit && npm run audit:component-logic && npm run audit:composables-logic && npm run audit:loop-mutations && npm run audit:hardcoding && npm run audit:pattern-detection && npm run audit:duplication && npm run audit:unused-code && npm run audit:fallback && npm run audit:security && npm run audit:test && npm run typecheck:summary && npm run audit:component-logic:summary && npm run audit:composables-logic:summary && npm run audit:loop-mutations:summary && npm run audit:hardcoding:summary && npm run audit:pattern-detection:summary && npm run audit:duplication:summary && npm run audit:unused-code:summary && npm run audit:security:summary && npm run audit:test:summary",
     "lint": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest"

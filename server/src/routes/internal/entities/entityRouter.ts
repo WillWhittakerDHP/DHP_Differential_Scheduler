@@ -13,6 +13,7 @@ import {
 } from '../../helpers/dataController.js';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
 import { createBlockInstanceVersionIfReferenced } from '../../../services/instanceVersioning.js';
+import { ENTITY_KEYS_ARRAY, ENTITY_KEYS } from '../../../constants/entities.js';
 
 const router = Router();
 
@@ -58,9 +59,12 @@ router.get('/config', async (req: Request, res: Response): Promise<void> => {
  */
 router.param('entityType', (req, res, next, entityType) => {
   if (!isValidEntityType(entityType)) {
+      // LEARNING: Use ENTITY_KEYS_ARRAY constant instead of hardcoded array
+      // WHY: Eliminates hardcoded entity key strings, enables type-safe entity key references
+      // PATTERN: Use constant array from entities.ts
       return res.status(404).json({ 
       error: `Unknown entity kind: ${entityType}`,
-      validKinds: ['partInstance', 'blockInstance', 'partShape', 'blockShape', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance']
+      validKinds: ENTITY_KEYS_ARRAY
     });
   }
   
@@ -101,23 +105,24 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
     // LEARNING: Order entities by orderIndex to ensure consistent ordering (if field exists)
     // WHY: Most entity types (blockInstance, blockShape, partInstance, partShape) have orderIndex fields,
     //      but some (eventShape, eventInstance) do not
-    // PATTERN: Conditionally add order option only if model has orderIndex field
-    const options: { attributes?: string[]; order?: any[]; include?: any[] } = {};
-    if (isModelUnderscored(entityConfig.model)) {
-      options.attributes = getModelAttributes(entityConfig.model);
-    }
-    // Order by orderIndex if the model has that field (check model attributes)
+    // PATTERN: Build options object functionally using object spread
     const modelAttributes = Object.keys(entityConfig.model.rawAttributes || {});
-    if (modelAttributes.includes('orderIndex')) {
-      options.order = [['orderIndex', 'ASC']];
-    } else {
-      // For models without orderIndex, order by createdAt or id
-      if (modelAttributes.includes('createdAt')) {
-        options.order = [['createdAt', 'ASC']];
+    const baseOptions: { attributes?: string[]; order?: any[]; include?: any[] } = {};
+    
+    const optionsWithAttributes = isModelUnderscored(entityConfig.model)
+      ? { ...baseOptions, attributes: getModelAttributes(entityConfig.model) }
+      : baseOptions;
+    
+    // Order by orderIndex if the model has that field (check model attributes)
+    const options = (() => {
+      if (modelAttributes.includes('orderIndex')) {
+        return { ...optionsWithAttributes, order: [['orderIndex', 'ASC']] };
+      } else if (modelAttributes.includes('createdAt')) {
+        return { ...optionsWithAttributes, order: [['createdAt', 'ASC']] };
       } else {
-        options.order = [['id', 'ASC']];
+        return { ...optionsWithAttributes, order: [['id', 'ASC']] };
       }
-    }
+    })();
     
     // NOTE: Attendees are now fetched via /relationships/attendeeAssignments endpoint
     // No special include needed - attendees come through relationships endpoint
@@ -188,7 +193,9 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
     const sanitizedData = { ...req.body };
     
     // For blockInstance, convert empty booking_mode to default 'standalone'
-    if (req.params.entityType === 'blockInstance' && sanitizedData.bookingMode === '') {
+    // LEARNING: Use ENTITY_KEYS constant instead of hardcoded string
+    // WHY: Eliminates hardcoded entity key strings, enables type-safe entity key checks
+    if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE && sanitizedData.bookingMode === '') {
       sanitizedData.bookingMode = 'standalone';
     }
     // Handle snake_case version too
@@ -347,35 +354,38 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
             }
           });
 
-          // For each block instance that references this part, find and disable old relationships
-          // that point to other part instances with the same (name, partShapeRef) but different ID
-          for (const currentRel of currentRelationships) {
-            // Find all part instances with the same name and partShapeRef but different ID
-            const duplicatePartInstances = await PartInstance.findAll({
-              where: {
-                name: updatedPartInstance.name,
-                partShapeRef: updatedPartInstance.partShapeRef,
-                id: { [Op.ne]: entityId }
-              }
-            });
-
-            if (duplicatePartInstances.length > 0) {
-              const duplicatePartIds = duplicatePartInstances.map(p => p.id);
-              
-              // Disable partAssignments relationships pointing to these duplicate part instances
-              // for the same parent_id (block instance)
-              await PartAssignment.update(
-                { disabled: true },
-                {
-                  where: {
-                    parent_id: currentRel.parent_id,
-                    child_id: { [Op.in]: duplicatePartIds },
-                    disabled: false
-                  }
+          // LEARNING: Process relationships functionally using Promise.all with map
+          // WHY: Avoids for-loop mutations, processes operations in parallel for better performance
+          // PATTERN: Use map to transform relationships into promises, then await all
+          await Promise.all(
+            currentRelationships.map(async (currentRel) => {
+              // Find all part instances with the same name and partShapeRef but different ID
+              const duplicatePartInstances = await PartInstance.findAll({
+                where: {
+                  name: updatedPartInstance.name,
+                  partShapeRef: updatedPartInstance.partShapeRef,
+                  id: { [Op.ne]: entityId }
                 }
-              );
-            }
-          }
+              });
+
+              if (duplicatePartInstances.length > 0) {
+                const duplicatePartIds = duplicatePartInstances.map(p => p.id);
+                
+                // Disable partAssignments relationships pointing to these duplicate part instances
+                // for the same parent_id (block instance)
+                await PartAssignment.update(
+                  { disabled: true },
+                  {
+                    where: {
+                      parent_id: currentRel.parent_id,
+                      child_id: { [Op.in]: duplicatePartIds },
+                      disabled: false
+                    }
+                  }
+                );
+              }
+            })
+          );
         }
       } catch (versioningError) {
         // Log error but don't fail the update - versioning cleanup is best effort
@@ -465,24 +475,29 @@ router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<v
       // Fetch old instances with part instances for versioning
       const blockInstanceIds = updates.map((update: { id: string }) => update.id);
       
-      for (const blockInstanceId of blockInstanceIds) {
-        const oldInstance = await BlockInstance.findByPk(blockInstanceId, {
-          include: [
-            {
-              model: PartInstance,
-              as: 'part_assignment_instances',
-              through: {
-                where: { disabled: false },
-              },
-            }
-          ]
-        });
-        
-        if (oldInstance) {
-          // Create version with OLD data if referenced by appointments
-          await createBlockInstanceVersionIfReferenced(blockInstanceId, oldInstance);
-        }
-      }
+      // LEARNING: Use Promise.all with map to process block instances functionally
+      // WHY: Avoids for...of loop mutations, enables parallel processing
+      // PATTERN: Map IDs to versioning operations, then execute in parallel
+      await Promise.all(
+        blockInstanceIds.map(async (blockInstanceId) => {
+          const oldInstance = await BlockInstance.findByPk(blockInstanceId, {
+            include: [
+              {
+                model: PartInstance,
+                as: 'part_assignment_instances',
+                through: {
+                  where: { disabled: false },
+                },
+              }
+            ]
+          });
+          
+          if (oldInstance) {
+            // Create version with OLD data if referenced by appointments
+            await createBlockInstanceVersionIfReferenced(blockInstanceId, oldInstance);
+          }
+        })
+      );
     }
     
     // Perform the bulk update
@@ -576,35 +591,38 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
             }
           });
 
-          // For each block instance that references this part, find and disable old relationships
-          // that point to other part instances with the same (name, partShapeRef) but different ID
-          for (const currentRel of currentRelationships) {
-            // Find all part instances with the same name and partShapeRef but different ID
-            const duplicatePartInstances = await PartInstance.findAll({
-              where: {
-                name: updatedPartInstance.name,
-                partShapeRef: updatedPartInstance.partShapeRef,
-                id: { [Op.ne]: entityId }
-              }
-            });
-
-            if (duplicatePartInstances.length > 0) {
-              const duplicatePartIds = duplicatePartInstances.map(p => p.id);
-              
-              // Disable partAssignments relationships pointing to these duplicate part instances
-              // for the same parent_id (block instance)
-              await PartAssignment.update(
-                { disabled: true },
-                {
-                  where: {
-                    parent_id: currentRel.parent_id,
-                    child_id: { [Op.in]: duplicatePartIds },
-                    disabled: false
-                  }
+          // LEARNING: Process relationships functionally using Promise.all with map
+          // WHY: Avoids for-loop mutations, processes operations in parallel for better performance
+          // PATTERN: Use map to transform relationships into promises, then await all
+          await Promise.all(
+            currentRelationships.map(async (currentRel) => {
+              // Find all part instances with the same name and partShapeRef but different ID
+              const duplicatePartInstances = await PartInstance.findAll({
+                where: {
+                  name: updatedPartInstance.name,
+                  partShapeRef: updatedPartInstance.partShapeRef,
+                  id: { [Op.ne]: entityId }
                 }
-              );
-            }
-          }
+              });
+
+              if (duplicatePartInstances.length > 0) {
+                const duplicatePartIds = duplicatePartInstances.map(p => p.id);
+                
+                // Disable partAssignments relationships pointing to these duplicate part instances
+                // for the same parent_id (block instance)
+                await PartAssignment.update(
+                  { disabled: true },
+                  {
+                    where: {
+                      parent_id: currentRel.parent_id,
+                      child_id: { [Op.in]: duplicatePartIds },
+                      disabled: false
+                    }
+                  }
+                );
+              }
+            })
+          );
         }
       } catch (versioningError) {
         // Log error but don't fail the update - versioning cleanup is best effort
