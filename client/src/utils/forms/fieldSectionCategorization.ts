@@ -115,7 +115,8 @@ export function categorizeFieldsBySection(
       subPanelFields: {
         parts: [],
         relationships: [],
-        annotations: []
+        annotations: [],
+        events: []
       },
       statusButtonFields: []
     }

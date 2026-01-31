@@ -21,8 +21,8 @@ export class AdminMetadata extends Model<
 > {
   declare id: CreationOptional<string>;
   declare metadataType: 'primitive' | 'relationship';
-  declare entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance';
-  declare entityId: string;
+  declare entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance';
+  declare entityId: string; // Entity ID or sentinel UUID for global configs
   declare fieldKey: string; // Unified - replaces both fieldKey and relationshipKey
   declare blockShapeRef: CreationOptional<string | null>; // BlockShape ID for BlockShape-specific instance metadata
   // Canonical properties
@@ -59,7 +59,7 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         comment: 'Discriminator: primitive or relationship metadata',
       },
       entityType: {
-        type: DataTypes.ENUM('blockShape', 'partShape', 'blockInstance', 'partInstance'),
+        type: DataTypes.ENUM('blockShape', 'partShape', 'blockInstance', 'partInstance', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance'),
         allowNull: false,
         field: 'entity_type',
         comment: 'Entity type for this metadata entry',
@@ -169,11 +169,9 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
     {
       sequelize,
       indexes: [
-        {
-          unique: true,
-          fields: ['entity_type', 'entity_id', 'metadata_type', 'field_key', 'block_shape_ref'],
-          name: 'admin_metadata_entity_metadata_field_unique',
-        },
+        // Note: Unique constraints and indexes are created in migrations
+        // See migration 20260131130300_drop_config_columns.mjs
+        // These are regular indexes for query performance
         {
           fields: ['entity_type', 'entity_id'],
           name: 'admin_metadata_entity_idx',

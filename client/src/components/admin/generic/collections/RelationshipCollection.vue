@@ -113,7 +113,7 @@
  * PATTERN: Generic rendering of EntityCard component, exposes bulk edit state to parent (when applicable)
  */
 
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import EntityCard from '../EntityCard.vue'
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -152,6 +152,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   collectionType: 'parts'
 })
+
 
 // Use composable for relationshipCollection field logic
 const fieldConfig = useRelationshipCollectionField(props.fieldContext)

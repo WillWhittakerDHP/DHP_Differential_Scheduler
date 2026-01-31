@@ -32,8 +32,10 @@ export class EventShape extends Model<
 > {
   declare id: CreationOptional<string>;
   declare name: string; // e.g., 'OnSite', 'Moveable', 'ClientPresent'
-  declare defaultTernaryValue: CreationOptional<'true' | 'false' | 'override' | null>; // Default ternary value for this event shape
-  declare defaultOrderIndex: CreationOptional<number>; // Default order index for this event shape
+  declare orderIndex: CreationOptional<number>;
+  declare active: CreationOptional<boolean>;
+  declare isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
+  declare ternaryDefault: CreationOptional<'true' | 'false' | 'override' | null>; // Default ternary value (null means fail gracefully)
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -53,18 +55,31 @@ export function EventShapeFactory(sequelize: Sequelize) {
         unique: true,
         comment: 'Event shape name (e.g., OnSite, Moveable, ClientPresent)',
       },
-      defaultTernaryValue: {
-        type: DataTypes.ENUM('true', 'false', 'override'),
-        allowNull: true,
-        field: 'default_ternary_value',
-        comment: 'Default ternary value for this event shape (for onSite/clientPresent logic)',
-      },
-      defaultOrderIndex: {
+      orderIndex: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
         defaultValue: 0,
-        field: 'default_order_index',
-        comment: 'Default order index for this event shape',
+        field: 'order_index',
+        comment: 'Order index for UI drag-and-drop ordering',
+      },
+      active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        comment: 'Whether this event shape is active/enabled',
+      },
+      isTernary: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'is_ternary',
+        comment: 'Indicates if this event shape uses ternary logic (true/false/override)',
+      },
+      ternaryDefault: {
+        type: DataTypes.STRING(10),
+        allowNull: true,
+        field: 'ternary_default',
+        comment: 'Default ternary value to use when value cannot be determined (null means fail gracefully)',
       },
       createdAt: {
         type: DataTypes.DATE,

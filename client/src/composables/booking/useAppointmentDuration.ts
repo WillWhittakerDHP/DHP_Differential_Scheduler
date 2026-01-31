@@ -9,7 +9,12 @@
 import { computed, type ComputedRef } from 'vue'
 import { useDurationRounding } from '@/composables/booking/useDurationRounding'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { toBoolean } from '@/utils/ternary/ternaryUtils'
+import { useGlobal } from '@/composables/useGlobal'
+import { buildAppointmentShape } from '@/utils/booking/appointmentSlotBuilder'
+import { findEventFinalByName } from '@/utils/booking/appointmentSlotBuilder'
+import type { EventInstance, EventShape } from '@/types/events'
+import type { GlobalRelationship } from '@/types/relationships'
+import type { GlobalEntity } from '@/types/entities'
 
 /**
  * useAppointmentDuration composable parameters
@@ -59,7 +64,7 @@ export function useAppointmentDuration(
   /**
    * LEARNING: Calculate on-site duration from AppointmentShape
    * WHY: Events are now stored on AppointmentShape, not on PartFinal
-   * PATTERN: Build AppointmentShape and read OnSite duration from slotShape.eventDurations
+   * PATTERN: Build AppointmentShape and read OnSite duration from slotShape.eventFinals using helper function
    */
   const appointmentDuration = computed<number | null>(() => {
     const instances = accumulatedBlockInstances.value
@@ -92,10 +97,11 @@ export function useAppointmentDuration(
         validPartsRelationships
       )
       
-      // LEARNING: Read OnSite duration from slotShape.eventDurations
-      // WHY: Events are stored on AppointmentShape, durations computed in SlotShape
-      // PATTERN: Read from eventDurations Record
-      const onSiteDuration = shape.slotShape.eventDurations['OnSite'] || 0
+      // LEARNING: Read OnSite duration from slotShape.eventFinals using helper function
+      // WHY: Events are stored on AppointmentShape, durations computed in SlotShape as EventFinal[]
+      // PATTERN: Use helper function to find event by name, eliminates hardcoded access
+      const onSiteEventFinal = findEventFinalByName(shape.slotShape, 'OnSite')
+      const onSiteDuration = onSiteEventFinal?.duration || 0
       
       // LEARNING: Apply configurable rounding based on availability settings
       // WHY: Allows admin to control rounding behavior via Business Controls tab

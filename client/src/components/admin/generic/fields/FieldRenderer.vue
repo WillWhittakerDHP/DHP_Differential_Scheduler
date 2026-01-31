@@ -60,7 +60,6 @@ import SelectInputs from './SelectInputs.vue'
 import PartsCollection from '../collections/PartsCollection.vue'
 import RelationshipCollection from '../collections/RelationshipCollection.vue'
 import IconInput from './IconInput.vue'
-import AnnotationsField from './AnnotationsField.vue'
 import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
@@ -235,13 +234,12 @@ const componentMap: Record<FieldComponent['type'], Component | null> = {
   icon: IconInput,
   primitive: PrimitiveInputs,
   relationshipCollection: RelationshipCollection,
-  annotations: AnnotationsField, // Uses RelationshipCollection internally
   select: SelectInputs,
   unknown: null
 }
 
 // LEARNING: Components that accept showLabel prop
-// WHY: Not all components accept showLabel (RelationshipCollection, PartsCollection, AnnotationsField don't)
+// WHY: Not all components accept showLabel (RelationshipCollection, PartsCollection don't)
 // PATTERN: Array of component types that accept the prop
 const componentsWithLabel: Array<FieldComponent['type']> = ['icon', 'primitive', 'select']
 

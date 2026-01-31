@@ -330,7 +330,6 @@ async function handleSave() {
       blockShapeRef: props.blockShapeRef || null,
       pendingChangesCount: Object.keys(pendingChanges).length,
       pendingChanges: Object.keys(pendingChanges),
-      pendingDeletesCount: pendingDeletes.value.size
     })
     
     // Save pending changes

@@ -492,7 +492,8 @@ provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 const titleRowFields = fieldLocation.titleRowFields
 
 // LEARNING: Title row event handling simplified
-// WHY: Use Vue event modifiers (@click.stop, @keydown.space.stop) directly in template
+// WHY: Use Vue event modifiers (@click.stop) directly in template
+//      Space bar handling is done in TextInput component's handleKeydown
 // PATTERN: No complex DOM traversal needed - event modifiers handle it declaratively
 
 /**
@@ -544,7 +545,7 @@ defineExpose({
                 v-for="fieldKey in titleRowFields"
                 :key="fieldKey"
               >
-                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" @click.stop @keydown.space.stop>
+                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" class="title-row-field" @click.stop>
                   <FieldRenderer
                     :field-context="getFieldContext(fieldKey)"
                     :show-label="false"
@@ -563,7 +564,7 @@ defineExpose({
                 v-for="fieldKey in titleRowFields"
                 :key="fieldKey"
               >
-                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop @keydown.space.stop>
+                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
                   <FieldRenderer
                     :field-context="getFieldContext(fieldKey)"
                     :show-label="false"
@@ -630,13 +631,14 @@ defineExpose({
           v-for="fieldKey in titleRowFields"
           :key="fieldKey"
         >
-          <FieldRenderer
-            v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'"
-            :field-context="getFieldContext(fieldKey)"
-            :show-label="false"
-            :field-metadata="composedFieldMetadata"
-            :read-only="!isExpanded"
-          />
+          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" class="title-row-field">
+            <FieldRenderer
+              :field-context="getFieldContext(fieldKey)"
+              :show-label="false"
+              :field-metadata="composedFieldMetadata"
+              :read-only="!isExpanded"
+            />
+          </div>
         </template>
       </div>
       
@@ -648,7 +650,7 @@ defineExpose({
           v-for="fieldKey in titleRowFields"
           :key="fieldKey"
         >
-          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop @keydown.space.stop>
+          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
             <FieldRenderer
               :field-context="getFieldContext(fieldKey)"
               :show-label="false"

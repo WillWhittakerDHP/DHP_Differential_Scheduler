@@ -16,7 +16,7 @@ import { createTimeRange, createTimeRangesFromSlotShape } from './booking/appoin
  * WHY: Inspector needs to arrive this many minutes before client start time
  * PATTERN: Filter part instances by onSite, sum baseTime values
  * 
- * @deprecated Use `AppointmentShape.slotShape.eventDurations["OnSite"]` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
+ * @deprecated Use `findEventFinalByName(AppointmentShape.slotShape, "OnSite")?.duration` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
  * 
  * @param service - BookingBlockInstance with partInstances
  * @returns Total on-site time in minutes, defaults to 0 if no part instances
@@ -47,7 +47,7 @@ export function calculateOnSiteTotal(service: BookingBlockInstance | null): numb
  * WHY: Duration of time client needs to be present
  * PATTERN: Filter part instances by clientPresent, sum baseTime values
  * 
- * @deprecated Use `AppointmentShape.slotShape.eventDurations["ClientPresent"]` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
+ * @deprecated Use `findEventFinalByName(AppointmentShape.slotShape, "ClientPresent")?.duration` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
  * 
  * @param service - BookingBlockInstance with partInstances
  * @returns Total client presence time in minutes, defaults to 0 if no part instances
@@ -157,11 +157,13 @@ export function transformToInspectorPerspective(
 ): import('@/types/appointment').AppointmentSlot {
   // LEARNING: Get durations from SlotShape (source of truth)
   // WHY: SlotShape contains all duration information needed
-  // PATTERN: Access durations via slot.shape.slotShape
-  // Session Event Refactor: Use eventDurations Record instead of hardcoded properties
+  // PATTERN: Use helper functions to find events by name
+  // Session Event Refactor: Use eventFinals array with helper functions instead of hardcoded Record access
   const slotShape = appointmentSlot.shape.slotShape
-  const totalOnSiteDuration = slotShape.eventDurations?.['OnSite'] ?? 0
-  const clientPresentDuration = slotShape.eventDurations?.['ClientPresent'] ?? 0
+  const onSiteEventFinal = findEventFinalByName(slotShape, 'OnSite')
+  const clientPresentEventFinal = findEventFinalByName(slotShape, 'ClientPresent')
+  const totalOnSiteDuration = onSiteEventFinal?.duration ?? 0
+  const clientPresentDuration = clientPresentEventFinal?.duration ?? 0
   
   // LEARNING: Calculate client start time for clientPresentTimeRange
   // WHY: Client presentation happens after inspector has completed on-site work
@@ -218,10 +220,11 @@ export function transformToClientPerspective(
 ): import('@/types/appointment').AppointmentSlot {
   // LEARNING: Get onSite duration from SlotShape (source of truth)
   // WHY: SlotShape already contains calculated onSite duration, no need for separate parameter
-  // PATTERN: Access slotShape.eventDurations["OnSite"]
-  // Session Event Refactor: Use eventDurations Record instead of hardcoded properties
+  // PATTERN: Use helper function to find OnSite event
+  // Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
   const slotShape = appointmentSlot.shape.slotShape
-  const onSiteTotal = slotShape.eventDurations?.['OnSite'] ?? 0
+  const onSiteEventFinal = findEventFinalByName(slotShape, 'OnSite')
+  const onSiteTotal = onSiteEventFinal?.duration ?? 0
   
   // LEARNING: Calculate inspector start time (before client arrives)
   // WHY: Inspector perspective times are calculated backwards from client start
@@ -236,9 +239,10 @@ export function transformToClientPerspective(
   // LEARNING: Adjust clientPresentTimeRange to start at client start time
   // WHY: Client-present time starts when client arrives
   // PATTERN: Create clientPresentTimeRange starting at clientStartTime, ending when inspector finishes on-site work
-  // Session Event Refactor: Use eventTimeRanges Record
+  // Session Event Refactor: Use eventTimeRanges Record and helper function for duration
   const onSiteTimeRange = timeRanges.eventTimeRanges?.['OnSite']
-  const clientPresentDuration = slotShape.eventDurations?.['ClientPresent'] ?? 0
+  const clientPresentEventFinal = findEventFinalByName(slotShape, 'ClientPresent')
+  const clientPresentDuration = clientPresentEventFinal?.duration ?? 0
   
   let clientPresentTimeRange = null
   if (onSiteTimeRange && clientPresentDuration > 0 && slotShape.clientStartOffset >= 0) {

@@ -24,7 +24,7 @@ export default {
             false
           ),
           updated_at = CURRENT_TIMESTAMP
-      WHERE field_key = 'activeEvents'
+      WHERE field_key = 'eventAssignments'
         AND metadata_type = 'relationship'
         AND (input_config->>'selectMode' IS NULL OR input_config->>'selectMode' = '')
       RETURNING id, entity_type, entity_id, field_key
@@ -95,12 +95,12 @@ export default {
   async down(queryInterface, Sequelize) {
     console.log('🔄 Removing selectMode from events and annotations metadata...');
 
-    // Remove selectMode from activeEvents
+    // Remove selectMode from eventAssignments
     await queryInterface.sequelize.query(`
       UPDATE admin_metadata
       SET input_config = input_config - 'selectMode',
           updated_at = CURRENT_TIMESTAMP
-      WHERE field_key = 'activeEvents'
+      WHERE field_key = 'eventAssignments'
         AND metadata_type = 'relationship'
         AND input_config->>'selectMode' = 'multiple'
     `);

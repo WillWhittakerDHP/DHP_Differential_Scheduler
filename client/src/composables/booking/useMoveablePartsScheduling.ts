@@ -16,6 +16,7 @@ import { getAvailabilitySettings, type BusinessHoursConfig } from '@/configs/ava
 import { createLogger } from '@/utils/logger'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { toRFC3339DateTime, type RFC3339DateTime } from '@/types/datetime'
+import { findEventFinalByName } from '@/utils/booking/appointmentSlotBuilder'
 
 // LEARNING: Use scoped logger for controllable debug output
 // WHY: Prevents debug logs in production, allows scope-based filtering
@@ -98,20 +99,22 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
   const isLoadingOptions = ref(false)
   
   // Detection: does current appointment have moveable parts?
-  // Session Event Refactor: Use eventDurations Record instead of hardcoded properties
+  // Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
   const hasMoveableParts = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return false
-    const moveableDuration = shape.slotShape.eventDurations?.['Moveable'] ?? 0
+    const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
+    const moveableDuration = moveableEventFinal?.duration ?? 0
     return moveableDuration > 0
   })
   
   // Moveable duration from shape
-  // Session Event Refactor: Use eventDurations Record instead of hardcoded properties
+  // Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
   const moveableDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
-    return shape.slotShape.eventDurations?.['Moveable'] ?? 0
+    const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
+    return moveableEventFinal?.duration ?? 0
   })
   
   // Calculate available slots using fitTimeSlots

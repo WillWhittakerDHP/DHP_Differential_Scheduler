@@ -11,13 +11,13 @@ import type { GlobalEntity } from '@/types/entities'
 export interface UseShapeCreationReturn {
   isCreatingBlockShape: Ref<boolean>
   isCreatingPartShape: Ref<boolean>
-  isCreatingAnnotationType: Ref<boolean>
+  isCreatingAnnotationShape: Ref<boolean>
   newBlockShapeInitialValues: Ref<GlobalEntity<'blockShape'> | null>
   newPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>
-  newAnnotationTypeName: Ref<string>
+  newAnnotationShapeName: Ref<string>
   createBlockShape: () => void
   createPartShape: () => void
-  createAnnotationType: () => void
+  createAnnotationShape: () => void
 }
 
 export interface UseShapeCreationOptions {
@@ -41,10 +41,10 @@ export function useShapeCreation(
    */
   const isCreatingBlockShape = ref(false)
   const isCreatingPartShape = ref(false)
-  const isCreatingAnnotationType = ref(false)
+  const isCreatingAnnotationShape = ref(false)
   const newBlockShapeInitialValues = ref<GlobalEntity<'blockShape'> | null>(null)
   const newPartShapeInitialValues = ref<GlobalEntity<'partShape'> | null>(null)
-  const newAnnotationTypeName = ref('')
+  const newAnnotationShapeName = ref('')
 
   /**
    * LEARNING: Function to start inline BlockShape creation
@@ -73,23 +73,23 @@ export function useShapeCreation(
   }
 
   /**
-   * LEARNING: Function to start inline AnnotationType creation
+   * LEARNING: Function to start inline AnnotationShape creation
    */
-  const createAnnotationType = (): void => {
-    newAnnotationTypeName.value = ''
-    isCreatingAnnotationType.value = true
-    expandedShapes.value = ['new-annotationType', ...expandedShapes.value]
+  const createAnnotationShape = (): void => {
+    newAnnotationShapeName.value = ''
+    isCreatingAnnotationShape.value = true
+    expandedShapes.value = ['new-annotationShape', ...expandedShapes.value]
   }
 
   return {
     isCreatingBlockShape,
     isCreatingPartShape,
-    isCreatingAnnotationType,
+    isCreatingAnnotationShape,
     newBlockShapeInitialValues,
     newPartShapeInitialValues,
-    newAnnotationTypeName,
+    newAnnotationShapeName,
     createBlockShape,
     createPartShape,
-    createAnnotationType
+    createAnnotationShape
   }
 }

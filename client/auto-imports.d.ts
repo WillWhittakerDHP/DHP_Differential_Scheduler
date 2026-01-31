@@ -76,7 +76,6 @@ declare global {
   const formatTimeRangeForDisplay: typeof import('./src/composables/useLocalTime').formatTimeRangeForDisplay
   const generateIncrementedName: typeof import('./src/utils/blockInstanceUtils').generateIncrementedName
   const generateTimeSlots: typeof import('./src/utils/timeSlotCalculations').generateTimeSlots
-  const getActiveEventsEndpoint: typeof import('./src/utils/api').getActiveEventsEndpoint
   const getActivePinia: typeof import('pinia').getActivePinia
   const getAdminInputMetadataEndpoint: typeof import('./src/utils/api').getAdminInputMetadataEndpoint
   const getAdminMetadataBatchEndpoint: typeof import('./src/utils/api').getAdminMetadataBatchEndpoint
@@ -86,10 +85,10 @@ declare global {
   const getAnnotationAssignmentsEndpoint: typeof import('./src/utils/api').getAnnotationAssignmentsEndpoint
   const getAnnotationByIdEndpoint: typeof import('./src/utils/api').getAnnotationByIdEndpoint
   const getAnnotationEndpoint: typeof import('./src/utils/api').getAnnotationEndpoint
+  const getAnnotationMetadataEndpoint: typeof import('./src/utils/api').getAnnotationMetadataEndpoint
+  const getAnnotationOrderIndexEndpoint: typeof import('./src/utils/api').getAnnotationOrderIndexEndpoint
   const getAnnotationShapeByIdEndpoint: typeof import('./src/utils/api').getAnnotationShapeByIdEndpoint
   const getAnnotationShapeEndpoint: typeof import('./src/utils/api').getAnnotationShapeEndpoint
-  const getAnnotationTypeByIdEndpoint: typeof import('./src/utils/api').getAnnotationTypeByIdEndpoint
-  const getAnnotationTypeEndpoint: typeof import('./src/utils/api').getAnnotationTypeEndpoint
   const getAnnotationsForUserTypeBlock: typeof import('./src/utils/annotationUtils').getAnnotationsForUserTypeBlock
   const getApiErrorMessage: typeof import('./src/composables/useApiErrorMessage').getApiErrorMessage
   const getAppointmentByIdEndpoint: typeof import('./src/utils/api').getAppointmentByIdEndpoint
@@ -121,9 +120,12 @@ declare global {
   const getEntityByIdEndpoint: typeof import('./src/utils/api').getEntityByIdEndpoint
   const getEntityDisplayName: typeof import('./src/utils/entityDefaults').getEntityDisplayName
   const getEntityEndpoint: typeof import('./src/utils/api').getEntityEndpoint
+  const getEntityOrderIndexEndpoint: typeof import('./src/utils/api').getEntityOrderIndexEndpoint
   const getEventAssignmentsEndpoint: typeof import('./src/utils/api').getEventAssignmentsEndpoint
   const getEventByIdEndpoint: typeof import('./src/utils/api').getEventByIdEndpoint
   const getEventEndpoint: typeof import('./src/utils/api').getEventEndpoint
+  const getEventMetadataEndpoint: typeof import('./src/utils/api').getEventMetadataEndpoint
+  const getEventOrderIndexEndpoint: typeof import('./src/utils/api').getEventOrderIndexEndpoint
   const getEventShapeByIdEndpoint: typeof import('./src/utils/api').getEventShapeByIdEndpoint
   const getEventShapeEndpoint: typeof import('./src/utils/api').getEventShapeEndpoint
   const getFieldMetadata: typeof import('./src/composables/useFieldMetadata').getFieldMetadata
@@ -276,8 +278,7 @@ declare global {
   const useAdminConfig: typeof import('./src/composables/useAdminConfig').useAdminConfig
   const useAnimate: typeof import('@vueuse/core').useAnimate
   const useAnnotationAssignments: typeof import('./src/composables/useAnnotationAssignments').useAnnotationAssignments
-  const useAnnotationShapes: typeof import('./src/composables/useAnnotationTypes').useAnnotationShapes
-  const useAnnotationTypes: typeof import('./src/composables/useAnnotationTypes').useAnnotationTypes
+  const useAnnotationShapes: typeof import('./src/composables/useAnnotationShapes').useAnnotationShapes
   const useAnnotations: typeof import('./src/composables/useAnnotations').useAnnotations
   const useAppointment: typeof import('./src/composables/useAppointment').useAppointment
   const useAppointments: typeof import('./src/composables/useBusiness').useAppointments
@@ -318,8 +319,7 @@ declare global {
   const useCookie: typeof import('./src/@core/composable/useCookie').useCookie
   const useCountdown: typeof import('@vueuse/core').useCountdown
   const useCounter: typeof import('@vueuse/core').useCounter
-  const useCreateAnnotationShape: typeof import('./src/composables/useAnnotationTypes').useCreateAnnotationShape
-  const useCreateAnnotationType: typeof import('./src/composables/useAnnotationTypes').useCreateAnnotationType
+  const useCreateAnnotationShape: typeof import('./src/composables/useAnnotationShapes').useCreateAnnotationShape
   const useCreateEventInstance: typeof import('./src/composables/useEventInstances').useCreateEventInstance
   const useCreateEventShape: typeof import('./src/composables/useEventShapes').useCreateEventShape
   const useCssModule: typeof import('vue').useCssModule
@@ -332,8 +332,7 @@ declare global {
   const useDebounce: typeof import('@vueuse/core').useDebounce
   const useDebounceFn: typeof import('@vueuse/core').useDebounceFn
   const useDebouncedRefHistory: typeof import('@vueuse/core').useDebouncedRefHistory
-  const useDeleteAnnotationShape: typeof import('./src/composables/useAnnotationTypes').useDeleteAnnotationShape
-  const useDeleteAnnotationType: typeof import('./src/composables/useAnnotationTypes').useDeleteAnnotationType
+  const useDeleteAnnotationShape: typeof import('./src/composables/useAnnotationShapes').useDeleteAnnotationShape
   const useDeleteEventInstance: typeof import('./src/composables/useEventInstances').useDeleteEventInstance
   const useDeleteEventShape: typeof import('./src/composables/useEventShapes').useDeleteEventShape
   const useDeviceMotion: typeof import('@vueuse/core').useDeviceMotion
@@ -473,8 +472,7 @@ declare global {
   const useToString: typeof import('@vueuse/core').useToString
   const useToggle: typeof import('@vueuse/core').useToggle
   const useTransition: typeof import('@vueuse/core').useTransition
-  const useUpdateAnnotationShape: typeof import('./src/composables/useAnnotationTypes').useUpdateAnnotationShape
-  const useUpdateAnnotationType: typeof import('./src/composables/useAnnotationTypes').useUpdateAnnotationType
+  const useUpdateAnnotationShape: typeof import('./src/composables/useAnnotationShapes').useUpdateAnnotationShape
   const useUpdateEventInstance: typeof import('./src/composables/useEventInstances').useUpdateEventInstance
   const useUpdateEventShape: typeof import('./src/composables/useEventShapes').useUpdateEventShape
   const useUrlSearchParams: typeof import('@vueuse/core').useUrlSearchParams
@@ -520,23 +518,11 @@ declare global {
   export type { CookieOptions, CookieRef } from './src/@core/composable/useCookie'
   import('./src/@core/composable/useCookie')
   // @ts-ignore
-  export type { UseAnnotationShapesReturn } from './src/composables/useAnnotationTypes'
-  import('./src/composables/useAnnotationTypes')
-  // @ts-ignore
-  export type { AnnotationRequest } from './src/composables/useAnnotations'
-  import('./src/composables/useAnnotations')
-  // @ts-ignore
   export type { UseComponentDistributionOptions, UseComponentDistributionReturn } from './src/composables/useComponentDistribution'
   import('./src/composables/useComponentDistribution')
   // @ts-ignore
   export type { UseEntityFormOptions, UseEntityFormReturn } from './src/composables/useEntityForm'
   import('./src/composables/useEntityForm')
-  // @ts-ignore
-  export type { UseEventInstancesReturn } from './src/composables/useEventInstances'
-  import('./src/composables/useEventInstances')
-  // @ts-ignore
-  export type { UseEventShapesReturn } from './src/composables/useEventShapes'
-  import('./src/composables/useEventShapes')
   // @ts-ignore
   export type { FieldDisplayConfig, FieldValidationRules, FieldContextType } from './src/composables/fieldContext/types'
   import('./src/composables/fieldContext/types')
@@ -653,11 +639,6 @@ declare module 'vue' {
     readonly getAdminMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminMetadataEndpoint']>
     readonly getAdminPrimitiveMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminPrimitiveMetadataEndpoint']>
     readonly getAdminRelationshipMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminRelationshipMetadataEndpoint']>
-    readonly getAnnotationAssignmentsEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationAssignmentsEndpoint']>
-    readonly getAnnotationByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationByIdEndpoint']>
-    readonly getAnnotationEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationEndpoint']>
-    readonly getAnnotationShapeByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationShapeByIdEndpoint']>
-    readonly getAnnotationShapeEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAnnotationShapeEndpoint']>
     readonly getAnnotationsForUserTypeBlock: UnwrapRef<typeof import('./src/utils/annotationUtils')['getAnnotationsForUserTypeBlock']>
     readonly getApiErrorMessage: UnwrapRef<typeof import('./src/composables/useApiErrorMessage')['getApiErrorMessage']>
     readonly getAppointmentByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentByIdEndpoint']>
@@ -679,15 +660,9 @@ declare module 'vue' {
     readonly getEntityByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityByIdEndpoint']>
     readonly getEntityDisplayName: UnwrapRef<typeof import('./src/utils/entityDefaults')['getEntityDisplayName']>
     readonly getEntityEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityEndpoint']>
-    readonly getEventAssignmentsEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEventAssignmentsEndpoint']>
-    readonly getEventByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEventByIdEndpoint']>
-    readonly getEventEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEventEndpoint']>
-    readonly getEventShapeByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEventShapeByIdEndpoint']>
-    readonly getEventShapeEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEventShapeEndpoint']>
+    readonly getEntityOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityOrderIndexEndpoint']>
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getOrderIndexEndpoint']>
-    readonly getPartShapeEventEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPartShapeEventEndpoint']>
-    readonly getPartShapeEventsEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPartShapeEventsEndpoint']>
     readonly getPropertyByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyByIdEndpoint']>
     readonly getPropertyEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyEndpoint']>
     readonly getPropertyTypeByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyTypeByIdEndpoint']>
@@ -819,8 +794,6 @@ declare module 'vue' {
     readonly useAdmin: UnwrapRef<typeof import('./src/composables/useAdmin')['useAdmin']>
     readonly useAdminConfig: UnwrapRef<typeof import('./src/composables/useAdminConfig')['useAdminConfig']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
-    readonly useAnnotationShapes: UnwrapRef<typeof import('./src/composables/useAnnotationTypes')['useAnnotationShapes']>
-    readonly useAnnotations: UnwrapRef<typeof import('./src/composables/useAnnotations')['useAnnotations']>
     readonly useAppointment: UnwrapRef<typeof import('./src/composables/useAppointment')['useAppointment']>
     readonly useAppointments: UnwrapRef<typeof import('./src/composables/useBusiness')['useAppointments']>
     readonly useArrayDifference: UnwrapRef<typeof import('@vueuse/core')['useArrayDifference']>
@@ -859,9 +832,6 @@ declare module 'vue' {
     readonly useCookie: UnwrapRef<typeof import('./src/@core/composable/useCookie')['useCookie']>
     readonly useCountdown: UnwrapRef<typeof import('@vueuse/core')['useCountdown']>
     readonly useCounter: UnwrapRef<typeof import('@vueuse/core')['useCounter']>
-    readonly useCreateAnnotationShape: UnwrapRef<typeof import('./src/composables/useAnnotationTypes')['useCreateAnnotationShape']>
-    readonly useCreateEventInstance: UnwrapRef<typeof import('./src/composables/useEventInstances')['useCreateEventInstance']>
-    readonly useCreateEventShape: UnwrapRef<typeof import('./src/composables/useEventShapes')['useCreateEventShape']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVar: UnwrapRef<typeof import('@vueuse/core')['useCssVar']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
@@ -872,9 +842,6 @@ declare module 'vue' {
     readonly useDebounce: UnwrapRef<typeof import('@vueuse/core')['useDebounce']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
     readonly useDebouncedRefHistory: UnwrapRef<typeof import('@vueuse/core')['useDebouncedRefHistory']>
-    readonly useDeleteAnnotationShape: UnwrapRef<typeof import('./src/composables/useAnnotationTypes')['useDeleteAnnotationShape']>
-    readonly useDeleteEventInstance: UnwrapRef<typeof import('./src/composables/useEventInstances')['useDeleteEventInstance']>
-    readonly useDeleteEventShape: UnwrapRef<typeof import('./src/composables/useEventShapes')['useDeleteEventShape']>
     readonly useDeviceMotion: UnwrapRef<typeof import('@vueuse/core')['useDeviceMotion']>
     readonly useDeviceOrientation: UnwrapRef<typeof import('@vueuse/core')['useDeviceOrientation']>
     readonly useDevicePixelRatio: UnwrapRef<typeof import('@vueuse/core')['useDevicePixelRatio']>
@@ -891,9 +858,7 @@ declare module 'vue' {
     readonly useEntityCrud: UnwrapRef<typeof import('./src/composables/entityCrud/useEntityCrud')['useEntityCrud']>
     readonly useEntityForm: UnwrapRef<typeof import('./src/composables/useEntityForm')['useEntityForm']>
     readonly useEventBus: UnwrapRef<typeof import('@vueuse/core')['useEventBus']>
-    readonly useEventInstances: UnwrapRef<typeof import('./src/composables/useEventInstances')['useEventInstances']>
     readonly useEventListener: UnwrapRef<typeof import('@vueuse/core')['useEventListener']>
-    readonly useEventShapes: UnwrapRef<typeof import('./src/composables/useEventShapes')['useEventShapes']>
     readonly useEventSource: UnwrapRef<typeof import('@vueuse/core')['useEventSource']>
     readonly useEyeDropper: UnwrapRef<typeof import('@vueuse/core')['useEyeDropper']>
     readonly useFavicon: UnwrapRef<typeof import('@vueuse/core')['useFavicon']>
@@ -1011,9 +976,6 @@ declare module 'vue' {
     readonly useToString: UnwrapRef<typeof import('@vueuse/core')['useToString']>
     readonly useToggle: UnwrapRef<typeof import('@vueuse/core')['useToggle']>
     readonly useTransition: UnwrapRef<typeof import('@vueuse/core')['useTransition']>
-    readonly useUpdateAnnotationShape: UnwrapRef<typeof import('./src/composables/useAnnotationTypes')['useUpdateAnnotationShape']>
-    readonly useUpdateEventInstance: UnwrapRef<typeof import('./src/composables/useEventInstances')['useUpdateEventInstance']>
-    readonly useUpdateEventShape: UnwrapRef<typeof import('./src/composables/useEventShapes')['useUpdateEventShape']>
     readonly useUrlSearchParams: UnwrapRef<typeof import('@vueuse/core')['useUrlSearchParams']>
     readonly useUser: UnwrapRef<typeof import('./src/composables/useUser')['useUser']>
     readonly useUserMedia: UnwrapRef<typeof import('@vueuse/core')['useUserMedia']>

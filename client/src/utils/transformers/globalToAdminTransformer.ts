@@ -22,8 +22,12 @@ export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
   // Relationship arrays attached during transformation
   validCascades?: GlobalEntityId[]
   validParts?: GlobalEntityId[]
+  validEvents?: GlobalEntityId[]
   bookingCascades?: GlobalEntityId[]
   partAssignments?: GlobalEntityId[]
+  annotationAssignments?: GlobalEntityId[]
+  eventAssignments?: GlobalEntityId[]
+  instanceComponents?: GlobalEntityId[]
 }
 
 /**
@@ -54,7 +58,11 @@ export class AdminTransformer {
       blockShape: [],
       blockInstance: [],
       partShape: [],
-      partInstance: []
+      partInstance: [],
+      eventShape: [],
+      eventInstance: [],
+      annotationShape: [],
+      annotationInstance: []
     }
 
     // Extract entity map and relationships from GlobalData
@@ -134,7 +142,7 @@ export class AdminTransformer {
     // WHY: Relationships (validCascades, validParts, etc.) are attached as properties but may not be in formFieldConfig
     // PATTERN: Use reduce to build relationship object without mutations
     //          Use type-safe property access - check if property exists before accessing
-    const relationshipKeys = ['validCascades', 'validParts', 'bookingCascades', 'partAssignments', 'instanceComponents'] as const
+    const relationshipKeys = ['validCascades', 'validParts', 'validEvents', 'bookingCascades', 'partAssignments', 'annotationAssignments', 'eventAssignments', 'instanceComponents'] as const
     const relationshipData = relationshipKeys.reduce((acc, relKey) => {
       // LEARNING: Type-safe property access - check if property exists before accessing
       // WHY: entityWithKey is typed as GlobalEntity<GE> but has AdminObject<GE> properties after attachRelationshipData
@@ -184,9 +192,12 @@ export class AdminTransformer {
     // Map relationship types to entity properties
     const relationshipMappings = {
       validCascades: 'validCascades',
-      validParts: 'validParts', 
+      validParts: 'validParts',
+      validEvents: 'validEvents',
       bookingCascades: 'bookingCascades',
       partAssignments: 'partAssignments',
+      annotationAssignments: 'annotationAssignments',
+      eventAssignments: 'eventAssignments',
       instanceComponents: 'instanceComponents'
     }
 

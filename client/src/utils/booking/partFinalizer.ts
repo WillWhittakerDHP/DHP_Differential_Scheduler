@@ -74,10 +74,10 @@ export function filterZeroedParts(
  * WHY: More efficient - O(n) instead of O(5n), reduces array iterations
  * PATTERN: Accumulate all totals in one pass
  * 
- * Session Event Refactor: Computes eventDurations dynamically from EventInstance[]
- * WHY: Enables extensible event system - new event types can be added without code changes
- * PATTERN: Build eventDurations Record from EventInstance[] stored on AppointmentShape
- * NOTE: Events are looked up from activeEventsByPartShape keyed by partShape name
+ * Session Event Refactor: Computes eventFinals array dynamically from EventInstance[]
+ * WHY: Enables fully generic event system - no hardcoded event names, matches PartFinal[] pattern
+ * PATTERN: Build EventFinal[] array from EventInstance[] stored on AppointmentShape
+ * NOTE: Events are looked up from eventAssignmentsByPartShape keyed by partShape name
  * 
  * LEARNING: Events are appointment-level features, not part properties
  * WHY: Events are configured at shape level (PartShape → EventInstance), stored on AppointmentShape
@@ -86,23 +86,29 @@ export function filterZeroedParts(
  * @param partFinals - Array of PartFinal instances
  * @param eventAssignmentsByPartShape - Record mapping partShape name → EventInstance[]
  * @param eventShapes - Array of EventShape objects for metadata lookup
- * @returns SlotShape with eventDurations Record and duration totals
+ * @returns SlotShape with eventFinals array and duration totals
  */
 export function calculateSlotShape(
   partFinals: PartFinal[],
   eventAssignmentsByPartShape: Record<string, EventInstance[]> = {},
   eventShapes: EventShape[] = []
 ): import('@/types/appointment').SlotShape {
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:91',message:'calculateSlotShape entry',data:{partFinalsCount:partFinals.length,eventShapesCount:eventShapes.length,eventAssignmentsKeys:Object.keys(eventAssignmentsByPartShape),eventAssignmentsCounts:Object.fromEntries(Object.entries(eventAssignmentsByPartShape).map(([k,v])=>[k,v.length]))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
   let totalDuration = 0
   let clientStartOffset = 0
   
-  // Initialize eventDurations Record
-  // LEARNING: Use Record to store durations for each event shape name
-  // WHY: Enables dynamic event types without hardcoded properties
-  const eventDurations: Record<string, number> = {}
+  // LEARNING: Use Map to accumulate durations by event shape ID
+  // WHY: Groups durations by event shape, then converts to EventFinal[] array
+  // PATTERN: Map<eventShapeId, duration> for accumulation, then convert to array
+  const eventDurationsByShapeId = new Map<string, number>()
   
   // Create lookup map for EventShape by ID
   const eventShapeById = new Map(eventShapes.map(es => [es.id, es]))
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:105',message:'eventShapeById created',data:{eventShapeByIdSize:eventShapeById.size,eventShapeIds:Array.from(eventShapeById.keys())},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
   
   for (const part of partFinals) {
     const baseTime = part.baseTime
@@ -111,33 +117,56 @@ export function calculateSlotShape(
     
     // Get EventInstance[] for this partShape
     const events = eventAssignmentsByPartShape[part.partShape] || []
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:113',message:'processing part',data:{partShape:part.partShape,baseTime:part.baseTime,eventsCount:events.length,eventInstanceIds:events.map(ei=>ei.id)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
     
     // Process each event for this partShape
     for (const eventInstance of events) {
       // Look up EventShape to get event shape name and metadata
       const eventShape = eventShapeById.get(eventInstance.eventShapeRef)
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:118',message:'looking up event shape',data:{eventInstanceId:eventInstance.id,eventShapeRef:eventInstance.eventShapeRef,eventShapeFound:!!eventShape,eventShapeName:eventShape?.name},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+      // #endregion
       if (!eventShape) continue
       
-      const eventShapeName = eventShape.name
+      const eventShapeId = eventShape.id
       
-      // Handle ternary events (OnSite, ClientPresent)
-      if (eventShapeName === 'OnSite' || eventShapeName === 'ClientPresent') {
-        // Read defaultTernaryValue from EventShape and use toBoolean with 'strict' mode
+      // LEARNING: Use isTernary property to determine event behavior dynamically
+      // WHY: Enables fully generic event system - no hardcoded event names
+      // PATTERN: Check isTernary flag, use ternaryDefault if available, otherwise fail gracefully
+      if (eventShape.isTernary) {
+        // Ternary event - use ternaryDefault if available, otherwise fail gracefully
+        const ternaryValue = eventShape.ternaryDefault
+        if (ternaryValue === null) {
+          console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id}) - ternaryDefault is null`)
+          continue // Skip this event - graceful failure
+        }
+        
         // LEARNING: Only 'true' contributes to event calculations, 'override' does not
         // WHY: 'override' parts contribute to totalDuration but NOT to specific events
-        const ternaryValue = eventShape.defaultTernaryValue ?? 'true'
-        const isActive = toBoolean(ternaryValue as import('@/types/ternary').TernaryBoolean, 'strict')
+        const isActive = toBoolean(ternaryValue, 'strict')
         
         if (isActive) {
-          eventDurations[eventShapeName] = (eventDurations[eventShapeName] || 0) + baseTime
+          // Accumulate duration by event shape ID
+          const currentDuration = eventDurationsByShapeId.get(eventShapeId) || 0
+          const newDuration = currentDuration + baseTime
+          eventDurationsByShapeId.set(eventShapeId, newDuration)
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:141',message:'accumulated ternary event duration',data:{eventShapeId,eventShapeName:eventShape.name,baseTime,currentDuration,newDuration},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+          // #endregion
           
           // LEARNING: clientStartOffset only applies when OnSite is true AND ClientPresent is false
-          if (eventShapeName === 'OnSite') {
+          // WHY: Need to check if OnSite event exists and is active, and ClientPresent is not active
+          // PATTERN: Look for OnSite event shape by checking isTernary and name, then check ClientPresent
+          if (eventShape.name === 'OnSite') {
             // Check if ClientPresent is false for this partShape
             const hasClientPresent = events.some(ei => {
               const es = eventShapeById.get(ei.eventShapeRef)
-              return es?.name === 'ClientPresent' && 
-                     toBoolean((es.defaultTernaryValue ?? 'true') as import('@/types/ternary').TernaryBoolean, 'strict')
+              if (!es || !es.isTernary || es.name !== 'ClientPresent') return false
+              const clientPresentValue = es.ternaryDefault
+              if (clientPresentValue === null) return false
+              return toBoolean(clientPresentValue, 'strict')
             })
             
             if (!hasClientPresent) {
@@ -145,19 +174,40 @@ export function calculateSlotShape(
             }
           }
         }
-      }
-      
-      // Handle boolean events (Moveable)
-      if (eventShapeName === 'Moveable') {
-        // For boolean events, if event exists, it's active
-        eventDurations[eventShapeName] = (eventDurations[eventShapeName] || 0) + baseTime
+      } else {
+        // Boolean event - existence means active
+        const currentDuration = eventDurationsByShapeId.get(eventShapeId) || 0
+        const newDuration = currentDuration + baseTime
+        eventDurationsByShapeId.set(eventShapeId, newDuration)
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:164',message:'accumulated boolean event duration',data:{eventShapeId,eventShapeName:eventShape.name,baseTime,currentDuration,newDuration},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+        // #endregion
       }
     }
   }
   
+  // LEARNING: Convert Map to EventFinal[] array
+  // WHY: Provides array of event shapes with durations, matching PartFinal[] pattern
+  // PATTERN: Map over eventShapeById entries, create EventFinal for each with accumulated duration
+  const eventFinalsBeforeFilter = Array.from(eventShapeById.entries())
+    .map(([eventShapeId, eventShape]) => {
+      const duration = eventDurationsByShapeId.get(eventShapeId) || 0
+      return {
+        eventShape,
+        duration
+      }
+    })
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:172',message:'eventFinals before filter',data:{eventFinalsBeforeFilter:eventFinalsBeforeFilter.map(ef=>({eventShapeId:ef.eventShape.id,eventShapeName:ef.eventShape.name,duration:ef.duration})),eventDurationsByShapeIdEntries:Array.from(eventDurationsByShapeId.entries())},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+  // #endregion
+  const eventFinals: import('@/types/appointment').EventFinal[] = eventFinalsBeforeFilter.filter(ef => ef.duration > 0) // Only include events with duration > 0
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:180',message:'calculateSlotShape exit',data:{totalDuration,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventShapeName:ef.eventShape.name,duration:ef.duration})),clientStartOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+  // #endregion
+  
   return { 
     totalDuration, 
-    eventDurations,
+    eventFinals,
     clientStartOffset
   }
 }

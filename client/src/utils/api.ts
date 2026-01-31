@@ -8,8 +8,7 @@
  */
 
 import axios, { type AxiosInstance, type AxiosError } from 'axios'
-import type { GlobalAnnotationKey } from '@/constants/annotations'
-import type { GlobalEventKey } from '@/constants/events'
+import type { GlobalEntityKey } from '@/constants/entities'
 
 /**
  * Base API URL
@@ -121,6 +120,15 @@ export function getOrderIndexEndpoint(entityKey: string): string {
 }
 
 /**
+ * Entity Order Index API endpoint (alias)
+ * LEARNING: Alias for getOrderIndexEndpoint for consistency with other entity endpoint naming
+ * WHY: Some composables use getEntityOrderIndexEndpoint naming convention
+ * PATTERN: Alias export maintains backward compatibility
+ */
+export const getEntityOrderIndexEndpoint = getOrderIndexEndpoint
+
+
+/**
  * Bulk PATCH API endpoint
  * LEARNING: Endpoint for bulk partial updates to multiple entities
  * WHY: Allows efficient bulk updates (1 request vs N requests)
@@ -130,103 +138,9 @@ export function getBulkPatchEndpoint(entityKey: string): string {
   return `/entities/${entityKey}/bulk`
 }
 
-/**
- * Annotation API endpoints
- * LEARNING: Generic endpoint builder for annotation keys, following getEntityEndpoint pattern
- * WHY: Type-safe annotation endpoint construction matching entity pattern
- * PATTERN: Helper function that maps annotation keys to endpoints
- */
-export function getAnnotationEndpoint(annotationKey: GlobalAnnotationKey): string {
-  switch (annotationKey) {
-    case 'annotationShape':
-      return `/annotations/annotationShape`
-    case 'annotationInstance':
-      return `/annotations/annotationInstance`
-    default:
-      throw new Error(`Unknown annotation key: ${annotationKey}`)
-  }
-}
-
-export function getAnnotationByIdEndpoint(id: string): string {
-  return `/annotations/annotationInstance/${id}`
-}
-
-export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
-  return `/annotations/annotationInstance/block-instance/${blockInstanceId}`
-}
-
-export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
-  return `/annotations/annotationInstance/block-instance/${blockInstanceId}/${annotationId}`
-}
-
-export function getAnnotationAssignmentsEndpoint(): string {
-  return `/annotations/annotationInstance/annotation-assignments`
-}
-
-/**
- * AnnotationShape API endpoints
- * LEARNING: Endpoints for AnnotationShape CRUD operations
- * WHY: AnnotationShapes are NOT in ENTITY_KEYS, so they need their own endpoints
- * PATTERN: Helper functions for annotation shape endpoints
- * NOTE: Renamed from getAnnotationTypeEndpoint (2026-01-30)
- *       Restructured to nested endpoint (2026-01-30)
- */
-export function getAnnotationShapeEndpoint(): string {
-  return `/annotations/annotationShape`
-}
-
-export function getAnnotationShapeByIdEndpoint(id: string): string {
-  return `/annotations/annotationShape/${id}`
-}
-
-
-/**
- * Event API endpoints
- * LEARNING: Generic endpoint builder for event keys, following getEntityEndpoint pattern
- * WHY: Type-safe event endpoint construction matching entity pattern
- * PATTERN: Helper function that maps event keys to endpoints
- */
-export function getEventEndpoint(eventKey: GlobalEventKey): string {
-  switch (eventKey) {
-    case 'eventShape':
-      return `/events/eventShape`
-    case 'eventInstance':
-      return `/events/eventInstance`
-    default:
-      throw new Error(`Unknown event key: ${eventKey}`)
-  }
-}
-
-export function getEventByIdEndpoint(id: string): string {
-  return `/events/eventInstance/${id}`
-}
-
-export function getPartShapeEventsEndpoint(partShapeId: string): string {
-  return `/events/eventInstance/part-shape/${partShapeId}`
-}
-
-export function getPartShapeEventEndpoint(partShapeId: string, eventId: string): string {
-  return `/events/eventInstance/part-shape/${partShapeId}/${eventId}`
-}
-
-export function getEventAssignmentsEndpoint(): string {
-  return `/events/eventInstance/event-assignments`
-}
-
-/**
- * EventShape API endpoints
- * LEARNING: Endpoints for EventShape CRUD operations
- * WHY: EventShapes are NOT in ENTITY_KEYS, so they need their own endpoints
- * PATTERN: Helper functions for event shape endpoints
- * NOTE: Restructured to nested endpoint (2026-01-30)
- */
-export function getEventShapeEndpoint(): string {
-  return `/events/eventShape`
-}
-
-export function getEventShapeByIdEndpoint(id: string): string {
-  return `/events/eventShape/${id}`
-}
+// NOTE: Event and annotation endpoints removed - use generic entity endpoints instead
+// Use getEntityEndpoint('eventShape'), getEntityEndpoint('eventInstance'), etc.
+// Relationship endpoints (eventAssignments, annotationAssignments) remain in relationshipRouter
 
 /**
  * Admin Metadata API endpoints (unified)
@@ -247,6 +161,7 @@ export function getAdminMetadataEndpoint(entityType: string, entityId: string): 
 export function getAdminMetadataBatchEndpoint(): string {
   return '/admin-metadata/batch'
 }
+
 
 /**
  * Admin Primitive Metadata API endpoints (deprecated - use getAdminMetadataEndpoint)
@@ -340,3 +255,24 @@ export function getUserByIdEndpoint(id: string): string {
   return `/users/${id}`
 }
 
+/**
+ * Block Instance Annotation Assignment endpoints
+ * LEARNING: Endpoints for annotation assignment relationships (blockInstance → annotationInstance)
+ * WHY: Annotation assignments are relationships, not entities
+ * PATTERN: Use relationship endpoints for assignment operations
+ * NOTE: GET endpoint uses query parameter for filtering (backend needs to support blockInstanceId filter)
+ * DELETE/PATCH endpoints use parent/child ID pattern
+ */
+export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
+  // LEARNING: Use query parameter for filtering - backend needs to support blockInstanceId filter
+  // WHY: Relationship router currently only supports parent_id filter for instanceComponents
+  // TODO: Add backend support for filtering annotationAssignments by blockInstanceId
+  return `/relationships/annotationAssignments?blockInstanceId=${blockInstanceId}`
+}
+
+export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
+  // LEARNING: DELETE endpoint uses parent/child ID pattern from relationship router
+  // WHY: Matches DELETE /relationships/:relationshipType/:parentId/:childId pattern
+  // PATTERN: blockInstanceId is parent, annotationId is child
+  return `/relationships/annotationAssignments/${blockInstanceId}/${annotationId}`
+}

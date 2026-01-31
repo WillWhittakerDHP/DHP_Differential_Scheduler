@@ -7,35 +7,27 @@
  */
 
 import type { UserTypeBlock } from './userTypes'
-import type { GlobalAnnotationKey } from '@/constants/annotations'
+import type { AnnotationShapeEntity, AnnotationInstanceEntity } from './entities'
 
 /**
- * AnnotationShape type (from API)
+ * AnnotationShape: Shape-level annotation type definitions (core entity)
  * LEARNING: Represents an annotation shape entity (e.g., 'frontPage', 'description', 'tooltip')
- * WHY: Types are fully dynamic and managed via CRUD
- * PATTERN: Simple entity with id and name
- * 
- * ARCHITECTURAL CHANGE: Metadata stored as columns in annotation_shapes table
- * WHY: Shape columns are always metadata - relationships just indicate which shapes are active
- * PATTERN: Metadata (orderIndex, isDefault) lives in shape table, not in relationship tables
+ * WHY: Now a core entity with full entity capabilities
+ * PATTERN: Extends BaseGlobalEntity via AnnotationShapeEntity
  */
-export type AnnotationShape = {
-  id: string
-  name: string // e.g., 'frontPage', 'description', 'tooltip'
-  defaultOrderIndex?: number  // Default order index for this annotation shape
-  defaultIsDefault?: boolean  // Default isDefault flag for this annotation shape
-}
+export type AnnotationShape = AnnotationShapeEntity
 
 /**
- * Base annotation type
+ * AnnotationInstance: Instance-level annotation entities (core entity)
  * LEARNING: Core annotation properties
- * WHY: Shared structure for all annotation types
- * PATTERN: Simple object with id, text, type, and user type
+ * WHY: Now a core entity with full entity capabilities
+ * PATTERN: Extends BaseGlobalEntity via AnnotationInstanceEntity
+ * NOTE: The "name" field from BaseGlobalEntity contains the text content
+ * The transformer maps API "text" field to entity "name" field
+ * For backward compatibility, "text" is included and equals "name"
  */
-export type AnnotationInstance = {
-  id: string
-  text: string
-  type: string // Foreign key to AnnotationShape.id (UUID)
+export type AnnotationInstance = AnnotationInstanceEntity & {
+  text: string // Backward compatibility: same as "name" field
   userTypeBlock: UserTypeBlock // BlockInstance ID (GlobalEntityId) or null for generic annotations
   annotationShape?: AnnotationShape // Optional association from API (includes type name)
 }
@@ -64,9 +56,9 @@ export type AnnotationWithMetadata = AnnotationInstance & AnnotationMetadata
  * Annotation map type
  * LEARNING: Map of annotation keys to annotation arrays
  * WHY: Type-safe annotation collections by type
- * PATTERN: Record type with GlobalAnnotationKey
+ * PATTERN: Record type with GlobalEntityKey (annotationShape and annotationInstance)
  */
-export type AnnotationMap = Record<GlobalAnnotationKey, AnnotationWithMetadata[]>
+export type AnnotationMap = Record<'annotationShape' | 'annotationInstance', AnnotationWithMetadata[]>
 
 /**
  * BlockInstance response interface

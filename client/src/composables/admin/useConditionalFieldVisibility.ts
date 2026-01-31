@@ -20,6 +20,7 @@ export interface FieldsByLocation {
     parts: GlobalFieldKey<GlobalEntityKey>[]
     relationships: GlobalFieldKey<GlobalEntityKey>[]
     annotations: GlobalFieldKey<GlobalEntityKey>[]
+    events: GlobalFieldKey<GlobalEntityKey>[]
   }
   hidden: GlobalFieldKey<GlobalEntityKey>[]
 }
@@ -81,7 +82,8 @@ export function useConditionalFieldVisibility(
       directStacked: filteredDirectStacked,
       subPanels: {
         ...base.subPanels,
-        relationships: filteredRelationships
+        relationships: filteredRelationships,
+        events: base.subPanels.events || []
       }
     }
   })

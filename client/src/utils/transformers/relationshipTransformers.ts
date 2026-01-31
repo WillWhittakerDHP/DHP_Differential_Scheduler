@@ -13,15 +13,13 @@
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { FetchedRelationship } from '@/types/relationships'
-import type { AnnotationInstance, AnnotationShape } from '@/types/annotations'
-import type { EventInstance, EventShape } from '@/types/events'
 import { RELATIONSHIP_KEYS, GlobalRelationshipKey } from '@/constants/relationships'
 import { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalAnnotationKey } from '@/constants/annotations'
-import type { GlobalEventKey } from '@/constants/events'
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { composePropertiesFromComponents } from './composePropertyValue'
+import type { AnnotationShape, AnnotationInstance } from '@/types/annotations'
+import type { EventShape, EventInstance } from '@/types/events'
 
 /**
  * Transform FetchedRelationship[] to GlobalRelationship[] format
@@ -37,9 +35,7 @@ import { composePropertiesFromComponents } from './composePropertyValue'
 export function transformApiRelationships(
   fetchedRelationships: FetchedRelationship[],
   relationshipKey: GlobalRelationshipKey,
-  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>,
-  annotations?: Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>,
-  events?: Record<GlobalEventKey, EventShape[] | EventInstance[]>
+  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 ): GlobalRelationship[] {
   const config = RELATIONSHIP_KEYS[relationshipKey]
   if (!config) return []
@@ -76,21 +72,10 @@ export function transformApiRelationships(
       }
       
       // Find child entities
-      // LEARNING: Resolve child entities from correct source based on childEntity type
-      // WHY: annotationInstance and eventInstance are in annotations/events Records, not entities Record
-      // PATTERN: Check childEntity type and resolve from appropriate source
-      // NOTE: childEntity is typed as GlobalEntityKey but RELATIONSHIP_KEYS uses 'annotationInstance'/'eventInstance' via type assertion
-      //       We check the string value to determine the correct source
-      const childEntityKeyStr = String(config.childEntity)
-      let childEntityArray: GlobalEntity<GlobalEntityKey>[]
-      
-      if (childEntityKeyStr === 'annotationInstance') {
-        childEntityArray = (annotations?.annotationInstance || []) as GlobalEntity<GlobalEntityKey>[]
-      } else if (childEntityKeyStr === 'eventInstance') {
-        childEntityArray = (events?.eventInstance || []) as GlobalEntity<GlobalEntityKey>[]
-      } else {
-        childEntityArray = entities[config.childEntity] || []
-      }
+      // LEARNING: Events and annotations are now core entities stored in entities Record
+      // WHY: All entities (including events/annotations) are now in the unified entities structure
+      // PATTERN: Resolve child entities from entities Record (includes all entity types)
+      const childEntityArray = entities[config.childEntity] || []
       
       const { resolved: childEntities } = resolveByIds(childEntityArray, childIds)
       

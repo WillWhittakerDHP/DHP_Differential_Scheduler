@@ -58,9 +58,10 @@ export interface UseSelectConfigReturn {
   optionsSelectOptions: ComputedRef<SelectOption[]>
   
   /**
-   * Whether this is a DescriptionSelect field (annotations)
+   * Whether this is an AnnotationAssignmentSelect field
+   * LEARNING: Annotations are now core entities, use standard relationship select pattern
    */
-  isDescriptionSelect: ComputedRef<boolean>
+  isAnnotationAssignmentSelect: ComputedRef<boolean>
   
   /**
    * Whether select allows multiple selections
@@ -85,11 +86,12 @@ export interface UseSelectConfigReturn {
 
 /**
  * LEARNING: Options select config for metadata-driven enum-like selects
- * WHY: Some fields (e.g., bookingMode) use input_config.options instead of relationship/type configs
+ * WHY: Some fields (e.g., bookingMode, ternaryDefault) use input_config.options instead of relationship/type configs
  * PATTERN: Read options array from metadata.inputConfig when present
+ * NOTE: value can be null for fields like ternaryDefault where null means "fail gracefully"
  */
 interface OptionsSelectConfig {
-  options: Array<{ value: string; label: string }>
+  options: Array<{ value: string | null; label: string }>
   selectMode?: RelationshipSelectModeEnum
 }
 
@@ -181,18 +183,18 @@ export function useSelectConfig(
     const normalizedOptions = rawOptions
       .filter((option): option is Record<string, unknown> => typeof option === 'object' && option !== null)
       .map((option) => ({
-        value: String(option.value ?? ''),
+        value: option.value === null ? null : String(option.value ?? ''),
         label: String(option.label ?? '')
       }))
     
     const hasInvalidOption = normalizedOptions.some(
-      (option) => option.value.length === 0 || option.label.length === 0
+      (option) => (option.value !== null && option.value.length === 0) || option.label.length === 0
     )
     
     if (hasInvalidOption) {
       throw new Error(
         `[useSelectConfig] Invalid options format for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-        `Each option must include non-empty "value" and "label" properties.`
+        `Each option must include non-empty "label" property and "value" must be non-empty string or null.`
       )
     }
     
@@ -214,7 +216,10 @@ export function useSelectConfig(
     
     return config.options.map((option) => ({
       title: option.label,
-      value: option.value
+      // LEARNING: Convert null to '__NULL__' sentinel for ternaryDefault field
+      // WHY: ternaryDefault can be null, but SelectOption requires string
+      // PATTERN: Use '__NULL__' as sentinel, convert back to null when saving
+      value: option.value === null ? '__NULL__' : option.value
     }))
   })
 
@@ -284,22 +289,18 @@ export function useSelectConfig(
   })
 
   /**
-   * LEARNING: Check if this is a DescriptionSelect field
-   * WHY: Annotations are part of the annotation system, not core entities
-   * PATTERN: Check selectType from config
+   * LEARNING: Check if this is an AnnotationAssignmentSelect field
+   * WHY: Annotations are now core entities, use standard relationship select pattern
+   * PATTERN: Check selectType from metadata inputConfig
    */
-  const isDescriptionSelect = computed(() => {
-    const config = selectConfig.value
-    // LEARNING: Handle undefined selectConfig gracefully
-    // WHY: selectConfig can be undefined when field metadata is missing
-    // PATTERN: Return false when config is undefined
-    if (!config) {
+  const isAnnotationAssignmentSelect = computed(() => {
+    const meta = fieldMetadataEntry.value
+    if (!meta || !meta.inputConfig || typeof meta.inputConfig !== 'object') {
       return false
     }
-    return Boolean(
-      'selectType' in config &&
-        config.selectType === RelationshipSelectTypeEnum.DescriptionSelect
-    )
+    
+    const inputConfig = meta.inputConfig as Record<string, unknown>
+    return inputConfig.selectType === RelationshipSelectTypeEnum.AnnotationAssignmentSelect
   })
 
   /**
@@ -410,7 +411,8 @@ export function useSelectConfig(
       )
     }
     
-    return config.candidateChildKey as GlobalEntityKey
+    const optionKey = config.candidateChildKey as GlobalEntityKey
+    return optionKey
   })
 
   /**
@@ -443,11 +445,11 @@ export function useSelectConfig(
       return 'name'
     }
     
-    // LEARNING: Special case for annotations - they use 'text' field
-    // WHY: Annotation entity has 'text' field, not 'name' field
-    // PATTERN: Hardcoded exception for this known case
-    if (isDescriptionSelect.value) {
-      return 'text'
+    // LEARNING: Special case for annotation instances - they use 'name' field (which contains text)
+    // WHY: AnnotationInstance entity has 'name' field that contains the text content
+    // PATTERN: Use 'name' field for annotation instances (transformer maps API 'text' to entity 'name')
+    if (isAnnotationAssignmentSelect.value) {
+      return 'name' // AnnotationInstance.name contains the text content
     }
     
     // LEARNING: Default to 'name' for all entity types (relationship and type selects)
@@ -462,7 +464,7 @@ export function useSelectConfig(
     isEnumSelect,
     isOptionsSelect,
     optionsSelectOptions,
-    isDescriptionSelect,
+    isAnnotationAssignmentSelect,
     isMultiple,
     chipsProps,
     optionEntityKey,

@@ -19,6 +19,10 @@ import {
   PART_SHAPE_GLOBAL_CONFIG_ID,
   BLOCK_INSTANCE_GLOBAL_CONFIG_ID,
   PART_INSTANCE_GLOBAL_CONFIG_ID,
+  EVENT_SHAPE_GLOBAL_CONFIG_ID,
+  EVENT_INSTANCE_GLOBAL_CONFIG_ID,
+  ANNOTATION_SHAPE_GLOBAL_CONFIG_ID,
+  ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID,
 } from '@/utils/entities/entityTypeMapping'
 
 /**
@@ -54,6 +58,14 @@ export function useMetadataEditorEntity<
       entityId = BLOCK_INSTANCE_GLOBAL_CONFIG_ID
     } else if (entityKey === 'partInstance') {
       entityId = PART_INSTANCE_GLOBAL_CONFIG_ID
+    } else if (entityKey === 'eventShape') {
+      entityId = EVENT_SHAPE_GLOBAL_CONFIG_ID
+    } else if (entityKey === 'eventInstance') {
+      entityId = EVENT_INSTANCE_GLOBAL_CONFIG_ID
+    } else if (entityKey === 'annotationShape') {
+      entityId = ANNOTATION_SHAPE_GLOBAL_CONFIG_ID
+    } else if (entityKey === 'annotationInstance') {
+      entityId = ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID
     }
 
     if (!entityId) {

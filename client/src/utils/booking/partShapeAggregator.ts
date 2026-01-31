@@ -1,15 +1,14 @@
 /**
  * Part Shape Aggregator
  * 
- * LEARNING: Groups parts by part shape and creates FinalizedPart instances
+ * LEARNING: Groups parts by part shape and creates PartFinal instances
  * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
  * PATTERN: Pure functions for aggregation and flag-based grouping
  */
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { FinalizedPart } from './FinalizedPart'
-import type { EventAssignmentRelationship } from '@/types/events'
-import { createFinalizedPart } from './FinalizedPart'
+import type { PartFinal } from './PartFinal'
+import { createPartFinal } from './PartFinal'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 
 /**
@@ -36,20 +35,20 @@ export function groupPartsByPartShape(
 
 /**
  * Create finalized parts from all parts
- * LEARNING: Groups parts by shape and creates FinalizedPart for each group
+ * LEARNING: Groups parts by shape and creates PartFinal for each group
  * WHY: Provides aggregated parts with totaled values and computed boolean flags
  * PATTERN: Group by shape, then create finalized part for each group
  * 
  * @param parts - Array of BookingPartInstance objects
- * @returns Array of FinalizedPart instances, one per unique part shape
+ * @returns Array of PartFinal instances, one per unique part shape
  */
-export function createFinalizedParts(
+export function createPartFinals(
   parts: BookingPartInstance[]
-): FinalizedPart[] {
+): PartFinal[] {
   const partsByShape = groupPartsByPartShape(parts)
   
   return Array.from(partsByShape.entries()).map(([partShape, shapeParts]) =>
-    createFinalizedPart(partShape, shapeParts)
+    createPartFinal(partShape, shapeParts)
   )
 }
 
@@ -59,12 +58,12 @@ export function createFinalizedParts(
  * WHY: Zeroed parts should not contribute to calculations
  * PATTERN: Filter based on zeroOutPart flag
  * 
- * @param finalizedParts - Array of FinalizedPart instances
+ * @param finalizedParts - Array of PartFinal instances
  * @returns Array of finalized parts excluding zeroed parts
  */
 export function filterZeroedParts(
-  finalizedParts: FinalizedPart[]
-): FinalizedPart[] {
+  finalizedParts: PartFinal[]
+): PartFinal[] {
   return finalizedParts.filter(part => !part.zeroOutPart)
 }
 
@@ -77,17 +76,17 @@ export function filterZeroedParts(
  * Session Event Refactor: Computes eventDurations dynamically from part properties
  * WHY: Enables extensible event system - new event types can be added without code changes
  * PATTERN: Build eventDurations Record from finalizedPart properties (onSite, clientPresent, moveable)
- * NOTE: Properties are computed from activeEvents relationships in booking transformer
+ * NOTE: Properties are computed from eventAssignments relationships in booking transformer
  * 
- * ARCHITECTURAL CHANGE: Removed activeEvents parameter - events are now computed in booking transformer
+ * ARCHITECTURAL CHANGE: Removed eventAssignments parameter - events are now computed in booking transformer
  * WHY: Uniform relationship handling - events flow through GlobalRelationship[], not special types
  * PATTERN: Use properties computed from relationships (onSite, clientPresent, moveable) instead of direct relationship access
  * 
- * @param finalizedParts - Array of FinalizedPart instances
+ * @param finalizedParts - Array of PartFinal instances
  * @returns SlotShape with eventDurations Record and duration totals
  */
 export function calculateSlotShape(
-  finalizedParts: FinalizedPart[]
+  finalizedParts: PartFinal[]
 ): import('@/types/appointment').SlotShape {
   let totalDuration = 0
   let clientStartOffset = 0
@@ -98,7 +97,7 @@ export function calculateSlotShape(
   const eventDurations: Record<string, number> = {}
   
   // Event mappings from part properties to event shape names
-  // LEARNING: Map part properties (computed from activeEvents relationships) to event shape names
+  // LEARNING: Map part properties (computed from eventAssignments relationships) to event shape names
   // WHY: Properties are computed from relationships in booking transformer, map to event names here
   // PATTERN: Use properties computed from GlobalRelationship[] with metadata lookups
   const eventMappings: Record<string, string> = {
@@ -119,7 +118,7 @@ export function calculateSlotShape(
     const isMoveable = part.moveable === true
     
     // Compute event durations from part properties
-    // LEARNING: Properties (onSite, clientPresent, moveable) are computed from activeEvents relationships in booking transformer
+    // LEARNING: Properties (onSite, clientPresent, moveable) are computed from eventAssignments relationships in booking transformer
     // WHY: Uniform relationship handling - events flow through GlobalRelationship[], properties computed during transformation
     // PATTERN: Use properties computed from relationships, map to event shape names
     if (isOnSite) {
@@ -155,9 +154,9 @@ export function calculateSlotShape(
  * WHY: Provides total duration for flag-based groups
  * PATTERN: Reduce to sum baseTime values
  * 
- * @param parts - Array of FinalizedPart instances
+ * @param parts - Array of PartFinal instances
  * @returns Total duration in minutes
  */
-export function sumFinalizedPartsDuration(parts: FinalizedPart[]): number {
+export function sumPartFinalsDuration(parts: PartFinal[]): number {
   return parts.reduce((sum, part) => sum + part.baseTime, 0)
 }

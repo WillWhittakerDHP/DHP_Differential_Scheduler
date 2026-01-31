@@ -205,7 +205,7 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
         candidateChildKey: "annotations" as GlobalAnnotationKey, // Not used for annotations (all annotations are candidates)
         candidateChildPath: [],
 
-        selectType: RelationshipSelectTypeEnum.DescriptionSelect,
+        selectType: RelationshipSelectTypeEnum.AnnotationAssignmentSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         placeholder: "Select annotations for this block instance...",
       },

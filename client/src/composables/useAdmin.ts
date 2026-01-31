@@ -78,7 +78,11 @@ function createAdminInstance() {
         blockInstance: [],
         blockShape: [],
         partInstance: [],
-        partShape: []
+        partShape: [],
+        eventShape: [],
+        eventInstance: [],
+        annotationShape: [],
+        annotationInstance: []
       }
     }
     
@@ -157,6 +161,10 @@ function createAdminInstance() {
       blockShape: getEntities('blockShape'),
       partInstance: getEntities('partInstance'),
       partShape: getEntities('partShape'),
+      eventShape: getEntities('eventShape'),
+      eventInstance: getEntities('eventInstance'),
+      annotationShape: getEntities('annotationShape'),
+      annotationInstance: getEntities('annotationInstance'),
     }
   })
   

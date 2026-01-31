@@ -118,12 +118,14 @@ export function applyOptimisticAssignmentCreateToGlobalData(params: {
 }): GlobalData {
   const { old, blockInstanceId, assignment, devWarningPrefix } = params
 
-  const baseAnnotations = old.annotations ?? []
+  // LEARNING: Annotations are now in entities.annotationInstance
+  // WHY: Annotations are now core entities stored in entities section
+  const baseAnnotations = (old.entities.annotationInstance || []) as Annotation[]
   const baseAnnotation = baseAnnotations.find((ann) => ann.id === assignment.annotationId)
   if (!baseAnnotation) {
     if (isDevModeEnabled()) {
       console.warn(
-        `${devWarningPrefix ?? '[annotationAssignmentsOptimistic]'} Base annotation not found in globalData.annotations`,
+        `${devWarningPrefix ?? '[annotationAssignmentsOptimistic]'} Base annotation not found in globalData.entities.annotationInstance`,
         { annotationId: assignment.annotationId }
       )
     }

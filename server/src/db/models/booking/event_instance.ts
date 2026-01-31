@@ -21,7 +21,7 @@ import {
  * - Centralized event instance management
  * 
  * WHY: Instead of storing event configurations directly on shapes, we use a many-to-many
- * relationship through ActiveEvent. This allows:
+ * relationship through EventAssignment. This allows:
  * - Reusability: Same event instance can be used by multiple shapes
  * - Flexibility: Shapes can have multiple event instances (ordered)
  * - Maintainability: Update event templates once, all shapes using it get the update
@@ -39,6 +39,8 @@ export class EventInstance extends Model<
   declare titleTemplate: string | null;
   declare descriptionTemplate: string | null;
   declare locationTemplate: string | null;
+  declare orderIndex: CreationOptional<number>;
+  declare active: CreationOptional<boolean>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -84,6 +86,19 @@ export function EventInstanceFactory(sequelize: Sequelize) {
         allowNull: true,
         field: 'location_template',
         comment: 'Template for event location (e.g., "{propertyAddress}")',
+      },
+      orderIndex: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'order_index',
+        comment: 'Order index for UI drag-and-drop ordering',
+      },
+      active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        comment: 'Whether this event instance is active/enabled',
       },
       createdAt: {
         type: DataTypes.DATE,

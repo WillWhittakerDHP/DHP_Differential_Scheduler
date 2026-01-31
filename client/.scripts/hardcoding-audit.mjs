@@ -163,6 +163,15 @@ const BASE_RULES = [
   { id: 'switchTypeLike', label: 'switch(type/Entity/Key)', test: (l) => /\bswitch\s*\(\s*[^)]*(type|Type|Entity|entity|Key|key)\s*[^)]*\)/.test(l) },
   { id: 'caseString', label: "case '...'", test: (l) => /\bcase\s+['"][^'"]+['"]\s*:/.test(l) },
   { id: 'fieldEqualsString', label: "field === '...'", test: (l) => /\b(field|key)\s*===\s*['"][^'"]+['"]/.test(l) },
+  { id: 'fieldMapping', label: 'Field mapping object', test: (l) => {
+    // Detect object literals with property access patterns like:
+    // { camelCaseKey: row.snake_case_key }
+    // { key1: source.key1, key2: source.key2 }
+    // Record<string, string> type annotations with object literals
+    return /\{\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*:\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-z_]+/.test(l) ||
+           /\{\s*['"][^'"]+['"]\s*:\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-z_]+/.test(l) ||
+           /Record<string.*string>.*\{[\s\S]{0,500}:\s*[a-z_]+\./.test(l)
+  }},
   { id: 'inlineLabelMap', label: '{ key: "Label", ... }', test: (l) => /\{\s*['"][^'"]+['"]\s*:\s*['"][^'"]+['"]/.test(l) },
   { id: 'omitFieldsArray', label: "omitFields: ['a', ...]", test: (l) => /\bomitFields\s*:\s*\[/.test(l) },
   { id: 'headersArray', label: 'headers: [ ... ]', test: (l) => /\bheaders\s*:\s*\[/.test(l) },
@@ -206,6 +215,7 @@ function score(counts) {
     (counts.entityKeyString || 0) * 6 +
     (counts.caseString || 0) * 4 +
     (counts.fieldEqualsString || 0) * 3 +
+    (counts.fieldMapping || 0) * 3 +
     (counts.omitFieldsArray || 0) * 2 +
     (counts.headersArray || 0) * 2 +
     (counts.inlineLabelMap || 0) * 2 +
@@ -230,6 +240,14 @@ function suggest(repoPath, counts) {
       priority: 'P1',
       kind: 'dynamic_fields',
       message: 'Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.',
+    })
+  }
+
+  if ((counts.fieldMapping || 0) >= 2) {
+    suggestions.push({
+      priority: 'P1',
+      kind: 'casing_utility',
+      message: 'Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.',
     })
   }
 
@@ -298,15 +316,15 @@ function renderMarkdownReport(data) {
   lines.push('')
   lines.push('## Top hotspots (by heuristic score, excluding allowed)')
   lines.push('')
-  lines.push('| File | score | switch(entityKey) | entityKey strings | case strings | field===string | omitFields | headers | label maps | allowed |')
-  lines.push('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
+  lines.push('| File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |')
+  lines.push('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
 
   // Only show files with score > 0 in top hotspots
   const hotspots = files.filter(f => f.score > 0).slice(0, 30)
   for (const f of hotspots) {
     const c = f.counts
     lines.push(
-      `| \`${f.repoPath}\` | ${f.score} | ${c.switchEntityKey || 0} | ${c.entityKeyString || 0} | ${c.caseString || 0} | ${c.fieldEqualsString || 0} | ${c.omitFieldsArray || 0} | ${c.headersArray || 0} | ${c.inlineLabelMap || 0} | ${f.allowed.length} |`
+      `| \`${f.repoPath}\` | ${f.score} | ${c.switchEntityKey || 0} | ${c.entityKeyString || 0} | ${c.caseString || 0} | ${c.fieldEqualsString || 0} | ${c.fieldMapping || 0} | ${c.omitFieldsArray || 0} | ${c.headersArray || 0} | ${c.inlineLabelMap || 0} | ${f.allowed.length} |`
     )
   }
 
@@ -348,7 +366,7 @@ function renderMarkdownReport(data) {
     lines.push('')
     const c = f.counts
     lines.push(
-      `- total counts: switchEntityKey=${c.switchEntityKey || 0}, entityKeyString=${c.entityKeyString || 0}, caseString=${c.caseString || 0}, fieldEqualsString=${c.fieldEqualsString || 0}, omitFieldsArray=${c.omitFieldsArray || 0}, headersArray=${c.headersArray || 0}, inlineLabelMap=${c.inlineLabelMap || 0}, magicLabel=${c.magicLabel || 0}`
+      `- total counts: switchEntityKey=${c.switchEntityKey || 0}, entityKeyString=${c.entityKeyString || 0}, caseString=${c.caseString || 0}, fieldEqualsString=${c.fieldEqualsString || 0}, fieldMapping=${c.fieldMapping || 0}, omitFieldsArray=${c.omitFieldsArray || 0}, headersArray=${c.headersArray || 0}, inlineLabelMap=${c.inlineLabelMap || 0}, magicLabel=${c.magicLabel || 0}`
     )
     lines.push(`- requiring review: ${f.requiresReview.length}, allowed: ${f.allowed.length}`)
     lines.push('')

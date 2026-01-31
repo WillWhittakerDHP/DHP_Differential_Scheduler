@@ -173,7 +173,7 @@ const slotShapeTotals = computed<SlotShape>(() => {
   if (!shape || !shape.slotShape) {
     return {
       totalDuration: 0,
-      eventDurations: {},
+      eventFinals: [],
       clientStartOffset: 0
     }
   }
@@ -516,36 +516,54 @@ const handleServiceTypeChange = (serviceId: string | null): void => {
   }
 }
 
-// LEARNING: Check if a partShape has a specific event
+// LEARNING: Get global data accessor
+// WHY: Need to access event shapes from global data
+const { getGlobalData } = useGlobal()
+
+// LEARNING: Get all event shapes from global data for dynamic iteration
+// WHY: Event shapes are dynamic entities, need to iterate through all of them
+// PATTERN: Computed property that reads from globalData
+const eventShapes = computed<EventShape[]>(() => {
+  const globalData = getGlobalData()
+  return (globalData?.events?.eventShape || []) as EventShape[]
+})
+
+// LEARNING: Check if a partShape has a specific event shape
 // WHY: Events are stored on AppointmentShape.eventAssignmentsByPartShape, need helper to check
-// PATTERN: Look up EventInstance[] for partShape, check EventShape name via eventInstance.eventShapeRef
-const hasEventForPart = (partShapeName: string, eventShapeName: string): boolean => {
+// PATTERN: Look up EventInstance[] for partShape, check EventShape via eventInstance.eventShapeRef
+// LEARNING: Use isTernary and ternaryDefault properties instead of hard-coded event names
+const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean => {
   const shape = appointmentData.value.appointmentShape
   if (!shape || !shape.eventAssignmentsByPartShape) return false
   
   const events = shape.eventAssignmentsByPartShape[partShapeName] || []
   if (events.length === 0) return false
   
-  // Get EventShapes from globalData to look up event shape names
+  // Get EventShapes from globalData to look up event shapes
   const globalData = getGlobalData()
-  const eventShapes = (globalData?.events?.eventShape || []) as EventShape[]
-  const eventShapeById = new Map(eventShapes.map(es => [es.id, es]))
+  const allEventShapes = (globalData?.events?.eventShape || []) as EventShape[]
+  const eventShapeById = new Map(allEventShapes.map(es => [es.id, es]))
   
-  // Check if any event has matching shape name
-  for (const eventInstance of events) {
-    const eventShape = eventShapeById.get(eventInstance.eventShapeRef)
-    if (eventShape?.name === eventShapeName) {
-      // For ternary events (OnSite, ClientPresent), check defaultTernaryValue
-      if (eventShapeName === 'OnSite' || eventShapeName === 'ClientPresent') {
-        const ternaryValue = eventShape.defaultTernaryValue ?? 'true'
-        return toBoolean(ternaryValue as import('@/types/ternary').TernaryBoolean, 'strict')
-      }
-      // For boolean events (Moveable), existence means it's active
-      return true
+  // Check if any event has matching shape ID
+  const matchingEvent = events.find(ei => {
+    const es = eventShapeById.get(ei.eventShapeRef)
+    return es?.id === eventShape.id
+  })
+  
+  if (!matchingEvent) return false
+  
+  // For ternary events, use ternaryDefault or fail gracefully
+  if (eventShape.isTernary) {
+    const ternaryValue = eventShape.ternaryDefault
+    if (ternaryValue === null) {
+      console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id})`)
+      return false // Graceful failure
     }
+    return toBoolean(ternaryValue, 'strict')
   }
   
-  return false
+  // For boolean events, existence means active
+  return true
 }
 
 </script>
@@ -598,11 +616,11 @@ const hasEventForPart = (partShapeName: string, eventShapeName: string): boolean
       <VTabs v-model="activeTab" density="compact" color="info">
         <VTab value="slotShape">
           <VIcon size="small" class="mr-2">tabler-chart-bar</VIcon>
-          SlotShape
+          Durations
         </VTab>
         <VTab value="finalizedParts">
           <VIcon size="small" class="mr-2">tabler-package</VIcon>
-          Finalized Parts
+          Part
         </VTab>
         <VTab value="services">
           <VIcon size="small" class="mr-2">tabler-settings</VIcon>
@@ -614,7 +632,7 @@ const hasEventForPart = (partShapeName: string, eventShapeName: string): boolean
         </VTab>
         <VTab value="calendar">
           <VIcon size="small" class="mr-2">tabler-calendar-off</VIcon>
-          Calendar Mock
+          Mocks
         </VTab>
       </VTabs>
       
@@ -637,16 +655,16 @@ const hasEventForPart = (partShapeName: string, eventShapeName: string): boolean
                     </VCard>
                   </VCol>
                   <VCol 
-                    v-for="(duration, eventName) in slotShapeTotals.eventDurations" 
-                    :key="eventName"
+                    v-for="eventFinal in slotShapeTotals.eventFinals" 
+                    :key="eventFinal.eventShape.id"
                     cols="6" 
                     sm="4" 
                     md="3"
                   >
                     <VCard variant="outlined" density="compact" class="pa-2">
-                      <div class="text-caption text-medium-emphasis">{{ eventName }}</div>
+                      <div class="text-caption text-medium-emphasis">{{ eventFinal.eventShape.name }}</div>
                       <div class="text-body-2 font-weight-medium">
-                        {{ formatDuration(duration) }}
+                        {{ formatDuration(eventFinal.duration) }}
                       </div>
                     </VCard>
                   </VCol>
@@ -659,6 +677,34 @@ const hasEventForPart = (partShapeName: string, eventShapeName: string): boolean
                     </VCard>
                   </VCol>
                 </VRow>
+                
+                <!-- Durations Section -->
+                <div v-if="slotShapeTotals.eventFinals.length > 0" class="mb-4">
+                  <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
+                    Durations
+                  </VCardTitle>
+                  <VRow dense class="ma-0">
+                    <VCol
+                      v-for="eventFinal in slotShapeTotals.eventFinals"
+                      :key="eventFinal.eventShape.id"
+                      cols="12"
+                      sm="6"
+                      md="4"
+                    >
+                      <VCard variant="outlined" density="compact" class="pa-2">
+                        <div class="text-caption text-medium-emphasis font-weight-bold mb-1">
+                          {{ eventFinal.eventShape.name }}
+                        </div>
+                        <div class="text-body-2 mb-1">
+                          <div>Duration: {{ formatDuration(eventFinal.duration) }}</div>
+                        </div>
+                      </VCard>
+                    </VCol>
+                  </VRow>
+                </div>
+                <div v-else-if="appointmentData.appointmentShape" class="text-center pa-4 text-medium-emphasis">
+                  No durations available
+                </div>
               </div>
               <div v-else class="text-center pa-4 text-medium-emphasis">
                 No appointment shape available
@@ -692,20 +738,20 @@ const hasEventForPart = (partShapeName: string, eventShapeName: string): boolean
                       <div class="d-flex flex-wrap gap-2 mt-2">
                         <!-- LEARNING: Read events from AppointmentShape.eventAssignmentsByPartShape -->
                         <!-- WHY: Events are appointment-level features, not part properties -->
-                        <!-- PATTERN: Look up EventInstance[] for this partShape and check event shape names -->
+                        <!-- PATTERN: Iterate through all event shapes dynamically instead of hard-coded names -->
                         <template v-if="appointmentData.appointmentShape">
                           <div 
-                            v-for="eventName in ['OnSite', 'ClientPresent', 'Moveable']" 
-                            :key="eventName"
+                            v-for="eventShape in eventShapes" 
+                            :key="eventShape.id"
                             class="d-flex align-center gap-1"
                           >
                             <VIcon 
                               size="x-small" 
-                              :color="hasEventForPart(part.partShape, eventName) ? 'success' : 'default'"
+                              :color="hasEventForPart(part.partShape, eventShape) ? 'success' : 'default'"
                             >
-                              {{ hasEventForPart(part.partShape, eventName) ? 'tabler-check' : 'tabler-x' }}
+                              {{ hasEventForPart(part.partShape, eventShape) ? 'tabler-check' : 'tabler-x' }}
                             </VIcon>
-                            <span class="text-caption">{{ eventName }}</span>
+                            <span class="text-caption">{{ eventShape.name }}</span>
                           </div>
                         </template>
                         <div class="d-flex align-center gap-1">

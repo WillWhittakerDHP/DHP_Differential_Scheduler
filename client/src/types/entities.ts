@@ -54,6 +54,10 @@ export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
   composable: boolean;
   canHaveParts: boolean; // If true, blockInstances of this shape can have parts (partInstances). Mutually exclusive with isStateControl.
   isStateControl: boolean; // If true, acts as state selector in wizard (like User Types). Mutually exclusive with canHaveParts.
+  // Relationship fields (attached by transformers)
+  validCascades?: GlobalEntityId[];
+  validParts?: GlobalEntityId[];
+  validAnnotations?: GlobalEntityId[];
 }
 
 export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
@@ -67,9 +71,35 @@ export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
   rateOverBaseFee: number;
   active: boolean;
   zeroOutPart: boolean;
+  // Relationship fields (attached by transformers)
+  eventAssignments?: GlobalEntityId[];
 }
 
 export interface PartShapeEntity extends BaseGlobalEntity<"partShape"> {
+  // Relationship fields (attached by transformers)
+  validEvents?: GlobalEntityId[];
+}
+
+export interface EventShapeEntity extends BaseGlobalEntity<"eventShape"> {
+  isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
+  ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail gracefully)
+}
+
+export interface EventInstanceEntity extends BaseGlobalEntity<"eventInstance"> {
+  eventShapeRef: string;
+  titleTemplate: string | null;
+  descriptionTemplate: string | null;
+  locationTemplate: string | null;
+}
+
+export interface AnnotationShapeEntity extends BaseGlobalEntity<"annotationShape"> {
+}
+
+export interface AnnotationInstanceEntity extends BaseGlobalEntity<"annotationInstance"> {
+  // Note: "name" field from BaseGlobalEntity contains the text content
+  // Transformer maps API "text" field to entity "name" field
+  type: string; // Foreign key to AnnotationShape.id
+  userTypeBlock: string | null; // BlockInstance ID or null (deprecated, use annotation_assignments.user_type_block_instance_id)
 }
 
 /**
@@ -81,6 +111,10 @@ export type GlobalEntity<GE extends GlobalEntityKey> =
   GE extends "blockShape" ? BlockShapeEntity :
   GE extends "partInstance" ? PartInstanceEntity :
   GE extends "partShape" ? PartShapeEntity :
+  GE extends "eventShape" ? EventShapeEntity :
+  GE extends "eventInstance" ? EventInstanceEntity :
+  GE extends "annotationShape" ? AnnotationShapeEntity :
+  GE extends "annotationInstance" ? AnnotationInstanceEntity :
   never;
 
 // Entity maps

@@ -13,6 +13,7 @@ import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { toRFC3339DateTime } from '@/types/datetime'
 import { useDurationRounding } from '@/composables/booking/useDurationRounding'
+import { findEventFinalByName } from '@/utils/booking/appointmentSlotBuilder'
 
 /**
  * Time block structure for display
@@ -79,15 +80,16 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   /**
    * LEARNING: Get on-site total from SlotShape (source of truth)
    * WHY: SlotShape already contains calculated onSite duration, no need to filter raw parts
-   * PATTERN: Access slotShape.eventDurations["OnSite"], apply rounding
+   * PATTERN: Use helper function to find OnSite event, apply rounding
    * NOTE: Applies rounding based on availability settings
-   * Session Event Refactor: Use eventDurations Record instead of hardcoded properties
+   * Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
    */
   const onSiteTotal = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
     
-    const unroundedTotal = shape.slotShape.eventDurations?.['OnSite'] ?? 0
+    const onSiteEventFinal = findEventFinalByName(shape.slotShape, 'OnSite')
+    const unroundedTotal = onSiteEventFinal?.duration ?? 0
     
     // LEARNING: Apply configurable rounding based on availability settings
     // WHY: Allows admin to control rounding behavior via Business Controls tab
@@ -98,14 +100,15 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   /**
    * LEARNING: Get client presentation duration from SlotShape (source of truth)
    * WHY: SlotShape already contains calculated clientPresent duration, no need to filter raw parts
-   * PATTERN: Access slotShape.eventDurations["ClientPresent"]
-   * Session Event Refactor: Use eventDurations Record instead of hardcoded properties
+   * PATTERN: Use helper function to find ClientPresent event
+   * Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
    */
   const presentationDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
     
-    return shape.slotShape.eventDurations?.['ClientPresent'] ?? 0
+    const clientPresentEventFinal = findEventFinalByName(shape.slotShape, 'ClientPresent')
+    return clientPresentEventFinal?.duration ?? 0
   })
 
   /**

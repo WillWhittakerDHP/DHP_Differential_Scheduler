@@ -12,45 +12,45 @@ Exception handling:
 
 ## Summary
 
-- Entity keys detected (from `client/src/constants/entities.ts`): `description`
-- Total files scanned: **571**
-- **Requiring review: 782**
-- Allowed (with justification): 174 (inline: 0, pattern: 174, specific: 0)
+- Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
+- Total files scanned: **601**
+- **Requiring review: 918**
+- Allowed (with justification): 212 (inline: 0, pattern: 212, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
-| File | score | switch(entityKey) | entityKey strings | case strings | field===string | omitFields | headers | label maps | allowed |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/routes/internal/properties/propertyRouter.ts` | 43 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/annotation-instances/annotationInstanceRouter.ts` | 40 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/annotation-shapes/annotationShapeRouter.ts` | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/entities/entityRouter.ts` | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 25 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/scripts/backfill-input-config-from-selectable.mjs` | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/forms/fieldLocationDispatcher.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/appointments/appointmentRouter.ts` | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/iconMapper.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/views/admin/tabs/components/PropertiesTable.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/users/userRouter.ts` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/businessSettingsRouter.ts` | 15 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/test/setup/seedTestData.ts` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/components/booking/steps/PropertyDetailsStep.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/layouts/components/NavbarShortcuts.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/layouts/components/NavSearchBar.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/scripts/fixUserRolesAndEmails.ts` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useWizardAppointmentManagement.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/db/models/admin/adminMetadata.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/admin/entityDisplayText.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/db/models/admin/adminPrimitiveMetadata.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | 109 | 0 | 0 | 3 | 0 | 12 | 0 | 0 | 17 | 0 |
+| `server/src/routes/internal/properties/propertyRouter.ts` | 43 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/relationships/relationshipRouter.ts` | 39 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/entities/entityRouter.ts` | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useAppointmentSlots.ts` | 23 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 4 | 0 |
+| `client/src/utils/forms/fieldLocationDispatcher.ts` | 23 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 1 | 0 |
+| `server/src/scripts/backfill-input-config-from-selectable.mjs` | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` | 21 | 0 | 0 | 0 | 0 | 7 | 0 | 0 | 0 | 0 |
+| `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/appointments/appointmentRouter.ts` | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/utils/transformers/globalToAdminTransformer.ts` | 18 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 3 | 0 |
+| `client/src/utils/iconMapper.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/views/admin/tabs/components/PropertiesTable.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/users/userRouter.ts` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/businessSettingsRouter.ts` | 15 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useAppointmentDataCollection.ts` | 14 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
+| `client/src/layouts/components/NavSearchBar.vue` | 14 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/scripts/fixUserRolesAndEmails.ts` | 14 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/components/admin/generic/EntityCard.vue` | 13 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `client/src/composables/admin/useAnnotationsFieldViewModel.ts` | 13 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/scripts/importCalendarData.ts` | 13 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 2 | 0 |
+| `server/src/test/setup/seedTestData.ts` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/composables/formFields/useFormFieldsContext.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 0 |
+| `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/steps/PropertyDetailsStep.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/layouts/components/NavbarShortcuts.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -59,17 +59,10 @@ Review periodically to ensure exceptions are still valid.
 
 | File | Rule | Line | Source | Reason |
 | --- | --- | ---: | --- | --- |
-| `client/src/components/booking/SelectionCardGroup.vue` | entityKeyString | 170 | pattern | Vue slot names and template attributes legitimately use e... |
-| `client/src/components/booking/SelectionCardGroup.vue` | entityKeyString | 216 | pattern | Vue slot names and template attributes legitimately use e... |
-| `client/src/components/booking/SelectionCardGroup.vue` | entityKeyString | 266 | pattern | Vue slot names and template attributes legitimately use e... |
-| `client/src/components/booking/SelectionCardGroup.vue` | entityKeyString | 306 | pattern | Vue slot names and template attributes legitimately use e... |
 | `client/src/configs/availabilitySettings.ts` | magicLabel | 315 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 336 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 343 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/availabilitySettings.ts` | magicLabel | 386 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 393 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 396 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 415 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 389 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 408 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/businessControlsTabStrings.ts` | magicLabel | 11 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/businessControlsTabStrings.ts` | magicLabel | 12 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/businessControlsTabStrings.ts` | magicLabel | 13 | pattern | Config files are intentional sources of hardcoded values ... |
@@ -120,6 +113,21 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/configs/contactsValidationStrings.ts` | magicLabel | 10 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/contactsValidationStrings.ts` | magicLabel | 13 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/contactsValidationStrings.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | magicLabel | 11 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | magicLabel | 24 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | magicLabel | 25 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | magicLabel | 31 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | magicLabel | 38 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | magicLabel | 39 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | magicLabel | 11 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | magicLabel | 24 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | magicLabel | 25 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | magicLabel | 31 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | magicLabel | 32 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | magicLabel | 38 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | magicLabel | 39 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/baseEntityDisplays.ts` | magicLabel | 14 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
@@ -138,6 +146,23 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 73 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 74 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/blockShapeDisplays.ts` | magicLabel | 84 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | magicLabel | 11 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | magicLabel | 24 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | magicLabel | 25 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | magicLabel | 31 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | magicLabel | 38 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | magicLabel | 45 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | magicLabel | 52 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | magicLabel | 53 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | magicLabel | 11 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | magicLabel | 24 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | magicLabel | 25 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | magicLabel | 31 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | magicLabel | 32 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | magicLabel | 38 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | magicLabel | 39 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/partInstanceDisplays.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/partInstanceDisplays.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/partInstanceDisplays.ts` | magicLabel | 35 | pattern | Config files are intentional sources of hardcoded values ... |
@@ -174,6 +199,15 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 270 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 271 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 295 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | magicLabel | 15 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | magicLabel | 23 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | magicLabel | 31 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | magicLabel | 47 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | magicLabel | 20 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | magicLabel | 28 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | magicLabel | 36 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | magicLabel | 44 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | magicLabel | 52 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/baseEntityFields.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/baseEntityFields.ts` | magicLabel | 24 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
@@ -194,16 +228,22 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts` | magicLabel | 40 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts` | magicLabel | 47 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts` | magicLabel | 54 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/eventInstanceFields.ts` | magicLabel | 20 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/eventInstanceFields.ts` | magicLabel | 28 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/eventInstanceFields.ts` | magicLabel | 36 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/eventInstanceFields.ts` | magicLabel | 68 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/eventShapeFields.ts` | magicLabel | 20 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/eventShapeFields.ts` | magicLabel | 28 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/eventShapeFields.ts` | magicLabel | 36 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/eventShapeFields.ts` | magicLabel | 44 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/eventShapeFields.ts` | magicLabel | 52 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 26 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 40 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 47 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 54 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 61 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 68 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 75 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 82 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 89 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 51 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 58 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 65 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 72 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/partShapePrimitiveFields.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/partShapePrimitiveFields.ts` | magicLabel | 26 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/propertyValidationStrings.ts` | magicLabel | 10 | pattern | Config files are intentional sources of hardcoded values ... |
@@ -226,8 +266,6 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/configs/wizardSteps.ts` | magicLabel | 50 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/wizardSteps.ts` | magicLabel | 55 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/wizardSteps.ts` | magicLabel | 56 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/types/annotations.ts` | entityKeyString | 14 | pattern | Type definitions legitimately use string literals for typ... |
-| `client/src/types/annotations.ts` | entityKeyString | 20 | pattern | Type definitions legitimately use string literals for typ... |
 | `client/src/utils/logger.ts` | caseString | 46 | pattern | Log level strings are standard and intentional - part of ... |
 | `client/src/utils/logger.ts` | caseString | 48 | pattern | Log level strings are standard and intentional - part of ... |
 | `client/src/utils/logger.ts` | caseString | 50 | pattern | Log level strings are standard and intentional - part of ... |
@@ -239,17 +277,72 @@ Review periodically to ensure exceptions are still valid.
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
+### `client/src/utils/booking/appointmentSlotBuilder.ts`
+
+- score: **109**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/composables/booking/useAppointmentSlots.ts`
+
+- score: **23**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts`
+
+- score: **21**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
 ### `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
 
-- score: **25**
+- score: **20**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
+### `client/src/utils/transformers/globalToAdminTransformer.ts`
+
+- score: **18**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `client/src/views/admin/tabs/components/PropertiesTable.vue`
 
 - score: **16**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
+### `client/src/composables/booking/useAppointmentDataCollection.ts`
+
+- score: **14**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/layouts/components/NavSearchBar.vue`
+
+- score: **14**
+
+- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
+### `client/src/components/admin/generic/EntityCard.vue`
+
+- score: **13**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
+### `client/src/composables/admin/useAnnotationsFieldViewModel.ts`
+
+- score: **13**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `server/src/scripts/importCalendarData.ts`
+
+- score: **13**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `client/src/components/booking/steps/ContactsStep.vue`
 
@@ -269,23 +362,47 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `client/src/layouts/components/NavSearchBar.vue`
-
-- score: **11**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
 ### `client/src/views/admin/tabs/components/AppointmentsTable.vue`
 
 - score: **10**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `client/src/components/admin/generic/EntityCard.vue`
+### `client/src/components/admin/generic/EntityCardSubPanels.vue`
+
+- score: **8**
+
+- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
+### `client/src/views/admin/tabs/InstancesTab.vue`
+
+- score: **8**
+
+- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
+### `server/src/scripts/importFromMCPEvents.ts`
+
+- score: **8**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/components/admin/generic/collections/RelationshipCollection.vue`
 
 - score: **7**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
+### `client/src/components/booking/SelectionCard.vue`
+
+- score: **7**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/utils/booking/timeAvailabilityManager.ts`
+
+- score: **7**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `client/src/composables/_archived/useFieldMetadata.ts`
 
@@ -311,7 +428,13 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `client/src/components/admin/generic/EntityCardSubPanels.vue`
+### `server/src/scripts/fix-missing-layout-configs.mjs`
+
+- score: **6**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/components/booking/dev/DevPanelsContainer.vue`
 
 - score: **5**
 
@@ -339,9 +462,76 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 Legend: `ruleId@lineNumber: line`
 
+### `client/src/utils/booking/appointmentSlotBuilder.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=12, omitFieldsArray=0, headersArray=0, inlineLabelMap=17, magicLabel=27
+- requiring review: 59, allowed: 0
+
+```
+magicLabel@66: * @param name - Event shape name (e.g., 'OnSite', 'ClientPresent', 'Moveable')
+fieldMapping@119: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:107',message:'createTimeRangesFromSlotShape: entry',data:{slotShapeTotalDuration:slotShape.totalDuration,slotShapeEventFinalsCount:slotShape.eventFinals.length,slotShapeClientStartOffset:slotShape.clientStartOffset,startTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+inlineLabelMap@119: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:107',message:'createTimeRangesFromSlotShape: entry',data:{slotShapeTotalDuration:slotShape.totalDuration,slotShapeEventFinalsCount:slotShape.eventFinals.length,slotShapeClientStartOffset:slotShape.clientStartOffset,startTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@119: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:107',message:'createTimeRangesFromSlotShape: entry',data:{slotShapeTotalDuration:slotShape.totalDuration,slotShapeEventFinalsCount:slotShape.eventFinals.length,slotShapeClientStartOffset:slotShape.clientStartOffset,startTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+inlineLabelMap@131: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:127',message:'createTimeRangesFromSlotShape: processing event',data:{eventName,duration,durationGreaterThanZero:duration>0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@131: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:127',message:'createTimeRangesFromSlotShape: processing event',data:{eventName,duration,durationGreaterThanZero:duration>0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@135: if (eventName === 'ClientPresent' && slotShape.clientStartOffset >= 0) {
+magicLabel@150: const clientPresentTimeRange = eventTimeRanges['ClientPresent'] ?? null
+magicLabel@151: const moveableTimeRange = eventTimeRanges['Moveable'] ?? null
+fieldMapping@165: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:110',message:'createTimeRangesFromSlotShape: return',data:{totalTimeRange:result.totalTimeRange?{startTime:result.totalTimeRange.startTime,endTime:result.totalTimeRange.endTime,duration:result.totalTimeRange.duration}:null,eventTimeRangesKeys:Object.keys(result.eventTimeRanges),eventTimeRangesCount:Object.keys(result.eventTimeRanges).length,onSiteTimeRange:result.onSiteTimeRange?{startTime:result.onSiteTimeRange.startTime,endTime:result.onSiteTimeRange.endTime,duration:result.onSiteTimeRange.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+inlineLabelMap@165: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:110',message:'createTimeRangesFromSlotShape: return',data:{totalTimeRange:result.totalTimeRange?{startTime:result.totalTimeRange.startTime,endTime:result.totalTimeRange.endTime,duration:result.totalTimeRange.duration}:null,eventTimeRangesKeys:Object.keys(result.eventTimeRanges),eventTimeRangesCount:Object.keys(result.eventTimeRanges).length,onSiteTimeRange:result.onSiteTimeRange?{startTime:result.onSiteTimeRange.startTime,endTime:result.onSiteTimeRange.endTime,duration:result.onSiteTimeRange.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@165: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:110',message:'createTimeRangesFromSlotShape: return',data:{totalTimeRange:result.totalTimeRange?{startTime:result.totalTimeRange.startTime,endTime:result.totalTimeRange.endTime,duration:result.totalTimeRange.duration}:null,eventTimeRangesKeys:Object.keys(result.eventTimeRanges),eventTimeRangesCount:Object.keys(result.eventTimeRanges).length,onSiteTimeRange:result.onSiteTimeRange?{startTime:result.onSiteTimeRange.startTime,endTime:result.onSiteTimeRange.endTime,duration:result.onSiteTimeRange.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@177: * @param partShapeName - Part shape name (e.g., "Client Presentation")
+inlineLabelMap@194: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:183',message:'lookupEventsForPartShape: entry',data:{partShapeName,partShapeByIdSize:partShapeById.size,eventAssignmentsRelationshipsCount:eventAssignmentsRelationships.length,eventInstancesCount:eventInstances.length,validPartsRelationshipsCount:validPartsRelationships.length,blockInstancesCount:blockInstances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@194: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:183',message:'lookupEventsForPartShape: entry',data:{partShapeName,partShapeByIdSize:partShapeById.size,eventAssignmentsRelationshipsCount:eventAssignmentsRelationships.length,eventInstancesCount:eventInstances.length,validPartsRelationshipsCount:validPartsRelationships.length,blockInstancesCount:blockInstances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@203: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:196',message:'lookupEventsForPartShape: partShapeEntity lookup',data:{partShapeName,partShapeEntityFound:!!partShapeEntity,partShapeEntityId:partShapeEntity?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@203: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:196',message:'lookupEventsForPartShape: partShapeEntity lookup',data:{partShapeName,partShapeEntityFound:!!partShapeEntity,partShapeEntityId:partShapeEntity?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@221: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:210',message:'lookupEventsForPartShape: finding PartInstances',data:{partShapeName,partShapeEntityId:partShapeEntity.id,partInstanceIdsCount:partInstanceIds.length,partInstanceIdsSample:partInstanceIds.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@221: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:210',message:'lookupEventsForPartShape: finding PartInstances',data:{partShapeName,partShapeEntityId:partShapeEntity.id,partInstanceIdsCount:partInstanceIds.length,partInstanceIdsSample:partInstanceIds.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@231: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:218',message:'lookupEventsForPartShape: filtering relationships',data:{partShapeEntityId:partShapeEntity.id,instanceEventAssignmentsRelsCount:instanceEventAssignmentsRels.length,eventAssignmentsRelationshipsSample:eventAssignmentsRelationships.slice(0,3).map(rel=>({parentId:rel.parent.id,parentEntityKey:rel.parent.entityKey,childrenCount:rel.children.length}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@231: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:218',message:'lookupEventsForPartShape: filtering relationships',data:{partShapeEntityId:partShapeEntity.id,instanceEventAssignmentsRelsCount:instanceEventAssignmentsRels.length,eventAssignmentsRelationshipsSample:eventAssignmentsRelationships.slice(0,3).map(rel=>({parentId:rel.parent.id,parentEntityKey:rel.parent.entityKey,childrenCount:rel.children.length}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@231: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:218',message:'lookupEventsForPartShape: filtering relationships',data:{partShapeEntityId:partShapeEntity.id,instanceEventAssignmentsRelsCount:instanceEventAssignmentsRels.length,eventAssignmentsRelationshipsSample:eventAssignmentsRelationships.slice(0,3).map(rel=>({parentId:rel.parent.id,parentEntityKey:rel.parent.entityKey,childrenCount:rel.children.length}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@240: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:227',message:'lookupEventsForPartShape: extracting event instance IDs',data:{eventInstanceIdsCount:eventInstanceIds.length,eventInstanceIdsSample:eventInstanceIds.slice(0,5),eventInstancesIdsAvailable:eventInstances.map(ei=>ei.id).slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@240: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:227',message:'lookupEventsForPartShape: extracting event instance IDs',data:{eventInstanceIdsCount:eventInstanceIds.length,eventInstanceIdsSample:eventInstanceIds.slice(0,5),eventInstancesIdsAvailable:eventInstances.map(ei=>ei.id).slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@240: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:227',message:'lookupEventsForPartShape: extracting event instance IDs',data:{eventInstanceIdsCount:eventInstanceIds.length,eventInstanceIdsSample:eventInstanceIds.slice(0,5),eventInstancesIdsAvailable:eventInstances.map(ei=>ei.id).slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@250: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:237',message:'lookupEventsForPartShape: return',data:{partShapeName,resultCount:result.length,resultEventShapeRefs:result.map(ei=>ei.eventShapeRef)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@250: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:237',message:'lookupEventsForPartShape: return',data:{partShapeName,resultCount:result.length,resultEventShapeRefs:result.map(ei=>ei.eventShapeRef)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@331: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:330',message:'buildAppointmentShape: slotShape calculated',data:{totalDuration:slotShape.totalDuration,eventFinalsCount:slotShape.eventFinals.length,clientStartOffset:slotShape.clientStartOffset,nonZeroedPartsCount:nonZeroedParts.length,eventAssignmentsByPartShapeKeys:Object.keys(eventAssignmentsByPartShape)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+inlineLabelMap@331: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:330',message:'buildAppointmentShape: slotShape calculated',data:{totalDuration:slotShape.totalDuration,eventFinalsCount:slotShape.eventFinals.length,clientStartOffset:slotShape.clientStartOffset,nonZeroedPartsCount:nonZeroedParts.length,eventAssignmentsByPartShapeKeys:Object.keys(eventAssignmentsByPartShape)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@331: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:330',message:'buildAppointmentShape: slotShape calculated',data:{totalDuration:slotShape.totalDuration,eventFinalsCount:slotShape.eventFinals.length,clientStartOffset:slotShape.clientStartOffset,nonZeroedPartsCount:nonZeroedParts.length,eventAssignmentsByPartShapeKeys:Object.keys(eventAssignmentsByPartShape)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+fieldMapping@358: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:355',message:'buildAppointmentShape: shape created',data:{slotShapeTotalDuration:shape.slotShape.totalDuration,slotShapeEventFinalsCount:shape.slotShape.eventFinals.length,slotShapeEventFinals:shape.slotShape.eventFinals.map(ef=>({name:ef.eventShape.name,duration:ef.duration})),slotShapeClientStartOffset:shape.slotShape.clientStartOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@358: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:355',message:'buildAppointmentShape: shape created',data:{slotShapeTotalDuration:shape.slotShape.totalDuration,slotShapeEventFinalsCount:shape.slotShape.eventFinals.length,slotShapeEventFinals:shape.slotShape.eventFinals.map(ef=>({name:ef.eventShape.name,duration:ef.duration})),slotShapeClientStartOffset:shape.slotShape.clientStartOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@358: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:355',message:'buildAppointmentShape: shape created',data:{slotShapeTotalDuration:shape.slotShape.totalDuration,slotShapeEventFinalsCount:shape.slotShape.eventFinals.length,slotShapeEventFinals:shape.slotShape.eventFinals.map(ef=>({name:ef.eventShape.name,duration:ef.duration})),slotShapeClientStartOffset:shape.slotShape.clientStartOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@385: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:386',message:'applyShapeToTime: entry',data:{shapeSlotShapeTotalDuration:shape.slotShape.totalDuration,shapeSlotShapeEventFinalsCount:shape.slotShape.eventFinals.length,fallbackDuration:fallbackDuration,startTime,buttonIndex},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@385: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:386',message:'applyShapeToTime: entry',data:{shapeSlotShapeTotalDuration:shape.slotShape.totalDuration,shapeSlotShapeEventFinalsCount:shape.slotShape.eventFinals.length,fallbackDuration:fallbackDuration,startTime,buttonIndex},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@385: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:386',message:'applyShapeToTime: entry',data:{shapeSlotShapeTotalDuration:shape.slotShape.totalDuration,shapeSlotShapeEventFinalsCount:shape.slotShape.eventFinals.length,fallbackDuration:fallbackDuration,startTime,buttonIndex},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+fieldMapping@399: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:400',message:'applyShapeToTime: effectiveSlotShape created',data:{effectiveTotalDuration:effectiveSlotShape.totalDuration,effectiveEventFinalsCount:effectiveSlotShape.eventFinals.length,effectiveClientStartOffset:effectiveSlotShape.clientStartOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@399: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:400',message:'applyShapeToTime: effectiveSlotShape created',data:{effectiveTotalDuration:effectiveSlotShape.totalDuration,effectiveEventFinalsCount:effectiveSlotShape.eventFinals.length,effectiveClientStartOffset:effectiveSlotShape.clientStartOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@399: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:400',message:'applyShapeToTime: effectiveSlotShape created',data:{effectiveTotalDuration:effectiveSlotShape.totalDuration,effectiveEventFinalsCount:effectiveSlotShape.eventFinals.length,effectiveClientStartOffset:effectiveSlotShape.clientStartOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+fieldMapping@409: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:295',message:'applyShapeToTime: timeRanges created',data:{totalTimeRange:timeRanges.totalTimeRange?{startTime:timeRanges.totalTimeRange.startTime,endTime:timeRanges.totalTimeRange.endTime,duration:timeRanges.totalTimeRange.duration}:null,eventTimeRangesKeys:Object.keys(timeRanges.eventTimeRanges),eventTimeRanges:Object.fromEntries(Object.entries(timeRanges.eventTimeRanges).map(([k,v])=>[k,v?{startTime:v.startTime,endTime:v.endTime,duration:v.duration}:null]))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+inlineLabelMap@409: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:295',message:'applyShapeToTime: timeRanges created',data:{totalTimeRange:timeRanges.totalTimeRange?{startTime:timeRanges.totalTimeRange.startTime,endTime:timeRanges.totalTimeRange.endTime,duration:timeRanges.totalTimeRange.duration}:null,eventTimeRangesKeys:Object.keys(timeRanges.eventTimeRanges),eventTimeRanges:Object.fromEntries(Object.entries(timeRanges.eventTimeRanges).map(([k,v])=>[k,v?{startTime:v.startTime,endTime:v.endTime,duration:v.duration}:null]))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@409: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:295',message:'applyShapeToTime: timeRanges created',data:{totalTimeRange:timeRanges.totalTimeRange?{startTime:timeRanges.totalTimeRange.startTime,endTime:timeRanges.totalTimeRange.endTime,duration:timeRanges.totalTimeRange.duration}:null,eventTimeRangesKeys:Object.keys(timeRanges.eventTimeRanges),eventTimeRanges:Object.fromEntries(Object.entries(timeRanges.eventTimeRanges).map(([k,v])=>[k,v?{startTime:v.startTime,endTime:v.endTime,duration:v.duration}:null]))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@417: const clientPresentTimeRange = timeRanges.eventTimeRanges['ClientPresent']
+magicLabel@430: adjustedEventTimeRanges['ClientPresent'] = adjustedClientPresentTimeRange
+magicLabel@433: adjustedEventTimeRanges['ClientPresent'] = null
+fieldMapping@461: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:343',message:'applyShapeToTime: slot created',data:{buttonIndex:slot.buttonIndex,totalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,eventTimeRangesKeys:Object.keys(slot.eventTimeRanges),eventTimeRanges:Object.fromEntries(Object.entries(slot.eventTimeRanges).map(([k,v])=>[k,v?{startTime:v.startTime,endTime:v.endTime,duration:v.duration}:null]))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+inlineLabelMap@461: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:343',message:'applyShapeToTime: slot created',data:{buttonIndex:slot.buttonIndex,totalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,eventTimeRangesKeys:Object.keys(slot.eventTimeRanges),eventTimeRanges:Object.fromEntries(Object.entries(slot.eventTimeRanges).map(([k,v])=>[k,v?{startTime:v.startTime,endTime:v.endTime,duration:v.duration}:null]))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+magicLabel@461: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:343',message:'applyShapeToTime: slot created',data:{buttonIndex:slot.buttonIndex,totalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,eventTimeRangesKeys:Object.keys(slot.eventTimeRanges),eventTimeRanges:Object.fromEntries(Object.entries(slot.eventTimeRanges).map(([k,v])=>[k,v?{startTime:v.startTime,endTime:v.endTime,duration:v.duration}:null]))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+fieldMapping@482: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:347',message:'derivePerspective: entry',data:{perspective,slotTotalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,slotEventTimeRangesKeys:Object.keys(slot.eventTimeRanges||{}),slotEventTimeRangesOnSite:slot.eventTimeRanges?.['OnSite']?{startTime:slot.eventTimeRanges['OnSite'].startTime,endTime:slot.eventTimeRanges['OnSite'].endTime,duration:slot.eventTimeRanges['OnSite'].duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@482: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:347',message:'derivePerspective: entry',data:{perspective,slotTotalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,slotEventTimeRangesKeys:Object.keys(slot.eventTimeRanges||{}),slotEventTimeRangesOnSite:slot.eventTimeRanges?.['OnSite']?{startTime:slot.eventTimeRanges['OnSite'].startTime,endTime:slot.eventTimeRanges['OnSite'].endTime,duration:slot.eventTimeRanges['OnSite'].duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@482: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:347',message:'derivePerspective: entry',data:{perspective,slotTotalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,slotEventTimeRangesKeys:Object.keys(slot.eventTimeRanges||{}),slotEventTimeRangesOnSite:slot.eventTimeRanges?.['OnSite']?{startTime:slot.eventTimeRanges['OnSite'].startTime,endTime:slot.eventTimeRanges['OnSite'].endTime,duration:slot.eventTimeRanges['OnSite'].duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+caseString@488: case 'onSite':
+caseString@494: case 'clientPresent':
+magicLabel@497: // Session Event Refactor: Use eventTimeRanges["ClientPresent"]
+magicLabel@498: result = slot.eventTimeRanges?.['ClientPresent'] ?? slot.totalTimeRange
+caseString@500: case 'nonDifferential':
+fieldMapping@512: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:377',message:'derivePerspective: return',data:{perspective,result:result?{startTime:result.startTime,endTime:result.endTime,duration:result.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@512: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:377',message:'derivePerspective: return',data:{perspective,result:result?{startTime:result.startTime,endTime:result.endTime,duration:result.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@512: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:377',message:'derivePerspective: return',data:{perspective,result:result?{startTime:result.startTime,endTime:result.endTime,duration:result.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+```
+
 ### `server/src/routes/internal/properties/propertyRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=43
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=43
 - requiring review: 43, allowed: 0
 
 ```
@@ -390,132 +580,90 @@ magicLabel@666: error: 'Failed to replace property types',
 magicLabel@667: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
-### `server/src/routes/internal/annotation-instances/annotationInstanceRouter.ts`
+### `server/src/routes/internal/relationships/relationshipRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=40
-- requiring review: 40, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=2, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=31
+- requiring review: 33, allowed: 0
 
 ```
-magicLabel@41: error: 'Failed to fetch annotation instances',
-magicLabel@42: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@89: error: 'Failed to fetch active annotations',
-magicLabel@90: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@118: error: 'Annotation instance not found',
-magicLabel@128: error: 'Error fetching annotation instance',
-magicLabel@129: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@148: error: 'Invalid annotation shape',
-magicLabel@174: error: 'Error creating annotation instance',
-magicLabel@175: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@193: error: 'Invalid annotation shape',
-magicLabel@205: error: 'Annotation instance not found',
-magicLabel@227: error: 'Error updating annotation instance',
-magicLabel@228: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@249: error: 'Annotation instance not found',
-magicLabel@260: error: 'Invalid annotation shape',
-magicLabel@272: error: 'Annotation instance not found or could not be updated',
-magicLabel@294: error: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@298: error: 'Failed to patch annotation instance',
-magicLabel@299: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@314: error: 'Annotation instance not found',
-magicLabel@321: message: 'Annotation instance deleted successfully',
-magicLabel@327: error: 'Error deleting annotation',
-magicLabel@328: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@349: error: 'Block instance not found',
-magicLabel@385: error: 'Failed to fetch block instance annotation instances',
-magicLabel@386: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@405: error: 'Block instance not found',
-magicLabel@415: error: 'Annotation instance not found',
-magicLabel@426: error: 'User type block instance not found',
-magicLabel@441: error: 'Annotation instance already linked to this block instance with this user type',
-magicLabel@460: error: 'Error linking annotation instance to block instance',
-magicLabel@461: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@482: error: 'Block instance annotation instance relationship not found',
-magicLabel@496: error: 'Error updating block instance annotation instance',
-magicLabel@497: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@516: error: 'Block instance annotation instance relationship not found',
-magicLabel@524: message: 'Annotation instance unlinked from block instance successfully',
-magicLabel@530: error: 'Error unlinking annotation instance from block instance',
-magicLabel@531: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@51: displayName: 'Valid Cascade',
+magicLabel@57: displayName: 'Valid Part',
+magicLabel@63: displayName: 'Valid Annotation',
+magicLabel@69: displayName: 'Valid Event',
+magicLabel@75: displayName: 'Dependent Instance',
+magicLabel@81: displayName: 'Booking Cascade',
+magicLabel@87: displayName: 'Part Assignment',
+magicLabel@93: displayName: 'Annotation Assignment',
+magicLabel@99: displayName: 'Event Assignment',
+magicLabel@105: displayName: 'Instance Component',
+caseString@138: case 'annotationAssignments':
+caseString@143: case 'eventAssignments': {
+magicLabel@255: res.status(500).json({ error: 'Relationship configuration missing' });
+magicLabel@385: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@405: res.status(500).json({ error: 'Relationship configuration missing' });
+magicLabel@423: error: 'Parent and child cannot be the same entity',
+magicLabel@457: error: 'BlockInstance not found',
+magicLabel@508: error: 'Components must have the same BlockShape as their parent',
+magicLabel@517: error: 'Error validating entities',
+magicLabel@518: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@536: error: 'Error checking circular references',
+magicLabel@537: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@560: error: 'Component relationship already exists',
+magicLabel@609: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@629: error: 'Instance component not found',
+magicLabel@649: error: 'Error updating instance component',
+magicLabel@650: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@669: error: 'Instance component not found',
+magicLabel@700: message: 'Instance component deleted successfully',
+magicLabel@706: error: 'Error deleting instance component',
+magicLabel@707: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@721: res.status(500).json({ error: 'Relationship configuration missing' });
+magicLabel@753: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
-### `server/src/routes/internal/annotation-shapes/annotationShapeRouter.ts`
+### `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=32
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=32
 - requiring review: 32, allowed: 0
 
 ```
-magicLabel@34: error: 'Failed to fetch annotation shapes',
-magicLabel@35: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@52: error: 'Annotation shape not found',
-magicLabel@62: error: 'Error fetching annotation shape',
-magicLabel@63: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@77: error: 'Invalid annotation shape name',
-magicLabel@78: message: 'Name is required and must be a non-empty string'
-magicLabel@91: error: 'Annotation shape already exists',
-magicLabel@93: message: 'An annotation shape with this name already exists'
-magicLabel@103: error: 'Error creating annotation shape',
-magicLabel@104: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@118: error: 'Invalid annotation shape name',
-magicLabel@119: message: 'Name is required and must be a non-empty string'
-magicLabel@135: error: 'Annotation shape already exists',
-magicLabel@137: message: 'Another annotation shape with this name already exists'
-magicLabel@146: error: 'Annotation shape not found',
-magicLabel@160: error: 'Error updating annotation shape',
-magicLabel@161: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@180: error: 'Annotation shape not found',
-magicLabel@190: error: 'Invalid annotation shape name',
-magicLabel@191: message: 'Name must be a non-empty string'
-magicLabel@207: error: 'Annotation shape already exists',
-magicLabel@209: message: 'Another annotation shape with this name already exists'
-magicLabel@221: error: 'Annotation shape not found or could not be updated',
-magicLabel@235: error: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@239: error: 'Failed to patch annotation shape',
-magicLabel@240: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@263: error: 'Cannot delete annotation shape',
-magicLabel@274: error: 'Annotation shape not found',
-magicLabel@281: message: 'Annotation shape deleted successfully',
-magicLabel@287: error: 'Error deleting annotation shape',
-magicLabel@288: details: error instanceof Error ? error.message : 'Unknown error'
-```
-
-### `server/src/routes/internal/relationships/relationshipRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=27
-- requiring review: 27, allowed: 0
-
-```
-magicLabel@48: displayName: 'Valid Cascade',
-magicLabel@54: displayName: 'Valid Part',
-magicLabel@60: displayName: 'Dependent Instance',
-magicLabel@66: displayName: 'Booking Cascade',
-magicLabel@72: displayName: 'Active Part',
-magicLabel@78: displayName: 'Instance Component',
-magicLabel@176: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@239: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@259: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@277: error: 'Parent and child cannot be the same entity',
-magicLabel@311: error: 'BlockInstance not found',
-magicLabel@362: error: 'Components must have the same BlockShape as their parent',
-magicLabel@371: error: 'Error validating entities',
-magicLabel@372: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@390: error: 'Error checking circular references',
-magicLabel@391: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@414: error: 'Component relationship already exists',
-magicLabel@458: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@478: error: 'Instance component not found',
-magicLabel@498: error: 'Error updating instance component',
-magicLabel@499: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@518: error: 'Instance component not found',
-magicLabel@549: message: 'Instance component deleted successfully',
-magicLabel@555: error: 'Error deleting instance component',
-magicLabel@556: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@570: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@598: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@125: error: 'Failed to fetch batch metadata',
+magicLabel@126: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@154: error: 'Failed to fetch event metadata',
+magicLabel@155: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@183: error: 'Failed to fetch annotation metadata',
+magicLabel@184: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@207: error: 'Invalid entityType',
+magicLabel@229: error: 'Failed to fetch metadata',
+magicLabel@230: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@262: error: 'Missing required fields',
+magicLabel@282: error: 'Invalid renderAs',
+magicLabel@292: error: 'Missing inputConfig',
+magicLabel@359: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@391: error: 'Missing required fields',
+magicLabel@411: error: 'Invalid renderAs',
+magicLabel@421: error: 'Missing inputConfig',
+magicLabel@488: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@524: error: 'Invalid entityType',
+magicLabel@533: error: 'Missing required fields',
+magicLabel@555: error: 'Invalid renderAs',
+magicLabel@568: error: 'Missing inputConfig',
+magicLabel@663: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@691: error: 'Event metadata not found',
+magicLabel@705: error: 'Failed to delete event metadata',
+magicLabel@706: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@734: error: 'Annotation metadata not found',
+magicLabel@748: error: 'Failed to delete annotation metadata',
+magicLabel@749: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@770: error: 'Invalid entityType',
+magicLabel@812: error: 'Metadata not found',
+magicLabel@827: error: 'Failed to delete metadata',
+magicLabel@828: details: error instanceof Error ? error.message : 'Unknown error',
 ```
 
 ### `server/src/routes/internal/entities/entityRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=26
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=26
 - requiring review: 26, allowed: 0
 
 ```
@@ -523,66 +671,70 @@ magicLabel@45: error: 'Failed to fetch entity configuration',
 magicLabel@46: details: error instanceof Error ? error.message : 'Unknown error'
 magicLabel@72: return res.status(500).json({ error: 'Entity configuration error' });
 magicLabel@90: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@118: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@132: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@152: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@166: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@178: (error.name === 'SequelizeValidationError' ||
-magicLabel@179: error.name === 'SequelizeUniqueConstraintError')) {
-magicLabel@189: details: uniqueError.name === 'SequelizeUniqueConstraintError'
-magicLabel@202: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@216: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@322: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@336: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@355: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@375: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@385: error: 'Request body must be an array of update objects',
-magicLabel@423: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@437: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@560: error: 'Mutual exclusivity violation',
-magicLabel@570: (error.name === 'SequelizeValidationError' ||
-magicLabel@571: error.name === 'SequelizeUniqueConstraintError')) {
-magicLabel@586: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@600: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@642: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@129: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@143: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@163: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@177: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@189: (error.name === 'SequelizeValidationError' ||
+magicLabel@190: error.name === 'SequelizeUniqueConstraintError')) {
+magicLabel@200: details: uniqueError.name === 'SequelizeUniqueConstraintError'
+magicLabel@213: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@227: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@333: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@347: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@366: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@386: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@396: error: 'Request body must be an array of update objects',
+magicLabel@434: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@448: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@571: error: 'Mutual exclusivity violation',
+magicLabel@581: (error.name === 'SequelizeValidationError' ||
+magicLabel@582: error.name === 'SequelizeUniqueConstraintError')) {
+magicLabel@597: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@611: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@653: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
-### `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
+### `client/src/composables/booking/useAppointmentSlots.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=25
-- requiring review: 25, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=4, magicLabel=6
+- requiring review: 13, allowed: 0
 
 ```
-magicLabel@58: {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
-magicLabel@77: {{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}
-magicLabel@91: label="Override inherited configuration"
-magicLabel@100: label="Visibility"
-magicLabel@103: placeholder="Not Configured"
-magicLabel@116: placeholder="Not Configured"
-magicLabel@129: placeholder="Not Configured"
-magicLabel@139: label="Status Button Color"
-magicLabel@142: placeholder="Not Configured"
-magicLabel@158: hint="Array of option values"
-magicLabel@176: label="Select Mode"
-magicLabel@179: placeholder="Select mode"
-magicLabel@190: label="Enable Bulk Edit"
-magicLabel@225: const logger = createLogger('AdminPrimitiveMetadataEditor')
-magicLabel@460: logger.debug('Metadata cache refetched successfully')
-magicLabel@479: { title: 'Not Configured', value: 'notConfigured' },
-magicLabel@480: { title: 'Title Row', value: 'titleRow' },
-magicLabel@481: { title: 'Static As Title', value: 'staticAsTitle' },
-magicLabel@482: { title: 'Expanded Direct', value: 'expandedDirect' },
-magicLabel@483: { title: 'Expanded Panel', value: 'expandedPanel' },
-magicLabel@489: { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
-magicLabel@494: { title: 'Relationships', value: FIELD_PANEL.RELATIONSHIPS },
-magicLabel@495: { title: 'Annotations', value: FIELD_PANEL.ANNOTATIONS },
-magicLabel@520: { title: 'Multiple', value: 'Multiple' },
-magicLabel@521: { title: 'Required', value: 'Required' },
+magicLabel@63: onSite: TimeRange | null      // "Inspector" bar
+inlineLabelMap@109: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:105',message:'useAppointmentSlots: globalData inspection',data:{hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipsKeys:globalData?.relationships?Object.keys(globalData.relationships):[],eventAssignmentsCount:globalData?.relationships?.eventAssignments?.length||0,eventInstancesCount:globalData?.events?.eventInstance?.length||0,eventShapesCount:globalData?.events?.eventShape?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@109: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:105',message:'useAppointmentSlots: globalData inspection',data:{hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipsKeys:globalData?.relationships?Object.keys(globalData.relationships):[],eventAssignmentsCount:globalData?.relationships?.eventAssignments?.length||0,eventInstancesCount:globalData?.events?.eventInstance?.length||0,eventShapesCount:globalData?.events?.eventShape?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@118: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:109',message:'useAppointmentSlots: extracted relationships',data:{eventInstancesCount:eventInstances.length,eventShapesCount:eventShapes.length,eventAssignmentsRelationshipsCount:eventAssignmentsRelationships.length,validPartsRelationshipsCount:validPartsRelationships.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@118: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:109',message:'useAppointmentSlots: extracted relationships',data:{eventInstancesCount:eventInstances.length,eventShapesCount:eventShapes.length,eventAssignmentsRelationshipsCount:eventAssignmentsRelationships.length,validPartsRelationshipsCount:validPartsRelationships.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@118: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:109',message:'useAppointmentSlots: extracted relationships',data:{eventInstancesCount:eventInstances.length,eventShapesCount:eventShapes.length,eventAssignmentsRelationshipsCount:eventAssignmentsRelationships.length,validPartsRelationshipsCount:validPartsRelationships.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@141: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:141',message:'useAppointmentSlots: appointmentShape computed',data:{shapeSlotShapeTotalDuration:shape.slotShape.totalDuration,shapeSlotShapeEventFinalsCount:shape.slotShape.eventFinals.length,shapeSlotShapeEventFinals:shape.slotShape.eventFinals.map(ef=>({name:ef.eventShape.name,duration:ef.duration})),shapeSlotShapeClientStartOffset:shape.slotShape.clientStartOffset,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@141: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:141',message:'useAppointmentSlots: appointmentShape computed',data:{shapeSlotShapeTotalDuration:shape.slotShape.totalDuration,shapeSlotShapeEventFinalsCount:shape.slotShape.eventFinals.length,shapeSlotShapeEventFinals:shape.slotShape.eventFinals.map(ef=>({name:ef.eventShape.name,duration:ef.duration})),shapeSlotShapeClientStartOffset:shape.slotShape.clientStartOffset,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@141: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:141',message:'useAppointmentSlots: appointmentShape computed',data:{shapeSlotShapeTotalDuration:shape.slotShape.totalDuration,shapeSlotShapeEventFinalsCount:shape.slotShape.eventFinals.length,shapeSlotShapeEventFinals:shape.slotShape.eventFinals.map(ef=>({name:ef.eventShape.name,duration:ef.duration})),shapeSlotShapeClientStartOffset:shape.slotShape.clientStartOffset,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@230: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:210',message:'useAppointmentSlots: slot created',data:{buttonIndex:slot.buttonIndex,slotTotalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,slotEventTimeRangesKeys:Object.keys(slot.eventTimeRanges||{}),slotEventTimeRangesOnSite:slot.eventTimeRanges?.['OnSite']?{startTime:slot.eventTimeRanges['OnSite'].startTime,endTime:slot.eventTimeRanges['OnSite'].endTime,duration:slot.eventTimeRanges['OnSite'].duration}:null,fallbackDuration,shapeSlotShapeTotalDuration:shape.slotShape.totalDuration},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@230: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:210',message:'useAppointmentSlots: slot created',data:{buttonIndex:slot.buttonIndex,slotTotalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,slotEventTimeRangesKeys:Object.keys(slot.eventTimeRanges||{}),slotEventTimeRangesOnSite:slot.eventTimeRanges?.['OnSite']?{startTime:slot.eventTimeRanges['OnSite'].startTime,endTime:slot.eventTimeRanges['OnSite'].endTime,duration:slot.eventTimeRanges['OnSite'].duration}:null,fallbackDuration,shapeSlotShapeTotalDuration:shape.slotShape.totalDuration},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@230: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:210',message:'useAppointmentSlots: slot created',data:{buttonIndex:slot.buttonIndex,slotTotalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,slotEventTimeRangesKeys:Object.keys(slot.eventTimeRanges||{}),slotEventTimeRangesOnSite:slot.eventTimeRanges?.['OnSite']?{startTime:slot.eventTimeRanges['OnSite'].startTime,endTime:slot.eventTimeRanges['OnSite'].endTime,duration:slot.eventTimeRanges['OnSite'].duration}:null,fallbackDuration,shapeSlotShapeTotalDuration:shape.slotShape.totalDuration},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@276: ? (slot.eventTimeRanges?.['ClientPresent'] ?? null)
+```
+
+### `client/src/utils/forms/fieldLocationDispatcher.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=5, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=1
+- requiring review: 8, allowed: 0
+
+```
+switchTypeLike@222: switch (location.type) {
+caseString@223: case 'titleRow':
+caseString@225: case 'directInline':
+caseString@227: case 'directStacked':
+caseString@229: case 'subPanel':
+inlineLabelMap@232: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fieldLocationDispatcher.ts:230',message:'validEvents categorized to subPanel',data:{fieldKey:String(fieldKey),panel:location.panel,metadata:fieldMetadata[String(fieldKey)]},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@232: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fieldLocationDispatcher.ts:230',message:'validEvents categorized to subPanel',data:{fieldKey:String(fieldKey),panel:location.panel,metadata:fieldMetadata[String(fieldKey)]},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+caseString@242: case 'hidden':
 ```
 
 ### `server/src/scripts/backfill-input-config-from-selectable.mjs`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=23
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=23
 - requiring review: 23, allowed: 0
 
 ```
@@ -591,8 +743,8 @@ magicLabel@35: selectMode: "Required",
 magicLabel@36: placeholder: "Select a block shape",
 magicLabel@49: selectType: "BookingCascadeSelect",
 magicLabel@50: selectMode: "Multiple",
-magicLabel@65: selectType: "ActivePartSelect",
-magicLabel@81: selectType: "DependentInstanceOptionSelect",
+magicLabel@65: selectType: "PartAssignmentSelect",
+magicLabel@81: selectType: "DependentInstanceSelect",
 magicLabel@82: selectMode: "Multiple",
 magicLabel@96: selectType: "InstanceComponentSelect",
 magicLabel@97: selectMode: "Multiple",
@@ -611,23 +763,52 @@ magicLabel@181: selectMode: "Required",
 magicLabel@182: placeholder: "Select a part type",
 ```
 
-### `client/src/utils/forms/fieldLocationDispatcher.ts`
+### `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=5, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 6, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=7, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 7, allowed: 0
 
 ```
-switchTypeLike@188: switch (location.type) {
-caseString@189: case 'titleRow':
-caseString@191: case 'directInline':
-caseString@193: case 'directStacked':
-caseString@195: case 'subPanel':
-caseString@203: case 'hidden':
+fieldMapping@129: { annotationId: assignment.annotationId }
+fieldMapping@177: ...(patch.orderIndex !== undefined ? { orderIndex: patch.orderIndex } : {}),
+fieldMapping@178: ...(patch.isDefault !== undefined ? { isDefault: patch.isDefault } : {}),
+fieldMapping@179: ...(patch.userTypeBlockBlockInstanceId !== undefined ? { userTypeBlock: patch.userTypeBlockBlockInstanceId } : {}),
+fieldMapping@245: ...(patch.orderIndex !== undefined ? { orderIndex: patch.orderIndex } : {}),
+fieldMapping@246: ...(patch.isDefault !== undefined ? { isDefault: patch.isDefault } : {}),
+fieldMapping@247: ...(patch.userTypeBlockBlockInstanceId !== undefined ? { userTypeBlockBlockInstanceId: patch.userTypeBlockBlockInstanceId } : {}),
+```
+
+### `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=20
+- requiring review: 20, allowed: 0
+
+```
+magicLabel@52: {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
+magicLabel@68: {{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}
+magicLabel@82: label="Visibility"
+magicLabel@85: placeholder="Not Configured"
+magicLabel@97: placeholder="Not Configured"
+magicLabel@106: label="Status Button Color"
+magicLabel@109: placeholder="Not Configured"
+magicLabel@119: label="Select Mode"
+magicLabel@122: placeholder="Select mode"
+magicLabel@132: label="Enable Bulk Edit"
+magicLabel@166: const logger = createLogger('AdminPrimitiveMetadataEditor')
+magicLabel@379: logger.debug('Metadata cache refetched successfully')
+magicLabel@398: { title: 'Not Configured', value: 'notConfigured' },
+magicLabel@399: { title: 'Title Row', value: 'titleRow' },
+magicLabel@400: { title: 'Static As Title', value: 'staticAsTitle' },
+magicLabel@401: { title: 'Expanded Direct', value: 'expandedDirect' },
+magicLabel@402: { title: 'Expanded Panel', value: 'expandedPanel' },
+magicLabel@408: { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
+magicLabel@432: { title: 'Multiple', value: 'Multiple' },
+magicLabel@433: { title: 'Required', value: 'Required' },
 ```
 
 ### `server/src/routes/internal/appointments/appointmentRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=20
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=20
 - requiring review: 20, allowed: 0
 
 ```
@@ -653,9 +834,26 @@ magicLabel@325: error: 'Error fetching appointment versions',
 magicLabel@326: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
+### `client/src/utils/transformers/globalToAdminTransformer.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=3, magicLabel=3
+- requiring review: 9, allowed: 0
+
+```
+fieldMapping@214: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'globalToAdminTransformer.ts:207',message:'validEvents attachment check',data:{entityId:entity.id,entityKey:_entityKey,relType,propName,hasRelationships:!!relationships,relationshipsCount:relationships?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@214: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'globalToAdminTransformer.ts:207',message:'validEvents attachment check',data:{entityId:entity.id,entityKey:_entityKey,relType,propName,hasRelationships:!!relationships,relationshipsCount:relationships?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@214: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'globalToAdminTransformer.ts:207',message:'validEvents attachment check',data:{entityId:entity.id,entityKey:_entityKey,relType,propName,hasRelationships:!!relationships,relationshipsCount:relationships?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+fieldMapping@225: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'globalToAdminTransformer.ts:213',message:'validEvents parent relationships found',data:{entityId:entity.id,parentRelationshipsCount:parentRelationships.length,childIds:extractChildIds(parentRelationships)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@225: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'globalToAdminTransformer.ts:213',message:'validEvents parent relationships found',data:{entityId:entity.id,parentRelationshipsCount:parentRelationships.length,childIds:extractChildIds(parentRelationships)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@225: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'globalToAdminTransformer.ts:213',message:'validEvents parent relationships found',data:{entityId:entity.id,parentRelationshipsCount:parentRelationships.length,childIds:extractChildIds(parentRelationships)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+fieldMapping@249: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'globalToAdminTransformer.ts:232',message:'validEvents attached to entity',data:{entityId:entity.id,propName,relationshipValueCount:relationshipValue.length,relationshipValue},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@249: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'globalToAdminTransformer.ts:232',message:'validEvents attached to entity',data:{entityId:entity.id,propName,relationshipValueCount:relationshipValue.length,relationshipValue},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@249: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'globalToAdminTransformer.ts:232',message:'validEvents attached to entity',data:{entityId:entity.id,propName,relationshipValueCount:relationshipValue.length,relationshipValue},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+```
+
 ### `client/src/utils/iconMapper.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=17
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=17
 - requiring review: 17, allowed: 0
 
 ```
@@ -680,7 +878,7 @@ magicLabel@35: 'QuestionCircleOutlined': 'tabler-help-circle',
 
 ### `client/src/views/admin/tabs/components/PropertiesTable.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=16
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=16
 - requiring review: 16, allowed: 0
 
 ```
@@ -704,7 +902,7 @@ magicLabel@182: No properties found. Click "Create Property" to add one.
 
 ### `server/src/routes/internal/users/userRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=16
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=16
 - requiring review: 16, allowed: 0
 
 ```
@@ -728,7 +926,7 @@ magicLabel@149: details: error instanceof Error ? error.message : 'Unknown error
 
 ### `server/src/routes/internal/businessSettingsRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
 - requiring review: 13, allowed: 0
 
 ```
@@ -747,31 +945,114 @@ magicLabel@573: error: 'Failed to delete business setting',
 magicLabel@574: details: error instanceof Error ? error.message : 'Unknown error',
 ```
 
-### `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts`
+### `client/src/composables/booking/useAppointmentDataCollection.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=14
-- requiring review: 14, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- requiring review: 8, allowed: 0
 
 ```
-magicLabel@118: error: 'Failed to fetch batch metadata',
-magicLabel@119: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@142: error: 'Invalid entityType',
-magicLabel@164: error: 'Failed to fetch metadata',
-magicLabel@165: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@201: error: 'Invalid entityType',
-magicLabel@210: error: 'Missing required fields',
-magicLabel@232: error: 'Invalid renderAs',
-magicLabel@245: error: 'Missing inputConfig',
-magicLabel@334: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@355: error: 'Invalid entityType',
-magicLabel@395: error: 'Metadata not found',
-magicLabel@410: error: 'Failed to delete metadata',
-magicLabel@411: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@101: showError('Please select at least one service type')
+magicLabel@107: showError('Property details are required')
+magicLabel@112: showError('Contact information is required')
+magicLabel@117: showError('Availability selection is required')
+fieldMapping@177: additionalContactIds.push({ id: createdAnotherClient.id, role: 'anotherClient' })
+fieldMapping@189: additionalContactIds.push({ id: createdTransactionManager.id, role: 'transactionManager' })
+fieldMapping@201: additionalContactIds.push({ id: createdSeller.id, role: 'seller' })
+magicLabel@296: const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
+```
+
+### `client/src/layouts/components/NavSearchBar.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
+- requiring review: 12, allowed: 0
+
+```
+magicLabel@49: title: 'Popular Searches',
+magicLabel@51: { icon: 'tabler-chart-bar', title: 'Analytics', url: { name: 'dashboards-analytics' } },
+magicLabel@54: { icon: 'tabler-truck', title: 'Logistics', url: { name: 'dashboards-logistics' } },
+magicLabel@60: { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'apps-calendar' } },
+magicLabel@62: { icon: 'tabler-settings', title: 'Account Settings', url: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
+magicLabel@63: { icon: 'tabler-copy', title: 'Dialog Examples', url: { name: 'pages-dialog-examples' } },
+magicLabel@67: title: 'User Interface',
+magicLabel@69: { icon: 'tabler-typography', title: 'Typography', url: { name: 'pages-typography' } },
+magicLabel@70: { icon: 'tabler-menu-2', title: 'Accordion', url: { name: 'components-expansion-panel' } },
+magicLabel@79: { icon: 'tabler-file-invoice', title: 'Form Layouts', url: { name: 'forms-form-layouts' } },
+magicLabel@89: title: 'Analytics',
+fieldMapping@113: const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
+```
+
+### `server/src/scripts/fixUserRolesAndEmails.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
+- requiring review: 12, allowed: 0
+
+```
+fieldMapping@30: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+magicLabel@57: { firstName: 'John', lastName: 'Homebuyer' },
+magicLabel@58: { firstName: 'Sarah', lastName: 'Purchaser' },
+magicLabel@59: { firstName: 'Michael', lastName: 'Newowner' },
+magicLabel@60: { firstName: 'Emily', lastName: 'Houseseeker' },
+magicLabel@61: { firstName: 'David', lastName: 'Propertybuyer' },
+magicLabel@62: { firstName: 'Jessica', lastName: 'Homeshopper' },
+magicLabel@63: { firstName: 'Robert', lastName: 'Estateclient' },
+magicLabel@64: { firstName: 'Amanda', lastName: 'Realestateclient' },
+magicLabel@192: ? agentUsers.find(u => u.id === updates.agentId)?.firstName || 'Unknown'
+magicLabel@195: ? createdClients.find(c => c.id === updates.clientId)?.firstName || 'Unknown'
+magicLabel@198: ? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'
+```
+
+### `client/src/components/admin/generic/EntityCard.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
+- requiring review: 9, allowed: 0
+
+```
+magicLabel@159: const logger = createLogger('EntityCard')
+magicLabel@189: if (isScopeExplicitlyEnabled('EntityCard')) {
+magicLabel@190: logger.debug('Form initialized', {
+magicLabel@288: logger.debug('Fields needing contexts', {
+magicLabel@396: logger.debug('Save triggered', {
+fieldMapping@414: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+magicLabel@414: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+fieldMapping@428: logger.debug('Form reset after save', { entityId: props.entity.id })
+magicLabel@428: logger.debug('Form reset after save', { entityId: props.entity.id })
+```
+
+### `client/src/composables/admin/useAnnotationsFieldViewModel.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
+- requiring review: 9, allowed: 0
+
+```
+fieldMapping@80: return { id: result.id }
+fieldMapping@85: await annotationsComposable.update.mutateAsync({ id: data.id, data: { type: data.data.type } })
+magicLabel@129: notifyError('Failed to add annotations')
+magicLabel@139: const message = error instanceof Error ? error.message : 'Failed to add selected annotations'
+magicLabel@150: const message = error instanceof Error ? error.message : 'Failed to create annotation'
+magicLabel@163: notifyError('Failed to update annotation type')
+magicLabel@175: notifyError('Failed to update annotation')
+magicLabel@185: notifyError('Failed to update default')
+magicLabel@195: notifyError('Failed to remove annotation')
+```
+
+### `server/src/scripts/importCalendarData.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=2, magicLabel=3
+- requiring review: 7, allowed: 0
+
+```
+magicLabel@70: * Handles various name formats: "John Smith", "John M. Smith", "Smith, John", etc.
+magicLabel@86: // Handle "First Last" or "First Middle Last" format
+magicLabel@220: firstName: firstName || 'Unknown',
+fieldMapping@254: where: { email: client.email },
+fieldMapping@328: const existingUser = await User.findOne({ where: { email: client.email } });
+inlineLabelMap@394: console.log('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+inlineLabelMap@412: console.log('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 ```
 
 ### `server/src/test/setup/seedTestData.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=13
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=13
 - requiring review: 13, allowed: 0
 
 ```
@@ -792,7 +1073,7 @@ magicLabel@138: name: 'Admin User',
 
 ### `client/src/components/booking/steps/ContactsStep.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
 - requiring review: 12, allowed: 0
 
 ```
@@ -810,20 +1091,25 @@ magicLabel@341: label="Last Name"
 magicLabel@342: placeholder="Williams"
 ```
 
-### `client/src/utils/booking/appointmentSlotBuilder.ts`
+### `client/src/composables/formFields/useFormFieldsContext.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 3, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=4, magicLabel=4
+- requiring review: 8, allowed: 0
 
 ```
-caseString@241: case 'onSite':
-caseString@246: case 'clientPresent':
-caseString@251: case 'nonDifferential':
+inlineLabelMap@314: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useFormFieldsContext.ts:311',message:'validEvents context created and cached',data:{entityKey,entityId:entityIdValue,fieldKey:cacheKey,hasContext:!!fieldContext},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+magicLabel@314: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useFormFieldsContext.ts:311',message:'validEvents context created and cached',data:{entityKey,entityId:entityIdValue,fieldKey:cacheKey,hasContext:!!fieldContext},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+inlineLabelMap@353: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useFormFieldsContext.ts:344',message:'fieldsNeedingContexts check',data:{entityKey,entityId:entityIdValue,fieldsToCreate:fieldsToCreate.map(String),hasValidEvents:fieldsToCreate.includes('validEvents' as any)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+magicLabel@353: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useFormFieldsContext.ts:344',message:'fieldsNeedingContexts check',data:{entityKey,entityId:entityIdValue,fieldsToCreate:fieldsToCreate.map(String),hasValidEvents:fieldsToCreate.includes('validEvents' as any)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+inlineLabelMap@361: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useFormFieldsContext.ts:349',message:'creating context for validEvents',data:{entityKey,entityId:entityIdValue,fieldKey:String(fieldKey)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+magicLabel@361: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useFormFieldsContext.ts:349',message:'creating context for validEvents',data:{entityKey,entityId:entityIdValue,fieldKey:String(fieldKey)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+inlineLabelMap@395: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useFormFieldsContext.ts:377',message:'getFieldContext for validEvents',data:{entityKey,fieldKey:cacheKey,hasContext:!!context,cacheSize:fieldContextCache.value.size,allCacheKeys:Array.from(fieldContextCache.value.keys())},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+magicLabel@395: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useFormFieldsContext.ts:377',message:'getFieldContext for validEvents',data:{entityKey,fieldKey:cacheKey,hasContext:!!context,cacheSize:fieldContextCache.value.size,allCacheKeys:Array.from(fieldContextCache.value.keys())},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
 ```
 
 ### `client/src/utils/booking/durationRounding.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
 - requiring review: 3, allowed: 0
 
 ```
@@ -834,38 +1120,38 @@ caseString@97: case 'roundNearest':
 
 ### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
 - requiring review: 12, allowed: 0
 
 ```
-magicLabel@76: error: 'Invalid entityType',
-magicLabel@110: error: 'Failed to fetch primitive metadata',
-magicLabel@111: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@147: error: 'Invalid entityType',
-magicLabel@156: error: 'Missing required fields',
-magicLabel@165: error: 'Invalid renderAs',
-magicLabel@178: error: 'Missing inputConfig',
-magicLabel@237: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@253: error: 'Invalid entityType',
-magicLabel@269: error: 'Primitive metadata not found',
-magicLabel@283: error: 'Failed to delete primitive metadata',
-magicLabel@284: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@78: error: 'Invalid entityType',
+magicLabel@112: error: 'Failed to fetch primitive metadata',
+magicLabel@113: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@149: error: 'Invalid entityType',
+magicLabel@158: error: 'Missing required fields',
+magicLabel@167: error: 'Invalid renderAs',
+magicLabel@180: error: 'Missing inputConfig',
+magicLabel@239: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@255: error: 'Invalid entityType',
+magicLabel@271: error: 'Primitive metadata not found',
+magicLabel@285: error: 'Failed to delete primitive metadata',
+magicLabel@286: details: error instanceof Error ? error.message : 'Unknown error',
 ```
 
 ### `server/src/utils/availabilities/availabiltiesDbUtils.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
 - requiring review: 3, allowed: 0
 
 ```
-caseString@204: case 'past':
-caseString@220: case 'centered':
-caseString@236: case 'future':
+caseString@273: case 'past':
+caseString@289: case 'centered':
+caseString@305: case 'future':
 ```
 
 ### `client/src/components/booking/steps/PropertyDetailsStep.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
 - requiring review: 11, allowed: 0
 
 ```
@@ -884,7 +1170,7 @@ magicLabel@403: label="Number of Units"
 
 ### `client/src/layouts/components/NavbarShortcuts.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
 - requiring review: 11, allowed: 0
 
 ```
@@ -901,28 +1187,28 @@ magicLabel@35: title: 'Settings',
 magicLabel@36: subtitle: 'Account Settings',
 ```
 
-### `client/src/layouts/components/NavSearchBar.vue`
+### `server/src/config/entityRegistry.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
 - requiring review: 11, allowed: 0
 
 ```
-magicLabel@49: title: 'Popular Searches',
-magicLabel@51: { icon: 'tabler-chart-bar', title: 'Analytics', url: { name: 'dashboards-analytics' } },
-magicLabel@54: { icon: 'tabler-truck', title: 'Logistics', url: { name: 'dashboards-logistics' } },
-magicLabel@60: { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'apps-calendar' } },
-magicLabel@62: { icon: 'tabler-settings', title: 'Account Settings', url: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
-magicLabel@63: { icon: 'tabler-copy', title: 'Dialog Examples', url: { name: 'pages-dialog-examples' } },
-magicLabel@67: title: 'User Interface',
-magicLabel@69: { icon: 'tabler-typography', title: 'Typography', url: { name: 'pages-typography' } },
-magicLabel@70: { icon: 'tabler-menu-2', title: 'Accordion', url: { name: 'components-expansion-panel' } },
-magicLabel@79: { icon: 'tabler-file-invoice', title: 'Form Layouts', url: { name: 'forms-form-layouts' } },
-magicLabel@89: title: 'Analytics',
+magicLabel@137: displayName: 'Part Instance',
+magicLabel@138: description: 'Individual part instances with timing and fee configuration'
+magicLabel@143: displayName: 'Block Instance',
+magicLabel@144: description: 'Block instances with shape assignments and configuration',
+magicLabel@151: displayName: 'Part Shape',
+magicLabel@152: description: 'Part shape definitions and constraints'
+magicLabel@157: displayName: 'Block Shape',
+magicLabel@158: description: 'Block shape definitions and constraints'
+magicLabel@163: displayName: 'Event Shape',
+magicLabel@169: displayName: 'Event Instance',
+magicLabel@170: description: 'Event instance configurations with calendar event templates'
 ```
 
 ### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
 - requiring review: 11, allowed: 0
 
 ```
@@ -939,28 +1225,9 @@ magicLabel@221: error: 'Failed to delete relationship metadata',
 magicLabel@222: details: error instanceof Error ? error.message : 'Unknown error',
 ```
 
-### `server/src/scripts/fixUserRolesAndEmails.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
-- requiring review: 11, allowed: 0
-
-```
-magicLabel@57: { firstName: 'John', lastName: 'Homebuyer' },
-magicLabel@58: { firstName: 'Sarah', lastName: 'Purchaser' },
-magicLabel@59: { firstName: 'Michael', lastName: 'Newowner' },
-magicLabel@60: { firstName: 'Emily', lastName: 'Houseseeker' },
-magicLabel@61: { firstName: 'David', lastName: 'Propertybuyer' },
-magicLabel@62: { firstName: 'Jessica', lastName: 'Homeshopper' },
-magicLabel@63: { firstName: 'Robert', lastName: 'Estateclient' },
-magicLabel@64: { firstName: 'Amanda', lastName: 'Realestateclient' },
-magicLabel@192: ? agentUsers.find(u => u.id === updates.agentId)?.firstName || 'Unknown'
-magicLabel@195: ? createdClients.find(c => c.id === updates.clientId)?.firstName || 'Unknown'
-magicLabel@198: ? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'
-```
-
 ### `client/src/composables/booking/useWizardAppointmentManagement.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
 - requiring review: 10, allowed: 0
 
 ```
@@ -978,7 +1245,7 @@ magicLabel@237: success('Wizard reset successfully')
 
 ### `client/src/views/admin/tabs/components/AppointmentsTable.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
 - requiring review: 10, allowed: 0
 
 ```
@@ -994,27 +1261,9 @@ magicLabel@239: label="Selected Date"
 magicLabel@258: No appointments found. Click "Create Appointment" to add one.
 ```
 
-### `server/src/db/models/admin/adminMetadata.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
-- requiring review: 10, allowed: 0
-
-```
-magicLabel@65: comment: 'Entity type for this metadata entry',
-magicLabel@71: comment: 'Entity ID or sentinel UUID for global configs',
-magicLabel@90: comment: 'Field data type',
-magicLabel@95: comment: 'Human-readable label',
-magicLabel@102: comment: 'Whether field is required',
-magicLabel@109: comment: 'Field visibility setting',
-magicLabel@115: comment: 'Layout within section',
-magicLabel@129: comment: 'How to render the field',
-magicLabel@141: comment: 'Panel name for expandedPanel visibility',
-magicLabel@148: comment: 'Whether field can be bulk edited',
-```
-
 ### `client/src/utils/admin/entityDisplayText.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
 - requiring review: 9, allowed: 0
 
 ```
@@ -1029,9 +1278,22 @@ magicLabel@23: blockInstance: 'Block Instance',
 magicLabel@24: partInstance: 'Part Instance',
 ```
 
+### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=2, magicLabel=2
+- requiring review: 5, allowed: 0
+
+```
+inlineLabelMap@204: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fetchToGlobalTransformer.ts:197',message:'fetchToGlobalTransformer: eventAssignments API response',data:{endpoint,responseDataLength:response.data?.length||0,responseDataSample:Array.isArray(response.data)?response.data.slice(0,2):response.data},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@204: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fetchToGlobalTransformer.ts:197',message:'fetchToGlobalTransformer: eventAssignments API response',data:{endpoint,responseDataLength:response.data?.length||0,responseDataSample:Array.isArray(response.data)?response.data.slice(0,2):response.data},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@216: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fetchToGlobalTransformer.ts:204',message:'fetchToGlobalTransformer: eventAssignments transformed',data:{transformedLength:transformed.length,transformedSample:transformed.slice(0,2)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@216: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fetchToGlobalTransformer.ts:204',message:'fetchToGlobalTransformer: eventAssignments transformed',data:{transformedLength:transformed.length,transformedSample:transformed.slice(0,2)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@216: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fetchToGlobalTransformer.ts:204',message:'fetchToGlobalTransformer: eventAssignments transformed',data:{transformedLength:transformed.length,transformedSample:transformed.slice(0,2)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+```
+
 ### `server/src/db/models/admin/adminPrimitiveMetadata.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
 - requiring review: 9, allowed: 0
 
 ```
@@ -1046,25 +1308,53 @@ magicLabel@136: comment: 'Panel name for expandedPanel visibility',
 magicLabel@143: comment: 'Whether field can be bulk edited',
 ```
 
-### `server/src/config/entityRegistry.ts`
+### `client/src/components/admin/generic/EntityCardSubPanels.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=6
+- requiring review: 7, allowed: 0
+
+```
+inlineLabelMap@51: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'EntityCardSubPanels.vue:47',message:'relationships panel fields',data:{entityKey,entityId:props.entityId,relationshipsFields:(relationships as any[]).map(String),hasValidEvents:(relationships as any[]).includes('validEvents')},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@51: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'EntityCardSubPanels.vue:47',message:'relationships panel fields',data:{entityKey,entityId:props.entityId,relationshipsFields:(relationships as any[]).map(String),hasValidEvents:(relationships as any[]).includes('validEvents')},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@240: relationshipTypes.push('Booking Cascades')
+magicLabel@253: relationshipTypes.push('Valid Cascades')
+magicLabel@256: relationshipTypes.push('Valid Parts')
+magicLabel@294: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+magicLabel@342: <!-- PATTERN: Simple panel with just "Annotations" label -->
+```
+
+### `client/src/utils/forms/getFieldKeys.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=3
+- requiring review: 5, allowed: 0
+
+```
+magicLabel@14: * WHY: Prevents "Unknown input type" warnings and ensures proper field handling
+magicLabel@58: // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
+fieldMapping@69: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'getFieldKeys.ts:66',message:'partShape field keys from metadata',data:{entityKey:options.entityKey,hasValidEvents:metadataKeys.includes('validEvents' as GlobalFieldKey<GE>),allKeys:metadataKeys,entityHasValidEvents:'validEvents' in (entity||{})},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+inlineLabelMap@69: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'getFieldKeys.ts:66',message:'partShape field keys from metadata',data:{entityKey:options.entityKey,hasValidEvents:metadataKeys.includes('validEvents' as GlobalFieldKey<GE>),allKeys:metadataKeys,entityHasValidEvents:'validEvents' in (entity||{})},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+magicLabel@69: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'getFieldKeys.ts:66',message:'partShape field keys from metadata',data:{entityKey:options.entityKey,hasValidEvents:metadataKeys.includes('validEvents' as GlobalFieldKey<GE>),allKeys:metadataKeys,entityHasValidEvents:'validEvents' in (entity||{})},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+```
+
+### `client/src/views/admin/tabs/InstancesTab.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
 - requiring review: 8, allowed: 0
 
 ```
-magicLabel@131: displayName: 'Part Instance',
-magicLabel@132: description: 'Individual part instances with timing and fee configuration'
-magicLabel@137: displayName: 'Block Instance',
-magicLabel@138: description: 'Block instances with shape assignments and configuration',
-magicLabel@145: displayName: 'Part Shape',
-magicLabel@146: description: 'Part shape definitions and constraints'
-magicLabel@151: displayName: 'Block Shape',
-magicLabel@152: description: 'Block shape definitions and constraints'
+magicLabel@335: alert('Please create an event shape first')
+magicLabel@364: success('Event instance created successfully')
+magicLabel@472: : 'No Cascades'
+magicLabel@492: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+magicLabel@672: label="Event Shape"
+magicLabel@685: label="Title Template"
+magicLabel@693: label="Description Template"
+magicLabel@701: label="Location Template"
 ```
 
 ### `server/src/db/models/admin/adminRelationshipMetadata.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
 - requiring review: 8, allowed: 0
 
 ```
@@ -1078,52 +1368,86 @@ magicLabel@103: comment: 'Layout within section',
 magicLabel@141: comment: 'Whether relationship field can be bulk edited',
 ```
 
-### `client/src/components/admin/generic/EntityCard.vue`
+### `server/src/scripts/importFromMCPEvents.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
-- requiring review: 7, allowed: 0
-
-```
-magicLabel@159: const logger = createLogger('EntityCard')
-magicLabel@189: if (isScopeExplicitlyEnabled('EntityCard')) {
-magicLabel@190: logger.debug('Form initialized', {
-magicLabel@288: logger.debug('Fields needing contexts', {
-magicLabel@396: logger.debug('Save triggered', {
-magicLabel@414: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-magicLabel@428: logger.debug('Form reset after save', { entityId: props.entity.id })
-```
-
-### `client/src/composables/admin/useAnnotationsFieldViewModel.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
-- requiring review: 7, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 4, allowed: 0
 
 ```
-magicLabel@115: notifyError('Failed to add annotations')
-magicLabel@125: const message = error instanceof Error ? error.message : 'Failed to add selected annotations'
-magicLabel@136: const message = error instanceof Error ? error.message : 'Failed to create annotation'
-magicLabel@149: notifyError('Failed to update annotation type')
-magicLabel@161: notifyError('Failed to update annotation')
-magicLabel@171: notifyError('Failed to update default')
-magicLabel@181: notifyError('Failed to remove annotation')
+magicLabel@39: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+magicLabel@40: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+fieldMapping@104: start: event.start ? { dateTime: event.start.dateTime || event.start.date } : undefined,
+fieldMapping@105: end: event.end ? { dateTime: event.end.dateTime || event.end.date } : undefined,
 ```
 
-### `server/src/scripts/importCalendarData.ts`
+### `client/src/components/admin/generic/collections/RelationshipCollection.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=2, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=5
+- requiring review: 6, allowed: 0
+
+```
+inlineLabelMap@159: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RelationshipCollection.vue:155',message:'RelationshipCollection mounted for validEvents',data:{fieldKey:String(fieldKey),entityKey,entityId:props.fieldContext?.entityId,collectionType:props.collectionType},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H'})}).catch(()=>{});
+magicLabel@159: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RelationshipCollection.vue:155',message:'RelationshipCollection mounted for validEvents',data:{fieldKey:String(fieldKey),entityKey,entityId:props.fieldContext?.entityId,collectionType:props.collectionType},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H'})}).catch(()=>{});
+magicLabel@222: parts: 'Click to create part instance',
+magicLabel@223: annotations: 'Click to create annotation instance',
+magicLabel@224: events: 'Click to create event instance'
+magicLabel@233: events: `No valid ${effectiveCollectionType.value === 'events' ? 'EventShapes' : 'Shapes'} configured. Configure valid options to add instances.`
+```
+
+### `client/src/components/booking/AppointmentSlotGrid.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=2
+- requiring review: 4, allowed: 0
+
+```
+fieldMapping@104: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:100',message:'AppointmentSlotGrid: derivePerspective result',data:{buttonIndex:appointmentSlot.buttonIndex,currentPerspective,displayTime:displayTime?{startTime:displayTime.startTime,endTime:displayTime.endTime,duration:displayTime.duration}:null,slotTotalTimeRange:appointmentSlot.totalTimeRange?{startTime:appointmentSlot.totalTimeRange.startTime,endTime:appointmentSlot.totalTimeRange.endTime,duration:appointmentSlot.totalTimeRange.duration}:null,slotEventTimeRangesOnSite:appointmentSlot.eventTimeRanges?.['OnSite']?{startTime:appointmentSlot.eventTimeRanges['OnSite'].startTime,endTime:appointmentSlot.eventTimeRanges['OnSite'].endTime,duration:appointmentSlot.eventTimeRanges['OnSite'].duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@104: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:100',message:'AppointmentSlotGrid: derivePerspective result',data:{buttonIndex:appointmentSlot.buttonIndex,currentPerspective,displayTime:displayTime?{startTime:displayTime.startTime,endTime:displayTime.endTime,duration:displayTime.duration}:null,slotTotalTimeRange:appointmentSlot.totalTimeRange?{startTime:appointmentSlot.totalTimeRange.startTime,endTime:appointmentSlot.totalTimeRange.endTime,duration:appointmentSlot.totalTimeRange.duration}:null,slotEventTimeRangesOnSite:appointmentSlot.eventTimeRanges?.['OnSite']?{startTime:appointmentSlot.eventTimeRanges['OnSite'].startTime,endTime:appointmentSlot.eventTimeRanges['OnSite'].endTime,duration:appointmentSlot.eventTimeRanges['OnSite'].duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@104: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:100',message:'AppointmentSlotGrid: derivePerspective result',data:{buttonIndex:appointmentSlot.buttonIndex,currentPerspective,displayTime:displayTime?{startTime:displayTime.startTime,endTime:displayTime.endTime,duration:displayTime.duration}:null,slotTotalTimeRange:appointmentSlot.totalTimeRange?{startTime:appointmentSlot.totalTimeRange.startTime,endTime:appointmentSlot.totalTimeRange.endTime,duration:appointmentSlot.totalTimeRange.duration}:null,slotEventTimeRangesOnSite:appointmentSlot.eventTimeRanges?.['OnSite']?{startTime:appointmentSlot.eventTimeRanges['OnSite'].startTime,endTime:appointmentSlot.eventTimeRanges['OnSite'].endTime,duration:appointmentSlot.eventTimeRanges['OnSite'].duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@130: return 'Unavailable'
+```
+
+### `client/src/components/booking/SelectionCard.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 3, allowed: 0
+
+```
+fieldMapping@184: emit('update:number', { itemId: props.item.id, number: finalValue })
+fieldMapping@199: :style="{ minHeight: configWithDefaults.appearance.minHeight }"
+magicLabel@252: label="Quantity"
+```
+
+### `client/src/utils/booking/timeAvailabilityManager.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@70: * Handles various name formats: "John Smith", "John M. Smith", "Smith, John", etc.
-magicLabel@86: // Handle "First Last" or "First Middle Last" format
-magicLabel@220: firstName: firstName || 'Unknown',
-inlineLabelMap@394: console.log('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
-inlineLabelMap@412: console.log('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+magicLabel@91: this.name = 'ConstraintValidationError'
+switchTypeLike@306: switch (constraint.type) {
+fieldMapping@441: { start: busy.start, end: busy.end }
+fieldMapping@472: { start: busy.start, end: busy.end }
+switchTypeLike@1034: switch (keyParts.type) {
+```
+
+### `server/src/db/models/admin/adminMetadata.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
+- requiring review: 7, allowed: 0
+
+```
+magicLabel@105: comment: 'Field data type',
+magicLabel@110: comment: 'Human-readable label',
+magicLabel@117: comment: 'Whether field is required',
+magicLabel@124: comment: 'Field visibility setting',
+magicLabel@130: comment: 'Layout within section',
+magicLabel@156: comment: 'Panel name for expandedPanel visibility',
+magicLabel@163: comment: 'Whether field can be bulk edited',
 ```
 
 ### `client/src/composables/_archived/useFieldMetadata.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=2, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
 - requiring review: 2, allowed: 0
 
 ```
@@ -1133,7 +1457,7 @@ fieldEqualsString@254: } else if (key === 'required' || key === 'disabled' || ke
 
 ### `client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsMutations.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
 - requiring review: 6, allowed: 0
 
 ```
@@ -1145,9 +1469,35 @@ magicLabel@300: if (!blockInstanceId.value) throw new Error('Block instance ID r
 magicLabel@307: if (!currentBlockInstanceId) throw new Error('Block instance ID required')
 ```
 
+### `client/src/composables/admin/useSelectFiltering.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=2, magicLabel=2
+- requiring review: 4, allowed: 0
+
+```
+inlineLabelMap@292: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useSelectFiltering.ts:289',message:'validEvents filtering start',data:{fieldKey:String(fieldContext.fieldKey),hasConfig:!!selectConfig.value,allEntitiesCount:allEntities.value.length,isActiveChildSelect:isActiveChildSelect.value,isDirectMatchingSelect:isDirectMatchingSelect.value,selectConfig:selectConfig.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'J'})}).catch(()=>{});
+magicLabel@292: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useSelectFiltering.ts:289',message:'validEvents filtering start',data:{fieldKey:String(fieldContext.fieldKey),hasConfig:!!selectConfig.value,allEntitiesCount:allEntities.value.length,isActiveChildSelect:isActiveChildSelect.value,isDirectMatchingSelect:isDirectMatchingSelect.value,selectConfig:selectConfig.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'J'})}).catch(()=>{});
+inlineLabelMap@531: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useSelectFiltering.ts:523',message:'validEvents final filtered entities',data:{fieldKey:String(fieldContext.fieldKey),filteredCount:result.length,allEntitiesCount:allEntities.value.length,isActiveChildSelect:isActiveChildSelect.value,isDirectMatchingSelect:isDirectMatchingSelect.value,isDescriptionSelect:isDescriptionSelect.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'J'})}).catch(()=>{});
+magicLabel@531: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useSelectFiltering.ts:523',message:'validEvents final filtered entities',data:{fieldKey:String(fieldContext.fieldKey),filteredCount:result.length,allEntitiesCount:allEntities.value.length,isActiveChildSelect:isActiveChildSelect.value,isDirectMatchingSelect:isDirectMatchingSelect.value,isDescriptionSelect:isDescriptionSelect.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'J'})}).catch(()=>{});
+```
+
+### `client/src/composables/booking/useTimeSlotCalculations.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 6, allowed: 0
+
+```
+magicLabel@110: const clientPresentEventFinal = findEventFinalByName(shape.slotShape, 'ClientPresent')
+magicLabel@118: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
+magicLabel@128: label: 'Inspector',
+magicLabel@133: label: 'Client Formal Presentation',
+magicLabel@184: label: 'Inspector',
+magicLabel@189: label: 'Client Formal Presentation',
+```
+
 ### `client/src/layouts/components/NavBarNotifications.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
 - requiring review: 6, allowed: 0
 
 ```
@@ -1161,7 +1511,7 @@ magicLabel@47: subtitle: 'New order received from john',
 
 ### `client/src/router/index.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
 - requiring review: 6, allowed: 0
 
 ```
@@ -1175,7 +1525,7 @@ magicLabel@85: logger.debug('Admin metadata prefetched successfully')
 
 ### `client/src/utils/booking/constraintExtractors.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
 - requiring review: 7, allowed: 0
 
 ```
@@ -1188,9 +1538,23 @@ magicLabel@265: return { valid: false, error: 'Invalid capacity constraint maxHo
 magicLabel@270: return { valid: false, error: 'Invalid capacity constraint direction' }
 ```
 
+### `client/src/utils/differentialScheduling.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 6, allowed: 0
+
+```
+magicLabel@50: * @deprecated Use `findEventFinalByName(AppointmentShape.slotShape, "ClientPresent")?.duration` instead. This function filters raw parts, which is redundant when SlotShape already contains the calculated value.
+magicLabel@164: const clientPresentEventFinal = findEventFinalByName(slotShape, 'ClientPresent')
+magicLabel@182: let clientPresentTimeRange = timeRanges.eventTimeRanges?.['ClientPresent']
+magicLabel@196: adjustedEventTimeRanges['ClientPresent'] = clientPresentTimeRange
+magicLabel@244: const clientPresentEventFinal = findEventFinalByName(slotShape, 'ClientPresent')
+magicLabel@258: adjustedEventTimeRanges['ClientPresent'] = clientPresentTimeRange
+```
+
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
 - requiring review: 6, allowed: 0
 
 ```
@@ -1204,7 +1568,7 @@ magicLabel@417: { title: 'Round Nearest', value: 'roundNearest' }
 
 ### `client/src/views/admin/tabs/components/UsersTable.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
 - requiring review: 6, allowed: 0
 
 ```
@@ -1216,31 +1580,32 @@ magicLabel@125: label="Login ID"
 magicLabel@144: No users found. Click "Create User" to add one.
 ```
 
-### `server/src/db/models/booking/annotation_shape.ts`
+### `server/src/scripts/fix-missing-layout-configs.mjs`
 
-- total counts: switchEntityKey=0, entityKeyString=1, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 1, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 2, allowed: 0
 
 ```
-entityKeyString@34: declare name: string; // e.g., 'description', 'tooltip'
+fieldMapping@95: replacements: { shapeId: blockShape.id, fieldKey },
+fieldMapping@206: replacements: { shapeId: partShape.id, fieldKey },
 ```
 
-### `client/src/components/admin/generic/EntityCardSubPanels.vue`
+### `client/src/components/booking/dev/DevPanelsContainer.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@229: relationshipTypes.push('Booking Cascades')
-magicLabel@242: relationshipTypes.push('Valid Cascades')
-magicLabel@245: relationshipTypes.push('Valid Parts')
-magicLabel@283: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@330: <!-- PATTERN: Simple panel with just "Annotations" label -->
+magicLabel@206: const clientPresentTimeRange = slot.eventTimeRanges?.['ClientPresent']
+magicLabel@539: if (eventShapeName === 'OnSite' || eventShapeName === 'ClientPresent') {
+magicLabel@698: v-for="eventName in ['OnSite', 'ClientPresent', 'Moveable']"
+magicLabel@744: label="Service Type"
+magicLabel@830: : 'Not configured' }}
 ```
 
 ### `client/src/components/booking/TimeOnSiteGraph.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
 - requiring review: 5, allowed: 0
 
 ```
@@ -1251,35 +1616,9 @@ magicLabel@139: aria-label="Select Inspector time view"
 magicLabel@157: aria-label="Select Client time view"
 ```
 
-### `client/src/composables/booking/useAppointmentDataCollection.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@101: showError('Please select at least one service type')
-magicLabel@107: showError('Property details are required')
-magicLabel@112: showError('Contact information is required')
-magicLabel@117: showError('Availability selection is required')
-magicLabel@296: const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
-```
-
-### `client/src/composables/booking/useTimeSlotCalculations.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@113: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
-magicLabel@123: label: 'Inspector',
-magicLabel@128: label: 'Client Formal Presentation',
-magicLabel@179: label: 'Inspector',
-magicLabel@184: label: 'Client Formal Presentation',
-```
-
 ### `client/src/composables/booking/useWizardValidationErrors.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
 - requiring review: 5, allowed: 0
 
 ```
@@ -1292,7 +1631,7 @@ magicLabel@122: showError('Please complete all required fields before continuing
 
 ### `client/src/composables/useFormValidation.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
 - requiring review: 5, allowed: 0
 
 ```
@@ -1305,7 +1644,7 @@ magicLabel@177: const dateNotInPast = (message = 'Date cannot be in the past'): 
 
 ### `client/src/utils/booking/slotGenerationValidation.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
 - requiring review: 5, allowed: 0
 
 ```
@@ -1316,9 +1655,20 @@ magicLabel@77: logger.error('Invalid startBoundary datetime', { startBoundary })
 magicLabel@81: logger.error('Invalid endBoundary datetime', { endBoundary })
 ```
 
+### `server/src/api/api.controller.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@8: res.status(500).json({ error: "An error occurred" });
+fieldMapping@14: res.status(200).json({ msg: req.body });
+magicLabel@16: res.status(500).json({ error: "An error occurred" });
+```
+
 ### `server/src/db/models/booking/property_version_type.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
 - requiring review: 5, allowed: 0
 
 ```
@@ -1329,9 +1679,31 @@ magicLabel@62: comment: 'Must reference a block_instance with "Properties" block
 magicLabel@69: comment: 'Order in which property types should be displayed',
 ```
 
+### `server/src/scripts/createAppointmentsFromCalendar.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 3, allowed: 0
+
+```
+fieldMapping@20: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+magicLabel@424: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+magicLabel@425: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+```
+
+### `server/src/scripts/importRealCalendarEvents.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 3, allowed: 0
+
+```
+fieldMapping@18: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+magicLabel@51: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+magicLabel@52: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+```
+
 ### `client/src/components/admin/BlockInstanceCreateModal.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
 - requiring review: 4, allowed: 0
 
 ```
@@ -1341,21 +1713,42 @@ magicLabel@110: * WHY: Shows "Create" or "Duplicate" on button
 magicLabel@114: return props.sourceEntity ? 'Duplicate' : 'Create'
 ```
 
+### `client/src/components/admin/generic/fields/FieldRenderer.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=2
+- requiring review: 3, allowed: 0
+
+```
+inlineLabelMap@263: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'FieldRenderer.vue:255',message:'validEvents component type determined',data:{fieldKey:String(fieldKey),entityKey:effectiveFieldContext.value?.entityKey,componentType:componentType?.type,componentReason:componentType?.reason,hasValidComponent:hasValidComponent.value,componentToRender:componentToRender.value?.name,fieldMetadataEntry:fieldComponent.fieldMetadataEntry.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'G'})}).catch(()=>{});
+magicLabel@263: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'FieldRenderer.vue:255',message:'validEvents component type determined',data:{fieldKey:String(fieldKey),entityKey:effectiveFieldContext.value?.entityKey,componentType:componentType?.type,componentReason:componentType?.reason,hasValidComponent:hasValidComponent.value,componentToRender:componentToRender.value?.name,fieldMetadataEntry:fieldComponent.fieldMetadataEntry.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'G'})}).catch(()=>{});
+magicLabel@311: : 'Unknown error - check field metadata configuration'
+```
+
+### `client/src/components/booking/IndependentSelectCard.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@72: selectionComponent: 'VCheckbox',
+fieldMapping@179: :style="{ minHeight: mergedConfig.appearance.minHeight }"
+```
+
 ### `client/src/composables/admin/useAnnotationSelect.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@174: if (!blockInstanceId.value) throw new Error('Block instance ID is required')
-magicLabel@185: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
-magicLabel@262: if (!blockInstanceId.value) throw new Error('Block instance ID is required')
-magicLabel@267: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
+magicLabel@179: if (!blockInstanceId.value) throw new Error('Block instance ID is required')
+magicLabel@190: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
+magicLabel@267: if (!blockInstanceId.value) throw new Error('Block instance ID is required')
+magicLabel@272: if (!currentBlockInstanceId) throw new Error('Block instance ID is required')
 ```
 
 ### `client/src/composables/admin/useAvailabilitySettings.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
 - requiring review: 4, allowed: 0
 
 ```
@@ -1367,7 +1760,7 @@ magicLabel@184: error.value = 'Settings must be loaded before saving'
 
 ### `client/src/composables/admin/usePartInstanceBulkEdit.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
 - requiring review: 4, allowed: 0
 
 ```
@@ -1377,9 +1770,43 @@ magicLabel@206: const errorMessage = err instanceof Error ? err.message : 'Faile
 magicLabel@245: showError('No valid fields to update')
 ```
 
+### `client/src/composables/admin/useRelationshipCollection.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- requiring review: 4, allowed: 0
+
+```
+magicLabel@125: // PATTERN: Replace 'Instance' with 'Shape' in entity key
+magicLabel@128: if (childKey.endsWith('Instance')) {
+magicLabel@129: return childKey.replace('Instance', 'Shape') as GlobalEntityKey
+magicLabel@132: return childKey.replace('instance', 'shape').replace('Instance', 'Shape') as GlobalEntityKey
+```
+
+### `client/src/composables/admin/useShapeSaveHandlers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 2, allowed: 0
+
+```
+fieldMapping@97: await createAnnotationShapeMutation.mutateAsync({ name: newAnnotationShapeName.value.trim() })
+magicLabel@98: success('Annotation shape created successfully')
+```
+
+### `client/src/composables/booking/useAppointmentTimes.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- requiring review: 4, allowed: 0
+
+```
+magicLabel@112: return transformed.totalTimeRange || transformed.eventTimeRanges?.['OnSite'] || transformed.eventTimeRanges?.['ClientPresent'] || transformed.eventTimeRanges?.['Moveable'] || null
+magicLabel@141: return transformed.eventTimeRanges?.['ClientPresent'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['OnSite'] || transformed.eventTimeRanges?.['Moveable'] || null
+magicLabel@163: return transformed.eventTimeRanges?.['OnSite'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['ClientPresent'] || transformed.eventTimeRanges?.['Moveable'] || null
+magicLabel@186: return transformed.eventTimeRanges?.['ClientPresent'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['OnSite'] || transformed.eventTimeRanges?.['Moveable'] || null
+```
+
 ### `client/src/layouts/components/UserProfile.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
 - requiring review: 4, allowed: 0
 
 ```
@@ -1391,7 +1818,7 @@ magicLabel@43: { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricin
 
 ### `client/src/utils/booking/confirmationStepData.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
 - requiring review: 4, allowed: 0
 
 ```
@@ -1403,7 +1830,7 @@ magicLabel@144: : 'Not specified'
 
 ### `client/src/utils/entityDefaults.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
 - requiring review: 4, allowed: 0
 
 ```
@@ -1413,20 +1840,19 @@ magicLabel@32: partInstance: 'Part Profile',
 magicLabel@33: partShape: 'Part Shape',
 ```
 
-### `client/src/components/admin/generic/fields/AnnotationsField.vue`
+### `client/src/views/admin/components/AnnotationTypeCard.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 2, allowed: 0
 
 ```
-magicLabel@46: :error-messages="hasDuplicateUserTypeBlockLocal(ann) ? ['Another annotation already uses this user type'] : []"
-magicLabel@124: :label="'Select Annotations'"
-magicLabel@160: label="Annotation Text"
+magicLabel@31: const logger = createLogger('AnnotationShapeCard')
+fieldMapping@46: data: { name: editedName.value.trim() }
 ```
 
 ### `client/src/components/booking/dev/DevPanelToggle.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
 - requiring review: 1, allowed: 0
 
 ```
@@ -1435,7 +1861,7 @@ fieldEqualsString@26: if ((event.ctrlKey || event.metaKey) && event.shiftKey && 
 
 ### `client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsOrchestration.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1444,9 +1870,19 @@ magicLabel@166: throw new Error('Please select an annotation type')
 magicLabel@188: throw new Error(apiError.response.data?.error || 'Cannot add annotation with this user type')
 ```
 
+### `client/src/composables/admin/useEntityMetadata.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=1
+- requiring review: 2, allowed: 0
+
+```
+inlineLabelMap@81: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useEntityMetadata.ts:78',message:'partShape metadata loaded',data:{entityType,hasValidEvents:!!metadata['validEvents'],allFieldKeys:Object.keys(metadata),validEventsMetadata:metadata['validEvents']},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@81: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useEntityMetadata.ts:78',message:'partShape metadata loaded',data:{entityType,hasValidEvents:!!metadata['validEvents'],allFieldKeys:Object.keys(metadata),validEventsMetadata:metadata['validEvents']},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+```
+
 ### `client/src/composables/admin/usePartInstanceCollection.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1455,9 +1891,19 @@ magicLabel@140: const partShapeName = partShape?.name || 'PartShape'
 magicLabel@193: notifyError('Failed to link PartInstance to BlockInstance')
 ```
 
+### `client/src/composables/admin/useSelectConfig.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=1
+- requiring review: 2, allowed: 0
+
+```
+inlineLabelMap@416: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useSelectConfig.ts:413',message:'validEvents optionEntityKey determined',data:{fieldKey:String(fieldContext.fieldKey),entityKey:fieldContext.entityKey,optionEntityKey:optionKey,config:selectConfig.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'K'})}).catch(()=>{});
+magicLabel@416: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useSelectConfig.ts:413',message:'validEvents optionEntityKey determined',data:{fieldKey:String(fieldContext.fieldKey),entityKey:fieldContext.entityKey,optionEntityKey:optionKey,config:selectConfig.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'K'})}).catch(()=>{});
+```
+
 ### `client/src/composables/admin/useSelectLabelResolution.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1468,7 +1914,7 @@ magicLabel@70: const shapeName = blockShape?.name as string || 'Instance'
 
 ### `client/src/composables/booking/useAvailabilityValidation.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1477,9 +1923,20 @@ magicLabel@49: return 'Please select a time slot'
 magicLabel@53: return 'Selected time slot is invalid'
 ```
 
+### `client/src/composables/booking/useMoveablePartsScheduling.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@54: if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
+magicLabel@106: const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
+magicLabel@116: const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
+```
+
 ### `client/src/main.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1490,27 +1947,45 @@ magicLabel@55: if (errorString.includes('Cannot read properties of undefined') &
 
 ### `client/src/utils/appointmentFieldFormatters.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldEqualsString@116: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
 ```
 
-### `client/src/utils/transformers/annotationTransformers.ts`
+### `client/src/utils/booking/constraintHelpers.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@34: config: { start: dateRange.start, end: dateRange.end }
+```
+
+### `client/src/utils/booking/partFinalizer.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@17: * NOTE: Backend uses active_annotations table, frontend uses friendly "AnnotationAssignment" terminology
-magicLabel@114: * NOTE: Backend uses active_annotations, frontend uses friendly "AnnotationAssignment" terminology
-magicLabel@219: * NOTE: Backend uses active_annotations, frontend uses friendly "AnnotationAssignment" terminology
+magicLabel@125: if (eventShapeName === 'OnSite' || eventShapeName === 'ClientPresent') {
+magicLabel@142: return es?.name === 'ClientPresent' &&
+magicLabel@154: if (eventShapeName === 'Moveable') {
+```
+
+### `client/src/utils/collections/resolveByIds.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@18: : { resolved: acc.resolved, missingIds: [...acc.missingIds, id] }
 ```
 
 ### `client/src/views/admin/entities/BlockInstanceForm.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1521,7 +1996,7 @@ magicLabel@39: label="Order Index"
 
 ### `client/src/views/admin/entities/BlockShapeForm.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1532,7 +2007,7 @@ magicLabel@121: error.value = err instanceof Error ? err.message : 'Failed to sa
 
 ### `client/src/views/admin/entities/PartInstanceForm.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1543,7 +2018,7 @@ magicLabel@39: label="Order Index"
 
 ### `client/src/views/admin/entities/PartShapeForm.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1554,7 +2029,7 @@ magicLabel@104: error.value = err instanceof Error ? err.message : 'Failed to sa
 
 ### `server/src/db/models/booking/active_annotation.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1563,9 +2038,40 @@ magicLabel@90: comment: 'Order in which annotation instances should be displayed
 magicLabel@97: comment: 'Whether this annotation instance should be shown by default for this block',
 ```
 
+### `server/src/db/models/booking/annotation_shape.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@63: comment: 'Default order index for this annotation shape',
+magicLabel@70: comment: 'Default isDefault flag for this annotation shape',
+magicLabel@77: comment: 'Order index for UI drag-and-drop ordering',
+```
+
+### `server/src/db/models/booking/event_shape.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@34: declare name: string; // e.g., 'OnSite', 'Moveable', 'ClientPresent'
+magicLabel@69: comment: 'Default order index for this event shape',
+magicLabel@76: comment: 'Order index for UI drag-and-drop ordering',
+```
+
+### `server/src/routes/helpers/dataController.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@268: await dep.Entity.destroy({ where: dep.where });
+```
+
 ### `server/src/scripts/fix-appointment-block-instances.mjs`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1576,7 +2082,7 @@ magicLabel@85: WHERE bs.name = 'Availabiltiy Option'
 
 ### `server/src/scripts/setDifferentialServices.mjs`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
 - requiring review: 3, allowed: 0
 
 ```
@@ -1587,7 +2093,7 @@ magicLabel@31: "Investors Inspection" // Also check without apostrophe
 
 ### `client/src/components/admin/component/ComponentDistributionModal.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1597,37 +2103,27 @@ magicLabel@132: { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTI
 
 ### `client/src/components/admin/generic/fields/SelectInputs.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@246: { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
-magicLabel@247: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
+magicLabel@249: { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
+magicLabel@250: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
 ```
 
 ### `client/src/components/admin/MetadataEditModal.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@127: showError('Editor not available')
-magicLabel@139: const errorMessage = getApiErrorMessage(err, 'Failed to save metadata configuration')
-```
-
-### `client/src/components/booking/dev/DevPanelsContainer.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@719: label="Service Type"
-magicLabel@805: : 'Not configured' }}
+magicLabel@117: showError('Editor not available')
+magicLabel@129: const errorMessage = getApiErrorMessage(err, 'Failed to save metadata configuration')
 ```
 
 ### `client/src/components/booking/MoveablePartsModal.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1637,7 +2133,7 @@ magicLabel@80: label="Deadline Time"
 
 ### `client/src/components/booking/steps/AvailabilityStep.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1647,7 +2143,7 @@ magicLabel@585: // LEARNING: Hide calendar header (removes "SELECT DATE" text an
 
 ### `client/src/components/booking/types/selectionCardTypes.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1657,7 +2153,7 @@ magicLabel@98: selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'
 
 ### `client/src/composables/admin/tables/useAppointmentsTableModel.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1667,7 +2163,7 @@ magicLabel@115: if (!payload.propertyVersionId && !payload.propertyId) return 'P
 
 ### `client/src/composables/admin/useInstanceBulkEdit.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1675,9 +2171,19 @@ magicLabel@150: showError('No changes to apply')
 magicLabel@172: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
 ```
 
+### `client/src/composables/admin/useRelationshipCollectionField.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@177: // WHY: Options field name follows pattern: 'valid' + pluralized relationshipKey without 'Assignments' suffix
+magicLabel@179: if (relKey.endsWith('Assignments')) {
+```
+
 ### `client/src/composables/booking/useAppointmentDropdown.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1687,7 +2193,7 @@ magicLabel@40: { text: 'Random Appointment', value: 'random' },
 
 ### `client/src/composables/booking/useAvailabilitySettings.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1697,7 +2203,7 @@ magicLabel@92: error.value = err instanceof Error ? err : new Error('Failed to r
 
 ### `client/src/composables/booking/useAvailableStartTimes.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1707,7 +2213,7 @@ magicLabel@225: const errorMessage = err instanceof Error ? err.message : 'Unkno
 
 ### `client/src/composables/entityCrud/useEntityCrudMutations.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1717,7 +2223,7 @@ magicLabel@371: throw new Error('Failed to update entities')
 
 ### `client/src/composables/entityCrud/usePrimitiveMutation.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1727,7 +2233,7 @@ magicLabel@47: const errorMessage = axiosError.response?.data?.error || 'Entity 
 
 ### `client/src/types/datetime.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1737,56 +2243,46 @@ magicLabel@74: export type RFC3339DateTime = string & { readonly __brand: 'RFC33
 
 ### `client/src/types/googleCalendar.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=0
 - requiring review: 1, allowed: 0
 
 ```
 inlineLabelMap@67: *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-15T11:00:00Z" }
 ```
 
-### `client/src/utils/booking/FinalizedPart.ts`
+### `client/src/utils/booking/PartFinal.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
 magicLabel@22: partShape: string  // Part shape name (e.g., "Client Presentation")
-magicLabel@72: * @param partShape - Part shape name (e.g., "Client Presentation")
+magicLabel@70: * @param partShape - Part shape name (e.g., "Client Presentation")
 ```
 
-### `client/src/utils/forms/getFieldKeys.ts`
+### `client/src/utils/booking/partShapeAggregator.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@14: * WHY: Prevents "Unknown input type" warnings and ensures proper field handling
-magicLabel@58: // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
+magicLabel@105: 'clientPresent': 'ClientPresent',
+magicLabel@106: 'moveable': 'Moveable'
 ```
 
-### `client/src/views/admin/tabs/InstancesTab.vue`
+### `client/src/views/admin/tabs/ShapesTab.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@316: : 'No Cascades'
-magicLabel@336: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-```
-
-### `server/src/api/api.controller.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@8: res.status(500).json({ error: "An error occurred" });
-magicLabel@16: res.status(500).json({ error: "An error occurred" });
+magicLabel@236: success('Annotation shape created successfully')
+magicLabel@279: success('Event shape created successfully')
 ```
 
 ### `server/src/app.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1794,19 +2290,9 @@ magicLabel@39: message: "API Server",
 magicLabel@43: docs: "See API documentation for available endpoints"
 ```
 
-### `server/src/db/models/booking/active_annotation.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@95: comment: 'Order in which annotation instances should be displayed for this block',
-magicLabel@102: comment: 'Whether this annotation instance should be shown by default for this block',
-```
-
 ### `server/src/db/models/participantModels/Users.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1816,7 +2302,7 @@ magicLabel@68: onDelete: 'SET NULL',
 
 ### `server/src/routes/external/calendarRoutes.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1826,7 +2312,7 @@ magicLabel@31: //     res.status(500).send('Error fetching events');
 
 ### `server/src/routes/external/googleOauthRoutes.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1836,7 +2322,7 @@ magicLabel@26: //     res.status(400).send('Authorization code missing');
 
 ### `server/src/routes/internal/participantRoutes/login-routes.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
@@ -1844,48 +2330,18 @@ magicLabel@17: //     return res.status(401).json({ message: 'Authentication fai
 magicLabel@24: //     return res.status(401).json({ message: 'Authentication failed' });
 ```
 
-### `server/src/scripts/createAppointmentsFromCalendar.ts`
+### `client/src/components/admin/generic/collections/PartsCollection.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@424: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-magicLabel@425: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-```
-
-### `server/src/scripts/importFromMCPEvents.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@39: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-magicLabel@40: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-```
-
-### `server/src/scripts/importRealCalendarEvents.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@51: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-magicLabel@52: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-```
-
-### `client/src/components/admin/generic/fields/FieldRenderer.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@290: : 'Unknown error - check field metadata configuration'
+magicLabel@10: :bulk-edit-modal-component="PartInstanceBulkEditModal"
 ```
 
 ### `client/src/components/admin/generic/fields/IconInput.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -1894,52 +2350,25 @@ magicLabel@24: <span>{{ iconValue || fieldContext.displayConfig.placeholder || '
 
 ### `client/src/components/admin/generic/fields/TextInput.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@243: if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCode !== 32) {
 ```
 
-### `client/src/components/booking/AppointmentSlotGrid.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@124: return 'Unavailable'
-```
-
 ### `client/src/components/booking/BookingWizard.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@350: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
 ```
 
-### `client/src/components/booking/IndependentSelectCard.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@72: selectionComponent: 'VCheckbox',
-```
-
-### `client/src/components/booking/SelectionCard.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@252: label="Quantity"
-```
-
 ### `client/src/components/booking/TimeSlotGrid.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -1948,7 +2377,7 @@ magicLabel@168: {{ slotData.slot ? formatTimeRange(slotData.slot) : 'Unavailable
 
 ### `client/src/composables/admin/annotationAssignments/useAnnotationAssignmentsQuery.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -1957,7 +2386,7 @@ magicLabel@52: logger.warn('Failed to fetch block instance annotations', {
 
 ### `client/src/composables/admin/tables/useCrudDataTableModel.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -1966,7 +2395,7 @@ magicLabel@16: /** Human-friendly entity label for notifications (e.g., "Appoint
 
 ### `client/src/composables/admin/tables/usePropertiesTableModel.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -1975,25 +2404,25 @@ magicLabel@20: entityLabel: 'Property',
 
 ### `client/src/composables/admin/useAnnotationDisplay.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@95: text: ann.text || 'Annotation',
 ```
 
-### `client/src/composables/admin/useAnnotationMetadata.ts`
+### `client/src/composables/admin/useAnnotationOrderIndexMutations.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@47: if (!globalData.value) return [{ title: 'Generic', value: null }]
+magicLabel@33: throw new Error('Failed to update orderIndex')
 ```
 
 ### `client/src/composables/admin/useBlockInstanceForm.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2002,7 +2431,7 @@ magicLabel@218: error.value = err instanceof Error ? err.message : 'Failed to sa
 
 ### `client/src/composables/admin/useEntityCardActions.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2011,16 +2440,25 @@ magicLabel@189: showError('Please fix form errors before saving')
 
 ### `client/src/composables/admin/useEntityList.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@107: deleteErrorMessage = 'Failed to delete item'
 ```
 
+### `client/src/composables/admin/useEventOrderIndexMutations.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@33: throw new Error('Failed to update orderIndex')
+```
+
 ### `client/src/composables/admin/usePartInstanceForm.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2029,43 +2467,25 @@ magicLabel@218: error.value = err instanceof Error ? err.message : 'Failed to sa
 
 ### `client/src/composables/admin/useSelectFieldValue.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@134: // WHY: Prevents "The number of enabled nodes does not match the number of values" error
 ```
 
-### `client/src/composables/admin/useShapeSaveHandlers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@98: success('Annotation type created successfully')
-```
-
-### `client/src/composables/booking/useAppointmentSlots.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@63: onSite: TimeRange | null      // "Inspector" bar
-```
-
 ### `client/src/composables/booking/useAvailabilityLogic.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@308: // Check selected option type blocks (e.g., "No Client Presentation" option)
+magicLabel@309: // Check selected option type blocks (e.g., "No Client Presentation" option)
 ```
 
 ### `client/src/composables/booking/useAvailabilityUI.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2074,25 +2494,16 @@ magicLabel@128: selectedDate: 'Please select a date'
 
 ### `client/src/composables/booking/useCascadeInstances.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@74: *   targetBlockShapeName: 'Base Service'
 ```
 
-### `client/src/composables/booking/useMoveablePartsScheduling.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@53: if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
-```
-
 ### `client/src/composables/booking/usePropertyTypeBlockConfig.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2101,7 +2512,7 @@ magicLabel@28: selectionComponent: 'VCheckbox' | 'VRadio'
 
 ### `client/src/composables/booking/useWizardFilteredOptions.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2110,7 +2521,7 @@ magicLabel@38: error: 'Booking data not loaded',
 
 ### `client/src/composables/booking/useWizardNavigation.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2119,7 +2530,7 @@ magicLabel@144: showError?.('Please complete all required fields before continui
 
 ### `client/src/composables/booking/useWizardSubmission.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2128,7 +2539,7 @@ magicLabel@81: const errorMessage = error instanceof Error ? error.message : 'Fa
 
 ### `client/src/composables/componentEntity/useComponentEntityActions.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2137,7 +2548,7 @@ magicLabel@96: if (!globalData) throw new Error('Global data not available')
 
 ### `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2146,7 +2557,7 @@ magicLabel@40: throw new Error('Component entity composable not available')
 
 ### `client/src/composables/useApiErrorMessage.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2155,7 +2566,7 @@ magicLabel@25: export function getApiErrorMessage(error: unknown, fallbackMessag
 
 ### `client/src/composables/useAvailability.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2164,7 +2575,7 @@ magicLabel@212: const errorMessage = err instanceof Error ? err.message : 'Unkno
 
 ### `client/src/composables/useEntityForm.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2173,7 +2584,7 @@ magicLabel@94: throw new Error('Form validation failed')
 
 ### `client/src/layouts/blank.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2182,16 +2593,34 @@ magicLabel@39: <Component :is="Component" />
 
 ### `client/src/layouts/default.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@45: <Component :is="Component" />
 ```
 
+### `client/src/types/appointment.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@214: eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "OnSite": {...}, "ClientPresent": {...}, "Moveable": {...} })
+```
+
+### `client/src/types/events.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@13: * LEARNING: Defines what event types can exist (e.g., "OnSite", "Moveable", "ClientPresent")
+```
+
 ### `client/src/types/moveableScheduling.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2200,7 +2629,7 @@ magicLabel@38: dayLabel: string          // "Today", "Tomorrow", "Jan 16"
 
 ### `client/src/types/property.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2209,16 +2638,16 @@ magicLabel@50: // Property types (junction to block_instances with "Properties" 
 
 ### `client/src/utils/api.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@30: 'Content-Type': 'application/json',
+magicLabel@31: 'Content-Type': 'application/json',
 ```
 
 ### `client/src/utils/blockInstanceUtils.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2227,7 +2656,7 @@ magicLabel@183: { title: 'Generic', value: null },
 
 ### `client/src/utils/booking/mockGoogleCalendar.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2236,7 +2665,7 @@ magicLabel@218: message: 'Cannot generate busy periods - not enough time remaini
 
 ### `client/src/utils/booking/selectionCardComponent.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2245,7 +2674,7 @@ magicLabel@28: } else if (params.selectionComponent === 'VCheckbox') {
 
 ### `client/src/utils/booking/selectionCardConfig.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2254,27 +2683,16 @@ magicLabel@6: selectionGroup: 'VRadioGroup',
 
 ### `client/src/utils/booking/selectionCardGroupConfig.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@8: return config.selectionGroup || 'VRadioGroup'
 ```
 
-### `client/src/utils/booking/timeAvailabilityManager.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@91: this.name = 'ConstraintValidationError'
-switchTypeLike@306: switch (constraint.type) {
-switchTypeLike@989: switch (keyParts.type) {
-```
-
 ### `client/src/utils/booking/timeSlotFitter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2283,34 +2701,34 @@ magicLabel@129: * Handles both 'YYYY-MM-DD' and ISO timestamp formats
 
 ### `client/src/utils/forms/formElementPatching.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@70: if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
 ```
 
+### `client/src/utils/transformers/annotationTransformers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@172: * NOTE: Backend uses annotation_assignments, frontend uses friendly "AnnotationAssignment" terminology
+```
+
 ### `client/src/utils/transformers/globalToBookingTransformer.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@145: // Removed hardcoded "User Type" diagnostic logging - now using property-based filtering
-```
-
-### `client/src/views/admin/components/AnnotationTypeCard.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@29: const logger = createLogger('AnnotationTypeCard')
+magicLabel@142: // Removed hardcoded "User Type" diagnostic logging - now using property-based filtering
 ```
 
 ### `client/src/views/admin/entities/BlockInstanceList.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2319,7 +2737,7 @@ magicLabel@90: deleteErrorMessage: 'Failed to delete block instance'
 
 ### `client/src/views/admin/entities/BlockShapeList.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2328,7 +2746,7 @@ magicLabel@97: alert('Failed to delete block type')
 
 ### `client/src/views/admin/entities/PartInstanceList.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2337,25 +2755,16 @@ magicLabel@89: alert('Failed to delete part instance')
 
 ### `client/src/views/admin/entities/PartShapeList.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@88: alert('Failed to delete part type')
 ```
 
-### `client/src/views/admin/tabs/ShapesTab.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@194: success('Annotation shape created successfully')
-```
-
 ### `server/src/db/models/admin/block_shape.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2364,7 +2773,7 @@ magicLabel@11: throw new TypeError("Class extends value " + String(b) + " is not
 
 ### `server/src/db/models/admin/business_settings.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2373,7 +2782,7 @@ magicLabel@11: throw new TypeError("Class extends value " + String(b) + " is not
 
 ### `server/src/db/models/admin/part_shape.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2382,7 +2791,7 @@ magicLabel@11: throw new TypeError("Class extends value " + String(b) + " is not
 
 ### `server/src/db/models/admin/valid_cascade.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2391,7 +2800,7 @@ magicLabel@11: throw new TypeError("Class extends value " + String(b) + " is not
 
 ### `server/src/db/models/booking/address.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2400,16 +2809,25 @@ magicLabel@11: throw new TypeError("Class extends value " + String(b) + " is not
 
 ### `server/src/db/models/booking/annotation_instance.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@11: throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
 ```
 
+### `server/src/db/models/booking/annotation_instance.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@82: comment: 'Order index for UI drag-and-drop ordering',
+```
+
 ### `server/src/db/models/booking/annotation_shape.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2418,7 +2836,7 @@ magicLabel@11: throw new TypeError("Class extends value " + String(b) + " is not
 
 ### `server/src/db/models/booking/appointment.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2427,16 +2845,25 @@ magicLabel@11: throw new TypeError("Class extends value " + String(b) + " is not
 
 ### `server/src/db/models/booking/block_instance.js`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
 magicLabel@11: throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
 ```
 
+### `server/src/db/models/booking/event_instance.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@95: comment: 'Order index for UI drag-and-drop ordering',
+```
+
 ### `server/src/db/models/booking/instance_component.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2445,7 +2872,7 @@ magicLabel@88: comment: 'Order in which components should be displayed',
 
 ### `server/src/db/models/booking/part_instance_version.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2454,16 +2881,16 @@ magicLabel@56: onDelete: 'CASCADE',
 
 ### `server/src/routes/internal/availabilityRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@98: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@133: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
 ### `server/src/scripts/check-specific-shape.mjs`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2472,7 +2899,7 @@ magicLabel@106: `SELECT name FROM "SequelizeMeta"
 
 ### `server/src/scripts/fix-appointment-data.mjs`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2481,7 +2908,7 @@ magicLabel@71: name: "Single Family Home",
 
 ### `server/src/test/setup/testDb.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
@@ -2490,7 +2917,7 @@ magicLabel@63: throw new Error('Test database not initialized')
 
 ### `server/src/utils/sequelizeHelpers.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```

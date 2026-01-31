@@ -67,6 +67,7 @@ export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {
       parts: GlobalFieldKey<GE>[]
       relationships: GlobalFieldKey<GE>[]
       annotations: GlobalFieldKey<GE>[]
+      events: GlobalFieldKey<GE>[]
     }
     hidden: GlobalFieldKey<GE>[]
   }>

@@ -23,6 +23,10 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useRelationshipCollection')
 
 /**
  * Name generation function type
@@ -181,6 +185,10 @@ export function useRelationshipCollection(
    * LEARNING: Get temporary entity for new child creation
    * WHY: EntityCard needs an entity object to work with, even for new entities
    * PATTERN: Create temporary entity with `new-{shapeId}` ID prefix
+   * 
+   * LEARNING: Shape reference property must be set explicitly
+   * WHY: Required fields like eventShapeRef/partShapeRef must be included even if not form fields
+   * PATTERN: Set shape reference property explicitly, matching usePartInstanceCollection pattern
    */
   const getNewChildEntity = (shapeId: string): GlobalEntity<GlobalEntityKey> => {
     // Get defaults from metadata
@@ -191,12 +199,21 @@ export function useRelationshipCollection(
       defaults = { orderIndex: 0 }
     }
     
+    // LEARNING: Shape reference property name (e.g., 'eventShapeRef', 'partShapeRef', 'annotationShapeRef')
+    // WHY: Required for instance entities to reference their shape
+    // PATTERN: Computed property derives from shape entity key
+    const shapeRefProp = shapeRefProperty.value
+    
     // Base entity with defaults and required fields
+    // LEARNING: Set shape reference property after defaults to ensure it's not overwritten
+    // WHY: Shape reference is required for instance entities and must be preserved during save
+    //      Setting it after defaults ensures the specific shapeId value is used, not any default value
+    // PATTERN: Spread defaults first, then set shape reference explicitly
     const baseEntity = {
       id: `new-${shapeId}`,
       entityKey: childEntityKey.value,
-      [shapeRefProperty.value]: shapeId,
       ...defaults,
+      [shapeRefProp]: shapeId, // Set shape reference after defaults to ensure correct value
     } as GlobalEntity<GlobalEntityKey>
     
     if (!parentEntity.value) {
@@ -233,6 +250,10 @@ export function useRelationshipCollection(
    * LEARNING: Handle EntityCard save for new child
    * WHY: After EntityCard creates the entity, we need to create the relationship
    * PATTERN: EntityCard handles entity creation, we handle relationship + cleanup
+   * 
+   * LEARNING: Ensure entity is in cache before creating relationship
+   * WHY: Relationship optimistic update requires child entity to exist in cache
+   * PATTERN: Wait for globalData refetch or manually ensure entity is in cache
    */
   const handleNewChildSaved = async (
     shapeId: string,
@@ -241,6 +262,32 @@ export function useRelationshipCollection(
     if (!parentEntity.value) return
     
     try {
+      // LEARNING: Ensure the created entity is in the globalData cache before creating relationship
+      // WHY: Relationship optimistic update requires child entity to exist in cache
+      // PATTERN: Manually update cache to include the new entity, then create relationship
+      queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) => {
+        if (!old) return old
+        
+        const currentEntities = old.entities[childEntityKey.value] || []
+        const entityExists = currentEntities.some(e => String(e.id) === String(createdEntity.id))
+        
+        if (!entityExists) {
+          // Add the new entity to the cache
+          return {
+            ...old,
+            entities: {
+              ...old.entities,
+              [childEntityKey.value]: [...currentEntities, createdEntity],
+            },
+          }
+        }
+        
+        return old
+      })
+      
+      // Wait a tick to ensure cache update propagates
+      await new Promise(resolve => setTimeout(resolve, 0))
+      
       await createRelationship({
         parent_id: parentEntity.value.id,
         child_id: createdEntity.id,
@@ -259,7 +306,8 @@ export function useRelationshipCollection(
       if (index !== -1) {
         expandedPlaceholders.value.splice(index, 1)
       }
-    } catch (_error) {
+    } catch (error) {
+      logger.error(`Failed to link ${childEntityKey.value} to ${fieldContext.entityKey}:`, error)
       notifyError(`Failed to link ${childEntityKey.value} to ${fieldContext.entityKey}`)
     }
   }

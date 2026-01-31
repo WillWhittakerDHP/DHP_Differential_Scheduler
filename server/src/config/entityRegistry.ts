@@ -1,5 +1,5 @@
 import { ModelStatic, Model } from 'sequelize';
-import { PartShape, PartInstance, BlockShape, BlockInstance, EventShape, EventInstance } from './app.js';
+import { PartShape, PartInstance, BlockShape, BlockInstance, EventShape, EventInstance, AnnotationShape, AnnotationInstance } from './app.js';
 
 /**
  * Helper function to check if a BlockInstance can be a component
@@ -72,8 +72,12 @@ export function getComponentConfig(entityType: EntityType): ComponentConfig | un
  * Session Event Refactor: Added eventShape and eventInstance to entity registry
  * WHY: Enables admin CRUD operations for event shapes and instances
  * PATTERN: Follows annotation pattern but includes in registry for admin UI
+ * 
+ * Session Annotation/Event Entity Refactor: Added annotationShape and annotationInstance to entity registry
+ * WHY: Annotations are now core entities, not configuration data
+ * PATTERN: All entity types (including annotations/events) use unified entity endpoints
  */
-export type EntityType = 'partInstance' | 'blockInstance' | 'partShape' | 'blockShape' | 'eventShape' | 'eventInstance';
+export type EntityType = 'partInstance' | 'blockInstance' | 'partShape' | 'blockShape' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance';
 
 /**
  * Component strategy for combining properties
@@ -111,14 +115,16 @@ export interface EntityConfig {
 }
 
 // Verify models are available (log warning but don't throw - models may be initialized later)
-if (!PartShape || !PartInstance || !BlockShape || !BlockInstance || !EventShape || !EventInstance) {
+if (!PartShape || !PartInstance || !BlockShape || !BlockInstance || !EventShape || !EventInstance || !AnnotationShape || !AnnotationInstance) {
   const missingModels = {
     PartShape: !!PartShape,
     PartInstance: !!PartInstance,
     BlockShape: !!BlockShape,
     BlockInstance: !!BlockInstance,
     EventShape: !!EventShape,
-    EventInstance: !!EventInstance
+    EventInstance: !!EventInstance,
+    AnnotationShape: !!AnnotationShape,
+    AnnotationInstance: !!AnnotationInstance
   };
   console.warn('[EntityRegistry] Models not yet initialized:', missingModels);
   console.warn('[EntityRegistry] This is normal during module loading - models will be available after app initialization');
@@ -168,6 +174,18 @@ export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
     tableName: 'event_instances',
     displayName: 'Event Instance',
     description: 'Event instance configurations with calendar event templates'
+  },
+  annotationShape: {
+    model: AnnotationShape,
+    tableName: 'annotation_shapes',
+    displayName: 'Annotation Shape',
+    description: 'Annotation shape definitions (e.g., description, tooltip)'
+  },
+  annotationInstance: {
+    model: AnnotationInstance,
+    tableName: 'annotation_instances',
+    displayName: 'Annotation Instance',
+    description: 'Reusable annotation instances that can be assigned to block instances'
   }
 };
 

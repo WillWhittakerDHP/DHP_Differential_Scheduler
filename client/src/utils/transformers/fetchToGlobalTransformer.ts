@@ -6,14 +6,10 @@
  * PATTERN: Transformer class that handles entity and relationship transformation
  */
 
-import apiClient, { getEntityEndpoint, getRelationshipEndpoint, getAnnotationEndpoint, getEventEndpoint } from '../api'
+import apiClient, { getEntityEndpoint, getRelationshipEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
-import { ANNOTATION_KEYS } from '@/constants/annotations'
-import { EVENT_KEYS } from '@/constants/events'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalAnnotationKey } from '@/constants/annotations'
-import type { GlobalEventKey } from '@/constants/events'
 import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { FetchedRelationship } from '@/types/relationships'
@@ -57,7 +53,7 @@ export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
  * Session 1.4.7: Added annotationShapes to globalData cache
  * WHY: AnnotationShapes are configuration data (like blockShape), not business data
  * PATTERN: Keep all configuration data together in globalData for unified cache management
- * NOTE: Renamed from annotationTypes to annotationShapes (2026-01-30)
+ * NOTE: Renamed from annotationShapes to annotationShapes (2026-01-30)
  * 
  * METADATA REFACTOR: Removed metadata from globalData
  * WHY: Metadata is only needed for admin page - lazy load via ['adminMetadata'] cache instead
@@ -69,11 +65,7 @@ export type GlobalData = {
   relationships: Record<GlobalRelationshipKey, GlobalRelationship[]>
   // NOTE: instanceComponents are now stored in relationships.instanceComponents as GlobalRelationship[]
   // NOTE: eventAssignments and annotationAssignments are now stored in relationships.eventAssignments and relationships.annotationAssignments
-  // LEARNING: Annotations and events follow entity pattern with Record<Key, ...> structure
-  // WHY: Consistent structure with entities pattern for configuration data
-  // PATTERN: Record type matching entity structure
-  annotations: Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>
-  events: Record<GlobalEventKey, EventShape[] | EventInstance[]>
+  // NOTE: Events and annotations are now core entities stored in entities section
   // NOTE: Metadata removed from globalData - use useMetadataCache() for admin metadata access
 }
 
@@ -98,16 +90,31 @@ function transformApiRelationship(
   const parentKind = config?.parentEntity ?? ''
   const childKind = config?.childEntity ?? ''
   
-  // LEARNING: All relationships use standard parent_id/child_id fields
+  // LEARNING: All relationships use standard parent_id/child_id pattern
   // WHY: Consistent field naming across all relationship types
-  // PATTERN: Standard field mapping for all relationships (no special accommodations)
+  // PATTERN: Standard field mapping for all relationships
   const parentId = (raw.parent_id ?? raw.parentId) as string | undefined
   const childId = (raw.child_id ?? raw.childId) as string | undefined
   
+  // LEARNING: eventAssignments uses parent_kind enum to determine parent type dynamically
+  // WHY: parent_id can reference either partInstance or blockInstance based on parent_kind
+  // PATTERN: Use parent_kind from API response to override parentKind
+  let parentKindOverride: GlobalEntityKey | undefined
+  if (relationshipKey === 'eventAssignments' && raw.parent_kind) {
+    parentKindOverride = raw.parent_kind as GlobalEntityKey
+  } else if (relationshipKey === 'annotationAssignments') {
+    // annotationAssignments uses blockInstanceId (model-specific field name)
+    const annotationParentId = (raw.block_instance_id ?? raw.blockInstanceId ?? raw.parent_id ?? raw.parentId) as string | undefined
+    if (annotationParentId && annotationParentId !== parentId) {
+      // If blockInstanceId is different from parent_id, use blockInstanceId
+      parentKindOverride = 'blockInstance'
+    }
+  }
+  
   // LEARNING: Extract relationship-specific fields that are NOT metadata
   // WHY: Metadata (ternaryValue, orderIndex, isDefault) is now stored in shape tables, not relationship tables
-  //      Only extract fields that are relationship-specific (like userTypeBlockBlockInstanceId for activeAnnotations,
-  //      partShapeId/blockShapeId for activeEvents to indicate which shape uses the event)
+  //      Only extract fields that are relationship-specific (like userTypeBlockBlockInstanceId for annotationAssignments,
+  //      partShapeId/blockShapeId for eventAssignments to indicate which shape uses the event)
   // PATTERN: Relationships just indicate which shapes are active - metadata lives in shape tables
   const partShapeId = raw.partShapeId ?? raw.part_shape_id
   const blockShapeId = raw.blockShapeId ?? raw.block_shape_id
@@ -116,18 +123,15 @@ function transformApiRelationship(
   return {
     id: (raw.id ?? '') as GlobalEntityId,
     kind: relationshipKey,
-    parent_kind: parentKind as GlobalEntityKey,
+    parent_kind: (parentKindOverride ?? parentKind) as GlobalEntityKey,
     child_kind: childKind as GlobalEntityKey,
     parent_id: (parentId ?? '') as GlobalEntityId,
     child_id: (childId ?? '') as GlobalEntityId,
     disabled: Boolean(raw.disabled ?? false),
     // LEARNING: Only include relationship-specific fields, not metadata
     // WHY: Metadata (ternaryValue, orderIndex, isDefault) is stored in shape tables
-    //      Relationships just indicate which shapes are active
-    // NOTE: partShapeId/blockShapeId are relationship-specific (which shape uses the event)
-    //       userTypeBlockBlockInstanceId is relationship-specific override for activeAnnotations
-    ...(partShapeId !== undefined && (partShapeId === null || typeof partShapeId === 'string') && { partShapeId }),
-    ...(blockShapeId !== undefined && (blockShapeId === null || typeof blockShapeId === 'string') && { blockShapeId }),
+    //      Relationships just indicate which instances are active
+    // NOTE: userTypeBlockBlockInstanceId is relationship-specific override for annotationAssignments
     ...(userTypeBlockBlockInstanceId !== undefined && (userTypeBlockBlockInstanceId === null || typeof userTypeBlockBlockInstanceId === 'string') && { userTypeBlockBlockInstanceId: userTypeBlockBlockInstanceId as GlobalEntityId | null }),
   }
 }
@@ -156,8 +160,6 @@ export class GlobalTransformer {
   async stageForHydration(): Promise<{
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
-    fetchedAnnotations: Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>
-    fetchedEvents: Record<GlobalEventKey, EventShape[] | EventInstance[]>
   }> {
     try {
       // LEARNING: Fetch all entities in parallel using same processor pattern
@@ -185,23 +187,29 @@ export class GlobalTransformer {
       
       const entityResults = await Promise.all(entityPromises)
       const fetchedEntities = entityResults.reduce((acc, { entityKey, normalizedEntities }) => {
-        acc[entityKey] = normalizedEntities
+        // Special handling for annotationInstance: map "text" field to "name" for entity compatibility
+        if (entityKey === 'annotationInstance') {
+          const mappedEntities = normalizedEntities.map(entity => {
+            const entityWithName = entity as unknown as Record<string, unknown>
+            if (entityWithName.text && !entityWithName.name) {
+              entityWithName.name = entityWithName.text
+            }
+            return entity
+          })
+          acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]
+        } else {
+          acc[entityKey] = normalizedEntities
+        }
         return acc
       }, {} as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>)
       
       // LEARNING: Fetch all relationships in parallel using same processor pattern
       // WHY: Consistent parallel fetching pattern across all data types
       // PATTERN: map() → Promise.all() for parallel execution
-      // NOTE: All relationship types (including activeEvents and activeAnnotations) fetched in parallel
+      // NOTE: All relationship types (including eventAssignments and annotationAssignments) fetched in parallel
       const relationshipPromises = (Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]).map(async (relationshipKey) => {
         const endpoint = getRelationshipEndpoint(relationshipKey)
         const response = await apiClient.get<Record<string, unknown>[]>(endpoint)
-        
-        // #region agent log
-        if (relationshipKey === 'eventAssignments') {
-          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fetchToGlobalTransformer.ts:197',message:'fetchToGlobalTransformer: eventAssignments API response',data:{endpoint,responseDataLength:response.data?.length||0,responseDataSample:Array.isArray(response.data)?response.data.slice(0,2):response.data},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-        }
-        // #endregion
         
         // Transform each relationship from API format to FetchedRelationship format
         // LEARNING: API endpoint already filters by relationship type, so response doesn't include 'kind'
@@ -209,132 +217,18 @@ export class GlobalTransformer {
         // PATTERN: Transform raw API response to expected FetchedRelationship format using relationshipKey
         const transformed = response.data.map(raw => transformApiRelationship(raw, relationshipKey))
         
-        // #region agent log
-        if (relationshipKey === 'eventAssignments') {
-          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'fetchToGlobalTransformer.ts:204',message:'fetchToGlobalTransformer: eventAssignments transformed',data:{transformedLength:transformed.length,transformedSample:transformed.slice(0,2)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-        }
-        // #endregion
-        
         return transformed
       })
       
       const relationshipResults = await Promise.all(relationshipPromises)
       const fetchedRelationships = relationshipResults.flat()
       
-      // LEARNING: Fetch all annotations using parallel pattern like entities
-      // WHY: Consistent parallel fetching pattern across all data types
-      // PATTERN: map() → Promise.all() for parallel execution, matching entity fetching pattern
-      const annotationPromises = ANNOTATION_KEYS.map(async (annotationKey) => {
-        const endpoint = getAnnotationEndpoint(annotationKey)
-        const response = await apiClient.get<Record<string, unknown>[]>(endpoint)
-        
-        // Transform API responses based on annotation key type
-        let transformed: AnnotationInstance[] | AnnotationShape[]
-        if (annotationKey === 'annotationInstance') {
-          transformed = response.data.map((raw: Record<string, unknown>) => 
-            transformApiAnnotation(raw)
-          )
-        } else if (annotationKey === 'annotationShape') {
-          transformed = response.data
-            .map((raw: Record<string, unknown>) => {
-              const disabled = raw.disabled ?? raw.Disabled ?? false
-              if (disabled === true) return null
-              const id = raw.id ?? raw.ID
-              const name = raw.name ?? raw.Name
-              const defaultOrderIndex = raw.defaultOrderIndex ?? raw.default_order_index
-              const defaultIsDefault = raw.defaultIsDefault ?? raw.default_is_default
-              if (typeof id === 'string' && typeof name === 'string') {
-                return {
-                  id,
-                  name,
-                  ...(typeof defaultOrderIndex === 'number' && { defaultOrderIndex }),
-                  ...(typeof defaultIsDefault === 'boolean' && { defaultIsDefault }),
-                } as AnnotationShape
-              }
-              return null
-            })
-            .filter((item): item is AnnotationShape => item !== null)
-        } else {
-          transformed = []
-        }
-        
-        return { annotationKey, data: transformed }
-      })
-      
-      // LEARNING: Fetch all events using parallel pattern like entities
-      // WHY: Consistent parallel fetching pattern across all data types
-      // PATTERN: map() → Promise.all() for parallel execution, matching entity fetching pattern
-      const eventPromises = EVENT_KEYS.map(async (eventKey) => {
-        const endpoint = getEventEndpoint(eventKey)
-        const response = await apiClient.get<Record<string, unknown>[]>(endpoint)
-        
-        // Transform API responses based on event key type
-        let transformed: EventShape[] | EventInstance[]
-        if (eventKey === 'eventShape') {
-          transformed = response.data.map((raw: Record<string, unknown>) => {
-            const defaultTernaryValue = raw.defaultTernaryValue ?? raw.default_ternary_value
-            const defaultOrderIndex = raw.defaultOrderIndex ?? raw.default_order_index
-            return {
-              id: (raw.id ?? '') as string,
-              name: (raw.name ?? '') as string,
-              ...(defaultTernaryValue !== undefined && (defaultTernaryValue === null || typeof defaultTernaryValue === 'string') && { defaultTernaryValue: defaultTernaryValue as 'true' | 'false' | 'override' | null }),
-              ...(typeof defaultOrderIndex === 'number' && { defaultOrderIndex }),
-            } as EventShape
-          })
-        } else if (eventKey === 'eventInstance') {
-          transformed = response.data.map((raw: Record<string, unknown>) => ({
-            id: (raw.id ?? '') as string,
-            eventShapeRef: (raw.eventShapeRef ?? raw.event_shape_ref ?? '') as string,
-            name: (raw.name ?? '') as string,
-            titleTemplate: (raw.titleTemplate ?? raw.title_template ?? null) as string | null,
-            descriptionTemplate: (raw.descriptionTemplate ?? raw.description_template ?? null) as string | null,
-            locationTemplate: (raw.locationTemplate ?? raw.location_template ?? null) as string | null,
-          } as EventInstance))
-        } else {
-          transformed = []
-        }
-        
-        return { eventKey, data: transformed }
-      })
-      
-      const [annotationResults, eventResults] = await Promise.all([
-        Promise.all(annotationPromises),
-        Promise.all(eventPromises)
-      ])
-      
-      // LEARNING: Reduce annotation results to Record<GlobalAnnotationKey, ...>
-      // WHY: Consistent structure with entities pattern
-      // PATTERN: Reduce array to Record type matching entity structure
-      const fetchedAnnotations = annotationResults.reduce((acc, { annotationKey, data }) => {
-        if (annotationKey === 'annotationInstance') {
-          acc[annotationKey] = data as AnnotationInstance[]
-        } else if (annotationKey === 'annotationShape') {
-          acc[annotationKey] = data as AnnotationShape[]
-        }
-        return acc
-      }, {} as Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>)
-      
-      // LEARNING: Reduce event results to Record<GlobalEventKey, ...>
-      // WHY: Consistent structure with entities pattern
-      // PATTERN: Reduce array to Record type matching entity structure
-      const fetchedEvents = eventResults.reduce((acc, { eventKey, data }) => {
-        if (eventKey === 'eventShape') {
-          acc[eventKey] = data as EventShape[]
-        } else if (eventKey === 'eventInstance') {
-          acc[eventKey] = data as EventInstance[]
-        }
-        return acc
-      }, {} as Record<GlobalEventKey, EventShape[] | EventInstance[]>)
-      
-      // NOTE: Metadata is no longer fetched here
-      // WHY: Metadata is lazy-loaded via useMetadataCache() only when admin page is accessed
-      // BENEFIT: Non-admin users don't load metadata, faster app startup
+      // NOTE: Events and annotations are now fetched as entities via /entities/:entityType
+      // They are included in fetchedEntities above
       
       return {
         fetchedEntities,
         fetchedRelationships,
-        fetchedAnnotations,
-        fetchedEvents,
       }
     } catch (_error) {
       return {
@@ -343,16 +237,12 @@ export class GlobalTransformer {
           blockShape: [],
           partInstance: [],
           partShape: [],
-        },
-        fetchedRelationships: [],
-        fetchedAnnotations: {
+          eventShape: [],
+          eventInstance: [],
           annotationShape: [],
           annotationInstance: [],
         },
-        fetchedEvents: {
-          eventShape: [],
-          eventInstance: [],
-        },
+        fetchedRelationships: [],
       }
     }
   }
@@ -373,8 +263,6 @@ export class GlobalTransformer {
   hydrate(staged: {
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
-    fetchedAnnotations: Record<GlobalAnnotationKey, AnnotationInstance[] | AnnotationShape[]>
-    fetchedEvents: Record<GlobalEventKey, EventShape[] | EventInstance[]>
   }): GlobalData {
     // Attach instanceComponents arrays to entities (for backward compatibility)
     // LEARNING: This metadata helps identify composers, but components are computed from relationships
@@ -422,17 +310,15 @@ export class GlobalTransformer {
     // PATTERN: No special attachment - annotations accessed via relationships.annotationAssignments like other relationships
     
     // Transform all relationships (including components) to GlobalRelationship format
-    // LEARNING: Pass annotations and events to transformApiRelationships so it can resolve annotationInstance/eventInstance child entities
-    // WHY: annotationInstance and eventInstance are in annotations/events Records, not entities Record
-    // PATTERN: Provide all data sources needed for relationship resolution
+    // LEARNING: Events and annotations are now in entities Record, so transformApiRelationships can resolve them from there
+    // WHY: Events and annotations are now core entities stored in entities section
+    // PATTERN: Provide entities for relationship resolution (includes events/annotations)
     const relationships = (Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]).reduce(
       (acc, relType) => {
         acc[relType] = transformApiRelationships(
           staged.fetchedRelationships, 
           relType, 
-          entities,
-          staged.fetchedAnnotations,
-          staged.fetchedEvents
+          entities
         )
         return acc
       },
@@ -442,11 +328,7 @@ export class GlobalTransformer {
     return {
       entities,
       relationships,
-      // LEARNING: Annotations and events follow entity pattern with Record<Key, ...> structure
-      // WHY: Consistent structure with entities pattern for configuration data
-      // PATTERN: Record type matching entity structure
-      annotations: staged.fetchedAnnotations,
-      events: staged.fetchedEvents,
+      // NOTE: Events and annotations are now in entities section
       // NOTE: Metadata removed - use useMetadataCache() for admin metadata access
     }
   }
@@ -613,6 +495,12 @@ export class GlobalTransformer {
         if (requiredFields.has(frontendKey)) {
           const fieldMetadata = metadata[frontendKey]
           if (fieldMetadata) {
+            // LEARNING: Skip required reference fields if undefined - they must be provided by user
+            // WHY: Reference fields (like eventShapeRef) have no sensible default - user must select a value
+            // PATTERN: Let Sequelize validate and return clear error if required reference field is missing
+            if (fieldMetadata.dataType === 'reference') {
+              return null // Skip undefined required reference fields - let Sequelize validate
+            }
             if (fieldMetadata.dataType === 'boolean') {
               return [frontendKey, false] // Required booleans default to false
             } else if (fieldMetadata.dataType === 'number') {
@@ -626,9 +514,33 @@ export class GlobalTransformer {
         return null // Skip undefined values for non-required fields
       }
       
-      // LEARNING: Convert empty strings to proper values for boolean and number fields
+      // LEARNING: Handle null values for reference fields
+      // WHY: For required reference fields, Sequelize needs to see null to validate properly
+      //      For optional reference fields, we can skip null values
+      // PATTERN: Check if field is required reference and send null, otherwise skip
+      if (value === null) {
+        const fieldMetadata = metadata[frontendKey]
+        const isReferenceField = fieldMetadata?.dataType === 'reference' || 
+                                 frontendKey.endsWith('Ref') || 
+                                 frontendKey.endsWith('Id') ||
+                                 frontendKey === 'id'
+        
+        if (isReferenceField) {
+          // LEARNING: Send null for required reference fields so Sequelize can validate
+          // WHY: Sequelize will return clear validation error if required field is null
+          //      Skipping the field entirely might cause different behavior
+          if (requiredFields.has(frontendKey)) {
+            return [frontendKey, null] // Send null for required reference fields
+          }
+          // Skip null for optional reference fields
+          return null
+        }
+      }
+      
+      // LEARNING: Convert empty strings to proper values for boolean, number, and reference/UUID fields
       // WHY: Forms may send empty strings for unchecked/empty fields, but PostgreSQL requires actual types
-      // PATTERN: Check if field is boolean or number and convert empty string appropriately
+      //      UUID fields cannot accept empty strings - they must be valid UUIDs or null
+      // PATTERN: Check if field is boolean, number, or reference and convert empty string appropriately
       if (value === '') {
         if (nullableBooleanFields.has(frontendKey) || nonNullableBooleanFields.has(frontendKey)) {
           // Convert empty string to null for nullable booleans, false for non-nullable booleans
@@ -638,7 +550,22 @@ export class GlobalTransformer {
           // Convert empty string to 0 for required number fields
           return [frontendKey, 0]
         } else {
-          // Keep empty string for other field types
+          // LEARNING: Check if field is a reference/UUID field (dataType: 'reference' or field name ends with 'Ref'/'Id')
+          // WHY: UUID fields cannot accept empty strings - PostgreSQL will reject them
+          // PATTERN: Convert empty strings to null for reference fields, let Sequelize handle required field validation
+          const fieldMetadata = metadata[frontendKey]
+          const isReferenceField = fieldMetadata?.dataType === 'reference' || 
+                                   frontendKey.endsWith('Ref') || 
+                                   frontendKey.endsWith('Id') ||
+                                   frontendKey === 'id'
+          
+          if (isReferenceField && typeof value === 'string' && value === '') {
+            // Convert empty string to null for UUID/reference fields
+            // Sequelize will validate required fields and provide clear error if field is required
+            return [frontendKey, null]
+          }
+          
+          // Keep empty string for other field types (e.g., regular string fields)
           return [frontendKey, value]
         }
       } else {

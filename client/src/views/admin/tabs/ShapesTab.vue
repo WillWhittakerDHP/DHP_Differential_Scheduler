@@ -17,13 +17,9 @@ import { useEntityTabState } from '@/composables/admin/useEntityTabState'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
-import AnnotationTypeCard from '../components/AnnotationTypeCard.vue'
-import EventShapeCard from '../components/EventShapeCard.vue'
 import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
-import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
+import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID, ANNOTATION_SHAPE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
-import { useAnnotationShapes, useUpdateAnnotationShape, useCreateAnnotationShape } from '@/composables/useAnnotationTypes'
-import { useEventShapes, useCreateEventShape } from '@/composables/useEventShapes'
 import { useNotification } from '@/composables/useNotification'
 import type { EventShape } from '@/types/events'
 
@@ -52,6 +48,26 @@ const { partShapeDisplayNames: _partShapeDisplayNames, blockShapeDisplayNames: _
  */
 const { patchOrderIndex: patchPartShapeOrderIndex } = useEntityCrud('partShape')
 const { patchOrderIndex: patchBlockShapeOrderIndex } = useEntityCrud('blockShape')
+
+/**
+ * LEARNING: Entity CRUD composable for AnnotationShape
+ * WHY: Provides entities list and create/update/delete operations
+ * PATTERN: useEntityCrud composable wraps Vue Query mutations
+ */
+const annotationShapesComposable = useEntityCrud('annotationShape')
+const annotationShapes = annotationShapesComposable.entities
+const isLoadingAnnotationShapes = annotationShapesComposable.isLoading
+const createAnnotationShapeMutation = annotationShapesComposable.create
+
+/**
+ * LEARNING: Entity CRUD composable for EventShape
+ * WHY: Provides entities list and create/update/delete operations
+ * PATTERN: useEntityCrud composable wraps Vue Query mutations
+ */
+const eventShapesComposable = useEntityCrud('eventShape')
+const eventShapes = eventShapesComposable.entities
+const isLoadingEventShapes = eventShapesComposable.isLoading
+const createEventShapeMutation = eventShapesComposable.create
 
 /**
  * LEARNING: Reactive tab state management
@@ -132,6 +148,36 @@ const handlePartInstanceMetadataSaved = () => {
 }
 
 /**
+ * LEARNING: Track if the global AnnotationShape metadata modal is open
+ * WHY: Single modal for configuring all AnnotationShape field definitions globally
+ * PATTERN: Simple boolean ref for single modal state
+ */
+const annotationShapeMetadataModalOpen = ref(false)
+
+/**
+ * LEARNING: Toggle global AnnotationShape metadata modal
+ * WHY: Opens/closes the modal for configuring all AnnotationShape field definitions
+ */
+const toggleAnnotationShapeMetadataModal = (): void => {
+  annotationShapeMetadataModalOpen.value = !annotationShapeMetadataModalOpen.value
+}
+
+/**
+ * LEARNING: Track if the global EventShape metadata modal is open
+ * WHY: Single modal for configuring all EventShape field definitions globally
+ * PATTERN: Simple boolean ref for single modal state
+ */
+const eventShapeMetadataModalOpen = ref(false)
+
+/**
+ * LEARNING: Toggle global EventShape metadata modal
+ * WHY: Opens/closes the modal for configuring all EventShape field definitions
+ */
+const toggleEventShapeMetadataModal = (): void => {
+  eventShapeMetadataModalOpen.value = !eventShapeMetadataModalOpen.value
+}
+
+/**
  * LEARNING: Inline creation state for shape types
  * WHY: Instead of dialogs, show inline EntityCards for creating new entities
  * PATTERN: Boolean flags and initial values for each entity type
@@ -143,15 +189,10 @@ const newPartShapeInitialValues = ref<GlobalEntity<'partShape'> | null>(null)
 const newAnnotationShapeName = ref('')
 const newEventShapeName = ref('')
 
-/**
- * LEARNING: Create annotation shape mutation
- */
-const createAnnotationShapeMutation = useCreateAnnotationShape()
-
-/**
- * LEARNING: Create event shape mutation
- */
-const createEventShapeMutation = useCreateEventShape()
+// LEARNING: Events and annotations are now core entities, use entity CRUD composable
+// (Already defined above with useEntityCrud)
+const isCreatingAnnotationShapeLoading = ref(false)
+const isCreatingEventShapeLoading = ref(false)
 
 
 /**
@@ -169,8 +210,10 @@ const createPartShape = () => {
 
 /**
  * LEARNING: Function to start inline AnnotationShape creation
+ * WHY: Renamed to avoid conflict with mutation function
+ * PATTERN: Use descriptive name that indicates this starts the creation UI flow
  */
-const createAnnotationShape = () => {
+const startCreatingAnnotationShape = () => {
   newAnnotationShapeName.value = ''
   isCreatingAnnotationShape.value = true
   expandedShapes.value = ['new-annotationShape', ...expandedShapes.value]
@@ -196,18 +239,28 @@ const handlePartShapeCancelled = () => {
 
 /**
  * LEARNING: Handle AnnotationShape creation save
+ * WHY: Uses mutation function from useEntityCrud composable
+ * PATTERN: Call mutation function with entity data
  */
 const handleAnnotationShapeCreate = async () => {
   if (!newAnnotationShapeName.value.trim()) return
   
+  isCreatingAnnotationShapeLoading.value = true
   try {
-    await createAnnotationShapeMutation.mutateAsync({ name: newAnnotationShapeName.value.trim() })
+    await createAnnotationShapeMutation({
+      name: newAnnotationShapeName.value.trim(),
+      orderIndex: 0,
+      active: true,
+      entityKey: 'annotationShape' as const
+    })
     success('Annotation shape created successfully')
     isCreatingAnnotationShape.value = false
     newAnnotationShapeName.value = ''
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
   } catch (error) {
     // Failed to create annotation shape
+  } finally {
+    isCreatingAnnotationShapeLoading.value = false
   }
 }
 
@@ -222,8 +275,10 @@ const handleAnnotationShapeCancelled = () => {
 
 /**
  * LEARNING: Function to start inline EventShape creation
+ * WHY: Renamed to avoid conflict with mutation function
+ * PATTERN: Use descriptive name that indicates this starts the creation UI flow
  */
-const createEventShape = () => {
+const startCreatingEventShape = () => {
   newEventShapeName.value = ''
   isCreatingEventShape.value = true
   expandedShapes.value = ['new-eventShape', ...expandedShapes.value]
@@ -231,18 +286,28 @@ const createEventShape = () => {
 
 /**
  * LEARNING: Handle EventShape creation save
+ * WHY: Uses mutation function from useEntityCrud composable
+ * PATTERN: Call mutation function with entity data
  */
 const handleEventShapeCreate = async () => {
   if (!newEventShapeName.value.trim()) return
   
+  isCreatingEventShapeLoading.value = true
   try {
-    await createEventShapeMutation.mutateAsync({ name: newEventShapeName.value.trim() })
+    await createEventShapeMutation({
+      name: newEventShapeName.value.trim(),
+      orderIndex: 0,
+      active: true,
+      entityKey: 'eventShape' as const
+    })
     success('Event shape created successfully')
     isCreatingEventShape.value = false
     newEventShapeName.value = ''
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
   } catch (error) {
     // Failed to create event shape
+  } finally {
+    isCreatingEventShapeLoading.value = false
   }
 }
 
@@ -256,33 +321,7 @@ const handleEventShapeCancelled = () => {
 }
 
 
-/**
- * LEARNING: Load annotation shapes
- * WHY: Get all annotation shapes for display
- * PATTERN: useQuery hook from Vue Query
- * NOTE: API still uses "types" endpoint, but we refer to them as "shapes" in the UI
- */
-// LEARNING: Avoid destructuring `data = []` from vue-query (creates a union that breaks `.value` access).
-const annotationShapesQuery = useAnnotationShapes()
-const annotationShapes = computed(() => annotationShapesQuery.data.value ?? [])
-const isLoadingAnnotationShapes = computed(() => annotationShapesQuery.isLoading.value)
-
-/**
- * LEARNING: Load event shapes
- * WHY: Get all event shapes for display
- * PATTERN: Composable reads from globalData cache
- */
-const eventShapesQuery = useEventShapes()
-const eventShapes = computed(() => eventShapesQuery.data.value ?? [])
-const isLoadingEventShapes = computed(() => eventShapesQuery.isLoading.value)
-
-
-/**
- * LEARNING: Update annotation shape mutation
- * WHY: Provides update operation for annotation shape name editing
- * PATTERN: useUpdateAnnotationShape composable wraps Vue Query mutation
- */
-useUpdateAnnotationShape()
+// NOTE: Annotation shapes and event shapes are loaded above via useEntityCrud
 
 // LEARNING: Dialogs removed in favor of inline EntityCard creation
 // WHY: Unified component pattern - all create/edit happens in EntityCard
@@ -422,6 +461,32 @@ const filteredAnnotationShapes = computed(() => {
   return [...annotationShapes.value]
 })
 
+/**
+ * LEARNING: Computed property for event shapes with transition guards
+ * WHY: Ensures safe access during VWindow transitions
+ * PATTERN: Guard against undefined eventShapes during component mounting/unmounting
+ */
+const safeEventShapes = computed(() => {
+  // LEARNING: Guard against undefined eventShapes during transitions
+  // WHY: Prevents errors when component is mounting/unmounting
+  // PATTERN: Check that eventShapes is an array before accessing
+  if (!Array.isArray(eventShapes.value)) {
+    return []
+  }
+  
+  return eventShapes.value
+})
+
+/**
+ * LEARNING: Computed properties for tab labels with safe counts
+ * WHY: Ensures tab labels are always safe to render during transitions
+ * PATTERN: Computed properties that return safe string values
+ */
+const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
+const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
+const annotationShapesTabLabel = computed(() => `🏷️ Annotations (${filteredAnnotationShapes.value.length})`)
+const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)
+
 // LEARNING: isPanelExpanded is now provided by useExpansionState composable
 
 // LEARNING: Removed manual form and context creation
@@ -429,22 +494,22 @@ const filteredAnnotationShapes = computed(() => {
 // PATTERN: Trust the unified system - EntityCard creates its own form and contexts internally
 
 /**
- * WHY: Event handler for deleting AnnotationShape
-WHY: AnnotationShapeCard handles deletion internally, this is just a notification handler
-PATTERN: No-op handler - card handles all deletion logic
+ * LEARNING: Event handler for deleting AnnotationShape
+ * WHY: EntityCard handles deletion internally, this is just a notification handler
+ * PATTERN: No-op handler - card handles all deletion logic
  */
 function handleDeleteAnnotationShape(_id: string) {
-  // AnnotationTypeCard already handled the deletion - this is just for parent awareness
+  // EntityCard already handled the deletion - this is just for parent awareness
   // Vue Query will automatically refetch and update the UI
 }
 
 /**
  * LEARNING: Event handler for deleting EventShape
- * WHY: EventShapeCard handles deletion internally, this is just a notification handler
+ * WHY: EntityCard handles deletion internally, this is just a notification handler
  * PATTERN: No-op handler - card handles all deletion logic
  */
 function handleDeleteEventShape(_id: string) {
-  // EventShapeCard already handled the deletion - this is just for parent awareness
+  // EntityCard already handled the deletion - this is just for parent awareness
   // Vue Query will automatically refetch and update the UI
 }
 
@@ -468,17 +533,17 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
       PATTERN: v-model binds to reactive ref for two-way data binding
     -->
     <VTabs v-model="activeTab" class="mb-4">
-      <VTab value="blockShapes">
-        🧱 Block ({{ filteredBlockShapes.length }})
+      <VTab key="blockShapes" value="blockShapes">
+        {{ blockShapesTabLabel }}
       </VTab>
-      <VTab value="partShapes">
-        🧩 Part ({{ filteredPartShapes.length }})
+      <VTab key="partShapes" value="partShapes">
+        {{ partShapesTabLabel }}
       </VTab>
-      <VTab value="annotationShapes">
-        🏷️ Annotations ({{ filteredAnnotationShapes.length }})
+      <VTab key="annotationShapes" value="annotationShapes">
+        {{ annotationShapesTabLabel }}
       </VTab>
-      <VTab value="eventShapes">
-        📅 Events ({{ eventShapes.length }})
+      <VTab key="eventShapes" value="eventShapes">
+        {{ eventShapesTabLabel }}
       </VTab>
     </VTabs>
     
@@ -673,13 +738,26 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
       <VWindowItem key="annotationShapes" value="annotationShapes">
         <div class="d-flex justify-space-between align-center mb-4">
           <h3 class="text-h6">Annotations</h3>
-          <VBtn
-            color="primary"
-            prepend-icon="tabler-plus"
-            @click="createAnnotationShape"
-          >
-            Create Annotation Shape
-          </VBtn>
+          <div class="d-flex gap-2">
+            <!-- LEARNING: Global button to configure all AnnotationShape fields -->
+            <!-- WHY: Single config applies to all AnnotationShapes globally -->
+            <!-- PATTERN: Global config modal triggered from section header -->
+            <VBtn
+              :variant="annotationShapeMetadataModalOpen ? 'flat' : 'outlined'"
+              :color="annotationShapeMetadataModalOpen ? 'primary' : 'default'"
+              prepend-icon="tabler-settings"
+              @click="toggleAnnotationShapeMetadataModal"
+            >
+              Shape Fields
+            </VBtn>
+            <VBtn
+              color="primary"
+              prepend-icon="tabler-plus"
+              @click="startCreatingAnnotationShape"
+            >
+              Create Annotation Shape
+            </VBtn>
+          </div>
         </div>
         
         <!--
@@ -725,7 +803,7 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
                   />
                   <VBtn
                     color="primary"
-                    :loading="createAnnotationShapeMutation.isPending.value"
+                    :loading="isCreatingAnnotationShapeLoading"
                     :disabled="!newAnnotationShapeName.trim()"
                     @click="handleAnnotationShapeCreate"
                   >
@@ -741,26 +819,18 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
               </template>
             </VExpansionPanel>
             
-            <!-- Existing AnnotationShapes - inline edit using AnnotationShapeCard -->
-            <VExpansionPanel
+            <!-- Existing AnnotationShapes -->
+            <EntityCard
               v-for="annotationShape in filteredAnnotationShapes"
-              :key="annotationShape.id"
-              :value="String(annotationShape.id)"
-            >
-              <template #title>
-                <!-- LEARNING: Always show static name in expansion panel title -->
-                <!-- WHY: Name field editing happens in expanded content, not in panel title -->
-                <!-- PATTERN: Show static entity name - editing happens in expanded content below -->
-                <span>{{ annotationShape.name || `Annotation Shape ${annotationShape.id}` }}</span>
-              </template>
-              
-              <template #text>
-                <AnnotationTypeCard
-                  :annotation-shape="annotationShape"
-                  @delete="handleDeleteAnnotationShape"
-                />
-              </template>
-            </VExpansionPanel>
+              :key="String(annotationShape.id)"
+              :class="`draggable-annotation-shape`"
+              :data-drag-id="String(annotationShape.id)"
+              entity-key="annotationShape"
+              :entity="annotationShape"
+              :expanded="isPanelExpanded(String(annotationShape.id))"
+              @saved="handleExistingShapeSaved"
+              @delete="handleDeleteAnnotationShape"
+            />
           </VExpansionPanels>
           
           <!--
@@ -783,13 +853,26 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
       <VWindowItem key="eventShapes" value="eventShapes">
         <div class="d-flex justify-space-between align-center mb-4">
           <h3 class="text-h6">Events</h3>
-          <VBtn
-            color="primary"
-            prepend-icon="tabler-plus"
-            @click="createEventShape"
-          >
-            Create Event Shape
-          </VBtn>
+          <div class="d-flex gap-2">
+            <!-- LEARNING: Global button to configure all EventShape fields -->
+            <!-- WHY: Single config applies to all EventShapes globally -->
+            <!-- PATTERN: Global config modal triggered from section header -->
+            <VBtn
+              :variant="eventShapeMetadataModalOpen ? 'flat' : 'outlined'"
+              :color="eventShapeMetadataModalOpen ? 'primary' : 'default'"
+              prepend-icon="tabler-settings"
+              @click="toggleEventShapeMetadataModal"
+            >
+              Shape Fields
+            </VBtn>
+            <VBtn
+              color="primary"
+              prepend-icon="tabler-plus"
+              @click="startCreatingEventShape"
+            >
+              Create Event Shape
+            </VBtn>
+          </div>
         </div>
         
         <!--
@@ -804,7 +887,7 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
           </div>
           
           <VExpansionPanels 
-            v-else-if="isCreatingEventShape || eventShapes.length > 0"
+            v-else-if="isCreatingEventShape || safeEventShapes.length > 0"
             v-model="expandedShapes" 
             multiple 
           >
@@ -834,7 +917,7 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
                   />
                   <VBtn
                     color="primary"
-                    :loading="createEventShapeMutation.isPending.value"
+                    :loading="isCreatingEventShapeLoading"
                     :disabled="!newEventShapeName.trim()"
                     @click="handleEventShapeCreate"
                   >
@@ -851,22 +934,17 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
             </VExpansionPanel>
             
             <!-- Existing EventShapes -->
-            <VExpansionPanel
-              v-for="eventShape in eventShapes"
-              :key="eventShape.id"
-              :value="String(eventShape.id)"
-            >
-              <template #title>
-                <span>{{ eventShape.name || `Event Shape ${eventShape.id}` }}</span>
-              </template>
-              
-              <template #text>
-                <EventShapeCard
-                  :event-shape="eventShape"
-                  @delete="handleDeleteEventShape"
-                />
-              </template>
-            </VExpansionPanel>
+            <EntityCard
+              v-for="eventShape in safeEventShapes"
+              :key="String(eventShape.id)"
+              :class="`draggable-event-shape`"
+              :data-drag-id="String(eventShape.id)"
+              entity-key="eventShape"
+              :entity="eventShape"
+              :expanded="isPanelExpanded(String(eventShape.id))"
+              @saved="handleExistingShapeSaved"
+              @delete="handleDeleteEventShape"
+            />
           </VExpansionPanels>
           
           <VAlert
@@ -918,6 +996,31 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
       :entity="{ id: PART_INSTANCE_GLOBAL_CONFIG_ID, entityKey: 'partInstance' } as GlobalEntity<'partInstance'>"
       entity-name="Part Instance Fields (Global)"
       @saved="handlePartInstanceMetadataSaved"
+    />
+    
+    <!--
+      LEARNING: Global AnnotationShape Metadata Configuration Modal
+      WHY: Single modal for configuring all AnnotationShape field definitions globally
+      PATTERN: Global config modal triggered from section header, uses sentinel UUID
+    -->
+    <MetadataEditModal
+      v-model="annotationShapeMetadataModalOpen"
+      entity-key="annotationShape"
+      :entity="{ id: ANNOTATION_SHAPE_GLOBAL_CONFIG_ID, name: 'Annotation Shape Fields (Global)', entityKey: 'annotationShape', orderIndex: 0, active: true }"
+      entity-name="Annotation Shape Fields (Global)"
+      @saved="() => annotationShapeMetadataModalOpen = false"
+    />
+    
+    <!--
+      LEARNING: Global EventShape Metadata Configuration Modal
+      WHY: Single modal for configuring all EventShape field definitions globally
+      PATTERN: Global config modal triggered from section header, uses sentinel UUID
+    -->
+    <MetadataEditModal
+      v-model="eventShapeMetadataModalOpen"
+      entity-key="eventShape"
+      :entity="{ id: '00000000-0000-0000-0000-000000000010', name: 'Event Shape Fields (Global)', entityKey: 'eventShape', orderIndex: 0, active: true }"
+      entity-name="Event Shape Fields (Global)"
     />
   </div>
 </template>

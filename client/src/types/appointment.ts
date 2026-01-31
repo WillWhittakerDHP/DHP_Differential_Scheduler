@@ -9,7 +9,7 @@
 import type { MoveableSchedulingOptions } from './moveableScheduling'
 import type { RFC3339DateTime, ISO8601Date } from './datetime'
 import type { PartFinal } from '@/utils/booking/PartFinal'
-import type { EventInstance } from './events'
+import type { EventInstance, EventShape } from './events'
 
 /**
  * Appointment status workflow type
@@ -127,18 +127,29 @@ export interface TimeSlot extends TimeRange {
 export type PerspectiveKey = 'onSite' | 'clientPresent' | 'nonDifferential'
 
 /**
+ * EventFinal: Aggregated event duration for a given event shape
+ * LEARNING: Groups event durations by event shape, similar to PartFinal pattern
+ * WHY: Eliminates hardcoded event names, enables fully generic event system
+ * PATTERN: Plain interface with event shape reference and calculated duration
+ */
+export interface EventFinal {
+  eventShape: EventShape  // The event shape definition (e.g., OnSite, ClientPresent, Moveable)
+  duration: number        // Calculated duration for this event in minutes
+}
+
+/**
  * SlotShape: Durations needed to create AppointmentSlot time ranges
  * LEARNING: Contains durations only - no times, no flags
  * WHY: Separates duration calculations from time range creation
  * PATTERN: Pure duration data that can be applied to any start time
  * 
- * Session Event Refactor: Uses dynamic eventDurations Record instead of hardcoded properties
- * WHY: Enables extensible event system - new event types can be added without code changes
- * PATTERN: eventDurations maps event shape names to duration sums
+ * Session Event Refactor: Uses EventFinal[] array instead of Record<string, number>
+ * WHY: Enables fully generic event system - no hardcoded event names, matches PartFinal[] pattern
+ * PATTERN: Array of EventFinal objects, each containing event shape and duration
  */
 export interface SlotShape {
   totalDuration: number        // Sum of all finalizedParts.baseTime
-  eventDurations: Record<string, number>  // Map of event shape name to duration sum (e.g., { "OnSite": 120, "ClientPresent": 60, "Moveable": 30 })
+  eventFinals: EventFinal[]   // Array of event shapes with their durations (e.g., [{ eventShape: OnSite, duration: 120 }, ...])
   clientStartOffset: number    // Duration of partFinals where onSite === true && clientPresent === false
 }
 

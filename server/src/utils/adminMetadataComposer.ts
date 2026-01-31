@@ -36,13 +36,13 @@ export interface FieldMetadataEntry {
  * PATTERN: Fetch both metadata types, merge into single Record
  * NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
  * 
- * @param entityType - Entity type: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
+ * @param entityType - Entity type: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance'
  * @param entityId - Entity ID or sentinel UUID for global configs
  * @param blockShapeRef - Optional BlockShape ID for BlockShape-specific instance metadata
  * @returns Record of field metadata entries (primitives + relationships merged)
  */
 export async function getAdminMetadata(
-  entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
+  entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
   entityId: string,
   blockShapeRef?: string | null
 ): Promise<Record<string, Omit<FieldMetadataEntry, 'fieldKey'>>> {
@@ -53,6 +53,9 @@ export async function getAdminMetadata(
   const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
 
   // Build WHERE clause with blockShapeRef filtering for blockInstance
+  // LEARNING: All metadata now uses entityType/entityId directly (configType removed)
+  // WHY: Everything is an entity, no need for configType discriminator
+  // PATTERN: Query directly by entityType and entityId
   const whereClause: any = {
     entityType: entityType,
     entityId: entityId,
@@ -64,11 +67,9 @@ export async function getAdminMetadata(
   // PATTERN: Filter by blockShapeRef when provided, fall back to NULL (global) if not found
   if (entityType === 'blockInstance' && blockShapeRef) {
     whereClause.blockShapeRef = blockShapeRef;
-    console.log(`[getAdminMetadata] Filtering blockInstance metadata by blockShapeRef: ${blockShapeRef}`);
   } else if (entityType === 'blockInstance') {
     // For blockInstance without blockShapeRef, only get global config (blockShapeRef IS NULL)
     whereClause.blockShapeRef = { [Op.is]: null };
-    console.log('[getAdminMetadata] Using global blockInstance metadata (blockShapeRef IS NULL)');
   }
 
   // Fetch all metadata for this entity (both primitives and relationships)
@@ -76,10 +77,6 @@ export async function getAdminMetadata(
     where: whereClause,
     order: [['display_order', 'ASC'], ['field_key', 'ASC']],
   });
-
-  if (entityType === 'blockInstance') {
-    console.log(`[getAdminMetadata] Found ${entityMetadata.length} metadata entries for blockInstance (entityId: ${entityId}, blockShapeRef: ${blockShapeRef || 'NULL'})`);
-  }
 
   // If this is an instance entity, handle fallback to global config
   // LEARNING: Instances do NOT inherit fields from shapes - they have their own fields
@@ -157,6 +154,7 @@ export async function getAdminMetadata(
   // For shape entities, return entity metadata directly
   return buildMetadataRecord(entityMetadata);
 }
+
 
 /**
  * Build metadata record from array of metadata entries

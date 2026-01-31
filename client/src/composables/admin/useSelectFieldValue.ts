@@ -18,7 +18,6 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { SelectOption } from '@/composables/useSelectOptions'
 import { isDevModeEnabled } from '@/utils/env/devMode'
-import type { UseAnnotationSelectReturn } from './useAnnotationSelect'
 import type { UseSelectFilteringReturn } from './useSelectFiltering'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 
@@ -32,11 +31,6 @@ export interface UseSelectFieldValueOptions {
   rawFieldValue: ReadonlyVueRef<unknown>
   
   /**
-   * Whether this is a DescriptionSelect field
-   */
-  isDescriptionSelect: ComputedRef<boolean>
-  
-  /**
    * Whether select allows multiple selections
    */
   isMultiple: ComputedRef<boolean>
@@ -45,11 +39,6 @@ export interface UseSelectFieldValueOptions {
    * Options array for validation
    */
   options: ReadonlyVueRef<SelectOption[]>
-  
-  /**
-   * Annotation select composable return (for annotation handling)
-   */
-  annotationSelect?: UseAnnotationSelectReturn
   
   /**
    * Select filtering composable return (for parent type entity access)
@@ -84,10 +73,9 @@ export function useSelectFieldValue(
 ): UseSelectFieldValueReturn {
   const {
     rawFieldValue,
-    isDescriptionSelect,
     isMultiple,
     options: selectOptions,
-    annotationSelect
+    fieldContext
   } = options
 
   /**
@@ -96,21 +84,12 @@ export function useSelectFieldValue(
    *      Need to filter out invalid values that don't exist in options
    * PATTERN: Convert to array for multiple selects, ensure it's always an array when multiple is true
    *          Filter out values that don't exist in options to prevent "enabled nodes mismatch" errors
+   * 
+   * LEARNING: Annotations now work like other relationship selects
+   * WHY: annotationAssignments is attached to entities by transformer, value comes from rawFieldValue
+   * PATTERN: No special handling needed - annotations use same pattern as partAssignments
    */
   const fieldValue = computed(() => {
-    // LEARNING: For DescriptionSelect, use AnnotationAssignment relationships as source of truth
-    // WHY: Annotations are linked via AnnotationAssignment through-table, not stored directly on blockInstance
-    // PATTERN: Get annotation IDs from relationships when DescriptionSelect is detected
-    if (isDescriptionSelect.value && annotationSelect?.blockInstanceId.value) {
-      // LEARNING: Safety check - blockInstanceAnnotations might be undefined if query hasn't run yet
-      // WHY: Vue Query returns undefined initially, even with default value, when query is disabled
-      // PATTERN: Check for array before calling map
-      const relationships = annotationSelect.blockInstanceAnnotations.value || []
-      const annotationIds = relationships.map(rel => rel.annotationId)
-      // Return array for multiple select, or first item for single select
-      return isMultiple.value ? annotationIds : (annotationIds[0] || null)
-    }
-    
     const value = rawFieldValue.value
     
     // LEARNING: Extract option values for validation - handle both flat and grouped options
@@ -165,9 +144,20 @@ export function useSelectFieldValue(
     // WHY: Prevents "enabled nodes mismatch" error when selected value is filtered out
     // PATTERN: Check if value exists in options before returning it
     if (value === null || value === undefined || value === '') {
+      // LEARNING: Convert null to '__NULL__' sentinel for ternaryDefault field
+      // WHY: ternaryDefault can be null (fail gracefully), but SelectOption requires string
+      // PATTERN: Convert null to '__NULL__' when reading, convert back to null when saving
+      if (value === null && String(fieldContext.fieldKey) === 'ternaryDefault') {
+        return '__NULL__' // Convert null to sentinel for display
+      }
       return null
     }
     const stringValue = String(value)
+    // LEARNING: Keep '__NULL__' sentinel for ternaryDefault field
+    // WHY: Maintain sentinel value for display in select component
+    if (stringValue === '__NULL__' && String(fieldContext.fieldKey) === 'ternaryDefault') {
+      return '__NULL__' // Keep sentinel for display
+    }
     // Return null if value doesn't exist in options (entity was filtered out or disabled)
     return optionValues.has(stringValue) ? stringValue : null
   })

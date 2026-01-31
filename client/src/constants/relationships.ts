@@ -44,6 +44,12 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'annotationShape' as GlobalEntityKey,
   },
+  validEvents: {
+    backendName: 'valid_events',
+    frontendKey: 'validEvents',
+    parentEntity: 'partShape' as GlobalEntityKey,
+    childEntity: 'eventShape' as GlobalEntityKey,
+  },
   dependentInstances: {
     backendName: 'dependent_instances',
     frontendKey: 'dependentInstances',
@@ -71,7 +77,7 @@ export const RELATIONSHIP_KEYS = {
   eventAssignments: {
     backendName: 'event_assignments',
     frontendKey: 'eventAssignments',
-    parentEntity: 'blockShape' as GlobalEntityKey, // Shape-level, not instance-level
+    parentEntity: 'partInstance' as GlobalEntityKey, // Instance-level, not shape-level
     childEntity: 'eventInstance' as GlobalEntityKey,
   },
   instanceComponents: {

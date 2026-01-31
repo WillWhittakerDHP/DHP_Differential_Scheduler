@@ -12,13 +12,13 @@ import type { GlobalEntityId } from '@/types/entities'
 import type { FetchedRelationship } from '@/types/relationships'
 
 /**
- * Transform API annotation type to AnnotationType
- * LEARNING: Converts API annotationType association to AnnotationType
- * WHY: API returns annotationType association with id and name
+ * Transform API annotation type to AnnotationShape
+ * LEARNING: Converts API annotationShape association to AnnotationShape
+ * WHY: API returns annotationShape association with id and name
  * PATTERN: Simple field mapping
  * 
- * @param rawAnnotationType - Raw annotationType from API
- * @returns Transformed AnnotationType or null
+ * @param rawAnnotationShape - Raw annotationShape from API
+ * @returns Transformed AnnotationShape or null
  */
 export function transformApiAnnotationShape(rawAnnotationShape: unknown): AnnotationShape | null {
   if (!rawAnnotationShape || typeof rawAnnotationShape !== 'object') {
@@ -67,12 +67,12 @@ export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): 
     : null
 
   // Extract type field (UUID foreign key to annotation_shapes)
-  const type = rawAnnotation.type ?? rawAnnotation.Type ?? rawAnnotation.annotation_type_id ?? rawAnnotation.annotationTypeId
+  const type = rawAnnotation.type ?? rawAnnotation.Type ?? rawAnnotation.annotation_type_id ?? rawAnnotation.annotationShapeId
   const normalizedType: string = typeof type === 'string' ? type : ''
 
   // Extract annotationShape association if present (backend uses annotationShape)
   const annotationShape = rawAnnotation.annotationShape ?? rawAnnotation.annotation_shape ?? rawAnnotation.AnnotationShape
-    ?? rawAnnotation.annotationType ?? rawAnnotation.annotation_type ?? rawAnnotation.AnnotationType // Fallback for backward compatibility
+    ?? rawAnnotation.annotationShape ?? rawAnnotation.annotation_type ?? rawAnnotation.AnnotationShape // Fallback for backward compatibility
   const transformedAnnotationShape = transformApiAnnotationShape(annotationShape)
 
   // LEARNING: Include name property for backward compatibility

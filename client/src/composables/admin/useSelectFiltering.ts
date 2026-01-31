@@ -60,9 +60,10 @@ export interface UseSelectFilteringOptions {
   rawFieldValue: ReadonlyVueRef<unknown>
   
   /**
-   * Whether this is a DescriptionSelect field
+   * Whether this is an AnnotationAssignmentSelect field
+   * LEARNING: Annotations are now core entities, use standard relationship select pattern
    */
-  isDescriptionSelect: ComputedRef<boolean>
+  isAnnotationAssignmentSelect: ComputedRef<boolean>
 }
 
 /**
@@ -117,7 +118,7 @@ export function useSelectFiltering(
     optionEntityKey,
     fieldContext,
     rawFieldValue,
-    isDescriptionSelect
+    isAnnotationAssignmentSelect
   } = options
 
   const adminComp = useAdmin()
@@ -506,8 +507,9 @@ export function useSelectFiltering(
     
     // LEARNING: Annotations don't need filtering - all annotations are available
     // WHY: Annotations are independent entities, not filtered by relationships
-    // PATTERN: Return all annotations when DescriptionSelect is detected
-    if (isDescriptionSelect.value) {
+    // PATTERN: Return all annotation instances when AnnotationAssignmentSelect is detected
+    // LEARNING: Annotations are now core entities, no special filtering needed
+    if (isAnnotationAssignmentSelect.value) {
       return allEntities.value
     }
     
@@ -520,7 +522,8 @@ export function useSelectFiltering(
     }
     
     // Type selects: No filtering needed
-    return allEntities.value
+    const result = allEntities.value
+    return result
   })
 
   return {

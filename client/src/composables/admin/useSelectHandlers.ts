@@ -8,7 +8,7 @@
  * This composable handles:
  * - Group change handling (for multiple selects with grouping)
  * - Standard change handling (single and multiple selects)
- * - Annotation change handling (via useAnnotationSelect)
+ * - Value normalization and form updates
  * - Focus/blur handling
  * - Value normalization and validation
  */
@@ -17,9 +17,7 @@ import { ref, nextTick, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '../useFieldContext'
-import type { UseAnnotationSelectReturn } from './useAnnotationSelect'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
-import { updateAnnotationRelationships } from '@/utils/api/annotationRelationshipHelpers'
 import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
 
 /**
@@ -47,19 +45,9 @@ export interface UseSelectHandlersOptions {
   isMultiple: ComputedRef<boolean>
   
   /**
-   * Whether this is a DescriptionSelect field
-   */
-  isDescriptionSelect: ComputedRef<boolean>
-  
-  /**
    * Grouped options (for group change handling)
    */
   groupedByKey: ReadonlyVueRef<Array<{ groupKey: string; groupLabel: string; entities: unknown[] }>>
-  
-  /**
-   * Annotation select composable return (for annotation handling)
-   */
-  annotationSelect?: UseAnnotationSelectReturn
   
   /**
    * EntityCard save context (for isNew check)
@@ -117,9 +105,7 @@ export function useSelectHandlers(
     rawFieldValue,
     fieldValue,
     isMultiple,
-    isDescriptionSelect,
     groupedByKey,
-    annotationSelect,
     entityCardSaveContext = null,
     disableAutoSave = false
   } = options
@@ -169,8 +155,12 @@ export function useSelectHandlers(
 
   /**
    * LEARNING: Handle standard change event
-   * WHY: Handles value changes for both single and multiple selects, with special handling for annotations
-   * PATTERN: Normalize value, handle annotations separately, then update form
+   * WHY: Handles value changes for both single and multiple selects
+   * PATTERN: Normalize value, then update form (EntityCard handles relationship CRUD on save)
+   * 
+   * LEARNING: Annotations now work like other relationship selects
+   * WHY: annotationAssignments is attached to entities, form value is array of IDs
+   * PATTERN: Just update form value - EntityCard handles relationship create/delete on save
    */
   const handleChange = async (value: string | string[] | null): Promise<void> => {
     // LEARNING: Ignore update events during programmatic updates
@@ -180,46 +170,7 @@ export function useSelectHandlers(
       return
     }
     
-    /**
-     * LEARNING: Annotations are part of the annotation system, not relationships, so we manage via annotation router
-     * WHY: Annotations use AnnotationAssignment relationships, not direct entity relationships
-     * PATTERN: Compare old and new values, create/delete relationships accordingly
-     */
-    if (isDescriptionSelect.value && annotationSelect?.blockInstanceId.value) {
-      const currentAnnotationIds = new Set(
-        annotationSelect.blockInstanceAnnotations.value.map(rel => rel.annotationId)
-      )
-      
-      let newAnnotationIds: string[]
-      if (value === null || value === undefined) {
-        newAnnotationIds = []
-      } else if (Array.isArray(value)) {
-        newAnnotationIds = value.map(v => String(v)).filter(v => v !== '')
-      } else {
-        newAnnotationIds = [String(value)]
-      }
-      // LEARNING: Use shared utility for updating annotation relationships
-      // WHY: Eliminates duplication and combines create/delete operations in parallel
-      // PATTERN: Extract shared annotation relationship logic to utility function
-      await updateAnnotationRelationships(
-        annotationSelect,
-        currentAnnotationIds,
-        newAnnotationIds
-      )
-      
-      // Update form value with new annotation IDs
-      // LEARNING: Set flag before programmatic update to prevent recursive @update events
-      isUpdatingProgrammatically.value = true
-      try {
-        fieldContext.setValue(isMultiple.value ? newAnnotationIds : (newAnnotationIds[0] ?? undefined))
-        await nextTick()
-      } finally {
-        isUpdatingProgrammatically.value = false
-      }
-      return
-    }
-    
-    // Standard handling for other select types
+    // Standard handling for all select types (including annotations)
     let normalizedValue: string | string[] | undefined = value ?? undefined
     
     if (isMultiple.value) {
@@ -253,7 +204,15 @@ export function useSelectHandlers(
         // If array received for single select, take first value
         normalizedValue = value.length > 0 ? String(value[0]) : undefined
       } else {
-        normalizedValue = String(value)
+        const stringValue = String(value)
+        // LEARNING: Convert '__NULL__' sentinel back to null for ternaryDefault field
+        // WHY: ternaryDefault can be null (fail gracefully), but SelectOption requires string
+        // PATTERN: Use sentinel value '__NULL__' in options, convert back to null when saving
+        if (stringValue === '__NULL__' && String(fieldContext.fieldKey) === 'ternaryDefault') {
+          normalizedValue = undefined // Will be saved as null
+        } else {
+          normalizedValue = stringValue
+        }
       }
     }
     

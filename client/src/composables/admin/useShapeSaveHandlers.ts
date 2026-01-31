@@ -5,7 +5,7 @@
  */
 
 import type { Ref } from 'vue'
-import { useCreateAnnotationShape } from '@/composables/useAnnotationTypes'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -48,7 +48,7 @@ export function useShapeSaveHandlers(
     newAnnotationShapeName
   } = options
 
-  const createAnnotationShapeMutation = useCreateAnnotationShape()
+  const annotationShapeCrud = useEntityCrud('annotationShape')
   const { success } = useNotification()
 
   /**
@@ -94,7 +94,12 @@ export function useShapeSaveHandlers(
     if (!newAnnotationShapeName.value.trim()) return
     
     try {
-      await createAnnotationShapeMutation.mutateAsync({ name: newAnnotationShapeName.value.trim() })
+      await annotationShapeCrud.create({
+        name: newAnnotationShapeName.value.trim(),
+        orderIndex: 0,
+        active: true,
+        entityKey: 'annotationShape' as const
+      })
       success('Annotation shape created successfully')
       isCreatingAnnotationShape.value = false
       newAnnotationShapeName.value = ''

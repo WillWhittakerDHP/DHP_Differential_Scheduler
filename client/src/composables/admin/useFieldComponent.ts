@@ -258,12 +258,14 @@ export function useFieldComponent(
   })
   
   /**
-   * LEARNING: Whether field is annotations type
-   * WHY: Annotations fields use AnnotationsField component
-   * PATTERN: Determined from dispatcher: component.type === 'annotations'
+   * LEARNING: Annotations field removed - now uses relationshipCollection type
+   * WHY: Annotations are now core entities, use generic RelationshipCollection component
+   * PATTERN: Annotations fields use relationshipCollection component type
+   * @deprecated Use componentType.value.type === 'relationshipCollection' instead
    */
   const isAnnotations = computed(() => {
-    return componentType.value.type === 'annotations'
+    // Annotations now use relationshipCollection type
+    return componentType.value.type === 'relationshipCollection' && String(fieldKey.value) === 'annotations'
   })
   
   /**

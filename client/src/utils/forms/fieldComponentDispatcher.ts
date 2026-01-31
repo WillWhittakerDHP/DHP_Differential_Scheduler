@@ -23,8 +23,7 @@ import type { FieldMetadataEntry } from '@/types/entityMetadata'
 export type FieldComponent =
   | { type: 'icon'; reason: 'iconSelect' } // Renders IconInput component
   | { type: 'primitive'; reason: 'text' | 'number' | 'statusButton' } // Renders PrimitiveInputs component
-  | { type: 'relationshipCollection'; reason: 'relationshipCollection' } // Renders RelationshipCollection component
-  | { type: 'annotations'; reason: 'annotationsField' } // Renders AnnotationsField component (uses RelationshipCollection internally)
+  | { type: 'relationshipCollection'; reason: 'relationshipCollection' } // Renders RelationshipCollection component (for parts, annotations, events)
   | { type: 'select'; reason: 'select' | 'multiselect' | 'reference' } // Renders SelectInputs component
   | { type: 'unknown'; reason: 'notConfigured' | 'invalidRenderAs' } // Unknown/invalid field
 
@@ -58,12 +57,9 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
 
   const { renderAs, inputConfig } = fieldMetadata
 
-  // LEARNING: Check for annotations field first (special case)
-  // WHY: Annotations field is identified by fieldKey, not renderAs
-  // PATTERN: Check fieldKey string value before checking metadata
-  if (String(fieldKey) === 'annotations') {
-    return { type: 'annotations', reason: 'annotationsField' }
-  }
+  // LEARNING: Annotations field removed - now uses relationshipCollection renderAs
+  // WHY: Annotations are now core entities, use generic RelationshipCollection component
+  // PATTERN: Annotations field should have renderAs: 'relationshipCollection' in metadata
 
   // LEARNING: Check for icon field
   // WHY: Icon fields need special IconInput component

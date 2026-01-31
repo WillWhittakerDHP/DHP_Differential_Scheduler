@@ -105,18 +105,10 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       // Get events data from globalData
       const globalData = getGlobalData()
       
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:105',message:'useAppointmentSlots: globalData inspection',data:{hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipsKeys:globalData?.relationships?Object.keys(globalData.relationships):[],eventAssignmentsCount:globalData?.relationships?.eventAssignments?.length||0,eventInstancesCount:globalData?.events?.eventInstance?.length||0,eventShapesCount:globalData?.events?.eventShape?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-      // #endregion
-      
       const eventInstances = (globalData?.events?.eventInstance || []) as EventInstance[]
       const eventShapes = (globalData?.events?.eventShape || []) as EventShape[]
       const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
       const validPartsRelationships = (globalData?.relationships?.validParts || []) as GlobalRelationship[]
-      
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:109',message:'useAppointmentSlots: extracted relationships',data:{eventInstancesCount:eventInstances.length,eventShapesCount:eventShapes.length,eventAssignmentsRelationshipsCount:eventAssignmentsRelationships.length,validPartsRelationshipsCount:validPartsRelationships.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-      // #endregion
       
       // Build partShapeById map
       const partShapes = getGlobalEntities('partShape')
@@ -136,10 +128,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         partShapeById,
         validPartsRelationships
       )
-      
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:127',message:'useAppointmentSlots: appointmentShape computed',data:{shapeSlotShapeTotalDuration:shape.slotShape.totalDuration,shapeSlotShapeEventDurations:shape.slotShape.eventDurations,shapeSlotShapeClientStartOffset:shape.slotShape.clientStartOffset,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-      // #endregion
       
       return shape
     } catch (error) {
@@ -224,12 +212,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         // PATTERN: Pass map index directly to builder, which uses it as buttonIndex
         // NOTE: index is the array position, which becomes slot.buttonIndex in applyShapeToTime
         const slot = applyShapeToTime(shape, time, index, fallbackDuration, isAvailable)
-        
-        // #region agent log
-        if (index < 3) {
-          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:210',message:'useAppointmentSlots: slot created',data:{buttonIndex:slot.buttonIndex,slotTotalTimeRange:slot.totalTimeRange?{startTime:slot.totalTimeRange.startTime,endTime:slot.totalTimeRange.endTime,duration:slot.totalTimeRange.duration}:null,slotEventTimeRangesKeys:Object.keys(slot.eventTimeRanges||{}),slotEventTimeRangesOnSite:slot.eventTimeRanges?.['OnSite']?{startTime:slot.eventTimeRanges['OnSite'].startTime,endTime:slot.eventTimeRanges['OnSite'].endTime,duration:slot.eventTimeRanges['OnSite'].duration}:null,fallbackDuration,shapeSlotShapeTotalDuration:shape.slotShape.totalDuration},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        }
-        // #endregion
         
         return slot
       })

@@ -8,6 +8,7 @@ import { PartInstanceVersionFactory } from "./booking/part_instance_version.js";
 import { ValidCascadeFactory } from "./admin/valid_cascade.js";
 import { ValidPartFactory } from "./admin/valid_part.js";
 import { ValidAnnotationFactory } from "./admin/valid_annotation.js";
+import { ValidEventFactory } from "./admin/valid_event.js";
 import { DependentInstanceFactory } from "./booking/dependent_instance.js";
 import { BookingCascadeFactory } from "./booking/booking_cascade.js";
 import { PartAssignmentFactory } from "./booking/part_assignment.js";
@@ -48,6 +49,8 @@ export function initializeModels(sequelize: Sequelize) {
   const ValidPart = ValidPartFactory(sequelize);
   // Annotation: Block → Annotation relationships (similar to Block → Part)
   const ValidAnnotation = ValidAnnotationFactory(sequelize);
+  // Event: Part → Event relationships (similar to Block → Part)
+  const ValidEvent = ValidEventFactory(sequelize);
   // DependentInstance: Instance-level valid dependent relationships (blockInstance → blockInstance)
   const DependentInstance = DependentInstanceFactory(sequelize);
 
@@ -117,6 +120,10 @@ export function initializeModels(sequelize: Sequelize) {
   // 🔄 Valid Annotation Relationships (BlockShape → AnnotationShape)
   BlockShape.hasMany(ValidAnnotation, { foreignKey: 'parent_id', as: 'valid_annotations' });
   ValidAnnotation.belongsTo(AnnotationShape, { foreignKey: 'child_id', as: 'valid_annotation_shape' });
+
+  // 🔄 Valid Event Relationships (PartShape → EventShape)
+  PartShape.hasMany(ValidEvent, { foreignKey: 'parent_id', as: 'valid_events' });
+  ValidEvent.belongsTo(EventShape, { foreignKey: 'child_id', as: 'valid_event_shape' });
 
   // 🔄 DependentInstance Relationships (BlockInstance → BlockInstance)
   BlockInstance.hasMany(DependentInstance, { foreignKey: 'parent_id', as: 'dependent_instances' });
@@ -194,39 +201,24 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'annotation_instances',
   });
 
-  // 📅 Event Relationships (PartShape/BlockShape ↔ EventInstance)
-  // PartShape → EventAssignment relationships (shape-level event configuration)
-  PartShape.hasMany(EventAssignment, {
-    foreignKey: 'part_shape_id',
-    as: 'event_assignments',
-  });
-
-  EventAssignment.belongsTo(PartShape, {
-    foreignKey: 'part_shape_id',
-    as: 'partShape',
-  });
-
-  // BlockShape → EventAssignment relationships (shape-level event configuration for blocks)
-  BlockShape.hasMany(EventAssignment, {
-    foreignKey: 'block_shape_id',
-    as: 'event_assignments',
-  });
-
-  EventAssignment.belongsTo(BlockShape, {
-    foreignKey: 'block_shape_id',
-    as: 'blockShape',
-  });
-
+  // 📅 Event Relationships (PartInstance/BlockInstance ↔ EventInstance)
+  // LEARNING: EventAssignment uses parent_id/child_id pattern with parent_kind enum
+  // WHY: Matches partAssignments pattern exactly for consistency
+  // PATTERN: parent_id references either partInstance or blockInstance based on parent_kind
+  // NOTE: Parent associations handled via application logic using parent_kind, not Sequelize associations
+  
   // EventInstance → EventAssignment relationships
   EventInstance.hasMany(EventAssignment, {
-    foreignKey: 'event_instance_id',
+    foreignKey: 'child_id',
     as: 'event_assignments',
   });
 
   EventAssignment.belongsTo(EventInstance, {
-    foreignKey: 'event_instance_id',
+    foreignKey: 'child_id',
     as: 'eventInstance',
   });
+
+  // NOTE: Legacy shape associations removed - event_assignments now uses parent_id/child_id pattern
 
   // 📅 Event Shape Relationships (EventInstance ↔ EventShape)
   EventInstance.belongsTo(EventShape, {
@@ -287,7 +279,7 @@ export function initializeModels(sequelize: Sequelize) {
     PartInstance, PartShape, 
     BlockInstance, BlockShape, 
     BlockInstanceVersion, PartInstanceVersion,
-    ValidCascade, ValidPart, ValidAnnotation, DependentInstance,
+    ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance,
     BookingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment,

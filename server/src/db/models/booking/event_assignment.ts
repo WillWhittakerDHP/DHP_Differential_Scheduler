@@ -8,49 +8,44 @@ import {
   Sequelize,
 } from 'sequelize';
 
-import type { PartShape } from '../admin/part_shape.js';
-import type { BlockShape } from '../admin/block_shape.js';
 import type { EventInstance } from './event_instance.js';
 
 /**
  * EventAssignment Model
  * 
- * Through-table for many-to-many relationship between PartShape/BlockShape and EventInstance.
- * Enables shapes to have multiple event instances with ordering and ternary value configuration.
+ * Through-table for many-to-many relationship between PartInstance/BlockInstance and EventInstance.
+ * Enables instances to have multiple event instances.
  * 
  * LEARNING: Assignment relationship pattern enables:
- * - Many-to-many relationships (one shape can have many event instances, one event instance can be used by many shapes)
- * - Additional metadata on the relationship (orderIndex, ternaryValue)
- * - Shape-level configuration (all instances of a shape inherit the same event configuration)
+ * - Many-to-many relationships (one instance can have many event instances, one event instance can be used by many instances)
+ * - Instance-level configuration (events are configured per instance, not per shape)
  * 
- * WHY: Using an assignment relationship table instead of storing event instances directly on shapes allows:
- * - Reusability: Same event instance templates can be shared across multiple shapes
- * - Ordering: Multiple event instances per shape can be ordered via orderIndex
- * - Ternary logic: Event instances can specify ternary values (true/false/override) for onSite/clientPresent
- * - Shape-level configuration: Events are configured at shape level, not instance level
+ * WHY: Using an assignment relationship table instead of storing event instances directly on instances allows:
+ * - Reusability: Same event instance templates can be shared across multiple instances
+ * - Instance-level configuration: Events are configured at instance level, matching the pattern used by parts and annotations
  * 
- * PATTERN: Assignment relationship model matching part_assignments/annotation_assignments pattern
+ * PATTERN: Assignment relationship model matching part_assignments pattern exactly
  * COMPARISON: EventAssignment is runtime (which events are assigned), EventShape/Instance are definitions/entities
  * 
- * NOTE: Links to shapes (PartShape/BlockShape), not instances, because events are about the semantic meaning
- * of the shape, not specific instances. All instances of a shape inherit the same event configuration.
+ * NOTE: Uses parent_id/child_id pattern with parent_kind enum to handle multiple parent types (partInstance or blockInstance)
  */
 export class EventAssignment extends Model<
   InferAttributes<EventAssignment>,
   InferCreationAttributes<EventAssignment>
 > {
   declare id: CreationOptional<string>;
-  declare partShapeId: ForeignKey<string> | null; // Shape-level event configuration
-  declare blockShapeId: ForeignKey<string> | null; // Shape-level event configuration for blocks
-  declare eventInstanceId: ForeignKey<string>;
+  declare kind: CreationOptional<string>;
+  declare parent_kind: CreationOptional<string>;
+  declare child_kind: CreationOptional<string>;
+  declare parent_id: ForeignKey<string>;
+  declare parentKind: 'partInstance' | 'blockInstance';
+  declare child_id: ForeignKey<string>;
   // NOTE: Metadata (ternaryValue, orderIndex) removed - now stored in event_shapes table
-  // Relationships just indicate which shapes are active - metadata lives in shape tables
+  // Relationships just indicate which instances are active - metadata lives in shape tables
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
   // Associations
-  declare partShape?: PartShape;
-  declare blockShape?: BlockShape;
   declare eventInstance?: EventInstance;
 }
 
@@ -63,30 +58,39 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
         primaryKey: true,
         allowNull: false,
       },
-      partShapeId: {
-        type: DataTypes.UUID,
-        allowNull: true,
-        field: 'part_shape_id',
-        references: {
-          model: 'part_shapes',
-          key: 'id',
-        },
-        comment: 'Foreign key to part_shapes table (shape-level event configuration)',
+      kind: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return "eventAssignments";
+        }
       },
-      blockShapeId: {
-        type: DataTypes.UUID,
-        allowNull: true,
-        field: 'block_shape_id',
-        references: {
-          model: 'block_shapes',
-          key: 'id',
-        },
-        comment: 'Foreign key to block_shapes table (shape-level event configuration for blocks)',
+      parent_kind: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return this.parentKind;
+        }
       },
-      eventInstanceId: {
+      child_kind: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return "eventInstance";
+        }
+      },
+      parent_id: {
         type: DataTypes.UUID,
         allowNull: false,
-        field: 'event_instance_id',
+        comment: 'Foreign key to parent instance (partInstance or blockInstance, determined by parent_kind)',
+      },
+      parentKind: {
+        type: DataTypes.ENUM('partInstance', 'blockInstance'),
+        allowNull: false,
+        field: 'parent_kind',
+        comment: 'Type of parent instance (partInstance or blockInstance)',
+      },
+      child_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        field: 'child_id',
         references: {
           model: 'event_instances',
           key: 'id',
@@ -94,7 +98,7 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
         comment: 'Foreign key to event_instances table',
       },
       // NOTE: Metadata columns (orderIndex, ternaryValue) removed - now stored in event_shapes table
-      // Relationships just indicate which shapes are active - metadata lives in shape tables
+      // Relationships just indicate which instances are active - metadata lives in shape tables
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -117,16 +121,17 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
       tableName: 'event_assignments',
       indexes: [
         {
-          fields: ['part_shape_id'],
-          name: 'idx_event_assignments_part_shape_id',
+          fields: ['parent_id'],
+          name: 'idx_event_assignments_parent_id',
         },
         {
-          fields: ['block_shape_id'],
-          name: 'idx_event_assignments_block_shape_id',
+          fields: ['child_id'],
+          name: 'idx_event_assignments_child_id',
         },
         {
-          fields: ['event_instance_id'],
-          name: 'idx_event_assignments_event_instance_id',
+          unique: true,
+          fields: ['parent_id', 'child_id'],
+          name: 'unique_event_assignments_parent_child',
         },
       ],
       freezeTableName: true,

@@ -150,6 +150,10 @@ export function useAdminMetadataMutations() {
       // WHY: Ensures cache is marked stale so refetch will update it
       // PATTERN: Invalidate in mutation, refetch manually in component to await completion
       queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
+      // LEARNING: Invalidate globalData cache to ensure entity cards see updated metadata
+      // WHY: Metadata changes affect how entities are displayed, so globalData should refresh
+      // PATTERN: Invalidate both adminMetadata and globalData after metadata saves
+      queryClient.invalidateQueries({ queryKey: ['globalData'] })
     },
   })
 

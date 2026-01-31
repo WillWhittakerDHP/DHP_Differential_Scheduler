@@ -54,7 +54,7 @@ export function getFieldKeys<GE extends GlobalEntityKey>(
   const entityKeys = entity ? Object.keys(entity).filter(key => {
     // Filter out non-field properties that shouldn't be rendered
     // LEARNING: Exclude system fields (createdAt, updatedAt) and special fields (annotations)
-    // WHY: System fields are managed by database, annotations handled separately via AnnotationsField
+    // WHY: System fields are managed by database, annotations handled via RelationshipCollection
     // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
     return !SYSTEM_FIELDS.includes(key as typeof SYSTEM_FIELDS[number])
   }) as GlobalFieldKey<GE>[] : []
@@ -63,7 +63,8 @@ export function getFieldKeys<GE extends GlobalEntityKey>(
   // WHY: Metadata might have additional fields or filter out some fields
   // PATTERN: Prefer metadata keys if available, otherwise use entity keys
   if (fieldMetadata && Object.keys(fieldMetadata).length > 0) {
-    return Object.keys(fieldMetadata) as GlobalFieldKey<GE>[]
+    const metadataKeys = Object.keys(fieldMetadata) as GlobalFieldKey<GE>[]
+    return metadataKeys
   }
 
   // LEARNING: Fallback to entity keys if metadata not yet loaded

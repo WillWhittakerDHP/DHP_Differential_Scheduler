@@ -95,13 +95,26 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
       // LEARNING: Set defaults based on dataType and isRequired
       // WHY: Different field types need different default values
       // PATTERN: Boolean fields default to false (required) or undefined (nullable), ternary fields default to 'false', numbers to 0, strings to ''
+      //          Exception: 'active' field defaults to true for instance entities (blockInstance, partInstance, eventInstance, annotationInstance)
       if (dataType === 'boolean' || dataType === 'ternary') {
         // Required booleans default to false, nullable booleans default to undefined
         // Ternary fields default to 'false' (string enum)
         if (dataType === 'ternary') {
           defaults[fieldKey] = 'false'
         } else {
-          defaults[fieldKey] = isRequired ? false : undefined
+          // LEARNING: 'active' field defaults to true for instance entities
+          // WHY: Matches Sequelize model defaults (active: true) for blockInstance, partInstance, eventInstance, annotationInstance
+          // PATTERN: Check field name and entity type to determine if active should default to true
+          if (fieldKey === 'active' && (
+            entityType === 'blockInstance' || 
+            entityType === 'partInstance' || 
+            entityType === 'eventInstance' || 
+            entityType === 'annotationInstance'
+          )) {
+            defaults[fieldKey] = true
+          } else {
+            defaults[fieldKey] = isRequired ? false : undefined
+          }
         }
       } else if (dataType === 'number') {
         // Required numbers default to 0

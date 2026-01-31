@@ -333,16 +333,10 @@ function isCacheValid(): boolean {
 export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
   // Check cache validity (TTL-based)
   if (cachedSettings && isCacheValid()) {
-    logger.debug('Returning cached settings', { 
-      cachedAt: new Date(cachedSettings.cachedAt).toISOString() 
-    })
     return cachedSettings.settings
   }
   
   // Cache miss or expired - fetch from API
-  logger.info('Fetching settings from API', { 
-    reason: cachedSettings ? 'cache_expired' : 'cache_miss' 
-  })
 
   try {
     // Fetch settings from API
@@ -383,7 +377,6 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         cachedAt: Date.now()
       }
       
-      logger.info('Settings cached', { ttl: `${(CACHE_TTL_MS / 1000).toFixed(0)}s` })
       return convertedSettings
     }
     

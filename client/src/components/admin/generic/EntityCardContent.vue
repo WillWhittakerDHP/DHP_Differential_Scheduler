@@ -77,8 +77,8 @@ defineProps<Props>()
       v-for="fieldKey in fieldsByLocation.directInline"
       :key="fieldKey"
       cols="12"
-      sm="6"
-      md="4"
+      sm="12"
+      md="8"
     >
       <FieldRenderer
         v-if="getFieldContext(fieldKey)"

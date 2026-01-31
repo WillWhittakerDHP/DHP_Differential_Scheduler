@@ -31,7 +31,7 @@ const router = Router();
 router.get('/config', async (req: Request, res: Response): Promise<void> => {
   try {
     // Return the valid entity kinds (entity keys)
-    const entityKeys = ['blockInstance', 'blockShape', 'partInstance', 'partShape'];
+    const entityKeys = ['blockInstance', 'blockShape', 'partInstance', 'partShape', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance'];
     
     res.json({
       entityKeys,
@@ -58,9 +58,9 @@ router.get('/config', async (req: Request, res: Response): Promise<void> => {
  */
 router.param('entityType', (req, res, next, entityType) => {
   if (!isValidEntityType(entityType)) {
-    return res.status(404).json({ 
+      return res.status(404).json({ 
       error: `Unknown entity kind: ${entityType}`,
-      validKinds: ['partInstance', 'blockInstance', 'partShape', 'blockShape']
+      validKinds: ['partInstance', 'blockInstance', 'partShape', 'blockShape', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance']
     });
   }
   
@@ -188,18 +188,46 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
     if (error instanceof Error && 
         (error.name === 'SequelizeValidationError' || 
          error.name === 'SequelizeUniqueConstraintError')) {
-      // LEARNING: Extract field name from unique constraint error for better error message
-      // WHY: Unique constraint errors should indicate which field has the duplicate value
-      // PATTERN: Check if error has fields property (SequelizeUniqueConstraintError structure)
-      const uniqueError = error as any;
-      const fieldName = uniqueError?.fields ? Object.keys(uniqueError.fields)[0] : 'field';
-      const fieldValue = uniqueError?.fields ? Object.values(uniqueError.fields)[0] : '';
+      // LEARNING: Extract detailed validation error information
+      // WHY: SequelizeValidationError contains errors array with field-specific messages
+      // PATTERN: Extract field names and messages from SequelizeValidationError.errors array
+      const validationError = error as any;
       
+      if (validationError.name === 'SequelizeUniqueConstraintError') {
+        // LEARNING: Extract field name from unique constraint error for better error message
+        // WHY: Unique constraint errors should indicate which field has the duplicate value
+        // PATTERN: Check if error has fields property (SequelizeUniqueConstraintError structure)
+        const fieldName = validationError?.fields ? Object.keys(validationError.fields)[0] : 'field';
+        const fieldValue = validationError?.fields ? Object.values(validationError.fields)[0] : '';
+        
+        res.status(400).json({
+          error: `Validation failed for ${entityConfig.displayName}`,
+          details: `${fieldName} "${fieldValue}" already exists. Please use a unique value.`,
+        });
+        return;
+      }
+      
+      // LEARNING: Extract field-specific validation errors from SequelizeValidationError
+      // WHY: SequelizeValidationError.errors is an array of field-specific error objects
+      // PATTERN: Map errors array to extract field names and messages
+      if (validationError.errors && Array.isArray(validationError.errors) && validationError.errors.length > 0) {
+        const fieldErrors = validationError.errors.map((err: any) => {
+          const fieldName = err.path || 'field';
+          const message = err.message || 'Validation error';
+          return `${fieldName}: ${message}`;
+        }).join('; ');
+        
+        res.status(400).json({
+          error: `Validation failed for ${entityConfig.displayName}`,
+          details: fieldErrors,
+        });
+        return;
+      }
+      
+      // Fallback to generic error message
       res.status(400).json({
         error: `Validation failed for ${entityConfig.displayName}`,
-        details: uniqueError.name === 'SequelizeUniqueConstraintError' 
-          ? `${fieldName} "${fieldValue}" already exists. Please use a unique value.`
-          : error.message,
+        details: error.message,
       });
       return;
     }

@@ -56,7 +56,7 @@ export const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB
 export const { 
   PartShape, PartInstance, BlockShape, BlockInstance, 
   BlockInstanceVersion, PartInstanceVersion,
-  ValidCascade, ValidPart, ValidAnnotation, DependentInstance,
+  ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance,
   BookingCascade, PartAssignment, InstanceComponent,
   AnnotationShape, AnnotationInstance, AnnotationAssignment,
   EventShape, EventInstance, EventAssignment,
@@ -96,6 +96,7 @@ export default {
   ValidCascade,
   ValidPart,
   ValidAnnotation,
+  ValidEvent,
   DependentInstance,
   BookingCascade,
   PartAssignment,

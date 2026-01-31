@@ -11,7 +11,7 @@
 /**
  * Entity metadata type - used for admin_primitive_metadata table
  */
-export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
+export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance'
 
 /**
  * Unified field metadata entry

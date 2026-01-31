@@ -11,8 +11,6 @@ import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { TernaryBoolean } from '@/types/ternary'
-import type { EventShape, EventInstance } from '@/types/events'
-import type { AnnotationInstance, AnnotationShape } from '@/types/annotations'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 
 /**
@@ -109,18 +107,12 @@ export class BookingTransformer {
 
 
   transformGlobalToBooking(globalData: GlobalData): BookingData {
-    const { entities, relationships, annotations, events } = globalData
+    const { entities, relationships } = globalData
     const blockShapes = (entities.blockShape || []) as GlobalEntity<'blockShape'>[]
     const blockInstances = (entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
     const partShapes = (entities.partShape || []) as GlobalEntity<'partShape'>[]
     const partInstances = (entities.partInstance || []) as GlobalEntity<'partInstance'>[]
-    const annotationShapes = (annotations?.annotationShape || []) as AnnotationShape[]
-    const annotationInstances = (annotations?.annotationInstance || []) as AnnotationInstance[]
-    const eventShapes = (events?.eventShape || []) as EventShape[]
-    const eventInstances = (events?.eventInstance || []) as EventInstance[]
     const partAssignmentsRelationships = relationships.partAssignments || []
-    const eventAssignmentsRelationships = relationships.eventAssignments || []
-    const annotationAssignmentsRelationships = relationships.annotationAssignments || []
     const bookingCascadesRelationships = relationships.bookingCascades || []
     const instanceComponentsRelationships = relationships.instanceComponents || []
     
@@ -170,17 +162,11 @@ export class BookingTransformer {
       .map(blockInstance => this.transformBlockInstance(
         blockInstance,
         partAssignmentsRelationships,
-        eventAssignmentsRelationships,
-        annotationAssignmentsRelationships,
         bookingCascadesRelationships,
         instanceComponentsRelationships,
         partInstanceById,
         blockShapeById,
-        partShapeById,
-        eventInstances,
-        eventShapes,
-        annotationInstances,
-        annotationShapes
+        partShapeById
       ))
       .sort((a, b) => {
         const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
@@ -201,17 +187,11 @@ export class BookingTransformer {
       .map(blockInstance => this.transformBlockInstance(
         blockInstance,
         partAssignmentsRelationships,
-        eventAssignmentsRelationships,
-        annotationAssignmentsRelationships,
         bookingCascadesRelationships,
         instanceComponentsRelationships,
         partInstanceById,
         blockShapeById,
-        partShapeById,
-        eventInstances,
-        eventShapes,
-        annotationInstances,
-        annotationShapes
+        partShapeById
       ))
       .sort((a, b) => {
         const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
@@ -253,17 +233,11 @@ export class BookingTransformer {
   private transformBlockInstance(
     blockInstance: GlobalEntity<'blockInstance'>,
     partAssignmentsRelationships: GlobalRelationship[],
-    eventAssignmentsRelationships: GlobalRelationship[],
-    annotationAssignmentsRelationships: GlobalRelationship[],
     bookingCascadesRelationships: GlobalRelationship[],
     instanceComponentsRelationships: GlobalRelationship[],
     partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
     blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
-    partShapeById: Map<string, GlobalEntity<'partShape'>>,
-    eventInstances: EventInstance[],
-    eventShapes: EventShape[],
-    annotationInstances: AnnotationInstance[],
-    annotationShapes: AnnotationShape[],
+    partShapeById: Map<string, GlobalEntity<'partShape'>>
   ): BookingBlockInstance {
     // Get blockInstance's own partAssignments
     const partAssignmentsRels = findRelationshipsByParent(
@@ -345,10 +319,7 @@ export class BookingTransformer {
       )
       .map((partInstance: GlobalEntity<'partInstance'>) => this.transformPartInstance(
         partInstance,
-        partShapeById,
-        eventAssignmentsRelationships,
-        eventInstances,
-        eventShapes
+        partShapeById
       ))
       .sort((a: BookingPartInstance, b: BookingPartInstance) => {
         const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
@@ -413,78 +384,22 @@ export class BookingTransformer {
   
   /**
    * Transform a single part instance
-   * LEARNING: Denormalizes partShape to name and computes booleans from activeEvents relationships
-   * WHY: Simple string property instead of nested object, events configured at shape level
+   * LEARNING: Denormalizes partShape to name
+   * WHY: Simple string property instead of nested object
    * 
-   * ARCHITECTURAL CHANGE: Reads metadata from event_shapes table columns, not from relationships
-   * WHY: Shape columns are always metadata - relationships just indicate which shapes are active
-   * PATTERN: Use GlobalRelationship[] to determine which event shapes are active, read metadata from eventShape columns
-   * 
-   * Session Event Refactor: Computes onSite/clientPresent/moveable from eventAssignments relationships
-   * WHY: Events are configured at shape level, all instances of a shape inherit same configuration
-   * PATTERN: Look up eventAssignments by part shape, read metadata from eventShape.defaultTernaryValue column
+   * ARCHITECTURAL NOTE: Events are handled via eventAssignmentsByPartShape on AppointmentShape,
+   * not as properties on BookingPartInstance. Event lookups happen in appointmentSlotBuilder.ts
+   * and partFinalizer.ts using the event-based approach.
    */
   private transformPartInstance(
     partInstance: GlobalEntity<'partInstance'>,
-    partShapeById: Map<string, GlobalEntity<'partShape'>>,
-    eventAssignmentsRelationships: GlobalRelationship[],
-    eventInstances: EventInstance[],
-    eventShapes: EventShape[]
+    partShapeById: Map<string, GlobalEntity<'partShape'>>
   ): BookingPartInstance {
     // Denormalize partShape
     const partInstanceTyped = partInstance as GlobalEntity<'partInstance'> & { partShapeRef: string }
     const partShapeRef = partInstanceTyped.partShapeRef
     const partShapeEntity = partShapeById.get(partShapeRef)
     const partShape = partShapeEntity?.name || partShapeRef
-    
-    // Get eventAssignments relationships for this part's shape (not instance)
-    // LEARNING: Events are configured at shape level, all instances inherit same configuration
-    // WHY: Aligns with FinalizedPart grouping by part shape
-    // PATTERN: Filter GlobalRelationship[] where parent.id matches partShapeRef
-    // NOTE: For eventAssignments, parent is a shape (blockShape or partShape)
-    const shapeEventAssignmentsRels = eventAssignmentsRelationships.filter(rel => {
-      // Check if parent.id matches partShapeRef (parent is the shape for eventAssignments)
-      return rel.parent.id === partShapeRef
-    })
-    
-    // Helper function to get event shape name and metadata from a relationship
-    // LEARNING: Read metadata from eventShape columns, not from relationships
-    // WHY: Metadata (ternaryValue) is stored in event_shapes table, not relationship tables
-    // PATTERN: Look up eventShape by eventInstance.eventShapeRef, read defaultTernaryValue from shape
-    const getEventData = (childId: string): { shapeName?: string; ternaryValue?: 'true' | 'false' | 'override' | null } => {
-      const eventInstance = eventInstances.find(ei => ei.id === childId)
-      if (!eventInstance) return {}
-      const eventShape = eventShapes.find(es => es.id === eventInstance.eventShapeRef)
-      return {
-        shapeName: eventShape?.name,
-        ternaryValue: eventShape?.defaultTernaryValue ?? 'true' // Read from eventShape column, default to 'true'
-      }
-    }
-    
-    // Compute onSite from eventAssignments relationships
-    // LEARNING: Find relationships with OnSite event shape, read ternaryValue from eventShape.defaultTernaryValue
-    // WHY: Events are configured at shape level, metadata stored in event_shapes table columns
-    // PATTERN: Filter by event shape name, read metadata from eventShape.defaultTernaryValue column
-    const onSiteEvents = shapeEventAssignmentsRels
-      .flatMap(rel => rel.children.map(child => ({ childId: child.id, ...getEventData(child.id) })))
-      .filter(item => item.shapeName === "OnSite")
-    const onSite: TernaryBoolean = onSiteEvents.length > 0
-      ? (onSiteEvents[0].ternaryValue || 'true') // Use ternaryValue from eventShape column, default to 'true'
-      : 'false'
-    
-    // Compute clientPresent from eventAssignments relationships
-    const clientPresentEvents = shapeEventAssignmentsRels
-      .flatMap(rel => rel.children.map(child => ({ childId: child.id, ...getEventData(child.id) })))
-      .filter(item => item.shapeName === "ClientPresent")
-    const clientPresent: TernaryBoolean = clientPresentEvents.length > 0
-      ? (clientPresentEvents[0].ternaryValue || 'true') // Use ternaryValue from eventShape column, default to 'true'
-      : 'false'
-    
-    // Compute moveable from eventAssignments relationships
-    const moveableEvents = shapeEventAssignmentsRels
-      .flatMap(rel => rel.children.map(child => ({ childId: child.id, ...getEventData(child.id) })))
-      .filter(item => item.shapeName === "Moveable")
-    const moveable = moveableEvents.length > 0
     
     const partInstanceWithProps = partInstance as GlobalEntity<'partInstance'> & {
       baseTime?: number

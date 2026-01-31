@@ -273,6 +273,15 @@ const handleKeydown = (event: KeyboardEvent): void => {
   min-width: 200px; /* Minimum width to match typical name field width */
 }
 
+/* LEARNING: Title row fields should size based on content */
+/* WHY: Name fields in title row should fit their text content, not be constrained to fixed width */
+/* PATTERN: Use CSS selector to detect when field is in title row context */
+:deep(.title-row-field) .text-input-field {
+  width: auto;
+  min-width: 150px;
+  max-width: 100%;
+}
+
 /* LEARNING: On mobile, make fields stack and take full width */
 /* WHY: Better UX on small screens */
 @media (max-width: 600px) {
@@ -296,6 +305,15 @@ const handleKeydown = (event: KeyboardEvent): void => {
   line-height: 24px;
   color: rgba(var(--v-theme-on-surface), 0.87);
   font-size: 16px;
+}
+
+/* LEARNING: Title row readonly text should size based on content */
+/* WHY: Name fields in title row should fit their text content */
+/* PATTERN: Use CSS selector to detect when field is in title row context */
+:deep(.title-row-field) .readonly-text {
+  width: auto;
+  min-width: 150px;
+  max-width: 100%;
 }
 
 /* LEARNING: On mobile, allow readonly text to shrink */

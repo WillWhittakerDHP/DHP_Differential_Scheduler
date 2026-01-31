@@ -113,7 +113,6 @@ import type { GlobalEntity } from '../../../../types/entities'
 import { useSelectOptions, type SelectOption } from '@/composables/useSelectOptions'
 import { useSelectConfig } from '@/composables/admin/useSelectConfig'
 import { useSelectFiltering } from '@/composables/admin/useSelectFiltering'
-import { useAnnotationSelect } from '@/composables/admin/useAnnotationSelect'
 import { useSelectHandlers } from '@/composables/admin/useSelectHandlers'
 import { useSelectFieldValue } from '@/composables/admin/useSelectFieldValue'
 import { useSelectFormAssociation } from '@/composables/admin/useSelectFormAssociation'
@@ -154,43 +153,20 @@ const {
   isEnumSelect,
   isOptionsSelect,
   optionsSelectOptions,
-  isDescriptionSelect,
+  isAnnotationAssignmentSelect,
   isMultiple,
   chipsProps,
   optionEntityKey,
   optionLabelKey
 } = selectConfigComposable
 
-// LEARNING: Use annotation select composable for annotation-specific logic
-// WHY: Annotations use different data source and relationship management
-// PATTERN: Composable handles annotation queries and mutations
-const annotationSelectComposable = useAnnotationSelect({
-  isDescriptionSelect,
-  fieldContext
-})
-const { annotations } = annotationSelectComposable
-
 // LEARNING: Get all entities for filtering
 // WHY: Need source entities before filtering
-// PATTERN: Get from admin store or annotations based on select type
+// PATTERN: Use admin store for all entity types (including annotations - now core entities)
 const allEntities = computed(() => {
-  // LEARNING: For DescriptionSelect, return annotations from annotation composable
-  // WHY: Annotations are part of the annotation system, not core entities
-  // PATTERN: Return annotations as entities when DescriptionSelect is detected
-  if (isDescriptionSelect.value) {
-    const anns = annotations.value || []
-    // Transform annotations to entity-like format for consistency
-    return anns.map(ann => ({
-      id: ann.id,
-      name: ann.text, // Use text as name for display
-      text: ann.text,
-      userTypeBlock: ann.userTypeBlock,
-      entityKey: 'annotation' as const, // Not a real GlobalEntityKey, but needed for type compatibility
-      orderIndex: 0,
-      disabled: false
-    })) as unknown as GlobalEntity<GlobalEntityKey>[]
-  }
-  
+  // LEARNING: Annotations are now core entities accessible via admin store
+  // WHY: All entities (including events/annotations) are now in the unified entities structure
+  // PATTERN: Use admin store for all entity types - no special handling needed
   return adminComp.getEntitiesByKey(optionEntityKey.value)
 })
 
@@ -230,7 +206,7 @@ const selectFilteringComposable = useSelectFiltering({
   optionEntityKey,
   fieldContext,
   rawFieldValue,
-  isDescriptionSelect
+  isAnnotationAssignmentSelect
 })
 const {
   filteredEntities,
@@ -289,10 +265,9 @@ const options = computed(() => {
 // PATTERN: Composable handles annotation values, value normalization, and option validation
 const selectFieldValueComposable = useSelectFieldValue({
   rawFieldValue,
-  isDescriptionSelect,
+  isAnnotationAssignmentSelect,
   isMultiple,
   options,
-  annotationSelect: annotationSelectComposable,
   selectFiltering: selectFilteringComposable,
   fieldContext
 })
@@ -344,9 +319,8 @@ const selectHandlersComposable = useSelectHandlers({
   rawFieldValue,
   fieldValue,
   isMultiple,
-  isDescriptionSelect,
+  isAnnotationAssignmentSelect,
   groupedByKey,
-  annotationSelect: annotationSelectComposable,
   entityCardSaveContext,
   disableAutoSave
 })

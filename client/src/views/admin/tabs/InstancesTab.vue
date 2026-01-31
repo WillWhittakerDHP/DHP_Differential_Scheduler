@@ -6,7 +6,7 @@
   RESOURCE: https://vuetifyjs.com/en/components/tabs/
 -->
 <script setup lang="ts">
-import { ref, type ComponentPublicInstance } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
@@ -25,12 +25,11 @@ import { useInstanceTabHandlers } from '@/composables/admin/useInstanceTabHandle
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
 import { BLOCK_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
-import EventInstanceCard from '../components/EventInstanceCard.vue'
-import { useEventInstances, useCreateEventInstance } from '@/composables/useEventInstances'
-import { useEventShapes } from '@/composables/useEventShapes'
 import { useNotification } from '@/composables/useNotification'
-import { computed } from 'vue'
 import type { EventInstance } from '@/types/events'
+import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
+import { useDragAndDrop } from '@/composables/admin/useDragAndDrop'
+import { dragAndDrop, animations } from '@formkit/drag-and-drop'
 
 /**
  * LEARNING: Reactive active tab state
@@ -243,6 +242,7 @@ const { handleTabClick } = useInstanceTabHandlers({ activeTab })
  */
 const { success } = useNotification()
 const isCreatingEventInstance = ref(false)
+const eventInstanceMetadataModalOpen = ref(false)
 const newEventInstanceData = ref<{
   eventShapeRef: string
   name: string
@@ -251,14 +251,85 @@ const newEventInstanceData = ref<{
   locationTemplate: string
 } | null>(null)
 
-const createEventInstanceMutation = useCreateEventInstance()
-const eventInstancesQuery = useEventInstances()
-const eventInstances = computed(() => eventInstancesQuery.data.value ?? [])
-const isLoadingEventInstances = computed(() => eventInstancesQuery.isLoading.value)
-const eventShapesQuery = useEventShapes()
-const eventShapes = computed(() => eventShapesQuery.data.value ?? [])
+// LEARNING: Events are now core entities, use entity CRUD composable
+const { entities: eventInstances, create: createEventInstance } = useEntityCrud('eventInstance')
+const { entities: eventShapes } = useEntityCrud('eventShape')
+const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
+const isCreatingEventInstanceLoading = ref(false)
 
-const createEventInstance = () => {
+// LEARNING: Drag-and-drop setup for event instances
+// WHY: Enable drag-and-drop reordering of event instances
+// PATTERN: Similar to entity drag-and-drop but for config data
+const eventInstancesList = ref<EventInstance[]>([])
+const eventInstanceIds = ref<string[]>([])
+const eventInstancesContainer = ref<HTMLElement | null>(null)
+const eventInstancesPanelsContainer = ref<ComponentPublicInstance | HTMLElement | null>(null)
+
+// LEARNING: Filtered and sorted event instances
+// WHY: Sort by orderIndex for display
+const filteredEventInstances = computed(() => {
+  return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+})
+
+// LEARNING: Order index mutations for event instances
+// WHY: Events are now core entities, use generic entity CRUD pattern
+// PATTERN: Use useEntityCrud directly, matching block/part shapes pattern
+const { patchOrderIndex: patchEventInstanceOrderIndex } = useEntityCrud('eventInstance')
+
+// LEARNING: Drag handlers for event instances (now using entity drag handlers since events are core entities)
+const eventInstancesDragHandlers = useEntityDragHandlers({
+  entityIds: eventInstanceIds,
+  entityList: eventInstancesList,
+  filteredEntities: filteredEventInstances,
+  patchOrderIndex: async (updates) => {
+    await patchEventInstanceOrderIndex(updates)
+  }
+})
+
+// LEARNING: Sync arrays when filtered results change
+watch(filteredEventInstances, () => {
+  eventInstancesDragHandlers.syncArrays()
+}, { immediate: true })
+
+// LEARNING: Drag-and-drop instance for event instances
+let eventInstancesDragInstance: ReturnType<typeof dragAndDrop> | null = null
+
+onMounted(() => {
+  nextTick(() => {
+    if (!eventInstancesPanelsContainer.value) return
+    
+    // Get the actual DOM element from VExpansionPanels component
+    const panelsElement = eventInstancesPanelsContainer.value instanceof HTMLElement
+      ? eventInstancesPanelsContainer.value
+      : (eventInstancesPanelsContainer.value.$el?.querySelector('.v-expansion-panels') as HTMLElement)
+    
+    if (!panelsElement) return
+    
+    try {
+      eventInstancesDragInstance = dragAndDrop({
+        parent: panelsElement,
+        values: eventInstanceIds,
+        draggable: (el) => {
+          return el instanceof HTMLElement && el.classList?.contains('draggable-event-instance')
+        },
+        plugins: [animations()],
+        handleEnd: () => {
+          eventInstancesDragHandlers.handleDragEnd()
+        },
+      })
+    } catch (error) {
+      console.error('Error setting up event instances drag-and-drop:', error)
+    }
+  })
+})
+
+onBeforeUnmount(() => {
+  if (eventInstancesDragInstance) {
+    eventInstancesDragInstance = null
+  }
+})
+
+const openCreateEventInstanceForm = () => {
   if (eventShapes.value.length === 0) {
     alert('Please create an event shape first')
     return
@@ -277,13 +348,17 @@ const createEventInstance = () => {
 const handleEventInstanceCreate = async () => {
   if (!newEventInstanceData.value || !newEventInstanceData.value.name.trim()) return
   
+  isCreatingEventInstanceLoading.value = true
   try {
-    await createEventInstanceMutation.mutateAsync({
+    await createEventInstance({
       eventShapeRef: newEventInstanceData.value.eventShapeRef,
       name: newEventInstanceData.value.name.trim(),
       titleTemplate: newEventInstanceData.value.titleTemplate.trim() || null,
       descriptionTemplate: newEventInstanceData.value.descriptionTemplate.trim() || null,
       locationTemplate: newEventInstanceData.value.locationTemplate.trim() || null,
+      orderIndex: 0,
+      active: true,
+      entityKey: 'eventInstance' as const
     })
     success('Event instance created successfully')
     isCreatingEventInstance.value = false
@@ -291,17 +366,19 @@ const handleEventInstanceCreate = async () => {
     expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
   } catch (error) {
     // Failed to create event instance
+  } finally {
+    isCreatingEventInstanceLoading.value = false
   }
 }
 
 const handleEventInstanceCancelled = () => {
   isCreatingEventInstance.value = false
   newEventInstanceData.value = null
-  expandedEventInstances.value = expandedEventInstances.value.filter(id => id !== 'new-eventInstance')
+  expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
 }
 
 function handleDeleteEventInstance(_id: string) {
-  // EventInstanceCard already handled the deletion - this is just for parent awareness
+  // EntityCard already handled the deletion - this is just for parent awareness
 }
 
 // All watch blocks and lifecycle hooks moved to useInstanceDragAndDrop composable
@@ -535,24 +612,41 @@ function handleDeleteEventInstance(_id: string) {
         <div class="event-instances-tab-content">
           <div class="d-flex justify-space-between align-center mb-4">
             <h3 class="text-h6">Event Instances</h3>
-            <VBtn
-              color="primary"
-              prepend-icon="tabler-plus"
-              @click="createEventInstance"
-            >
-              Create Event Instance
-            </VBtn>
+            <div class="d-flex gap-2">
+              <!-- LEARNING: Global button to configure all EventInstance fields -->
+              <!-- WHY: Single config applies to all EventInstances globally -->
+              <!-- PATTERN: Global config modal triggered from section header -->
+              <VBtn
+                :variant="eventInstanceMetadataModalOpen ? 'flat' : 'outlined'"
+                :color="eventInstanceMetadataModalOpen ? 'primary' : 'default'"
+                prepend-icon="tabler-settings"
+                @click="eventInstanceMetadataModalOpen = !eventInstanceMetadataModalOpen"
+              >
+                Instance Fields
+              </VBtn>
+              <VBtn
+                color="primary"
+                prepend-icon="tabler-plus"
+                @click="openCreateEventInstanceForm"
+              >
+                Create Event Instance
+              </VBtn>
+            </div>
           </div>
           
           <div v-if="isLoadingEventInstances" class="text-center py-4">
             <VProgressCircular indeterminate />
           </div>
           
-          <VExpansionPanels 
+          <div 
             v-else-if="isCreatingEventInstance || eventInstances.length > 0"
-            v-model="expandedInstances" 
-            multiple 
+            ref="eventInstancesContainer"
           >
+            <VExpansionPanels 
+              ref="eventInstancesPanelsContainer"
+              v-model="expandedInstances" 
+              multiple 
+            >
             <!-- Inline creation card for EventInstance -->
             <VExpansionPanel
               v-if="isCreatingEventInstance"
@@ -612,7 +706,7 @@ function handleDeleteEventInstance(_id: string) {
                   <div class="d-flex gap-2 justify-end">
                     <VBtn
                       color="primary"
-                      :loading="createEventInstanceMutation.isPending.value"
+                      :loading="isCreatingEventInstanceLoading"
                       :disabled="!newEventInstanceData.name.trim()"
                       @click="handleEventInstanceCreate"
                     >
@@ -630,23 +724,19 @@ function handleDeleteEventInstance(_id: string) {
             </VExpansionPanel>
             
             <!-- Existing EventInstances -->
-            <VExpansionPanel
-              v-for="eventInstance in eventInstances"
-              :key="eventInstance.id"
-              :value="String(eventInstance.id)"
-            >
-              <template #title>
-                <span>{{ eventInstance.name || `Event Instance ${eventInstance.id}` }}</span>
-              </template>
-              
-              <template #text>
-                <EventInstanceCard
-                  :event-instance="eventInstance"
-                  @delete="handleDeleteEventInstance"
-                />
-              </template>
-            </VExpansionPanel>
+            <EntityCard
+              v-for="eventInstance in (eventInstancesList.length > 0 ? eventInstancesList : filteredEventInstances)"
+              :key="String(eventInstance.id)"
+              :class="`draggable-event-instance draggable-instance-item`"
+              :data-drag-id="String(eventInstance.id)"
+              entity-key="eventInstance"
+              :entity="eventInstance"
+              :expanded="isPanelExpanded(String(eventInstance.id))"
+              @saved="handleExistingBlockInstanceSaved"
+              @delete="handleDeleteEventInstance"
+            />
           </VExpansionPanels>
+          </div>
           
           <VAlert
             v-else
@@ -722,6 +812,18 @@ function handleDeleteEventInstance(_id: string) {
       :source-entity="createModalSourceEntity"
       @update:model-value="(value) => createModalOpen = value"
       @created="handleInstanceCreated"
+    />
+    
+    <!--
+      LEARNING: Global EventInstance Metadata Configuration Modal
+      WHY: Single modal for configuring all EventInstance field definitions globally
+      PATTERN: Global config modal triggered from section header, uses sentinel UUID
+    -->
+    <MetadataEditModal
+      v-model="eventInstanceMetadataModalOpen"
+      entity-key="eventInstance"
+      :entity="{ id: '00000000-0000-0000-0000-000000000012', name: 'Event Instance Fields (Global)', entityKey: 'eventInstance', orderIndex: 0, active: true, eventShapeRef: '' }"
+      entity-name="Event Instance Fields (Global)"
     />
   </div>
 </template>

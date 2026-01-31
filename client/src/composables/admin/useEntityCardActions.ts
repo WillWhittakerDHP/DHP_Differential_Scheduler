@@ -193,14 +193,23 @@ export function useEntityCardActions(
       // Get form values
       const formValues = form.values as Record<string, ValidAdminValue>
       
+      // LEARNING: Merge original entity properties with form values
+      // WHY: Form values only contain fields that are rendered/form fields
+      //      Required fields like eventShapeRef/partShapeRef might not be form fields but must be included
+      // PATTERN: Spread original entity first, then form values override (form values take precedence)
+      const entityToSave = {
+        ...entity.value,
+        ...formValues,
+      } as Record<string, ValidAdminValue>
+      
       if (isNew) {
         // Create new entity
-        const createdEntity = await createEntity(formValues)
+        const createdEntity = await createEntity(entityToSave)
         success(getEntityCreateMessage(entityKey))
         onSaved?.(createdEntity)
       } else {
         // Update existing entity
-      await updateEntity(formValues, entity.value.id)
+      await updateEntity(entityToSave, entity.value.id)
       success(getEntitySuccessMessage(entityKey))
         // LEARNING: Also call onSaved for existing entities to allow parent to collapse card
         // WHY: Consistent behavior - both new and existing cards emit saved event

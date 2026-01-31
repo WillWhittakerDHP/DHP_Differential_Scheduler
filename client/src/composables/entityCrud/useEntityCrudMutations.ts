@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getEntityByIdEndpoint, getEntityEndpoint, getOrderIndexEndpoint, getBulkPatchEndpoint } from '@/utils/api'
+import type { AxiosError } from 'axios'
 import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
 import { globalTransformer, type GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { transformApiEntity } from '@/utils/transformers/entityTransformers'
@@ -106,6 +107,10 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
           // Entity already exists (shouldn't happen, but handle gracefully)
           return old
         })
+        // LEARNING: Invalidate globalData cache to ensure all components see updated data
+        // WHY: Changes may affect other components that depend on globalData
+        // PATTERN: Invalidate after cache update to trigger refetch in dependent components
+        queryClient.invalidateQueries({ queryKey: ['globalData'] })
       } else {
         logger.error('No data or ID in onSuccess callback:', {
           entityKey,
@@ -118,9 +123,33 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       // LEARNING: Explicit error logging and rollback
       // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
       // PATTERN: Log error, then use context from onMutate to restore previous data
+      // LEARNING: Extract detailed error message from AxiosError response
+      // WHY: Server returns helpful error messages in response.data.details for validation errors
+      // PATTERN: Check for AxiosError and extract response.data.details or response.data.error
+      let errorMessage = error instanceof Error ? error.message : String(error)
+      let errorDetails: string | undefined
+      
+      // LEARNING: Check if error is AxiosError to extract server response details
+      // WHY: AxiosError contains response.data with server error messages
+      // PATTERN: Use type guard to check for AxiosError, then extract response.data
+      if (error && typeof error === 'object') {
+        // Check if it's an AxiosError by checking for response property
+        const possibleAxiosError = error as AxiosError<{ error?: string; details?: string; message?: string }>
+        if (possibleAxiosError.response?.data) {
+          errorDetails = possibleAxiosError.response.data.details || 
+                        possibleAxiosError.response.data.error || 
+                        possibleAxiosError.response.data.message
+          if (errorDetails) {
+            errorMessage = errorDetails
+          }
+        }
+      }
+      
       logger.error(`Failed to create ${entityKey}:`, {
-        error: error instanceof Error ? error.message : String(error),
-        entity: _variables
+        error: errorMessage,
+        details: errorDetails,
+        entity: _variables,
+        fullError: error // Include full error object for debugging
       })
       if (context?.previousData) {
         queryClient.setQueryData(['globalData'], context.previousData)
@@ -232,6 +261,10 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
             },
           }
         })
+        // LEARNING: Invalidate globalData cache to ensure all components see updated data
+        // WHY: Changes may affect other components that depend on globalData
+        // PATTERN: Invalidate after cache update to trigger refetch in dependent components
+        queryClient.invalidateQueries({ queryKey: ['globalData'] })
       }
     },
     onError: (error: unknown, _variables: { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, context: { previousData?: GlobalData } | undefined) => {
