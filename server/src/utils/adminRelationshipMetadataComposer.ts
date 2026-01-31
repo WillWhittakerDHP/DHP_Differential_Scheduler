@@ -13,20 +13,17 @@ import { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipM
  */
 export interface RelationshipMetadataEntry {
   relationshipKey: string;
-  dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   label: string;
   isRequired: boolean;
   visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   layout: 'inline' | 'stacked';
   displayOrder: number;
-  section: string | null;
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   statusButtonColor?: string | null;
   panel: 'none' | 'parts' | 'relationships' | 'annotations';
   bulkEdit: boolean;
   inputConfig?: Record<string, unknown> | null;
-  inheritsFromEntityType?: 'blockShape' | 'partShape' | null;
-  inheritsFromEntityId?: string | null;
 }
 
 /**
@@ -54,7 +51,7 @@ export async function getAdminRelationshipMetadata(
 
   // If this is an instance entity, handle metadata
   // LEARNING: Instances do NOT inherit relationship fields from shapes - they have their own relationships
-  // WHY: blockInstance has relationships like activeParts that don't exist in blockShape
+  // WHY: blockInstance has relationships like partAssignments that don't exist in blockShape
   //      partInstance has relationships that don't exist in partShape
   // PATTERN: Return instance metadata directly, no inheritance merging
   if (entityType === 'blockInstance' || entityType === 'partInstance') {
@@ -74,14 +71,11 @@ export async function getAdminRelationshipMetadata(
         visibility: meta.visibility,
         layout: meta.layout,
         displayOrder: meta.displayOrder,
-        section: meta.section,
         renderAs: meta.renderAs,
         statusButtonColor: meta.statusButtonColor,
         panel: meta.panel,
         bulkEdit: meta.bulkEdit,
         inputConfig: meta.inputConfig || null,
-        inheritsFromEntityType: meta.inheritsFromEntityType || null,
-        inheritsFromEntityId: meta.inheritsFromEntityId || null,
       }));
     }
     
@@ -95,14 +89,11 @@ export async function getAdminRelationshipMetadata(
         visibility: meta.visibility,
         layout: meta.layout,
         displayOrder: meta.displayOrder,
-        section: meta.section,
         renderAs: meta.renderAs,
         statusButtonColor: meta.statusButtonColor,
         panel: meta.panel,
         bulkEdit: meta.bulkEdit,
         inputConfig: meta.inputConfig || null,
-        inheritsFromEntityType: meta.inheritsFromEntityType || null,
-        inheritsFromEntityId: meta.inheritsFromEntityId || null,
       }));
     }
     
@@ -130,14 +121,11 @@ export async function getAdminRelationshipMetadata(
         visibility: meta.visibility,
         layout: meta.layout,
         displayOrder: meta.displayOrder,
-        section: meta.section,
         renderAs: meta.renderAs,
         statusButtonColor: meta.statusButtonColor,
         panel: meta.panel,
         bulkEdit: meta.bulkEdit,
         inputConfig: meta.inputConfig || null,
-        inheritsFromEntityType: meta.inheritsFromEntityType || null,
-        inheritsFromEntityId: meta.inheritsFromEntityId || null,
       }));
     }
     
@@ -151,14 +139,11 @@ export async function getAdminRelationshipMetadata(
       visibility: meta.visibility,
       layout: meta.layout,
       displayOrder: meta.displayOrder,
-      section: meta.section,
       renderAs: meta.renderAs,
       statusButtonColor: meta.statusButtonColor,
       panel: meta.panel,
       bulkEdit: meta.bulkEdit,
       inputConfig: meta.inputConfig || null,
-      inheritsFromEntityType: meta.inheritsFromEntityType || null,
-      inheritsFromEntityId: meta.inheritsFromEntityId || null,
     }));
   }
 
@@ -171,13 +156,10 @@ export async function getAdminRelationshipMetadata(
     visibility: meta.visibility,
     layout: meta.layout,
     displayOrder: meta.displayOrder,
-    section: meta.section,
     renderAs: meta.renderAs,
     statusButtonColor: meta.statusButtonColor || null,
     panel: meta.panel,
     bulkEdit: meta.bulkEdit,
     inputConfig: meta.inputConfig || null,
-    inheritsFromEntityType: meta.inheritsFromEntityType || null,
-    inheritsFromEntityId: meta.inheritsFromEntityId || null,
   }));
 }

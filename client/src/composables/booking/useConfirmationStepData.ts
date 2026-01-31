@@ -22,6 +22,9 @@ export interface SummaryData {
 
 /**
  * Price data structure
+ * LEARNING: Represents calculated fees and pricing breakdown for confirmation step
+ * WHY: Provides fee breakdown (base vs overage) and order totals
+ * PATTERN: Includes base fee total, overage fee total, and calculated order totals
  */
 export interface PriceData {
   totalFee: number
@@ -32,6 +35,22 @@ export interface PriceData {
   deliveryCharges: number
   deliveryFree: boolean
   finalTotal: number
+  /** Sum of all base fees from all block instances */
+  baseFeeTotal?: number
+  /** Sum of all overage fees (rateOverBaseFee * squareFootage) from all block instances */
+  overageFeeTotal?: number
+  /** Line item fees breakdown */
+  lineItemFees?: {
+    baseFee: number
+    overageFee: number
+    totalFee: number
+  }
+  /** Individual line items for display */
+  lineItems?: Array<{
+    label: string
+    amount: number
+    isFree: boolean
+  }>
 }
 
 import type { AvailabilityStepData } from '@/types/wizardStepData'
@@ -47,9 +66,10 @@ import type { PropertyDetailsStepData } from '@/types/wizard'
  */
 export interface UseConfirmationStepDataParams {
   wizard: {
-    selectedServices: Ref<BookingBlockInstance[]>
+    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
+    selectedLineItemBlocks: Ref<BookingBlockInstance[]>
     selectedUserTypeBlock: Ref<BookingBlockInstance | null>
   }
   propertyDetailsStepData?: Ref<PropertyDetailsStepData> | null
@@ -88,9 +108,10 @@ export function useConfirmationStepData(
   const summaryData = computed<SummaryData>(() => {
     return buildConfirmationSummaryData(
       {
-        selectedServices: wizard.selectedServices.value,
+        selectedServices: wizard.selectedServiceTypeBlocks.value,
         selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks.value,
         selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
+        selectedLineItemBlocks: wizard.selectedLineItemBlocks.value,
       },
       propertyDetailsStepData?.value ?? null
     )
@@ -101,9 +122,9 @@ export function useConfirmationStepData(
    * WHY: Aggregates pricing information from selected services and options
    * PATTERN: Computed property that calculates fees based on selections
    * 
-   * LEARNING: Pass additionalUnits (ADU count) to fee calculation
-   * WHY: Some services need to be multiplied by ADU count when allowMultiple is true
-   * PATTERN: Extract additionalUnits from propertyDetailsStepData and pass to buildConfirmationPriceData
+   * LEARNING: Extract square footage and ADU count from propertyDetailsStepData
+   * WHY: Square footage is needed for overage fee calculation, ADU count for multipliers
+   * PATTERN: Extract squareFootage (with propertySize fallback) and additionalUnits from propertyDetailsStepData
    * 
    * FIX: Explicitly access value to ensure reactivity tracking
    * WHY: Optional chaining may break reactivity tracking in Vue computed properties
@@ -114,11 +135,17 @@ export function useConfirmationStepData(
     const stepDataValue = propertyDetailsStepData?.value
     const aduCount = stepDataValue?.additionalUnits ?? null
     
+    // LEARNING: Extract square footage with fallback to propertySize
+    // WHY: Overage fees depend on square footage, use propertySize as fallback if squareFootage not available
+    // PATTERN: Use squareFootage if available, otherwise fallback to propertySize, otherwise null
+    const squareFootage = stepDataValue?.squareFootage ?? stepDataValue?.propertySize ?? null
+    
     return buildConfirmationPriceData({
-      selectedServices: wizard.selectedServices.value,
+      selectedServices: wizard.selectedServiceTypeBlocks.value,
       selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks.value,
       selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
-    }, aduCount)
+      selectedLineItemBlocks: wizard.selectedLineItemBlocks.value,
+    }, squareFootage, aduCount)
   })
 
   // LEARNING: Debug watches removed

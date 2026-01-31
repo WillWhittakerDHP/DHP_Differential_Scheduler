@@ -13,7 +13,7 @@
       
       <!-- Dev Panel System (dev mode only) -->
       <template v-if="isDevMode">
-        <DevPanelsContainer :visible="debugPanelVisible" />
+        <DevPanelsContainer :visible="debugPanelVisible" @close="debugPanelVisible = false" />
         <DevPanelToggle @toggle="debugPanelVisible = !debugPanelVisible" />
       </template>
     </VApp>
@@ -40,6 +40,7 @@ import initCore from '@core/initCore'
 import { initConfigStore, useConfigStore } from '@core/stores/config'
 import { hexToRgb } from '@core/utils/colorConverter'
 import type { AppointmentResponse } from '@/types/appointment'
+import type { useBookingWizard } from '@/composables/useBookingWizard'
 
 const { global } = useTheme()
 
@@ -79,6 +80,7 @@ const devPanelButtons = ref<{
   handleLoadAppointment: (id: string | null) => Promise<void>
   handleResetWizard: () => void
   handleResetMocks: () => void
+  wizard: ReturnType<typeof useBookingWizard> | null
 } | null>(null)
 provide('devPanelButtons', devPanelButtons)
 </script>

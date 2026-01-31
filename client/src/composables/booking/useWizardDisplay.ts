@@ -24,7 +24,7 @@ export interface StepDefinition {
  */
 export interface UseWizardDisplayParams {
   steps: StepDefinition[]
-  selectedServices: Ref<BookingBlockInstance[]>
+  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
   loadedWizardState: Ref<WizardStateData | null> | null
 }
 

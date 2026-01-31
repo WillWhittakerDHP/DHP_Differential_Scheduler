@@ -16,13 +16,17 @@ import { getStateControlBlockInstanceOptions } from '@/utils/blockInstanceUtils'
  * WHY: Only one annotation per user type is allowed per block instance (enforced by unique constraint)
  * PATTERN: Check if any other annotation (excluding current) has the same userTypeBlock
  * 
+ * LEARNING: Function not exported - unused in codebase
+ * WHY: This function is not currently used, kept for potential future use
+ * NOTE: If needed in future, uncomment export
+ * 
  * @param currentAnnotation - The annotation being validated
  * @param allAnnotations - All annotations for the block instance
  * @returns true if user type is already used by another annotation
  * 
  * NOTE: null userTypeBlock (generic) can have multiple instances, so this returns false for null
  */
-export function hasDuplicateUserTypeBlock(
+function hasDuplicateUserTypeBlock(
   currentAnnotation: AnnotationWithMetadata,
   allAnnotations: AnnotationWithMetadata[]
 ): boolean {
@@ -61,10 +65,14 @@ export function getAvailableUserTypeBlocksForAnnotation(
  * WHY: Consistent formatting of annotations across UI
  * PATTERN: Simple text extraction with optional metadata display
  * 
+ * LEARNING: Function not exported - unused in codebase
+ * WHY: This function is not currently used, kept for potential future use
+ * NOTE: If needed in future, uncomment export
+ * 
  * @param annotation - Annotation to format
  * @returns Formatted string for display
  */
-export function formatAnnotationForDisplay(annotation: AnnotationWithMetadata): string {
+function formatAnnotationForDisplay(annotation: AnnotationWithMetadata): string {
   return annotation.text
 }
 
@@ -73,11 +81,15 @@ export function formatAnnotationForDisplay(annotation: AnnotationWithMetadata): 
  * WHY: Show only relevant annotations based on selected user type
  * PATTERN: Filter array by userTypeBlock property
  * 
+ * LEARNING: Function not exported - unused in codebase
+ * WHY: This function is not currently used, kept for potential future use
+ * NOTE: If needed in future, uncomment export
+ * 
  * @param annotations - Annotations to filter
  * @param userTypeBlock - User type to filter by (null for generic)
  * @returns Filtered annotations
  */
-export function getAnnotationsForUserTypeBlock(
+function getAnnotationsForUserTypeBlock(
   annotations: AnnotationWithMetadata[],
   userTypeBlock: UserTypeBlock | null
 ): AnnotationWithMetadata[] {
@@ -111,11 +123,15 @@ export function validateAnnotationMetadata(metadata: AnnotationMetadata): boolea
  * WHY: User types are fetched dynamically from BlockInstances using property-based filtering
  * PATTERN: Function that accepts GlobalData and returns options array
  * 
- * NOTE: Uses property-based filtering (constituable: false) instead of hardcoded names
+ * NOTE: Uses property-based filtering (isStateControl: true) instead of hardcoded names
+ * 
+ * LEARNING: Function not exported - deprecated and unused
+ * WHY: Deprecated in favor of getStateControlBlockInstanceOptions
+ * NOTE: If needed in future, use getStateControlBlockInstanceOptions instead
  * 
  * @deprecated Use getStateControlBlockInstanceOptions from @/utils/blockInstanceUtils instead
  */
-export function getUserTypeBlockOptionsFromGlobalData(globalData: GlobalData): Array<{ title: string; value: UserTypeBlock }> {
+function getUserTypeBlockOptionsFromGlobalData(globalData: GlobalData): Array<{ title: string; value: UserTypeBlock }> {
   return getStateControlBlockInstanceOptions(globalData) as Array<{ title: string; value: UserTypeBlock }>
 }
 

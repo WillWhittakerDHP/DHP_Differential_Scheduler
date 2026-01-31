@@ -6,7 +6,6 @@
 
 import type { GlobalEntityKey } from '../../../constants/entities'
 import type { GlobalFieldKey } from '../../../constants/primitives'
-import type { ValidAdminValue } from '../../../constants/primitives'
 import { blockInstanceDisplays } from './appliedDisplay/blockInstanceDisplays'
 import { blockShapeDisplays } from './appliedDisplay/blockShapeDisplays'
 import { partInstanceDisplays } from './appliedDisplay/partInstanceDisplays'
@@ -49,21 +48,15 @@ export type DisplayFieldConfigMap = {
   };
 };
 
-export type DisplayFieldTypeMap = {
+type DisplayFieldTypeMap = {
   [GE in GlobalEntityKey]: {
     [FieldKey in GlobalFieldKey<GE>]?: DisplayFieldType<GE, FieldKey>;
   };
 };
 
-/**
- * Individual field admin structure for display
- * Includes the actual value and display configuration
- */
-export interface DisplayFieldAdmin<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
-  value: ValidAdminValue;
-  config: DisplayFieldType<GE, FieldKey>;
-  layout: DisplayFieldType<GE, FieldKey>;
-}
+// Removed unused type: DisplayFieldAdmin
+// LEARNING: Type was declared but never used
+// WHY: Removes dead code to improve maintainability
 
 /**
  * Build complete display field configuration for all entities
@@ -92,6 +85,10 @@ export function buildDisplayFieldConfig(): DisplayFieldConfigMap {
       partShapeDisplays,
       selectableDisplayConfig.partShape
     ),
+    eventShape: {},
+    eventInstance: {},
+    annotationShape: {},
+    annotationInstance: {},
   };
 }
 
@@ -99,7 +96,7 @@ export function buildDisplayFieldConfig(): DisplayFieldConfigMap {
  * Build display field configuration for a single entity
  * Merges primitive and selectable display configs, iterates over all field keys
  */
-export function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
+function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
   _entityKey: GE,
   primitiveDisplayConfig: DisplayFieldTypeMap[GE],
   selectableDisplayConfig: Partial<Record<GlobalFieldKey<GE>, SelectableDisplayType<GE>>>
@@ -147,15 +144,7 @@ export function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
   return result;
 }
 
-/**
- * Build display field type map (primitive displays only)
- */
-export function buildDisplayFieldType(): DisplayFieldTypeMap {
-  return {
-    blockInstance: blockInstanceDisplays,
-    blockShape: blockShapeDisplays,
-    partInstance: partInstanceDisplays,
-    partShape: partShapeDisplays,
-  };
-}
+// Removed unused function: buildDisplayFieldType
+// LEARNING: Function was declared but never used
+// WHY: Removes dead code to improve maintainability
 

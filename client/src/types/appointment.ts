@@ -8,6 +8,8 @@
 
 import type { MoveableSchedulingOptions } from './moveableScheduling'
 import type { RFC3339DateTime, ISO8601Date } from './datetime'
+import type { PartFinal } from '@/utils/booking/PartFinal'
+import type { EventInstance, EventShape } from './events'
 
 /**
  * Appointment status workflow type
@@ -108,8 +110,8 @@ export interface TimeRange {
  * - Display times are converted to local timezone in UI components
  */
 export interface TimeSlot extends TimeRange {
-  onSite: boolean
-  clientPresent: boolean
+  major: boolean
+  minor: boolean
   moveable: boolean
   isAvailable: boolean  // true = available, false = busy/unavailable (required)
   hasFlexibleViolations?: boolean  // true if slot violates flexible constraints
@@ -117,56 +119,66 @@ export interface TimeSlot extends TimeRange {
 }
 
 
-/**
- * TimeSlotKind: Valid category keys for AppointmentShape/Slot
- * Matches PartShape categories
- */
-export type TimeSlotKind =
-  | 'earlyArrival'
-  | 'dataCollection'
-  | 'reportWriting'
-  | 'clientPresentation'
 
 /**
  * PerspectiveKey: Keys for deriving display times
  * Logic names (not UI labels)
  */
-export type PerspectiveKey = 'onSite' | 'clientPresent' | 'nonDifferential'
+export type PerspectiveKey = 'major' | 'minor' | 'nonDifferential'
 
 /**
- * CategoryShape: Duration and flags for a category (no times)
- * Used within AppointmentShape
+ * EventFinal: Aggregated event duration for a given event shape
+ * LEARNING: Groups event durations by event shape, similar to PartFinal pattern
+ * WHY: Eliminates hardcoded event names, enables fully generic event system
+ * PATTERN: Plain interface with event shape reference and calculated duration
  */
-export interface CategoryShape {
-  duration: number      // minutes
-  onSite: boolean       // OR of all parts in category
-  clientPresent: boolean
-  moveable: boolean
+export interface EventFinal {
+  eventShape: EventShape  // The event shape definition (e.g., major event, minor event, Moveable)
+  duration: number        // Calculated duration for this event in minutes
 }
 
 /**
- * AppointmentShape: Time-independent structure (durations + characteristics)
+ * SlotShape: Durations needed to create AppointmentSlot time ranges
+ * LEARNING: Contains durations only - no times, no flags
+ * WHY: Separates duration calculations from time range creation
+ * PATTERN: Pure duration data that can be applied to any start time
+ * 
+ * Session Event Refactor: Uses EventFinal[] array instead of Record<string, number>
+ * WHY: Enables fully generic event system - no hardcoded event names, matches PartFinal[] pattern
+ * PATTERN: Array of EventFinal objects, each containing event shape and duration
+ */
+export interface SlotShape {
+  totalDuration: number        // Sum of all finalizedParts.baseTime
+  eventFinals: EventFinal[]   // Array of event shapes with their durations (e.g., [{ eventShape: majorEvent, duration: 120 }, ...])
+  differentialOffset: number    // Duration offset when major event exists but minor event does not
+}
+
+/**
+ * AppointmentShape: Time-independent structure (durations + finalized parts)
  * Calculated once from block instances, then applied to each available start time
  * 
  * This is the "what does this appointment look like?" answer
+ * 
+ * LEARNING: Holds finalized parts (source of truth) and SlotShape (durations)
+ * WHY: Finalized parts are the source of truth, SlotShape provides precomputed durations
+ * PATTERN: Source data (finalizedParts) + computed totals (slotShape)
+ * 
+ * LEARNING: Events are appointment-level features, not part-level properties
+ * WHY: Events are configured at shape level (PartShape → EventInstance), parts determine which events apply
+ * PATTERN: Store EventInstance[] keyed by partShape name on AppointmentShape
  */
 export interface AppointmentShape {
-  // Category shapes (duration + flags, no times)
-  earlyArrival: CategoryShape | null
-  dataCollection: CategoryShape | null
-  reportWriting: CategoryShape | null
-  clientPresentation: CategoryShape | null
+  // Source of truth: finalized parts grouped by part shape only
+  finalizedParts: PartFinal[]
   
-  // Precomputed total durations (in minutes)
-  totalOnSiteDuration: number        // Sum of parts where onSite === true
-  totalClientPresentDuration: number // Sum of parts where clientPresent === true
-  totalMoveableDuration: number      // Sum of parts where moveable === true
-  totalDuration: number              // Sum of all parts
+  // Slot shape: durations needed to create AppointmentSlot time ranges
+  slotShape: SlotShape
   
-  // Offset for perspective calculation (in minutes)
-  // Duration of parts where onSite=true AND clientPresent=false
-  // Client arrives at: startTime + clientStartOffset
-  clientStartOffset: number
+  // Event assignments for each part shape (appointment-level feature)
+  // LEARNING: Events are appointment features, parts just determine which events apply
+  // WHY: Events configured at shape level, stored here for efficient lookup during SlotShape calculation
+  // PATTERN: Map partShape name → EventInstance[] for that shape
+  eventAssignmentsByPartShape: Record<string, EventInstance[]>
 }
 
 /**
@@ -175,26 +187,39 @@ export interface AppointmentShape {
  * 
  * This is the "when does this appointment happen?" answer
  * 
- * LEARNING: No index signature - all properties are explicitly defined
- * WHY: Improves type safety, enables autocomplete, prevents typos
- * PATTERN: Explicit interface with no dynamic property access
+ * LEARNING: References AppointmentShape and contains precomputed TimeRanges
+ * WHY: Memory efficient - many slots share same shape, avoids duplicating SlotShape
+ * PATTERN: Reference shape, precompute TimeRanges for frequent UI access
  */
 export interface AppointmentSlot {
   buttonIndex: number  // UI grid position (0-based)
   isAvailable: boolean  // true = available, false = busy/unavailable
   orderIndex?: number  // Optional: normalized position for multiple appointments (0-based)
   
-  // Category-specific TimeSlots (shape applied to startTime)
-  earlyArrival: TimeSlot | null
-  dataCollection: TimeSlot | null
-  reportWriting: TimeSlot | null
-  clientPresentation: TimeSlot | null
+  // Reference to AppointmentShape (contains SlotShape, avoids duplication)
+  // LEARNING: Reference instead of duplicating SlotShape in each slot
+  // WHY: Memory efficiency - many slots share same shape, avoids duplicating 5 numbers per slot
+  // PATTERN: Reference shape, access slotShape via shape.slotShape
+  // NOTE: Access pattern: slot.shape.slotShape.totalDuration (one level deeper, but no duplication)
+  shape: AppointmentShape
   
-  // Precomputed totals (all share same endTime, different startTime)
-  totalOnSite: TimeRange | null        // Inspector's view
-  totalClientPresent: TimeRange | null // Client's view
-  totalMoveable: TimeRange | null      // Moveable parts
-  totalTime: TimeRange | null          // Full appointment
+  // Base start time for this slot
+  startTime: string
+  
+  // Precomputed time ranges (accessed frequently, so precompute for performance)
+  // LEARNING: Clear naming - these are TimeRanges, not durations
+  // WHY: Makes it clear these are time ranges with start/end times, not duration numbers
+  // WHY: Precomputed because accessed frequently in UI (graphBars, derivePerspective, etc.)
+  totalTimeRange: TimeRange | null          // From shape.slotShape.totalDuration + startTime
+  eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "majorEvent": {...}, "minorEvent": {...}, "Moveable": {...} })
+  
+  // Legacy properties for backward compatibility during migration (onSite->major rename)
+  // LEARNING: These are computed from eventTimeRanges for convenience
+  // WHY: Provides backward compatibility during migration from onSite/clientPresent to major/minor
+  // PATTERN: Legacy properties that map to eventTimeRanges entries
+  majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']
+  minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']
+  moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']
 }
 
 /**
@@ -205,34 +230,15 @@ export interface AppointmentSlot {
  */
 export type AppointmentSlots = AppointmentSlot[]
 
-/**
- * AvailabilityRequest interface for API request
- * LEARNING: Request payload for fetching available time slots
- * WHY: Type-safe request structure for availability API
- */
-export interface AvailabilityRequest {
-  serviceId: string;
-  dateRange: {
-    start: string; // ISO date string
-    end: string; // ISO date string
-  };
-  duration: number; // Duration in minutes
-  timezone?: string; // Optional timezone (defaults to server default)
-}
-
-/**
- * AvailabilityResponse interface for API response
- * LEARNING: Response structure from availability API
- * WHY: Type-safe response handling
- */
-export interface AvailabilityResponse {
-  availabilities: TimeSlot[];
-}
+// Removed unused exports: AvailabilityRequest, AvailabilityResponse
+// LEARNING: These types were exported but never imported elsewhere
+// WHY: Removes dead code to improve maintainability
 
 /**
  * Part Instance Snapshot Type
  * LEARNING: Represents a snapshot of part instance data at booking time
  * WHY: Preserves pricing/time data for historical accuracy
+ * NOTE: Still used in deprecated fields of AppointmentRequest/AppointmentResponse
  */
 export interface PartInstanceSnapshot {
   id: string
@@ -247,6 +253,7 @@ export interface PartInstanceSnapshot {
  * Block Instance Snapshot Type
  * LEARNING: Represents a snapshot of block instance data at booking time
  * WHY: Preserves pricing/names for historical accuracy
+ * NOTE: Still used in deprecated fields of AppointmentRequest/AppointmentResponse
  */
 export interface BlockInstanceSnapshot {
   id: string

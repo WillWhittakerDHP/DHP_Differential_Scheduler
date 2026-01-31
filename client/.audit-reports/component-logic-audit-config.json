@@ -13,8 +13,22 @@
         "glob": "**/@layouts/**",
         "ruleIds": ["*"],
         "reason": "Layout library files excluded from component logic scanning"
+      },
+      {
+        "glob": "**/*.vue",
+        "ruleIds": ["provideInject"],
+        "reason": "Importing provide/inject doesn't indicate complexity - only usage does"
+      },
+      {
+        "glob": "**/components/**/fields/*.vue",
+        "ruleIds": ["computed"],
+        "reason": "Field components often use computed wrappers for props - legitimate Vue pattern"
       }
     ],
     "specific": []
+  },
+  "priorities": {
+    "p0MinSeverityScore": 15,
+    "p1MinSeverityScore": 8
   }
 }

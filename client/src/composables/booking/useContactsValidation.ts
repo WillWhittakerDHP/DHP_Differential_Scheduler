@@ -11,6 +11,7 @@ import type { ValidationRule } from '@/composables/useFormValidation'
 import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
 import type { ContactInfo } from './useContactsStepData'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
+import { CONTACTS_VALIDATION_STRINGS } from '@/configs/contactsValidationStrings'
 
 /**
  * useContactsValidation composable parameters
@@ -55,23 +56,26 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
    * LEARNING: Form validation rules
    * WHY: Defines validation rules for each contact form field
    * PATTERN: Object with field names as keys and arrays of ValidationRule as values
+   * LEARNING: Use centralized validation strings from config
+   * WHY: Reduces hardcoding audit findings, centralizes all validation text for consistency
+   * PATTERN: Import validation strings from config file instead of defining inline
    */
   const validationRules: Record<string, ValidationRule[]> = {
-    clientFirstName: [required('First name is required')],
-    clientLastName: [required('Last name is required')],
-    clientEmail: [required('Email is required'), email()],
-    agentFirstName: [required('First name is required')],
-    agentLastName: [required('Last name is required')],
-    agentEmail: [required('Email is required'), email()],
-    anotherClientFirstName: [required('First name is required')],
-    anotherClientLastName: [required('Last name is required')],
-    anotherClientEmail: [required('Email is required'), email()],
-    transactionManagerFirstName: [required('First name is required')],
-    transactionManagerLastName: [required('Last name is required')],
-    transactionManagerEmail: [required('Email is required'), email()],
-    sellerFirstName: [required('First name is required')],
-    sellerLastName: [required('Last name is required')],
-    sellerEmail: [required('Email is required'), email()]
+    clientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
+    clientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
+    clientEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
+    agentFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
+    agentLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
+    agentEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
+    anotherClientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
+    anotherClientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
+    anotherClientEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
+    transactionManagerFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
+    transactionManagerLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
+    transactionManagerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
+    sellerFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
+    sellerLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
+    sellerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()]
   }
 
   // No custom validators needed - conditional rules handle optional contacts

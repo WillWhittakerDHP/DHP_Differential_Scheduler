@@ -13,8 +13,7 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAdminRelationshipMetadataEndpoint } from '@/utils/api'
 import type { EntityMetadataType, FieldMetadataEntry } from '@/types/entityMetadata'
 import { buildMetadataEntry } from '@/utils/admin/buildMetadataEntry'
-import { useGlobal } from '@/composables/useGlobal'
-import { metadataTransformer } from '@/utils/transformers/metadataTransformer'
+import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 
 /**
  * Save relationship field rendering configuration
@@ -22,12 +21,12 @@ import { metadataTransformer } from '@/utils/transformers/metadataTransformer'
  * 
  * @param entityType - Entity type (blockShape, partShape, blockInstance, partInstance)
  * @param entityId - Entity ID (sentinel UUID for shapes, actual ID for instances)
- * @param relationshipKey - Relationship key to update (e.g., 'activeParts')
+ * @param relationshipKey - Relationship key to update (e.g., 'partAssignments')
  * @param renderingUpdates - Rendering field updates (visibility, layout, displayOrder, etc.)
  */
 export function useAdminRelationshipMetadataMutations() {
   const queryClient = useQueryClient()
-  const { getGlobalData } = useGlobal()
+  const { getFieldMetadata } = useMetadataCache()
 
   const saveRelationshipFieldRenderingMutation = useMutation({
     mutationFn: async ({
@@ -53,13 +52,11 @@ export function useAdminRelationshipMetadataMutations() {
       // LEARNING: Get existingMetadata from relationship metadata source (declarative - like dehydrateEntity gets from entity)
       // WHY: Ensure we're using the correct source for relationship metadata entries
       // PATTERN: Get relationship metadata from GlobalData, extract relationshipKey entry (declarative object access)
-      const globalData = getGlobalData()
-      if (globalData?.metadata && !existingMetadata) {
-        const relationshipMetadata = globalData.metadata.relationshipMetadata?.[entityType]?.[entityId] || {}
-        // LEARNING: Direct access to relationshipKey entry (declarative - like dehydrateEntity accesses entity fields)
-        // WHY: Get existingMetadata from relationship metadata source if not provided
-        // PATTERN: Simple object property access, no filtering
-        existingMetadata = relationshipMetadata[relationshipKey]
+      if (!existingMetadata) {
+        // LEARNING: Get existingMetadata from metadata cache if not provided
+        // WHY: Metadata is lazy-loaded separately from globalData for admin pages
+        // PATTERN: Use useMetadataCache.getFieldMetadata for declarative lookup
+        existingMetadata = getFieldMetadata(entityType, relationshipKey)
       }
 
       // LEARNING: NO FALLBACKS - existingMetadata is required for new fields

@@ -40,9 +40,10 @@ const {
   priceData
 } = useConfirmationStepData({
   wizard: {
-    selectedServices: wizard.selectedServices,
+    selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
     selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
+    selectedLineItemBlocks: wizard.selectedLineItemBlocks,
     selectedUserTypeBlock: wizard.selectedUserTypeBlock
   },
   propertyDetailsStepData,
@@ -136,12 +137,12 @@ const {
             </h6>
             
             <!-- LEARNING: Large price display with currency -->
-            <!-- WHY: Prominently displays the main total fee -->
+            <!-- WHY: Prominently displays the final total fee (after all calculations including discounts and delivery) -->
             <!-- PATTERN: Flex layout with separate typography elements for currency, amount, and unit -->
             <div class="d-flex align-end justify-end">
               <h6 class="text-h6 align-self-end">$&nbsp;</h6>
               <h1 class="text-h1 font-weight-bold price-display">
-                {{ priceData.totalFee }}
+                {{ priceData.finalTotal.toFixed(2) }}
               </h1>
               <h6 class="text-h6">&nbsp;{{ priceData.currency }}</h6>
             </div>
@@ -169,16 +170,22 @@ const {
             
             <div class="d-flex justify-space-between align-center mb-2">
               <span class="text-body-1">Coupon Discount</span>
-              <VBtn
-                variant="text"
-                color="primary"
-                size="small"
-                class="text-h6"
-                style="text-decoration: none;"
-                @click.prevent
-              >
-                Apply Coupon
-              </VBtn>
+              <div class="d-flex align-center">
+                <span v-if="priceData.couponDiscount > 0" class="text-body-1 text-medium-emphasis mr-2">
+                  -${{ priceData.couponDiscount.toFixed(2) }}
+                </span>
+                <VBtn
+                  v-else
+                  variant="text"
+                  color="primary"
+                  size="small"
+                  class="text-h6"
+                  style="text-decoration: none;"
+                  @click.prevent
+                >
+                  Apply Coupon
+                </VBtn>
+              </div>
             </div>
             
             <div class="d-flex justify-space-between align-center mb-2">
@@ -188,25 +195,30 @@ const {
               </span>
             </div>
             
-            <!-- LEARNING: Delivery charges with strikethrough and free badge -->
-            <!-- WHY: Shows original price crossed out with "Free" indicator -->
-            <!-- PATTERN: Flex layout with strikethrough text and VChip badge -->
-            <div class="d-flex justify-space-between align-center">
-              <span class="text-body-1">Delivery Charges</span>
-              <div class="d-flex align-center">
-                <span class="text-body-2 text-decoration-line-through text-disabled mr-2">
-                  ${{ priceData.deliveryCharges.toFixed(2) }}
+            <!-- LEARNING: Dynamic line items from selected line item blocks -->
+            <!-- WHY: Displays each selected line item block as a separate line item -->
+            <!-- PATTERN: Loop through lineItems array, show amount or strikethrough + Free badge -->
+            <template v-for="(lineItem, _index) in priceData.lineItems" :key="_index">
+              <div class="d-flex justify-space-between align-center mb-2">
+                <span class="text-body-1">{{ lineItem.label }}</span>
+                <div v-if="lineItem.isFree" class="d-flex align-center">
+                  <span class="text-body-2 text-decoration-line-through text-disabled mr-2">
+                    ${{ lineItem.amount.toFixed(2) }}
+                  </span>
+                  <VChip
+                    rounded
+                    size="small"
+                    color="success"
+                    variant="tonal"
+                  >
+                    Free
+                  </VChip>
+                </div>
+                <span v-else class="text-body-1 text-medium-emphasis">
+                  ${{ lineItem.amount.toFixed(2) }}
                 </span>
-                <VChip
-                  rounded
-                  size="small"
-                  color="success"
-                  variant="tonal"
-                >
-                  Free
-                </VChip>
               </div>
-            </div>
+            </template>
           </div>
         </VCardText>
         

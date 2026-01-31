@@ -202,7 +202,7 @@ describe('dependencyCleanup', () => {
           relationshipSelect: {
             dependencyImpact: {
               affectedEntityKey: 'blockInstance',
-              affectedField: 'activeParts',
+              affectedField: 'partAssignments',
               linkingField: 'blockShapeRef',
             },
           },
@@ -212,7 +212,7 @@ describe('dependencyCleanup', () => {
       const affectedEntity = {
         id: 'block-1',
         blockShapeRef: 'shape-1',
-        activeParts: ['part-1'],
+        partAssignments: ['part-1'],
       }
       
       const childEntity = {

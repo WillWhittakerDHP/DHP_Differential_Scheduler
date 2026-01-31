@@ -41,11 +41,14 @@ enum RelationshipSelectTypeEnum {
   PartShapeSelect = "partShapeSelect",
   ValidCascadeSelect = "validCascadeSelect",
   ValidPartSelect = "validPartSelect",
+  ValidEventSelect = "validEventSelect",
   DependentInstanceSelect = "dependentInstanceSelect",
   BookingCascadeSelect = "bookingCascadeSelect",
-  ActivePartSelect = "activePartSelect",
+  PartAssignmentSelect = "partAssignmentSelect",
   InstanceComponentSelect = "instanceComponentSelect",
-  DescriptionSelect = "descriptionSelect", // LEARNING: Annotations are NOT in RELATIONSHIP_KEYS, handled specially (enum name kept for backward compatibility)
+  EventAssignmentSelect = "eventAssignmentSelect",
+  AnnotationAssignmentSelect = "annotationAssignmentSelect", // LEARNING: Annotations are now core entities, use standard relationship select pattern
+  AttendeeSelect = "attendeeSelect", // LEARNING: Attendee assignments filter BlockInstances by BlockShape.isStateControl === true
 }
 
 enum RelationshipSelectModeEnum {

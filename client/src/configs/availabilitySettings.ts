@@ -8,6 +8,7 @@ Session 1.3.7: Created to replace hardcoded values in generateTimeSlots
 Session 1.4.1: Updated to fetch from API instead of hardcoded defaults
  */
 import type { RFC3339DateTime } from '@/types/datetime'
+import type { GlobalEntityId } from '@/types/entities'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
 
@@ -21,8 +22,9 @@ const logger = createLogger('availabilitySettings')
  * LEARNING: Stored as RFC3339 internally, converted to/from HH:mm for UI
  * WHY: Consistent format throughout codebase, matches Google Calendar API
  * PATTERN: Use fixed reference date (2000-01-01) to store time-of-day as RFC3339
+ * NOTE: Internal type only - not exported as it's only used in AvailabilitySettings interface
  */
-export interface DayHours {
+interface DayHours {
   start: RFC3339DateTime // RFC3339 format with reference date (e.g., "2000-01-01T09:00:00Z" for "09:00")
   end: RFC3339DateTime   // RFC3339 format with reference date (e.g., "2000-01-01T19:00:00Z" for "19:00")
 }
@@ -40,8 +42,9 @@ export type ConstraintEnforcement = 'off' | 'flexible' | 'hard'
  * LEARNING: Determines how rolling 7-day window is calculated relative to appointment date
  * WHY: Different businesses may prefer different rolling week calculations
  * PATTERN: Enum-like string literal union type
+ * NOTE: Internal type only - not exported as it's only used in RollingWeekCapacityFilter interface
  */
-export type RollingWeekDirection = 'past' | 'centered' | 'future'
+type RollingWeekDirection = 'past' | 'centered' | 'future'
 
 /**
  * Work capacity filter configuration
@@ -69,6 +72,7 @@ export interface RollingWeekCapacityFilter extends WorkCapacityFilter {
  * LEARNING: Identifies the type of time-based restriction
  * WHY: Allows different range constraint types (businessHours, leadTime, dateRange) to coexist
  * PATTERN: Enum-like string literal union type
+ * NOTE: Exported for use in constraintTypes.ts constants
  */
 export type RangeConstraintType = 'businessHours' | 'leadTime' | 'dateRange'
 
@@ -87,8 +91,9 @@ export interface BusinessHoursConfig {
  * LEARNING: Configuration for lead time constraint
  * WHY: Encapsulates minimum lead time in minutes
  * PATTERN: Interface with minutes field
+ * NOTE: Internal type only - not exported as it's only used in RangeConstraint interface
  */
-export interface LeadTimeConfig {
+interface LeadTimeConfig {
   minutes: number
 }
 
@@ -120,16 +125,18 @@ export interface RangeConstraint {
  * LEARNING: Identifies the purpose of a buffer configuration
  * WHY: Allows different buffer types (appointment, driveTime, lunch) to coexist
  * PATTERN: Enum-like string literal union type
+ * NOTE: Internal type only - not exported as it's only used in BufferConfig interface
  */
-export type BufferType = 'appointment' | 'driveTime' | 'lunch'
+type BufferType = 'appointment' | 'driveTime' | 'lunch'
 
 /**
  * Buffer placement for controlling where buffer is applied
  * LEARNING: Controls where buffer time is placed around slots
  * WHY: Different buffer placements (before, after, both) serve different purposes
  * PATTERN: Enum-like string literal union type
+ * NOTE: Internal type only - not exported as it's only used in BufferConfig interface
  */
-export type BufferPlacement = 'off' | 'before' | 'after' | 'both'
+type BufferPlacement = 'off' | 'before' | 'after' | 'both'
 
 /**
  * Buffer configuration (now OverlapConstraint)
@@ -218,8 +225,76 @@ export interface AvailabilitySettings {
    * PATTERN: Optional field, defaults to "America/New_York" if not set
    */
   timezone?: string
+  
+  /**
+   * Duration rounding configuration (optional)
+   * LEARNING: Controls how appointment durations are rounded
+   * WHY: Allows admin to enable/disable rounding and configure rounding method and increment
+   * PATTERN: Optional nested object with enabled flag, increment, and method
+   */
+  durationRounding?: {
+    enabled: boolean
+    increment?: number  // Minutes (defaults to minuteIncrement if not specified)
+    method?: 'roundUp' | 'roundDown' | 'roundNearest'
+  }
+  
+  /**
+   * Differential perspectives configuration (optional)
+   * LEARNING: Configures which attendees make an event "major" vs "minor" for differential scheduling
+   * WHY: Makes differential scheduling configurable instead of hardcoded to inspector/client
+   * PATTERN: Optional nested object with arrays of UserTypeBlock IDs and display labels
+   */
+  differentialPerspectives?: {
+    majorAttendees?: GlobalEntityId[]  // UserTypeBlock IDs that make an event "major" (e.g., inspector)
+    minorAttendees?: GlobalEntityId[]   // UserTypeBlock IDs that make an event "minor" (e.g., client)
+    majorLabel?: string  // Display label for major perspective (e.g., "Inspector")
+    minorLabel?: string  // Display label for minor perspective (e.g., "Client Formal Presentation")
+    differentialGraphDefaultLabel?: string  // Label shown when no time slot is selected (e.g., "Select a Time Slot")
+    majorStateLabel?: string  // State message when major perspective is selected (e.g., "Showing Major Times")
+    minorStateLabel?: string  // State message when minor perspective is selected (e.g., "Showing Client FormalPresentation Times")
+    selectTimeSlotLabel?: string  // Label for time slot selection (e.g., "Select a Time Slot")
+  }
 }
 
+/**
+ * LEARNING: Raw availability settings type from API response
+ * WHY: Eliminates duplication between useAvailabilitySettings and availabilitySettings config
+ * PATTERN: Extract shared type for API response structure
+ */
+export interface RawAvailabilitySettings {
+  minuteIncrement: number
+  rangeConstraints: {
+    businessHours: RangeConstraint
+    leadTime?: RangeConstraint
+    dateRange?: RangeConstraint
+  }
+  buffers?: {
+    appointment?: BufferConfig
+    driveTime?: BufferConfig
+    lunch?: BufferConfig
+  }
+  maxWorkHours?: {
+    day?: WorkCapacityFilter
+    calendarWeek?: WorkCapacityFilter
+    rollingWeek?: RollingWeekCapacityFilter
+  }
+  timezone?: string
+  durationRounding?: {
+    enabled: boolean
+    increment?: number
+    method?: 'roundUp' | 'roundDown' | 'roundNearest'
+  }
+  differentialPerspectives?: {
+    majorAttendees?: string[]
+    minorAttendees?: string[]
+    majorLabel?: string
+    minorLabel?: string
+    differentialGraphDefaultLabel?: string
+    majorStateLabel?: string
+    minorStateLabel?: string
+    selectTimeSlotLabel?: string
+  }
+}
 
 /**
  * Cache entry with metadata
@@ -286,41 +361,17 @@ function isCacheValid(): boolean {
 export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
   // Check cache validity (TTL-based)
   if (cachedSettings && isCacheValid()) {
-    logger.debug('Returning cached settings', { 
-      cachedAt: new Date(cachedSettings.cachedAt).toISOString() 
-    })
     return cachedSettings.settings
   }
   
   // Cache miss or expired - fetch from API
-  logger.info('Fetching settings from API', { 
-    reason: cachedSettings ? 'cache_expired' : 'cache_miss' 
-  })
 
   try {
     // Fetch settings from API
     const response = await apiClient.get('/business-settings/availability_settings')
     
     if (response.data && response.data.setting_value) {
-      const rawSettings = response.data.setting_value as {
-        minuteIncrement: number
-        rangeConstraints: {
-          businessHours: RangeConstraint
-          leadTime?: RangeConstraint
-          dateRange?: RangeConstraint
-        }
-        buffers?: {
-          appointment?: BufferConfig
-          driveTime?: BufferConfig
-          lunch?: BufferConfig
-        }
-        maxWorkHours?: {
-          day?: WorkCapacityFilter
-          calendarWeek?: WorkCapacityFilter
-          rollingWeek?: RollingWeekCapacityFilter
-        }
-        timezone?: string
-      }
+      const rawSettings = response.data.setting_value as RawAvailabilitySettings
       
       // Validate settings structure - require current format only
       if (!rawSettings.rangeConstraints?.businessHours) {
@@ -344,7 +395,9 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         rangeConstraints: rawSettings.rangeConstraints,
         buffers: rawSettings.buffers,
         maxWorkHours: rawSettings.maxWorkHours,
-        timezone: rawSettings.timezone
+        timezone: rawSettings.timezone,
+        durationRounding: rawSettings.durationRounding,
+        differentialPerspectives: rawSettings.differentialPerspectives
       }
       
       // Update cache with timestamp
@@ -353,7 +406,6 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         cachedAt: Date.now()
       }
       
-      logger.info('Settings cached', { ttl: `${(CACHE_TTL_MS / 1000).toFixed(0)}s` })
       return convertedSettings
     }
     
@@ -388,24 +440,3 @@ export function invalidateAvailabilitySettingsCache(): void {
 }
 
 
-/**
- * Get cache status for debugging
- * LEARNING: Provides visibility into cache state
- * WHY: Useful for debugging cache behavior and TTL configuration
- * PATTERN: Returns cache metadata for inspection
- * 
- * @returns Cache status information
- */
-export function getAvailabilitySettingsCacheStatus(): {
-  isCached: boolean
-  cachedAt: string | null
-  age: number | null
-  ttl: number
-} {
-  return {
-    isCached: cachedSettings !== null && isCacheValid(),
-    cachedAt: cachedSettings ? new Date(cachedSettings.cachedAt).toISOString() : null,
-    age: cachedSettings ? Date.now() - cachedSettings.cachedAt : null,
-    ttl: CACHE_TTL_MS
-  }
-}

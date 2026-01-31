@@ -15,6 +15,13 @@ import type { GlobalRelationshipKey } from '../constants/relationships'
  * LEARNING: Matches backend API response format
  * WHY: Type-safe API response handling
  * PATTERN: Type matches API response structure exactly
+ * 
+ * ARCHITECTURAL CHANGE: Metadata removed from relationships - now stored in shape tables
+ * WHY: Shape columns are always metadata - relationships just indicate which shapes are active
+ * PATTERN: Relationships only contain foreign keys and relationship-specific fields
+ * NOTE: Metadata (ternaryValue, orderIndex, isDefault) is stored in event_shapes/annotation_shapes tables
+ *      - partShapeId/blockShapeId: Used by eventAssignments to indicate which shape uses the event (relationship-specific)
+ *      - userTypeBlockBlockInstanceId: Used by annotationAssignments for user type override (relationship-specific)
  */
 export interface FetchedRelationship<
   P extends GlobalEntityKey = GlobalEntityKey,
@@ -27,6 +34,10 @@ export interface FetchedRelationship<
   parent_id: GlobalEntityId
   child_id: GlobalEntityId
   disabled: boolean
+  // Relationship-specific fields (not metadata - metadata is in shape tables)
+  userTypeBlockBlockInstanceId?: GlobalEntityId | null  // For annotationAssignments user type override
+  partShapeId?: string | null  // For eventAssignments - which partShape uses this event
+  blockShapeId?: string | null  // For eventAssignments - which blockShape uses this event
 }
 
 /**

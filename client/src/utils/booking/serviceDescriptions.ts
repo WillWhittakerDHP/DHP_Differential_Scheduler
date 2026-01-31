@@ -1,23 +1,15 @@
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
+/**
+ * Get filtered service description
+ * LEARNING: Descriptions are deprecated in favor of annotation suites (future feature)
+ * WHY: Return empty string since descriptions property no longer exists on BookingBlockInstance
+ * PATTERN: Return empty string gracefully when descriptions are not available
+ */
 export function getFilteredServiceDescription(service: BookingBlockInstance, userTypeBlockName: string | null): string {
-  if (!service.descriptions || service.descriptions.length === 0) {
-    return ''
-  }
-
-  const matchingDescriptions = service.descriptions.filter((desc) => {
-    return desc.userTypeBlock === userTypeBlockName || desc.userTypeBlock === null
-  })
-
-  if (matchingDescriptions.length === 0) {
-    return ''
-  }
-
-  const userTypeBlockSpecific = matchingDescriptions.find((desc) => desc.userTypeBlock === userTypeBlockName)
-  const defaultDesc = matchingDescriptions.find((desc) => desc.isDefault === true)
-
-  const selectedDesc = userTypeBlockSpecific || defaultDesc || matchingDescriptions[0]
-  return selectedDesc.text
+  // LEARNING: Descriptions are deprecated - annotation suites will replace this functionality
+  // WHY: Return empty string since descriptions property doesn't exist on BookingBlockInstance
+  return ''
 }
 
 export function mapServicesWithFilteredDescriptions(

@@ -14,10 +14,10 @@ import { ref, computed, type Ref, type ComputedRef } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { usePrimitiveMutation } from '../entityCrud/usePrimitiveMutation'
 import { useGlobal } from '../useGlobal'
-import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
+import type { TernaryBoolean } from '@/types/ternary'
 
 export interface UseStatusButtonToggleOptions<GE extends GlobalEntityKey> {
   entityKey: GE
@@ -71,6 +71,11 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
   // Use primitive mutation for efficient single-field updates
   const { mutateAsync } = usePrimitiveMutation(entityKey)
   
+  // LEARNING: Get query client for cache invalidation
+  // WHY: Need to invalidate metadata cache after status button toggle
+  // PATTERN: Use useQueryClient composable for cache access
+  const queryClient = useQueryClient()
+  
   // Track pending toggles to prevent duplicate rapid calls
   const pendingToggles = ref(new Set<string>())
   
@@ -105,11 +110,52 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
     }
     
     try {
-      // LEARNING: Handle nullable boolean fields
+      // LEARNING: Handle ternary boolean fields and nullable boolean fields
+      // WHY: Some fields are ternary ('true' | 'false' | 'override'), others are boolean or nullable boolean
+      // PATTERN: Check if field is ternary, otherwise treat as boolean
+      const currentRaw = currentEntity[fieldKey]
+      
+      // Check if field is ternary boolean
+      const isTernary = currentRaw === 'true' || currentRaw === 'false' || currentRaw === 'override'
+      
+      if (isTernary) {
+        // LEARNING: Cycle through ternary states: 'false' → 'true' → 'override' → 'false'
+        // WHY: Provides three-state toggle for ternary fields
+        // PATTERN: Explicit state cycling
+        const currentTernary = currentRaw as TernaryBoolean
+        let newTernary: TernaryBoolean
+        
+        if (currentTernary === 'false') {
+          newTernary = 'true'
+        } else if (currentTernary === 'true') {
+          newTernary = 'override'
+        } else {
+          // currentTernary === 'override'
+          newTernary = 'false'
+        }
+        
+        const updatePayload: Array<{ admin: { key: string; value: TernaryBoolean }; dynamicId: string }> = [
+          {
+            admin: { key: String(fieldKey), value: newTernary },
+            dynamicId: String(currentEntity.id)
+          }
+        ]
+        
+        // Execute update
+        for (const payload of updatePayload) {
+          await mutateAsync(payload)
+        }
+        
+        // Invalidate metadata cache
+        queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
+        onToggle?.(String(fieldKey))
+        return
+      }
+      
+      // Handle nullable boolean fields
       // WHY: Some booleans are intentionally nullable in the DB (e.g., requiresUnitNumber)
       //      In the admin UI, we still want the status chip to be toggleable even when null
       // PATTERN: Treat null/undefined as false, but guard against non-boolean unexpected types
-      const currentRaw = currentEntity[fieldKey]
       const isBooleanish = currentRaw === true || currentRaw === false || 
                           currentRaw === null || currentRaw === undefined
       
@@ -121,13 +167,46 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       const currentValue = currentRaw === true
       const newValue = !currentValue
       
-      // LEARNING: Use primitive mutation for single-field updates
+      // LEARNING: Handle mutual exclusivity for blockShape isStateControl and canHaveParts
+      // WHY: These fields are mutually exclusive - setting one to true requires the other to be false
+      // PATTERN: Automatically clear the other field when one is set to true
+      const updatePayload: Array<{ admin: { key: string; value: boolean }; dynamicId: string }> = [
+        {
+          admin: { key: String(fieldKey), value: newValue },
+          dynamicId: String(currentEntity.id)
+        }
+      ]
+      
+      // If this is a blockShape and we're setting one of the mutually exclusive fields to true
+      if (entityKey === 'blockShape' && newValue === true) {
+        if (fieldKey === 'isStateControl') {
+          // Setting isStateControl to true - clear canHaveParts
+          const currentCanHaveParts = (currentEntity as any).canHaveParts === true
+          if (currentCanHaveParts) {
+            updatePayload.push({
+              admin: { key: 'canHaveParts', value: false },
+              dynamicId: String(currentEntity.id)
+            })
+          }
+        } else if (fieldKey === 'canHaveParts') {
+          // Setting canHaveParts to true - clear isStateControl
+          const currentIsStateControl = (currentEntity as any).isStateControl === true
+          if (currentIsStateControl) {
+            updatePayload.push({
+              admin: { key: 'isStateControl', value: false },
+              dynamicId: String(currentEntity.id)
+            })
+          }
+        }
+      }
+      
+      // LEARNING: Use primitive mutation for single-field updates (or multiple if mutual exclusivity applies)
       // WHY: More efficient than full PUT, uses PATCH with {key, value} format
       // PATTERN: usePrimitiveMutation for field-level updates
-      await mutateAsync({
-        admin: { key: String(fieldKey), value: newValue },
-        dynamicId: String(currentEntity.id)
-      })
+      // Execute all updates in sequence
+      for (const payload of updatePayload) {
+        await mutateAsync(payload)
+      }
       
       // LEARNING: Invalidate metadata cache after status button toggle
       // WHY: Status button color comes from metadata - UI needs to reflect metadata changes

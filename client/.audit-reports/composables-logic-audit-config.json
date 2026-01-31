@@ -18,8 +18,27 @@
         "glob": "**/*.spec.*",
         "ruleIds": ["*"],
         "reason": "Spec files excluded from composables logic scanning"
+      },
+      {
+        "glob": "**/composables/**/*Mutations.ts",
+        "ruleIds": ["vueQuery", "async", "await"],
+        "reason": "Mutation composables necessarily use Vue Query and async/await - this is the correct pattern"
+      },
+      {
+        "glob": "**/composables/**/*Query.ts",
+        "ruleIds": ["vueQuery"],
+        "reason": "Query composables necessarily use Vue Query - this is the correct pattern"
+      },
+      {
+        "glob": "**/composables/**/*Actions.ts",
+        "ruleIds": ["async", "await"],
+        "reason": "Action composables necessarily use async/await - this is the correct pattern"
       }
     ],
     "specific": []
+  },
+  "priorities": {
+    "p0MinSeverityScore": 35,
+    "p1MinSeverityScore": 20
   }
 }

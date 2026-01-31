@@ -24,6 +24,11 @@ Last updated: $(date)
 - **Files Scanned**: 418
 - **Status**: Active - flags hardcoded entity keys for review
 
+### ✅ Unused Code Audit
+- **Scope**: client/src/**/*.{ts,js,vue}
+- **Detects**: Unused exports, commented-out code, unused functions, TODO markers
+- **Status**: Active - flags abandoned code for cleanup
+
 ## Recent Improvements
 
 1. **Fixed all P0/P1 typecheck errors** - Type safety improved across codebase

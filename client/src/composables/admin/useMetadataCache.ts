@@ -28,6 +28,10 @@ export interface MetadataCache {
     partShape: Record<string, FieldMetadataEntry>
     blockInstance: Record<string, FieldMetadataEntry>
     partInstance: Record<string, FieldMetadataEntry>
+    eventShape: Record<string, FieldMetadataEntry>
+    eventInstance: Record<string, FieldMetadataEntry>
+    annotationShape: Record<string, FieldMetadataEntry>
+    annotationInstance: Record<string, FieldMetadataEntry>
   }
   blockShapeSpecific: Record<string, Record<string, FieldMetadataEntry>>
 }
@@ -100,12 +104,12 @@ function createMetadataCacheInstance() {
    * WHY: Provides same interface as old useAdmin.getMetadata()
    * PATTERN: For blockInstance, check BlockShape-specific first, fall back to global
    * 
-   * @param entityType - Entity type (blockShape, partShape, blockInstance, partInstance)
+   * @param entityType - Entity type (blockShape, partShape, blockInstance, partInstance, eventShape, eventInstance, annotationShape, annotationInstance)
    * @param blockShapeRef - BlockShape ID for blockInstance entities (optional)
    * @returns Record<fieldKey, FieldMetadataEntry>
    */
   function getMetadata(
-    entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
+    entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
     blockShapeRef?: string | null
   ): Record<string, FieldMetadataEntry> {
     const data = metadataQuery.data.value
@@ -132,7 +136,7 @@ function createMetadataCacheInstance() {
    * WHY: Some components need just one field's metadata
    */
   function getFieldMetadata(
-    entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
+    entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
     fieldKey: string,
     blockShapeRef?: string | null
   ): FieldMetadataEntry | undefined {

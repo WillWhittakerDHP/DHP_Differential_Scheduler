@@ -32,6 +32,8 @@ export class AnnotationShape extends Model<
 > {
   declare id: CreationOptional<string>;
   declare name: string; // e.g., 'description', 'tooltip'
+  declare orderIndex: CreationOptional<number>;
+  declare active: CreationOptional<boolean>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -50,6 +52,19 @@ export function AnnotationShapeFactory(sequelize: Sequelize) {
         allowNull: false,
         unique: true,
         comment: 'Annotation shape name (e.g., description, tooltip)',
+      },
+      orderIndex: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'order_index',
+        comment: 'Order index for UI drag-and-drop ordering',
+      },
+      active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        comment: 'Whether this annotation shape is active/enabled',
       },
       createdAt: {
         type: DataTypes.DATE,

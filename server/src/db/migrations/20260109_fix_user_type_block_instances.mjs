@@ -10,12 +10,16 @@ export default {
   async up(queryInterface, Sequelize) {
     console.log('🔄 Starting user type block instances fix...');
 
-    // Find the User block shape by constituable: false (name may have changed)
+    // Find the User block shape by canHaveParts: false (name may have changed)
     // LEARNING: Identify by property, not by name, since names can change
+    // NOTE: Column name may be 'constituable' or 'can_have_parts' depending on migration order
+    const tableDescription = await queryInterface.describeTable('block_shapes');
+    const columnName = tableDescription.can_have_parts ? 'can_have_parts' : 'constituable';
+    
     const [userBlockShapes] = await queryInterface.sequelize.query(`
-      SELECT id, name, constituable, active
+      SELECT id, name, ${columnName} as can_have_parts, active
       FROM block_shapes
-      WHERE constituable = false
+      WHERE ${columnName} = false
         AND active = true
       ORDER BY order_index
       LIMIT 1

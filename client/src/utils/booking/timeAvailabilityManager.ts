@@ -72,6 +72,7 @@ import {
   validateCapacityConstraint
 } from './constraintExtractors'
 import { rfc3339ToLocalMinutesFromMidnight } from '@/composables/useLocalTime'
+import { RANGE_CONSTRAINT_TYPES, TIME_BASIS_TYPES } from '@/constants/constraintTypes'
 
 /**
  * Custom error for constraint validation failures
@@ -156,7 +157,7 @@ function sortBusyPeriods(busyTimes: BusyTimeRange[]): BusyTimeRange[] {
  * Merge overlapping or adjacent busy periods
  * LEARNING: Reduces number of overlap checks during slot generation
  * WHY: Merging [10:00-11:00, 10:30-12:00] → [10:00-12:00] reduces checks
- * PATTERN: Iterate sorted periods, merge when overlapping/adjacent
+ * PATTERN: Use reduce to build merged array immutably
  * 
  * @param sortedBusyTimes - Busy periods sorted by start time
  * @returns Merged busy periods (non-overlapping)
@@ -164,12 +165,11 @@ function sortBusyPeriods(busyTimes: BusyTimeRange[]): BusyTimeRange[] {
 function mergeBusyPeriods(sortedBusyTimes: BusyTimeRange[]): BusyTimeRange[] {
   if (sortedBusyTimes.length === 0) return []
   
-  const merged: BusyTimeRange[] = [{ ...sortedBusyTimes[0] }]
-  
-  for (let i = 1; i < sortedBusyTimes.length; i++) {
-    const current = sortedBusyTimes[i]
+  // LEARNING: Use reduce to build merged array immutably
+  // WHY: Avoids array mutations (push) and object mutations (property assignment)
+  // PATTERN: Reduce with accumulator that creates new objects instead of mutating
+  return sortedBusyTimes.slice(1).reduce((merged, current) => {
     const lastMerged = merged[merged.length - 1]
-    
     const lastEnd = new Date(lastMerged.end)
     const currentStart = new Date(current.start)
     const currentEnd = new Date(current.end)
@@ -178,15 +178,20 @@ function mergeBusyPeriods(sortedBusyTimes: BusyTimeRange[]): BusyTimeRange[] {
     if (currentStart <= lastEnd) {
       // Merge: extend lastMerged.end to max(lastMerged.end, current.end)
       if (currentEnd > lastEnd) {
-        lastMerged.end = current.end
+        // LEARNING: Create new object instead of mutating existing
+        // WHY: Immutable pattern - don't mutate objects in arrays
+        // PATTERN: Replace last element with new merged object
+        return [
+          ...merged.slice(0, -1),
+          { ...lastMerged, end: current.end }
+        ]
       }
+      return merged
     } else {
       // No overlap, add as new merged period
-      merged.push({ ...current })
+      return [...merged, { ...current }]
     }
-  }
-  
-  return merged
+  }, [{ ...sortedBusyTimes[0] }])
 }
 
 /**
@@ -232,7 +237,7 @@ function parseBusyPeriods(busyTimes: BusyTimeRange[]): ParsedBusyTimeRange[] {
 /**
  * Result from availability manager
  */
-export interface AvailabilityManagerResult {
+interface AvailabilityManagerResult {
   slots: TimeSlot[]  // P3-3: Use TimeSlot directly instead of TimeSlotWithAvailability
   earliestCompletion: RFC3339DateTime | null  // RFC3339 datetime of earliest available slot end time
 }
@@ -240,7 +245,7 @@ export interface AvailabilityManagerResult {
 /**
  * Parameters for generating slots with availability
  */
-export interface GenerateSlotsWithAvailabilityParams {
+interface GenerateSlotsWithAvailabilityParams {
   startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
   endBoundary: RFC3339DateTime           // RFC3339 datetime - latest possible end
   duration: number                        // Required duration in minutes
@@ -248,11 +253,11 @@ export interface GenerateSlotsWithAvailabilityParams {
   busyTimes?: BusyTimeRange[]             // Calendar busy periods
   /**
    * Flags to include in TimeSlot objects
-   * @default { onSite: false, clientPresent: false, moveable: false }
+   * @default { major: false, minor: false, moveable: false }
    */
   includeFlags: {
-    onSite: boolean
-    clientPresent: boolean
+    major: boolean
+    minor: boolean
     moveable: boolean
   }
 }
@@ -280,7 +285,7 @@ export function checkRangeConstraints(
   now: Date = new Date(),
   businessHoursCache?: ParsedBusinessHoursCache,
   dates?: { start: Date; end: Date },
-  allSlots?: TimeSlot[]
+  _allSlots?: TimeSlot[]
 ): { passes: boolean; violations: string[] } {
   if (constraints.length === 0) {
     return { passes: true, violations: [] }
@@ -291,18 +296,15 @@ export function checkRangeConstraints(
   // PATTERN: Accept optional cached dates parameter
   const slotStart = dates?.start || new Date(slot.startTime)
   const slotEnd = dates?.end || new Date(slot.endTime)
-  const violations: string[] = []
 
-  for (const constraint of constraints) {
-    // Skip if enforcement is 'off'
-    if (constraint.enforcement === 'off') {
-      continue
-    }
-
-    let passes = false
-
+  /**
+   * LEARNING: Extract constraint checking logic to pure function
+   * WHY: Separates constraint evaluation from violation collection
+   * PATTERN: Pure function returns passes boolean
+   */
+  const checkConstraint = (constraint: RangeConstraint): boolean => {
     switch (constraint.type) {
-      case 'businessHours': {
+      case RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS: {
         const config = constraint.config as { hours: BusinessHoursMap }
         
         // LEARNING: Use UTC day of week for business hours check
@@ -313,7 +315,7 @@ export function checkRangeConstraints(
 
         if (!dayHours) {
           // No business hours for this day - block if hard enforcement
-          passes = constraint.enforcement !== 'hard'
+          return constraint.enforcement !== 'hard'
         } else {
           // LEARNING: Use cached parsed hours if available, otherwise parse and cache
           // WHY: Avoids re-parsing same business hours for every slot on the same day
@@ -341,13 +343,12 @@ export function checkRangeConstraints(
           const slotEndMinutes = rfc3339ToLocalMinutesFromMidnight(slot.endTime)
 
           // Check if slot is within business hours (both in LOCAL time-of-day)
-          passes = slotStartMinutes >= parsedHours.dayStartMinutes &&
+          return slotStartMinutes >= parsedHours.dayStartMinutes &&
                    slotEndMinutes <= parsedHours.dayEndMinutes
         }
-        break
       }
 
-      case 'leadTime': {
+      case RANGE_CONSTRAINT_TYPES.LEAD_TIME: {
         // Check if slot starts at least leadTime minutes after now
         // LEARNING: Only apply leadTime to slots on or after today
         // WHY: Past dates shouldn't be blocked by leadTime - they're already in the past
@@ -364,7 +365,7 @@ export function checkRangeConstraints(
         
         if (slotDateOnly < todayDateOnly) {
           // Slot is in the past - don't apply leadTime constraint
-          passes = true
+          return true
         } else {
           // Slot is today or future - apply leadTime constraint
           // LEARNING: Compare UTC timestamps directly - both slotStart and now are UTC
@@ -372,34 +373,40 @@ export function checkRangeConstraints(
           //      The comparison works correctly because both represent absolute moments in time
           // PATTERN: Calculate minStartTime in UTC, compare directly with slotStart (also UTC)
           const minStartTime = new Date(now.getTime() + config.minutes * 60 * 1000)
-          passes = slotStart >= minStartTime
+          return slotStart >= minStartTime
         }
-        break
       }
 
-      case 'dateRange': {
+      case RANGE_CONSTRAINT_TYPES.DATE_RANGE: {
         // Check if slot is within date range boundaries (all UTC)
         const config = constraint.config as { start: string; end: string }
         const rangeStart = new Date(config.start)
         const rangeEnd = new Date(config.end)
         
-        passes = slotStart >= rangeStart && slotEnd <= rangeEnd
-        break
+        return slotStart >= rangeStart && slotEnd <= rangeEnd
       }
     }
-
-    // If constraint fails and enforcement is 'hard', block the slot
-    if (!passes && constraint.enforcement === 'hard') {
-      return { passes: false, violations: [] }
-    }
-    // If constraint fails and enforcement is 'flexible', allow but mark violation
-    // LEARNING: Standardize violation format with prefix for consistency
-    // WHY: Matches format used by capacity and overlap constraints (capacity.daily, overlap.appointment)
-    // PATTERN: Use "range." prefix for all range constraint violations
-    if (!passes && constraint.enforcement === 'flexible') {
-      violations.push(`range.${constraint.type}`)
-    }
   }
+
+  // LEARNING: Use reduce to collect violations functionally
+  // WHY: Avoids array mutations (push) - builds violations array immutably
+  // PATTERN: Filter constraints, check each, collect violations, check for hard failures
+  const activeConstraints = constraints.filter(c => c.enforcement !== 'off')
+  
+  // Check for hard enforcement failures first (early return)
+  const hardFailure = activeConstraints.find(
+    constraint => constraint.enforcement === 'hard' && !checkConstraint(constraint)
+  )
+  if (hardFailure) {
+    return { passes: false, violations: [] }
+  }
+
+  // Collect flexible violations functionally
+  const violations = activeConstraints
+    .filter(constraint => 
+      constraint.enforcement === 'flexible' && !checkConstraint(constraint)
+    )
+    .map(constraint => `range.${constraint.type}`)
 
   return { passes: true, violations }
 }
@@ -437,13 +444,16 @@ export function checkSlotAvailability(
     return { available: !overlapsBusy, violations: [] }
   }
 
-  const violations: string[] = []
-
-  // LEARNING: Check each constraint individually to accurately attribute violations
-  // WHY: Only the constraint that actually caused overlap should be marked as violated
-  // PATTERN: For each constraint, expand slot range based on that constraint's placement/minutes, check overlap, handle enforcement
-  for (const constraint of overlapConstraints) {
-    // Calculate expanded range for this specific constraint
+  // LEARNING: Use functional approach to collect violations
+  // WHY: Avoids array mutations (push) - builds violations array immutably
+  // PATTERN: Filter constraints, check overlaps, collect violations, check for hard failures
+  
+  /**
+   * LEARNING: Extract constraint overlap check to pure function
+   * WHY: Separates overlap checking logic from violation collection
+   * PATTERN: Pure function returns boolean
+   */
+  const checkConstraintOverlap = (constraint: OverlapConstraint): boolean => {
     const bufferMs = constraint.minutes * 60 * 1000
     let checkStart = slotStart
     let checkEnd = slotEnd
@@ -456,24 +466,28 @@ export function checkSlotAvailability(
       checkEnd = new Date(slotEnd.getTime() + bufferMs)
     }
 
-    // Check if this constraint's expanded range overlaps any busy period
-    const constraintOverlaps = parsedBusyTimes.some(busy => {
+    return parsedBusyTimes.some(busy => {
       return timeRangesOverlap(
         { start: checkStart, end: checkEnd },
         { start: busy.start, end: busy.end }
       )
     })
-
-    if (constraintOverlaps) {
-      if (constraint.enforcement === 'hard') {
-        // Hard enforcement: block immediately
-        return { available: false, violations: [] }
-      } else if (constraint.enforcement === 'flexible') {
-        // Flexible enforcement: mark violation but allow slot
-        violations.push(`overlap.${constraint.type}`)
-      }
-    }
   }
+
+  // Check for hard enforcement failures first (early return)
+  const hardFailure = overlapConstraints.find(
+    constraint => constraint.enforcement === 'hard' && checkConstraintOverlap(constraint)
+  )
+  if (hardFailure) {
+    return { available: false, violations: [] }
+  }
+
+  // Collect flexible violations functionally
+  const violations = overlapConstraints
+    .filter(constraint => 
+      constraint.enforcement === 'flexible' && checkConstraintOverlap(constraint)
+    )
+    .map(constraint => `overlap.${constraint.type}`)
 
   // If we have flexible violations but no hard blocks, allow the slot
   return { available: true, violations }
@@ -543,28 +557,59 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
     return []
   }
 
-  const slots: TimeSlot[] = []
-
   // Iterate through each day from startBoundary to endBoundary
   // LEARNING: Generate slots based only on boundaries and minuteIncrement
   // WHY: Business hours and dateRange are enforced in checkRangeConstraints, not during generation
   // PATTERN: Generate all slots at minuteIncrement intervals between boundaries
-  const startDateOnly = new Date(startBoundaryDate)
-  startDateOnly.setUTCHours(0, 0, 0, 0)
+  // LEARNING: Create Date objects functionally without mutations
+  // WHY: Avoids Date.setUTCHours() and setUTCDate() mutations
+  // PATTERN: Use Date.UTC constructor to create new Date objects
+  const startDateOnly = new Date(Date.UTC(
+    startBoundaryDate.getUTCFullYear(),
+    startBoundaryDate.getUTCMonth(),
+    startBoundaryDate.getUTCDate(),
+    0, 0, 0, 0
+  ))
   
-  const endDateOnly = new Date(endBoundaryDate)
-  endDateOnly.setUTCHours(0, 0, 0, 0)
-  endDateOnly.setUTCDate(endDateOnly.getUTCDate() + 1)
-  
-  const currentDate = new Date(startDateOnly)
+  const endDateOnly = new Date(Date.UTC(
+    endBoundaryDate.getUTCFullYear(),
+    endBoundaryDate.getUTCMonth(),
+    endBoundaryDate.getUTCDate() + 1,
+    0, 0, 0, 0
+  ))
 
-  while (currentDate < endDateOnly) {
+  // LEARNING: Build slots array functionally using reduce over days
+  // WHY: Avoids while loop mutations and array push mutations
+  // PATTERN: Generate array of days, then reduce to slots array
+  const days: Date[] = []
+  let dayIterator = new Date(startDateOnly)
+  while (dayIterator < endDateOnly) {
+    days.push(new Date(dayIterator))
+    dayIterator = new Date(Date.UTC(
+      dayIterator.getUTCFullYear(),
+      dayIterator.getUTCMonth(),
+      dayIterator.getUTCDate() + 1
+    ))
+  }
+  
+  const slots = days.reduce((acc, currentDate) => {
     // Generate slots for this day starting at midnight UTC
-    const dayStart = new Date(currentDate)
-    dayStart.setUTCHours(0, 0, 0, 0)
+    // LEARNING: Create Date objects functionally without mutations
+    // WHY: Avoids Date.setUTCHours() mutations
+    // PATTERN: Use Date.UTC constructor to create new Date objects
+    const dayStart = new Date(Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth(),
+      currentDate.getUTCDate(),
+      0, 0, 0, 0
+    ))
     
-    const dayEnd = new Date(currentDate)
-    dayEnd.setUTCHours(23, 59, 59, 999)
+    const dayEnd = new Date(Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth(),
+      currentDate.getUTCDate(),
+      23, 59, 59, 999
+    ))
     
     // Clamp to actual boundaries
     const slotStartBoundary = dayStart < startBoundaryDate ? startBoundaryDate : dayStart
@@ -574,43 +619,73 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
     // WHY: All days (including today) must start at increment boundaries (:00, :15, :30, :45)
     //      Slot generation is time-agnostic - current time filtering happens in constraint checking
     // PATTERN: If slotStartBoundary is clamped to startBoundaryDate, round UP to next increment boundary
-    let currentSlotStart = new Date(dayStart) // Start from midnight at :00
-    if (slotStartBoundary > dayStart) {
-      // Calculate minutes since midnight
-      const minutesSinceMidnight = slotStartBoundary.getUTCHours() * 60 + slotStartBoundary.getUTCMinutes()
-      // Round UP to next increment boundary from midnight (or use current if already on boundary)
-      const roundedMinutes = Math.ceil(minutesSinceMidnight / minuteIncrement) * minuteIncrement
-      // Set time from midnight
-      currentSlotStart.setUTCMinutes(roundedMinutes)
-    }
+    // LEARNING: Build initial slot start functionally without Date mutations
+    // WHY: Avoids Date.setUTCMinutes() mutations - creates new Date objects instead
+    // PATTERN: Calculate rounded minutes, then create new Date with those minutes
+    const initialMinutesSinceMidnight = slotStartBoundary > dayStart
+      ? (() => {
+          const minutesSinceMidnight = slotStartBoundary.getUTCHours() * 60 + slotStartBoundary.getUTCMinutes()
+          return Math.ceil(minutesSinceMidnight / minuteIncrement) * minuteIncrement
+        })()
+      : 0
     
-    while (currentSlotStart < slotEndBoundary) {
-      const slotEnd = new Date(currentSlotStart)
-      slotEnd.setUTCMinutes(slotEnd.getUTCMinutes() + duration)
-      
-      // Only add slot if it fits within boundaries
-      if (slotEnd <= endBoundaryDate) {
-        const slot: TimeSlot = {
-          startTime: currentSlotStart.toISOString() as RFC3339DateTime,
-          endTime: slotEnd.toISOString() as RFC3339DateTime,
-          duration,
-          onSite: includeFlags.onSite,
-          clientPresent: includeFlags.clientPresent,
-          moveable: includeFlags.moveable,
-          isAvailable: false  // Will be updated by markSlotAvailability
-        }
-        
-        slots.push(slot)
+    const initialSlotStart = new Date(Date.UTC(
+      dayStart.getUTCFullYear(),
+      dayStart.getUTCMonth(),
+      dayStart.getUTCDate(),
+      Math.floor(initialMinutesSinceMidnight / 60),
+      initialMinutesSinceMidnight % 60
+    ))
+    
+    // LEARNING: Generate slots functionally using recursive helper instead of while loop with mutations
+    // WHY: Avoids array mutations (push) and Date mutations (setUTCMinutes)
+    // PATTERN: Recursive function that builds slots array immutably
+    const generateSlotsForDay = (slotStart: Date, accumulatedSlots: TimeSlot[]): TimeSlot[] => {
+      if (slotStart >= slotEndBoundary) {
+        return accumulatedSlots
       }
       
-      // Move to next interval
-      currentSlotStart = new Date(currentSlotStart)
-      currentSlotStart.setUTCMinutes(currentSlotStart.getUTCMinutes() + minuteIncrement)
+      // LEARNING: Create slot end Date functionally without mutations
+      // WHY: Avoids Date.setUTCMinutes() mutations
+      // PATTERN: Calculate end time in minutes, then create new Date
+      const slotStartMinutes = slotStart.getUTCMinutes() + duration
+      const slotEnd = new Date(Date.UTC(
+        slotStart.getUTCFullYear(),
+        slotStart.getUTCMonth(),
+        slotStart.getUTCDate(),
+        slotStart.getUTCHours() + Math.floor(slotStartMinutes / 60),
+        slotStartMinutes % 60
+      ))
+      
+      // Only add slot if it fits within boundaries
+      const newSlots = slotEnd <= endBoundaryDate
+        ? [...accumulatedSlots, {
+            startTime: slotStart.toISOString() as RFC3339DateTime,
+            endTime: slotEnd.toISOString() as RFC3339DateTime,
+            duration,
+            major: includeFlags.major,
+            minor: includeFlags.minor,
+            moveable: includeFlags.moveable,
+            isAvailable: false  // Will be updated by markSlotAvailability
+          }]
+        : accumulatedSlots
+      
+      // Move to next interval functionally
+      const nextSlotStartMinutes = slotStart.getUTCMinutes() + minuteIncrement
+      const nextSlotStart = new Date(Date.UTC(
+        slotStart.getUTCFullYear(),
+        slotStart.getUTCMonth(),
+        slotStart.getUTCDate(),
+        slotStart.getUTCHours() + Math.floor(nextSlotStartMinutes / 60),
+        nextSlotStartMinutes % 60
+      ))
+      
+      return generateSlotsForDay(nextSlotStart, newSlots)
     }
-
-    // Move to next day
-    currentDate.setUTCDate(currentDate.getUTCDate() + 1)
-  }
+    
+    const daySlots = generateSlotsForDay(initialSlotStart, [])
+    return [...acc, ...daySlots]
+  }, [] as TimeSlot[])
 
   return slots
 }
@@ -730,15 +805,9 @@ const CACHE_TTL_MS = 5 * 60 * 1000 // 5 minutes
  */
 const scheduledHoursCache = new Map<string, CacheEntry>()
 
-/**
- * Clear scheduled hours cache
- * LEARNING: Allows cache invalidation when needed
- * WHY: Cache may become stale if appointments are added/removed
- * PATTERN: Export function to clear cache
- */
-export function clearScheduledHoursCache(): void {
-  scheduledHoursCache.clear()
-}
+// Removed unused function: clearScheduledHoursCache
+// LEARNING: Function was declared but never used
+// WHY: Removes dead code to improve maintainability
 
 /**
  * Get cached value if it exists and hasn't expired
@@ -777,9 +846,15 @@ function setCachedValue(key: string, value: number): void {
 
 /**
  * Fetch scheduled hours for a specific date
- * LEARNING: Calls API to get scheduled hours, with caching
- * WHY: Capacity checking needs current scheduled hours
+ * LEARNING: Calls GET /availability/scheduled-hours API endpoint to get scheduled hours, with caching
+ * WHY: Capacity checking needs current scheduled hours from database appointments
  * PATTERN: Check cache first, call API if not cached, cache result
+ * 
+ * ASYNCHRONOUS WORKFLOW SUPPORT:
+ * - Calls GET /availability/scheduled-hours endpoint which queries database appointments
+ * - Endpoint returns hours from appointments with status 'submitted' or 'confirmed' (not Google Calendar events)
+ * - Supports asynchronous appointment creation workflow where appointments exist in DB before calendar sync
+ * - See: client/src/types/appointment.ts for AppointmentStatus union type definition
  */
 async function fetchScheduledHoursForDate(date: string): Promise<number> {
   const cacheKey = `date:${date}`
@@ -819,9 +894,15 @@ async function fetchScheduledHoursForCalendarWeek(date: string): Promise<number>
 
 /**
  * Fetch scheduled hours for rolling week
- * LEARNING: Calls API to get scheduled hours for rolling 7-day window
- * WHY: Rolling week capacity filter needs rolling window hours
+ * LEARNING: Calls GET /availability/scheduled-hours API endpoint to get scheduled hours for rolling 7-day window, with caching
+ * WHY: Rolling week capacity filter needs rolling window hours from database appointments
  * PATTERN: Check cache first, call API if not cached, cache result
+ * 
+ * ASYNCHRONOUS WORKFLOW SUPPORT:
+ * - Calls GET /availability/scheduled-hours endpoint which queries database appointments
+ * - Endpoint returns hours from appointments with status 'submitted' or 'confirmed' (not Google Calendar events)
+ * - Supports asynchronous appointment creation workflow where appointments exist in DB before calendar sync
+ * - See: client/src/types/appointment.ts for AppointmentStatus union type definition
  */
 async function fetchScheduledHoursForRollingWeek(
   date: string,
@@ -913,6 +994,35 @@ export function markSlotAvailability(
  * WHY: Separates capacity checking from busy period checking
  * PATTERN: Batch capacity checks by unique date/week keys to reduce API calls
  * 
+ * ============================================================================
+ * ASYNCHRONOUS APPOINTMENT CREATION WORKFLOW SUPPORT
+ * ============================================================================
+ * 
+ * This function applies capacity constraints by calling the server endpoint
+ * GET /availability/scheduled-hours, which queries database appointments directly
+ * (not Google Calendar events). This supports asynchronous appointment creation
+ * workflows where appointments exist in the database with 'submitted' or 'confirmed'
+ * status before being synced to Google Calendar.
+ * 
+ * APPOINTMENT STATUS WORKFLOW:
+ * - 'started': Non-quote mode appointment creation in progress (NOT COUNTED)
+ * - 'submitted': Submitted through app, awaiting confirmation (COUNTED)
+ * - 'confirmed': Submitted and confirmed (COUNTED)
+ * 
+ * See: client/src/types/appointment.ts for AppointmentStatus union type definition
+ * 
+ * SEPARATION OF CONCERNS:
+ * - Free-busy checking: Uses Google Calendar API to check external calendar events
+ * - Capacity checking: Uses database appointments (this function) to check internal workflow state
+ * 
+ * WHY BOTH ARE NEEDED:
+ * - Free-busy blocks slots based on calendar events (external, already synced)
+ * - Capacity blocks slots based on database appointments (internal, including pending/confirmed but not-yet-synced)
+ * 
+ * The server endpoint (GET /availability/scheduled-hours) queries database appointments
+ * and only counts appointments with status 'submitted' or 'confirmed'. This ensures
+ * capacity limits are enforced during the asynchronous workflow period before Google Calendar sync.
+ * 
  * @param slots - Array of slots to check (already marked with busy period availability)
  * @param duration - Appointment duration in minutes
  * @param capacityConstraints - Optional array of capacity constraints (daily, calendar week, rolling week)
@@ -951,22 +1061,33 @@ async function applyCapacityFilters(
   const capacityKeyPartsSet = new Set<string>()
   const keyPartsMap = new Map<string, CapacityKeyParts>()
   
-  for (const slot of availableSlots) {
+  // LEARNING: Build slotKeysMap functionally using reduce instead of forEach
+  // WHY: Avoids forEach mutations - builds Map immutably
+  // PATTERN: Reduce slots to Map, creating new arrays instead of mutating
+  // NOTE: Map.set() and Set.add() mutations are acceptable for Map/Set operations
+  availableSlots.reduce((map, slot) => {
     const slotDate = extractDateFromRFC3339(slot.startTime)
-    const slotKeys: string[] = []
     
-    for (const constraint of activeCapacityConstraints) {
+    // LEARNING: Use map to build slotKeys array functionally
+    // WHY: Avoids array mutations (push)
+    // PATTERN: Map constraints to key strings, then process each key
+    const slotKeys = activeCapacityConstraints.map((constraint) => {
       const keyParts = buildCapacityKey(constraint, slotDate)
       const keyString = capacityKeyToString(keyParts)
-      slotKeys.push(keyString)
       capacityKeyPartsSet.add(keyString)
       keyPartsMap.set(keyString, keyParts)
-    }
+      return keyString
+    })
     
-    slotKeysMap.set(slot.startTime, slotKeys)
-  }
+    map.set(slot.startTime, slotKeys)
+    return map
+  }, slotKeysMap)
 
   // Fetch scheduled hours for all unique keys
+  // LEARNING: These fetch functions call GET /availability/scheduled-hours endpoint
+  // WHY: Server endpoint queries database appointments (status 'submitted' or 'confirmed'), not Google Calendar events
+  // PATTERN: Supports asynchronous appointment workflow where appointments exist in DB before calendar sync
+  // See: client/src/types/appointment.ts for AppointmentStatus union type definition
   const capacityHoursByKey = new Map<string, number>()
   await Promise.all(
     Array.from(capacityKeyPartsSet).map(async (keyString) => {
@@ -974,13 +1095,13 @@ async function applyCapacityFilters(
       let hours = 0
       
       switch (keyParts.type) {
-        case 'daily':
+        case TIME_BASIS_TYPES.DAILY:
           hours = await fetchScheduledHoursForDate(keyParts.date)
           break
-        case 'calendarWeek':
+        case TIME_BASIS_TYPES.CALENDAR_WEEK:
           hours = await fetchScheduledHoursForCalendarWeek(keyParts.date)
           break
-        case 'rollingWeek':
+        case TIME_BASIS_TYPES.ROLLING_WEEK:
           hours = await fetchScheduledHoursForRollingWeek(
             keyParts.date,
             keyParts.direction || 'past'
@@ -1000,38 +1121,59 @@ async function applyCapacityFilters(
       return slot
     }
 
-    const violations: string[] = []
-    let passes = true
-
     // LEARNING: Use pre-built keys from batching phase
     // WHY: Avoids rebuilding capacity keys that were already computed during batching
     // PATTERN: Look up keys from slotKeysMap instead of rebuilding them
     const slotKeys = slotKeysMap.get(slot.startTime) || []
 
-    for (let i = 0; i < slotKeys.length; i++) {
-      const keyString = slotKeys[i]
-      const constraint = activeCapacityConstraints[i]
-      const currentHours = capacityHoursByKey.get(keyString) || 0
+    /**
+     * LEARNING: Extract constraint checking logic to pure function
+     * WHY: Separates constraint evaluation from violation collection
+     * PATTERN: Pure function returns { passes, violations }
+     */
+    const checkCapacityConstraints = (): { passes: boolean; violations: string[] } => {
+      // Check for hard enforcement failures first (early return)
+      const hardFailure = slotKeys.some((keyString, i) => {
+        const constraint = activeCapacityConstraints[i]
+        if (constraint.enforcement !== 'hard') return false
+        const currentHours = capacityHoursByKey.get(keyString) || 0
+        return currentHours + slotDurationHours > constraint.maxHours
+      })
 
-      // Check if constraint would be violated
-      if (constraint.enforcement === 'flexible') {
-        // Flexible: Block only if limit already exceeded before appointment
-        if (currentHours >= constraint.maxHours) {
-          passes = false
-          break
-        }
-        // Mark violation if appointment would cause limit to be exceeded
-        if (currentHours + slotDurationHours > constraint.maxHours) {
-          violations.push(`capacity.${constraint.type}`)
-        }
-      } else if (constraint.enforcement === 'hard') {
-        // Hard: Block if appointment would cause limit to be exceeded
-        if (currentHours + slotDurationHours > constraint.maxHours) {
-          passes = false
-          break
-        }
+      if (hardFailure) {
+        return { passes: false, violations: [] }
       }
+
+      // Check flexible constraints - block if limit already exceeded
+      const flexibleBlocked = slotKeys.some((keyString, i) => {
+        const constraint = activeCapacityConstraints[i]
+        if (constraint.enforcement !== 'flexible') return false
+        const currentHours = capacityHoursByKey.get(keyString) || 0
+        return currentHours >= constraint.maxHours
+      })
+
+      if (flexibleBlocked) {
+        return { passes: false, violations: [] }
+      }
+
+      // Collect flexible violations functionally
+      const violations = slotKeys
+        .map((keyString, i) => {
+          const constraint = activeCapacityConstraints[i]
+          if (constraint.enforcement !== 'flexible') return null
+          const currentHours = capacityHoursByKey.get(keyString) || 0
+          // Mark violation if appointment would cause limit to be exceeded
+          if (currentHours + slotDurationHours > constraint.maxHours) {
+            return `capacity.${constraint.type}`
+          }
+          return null
+        })
+        .filter((v): v is string => v !== null)
+
+      return { passes: true, violations }
     }
+
+    const { passes, violations } = checkCapacityConstraints()
 
     // Merge capacity violations with existing flexible violations
     const mergedViolations = mergeViolations(slot.flexibleViolations, violations, passes)
@@ -1080,42 +1222,54 @@ function validateConstraintArrays(
   ) || []
   const activeCapacityConstraints = capacityConstraints?.filter(c => c.enforcement !== 'off') || []
 
-  // Validate only active constraints
-  activeRangeConstraints.forEach((constraint, index) => {
+  // LEARNING: Use find to check for validation failures functionally
+  // WHY: Avoids forEach with side effects - find first failure, throw if found
+  // PATTERN: Use find + early throw instead of forEach + throw
+  
+  const rangeFailure = activeRangeConstraints.find((constraint) => {
     const validation = validateRangeConstraint(constraint)
-    if (!validation.valid) {
-      throw new ConstraintValidationError(
-        `Invalid range constraint at index ${index}: ${validation.error || 'unknown error'}`,
-        'range',
-        index,
-        validation.error
-      )
-    }
+    return !validation.valid
   })
+  if (rangeFailure) {
+    const index = activeRangeConstraints.indexOf(rangeFailure)
+    const validation = validateRangeConstraint(rangeFailure)
+    throw new ConstraintValidationError(
+      `Invalid range constraint at index ${index}: ${validation.error || 'unknown error'}`,
+      'range',
+      index,
+      validation.error
+    )
+  }
 
-  activeOverlapConstraints.forEach((constraint, index) => {
+  const overlapFailure = activeOverlapConstraints.find((constraint) => {
     const validation = validateOverlapConstraint(constraint)
-    if (!validation.valid) {
-      throw new ConstraintValidationError(
-        `Invalid overlap constraint at index ${index}: ${validation.error || 'unknown error'}`,
-        'overlap',
-        index,
-        validation.error
-      )
-    }
+    return !validation.valid
   })
+  if (overlapFailure) {
+    const index = activeOverlapConstraints.indexOf(overlapFailure)
+    const validation = validateOverlapConstraint(overlapFailure)
+    throw new ConstraintValidationError(
+      `Invalid overlap constraint at index ${index}: ${validation.error || 'unknown error'}`,
+      'overlap',
+      index,
+      validation.error
+    )
+  }
 
-  activeCapacityConstraints.forEach((constraint, index) => {
+  const capacityFailure = activeCapacityConstraints.find((constraint) => {
     const validation = validateCapacityConstraint(constraint)
-    if (!validation.valid) {
-      throw new ConstraintValidationError(
-        `Invalid capacity constraint at index ${index}: ${validation.error || 'unknown error'}`,
-        'capacity',
-        index,
-        validation.error
-      )
-    }
+    return !validation.valid
   })
+  if (capacityFailure) {
+    const index = activeCapacityConstraints.indexOf(capacityFailure)
+    const validation = validateCapacityConstraint(capacityFailure)
+    throw new ConstraintValidationError(
+      `Invalid capacity constraint at index ${index}: ${validation.error || 'unknown error'}`,
+      'capacity',
+      index,
+      validation.error
+    )
+  }
 }
 
 export async function generateSlotsWithAvailability(
@@ -1159,13 +1313,18 @@ export async function generateSlotsWithAvailability(
   // LEARNING: Pre-populate Date cache for all slots to avoid redundant creation
   // WHY: Date objects are created multiple times for same slot (range checks, overlap checks, earliest completion)
   // PATTERN: Use slot.startTime as key (string) so cache persists through slot transformations
-  const slotDateCache = new Map<string, { start: Date; end: Date }>()
-  allSlots.forEach(slot => {
-    slotDateCache.set(slot.startTime, {
-      start: new Date(slot.startTime),
-      end: new Date(slot.endTime)
-    })
-  })
+  // LEARNING: Use Map constructor with map to build cache functionally
+  // WHY: Avoids Map mutations (set) - builds Map immutably using constructor
+  // PATTERN: Map slots to [key, value] tuples, then construct Map from entries
+  const slotDateCache = new Map(
+    allSlots.map(slot => [
+      slot.startTime,
+      {
+        start: new Date(slot.startTime),
+        end: new Date(slot.endTime)
+      }
+    ] as [string, { start: Date; end: Date }])
+  )
 
   // LEARNING: Apply range constraints (business hours, leadTime, dateRange) post-generation
   // WHY: Single pathway for all time-based restrictions

@@ -94,7 +94,7 @@ function filterInstancesByCascade(
 export type UseWizardFilteredOptionsParams = {
   bookingData: Ref<BookingData | null>
   selectedUserType: Ref<BookingBlockInstance | null>
-  selectedServices: Ref<BookingBlockInstance[]>
+  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
   selectedAvailabilityOptions: Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
 }
@@ -298,6 +298,21 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     return result.success ? null : result.error
   })
 
+  /**
+   * LEARNING: Line item blocks filtered from booking data
+   * WHY: Line items are block instances with bookingMode: "addOn" available for separate selection
+   * PATTERN: Filter from bookingData.lineItemBlocks (already filtered and transformed)
+   * NOTE: Line items don't use cascade filtering - they're always available for selection
+   */
+  const availableLineItemBlocks = computed((): BookingBlockInstance[] => {
+    if (!bookingData.value) return []
+    
+    // LEARNING: Return all line item blocks from booking data
+    // WHY: Line items are always available for selection (no cascade dependencies)
+    // PATTERN: Return lineItemBlocks array directly, already filtered and sorted by transformer
+    return bookingData.value.lineItemBlocks || []
+  })
+
   const accServices = computed((): BookingBlockInstance[] => selectedServices.value)
   const accProperty = computed((): BookingBlockInstance[] => selectedPropertyTypeBlocks.value)
   const accAvailability = computed((): BookingBlockInstance[] => selectedAvailabilityOptions.value)
@@ -307,6 +322,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     availableServices,
     availableOptionTypeBlocks: availableAvailabilityOptions,
     availablePropertyTypeBlocks,
+    availableLineItemBlocks,
     
     servicesCascadeError,
     availabilityOptionsCascadeError,

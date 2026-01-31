@@ -31,6 +31,10 @@ const ENTITY_DISPLAY_NAMES: Record<GlobalEntityKey, string> = {
   blockShape: 'Block Shape',
   partInstance: 'Part Profile',
   partShape: 'Part Shape',
+  eventShape: 'Event Shape',
+  eventInstance: 'Event Profile',
+  annotationShape: 'Annotation Shape',
+  annotationInstance: 'Annotation Profile',
 }
 
 export function getEntityDisplayName(entityKey: GlobalEntityKey): string {
@@ -76,45 +80,69 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
     logger.warn(`Metadata not loaded for entityType: ${entityType}. Defaults may be incomplete.`)
   }
 
-  const defaults: Record<string, ValidAdminValue> = {}
-
-  // LEARNING: Always include orderIndex as it's required NOT NULL
-  // WHY: Database requires orderIndex to be NOT NULL, so we must guarantee it's set
-  defaults.orderIndex = 0
+  // LEARNING: Build defaults functionally using reduce instead of for-of loop with mutations
+  // WHY: Avoids object property mutations - builds object immutably
+  // PATTERN: Start with orderIndex, then reduce metadata entries to build defaults object
+  const baseDefaults: Record<string, ValidAdminValue> = { orderIndex: 0 }
 
   // LEARNING: Iterate through metadata to build defaults dynamically
   // WHY: No hardcoded field lists - automatically includes all fields from metadata
   // PATTERN: Use metadata dataType and isRequired to determine appropriate defaults
+  // LEARNING: Use reduce to build defaults object functionally
+  // WHY: Avoids object property mutations - builds object immutably
+  // PATTERN: Reduce metadata entries to defaults object
+  let defaults: Record<string, ValidAdminValue>
   try {
-    for (const [fieldKey, fieldMetadata] of Object.entries(metadata || {})) {
+    defaults = Object.entries(metadata || {}).reduce((acc, [fieldKey, fieldMetadata]) => {
       const { dataType, isRequired } = fieldMetadata
 
       // Skip if already set (e.g., orderIndex)
-      if (fieldKey in defaults) continue
+      if (fieldKey in acc) return acc
 
       // LEARNING: Set defaults based on dataType and isRequired
       // WHY: Different field types need different default values
-      // PATTERN: Boolean fields default to false (required) or null (nullable), numbers to 0, strings to ''
-      if (dataType === 'boolean') {
-        // Required booleans default to false, nullable booleans default to null
-        defaults[fieldKey] = isRequired ? false : null
+      // PATTERN: Boolean fields default to false (required) or undefined (nullable), ternary fields default to 'false', numbers to 0, strings to ''
+      //          Exception: 'active' field defaults to true for instance entities (blockInstance, partInstance, eventInstance, annotationInstance)
+      if (dataType === 'boolean' || dataType === 'ternary') {
+        // Required booleans default to false, nullable booleans default to undefined
+        // Ternary fields default to 'false' (string enum)
+        if (dataType === 'ternary') {
+          return { ...acc, [fieldKey]: 'false' }
+        } else {
+          // LEARNING: 'active' field defaults to true for instance entities
+          // WHY: Matches Sequelize model defaults (active: true) for blockInstance, partInstance, eventInstance, annotationInstance
+          // PATTERN: Check field name and entity type to determine if active should default to true
+          if (fieldKey === 'active' && (
+            entityType === 'blockInstance' || 
+            entityType === 'partInstance' || 
+            entityType === 'eventInstance' || 
+            entityType === 'annotationInstance'
+          )) {
+            return { ...acc, [fieldKey]: true }
+          } else {
+            return { ...acc, [fieldKey]: isRequired ? false : undefined }
+          }
+        }
       } else if (dataType === 'number') {
         // Required numbers default to 0
         if (isRequired) {
-          defaults[fieldKey] = 0
+          return { ...acc, [fieldKey]: 0 }
         }
         // Nullable numbers don't need defaults
+        return acc
       } else if (dataType === 'string') {
         // Strings default to empty string (allows placeholder to show)
-        defaults[fieldKey] = ''
+        return { ...acc, [fieldKey]: '' }
       } else if (dataType === 'array') {
         // Arrays default to empty array
-        defaults[fieldKey] = []
+        return { ...acc, [fieldKey]: [] }
       }
       // Reference fields don't need defaults (they're relationships)
-    }
+      return acc
+    }, baseDefaults)
   } catch (error) {
     logger.error('Error iterating metadata:', error)
+    return baseDefaults
   }
 
   return defaults
@@ -126,24 +154,24 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
  * 
  * @deprecated Use getDynamicEntityDefaults() instead - this is kept for reference only
  */
+// @ts-expect-error - Deprecated constant kept for reference only
 const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<GlobalEntityKey>>> = {
   blockShape: {
     orderIndex: 0, // Required NOT NULL field
     composable: false, // Boolean field must have explicit default
-    constituable: false, // Boolean field must have explicit default
+    canHaveParts: false, // Boolean field must have explicit default
+    isStateControl: false, // Boolean field must have explicit default
   },
   blockInstance: {
     orderIndex: 0, // Required NOT NULL field
     active: true,
     bookingMode: 'standalone' as BookingMode,
     composite: false, // Boolean field must have explicit default
+    differential: 'false' as const, // Ternary field defaults to 'false'
     baseSqFt: 0,
   },
   partInstance: {
     orderIndex: 0, // Required NOT NULL field
-    onSite: false,
-    clientPresent: false,
-    moveable: false,
     baseFee: 0,
     rateOverBaseFee: 0,
     baseTime: 0,
@@ -183,12 +211,18 @@ export function mergeEntityDefaults<GE extends GlobalEntityKey>(
   
   // LEARNING: Ensure orderIndex is always a number, never null or undefined
   // WHY: Database requires orderIndex to be NOT NULL, so we must guarantee it's set
-  // PATTERN: Explicit validation for critical required fields
-  if (merged.orderIndex === null || merged.orderIndex === undefined) {
-    merged.orderIndex = defaults.orderIndex ?? 0
-  }
+  // PATTERN: Explicit validation for critical required fields using object spread
+  // LEARNING: Use object spread instead of property assignment
+  // WHY: Avoids object property mutations
+  // PATTERN: Build final object with spread operator
+  const finalMerged = (merged.orderIndex === null || merged.orderIndex === undefined)
+    ? {
+        ...merged,
+        orderIndex: typeof defaults.orderIndex === 'number' ? defaults.orderIndex : 0
+      }
+    : merged
   
-  return merged
+  return finalMerged
 }
 
 /**

@@ -35,8 +35,31 @@
   
   "allowlist": {
     "$comment": "Exception handling for intentional/known type issues",
-    "patterns": [],
-    "specific": []
+    "patterns": [
+      {
+        "glob": "**/types/**/*.ts",
+        "ruleIds": ["TS6133"],
+        "reason": "Type definition files may have unused types kept for reference"
+      },
+      {
+        "glob": "**/constants/**/*.ts",
+        "ruleIds": ["TS6133"],
+        "reason": "Constants files may have unused exports kept for future use"
+      },
+      {
+        "glob": "**/configs/**/*.ts",
+        "ruleIds": ["TS6133"],
+        "reason": "Config files may have unused values kept for reference"
+      }
+    ],
+    "specific": [
+      {
+        "file": "src/utils/entityDefaults.ts",
+        "ruleId": "TS6133",
+        "lineRange": [1, 50],
+        "reason": "ENTITY_REQUIRED_DEFAULTS kept for reference despite being deprecated"
+      }
+    ]
   }
 }
 

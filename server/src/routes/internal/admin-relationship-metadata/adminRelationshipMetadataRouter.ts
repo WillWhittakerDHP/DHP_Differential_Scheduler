@@ -46,14 +46,11 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
         visibility: meta.visibility,
         layout: meta.layout,
         displayOrder: meta.displayOrder,
-        section: meta.section,
         renderAs: meta.renderAs,
         statusButtonColor: meta.statusButtonColor,
         panel: meta.panel,
         bulkEdit: meta.bulkEdit,
         inputConfig: meta.inputConfig || null,
-        inheritsFromEntityType: meta.inheritsFromEntityType,
-        inheritsFromEntityId: meta.inheritsFromEntityId,
       };
     }
 
@@ -70,7 +67,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 /**
  * POST /admin-relationship-metadata/:entityType/:entityId
  * Create or update relationship metadata for an entity
- * Body: { relationshipKey, dataType, label, isRequired, visibility, layout, displayOrder, section?, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
+ * Body: { relationshipKey, dataType, label, isRequired, visibility, layout, displayOrder, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
  */
 router.post('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
@@ -83,14 +80,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       visibility,
       layout,
       displayOrder,
-      section = null,
       renderAs = 'reference',
       statusButtonColor = null,
       panel = 'relationships',
       bulkEdit = false,
       inputConfig = null,
-      inheritsFromEntityType = null,
-      inheritsFromEntityId = null,
     } = req.body;
 
     const validEntityTypes = ['blockShape', 'partShape', 'blockInstance', 'partInstance'];
@@ -116,7 +110,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     // WHY: Supports backward compatibility during transition
     // PATTERN: Validate that inputConfig exists and is an object, accept any valid JSONB structure
     // NOTE: Relationship metadata always uses relationshipSelect (never typeSelect)
-    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'partsCollection') {
+    if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'relationshipCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
         res.status(400).json({
           error: 'Missing inputConfig',
@@ -145,14 +139,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         visibility,
         layout,
         displayOrder,
-        section,
         renderAs,
         statusButtonColor,
         panel,
         bulkEdit,
         inputConfig,
-        inheritsFromEntityType,
-        inheritsFromEntityId,
       });
 
       res.json(existing);
@@ -168,14 +159,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         visibility,
         layout,
         displayOrder,
-        section,
         renderAs,
         statusButtonColor,
         panel,
         bulkEdit,
         inputConfig,
-        inheritsFromEntityType,
-        inheritsFromEntityId,
       });
 
       res.status(201).json(metadata);

@@ -11,7 +11,7 @@
 import type { BookingBlockInstance, BookingData } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AppointmentResponse } from '@/types/appointment'
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 
 /**
  * Wizard State Interface
@@ -22,12 +22,14 @@ import type { ComputedRef } from 'vue'
 export interface WizardState {
   /** Currently selected state control block (dynamically determined from constituable: false block shapes) */
   selectedUserTypeBlock: BookingBlockInstance | null
-  /** Array of selected services (multi-select) */
-  selectedServices: BookingBlockInstance[]
+  /** Array of selected service type blocks (multi-select) */
+  selectedServiceTypeBlocks: BookingBlockInstance[]
   /** Array of selected availability options */
   selectedOptionTypeBlocks: BookingBlockInstance[]
   /** Array of selected property type blocks (multi-select) */
   selectedPropertyTypeBlocks: BookingBlockInstance[]
+  /** Array of selected line item blocks (bookingMode: "addOn") */
+  selectedLineItemBlocks: BookingBlockInstance[]
   /** Whether user only wants a quote (not booking) */
   isQuoteMode: boolean
 }
@@ -41,12 +43,14 @@ export interface WizardState {
 export interface WizardSelectionMethods {
   /** Select user type and clear dependent selections */
   selectUserTypeBlock: (block: BookingBlockInstance | null, skipCascade?: boolean) => void
-  /** Toggle service selection (multi-select) */
-  toggleService: (block: BookingBlockInstance, skipCascade?: boolean) => void
+  /** Toggle service type block selection (single-select UI, array storage) */
+  toggleServiceTypeBlock: (block: BookingBlockInstance, skipCascade?: boolean) => void
   /** Toggle availability option selection */
   toggleOptionTypeBlock: (block: BookingBlockInstance) => void
   /** Toggle property type block selection (multi-select) */
   togglePropertyTypeBlock: (block: BookingBlockInstance) => void
+  /** Toggle line item block selection (multi-select) */
+  toggleLineItemBlock: (block: BookingBlockInstance) => void
   /** Load appointment data into wizard state */
   loadAppointment: (appointment: AppointmentResponse) => Promise<WizardStateData | null>
   /** Reset wizard state */
@@ -68,6 +72,8 @@ export interface WizardComputedProperties {
   availableOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
   /** Available property type blocks (filtered by selected services) */
   availablePropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
+  /** Available line item blocks (bookingMode: "addOn") */
+  availableLineItemBlocks: ComputedRef<BookingBlockInstance[]>
   
   /** Error messages for cascade filtering */
   servicesCascadeError: ComputedRef<string | null>
@@ -89,9 +95,10 @@ export interface WizardComputedProperties {
 export type UseBookingWizardReturn = {
   // State (reactive refs)
   selectedUserTypeBlock: import('vue').Ref<BookingBlockInstance | null>
-  selectedServices: import('vue').Ref<BookingBlockInstance[]>
+  selectedServiceTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
   selectedOptionTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
+  selectedLineItemBlocks: import('vue').Ref<BookingBlockInstance[]>
   isQuoteMode: import('vue').Ref<boolean>
 } & WizardSelectionMethods & WizardComputedProperties & {
   // Internal (for debugging/waiting)
@@ -136,3 +143,22 @@ export interface ContactsStepData {
   showSeller: boolean
 }
 
+/**
+ * Wizard Step Data and Validation Refs
+ * 
+ * LEARNING: Shared interface for wizard step data refs and validation state refs
+ * WHY: Eliminates duplication between useWizardStepDataRefs and useWizardAppointmentManagement
+ * PATTERN: Extract common interface properties to shared type
+ */
+export interface WizardStepDataAndValidationRefs {
+  propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
+  contactsStepData: Ref<ContactsStepData | null>
+  availabilityStepData: Ref<AvailabilityStepData | null>
+  propertyDetailsStepValid: Ref<boolean>
+  propertyDetailsStepValidate: Ref<(() => boolean) | null>
+  propertyDetailsFieldErrors: Ref<Record<string, string>>
+  contactsStepValid: Ref<boolean>
+  contactsStepValidate: Ref<(() => boolean) | null>
+  availabilityStepValid: Ref<boolean>
+  availabilityStepValidate: Ref<(() => boolean) | null>
+}

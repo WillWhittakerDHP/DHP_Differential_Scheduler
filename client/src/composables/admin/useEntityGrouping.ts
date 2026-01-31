@@ -70,9 +70,11 @@ export function useEntityGrouping<
   const entitiesByGroup = computed(() => {
     const groupEntities = getGlobalEntities(groupKey)
     const entities = getGlobalEntities(entityKey)
-    const map = new Map<string, GlobalEntity<EntityKey>[]>()
     
-    groupEntities.forEach(groupEntity => {
+    // LEARNING: Use reduce to build Map immutably instead of forEach with mutations
+    // WHY: Functional approach avoids mutations, aligns with workspace rules
+    // PATTERN: Reduce groupEntities to Map, creating new arrays instead of mutating
+    return groupEntities.reduce((map, groupEntity) => {
       const groupId = String(groupEntity.id)
       const groupEntitiesList = entities
         .filter(entity => groupBy(entity) === groupId)
@@ -82,9 +84,8 @@ export function useEntityGrouping<
         .map(entity => ({ ...entity }))
         .sort((a, b) => a.orderIndex - b.orderIndex)
       map.set(groupId, groupEntitiesList)
-    })
-    
-    return map
+      return map
+    }, new Map<string, GlobalEntity<EntityKey>[]>())
   })
 
   return {

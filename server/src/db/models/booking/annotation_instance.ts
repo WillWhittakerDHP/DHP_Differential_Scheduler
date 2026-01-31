@@ -29,7 +29,7 @@ import {
  * COMPARISON: AnnotationShape is shape-level (definitions), AnnotationInstance is instance-level (concrete entities)
  * 
  * NOTE: The userType field on this model is kept for backward compatibility but is being
- * phased out in favor of user_type_block_instance_id in the active_annotations table.
+ * phased out in favor of user_type_block_instance_id in the annotation_assignments table.
  */
 export class AnnotationInstance extends Model<
   InferAttributes<AnnotationInstance>,
@@ -39,6 +39,8 @@ export class AnnotationInstance extends Model<
   declare text: string;
   declare type: string; // Foreign key to annotation_shapes.id
   declare userType: string | null; // State control block instance ID or null (generic) - DEPRECATED: use active_annotations.user_type_block_instance_id
+  declare orderIndex: CreationOptional<number>;
+  declare active: CreationOptional<boolean>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -70,7 +72,20 @@ export function AnnotationInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: true,
         field: 'user_type',
-        comment: 'User type filter: state control block instance ID or null for generic annotations. DEPRECATED: use active_annotations.user_type_block_instance_id',
+        comment: 'User type filter: state control block instance ID or null for generic annotations. DEPRECATED: use annotation_assignments.user_type_block_instance_id',
+      },
+      orderIndex: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'order_index',
+        comment: 'Order index for UI drag-and-drop ordering',
+      },
+      active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        comment: 'Whether this annotation instance is active/enabled',
       },
       createdAt: {
         type: DataTypes.DATE,

@@ -12,6 +12,7 @@ import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
 import type { RFC3339DateTime } from '@/types/datetime'
+import type { TernaryBoolean } from '@/types/ternary'
 import { findById } from '@/utils/collections/findById'
 import { findBlockInstanceByIdAndShapeId, getBlockShapeIdByType, getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
@@ -29,6 +30,7 @@ export interface WizardStateData {
   services: BookingBlockInstance[] // Multi-select array - replaces baseService
   propertyTypeBlocks: BookingBlockInstance[] // Multi-select array - replaces propertyTypeBlock
   optionTypeBlocks: BookingBlockInstance[]
+  lineItemBlocks: BookingBlockInstance[] // Line item blocks (bookingMode: "addOn")
   
   // Property details form fields
   propertyDetails: {
@@ -87,7 +89,7 @@ interface VersionBlockInstance {
   icon: string
   baseSqFt: number
   allowMultiple: boolean
-  differential: boolean
+  differential: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
   partInstances: Array<{
     id: string // partInstanceId
     name: string
@@ -95,6 +97,8 @@ interface VersionBlockInstance {
     baseTime: number
     rateOverBaseFee: number
     rateOverBaseTime: number
+    onSite?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
+    clientPresent?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
   }>
 }
 
@@ -102,6 +106,7 @@ interface AppointmentVersionsResponse {
   services: VersionBlockInstance[]
   properties: VersionBlockInstance[]
   options: VersionBlockInstance[]
+  lineItems?: VersionBlockInstance[]
 }
 
 /**
@@ -194,6 +199,16 @@ function transformVersionToBookingInstance(
   }
 
   // Transform part instances from version format to BookingPartInstance format
+  // LEARNING: Convert boolean to TernaryBoolean for backward compatibility
+  // WHY: During migration, some values may still be boolean
+  // PATTERN: Convert boolean to TernaryBoolean, default to 'false'
+  const convertToTernary = (value: TernaryBoolean | boolean | undefined, defaultValue: TernaryBoolean = 'false'): TernaryBoolean => {
+    if (value === true) return 'true'
+    if (value === false) return 'false'
+    if (value === 'true' || value === 'false' || value === 'override') return value
+    return defaultValue
+  }
+
   const partInstances: BookingPartInstance[] = version.partInstances.map(pi => {
     // Try to find matching part instance from current instance for metadata
     const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
@@ -206,10 +221,9 @@ function transformVersionToBookingInstance(
       baseTime: pi.baseTime,
       rateOverBaseFee: pi.rateOverBaseFee,
       rateOverBaseTime: pi.rateOverBaseTime,
-      // Use current part metadata if available, otherwise defaults
-      onSite: currentPart?.onSite ?? true,
-      clientPresent: currentPart?.clientPresent ?? false,
-      moveable: currentPart?.moveable ?? false,
+      // LEARNING: onSite, clientPresent, and moveable are deprecated - removed when converting to events
+      // WHY: These properties were deprecated when converting to using events (EventAssignment relationships)
+      // PATTERN: Events should be accessed via EventAssignment relationships instead
       active: currentPart?.active ?? true,
       orderIndex: currentPart?.orderIndex ?? 0,
       partShape: currentPart?.partShape || '',
@@ -226,7 +240,8 @@ function transformVersionToBookingInstance(
     icon: version.icon || '',
     baseSqFt: version.baseSqFt || 0,
     allowMultiple: version.allowMultiple,
-    differential: version.differential,
+    // LEARNING: Convert boolean to TernaryBoolean for differential
+    differential: convertToTernary(version.differential, 'false'),
     partInstances,
   } as BookingBlockInstance
 }
@@ -248,7 +263,7 @@ export async function transformAppointmentToWizard(
   
   /**
    * WHY: Prevents matching wrong block types (e.g., baseService ID in userTypeId field)
-   * LEARNING: Use property-based filtering for state control blocks (constituable: false)
+   * LEARNING: Use property-based filtering for state control blocks (isStateControl: true)
    * PATTERN: Find state control block instances, then match by ID
    * VERIFICATION: Log warning if UUID doesn't resolve to correct block type
    */
@@ -394,6 +409,37 @@ export async function transformAppointmentToWizard(
     optionTypeBlocks = optionTypeBlocksFound
   }
   
+  // LEARNING: Extract line item blocks from appointment (bookingMode: "addOn")
+  // WHY: Line items are separate from main booking blocks and stored separately
+  // PATTERN: Check for selectedLineItemIds in appointment, filter from bookingData.lineItemBlocks
+  // NOTE: Forward-compatible - returns empty array if no line item data exists yet
+  const lineItemBlockIds = (appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds || []
+  const lineItemBlocksFound = lineItemBlockIds.length > 0 && bookingData.lineItemBlocks
+    ? bookingData.lineItemBlocks.filter(block => lineItemBlockIds.includes(block.id))
+    : []
+  
+  // Verify UUID resolution - log warning if line item IDs don't resolve
+  if (lineItemBlockIds.length > 0 && lineItemBlocksFound.length !== lineItemBlockIds.length) {
+    const foundIds = new Set(lineItemBlocksFound.map(li => li.id))
+    const missingIds = lineItemBlockIds.filter(id => !foundIds.has(id))
+    if (missingIds.length > 0) {
+      console.warn(`[AppointmentTransformer] Some line item IDs not found: ${missingIds.join(', ')}`)
+    }
+  }
+  
+  // Use versions if available, otherwise use current instances directly
+  let lineItemBlocks: BookingBlockInstance[]
+  if (versionsData?.lineItems && versionsData.lineItems.length > 0) {
+    // Use versions (if line item versions are supported)
+    lineItemBlocks = versionsData.lineItems.map((version: VersionBlockInstance) => {
+      const currentInstance = lineItemBlocksFound.find(li => li.id === version.id) || null
+      return transformVersionToBookingInstance(version, currentInstance, bookingData)
+    })
+  } else {
+    // No versions - use current instances directly
+    lineItemBlocks = lineItemBlocksFound
+  }
+  
   // Map property data (from propertyVersion relationship)
   // LEARNING: Uses new three-table structure (propertyVersion → address + propertyDetails)
   // WHY: Property data is stored in normalized propertyVersion structure
@@ -485,12 +531,12 @@ export async function transformAppointmentToWizard(
   }
   
   // Transform time slots from appointment format to wizard format
-  // LEARNING: Uses new format with startTime/endTime (RFC3339)
+  // LEARNING: WizardStateData expects { time: string; duration: number } format
+  // WHY: Transform from { startTime, endTime, duration } to { time, duration } format
   const selectedTimeSlots = appointment.selectedTimeSlots
     ? appointment.selectedTimeSlots.map((slot: Record<string, unknown>) => ({
-        startTime: slot.startTime as RFC3339DateTime,
-        endTime: slot.endTime as RFC3339DateTime,
-        duration: slot.duration as number | undefined, // Optional
+        time: (slot.startTime as RFC3339DateTime) || '',
+        duration: (slot.duration as number) || 0
       }))
     : null
   
@@ -499,11 +545,12 @@ export async function transformAppointmentToWizard(
     selectedTimeSlots,
   }
   
-  const result = {
+  const result: WizardStateData = {
     userTypeBlock: userTypeBlockResult,
     services,
     propertyTypeBlocks,
     optionTypeBlocks,
+    lineItemBlocks,
     propertyDetails,
     contacts,
     availability,

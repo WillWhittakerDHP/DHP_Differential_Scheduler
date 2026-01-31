@@ -9,15 +9,9 @@
     <div class="mb-4">
       <h3 class="text-h6 mb-2">Field Rendering Configuration</h3>
       <p class="text-body-2 text-medium-emphasis">
-        <span v-if="mode === 'global'">
-          Configure field visibility, layout, and rendering for {{ entityTypeLabel }}.
-          <span v-if="entityKey === 'blockShape' || entityKey === 'partShape'">
-            Changes apply globally to all {{ entityTypeLabel }} entities.
-          </span>
-        </span>
-        <span v-else>
-          Configure instance-specific overrides for this {{ entityTypeLabel }}.
-          Fields without overrides inherit from the associated shape's global configuration.
+        Configure field visibility, layout, and rendering for {{ entityTypeLabel }}.
+        <span v-if="entityKey === 'blockShape' || entityKey === 'partShape'">
+          Changes apply globally to all {{ entityTypeLabel }} entities.
         </span>
       </p>
     </div>
@@ -56,9 +50,6 @@
                 <span class="text-caption text-medium-emphasis">
                   {{ getFieldMetadata(fieldKey)?.dataType }} • 
                   {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
-                  <span v-if="mode === 'instanceOverride' && !hasOverride(fieldKey)" class="ml-2">
-                    (inherited)
-                  </span>
                 </span>
               </div>
               <VChip
@@ -84,15 +75,6 @@
               <div class="d-flex flex-column gap-2">
                 <p class="text-caption font-weight-medium">Rendering Configuration</p>
                 
-                <!-- Instance Override Toggle (only in instanceOverride mode) -->
-                <VCheckbox
-                  v-if="mode === 'instanceOverride'"
-                  :model-value="hasOverride(fieldKey)"
-                  label="Override inherited configuration"
-                  density="compact"
-                  @update:model-value="(value) => toggleOverride(fieldKey, value ?? false)"
-                />
-
                 <!-- Visibility -->
                 <VSelect
                   :model-value="getEffectiveFieldMetadata(fieldKey)?.visibility ?? undefined"
@@ -101,7 +83,6 @@
                   density="compact"
                   variant="outlined"
                   placeholder="Not Configured"
-                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
                   @update:model-value="(value) => updateFieldRendering(fieldKey, { visibility: value })"
                 />
                 
@@ -114,70 +95,31 @@
                   density="compact"
                   variant="outlined"
                   placeholder="Not Configured"
-                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
                   @update:model-value="(value) => updateFieldRendering(fieldKey, { layout: value })"
                 />
                 
-                <!-- Panel (only for expandedPanel) -->
+                <!-- Status Button Color (only for booleans and ternary) -->
                 <VSelect
-                  v-if="getEffectiveFieldMetadata(fieldKey)?.visibility === 'expandedPanel'"
-                  :model-value="getEffectiveFieldMetadata(fieldKey)?.panel ?? undefined"
-                  :items="panelOptions"
-                  label="Panel"
-                  density="compact"
-                  variant="outlined"
-                  placeholder="Not Configured"
-                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
-                  @update:model-value="(value) => updateFieldRendering(fieldKey, { panel: value })"
-                />
-                
-                <!-- Status Button Color (only for booleans) -->
-                <VSelect
-                  v-if="getEffectiveFieldMetadata(fieldKey)?.dataType === 'boolean'"
+                  v-if="getEffectiveFieldMetadata(fieldKey)?.dataType === 'boolean' || getEffectiveFieldMetadata(fieldKey)?.dataType === 'ternary'"
                   :model-value="getEffectiveFieldMetadata(fieldKey)?.statusButtonColor ?? undefined"
                   :items="colorOptions"
                   label="Status Button Color"
                   density="compact"
                   variant="outlined"
                   placeholder="Not Configured"
-                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
                   @update:model-value="(value) => updateFieldRendering(fieldKey, { statusButtonColor: value })"
                 />
                 
-                <!-- Input Config (for select/multiselect/reference/partsCollection) -->
-                <template v-if="['select', 'multiselect', 'reference', 'partsCollection'].includes(getEffectiveFieldMetadata(fieldKey)?.renderAs ?? '')">
-                  <!-- Options-based selects (like bookingMode) -->
-                  <VTextarea
-                    v-if="getInputConfigData(fieldKey).options !== null && getInputConfigData(fieldKey).targetMode === null"
-                    :model-value="getInputConfigData(fieldKey).options ? JSON.stringify(getInputConfigData(fieldKey).options, null, 2) : ''"
-                    label="Options (JSON Array)"
-                    density="compact"
-                    variant="outlined"
-                    placeholder='["option1", "option2", "option3"]'
-                    :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
-                    hint="Array of option values"
-                    persistent-hint
-                    rows="3"
-                    @update:model-value="(value) => {
-                      try {
-                        const parsed = value ? JSON.parse(value) : null
-                        updateInputConfigField(fieldKey, 'options', parsed)
-                      } catch (e) {
-                        // Invalid JSON - don't update
-                      }
-                    }"
-                  />
-                  
+                <!-- Input Config (for select/multiselect/reference/relationshipCollection) -->
+                <template v-if="hasSelectRenderAs(fieldKey)">
                   <!-- Select Mode (for relationship/property selects) -->
                   <VSelect
-                    v-else
                     :model-value="getInputConfigData(fieldKey).selectMode"
                     :items="selectModeOptions"
                     label="Select Mode"
                     density="compact"
                     variant="outlined"
                     placeholder="Select mode"
-                    :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
                     hint="How the select field behaves (single selection, multiple selection, required, or nested)"
                     persistent-hint
                     @update:model-value="(value) => updateInputConfigField(fieldKey, 'selectMode', value)"
@@ -189,7 +131,6 @@
                   :model-value="getEffectiveFieldMetadata(fieldKey)?.bulkEdit ?? false"
                   label="Enable Bulk Edit"
                   density="compact"
-                  :disabled="mode === 'instanceOverride' && !hasOverride(fieldKey)"
                   @update:model-value="(value) => updateFieldRendering(fieldKey, { bulkEdit: Boolean(value) })"
                 />
               </div>
@@ -202,12 +143,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
+import { computed, ref, reactive, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useAdminMetadataMutations } from '@/composables/admin/useAdminMetadataMutations'
 import { useMetadataEditorEntity } from '@/composables/admin/useMetadataEditorEntity'
-import { useInstanceOverrideState } from '@/composables/admin/useInstanceOverrideState'
 import { useMetadataFieldUpdates } from '@/composables/admin/useMetadataFieldUpdates'
 import { useInputConfigEditor } from '@/composables/admin/useInputConfigEditor'
 import { useMetadataFieldOrdering } from '@/composables/admin/useMetadataFieldOrdering'
@@ -220,13 +161,13 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { EntityMetadataType } from '@/types/entityMetadata'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
+import { FIELD_VISIBILITY, FIELD_RENDER_AS, FIELD_LAYOUT } from '@/constants/fieldMetadata'
 
 const logger = createLogger('AdminPrimitiveMetadataEditor')
 
 interface Props {
   entityKey: GlobalEntityKey
   entity: GlobalEntity<GlobalEntityKey>
-  mode: 'global' | 'instanceOverride'
   blockShapeRef?: string  // Optional - BlockShape ID for BlockShape-specific instance metadata
 }
 
@@ -239,12 +180,11 @@ const emit = defineEmits<Emits>()
 
 
 // LEARNING: Use composable for metadata editor entity lookup
-// WHY: Extracts entity construction logic for global vs instance mode
+// WHY: Extracts entity construction logic for global configs
 // PATTERN: Composable handles sentinel UUIDs and blockShapeRef inclusion
 const metadataEditorEntity = useMetadataEditorEntity(
   props.entityKey,
   props.entity,
-  props.mode,
   props.blockShapeRef
 )
 
@@ -281,20 +221,17 @@ const { saveFieldMetadata, deleteFieldMetadata, isSaving } = useAdminMetadataMut
 // PATTERN: Use queryClient to manually refetch after mutations complete
 const queryClient = useQueryClient()
 
-// LEARNING: Instance override state management
-// WHY: Encapsulates pending override/deletion tracking and toggle logic
-// PATTERN: Use composable for managing instance-specific metadata override state
-const {
-  pendingOverrides,
-  pendingDeletes,
-  pendingChanges,
-  hasOverride,
-  toggleOverride,
-  clearPendingState,
-} = useInstanceOverrideState({
-  mode: props.mode,
-  fieldMetadata,
-})
+// LEARNING: Track pending changes for field metadata
+// WHY: Allows UI to show changes before saving
+// PATTERN: Reactive object to track pending updates
+const pendingChanges = reactive<Record<string, Partial<FieldMetadataEntry>>>({})
+
+// LEARNING: Clear pending changes
+// WHY: Reset state after successful save
+// PATTERN: Clear all reactive state
+function clearPendingState(): void {
+  Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
+}
 
 // LEARNING: Use config-driven entity type label
 // WHY: Eliminates entityKey branching (if/else chain) - single source of truth
@@ -339,9 +276,6 @@ function getEffectiveFieldMetadata(fieldKey: string) {
 // PATTERN: Use composable for updating field metadata with automatic renderAs computation
 const { computeRenderAs, updateFieldRendering } = useMetadataFieldUpdates({
   getEffectiveFieldMetadata,
-  hasOverride,
-  toggleOverride,
-  mode: props.mode,
   pendingChanges,
 })
 
@@ -352,6 +286,18 @@ const { getInputConfigData, updateInputConfigField } = useInputConfigEditor({
   getEffectiveFieldMetadata,
   updateFieldRendering,
 })
+
+// LEARNING: Check if renderAs is a select-related type
+// WHY: Type guard for checking if field uses inputConfig (select/multiselect/reference/relationshipCollection)
+// PATTERN: Helper function to check renderAs value against select-related constants
+function hasSelectRenderAs(fieldKey: string): boolean {
+  const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
+  if (!renderAs) return false
+  return renderAs === FIELD_RENDER_AS.SELECT ||
+         renderAs === FIELD_RENDER_AS.MULTISELECT ||
+         renderAs === FIELD_RENDER_AS.REFERENCE ||
+         renderAs === FIELD_RENDER_AS.RELATIONSHIP_COLLECTION
+}
 
 // LEARNING: Metadata field ordering
 // WHY: Handles sorting by displayOrder and drag-and-drop reordering
@@ -367,24 +313,6 @@ function hasMetadataEntry(fieldKey: string): boolean {
   return !!fieldMetadata.value[fieldKey]
 }
 
-/**
- * LEARNING: Get computed renderAs for display
- * WHY: Show auto-computed renderAs value in UI (read-only)
- * PATTERN: Compute from effective metadata
- */
-function getComputedRenderAs(fieldKey: string): string {
-  const meta = getEffectiveFieldMetadata(fieldKey)
-  if (!meta) {
-    return 'Not configured'
-  }
-  
-  // Use existing renderAs if present, otherwise compute it
-  if (meta.renderAs) {
-    return meta.renderAs
-  }
-  
-  return computeRenderAs(meta.dataType, meta.inputConfig, fieldKey)
-}
 
 // Save all changes
 async function handleSave() {
@@ -402,7 +330,6 @@ async function handleSave() {
       blockShapeRef: props.blockShapeRef || null,
       pendingChangesCount: Object.keys(pendingChanges).length,
       pendingChanges: Object.keys(pendingChanges),
-      pendingDeletesCount: pendingDeletes.value.size
     })
     
     // Save pending changes
@@ -419,8 +346,8 @@ async function handleSave() {
       const finalUpdates = { ...updates }
       
       // Ensure renderAs is computed if missing
-      if (!finalUpdates.renderAs || updates.dataType !== undefined || updates.inputConfig !== undefined) {
-        const dataType = finalUpdates.dataType ?? effectiveMeta?.dataType
+      if (!finalUpdates.renderAs || updates.inputConfig !== undefined) {
+        const dataType = effectiveMeta?.dataType
         const inputConfig = finalUpdates.inputConfig !== undefined ? finalUpdates.inputConfig : effectiveMeta?.inputConfig
         finalUpdates.renderAs = computeRenderAs(dataType, inputConfig, fieldKey)
       }
@@ -442,20 +369,6 @@ async function handleSave() {
       })
     }
 
-    // Delete pending deletes (instanceOverride mode only)
-    // LEARNING: Use unified mutation - backend routes based on fieldKey type
-    // WHY: Matches entity pattern - mutations accept all fields, backend routes based on type
-    // PATTERN: Single mutation call, no routing logic needed
-    if (props.mode === 'instanceOverride') {
-      for (const fieldKey of pendingDeletes.value) {
-        await deleteFieldMetadata({
-          entityType: entityType.value,
-          entityId: entityId.value,
-          fieldKey,
-          blockShapeRef: props.blockShapeRef || null
-        })
-      }
-    }
 
     // LEARNING: Refetch metadata cache before clearing pendingChanges
     // WHY: Prevents UI flash - pendingChanges maintain display until fresh data arrives
@@ -491,31 +404,14 @@ const visibilityOptions = [
 ] as const
 
 const layoutOptions = [
-  { title: 'Inline', value: 'inline' },
-  { title: 'Stacked', value: 'stacked' },
-] as const
-
-const panelOptions = [
-  { title: 'Parts', value: 'parts' },
-  { title: 'Relationships', value: 'relationships' },
-  { title: 'Annotations', value: 'annotations' },
-  { title: 'None', value: 'none' },
-] as const
-
-const renderAsOptions = [
-  { title: 'Text', value: 'text' },
-  { title: 'Number', value: 'number' },
-  { title: 'Select', value: 'select' },
-  { title: 'Multiselect', value: 'multiselect' },
-  { title: 'Reference', value: 'reference' },
-  { title: 'Status Button', value: 'statusButton' },
-  { title: 'Icon Select', value: 'iconSelect' },
-  { title: 'Parts Collection', value: 'partsCollection' },
+  { title: 'Inline', value: FIELD_LAYOUT.INLINE },
+  { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
 ] as const
 
 // LEARNING: Status button color options ordered by ROY G BIV (Rainbow Order)
 // WHY: Makes it easier to identify colors - explicit color names instead of semantic names
 // PATTERN: ROY G BIV order: Red, Orange, Yellow, Green, Blue, Indigo, Violet, plus Grey and Brown
+
 const colorOptions = [
   { title: 'Red', value: 'error' },
   { title: 'Orange', value: 'secondary' },

@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { Attributes, Model } from 'sequelize';
+import { Attributes, Model, Op } from 'sequelize';
 import { getEntityConfig, isValidEntityType } from '../../../config/entityRegistry.js';
-import { BlockInstance, PartInstance, ActivePart } from '../../../config/app.js';
+import { BlockInstance, PartInstance, PartAssignment } from '../../../config/app.js';
 import { 
   fetchAll, 
   fetchById, 
@@ -13,6 +13,7 @@ import {
 } from '../../helpers/dataController.js';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
 import { createBlockInstanceVersionIfReferenced } from '../../../services/instanceVersioning.js';
+import { ENTITY_KEYS_ARRAY, ENTITY_KEYS } from '../../../constants/entities.js';
 
 const router = Router();
 
@@ -31,7 +32,7 @@ const router = Router();
 router.get('/config', async (req: Request, res: Response): Promise<void> => {
   try {
     // Return the valid entity kinds (entity keys)
-    const entityKeys = ['blockInstance', 'blockShape', 'partInstance', 'partShape'];
+    const entityKeys = ['blockInstance', 'blockShape', 'partInstance', 'partShape', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance'];
     
     res.json({
       entityKeys,
@@ -58,9 +59,12 @@ router.get('/config', async (req: Request, res: Response): Promise<void> => {
  */
 router.param('entityType', (req, res, next, entityType) => {
   if (!isValidEntityType(entityType)) {
-    return res.status(404).json({ 
+      // LEARNING: Use ENTITY_KEYS_ARRAY constant instead of hardcoded array
+      // WHY: Eliminates hardcoded entity key strings, enables type-safe entity key references
+      // PATTERN: Use constant array from entities.ts
+      return res.status(404).json({ 
       error: `Unknown entity kind: ${entityType}`,
-      validKinds: ['partInstance', 'blockInstance', 'partShape', 'blockShape']
+      validKinds: ENTITY_KEYS_ARRAY
     });
   }
   
@@ -98,15 +102,30 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
     
     // IMPORTANT: For models with `underscored: true`, always specify `attributes` explicitly
     // to avoid duplicate columns in SQL queries (both snake_case and camelCase versions)
-    // LEARNING: Order entities by orderIndex to ensure consistent ordering
-    // WHY: All entity types (blockInstance, blockShape, partInstance, partShape) have orderIndex fields
-    // PATTERN: Use Sequelize order option to sort by orderIndex ascending
-    const options: { attributes?: string[]; order?: any[] } = {};
-    if (isModelUnderscored(entityConfig.model)) {
-      options.attributes = getModelAttributes(entityConfig.model);
-    }
-    // Order by orderIndex to ensure entities are returned in correct order
-    options.order = [['orderIndex', 'ASC']];
+    // LEARNING: Order entities by orderIndex to ensure consistent ordering (if field exists)
+    // WHY: Most entity types (blockInstance, blockShape, partInstance, partShape) have orderIndex fields,
+    //      but some (eventShape, eventInstance) do not
+    // PATTERN: Build options object functionally using object spread
+    const modelAttributes = Object.keys(entityConfig.model.rawAttributes || {});
+    const baseOptions: { attributes?: string[]; order?: any[]; include?: any[] } = {};
+    
+    const optionsWithAttributes = isModelUnderscored(entityConfig.model)
+      ? { ...baseOptions, attributes: getModelAttributes(entityConfig.model) }
+      : baseOptions;
+    
+    // Order by orderIndex if the model has that field (check model attributes)
+    const options = (() => {
+      if (modelAttributes.includes('orderIndex')) {
+        return { ...optionsWithAttributes, order: [['orderIndex', 'ASC']] };
+      } else if (modelAttributes.includes('createdAt')) {
+        return { ...optionsWithAttributes, order: [['createdAt', 'ASC']] };
+      } else {
+        return { ...optionsWithAttributes, order: [['id', 'ASC']] };
+      }
+    })();
+    
+    // NOTE: Attendees are now fetched via /relationships/attendeeAssignments endpoint
+    // No special include needed - attendees come through relationships endpoint
     
     const data = await fetchAll(entityConfig.model, options);
     
@@ -168,7 +187,23 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
   }
   
   try {
-    const created = await createRecord(entityConfig.model, req.body);
+    // LEARNING: Sanitize empty strings for enum fields to prevent database errors
+    // WHY: PostgreSQL enums don't accept empty strings, need to convert to default or null
+    // PATTERN: Convert empty strings for known enum fields to their default values
+    const sanitizedData = { ...req.body };
+    
+    // For blockInstance, convert empty booking_mode to default 'standalone'
+    // LEARNING: Use ENTITY_KEYS constant instead of hardcoded string
+    // WHY: Eliminates hardcoded entity key strings, enables type-safe entity key checks
+    if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE && sanitizedData.bookingMode === '') {
+      sanitizedData.bookingMode = 'standalone';
+    }
+    // Handle snake_case version too
+    if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {
+      sanitizedData.booking_mode = 'standalone';
+    }
+    
+    const created = await createRecord(entityConfig.model, sanitizedData);
     res.status(201).json(created);
   } catch (error) {
     // LEARNING: Handle Sequelize validation errors as 400 Bad Request
@@ -177,18 +212,46 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
     if (error instanceof Error && 
         (error.name === 'SequelizeValidationError' || 
          error.name === 'SequelizeUniqueConstraintError')) {
-      // LEARNING: Extract field name from unique constraint error for better error message
-      // WHY: Unique constraint errors should indicate which field has the duplicate value
-      // PATTERN: Check if error has fields property (SequelizeUniqueConstraintError structure)
-      const uniqueError = error as any;
-      const fieldName = uniqueError?.fields ? Object.keys(uniqueError.fields)[0] : 'field';
-      const fieldValue = uniqueError?.fields ? Object.values(uniqueError.fields)[0] : '';
+      // LEARNING: Extract detailed validation error information
+      // WHY: SequelizeValidationError contains errors array with field-specific messages
+      // PATTERN: Extract field names and messages from SequelizeValidationError.errors array
+      const validationError = error as any;
       
+      if (validationError.name === 'SequelizeUniqueConstraintError') {
+        // LEARNING: Extract field name from unique constraint error for better error message
+        // WHY: Unique constraint errors should indicate which field has the duplicate value
+        // PATTERN: Check if error has fields property (SequelizeUniqueConstraintError structure)
+        const fieldName = validationError?.fields ? Object.keys(validationError.fields)[0] : 'field';
+        const fieldValue = validationError?.fields ? Object.values(validationError.fields)[0] : '';
+        
+        res.status(400).json({
+          error: `Validation failed for ${entityConfig.displayName}`,
+          details: `${fieldName} "${fieldValue}" already exists. Please use a unique value.`,
+        });
+        return;
+      }
+      
+      // LEARNING: Extract field-specific validation errors from SequelizeValidationError
+      // WHY: SequelizeValidationError.errors is an array of field-specific error objects
+      // PATTERN: Map errors array to extract field names and messages
+      if (validationError.errors && Array.isArray(validationError.errors) && validationError.errors.length > 0) {
+        const fieldErrors = validationError.errors.map((err: any) => {
+          const fieldName = err.path || 'field';
+          const message = err.message || 'Validation error';
+          return `${fieldName}: ${message}`;
+        }).join('; ');
+        
+        res.status(400).json({
+          error: `Validation failed for ${entityConfig.displayName}`,
+          details: fieldErrors,
+        });
+        return;
+      }
+      
+      // Fallback to generic error message
       res.status(400).json({
         error: `Validation failed for ${entityConfig.displayName}`,
-        details: uniqueError.name === 'SequelizeUniqueConstraintError' 
-          ? `${fieldName} "${fieldValue}" already exists. Please use a unique value.`
-          : error.message,
+        details: error.message,
       });
       return;
     }
@@ -220,13 +283,29 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
   const entityId = req.params.id;
   
   try {
+    // LEARNING: Sanitize empty strings for enum fields to prevent database errors
+    // WHY: PostgreSQL enums don't accept empty strings, need to convert to default or null
+    // PATTERN: Convert empty strings for known enum fields to their default values
+    const sanitizedData = { ...req.body };
+    
+    // For blockInstance, convert empty booking_mode to default 'standalone'
+    if (req.params.entityType === 'blockInstance') {
+      if (sanitizedData.bookingMode === '') {
+        sanitizedData.bookingMode = 'standalone';
+      }
+      // Handle snake_case version too
+      if (sanitizedData.booking_mode === '') {
+        sanitizedData.booking_mode = 'standalone';
+      }
+    }
+    
     // CRITICAL: For block instances, capture old state BEFORE update for versioning
     if (req.params.entityType === 'blockInstance') {
       const oldInstance = await BlockInstance.findByPk(entityId, {
         include: [
           {
             model: PartInstance,
-            as: 'active_part_instances',
+            as: 'part_assignment_instances',
             through: {
               where: { disabled: false },
             },
@@ -246,8 +325,8 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
       await createBlockInstanceVersionIfReferenced(entityId, oldInstance);
     }
     
-    // Perform the update
-    const updatedCount = await updateRecord(entityConfig.model, entityId, req.body);
+    // Perform the update (using sanitizedData to ensure enum fields are properly handled)
+    const updatedCount = await updateRecord(entityConfig.model, entityId, sanitizedData);
     
     if (updatedCount === 0) {
       res.status(404).json({ 
@@ -255,6 +334,63 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
         id: entityId
       });
       return;
+    }
+    
+    // LEARNING: For partInstance updates, disable old partAssignments relationships
+    // WHY: When a part instance is updated, we need to ensure only one partAssignments relationship exists
+    //      per (parent_id, name, partShapeRef) group. Old relationships pointing to other part instances
+    //      with the same logical identity should be disabled.
+    // PATTERN: After successful update, find and disable old relationships
+    if (req.params.entityType === 'partInstance') {
+      try {
+        const updatedPartInstance = await PartInstance.findByPk(entityId);
+        if (updatedPartInstance) {
+          // Find all partAssignments relationships pointing to this part instance
+          // This tells us which block instances reference this part
+          const currentRelationships = await PartAssignment.findAll({
+            where: {
+              child_id: entityId,
+              disabled: false
+            }
+          });
+
+          // LEARNING: Process relationships functionally using Promise.all with map
+          // WHY: Avoids for-loop mutations, processes operations in parallel for better performance
+          // PATTERN: Use map to transform relationships into promises, then await all
+          await Promise.all(
+            currentRelationships.map(async (currentRel) => {
+              // Find all part instances with the same name and partShapeRef but different ID
+              const duplicatePartInstances = await PartInstance.findAll({
+                where: {
+                  name: updatedPartInstance.name,
+                  partShapeRef: updatedPartInstance.partShapeRef,
+                  id: { [Op.ne]: entityId }
+                }
+              });
+
+              if (duplicatePartInstances.length > 0) {
+                const duplicatePartIds = duplicatePartInstances.map(p => p.id);
+                
+                // Disable partAssignments relationships pointing to these duplicate part instances
+                // for the same parent_id (block instance)
+                await PartAssignment.update(
+                  { disabled: true },
+                  {
+                    where: {
+                      parent_id: currentRel.parent_id,
+                      child_id: { [Op.in]: duplicatePartIds },
+                      disabled: false
+                    }
+                  }
+                );
+              }
+            })
+          );
+        }
+      } catch (versioningError) {
+        // Log error but don't fail the update - versioning cleanup is best effort
+        console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);
+      }
     }
     
     res.json({ 
@@ -339,24 +475,29 @@ router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<v
       // Fetch old instances with part instances for versioning
       const blockInstanceIds = updates.map((update: { id: string }) => update.id);
       
-      for (const blockInstanceId of blockInstanceIds) {
-        const oldInstance = await BlockInstance.findByPk(blockInstanceId, {
-          include: [
-            {
-              model: PartInstance,
-              as: 'active_part_instances',
-              through: {
-                where: { disabled: false },
-              },
-            }
-          ]
-        });
-        
-        if (oldInstance) {
-          // Create version with OLD data if referenced by appointments
-          await createBlockInstanceVersionIfReferenced(blockInstanceId, oldInstance);
-        }
-      }
+      // LEARNING: Use Promise.all with map to process block instances functionally
+      // WHY: Avoids for...of loop mutations, enables parallel processing
+      // PATTERN: Map IDs to versioning operations, then execute in parallel
+      await Promise.all(
+        blockInstanceIds.map(async (blockInstanceId) => {
+          const oldInstance = await BlockInstance.findByPk(blockInstanceId, {
+            include: [
+              {
+                model: PartInstance,
+                as: 'part_assignment_instances',
+                through: {
+                  where: { disabled: false },
+                },
+              }
+            ]
+          });
+          
+          if (oldInstance) {
+            // Create version with OLD data if referenced by appointments
+            await createBlockInstanceVersionIfReferenced(blockInstanceId, oldInstance);
+          }
+        })
+      );
     }
     
     // Perform the bulk update
@@ -387,6 +528,18 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
   const entityId = req.params.id;
   const fieldKey = req.body.key;
   const newValue = req.body.value;
+  
+  // LEARNING: Reject PATCH requests for temporary entity IDs
+  // WHY: Temporary IDs (starting with "new-") are used for unsaved entities that should be created via POST, not updated via PATCH
+  // PATTERN: Validate entity ID format before attempting database operations
+  if (entityId.startsWith('new-') || entityId === '00000000-0000-0000-0000-000000000000') {
+    res.status(400).json({ 
+      error: `Cannot update ${entityConfig.displayName} with temporary ID`,
+      details: `Entity ID "${entityId}" is a temporary ID. Use POST to create the entity first.`,
+      id: entityId
+    });
+    return;
+  }
   
   try {
     // LEARNING: Parse update data from request body
@@ -420,11 +573,89 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
       return;
     }
     
+    // LEARNING: For partInstance updates, disable old partAssignments relationships
+    // WHY: When a part instance is updated, we need to ensure only one partAssignments relationship exists
+    //      per (parent_id, name, partShapeRef) group. Old relationships pointing to other part instances
+    //      with the same logical identity should be disabled.
+    // PATTERN: After successful update, find and disable old relationships
+    if (req.params.entityType === 'partInstance') {
+      try {
+        const updatedPartInstance = await PartInstance.findByPk(entityId);
+        if (updatedPartInstance) {
+          // Find all partAssignments relationships pointing to this part instance
+          // This tells us which block instances reference this part
+          const currentRelationships = await PartAssignment.findAll({
+            where: {
+              child_id: entityId,
+              disabled: false
+            }
+          });
+
+          // LEARNING: Process relationships functionally using Promise.all with map
+          // WHY: Avoids for-loop mutations, processes operations in parallel for better performance
+          // PATTERN: Use map to transform relationships into promises, then await all
+          await Promise.all(
+            currentRelationships.map(async (currentRel) => {
+              // Find all part instances with the same name and partShapeRef but different ID
+              const duplicatePartInstances = await PartInstance.findAll({
+                where: {
+                  name: updatedPartInstance.name,
+                  partShapeRef: updatedPartInstance.partShapeRef,
+                  id: { [Op.ne]: entityId }
+                }
+              });
+
+              if (duplicatePartInstances.length > 0) {
+                const duplicatePartIds = duplicatePartInstances.map(p => p.id);
+                
+                // Disable partAssignments relationships pointing to these duplicate part instances
+                // for the same parent_id (block instance)
+                await PartAssignment.update(
+                  { disabled: true },
+                  {
+                    where: {
+                      parent_id: currentRel.parent_id,
+                      child_id: { [Op.in]: duplicatePartIds },
+                      disabled: false
+                    }
+                  }
+                );
+              }
+            })
+          );
+        }
+      } catch (versioningError) {
+        // Log error but don't fail the update - versioning cleanup is best effort
+        console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);
+      }
+    }
+    
     res.json({ updated: updatedCount });
   } catch (error) {
     // LEARNING: Handle Sequelize validation errors as 400 Bad Request
     // WHY: Validation errors are client errors, not server errors
     // PATTERN: Check error type, return appropriate status code
+    
+    // Handle database constraint violations (e.g., mutual exclusivity)
+    if (error instanceof Error && 
+        'parent' in error &&
+        error.parent &&
+        typeof error.parent === 'object' &&
+        'code' in error.parent &&
+        error.parent.code === '23514') {
+      // Check if it's the state control mutual exclusivity constraint
+      if ('constraint' in error.parent && 
+          error.parent.constraint === 'check_state_control_mutual_exclusivity') {
+        res.status(400).json({
+          error: 'Mutual exclusivity violation',
+          message: 'isStateControl and canHaveParts cannot both be true. They are mutually exclusive.',
+          details: 'Setting one to true requires the other to be false.',
+          id: entityId
+        });
+        return;
+      }
+    }
+    
     if (error instanceof Error && 
         (error.name === 'SequelizeValidationError' || 
          error.name === 'SequelizeUniqueConstraintError')) {

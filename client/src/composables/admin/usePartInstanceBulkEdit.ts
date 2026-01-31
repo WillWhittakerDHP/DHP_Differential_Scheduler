@@ -230,13 +230,16 @@ export function usePartInstanceBulkEdit(
     const fieldMetadata = bulkEditFieldMetadata.value
     
     // Only include fields that have bulkEdit: true in config (safety check)
-    const filteredData: PartInstanceBulkEditData = {}
-    Object.entries(data).forEach(([fieldKey, value]) => {
+    // LEARNING: Use reduce to build object immutably instead of forEach with mutations
+    // WHY: Functional approach avoids mutations, aligns with workspace rules
+    // PATTERN: Reduce entries to filtered object instead of mutating
+    const filteredData = Object.entries(data).reduce<PartInstanceBulkEditData>((acc, [fieldKey, value]) => {
       const metadata = fieldMetadata[fieldKey]
       if (metadata?.bulkEdit === true) {
-        filteredData[fieldKey] = value as number | null | undefined
+        acc[fieldKey] = value as number | null | undefined
       }
-    })
+      return acc
+    }, {})
     
     if (Object.keys(filteredData).length === 0) {
       showError('No valid fields to update')

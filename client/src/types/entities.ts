@@ -2,8 +2,8 @@
 export type GlobalEntityId = string;
 
 import type { GlobalEntityKey } from "@/constants/entities";
-import type { AnnotationWithMetadata } from "./annotations";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
+import type { TernaryBoolean } from "./ternary";
 
 /**
  * Base entity interface with common properties
@@ -34,7 +34,10 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
   baseSqFt: number;
   active: boolean;
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
-  annotations?: AnnotationWithMetadata[]; // Array of annotations with metadata for user-type filtering
+  // NOTE: Annotations are accessed via relationships.annotationAssignments, not attached directly to entities
+  // However, annotations are also embedded on blockInstance during hydration for fast reads (see annotationAssignmentsOptimistic.ts)
+  annotations?: import('@/types/annotations').AnnotationWithMetadata[]; // Embedded annotations for optimistic updates and fast reads
+  description?: string; // Derived description from annotations (for legacy support)
   icon: string;
   allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
   /**
@@ -43,31 +46,65 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
    */
   requiresUnitNumber?: boolean | null;
   /**
-   * If true, this service supports differential scheduling (inspector and client have different arrival times).
+   * Whether this service supports differential scheduling (inspector and client have different arrival times).
+   * 'override' means differential is disabled regardless of service setting.
    */
-  differential?: boolean;
+  differential?: TernaryBoolean;
 }
 
 export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
   type: BlockShapeType; // Semantic type identifier: 'user', 'service', 'property', 'option'
   composable: boolean;
-  constituable: boolean; // If true, blockInstances of this shape can have constituents (partInstances). If false, acts as state control mode (no PartInstance interaction).
+  canHaveParts: boolean; // If true, blockInstances of this shape can have parts (partInstances). Mutually exclusive with isStateControl.
+  isStateControl: boolean; // If true, acts as state selector in wizard (like User Types). Mutually exclusive with canHaveParts.
+  // Relationship fields (attached by transformers)
+  validCascades?: GlobalEntityId[];
+  validParts?: GlobalEntityId[];
+  validAnnotations?: GlobalEntityId[];
 }
 
 export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
   partShapeRef: string;
-  onSite: boolean;
-  clientPresent: boolean;
-  moveable: boolean;
+  // NOTE: onSite, clientPresent, and moveable are no longer stored in the database.
+  // They are computed from EventAssignment relationships in globalToBookingTransformer
+  // and only exist in BookingPartInstance (computed type).
   baseTime: number;
   rateOverBaseTime: number;
   baseFee: number;
   rateOverBaseFee: number;
   active: boolean;
   zeroOutPart: boolean;
+  // Relationship fields (attached by transformers)
+  eventAssignments?: GlobalEntityId[];
 }
 
 export interface PartShapeEntity extends BaseGlobalEntity<"partShape"> {
+  // Relationship fields (attached by transformers)
+  validEvents?: GlobalEntityId[];
+}
+
+export interface EventShapeEntity extends BaseGlobalEntity<"eventShape"> {
+  isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
+  ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail gracefully)
+  // Relationship fields (attached by transformers)
+  attendees?: GlobalEntityId[]; // Array of UserTypeBlock BlockInstance IDs (attendees for this event)
+}
+
+export interface EventInstanceEntity extends BaseGlobalEntity<"eventInstance"> {
+  eventShapeRef: string;
+  titleTemplate: string | null;
+  descriptionTemplate: string | null;
+  locationTemplate: string | null;
+}
+
+export interface AnnotationShapeEntity extends BaseGlobalEntity<"annotationShape"> {
+}
+
+export interface AnnotationInstanceEntity extends BaseGlobalEntity<"annotationInstance"> {
+  // Note: "name" field from BaseGlobalEntity contains the text content
+  // Transformer maps API "text" field to entity "name" field
+  type: string; // Foreign key to AnnotationShape.id
+  userTypeBlock: string | null; // BlockInstance ID or null (deprecated, use annotation_assignments.user_type_block_instance_id)
 }
 
 /**
@@ -79,6 +116,10 @@ export type GlobalEntity<GE extends GlobalEntityKey> =
   GE extends "blockShape" ? BlockShapeEntity :
   GE extends "partInstance" ? PartInstanceEntity :
   GE extends "partShape" ? PartShapeEntity :
+  GE extends "eventShape" ? EventShapeEntity :
+  GE extends "eventInstance" ? EventInstanceEntity :
+  GE extends "annotationShape" ? AnnotationShapeEntity :
+  GE extends "annotationInstance" ? AnnotationInstanceEntity :
   never;
 
 // Entity maps

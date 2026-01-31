@@ -22,13 +22,16 @@ import { rfc3339ToLocalHHmm } from '@/composables/useLocalTime'
  * WHY: Time slot matching needs to compare times, but RFC3339 is UTC - convert to local for matching
  * PATTERN: Use useLocalTime composable to extract local HH:mm from RFC3339
  * 
+ * LEARNING: Function used internally - not exported as it's not part of public API
+ * WHY: This function is only used within this file by other functions
+ * 
  * NOTE: This function is used for matching time slots, not display.
  * For display formatting, use useLocalTime composable directly.
  * 
  * @param value - RFC3339 datetime string or Date object
  * @returns Time string in HH:mm format (local timezone), or null if invalid
  */
-export function extractTimeString(value: string | Date): string | null {
+function extractTimeString(value: string | Date): string | null {
   try {
     // LEARNING: Only accept RFC3339 format (ISO timestamp)
     // WHY: HH:mm format should only exist at UI boundary, not in business logic
@@ -66,11 +69,14 @@ export function extractTimeString(value: string | Date): string | null {
  * WHY: Need to map loaded appointment times to available TimeSlot objects
  * PATTERN: Pure function that returns matching slot or undefined
  * 
+ * LEARNING: Function used internally - not exported as it's not part of public API
+ * WHY: This function is only used within this file by other functions
+ * 
  * @param timeString - Time to match in any format (will be normalized to HH:mm)
  * @param availableSlots - Array of available TimeSlot objects
  * @returns Matching TimeSlot or undefined if no match found
  */
-export function findMatchingTimeSlot(
+function findMatchingTimeSlot(
   timeString: string,
   availableSlots: TimeSlot[]
 ): TimeSlot | undefined {
@@ -98,38 +104,38 @@ export interface LoadedTimeSlot {
  * 
  * LEARNING: Enables validation to pass when appointment is loaded with time slots
  * WHY: When editing an appointment, we need to restore the previously selected time slots
- * PATTERN: Matches loaded times to available slots, updates refs for inspector/client slots
+ * PATTERN: Matches loaded times to available slots, updates refs for major/minor slots
  * 
  * Algorithm:
- * 1. First loaded slot → inspector time slot
- * 2. Second loaded slot (if exists) → client time slot
+ * 1. First loaded slot → major time slot (legacy: inspector)
+ * 2. Second loaded slot (if exists) → minor time slot (legacy: client)
  * 
  * @param loadedSlots - Array of loaded time slots from saved appointment
  * @param availableSlots - Array of currently available TimeSlot objects
- * @param inspectorAppointmentSlotRef - Ref to update with matched inspector appointment slot
- * @param clientAppointmentSlotRef - Ref to update with matched client appointment slot
+ * @param majorAppointmentSlotRef - Ref to update with matched major appointment slot
+ * @param minorAppointmentSlotRef - Ref to update with matched minor appointment slot
  */
 export function matchLoadedTimeSlots(
   loadedSlots: LoadedTimeSlot[],
   availableSlots: TimeSlot[],
-  inspectorAppointmentSlotRef: Ref<TimeSlot | null>,
-  clientAppointmentSlotRef: Ref<TimeSlot | null>
+  majorAppointmentSlotRef: Ref<TimeSlot | null>,
+  minorAppointmentSlotRef: Ref<TimeSlot | null>
 ): void {
   if (loadedSlots.length === 0 || availableSlots.length === 0) return
 
-  // Match first slot to inspector
+  // Match first slot to major
   if (loadedSlots.length > 0) {
-    const inspectorMatch = findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots)
-    if (inspectorMatch) {
-      inspectorAppointmentSlotRef.value = inspectorMatch
+    const majorMatch = findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots)
+    if (majorMatch) {
+      majorAppointmentSlotRef.value = majorMatch
     }
   }
 
-  // Match second slot to client (if exists)
+  // Match second slot to minor (if exists)
   if (loadedSlots.length > 1) {
-    const clientMatch = findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots)
-    if (clientMatch) {
-      clientAppointmentSlotRef.value = clientMatch
+    const minorMatch = findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots)
+    if (minorMatch) {
+      minorAppointmentSlotRef.value = minorMatch
     }
   }
 }
@@ -143,25 +149,25 @@ export function matchLoadedTimeSlots(
  * 
  * @param loadedSlots - Array of loaded time slots from saved appointment
  * @param availableSlots - Array of currently available TimeSlot objects
- * @returns Object with matched inspector and client slots (or null if no match)
+ * @returns Object with matched major and minor slots (or null if no match)
  */
 export function matchLoadedTimeSlotsImmutable(
   loadedSlots: LoadedTimeSlot[],
   availableSlots: TimeSlot[]
-): { inspectorSlot: TimeSlot | null; clientSlot: TimeSlot | null } {
+): { majorSlot: TimeSlot | null; minorSlot: TimeSlot | null } {
   if (loadedSlots.length === 0 || availableSlots.length === 0) {
-    return { inspectorSlot: null, clientSlot: null }
+    return { majorSlot: null, minorSlot: null }
   }
 
-  const inspectorSlot = loadedSlots.length > 0
+  const majorSlot = loadedSlots.length > 0
     ? findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots) ?? null
     : null
 
-  const clientSlot = loadedSlots.length > 1
+  const minorSlot = loadedSlots.length > 1
     ? findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots) ?? null
     : null
 
-  return { inspectorSlot, clientSlot }
+  return { majorSlot, minorSlot }
 }
 
 /**
@@ -171,11 +177,14 @@ export function matchLoadedTimeSlotsImmutable(
  * WHY: AppointmentSlots are normalized by orderIndex for consistent UI positioning
  * PATTERN: Find AppointmentSlot with matching orderIndex
  * 
+ * LEARNING: Function used internally - not exported as it's not part of public API
+ * WHY: This function is only used within this file by other functions
+ * 
  * @param appointmentSlots - Array of AppointmentSlot objects
  * @param orderIndex - Normalized order index to find
  * @returns Matching AppointmentSlot or undefined if not found
  */
-export function findAppointmentSlotByOrderIndex(
+function findAppointmentSlotByOrderIndex(
   appointmentSlots: AppointmentSlots,
   orderIndex: number
 ): import('@/types/appointment').AppointmentSlot | undefined {
@@ -192,27 +201,31 @@ export function findAppointmentSlotByOrderIndex(
  * @param loadedSlot - Loaded time slot from saved appointment
  * @param appointmentSlots - Array of AppointmentSlot objects
  * @param orderIndex - Normalized order index to match
- * @param timeBasis - Time perspective ('inspector' | 'client' | 'nonDifferential')
+ * @param timeBasis - Time perspective ('major' | 'minor' | 'nonDifferential')
  * @returns Matching TimeSlot or undefined if no match found
  */
 export function findMatchingAppointmentSlot(
   loadedSlot: LoadedTimeSlot,
   appointmentSlots: AppointmentSlots,
   orderIndex: number,
-  timeBasis: 'inspector' | 'client' | 'nonDifferential'
+  timeBasis: 'major' | 'minor' | 'nonDifferential'
 ): TimeSlot | TimeRange | undefined {
   const appointmentSlot = findAppointmentSlotByOrderIndex(appointmentSlots, orderIndex)
   if (!appointmentSlot) return undefined
 
-  // LEARNING: Extract TimeSlot or TimeRange based on time perspective
+  // LEARNING: Extract TimeRange based on time perspective
   // WHY: Different perspectives show different times at the same position
-  // PATTERN: Prefer TimeSlot (clientPresentation, dataCollection), fallback to TimeRange (totalTime, totalOnSite)
-  let slot: TimeSlot | TimeRange | null = null
+  // PATTERN: Use eventTimeRanges lookup by event name (configured via availabilitySettings)
+  let slot: TimeRange | null = null
   
-  if (timeBasis === 'client') {
-    slot = appointmentSlot.clientPresentation || appointmentSlot.totalTime
+  if (timeBasis === 'minor') {
+    // TODO: Get minor event name from availabilitySettings
+    const minorEventName = 'Minor'
+    slot = appointmentSlot.eventTimeRanges?.[minorEventName] || appointmentSlot.totalTimeRange
   } else {
-    slot = appointmentSlot.dataCollection || appointmentSlot.totalTime || appointmentSlot.totalOnSite
+    // TODO: Get major event name from availabilitySettings
+    const majorEventName = 'Major'
+    slot = appointmentSlot.eventTimeRanges?.[majorEventName] || appointmentSlot.totalTimeRange
   }
 
   if (!slot) return undefined
@@ -233,60 +246,64 @@ export function findMatchingAppointmentSlot(
  * WHY: For AppointmentSlots structure, matching is by orderIndex (position) rather than exact time
  * PATTERN: Match first loaded slot to first AppointmentSlot (orderIndex 0), second to second, etc.
  * 
+ * LEARNING: Function not exported - unused in codebase
+ * WHY: This function is not currently used, kept for potential future use
+ * NOTE: If needed in future, uncomment export
+ * 
  * @param loadedSlots - Array of loaded time slots from saved appointment
  * @param appointmentSlots - Array of AppointmentSlot objects
- * @param inspectorAppointmentSlotRef - Ref to update with matched inspector appointment slot
- * @param clientAppointmentSlotRef - Ref to update with matched client appointment slot
- * @param timeBasis - Current time perspective ('inspector' | 'client' | 'nonDifferential')
+ * @param majorAppointmentSlotRef - Ref to update with matched major appointment slot
+ * @param minorAppointmentSlotRef - Ref to update with matched minor appointment slot
+ * @param timeBasis - Current time perspective ('major' | 'minor' | 'nonDifferential')
  */
-export function matchLoadedTimeSlotsToAppointmentSlots(
+function matchLoadedTimeSlotsToAppointmentSlots(
   loadedSlots: LoadedTimeSlot[],
   appointmentSlots: AppointmentSlots,
-  inspectorAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
-  clientAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
-  timeBasis: 'inspector' | 'client' | 'nonDifferential' = 'nonDifferential'
+  majorAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
+  minorAppointmentSlotRef: Ref<TimeSlot | TimeRange | null>,
+  timeBasis: 'major' | 'minor' | 'nonDifferential' = 'nonDifferential'
 ): void {
   if (loadedSlots.length === 0 || appointmentSlots.length === 0) return
 
-  // LEARNING: Match first slot to inspector (orderIndex 0)
-  // WHY: First loaded slot represents inspector start time
-  // PATTERN: Find AppointmentSlot at orderIndex 0, extract inspector perspective TimeSlot
+  // LEARNING: Match first slot to major (orderIndex 0)
+  // WHY: First loaded slot represents major start time
+  // PATTERN: Find AppointmentSlot at orderIndex 0, extract major perspective TimeSlot
   if (loadedSlots.length > 0) {
-    const inspectorMatch = findMatchingAppointmentSlot(
+    const majorMatch = findMatchingAppointmentSlot(
       loadedSlots[0],
       appointmentSlots,
       0,
-      timeBasis === 'nonDifferential' ? 'inspector' : timeBasis
+      timeBasis === 'nonDifferential' ? 'major' : timeBasis
     )
-    if (inspectorMatch) {
-      inspectorAppointmentSlotRef.value = inspectorMatch
+    if (majorMatch) {
+      majorAppointmentSlotRef.value = majorMatch
     }
   }
 
-  // LEARNING: Match second slot to client (orderIndex 0 or 1, depending on structure)
-  // WHY: Second loaded slot represents client start time (if different from inspector)
+  // LEARNING: Match second slot to minor (orderIndex 0 or 1, depending on structure)
+  // WHY: Second loaded slot represents minor start time (if different from major)
   // PATTERN: Try orderIndex 0 first (same position, different time), then orderIndex 1
   if (loadedSlots.length > 1) {
     // Try matching at same orderIndex first (differential - same position, different time)
-    let clientMatch = findMatchingAppointmentSlot(
+    let minorMatch = findMatchingAppointmentSlot(
       loadedSlots[1],
       appointmentSlots,
       0,
-      'client'
+      'minor'
     )
     
     // If no match at orderIndex 0, try orderIndex 1 (different position)
-    if (!clientMatch && appointmentSlots.length > 1) {
-      clientMatch = findMatchingAppointmentSlot(
+    if (!minorMatch && appointmentSlots.length > 1) {
+      minorMatch = findMatchingAppointmentSlot(
         loadedSlots[1],
         appointmentSlots,
         1,
-        'client'
+        'minor'
       )
     }
     
-    if (clientMatch) {
-      clientAppointmentSlotRef.value = clientMatch
+    if (minorMatch) {
+      minorAppointmentSlotRef.value = minorMatch
     }
   }
 }

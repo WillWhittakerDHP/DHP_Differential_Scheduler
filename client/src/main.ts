@@ -79,24 +79,44 @@ if (typeof window !== 'undefined') {
  * WHY: May discourage some password managers from scanning forms
  */
 if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') {
+  /**
+   * LEARNING: Extract form patching logic to pure function
+   * WHY: Separates DOM mutation logic from iteration logic
+   * PATTERN: Pure function that handles single element, returns forms to patch
+   */
+  const patchElementForms = (element: HTMLElement): HTMLFormElement[] => {
+    // Patch element itself if it's a form
+    if (element.tagName === 'FORM' && element.classList.contains('dynamic-form-inputs')) {
+      patchFormElements(element as HTMLFormElement)
+    }
+    
+    // LEARNING: Use map to transform NodeList to array functionally
+    // WHY: Functional approach - transform array without mutations
+    // PATTERN: Map to transform NodeList to array of HTMLFormElement, return directly
+    const nestedForms = element.querySelectorAll?.('form.dynamic-form-inputs')
+    if (nestedForms) {
+      return Array.from(nestedForms).map((form: Element) => form as HTMLFormElement)
+    }
+    
+    return []
+  }
+
   const globalFormObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const element = node as HTMLElement
-          
-          // Patch forms
-          if (element.tagName === 'FORM' && element.classList.contains('dynamic-form-inputs')) {
-            patchFormElements(element as HTMLFormElement)
-          }
-          
-          // Patch forms inside added nodes
-          const forms = element.querySelectorAll?.('form.dynamic-form-inputs')
-          forms?.forEach((form: Element) => {
-            patchFormElements(form as HTMLFormElement)
-          })
-        }
-      })
+    // LEARNING: Use flatMap to flatten nested structure and collect all forms
+    // WHY: Functional approach - collect all forms first, then patch them
+    // PATTERN: flatMap to transform mutations → nodes → elements → forms
+    const allFormsToPatch = mutations.flatMap((mutation) =>
+      Array.from(mutation.addedNodes)
+        .filter((node): node is HTMLElement => node.nodeType === Node.ELEMENT_NODE)
+        .flatMap((element) => {
+          const forms = patchElementForms(element)
+          return forms
+        })
+    )
+    
+    // Patch all collected forms
+    allFormsToPatch.forEach((form) => {
+      patchFormElements(form)
     })
   })
   
@@ -107,11 +127,13 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
     })
   }
   
-  // Patch existing forms
+  // LEARNING: Use for...of for side effects (DOM mutations)
+  // WHY: for...of is acceptable for side effects per workspace rules
+  // PATTERN: Use for...of when you need side effects, not transformations
   const existingForms = document.querySelectorAll('form.dynamic-form-inputs')
-  existingForms.forEach((form: Element) => {
+  for (const form of Array.from(existingForms)) {
     patchFormElements(form as HTMLFormElement)
-  })
+  }
 }
 
 /**

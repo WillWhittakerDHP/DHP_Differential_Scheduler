@@ -16,12 +16,13 @@ export default {
     const blockFields = [
       { fieldKey: 'active', dataType: 'boolean', controlType: 'toggle', label: 'Active', isRequired: false, displayOrder: 1 },
       { fieldKey: 'composable', dataType: 'boolean', controlType: 'toggle', label: 'Composable', isRequired: false, displayOrder: 2 },
-      { fieldKey: 'constituable', dataType: 'boolean', controlType: 'toggle', label: 'Constituable', isRequired: false, displayOrder: 3 },
-      { fieldKey: 'allowMultiple', dataType: 'boolean', controlType: 'toggle', label: 'Allow Multiple', isRequired: false, displayOrder: 4 },
-      { fieldKey: 'differential', dataType: 'boolean', controlType: 'toggle', label: 'Differential', isRequired: false, displayOrder: 5 },
-      { fieldKey: 'requiresUnitNumber', dataType: 'boolean', controlType: 'toggle', label: 'Requires Unit Number', isRequired: false, displayOrder: 6 },
-      { fieldKey: 'baseSqFt', dataType: 'number', controlType: 'number', label: 'Base Sq Ft', isRequired: false, displayOrder: 7 },
-      { fieldKey: 'icon', dataType: 'string', controlType: 'text', label: 'Icon', isRequired: false, displayOrder: 8 },
+      { fieldKey: 'canHaveParts', dataType: 'boolean', controlType: 'toggle', label: 'Can Have Parts', isRequired: false, displayOrder: 3 },
+      { fieldKey: 'isStateControl', dataType: 'boolean', controlType: 'toggle', label: 'State Control', isRequired: false, displayOrder: 4 },
+      { fieldKey: 'allowMultiple', dataType: 'boolean', controlType: 'toggle', label: 'Allow Multiple', isRequired: false, displayOrder: 5 },
+      { fieldKey: 'differential', dataType: 'boolean', controlType: 'toggle', label: 'Differential', isRequired: false, displayOrder: 6 },
+      { fieldKey: 'requiresUnitNumber', dataType: 'boolean', controlType: 'toggle', label: 'Requires Unit Number', isRequired: false, displayOrder: 7 },
+      { fieldKey: 'baseSqFt', dataType: 'number', controlType: 'number', label: 'Base Sq Ft', isRequired: false, displayOrder: 8 },
+      { fieldKey: 'icon', dataType: 'string', controlType: 'text', label: 'Icon', isRequired: false, displayOrder: 9 },
       // LEARNING: Relationship fields should NOT be seeded in primitive metadata
       // WHY: activeParts, instanceComponents, bookingCascades, and dependentInstanceOptions
       //      are defined in RELATIONSHIP_KEYS and should only exist in admin_relationship_metadata

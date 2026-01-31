@@ -21,7 +21,8 @@ function createBlockInstance(
   name: string,
   baseFee: number,
   allowMultiple = false,
-  number?: number
+  number?: number,
+  rateOverBaseFee = 0
 ): BookingBlockInstance {
   return {
     id,
@@ -33,6 +34,15 @@ function createBlockInstance(
         id: `part-${id}`,
         name: `Part ${id}`,
         baseFee,
+        rateOverBaseFee,
+        baseTime: 0,
+        rateOverBaseTime: 0,
+        onSite: false,
+        clientPresent: false,
+        moveable: false,
+        orderIndex: 0,
+        active: true,
+        zeroOutPart: false,
       }
     ],
     blockShapeRef: 'shape-1',
@@ -50,6 +60,7 @@ describe('useConfirmationStepData', () => {
         selectedServices: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
         selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
       }
       
@@ -77,6 +88,8 @@ describe('useConfirmationStepData', () => {
       
       // Initial price should be baseFee * 1 = 100
       expect(priceData.value.totalFee).toBe(100)
+      expect(priceData.value.baseFeeTotal).toBe(100)
+      expect(priceData.value.overageFeeTotal).toBe(0) // No rateOverBaseFee
       
       // Change ADU to 2
       propertyDetailsStepData.value.additionalUnits = 2
@@ -84,6 +97,8 @@ describe('useConfirmationStepData', () => {
       
       // Price should update to baseFee * 2 = 200
       expect(priceData.value.totalFee).toBe(200)
+      expect(priceData.value.baseFeeTotal).toBe(200)
+      expect(priceData.value.overageFeeTotal).toBe(0)
       
       // Change ADU to 3
       propertyDetailsStepData.value.additionalUnits = 3
@@ -91,6 +106,8 @@ describe('useConfirmationStepData', () => {
       
       // Price should update to baseFee * 3 = 300
       expect(priceData.value.totalFee).toBe(300)
+      expect(priceData.value.baseFeeTotal).toBe(300)
+      expect(priceData.value.overageFeeTotal).toBe(0)
     })
     
     it('should handle null additionalUnits', async () => {
@@ -100,6 +117,7 @@ describe('useConfirmationStepData', () => {
         selectedServices: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
         selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
       }
       
@@ -135,6 +153,7 @@ describe('useConfirmationStepData', () => {
         selectedServices: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
         selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
       }
       
@@ -168,6 +187,8 @@ describe('useConfirmationStepData', () => {
       
       // Price should update to baseFee * 5 = 500
       expect(priceData.value.totalFee).toBe(500)
+      expect(priceData.value.baseFeeTotal).toBe(500)
+      expect(priceData.value.overageFeeTotal).toBe(0)
     })
     
     it('should handle undefined propertyDetailsStepData', () => {
@@ -177,6 +198,7 @@ describe('useConfirmationStepData', () => {
         selectedServices: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
         selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
       }
       
@@ -187,6 +209,8 @@ describe('useConfirmationStepData', () => {
       
       // Should default to multiplier of 1 when propertyDetailsStepData is null
       expect(priceData.value.totalFee).toBe(100)
+      expect(priceData.value.baseFeeTotal).toBe(100)
+      expect(priceData.value.overageFeeTotal).toBe(0)
     })
     
     it('should apply ADU multiplier to services with allowMultiple: true', async () => {
@@ -197,6 +221,7 @@ describe('useConfirmationStepData', () => {
         selectedServices: ref<BookingBlockInstance[]>([service1, service2]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
         selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
       }
       
@@ -234,6 +259,7 @@ describe('useConfirmationStepData', () => {
         selectedServices: ref<BookingBlockInstance[]>([]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([propertyTypeBlock]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
         selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
       }
       
@@ -260,6 +286,8 @@ describe('useConfirmationStepData', () => {
       
       // Property adjustment: 50 * 3 = 150
       expect(priceData.value.totalFee).toBe(150)
+      expect(priceData.value.baseFeeTotal).toBe(150)
+      expect(priceData.value.overageFeeTotal).toBe(0)
     })
     
     it('should track dependencies correctly when wizard selections change', async () => {
@@ -269,6 +297,7 @@ describe('useConfirmationStepData', () => {
         selectedServices: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
         selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
       }
       
@@ -295,6 +324,8 @@ describe('useConfirmationStepData', () => {
       
       // Initial: 100 * 2 = 200
       expect(priceData.value.totalFee).toBe(200)
+      expect(priceData.value.baseFeeTotal).toBe(200)
+      expect(priceData.value.overageFeeTotal).toBe(0)
       
       // Change service selection
       const newService = createBlockInstance('service-2', 'New Service', 150, true)
@@ -303,6 +334,293 @@ describe('useConfirmationStepData', () => {
       
       // Should update: 150 * 2 = 300
       expect(priceData.value.totalFee).toBe(300)
+      expect(priceData.value.baseFeeTotal).toBe(300)
+      expect(priceData.value.overageFeeTotal).toBe(0)
+    })
+    
+    it('should calculate overage fees when square footage is provided', async () => {
+      const service = createBlockInstance('service-1', 'Test Service', 100, false, undefined, 0.5)
+      
+      const wizard = {
+        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
+        selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
+      }
+      
+      const propertyDetailsStepData = ref({
+        address: '123 Main St',
+        unit: '',
+        city: 'City',
+        state: 'ST',
+        zipCode: '12345',
+        propertySize: 2000,
+        numberOfUnits: null,
+        mlsNumber: '',
+        squareFootage: 2000,
+        bedrooms: 2,
+        bathrooms: 1,
+        foundationAccess: null as const,
+        additionalUnits: null,
+      })
+      
+      const { priceData } = useConfirmationStepData({
+        wizard,
+        propertyDetailsStepData,
+      })
+      
+      // baseFee: 100, overageFee: 0.5 * 2000 = 1000
+      expect(priceData.value.baseFeeTotal).toBe(100)
+      expect(priceData.value.overageFeeTotal).toBe(1000)
+      expect(priceData.value.totalFee).toBe(1100) // 100 + 1000
+    })
+    
+    it('should use propertySize as fallback when squareFootage is null', async () => {
+      const service = createBlockInstance('service-1', 'Test Service', 100, false, undefined, 0.5)
+      
+      const wizard = {
+        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
+        selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
+      }
+      
+      const propertyDetailsStepData = ref({
+        address: '123 Main St',
+        unit: '',
+        city: 'City',
+        state: 'ST',
+        zipCode: '12345',
+        propertySize: 2000,
+        numberOfUnits: null,
+        mlsNumber: '',
+        squareFootage: null, // null, should use propertySize
+        bedrooms: 2,
+        bathrooms: 1,
+        foundationAccess: null as const,
+        additionalUnits: null,
+      })
+      
+      const { priceData } = useConfirmationStepData({
+        wizard,
+        propertyDetailsStepData,
+      })
+      
+      // baseFee: 100, overageFee: 0.5 * 2000 = 1000 (using propertySize)
+      expect(priceData.value.baseFeeTotal).toBe(100)
+      expect(priceData.value.overageFeeTotal).toBe(1000)
+      expect(priceData.value.totalFee).toBe(1100)
+    })
+    
+    it('should return 0 overage fee when both squareFootage and propertySize are null', async () => {
+      const service = createBlockInstance('service-1', 'Test Service', 100, false, undefined, 0.5)
+      
+      const wizard = {
+        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
+        selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
+      }
+      
+      const propertyDetailsStepData = ref({
+        address: '123 Main St',
+        unit: '',
+        city: 'City',
+        state: 'ST',
+        zipCode: '12345',
+        propertySize: null,
+        numberOfUnits: null,
+        mlsNumber: '',
+        squareFootage: null,
+        bedrooms: 2,
+        bathrooms: 1,
+        foundationAccess: null as const,
+        additionalUnits: null,
+      })
+      
+      const { priceData } = useConfirmationStepData({
+        wizard,
+        propertyDetailsStepData,
+      })
+      
+      // baseFee: 100, overageFee: 0 (no square footage)
+      expect(priceData.value.baseFeeTotal).toBe(100)
+      expect(priceData.value.overageFeeTotal).toBe(0)
+      expect(priceData.value.totalFee).toBe(100)
+    })
+    
+    it('should update overage fees reactively when square footage changes', async () => {
+      const service = createBlockInstance('service-1', 'Test Service', 100, false, undefined, 0.5)
+      
+      const wizard = {
+        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
+        selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
+      }
+      
+      const propertyDetailsStepData = ref({
+        address: '123 Main St',
+        unit: '',
+        city: 'City',
+        state: 'ST',
+        zipCode: '12345',
+        propertySize: 1000,
+        numberOfUnits: null,
+        mlsNumber: '',
+        squareFootage: 1000,
+        bedrooms: 2,
+        bathrooms: 1,
+        foundationAccess: null as const,
+        additionalUnits: null,
+      })
+      
+      const { priceData } = useConfirmationStepData({
+        wizard,
+        propertyDetailsStepData,
+      })
+      
+      // Initial: baseFee: 100, overageFee: 0.5 * 1000 = 500
+      expect(priceData.value.baseFeeTotal).toBe(100)
+      expect(priceData.value.overageFeeTotal).toBe(500)
+      expect(priceData.value.totalFee).toBe(600)
+      
+      // Change square footage
+      propertyDetailsStepData.value.squareFootage = 2000
+      await nextTick()
+      
+      // Updated: baseFee: 100, overageFee: 0.5 * 2000 = 1000
+      expect(priceData.value.baseFeeTotal).toBe(100)
+      expect(priceData.value.overageFeeTotal).toBe(1000)
+      expect(priceData.value.totalFee).toBe(1100)
+    })
+    
+    it('should apply ADU multiplier to both base and overage fees', async () => {
+      const service = createBlockInstance('service-1', 'Test Service', 100, true, undefined, 0.5)
+      
+      const wizard = {
+        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
+        selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
+      }
+      
+      const propertyDetailsStepData = ref({
+        address: '123 Main St',
+        unit: '',
+        city: 'City',
+        state: 'ST',
+        zipCode: '12345',
+        propertySize: 2000,
+        numberOfUnits: null,
+        mlsNumber: '',
+        squareFootage: 2000,
+        bedrooms: 2,
+        bathrooms: 1,
+        foundationAccess: null as const,
+        additionalUnits: 3,
+      })
+      
+      const { priceData } = useConfirmationStepData({
+        wizard,
+        propertyDetailsStepData,
+      })
+      
+      // baseFee: 100 * 3 = 300, overageFee: (0.5 * 2000) * 3 = 3000
+      expect(priceData.value.baseFeeTotal).toBe(300)
+      expect(priceData.value.overageFeeTotal).toBe(3000)
+      expect(priceData.value.totalFee).toBe(3300) // 300 + 3000
+    })
+    
+    it('should calculate line item fees reactively', async () => {
+      const service = createBlockInstance('service-1', 'Test Service', 100)
+      const lineItem1 = createBlockInstance('li1', 'Delivery', 25)
+      const lineItem2 = createBlockInstance('li2', 'Setup', 15)
+      
+      const wizard = {
+        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([lineItem1]),
+        selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
+      }
+      
+      const propertyDetailsStepData = ref({
+        address: '123 Main St',
+        unit: '',
+        city: 'City',
+        state: 'ST',
+        zipCode: '12345',
+        propertySize: 1000,
+        numberOfUnits: null,
+        mlsNumber: '',
+        squareFootage: null,
+        bedrooms: 2,
+        bathrooms: 1,
+        foundationAccess: null as const,
+        additionalUnits: null,
+      })
+      
+      const { priceData } = useConfirmationStepData({
+        wizard,
+        propertyDetailsStepData,
+      })
+      
+      // Initial: 100 (service) + 25 (line item) = 125
+      expect(priceData.value.totalFee).toBe(125)
+      expect(priceData.value.lineItemFees?.totalFee).toBe(25)
+      expect(priceData.value.lineItems).toHaveLength(1)
+      
+      // Add another line item
+      wizard.selectedLineItemBlocks.value = [lineItem1, lineItem2]
+      await nextTick()
+      
+      // Updated: 100 + 25 + 15 = 140
+      expect(priceData.value.totalFee).toBe(140)
+      expect(priceData.value.lineItemFees?.totalFee).toBe(40)
+      expect(priceData.value.lineItems).toHaveLength(2)
+    })
+    
+    it('should apply ADU multiplier to line items with allowMultiple', async () => {
+      const lineItem = createBlockInstance('li1', 'Delivery', 25, true) // allowMultiple: true
+      
+      const wizard = {
+        selectedServices: ref<BookingBlockInstance[]>([]),
+        selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([lineItem]),
+        selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
+      }
+      
+      const propertyDetailsStepData = ref({
+        address: '123 Main St',
+        unit: '',
+        city: 'City',
+        state: 'ST',
+        zipCode: '12345',
+        propertySize: 1000,
+        numberOfUnits: null,
+        mlsNumber: '',
+        squareFootage: null,
+        bedrooms: 2,
+        bathrooms: 1,
+        foundationAccess: null as const,
+        additionalUnits: 3,
+      })
+      
+      const { priceData } = useConfirmationStepData({
+        wizard,
+        propertyDetailsStepData,
+      })
+      
+      // Line item: 25 * 3 = 75
+      expect(priceData.value.totalFee).toBe(75)
+      expect(priceData.value.lineItemFees?.totalFee).toBe(75)
     })
   })
   
@@ -314,6 +632,7 @@ describe('useConfirmationStepData', () => {
         selectedServices: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
+        selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
         selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
       }
       

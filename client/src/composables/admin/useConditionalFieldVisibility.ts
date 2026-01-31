@@ -20,6 +20,7 @@ export interface FieldsByLocation {
     parts: GlobalFieldKey<GlobalEntityKey>[]
     relationships: GlobalFieldKey<GlobalEntityKey>[]
     annotations: GlobalFieldKey<GlobalEntityKey>[]
+    events: GlobalFieldKey<GlobalEntityKey>[]
   }
   hidden: GlobalFieldKey<GlobalEntityKey>[]
 }
@@ -43,7 +44,7 @@ export interface UseConditionalFieldVisibilityReturn {
 export function useConditionalFieldVisibility(
   options: UseConditionalFieldVisibilityOptions
 ): UseConditionalFieldVisibilityReturn {
-  const { fieldsByLocation, entityKey, isComposable, form } = options
+  const { fieldsByLocation, isComposable, form } = options
 
   const filteredFieldsByLocation = computed<FieldsByLocation>(() => {
     const base = fieldsByLocation.value
@@ -81,7 +82,8 @@ export function useConditionalFieldVisibility(
       directStacked: filteredDirectStacked,
       subPanels: {
         ...base.subPanels,
-        relationships: filteredRelationships
+        relationships: filteredRelationships,
+        events: base.subPanels.events || []
       }
     }
   })

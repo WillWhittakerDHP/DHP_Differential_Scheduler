@@ -17,11 +17,12 @@ import { buildDisplayFieldConfig as buildDynamicDisplayFieldConfig } from './fie
  * LEARNING: Field visibility types aligned with FieldMetadataEntry
  * WHY: Single source of truth for field configuration - matches database fieldMetadata structure
  * PATTERN: Same types as FieldMetadataEntry in entityMetadata.ts
+ * NOTE: These types are used internally in FieldMetadata interface - not exported as they're not used outside this file
  */
-export type FieldVisibility = 'titleRow' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
-export type SubPanelType = 'parts' | 'relationships' | 'annotations' | 'none'
-export type FieldLayout = 'inline' | 'stacked'
-export type FieldRenderAs = 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect'
+type FieldVisibility = 'titleRow' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
+type SubPanelType = 'parts' | 'relationships' | 'annotations' | 'events' | 'none'
+type FieldLayout = 'inline' | 'stacked'
+type FieldRenderAs = 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect'
 
 /**
  * LEARNING: FieldMetadata interface aligned with FieldMetadataEntry
@@ -77,7 +78,14 @@ export interface FieldMetadata {
  * PATTERN: Fields with visibility: 'hidden' in metadata won't render
  * NOTE: inlineFields/stackedFields are layout hints for expandedDirect fields
  */
-export function buildInstanceConfig() {
+/**
+ * LEARNING: Field visibility comes from metadata, not config
+ * WHY: Metadata is the single source of truth for which fields should render
+ * PATTERN: Fields with visibility: 'hidden' in metadata won't render
+ * NOTE: inlineFields/stackedFields are layout hints for expandedDirect fields
+ * NOTE: Internal function only - not exported as it's only used by buildAdminConfig
+ */
+function buildInstanceConfig() {
   /**
    * LEARNING: All field configuration removed - now 100% metadata-driven
    * WHY: Field configuration controlled by database metadata via /admin-input-metadata
@@ -97,6 +105,22 @@ export function buildInstanceConfig() {
     blockShape: {
       titleField: 'name',
       fields: undefined, // Metadata-driven (was hardcoded)
+    },
+    eventShape: {
+      titleField: 'name',
+      fields: undefined, // Metadata-driven
+    },
+    eventInstance: {
+      titleField: 'name',
+      fields: undefined, // Metadata-driven
+    },
+    annotationShape: {
+      titleField: 'name',
+      fields: undefined, // Metadata-driven
+    },
+    annotationInstance: {
+      titleField: 'name',
+      fields: undefined, // Metadata-driven
     },
     partInstance: {
       titleField: 'partShapeRef',

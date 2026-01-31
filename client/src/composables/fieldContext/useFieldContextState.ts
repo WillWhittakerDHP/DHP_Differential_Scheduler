@@ -3,10 +3,11 @@ import { useField, useForm, type FieldOptions } from 'vee-validate'
 import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
 import { usePrimitiveMutation } from '@/composables/useEntity'
 import { useAdmin } from '@/composables/useAdmin'
 import { useComponentEntity } from '@/composables/useComponentEntity'
+import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import type { FieldDisplayConfig, FieldValidationRules } from './types'
 
 export type UseFieldContextStateOptions<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
@@ -90,6 +91,39 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     return adminComp.getEntity(entityKey, entityId)
   })
 
+  // LEARNING: Get field metadata to check for globalField mapping
+  // WHY: Some fields (like attendeeAssignments) use globalField to map to different property names (attendees)
+  // PATTERN: Use useEntityMetadata to get inputConfig.globalField if available
+  // LEARNING: Convert AdminObject to GlobalEntity for useEntityMetadata
+  // WHY: useEntityMetadata expects GlobalEntity | null, but entity is AdminObject | undefined
+  // PATTERN: Map undefined to null and cast AdminObject to GlobalEntity (they're compatible)
+  const entityForMetadata = computed(() => {
+    const entityValue = entity.value
+    if (!entityValue) return null
+    return entityValue as GlobalEntity<GE>
+  })
+  const { fieldMetadata } = useEntityMetadata(entityKey, entityForMetadata)
+  const fieldMetadataEntry = computed(() => {
+    if (!fieldMetadata.value) {
+      return undefined
+    }
+    return fieldMetadata.value[String(fieldKey)]
+  })
+  
+  // LEARNING: Determine the actual property name to read from entity
+  // WHY: Some fields use globalField in inputConfig to map to different property names
+  // PATTERN: Check inputConfig.globalField first, fallback to fieldKey
+  const actualPropertyName = computed(() => {
+    const metadata = fieldMetadataEntry.value
+    if (metadata?.inputConfig && typeof metadata.inputConfig === 'object') {
+      const inputConfig = metadata.inputConfig as Record<string, unknown>
+      if (inputConfig.globalField && typeof inputConfig.globalField === 'string') {
+        return inputConfig.globalField
+      }
+    }
+    return String(fieldKey)
+  })
+
   const entityValue = computed<ValidAdminValue>(() => {
     if (isTempEntity.value) {
       return ''
@@ -105,9 +139,12 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
       return ''
     }
 
-    const fieldKeyString = String(fieldKey)
-    if (Object.prototype.hasOwnProperty.call(currentEntity, fieldKeyString)) {
-      const propValue = (currentEntity as Record<string, unknown>)[fieldKeyString]
+    // LEARNING: Use actualPropertyName instead of fieldKey to handle globalField mappings
+    // WHY: attendeeAssignments field maps to 'attendees' property via globalField
+    // PATTERN: Read from actualPropertyName which checks inputConfig.globalField
+    const propertyName = actualPropertyName.value
+    if (Object.prototype.hasOwnProperty.call(currentEntity, propertyName)) {
+      const propValue = (currentEntity as Record<string, unknown>)[propertyName]
       return (propValue as ValidAdminValue | undefined) ?? ''
     }
     return ''

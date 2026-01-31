@@ -9,6 +9,7 @@
 import { computed, ref, watch, nextTick } from 'vue'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import PartsCollection from './collections/PartsCollection.vue'
+import RelationshipCollection from './collections/RelationshipCollection.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -22,6 +23,7 @@ interface SubPanelFields {
   parts: Array<GlobalFieldKey<GlobalEntityKey>>
   relationships: Array<GlobalFieldKey<GlobalEntityKey>>
   annotations: Array<GlobalFieldKey<GlobalEntityKey>>
+  events: Array<GlobalFieldKey<GlobalEntityKey>>
 }
 
 interface Props {
@@ -116,49 +118,50 @@ function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInsta
  * PATTERN: Extract IDs from form values, resolve to names, format as truncated list
  */
 const partsSummary = computed((): string => {
-  // For blockInstance, parts come from activeParts (part instances that are components)
+  // For blockInstance, parts come from partAssignments (part instances that are components)
   // For other entities, parts might be empty
   if (props.entityKey !== 'blockInstance') return ''
   
-  const activeParts = props.form.values.activeParts
-  if (!Array.isArray(activeParts) || activeParts.length === 0) return ''
+  const partAssignments = props.form.values.partAssignments
+  if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''
   
-  // activeParts are partInstance IDs that are components of this instance
-  const names = getEntityNames(activeParts, 'partInstance')
+  // partAssignments are partInstance IDs that are components of this instance
+  const names = getEntityNames(partAssignments, 'partInstance')
   return formatTruncatedList(names)
 })
 
-/**
- * LEARNING: Check if a field is partsCollection based on metadata
- * WHY: Need to determine if field should render PartsCollection directly (for bulk edit access) or FieldRenderer
- * PATTERN: Use getFieldComponent() as single source of truth for component type determination
- */
-function isPartsCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
+  /**
+   * LEARNING: Check if a field is relationshipCollection based on metadata
+   * WHY: Need to determine if field should render RelationshipCollection directly (for bulk edit access) or FieldRenderer
+   * PATTERN: Use getFieldComponent() as single source of truth for component type determination
+   */
+function isRelationshipCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
   if (!props.fieldMetadata) return false
   
   const fieldMeta = props.fieldMetadata[String(fieldKey)]
   if (!fieldMeta) return false
   
   // LEARNING: Use getFieldComponent() as single source of truth
-  // WHY: getFieldComponent() determines component type from metadata, supporting renderAs: 'partsCollection'
+  // WHY: getFieldComponent() determines component type from metadata, supporting renderAs: 'relationshipCollection'
   // PATTERN: Check component type from dispatcher instead of duplicating logic
   const componentType = getFieldComponent(props.entityKey, fieldKey, fieldMeta)
-  return componentType.type === 'partsCollection'
+  return componentType.type === 'relationshipCollection'
 }
 
-// Ref to PartsCollection component to access exposed bulk edit methods
+// Ref to RelationshipCollection component to access exposed bulk edit methods
 // LEARNING: When ref is used inside v-for, Vue 3 creates an array of refs
 // WHY: Need to handle both single ref and array cases
 // PATTERN: Type as array to match Vue 3 behavior, access first element when needed
-const partsCollectionRef = ref<(InstanceType<typeof PartsCollection> | null)[] | InstanceType<typeof PartsCollection> | null>(null)
+// NOTE: RelationshipCollection is the generic component, PartsCollection wraps it
+const partsCollectionRef = ref<(InstanceType<typeof RelationshipCollection> | null)[] | InstanceType<typeof RelationshipCollection> | null>(null)
 
 // Track expanded panels state
 const expandedPanels = ref<string[]>([])
 
-// LEARNING: Helper to get the PartsCollection component instance
+// LEARNING: Helper to get the RelationshipCollection component instance
 // WHY: Handles both array (from v-for) and single ref cases
 // PATTERN: Extract first element if array, otherwise use directly
-const getPartsCollectionInstance = (): InstanceType<typeof PartsCollection> | null => {
+const getRelationshipCollectionInstance = (): InstanceType<typeof RelationshipCollection> | null => {
   const refValue = partsCollectionRef.value
   if (!refValue) return null
   // If it's an array (from v-for), get the first element
@@ -169,31 +172,37 @@ const getPartsCollectionInstance = (): InstanceType<typeof PartsCollection> | nu
   return refValue
 }
 
-// Computed properties for bulk edit state from PartsCollection
+// Computed properties for bulk edit state from RelationshipCollection
 // LEARNING: bulkEditMode is exposed as a Ref<boolean>
-// WHY: PartsCollection exposes bulkEditMode directly from usePartInstanceCollection
+// WHY: RelationshipCollection exposes bulkEditMode when enableBulkEdit is true
 // PATTERN: Access exposed property directly
 const partsBulkEditMode = computed(() => {
-  const instance = getPartsCollectionInstance()
-  return instance?.bulkEditMode ?? false
+  const instance = getRelationshipCollectionInstance()
+  // LEARNING: bulkEditMode is a Ref<boolean>, so access .value
+  // WHY: TypeScript needs explicit check that bulkEditMode exists and is a Ref
+  // PATTERN: Check if bulkEditMode exists and has a value property (is a Ref)
+  if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {
+    return (instance.bulkEditMode as { value: boolean }).value
+  }
+  return false
 })
 
 const togglePartsBulkEditMode = () => {
   // FIX: Expand panel first if not expanded, then toggle bulk edit mode
-  // WHY: PartsCollection is only mounted when panel is expanded, so we need to expand it first
+  // WHY: RelationshipCollection is only mounted when panel is expanded, so we need to expand it first
   // PATTERN: Ensure panel is expanded, wait for nextTick for component to mount, then toggle
   if (!expandedPanels.value.includes('parts')) {
     expandedPanels.value.push('parts')
-    // Wait for next tick to ensure PartsCollection is mounted
+    // Wait for next tick to ensure RelationshipCollection is mounted
     nextTick(() => {
-      const instance = getPartsCollectionInstance()
+      const instance = getRelationshipCollectionInstance()
       if (instance && typeof instance.toggleBulkEditMode === 'function') {
         instance.toggleBulkEditMode()
       }
     })
   } else {
-    // Panel is already expanded, PartsCollection should be mounted
-    const instance = getPartsCollectionInstance()
+    // Panel is already expanded, RelationshipCollection should be mounted
+    const instance = getRelationshipCollectionInstance()
     if (instance && typeof instance.toggleBulkEditMode === 'function') {
       instance.toggleBulkEditMode()
     }
@@ -256,7 +265,7 @@ const relationshipsSummary = computed((): string => {
 <template>
   <VExpansionPanels
     v-model="expandedPanels"
-    v-if="subPanelFields.parts.length || subPanelFields.relationships.length || subPanelFields.annotations.length"
+    v-if="subPanelFields.parts.length || subPanelFields.relationships.length || subPanelFields.annotations.length || subPanelFields.events.length"
     multiple
     class="mt-4"
   >
@@ -286,13 +295,14 @@ const relationshipsSummary = computed((): string => {
       </template>
       <template #text>
         <div v-for="fieldKey in subPanelFields.parts" :key="fieldKey" class="mb-4">
-          <!-- LEARNING: For partsCollection fields that need bulk edit access, render PartsCollection directly with ref -->
-          <!-- WHY: Bulk edit button in panel title needs access to PartsCollection's exposed methods -->
-          <!-- PATTERN: Check component type from metadata - if partsCollection, render PartsCollection with ref; otherwise use FieldRenderer -->
-          <PartsCollection
-            v-if="isPartsCollectionField(fieldKey)"
+          <!-- LEARNING: For relationshipCollection fields that need bulk edit access, render RelationshipCollection directly with ref -->
+          <!-- WHY: Bulk edit button in panel title needs access to RelationshipCollection's exposed methods -->
+          <!-- PATTERN: Check component type from metadata - if relationshipCollection, render RelationshipCollection with ref; otherwise use FieldRenderer -->
+          <RelationshipCollection
+            v-if="isRelationshipCollectionField(fieldKey)"
             ref="partsCollectionRef"
             :field-context="props.getFieldContext(fieldKey)!"
+            collection-type="parts"
           />
           <FieldRenderer
             v-else
@@ -337,6 +347,24 @@ const relationshipsSummary = computed((): string => {
           <FieldRenderer
             :field-context="props.getFieldContext(fieldKey)!"
             :show-label="false"
+          />
+        </div>
+      </template>
+    </VExpansionPanel>
+
+    <!-- LEARNING: Events Panel -->
+    <!-- WHY: Shows event instances configured for shapes -->
+    <!-- PATTERN: Simple panel with "Events" label -->
+    <VExpansionPanel v-if="subPanelFields.events.length" value="events">
+      <template #title>
+        <span class="font-weight-medium">Events</span>
+      </template>
+      <template #text>
+        <div v-for="fieldKey in subPanelFields.events" :key="fieldKey" class="mb-4">
+          <FieldRenderer
+            :field-context="props.getFieldContext(fieldKey)!"
+            :show-label="true"
+            :field-metadata="props.fieldMetadata"
           />
         </div>
       </template>

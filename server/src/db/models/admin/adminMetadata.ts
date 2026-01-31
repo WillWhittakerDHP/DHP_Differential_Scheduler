@@ -21,28 +21,24 @@ export class AdminMetadata extends Model<
 > {
   declare id: CreationOptional<string>;
   declare metadataType: 'primitive' | 'relationship';
-  declare entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance';
-  declare entityId: string;
+  declare entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance';
+  declare entityId: string; // Entity ID or sentinel UUID for global configs
   declare fieldKey: string; // Unified - replaces both fieldKey and relationshipKey
   declare blockShapeRef: CreationOptional<string | null>; // BlockShape ID for BlockShape-specific instance metadata
   // Canonical properties
-  declare dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+  declare dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   declare label: string;
   declare isRequired: boolean;
   // Layout/rendering properties
   declare visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
-  declare section: CreationOptional<string | null>;
-  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
   // Input configuration (for select/multiselect/reference fields)
   declare inputConfig: CreationOptional<Record<string, unknown> | null>;
-  // Inheritance
-  declare inheritsFromEntityType: CreationOptional<'blockShape' | 'partShape' | null>;
-  declare inheritsFromEntityId: CreationOptional<string | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -63,7 +59,7 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         comment: 'Discriminator: primitive or relationship metadata',
       },
       entityType: {
-        type: DataTypes.ENUM('blockShape', 'partShape', 'blockInstance', 'partInstance'),
+        type: DataTypes.ENUM('blockShape', 'partShape', 'blockInstance', 'partInstance', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance'),
         allowNull: false,
         field: 'entity_type',
         comment: 'Entity type for this metadata entry',
@@ -88,7 +84,7 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
       },
       // Canonical properties
       dataType: {
-        type: DataTypes.ENUM('string', 'number', 'boolean', 'array', 'reference'),
+        type: DataTypes.ENUM('string', 'number', 'boolean', 'ternary', 'array', 'reference'),
         allowNull: false,
         field: 'data_type',
         comment: 'Field data type',
@@ -125,17 +121,12 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         field: 'display_order',
         comment: 'Display order (lower = first). 999 = not configured.',
       },
-      section: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        comment: 'Optional section/group name',
-      },
       renderAs: {
-        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect', 'partsCollection'),
+        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect', 'relationshipCollection'),
         allowNull: false,
         defaultValue: 'text',
         field: 'render_as',
-        comment: 'How to render the field',
+        comment: 'How to render the field (relationshipCollection is the generic collection type)',
       },
       statusButtonColor: {
         type: DataTypes.STRING,
@@ -144,7 +135,7 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         comment: 'Color for statusButton rendering (Vuetify color name)',
       },
       panel: {
-        type: DataTypes.ENUM('none', 'parts', 'relationships', 'annotations'),
+        type: DataTypes.ENUM('none', 'parts', 'relationships', 'annotations', 'events'),
         allowNull: false,
         defaultValue: 'none',
         comment: 'Panel name for expandedPanel visibility',
@@ -160,20 +151,7 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         type: DataTypes.JSONB,
         allowNull: true,
         field: 'input_config',
-        comment: 'Input configuration for select/multiselect/reference/partsCollection fields',
-      },
-      // Inheritance
-      inheritsFromEntityType: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        field: 'inherits_from_entity_type',
-        comment: 'For instances: parent entity type (blockShape or partShape)',
-      },
-      inheritsFromEntityId: {
-        type: DataTypes.UUID,
-        allowNull: true,
-        field: 'inherits_from_entity_id',
-        comment: 'For instances: parent entity ID (shape ID)',
+        comment: 'Input configuration for select/multiselect/reference/relationshipCollection fields',
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -191,11 +169,9 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
     {
       sequelize,
       indexes: [
-        {
-          unique: true,
-          fields: ['entity_type', 'entity_id', 'metadata_type', 'field_key', 'block_shape_ref'],
-          name: 'admin_metadata_entity_metadata_field_unique',
-        },
+        // Note: Unique constraints and indexes are created in migrations
+        // See migration 20260131130300_drop_config_columns.mjs
+        // These are regular indexes for query performance
         {
           fields: ['entity_type', 'entity_id'],
           name: 'admin_metadata_entity_idx',
@@ -207,10 +183,6 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         {
           fields: ['metadata_type'],
           name: 'admin_metadata_metadata_type_idx',
-        },
-        {
-          fields: ['inherits_from_entity_type', 'inherits_from_entity_id'],
-          name: 'admin_metadata_inheritance_idx',
         },
         {
           fields: ['entity_type', 'block_shape_ref', 'field_key'],

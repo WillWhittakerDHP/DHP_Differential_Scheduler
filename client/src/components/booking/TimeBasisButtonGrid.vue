@@ -2,30 +2,42 @@
 /**
  * TimeBasisButtonGrid Component
  * 
- * LEARNING: Grid-styled buttons for selecting Inspector/Client time views
+ * LEARNING: Grid-styled buttons for selecting major/minor time views
  * WHY: Matches the styling of AppointmentSlotGrid buttons for visual consistency
  * PATTERN: Self-contained component with props/events for parent communication
  * 
  * Features:
  * - Two buttons styled like appointment slot grid buttons
- * - Inspector/Client toggle for differential services
+ * - Major/Minor toggle for differential services
  * - Responsive grid layout matching AppointmentSlotGrid
  */
 
+import { computed } from 'vue'
 import { useTimeBasisHandler, type TimeBasisHandlerProps, type TimeBasisHandlerEmits } from '@/composables/booking/useTimeBasisHandler'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 interface Props {
   isDifferentialService: boolean
-  startTimeType: 'inspector' | 'client' | 'nonDifferential'
+  startTimeType: 'major' | 'minor' | 'nonDifferential'
 }
 
 const props = defineProps<Props>()
 
 interface Emits {
-  (e: 'time-basis-change', type: 'inspector' | 'client'): void
+  (e: 'time-basis-change', type: 'major' | 'minor'): void
 }
 
 const emit = defineEmits<Emits>()
+
+// LEARNING: Get configured labels from availability settings
+// WHY: Labels are configurable in admin panel
+const { settings: availabilitySettings } = useAvailabilitySettings()
+const majorLabel = computed(() => 
+  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
+)
+const minorLabel = computed(() => 
+  availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+)
 
 // FIX: Use shared time basis handler from composable
 const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerProps, emit as unknown as TimeBasisHandlerEmits)
@@ -37,22 +49,22 @@ const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerPr
   <!-- PATTERN: CSS Grid with 2 columns, matching AppointmentSlotGrid styling -->
   <div v-if="isDifferentialService" class="time-basis-button-grid">
     <VBtn
-      :variant="startTimeType === 'inspector' ? 'flat' : 'outlined'"
+      :variant="startTimeType === 'major' ? 'flat' : 'outlined'"
       color="primary"
       size="small"
       class="time-basis-btn"
-      @click="handleTimeBasisClick('inspector')"
+      @click="handleTimeBasisClick('major')"
     >
-      Inspector Times
+      {{ majorLabel }} Times
     </VBtn>
     <VBtn
-      :variant="startTimeType === 'client' ? 'flat' : 'outlined'"
+      :variant="startTimeType === 'minor' ? 'flat' : 'outlined'"
       color="secondary"
       size="small"
       class="time-basis-btn"
-      @click="handleTimeBasisClick('client')"
+      @click="handleTimeBasisClick('minor')"
     >
-      Client Times
+      {{ minorLabel }} Times
     </VBtn>
   </div>
 </template>

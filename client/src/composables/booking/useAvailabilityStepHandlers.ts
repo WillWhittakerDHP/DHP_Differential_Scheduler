@@ -6,7 +6,7 @@
  * PATTERN: Composable that provides event handler functions
  */
 
-import { nextTick, type Ref } from 'vue'
+import { type Ref } from 'vue'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 
@@ -57,7 +57,7 @@ export interface UseAvailabilityStepHandlersParams {
   /**
    * Start time type ref (for time basis change handler)
    */
-  startTimeType: Ref<'inspector' | 'client' | 'nonDifferential'>
+  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
 }
 
 /**
@@ -87,10 +87,10 @@ export interface UseAvailabilityStepHandlersReturn {
   
   /**
    * Handler for Time Basis Graph time basis change event
-   * LEARNING: Updates startTimeType when TimeOnSiteGraph component emits change event
+   * LEARNING: Updates startTimeType when DifferentialGraph component emits change event
    * WHY: Maps UI labels to internal state
    */
-  handleTimeBasisChange: (type: 'inspector' | 'client') => void
+  handleTimeBasisChange: (type: 'major' | 'minor') => void
 }
 
 /**
@@ -105,9 +105,6 @@ export function useAvailabilityStepHandlers(
 ): UseAvailabilityStepHandlersReturn {
   const {
     appointmentSlotOrderIndex,
-    hasMoveableParts,
-    selectedSlot,
-    openMoveableModal,
     closeMoveableModal,
     moveableOptions,
     selectedMoveableSlotIndex,
@@ -164,10 +161,10 @@ export function useAvailabilityStepHandlers(
 
   /**
    * LEARNING: Handler for Time Basis Graph time basis change event
-   * WHY: Updates startTimeType when TimeOnSiteGraph component emits change event
+   * WHY: Updates startTimeType when DifferentialGraph component emits change event
    * PATTERN: Event handler that maps UI labels to internal state
    */
-  const handleTimeBasisChange = (type: 'inspector' | 'client'): void => {
+  const handleTimeBasisChange = (type: 'major' | 'minor'): void => {
     startTimeType.value = type
   }
 

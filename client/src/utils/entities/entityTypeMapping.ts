@@ -11,9 +11,9 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
 /**
- * Entity metadata type - used for admin_primitive_metadata table
+ * Entity metadata type - used for admin_metadata table
  */
-export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
+export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance'
 
 /**
  * Sentinel UUIDs for global shape entity configurations
@@ -22,6 +22,10 @@ export const BLOCK_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-00000000000
 export const PART_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000002'
 export const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003'
 export const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004'
+export const EVENT_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000010'
+export const EVENT_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000012'
+export const ANNOTATION_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000011'
+export const ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000013'
 
 /**
  * Get entity type for metadata lookup
@@ -34,8 +38,12 @@ export function getEntityTypeForMetadata(entityKey: GlobalEntityKey): EntityMeta
   // Map entityKey directly - no transformation needed
   // blockShape → blockShape, partShape → partShape
   // blockInstance → blockInstance, partInstance → partInstance
+  // eventShape → eventShape, eventInstance → eventInstance
+  // annotationShape → annotationShape, annotationInstance → annotationInstance
   if (entityKey === 'blockShape' || entityKey === 'partShape' || 
-      entityKey === 'blockInstance' || entityKey === 'partInstance') {
+      entityKey === 'blockInstance' || entityKey === 'partInstance' ||
+      entityKey === 'eventShape' || entityKey === 'eventInstance' ||
+      entityKey === 'annotationShape' || entityKey === 'annotationInstance') {
     return entityKey as EntityMetadataType
   }
   
@@ -66,6 +74,14 @@ export function getMetadataEntityId<GE extends GlobalEntityKey>(
   
   if (entityType === 'partShape') {
     return PART_SHAPE_GLOBAL_CONFIG_ID
+  }
+
+  if (entityType === 'eventShape') {
+    return EVENT_SHAPE_GLOBAL_CONFIG_ID
+  }
+
+  if (entityType === 'annotationShape') {
+    return ANNOTATION_SHAPE_GLOBAL_CONFIG_ID
   }
 
   // For instance entities, check if using global config ID or template/placeholder UUID
@@ -106,6 +122,27 @@ export function getMetadataEntityId<GE extends GlobalEntityKey>(
     return entityId
   }
 
+  if (entityType === 'eventInstance') {
+    if (entityId === EVENT_INSTANCE_GLOBAL_CONFIG_ID) {
+      return EVENT_INSTANCE_GLOBAL_CONFIG_ID
+    }
+    if (isPlaceholder || isTemporaryId) {
+      return EVENT_INSTANCE_GLOBAL_CONFIG_ID
+    }
+    return entityId
+  }
+
+  if (entityType === 'annotationInstance') {
+    if (entityId === ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID) {
+      return ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID
+    }
+    if (isPlaceholder || isTemporaryId) {
+      return ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID
+    }
+    return entityId
+  }
+
+  // For eventShape and annotationShape, always use sentinel UUIDs (already handled above)
   // Fallback (shouldn't reach here for instance entities)
   return entityId
 }

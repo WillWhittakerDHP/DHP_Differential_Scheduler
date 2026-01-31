@@ -63,7 +63,7 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   // Initialize composables
   const { getGlobalEntityById } = useGlobal()
   const adminComp = useAdmin()
-  const { relationships: activeParts } = useRelationshipCrud('activeParts')
+  const { relationships: partAssignments } = useRelationshipCrud('partAssignments')
   
   /**
    * LEARNING: Get BlockInstance entity
@@ -76,7 +76,7 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   
   /**
    * LEARNING: Get BlockShape entity
-   * WHY: Need BlockShape to check constituable and get validParts
+   * WHY: Need BlockShape to check canHaveParts and get validParts
    * PATTERN: Get BlockShape from blockInstance.blockShapeRef
    */
   const blockShape = computed(() => {
@@ -110,12 +110,12 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   /**
    * LEARNING: Get existing PartInstances for this BlockInstance
    * WHY: Shows PartInstances that are already associated with this BlockInstance
-   * PATTERN: Filter activeParts relationships by parent_id
+   * PATTERN: Filter partAssignments relationships by parent_id
    */
   const existingPartInstances = computed((): GlobalEntity<'partInstance'>[] => {
-    if (!activeParts.value) return []
+    if (!partAssignments.value) return []
     
-    const relationships = activeParts.value.filter(
+    const relationships = partAssignments.value.filter(
       rel => String(rel.parent_id) === blockInstanceIdRef.value && !rel.disabled
     )
     

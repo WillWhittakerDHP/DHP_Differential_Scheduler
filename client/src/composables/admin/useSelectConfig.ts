@@ -7,7 +7,7 @@
  * 
  * This composable handles:
  * - Field metadata retrieval from /admin-input-metadata
- * - Select config extraction from metadata.inputConfig (relationshipSelect or typeSelect)
+ * - Select config extraction from metadata.inputConfig (direct format)
  * - Select mode determination (single, multiple, nested)
  * - Option entity key determination
  * - Option label key determination
@@ -38,7 +38,7 @@ export interface UseSelectConfigOptions {
  */
 export interface UseSelectConfigReturn {
   /**
-   * Select config (relationshipSelect or typeSelect) from metadata.inputConfig
+   * Select config (direct format) from metadata.inputConfig
    */
   selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
   
@@ -58,9 +58,16 @@ export interface UseSelectConfigReturn {
   optionsSelectOptions: ComputedRef<SelectOption[]>
   
   /**
-   * Whether this is a DescriptionSelect field (annotations)
+   * Whether this is an AnnotationAssignmentSelect field
+   * LEARNING: Annotations are now core entities, use standard relationship select pattern
    */
-  isDescriptionSelect: ComputedRef<boolean>
+  isAnnotationAssignmentSelect: ComputedRef<boolean>
+  
+  /**
+   * Whether this is an AttendeeSelect field
+   * LEARNING: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
+   */
+  isAttendeeSelect: ComputedRef<boolean>
   
   /**
    * Whether select allows multiple selections
@@ -85,11 +92,12 @@ export interface UseSelectConfigReturn {
 
 /**
  * LEARNING: Options select config for metadata-driven enum-like selects
- * WHY: Some fields (e.g., bookingMode) use input_config.options instead of relationship/type configs
+ * WHY: Some fields (e.g., bookingMode, ternaryDefault) use input_config.options instead of relationship/type configs
  * PATTERN: Read options array from metadata.inputConfig when present
+ * NOTE: value can be null for fields like ternaryDefault where null means "fail gracefully"
  */
 interface OptionsSelectConfig {
-  options: Array<{ value: string; label: string }>
+  options: Array<{ value: string | null; label: string }>
   selectMode?: RelationshipSelectModeEnum
 }
 
@@ -181,18 +189,18 @@ export function useSelectConfig(
     const normalizedOptions = rawOptions
       .filter((option): option is Record<string, unknown> => typeof option === 'object' && option !== null)
       .map((option) => ({
-        value: String(option.value ?? ''),
+        value: option.value === null ? null : String(option.value ?? ''),
         label: String(option.label ?? '')
       }))
     
     const hasInvalidOption = normalizedOptions.some(
-      (option) => option.value.length === 0 || option.label.length === 0
+      (option) => (option.value !== null && option.value.length === 0) || option.label.length === 0
     )
     
     if (hasInvalidOption) {
       throw new Error(
         `[useSelectConfig] Invalid options format for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-        `Each option must include non-empty "value" and "label" properties.`
+        `Each option must include non-empty "label" property and "value" must be non-empty string or null.`
       )
     }
     
@@ -214,15 +222,17 @@ export function useSelectConfig(
     
     return config.options.map((option) => ({
       title: option.label,
-      value: option.value
+      // LEARNING: Convert null to '__NULL__' sentinel for ternaryDefault field
+      // WHY: ternaryDefault can be null, but SelectOption requires string
+      // PATTERN: Use '__NULL__' as sentinel, convert back to null when saving
+      value: option.value === null ? '__NULL__' : option.value
     }))
   })
 
   /**
-   * LEARNING: Extract select config from metadata.inputConfig - supports FormFieldConfig structure
-   * WHY: inputConfig stores select behavior in FormFieldConfig format (relationshipSelect or typeSelect)
-   *      or directly (backward compatibility with old format)
-   * PATTERN: Check for FormFieldConfig structure first, fall back to direct config for backward compatibility
+   * LEARNING: Extract select config from metadata.inputConfig (direct format)
+   * WHY: inputConfig stores select behavior directly, not wrapped
+   * PATTERN: Use inputConfig directly, check targetMode to determine type
    */
   const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> | undefined => {
     // LEARNING: Return undefined if metadata isn't loaded yet
@@ -262,52 +272,57 @@ export function useSelectConfig(
       )
     }
     
-    // LEARNING: Check for FormFieldConfig structure (new format)
-    // WHY: inputConfig should follow FormFieldConfig pattern with relationshipSelect or typeSelect properties
-    // PATTERN: Check for new format first, fall back to old format for backward compatibility
+    // LEARNING: inputConfig is stored in direct format (not wrapped)
+    // WHY: Database stores inputConfig directly, not wrapped in relationshipSelect/typeSelect
+    // PATTERN: Use inputConfig directly, check targetMode to determine type
     const inputConfig = meta.inputConfig as Record<string, unknown>
     
-    // Check if inputConfig has FormFieldConfig structure (new format)
-    if ('relationshipSelect' in inputConfig && inputConfig.relationshipSelect) {
-      return inputConfig.relationshipSelect as RelationshipFieldType<typeof fieldContext.entityKey>
-    }
-    
-    if ('typeSelect' in inputConfig && inputConfig.typeSelect) {
-      return inputConfig.typeSelect as VirtualFieldType<typeof fieldContext.entityKey>
-    }
-    
-    // LEARNING: Backward compatibility - handle old format (direct select config)
-    // WHY: Existing data may have select config stored directly, not wrapped in FormFieldConfig structure
-    // PATTERN: If new format properties don't exist, treat inputConfig as direct select config
-    // Check if inputConfig has targetMode (indicates it's a direct select config)
+    // Check if inputConfig has targetMode (indicates it's a select config)
     if ('targetMode' in inputConfig) {
-      return inputConfig as RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey>
+      const targetMode = inputConfig.targetMode as string
+      if (targetMode === 'relationship') {
+        return inputConfig as RelationshipFieldType<typeof fieldContext.entityKey>
+      } else if (targetMode === 'property') {
+        return inputConfig as VirtualFieldType<typeof fieldContext.entityKey>
+      }
     }
     
     // If we get here, inputConfig exists but doesn't match expected format
     throw new Error(
       `[useSelectConfig] Invalid inputConfig format for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-      `Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config with targetMode.`
+      `Expected direct select config with targetMode ('relationship' or 'property').`
     )
   })
 
   /**
-   * LEARNING: Check if this is a DescriptionSelect field
-   * WHY: Annotations are part of the annotation system, not core entities
-   * PATTERN: Check selectType from config
+   * LEARNING: Check if this is an AnnotationAssignmentSelect field
+   * WHY: Annotations are now core entities, use standard relationship select pattern
+   * PATTERN: Check selectType from metadata inputConfig
    */
-  const isDescriptionSelect = computed(() => {
-    const config = selectConfig.value
-    // LEARNING: Handle undefined selectConfig gracefully
-    // WHY: selectConfig can be undefined when field metadata is missing
-    // PATTERN: Return false when config is undefined
-    if (!config) {
+  const isAnnotationAssignmentSelect = computed(() => {
+    const meta = fieldMetadataEntry.value
+    if (!meta || !meta.inputConfig || typeof meta.inputConfig !== 'object') {
       return false
     }
-    return Boolean(
-      'selectType' in config &&
-        config.selectType === RelationshipSelectTypeEnum.DescriptionSelect
-    )
+    
+    const inputConfig = meta.inputConfig as Record<string, unknown>
+    return inputConfig.selectType === RelationshipSelectTypeEnum.AnnotationAssignmentSelect
+  })
+
+  /**
+   * LEARNING: Check if this is an AttendeeSelect field
+   * WHY: Attendee selects need special quick-select UI for major/minor attendees
+   * PATTERN: Check selectType from metadata inputConfig
+   */
+  const isAttendeeSelect = computed(() => {
+    const meta = fieldMetadataEntry.value
+    if (!meta || !meta.inputConfig || typeof meta.inputConfig !== 'object') {
+      return false
+    }
+    
+    const inputConfig = meta.inputConfig as Record<string, unknown>
+    return inputConfig.selectType === RelationshipSelectTypeEnum.AttendeeSelect || 
+           inputConfig.selectType === 'attendeeSelect'
   })
 
   /**
@@ -418,7 +433,8 @@ export function useSelectConfig(
       )
     }
     
-    return config.candidateChildKey as GlobalEntityKey
+    const optionKey = config.candidateChildKey as GlobalEntityKey
+    return optionKey
   })
 
   /**
@@ -451,11 +467,11 @@ export function useSelectConfig(
       return 'name'
     }
     
-    // LEARNING: Special case for annotations - they use 'text' field
-    // WHY: Annotation entity has 'text' field, not 'name' field
-    // PATTERN: Hardcoded exception for this known case
-    if (isDescriptionSelect.value) {
-      return 'text'
+    // LEARNING: Special case for annotation instances - they use 'name' field (which contains text)
+    // WHY: AnnotationInstance entity has 'name' field that contains the text content
+    // PATTERN: Use 'name' field for annotation instances (transformer maps API 'text' to entity 'name')
+    if (isAnnotationAssignmentSelect.value) {
+      return 'name' // AnnotationInstance.name contains the text content
     }
     
     // LEARNING: Default to 'name' for all entity types (relationship and type selects)
@@ -470,7 +486,8 @@ export function useSelectConfig(
     isEnumSelect,
     isOptionsSelect,
     optionsSelectOptions,
-    isDescriptionSelect,
+    isAnnotationAssignmentSelect,
+    isAttendeeSelect,
     isMultiple,
     chipsProps,
     optionEntityKey,

@@ -34,11 +34,18 @@ export const blockShapePrimitiveFields = {
     globalField: "composable",
   },
   
-  constituable: {
+  canHaveParts: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Can Have Parts",
+    globalField: "canHaveParts",
+  },
+  
+  isStateControl: {
     primitiveType: PrimitiveTypeEnum.Boolean,
     primitiveMode: PrimitiveModeEnum.Toggle,
     placeholder: "State Control",
-    globalField: "constituable",
+    globalField: "isStateControl",
   },
   
   type: {

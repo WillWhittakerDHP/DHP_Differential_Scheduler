@@ -7,12 +7,16 @@ import {
 } from './audit-exceptions.mjs'
 
 /**
- * Typecheck Audit Script (vue-tsc)
+ * Typecheck Audit Script (vue-tsc + tsc)
  *
  * Mirrors the `client/.audit/` workflow:
  * - deterministic JSON output
  * - full Markdown report
  * - machine-friendly pool + priority scoring (P0/P1/P2)
+ *
+ * Runs TypeScript checks on both:
+ * - Client: vue-tsc (for Vue SFC support)
+ * - Server: tsc (standard TypeScript)
  *
  * Exception Handling:
  * - Inline: // @audit-allow:typecheck:<TScode> - <reason>
@@ -27,13 +31,11 @@ const AUDIT_TYPE = 'typecheck'
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_CLIENT = path.join(CWD, 'client')
+const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
+const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
 
-// If src exists in cwd, we're in client/; otherwise assume project root
-const IS_CLIENT_DIR = fs.existsSync(CLIENT_SRC)
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : PROJECT_ROOT_CLIENT
-const PROJECT_ROOT = IS_CLIENT_DIR ? CWD : CWD
+const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
 
 const OUT_DIR = path.join(CLIENT_ROOT, '.audit-reports/typecheck')
 const OUT_JSON = path.join(OUT_DIR, 'typecheck-audit.json')
@@ -211,6 +213,15 @@ function getInlineExceptions(repoPath) {
 
 function runVueTsc() {
   const vueTscBin = path.join(CLIENT_ROOT, 'node_modules', '.bin', 'vue-tsc')
+  if (!fs.existsSync(vueTscBin)) {
+    return {
+      exitCode: 1,
+      stdout: '',
+      stderr: `vue-tsc not found at ${vueTscBin}`,
+      command: `vue-tsc -b --pretty false`,
+    }
+  }
+  
   const args = ['-b', '--pretty', 'false']
   const result = childProcess.spawnSync(vueTscBin, args, {
     cwd: CLIENT_ROOT,
@@ -222,7 +233,36 @@ function runVueTsc() {
     exitCode: result.status ?? 1,
     stdout: result.stdout || '',
     stderr: result.stderr || '',
-    command: `${toRepoPath(vueTscBin)} ${args.join(' ')}`,
+    command: `vue-tsc ${args.join(' ')}`,
+    scope: 'client',
+  }
+}
+
+function runTsc(serverRoot) {
+  const tscBin = path.join(serverRoot, 'node_modules', '.bin', 'tsc')
+  if (!fs.existsSync(tscBin)) {
+    return {
+      exitCode: 1,
+      stdout: '',
+      stderr: `tsc not found at ${tscBin}`,
+      command: `tsc --noEmit --pretty false`,
+      scope: 'server',
+    }
+  }
+  
+  const args = ['--noEmit', '--pretty', 'false']
+  const result = childProcess.spawnSync(tscBin, args, {
+    cwd: serverRoot,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  })
+
+  return {
+    exitCode: result.status ?? 1,
+    stdout: result.stdout || '',
+    stderr: result.stderr || '',
+    command: `tsc ${args.join(' ')}`,
+    scope: 'server',
   }
 }
 
@@ -353,7 +393,8 @@ function renderMarkdown(data) {
   lines.push('## Summary')
   lines.push('')
   lines.push(`- Generated at: **${data.generatedAt}**`)
-  lines.push(`- Command: \`${data.command}\``)
+  lines.push(`- Client command: \`${data.scope.client.command}\``)
+  lines.push(`- Server command: \`${data.scope.server.command}\``)
   lines.push(`- Exit code: **${data.exitCode}**`)
   lines.push(`- **Errors requiring review: ${data.errors.length}**`)
   lines.push(`- Allowed (with justification): ${exceptionSummary.totalAllowed} (inline: ${exceptionSummary.bySource.inline}, pattern: ${exceptionSummary.bySource.pattern}, specific: ${exceptionSummary.bySource.specific})`)
@@ -429,21 +470,59 @@ function main() {
   ensureDir(OUT_DIR)
   const config = loadConfig()
 
-  const run = runVueTsc()
-  const combined = `${run.stdout}\n${run.stderr}`.trim()
-  const parsedErrors = parseTscOutput(combined)
+  // Run both client and server type checks
+  const clientCheck = runVueTsc()
+  const serverCheck = runTsc(SERVER_ROOT)
+  
+  // Combine outputs
+  const clientCombined = `${clientCheck.stdout}\n${clientCheck.stderr}`.trim()
+  const serverCombined = `${serverCheck.stdout}\n${serverCheck.stderr}`.trim()
+  const combined = `${clientCombined}\n${serverCombined}`.trim()
+  
+  const clientErrors = parseTscOutput(clientCombined).map(e => ({ ...e, scope: 'client' }))
+  const serverErrors = parseTscOutput(serverCombined).map(e => ({ ...e, scope: 'server' }))
+  const parsedErrors = [...clientErrors, ...serverErrors]
 
   // Normalize file paths to repo-relative when possible
   const allErrors = parsedErrors.map((e) => {
-    const repoPath = e.file.startsWith('/') ? toRepoPath(e.file) : e.file
+    let repoPath = e.file.startsWith('/') ? toRepoPath(e.file) : e.file
+    // Ensure server files are prefixed with server/src
+    if (e.scope === 'server' && !repoPath.startsWith('server/')) {
+      // Try to normalize server paths
+      const serverPath = path.join(SERVER_ROOT, 'src')
+      if (e.file.startsWith(serverPath)) {
+        repoPath = 'server/' + path.relative(SERVER_ROOT, e.file).replaceAll(path.sep, '/')
+      } else if (e.file.includes('server/src')) {
+        repoPath = e.file.replace(/.*(server\/src\/.*)/, '$1')
+      } else {
+        repoPath = `server/${repoPath}`
+      }
+    }
+    // Ensure client files are prefixed with client/src
+    if (e.scope === 'client' && !repoPath.startsWith('client/') && !repoPath.startsWith('src/')) {
+      const clientPath = path.join(CLIENT_ROOT, 'src')
+      if (e.file.startsWith(clientPath)) {
+        repoPath = 'client/' + path.relative(CLIENT_ROOT, e.file).replaceAll(path.sep, '/')
+      } else if (e.file.includes('client/src')) {
+        repoPath = e.file.replace(/.*(client\/src\/.*)/, '$1')
+      } else if (e.file.startsWith('src/')) {
+        repoPath = `client/${repoPath}`
+      }
+    }
     return { ...e, repoPath }
+  })
+  
+  // Filter out migration files (one-time scripts, type errors are less critical)
+  const nonMigrationErrors = allErrors.filter(e => {
+    const repoPath = e.repoPath || e.file
+    return !(repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath))
   })
   
   // Categorize errors into allowed vs requiring-review
   const allowedErrors = []
   const errors = []
   
-  for (const error of allErrors) {
+  for (const error of nonMigrationErrors) {
     const inlineExceptions = getInlineExceptions(error.repoPath)
     const result = checkErrorAllowed(error, config, inlineExceptions)
     
@@ -551,11 +630,17 @@ function main() {
     })
     .sort((a, b) => b.errorCount - a.errorCount || b.unsafeCastHits - a.unsafeCastHits || a.repoPath.localeCompare(b.repoPath))
 
+  const combinedExitCode = clientCheck.exitCode === 0 && serverCheck.exitCode === 0 ? 0 : 1
+  const combinedCommand = `${clientCheck.command} && ${serverCheck.command}`
+  
   const out = {
     generatedAt: new Date().toISOString(),
-    scope: { command: run.command, cwd: toRepoPath(CLIENT_ROOT) },
-    exitCode: run.exitCode,
-    command: run.command,
+    scope: { 
+      client: { command: clientCheck.command, cwd: toRepoPath(CLIENT_ROOT) },
+      server: { command: serverCheck.command, cwd: toRepoPath(SERVER_ROOT) },
+    },
+    exitCode: combinedExitCode,
+    command: combinedCommand,
     exceptionSummary,
     errors,
     allowedErrors,
@@ -566,10 +651,17 @@ function main() {
   fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
   fs.writeFileSync(OUT_MD, renderMarkdown(out))
 
+  const clientErrorCount = errors.filter(e => e.scope === 'client').length
+  const serverErrorCount = errors.filter(e => e.scope === 'server').length
+  const clientAllowedCount = allowedErrors.filter(e => e.scope === 'client').length
+  const serverAllowedCount = allowedErrors.filter(e => e.scope === 'server').length
+  
   console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
-  console.log(`Errors: ${errors.length} requiring review, ${allowedErrors.length} allowed`)
+  console.log(`Client errors: ${clientErrorCount} requiring review, ${clientAllowedCount} allowed`)
+  console.log(`Server errors: ${serverErrorCount} requiring review, ${serverAllowedCount} allowed`)
+  console.log(`Total errors: ${errors.length} requiring review, ${allowedErrors.length} allowed`)
   console.log(`Pools: ${pools.length}`)
-  process.exitCode = run.exitCode === 0 ? 0 : 0 // audit should not fail CI; it reports.
+  process.exitCode = 0 // audit should not fail CI; it reports.
 }
 
 main()

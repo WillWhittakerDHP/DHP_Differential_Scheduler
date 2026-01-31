@@ -34,33 +34,3 @@ export const DISTRIBUTION_STRATEGIES: Record<string, DistributionStrategy> = {
   EQUAL: 'equal',
   MANUAL: 'manual',
 } as const;
-
-/**
- * Default component rules for common properties
- * 
- * LEARNING: Defines which component strategy to use for each property when composing entities
- * WHY: Provides sensible defaults for property component
- * PATTERN: Property-to-strategy mapping for component
- */
-export const DEFAULT_COMPONENT_RULES: Record<string, ComponentStrategy> = {
-  // Numeric properties - sum
-  baseFee: 'sum',
-  baseTime: 'sum',
-  rateOverBaseFee: 'sum',
-  rateOverBaseTime: 'sum',
-  baseSqFt: 'sum',
-  
-  // Array properties - merge
-  activeParts: 'merge',
-  
-  // Boolean properties - every (all must be true)
-  onSite: 'every',
-  clientPresent: 'every',
-  moveable: 'every',
-  visible: 'every',
-  
-  // String properties - first (use first particle's value)
-  name: 'first',
-  description: 'first',
-  icon: 'first',
-} as const;

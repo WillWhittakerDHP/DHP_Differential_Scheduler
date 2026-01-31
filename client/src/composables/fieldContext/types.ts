@@ -17,7 +17,7 @@ export interface FieldDisplayConfig<GE extends GlobalEntityKey, _FieldKey extend
   required?: boolean
   disabled?: boolean
   readOnly?: boolean
-  fieldType?: 'text' | 'number' | 'boolean' | 'date' | 'textarea' | 'select' | 'multiselect' | 'required' | 'partsCollection' | 'hidden'
+  fieldType?: 'text' | 'number' | 'boolean' | 'date' | 'textarea' | 'select' | 'multiselect' | 'required' | 'relationshipCollection' | 'hidden'
   displayOrder?: number
 }
 

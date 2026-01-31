@@ -42,16 +42,16 @@ describe('AdminTransformer', () => {
       expect(result.blockInstance[0].id).toBe('block-1')
     })
     
-    it('should attach activeParts relationships', () => {
+    it('should attach partAssignments relationships', () => {
       const globalData = createAtomicBlockGlobalData()
       
       const result = transformer.transformGlobalToAdmin(globalData)
       
       const blockInstance = result.blockInstance[0]
-      expect(blockInstance.activeParts).toBeDefined()
-      expect(blockInstance.activeParts).toHaveLength(2)
-      expect(blockInstance.activeParts).toContain('part-1')
-      expect(blockInstance.activeParts).toContain('part-2')
+      expect(blockInstance.partAssignments).toBeDefined()
+      expect(blockInstance.partAssignments).toHaveLength(2)
+      expect(blockInstance.partAssignments).toContain('part-1')
+      expect(blockInstance.partAssignments).toContain('part-2')
     })
     
     it('should transform composite block with components', () => {
@@ -74,7 +74,7 @@ describe('AdminTransformer', () => {
           partShape: [],
         },
         relationships: {
-          activeParts: [],
+          partAssignments: [],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],
@@ -122,7 +122,7 @@ describe('AdminTransformer', () => {
       const component1 = result.blockInstance.find(b => b.id === 'component-1')
       
       expect(compositeBlock?.instanceComponents).toBeDefined()
-      expect(component1?.activeParts).toBeDefined()
+      expect(component1?.partAssignments).toBeDefined()
     })
   })
   
@@ -138,7 +138,7 @@ describe('AdminTransformer', () => {
           partShape: [],
         },
         relationships: {
-          activeParts: [],
+          partAssignments: [],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],
@@ -150,7 +150,7 @@ describe('AdminTransformer', () => {
       const result = transformer.transformGlobalToAdmin(globalData)
       
       const blockInstance = result.blockInstance[0]
-      expect(blockInstance.activeParts).toEqual([])
+      expect(blockInstance.partAssignments).toEqual([])
       expect(blockInstance.bookingCascades).toEqual([])
       expect(blockInstance.instanceComponents).toEqual([])
     })
@@ -161,7 +161,7 @@ describe('AdminTransformer', () => {
       const result = transformer.transformGlobalToAdmin(globalData)
       
       const component2 = result.blockInstance.find(b => b.id === 'component-2')
-      expect(component2?.activeParts).toHaveLength(2) // part-2 and part-3
+      expect(component2?.partAssignments).toHaveLength(2) // part-2 and part-3
     })
   })
   

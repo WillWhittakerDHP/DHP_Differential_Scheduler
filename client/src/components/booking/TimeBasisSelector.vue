@@ -2,40 +2,52 @@
 /**
  * TimeBasisSelector Component
  * 
- * LEARNING: Toggle buttons for switching between Inspector and Client time views
+ * LEARNING: Toggle buttons for switching between major and minor time views
  * WHY: Encapsulates time basis selection logic and UI for differential services
  * PATTERN: Self-contained component with props/events for parent communication
  * 
  * Features:
- * - Inspector/Client toggle buttons for differential services
+ * - Major/Minor toggle buttons for differential services
  * - Conditional rendering based on isDifferentialService
  * - Toggle logic: clicking selected button switches to other, clicking active selects it
  * - Responsive layout with mobile-first design
  */
 
 
+import { computed } from 'vue'
 import { useTimeBasisHandler, type TimeBasisHandlerProps, type TimeBasisHandlerEmits } from '@/composables/booking/useTimeBasisHandler'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 interface Props {
   isDifferentialService: boolean
-  startTimeType: 'inspector' | 'client' | 'nonDifferential'
+  startTimeType: 'major' | 'minor' | 'nonDifferential'
 }
 
 const props = defineProps<Props>()
 
 interface Emits {
-  (e: 'time-basis-change', type: 'inspector' | 'client'): void
+  (e: 'time-basis-change', type: 'major' | 'minor'): void
 }
 
 const emit = defineEmits<Emits>()
+
+// LEARNING: Get configured labels from availability settings
+// WHY: Labels are configurable in admin panel
+const { settings: availabilitySettings } = useAvailabilitySettings()
+const majorLabel = computed(() => 
+  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
+)
+const minorLabel = computed(() => 
+  availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation'
+)
 
 // FIX: Use shared time basis handler from composable
 const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerProps, emit as unknown as TimeBasisHandlerEmits)
 </script>
 
 <template>
-  <!-- LEARNING: Inspector/Client Toggle Buttons -->
-  <!-- WHY: Allows switching between Inspector and Client time views for differential services -->
+  <!-- LEARNING: Major/Minor Toggle Buttons -->
+  <!-- WHY: Allows switching between major and minor time views for differential services -->
   <!-- PATTERN: Conditional rendering based on isDifferentialService -->
   <!-- USER_STORY: Both buttons Active by default (neither Selected), toggle between Selected/Active -->
   <!-- LEARNING: Use Vuetify responsive flex utilities for true responsive behavior -->
@@ -43,22 +55,22 @@ const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerPr
   <div v-if="isDifferentialService" class="d-flex flex-column flex-sm-row align-sm-center align-start mb-4 mb-sm-6 toggle-buttons">
     <div class="d-flex gap-2 flex-wrap">
       <VBtn
-        :variant="startTimeType === 'inspector' ? 'flat' : 'outlined'"
+        :variant="startTimeType === 'major' ? 'flat' : 'outlined'"
         color="primary"
         size="small"
         class="flex-shrink-0"
-        @click="handleTimeBasisClick('inspector')"
+        @click="handleTimeBasisClick('major')"
       >
-        Inspector Times
+        {{ majorLabel }} Times
       </VBtn>
       <VBtn
-        :variant="startTimeType === 'client' ? 'flat' : 'outlined'"
+        :variant="startTimeType === 'minor' ? 'flat' : 'outlined'"
         color="secondary"
         size="small"
         class="flex-shrink-0"
-        @click="handleTimeBasisClick('client')"
+        @click="handleTimeBasisClick('minor')"
       >
-        Client Times
+        {{ minorLabel }} Times
       </VBtn>
     </div>
   </div>

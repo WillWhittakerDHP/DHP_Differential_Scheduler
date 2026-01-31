@@ -28,7 +28,6 @@
           ref="editorRef"
           :entity-key="entityKey"
           :entity="entity"
-          :mode="mode"
           :block-shape-ref="blockShapeRef"
           @saved="handleSaved"
         />
@@ -69,7 +68,6 @@ interface Props {
   modelValue: boolean
   entityKey: GlobalEntityKey  // Required - blockShape, partShape, blockInstance, or partInstance
   entity: GlobalEntity<GlobalEntityKey>  // Required - entity object
-  mode?: 'global' | 'instanceOverride'  // Optional - defaults to 'global' for shapes, 'instanceOverride' for instances
   entityName?: string  // Optional - for display in title
   blockShapeRef?: string  // Optional - BlockShape ID for BlockShape-specific instance metadata
 }
@@ -79,15 +77,7 @@ interface Emits {
   (e: 'saved'): void
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  mode: (props: Props) => {
-    // Default mode based on entityKey
-    if (props.entityKey === 'blockShape' || props.entityKey === 'partShape') {
-      return 'global'
-    }
-    return 'instanceOverride'
-  }
-})
+const props = defineProps<Props>()
 
 const emit = defineEmits<Emits>()
 

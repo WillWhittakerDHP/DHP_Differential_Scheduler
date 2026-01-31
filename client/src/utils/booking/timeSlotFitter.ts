@@ -15,9 +15,15 @@ import {
   // P3-3: Removed TimeSlotWithAvailability import - use TimeSlot directly
 } from './timeAvailabilityManager'
 import type { RangeConstraint } from '@/configs/availabilitySettings'
+import { createLogger } from '@/utils/logger'
 import type { OverlapConstraint, CapacityConstraint } from './constraintExtractors'
 import { validateSlotGenerationParams } from './slotGenerationValidation'
 import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
+
+// LEARNING: Use scoped logger for controllable debug output
+// WHY: Prevents debug logs in production, allows scope-based filtering
+// PATTERN: createLogger(scope) provides debug/info/warn/error methods
+const logger = createLogger('timeSlotFitter')
 
 /**
  * Default include flags for TimeSlot objects
@@ -26,8 +32,8 @@ import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
  * PATTERN: Exported constant that can be used by callers and tests
  */
 export const DEFAULT_INCLUDE_FLAGS = {
-  onSite: false,
-  clientPresent: false,
+  major: false,
+  minor: false,
   moveable: false
 } as const
 
@@ -37,7 +43,7 @@ export const DEFAULT_INCLUDE_FLAGS = {
  * WHY: Consistent format throughout codebase, matches Google Calendar API
  * PATTERN: RFC3339 datetime using fixed reference date (2000-01-01)
  */
-export interface DayBusinessHours {
+interface DayBusinessHours {
   start: RFC3339DateTime  // RFC3339 format with reference date (e.g., "2000-01-01T08:00:00Z" for "08:00")
   end: RFC3339DateTime    // RFC3339 format with reference date (e.g., "2000-01-01T17:00:00Z" for "17:00")
 }
@@ -78,15 +84,16 @@ export interface FitTimeSlotsParams {
   startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
   endBoundary: RFC3339DateTime           // RFC3339 datetime - latest possible end (slot must complete by this time)
   duration: number                       // Required duration in minutes
+  businessHours?: BusinessHoursMap        // Business hours by day of week (optional if rangeConstraints provided)
   minuteIncrement: number                 // Usually 15
   busyTimes?: BusyTimeRange[]             // Optional exclusions
   /**
    * Flags to include in TimeSlot objects
-   * @default { onSite: false, clientPresent: false, moveable: false }
+   * @default { major: false, minor: false, moveable: false }
    */
   includeFlags: {
-    onSite: boolean
-    clientPresent: boolean
+    major: boolean
+    minor: boolean
     moveable: boolean
   }
   /**
@@ -112,7 +119,7 @@ export interface FitTimeSlotsParams {
 /**
  * Result from fitting time slots
  */
-export interface FitTimeSlotsResult {
+interface FitTimeSlotsResult {
   slots: TimeSlot[]
   earliestCompletion: RFC3339DateTime | null  // RFC3339 datetime of earliest possible end time
 }
@@ -199,23 +206,9 @@ export function parseTimeToMinutes(timeString: string): number {
   return hours * 60 + minutes
 }
 
-/**
- * Check if a day of week is a closed day (no business hours)
- * 
- * LEARNING: Type guard for closed days
- * WHY: Makes closed-day intent explicit
- * PATTERN: Check if day key exists in BusinessHoursMap
- * 
- * @param dayOfWeek - Day of week (0 = Sunday, 6 = Saturday)
- * @param businessHours - Business hours map
- * @returns true if the day is closed (no hours defined), false if open
- */
-export function isClosedDay(
-  dayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6,
-  businessHours: BusinessHoursMap
-): boolean {
-  return !businessHours[dayOfWeek]
-}
+// Removed unused function: isClosedDay
+// LEARNING: Function was declared but never used
+// WHY: Removes dead code to improve maintainability
 
 /**
  * Check if two time ranges overlap
@@ -345,6 +338,7 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
     startBoundary,
     endBoundary,
     duration,
+    businessHours,
     minuteIncrement,
     busyTimes = [],
     includeFlags
@@ -378,13 +372,16 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
     return { slots: [], earliestCompletion: null }
   }
 
-  // Validate business hours
-  if (!businessHours || typeof businessHours !== 'object') {
-    throw new Error('businessHours must be a BusinessHoursMap object')
+  // Validate business hours - either from params or from rangeConstraints
+  const effectiveBusinessHours = businessHours || 
+    (params.rangeConstraints?.find(rc => rc.type === 'businessHours')?.config as { hours?: BusinessHoursMap } | undefined)?.hours
+  
+  if (!effectiveBusinessHours || typeof effectiveBusinessHours !== 'object') {
+    throw new Error('businessHours must be provided either directly or via rangeConstraints.businessHours.config.hours')
   }
 
   // Check if at least one day has business hours
-  const hasAnyHours = Object.keys(businessHours).length > 0
+  const hasAnyHours = Object.keys(effectiveBusinessHours).length > 0
   if (!hasAnyHours) {
     return { slots: [], earliestCompletion: null }
   }
@@ -423,7 +420,7 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
 /**
  * Result from fitting time slots with availability flags
  */
-export interface FitTimeSlotsResultWithAvailability {
+interface FitTimeSlotsResultWithAvailability {
   slots: TimeSlot[]  // P3-3: Use TimeSlot directly instead of TimeSlotWithAvailability
   earliestCompletion: RFC3339DateTime | null  // RFC3339 datetime of earliest available slot end time
 }

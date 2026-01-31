@@ -155,7 +155,7 @@ export function useInstanceGrouping(
     // WHY: Functional approach avoids forEach with Map mutations
     // PATTERN: Reduce blockShapes into a Map of state control flags
     return blockShapes.reduce((map, blockShape) => {
-      map.set(String(blockShape.id), blockShape.constituable === false)
+      map.set(String(blockShape.id), blockShape.isStateControl === true)
       return map
     }, new Map<string, boolean>())
   })

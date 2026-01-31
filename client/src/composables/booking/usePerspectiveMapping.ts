@@ -14,9 +14,9 @@ import type { PerspectiveKey } from '@/types/appointment'
  */
 export interface UsePerspectiveMappingParams {
   /**
-   * Start time type (UI labels: 'inspector', 'client', 'nonDifferential')
+   * Start time type (UI labels: 'major', 'minor', 'nonDifferential')
    */
-  startTimeType: Ref<'inspector' | 'client' | 'nonDifferential'>
+  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
 }
 
 /**
@@ -24,7 +24,7 @@ export interface UsePerspectiveMappingParams {
  */
 export interface UsePerspectiveMappingReturn {
   /**
-   * Perspective key (logic names: 'onSite', 'clientPresent', 'nonDifferential')
+   * Perspective key (logic names: 'major', 'minor', 'nonDifferential')
    * LEARNING: Maps startTimeType to PerspectiveKey
    * WHY: startTimeType uses UI labels, PerspectiveKey uses logic names
    */
@@ -46,12 +46,10 @@ export function usePerspectiveMapping(
   /**
    * LEARNING: Map startTimeType to PerspectiveKey
    * WHY: startTimeType uses UI labels, PerspectiveKey uses logic names
-   * PATTERN: Map UI labels to logic keys
+   * PATTERN: Direct mapping since both use same terminology
    */
   const perspective = computed<PerspectiveKey>(() => {
-    if (startTimeType.value === 'inspector') return 'onSite'
-    if (startTimeType.value === 'client') return 'clientPresent'
-    return 'nonDifferential'
+    return startTimeType.value
   })
 
   return {

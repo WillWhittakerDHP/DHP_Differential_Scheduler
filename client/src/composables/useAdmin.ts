@@ -13,10 +13,10 @@ import type { GlobalEntityId } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities'
 import { adminTransformer } from '@/utils/transformers/globalToAdminTransformer'
 import type { AdminObject } from '@/utils/transformers/globalToAdminTransformer'
-import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
+import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
 // DIAGNOSTICS: Track instance creation
 let instanceCount = 0
@@ -78,7 +78,11 @@ function createAdminInstance() {
         blockInstance: [],
         blockShape: [],
         partInstance: [],
-        partShape: []
+        partShape: [],
+        eventShape: [],
+        eventInstance: [],
+        annotationShape: [],
+        annotationInstance: []
       }
     }
     
@@ -157,6 +161,10 @@ function createAdminInstance() {
       blockShape: getEntities('blockShape'),
       partInstance: getEntities('partInstance'),
       partShape: getEntities('partShape'),
+      eventShape: getEntities('eventShape'),
+      eventInstance: getEntities('eventInstance'),
+      annotationShape: getEntities('annotationShape'),
+      annotationInstance: getEntities('annotationInstance'),
     }
   })
   
@@ -247,25 +255,15 @@ export function useAdmin() {
 }
 
 // DIAGNOSTICS: Export instance count for debugging
-if (isDevModeEnabled()) {
-  interface WindowWithDebug extends Window {
-    __useAdminDebug?: {
-      instanceCount: () => number
-      callCount: () => number
-      callSites: () => Array<{ count: number; stack: string }>
-      reset: () => void
-    }
+attachDebugToWindow('__useAdminDebug', {
+  instanceCount: () => instanceCount,
+  callCount: () => callCount,
+  callSites: () => instanceCallSites,
+  reset: () => {
+    instanceCount = 0
+    callCount = 0
+    instanceCallSites.length = 0
+    adminInstance = null
   }
-  (window as WindowWithDebug).__useAdminDebug = {
-    instanceCount: () => instanceCount,
-    callCount: () => callCount,
-    callSites: () => instanceCallSites,
-    reset: () => {
-      instanceCount = 0
-      callCount = 0
-      instanceCallSites.length = 0
-      adminInstance = null
-    }
-  }
-}
+})
 

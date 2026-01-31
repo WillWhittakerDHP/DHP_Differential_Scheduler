@@ -11,8 +11,8 @@ import type {
   WorkCapacityFilter,
   RollingWeekCapacityFilter,
   BufferConfig,
-  RangeConstraint,
-  BusinessHoursConfig
+  BusinessHoursConfig,
+  RawAvailabilitySettings
 } from '@/configs/availabilitySettings'
 import { invalidateAvailabilitySettingsCache } from '@/configs/availabilitySettings'
 import { DAY_NAMES } from '@/constants/availabilitySettings'
@@ -70,6 +70,10 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
   // PATTERN: Use composable at top of composable function for access throughout
   const { rfc3339ToBusinessHoursHHmm } = useLocalTime()
 
+  const isBusinessHoursConfig = (config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }): config is BusinessHoursConfig => {
+    return 'hours' in config
+  }
+
   /**
    * Load settings from API
    * LEARNING: Fetches current settings from business-settings API
@@ -87,25 +91,7 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         throw new Error('No settings found in API response')
       }
       
-      const rawSettings = response.data.setting_value as {
-        minuteIncrement: number
-        rangeConstraints: {
-          businessHours: RangeConstraint
-          leadTime?: RangeConstraint
-          dateRange?: RangeConstraint
-        }
-        buffers?: {
-          appointment?: BufferConfig
-          driveTime?: BufferConfig
-          lunch?: BufferConfig
-        }
-        maxWorkHours?: {
-          day?: WorkCapacityFilter
-          calendarWeek?: WorkCapacityFilter
-          rollingWeek?: RollingWeekCapacityFilter
-        }
-        timezone?: string
-      }
+      const rawSettings = response.data.setting_value as RawAvailabilitySettings
       
       // Validate - fail fast if missing required fields
       if (!rawSettings.rangeConstraints?.businessHours) {
@@ -123,14 +109,25 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
       const businessHours = businessHoursConfig.hours
       
       // Use settings directly - no migration
+      // LEARNING: Initialize durationRounding with defaults if not present
+      // WHY: Ensures formData always has durationRounding structure for UI binding
+      // PATTERN: Provide default values for optional nested config
+      const durationRounding = rawSettings.durationRounding || {
+        enabled: false,
+        increment: rawSettings.minuteIncrement || 15,
+        method: 'roundUp' as const
+      }
+      
       formData.value = {
         businessHours: businessHours,
         minuteIncrement: rawSettings.minuteIncrement,
         rangeConstraints: rawSettings.rangeConstraints,
         buffers: rawSettings.buffers,
         maxWorkHours: rawSettings.maxWorkHours,
-        timezone: rawSettings.timezone
-      }
+        timezone: rawSettings.timezone,
+        durationRounding,
+        differentialPerspectives: rawSettings.differentialPerspectives
+      } as AvailabilitySettings
     } catch (err: any) {
       // Explicit error - no fallbacks
       error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
@@ -216,6 +213,11 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
           rollingWeek?: RollingWeekCapacityFilter
         }
         timezone?: string
+        durationRounding?: {
+          enabled: boolean
+          increment?: number
+          method?: 'roundUp' | 'roundDown' | 'roundNearest'
+        }
       } = {
         businessHours: formData.value.businessHours,
         minuteIncrement: formData.value.minuteIncrement
@@ -227,8 +229,9 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         // LEARNING: Ensure rangeConstraints.businessHours.config.hours matches top-level businessHours
         // WHY: Slot generation reads from rangeConstraints.businessHours.config.hours, not top-level
         // PATTERN: Sync both locations to ensure consistency
-        if (settingsToSave.rangeConstraints.businessHours) {
-          settingsToSave.rangeConstraints.businessHours.config.hours = formData.value.businessHours
+        const businessHoursConstraint = settingsToSave.rangeConstraints.businessHours
+        if (businessHoursConstraint && isBusinessHoursConfig(businessHoursConstraint.config)) {
+          businessHoursConstraint.config.hours = formData.value.businessHours
         }
       } else {
         // Create rangeConstraints with businessHours if it doesn't exist
@@ -254,6 +257,26 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
       }
       if (formData.value.timezone) {
         settingsToSave.timezone = formData.value.timezone
+      }
+      // LEARNING: Always include durationRounding if it exists in formData
+      // WHY: Ensures rounding configuration is persisted even with default values
+      // PATTERN: Include optional config if present in formData
+      if (formData.value.durationRounding) {
+        settingsToSave.durationRounding = formData.value.durationRounding
+      }
+      
+      // Include differentialPerspectives if configured
+      // LEARNING: Type assertion needed because TypeScript may not narrow type properly
+      // WHY: differentialPerspectives is optional in AvailabilitySettings interface, formData can be null
+      // PATTERN: Use type assertion to access optional property that may exist at runtime
+      if (formData.value && 'differentialPerspectives' in formData.value) {
+        const perspectives = (formData.value as Record<string, unknown>).differentialPerspectives
+        if (perspectives) {
+          // LEARNING: Type assertion needed because settingsToSave type doesn't include differentialPerspectives
+          // WHY: settingsToSave is inferred from object literal, need to assert it can have differentialPerspectives
+          // PATTERN: Use Record<string, unknown> to allow dynamic property assignment
+          ;(settingsToSave as Record<string, unknown>).differentialPerspectives = perspectives
+        }
       }
       
       // Save settings to API

@@ -58,32 +58,9 @@ export const partInstanceDisplays = {
     align: "center",
   },
 
-  onSite: {
-    label: "On Site?",
-    placeholder: "",
-    inline: true,
-    stacked: false,
-    width: "10%",
-    align: "center",
-    },
-
-  clientPresent: {
-    label: "Client Present?",
-    placeholder: "",
-    inline: true,
-    stacked: false,
-    width: "10%",
-    align: "center",
-    },
-
-  moveable: {
-    label: "Moveable?",
-    placeholder: "",
-    inline: true,
-    stacked: false,
-    width: "10%",
-    align: "center",
-    },
+  // NOTE: onSite, clientPresent, and moveable are no longer editable at instance level.
+  // They are configured at the shape level via EventAssignment relationships.
+  // See: /events/eventInstance endpoints for managing event assignments to part shapes.
 
   baseTime: {
     label: "Base Time (min)",

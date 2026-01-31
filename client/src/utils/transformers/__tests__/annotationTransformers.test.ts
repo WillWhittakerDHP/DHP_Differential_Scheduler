@@ -7,52 +7,51 @@
 
 import { describe, it, expect } from 'vitest'
 import {
-  transformApiAnnotationType,
+  transformApiAnnotationShape,
   transformApiAnnotation,
   filterAnnotationsByUserTypeBlock,
   sortAnnotationsByOrderIndex,
   getDefaultAnnotation,
-  groupAnnotationsByEntity,
 } from '../annotationTransformers'
 
 describe('annotationTransformers', () => {
-  describe('transformApiAnnotationType', () => {
-    it('should transform API annotation type to frontend format', () => {
-      const rawAnnotationType = {
-        id: 'annot-type-1',
+  describe('transformApiAnnotationShape', () => {
+    it('should transform API annotation shape to frontend format', () => {
+      const rawAnnotationShape = {
+        id: 'annot-shape-1',
         name: 'Client Type',
         description: 'Client type annotation',
         disabled: false,
       }
       
-      const result = transformApiAnnotationType(rawAnnotationType)
+      const result = transformApiAnnotationShape(rawAnnotationShape)
       
       expect(result).toBeDefined()
-      expect(result?.id).toBe('annot-type-1')
+      expect(result?.id).toBe('annot-shape-1')
       expect(result?.name).toBe('Client Type')
     })
     
     it('should handle null input', () => {
-      const result = transformApiAnnotationType(null)
+      const result = transformApiAnnotationShape(null)
       
       expect(result).toBeNull()
     })
     
-    it('should filter disabled annotation types', () => {
-      const rawAnnotationType = {
-        id: 'annot-type-1',
+    it('should filter disabled annotation shapes', () => {
+      const rawAnnotationShape = {
+        id: 'annot-shape-1',
         name: 'Client Type',
         disabled: true,
       }
       
-      const result = transformApiAnnotationType(rawAnnotationType)
+      const result = transformApiAnnotationShape(rawAnnotationShape)
       
       expect(result).toBeNull()
     })
   })
   
   describe('transformApiAnnotation', () => {
-    it('should transform API annotation to base Annotation type', () => {
+    it('should transform API annotation to base AnnotationInstance type', () => {
       const rawAnnotation = {
         id: 'annot-1',
         name: 'Buyer',
@@ -205,35 +204,5 @@ describe('annotationTransformers', () => {
     })
   })
   
-  describe('groupAnnotationsByEntity', () => {
-    it('should group annotations by entity ID', () => {
-      const annotations = [
-        { id: 'annot-1', blockInstanceId: 'block-1', name: 'Buyer' },
-        { id: 'annot-2', blockInstanceId: 'block-1', name: 'Agent' },
-        { id: 'annot-3', blockInstanceId: 'block-2', name: 'Owner' },
-      ] as any[]
-      
-      const result = groupAnnotationsByEntity(annotations)
-      
-      expect(result.get('block-1')).toHaveLength(2)
-      expect(result.get('block-2')).toHaveLength(1)
-    })
-    
-    it('should handle empty array', () => {
-      const result = groupAnnotationsByEntity([])
-      
-      expect(result.size).toBe(0)
-    })
-    
-    it('should handle missing blockInstanceId', () => {
-      const annotations = [
-        { id: 'annot-1', name: 'Buyer' },
-      ] as any[]
-      
-      const result = groupAnnotationsByEntity(annotations)
-      
-      expect(result.size).toBeGreaterThanOrEqual(0)
-    })
-  })
 })
 

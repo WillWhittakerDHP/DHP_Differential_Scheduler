@@ -1,106 +1,66 @@
 /**
  * Differential Scheduling Utilities
  * 
- * LEARNING: Calculation functions for differential scheduling (inspector and client arrival times)
- * WHY: Supports services where inspector arrives earlier than client
- * PATTERN: Pure functions for calculating inspector and client start times
+ * LEARNING: Calculation functions for differential scheduling (major and minor arrival times)
+ * WHY: Supports services where major attendee arrives earlier than minor attendee
+ * PATTERN: Pure functions for calculating major and minor start times
  * Session 1.3.7: Client-Side Availability Calculations
+ * 
+ * NOTE: "Major" and "minor" are configurable via AvailabilitySettings.differentialPerspectives
+ * Defaults to major and minor for backward compatibility
  */
 
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { createTimeRange, createTimeSlot as createTimeSlotWithFlags } from './booking/appointmentSlotBuilder'
-import type { TimeSlot } from '@/types/appointment'
+import { createTimeRange, createTimeRangesFromSlotShape, findEventFinalByName } from './booking/appointmentSlotBuilder'
+import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import { 
+  getMajorEventShape, 
+  getMinorEventShape 
+} from '@/utils/eventAttendeeUtils'
+import type { EventShapeEntity } from '@/types/entities'
+import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 
 /**
- * Calculate total time inspector is on-site before client arrives
- * LEARNING: Sums all part instances' baseTime where onSite = true
- * WHY: Inspector needs to arrive this many minutes before client start time
- * PATTERN: Filter part instances by onSite, sum baseTime values
+ * Calculate major start time from minor start time
+ * LEARNING: Major arrives earlier: majorStart = minorStart - majorTotal
+ * WHY: Major needs time to prepare before minor arrives
+ * PATTERN: Subtract majorTotal minutes from minor start time
  * 
- * @param service - BookingBlockInstance with partInstances
- * @returns Total on-site time in minutes, defaults to 0 if no part instances
+ * @param minorStartTime - Minor start time as ISO date string
+ * @param majorTotal - Total minutes major needs before minor arrives
+ * @returns Major start time as ISO date string
  */
-export function calculateOnSiteTotal(service: BookingBlockInstance | null): number {
-  if (!service?.partInstances || service.partInstances.length === 0) return 0
+export function calculateMajorStartTime(minorStartTime: string, majorTotal: number): string {
+  const minorStart = new Date(minorStartTime)
+  const majorStart = new Date(minorStart)
   
-  // LEARNING: Filter part instances where onSite = true
-  // WHY: Only count parts that require inspector presence before client arrives
-  // PATTERN: Filter and reduce to sum baseTime values
-  const onSiteParts = service.partInstances.filter(pi => pi.onSite === true)
-  const onSiteSum = onSiteParts.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)
-  
-  // LEARNING: Return onSiteSum if > 0, otherwise sum all baseTime as fallback
-  // WHY: If no parts marked onSite, assume all parts require inspector presence
-  // PATTERN: Conditional return with fallback
-  if (onSiteSum > 0) {
-    return onSiteSum
-  }
-  
-  // Fallback: sum all baseTime values
-  return service.partInstances.reduce((sum, pi) => sum + (pi.baseTime || 0), 0)
-}
-
-/**
- * Calculate total time client is present
- * LEARNING: Sums all part instances' baseTime where clientPresent = true
- * WHY: Duration of time client needs to be present
- * PATTERN: Filter part instances by clientPresent, sum baseTime values
- * 
- * @param service - BookingBlockInstance with partInstances
- * @returns Total client presence time in minutes, defaults to 0 if no part instances
- */
-export function calculateClientPresenceDuration(service: BookingBlockInstance | null): number {
-  if (!service?.partInstances || service.partInstances.length === 0) return 0
-  
-  // LEARNING: Filter part instances where clientPresent = true
-  // WHY: Only count parts that require client presence
-  // PATTERN: Filter and reduce to sum baseTime values
-  return service.partInstances
-    .filter(pi => pi.clientPresent === true)
-    .reduce((sum, pi) => sum + (pi.baseTime || 0), 0)
-}
-
-/**
- * Calculate inspector start time from client start time
- * LEARNING: Inspector arrives earlier: inspectorStart = clientStart - onSiteTotal
- * WHY: Inspector needs time to prepare before client arrives
- * PATTERN: Subtract onSiteTotal minutes from client start time
- * 
- * @param clientStartTime - Client start time as ISO date string
- * @param onSiteTotal - Total minutes inspector needs before client arrives
- * @returns Inspector start time as ISO date string
- */
-export function calculateInspectorStartTime(clientStartTime: string, onSiteTotal: number): string {
-  const clientStart = new Date(clientStartTime)
-  const inspectorStart = new Date(clientStart)
-  
-  // LEARNING: Subtract onSiteTotal minutes from client start time using UTC
-  // WHY: Inspector arrives earlier to prepare; use UTC to match ISO string format
+  // LEARNING: Subtract majorTotal minutes from minor start time using UTC
+  // WHY: Major arrives earlier to prepare; use UTC to match ISO string format
   // PATTERN: Use setUTCMinutes to subtract time in UTC
-  inspectorStart.setUTCMinutes(inspectorStart.getUTCMinutes() - onSiteTotal)
+  majorStart.setUTCMinutes(majorStart.getUTCMinutes() - majorTotal)
   
-  // LEARNING: Handle edge case - if inspector start goes to previous day, clamp to same day at 9 AM
-  // WHY: Prevent midnight rollover issues - inspector should arrive on same day as client
+  // LEARNING: Handle edge case - if major start goes to previous day, clamp to same day at 9 AM
+  // WHY: Prevent midnight rollover issues - major should arrive on same day as minor
   // PATTERN: Check if UTC date changed, reset to 9:00 AM UTC on same day if needed
-  if (inspectorStart.getUTCDate() !== clientStart.getUTCDate()) {
-    inspectorStart.setUTCDate(clientStart.getUTCDate())
-    inspectorStart.setUTCHours(9, 0, 0, 0) // Clamp to 9:00 AM UTC on same day
+  if (majorStart.getUTCDate() !== minorStart.getUTCDate()) {
+    majorStart.setUTCDate(minorStart.getUTCDate())
+    majorStart.setUTCHours(9, 0, 0, 0) // Clamp to 9:00 AM UTC on same day
   }
   
-  return inspectorStart.toISOString()
+  return majorStart.toISOString()
 }
 
 /**
- * Calculate client start time (for non-differential services, same as selected slot)
- * LEARNING: For differential services, client arrives at selected slot time
- * WHY: Client start time is the selected time slot
+ * Calculate minor start time (for non-differential services, same as selected slot)
+ * LEARNING: For differential services, minor arrives at selected slot time
+ * WHY: Minor start time is the selected time slot
  * PATTERN: Return selected slot time directly
  * 
  * @param selectedSlotTime - Selected time slot as ISO date string
- * @returns Client start time as ISO date string (same as selected slot for now)
+ * @returns Minor start time as ISO date string (same as selected slot for now)
  */
-export function calculateClientStartTime(selectedSlotTime: string): string {
-  // LEARNING: For now, client start time is the selected slot time
+export function calculateMinorStartTime(selectedSlotTime: string): string {
+  // LEARNING: For now, minor start time is the selected slot time
   // WHY: Future property-based adjustments will be added here
   // PATTERN: Return selected slot time directly
   return selectedSlotTime
@@ -117,147 +77,240 @@ export function calculatePropertyAdjustments(_propertyDetails?: Record<string, u
 }
 
 /**
- * Calculate client start time from inspector start time
- * LEARNING: Client arrives later: clientStart = inspectorStart + onSiteTotal
- * WHY: For differential scheduling, client arrives after inspector has prepared
- * PATTERN: Add onSiteTotal minutes to inspector start time
+ * Calculate minor start time from major start time
+ * LEARNING: Minor arrives later: minorStart = majorStart + majorTotal
+ * WHY: For differential scheduling, minor arrives after major has prepared
+ * PATTERN: Add majorTotal minutes to major start time
  * 
- * @param inspectorStartTime - Inspector start time as ISO date string
- * @param onSiteTotal - Total minutes inspector needs before client arrives
- * @returns Client start time as ISO date string
+ * @param majorStartTime - Major start time as ISO date string
+ * @param majorTotal - Total minutes major needs before minor arrives
+ * @returns Minor start time as ISO date string
  */
-export function calculateClientStartTimeFromInspector(inspectorStartTime: string, onSiteTotal: number): string {
-  const inspectorStart = new Date(inspectorStartTime)
-  const clientStart = new Date(inspectorStart)
+export function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTotal: number): string {
+  const majorStart = new Date(majorStartTime)
+  const minorStart = new Date(majorStart)
   
-  // LEARNING: Add onSiteTotal minutes to inspector start time
-  // WHY: Client arrives after inspector has completed on-site preparation
+  // LEARNING: Add majorTotal minutes to major start time
+  // WHY: Minor arrives after major has completed preparation
   // PATTERN: Use setUTCMinutes to add time in UTC
-  clientStart.setUTCMinutes(clientStart.getUTCMinutes() + onSiteTotal)
+  minorStart.setUTCMinutes(minorStart.getUTCMinutes() + majorTotal)
   
-  return clientStart.toISOString()
+  return minorStart.toISOString()
 }
 
 /**
- * Transform AppointmentSlot to inspector perspective
- * LEARNING: Creates AppointmentSlot with time slots calculated from inspector start time
- * WHY: Provides inspector perspective time slots for UI display
- * PATTERN: Use inspector start time as base, calculate all category time slots from that base
+ * Transform AppointmentSlot to major perspective
+ * LEARNING: Creates AppointmentSlot with time slots calculated from major start time
+ * WHY: Provides major perspective time slots for UI display
+ * PATTERN: Use major start time as base, calculate all category time slots from that base
  * 
  * @param appointmentSlot - AppointmentSlot object (may have null TimeSlots)
- * @param inspectorStartTime - Inspector start time as ISO date string
- * @returns AppointmentSlot with TimeSlot objects calculated from inspector start time
+ * @param majorStartTime - Major start time as ISO date string
+ * @param globalData - Optional GlobalData for attendee-based logic
+ * @param availabilitySettings - Optional AvailabilitySettings for major/minor attendee configuration
+ * @returns AppointmentSlot with TimeSlot objects calculated from major start time
  */
-export function transformToInspectorPerspective(
+export function transformToMajorPerspective(
   appointmentSlot: import('@/types/appointment').AppointmentSlot,
-  inspectorStartTime: string
+  majorStartTime: string,
+  globalData?: GlobalData,
+  availabilitySettings?: AvailabilitySettings | null
 ): import('@/types/appointment').AppointmentSlot {
-  // LEARNING: Calculate durations from existing TimeSlots/TimeRanges or use 0
-  // WHY: Preserves duration information even if TimeSlots/TimeRanges are null
-  // PATTERN: Extract duration from TimeSlot/TimeRange or default to 0
-  const totalDuration = appointmentSlot.totalTime?.duration || 0
-  const totalOnSiteDuration = appointmentSlot.totalOnSite?.duration || 0
-  const earlyArrivalDuration = appointmentSlot.earlyArrival?.duration || 0
-  const dataCollectionDuration = appointmentSlot.dataCollection?.duration || 0
-  const reportWritingDuration = appointmentSlot.reportWriting?.duration || 0
-  const clientPresentationDuration = appointmentSlot.clientPresentation?.duration || 0
+  // LEARNING: Get durations from SlotShape (source of truth)
+  // WHY: SlotShape contains all duration information needed
+  // PATTERN: Use attendee-based logic when available, fall back to name-based logic
+  const slotShape = appointmentSlot.shape.slotShape
   
-  // LEARNING: Calculate client start time for clientPresentation
-  // WHY: Client presentation happens after inspector has completed on-site work
-  // PATTERN: Add totalOnSiteDuration to inspector start time
-  const clientStartTime = calculateClientStartTimeFromInspector(inspectorStartTime, totalOnSiteDuration)
+  // Find major and minor event shapes using attendee-based logic if available
+  let majorEventFinal: import('@/types/appointment').EventFinal | undefined
+  let minorEventFinal: import('@/types/appointment').EventFinal | undefined
   
-  // LEARNING: Helper to get flags from existing TimeSlot or use defaults
-  // WHY: Preserves flags when transforming TimeSlots
-  // PATTERN: Extract flags from existing TimeSlot or use false as default
-  const getTimeSlotFlags = (timeSlot: TimeSlot | null): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } => {
-    if (!timeSlot) return { onSite: false, clientPresent: false, moveable: false, isAvailable: true }
-    return {
-      onSite: timeSlot.onSite ?? false,
-      clientPresent: timeSlot.clientPresent ?? false,
-      moveable: timeSlot.moveable ?? false,
-      isAvailable: timeSlot.isAvailable ?? true  // Preserve availability status, default to true
+  if (globalData && slotShape.eventFinals && availabilitySettings?.differentialPerspectives) {
+    const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
+    const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
+    const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+    
+    const majorEventShape = majorAttendeeIds.length > 0
+      ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+      : null
+    // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
+    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
+    const eventShapesExcludingMajor = majorEventShape
+      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+      : eventShapeEntities
+    const minorEventShape = minorAttendeeIds.length > 0
+      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
+      : null
+    
+    // Find event finals by event shape ID
+    if (majorEventShape) {
+      majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
     }
+    if (minorEventShape) {
+      minorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id)
+    }
+  }
+  
+  // Fallback to name-based lookup if attendee-based logic didn't find events
+  if (!majorEventFinal) {
+    majorEventFinal = findEventFinalByName(slotShape, 'Major')
+  }
+  if (!minorEventFinal) {
+    minorEventFinal = findEventFinalByName(slotShape, 'Minor')
+  }
+  
+  const majorDuration = majorEventFinal?.duration ?? 0
+  const minorDuration = minorEventFinal?.duration ?? 0
+  
+  // LEARNING: Calculate minor start time for minorTimeRange
+  // WHY: Minor presentation happens after major has completed work
+  // PATTERN: Add majorDuration to major start time
+  const minorStartTime = calculateMinorStartTimeFromMajor(majorStartTime, majorDuration)
+  
+  // LEARNING: Create time ranges from SlotShape with new start time
+  // WHY: Transform slot to use major start time as base
+  // PATTERN: Use createTimeRangesFromSlotShape utility
+  const timeRanges = createTimeRangesFromSlotShape(slotShape, majorStartTime)
+  
+  // LEARNING: Adjust minorTimeRange to end when major finishes work
+  // WHY: Minor time should end when major finishes work
+  // PATTERN: Use event shape names to look up time ranges (backward compatible with name-based keys)
+  const majorEventName = majorEventFinal?.eventShape.name ?? 'Major'
+  const minorEventName = minorEventFinal?.eventShape.name ?? 'Minor'
+  
+  const majorTimeRange = timeRanges.eventTimeRanges?.[majorEventName]
+  let minorTimeRange = timeRanges.eventTimeRanges?.[minorEventName]
+  
+  if (majorTimeRange && minorDuration > 0 && slotShape.differentialOffset >= 0) {
+    const minorDurationAdjusted = majorTimeRange.duration - slotShape.differentialOffset
+    if (minorDurationAdjusted > 0) {
+      minorTimeRange = createTimeRange(minorStartTime, minorDurationAdjusted)
+    } else {
+      minorTimeRange = null
+    }
+  }
+  
+  // Update eventTimeRanges Record with adjusted minor
+  const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
+  if (minorTimeRange) {
+    adjustedEventTimeRanges[minorEventName] = minorTimeRange
   }
   
   return {
     ...appointmentSlot,
-    totalTime: totalDuration > 0 ? createTimeRange(inspectorStartTime, totalDuration) : null,
-    totalOnSite: totalOnSiteDuration > 0 ? createTimeRange(inspectorStartTime, totalOnSiteDuration) : null,
-    earlyArrival: earlyArrivalDuration > 0 
-      ? createTimeSlotWithFlags(inspectorStartTime, earlyArrivalDuration, getTimeSlotFlags(appointmentSlot.earlyArrival))
-      : null,
-    dataCollection: dataCollectionDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, dataCollectionDuration, getTimeSlotFlags(appointmentSlot.dataCollection))
-      : null,
-    reportWriting: reportWritingDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, reportWritingDuration, getTimeSlotFlags(appointmentSlot.reportWriting))
-      : null,
-    clientPresentation: clientPresentationDuration > 0
-      ? createTimeSlotWithFlags(clientStartTime, clientPresentationDuration, getTimeSlotFlags(appointmentSlot.clientPresentation))
-      : null,
+    startTime: majorStartTime,
+    totalTimeRange: timeRanges.totalTimeRange,
+    eventTimeRanges: adjustedEventTimeRanges
   }
 }
 
 /**
- * Transform AppointmentSlot to client perspective
- * LEARNING: Creates AppointmentSlot with time slots calculated from client start time
- * WHY: Provides client perspective time slots for UI display
- * PATTERN: Use client start time as base, calculate inspector times backwards from that base
+ * Transform AppointmentSlot to minor perspective
+ * LEARNING: Creates AppointmentSlot with time slots calculated from minor start time
+ * WHY: Provides minor perspective time slots for UI display
+ * PATTERN: Use minor start time as base, calculate major times backwards from that base
  * 
  * @param appointmentSlot - AppointmentSlot object (may have null TimeSlots)
- * @param clientStartTime - Client start time as ISO date string
- * @param onSiteTotal - Total minutes inspector needs before client arrives
- * @returns AppointmentSlot with TimeSlot objects calculated from client start time
+ * @param minorStartTime - Minor start time as ISO date string
+ * @param globalData - Optional GlobalData for attendee-based logic
+ * @param availabilitySettings - Optional AvailabilitySettings for major/minor attendee configuration
+ * @returns AppointmentSlot with TimeSlot objects calculated from minor start time
  */
-export function transformToClientPerspective(
+export function transformToMinorPerspective(
   appointmentSlot: import('@/types/appointment').AppointmentSlot,
-  clientStartTime: string,
-  onSiteTotal: number
+  minorStartTime: string,
+  globalData?: GlobalData,
+  availabilitySettings?: AvailabilitySettings | null
 ): import('@/types/appointment').AppointmentSlot {
-  // LEARNING: Calculate inspector start time (before client arrives)
-  // WHY: Inspector perspective times are calculated backwards from client start
-  // PATTERN: Subtract onSiteTotal from client start time
-  const inspectorStartTime = calculateInspectorStartTime(clientStartTime, onSiteTotal)
+  // LEARNING: Get major duration from SlotShape (source of truth)
+  // WHY: SlotShape already contains calculated major duration, no need for separate parameter
+  // PATTERN: Use attendee-based logic when available, fall back to name-based logic
+  const slotShape = appointmentSlot.shape.slotShape
   
-  // LEARNING: Calculate durations from existing TimeSlots/TimeRanges or use 0
-  // WHY: Preserves duration information even if TimeSlots/TimeRanges are null
-  // PATTERN: Extract duration from TimeSlot/TimeRange or default to 0
-  const totalDuration = appointmentSlot.totalTime?.duration || 0
-  const totalOnSiteDuration = appointmentSlot.totalOnSite?.duration || 0
-  const earlyArrivalDuration = appointmentSlot.earlyArrival?.duration || 0
-  const dataCollectionDuration = appointmentSlot.dataCollection?.duration || 0
-  const reportWritingDuration = appointmentSlot.reportWriting?.duration || 0
-  const clientPresentationDuration = appointmentSlot.clientPresentation?.duration || 0
+  // Find major and minor event shapes using attendee-based logic if available
+  let majorEventFinal: import('@/types/appointment').EventFinal | undefined
+  let minorEventFinal: import('@/types/appointment').EventFinal | undefined
   
-  // LEARNING: Helper to get flags from existing TimeSlot or use defaults
-  // WHY: Preserves flags when transforming TimeSlots
-  // PATTERN: Extract flags from existing TimeSlot or use false as default
-  const getTimeSlotFlags = (timeSlot: TimeSlot | null): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } => {
-    if (!timeSlot) return { onSite: false, clientPresent: false, moveable: false, isAvailable: true }
-    return {
-      onSite: timeSlot.onSite ?? false,
-      clientPresent: timeSlot.clientPresent ?? false,
-      moveable: timeSlot.moveable ?? false,
-      isAvailable: timeSlot.isAvailable ?? true  // Preserve availability status, default to true
+  if (globalData && slotShape.eventFinals && availabilitySettings?.differentialPerspectives) {
+    const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
+    const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
+    const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+    
+    const majorEventShape = majorAttendeeIds.length > 0
+      ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+      : null
+    // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
+    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
+    const eventShapesExcludingMajor = majorEventShape
+      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+      : eventShapeEntities
+    const minorEventShape = minorAttendeeIds.length > 0
+      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
+      : null
+    
+    // Find event finals by event shape ID
+    if (majorEventShape) {
+      majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
+    }
+    if (minorEventShape) {
+      minorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id)
     }
   }
   
+  // Fallback to name-based lookup if attendee-based logic didn't find events
+  if (!majorEventFinal) {
+    majorEventFinal = findEventFinalByName(slotShape, 'Major')
+  }
+  if (!minorEventFinal) {
+    minorEventFinal = findEventFinalByName(slotShape, 'Minor')
+  }
+  
+  const majorTotal = majorEventFinal?.duration ?? 0
+  
+  // LEARNING: Calculate major start time (before minor arrives)
+  // WHY: Major perspective times are calculated backwards from minor start
+  // PATTERN: Subtract majorTotal from minor start time
+  const majorStartTime = calculateMajorStartTime(minorStartTime, majorTotal)
+  
+  // LEARNING: Create time ranges from SlotShape with major start time
+  // WHY: Transform slot to use major start time as base for major work
+  // PATTERN: Use createTimeRangesFromSlotShape utility with major start time
+  const timeRanges = createTimeRangesFromSlotShape(slotShape, majorStartTime)
+  
+  // LEARNING: Adjust minorTimeRange to start at minor start time
+  // WHY: Minor time starts when minor arrives
+  // PATTERN: Use event shape names to look up time ranges (backward compatible with name-based keys)
+  const majorEventName = majorEventFinal?.eventShape.name ?? 'Major'
+  const minorEventName = minorEventFinal?.eventShape.name ?? 'Minor'
+  
+  const majorTimeRange = timeRanges.eventTimeRanges?.[majorEventName]
+  const minorDuration = minorEventFinal?.duration ?? 0
+  
+  let minorTimeRange = null
+  if (majorTimeRange && minorDuration > 0 && slotShape.differentialOffset >= 0) {
+    const minorDurationAdjusted = majorTimeRange.duration - slotShape.differentialOffset
+    if (minorDurationAdjusted > 0) {
+      minorTimeRange = createTimeRange(minorStartTime, minorDurationAdjusted)
+    }
+  }
+  
+  // Update eventTimeRanges Record with adjusted minor
+  const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
+  if (minorTimeRange) {
+    adjustedEventTimeRanges[minorEventName] = minorTimeRange
+  }
+  
+  // LEARNING: Create totalTimeRange starting at minor start time
+  // WHY: Total appointment time from minor perspective starts when minor arrives
+  const totalTimeRange = slotShape.totalDuration > 0
+    ? createTimeRange(minorStartTime, slotShape.totalDuration)
+    : null
+  
   return {
     ...appointmentSlot,
-    totalTime: totalDuration > 0 ? createTimeRange(clientStartTime, totalDuration) : null,
-    totalOnSite: totalOnSiteDuration > 0 ? createTimeRange(inspectorStartTime, totalOnSiteDuration) : null,
-    earlyArrival: earlyArrivalDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, earlyArrivalDuration, getTimeSlotFlags(appointmentSlot.earlyArrival))
-      : null,
-    dataCollection: dataCollectionDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, dataCollectionDuration, getTimeSlotFlags(appointmentSlot.dataCollection))
-      : null,
-    reportWriting: reportWritingDuration > 0
-      ? createTimeSlotWithFlags(inspectorStartTime, reportWritingDuration, getTimeSlotFlags(appointmentSlot.reportWriting))
-      : null,
-    clientPresentation: clientPresentationDuration > 0
-      ? createTimeSlotWithFlags(clientStartTime, clientPresentationDuration, getTimeSlotFlags(appointmentSlot.clientPresentation))
-      : null,
+    startTime: minorStartTime,
+    totalTimeRange,
+    eventTimeRanges: adjustedEventTimeRanges
   }
 }
+

@@ -463,7 +463,7 @@ describe('annotationUtils', () => {
           partShape: [],
         },
         relationships: {
-          activeParts: [],
+          partAssignments: [],
           bookingCascades: [],
           instanceComponents: [],
           validCascades: [],

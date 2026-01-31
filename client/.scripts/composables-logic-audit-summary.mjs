@@ -34,14 +34,15 @@ function renderIndex(files) {
   lines.push('')
   lines.push('## Full index (all composable files)')
   lines.push('')
-  lines.push('| File | score | exports(use*) | vue-query | watch | computed | ref | async | await | DOM | console |')
-  lines.push('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
+  lines.push('| File | Priority | score | exports(use*) | vue-query | watch | computed | ref | async | await | DOM | console |')
+  lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
 
   for (const f of files) {
     const c = f.counts || {}
     const exportsCount = Array.isArray(f.exportUseFunctions) ? f.exportUseFunctions.length : 0
+    const priority = f.priority || 'P2'
     lines.push(
-      `| \`${f.repoPath}\` | ${score(c)} | ${exportsCount} | ${c.vueQuery || 0} | ${(c.watch || 0) + (c.watchEffect || 0)} | ${c.computed || 0} | ${c.ref || 0} | ${c.async || 0} | ${c.await || 0} | ${c.dom || 0} | ${c.console || 0} |`
+      `| \`${f.repoPath}\` | ${priority} | ${score(c)} | ${exportsCount} | ${c.vueQuery || 0} | ${(c.watch || 0) + (c.watchEffect || 0)} | ${c.computed || 0} | ${c.ref || 0} | ${c.async || 0} | ${c.await || 0} | ${c.dom || 0} | ${c.console || 0} |`
     )
   }
 

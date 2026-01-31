@@ -9,13 +9,12 @@
 
 import { computed, ref, watch, type Ref, type ComputedRef, unref } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { calculateDurationFromBlockInstances, getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import { fitAllTimeSlotsWithAvailability, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import { preprocessBusyPeriods } from '@/utils/booking/timeAvailabilityManager'
-import { hasValidDateRangeStructure } from '@/utils/booking/dateRangeValidation'
+import { hasValidDateRangeStructure, validateDateRange } from '@/utils/booking/dateRangeValidation'
 import type { PropertyDetails } from '@/types/availability'
 import { useNotification } from '@/composables/useNotification'
 import { ConstraintValidationError } from '@/utils/booking/timeAvailabilityManager'
@@ -100,6 +99,14 @@ export function useAvailability(
         timeSlots.value = []
         return
       }
+      const validatedDateRange = validateDateRange(dateRange)
+      if (!validatedDateRange) {
+        if (signal.aborted) return
+        error.value = null
+        isLoading.value = false
+        timeSlots.value = []
+        return
+      }
 
       try {
         isLoading.value = true
@@ -127,8 +134,8 @@ export function useAvailability(
         // PATTERN: Use utility function to get busy times from mock/real calendar
         // NOTE: hasValidDateRangeStructure check above ensures start and end are non-null
         const rawBusyTimes = getCalendarAvailability({
-          start: dateRange.start! as RFC3339DateTime, // Non-null and type assertion safe due to hasValidDateRangeStructure check
-          end: dateRange.end! as RFC3339DateTime
+          start: validatedDateRange.start,
+          end: validatedDateRange.end
         })
         // P1-6: Apply busy period validation consistently
         // LEARNING: Validate and merge busy periods before slot generation
@@ -155,8 +162,8 @@ export function useAvailability(
         // PATTERN: Use helper function to set dateRange in rangeConstraints if not already present
         // NOTE: hasValidDateRangeStructure check above ensures start and end are non-null
         const settingsWithDateRange = ensureDateRangeInSettings(settingsValue, {
-          start: dateRange.start!, // Non-null assertion safe due to hasValidDateRangeStructure check
-          end: dateRange.end!
+          start: validatedDateRange.start,
+          end: validatedDateRange.end
         })
 
         // LEARNING: Extract all constraints using shared helper function
@@ -168,12 +175,12 @@ export function useAvailability(
         // WHY: Generates ALL slots and marks them as available/busy instead of filtering
         // PATTERN: Use fitAllTimeSlotsWithAvailability for unified availability handling
         const result = await fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity
-          startBoundary: dateRange.start! as RFC3339DateTime, // Non-null and type assertion safe due to hasValidDateRangeStructure check
-          endBoundary: dateRange.end! as RFC3339DateTime,
+          startBoundary: validatedDateRange.start,
+          endBoundary: validatedDateRange.end,
           duration,
           minuteIncrement: settingsValue.minuteIncrement,
           busyTimes,
-          includeFlags: { onSite: false, clientPresent: false, moveable: false }
+          includeFlags: { major: false, minor: false, moveable: false }
         }, rangeConstraints, overlapConstraints, capacityConstraints)
         if (signal.aborted) return
 

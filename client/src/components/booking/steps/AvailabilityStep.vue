@@ -34,9 +34,10 @@ import { useAvailabilityStepHandlers } from '@/composables/booking/useAvailabili
 import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDevPanel'
 import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
 import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'
+import { equals } from '@/utils/ternary/ternaryUtils'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
-import TimeOnSiteGraph from '@/components/booking/TimeOnSiteGraph.vue'
+import DifferentialGraph from '@/components/booking/DifferentialGraph.vue'
 import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
@@ -97,22 +98,24 @@ const timeSlotsForLogic = computed(() => {
 // NOTE: This is calculated early because useAvailabilityDefaults needs it before useAvailabilityLogic is called
 //       After useAvailabilityLogic is called, we use its isEffectivelyDifferential for everything else
 const isEffectivelyDifferentialForDefaults = computed(() => {
-  const selectedServices = wizard.selectedServices.value
+  const selectedServices = wizard.selectedServiceTypeBlocks.value
   const selectedOptions = wizard.selectedOptionTypeBlocks.value
   
+  // LEARNING: Use equals() helper for ternary boolean comparison
+  // WHY: differential is TernaryBoolean ('true'/'false'/'override'), not boolean
+  // PATTERN: Use equals() helper from ternaryUtils for proper comparison
   // Check if any service is differential
-  const isDifferential = selectedServices.some(s => s.differential === true)
+  const isDifferential = selectedServices.some(s => equals(s.differential, 'true'))
   if (!isDifferential) return false
   
-  // Check if any part has differentialOverride: true
-  const serviceHasOverride = selectedServices.some(service =>
-    service.partInstances?.some(part => part.differentialOverride === true)
-  )
-  const optionHasOverride = selectedOptions.some(option =>
-    option.partInstances?.some(part => part.differentialOverride === true)
-  )
+  // LEARNING: differentialOverride property was deprecated when converting to events
+  // WHY: This property no longer exists on BookingPartInstance - removed when converting to EventAssignment relationships
+  // PATTERN: Differential override logic should be handled via events if needed in the future
+  // NOTE: Removed differentialOverride check - if this functionality is needed, it should be implemented via events
   
   // If override exists, force non-differential
+  const serviceHasOverride = false // Removed: differentialOverride check deprecated
+  const optionHasOverride = false // Removed: differentialOverride check deprecated
   if (serviceHasOverride || optionHasOverride) return false
   
   return true
@@ -147,7 +150,8 @@ const {
   selectedDate,
   propertyDetailsStepData,
   wizard: {
-    selectedServices: wizard.selectedServices,
+    selectedUserTypeBlock: wizard.selectedUserTypeBlock,
+    selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
     selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks
   },
@@ -209,8 +213,9 @@ const {
 // LEARNING: Use time slot durations composable
 // WHY: Extracts time slot duration mapping logic from component to composable
 // PATTERN: Composable provides computed Map for time slot durations
+// WHY: Wrap Ref in computed to match ComposablesRef type requirement
 const { timeSlotDurations } = useTimeSlotDurations({
-  timeSlotsPerDay,
+  timeSlotsPerDay: computed(() => timeSlotsPerDay.value),
   selectedDate
 })
 
@@ -280,7 +285,7 @@ const confirmedMoveableScheduling = ref<typeof moveableOptions.value>(null)
 const { emptyStateMessage } = useAvailabilityEmptyState({
   isEffectivelyDifferential,
   startTimeType,
-  appointmentSlotsCount: computed(() => appointmentSlots.length)
+  appointmentSlotsCount: computed(() => appointmentSlots.value.length)
 })
 
 // LEARNING: Use availability step data composable
@@ -349,6 +354,7 @@ const {
 useAvailabilityDevPanel({
   selectedBlockInstances: accumulatedBlockInstances,
   appointmentSlots,
+  appointmentShape,
   selectedDate,
   selectedSlot,
   dateRange: dateRangeForApi,
@@ -392,10 +398,10 @@ useAvailabilityDevPanel({
           <!-- LEARNING: Time On-Site Graph Component - Under Calendar -->
           <!-- WHY: Always visible, shows time breakdown for selected date/time -->
           <!-- PATTERN: Interactive bars that control perspective selection -->
-          <TimeOnSiteGraph
+          <DifferentialGraph
             :is-differential-service="isEffectivelyDifferential"
             :graph-bars="graphBars"
-            :selected-services="wizard.selectedServices.value"
+            :selected-services="wizard.selectedServiceTypeBlocks.value"
             :start-time-type="perspective"
             class="time-graph-wrapper"
             @time-basis-change="handleTimeBasisChange"
@@ -454,7 +460,7 @@ useAvailabilityDevPanel({
           <!-- WHY: Shows availability options filtered by selected base service -->
           <!-- PATTERN: SelectionCardGroup with checkbox mode, stack layout, conditional rendering -->
           <!-- NOTE: Always visible in bottom right when base service is selected (cascade requirement) -->
-          <div v-if="wizard.selectedServices.value.length > 0" class="availability-options-section">
+          <div v-if="wizard.selectedServiceTypeBlocks.value.length > 0" class="availability-options-section">
             <h5 class="text-h5 mb-4 mb-sm-6">Availability Options</h5>
           
           <!-- Cascade configuration error -->

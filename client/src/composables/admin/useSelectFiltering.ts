@@ -6,7 +6,7 @@
  * PATTERN: Composable that provides filtered entities based on select config
  * 
  * This composable handles:
- * - Active child select filtering (bookingCascades, activeParts)
+ * - Active child select filtering (bookingCascades, partAssignments)
  * - Direct matching select filtering (dependentInstances)
  * - Active components filtering (composable services)
  * - Filter options function application
@@ -19,6 +19,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
+import { RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { useAdmin } from '../useAdmin'
 import { useComponentEntity } from '../useComponentEntity'
 import type { FieldContextType } from '../useFieldContext'
@@ -35,7 +36,7 @@ export interface UseSelectFilteringOptions {
   allEntities: ComputedRef<GlobalEntity<GlobalEntityKey>[]>
   
   /**
-   * Select config (relationshipSelect or typeSelect)
+   * Select config (direct format, relationship or type based on targetMode)
    */
   selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
   
@@ -60,9 +61,16 @@ export interface UseSelectFilteringOptions {
   rawFieldValue: ReadonlyVueRef<unknown>
   
   /**
-   * Whether this is a DescriptionSelect field
+   * Whether this is an AnnotationAssignmentSelect field
+   * LEARNING: Annotations are now core entities, use standard relationship select pattern
    */
-  isDescriptionSelect: ComputedRef<boolean>
+  isAnnotationAssignmentSelect: ComputedRef<boolean>
+  
+  /**
+   * Whether this is an AttendeeSelect field
+   * LEARNING: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
+   */
+  isAttendeeSelect: ComputedRef<boolean>
 }
 
 /**
@@ -98,6 +106,12 @@ export interface UseSelectFilteringReturn {
    * Parent type entity (with relationships attached)
    */
   parentTypeEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
+  
+  /**
+   * Whether this is an AttendeeSelect field
+   * LEARNING: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
+   */
+  isAttendeeSelect: ComputedRef<boolean>
 }
 
 /**
@@ -117,7 +131,7 @@ export function useSelectFiltering(
     optionEntityKey,
     fieldContext,
     rawFieldValue,
-    isDescriptionSelect
+    isAnnotationAssignmentSelect
   } = options
 
   const adminComp = useAdmin()
@@ -268,6 +282,19 @@ export function useSelectFiltering(
   })
 
   /**
+   * LEARNING: Check if this is an AttendeeSelect field
+   * WHY: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
+   * PATTERN: Check selectType from selectConfig
+   */
+  const isAttendeeSelect = computed(() => {
+    const config = selectConfig.value
+    if (!config || !('selectType' in config)) {
+      return false
+    }
+    return config.selectType === RelationshipSelectTypeEnum.AttendeeSelect
+  })
+
+  /**
    * LEARNING: Conditionally initialize useComponentEntity during setup (not inside computed)
    * WHY: Composables can only be called during setup, not inside computed properties
    * PATTERN: Call composable conditionally during setup, use its methods in computed
@@ -280,7 +307,7 @@ export function useSelectFiltering(
    * LEARNING: Filter entities based on select config
    * WHY: Different select types need different filtering:
    * - instanceComponents: Filter by component availability
-   * - bookingCascades/activeParts: Filter by parent's type's valid children
+   * - bookingCascades/partAssignments: Filter by parent's type's valid children
    * - Direct matching: Filter by matching path values
    * - Annotations: No filtering needed
    * - filterOptions: Apply custom filter function
@@ -349,7 +376,7 @@ export function useSelectFiltering(
       return Array.from(uniqueComponents.values())
     }
     
-    // Special case: bookingCascades/activeParts
+    // Special case: bookingCascades/partAssignments
     // Filter by parent's type's valid children
     if (isActiveChildSelect.value) {
       // LEARNING: For new entities, parentTypeRef might come from form values
@@ -378,7 +405,7 @@ export function useSelectFiltering(
       
       // Get valid children array from parent type entity
       // For bookingCascades: blockShape.validCascades
-      // For activeParts: blockShape.validParts (or partShape.validParts)
+      // For partAssignments: blockShape.validParts (or partShape.validParts)
       const validChildrenKey = fieldKey.value === 'bookingCascades' ? 'validCascades' : 'validParts'
       
       // LEARNING: Use type-safe property access with fallback
@@ -506,13 +533,48 @@ export function useSelectFiltering(
     
     // LEARNING: Annotations don't need filtering - all annotations are available
     // WHY: Annotations are independent entities, not filtered by relationships
-    // PATTERN: Return all annotations when DescriptionSelect is detected
-    if (isDescriptionSelect.value) {
+    // PATTERN: Return all annotation instances when AnnotationAssignmentSelect is detected
+    // LEARNING: Annotations are now core entities, no special filtering needed
+    if (isAnnotationAssignmentSelect.value) {
       return allEntities.value
     }
     
-    // Apply filterOptions if provided
+    // Get config once for reuse
     const config = selectConfig.value
+    
+    // LEARNING: Attendee assignments filter BlockInstances by BlockShape.isStateControl === true
+    // WHY: Attendees are UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)
+    // PATTERN: Filter BlockInstances by checking their BlockShape's isStateControl property
+    if (isAttendeeSelect.value && optionEntityKey.value === 'blockInstance') {
+      // Get all block shapes to check isStateControl property
+      const allBlockShapes = adminComp.getEntities('blockShape')
+      
+      // LEARNING: Filter block shapes to only those with isStateControl === true
+      // WHY: UserTypeBlock instances belong to BlockShapes where isStateControl === true
+      // PATTERN: Filter block shapes, then filter block instances by their blockShapeRef
+      const stateControlBlockShapeIds = new Set(
+        allBlockShapes
+          .filter((bs: GlobalEntity<'blockShape'>) => {
+            const blockShapeTyped = bs as GlobalEntity<'blockShape'> & { isStateControl?: boolean }
+            return blockShapeTyped.isStateControl === true
+          })
+          .map((bs: GlobalEntity<'blockShape'>) => bs.id)
+      )
+      
+      // LEARNING: Filter BlockInstances to only include those whose blockShapeRef matches a state control BlockShape
+      // WHY: Only show UserTypeBlock instances (BlockInstances belonging to state control BlockShapes)
+      // PATTERN: Check each BlockInstance's blockShapeRef against the Set of state control BlockShape IDs
+      const filtered = allEntities.value.filter((candidate) => {
+        const blockInstanceTyped = candidate as GlobalEntity<'blockInstance'>
+        const blockShapeRef = getEntityFieldValue(blockInstanceTyped, 'blockShapeRef')
+        if (!blockShapeRef) return false
+        return stateControlBlockShapeIds.has(String(blockShapeRef))
+      })
+      
+      return filtered
+    }
+    
+    // Apply filterOptions if provided
     if (config && 'filterOptions' in config && typeof config.filterOptions === 'function' && currentEntity.value) {
       return allEntities.value.filter((candidate) => 
         (config.filterOptions as (candidate: unknown, currentEntity: unknown) => boolean)(candidate, currentEntity.value)
@@ -520,7 +582,8 @@ export function useSelectFiltering(
     }
     
     // Type selects: No filtering needed
-    return allEntities.value
+    const result = allEntities.value
+    return result
   })
 
   return {
@@ -529,7 +592,8 @@ export function useSelectFiltering(
     isDirectMatchingSelect,
     parentTypeEntityKey,
     parentTypeRef,
-    parentTypeEntity
+    parentTypeEntity,
+    isAttendeeSelect
   }
 }
 

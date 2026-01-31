@@ -104,6 +104,13 @@ export interface UseFieldComponentReturn {
    * WHY: Kept for backward compatibility, but prefer componentType
    */
   isSelect: Ref<boolean>
+  
+  /**
+   * @deprecated Use componentType.value.type === 'relationshipCollection' instead
+   * LEARNING: Whether field is relationship collection type
+   * WHY: Kept for backward compatibility, but prefer componentType
+   */
+  isRelationshipCollection: Ref<boolean>
 }
 
 /**
@@ -240,21 +247,35 @@ export function useFieldComponent(
   })
   
   /**
-   * LEARNING: Whether field is partsCollection type
-   * WHY: PartsCollection fields use PartsCollection component
-   * PATTERN: Determined from dispatcher: component.type === 'partsCollection'
+   * LEARNING: Whether field is relationshipCollection type
+   * WHY: RelationshipCollection fields use RelationshipCollection component
+   * PATTERN: Determined from dispatcher: component.type === 'relationshipCollection'
    */
   const isPartsCollection = computed(() => {
-    return componentType.value.type === 'partsCollection'
+    return componentType.value.type === 'relationshipCollection'
   })
   
   /**
-   * LEARNING: Whether field is annotations type
-   * WHY: Annotations fields use AnnotationsField component
-   * PATTERN: Determined from dispatcher: component.type === 'annotations'
+   * LEARNING: Whether field is relationshipCollection type (alias for clarity)
+   * WHY: Alias for isPartsCollection for clarity
+   * PATTERN: Use computed directly - TypeScript accepts ComputedRef<boolean> as Ref<boolean> for interface compatibility
    */
-  const isAnnotations = computed(() => {
-    return componentType.value.type === 'annotations'
+  const isRelationshipCollection = computed<boolean>(() => {
+    return isPartsCollection.value
+  })
+  
+  /**
+   * LEARNING: Annotations field removed - now uses relationshipCollection type
+   * WHY: Annotations are now core entities, use generic RelationshipCollection component
+   * PATTERN: Annotations fields use relationshipCollection component type
+   * @deprecated Use componentType.value.type === 'relationshipCollection' instead
+   */
+  const isAnnotations = computed<boolean>(() => {
+    // Annotations now use relationshipCollection type
+    // LEARNING: Use fieldKeyRef.value instead of fieldKey.value to handle undefined case
+    // WHY: fieldKeyRef is computed and handles undefined/null cases
+    // PATTERN: Always return boolean, not boolean | undefined
+    return componentType.value.type === 'relationshipCollection' && !!fieldKeyRef.value && String(fieldKeyRef.value) === 'annotations'
   })
   
   /**
@@ -273,6 +294,7 @@ export function useFieldComponent(
     isIcon,
     isPrimitive,
     isPartsCollection,
+    isRelationshipCollection,
     isAnnotations,
     isSelect
   }

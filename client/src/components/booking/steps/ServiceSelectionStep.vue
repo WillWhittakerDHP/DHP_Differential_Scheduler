@@ -19,10 +19,9 @@ import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
 import { useInstanceSelectionState } from '@/composables/booking/useInstanceSelectionState'
 import { useInstanceComponentsList } from '@/composables/booking/useInstanceComponentsList'
+import { useDynamicGridConfig } from '@/composables/booking/useDynamicGridConfig'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
-import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
-import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
 // LEARNING: Inject shared wizard instance from parent
 // WHY: Ensures all step components share the same wizard state
@@ -49,8 +48,8 @@ const { selectedId: selectedUserTypeBlockId } = useInstanceSelectionState({
 
 const { selectedIds: selectedServiceIds } = useInstanceSelectionState({
   availableInstances: computed(() => wizard.availableServices.value),
-  selectedInstances: computed(() => wizard.selectedServices.value),
-  toggleSelection: (s) => wizard.toggleService(s),
+  selectedInstances: computed(() => wizard.selectedServiceTypeBlocks.value),
+  toggleSelection: (s) => wizard.toggleServiceTypeBlock(s),
   loadedWizardState
 })
 
@@ -64,24 +63,11 @@ const rowSelectionConfigComposable = useInstanceSelectionConfig({
 const stackSelectionConfigComposable = useInstanceSelectionConfig({
   selectionType: 'stack',
   stateField: 'services',
-  selectedValue: computed(() => wizard.selectedServices.value)
+  selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
 })
 
 const baseRowSelectionConfig = rowSelectionConfigComposable.selectionConfig
 const stackSelectionConfig = stackSelectionConfigComposable.selectionConfig
-
-// LEARNING: Override grid columns dynamically based on item count
-// WHY: Cards should fit on one row when there are fewer than 5 items
-const rowSelectionConfig = computed<SelectionCardConfig>(() => {
-  const baseConfig = baseRowSelectionConfig.value
-  const itemCount = wizardStateSelector.value.length
-  const dynamicGridColumns = calculateGridColumnsForItemCount(itemCount)
-  
-  return {
-    ...baseConfig,
-    gridColumns: dynamicGridColumns
-  }
-})
 
 // LEARNING: Use instance display composable for display transformations
 // WHY: Moves icon mapping and display transformation logic out of component into reusable composable
@@ -90,6 +76,14 @@ const userTypeDisplay = useInstanceDisplay({
   instances: computed(() => wizard.availableUserTypeBlocks.value)
 })
 const wizardStateSelector = userTypeDisplay.instancesWithDisplay
+
+// LEARNING: Use dynamic grid config composable
+// WHY: Extracts grid column calculation logic from component to composable
+// PATTERN: Composable provides config with dynamic grid columns
+const { dynamicConfig: rowSelectionConfig } = useDynamicGridConfig({
+  baseConfig: baseRowSelectionConfig,
+  itemCount: computed(() => wizardStateSelector.value.length)
+})
 
 const serviceDisplay = useInstanceDisplay({
   instances: computed(() => wizard.availableServices.value),
@@ -133,7 +127,7 @@ const isDevMode = isDevModeEnabled()
     
     <div v-else-if="wizardStateSelector.length === 0" class="text-body-1 text-medium-emphasis py-4">
       <div class="mb-2">No user types available.</div>
-      <div class="text-caption">Please ensure you have block shapes with <code>constituable: false</code> and active block instances.</div>
+      <div class="text-caption">Please ensure you have block shapes with <code>isStateControl: true</code> and active block instances.</div>
       <div v-if="isDevMode" class="text-caption mt-2">
         Debug: availableUserTypeBlocks count = {{ wizard.availableUserTypeBlocks.value.length }}
       </div>

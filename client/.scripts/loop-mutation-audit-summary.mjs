@@ -29,8 +29,8 @@ function render(files) {
   lines.push('')
   lines.push('## Full index (ranked)')
   lines.push('')
-  lines.push('| File | score | forEach | for-loops | mutators | assigns | forEach→mutation hits |')
-  lines.push('| --- | ---: | ---: | ---: | ---: | ---: | ---: |')
+  lines.push('| File | Priority | score | forEach | for-loops | mutators | assigns | forEach→mutation hits |')
+  lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |')
 
   for (const f of files) {
     const c = f.counts || {}
@@ -38,7 +38,8 @@ function render(files) {
     const mutators = (c.push || 0) + (c.splice || 0) + (c.sort || 0) + (c.reverse || 0) + (c.pop || 0) + (c.shift || 0) + (c.unshift || 0)
     const assigns = (c.assignIndex || 0) + (c.assignProp || 0)
     const hits = Array.isArray(f.forEachMutationHits) ? f.forEachMutationHits.length : 0
-    lines.push(`| \`${f.repoPath}\` | ${f.score || 0} | ${c.forEach || 0} | ${forLoops} | ${mutators} | ${assigns} | ${hits} |`)
+    const priority = f.priority || 'P2'
+    lines.push(`| \`${f.repoPath}\` | ${priority} | ${f.score || 0} | ${c.forEach || 0} | ${forLoops} | ${mutators} | ${assigns} | ${hits} |`)
   }
 
   lines.push('')

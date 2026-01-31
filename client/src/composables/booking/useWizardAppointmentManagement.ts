@@ -12,11 +12,10 @@ import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTr
 import { transformAppointmentToWizard } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingData } from '@/utils/transformers/globalToBookingTransformer'
-import type { UseBookingWizardReturn } from '@/types/wizard'
-import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData } from '@/types/wizard'
+import type { UseBookingWizardReturn, WizardStepDataAndValidationRefs } from '@/types/wizard'
 import type { AppointmentRequest } from '@/types/appointment'
 
-export interface UseWizardAppointmentManagementOptions {
+export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {
   wizard: UseBookingWizardReturn
   bookingData: Ref<BookingData | null>
   loadAppointmentById: (id: string) => Promise<AppointmentResponse | null>
@@ -28,16 +27,6 @@ export interface UseWizardAppointmentManagementOptions {
   }
   activeStep: Ref<number>
   completedSteps: Ref<Set<number>>
-  propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
-  contactsStepData: Ref<ContactsStepData | null>
-  availabilityStepData: Ref<AvailabilityStepData | null>
-  propertyDetailsStepValid: Ref<boolean>
-  propertyDetailsStepValidate: Ref<(() => boolean) | null>
-  propertyDetailsFieldErrors: Ref<Record<string, string>>
-  contactsStepValid: Ref<boolean>
-  contactsStepValidate: Ref<(() => boolean) | null>
-  availabilityStepValid: Ref<boolean>
-  availabilityStepValidate: Ref<(() => boolean) | null>
   showError: (message: string) => void
   success: (message: string) => void
 }
@@ -138,7 +127,7 @@ export function useWizardAppointmentManagement(
       // Populate wizard state refs (skip cascade to avoid clearing dependent selections)
       // Use spread operators to ensure Vue detects array changes
       wizard.selectUserTypeBlock(wizardState.userTypeBlock, true)
-      wizard.selectedServices.value = [...wizardState.services]
+      wizard.selectedServiceTypeBlocks.value = [...wizardState.services]
       wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
       wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
       wizard.isQuoteMode.value = wizardState.isQuoteMode
@@ -219,7 +208,7 @@ export function useWizardAppointmentManagement(
    */
   const handleResetWizard = (): void => {
     wizard.selectUserTypeBlock(null, true)
-    wizard.selectedServices.value = []
+    wizard.selectedServiceTypeBlocks.value = []
     wizard.selectedPropertyTypeBlocks.value = []
     wizard.selectedOptionTypeBlocks.value = []
     wizard.isQuoteMode.value = false

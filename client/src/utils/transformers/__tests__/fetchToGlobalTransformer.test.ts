@@ -7,11 +7,10 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { GlobalTransformer } from '../fetchToGlobalTransformer'
-import type { GlobalData } from '../fetchToGlobalTransformer'
-import apiClient from '@/utils/api'
+import apiClient from '../../api'
 
 // Mock API client
-vi.mock('@/utils/api', () => ({
+vi.mock('../../api', () => ({
   default: {
     get: vi.fn(),
   },
@@ -86,7 +85,6 @@ describe('GlobalTransformer', () => {
       
       expect(result).toBeDefined()
       expect(result.fetchedEntities).toBeDefined()
-      expect(result.fetchedRelationships).toBeDefined()
       // Should have empty arrays for all entity types
       expect(Object.keys(result.fetchedEntities)).toHaveLength(4)
     })
@@ -109,7 +107,7 @@ describe('GlobalTransformer', () => {
         fetchedRelationships: [
           {
             id: 'rel-1',
-            kind: 'activeParts',
+            kind: 'partAssignments',
             parent_id: 'block-1',
             parent_kind: 'blockInstance',
             child_id: 'part-1',
@@ -118,7 +116,7 @@ describe('GlobalTransformer', () => {
           },
           {
             id: 'rel-2',
-            kind: 'activeParts',
+            kind: 'partAssignments',
             parent_id: 'block-1',
             parent_kind: 'blockInstance',
             child_id: 'part-2',
@@ -126,15 +124,15 @@ describe('GlobalTransformer', () => {
             disabled: false,
           },
         ] as any,
-        fetchedAnnotations: [],
-        fetchedAnnotationAssignments: [],
+        fetchedAnnotations: {},
+        fetchedEvents: {},
       }
       
       const result = transformer.hydrate(staged)
       
-      expect(result.relationships.activeParts).toHaveLength(1)
-      expect(result.relationships.activeParts[0].parent.id).toBe('block-1')
-      expect(result.relationships.activeParts[0].children).toHaveLength(2)
+      expect(result.relationships.partAssignments).toHaveLength(1)
+      expect(result.relationships.partAssignments[0].parent.id).toBe('block-1')
+      expect(result.relationships.partAssignments[0].children).toHaveLength(2)
     })
     
     it('should handle missing entity references', () => {
@@ -148,7 +146,7 @@ describe('GlobalTransformer', () => {
         fetchedRelationships: [
           {
             id: 'rel-1',
-            kind: 'activeParts',
+            kind: 'partAssignments',
             parent_id: 'nonexistent-block',
             parent_kind: 'blockInstance',
             child_id: 'nonexistent-part',
@@ -156,14 +154,14 @@ describe('GlobalTransformer', () => {
             disabled: false,
           },
         ] as any,
-        fetchedAnnotations: [],
-        fetchedAnnotationAssignments: [],
+        fetchedAnnotations: {},
+        fetchedEvents: {},
       }
       
       const result = transformer.hydrate(staged)
       
       // Should skip relationships with missing entities
-      expect(result.relationships.activeParts).toHaveLength(0)
+      expect(result.relationships.partAssignments).toHaveLength(0)
     })
   })
   

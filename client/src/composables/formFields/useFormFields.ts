@@ -70,41 +70,41 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   })
 
   // LEARNING: BlockShape properties helper (for blockInstance)
-  // WHY: Still needed for conditional field visibility logic (e.g., baseSqFt when constituable)
+  // WHY: Still needed for conditional field visibility logic (e.g., baseSqFt when canHaveParts)
   // PATTERN: Pure function that checks blockShape properties
-  const getBlockShapeProperties = (): { composable: boolean; constituable: boolean } => {
+  const getBlockShapeProperties = (): { composable: boolean; canHaveParts: boolean } => {
     if (entityKey !== 'blockInstance') {
-      return { composable: false, constituable: false }
+      return { composable: false, canHaveParts: false }
     }
 
     const entityIdValue = context.currentEntityId.value
     const blockInstance = adminComp.getEntity('blockInstance', entityIdValue)
     if (!blockInstance) {
-      return { composable: false, constituable: false }
+      return { composable: false, canHaveParts: false }
     }
 
     const blockShapeRef = blockInstance.blockShapeRef
 
     const blockShape = adminComp.getEntity('blockShape', blockShapeRef)
     if (!blockShape) {
-      return { composable: false, constituable: false }
+      return { composable: false, canHaveParts: false }
     }
 
     return {
       composable: blockShape.composable === true,
-      constituable: blockShape.constituable === true,
+      canHaveParts: blockShape.canHaveParts === true,
     }
   }
 
   // LEARNING: Should show part instances (for blockInstance)
   // WHY: Used to conditionally show PartsCollection
-  // PATTERN: Computed property that checks blockShape constituable property
+  // PATTERN: Computed property that checks blockShape canHaveParts property
   const shouldShowPartInstances = computed(() => {
     if (entityKey !== 'blockInstance') {
       return false
     }
     const props = getBlockShapeProperties()
-    return props.constituable
+    return props.canHaveParts
   })
 
   return {

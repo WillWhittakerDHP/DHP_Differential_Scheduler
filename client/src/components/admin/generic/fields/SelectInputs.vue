@@ -6,6 +6,47 @@
     :show-label="false"
     :is-disabled="fieldContext.isDisabled.value"
   >
+    <!-- LEARNING: Quick-select buttons for AttendeeSelect fields -->
+    <!-- WHY: Allows users to quickly select major/minor attendees from business settings -->
+    <!-- PATTERN: Conditionally render buttons above select field only for AttendeeSelect type -->
+    <div v-if="isAttendeeSelect" class="attendee-quick-select mb-3">
+      <div class="d-flex gap-2 flex-wrap">
+        <VBtn
+          size="small"
+          variant="outlined"
+          :disabled="quickSelect.isLoading.value || !quickSelect.hasMajorAttendees.value || fieldContext.isDisabled.value"
+          :loading="quickSelect.isLoading.value"
+          @click="handleQuickSelectMajor"
+        >
+          Select Major
+        </VBtn>
+        <VBtn
+          size="small"
+          variant="outlined"
+          :disabled="quickSelect.isLoading.value || !quickSelect.hasMinorAttendees.value || fieldContext.isDisabled.value"
+          :loading="quickSelect.isLoading.value"
+          @click="handleQuickSelectMinor"
+        >
+          Select Minor
+        </VBtn>
+        <VBtn
+          size="small"
+          variant="outlined"
+          :disabled="quickSelect.isLoading.value || (!quickSelect.hasMajorAttendees.value && !quickSelect.hasMinorAttendees.value) || fieldContext.isDisabled.value"
+          :loading="quickSelect.isLoading.value"
+          @click="handleQuickSelectAll"
+        >
+          Select All
+        </VBtn>
+      </div>
+      <div v-if="quickSelect.error.value" class="text-caption text-error mt-1">
+        {{ quickSelect.error.value }}
+      </div>
+      <div v-else-if="!quickSelect.hasMajorAttendees.value && !quickSelect.hasMinorAttendees.value && !quickSelect.isLoading.value" class="text-caption text-medium-emphasis mt-1">
+        Configure major/minor attendees in Business Controls to use quick-select
+      </div>
+    </div>
+    
     <!-- LEARNING: Multiple select fields when groupByKey configured and multiple groups exist -->
     <!-- WHY: Provides clearer separation with one select per group (e.g., one per blockShapeRef) -->
     <!-- PATTERN: Render one AppSelect per group, each labeled with group name -->
@@ -100,7 +141,7 @@
  *             once adminConfig is ported. For now, accepts config as props.
  */
 
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { AUTCOMPLETE_OFF } from '../../../../utils/autocomplete'
 import BaseInput from './BaseInput.vue'
 import AppSelect from '@/@core/components/app-form-elements/AppSelect.vue'
@@ -110,16 +151,18 @@ import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
 import { useAdmin } from '@/composables/useAdmin'
 import type { GlobalEntity } from '../../../../types/entities'
-import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import { useSelectOptions, type SelectOption } from '@/composables/useSelectOptions'
 import { useSelectConfig } from '@/composables/admin/useSelectConfig'
 import { useSelectFiltering } from '@/composables/admin/useSelectFiltering'
-import { useAnnotationSelect } from '@/composables/admin/useAnnotationSelect'
 import { useSelectHandlers } from '@/composables/admin/useSelectHandlers'
 import { useSelectFieldValue } from '@/composables/admin/useSelectFieldValue'
 import { useSelectFormAssociation } from '@/composables/admin/useSelectFormAssociation'
+import { useSelectLabelResolution } from '@/composables/admin/useSelectLabelResolution'
+import { useSelectDomTargets } from '@/composables/admin/useSelectDomTargets'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
+import { useSelectInputsAsync } from '@/composables/admin/useSelectInputsAsync'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -152,90 +195,63 @@ const {
   isEnumSelect,
   isOptionsSelect,
   optionsSelectOptions,
-  isDescriptionSelect,
+  isAnnotationAssignmentSelect,
+  isAttendeeSelect,
   isMultiple,
   chipsProps,
   optionEntityKey,
   optionLabelKey
 } = selectConfigComposable
 
-// LEARNING: Use annotation select composable for annotation-specific logic
-// WHY: Annotations use different data source and relationship management
-// PATTERN: Composable handles annotation queries and mutations
-const annotationSelectComposable = useAnnotationSelect({
-  isDescriptionSelect,
-  fieldContext
-})
-const { annotations } = annotationSelectComposable
-
 // LEARNING: Get all entities for filtering
 // WHY: Need source entities before filtering
-// PATTERN: Get from admin store or annotations based on select type
+// PATTERN: Use admin store for all entity types (including annotations - now core entities)
 const allEntities = computed(() => {
-  // LEARNING: For DescriptionSelect, return annotations from annotation composable
-  // WHY: Annotations are part of the annotation system, not core entities
-  // PATTERN: Return annotations as entities when DescriptionSelect is detected
-  if (isDescriptionSelect.value) {
-    const anns = annotations.value || []
-    // Transform annotations to entity-like format for consistency
-    return anns.map(ann => ({
-      id: ann.id,
-      name: ann.text, // Use text as name for display
-      text: ann.text,
-      userTypeBlock: ann.userTypeBlock,
-      entityKey: 'annotation' as const, // Not a real GlobalEntityKey, but needed for type compatibility
-      orderIndex: 0,
-      disabled: false
-    })) as unknown as GlobalEntity<GlobalEntityKey>[]
-  }
-  
+  // LEARNING: Annotations are now core entities accessible via admin store
+  // WHY: All entities (including events/annotations) are now in the unified entities structure
+  // PATTERN: Use admin store for all entity types - no special handling needed
   return adminComp.getEntitiesByKey(optionEntityKey.value)
 })
 
 // LEARNING: Get current entity from admin store (with relationships attached)
 // WHY: Need AdminEntity with relationships for filtering logic
 // PATTERN: Use admin store getEntity which returns AdminEntity
-const currentEntity = computed(() => {
+const currentEntityRaw = computed(() => {
   return adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
 })
 
-// LEARNING: Resolve dynamic label placeholders like {blockShapeName}
-// WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
-// PATTERN: Replace placeholders in label with actual values from entity relationships
-const resolvedLabel = computed(() => {
-  const rawLabel = fieldContext.displayConfig.label || ''
-  
-  // Check if label contains the {blockShapeName} placeholder
-  if (!rawLabel.includes('{blockShapeName}')) {
-    return rawLabel
-  }
-  
-  // Get the block shape name from the current entity
-  const entity = currentEntity.value
-  if (!entity) return rawLabel
-  
-  // Get blockShapeRef from entity - it's stored as a string ID reference
-  const blockShapeRef = getEntityFieldValue(entity, 'blockShapeRef') as string | undefined
-  if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
-  
-  // Look up the block shape entity to get its name
-  const blockShape = adminComp.getEntity('blockShape', blockShapeRef)
-  const shapeName = blockShape?.name as string || 'Instance'
-  
-  return rawLabel.replace('{blockShapeName}', shapeName)
+// LEARNING: Convert AdminObject to GlobalEntity for useSelectLabelResolution and useSelectFiltering
+// WHY: useSelectLabelResolution expects GlobalEntity | null, useSelectFiltering expects GlobalEntity | undefined
+//      getEntity returns AdminObject | undefined
+// PATTERN: Map undefined to null for useSelectLabelResolution, keep undefined for useSelectFiltering
+const currentEntity = computed<GlobalEntity<GlobalEntityKey> | null>(() => {
+  return currentEntityRaw.value ?? null
+})
+const currentEntityForFiltering = computed<GlobalEntity<GlobalEntityKey> | undefined>(() => {
+  return currentEntityRaw.value ?? undefined
+})
+
+// LEARNING: Use select label resolution composable
+// WHY: Extracts label placeholder replacement logic from component to composable
+// PATTERN: Composable provides resolved label with placeholders replaced
+const { resolvedLabel } = useSelectLabelResolution({
+  fieldContext,
+  currentEntity
 })
 
 // LEARNING: Use select filtering composable for all filtering logic
 // WHY: Moves complex filtering logic out of component into reusable composable
 // PATTERN: Composable handles active child selects, direct matching, component filtering, etc.
+// NOTE: isAttendeeSelect is already computed in selectConfigComposable and destructured above
 const selectFilteringComposable = useSelectFiltering({
   allEntities,
   selectConfig,
-  currentEntity,
+  currentEntity: currentEntityForFiltering,
   optionEntityKey,
   fieldContext,
   rawFieldValue,
-  isDescriptionSelect
+  isAnnotationAssignmentSelect,
+  isAttendeeSelect // Already computed from selectConfigComposable above
 })
 const {
   filteredEntities,
@@ -294,10 +310,9 @@ const options = computed(() => {
 // PATTERN: Composable handles annotation values, value normalization, and option validation
 const selectFieldValueComposable = useSelectFieldValue({
   rawFieldValue,
-  isDescriptionSelect,
+  isAnnotationAssignmentSelect,
   isMultiple,
   options,
-  annotationSelect: annotationSelectComposable,
   selectFiltering: selectFilteringComposable,
   fieldContext
 })
@@ -327,6 +342,20 @@ const logChipRender = (item: { title: string; value: string | number }): string 
   return item.title // Return title for display
 }
 
+/**
+ * LEARNING: Inject EntityCard save context for create cards
+ * WHY: When creating new entities, selects should not trigger mutations
+ * PATTERN: Match TextInput/NumberInput pattern - inject context and pass to handlers
+ */
+const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
+
+/**
+ * LEARNING: Inject disableAutoSave flag from EntityCard
+ * WHY: Allows parent to disable field blur auto-save (e.g., in bulk edit modals)
+ * PATTERN: Match TextInput/NumberInput pattern
+ */
+const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
+
 // LEARNING: Use select handlers composable for all event handling logic
 // WHY: Moves event handling logic out of component into reusable composable
 // PATTERN: Composable handles change, group change, focus, and blur events
@@ -335,9 +364,10 @@ const selectHandlersComposable = useSelectHandlers({
   rawFieldValue,
   fieldValue,
   isMultiple,
-  isDescriptionSelect,
+  isAnnotationAssignmentSelect,
   groupedByKey,
-  annotationSelect: annotationSelectComposable
+  entityCardSaveContext,
+  disableAutoSave
 })
 const {
   handleGroupChange,
@@ -346,26 +376,39 @@ const {
   handleBlur
 } = selectHandlersComposable
 
-// LEARNING: Move DOM association + browser-extension compatibility patching into a composable
-// WHY: Components should remain thin UI shells; DOM patching belongs in a dedicated composable.
-const selectDomTargets = computed(() => {
-  const fieldKeyString = String(fieldContext.fieldKey)
-
-  if (shouldUseMultipleSelects.value) {
-    return groupedByKey.value.map(group => {
-      const id = `field-${fieldKeyString}-${group.groupKey}`
-      return {
-        appSelectId: `app-select-${id}`,
-        expectedName: `${fieldKeyString}-${group.groupKey}`,
-      }
-    })
-  }
-
-  const id = `field-${fieldKeyString}`
-  return [{ appSelectId: `app-select-${id}`, expectedName: fieldKeyString }]
+// LEARNING: Use select DOM targets composable
+// WHY: Extracts DOM target calculation logic from component to composable
+// PATTERN: Composable provides DOM targets for form association
+// LEARNING: Convert Ref to ComputedRef and GroupedEntities[] to SelectGroup[]
+// WHY: useSelectDomTargets expects ComputedRef types and SelectGroup[] (without entities)
+// PATTERN: Map types appropriately - SelectGroup is subset of GroupedEntities
+const shouldUseMultipleSelectsComputed = computed(() => shouldUseMultipleSelects.value)
+const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({
+  groupKey: group.groupKey,
+  groupLabel: group.groupLabel
+})))
+const { selectDomTargets } = useSelectDomTargets({
+  fieldContext,
+  shouldUseMultipleSelects: shouldUseMultipleSelectsComputed,
+  groupedByKey: groupedByKeyComputed
 })
 
 useSelectFormAssociation({ targets: selectDomTargets })
+
+// LEARNING: Extract async logic from component to composable
+// WHY: Reduces component complexity, improves testability
+// PATTERN: Use composable for async quick-select handlers
+const selectInputsAsync = useSelectInputsAsync({
+  options,
+  handleChange
+})
+const {
+  validOptionIds,
+  handleQuickSelectMajor,
+  handleQuickSelectMinor,
+  handleQuickSelectAll,
+  quickSelect
+} = selectInputsAsync
 </script>
 
 <style scoped>
@@ -421,6 +464,13 @@ useSelectFormAssociation({ targets: selectDomTargets })
 
 .select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {
   opacity: 1 !important;
+}
+
+/* LEARNING: Style attendee quick-select button group */
+/* WHY: Provides visual separation and proper spacing for quick-select buttons */
+/* PATTERN: Add margin-bottom to separate from select field */
+.attendee-quick-select {
+  margin-bottom: 12px;
 }
 </style>
 

@@ -44,7 +44,7 @@ export interface UseFormFieldsReturn {
   ) => FieldContextType<GE, FieldKey> | undefined
 
   // BlockShape properties (for blockInstance - still needed for conditional logic)
-  getBlockShapeProperties: () => { composable: boolean; constituable: boolean }
+  getBlockShapeProperties: () => { composable: boolean; canHaveParts: boolean }
   shouldShowPartInstances: Ref<boolean>
 
   // Field categorization

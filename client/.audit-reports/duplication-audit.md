@@ -10,214 +10,509 @@ Scope:
 Exception handling:
 - Config: `.audit/duplication-audit-config.json` (allowlist patterns/specific)
 
+## Candidate Findings (from Pattern-Detection Audit)
+
+These candidates were identified by pattern-detection audit as high-probability duplication opportunities:
+
+### Similar Function Patterns
+
+| Prefix | Files | Pattern Count |
+| --- | --- | ---: |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+11 more) | 20 |
+| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+38 more) | 80 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+196 more) | 203 |
+
 ## Summary
 
-- Files scanned: **340**
-- Groups (window=10 lines, minOccurrences=2): **9**
+- Files scanned: **444**
+- Groups (window=10 lines, minOccurrences=2): **347**
+- Candidate findings from pattern-detection: **3**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-4a6fc399bb1e` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@90`, `src/configs/availabilitySettings.ts@305` |
-| `dup-59504e32b3e0` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@91`, `src/configs/availabilitySettings.ts@306` |
-| `dup-711dc5bc6407` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@94`, `src/configs/availabilitySettings.ts@309` |
-| `dup-8996f8c0fe68` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@95`, `src/configs/availabilitySettings.ts@310` |
-| `dup-9885bbd97b8b` | 2 | 2 | 10 | `src/composables/booking/useWizardAppointmentManagement.ts@31`, `src/composables/booking/useWizardStepDataRefs.ts@15` |
-| `dup-a8ce9d15d5ff` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@98`, `src/configs/availabilitySettings.ts@313` |
-| `dup-c6a9f26012a5` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@92`, `src/configs/availabilitySettings.ts@307` |
-| `dup-c6f7ccb0ada1` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@99`, `src/configs/availabilitySettings.ts@314` |
-| `dup-ce5c3dcc86d2` | 2 | 2 | 10 | `src/composables/admin/useAvailabilitySettings.ts@93`, `src/configs/availabilitySettings.ts@308` |
+| `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@94`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@43`, `server/src/utils/adminPrimitiveMetadataComposer.ts@70`, … |
+| `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@95`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@44`, `server/src/utils/adminPrimitiveMetadataComposer.ts@71`, … |
+| `dup-a95a81e0c832` | 3 | 4 | 10 | `server/src/utils/adminMetadataComposer.ts@17`, `server/src/utils/adminMetadataComposer.ts@168`, `server/src/utils/adminPrimitiveMetadataComposer.ts@18`, … |
+| `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@186`, `server/src/utils/adminPrimitiveMetadataComposer.ts@156`, `server/src/utils/adminRelationshipMetadataComposer.ts@154` |
+| `dup-11ee84441edb` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@71`, `server/src/db/models/booking/booking_cascade.ts@69`, `server/src/db/models/booking/dependent_instance.ts@73` |
+| `dup-1668da95d212` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@416`, `server/src/scripts/importFromMCPEvents.ts@31`, `server/src/scripts/importRealCalendarEvents.ts@43` |
+| `dup-1c4b860b6066` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@64`, `server/src/db/models/booking/booking_cascade.ts@62`, `server/src/db/models/booking/dependent_instance.ts@66` |
+| `dup-23dc8d6847f0` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@411`, `server/src/scripts/importFromMCPEvents.ts@26`, `server/src/scripts/importRealCalendarEvents.ts@38` |
+| `dup-27eb72adfb70` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@401`, `server/src/scripts/importFromMCPEvents.ts@16`, `server/src/scripts/importRealCalendarEvents.ts@28` |
+| `dup-2c7082786d05` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@402`, `server/src/scripts/importFromMCPEvents.ts@17`, `server/src/scripts/importRealCalendarEvents.ts@29` |
+| `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@185`, `server/src/utils/adminPrimitiveMetadataComposer.ts@155`, `server/src/utils/adminRelationshipMetadataComposer.ts@153` |
+| `dup-687fcb72cc8c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@419`, `server/src/scripts/importFromMCPEvents.ts@34`, `server/src/scripts/importRealCalendarEvents.ts@46` |
+| `dup-6b7db959e8c4` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@412`, `server/src/scripts/importFromMCPEvents.ts@27`, `server/src/scripts/importRealCalendarEvents.ts@39` |
+| `dup-70e1e9d10a19` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@399`, `server/src/scripts/importFromMCPEvents.ts@14`, `server/src/scripts/importRealCalendarEvents.ts@26` |
+| `dup-870c24d7c6a2` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@56`, `server/src/db/models/booking/booking_cascade.ts@54`, `server/src/db/models/booking/dependent_instance.ts@58` |
+| `dup-923c7320c59b` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@58`, `server/src/db/models/booking/booking_cascade.ts@56`, `server/src/db/models/booking/dependent_instance.ts@60` |
+| `dup-957d31420829` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@414`, `server/src/scripts/importFromMCPEvents.ts@29`, `server/src/scripts/importRealCalendarEvents.ts@41` |
+| `dup-b310fa6a5478` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@76`, `server/src/db/models/booking/booking_cascade.ts@74`, `server/src/db/models/booking/dependent_instance.ts@78` |
+| `dup-b35c50fd2c1c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@404`, `server/src/scripts/importFromMCPEvents.ts@19`, `server/src/scripts/importRealCalendarEvents.ts@31` |
+| `dup-bd822504c01d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@406`, `server/src/scripts/importFromMCPEvents.ts@21`, `server/src/scripts/importRealCalendarEvents.ts@33` |
+| `dup-c03e46169b8e` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@409`, `server/src/scripts/importFromMCPEvents.ts@24`, `server/src/scripts/importRealCalendarEvents.ts@36` |
+| `dup-c47b819ceac0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@62`, `server/src/db/models/booking/booking_cascade.ts@60`, `server/src/db/models/booking/dependent_instance.ts@64` |
+| `dup-c6a6995e461d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@410`, `server/src/scripts/importFromMCPEvents.ts@25`, `server/src/scripts/importRealCalendarEvents.ts@37` |
+| `dup-e6b94ea82365` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@400`, `server/src/scripts/importFromMCPEvents.ts@15`, `server/src/scripts/importRealCalendarEvents.ts@27` |
+| `dup-ef36d1842f4c` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
 
 ## Per-group details (top)
 
 LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
 
-### Group `dup-4a6fc399bb1e`
+### Group `dup-132c63251d30`
 
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 90-103
-- `src/configs/availabilitySettings.ts` @ lines 305-318
-
-```
-const rawSettings = response.data.setting_value as {
-minuteIncrement: number
-rangeConstraints: {
-businessHours: RangeConstraint
-leadTime?: RangeConstraint
-dateRange?: RangeConstraint
-appointment?: BufferConfig
-driveTime?: BufferConfig
-lunch?: BufferConfig
-day?: WorkCapacityFilter
-```
-
-### Group `dup-59504e32b3e0`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
+- unique files: **4**, occurrences: **10**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 91-104
-- `src/configs/availabilitySettings.ts` @ lines 306-319
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 94-103
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 43-52
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 70-79
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 88-97
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 120-129
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 138-147
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 68-77
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 86-95
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 118-127
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 136-145
 
 ```
-minuteIncrement: number
-rangeConstraints: {
-businessHours: RangeConstraint
-leadTime?: RangeConstraint
-dateRange?: RangeConstraint
-appointment?: BufferConfig
-driveTime?: BufferConfig
-lunch?: BufferConfig
-day?: WorkCapacityFilter
-calendarWeek?: WorkCapacityFilter
+dataType: meta.dataType,
+label: meta.label,
+isRequired: meta.isRequired,
+visibility: meta.visibility,
+layout: meta.layout,
+displayOrder: meta.displayOrder,
+renderAs: meta.renderAs,
+statusButtonColor: meta.statusButtonColor,
+panel: meta.panel,
+bulkEdit: meta.bulkEdit,
 ```
 
-### Group `dup-711dc5bc6407`
+### Group `dup-3000bf634a1d`
 
-- unique files: **2**, occurrences: **2**, lineCount: **10**
+- unique files: **4**, occurrences: **10**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 94-112
-- `src/configs/availabilitySettings.ts` @ lines 309-327
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 95-104
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 44-53
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 71-80
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 89-98
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 121-130
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 139-148
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 69-78
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 87-96
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 119-128
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 137-146
 
 ```
-leadTime?: RangeConstraint
-dateRange?: RangeConstraint
-appointment?: BufferConfig
-driveTime?: BufferConfig
-lunch?: BufferConfig
-day?: WorkCapacityFilter
-calendarWeek?: WorkCapacityFilter
-rollingWeek?: RollingWeekCapacityFilter
-if (!rawSettings.rangeConstraints?.businessHours) {
-throw new Error('rangeConstraints.businessHours is required')
+label: meta.label,
+isRequired: meta.isRequired,
+visibility: meta.visibility,
+layout: meta.layout,
+displayOrder: meta.displayOrder,
+renderAs: meta.renderAs,
+statusButtonColor: meta.statusButtonColor,
+panel: meta.panel,
+bulkEdit: meta.bulkEdit,
+inputConfig: meta.inputConfig || null,
 ```
 
-### Group `dup-8996f8c0fe68`
+### Group `dup-a95a81e0c832`
 
-- unique files: **2**, occurrences: **2**, lineCount: **10**
+- unique files: **3**, occurrences: **4**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 95-114
-- `src/configs/availabilitySettings.ts` @ lines 310-330
+- `server/src/utils/adminMetadataComposer.ts` @ lines 17-27
+- `server/src/utils/adminMetadataComposer.ts` @ lines 168-178
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 18-28
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 16-26
 
 ```
-dateRange?: RangeConstraint
-appointment?: BufferConfig
-driveTime?: BufferConfig
-lunch?: BufferConfig
-day?: WorkCapacityFilter
-calendarWeek?: WorkCapacityFilter
-rollingWeek?: RollingWeekCapacityFilter
-if (!rawSettings.rangeConstraints?.businessHours) {
-throw new Error('rangeConstraints.businessHours is required')
-if (!rawSettings.minuteIncrement) {
+dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
+isRequired: boolean;
+visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
+layout: 'inline' | 'stacked';
+displayOrder: number;
+renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
+statusButtonColor?: string | null;
+panel: 'none' | 'parts' | 'relationships' | 'annotations';
+bulkEdit: boolean;
+inputConfig?: Record<string, unknown> | null;
 ```
 
-### Group `dup-9885bbd97b8b`
+### Group `dup-0df82f50465a`
 
-- unique files: **2**, occurrences: **2**, lineCount: **10**
+- unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `src/composables/booking/useWizardAppointmentManagement.ts` @ lines 31-40
-- `src/composables/booking/useWizardStepDataRefs.ts` @ lines 15-26
+- `server/src/utils/adminMetadataComposer.ts` @ lines 186-195
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 156-165
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 154-163
 
 ```
-propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
-contactsStepData: Ref<ContactsStepData | null>
-availabilityStepData: Ref<AvailabilityStepData | null>
-propertyDetailsStepValid: Ref<boolean>
-propertyDetailsStepValidate: Ref<(() => boolean) | null>
-propertyDetailsFieldErrors: Ref<Record<string, string>>
-contactsStepValid: Ref<boolean>
-contactsStepValidate: Ref<(() => boolean) | null>
-availabilityStepValid: Ref<boolean>
-availabilityStepValidate: Ref<(() => boolean) | null>
+label: meta.label,
+isRequired: meta.isRequired,
+visibility: meta.visibility,
+layout: meta.layout,
+displayOrder: meta.displayOrder,
+renderAs: meta.renderAs,
+statusButtonColor: meta.statusButtonColor || null,
+panel: meta.panel,
+bulkEdit: meta.bulkEdit,
+inputConfig: meta.inputConfig || null,
 ```
 
-### Group `dup-a8ce9d15d5ff`
+### Group `dup-11ee84441edb`
 
-- unique files: **2**, occurrences: **2**, lineCount: **10**
+- unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 98-115
-- `src/configs/availabilitySettings.ts` @ lines 313-331
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 71-100
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 69-98
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 73-102
 
 ```
-appointment?: BufferConfig
-driveTime?: BufferConfig
-lunch?: BufferConfig
-day?: WorkCapacityFilter
-calendarWeek?: WorkCapacityFilter
-rollingWeek?: RollingWeekCapacityFilter
-if (!rawSettings.rangeConstraints?.businessHours) {
-throw new Error('rangeConstraints.businessHours is required')
-if (!rawSettings.minuteIncrement) {
-throw new Error('minuteIncrement is required')
+model: 'block_instances',
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+timestamps: false,
 ```
 
-### Group `dup-c6a9f26012a5`
+### Group `dup-1668da95d212`
 
-- unique files: **2**, occurrences: **2**, lineCount: **10**
+- unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 92-105
-- `src/configs/availabilitySettings.ts` @ lines 307-320
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 416-428
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 31-43
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 43-55
 
 ```
-rangeConstraints: {
-businessHours: RangeConstraint
-leadTime?: RangeConstraint
-dateRange?: RangeConstraint
-appointment?: BufferConfig
-driveTime?: BufferConfig
-lunch?: BufferConfig
-day?: WorkCapacityFilter
-calendarWeek?: WorkCapacityFilter
-rollingWeek?: RollingWeekCapacityFilter
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+start: { dateTime: "2024-12-06T14:30:00-05:00" },
+end: { dateTime: "2024-12-06T16:00:00-05:00" },
+{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+{ email: "rgavish@yahoo.com", displayName: "Royi", responseStatus: "needsAction" },
+{ email: "jenn@alwaysbethriving.com", displayName: "Jenn", responseStatus: "needsAction" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
 ```
 
-### Group `dup-c6f7ccb0ada1`
+### Group `dup-1c4b860b6066`
 
-- unique files: **2**, occurrences: **2**, lineCount: **10**
+- unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 99-119
-- `src/configs/availabilitySettings.ts` @ lines 314-335
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 64-93
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 62-91
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 66-95
 
 ```
-driveTime?: BufferConfig
-lunch?: BufferConfig
-day?: WorkCapacityFilter
-calendarWeek?: WorkCapacityFilter
-rollingWeek?: RollingWeekCapacityFilter
-if (!rawSettings.rangeConstraints?.businessHours) {
-throw new Error('rangeConstraints.businessHours is required')
-if (!rawSettings.minuteIncrement) {
-throw new Error('minuteIncrement is required')
-const businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig
+return "blockInstance";
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+type: DataTypes.DATE,
 ```
 
-### Group `dup-ce5c3dcc86d2`
+### Group `dup-23dc8d6847f0`
 
-- unique files: **2**, occurrences: **2**, lineCount: **10**
+- unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `src/composables/admin/useAvailabilitySettings.ts` @ lines 93-111
-- `src/configs/availabilitySettings.ts` @ lines 308-326
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 411-425
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 26-40
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 38-52
 
 ```
-businessHours: RangeConstraint
-leadTime?: RangeConstraint
-dateRange?: RangeConstraint
-appointment?: BufferConfig
-driveTime?: BufferConfig
-lunch?: BufferConfig
-day?: WorkCapacityFilter
-calendarWeek?: WorkCapacityFilter
-rollingWeek?: RollingWeekCapacityFilter
-if (!rawSettings.rangeConstraints?.businessHours) {
+start: { dateTime: "2024-12-04T09:00:00-05:00" },
+end: { dateTime: "2024-12-04T10:00:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+start: { dateTime: "2024-12-06T14:30:00-05:00" },
+end: { dateTime: "2024-12-06T16:00:00-05:00" },
+{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+```
+
+### Group `dup-27eb72adfb70`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 401-416
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 16-31
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 28-43
+
+```
+start: { dateTime: "2024-12-02T11:45:00-05:00" },
+end: { dateTime: "2024-12-02T13:30:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Buyer's Inspection for Tom Miller",
+location: "730 24th St NW 803, Washington, DC 20037",
+start: { dateTime: "2024-12-04T09:00:00-05:00" },
+end: { dateTime: "2024-12-04T10:00:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+```
+
+### Group `dup-2c7082786d05`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 402-419
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 17-34
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 29-46
+
+```
+end: { dateTime: "2024-12-02T13:30:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Buyer's Inspection for Tom Miller",
+location: "730 24th St NW 803, Washington, DC 20037",
+start: { dateTime: "2024-12-04T09:00:00-05:00" },
+end: { dateTime: "2024-12-04T10:00:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+```
+
+### Group `dup-4e4d3c29d4fd`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/utils/adminMetadataComposer.ts` @ lines 185-194
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 155-164
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 153-162
+
+```
+dataType: meta.dataType,
+label: meta.label,
+isRequired: meta.isRequired,
+visibility: meta.visibility,
+layout: meta.layout,
+displayOrder: meta.displayOrder,
+renderAs: meta.renderAs,
+statusButtonColor: meta.statusButtonColor || null,
+panel: meta.panel,
+bulkEdit: meta.bulkEdit,
+```
+
+### Group `dup-687fcb72cc8c`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 419-430
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 34-45
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 46-57
+
+```
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+start: { dateTime: "2024-12-06T14:30:00-05:00" },
+end: { dateTime: "2024-12-06T16:00:00-05:00" },
+{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+{ email: "rgavish@yahoo.com", displayName: "Royi", responseStatus: "needsAction" },
+{ email: "jenn@alwaysbethriving.com", displayName: "Jenn", responseStatus: "needsAction" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+```
+
+### Group `dup-6b7db959e8c4`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 412-426
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 27-41
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 39-53
+
+```
+end: { dateTime: "2024-12-04T10:00:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+start: { dateTime: "2024-12-06T14:30:00-05:00" },
+end: { dateTime: "2024-12-06T16:00:00-05:00" },
+{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+{ email: "rgavish@yahoo.com", displayName: "Royi", responseStatus: "needsAction" },
+```
+
+### Group `dup-70e1e9d10a19`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 399-412
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 14-27
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 26-39
+
+```
+summary: "Buyer's Inspection for Todd Litchfield",
+location: "3439 Woodburn Rd, Annandale, VA 22003",
+start: { dateTime: "2024-12-02T11:45:00-05:00" },
+end: { dateTime: "2024-12-02T13:30:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Buyer's Inspection for Tom Miller",
+location: "730 24th St NW 803, Washington, DC 20037",
+start: { dateTime: "2024-12-04T09:00:00-05:00" },
+end: { dateTime: "2024-12-04T10:00:00-05:00" },
+```
+
+### Group `dup-870c24d7c6a2`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 56-85
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 54-83
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 58-87
+
+```
+type: DataTypes.VIRTUAL,
+return "blockInstance";
+type: DataTypes.VIRTUAL,
+return "blockInstance";
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+```
+
+### Group `dup-923c7320c59b`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 58-88
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 56-86
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 60-90
+
+```
+return "blockInstance";
+type: DataTypes.VIRTUAL,
+return "blockInstance";
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+type: DataTypes.DATE,
+```
+
+### Group `dup-957d31420829`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 414-427
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 29-42
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 41-54
+
+```
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+start: { dateTime: "2024-12-06T14:30:00-05:00" },
+end: { dateTime: "2024-12-06T16:00:00-05:00" },
+{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+{ email: "rgavish@yahoo.com", displayName: "Royi", responseStatus: "needsAction" },
+{ email: "jenn@alwaysbethriving.com", displayName: "Jenn", responseStatus: "needsAction" },
+```
+
+### Group `dup-b310fa6a5478`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 76-101
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 74-99
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 78-103
+
+```
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+timestamps: false,
+underscored: true,
+```
+
+### Group `dup-b35c50fd2c1c`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 404-420
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 19-35
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 31-47
+
+```
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Buyer's Inspection for Tom Miller",
+location: "730 24th St NW 803, Washington, DC 20037",
+start: { dateTime: "2024-12-04T09:00:00-05:00" },
+end: { dateTime: "2024-12-04T10:00:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+```
+
+### Group `dup-bd822504c01d`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 406-421
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 21-36
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 33-48
+
+```
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Buyer's Inspection for Tom Miller",
+location: "730 24th St NW 803, Washington, DC 20037",
+start: { dateTime: "2024-12-04T09:00:00-05:00" },
+end: { dateTime: "2024-12-04T10:00:00-05:00" },
+{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
+organizer: { email: "will@districthomepro.com", displayName: "Will" }
+summary: "Home Inspection Results Meeting for Royi & Lucciola",
+location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
+start: { dateTime: "2024-12-06T14:30:00-05:00" },
 ```

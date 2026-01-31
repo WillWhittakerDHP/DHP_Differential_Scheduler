@@ -8,7 +8,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
-import { ActivePart } from './active_part';
+import { PartAssignment } from './part_assignment';
 import { BookingCascade } from './booking_cascade';
 
 export class BlockInstance extends Model<
@@ -22,7 +22,7 @@ export class BlockInstance extends Model<
   declare active: boolean;
   declare bookingMode: 'standalone' | 'addOn' | 'both';
   declare composite: boolean;
-  declare differential: boolean;
+  declare differential: 'true' | 'false' | 'override';
   declare icon: string | null;
   declare baseSqFt: number | null;
   declare allowMultiple: boolean;
@@ -32,7 +32,7 @@ export class BlockInstance extends Model<
   declare updatedAt: CreationOptional<Date>;
 
   // ✅ Add valid children
-  declare activeParts?: ActivePart[];
+  declare partAssignments?: PartAssignment[];
   declare bookingCascades?: BookingCascade[];
 }
 
@@ -78,9 +78,9 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         defaultValue: false,
       },
       differential: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'false',
       },
       icon: {
         type: DataTypes.STRING,

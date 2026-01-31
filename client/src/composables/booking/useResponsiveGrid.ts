@@ -11,7 +11,8 @@
  * - Single-column mode detection
  */
 
-import { ref, computed, onMounted, onUnmounted, nextTick, type Ref } from 'vue'
+import { computed, type Ref } from 'vue'
+import { useElementDimensions } from './useElementDimensions'
 
 /**
  * Responsive Grid Composable Options
@@ -106,18 +107,13 @@ export function useResponsiveGrid(
   } = options
   
   /**
-   * LEARNING: Current container width
-   * WHY: Used for column calculations
-   * PATTERN: Ref number updated by ResizeObserver
+   * LEARNING: Use element dimensions composable for DOM access isolation
+   * WHY: Keeps DOM access out of this composable for better testability
+   * PATTERN: Delegate element measurement to dedicated composable
    */
-  const containerWidth = ref<number>(0)
-  
-  /**
-   * LEARNING: ResizeObserver reference for cleanup
-   * WHY: Need to disconnect observer on unmount
-   * PATTERN: Store observer reference outside setup
-   */
-  let resizeObserver: ResizeObserver | null = null
+  const { contentWidth: containerWidth } = useElementDimensions({
+    elementRef: gridRef,
+  })
   
   /**
    * LEARNING: Computed property for dynamic button grid columns
@@ -166,89 +162,11 @@ export function useResponsiveGrid(
   const isSingleColumn = computed(() => {
     // Only use single-column mode if viewport is mobile-sized
     // This enables vertical scrolling only on small screens
+    // LEARNING: Use element dimensions composable's viewport check helper
+    // WHY: Isolates viewport access for better testability
+    // PATTERN: Check viewport width via utility function
     const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 600
     return isMobileViewport && buttonGridColumns.value <= 2
-  })
-  
-  /**
-   * LEARNING: Set up ResizeObserver to track grid container width
-   * WHY: Enables responsive button grid that adapts to available space
-   * PATTERN: Create ResizeObserver, observe element, cleanup on unmount
-   * NOTE: Use nextTick to ensure ref is available after DOM is mounted
-   */
-  onMounted(async () => {
-    await nextTick()
-    
-    // LEARNING: Wait for layout to complete before measuring
-    // WHY: Element might not be fully laid out immediately after mount
-    // PATTERN: Use requestAnimationFrame to ensure layout is complete
-    const measureWidth = () => {
-      if (!gridRef.value) return
-      
-      // LEARNING: Use getBoundingClientRect for initial measurement
-      // WHY: Need content width (excluding padding) to match contentRect behavior
-      // PATTERN: Get element width and subtract padding to get content area width
-      const rect = gridRef.value.getBoundingClientRect()
-      const computedStyle = window.getComputedStyle(gridRef.value)
-      const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0
-      const paddingRight = parseFloat(computedStyle.paddingRight) || 0
-      const measuredWidth = rect.width - paddingLeft - paddingRight // Content width excluding padding
-      
-      // Only update if we get a valid width (greater than 0)
-      if (measuredWidth > 0) {
-        containerWidth.value = measuredWidth
-      }
-    }
-    
-    // Measure after layout completes
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        measureWidth()
-        
-        if (gridRef.value) {
-          resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-              // LEARNING: Use borderBoxSize for total element width, then subtract padding
-              // WHY: borderBoxSize gives us the full element width including padding
-              // PATTERN: Get total width and subtract padding to get content area width
-              const borderBoxWidth = entry.borderBoxSize?.[0]?.inlineSize ?? entry.contentRect.width
-              const computedStyle = window.getComputedStyle(gridRef.value!)
-              const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0
-              const paddingRight = parseFloat(computedStyle.paddingRight) || 0
-              const newWidth = borderBoxWidth - paddingLeft - paddingRight
-              
-              // LEARNING: Debug logging removed
-              // WHY: Debug logging should use proper logger utility, not console.log
-              // PATTERN: Remove debug console.log statements - use proper logging if needed
-              
-              // Only update if width is valid (greater than 0)
-              if (newWidth > 0) {
-                containerWidth.value = newWidth
-              }
-            }
-          })
-          resizeObserver.observe(gridRef.value)
-          
-          // LEARNING: Additional check after a delay to catch late layout changes
-          // WHY: Some layouts take multiple frames to settle
-          setTimeout(() => {
-            measureWidth()
-          }, 200)
-        }
-      })
-    })
-  })
-  
-  /**
-   * LEARNING: Cleanup ResizeObserver
-   * WHY: Prevents memory leaks when component unmounts
-   * PATTERN: Disconnect observer if it exists
-   */
-  onUnmounted(() => {
-    if (resizeObserver) {
-      resizeObserver.disconnect()
-      resizeObserver = null
-    }
   })
   
   return {

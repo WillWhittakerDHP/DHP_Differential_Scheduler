@@ -8,7 +8,6 @@ import type { GlobalEntityKey } from '../../../constants/entities'
 import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '../../../constants/entities'
 import type { GlobalFieldKey } from '../../../constants/primitives'
 import type { GlobalRelationshipKey } from '../../../constants/relationships'
-import type { GlobalAnnotationKey } from '../../../constants/annotations'
 import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '../../../types/entity/formDataEnums'
 
 // Union of all possible field keys from child entities
@@ -20,25 +19,26 @@ type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInsta
 // PATTERN: Explicitly map entity types to their valid relationship keys
 // NOTE: Using string literals here because TypeScript type system needs literal types, not typeof constants
 type ValidRelationshipKeys<GE extends GlobalEntityKey> = 
-  GE extends "blockShape" ? "validCascades" | "validParts" :
-  GE extends "blockInstance" ? "bookingCascades" | "activeParts" | "instanceComponents" | "dependentInstances" :
+  GE extends "blockShape" ? "validCascades" | "validParts" | "validAnnotations" | "eventAssignments" :
+  GE extends "blockInstance" ? "bookingCascades" | "partAssignments" | "annotationAssignments" | "instanceComponents" | "dependentInstances" :
   never;
 
-// LEARNING: Union type that includes both field keys, valid relationship keys, and annotation keys
-// WHY: SelectableDisplayTypeSuite needs to allow entity fields, relationships, and annotations
-// PATTERN: Combine GlobalFieldKey with valid relationship keys and annotation keys for each entity type
-type SelectableFieldKey<GE extends GlobalEntityKey> = GlobalFieldKey<GE> | ValidRelationshipKeys<GE> | GlobalAnnotationKey;
+// LEARNING: Union type that includes both field keys and valid relationship keys
+// WHY: SelectableDisplayTypeSuite needs to allow entity fields and relationships
+// PATTERN: Combine GlobalFieldKey with valid relationship keys for each entity type
+// NOTE: Annotations are now core entities, so they're included in GlobalEntityKey
+type SelectableFieldKey<GE extends GlobalEntityKey> = GlobalFieldKey<GE> | ValidRelationshipKeys<GE>;
 
 export type RelationshipDisplayType<
   GE extends GlobalEntityKey = GlobalEntityKey,
   R extends GlobalRelationshipKey = GlobalRelationshipKey
 > = {
   targetMode: "relationship";
-  targetKey: R | GlobalAnnotationKey; 
+  targetKey: R; 
   globalField: SelectableFieldKey<GE>;
 
   selectedParentKey: GE;
-  selectedChildKey: GlobalEntityKey | GlobalAnnotationKey;
+  selectedChildKey: GlobalEntityKey;
   selectedChildPath: SelectableFieldKey<GE>[];
 
   candidateParentKey: GlobalEntityKey;
@@ -210,25 +210,25 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         },
       },
             
-      activeParts: {
+      partAssignments: {
         targetMode: "relationship",
-        targetKey: "activeParts",
-        globalField: "activeParts",
+        targetKey: "partAssignments",
+        globalField: "partAssignments",
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: ENTITY_KEY_PART_INSTANCE,
-        selectedChildPath: ["activeParts"],
+        selectedChildPath: ["partAssignments"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                 
         candidateParentPath: ["blockShapeRef"],             
         candidateChildKey: ENTITY_KEY_PART_INSTANCE,
         candidateChildPath: [],                          
 
-        selectType: RelationshipSelectTypeEnum.ActivePartSelect,
+        selectType: RelationshipSelectTypeEnum.PartAssignmentSelect,
         selectMode: RelationshipSelectModeEnum.Nested,
         
         // Display properties
-        label: "Active Parts",
+        label: "Part Assignments",
         placeholder: "No parts selected",
         inline: false,
         stacked: true,
@@ -431,7 +431,11 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
       },
     },
 
-    [ENTITY_KEY_PART_SHAPE]: {}
+    [ENTITY_KEY_PART_SHAPE]: {},
+    eventShape: {},
+    eventInstance: {},
+    annotationShape: {},
+    annotationInstance: {},
   }
 }
 

@@ -8,7 +8,7 @@
  * COMPARISON: React uses MUI Stepper. Vue uses custom VList-based horizontal stepper
  */
 
-import { computed, provide, type Ref } from 'vue'
+import { computed, provide } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
@@ -70,7 +70,7 @@ const {
 // NOTE: Pass refs directly; composable unwraps them reactively.
 const { stepValidators } = useBookingWizardStepValidators({
   selectedUserTypeBlock: wizard.selectedUserTypeBlock,
-  selectedServices: wizard.selectedServices,
+  selectedServices: wizard.selectedServiceTypeBlocks,
   propertyDetailsStepValid: propertyDetailsStepValid,
   propertyDetailsStepValidate: propertyDetailsStepValidate,
   availabilityStepValid: availabilityStepValid,
@@ -156,7 +156,7 @@ const { appointmentDropdownItems } = useAppointmentDropdown({
 // PATTERN: Composable provides data collection function
 const { collectAppointmentData } = useAppointmentDataCollection({
   wizard: {
-    selectedServices: wizard.selectedServices,
+    selectedServices: wizard.selectedServiceTypeBlocks,
     selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
     selectedUserTypeBlock: wizard.selectedUserTypeBlock,
@@ -215,7 +215,7 @@ const {
   stepSubtitles,
 } = useWizardDisplay({
   steps,
-  selectedServices: wizard.selectedServices,
+  selectedServices: wizard.selectedServiceTypeBlocks,
   loadedWizardState
 })
 
@@ -263,7 +263,11 @@ provide('loadedWizardState', loadedWizardState)
 // WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
 // PATTERN: Use composable for managing dev mode
 const isDevMode = isDevModeEnabled()
-const { handleResetMocks } = useWizardDevMode({
+// LEARNING: Dev mode composable called for side effects, handleResetMocks not currently used
+// WHY: Composable may set up watchers or other side effects
+// PATTERN: Call composable without destructuring unused return values
+useWizardDevMode({
+  wizard,
   isDevMode,
   selectedAppointmentId,
   appointmentDropdownItems,

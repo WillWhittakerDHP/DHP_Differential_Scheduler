@@ -9,7 +9,7 @@
  * - Auto-select first available date when time slots load
  * - Match loaded time slots from appointment
  * - Watch loaded wizard state and populate selectedDate
- * - Manage selectedDate, startTimeType, inspectorTimeSlot, clientTimeSlot state
+ * - Manage selectedDate, startTimeType, majorTimeSlot, minorTimeSlot state
  */
 
 import { ref, computed, watch, type Ref, type ComputedRef } from 'vue'
@@ -50,9 +50,9 @@ export interface UseAvailabilityDefaultsReturn {
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   
   /**
-   * Start time type (inspector, client, or nonDifferential for non-differential services)
+   * Start time type (major, minor, or nonDifferential for non-differential services)
    */
-  startTimeType: Ref<'inspector' | 'client' | 'nonDifferential'>
+  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
   
   /**
    * Appointment slot order index (position in availability grid)
@@ -62,16 +62,16 @@ export interface UseAvailabilityDefaultsReturn {
   appointmentSlotOrderIndex: Ref<number | null>
   
   /**
-   * Inspector order index (backward compatibility)
+   * Major order index (backward compatibility)
    * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility
    */
-  inspectorOrderIndex: Ref<number | null>
+  majorOrderIndex: Ref<number | null>
   
   /**
-   * Client order index (backward compatibility)
+   * Minor order index (backward compatibility)
    * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility
    */
-  clientOrderIndex: Ref<number | null>
+  minorOrderIndex: Ref<number | null>
 }
 
 /**
@@ -84,7 +84,7 @@ export interface UseAvailabilityDefaultsReturn {
  * - Auto-selects first available date when time slots load (if no date selected)
  * - Matches loaded time slots from appointment to available slots
  * - Watches loaded wizard state and populates selectedDate
- * - Manages selectedDate, startTimeType, inspectorTimeSlot, clientTimeSlot state
+ * - Manages selectedDate, startTimeType, majorTimeSlot, minorTimeSlot state
  */
 export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions): UseAvailabilityDefaultsReturn {
   const { loadedWizardState, timeSlots, isDifferentialService } = options
@@ -105,43 +105,43 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
 
   /**
    * Start time type state
-   * LEARNING: Tracks whether to show inspector or client time slots
-   * WHY: Differential services need separate inspector/client views, non-differential always uses 'nonDifferential'
-   * PATTERN: ref for string literal union type - 'nonDifferential' for non-differential services, 'inspector' | 'client' for differential
-   * NOTE: Defaults to 'inspector' so step 3 starts in inspector view
+   * LEARNING: Tracks whether to show major or minor time slots
+   * WHY: Differential services need separate major/minor views, non-differential always uses 'nonDifferential'
+   * PATTERN: ref for string literal union type - 'nonDifferential' for non-differential services, 'major' | 'minor' for differential
+   * NOTE: Defaults to 'major' so step 3 starts in major view
    */
-  const startTimeType = ref<'inspector' | 'client' | 'nonDifferential'>('inspector')
+  const startTimeType = ref<'major' | 'minor' | 'nonDifferential'>('major')
 
   /**
    * Appointment slot order index state
    * LEARNING: Tracks selected appointment slot by orderIndex (position in availability grid)
    * WHY: Selection persists across perspective changes - same button, only display time and color change
    * PATTERN: ref for number (orderIndex) or null
-   * NOTE: For differential services, inspector and client may see different times at same position,
+   * NOTE: For differential services, major and minor may see different times at same position,
    *       but it's the same appointment slot button. Selection state persists when switching perspectives.
    */
   const appointmentSlotOrderIndex = ref<number | null>(null)
 
   /**
-   * Inspector order index state (backward compatibility)
+   * Major order index state (backward compatibility)
    * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
-   * WHY: Step data may need separate inspector/client TimeSlots, but selection uses single orderIndex
+   * WHY: Step data may need separate major/minor TimeSlots, but selection uses single orderIndex
    * PATTERN: Writable computed ref that syncs with appointmentSlotOrderIndex
    * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
    */
-  const inspectorOrderIndex = computed({
+  const majorOrderIndex = computed({
     get: () => appointmentSlotOrderIndex.value,
     set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
   }) as Ref<number | null>
 
   /**
-   * Client order index state (backward compatibility)
+   * Minor order index state (backward compatibility)
    * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
-   * WHY: Step data may need separate inspector/client TimeSlots, but selection uses single orderIndex
+   * WHY: Step data may need separate major/minor TimeSlots, but selection uses single orderIndex
    * PATTERN: Writable computed ref that syncs with appointmentSlotOrderIndex
    * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
    */
-  const clientOrderIndex = computed({
+  const minorOrderIndex = computed({
     get: () => appointmentSlotOrderIndex.value,
     set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
   }) as Ref<number | null>
@@ -183,13 +183,18 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
       // Temporary: Use TimeSlot matching for now, will be updated to orderIndex matching
       // This requires AppointmentSlots to be available, which will be handled in useAvailabilityUI
       // For now, we'll match by time and find the orderIndex in the UI layer
-      const tempInspectorSlot = ref<TimeSlot | null>(null)
-      const tempClientSlot = ref<TimeSlot | null>(null)
+      // WHY: Transform selectedTimeSlots from { time, duration } format to { startTime, endTime } format
+      const tempMajorSlot = ref<TimeSlot | null>(null)
+      const tempMinorSlot = ref<TimeSlot | null>(null)
+      const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({
+        startTime: slot.time,
+        endTime: undefined // endTime is optional in LoadedTimeSlot
+      }))
       matchLoadedTimeSlots(
-        newState.availability.selectedTimeSlots,
+        transformedSlots,
         availableSlots,
-        tempInspectorSlot,
-        tempClientSlot
+        tempMajorSlot,
+        tempMinorSlot
       )
       // Note: orderIndex matching will be handled in useAvailabilityUI when AppointmentSlots are available
     }
@@ -233,8 +238,8 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
 
   /**
    * Watch isDifferentialService (now represents effective differential state) to auto-select startTimeType
-   * LEARNING: Auto-selects 'nonDifferential' for non-differential services, 'inspector' for differential services
-   * WHY: Ensures valid state is always selected and time slots are visible immediately. Step 3 starts in inspector view.
+   * LEARNING: Auto-selects 'nonDifferential' for non-differential services, 'major' for differential services
+   * WHY: Ensures valid state is always selected and time slots are visible immediately. Step 3 starts in major view.
    * PATTERN: Watch isDifferentialService (which now represents effective differential state), set startTimeType accordingly
    * NOTE: isDifferentialService parameter now represents effective differential state (considering overrides)
    */
@@ -243,9 +248,9 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
       // Non-differential services (or overridden to non-differential) always use 'nonDifferential'
       startTimeType.value = 'nonDifferential'
     } else {
-      // Effectively differential services default to 'inspector' view (step 3 starts in inspector state)
+      // Effectively differential services default to 'major' view (step 3 starts in major state)
       if (startTimeType.value === 'nonDifferential') {
-        startTimeType.value = 'inspector'
+        startTimeType.value = 'major'
       }
     }
   }, { immediate: true })
@@ -254,8 +259,8 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
     selectedDate,
     startTimeType,
     appointmentSlotOrderIndex,
-    inspectorOrderIndex,
-    clientOrderIndex,
+    majorOrderIndex,
+    minorOrderIndex,
   }
 }
 

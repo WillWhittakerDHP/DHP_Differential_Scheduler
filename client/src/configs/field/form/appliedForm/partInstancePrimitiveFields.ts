@@ -41,26 +41,9 @@ export const partInstancePrimitiveFields = {
     globalField: "zeroOutPart",
   },
   
-  onSite: {
-    primitiveType: PrimitiveTypeEnum.Boolean,
-    primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "On Site",
-    globalField: "onSite",
-  },
-  
-  clientPresent: {
-    primitiveType: PrimitiveTypeEnum.Boolean,
-    primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "Client Present",
-    globalField: "clientPresent",
-  },
-  
-  moveable: {
-    primitiveType: PrimitiveTypeEnum.Boolean,
-    primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "Moveable",
-    globalField: "moveable",
-  },
+  // NOTE: onSite, clientPresent, and moveable are no longer editable at instance level.
+  // They are configured at the shape level via EventAssignment relationships.
+  // See: /events/eventInstance endpoints for managing event assignments to part shapes.
   
   baseTime: {
     primitiveType: PrimitiveTypeEnum.Number,

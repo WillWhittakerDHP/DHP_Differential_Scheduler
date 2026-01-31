@@ -13,6 +13,7 @@ import type { UseMutationReturnType } from '@tanstack/vue-query'
 import apiClient from '@/utils/api'
 import { appendIfMissingById } from '@/utils/collections/appendIfMissingById'
 import type { UpdateByIdPayload } from '../businessDataCollections/types'
+import { createRefetchQueriesHandler } from '../entityCrud/useSharedMutationHandlers'
 
 export interface DataCollectionCrudConfig<
   CollectionItem extends { id: string },
@@ -49,6 +50,11 @@ export function useDataCollectionActions<
   remove: UseMutationReturnType<void, unknown, string, unknown>
 } {
   const queryClient = useQueryClient()
+  
+  // LEARNING: Use shared mutation handler for refetching queries
+  // WHY: Eliminates duplication of common refetch pattern
+  // PATTERN: Extract shared handler to utility function
+  const refetchQuery = createRefetchQueriesHandler(queryClient, [queryKey] as readonly (readonly unknown[])[])
 
   const create = useMutation<CollectionItem, unknown, CreatePayload, unknown>({
     mutationFn: async (payload: CreatePayload): Promise<CollectionItem> => {
@@ -66,7 +72,7 @@ export function useDataCollectionActions<
         }
       }
 
-      await queryClient.refetchQueries({ queryKey })
+      await refetchQuery()
     },
   })
 
@@ -91,7 +97,7 @@ export function useDataCollectionActions<
         }
       }
 
-      await queryClient.refetchQueries({ queryKey })
+      await refetchQuery()
     },
   })
 
@@ -116,7 +122,7 @@ export function useDataCollectionActions<
         }
       }
 
-      await queryClient.refetchQueries({ queryKey })
+      await refetchQuery()
     },
   })
 
@@ -135,7 +141,7 @@ export function useDataCollectionActions<
         }
       }
 
-      await queryClient.refetchQueries({ queryKey })
+      await refetchQuery()
     },
   })
 

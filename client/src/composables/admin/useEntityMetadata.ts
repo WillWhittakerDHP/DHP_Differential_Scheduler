@@ -75,7 +75,8 @@ export function useEntityMetadata<GE extends GlobalEntityKey>(
     }
     
     // Return global config for this entity type
-    return (data.global[entityType] || {}) as Record<string, FieldMetadataEntry>
+    const metadata = (data.global[entityType] || {}) as Record<string, FieldMetadataEntry>
+    return metadata
   })
   
   return {

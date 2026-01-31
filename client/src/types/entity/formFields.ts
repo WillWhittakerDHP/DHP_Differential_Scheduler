@@ -7,7 +7,6 @@
 import type { GlobalEntityKey } from '../../constants/entities'
 import type { GlobalFieldKey } from '../../constants/primitives'
 import type { GlobalRelationshipKey } from '../../constants/relationships'
-import type { GlobalAnnotationKey } from '../../constants/annotations'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum, TypeSelectEnum, PrimitiveTypeEnum, PrimitiveModeEnum } from './formDataEnums'
 
 /**
@@ -36,11 +35,11 @@ export type RelationshipFieldType<
   R extends GlobalRelationshipKey = GlobalRelationshipKey
 > = {
   targetMode: "relationship";
-  targetKey: R | GlobalAnnotationKey; 
+  targetKey: R; 
   globalField: GlobalFieldKey<GE>;
 
   selectedParentKey: GE;
-  selectedChildKey: GlobalEntityKey | GlobalAnnotationKey;
+  selectedChildKey: GlobalEntityKey;
   selectedChildPath: GlobalFieldKey<GE>[];
 
   candidateParentKey: GlobalEntityKey;

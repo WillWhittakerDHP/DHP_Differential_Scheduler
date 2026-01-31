@@ -95,6 +95,6 @@ export const blockInstancePrimitiveFields = {
       { value: 'addOn', label: 'Add-On Only' },
       { value: 'both', label: 'Standalone or Add-On' },
     ],
-  },
+  } as PrimitiveFormField<"blockInstance"> & { options: Array<{ value: string; label: string }> },
 } satisfies Partial<Record<GlobalFieldKey<"blockInstance">, PrimitiveFormField<"blockInstance">>>;
 

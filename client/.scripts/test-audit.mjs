@@ -11,8 +11,8 @@ import path from 'node:path'
  * - Provide actionable recommendations for test alignment
  *
  * Scope:
- * - Included: client/src (excluding tests)
- * - Test files: *.test.{ts,tsx}, *.spec.{ts,tsx}, __tests__ directories
+ * - Included: client/src and server/src (excluding tests)
+ * - Test files: *.test.{ts,tsx,mjs}, *.spec.{ts,tsx,mjs}, __tests__ directories
  *
  * Output:
  * - client/.audit/test-audit.json
@@ -25,14 +25,13 @@ import path from 'node:path'
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
+const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
 
-const IS_CLIENT_DIR = fs.existsSync(CLIENT_SRC)
-const PROJECT_ROOT = IS_CLIENT_DIR ? CWD : CWD
-const SRC_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, 'src')
-  : path.join(CWD, 'client', 'src')
+const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
+const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
+const SERVER_SRC = path.join(SERVER_ROOT, 'src')
 
 const OUT_DIR = IS_CLIENT_DIR
   ? path.join(CWD, '.audit-reports')
@@ -58,11 +57,15 @@ function isTestFile(repoPath) {
 
 function isSourceFile(repoPath) {
   if (isTestFile(repoPath)) return false
+  // Exclude migration files (one-time scripts, not part of application code)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return false
+  }
   if (repoPath.includes('/node_modules/')) return false
   if (repoPath.includes('/dist/')) return false
   if (repoPath.includes('/.audit/')) return false
   if (repoPath.includes('/.typecheck/')) return false
-  return /\.(ts|tsx|js|jsx|vue)$/.test(repoPath)
+  return /\.(ts|tsx|js|jsx|vue|mjs)$/.test(repoPath)
 }
 
 function listFilesRecursive(dir) {
@@ -393,6 +396,18 @@ function calculatePriorityScore(reliability, independence, roi, cognitiveLoad) {
 }
 
 /**
+ * Assign P0/P1/P2 priority bucket based on overall score
+ */
+function assignPriorityBucket(overallScore, config) {
+  const p0Min = Number(config?.priorities?.p0MinPriorityScore ?? 7.0)
+  const p1Min = Number(config?.priorities?.p1MinPriorityScore ?? 4.0)
+  
+  if (overallScore >= p0Min) return 'P0'
+  if (overallScore >= p1Min) return 'P1'
+  return 'P2'
+}
+
+/**
  * Find corresponding test file for a source file
  */
 function findTestFile(sourcePath, allTestFiles) {
@@ -425,11 +440,28 @@ function findTestFile(sourcePath, allTestFiles) {
 function main() {
   ensureDir(OUT_DIR)
   
-  const allFiles = listFilesRecursive(SRC_DIR)
+  // Load priority config
+  const CONFIG_PATH = path.join(OUT_DIR, 'test-audit-config.json')
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
+  
+  const clientFiles = listFilesRecursive(CLIENT_SRC)
+  const serverFiles = listFilesRecursive(SERVER_SRC)
+  const allFiles = [...clientFiles, ...serverFiles]
   const sourceFiles = allFiles.filter(f => isSourceFile(toRepoPath(f)))
   const testFiles = allFiles.filter(f => isTestFile(toRepoPath(f)))
   
-  console.log(`Scanning ${sourceFiles.length} source files and ${testFiles.length} test files...`)
+  const clientSourceCount = clientFiles.filter(f => isSourceFile(toRepoPath(f))).length
+  const serverSourceCount = serverFiles.filter(f => isSourceFile(toRepoPath(f))).length
+  const clientTestCount = clientFiles.filter(f => isTestFile(toRepoPath(f))).length
+  const serverTestCount = serverFiles.filter(f => isTestFile(toRepoPath(f))).length
+  
+  console.log(`Scanning ${sourceFiles.length} source files (${clientSourceCount} client, ${serverSourceCount} server) and ${testFiles.length} test files (${clientTestCount} client, ${serverTestCount} server)...`)
   
   // Analyze source files
   const sourceAnalysis = sourceFiles.map(absPath => {
@@ -455,6 +487,7 @@ function main() {
     const roi = calculateROIScore(exportCount, repoPath, contents)
     const cognitiveLoad = calculateCognitiveLoadScore(contents, functions, classes, composables)
     const priorityScore = calculatePriorityScore(reliability, independence, roi, cognitiveLoad)
+    const priorityBucket = assignPriorityBucket(priorityScore, priorityConfig)
     
     return {
       repoPath,
@@ -471,7 +504,8 @@ function main() {
         independence,
         roi,
         cognitiveLoad,
-        overall: priorityScore
+        overall: priorityScore,
+        bucket: priorityBucket
       }
     }
   })

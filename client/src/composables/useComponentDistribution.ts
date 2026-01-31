@@ -147,11 +147,18 @@ export function useComponentDistribution(options: UseComponentDistributionOption
       
       const composerIdValue = composerId.value
       const componentIds = componentEntity.getComponents(composerIdValue).map(ac => ac.childId)
-      componentIds.forEach(componentId => {
+      // LEARNING: Use reduce to build object immutably instead of forEach with mutations
+      // WHY: Functional approach avoids mutations, aligns with workspace rules
+      // PATTERN: Reduce componentIds to object with current values, then merge with existing manualValues
+      const newManualValues = componentIds.reduce<Record<GlobalEntityId, number>>((acc, componentId) => {
         if (!(componentId in manualValues.value)) {
-          manualValues.value[componentId] = getCurrentValue(componentId)
+          acc[componentId] = getCurrentValue(componentId)
+        } else {
+          acc[componentId] = manualValues.value[componentId]
         }
-      })
+        return acc
+      }, {})
+      manualValues.value = { ...manualValues.value, ...newManualValues }
     }
   })
   

@@ -2,213 +2,82 @@
  * Appointment Slot Calculations
  * 
  * LEARNING: Functions to calculate AppointmentSlots from block instances
- * WHY: Groups parts by category and calculates time slots for differential scheduling
- * PATTERN: Collect parts, sort by orderIndex, group by category, calculate durations and time slots
+ * WHY: Groups parts by flag combinations and calculates time slots for differential scheduling
+ * PATTERN: Collect parts, create finalized parts, group by flags, calculate durations and time slots
  */
 
-import type { AppointmentSlot, AppointmentSlots, TimeRange } from '@/types/appointment'
-import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { getPartInstanceCategory } from './partShapeTimeSlotMapping'
-import { createTimeRange, createTimeSlot as createTimeSlotWithFlags } from './appointmentSlotBuilder'
-
-/**
- * Group parts by time slot category
- * LEARNING: Categorizes parts using part shape mapping
- * WHY: Groups parts for calculating category-specific time slots
- * PATTERN: Map over parts, categorize each, group by category key
- * 
- * @param parts - Array of BookingPartInstance objects
- * @returns Map of category key to array of parts in that category
- */
-function groupPartsByCategory(parts: BookingPartInstance[]): Map<string, BookingPartInstance[]> {
-  // FIX: Use reduce instead of forEach with mutations
-  return parts.reduce((grouped, part) => {
-    const category = getPartInstanceCategory(part)
-    if (category) {
-      if (!grouped.has(category)) {
-        grouped.set(category, [])
-      }
-      grouped.get(category)!.push(part)
-    }
-    return grouped
-  }, new Map<string, BookingPartInstance[]>())
-}
-
-/**
- * Check if a category should be zeroed out
- * LEARNING: If any part instance in a category has zeroOutPart: true, the entire category is zeroed
- * WHY: Allows parts like "no Client Presentation" to zero out the entire category
- * PATTERN: Check if any part in category has zeroOutPart flag set
- */
-function shouldZeroOutCategory(categoryParts: BookingPartInstance[]): boolean {
-  return categoryParts.some(part => part.zeroOutPart === true)
-}
-
-/**
- * Calculate total duration for a group of parts
- * LEARNING: Sums baseTime values from parts, but returns 0 if category should be zeroed out
- * WHY: Provides total duration for a category, respecting zeroOutPart flag
- * PATTERN: Check for zeroOutPart flag first, then reduce parts to sum of baseTime values
- * 
- * @param parts - Array of BookingPartInstance objects
- * @returns Total duration in minutes (0 if category should be zeroed out)
- */
-function calculateCategoryDuration(parts: BookingPartInstance[]): number {
-  if (shouldZeroOutCategory(parts)) {
-    return 0
-  }
-  return parts.reduce((sum, part) => sum + (part.baseTime || 0), 0)
-}
-
-/**
- * Create a TimeRange from a start time and duration
- * LEARNING: Calculates endTime from startTime and duration
- * WHY: Creates TimeRange objects for AppointmentSlot totals
- * PATTERN: Add duration minutes to start time to get end time
- * 
- * @param startTime - Start time as ISO date string
- * @param duration - Duration in minutes
- * @returns TimeRange object
- */
-function createTimeRangeFromStart(startTime: string, duration: number): TimeRange {
-  return createTimeRange(startTime, duration)
-}
+import type { AppointmentSlot, AppointmentSlots } from '@/types/appointment'
+import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { EventInstance, EventShape } from '@/types/events'
+import type { GlobalRelationship } from '@/types/relationships'
+import type { GlobalEntity } from '@/types/entities'
+import { buildAppointmentShape, applyShapeToTime } from './appointmentSlotBuilder'
 
 /**
  * Calculate AppointmentSlots from block instances
- * LEARNING: Collects all parts, sorts by orderIndex, groups by category, calculates time slots
- * WHY: Creates normalized AppointmentSlots structure for UI rendering
- * PATTERN: Transform block instances → parts → categorized groups → AppointmentSlot objects
+ * LEARNING: Uses buildAppointmentShape and applyShapeToTime for consistency
+ * WHY: Creates normalized AppointmentSlots structure using the new architecture
+ * PATTERN: Build shape once, apply to start time
+ * 
+ * LEARNING: Events are optional - if not provided, AppointmentShape will have empty eventAssignmentsByPartShape
+ * WHY: Backward compatibility - some callers may not have access to events data
+ * PATTERN: Make events data optional parameters
  * 
  * @param blockInstances - Array of BookingBlockInstance objects (service, property type block, availability options)
- * @param baseStartTime - Optional base start time (ISO date string) - if provided, calculates TimeSlot objects
- * @returns Array of AppointmentSlot objects, sorted by orderIndex
+ * @param baseStartTime - Optional base start time (ISO date string) - if provided, calculates TimeRange objects
+ * @param eventInstances - Optional array of EventInstance objects
+ * @param eventShapes - Optional array of EventShape objects
+ * @param eventAssignmentsRelationships - Optional array of eventAssignments relationships
+ * @param partShapeById - Optional map of partShape ID → partShape entity
+ * @returns Array of AppointmentSlot objects with orderIndex 0
  */
 export function calculateAppointmentSlots(
   blockInstances: BookingBlockInstance[],
-  baseStartTime?: string | null
+  baseStartTime?: string | null,
+  eventInstances?: EventInstance[],
+  eventShapes?: EventShape[],
+  eventAssignmentsRelationships?: GlobalRelationship[],
+  partShapeById?: Map<string, GlobalEntity<'partShape'>>
 ): AppointmentSlots {
   if (!blockInstances || blockInstances.length === 0) {
     return []
   }
   
-  // LEARNING: Collect all part instances from all block instances
-  // WHY: Need all parts across all selected blocks to calculate complete AppointmentSlots
-  // PATTERN: Flat map block instances to part instances
-  // FIX: Use flatMap instead of forEach with push mutations
-  const allParts: BookingPartInstance[] = blockInstances.flatMap(blockInstance => 
-    blockInstance.partInstances && blockInstance.partInstances.length > 0 
-      ? blockInstance.partInstances 
-      : []
+  // LEARNING: Build AppointmentShape from block instances with optional events data
+  // WHY: Shape contains finalized parts and SlotShape (source of truth)
+  // PATTERN: Use buildAppointmentShape to create shape, pass events data if available
+  const shape = buildAppointmentShape(
+    blockInstances, 
+    null,
+    eventInstances,
+    eventShapes,
+    eventAssignmentsRelationships,
+    partShapeById
+    // LEARNING: Removed 3 undefined arguments (validPartsRelationships, globalData)
+    // WHY: Function signature only accepts 8 parameters, not 9
+    // PATTERN: Only pass required parameters, omit optional ones that aren't needed
   )
   
-  if (allParts.length === 0) {
-    return []
+  // LEARNING: Apply shape to start time if provided
+  // WHY: Creates AppointmentSlot with TimeRanges from SlotShape
+  // PATTERN: Use applyShapeToTime to create slot
+  if (baseStartTime) {
+    const appointmentSlot = applyShapeToTime(shape, baseStartTime, 0, undefined, true, undefined, undefined)
+    return [appointmentSlot]
   }
   
-  // LEARNING: Sort parts by orderIndex
-  // WHY: Maintains correct order for time slot calculations
-  // PATTERN: Sort by orderIndex ascending
-  const sortedParts = [...allParts].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0))
-  
-  // LEARNING: Group parts by time slot category
-  // WHY: Calculate category-specific durations and time slots
-  // PATTERN: Use mapping function to categorize parts
-  const partsByCategory = groupPartsByCategory(sortedParts)
-  
-  // LEARNING: Filter out parts from zeroed categories before calculating totals
-  // WHY: Zeroed categories should not contribute to total durations
-  // PATTERN: Filter sortedParts to exclude parts in categories that should be zeroed out
-  // FIX: Use Array.from().filter() instead of forEach with Set mutations
-  const getNonZeroedParts = (): BookingPartInstance[] => {
-    const zeroedCategories = new Set<string>(
-      Array.from(partsByCategory.entries())
-        .filter(([, categoryParts]) => shouldZeroOutCategory(categoryParts))
-        .map(([category]) => category)
-    )
-    
-    return sortedParts.filter(part => {
-      const category = getPartInstanceCategory(part)
-      return !category || !zeroedCategories.has(category)
-    })
-  }
-  
-  const nonZeroedParts = getNonZeroedParts()
-  
-  // LEARNING: Calculate total time (sum of all parts' baseTime, excluding zeroed categories)
-  // WHY: Provides total appointment duration
-  // PATTERN: Sum all baseTime values from non-zeroed parts
-  const totalDuration = nonZeroedParts.reduce((sum, part) => sum + (part.baseTime || 0), 0)
-  
-  // LEARNING: Calculate timeOnSite (sum of parts where onSite === true, excluding zeroed categories)
-  // WHY: Provides inspector on-site duration before client arrives
-  // PATTERN: Filter by onSite, sum baseTime values from non-zeroed parts
-  const onSiteParts = nonZeroedParts.filter(part => part.onSite === true)
-  const timeOnSiteDuration = calculateCategoryDuration(onSiteParts)
-  
-  // LEARNING: Calculate category-specific durations
-  // WHY: Provides durations for each category (earlyArrival, dataCollection, etc.)
-  // PATTERN: Calculate duration for each category group
-  const earlyArrivalDuration = calculateCategoryDuration(partsByCategory.get('earlyArrival') || [])
-  const dataCollectionDuration = calculateCategoryDuration(partsByCategory.get('dataCollection') || [])
-  const reportWritingDuration = calculateCategoryDuration(partsByCategory.get('reportWriting') || [])
-  const clientPresentationDuration = calculateCategoryDuration(partsByCategory.get('clientPresentation') || [])
-  
-  // LEARNING: Helper function to get flags for a category from its parts
-  // WHY: TimeSlot objects need onSite, clientPresent, moveable, and isAvailable flags
-  // PATTERN: Check if any part in category has the flag set to true
-  const getCategoryFlags = (categoryParts: BookingPartInstance[]): { onSite: boolean; clientPresent: boolean; moveable: boolean; isAvailable: boolean } => {
-    return {
-      onSite: categoryParts.some(part => part.onSite === true),
-      clientPresent: categoryParts.some(part => part.clientPresent === true),
-      moveable: categoryParts.some(part => part.moveable === true),
-      isAvailable: true  // Default to available for category shapes
-    }
-  }
-
-  // LEARNING: Create AppointmentSlot object with calculated durations
-  // WHY: Provides normalized structure with orderIndex and category-specific time slots
-  // PATTERN: Create AppointmentSlot with orderIndex 0 (normalized) and calculated TimeSlots if baseStartTime provided
+  // LEARNING: Return slot without time ranges if no start time provided
+  // WHY: Some callers may only need the shape structure
+  // PATTERN: Create minimal slot with shape reference
+  // Session Event Refactor: Use eventTimeRanges Record instead of hardcoded properties
   const appointmentSlot: AppointmentSlot = {
-    buttonIndex: 0, // Required by AppointmentSlot interface
-    isAvailable: true, // Default to available for appointment slots
-    orderIndex: 0, // Normalized to 0 for single appointment (can be extended for multiple normalized positions)
-    totalTime: baseStartTime && totalDuration > 0 
-      ? createTimeRangeFromStart(baseStartTime, totalDuration) 
-      : null,
-    totalOnSite: baseStartTime && timeOnSiteDuration > 0
-      ? createTimeRangeFromStart(baseStartTime, timeOnSiteDuration)
-      : null,
-    earlyArrival: baseStartTime && earlyArrivalDuration > 0
-      ? createTimeSlotWithFlags(
-          baseStartTime,
-          earlyArrivalDuration,
-          getCategoryFlags(partsByCategory.get('earlyArrival') || [])
-        )
-      : null,
-    dataCollection: baseStartTime && dataCollectionDuration > 0
-      ? createTimeSlotWithFlags(
-          baseStartTime,
-          dataCollectionDuration,
-          getCategoryFlags(partsByCategory.get('dataCollection') || [])
-        )
-      : null,
-    reportWriting: baseStartTime && reportWritingDuration > 0
-      ? createTimeSlotWithFlags(
-          baseStartTime,
-          reportWritingDuration,
-          getCategoryFlags(partsByCategory.get('reportWriting') || [])
-        )
-      : null,
-    clientPresentation: baseStartTime && clientPresentationDuration > 0
-      ? createTimeSlotWithFlags(
-          baseStartTime,
-          clientPresentationDuration,
-          getCategoryFlags(partsByCategory.get('clientPresentation') || [])
-        )
-      : null,
-    totalClientPresent: null, // Not calculated in this function
-    totalMoveable: null // Not calculated in this function
+    buttonIndex: 0,
+    isAvailable: true,
+    orderIndex: 0,
+    shape,
+    startTime: '',
+    totalTimeRange: null,
+    eventTimeRanges: {}
   }
   
   return [appointmentSlot]
@@ -258,7 +127,7 @@ export function normalizeAppointmentSlotsByOrderIndex(appointmentSlots: Appointm
  */
 export function calculateTotalDurationFromAppointmentSlots(appointmentSlots: AppointmentSlots): number {
   return appointmentSlots.reduce((sum, appointmentSlot) => {
-    return sum + (appointmentSlot.totalTime?.duration || 0)
+    return sum + (appointmentSlot.totalTimeRange?.duration || appointmentSlot.shape.slotShape.totalDuration || 0)
   }, 0)
 }
 

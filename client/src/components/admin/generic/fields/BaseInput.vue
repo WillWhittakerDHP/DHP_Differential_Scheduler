@@ -101,6 +101,18 @@ const fieldId = computed(() => `field-${props.fieldKey}`)
   gap: 8px;
 }
 
+/* LEARNING: Title row fields should not have margin and should allow content sizing */
+/* WHY: Name fields in title row should fit their text content, not be constrained */
+/* PATTERN: Use CSS selector to detect when field is in title row context */
+:deep(.title-row-field) .field-wrapper {
+  margin-bottom: 0;
+}
+
+:deep(.title-row-field) .field-content {
+  width: auto;
+  min-width: fit-content;
+}
+
 .field-right-actions {
   flex-shrink: 0;
 }

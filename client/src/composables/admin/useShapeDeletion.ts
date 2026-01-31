@@ -7,7 +7,7 @@
 export interface UseShapeDeletionReturn {
   handleDeleteBlockShape: (id: string) => void
   handleDeletePartShape: (id: string) => void
-  handleDeleteAnnotationType: (id: string) => void
+  handleDeleteAnnotationShape: (id: string) => void
 }
 
 /**
@@ -40,18 +40,18 @@ export function useShapeDeletion(): UseShapeDeletionReturn {
   }
 
   /**
-   * WHY: Event handler for deleting AnnotationType
-   * WHY: AnnotationTypeCard handles deletion internally, this is just a notification handler
+   * WHY: Event handler for deleting AnnotationShape
+   * WHY: EntityCard handles deletion internally, this is just a notification handler
    * PATTERN: No-op handler - card handles all deletion logic
    */
-  const handleDeleteAnnotationType = (_id: string): void => {
-    // AnnotationTypeCard already handled the deletion - this is just for parent awareness
+  const handleDeleteAnnotationShape = (_id: string): void => {
+    // EntityCard already handled the deletion - this is just for parent awareness
     // Vue Query will automatically refetch and update the UI
   }
 
   return {
     handleDeleteBlockShape,
     handleDeletePartShape,
-    handleDeleteAnnotationType
+    handleDeleteAnnotationShape
   }
 }

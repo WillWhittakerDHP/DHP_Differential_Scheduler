@@ -15,20 +15,17 @@ import { QueryTypes, Op } from 'sequelize';
  */
 export interface FieldMetadataEntry {
   fieldKey: string;
-  dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   label: string;
   isRequired: boolean;
   visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   layout: 'inline' | 'stacked';
   displayOrder: number;
-  section: string | null;
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   statusButtonColor?: string | null;
   panel: 'none' | 'parts' | 'relationships' | 'annotations';
   bulkEdit: boolean;
   inputConfig?: Record<string, unknown> | null;
-  inheritsFromEntityType?: 'blockShape' | 'partShape' | null;
-  inheritsFromEntityId?: string | null;
 }
 
 /**
@@ -76,14 +73,11 @@ export async function getAdminPrimitiveMetadata(
         visibility: meta.visibility,
         layout: meta.layout,
         displayOrder: meta.displayOrder,
-        section: meta.section,
         renderAs: meta.renderAs,
         statusButtonColor: meta.statusButtonColor,
         panel: meta.panel,
         bulkEdit: meta.bulkEdit,
         inputConfig: meta.inputConfig || null,
-        inheritsFromEntityType: meta.inheritsFromEntityType || null,
-        inheritsFromEntityId: meta.inheritsFromEntityId || null,
       }));
     }
     
@@ -97,14 +91,11 @@ export async function getAdminPrimitiveMetadata(
         visibility: meta.visibility,
         layout: meta.layout,
         displayOrder: meta.displayOrder,
-        section: meta.section,
         renderAs: meta.renderAs,
         statusButtonColor: meta.statusButtonColor,
         panel: meta.panel,
         bulkEdit: meta.bulkEdit,
         inputConfig: meta.inputConfig || null,
-        inheritsFromEntityType: meta.inheritsFromEntityType || null,
-        inheritsFromEntityId: meta.inheritsFromEntityId || null,
       }));
     }
     
@@ -132,14 +123,11 @@ export async function getAdminPrimitiveMetadata(
         visibility: meta.visibility,
         layout: meta.layout,
         displayOrder: meta.displayOrder,
-        section: meta.section,
         renderAs: meta.renderAs,
         statusButtonColor: meta.statusButtonColor,
         panel: meta.panel,
         bulkEdit: meta.bulkEdit,
         inputConfig: meta.inputConfig || null,
-        inheritsFromEntityType: meta.inheritsFromEntityType || null,
-        inheritsFromEntityId: meta.inheritsFromEntityId || null,
       }));
     }
     
@@ -153,14 +141,11 @@ export async function getAdminPrimitiveMetadata(
       visibility: meta.visibility,
       layout: meta.layout,
       displayOrder: meta.displayOrder,
-      section: meta.section,
       renderAs: meta.renderAs,
       statusButtonColor: meta.statusButtonColor,
       panel: meta.panel,
       bulkEdit: meta.bulkEdit,
       inputConfig: meta.inputConfig || null,
-      inheritsFromEntityType: meta.inheritsFromEntityType || null,
-      inheritsFromEntityId: meta.inheritsFromEntityId || null,
     }));
   }
 
@@ -173,13 +158,10 @@ export async function getAdminPrimitiveMetadata(
     visibility: meta.visibility,
     layout: meta.layout,
     displayOrder: meta.displayOrder,
-    section: meta.section,
     renderAs: meta.renderAs,
     statusButtonColor: meta.statusButtonColor || null,
     panel: meta.panel,
     bulkEdit: meta.bulkEdit,
     inputConfig: meta.inputConfig || null,
-    inheritsFromEntityType: meta.inheritsFromEntityType || null,
-    inheritsFromEntityId: meta.inheritsFromEntityId || null,
   }));
 }

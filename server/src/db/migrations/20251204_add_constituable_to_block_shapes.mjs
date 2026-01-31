@@ -1,7 +1,8 @@
 /**
- * Migration: Add constituable column to block_shapes
+ * Migration: Add canHaveParts column to block_shapes (originally named constituable)
  * Date: 2025-12-04
- * Purpose: Add constituable boolean to block_shapes to control whether blockInstances of this shape can have constituents (partInstances)
+ * Purpose: Add canHaveParts boolean to block_shapes to control whether blockInstances of this shape can have parts (partInstances)
+ * Note: This migration originally added the column as 'constituable', which was later renamed to 'can_have_parts' in a subsequent migration
  */
 
 /** @type {import('sequelize-cli').Migration} */

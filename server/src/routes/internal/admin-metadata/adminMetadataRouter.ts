@@ -50,6 +50,8 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
     console.log('[AdminMetadataRouter] GET /admin-metadata/batch');
 
     // Fetch all metadata in a single query
+    // LEARNING: All metadata now uses entityType/entityId (configType removed)
+    // WHY: Everything is an entity, no need for configType discriminator
     const allMetadata = await AdminMetadata.findAll({
       order: [['display_order', 'ASC'], ['field_key', 'ASC']],
     });
@@ -61,6 +63,10 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
         partShape: Record<string, unknown>;
         blockInstance: Record<string, unknown>;
         partInstance: Record<string, unknown>;
+        eventShape: Record<string, unknown>;
+        eventInstance: Record<string, unknown>;
+        annotationShape: Record<string, unknown>;
+        annotationInstance: Record<string, unknown>;
       };
       blockShapeSpecific: Record<string, Record<string, unknown>>;
     } = {
@@ -69,6 +75,10 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
         partShape: {},
         blockInstance: {},
         partInstance: {},
+        eventShape: {},
+        eventInstance: {},
+        annotationShape: {},
+        annotationInstance: {},
       },
       blockShapeSpecific: {},
     };
@@ -87,14 +97,11 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
         visibility: entry.visibility,
         layout: entry.layout,
         displayOrder: entry.displayOrder,
-        section: entry.section,
         renderAs: entry.renderAs,
         statusButtonColor: entry.statusButtonColor,
         panel: entry.panel,
         bulkEdit: entry.bulkEdit,
         inputConfig: entry.inputConfig,
-        inheritsFromEntityType: entry.inheritsFromEntityType,
-        inheritsFromEntityId: entry.inheritsFromEntityId,
       };
 
       // Determine where to place this entry
@@ -112,7 +119,7 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
       }
     }
 
-    console.log(`[AdminMetadataRouter] Batch returning: global counts = blockShape:${Object.keys(result.global.blockShape).length}, partShape:${Object.keys(result.global.partShape).length}, blockInstance:${Object.keys(result.global.blockInstance).length}, partInstance:${Object.keys(result.global.partInstance).length}, blockShapeSpecific:${Object.keys(result.blockShapeSpecific).length}`);
+    console.log(`[AdminMetadataRouter] Batch returning: global counts = blockShape:${Object.keys(result.global.blockShape).length}, partShape:${Object.keys(result.global.partShape).length}, blockInstance:${Object.keys(result.global.blockInstance).length}, partInstance:${Object.keys(result.global.partInstance).length}, eventShape:${Object.keys(result.global.eventShape).length}, eventInstance:${Object.keys(result.global.eventInstance).length}, annotationShape:${Object.keys(result.global.annotationShape).length}, annotationInstance:${Object.keys(result.global.annotationInstance).length}, blockShapeSpecific:${Object.keys(result.blockShapeSpecific).length}`);
 
     res.json(result);
   } catch (error) {
@@ -139,7 +146,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
       blockShapeRef: blockShapeRef || null,
     });
 
-    const validEntityTypes = ['blockShape', 'partShape', 'blockInstance', 'partInstance'];
+    const validEntityTypes = ['blockShape', 'partShape', 'blockInstance', 'partInstance', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance'];
     if (!validEntityTypes.includes(entityType)) {
       res.status(400).json({
         error: 'Invalid entityType',
@@ -153,7 +160,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
     // WHY: Allows each BlockShape's instances to have their own metadata configuration
     // NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
     const metadataRecord = await getAdminMetadata(
-      entityType as 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
+      entityType as 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
       entityId,
       blockShapeRef || null
     );
@@ -173,7 +180,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 /**
  * POST /admin-metadata/:entityType/:entityId
  * Create or update metadata for an entity
- * Body: { fieldKey, dataType, label, isRequired, visibility, layout, displayOrder, section?, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
+ * Body: { fieldKey, dataType, label, isRequired, visibility, layout, displayOrder, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
  * 
  * LEARNING: Backend determines metadataType by checking if fieldKey is in RELATIONSHIP_KEYS
  * WHY: Matches entity pattern - backend routes based on field type (no explicit type parameter from frontend)
@@ -190,18 +197,15 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       visibility,
       layout,
       displayOrder,
-      section = null,
       renderAs = 'text',
       statusButtonColor = null,
       panel = 'none',
       bulkEdit = false,
       inputConfig = null,
-      inheritsFromEntityType = null,
-      inheritsFromEntityId = null,
       blockShapeRef = null, // NEW: BlockShape ID for BlockShape-specific instance metadata
     } = req.body;
 
-    const validEntityTypes = ['blockShape', 'partShape', 'blockInstance', 'partInstance'];
+    const validEntityTypes = ['blockShape', 'partShape', 'blockInstance', 'partInstance', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance'];
     if (!validEntityTypes.includes(entityType)) {
       res.status(400).json({
         error: 'Invalid entityType',
@@ -241,11 +245,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       return;
     }
 
-    // Validate inputConfig - required for select/multiselect/reference/partsCollection fields
+    // Validate inputConfig - required for select/multiselect/reference/relationshipCollection fields
     // LEARNING: Accepts both FormFieldConfig structure (new format) and direct select config (old format)
     // WHY: Supports backward compatibility during transition
     // PATTERN: Validate that inputConfig exists and is an object, accept any valid JSONB structure
-    if (finalRenderAs === 'select' || finalRenderAs === 'multiselect' || finalRenderAs === 'reference' || finalRenderAs === 'partsCollection') {
+    if (finalRenderAs === 'select' || finalRenderAs === 'multiselect' || finalRenderAs === 'reference' || finalRenderAs === 'relationshipCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
         res.status(400).json({
           error: 'Missing inputConfig',
@@ -273,7 +277,9 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       finalEntityId,
     });
 
-    // Check if entry already exists (using metadataType + fieldKey + blockShapeRef)
+    // Check if entry already exists (using entityType + entityId + metadataType + fieldKey + blockShapeRef)
+    // LEARNING: All metadata now uses entityType/entityId (configType removed)
+    // WHY: Everything is an entity, no need for configType discriminator
     const existingWhere: any = {
       entityType: entityType as any,
       entityId: finalEntityId,
@@ -301,20 +307,18 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         visibility,
         layout,
         displayOrder,
-        section,
         renderAs: finalRenderAs,
         statusButtonColor,
         panel: finalPanel,
         bulkEdit,
         inputConfig,
-        inheritsFromEntityType,
-        inheritsFromEntityId,
         blockShapeRef: finalBlockShapeRef,
       });
 
       res.json(existing);
     } else {
       // Create new entry
+      // LEARNING: All metadata uses entityType/entityId (configType/configId removed)
       const metadata = await AdminMetadata.create({
         entityType: entityType as any,
         entityId: finalEntityId,
@@ -326,14 +330,11 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         visibility,
         layout,
         displayOrder,
-        section,
         renderAs: finalRenderAs,
         statusButtonColor,
         panel: finalPanel,
         bulkEdit,
         inputConfig,
-        inheritsFromEntityType,
-        inheritsFromEntityId,
         blockShapeRef: finalBlockShapeRef,
       });
 
@@ -361,7 +362,7 @@ router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Resp
     const { entityType, entityId, fieldKey } = req.params;
     const blockShapeRef = req.query.blockShapeRef as string | undefined;
 
-    const validEntityTypes = ['blockShape', 'partShape', 'blockInstance', 'partInstance'];
+    const validEntityTypes = ['blockShape', 'partShape', 'blockInstance', 'partInstance', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance'];
     if (!validEntityTypes.includes(entityType)) {
       res.status(400).json({
         error: 'Invalid entityType',
@@ -384,6 +385,7 @@ router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Resp
       ? blockShapeRef 
       : null;
 
+    // LEARNING: All metadata now uses entityType/entityId (configType removed)
     const whereClause: any = {
       entityType: entityType as any,
       entityId: finalEntityId,

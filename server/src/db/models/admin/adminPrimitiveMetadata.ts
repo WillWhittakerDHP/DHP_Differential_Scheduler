@@ -24,7 +24,7 @@ export class AdminPrimitiveMetadata extends Model<
   declare entityId: string;
   declare fieldKey: string;
   // Canonical properties
-  declare dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference';
+  declare dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   declare label: string;
   declare isRequired: boolean;
   // Layout/rendering properties
@@ -32,7 +32,7 @@ export class AdminPrimitiveMetadata extends Model<
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
   declare section: CreationOptional<string | null>;
-  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection';
+  declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
@@ -74,7 +74,7 @@ export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {
       },
       // Canonical properties
       dataType: {
-        type: DataTypes.ENUM('string', 'number', 'boolean', 'array', 'reference'),
+        type: DataTypes.ENUM('string', 'number', 'boolean', 'ternary', 'array', 'reference'),
         allowNull: false,
         field: 'data_type',
         comment: 'Field data type',
@@ -117,11 +117,11 @@ export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {
         comment: 'Optional section/group name',
       },
       renderAs: {
-        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect', 'partsCollection'),
+        type: DataTypes.ENUM('text', 'number', 'select', 'multiselect', 'reference', 'statusButton', 'iconSelect', 'relationshipCollection'),
         allowNull: false,
         defaultValue: 'text',
         field: 'render_as',
-        comment: 'How to render the field (control type + statusButton + iconSelect + partsCollection)',
+        comment: 'How to render the field (control type + statusButton + iconSelect + relationshipCollection)',
       },
       statusButtonColor: {
         type: DataTypes.STRING,

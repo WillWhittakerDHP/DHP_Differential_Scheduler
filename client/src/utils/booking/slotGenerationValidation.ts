@@ -9,7 +9,6 @@
  */
 
 import type { RFC3339DateTime } from '@/types/datetime'
-import type { BusinessHoursMap } from './timeSlotFitter'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('slotGenerationValidation')

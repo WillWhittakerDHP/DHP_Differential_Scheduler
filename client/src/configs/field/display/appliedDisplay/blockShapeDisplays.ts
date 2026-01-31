@@ -59,14 +59,24 @@ export const blockShapeDisplays = {
     tooltip: "When enabled, BlockInstances of this type can be composed together to share part instances and compose properties.",
   },
   
-  constituable: {
-    label: "State Control",
-    placeholder: "BlockInstances of this type do not display or interact with PartInstances",
+  canHaveParts: {
+    label: "Can Have Parts",
+    placeholder: "Allow BlockInstances of this type to have part instances",
     inline: false,
     stacked: true,
     width: "20%",
     align: "center",
-    tooltip: "When enabled (ON), BlockInstances of this BlockShape will not display or interact with PartInstances. Useful for state-only entities like User Types. When disabled (OFF), BlockInstances can have constituent part instances.",
+    tooltip: "When enabled (ON), BlockInstances of this BlockShape can have part instances attached. Mutually exclusive with State Control.",
+  },
+  
+  isStateControl: {
+    label: "State Control",
+    placeholder: "BlockInstances of this type act as state selectors in the wizard",
+    inline: false,
+    stacked: true,
+    width: "20%",
+    align: "center",
+    tooltip: "When enabled (ON), BlockInstances of this BlockShape act as state selectors in the wizard (like User Types). Mutually exclusive with Can Have Parts.",
   },
   
   type: {

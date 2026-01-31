@@ -16,7 +16,7 @@ import {
  * (`map/reduce/filter`) and reduce side effects.
  *
  * Scope:
- * - Included: client/src directory (ts, js, vue files)
+ * - Included: client/src (ts, js, vue files) and server/src (ts, mjs files)
  * - Excluded: __tests__, test files, spec files, @core, @layouts
  *
  * Output:
@@ -34,12 +34,13 @@ import {
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
+const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
 
-// If src exists in cwd, we're in client/; otherwise assume project root
-const SRC_DIR = fs.existsSync(CLIENT_SRC) ? CLIENT_SRC : PROJECT_ROOT_SRC
-const PROJECT_ROOT = fs.existsSync(CLIENT_SRC) ? CWD : CWD
+const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
+const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
+const SERVER_SRC = path.join(SERVER_ROOT, 'src')
 
 const OUT_DIR = fs.existsSync(CLIENT_SRC) 
   ? path.join(CWD, '.audit-reports')
@@ -69,7 +70,16 @@ const RULES = [
   { id: 'sort', label: '.sort()', test: (l) => /\.sort\s*\(/.test(l) },
   { id: 'reverse', label: '.reverse()', test: (l) => /\.reverse\s*\(/.test(l) },
   { id: 'assignIndex', label: 'arr[i] = ...', test: (l) => /\[[^\]]+\]\s*=/.test(l) },
-  { id: 'assignProp', label: 'obj.prop = ...', test: (l) => /\.\w+\s*=/.test(l) },
+  { 
+    id: 'assignProp', 
+    label: 'obj.prop = ...', 
+    test: (l) => {
+      // Exclude Vue template directives (they're not mutations)
+      if (/v-model|@\w+|:[\w-]+=/.test(l)) return false
+      // Standard property assignment
+      return /\.\w+\s*=/.test(l)
+    }
+  },
   { id: 'delete', label: 'delete x', test: (l) => /\bdelete\s+\w/.test(l) },
 ]
 
@@ -93,6 +103,29 @@ function isScannable(absPath) {
 }
 
 /**
+ * Check if a file should be excluded from scanning
+ */
+function shouldExcludeDir(repoPath) {
+  // Exclude migration files (one-time scripts, mutations are expected)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return true
+  }
+  // Exclude test files and directories (test setup might use mutations intentionally)
+  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+    return true
+  }
+  // Exclude @core and @layouts for client files only
+  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
+    return true
+  }
+  // Exclude node_modules, dist, etc.
+  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
+    return true
+  }
+  return false
+}
+
+/**
  * @param {string} dir
  * @returns {string[]}
  */
@@ -103,6 +136,13 @@ function listFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const abs = path.join(dir, e.name)
+    const repoPath = toRepoPath(abs)
+    
+    // Skip excluded directories/files
+    if (shouldExcludeDir(repoPath)) {
+      continue
+    }
+    
     if (e.isDirectory()) {
       out.push(...listFilesRecursive(abs))
       continue
@@ -154,25 +194,54 @@ function scanLines(lines) {
  * @param {string} mutationLine - The line containing the mutation
  * @param {string} mutationRuleId - Type of mutation (e.g., 'push', 'assignProp')
  * @param {string} forEachLine - The line containing the forEach
+ * @param {string} repoPath - File path for context-aware detection
  * @returns {boolean} True if mutation should be excluded
  */
-function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine) {
+function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine, repoPath = '') {
+  // Vue ref assignments - legitimate reactive state updates
+  if (mutationRuleId === 'assignProp' && /\.value\s*=/.test(mutationLine)) {
+    return true
+  }
+  
+  // Vue template directives - not actual mutations (template syntax)
+  if (mutationRuleId === 'assignProp' && /v-model|@\w+|:[\w-]+=/.test(mutationLine)) {
+    return true
+  }
+  
+  // Set/Map operations - legitimate for Set/Map data structures
+  if (mutationRuleId === 'assignProp' && /\.(add|set|delete|clear)\s*\(/.test(mutationLine)) {
+    return true
+  }
+  
+  // Array spread operations - functional pattern, not mutation
+  if (mutationRuleId === 'assignProp' && /\[.*\.\.\..*\]/.test(mutationLine)) {
+    return true
+  }
+  
+  // Filter/map operations on ref.value - functional patterns
+  if (mutationRuleId === 'assignProp' && /\.value\s*=\s*.*\.(filter|map|reduce|flatMap)\s*\(/.test(mutationLine)) {
+    return true
+  }
+  
   // Set.add operations are legitimate for building Sets
   if (mutationRuleId === 'assignProp' && /\.add\s*\(/.test(mutationLine)) {
     return true
   }
+  
   // DOM mutations in main.ts are legitimate side effects
   if (/MutationObserver|querySelector|appendChild|removeChild/.test(mutationLine)) {
     return true
   }
+  
   // Theme config mutations in @core/initCore.ts are legitimate
   if (/themeConfig|themes\.value|colors\[/.test(mutationLine)) {
     return true
   }
+  
   return false
 }
 
-function countForEachPushNearby(matches) {
+function countForEachPushNearby(matches, repoPath = '') {
   // Heuristic: forEach with push/splice/etc in the next N lines is a good "replace with map/reduce" target.
   const window = 22
   /** @type {Array<{forEachAt: number, mutationAt: number, mutationRuleId: string}>} */
@@ -188,8 +257,8 @@ function countForEachPushNearby(matches) {
     
     const inWindow = mutationMatches.filter(m => m.lineNumber > fl && m.lineNumber <= fl + window)
     for (const m of inWindow) {
-      // Skip legitimate mutations
-      if (isLegitimateMutation(m.line, m.ruleId, forEachLine)) {
+      // Skip legitimate mutations (pass repoPath for context-aware detection)
+      if (isLegitimateMutation(m.line, m.ruleId, forEachLine, repoPath)) {
         continue
       }
       hits.push({ forEachAt: fl, mutationAt: m.lineNumber, mutationRuleId: m.ruleId })
@@ -220,6 +289,15 @@ function score(counts, forEachMutationHits) {
     (counts.forOf || 0) +
     (counts.forIn || 0)
   )
+}
+
+function assignPriority(score, config) {
+  const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 12)
+  const p1Min = Number(config?.priorities?.p1MinSeverityScore ?? 6)
+  
+  if (score >= p0Min) return 'P0'
+  if (score >= p1Min) return 'P1'
+  return 'P2'
 }
 
 function compareFiles(a, b) {
@@ -336,13 +414,26 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  
+  // Load priority config
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
 
-  const absFiles = listFilesRecursive(SRC_DIR)
+  const clientFiles = listFilesRecursive(CLIENT_SRC)
+  const serverFiles = listFilesRecursive(SERVER_SRC)
+  const absFiles = [...clientFiles, ...serverFiles]
   const scanned = []
 
   for (const abs of absFiles) {
     const repoPath = toRepoPath(abs)
     if (isExcluded(repoPath, configAllowlist)) continue
+    // Double-check exclusion
+    if (shouldExcludeDir(repoPath)) continue
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines)
@@ -357,11 +448,12 @@ function main() {
     )
     
     // Calculate forEach→mutation hits only for requiresReview matches
-    const forEachMutationHits = countForEachPushNearby(requiresReview)
+    const forEachMutationHits = countForEachPushNearby(requiresReview, repoPath)
     
     // Score based on requiring-review only
     const reviewCounts = recalculateCounts(requiresReview)
     const fileScore = score(reviewCounts, forEachMutationHits)
+    const filePriority = assignPriority(fileScore, priorityConfig)
     
     scanned.push({
       id: toStableId(repoPath),
@@ -373,6 +465,7 @@ function main() {
       requiresReview,
       forEachMutationHits,
       score: fileScore,
+      priority: filePriority,
     })
   }
 
@@ -387,8 +480,8 @@ function main() {
       {
         generatedAt: new Date().toISOString(),
         scope: {
-          included: ['client/src/**/*.{ts,js,vue}'],
-          excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'src/@core/**', 'src/@layouts/**'],
+          included: ['client/src/**/*.{ts,js,vue}', 'server/src/**/*.{ts,mjs}'],
+          excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'client/src/@core/**', 'client/src/@layouts/**'],
         },
         exceptionSummary,
         files: scanned,
@@ -399,8 +492,10 @@ function main() {
   )
   fs.writeFileSync(OUT_MD, renderMarkdownReport(scanned, exceptionSummary))
 
+  const clientFilesCount = clientFiles.length
+  const serverFilesCount = serverFiles.length
   console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
-  console.log(`Files scanned: ${scanned.length}`)
+  console.log(`Files scanned: ${scanned.length} (${clientFilesCount} client, ${serverFilesCount} server)`)
   console.log(`Findings: ${exceptionSummary.totalRequiresReview} requiring review, ${exceptionSummary.totalAllowed} allowed`)
   process.exitCode = 0
 }

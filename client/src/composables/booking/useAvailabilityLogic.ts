@@ -13,16 +13,18 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
 import { parseUTCDate } from '@/utils/booking/timeSlotFitter'
-import type { ISO8601Date } from '@/types/datetime'
+import { toRFC3339DateTime, type ISO8601Date, type RFC3339DateTime } from '@/types/datetime'
 import type { PropertyDetails } from '@/types/availability'
+import { equals } from '@/utils/ternary/ternaryUtils'
 
 /**
  * Date range structure
  * LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) for date-only values
  * WHY: Consistent with RFC3339 datetime approach, aligns with international standards
  * PATTERN: ISO8601Date type documents intent and ensures consistency
+ * NOTE: Internal type only - not exported as it's not used outside this file
  */
-export interface DateRange {
+interface DateRange {
   start: ISO8601Date | null
   end: ISO8601Date | null
 }
@@ -38,12 +40,14 @@ export interface TimeSlotsPerDay {
 
 /**
  * useAvailabilityLogic composable parameters
+ * NOTE: Internal type only - not exported as it's not used outside this file
  */
-export interface UseAvailabilityLogicParams {
+interface UseAvailabilityLogicParams {
   selectedDate: Ref<DateRange>
   propertyDetailsStepData: Ref<PropertyDetails | null> | null
   wizard: {
-    selectedServices: Ref<BookingBlockInstance[]>
+    selectedUserTypeBlock: Ref<BookingBlockInstance | null>
+    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
   }
@@ -61,17 +65,19 @@ export interface SelectedTimeSlot {
 
 /**
  * Appointment slots per day structure
+ * NOTE: Internal type only - not exported as it's not used outside this file
  */
-export interface AppointmentSlotsPerDay {
+interface AppointmentSlotsPerDay {
   date: string
   appointmentSlots: AppointmentSlots
 }
 
 /**
  * useAvailabilityLogic composable return type
+ * NOTE: Internal type only - not exported as it's not used outside this file
  */
-export interface UseAvailabilityLogicReturn {
-  dateRangeForApi: ComputedRef<{ start: string; end: string } | null>
+interface UseAvailabilityLogicReturn {
+  dateRangeForApi: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
   propertyDetails: ComputedRef<PropertyDetails | null>
   accumulatedBlockInstances: ComputedRef<BookingBlockInstance[]>
   timeSlotsPerDay: Ref<TimeSlotsPerDay[]>
@@ -81,7 +87,7 @@ export interface UseAvailabilityLogicReturn {
   isDifferentialService: ComputedRef<boolean>
   isEffectivelyDifferential: ComputedRef<boolean>
   selectedTimeSlots: ComputedRef<SelectedTimeSlot[] | null>
-  matchLoadedTimeSlots: (loadedSlots: Array<{ startTime: string; endTime?: string }>, availableSlots: TimeSlot[], inspectorAppointmentSlot: Ref<TimeSlot | null>, clientAppointmentSlot: Ref<TimeSlot | null>) => void
+  matchLoadedTimeSlots: (loadedSlots: Array<{ startTime: string; endTime?: string }>, availableSlots: TimeSlot[], majorAppointmentSlot: Ref<TimeSlot | null>, minorAppointmentSlot: Ref<TimeSlot | null>) => void
 }
 
 /**
@@ -177,8 +183,8 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     // WHY: Consistent format throughout codebase, matches Google Calendar API
     // PATTERN: Use toISOString() to produce RFC3339 format
     return {
-      start: startDateTime.toISOString(),
-      end: endDateTime.toISOString()
+      start: toRFC3339DateTime(startDateTime),
+      end: toRFC3339DateTime(endDateTime)
     }
   })
 
@@ -200,12 +206,13 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
   /**
    * LEARNING: Computed property for all accumulated block instances
-   * WHY: Duration calculation needs all selected blocks (service, property type block, availability options)
+   * WHY: Duration calculation needs all selected blocks (user type, service, property type block, availability options)
    * PATTERN: Collect all selected block instances into array
    */
   const accumulatedBlockInstances = computed(() => {
     const result = [
-      ...wizard.selectedServices.value,
+      ...(wizard.selectedUserTypeBlock.value ? [wizard.selectedUserTypeBlock.value] : []),
+      ...wizard.selectedServiceTypeBlocks.value,
       ...wizard.selectedPropertyTypeBlocks.value,
       ...wizard.selectedOptionTypeBlocks.value
     ]
@@ -281,27 +288,27 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   /**
    * LEARNING: Computed property to check if service supports differential scheduling
    * WHY: Determines whether to show Inspector/Client toggle
-   * PATTERN: Check if any selected service has differential === true
+   * PATTERN: Check if any selected service has differential === 'true' (using ternary equals)
    */
   const isDifferentialService = computed(() => {
-    const selectedServices = wizard.selectedServices.value
-    return selectedServices.some(s => s.differential === true)
+    const selectedServices = wizard.selectedServiceTypeBlocks.value
+    return selectedServices.some(s => equals(s.differential, 'true'))
   })
 
   /**
-   * LEARNING: Check if any part instance has differentialOverride: true
-   * WHY: Allows explicit override of differential behavior
-   * PATTERN: Check all selected services and option type blocks for parts with differentialOverride
+   * LEARNING: Check if any block instance has differential: 'override'
+   * WHY: Allows explicit override of differential behavior at blockInstance level
+   * PATTERN: Check all selected services and option type blocks for differential === 'override'
    */
   const hasDifferentialOverride = computed(() => {
     // Check selected services
-    const serviceHasOverride = wizard.selectedServices.value.some(service =>
-      service.partInstances?.some(part => part.differentialOverride === true)
+    const serviceHasOverride = wizard.selectedServiceTypeBlocks.value.some(service =>
+      service.differential === 'override'
     )
     
     // Check selected option type blocks (e.g., "No Client Presentation" option)
     const optionHasOverride = wizard.selectedOptionTypeBlocks.value.some(option =>
-      option.partInstances?.some(part => part.differentialOverride === true)
+      option.differential === 'override'
     )
     
     return serviceHasOverride || optionHasOverride
@@ -313,13 +320,29 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    * PATTERN: Returns false if service is not differential OR if override exists
    * 
    * Logic:
-   * - If service.differential === false → return false (non-differential)
-   * - If service.differential === true AND any part has differentialOverride === true → return false (overridden to non-differential)
-   * - If service.differential === true AND no override → return true (differential)
+   * - If no service has differential === 'true' → return false (non-differential)
+   * - If any blockInstance has differential === 'override' → return false (overridden to non-differential)
+   * - If service.differential === 'true' AND no override → return true (differential)
    */
   const isEffectivelyDifferential = computed(() => {
-    if (!isDifferentialService.value) return false
-    if (hasDifferentialOverride.value) return false
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:327',message:'isEffectivelyDifferential calculation',data:{isDifferentialService:isDifferentialService.value,hasDifferentialOverride:hasDifferentialOverride.value,selectedServices:wizard.selectedServiceTypeBlocks.value.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
+    if (!isDifferentialService.value) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:329',message:'isEffectivelyDifferential=false: not differential service',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+      // #endregion
+      return false
+    }
+    if (hasDifferentialOverride.value) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:330',message:'isEffectivelyDifferential=false: has override',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+      // #endregion
+      return false
+    }
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:331',message:'isEffectivelyDifferential=true',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
     return true
   })
 
@@ -411,7 +434,9 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       return []
     }
     
-    // Return inspector time slots (component will filter by startTimeType if needed)
+    // Return major time slots (component will filter by startTimeType if needed)
+    // LEARNING: Use inspectorTimeSlots property name to match TimeSlotsPerDay interface
+    // WHY: Interface uses inspectorTimeSlots, not majorTimeSlots
     return daySlots.inspectorTimeSlots
   })
 
@@ -442,7 +467,5 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
 /**
  * @deprecated Use AppointmentSlotsPerDay instead
+ * NOTE: Removed - deprecated and unused
  */
-export interface AppointmentTimesPerDay extends AppointmentSlotsPerDay {
-  appointmentTimes: AppointmentSlots
-}

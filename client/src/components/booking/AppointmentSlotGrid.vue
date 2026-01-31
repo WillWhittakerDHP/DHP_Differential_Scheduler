@@ -11,7 +11,7 @@
  * - ResizeObserver for responsive behavior
  * - Touch-friendly button sizing
  * - Configurable min/max columns and button sizing
- * - Support for AppointmentSlots with dual-time display (inspector/client perspectives)
+ * - Support for AppointmentSlots with dual-time display (major/minor perspectives)
  * - Emits orderIndex along with TimeSlot for proper selection tracking
  */
 
@@ -20,11 +20,13 @@ import type { TimeRange, AppointmentSlots } from '@/types/appointment'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useResponsiveGrid } from '@/composables/booking/useResponsiveGrid'
 import { derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
+import { useGlobal } from '@/composables/useGlobal'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 interface Props {
   appointmentSlots: AppointmentSlots // AppointmentSlots structure
   selectedButtonIndex?: number | null // Selection by buttonIndex
-  timeBasis?: 'onSite' | 'clientPresent' | 'nonDifferential' // Time perspective for differential scheduling
+  timeBasis?: 'major' | 'minor' | 'nonDifferential' // Time perspective for differential scheduling
   color?: 'primary' | 'secondary'
   variant?: 'flat' | 'outlined'
   loading?: boolean
@@ -75,6 +77,12 @@ const {
 // PATTERN: Composable provides pure utility functions
 const { formatTimeRange } = useTimeFormatting()
 
+// LEARNING: Get globalData and availabilitySettings for derivePerspective
+// WHY: derivePerspective needs these to find major/minor event shapes dynamically
+// PATTERN: Use composables to access reactive global data and settings
+const { getGlobalData } = useGlobal()
+const { settings: availabilitySettings } = useAvailabilitySettings()
+
 /**
  * LEARNING: Slot display data structure
  * WHY: Associates buttonIndex with display time and availability for rendering
@@ -90,18 +98,40 @@ interface SlotDisplayData {
  * WHY: Derives perspective directly using timeBasis prop for reactivity
  * PATTERN: Map over appointmentSlots, call derivePerspective with current timeBasis
  * NOTE: Directly uses timeBasis prop to ensure reactivity when perspective changes
+ * LEARNING: Availability doesn't change with perspective - only display time changes
+ * WHY: Slots are the same regardless of perspective, only the label/time shown changes
  */
 const displaySlots = computed(() => {
   // LEARNING: Use timeBasis prop directly to derive perspective
   // WHY: Ensures displaySlots recomputes when perspective changes, and we use the correct perspective
   const currentPerspective = props.timeBasis
+  const globalData = getGlobalData()
+  
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:94',message:'displaySlots: computing slots',data:{perspective:currentPerspective,slotsCount:props.appointmentSlots.length,hasGlobalData:!!globalData,hasSettings:!!availabilitySettings.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+  // #endregion
   
   const slots = props.appointmentSlots.map(appointmentSlot => {
-    const displayTime = derivePerspective(appointmentSlot, currentPerspective)
+    // LEARNING: Derive display time based on perspective, but keep original availability
+    // WHY: Perspective only affects what time is displayed, not whether slot is available
+    const displayTime = derivePerspective(
+      appointmentSlot, 
+      currentPerspective,
+      globalData || undefined,
+      availabilitySettings.value || null
+    )
+    
+    // #region agent log
+    if (currentPerspective === 'minor') {
+      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:110',message:'displaySlots: minor perspective slot',data:{buttonIndex:appointmentSlot.buttonIndex,hasDisplayTime:!!displayTime,displayTime,isAvailable:appointmentSlot.isAvailable,hasTotalTimeRange:!!appointmentSlot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+    }
+    // #endregion
     
     return {
       buttonIndex: appointmentSlot.buttonIndex,
       displayTime,
+      // LEARNING: Availability is independent of perspective
+      // WHY: A slot is available or not regardless of which perspective is viewing it
       isAvailable: appointmentSlot.isAvailable
     }
   })
@@ -119,8 +149,13 @@ const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
 // LEARNING: Format slot time for display
 // WHY: Centralizes formatting logic
 // PATTERN: Method that formats the conversion
+// LEARNING: Always show a time range, even if displayTime is null
+// WHY: Availability is independent of perspective - slots should always show a time if available
 const formatSlotTime = (slotData: SlotDisplayData): string => {
   if (!slotData.displayTime) {
+    // LEARNING: If displayTime is null but slot is available, this shouldn't happen
+    // WHY: derivePerspective should always return a TimeRange (fallback to totalTimeRange)
+    // PATTERN: Fallback to 'Unavailable' only if truly no time can be determined
     return 'Unavailable'
   }
   
@@ -147,7 +182,7 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
         'appointment-slot-btn--inactive': selectedButtonIndex !== null && selectedButtonIndex !== slotData.buttonIndex,
         'appointment-slot-btn--busy': !slotData.isAvailable
       }]"
-      :disabled="loading || !slotData.displayTime || !slotData.isAvailable"
+      :disabled="loading || !slotData.isAvailable"
       @click="handleAppointmentSlotClick(slotData)"
     >
       {{ formatSlotTime(slotData) }}

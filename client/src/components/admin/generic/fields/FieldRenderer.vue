@@ -11,6 +11,7 @@
       :is="componentToRender"
       :field-context="effectiveFieldContext"
       :show-label="componentsWithLabel.includes(fieldComponent.componentType.value.type) ? showLabel : undefined"
+      :collection-type="fieldComponent.componentType.value.type === 'relationshipCollection' ? collectionType : undefined"
     />
     
     <!-- Unknown Input Type -->
@@ -53,19 +54,22 @@
  *             getFieldComponent() determines WHAT component to render
  */
 
-import { computed, toRef, watch, type Component } from 'vue'
+import { computed, toRef, watch, type Component, type ComputedRef } from 'vue'
 import PrimitiveInputs from './PrimitiveInputs.vue'
 import SelectInputs from './SelectInputs.vue'
 import PartsCollection from '../collections/PartsCollection.vue'
+import RelationshipCollection from '../collections/RelationshipCollection.vue'
 import IconInput from './IconInput.vue'
-import AnnotationsField from './AnnotationsField.vue'
 import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
 import { useFieldComponent } from '../../../../composables/admin/useFieldComponent'
+import { useFieldRendererComponent } from '../../../../composables/admin/useFieldRendererComponent'
 import type { FieldComponent } from '../../../../utils/forms/fieldComponentDispatcher'
 import type { FieldMetadataEntry } from '../../../../types/entityMetadata'
+import type { GlobalEntity } from '../../../../types/entities'
+import { useFieldContextMetadataEntity } from '../../../../composables/admin/useFieldContextMetadataEntity'
 
 interface Props {
   fieldContext?: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -163,13 +167,29 @@ if (fieldContext.value) {
  * WHY: Extracts entity lookup logic to reusable composable
  * PATTERN: Composable handles both temporary and existing entities
  */
-import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
+// LEARNING: Call composable at setup time with fieldContext (guarded by conditional)
+// WHY: Composables must be called at setup time, but fieldContext can be undefined
+// PATTERN: Guard composable call, use computed wrapper to handle effectiveFieldContext changes
+// NOTE: This pattern is necessary because fieldContext can be undefined, but composable requires non-null value
+// FIX: Call composable unconditionally by providing a fallback - composable handles missing entityKey/entityId
+let entityForMetadataLookup: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
+if (fieldContext.value) {
+  entityForMetadataLookup = useFieldContextMetadataEntity(fieldContext.value)
+} else {
+  // Fallback when fieldContext is undefined - return computed that always returns null
+  // LEARNING: Match return type of useFieldContextMetadataEntity
+  // WHY: Ensures type consistency between fallback and actual composable return
+  // PATTERN: Use same ComputedRef type as composable
+  entityForMetadataLookup = computed(() => null) as ComputedRef<GlobalEntity<GlobalEntityKey> | null>
+}
+// LEARNING: Use computed to return null when effectiveFieldContext is undefined
+// WHY: effectiveFieldContext can be undefined even when fieldContext exists (due to readOnly override)
+// PATTERN: Computed wrapper that checks effectiveFieldContext
 const entityForMetadata = computed(() => {
   if (!effectiveFieldContext.value) {
     return null
   }
-  const entityLookup = useFieldContextMetadataEntity(effectiveFieldContext.value)
-  return entityLookup.value
+  return entityForMetadataLookup.value
 })
 
 // LEARNING: Removed premature warning from FieldRenderer
@@ -194,53 +214,46 @@ const fieldComponent = useFieldComponent({
 })
 
 
+// LEARNING: Determine collectionType for RelationshipCollection based on fieldKey
+// WHY: RelationshipCollection needs collectionType prop to customize behavior
+// PATTERN: Infer collectionType from fieldKey or use default
+const collectionType = computed(() => {
+  const key = String(fieldKey.value)
+  if (key.includes('annotation')) return 'annotations'
+  if (key.includes('event')) return 'events'
+  if (key.includes('part')) return 'parts'
+  return 'parts' // default
+})
+
 // LEARNING: Component map for dynamic rendering based on componentType
 // WHY: Single source of truth for component type → component mapping
 // PATTERN: Map FieldComponent type to Vue component
 // NOTE: Using Component type to allow all Vue component types
+// NOTE: relationshipCollection type uses RelationshipCollection component
 const componentMap: Record<FieldComponent['type'], Component | null> = {
   icon: IconInput,
   primitive: PrimitiveInputs,
-  partsCollection: PartsCollection,
-  annotations: AnnotationsField,
+  relationshipCollection: RelationshipCollection,
   select: SelectInputs,
   unknown: null
 }
 
 // LEARNING: Components that accept showLabel prop
-// WHY: Not all components accept showLabel (PartsCollection, AnnotationsField don't)
+// WHY: Not all components accept showLabel (RelationshipCollection, PartsCollection don't)
 // PATTERN: Array of component types that accept the prop
 const componentsWithLabel: Array<FieldComponent['type']> = ['icon', 'primitive', 'select']
 
-// LEARNING: Computed to get the component from map
-// WHY: Ensures reactive component lookup for :is binding
-// PATTERN: Computed property that returns component or null
-const componentToRender = computed(() => {
-  if (!effectiveFieldContext.value) {
-    return null
-  }
-  const componentType = fieldComponent.componentType.value
-  return componentMap[componentType.type] || null
-})
-
-// LEARNING: Computed to determine if component exists in map
-// WHY: Single source of truth for component map lookup, used in template and watch
-// PATTERN: Computed property that checks component map lookup
-const hasValidComponent = computed(() => {
-  return !!componentToRender.value
-})
-
-// LEARNING: Computed to determine if error UI should show
-// WHY: Single source of truth for when error UI renders, can be watched
-// PATTERN: Computed property that checks component map lookup - matches template condition exactly
-const shouldShowError = computed(() => {
-  if (!effectiveFieldContext.value) {
-    return false
-  }
-  // LEARNING: Use same computed as template
-  // WHY: Ensures watch detects same condition that template uses
-  // PATTERN: Negate hasValidComponent to match template v-else
-  return !hasValidComponent.value
+// LEARNING: Use field renderer component composable
+// WHY: Extracts component rendering logic from component to composable
+// PATTERN: Composable provides component to render and validation computed properties
+const {
+  componentToRender,
+  hasValidComponent,
+  shouldShowError
+} = useFieldRendererComponent({
+  componentType: fieldComponent.componentType,
+  componentMap,
+  hasFieldContext: computed(() => !!effectiveFieldContext.value)
 })
 
 // LEARNING: Error logging for unknown component types

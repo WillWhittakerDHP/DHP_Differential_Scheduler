@@ -7,31 +7,29 @@
  */
 
 import type { UserTypeBlock } from './userTypes'
-import type { GlobalAnnotationKey } from '@/constants/annotations'
+import type { AnnotationShapeEntity, AnnotationInstanceEntity } from './entities'
 
 /**
- * AnnotationType type (from API)
- * LEARNING: Represents an annotation type entity (e.g., 'frontPage', 'description', 'tooltip')
- * WHY: Types are fully dynamic and managed via CRUD
- * PATTERN: Simple entity with id and name
+ * AnnotationShape: Shape-level annotation type definitions (core entity)
+ * LEARNING: Represents an annotation shape entity (e.g., 'frontPage', 'description', 'tooltip')
+ * WHY: Now a core entity with full entity capabilities
+ * PATTERN: Extends BaseGlobalEntity via AnnotationShapeEntity
  */
-export type AnnotationType = {
-  id: string
-  name: string // e.g., 'frontPage', 'description', 'tooltip'
-}
+export type AnnotationShape = AnnotationShapeEntity
 
 /**
- * Base annotation type
+ * AnnotationInstance: Instance-level annotation entities (core entity)
  * LEARNING: Core annotation properties
- * WHY: Shared structure for all annotation types
- * PATTERN: Simple object with id, text, type, and user type
+ * WHY: Now a core entity with full entity capabilities
+ * PATTERN: Extends BaseGlobalEntity via AnnotationInstanceEntity
+ * NOTE: The "name" field from BaseGlobalEntity contains the text content
+ * The transformer maps API "text" field to entity "name" field
+ * For backward compatibility, "text" is included and equals "name"
  */
-export type Annotation = {
-  id: string
-  text: string
-  type: string // Foreign key to AnnotationType.id (UUID)
+export type AnnotationInstance = AnnotationInstanceEntity & {
+  text: string // Backward compatibility: same as "name" field
   userTypeBlock: UserTypeBlock // BlockInstance ID (GlobalEntityId) or null for generic annotations
-  annotationType?: AnnotationType // Optional association from API (includes type name)
+  annotationShape?: AnnotationShape // Optional association from API (includes type name)
 }
 
 /**
@@ -52,15 +50,15 @@ export type AnnotationMetadata = {
  * WHY: Merges base annotation with relationship-level metadata
  * PATTERN: Combines Annotation + AnnotationMetadata
  */
-export type AnnotationWithMetadata = Annotation & AnnotationMetadata
+export type AnnotationWithMetadata = AnnotationInstance & AnnotationMetadata
 
 /**
  * Annotation map type
  * LEARNING: Map of annotation keys to annotation arrays
  * WHY: Type-safe annotation collections by type
- * PATTERN: Record type with GlobalAnnotationKey
+ * PATTERN: Record type with GlobalEntityKey (annotationShape and annotationInstance)
  */
-export type AnnotationMap = Record<GlobalAnnotationKey, AnnotationWithMetadata[]>
+export type AnnotationMap = Record<'annotationShape' | 'annotationInstance', AnnotationWithMetadata[]>
 
 /**
  * BlockInstance response interface

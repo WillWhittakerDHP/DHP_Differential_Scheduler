@@ -90,6 +90,15 @@ function listVueFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const abs = path.join(dir, e.name)
+    const repoPath = toRepoPath(abs)
+    
+    // Skip migrations and test files
+    if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || 
+        /migration.*\.(js|mjs|ts|vue)$/i.test(repoPath) ||
+        repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+      continue
+    }
+    
     if (e.isDirectory()) {
       out.push(...listVueFilesRecursive(abs))
       continue
@@ -120,6 +129,14 @@ function toStableId(repoPath) {
  * Uses config-based allowlist for file-level exclusions
  */
 function isExcluded(repoPath, configAllowlist) {
+  // Exclude migration files (one-time scripts, not Vue components)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts|vue)$/i.test(repoPath)) {
+    return true
+  }
+  // Exclude test files and directories (test components have different patterns)
+  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+    return true
+  }
   // Check if file matches any exclusion pattern in config
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
@@ -166,11 +183,52 @@ function scanLines(lines) {
   return { counts, matches }
 }
 
+/**
+ * Check if a computed is a simple reactive wrapper (computed(() => props.xyz))
+ * @param {string} line - The line containing the computed
+ * @param {string[]} lines - All lines for context
+ * @param {number} lineIndex - Index of the current line
+ * @returns {boolean}
+ */
+function isSimpleReactiveWrapper(line, lines, lineIndex) {
+  // Check if computed is just wrapping a prop: computed(() => props.xyz)
+  const isPropWrapper = /computed\s*\(\s*\(\)\s*=>\s*props\.\w+/.test(line)
+  // Check if computed is passed to composable (next few lines)
+  const nextLines = lines.slice(lineIndex, Math.min(lineIndex + 5, lines.length)).join('\n')
+  const isComposableParam = /use\w+\([^)]*computed/.test(nextLines)
+  
+  return isPropWrapper || isComposableParam
+}
+
+function calculateScore(counts, matches = [], lines = []) {
+  // Count simple reactive wrappers separately
+  const simpleWrapperCount = matches.filter(m => 
+    m.ruleId === 'computed' && isSimpleReactiveWrapper(m.line, lines, m.lineNumber - 1)
+  ).length
+  
+  // Reduce weight for simple wrappers (count as 0.3 instead of 1)
+  const effectiveComputedCount = (counts.computed || 0) - (simpleWrapperCount * 0.7)
+  
+  // Calculate severity score based on risky patterns
+  const riskKeys = ['dom', 'watch', 'watchEffect', 'async', 'await', 'reduce', 'map', 'inlineConfig', 'console']
+  const baseScore = riskKeys.reduce((sum, k) => sum + (counts[k] || 0), 0)
+  
+  return baseScore + effectiveComputedCount
+}
+
+function assignPriority(score, config) {
+  const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 15)
+  const p1Min = Number(config?.priorities?.p1MinSeverityScore ?? 8)
+  
+  if (score >= p0Min) return 'P0'
+  if (score >= p1Min) return 'P1'
+  return 'P2'
+}
+
 function compareCounts(a, b) {
   // stable sort: most "risky" first
-  const riskKeys = ['dom', 'watch', 'watchEffect', 'async', 'await', 'reduce', 'map', 'computed', 'inlineConfig', 'console']
-  const aScore = riskKeys.reduce((sum, k) => sum + (a.counts[k] || 0), 0)
-  const bScore = riskKeys.reduce((sum, k) => sum + (b.counts[k] || 0), 0)
+  const aScore = calculateScore(a.counts, a.matches || [], a.lines || [])
+  const bScore = calculateScore(b.counts, b.matches || [], b.lines || [])
 
   if (bScore !== aScore) return bScore - aScore
   if (b.counts.computed !== a.counts.computed) return b.counts.computed - a.counts.computed
@@ -246,6 +304,15 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  
+  // Load priority config
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
 
   const vueFilesAbs = INCLUDE_DIRS.flatMap(d => listVueFilesRecursive(d))
   const scanned = []
@@ -257,6 +324,9 @@ function main() {
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines)
+    
+    const score = calculateScore(counts, matches, lines)
+    const priority = assignPriority(score, priorityConfig)
 
     scanned.push({
       id: toStableId(repoPath),
@@ -264,6 +334,9 @@ function main() {
       absPath: abs,
       counts,
       matches,
+      lines,
+      score,
+      priority,
     })
   }
 

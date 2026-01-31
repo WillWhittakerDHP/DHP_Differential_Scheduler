@@ -2,7 +2,7 @@
  * Dependency Cleanup Utility
  * 
  * LEARNING: Automatically cleans up invalid active relationships when valid relationships change
- * WHY: When validCascades/validParts change on a blockShape, invalid bookingCascades/activeParts
+ * WHY: When validCascades/validParts change on a blockShape, invalid bookingCascades/partAssignments
  *      relationships may exist that reference removed valid relationships
  * PATTERN: Check dependencyImpact config and clean up affected relationships
  * 

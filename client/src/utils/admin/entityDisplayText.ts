@@ -10,6 +10,10 @@ const ENTITY_TYPE_NAMES: Record<GlobalEntityKey, string> = {
   partShape: 'PartShape',
   blockInstance: 'BlockInstance',
   partInstance: 'PartInstance',
+  eventShape: 'EventShape',
+  eventInstance: 'EventInstance',
+  annotationShape: 'AnnotationShape',
+  annotationInstance: 'AnnotationInstance',
 }
 
 /**
@@ -22,6 +26,10 @@ const ENTITY_TYPE_LABELS: Record<GlobalEntityKey, string> = {
   partShape: 'Part Shapes',
   blockInstance: 'Block Instance',
   partInstance: 'Part Instance',
+  eventShape: 'Event Shapes',
+  eventInstance: 'Event Instances',
+  annotationShape: 'Annotation Shapes',
+  annotationInstance: 'Annotation Instances',
 }
 
 /**

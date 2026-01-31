@@ -8,6 +8,7 @@
  */
 
 import axios, { type AxiosInstance, type AxiosError } from 'axios'
+import type { GlobalEntityKey } from '@/constants/entities'
 
 /**
  * Base API URL
@@ -96,10 +97,6 @@ export function getRelationshipEndpoint(relationshipKey: string): string {
   return `/relationships/${relationshipKey}`
 }
 
-export function getRelationshipByIdEndpoint(relationshipKey: string, id: string): string {
-  return `/relationships/${relationshipKey}/${id}`
-}
-
 export function getRelationshipByParentChildEndpoint(
   relationshipKey: string, 
   parentId: string, 
@@ -128,47 +125,9 @@ export function getBulkPatchEndpoint(entityKey: string): string {
   return `/entities/${entityKey}/bulk`
 }
 
-/**
- * Annotation API endpoints
- * LEARNING: Endpoints for AnnotationInstance CRUD and ActiveAnnotation management
- * WHY: AnnotationInstances are NOT in ENTITY_KEYS, so they need their own endpoints
- * PATTERN: Helper functions for annotation endpoints
- * NOTE: Frontend uses friendly "annotation" terminology, but calls backend annotation-instances endpoints
- */
-export function getAnnotationEndpoint(): string {
-  return `/annotation-instances`
-}
-
-export function getAnnotationByIdEndpoint(id: string): string {
-  return `/annotation-instances/${id}`
-}
-
-export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
-  return `/annotation-instances/block-instance/${blockInstanceId}`
-}
-
-export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
-  return `/annotation-instances/block-instance/${blockInstanceId}/${annotationId}`
-}
-
-export function getAnnotationAssignmentsEndpoint(): string {
-  return `/annotation-instances/active-annotations`
-}
-
-/**
- * AnnotationType API endpoints
- * LEARNING: Endpoints for AnnotationShape CRUD operations
- * WHY: AnnotationShapes are NOT in ENTITY_KEYS, so they need their own endpoints
- * PATTERN: Helper functions for annotation type endpoints
- * NOTE: Frontend uses friendly "annotationType" terminology, but calls backend annotation-shapes endpoints
- */
-export function getAnnotationTypeEndpoint(): string {
-  return `/annotation-shapes`
-}
-
-export function getAnnotationTypeByIdEndpoint(id: string): string {
-  return `/annotation-shapes/${id}`
-}
+// NOTE: Event and annotation endpoints removed - use generic entity endpoints instead
+// Use getEntityEndpoint('eventShape'), getEntityEndpoint('eventInstance'), etc.
+// Relationship endpoints (eventAssignments, annotationAssignments) remain in relationshipRouter
 
 /**
  * Admin Metadata API endpoints (unified)
@@ -189,6 +148,7 @@ export function getAdminMetadataEndpoint(entityType: string, entityId: string): 
 export function getAdminMetadataBatchEndpoint(): string {
   return '/admin-metadata/batch'
 }
+
 
 /**
  * Admin Primitive Metadata API endpoints (deprecated - use getAdminMetadataEndpoint)
@@ -255,20 +215,6 @@ export function getPropertyByIdEndpoint(id: string): string {
 }
 
 /**
- * Property Types API endpoints
- * LEARNING: Endpoints for property type (property_version_types) CRUD operations
- * WHY: Properties can have multiple types (e.g., Single-Family with ADU)
- * PATTERN: RESTful nested endpoints under properties
- */
-export function getPropertyTypesEndpoint(propertyVersionId: string): string {
-  return `/properties/${propertyVersionId}/types`
-}
-
-export function getPropertyTypeByIdEndpoint(propertyVersionId: string, typeId: string): string {
-  return `/properties/${propertyVersionId}/types/${typeId}`
-}
-
-/**
  * User API endpoints
  * LEARNING: Endpoints for user CRUD operations
  * WHY: Provides type-safe endpoint construction for user API
@@ -282,3 +228,24 @@ export function getUserByIdEndpoint(id: string): string {
   return `/users/${id}`
 }
 
+/**
+ * Block Instance Annotation Assignment endpoints
+ * LEARNING: Endpoints for annotation assignment relationships (blockInstance → annotationInstance)
+ * WHY: Annotation assignments are relationships, not entities
+ * PATTERN: Use relationship endpoints for assignment operations
+ * NOTE: GET endpoint uses query parameter for filtering (backend needs to support blockInstanceId filter)
+ * DELETE/PATCH endpoints use parent/child ID pattern
+ */
+export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
+  // LEARNING: Use query parameter for filtering - backend needs to support blockInstanceId filter
+  // WHY: Relationship router currently only supports parent_id filter for instanceComponents
+  // TODO: Add backend support for filtering annotationAssignments by blockInstanceId
+  return `/relationships/annotationAssignments?blockInstanceId=${blockInstanceId}`
+}
+
+export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
+  // LEARNING: DELETE endpoint uses parent/child ID pattern from relationship router
+  // WHY: Matches DELETE /relationships/:relationshipType/:parentId/:childId pattern
+  // PATTERN: blockInstanceId is parent, annotationId is child
+  return `/relationships/annotationAssignments/${blockInstanceId}/${annotationId}`
+}

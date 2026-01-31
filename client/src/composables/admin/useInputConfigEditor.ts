@@ -7,7 +7,6 @@
  * - AdminPrimitiveMetadataEditor.vue
  */
 
-import type { Ref } from 'vue'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 
 export interface InputConfigFormData {
@@ -61,23 +60,16 @@ export function useInputConfigEditor(
       }
     }
     
-    // LEARNING: Handle FormFieldConfig structure (new format)
-    // WHY: inputConfig may be wrapped in relationshipSelect or typeSelect
-    // PATTERN: Check for FormFieldConfig structure first, fall back to direct config
-    let config = inputConfig
-    if ('relationshipSelect' in inputConfig && inputConfig.relationshipSelect) {
-      config = inputConfig.relationshipSelect as Record<string, unknown>
-    } else if ('typeSelect' in inputConfig && inputConfig.typeSelect) {
-      config = inputConfig.typeSelect as Record<string, unknown>
-    }
-    
+    // LEARNING: inputConfig is stored in direct format (not wrapped)
+    // WHY: Database stores inputConfig directly, not wrapped in relationshipSelect/typeSelect
+    // PATTERN: Use inputConfig directly
     return {
-      targetMode: (config.targetMode as string) || null,
-      selectMode: (config.selectMode as string) || null,
-      targetKey: (config.targetKey as string) || null,
-      candidateChildKey: (config.candidateChildKey as string) || null,
-      groupByKey: (config.groupByKey as string) || null,
-      placeholder: (config.placeholder as string) || null,
+      targetMode: (inputConfig.targetMode as string) || null,
+      selectMode: (inputConfig.selectMode as string) || null,
+      targetKey: (inputConfig.targetKey as string) || null,
+      candidateChildKey: (inputConfig.candidateChildKey as string) || null,
+      groupByKey: (inputConfig.groupByKey as string) || null,
+      placeholder: (inputConfig.placeholder as string) || null,
       options: (inputConfig.options as unknown[]) || null, // Options array (for options-based selects)
     }
   }
@@ -119,10 +111,11 @@ export function useInputConfigEditor(
         baseConfig.placeholder = formData.placeholder
       }
       
-      // For partsCollection, ensure optionsFieldKey is set
+      // For relationshipCollection, ensure optionsFieldKey is set
       const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
-      if (renderAs === 'partsCollection') {
-        baseConfig.optionsFieldKey = 'validParts'
+      if (renderAs === 'relationshipCollection') {
+        // optionsFieldKey will be determined dynamically by useRelationshipCollectionField
+        // No need to hardcode here
       }
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {

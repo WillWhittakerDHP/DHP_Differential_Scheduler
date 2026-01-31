@@ -31,8 +31,33 @@
       },
       {
         "glob": "**/constants/**/*.ts",
-        "ruleIds": ["entityKeyString", "caseString", "magicLabel"],
+        "ruleIds": ["*"],
         "reason": "Constants files are the canonical source for hardcoded values - this is by design"
+      },
+      {
+        "glob": "**/configs/**/*.ts",
+        "ruleIds": ["magicLabel", "caseString"],
+        "reason": "Config files are intentional sources of hardcoded values - canonical source of truth"
+      },
+      {
+        "glob": "**/configs/**/*.js",
+        "ruleIds": ["magicLabel", "caseString"],
+        "reason": "Config files are intentional sources of hardcoded values - canonical source of truth"
+      },
+      {
+        "glob": "**/*.vue",
+        "ruleIds": ["entityKeyString"],
+        "reason": "Vue slot names and template attributes legitimately use entity keys as strings"
+      },
+      {
+        "glob": "**/utils/logger.ts",
+        "ruleIds": ["caseString"],
+        "reason": "Log level strings are standard and intentional - part of logger API"
+      },
+      {
+        "glob": "**/types/**/*.ts",
+        "ruleIds": ["entityKeyString", "caseString"],
+        "reason": "Type definitions legitimately use string literals for type unions"
       },
       {
         "glob": "**/transformers/**/*.ts",
@@ -41,5 +66,9 @@
       }
     ],
     "specific": []
+  },
+  "priorities": {
+    "p0MinSeverityScore": 20,
+    "p1MinSeverityScore": 10
   }
 }

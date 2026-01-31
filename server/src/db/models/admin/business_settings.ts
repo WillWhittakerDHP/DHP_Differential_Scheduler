@@ -161,6 +161,20 @@ export interface AvailabilitySettingsData {
     rollingWeek?: RollingWeekCapacityFilter; // Rolling week capacity filter
   };
   timezone?: string; // IANA timezone (e.g., "America/New_York")
+  durationRounding?: {
+    enabled: boolean;
+    increment?: number; // Minutes (defaults to minuteIncrement if not specified)
+    method?: 'roundUp' | 'roundDown' | 'roundNearest';
+  };
+  differentialPerspectives?: {
+    majorAttendees?: string[];  // UserTypeBlock IDs that make an event "major" (e.g., inspector)
+    minorAttendees?: string[];   // UserTypeBlock IDs that make an event "minor" (e.g., client)
+    majorLabel?: string;  // Display label for major perspective (e.g., "Inspector")
+    minorLabel?: string;  // Display label for minor perspective (e.g., "Client Formal Presentation")
+    differentialGraphDefaultLabel?: string;  // Label shown when no time slot is selected (e.g., "Select a Time Slot")
+    majorStateLabel?: string;  // State message when major perspective is selected (e.g., "Showing Major Times")
+    minorStateLabel?: string;  // State message when minor perspective is selected (e.g., "Showing Client FormalPresentation Times")
+  };
 }
 
 export class BusinessSettings extends Model<

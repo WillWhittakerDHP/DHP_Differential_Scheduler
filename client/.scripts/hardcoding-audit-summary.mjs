@@ -36,13 +36,14 @@ function render(data) {
   lines.push('')
   lines.push('## Full index (ranked)')
   lines.push('')
-  lines.push('| File | score | switch(entityKey) | entityKey strings | case | field===string | omitFields | headers | label maps |')
-  lines.push('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
+  lines.push('| File | Priority | score | switch(entityKey) | entityKey strings | case | field===string | omitFields | headers | label maps |')
+  lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
 
   for (const f of files) {
     const c = f.counts || {}
+    const priority = f.priority || 'P2'
     lines.push(
-      `| \`${f.repoPath}\` | ${f.score || 0} | ${c.switchEntityKey || 0} | ${c.entityKeyString || 0} | ${c.caseString || 0} | ${c.fieldEqualsString || 0} | ${c.omitFieldsArray || 0} | ${c.headersArray || 0} | ${c.inlineLabelMap || 0} |`
+      `| \`${f.repoPath}\` | ${priority} | ${f.score || 0} | ${c.switchEntityKey || 0} | ${c.entityKeyString || 0} | ${c.caseString || 0} | ${c.fieldEqualsString || 0} | ${c.omitFieldsArray || 0} | ${c.headersArray || 0} | ${c.inlineLabelMap || 0} |`
     )
   }
 

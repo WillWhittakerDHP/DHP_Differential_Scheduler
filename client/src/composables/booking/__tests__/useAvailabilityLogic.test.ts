@@ -13,6 +13,7 @@ import { ref, computed } from 'vue'
 import { useAvailabilityLogic } from '../useAvailabilityLogic'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { TimeSlot } from '@/types/appointment'
+import { isRFC3339DateTime } from '@/types/datetime'
 
 /**
  * Helper to create a BookingBlockInstance for testing
@@ -21,10 +22,9 @@ function createBookingBlockInstance(
   id: string,
   options: {
     name?: string
-    differential?: boolean
+    differential?: 'true' | 'false' | 'override'
     partInstances?: Array<{
       id?: string
-      differentialOverride?: boolean
     }>
   } = {}
 ): BookingBlockInstance {
@@ -37,7 +37,7 @@ function createBookingBlockInstance(
     icon: 'icon-test',
     active: true,
     bookingMode: 'standalone',
-    differential: options.differential ?? false,
+    differential: (options.differential ?? 'false') as 'true' | 'false' | 'override',
     orderIndex: 0,
     blockShape: 'Test Shape',
     blockShapeRef: 'shape-1',
@@ -48,8 +48,8 @@ function createBookingBlockInstance(
       name: `Part ${index}`,
       partShape: 'test-shape',
       disabled: false,
-      onSite: false,
-      clientPresent: false,
+      onSite: 'false',
+      clientPresent: 'false',
       moveable: false,
       baseTime: 0,
       rateOverBaseTime: 0,
@@ -58,7 +58,6 @@ function createBookingBlockInstance(
       orderIndex: index,
       active: true,
       zeroOutPart: false,
-      differentialOverride: part.differentialOverride,
     })) || [],
     allowMultiple: false,
     requiresUnitNumber: null,
@@ -92,7 +91,8 @@ describe('useAvailabilityLogic', () => {
   let selectedDate: ReturnType<typeof ref>
   let propertyDetailsStepData: ReturnType<typeof ref> | null
   let wizard: {
-    selectedServices: ReturnType<typeof ref>
+    selectedUserTypeBlock: ReturnType<typeof ref>
+    selectedServiceTypeBlocks: ReturnType<typeof ref>
     selectedPropertyTypeBlocks: ReturnType<typeof ref>
     selectedOptionTypeBlocks: ReturnType<typeof ref>
   }
@@ -103,7 +103,8 @@ describe('useAvailabilityLogic', () => {
     selectedDate = ref({ start: null, end: null })
     propertyDetailsStepData = ref(null)
     wizard = {
-      selectedServices: ref<BookingBlockInstance[]>([]),
+      selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
+      selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([]),
       selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
       selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
     }
@@ -138,8 +139,8 @@ describe('useAvailabilityLogic', () => {
       })
       
       expect(dateRangeForApi.value).not.toBeNull()
-      expect(dateRangeForApi.value?.start).toBe('2024-01-15')
-      expect(dateRangeForApi.value?.end).toBe('2024-01-16') // Start + 1 day
+      expect(dateRangeForApi.value?.start).toBe('2024-01-15T00:00:00.000Z')
+      expect(dateRangeForApi.value?.end).toBe('2024-01-16T00:00:00.000Z') // Start + 1 day
     })
 
     it('should format dates in YYYY-MM-DD format', () => {
@@ -153,8 +154,8 @@ describe('useAvailabilityLogic', () => {
         loadedWizardState,
       })
       
-      expect(dateRangeForApi.value?.start).toMatch(/^\d{4}-\d{2}-\d{2}$/)
-      expect(dateRangeForApi.value?.end).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+      expect(isRFC3339DateTime(dateRangeForApi.value?.start ?? '')).toBe(true)
+      expect(isRFC3339DateTime(dateRangeForApi.value?.end ?? '')).toBe(true)
     })
 
     it('should be reactive to date changes', () => {
@@ -171,7 +172,7 @@ describe('useAvailabilityLogic', () => {
       selectedDate.value = { start: '2024-01-15', end: null }
       
       expect(dateRangeForApi.value).not.toBeNull()
-      expect(dateRangeForApi.value?.start).toBe('2024-01-15')
+      expect(dateRangeForApi.value?.start).toBe('2024-01-15T00:00:00.000Z')
     })
   })
 
@@ -511,9 +512,9 @@ describe('useAvailabilityLogic', () => {
     })
 
     it('should return false when no service has differential', () => {
-      wizard.selectedServices.value = [
-        createBookingBlockInstance('service-1', { differential: false }),
-        createBookingBlockInstance('service-2', { differential: false }),
+      wizard.selectedServiceTypeBlocks.value = [
+        createBookingBlockInstance('service-1', { differential: 'false' }),
+        createBookingBlockInstance('service-2', { differential: 'false' }),
       ]
       
       const { isDifferentialService } = useAvailabilityLogic({
@@ -528,9 +529,9 @@ describe('useAvailabilityLogic', () => {
     })
 
     it('should return true when any service has differential', () => {
-      wizard.selectedServices.value = [
-        createBookingBlockInstance('service-1', { differential: false }),
-        createBookingBlockInstance('service-2', { differential: true }),
+      wizard.selectedServiceTypeBlocks.value = [
+        createBookingBlockInstance('service-1', { differential: 'false' }),
+        createBookingBlockInstance('service-2', { differential: 'true' }),
       ]
       
       const { isDifferentialService } = useAvailabilityLogic({
@@ -556,7 +557,7 @@ describe('useAvailabilityLogic', () => {
       expect(isDifferentialService.value).toBe(false)
       
       wizard.selectedServices.value = [
-        createBookingBlockInstance('service-1', { differential: true }),
+        createBookingBlockInstance('service-1', { differential: 'true' }),
       ]
       
       expect(isDifferentialService.value).toBe(true)
@@ -565,8 +566,8 @@ describe('useAvailabilityLogic', () => {
 
   describe('isEffectivelyDifferential', () => {
     it('should return false when service is not differential', () => {
-      wizard.selectedServices.value = [
-        createBookingBlockInstance('service-1', { differential: false }),
+      wizard.selectedServiceTypeBlocks.value = [
+        createBookingBlockInstance('service-1', { differential: 'false' }),
       ]
 
       const { isEffectivelyDifferential } = useAvailabilityLogic({
@@ -582,7 +583,7 @@ describe('useAvailabilityLogic', () => {
 
     it('should return true when service is differential and no override', () => {
       wizard.selectedServices.value = [
-        createBookingBlockInstance('service-1', { differential: true }),
+        createBookingBlockInstance('service-1', { differential: 'true' }),
       ]
 
       const { isEffectivelyDifferential } = useAvailabilityLogic({
@@ -597,10 +598,9 @@ describe('useAvailabilityLogic', () => {
     })
 
     it('should return false when service is differential but has override in service part', () => {
-      wizard.selectedServices.value = [
+      wizard.selectedServiceTypeBlocks.value = [
         createBookingBlockInstance('service-1', {
-          differential: true,
-          partInstances: [{ differentialOverride: true }],
+          differential: 'override',
         }),
       ]
 
@@ -616,13 +616,12 @@ describe('useAvailabilityLogic', () => {
     })
 
     it('should return false when service is differential but has override in option', () => {
-      wizard.selectedServices.value = [
-        createBookingBlockInstance('service-1', { differential: true }),
+      wizard.selectedServiceTypeBlocks.value = [
+        createBookingBlockInstance('service-1', { differential: 'true' }),
       ]
       wizard.selectedOptionTypeBlocks.value = [
         createBookingBlockInstance('option-1', {
-          differential: false,
-          partInstances: [{ differentialOverride: true }],
+          differential: 'override',
         }),
       ]
 
@@ -638,10 +637,9 @@ describe('useAvailabilityLogic', () => {
     })
 
     it('should return true when service is differential and override is false', () => {
-      wizard.selectedServices.value = [
+      wizard.selectedServiceTypeBlocks.value = [
         createBookingBlockInstance('service-1', {
-          differential: true,
-          partInstances: [{ differentialOverride: false }],
+          differential: 'true',
         }),
       ]
 
@@ -667,15 +665,14 @@ describe('useAvailabilityLogic', () => {
 
       expect(isEffectivelyDifferential.value).toBe(false)
 
-      wizard.selectedServices.value = [
-        createBookingBlockInstance('service-1', { differential: true }),
+      wizard.selectedServiceTypeBlocks.value = [
+        createBookingBlockInstance('service-1', { differential: 'true' }),
       ]
       expect(isEffectivelyDifferential.value).toBe(true)
 
       wizard.selectedOptionTypeBlocks.value = [
         createBookingBlockInstance('option-1', {
-          differential: false,
-          partInstances: [{ differentialOverride: true }],
+          differential: 'override',
         }),
       ]
       expect(isEffectivelyDifferential.value).toBe(false)

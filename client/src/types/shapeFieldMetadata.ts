@@ -11,7 +11,7 @@ export interface ShapeFieldMetadata {
   id: string
   entityType: 'block' | 'part' | 'blockShape' | 'partShape'
   fieldKey: string
-  dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference'
+  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference'
   controlType: 'text' | 'number' | 'toggle' | 'select' | 'multiselect' | 'reference'
   label: string
   helpText: string | null
@@ -49,7 +49,7 @@ export interface ShapeLayoutConfig {
 export interface ComposedFieldConfig {
   // From canonical metadata
   fieldKey: string
-  dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference'
+  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference'
   controlType: 'text' | 'number' | 'toggle' | 'select' | 'multiselect' | 'reference'
   label: string
   helpText: string | null

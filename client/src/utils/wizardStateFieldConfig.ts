@@ -16,20 +16,22 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
  */
 export type WizardInstance = {
   selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null>
-  selectedServices: ComputedRef<BookingBlockInstance[]>
+  selectedServiceTypeBlocks: ComputedRef<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
   selectedOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
+  selectedLineItemBlocks: ComputedRef<BookingBlockInstance[]>
   selectUserTypeBlock: (block: BookingBlockInstance | null) => void
-  toggleService: (block: BookingBlockInstance) => void
+  toggleServiceTypeBlock: (block: BookingBlockInstance) => void
   togglePropertyTypeBlock: (block: BookingBlockInstance) => void
   toggleOptionTypeBlock: (block: BookingBlockInstance) => void
+  toggleLineItemBlock: (block: BookingBlockInstance) => void
 }
 
 /**
  * LEARNING: Wizard state field type
  * WHY: Type-safe field names for wizard state
  */
-export type WizardStateField = 'userTypeBlock' | 'services' | 'propertyTypeBlocks' | 'optionTypeBlocks'
+export type WizardStateField = 'userTypeBlock' | 'services' | 'propertyTypeBlocks' | 'optionTypeBlocks' | 'lineItemBlocks'
 
 /**
  * LEARNING: Field configuration for wizard state fields
@@ -68,11 +70,11 @@ export const WIZARD_FIELD_CONFIGS: Record<WizardStateField, WizardFieldConfig> =
   services: {
     isArray: true,
     singleSelectUI: true, // Services use single-select UI behavior
-    getSelectedArray: (wizard) => wizard.selectedServices.value,
+    getSelectedArray: (wizard) => wizard.selectedServiceTypeBlocks.value,
     getSelectedValue: () => null,
-    toggleInArray: (wizard, block) => wizard.toggleService(block),
+    toggleInArray: (wizard, block) => wizard.toggleServiceTypeBlock(block),
     setSelectedValue: () => {},
-    watchSource: (wizard) => wizard.selectedServices,
+    watchSource: (wizard) => wizard.selectedServiceTypeBlocks,
   },
   propertyTypeBlocks: {
     isArray: true,
@@ -91,5 +93,14 @@ export const WIZARD_FIELD_CONFIGS: Record<WizardStateField, WizardFieldConfig> =
     toggleInArray: (wizard, block) => wizard.toggleOptionTypeBlock(block),
     setSelectedValue: () => {},
     watchSource: (wizard) => wizard.selectedOptionTypeBlocks,
+  },
+  lineItemBlocks: {
+    isArray: true,
+    singleSelectUI: false, // LineItemBlocks use true multi-select behavior
+    getSelectedArray: (wizard) => wizard.selectedLineItemBlocks.value,
+    getSelectedValue: () => null,
+    toggleInArray: (wizard, block) => wizard.toggleLineItemBlock(block),
+    setSelectedValue: () => {},
+    watchSource: (wizard) => wizard.selectedLineItemBlocks,
   },
 }

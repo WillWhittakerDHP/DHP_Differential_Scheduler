@@ -7,13 +7,19 @@ import { BlockInstanceVersionFactory } from "./booking/block_instance_version.js
 import { PartInstanceVersionFactory } from "./booking/part_instance_version.js";
 import { ValidCascadeFactory } from "./admin/valid_cascade.js";
 import { ValidPartFactory } from "./admin/valid_part.js";
+import { ValidAnnotationFactory } from "./admin/valid_annotation.js";
+import { ValidEventFactory } from "./admin/valid_event.js";
 import { DependentInstanceFactory } from "./booking/dependent_instance.js";
 import { BookingCascadeFactory } from "./booking/booking_cascade.js";
-import { ActivePartFactory } from "./booking/active_part.js";
+import { PartAssignmentFactory } from "./booking/part_assignment.js";
 import { InstanceComponentFactory } from "./booking/instance_component.js";
 import { AnnotationInstanceFactory } from "./booking/annotation_instance.js";
-import { ActiveAnnotationFactory } from "./booking/active_annotation.js";
+import { AnnotationAssignmentFactory } from "./booking/annotation_assignment.js";
 import { AnnotationShapeFactory } from "./booking/annotation_shape.js";
+import { EventShapeFactory } from "./booking/event_shape.js";
+import { EventInstanceFactory } from "./booking/event_instance.js";
+import { EventAssignmentFactory } from "./booking/event_assignment.js";
+import { EventShapeAttendeeFactory } from "./booking/event_shape_attendee.js";
 import { PropertyFactory } from "./booking/property.js";
 import { AddressFactory } from "./booking/address.js";
 import { PropertyVersionFactory } from "./booking/property_version.js";
@@ -42,14 +48,18 @@ export function initializeModels(sequelize: Sequelize) {
   const ValidCascade = ValidCascadeFactory(sequelize);
   // Part: Block → Part relationships (math dimension)
   const ValidPart = ValidPartFactory(sequelize);
+  // Annotation: Block → Annotation relationships (similar to Block → Part)
+  const ValidAnnotation = ValidAnnotationFactory(sequelize);
+  // Event: Part → Event relationships (similar to Block → Part)
+  const ValidEvent = ValidEventFactory(sequelize);
   // DependentInstance: Instance-level valid dependent relationships (blockInstance → blockInstance)
   const DependentInstance = DependentInstanceFactory(sequelize);
 
-  // 4️⃣ Define Active Relationships (Booking Side)
+  // 4️⃣ Define Assignment Relationships (Booking Side)
   // Booking Cascade: Vertical hierarchy (different shapes, e.g., user_instance → service_instance)
   const BookingCascade = BookingCascadeFactory(sequelize);
-  // Part: Block → Part relationships (math dimension)
-  const ActivePart = ActivePartFactory(sequelize);
+  // Part Assignment: Block → Part relationships (math dimension)
+  const PartAssignment = PartAssignmentFactory(sequelize);
   // Instance Component: Option component relationships (blockInstance → blockInstance)
   const InstanceComponent = InstanceComponentFactory(sequelize);
 
@@ -58,8 +68,18 @@ export function initializeModels(sequelize: Sequelize) {
   const AnnotationShape = AnnotationShapeFactory(sequelize);
   // AnnotationInstance: Reusable, shared annotation instances (instance-level: concrete annotation entities)
   const AnnotationInstance = AnnotationInstanceFactory(sequelize);
-  // ActiveAnnotation: Active relationship table for BlockInstance ↔ AnnotationInstance many-to-many
-  const ActiveAnnotation = ActiveAnnotationFactory(sequelize);
+  // AnnotationAssignment: Assignment relationship table for BlockInstance ↔ AnnotationInstance many-to-many
+  const AnnotationAssignment = AnnotationAssignmentFactory(sequelize);
+
+  // 5️⃣.5 Define Event Models
+  // EventShape: Dynamic event shapes (shape-level: defines what event types can exist)
+  const EventShape = EventShapeFactory(sequelize);
+  // EventInstance: Reusable, shared event instances (instance-level: concrete event configurations with templates)
+  const EventInstance = EventInstanceFactory(sequelize);
+  // EventAssignment: Assignment relationship table for PartShape/BlockShape ↔ EventInstance many-to-many
+  const EventAssignment = EventAssignmentFactory(sequelize);
+  // EventShapeAttendee: Relationship table for EventShape ↔ UserTypeBlock many-to-many (attendees)
+  const EventShapeAttendee = EventShapeAttendeeFactory(sequelize);
 
   // 6️⃣ Define Booking Data Models
   // Address: Stable address information from client input
@@ -100,6 +120,14 @@ export function initializeModels(sequelize: Sequelize) {
   BlockShape.hasMany(ValidPart, { foreignKey: 'parent_id', as: 'valid_parts' });
   ValidPart.belongsTo(PartShape, { foreignKey: 'child_id', as: 'valid_part_shape' });
 
+  // 🔄 Valid Annotation Relationships (BlockShape → AnnotationShape)
+  BlockShape.hasMany(ValidAnnotation, { foreignKey: 'parent_id', as: 'valid_annotations' });
+  ValidAnnotation.belongsTo(AnnotationShape, { foreignKey: 'child_id', as: 'valid_annotation_shape' });
+
+  // 🔄 Valid Event Relationships (PartShape → EventShape)
+  PartShape.hasMany(ValidEvent, { foreignKey: 'parent_id', as: 'valid_events' });
+  ValidEvent.belongsTo(EventShape, { foreignKey: 'child_id', as: 'valid_event_shape' });
+
   // 🔄 DependentInstance Relationships (BlockInstance → BlockInstance)
   BlockInstance.hasMany(DependentInstance, { foreignKey: 'parent_id', as: 'dependent_instances' });
   DependentInstance.belongsTo(BlockInstance, { foreignKey: 'child_id', as: 'dependent_instance' });
@@ -108,59 +136,59 @@ export function initializeModels(sequelize: Sequelize) {
   BlockInstance.hasMany(BookingCascade, { foreignKey: 'parent_id', as: 'booking_cascades' });
   BookingCascade.belongsTo(BlockInstance, { foreignKey: 'child_id', as: 'booking_cascade_instance' });
 
-  // 🔄 Active Part Relationships (BlockInstance → PartInstance)
-  BlockInstance.hasMany(ActivePart, { foreignKey: 'parent_id', as: 'active_parts' });
-  ActivePart.belongsTo(BlockInstance, { foreignKey: 'parent_id', as: 'active_part_block_instance' });
-  ActivePart.belongsTo(PartInstance, { foreignKey: 'child_id', as: 'active_part_instance' });
+  // 🔄 Part Assignment Relationships (BlockInstance → PartInstance)
+  BlockInstance.hasMany(PartAssignment, { foreignKey: 'parent_id', as: 'part_assignments' });
+  PartAssignment.belongsTo(BlockInstance, { foreignKey: 'parent_id', as: 'part_assignment_block_instance' });
+  PartAssignment.belongsTo(PartInstance, { foreignKey: 'child_id', as: 'part_assignment_instance' });
 
   // 🔄 Instance Component Relationships (BlockInstance → BlockInstance)
   BlockInstance.hasMany(InstanceComponent, { foreignKey: 'parent_id', as: 'instance_components' });
   InstanceComponent.belongsTo(BlockInstance, { foreignKey: 'child_id', as: 'instance_component_instance' });
 
   BlockInstance.belongsToMany(PartInstance, {
-    through: ActivePart,
+    through: PartAssignment,
     foreignKey: "parent_id",
     otherKey: "child_id",
-    as: "active_part_instances",
+    as: "part_assignment_instances",
   });
 
   // 📝 Annotation Relationships (BlockInstance ↔ AnnotationInstance)
   BlockInstance.belongsToMany(AnnotationInstance, {
-    through: ActiveAnnotation,
+    through: AnnotationAssignment,
     foreignKey: 'block_instance_id',
     otherKey: 'annotation_id',
     as: 'annotations',
   });
 
   AnnotationInstance.belongsToMany(BlockInstance, {
-    through: ActiveAnnotation,
+    through: AnnotationAssignment,
     foreignKey: 'annotation_id',
     otherKey: 'block_instance_id',
     as: 'block_instances',
   });
 
-  BlockInstance.hasMany(ActiveAnnotation, {
+  BlockInstance.hasMany(AnnotationAssignment, {
     foreignKey: 'block_instance_id',
-    as: 'active_annotations',
+    as: 'annotation_assignments',
   });
 
-  ActiveAnnotation.belongsTo(BlockInstance, {
+  AnnotationAssignment.belongsTo(BlockInstance, {
     foreignKey: 'block_instance_id',
     as: 'blockInstance',
   });
 
-  AnnotationInstance.hasMany(ActiveAnnotation, {
+  AnnotationInstance.hasMany(AnnotationAssignment, {
     foreignKey: 'annotation_id',
-    as: 'active_annotations',
+    as: 'annotation_assignments',
   });
 
-  ActiveAnnotation.belongsTo(AnnotationInstance, {
+  AnnotationAssignment.belongsTo(AnnotationInstance, {
     foreignKey: 'annotation_id',
     as: 'annotation',
   });
 
   // User type BlockInstance association (for user_type_block_instance_id)
-  ActiveAnnotation.belongsTo(BlockInstance, {
+  AnnotationAssignment.belongsTo(BlockInstance, {
     foreignKey: 'user_type_block_instance_id',
     as: 'userTypeBlockInstance',
   });
@@ -174,6 +202,60 @@ export function initializeModels(sequelize: Sequelize) {
   AnnotationShape.hasMany(AnnotationInstance, {
     foreignKey: 'type',
     as: 'annotation_instances',
+  });
+
+  // 📅 Event Relationships (PartInstance/BlockInstance ↔ EventInstance)
+  // LEARNING: EventAssignment uses parent_id/child_id pattern with parent_kind enum
+  // WHY: Matches partAssignments pattern exactly for consistency
+  // PATTERN: parent_id references either partInstance or blockInstance based on parent_kind
+  // NOTE: Parent associations handled via application logic using parent_kind, not Sequelize associations
+  
+  // EventInstance → EventAssignment relationships
+  EventInstance.hasMany(EventAssignment, {
+    foreignKey: 'child_id',
+    as: 'event_assignments',
+  });
+
+  EventAssignment.belongsTo(EventInstance, {
+    foreignKey: 'child_id',
+    as: 'eventInstance',
+  });
+
+  // NOTE: Legacy shape associations removed - event_assignments now uses parent_id/child_id pattern
+
+  // 📅 Event Shape Relationships (EventInstance ↔ EventShape)
+  EventInstance.belongsTo(EventShape, {
+    foreignKey: 'event_shape_ref',
+    as: 'eventShape',
+  });
+
+  EventShape.hasMany(EventInstance, {
+    foreignKey: 'event_shape_ref',
+    as: 'event_instances',
+  });
+
+  // 📅 Event Shape Attendee Relationships (EventShape ↔ UserTypeBlock)
+  // LEARNING: EventShapeAttendee links event shapes to user type BlockInstances (attendees)
+  // WHY: Enables dynamic configuration of which user types attend which events
+  // PATTERN: Matches annotation_assignment pattern with userTypeBlockInstanceId
+  EventShape.hasMany(EventShapeAttendee, {
+    foreignKey: 'event_shape_id',
+    as: 'event_shape_attendees',
+  });
+
+  EventShapeAttendee.belongsTo(EventShape, {
+    foreignKey: 'event_shape_id',
+    as: 'eventShape',
+  });
+
+  EventShapeAttendee.belongsTo(BlockInstance, {
+    foreignKey: 'user_type_block_instance_id',
+    as: 'userTypeBlockInstance',
+  });
+
+  BlockInstance.hasMany(EventShapeAttendee, {
+    foreignKey: 'user_type_block_instance_id',
+    as: 'event_shape_attendees',
   });
 
   // 🏠 Address → PropertyVersion → PropertyDetails Relationships
@@ -224,9 +306,10 @@ export function initializeModels(sequelize: Sequelize) {
     PartInstance, PartShape, 
     BlockInstance, BlockShape, 
     BlockInstanceVersion, PartInstanceVersion,
-    ValidCascade, ValidPart, DependentInstance,
-    BookingCascade, ActivePart, InstanceComponent,
-    AnnotationShape, AnnotationInstance, ActiveAnnotation,
+    ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance,
+    BookingCascade, PartAssignment, InstanceComponent,
+    AnnotationShape, AnnotationInstance, AnnotationAssignment,
+    EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
     BusinessSettings,
     AdminMetadata

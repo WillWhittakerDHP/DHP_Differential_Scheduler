@@ -84,6 +84,14 @@ function ensureDir(dirPath) {
  * Uses config-based allowlist for file-level exclusions
  */
 function isExcluded(repoPath, configAllowlist) {
+  // Exclude migration files (one-time scripts, not composables)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return true
+  }
+  // Exclude test files and directories (test utilities have different patterns)
+  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+    return true
+  }
   // Check if file matches any exclusion pattern in config
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
@@ -100,6 +108,15 @@ function listFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const abs = path.join(dir, e.name)
+    const repoPath = toRepoPath(abs)
+    
+    // Skip migrations and test files
+    if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || 
+        /migration.*\.(js|mjs|ts)$/i.test(repoPath) ||
+        repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+      continue
+    }
+    
     if (e.isDirectory()) {
       out.push(...listFilesRecursive(abs))
       continue
@@ -206,7 +223,13 @@ function classifyFile(repoPath, counts, exportUseFns, importSpecifiers) {
   }
 
   // Heuristic: "god composable" / opacity risk
-  const complexityScore = reactiveCount + orchestrationCount + (counts.map || 0) + (counts.reduce || 0) + (counts.filter || 0) + (counts.sort || 0)
+  // Vue Query usage is the correct pattern, not complexity - reduce its weight
+  const vueQueryCount = counts.vueQuery || 0
+  const vueQueryWeight = vueQueryCount * 0.5 // Count Vue Query as 0.5x instead of full weight
+  
+  const dataShaping = (counts.map || 0) + (counts.reduce || 0) + (counts.filter || 0) + (counts.sort || 0)
+  const complexityScore = reactiveCount + (orchestrationCount - vueQueryCount) + dataShaping + vueQueryWeight
+  
   if (complexityScore >= 35) {
     suggestions.push({
       kind: 'split_candidate',
@@ -276,6 +299,15 @@ function classifyFile(repoPath, counts, exportUseFns, importSpecifiers) {
   }
 
   return { complexityScore, suggestions }
+}
+
+function assignPriority(complexityScore, config) {
+  const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 35)
+  const p1Min = Number(config?.priorities?.p1MinSeverityScore ?? 20)
+  
+  if (complexityScore >= p0Min) return 'P0'
+  if (complexityScore >= p1Min) return 'P1'
+  return 'P2'
 }
 
 function compareHotspots(a, b) {
@@ -438,6 +470,15 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  
+  // Load priority config
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
 
   const absFiles = listFilesRecursive(COMPOSABLES_DIR)
   const scanned = []
@@ -453,6 +494,7 @@ function main() {
     const importSpecifiers = extractImportSpecifiers(contents)
     const returnKeys = extractReturnKeys(contents)
     const { complexityScore, suggestions } = classifyFile(repoPath, counts, exportUseFunctions, importSpecifiers)
+    const filePriority = assignPriority(complexityScore, priorityConfig)
 
     scanned.push({
       id: toStableId(repoPath),
@@ -464,6 +506,7 @@ function main() {
       importSpecifiers,
       returnKeys,
       complexityScore,
+      priority: filePriority,
       suggestions,
     })
   }

@@ -14,14 +14,14 @@ import { useEntityStatus } from '@/composables/admin/useEntityStatus'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/useAdmin'
 import { useFormFields } from '@/composables/useFormFields'
+import { useEntityCardComputed } from '@/composables/admin/useEntityCardComputed'
+import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
+import { useEntityCardFieldConfiguration } from '@/composables/admin/useEntityCardFieldConfiguration'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardContent from './EntityCardContent.vue'
-import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
-import { useFieldLocation } from '@/composables/admin/useFieldLocation'
-import { useInstanceShape } from '@/composables/admin/useInstanceShape'
+import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { useEntityCardStoreSync } from '@/composables/admin/useEntityCardStoreSync'
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
@@ -130,7 +130,6 @@ const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
  */
 const entityDisplayComposable = useEntityDisplay()
 const {
-  getEntityName: getEntityNameFromComposable,
   getEntityDeleteTitle
 } = entityDisplayComposable
 
@@ -203,107 +202,65 @@ if (!props.form) {
  * PATTERN: Composable handles all sync scenarios (ID change, initial load, field updates)
  * NOTE: Only sync if form wasn't provided by parent (parent handles sync in that case)
  */
-const storeSyncResult = !props.form && !props.isNew ? useEntityCardStoreSync({
+// LEARNING: Store sync is called for side effects (watch setup), result not needed
+// WHY: Composable sets up watchers, we don't need to use the return value
+// PATTERN: Call composable without storing result when only side effects are needed
+if (!props.form && !props.isNew) {
+  useEntityCardStoreSync({
+    entityKey: props.entityKey,
+    entityId: computed(() => String(props.entity.id)),
+    form,
+    isNew: props.isNew,
+    getStoreEntity: () => {
+      if (props.isNew) {
+        return undefined
+      }
+      return admin.getEntity(props.entityKey, props.entity.id) || undefined
+    },
+    initialEntity: props.entity
+  })
+}
+
+
+// LEARNING: Use metadata composable to extract metadata-related computed properties
+// WHY: Reduces component complexity by moving metadata logic to composable
+// PATTERN: Composable provides composedFieldMetadata and isMetadataLoading
+const { composedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
   entityKey: props.entityKey,
-  entityId: computed(() => String(props.entity.id)),
-  form,
-  isNew: props.isNew,
-  getStoreEntity: () => {
-    if (props.isNew) {
-      return undefined
-    }
-    return admin.getEntity(props.entityKey, props.entity.id) || undefined
-  },
-  initialEntity: props.entity
-}) : null
-
-
-// LEARNING: Use unified metadata composable for all entity types
-// WHY: Single composable handles all entity types without special casing
-// PATTERN: Pass entityKey and entity, composable handles entity type mapping and inheritance
-// NOTE: If filtered metadata is provided via prop, use that instead of fetching
-const fetchedMetadata = useEntityMetadata(
-  props.entityKey,
-  computed(() => props.entity)
-)
-
-// LEARNING: Use unified metadata (already includes both primitive and relationship metadata)
-// WHY: useEntityMetadata.getMetadata() already merges primitive and relationship metadata
-// PATTERN: Use fetchedMetadata directly - no additional merging needed
-const composedFieldMetadata = computed(() => {
-  if (props.fieldMetadata) {
-    // LEARNING: When filtered metadata is provided, use it as-is
-    // WHY: Parent components (like bulk edit modals) have already filtered to desired fields
-    // PATTERN: Parent controls which fields to show
-    return props.fieldMetadata
-  }
-  
-  // LEARNING: fetchedMetadata.fieldMetadata already includes both primitive and relationship metadata
-  // WHY: useAdmin().getMetadata() merges them automatically
-  // PATTERN: Use directly without additional merging
-  return fetchedMetadata.fieldMetadata.value
-})
-const isMetadataLoading = computed(() => {
-  // LEARNING: Metadata is synchronous from GlobalData, so isLoading is always false
-  // WHY: useEntityMetadata returns isLoading: computed(() => false)
-  // PATTERN: Use fetchedMetadata.isLoading directly
-  return fetchedMetadata.isLoading.value
+  entity: props.entity,
+  filteredMetadata: props.fieldMetadata
 })
 
-// LEARNING: Computed to check if metadata is ready (unified metadata includes both primitive and relationship)
-// WHY: Gate warnings until metadata is fully loaded and can be meaningfully displayed
-// PATTERN: Check metadata is loaded and has keys
-const isMetadataReady = computed(() => {
-  const isLoading = isMetadataLoading.value
-  const metadata = composedFieldMetadata.value
-  const isReady = !isLoading && metadata !== undefined && Object.keys(metadata).length >= 0
-  return isReady
+// LEARNING: Use computed properties composable to extract computed logic
+// WHY: Reduces component complexity by moving computed properties to composable
+// PATTERN: Composable provides fieldKeys, isMetadataReady, entityName, isComposable
+const entityCardComputed = useEntityCardComputed({
+  entityKey: props.entityKey,
+  entity: props.entity,
+  composedFieldMetadata,
+  isMetadataLoading
 })
 
-// LEARNING: Get field keys from metadata exclusively - no fallbacks
-// WHY: Metadata is the single source of truth for which fields to render
-// PATTERN: Use metadata keys only - fail explicitly if metadata is not available
-const fieldKeys = computed(() => {
-  // LEARNING: When fieldMetadata prop is provided, use it exclusively
-  // WHY: Parent components (like bulk edit modals) pass filtered metadata
-  // PATTERN: If prop provided, use those keys only - no fallback to entity keys
-  if (props.fieldMetadata && Object.keys(props.fieldMetadata).length > 0) {
-    return Object.keys(props.fieldMetadata) as GlobalFieldKey<GlobalEntityKey>[]
-  }
-  
-  // LEARNING: Use composedFieldMetadata as exclusive source of truth
-  // WHY: Metadata determines which fields to render - no fallback to entity object
-  // PATTERN: Fail explicitly if metadata is not available rather than falling back to entity keys
-  if (composedFieldMetadata.value && Object.keys(composedFieldMetadata.value).length > 0) {
-    return Object.keys(composedFieldMetadata.value) as GlobalFieldKey<GlobalEntityKey>[]
-  }
-  
-  // LEARNING: Fail explicitly - return empty array if no metadata available
-  // WHY: No fallbacks - metadata must be available for fields to render
-  // PATTERN: Return empty array to fail visibly rather than silently falling back
-  return [] as GlobalFieldKey<GlobalEntityKey>[]
+// LEARNING: Extract computed properties from composable
+// WHY: Use composable-provided computed properties instead of defining in component
+// PATTERN: Destructure computed properties from composable
+const { fieldKeys, isMetadataReady, entityName, isComposable } = entityCardComputed
+
+// LEARNING: Use field configuration composable to extract field configuration computed properties
+// WHY: Reduces component complexity by moving field configuration logic to composable
+// PATTERN: Composable provides finalFieldKeys, fieldLocation, inlineFieldsConfig, stackedFieldsConfig
+const {
+  finalFieldKeys,
+  fieldLocation,
+  inlineFieldsConfig,
+  stackedFieldsConfig
+} = useEntityCardFieldConfiguration({
+  entityKey: props.entityKey,
+  fieldKeys,
+  composedFieldMetadata,
+  isExpanded,
+  filteredMetadata: props.fieldMetadata
 })
-
-// LEARNING: Field location provides inline/stacked fields directly
-// WHY: useFieldLocation already categorizes fields by location including layout
-// PATTERN: Derive inline/stacked configs from fieldLocation after it's computed
-
-/**
- * LEARNING: Use field location for field categorization
- * WHY: Single source of truth for WHERE fields render based on metadata
- * PATTERN: Composable that determines field locations from metadata + context
- */
-const fieldLocation = useFieldLocation({
-  fieldKeys: computed(() => fieldKeys.value as GlobalFieldKey<GlobalEntityKey>[]),
-  fieldMetadata: composedFieldMetadata,
-  isExpanded: isExpanded
-})
-
-// LEARNING: Derive inline/stacked configs from fieldLocation
-// WHY: useFormFields needs inlineFieldsConfig/stackedFieldsConfig, but we can derive from fieldLocation
-// PATTERN: Extract from fieldLocation.fieldsByLocation after fieldLocation is computed
-const inlineFieldsConfig = computed(() => fieldLocation.fieldsByLocation.value.directInline)
-const stackedFieldsConfig = computed(() => fieldLocation.fieldsByLocation.value.directStacked)
 
 /**
  * LEARNING: Create field contexts directly in EntityCard using useFormFields
@@ -316,7 +273,7 @@ const formFields = useFormFields({
   entityKey: props.entityKey,
   entityId: computed(() => props.entity.id),
   form: ref<FormContext | undefined>(form as unknown as FormContext | undefined) as Ref<FormContext | undefined>,
-  fieldKeys,
+  fieldKeys: finalFieldKeys,
   fieldMetadata: composedFieldMetadata,
   inlineFieldsConfig,
   stackedFieldsConfig,
@@ -336,11 +293,9 @@ watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
   }
 })
 
-/**
- * LEARNING: Computed property for form readiness
- * WHY: Template needs access to isFormReady, but it's nested in formFields object
- * PATTERN: Create computed property that accesses formFields.isFormReady
- */
+// LEARNING: Form readiness computed property
+// WHY: Template uses isFormReady multiple times, computed wrapper provides cleaner API
+// PATTERN: Create computed property that accesses formFields.isFormReady
 const isFormReady = computed(() => formFields.isFormReady.value)
 
 /**
@@ -356,22 +311,9 @@ const { getFieldContext, fieldsMissingContexts } = useFieldContextManager({
   fieldsNeedingContexts: formFields.fieldsNeedingContexts,
 })
 
-/**
- * LEARNING: Get BlockShape properties for conditional field visibility
- * WHY: Composition panel visibility depends on BlockShape.composable property
- * PATTERN: Use useInstanceShape composable to access BlockShape from BlockInstance
- */
-const instanceShape = props.entityKey === 'blockInstance' 
-  ? useInstanceShape({
-      entityKey: 'blockInstance',
-      entityId: computed(() => props.entity.id)
-    })
-  : null
-
-const isComposable = computed(() => {
-  if (props.entityKey !== 'blockInstance') return false
-  return instanceShape?.blockShape.value?.composable === true
-})
+// LEARNING: isComposable is now provided by useEntityCardComputed composable
+// WHY: Extracted to composable to reduce component complexity
+// PATTERN: Use composable-provided computed property
 
 /**
  * LEARNING: Conditional field visibility filtering
@@ -385,14 +327,9 @@ const { filteredFieldsByLocation } = useConditionalFieldVisibility({
   form,
 })
 
-/**
- * LEARNING: Computed property for entity name
- * WHY: Gets entity name for display in title and delete dialog
- * PATTERN: Use composable function
- */
-const entityName = computed(() => {
-  return getEntityNameFromComposable(props.entityKey, props.entity)
-})
+// LEARNING: entityName is now provided by useEntityCardComputed composable
+// WHY: Extracted to composable to reduce component complexity
+// PATTERN: Use composable-provided computed property
 
 /**
  * LEARNING: Use entity card actions composable for save/reset/delete handlers
@@ -511,7 +448,7 @@ const handleUndo = (): void => {
  * WHY: Allows parent (InstancesTab) to show inline creation card with pre-filled values
  * PATTERN: Emit event instead of creating immediately - same pattern as create flow
  */
-const handleDuplicate = (): void => {
+const handleDuplicate = async (): Promise<void> => {
   // Only allow duplication for block instances
   if (props.entityKey !== 'blockInstance') {
     return
@@ -543,14 +480,9 @@ provide(ENTITY_CARD_SAVE_KEY, {
  */
 provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
-/**
- * LEARNING: Computed property for delete dialog title
- * WHY: Provides entity-type-specific delete dialog title
- * PATTERN: Use composable function
- */
-const deleteDialogTitle = computed(() => {
-  return getEntityDeleteTitle(props.entityKey)
-})
+// LEARNING: Delete dialog title - use composable function directly
+// WHY: Simple function call doesn't need computed wrapper
+// PATTERN: Call function directly in template when value doesn't need reactivity
 
 /**
  * LEARNING: Title row fields from composable - NO filtering
@@ -560,7 +492,8 @@ const deleteDialogTitle = computed(() => {
 const titleRowFields = fieldLocation.titleRowFields
 
 // LEARNING: Title row event handling simplified
-// WHY: Use Vue event modifiers (@click.stop, @keydown.space.stop) directly in template
+// WHY: Use Vue event modifiers (@click.stop) directly in template
+//      Space bar handling is done in TextInput component's handleKeydown
 // PATTERN: No complex DOM traversal needed - event modifiers handle it declaratively
 
 /**
@@ -597,50 +530,60 @@ defineExpose({
   >
     <template #title>
       <div 
-        class="d-flex align-center gap-2 flex-grow-1 flex-wrap"
+        class="d-flex flex-column gap-2 flex-grow-1"
       >
-        <!-- LEARNING: Render name field left-justified in panel title -->
-        <!-- WHY: Name field should be on the left side of the title row -->
-        <!-- PATTERN: Render name field first, then status buttons on the right -->
-        <template v-if="titleRowFields.length > 0 && isFormReady">
-          <!-- LEARNING: staticAsTitle fields render first, left-justified -->
-          <!-- WHY: Name field should be on the left side of the title row, always first -->
-          <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
-          <div class="flex-grow-1 d-flex align-center gap-2">
-            <template
-              v-for="fieldKey in titleRowFields"
-              :key="fieldKey"
-            >
-              <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" @click.stop @keydown.space.stop>
-                <FieldRenderer
-                  :field-context="getFieldContext(fieldKey)"
-                  :show-label="false"
-                  :field-metadata="composedFieldMetadata"
-                  :read-only="!isExpanded"
-                />
-              </div>
-            </template>
-          </div>
-          
-          <!-- LEARNING: Other titleRow fields render after, right-justified -->
-          <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
-          <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
-          <div class="d-flex align-center gap-2 ms-auto">
-            <template
-              v-for="fieldKey in titleRowFields"
-              :key="fieldKey"
-            >
-              <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop @keydown.space.stop>
-                <FieldRenderer
-                  :field-context="getFieldContext(fieldKey)"
-                  :show-label="false"
-                  :field-metadata="composedFieldMetadata"
-                />
-              </div>
-            </template>
-          </div>
-        </template>
-        <span v-else class="flex-grow-1">{{ entityName }}</span>
+        <div class="d-flex align-center gap-2 flex-wrap">
+          <!-- LEARNING: Render name field left-justified in panel title -->
+          <!-- WHY: Name field should be on the left side of the title row -->
+          <!-- PATTERN: Render name field first, then status buttons on the right -->
+          <template v-if="titleRowFields.length > 0 && isFormReady">
+            <!-- LEARNING: staticAsTitle fields render first, left-justified -->
+            <!-- WHY: Name field should be on the left side of the title row, always first -->
+            <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
+            <div class="flex-grow-1 d-flex align-center gap-2">
+              <template
+                v-for="fieldKey in titleRowFields"
+                :key="fieldKey"
+              >
+                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" class="title-row-field" @click.stop>
+                  <FieldRenderer
+                    :field-context="getFieldContext(fieldKey)"
+                    :show-label="false"
+                    :field-metadata="composedFieldMetadata"
+                    :read-only="!isExpanded"
+                  />
+                </div>
+              </template>
+            </div>
+            
+            <!-- LEARNING: Other titleRow fields render after, right-justified -->
+            <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
+            <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
+            <div class="d-flex align-center gap-2 ms-auto">
+              <template
+                v-for="fieldKey in titleRowFields"
+                :key="fieldKey"
+              >
+                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
+                  <FieldRenderer
+                    :field-context="getFieldContext(fieldKey)"
+                    :show-label="false"
+                    :field-metadata="composedFieldMetadata"
+                  />
+                </div>
+              </template>
+            </div>
+          </template>
+          <span v-else class="flex-grow-1">{{ entityName }}</span>
+        </div>
+        
+        <!-- LEARNING: Parts totals displayed in title row below name and status buttons -->
+        <!-- WHY: Shows parts totals at top of card when entity can have parts -->
+        <!-- PATTERN: Component renders conditionally based on canHaveParts flag -->
+        <EntityCardPartsTotals
+          :entity-key="entityKey"
+          :entity-id="entity.id"
+        />
       </div>
     </template>
     
@@ -688,13 +631,14 @@ defineExpose({
           v-for="fieldKey in titleRowFields"
           :key="fieldKey"
         >
-          <FieldRenderer
-            v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'"
-            :field-context="getFieldContext(fieldKey)"
-            :show-label="false"
-            :field-metadata="composedFieldMetadata"
-            :read-only="!isExpanded"
-          />
+          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" class="title-row-field">
+            <FieldRenderer
+              :field-context="getFieldContext(fieldKey)"
+              :show-label="false"
+              :field-metadata="composedFieldMetadata"
+              :read-only="!isExpanded"
+            />
+          </div>
         </template>
       </div>
       
@@ -706,7 +650,7 @@ defineExpose({
           v-for="fieldKey in titleRowFields"
           :key="fieldKey"
         >
-          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop @keydown.space.stop>
+          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
             <FieldRenderer
               :field-context="getFieldContext(fieldKey)"
               :show-label="false"
@@ -744,7 +688,7 @@ defineExpose({
   -->
   <VDialog v-model="showDeleteDialog" max-width="400px">
     <VCard>
-      <VCardTitle class="text-h6">{{ deleteDialogTitle }}</VCardTitle>
+      <VCardTitle class="text-h6">{{ getEntityDeleteTitle(entityKey) }}</VCardTitle>
       <VCardText>
         Are you sure you want to delete "{{ entityName }}"? This action cannot be undone.
       </VCardText>

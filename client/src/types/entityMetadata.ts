@@ -11,7 +11,7 @@
 /**
  * Entity metadata type - used for admin_primitive_metadata table
  */
-export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
+export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance'
 
 /**
  * Unified field metadata entry
@@ -23,7 +23,7 @@ export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 
  */
 export interface FieldMetadataEntry {
   // Canonical properties (from old field_metadata)
-  dataType: 'string' | 'number' | 'boolean' | 'array' | 'reference'
+  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference'
   label: string
   isRequired: boolean
   
@@ -31,10 +31,9 @@ export interface FieldMetadataEntry {
   visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
   layout: 'inline' | 'stacked'
   displayOrder: number
-  section: string | null
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'partsCollection'
+  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection'
   statusButtonColor?: string
-  panel: 'none' | 'parts' | 'relationships' | 'annotations'
+  panel: 'none' | 'parts' | 'relationships' | 'annotations' | 'events'
   bulkEdit: boolean
   
   // Input configuration (for select/multiselect/reference fields)
@@ -42,10 +41,6 @@ export interface FieldMetadataEntry {
   // WHY: Select fields need behavioral configuration beyond renderAs
   // PATTERN: Only populated for fields with renderAs: select|multiselect|reference, null otherwise
   inputConfig?: Record<string, unknown> | null
-  
-  // Inheritance (for instance entities)
-  inheritsFromEntityType?: 'blockShape' | 'partShape' | null
-  inheritsFromEntityId?: string | null
 }
 
 /**

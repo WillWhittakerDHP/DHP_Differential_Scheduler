@@ -13,7 +13,7 @@ export interface BookingWizardStepValidators {
 
 export interface UseBookingWizardStepValidatorsOptions {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
-  selectedServices: Ref<BookingBlockInstance[]>
+  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
 
   propertyDetailsStepValid: Ref<boolean> | null
   propertyDetailsStepValidate: Ref<(() => boolean) | null> | (() => boolean) | null

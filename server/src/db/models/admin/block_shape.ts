@@ -19,7 +19,8 @@ export class BlockShape extends Model<
   declare name: string;
   declare type: 'user' | 'service' | 'property' | 'option';
   declare composable: boolean;
-  declare constituable: boolean;
+  declare canHaveParts: boolean;
+  declare isStateControl: boolean; // If true, acts as state selector in wizard (mutually exclusive with canHaveParts)
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -56,10 +57,18 @@ export function BlockShapeFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: false,
       },
-      constituable: {
+      canHaveParts: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+        field: 'can_have_parts', // Map to snake_case database column
+      },
+      isStateControl: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'is_state_control', // Map to snake_case database column
+        comment: 'If true, acts as state selector in wizard (mutually exclusive with canHaveParts)',
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -85,6 +94,14 @@ export function BlockShapeFactory(sequelize: Sequelize) {
       modelName: 'block_shape',
       tableName: 'block_shapes',
       freezeTableName: true,
+      validate: {
+        // Validate mutual exclusivity: isStateControl and canHaveParts cannot both be true
+        stateControlMutualExclusivity() {
+          if (this.isStateControl === true && this.canHaveParts === true) {
+            throw new Error('isStateControl and canHaveParts cannot both be true. They are mutually exclusive.');
+          }
+        },
+      },
     }
   );
 

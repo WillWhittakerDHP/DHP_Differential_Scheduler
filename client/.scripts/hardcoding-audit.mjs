@@ -15,7 +15,7 @@ import {
  * config-driven or generic. This is NOT a ban on hardcoding — it's a review queue.
  *
  * Scope:
- * - Included: client/src directory (ts, js, vue files)
+ * - Included: client/src (ts, js, vue files) and server/src (ts, mjs files)
  * - Excluded: __tests__, test files, spec files, @core, @layouts
  *
  * Output:
@@ -33,13 +33,14 @@ import {
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
+const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
 
-// If src exists in cwd, we're in client/; otherwise assume project root
-const SRC_DIR = fs.existsSync(CLIENT_SRC) ? CLIENT_SRC : PROJECT_ROOT_SRC
-const PROJECT_ROOT = fs.existsSync(CLIENT_SRC) ? CWD : CWD
-const ENTITIES_CONST = path.join(SRC_DIR, 'constants', 'entities.ts')
+const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
+const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
+const SERVER_SRC = path.join(SERVER_ROOT, 'src')
+const ENTITIES_CONST = path.join(CLIENT_SRC, 'constants', 'entities.ts')
 
 const OUT_DIR = fs.existsSync(CLIENT_SRC) 
   ? path.join(CWD, '.audit-reports')
@@ -73,7 +74,30 @@ function isExcluded(repoPath, configAllowlist) {
 }
 
 function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue')
+  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
+}
+
+/**
+ * Check if a file should be excluded from scanning
+ */
+function shouldExcludeDir(repoPath) {
+  // Exclude migration files (one-time scripts with intentionally hardcoded values)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return true
+  }
+  // Exclude test files and directories (test data often has hardcoded values intentionally)
+  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
+    return true
+  }
+  // Exclude @core and @layouts for client files only
+  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
+    return true
+  }
+  // Exclude node_modules, dist, etc.
+  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
+    return true
+  }
+  return false
 }
 
 /**
@@ -87,6 +111,13 @@ function listFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const abs = path.join(dir, e.name)
+    const repoPath = toRepoPath(abs)
+    
+    // Skip excluded directories/files
+    if (shouldExcludeDir(repoPath)) {
+      continue
+    }
+    
     if (e.isDirectory()) {
       out.push(...listFilesRecursive(abs))
       continue
@@ -132,6 +163,15 @@ const BASE_RULES = [
   { id: 'switchTypeLike', label: 'switch(type/Entity/Key)', test: (l) => /\bswitch\s*\(\s*[^)]*(type|Type|Entity|entity|Key|key)\s*[^)]*\)/.test(l) },
   { id: 'caseString', label: "case '...'", test: (l) => /\bcase\s+['"][^'"]+['"]\s*:/.test(l) },
   { id: 'fieldEqualsString', label: "field === '...'", test: (l) => /\b(field|key)\s*===\s*['"][^'"]+['"]/.test(l) },
+  { id: 'fieldMapping', label: 'Field mapping object', test: (l) => {
+    // Detect object literals with property access patterns like:
+    // { camelCaseKey: row.snake_case_key }
+    // { key1: source.key1, key2: source.key2 }
+    // Record<string, string> type annotations with object literals
+    return /\{\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*:\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-z_]+/.test(l) ||
+           /\{\s*['"][^'"]+['"]\s*:\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-z_]+/.test(l) ||
+           /Record<string.*string>.*\{[\s\S]{0,500}:\s*[a-z_]+\./.test(l)
+  }},
   { id: 'inlineLabelMap', label: '{ key: "Label", ... }', test: (l) => /\{\s*['"][^'"]+['"]\s*:\s*['"][^'"]+['"]/.test(l) },
   { id: 'omitFieldsArray', label: "omitFields: ['a', ...]", test: (l) => /\bomitFields\s*:\s*\[/.test(l) },
   { id: 'headersArray', label: 'headers: [ ... ]', test: (l) => /\bheaders\s*:\s*\[/.test(l) },
@@ -175,6 +215,7 @@ function score(counts) {
     (counts.entityKeyString || 0) * 6 +
     (counts.caseString || 0) * 4 +
     (counts.fieldEqualsString || 0) * 3 +
+    (counts.fieldMapping || 0) * 3 +
     (counts.omitFieldsArray || 0) * 2 +
     (counts.headersArray || 0) * 2 +
     (counts.inlineLabelMap || 0) * 2 +
@@ -199,6 +240,14 @@ function suggest(repoPath, counts) {
       priority: 'P1',
       kind: 'dynamic_fields',
       message: 'Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.',
+    })
+  }
+
+  if ((counts.fieldMapping || 0) >= 2) {
+    suggestions.push({
+      priority: 'P1',
+      kind: 'casing_utility',
+      message: 'Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.',
     })
   }
 
@@ -227,6 +276,15 @@ function suggest(repoPath, counts) {
   }
 
   return suggestions
+}
+
+function assignPriority(score, config) {
+  const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 20)
+  const p1Min = Number(config?.priorities?.p1MinSeverityScore ?? 10)
+  
+  if (score >= p0Min) return 'P0'
+  if (score >= p1Min) return 'P1'
+  return 'P2'
 }
 
 function compareFiles(a, b) {
@@ -258,15 +316,15 @@ function renderMarkdownReport(data) {
   lines.push('')
   lines.push('## Top hotspots (by heuristic score, excluding allowed)')
   lines.push('')
-  lines.push('| File | score | switch(entityKey) | entityKey strings | case strings | field===string | omitFields | headers | label maps | allowed |')
-  lines.push('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
+  lines.push('| File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |')
+  lines.push('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
 
   // Only show files with score > 0 in top hotspots
   const hotspots = files.filter(f => f.score > 0).slice(0, 30)
   for (const f of hotspots) {
     const c = f.counts
     lines.push(
-      `| \`${f.repoPath}\` | ${f.score} | ${c.switchEntityKey || 0} | ${c.entityKeyString || 0} | ${c.caseString || 0} | ${c.fieldEqualsString || 0} | ${c.omitFieldsArray || 0} | ${c.headersArray || 0} | ${c.inlineLabelMap || 0} | ${f.allowed.length} |`
+      `| \`${f.repoPath}\` | ${f.score} | ${c.switchEntityKey || 0} | ${c.entityKeyString || 0} | ${c.caseString || 0} | ${c.fieldEqualsString || 0} | ${c.fieldMapping || 0} | ${c.omitFieldsArray || 0} | ${c.headersArray || 0} | ${c.inlineLabelMap || 0} | ${f.allowed.length} |`
     )
   }
 
@@ -308,7 +366,7 @@ function renderMarkdownReport(data) {
     lines.push('')
     const c = f.counts
     lines.push(
-      `- total counts: switchEntityKey=${c.switchEntityKey || 0}, entityKeyString=${c.entityKeyString || 0}, caseString=${c.caseString || 0}, fieldEqualsString=${c.fieldEqualsString || 0}, omitFieldsArray=${c.omitFieldsArray || 0}, headersArray=${c.headersArray || 0}, inlineLabelMap=${c.inlineLabelMap || 0}, magicLabel=${c.magicLabel || 0}`
+      `- total counts: switchEntityKey=${c.switchEntityKey || 0}, entityKeyString=${c.entityKeyString || 0}, caseString=${c.caseString || 0}, fieldEqualsString=${c.fieldEqualsString || 0}, fieldMapping=${c.fieldMapping || 0}, omitFieldsArray=${c.omitFieldsArray || 0}, headersArray=${c.headersArray || 0}, inlineLabelMap=${c.inlineLabelMap || 0}, magicLabel=${c.magicLabel || 0}`
     )
     lines.push(`- requiring review: ${f.requiresReview.length}, allowed: ${f.allowed.length}`)
     lines.push('')
@@ -337,13 +395,26 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  
+  // Load priority config
+  let priorityConfig = {}
+  try {
+    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    priorityConfig = JSON.parse(configRaw)
+  } catch (error) {
+    // Config might not exist or be invalid, use defaults
+  }
 
-  const absFiles = listFilesRecursive(SRC_DIR)
+  const clientFiles = listFilesRecursive(CLIENT_SRC)
+  const serverFiles = listFilesRecursive(SERVER_SRC)
+  const absFiles = [...clientFiles, ...serverFiles]
   const scanned = []
 
   for (const abs of absFiles) {
     const repoPath = toRepoPath(abs)
     if (isExcluded(repoPath, configAllowlist)) continue
+    // Double-check exclusion
+    if (shouldExcludeDir(repoPath)) continue
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines, entityKeyRe)
@@ -360,6 +431,7 @@ function main() {
     // Score based on requiring-review only (allowed exceptions don't count against score)
     const reviewCounts = recalculateCounts(requiresReview)
     const fileScore = score(reviewCounts)
+    const filePriority = assignPriority(fileScore, priorityConfig)
     
     scanned.push({
       id: toStableId(repoPath),
@@ -370,6 +442,7 @@ function main() {
       allowed,
       requiresReview,
       score: fileScore,
+      priority: filePriority,
       suggestions: suggest(repoPath, reviewCounts),
     })
   }
@@ -382,8 +455,8 @@ function main() {
   const out = {
     generatedAt: new Date().toISOString(),
     scope: {
-      included: ['client/src/**/*.{ts,js,vue}'],
-      excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'src/@core/**', 'src/@layouts/**'],
+      included: ['client/src/**/*.{ts,js,vue}', 'server/src/**/*.{ts,mjs}'],
+      excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'client/src/@core/**', 'client/src/@layouts/**'],
     },
     exceptionSummary,
     entityKeys,
@@ -393,8 +466,10 @@ function main() {
   fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
   fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
 
+  const clientFilesCount = clientFiles.length
+  const serverFilesCount = serverFiles.length
   console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
-  console.log(`Files scanned: ${scanned.length}`)
+  console.log(`Files scanned: ${scanned.length} (${clientFilesCount} client, ${serverFilesCount} server)`)
   console.log(`Findings: ${exceptionSummary.totalRequiresReview} requiring review, ${exceptionSummary.totalAllowed} allowed`)
   process.exitCode = 0
 }
