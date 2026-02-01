@@ -110,7 +110,7 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 | 2.1.3 | Appointment Attendees & Calendar Integration | ✅ Complete |
 | 2.1.4 | Full Event Fetching & Location Cache | ✅ Complete |
 | 2.1.5 | Error Handling & Fallbacks | ✅ Complete |
-| 2.1.6 | Admin API Dev Panel | ⏳ Not Started |
+| 2.1.6 | Admin API Dev Panel | ✅ Complete |
 
 ---
 
@@ -254,21 +254,26 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
   - Consistent error response format with `type`, `message`, `retryable`
 - ✅ Network error detection (ECONNREFUSED, ETIMEDOUT, ENOTFOUND)
 
-### Session 2.1.6: Admin API Dev Panel
-- Create admin dev panel component (`ApiDevPanel.vue`)
-- Display OAuth status (authenticated, token expiry, scopes)
-- Display free-busy cache contents and statistics
-- Display events cache contents with locations
-- Display rate limiter statistics
-- Add debug endpoints for cache inspection (dev mode only)
-- Integrate into admin panel (visible when `isDevModeEnabled()`)
+### Session 2.1.6: Admin API Dev Panel ✅ Complete
+- ✅ `ApiDevPanel.vue` component created with tabbed interface:
+  - **OAuth Status Tab**: Authenticated status, token expiry, auth URL
+  - **Free-Busy Cache Tab**: Cache stats, entries with expiry, data preview
+  - **Events Cache Tab**: Event count, locations, cache entries
+  - **Rate Limiter Tab**: Utilization %, requests remaining, visual progress
+- ✅ Debug endpoints already implemented:
+  - `GET /api/v1/external/oauth/status`
+  - `GET /api/v1/external/calendar/debug/freebusy-cache`
+  - `GET /api/v1/external/calendar/debug/events-cache`
+  - `GET /api/v1/external/calendar/debug/rate-limit`
+- ✅ Integrated into `AdminPanel.vue` with bug icon toggle
+- ✅ Only visible when `isDevModeEnabled()` returns true
 - **WHY**: Provides visibility into API state for debugging and validation
 
 ---
 
 ## Key Files
 
-### Server Files (Sessions 2.1.1, 2.1.3, 2.1.4, 2.1.5 - Complete)
+### Server Files (All Sessions Complete)
 - ✅ `server/src/config/googleOAuth.ts` - OAuth client configuration (updated with calendar.events scope)
 - ✅ `server/src/services/rateLimiter.ts` - Rate limiting service
 - ✅ `server/src/services/freeBusyCache.ts` - Free-busy caching service (with invalidation)
@@ -279,14 +284,16 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - ✅ `server/src/routes/external/googleOauthRoutes.ts` - OAuth endpoints
 - ✅ `server/.env.development` - Environment config (updated scopes)
 
-### Client Files (Session 2.1.2 - To Create)
+### Client Files (Session 2.1.6 - Complete)
+- ✅ `client/src/components/admin/dev/ApiDevPanel.vue` - Admin dev panel with OAuth, cache, rate limiter tabs
+- ✅ `client/src/views/admin/AdminPanel.vue` - Updated with FAB-style dev panel toggle
+- ✅ `client/src/App.vue` - Hide global booking wizard dev panel on admin routes
+
+### Client Files (Session 2.1.2 - Future Enhancement)
 - `client/src/services/calendarApiService.ts` - Client-side calendar API service
 - `client/src/composables/booking/useFreeBusyDataSource.ts` - Data source state management
-
-### Client Files (Session 2.1.2 - To Modify)
 - `client/src/utils/timeSlotCalculations.ts` - Update `getCalendarAvailability()`
 - `client/src/composables/booking/useBusyTimes.ts` - Add error/loading states
-- `client/src/components/booking/dev/DevPanelsContainer.vue` - Add data source toggle
 
 ---
 
@@ -352,9 +359,18 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - ✅ Network error detection and classification
 - ✅ Routes updated with typed error responses
 
+### Session 2.1.6 Complete
+- ✅ `ApiDevPanel.vue` with OAuth, cache, and rate limiter tabs
+- ✅ Integrated into AdminPanel.vue with FAB toggle (dev mode only)
+- ✅ All debug endpoints verified working
+- ✅ Fixed dev panel visibility: booking wizard panel hidden on admin routes, admin API panel visible
+
+### Phase 2.1 Complete! 🎉
+
+All sessions in Phase 2.1 (Google Calendar API Integration) are now complete.
+
 ### Next Steps
-1. **Session 2.1.6:** Admin API Dev Panel
-2. **Phase 2.2:** Google Maps API Integration (now unblocked by location data)
+1. **Phase 2.2:** Google Maps API Integration (now unblocked by location data)
 
 ---
 
@@ -443,8 +459,8 @@ Dev panel toggle in "Free/Busy" section:
 
 ---
 
-**Phase Status:** In Progress  
-**Current Session:** Session 2.1.5 Complete - Next: Session 2.1.6  
+**Phase Status:** ✅ Complete  
+**Current Session:** All sessions complete - Phase 2.1 finished  
 **Last Updated:** 2026-02-01
 
 ---

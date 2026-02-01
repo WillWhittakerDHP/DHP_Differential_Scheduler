@@ -108,10 +108,6 @@ export function createTimeRangesFromSlotShape(
 ): {
   totalTimeRange: TimeRange | null
   eventTimeRanges: Record<string, TimeRange | null>
-  // Legacy properties for backward compatibility during migration
-  majorTimeRange: TimeRange | null
-  minorTimeRange: TimeRange | null
-  moveableTimeRange: TimeRange | null
 } {
   // PATTERN: Reduce eventFinals to Record object
   // DUAL-TRACK: Use roundedDuration for display (time ranges shown to users)
@@ -125,20 +121,12 @@ export function createTimeRangesFromSlotShape(
     }
   }, {} as Record<string, TimeRange | null>)
   
-  // PATTERN: Legacy properties are calculated dynamically in applyShapeToTime using attendee-based logic
-  // DUAL-TRACK: Use roundedDuration for display
-  const result = {
+  return {
     totalTimeRange: slotShape.roundedDuration > 0
       ? createTimeRange(startTime, slotShape.roundedDuration)
       : null,
-    eventTimeRanges,
-    // Legacy properties set to null - use eventTimeRanges with dynamic event names instead
-    majorTimeRange: null,
-    minorTimeRange: null,
-    moveableTimeRange: null
+    eventTimeRanges
   }
-  
-  return result
 }
 
 /**
@@ -239,18 +227,22 @@ export function buildAppointmentShape(
   if (eventInstances && eventAssignmentsRelationships && partShapeById) {
     const uniquePartShapes = new Set(nonZeroedParts.map(pf => pf.partShape))
     
-    for (const partShapeName of uniquePartShapes) {
-      const events = lookupEventsForPartShape(
-        partShapeName,
-        partShapeById,
-        eventAssignmentsRelationships || [],
-        eventInstances,
-        blockInstances
-      )
-      if (events.length > 0) {
-        eventAssignmentsByPartShape[partShapeName] = events
-      }
-    }
+    // PATTERN: Use Object.fromEntries + map to build object immutably
+    const assignments = Object.fromEntries(
+      Array.from(uniquePartShapes)
+        .map(partShapeName => {
+          const events = lookupEventsForPartShape(
+            partShapeName,
+            partShapeById,
+            eventAssignmentsRelationships || [],
+            eventInstances,
+            blockInstances
+          )
+          return events.length > 0 ? [partShapeName, events] : null
+        })
+        .filter((entry): entry is [string, typeof eventInstances] => entry !== null)
+    )
+    Object.assign(eventAssignmentsByPartShape, assignments)
   }
   
   // PATTERN: Use calculateSlotShape to get all durations in one pass

@@ -1,25 +1,17 @@
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
 export function buildSelectionCardClasses(config: SelectionCardConfig, isSelected: boolean): string {
-  const classes = ['selection-card', 'rounded', 'cursor-pointer']
+  // PATTERN: Build classes array immutably using spread operator
+  const baseClasses = ['selection-card', 'rounded', 'cursor-pointer']
+  
+  const conditionalClasses = [
+    config.appearance?.showBorder && 'selection-card-bordered',
+    config.appearance?.cardPadding,
+    isSelected && 'active',
+    config.layout === 'stack' && config.controlPosition === 'left' && 'selection-card-left-radio'
+  ].filter((cls): cls is string => typeof cls === 'string' && cls !== '')
 
-  if (config.appearance?.showBorder) {
-    classes.push('selection-card-bordered')
-  }
-
-  if (config.appearance?.cardPadding) {
-    classes.push(config.appearance.cardPadding)
-  }
-
-  if (isSelected) {
-    classes.push('active')
-  }
-
-  if (config.layout === 'stack' && config.controlPosition === 'left') {
-    classes.push('selection-card-left-radio')
-  }
-
-  return classes.join(' ')
+  return [...baseClasses, ...conditionalClasses].join(' ')
 }
 
 export function buildSelectionControlClasses(controlPosition: SelectionCardConfig['controlPosition']): Record<string, boolean> {
@@ -38,19 +30,16 @@ export function buildSelectionControlClasses(controlPosition: SelectionCardConfi
 }
 
 export function buildSelectionContentContainerClasses(config: SelectionCardConfig): string {
-  const classes = ['d-flex', 'flex-column', 'gap-2', 'content-container']
+  // PATTERN: Build classes array immutably using spread operator
+  const baseClasses = ['d-flex', 'flex-column', 'gap-2', 'content-container']
+  
+  const layoutClasses = config.layout === 'stack'
+    ? config.controlPosition === 'left'
+      ? ['align-start', 'text-start']
+      : ['align-center', 'text-center']
+    : ['align-center', 'text-center']
 
-  if (config.layout === 'stack') {
-    if (config.controlPosition === 'left') {
-      classes.push('align-start', 'text-start')
-    } else {
-      classes.push('align-center', 'text-center')
-    }
-  } else {
-    classes.push('align-center', 'text-center')
-  }
-
-  return classes.join(' ')
+  return [...baseClasses, ...layoutClasses].join(' ')
 }
 
 

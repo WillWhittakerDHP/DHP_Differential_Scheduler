@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T20:44:34.341Z",
+  "generatedAt": "2026-02-01T21:38:15.295Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,348 +14,27 @@
     ]
   },
   "exceptionSummary": {
-    "totalAllowed": 991,
-    "totalRequiresReview": 954,
+    "totalAllowed": 985,
+    "totalRequiresReview": 733,
     "bySource": {
       "inline": 0,
-      "pattern": 991,
+      "pattern": 985,
       "specific": 0
     }
   },
   "files": [
     {
-      "id": "server__src__routes__internal__relationships__relationshipRouter.ts",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipRouter.ts",
+      "id": "client__src__utils__booking__partFinalizer.ts",
+      "repoPath": "client/src/utils/booking/partFinalizer.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/partFinalizer.ts",
       "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
+        "forEach": 2,
+        "forLoop": 1,
+        "forOf": 1,
         "forIn": 0,
         "while": 0,
         "doWhile": 0,
         "push": 1,
-        "pop": 0,
-        "shift": 1,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 1,
-        "assignProp": 26,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "push",
-          "lineNumber": 199,
-          "line": "* WHY: Avoids queue.shift() and queue.push() mutations"
-        },
-        {
-          "ruleId": "shift",
-          "lineNumber": 199,
-          "line": "* WHY: Avoids queue.shift() and queue.push() mutations"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 203,
-          "line": "if (queue.length === 0) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 207,
-          "line": "const [currentId, ...remainingQueue] = queue;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 257,
-          "line": "req.relationshipConfig = RELATIONSHIP_REGISTRY[normalizedKind];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 291,
-          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parent_id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 304,
-          "line": "if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 320,
-          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 321,
-          "line": "options.order = [['orderIndex', 'ASC']];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 325,
-          "line": "if (req.params.relationshipType === 'eventAssignments') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 326,
-          "line": "options.include = ["
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 343,
-          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 344,
-          "line": "options.include = ["
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 367,
-          "line": "options.attributes = getModelAttributes(relationshipConfig.model);"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 400,
-          "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 525,
-          "line": "existing.disabled = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 526,
-          "line": "existing.orderIndex = order_index ?? existing.orderIndex;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 568,
-          "line": "// PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 593,
-          "line": "createData = req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 604,
-          "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 608,
-          "line": "childBlockInstance.active = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 614,
-          "line": "parentBlockInstance.active = true;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 627,
-          "line": "if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 639,
-          "line": "if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 675,
-          "line": "component.orderIndex = order_index;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 679,
-          "line": "component.disabled = disabled;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 708,
-          "line": "component.disabled = true;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 722,
-          "line": "childBlockInstance.active = true;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 772,
-          "line": "assignment.userTypeBlockInstanceId = userTypeBlockInstanceId || null;"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "push",
-          "lineNumber": 199,
-          "line": "* WHY: Avoids queue.shift() and queue.push() mutations"
-        },
-        {
-          "ruleId": "shift",
-          "lineNumber": 199,
-          "line": "* WHY: Avoids queue.shift() and queue.push() mutations"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 203,
-          "line": "if (queue.length === 0) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 207,
-          "line": "const [currentId, ...remainingQueue] = queue;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 257,
-          "line": "req.relationshipConfig = RELATIONSHIP_REGISTRY[normalizedKind];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 291,
-          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parent_id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 304,
-          "line": "if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 320,
-          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 321,
-          "line": "options.order = [['orderIndex', 'ASC']];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 325,
-          "line": "if (req.params.relationshipType === 'eventAssignments') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 326,
-          "line": "options.include = ["
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 343,
-          "line": "if (req.params.relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 344,
-          "line": "options.include = ["
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 367,
-          "line": "options.attributes = getModelAttributes(relationshipConfig.model);"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 400,
-          "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 525,
-          "line": "existing.disabled = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 526,
-          "line": "existing.orderIndex = order_index ?? existing.orderIndex;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 568,
-          "line": "// PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 593,
-          "line": "createData = req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 604,
-          "line": "if (req.params.relationshipType === 'instanceComponents') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 608,
-          "line": "childBlockInstance.active = false;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 614,
-          "line": "parentBlockInstance.active = true;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 627,
-          "line": "if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 639,
-          "line": "if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 675,
-          "line": "component.orderIndex = order_index;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 679,
-          "line": "component.disabled = disabled;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 708,
-          "line": "component.disabled = true;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 722,
-          "line": "childBlockInstance.active = true;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 772,
-          "line": "assignment.userTypeBlockInstanceId = userTypeBlockInstanceId || null;"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 56,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__entities__entityRouter.ts",
-      "repoPath": "server/src/routes/internal/entities/entityRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityRouter.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
         "pop": 0,
         "shift": 0,
         "unshift": 0,
@@ -363,517 +42,157 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 23,
-        "delete": 1
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 57,
-          "line": "req.entityConfig = getEntityConfig(entityType);"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 147,
-          "line": "if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE && sanitizedData.bookingMode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 148,
-          "line": "sanitizedData.bookingMode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 150,
-          "line": "if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 151,
-          "line": "sanitizedData.booking_mode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 160,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 161,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 165,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 222,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 223,
-          "line": "if (sanitizedData.bookingMode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 224,
-          "line": "sanitizedData.bookingMode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 226,
-          "line": "if (sanitizedData.booking_mode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 227,
-          "line": "sanitizedData.booking_mode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 232,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 270,
-          "line": "if (req.params.entityType === 'partInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 384,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 474,
-          "line": "if (req.params.entityType === 'partInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 527,
-          "line": "typeof error.parent === 'object' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 529,
-          "line": "error.parent.code === '23514') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 532,
-          "line": "error.parent.constraint === 'check_state_control_mutual_exclusivity') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 544,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 545,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 573,
-          "line": "// CRITICAL: For block instances, capture old state BEFORE delete for versioning"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 574,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 57,
-          "line": "req.entityConfig = getEntityConfig(entityType);"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 147,
-          "line": "if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE && sanitizedData.bookingMode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 148,
-          "line": "sanitizedData.bookingMode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 150,
-          "line": "if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 151,
-          "line": "sanitizedData.booking_mode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 160,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 161,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 165,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 222,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 223,
-          "line": "if (sanitizedData.bookingMode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 224,
-          "line": "sanitizedData.bookingMode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 226,
-          "line": "if (sanitizedData.booking_mode === '') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 227,
-          "line": "sanitizedData.booking_mode = 'standalone';"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 232,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 270,
-          "line": "if (req.params.entityType === 'partInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 384,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 474,
-          "line": "if (req.params.entityType === 'partInstance') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 527,
-          "line": "typeof error.parent === 'object' &&"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 529,
-          "line": "error.parent.code === '23514') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 532,
-          "line": "error.parent.constraint === 'check_state_control_mutual_exclusivity') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 544,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 545,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 573,
-          "line": "// CRITICAL: For block instances, capture old state BEFORE delete for versioning"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 574,
-          "line": "if (req.params.entityType === 'blockInstance') {"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 46,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__scripts__importCalendarData.ts",
-      "repoPath": "server/src/scripts/importCalendarData.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/importCalendarData.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 3,
-        "forOf": 3,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 2,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 3,
-        "assignProp": 12,
+        "assignProp": 8,
         "delete": 0
       },
       "matches": [
         {
-          "ruleId": "assignProp",
-          "lineNumber": 64,
-          "line": "if (parts.length === 1) {"
+          "ruleId": "push",
+          "lineNumber": 40,
+          "line": "grouped.get(partShape)!.push(part)"
         },
         {
-          "ruleId": "assignProp",
-          "lineNumber": 83,
-          "line": "if (!addressString || addressString.trim().length === 0) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 124,
-          "line": "const [, streetAddress, city, state, zipCode] = match;"
-        },
-        {
-          "ruleId": "assignProp",
+          "ruleId": "forLoop",
           "lineNumber": 153,
-          "line": "if (!event.attendees || event.attendees.length === 0) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 157,
-          "line": "for (const attendee of event.attendees) {"
+          "line": "for (const eventInstance of events) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 157,
-          "line": "for (const attendee of event.attendees) {"
+          "lineNumber": 153,
+          "line": "for (const eventInstance of events) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 158,
-          "line": "if (!attendee.email || attendee.email === organizerEmail) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 173,
-          "line": "clients.push({"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 197,
-          "line": "const [user, created] = await User.findOrCreate({"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 292,
-          "line": "const [propertyDetails, detailsCreated] = await PropertyDetails.findOrCreate({"
+          "lineNumber": 182,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 320,
-          "line": "if (property.mlsNumber !== null) updates.mlsNumber = property.mlsNumber;"
+          "lineNumber": 183,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 321,
-          "line": "if (property.squareFootage !== null) updates.squareFootage = property.squareFootage;"
+          "lineNumber": 184,
+          "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 322,
-          "line": "if (property.bedrooms !== null) updates.bedrooms = property.bedrooms;"
+          "lineNumber": 200,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 323,
-          "line": "if (property.bathrooms !== null) updates.bathrooms = property.bathrooms;"
+          "lineNumber": 201,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 324,
-          "line": "if (property.foundationAccess !== null) updates.foundationAccess = property.foundationAccess;"
+          "lineNumber": 202,
+          "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
+        },
+        {
+          "ruleId": "forEach",
+          "lineNumber": 227,
+          "line": "eventRawDurations.forEach((value, key) => eventRawDurationsByShapeId.set(key, value))"
+        },
+        {
+          "ruleId": "forEach",
+          "lineNumber": 228,
+          "line": "eventRoundedDurations.forEach((value, key) => eventRoundedDurationsByShapeId.set(key, value))"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 325,
-          "line": "if (property.additionalUnits !== null) updates.additionalUnits = property.additionalUnits;"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 352,
-          "line": "for (const event of events) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 352,
-          "line": "for (const event of events) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 354,
-          "line": "for (const client of clients) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 354,
-          "line": "for (const client of clients) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 425,
-          "line": "chunks.push(chunk);"
+          "lineNumber": 247,
+          "line": ".filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 445,
-          "line": "if (eventsToProcess.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 471,
-          "line": "if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('importCalendarData.js')) {"
+          "lineNumber": 296,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "assignProp",
-          "lineNumber": 64,
-          "line": "if (parts.length === 1) {"
+          "ruleId": "push",
+          "lineNumber": 40,
+          "line": "grouped.get(partShape)!.push(part)"
         },
         {
-          "ruleId": "assignProp",
-          "lineNumber": 83,
-          "line": "if (!addressString || addressString.trim().length === 0) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 124,
-          "line": "const [, streetAddress, city, state, zipCode] = match;"
-        },
-        {
-          "ruleId": "assignProp",
+          "ruleId": "forLoop",
           "lineNumber": 153,
-          "line": "if (!event.attendees || event.attendees.length === 0) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 157,
-          "line": "for (const attendee of event.attendees) {"
+          "line": "for (const eventInstance of events) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 157,
-          "line": "for (const attendee of event.attendees) {"
+          "lineNumber": 153,
+          "line": "for (const eventInstance of events) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 158,
-          "line": "if (!attendee.email || attendee.email === organizerEmail) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 173,
-          "line": "clients.push({"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 197,
-          "line": "const [user, created] = await User.findOrCreate({"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 292,
-          "line": "const [propertyDetails, detailsCreated] = await PropertyDetails.findOrCreate({"
+          "lineNumber": 182,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 320,
-          "line": "if (property.mlsNumber !== null) updates.mlsNumber = property.mlsNumber;"
+          "lineNumber": 183,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 321,
-          "line": "if (property.squareFootage !== null) updates.squareFootage = property.squareFootage;"
+          "lineNumber": 184,
+          "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 322,
-          "line": "if (property.bedrooms !== null) updates.bedrooms = property.bedrooms;"
+          "lineNumber": 200,
+          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 323,
-          "line": "if (property.bathrooms !== null) updates.bathrooms = property.bathrooms;"
+          "lineNumber": 201,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 324,
-          "line": "if (property.foundationAccess !== null) updates.foundationAccess = property.foundationAccess;"
+          "lineNumber": 202,
+          "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
+        },
+        {
+          "ruleId": "forEach",
+          "lineNumber": 227,
+          "line": "eventRawDurations.forEach((value, key) => eventRawDurationsByShapeId.set(key, value))"
+        },
+        {
+          "ruleId": "forEach",
+          "lineNumber": 228,
+          "line": "eventRoundedDurations.forEach((value, key) => eventRoundedDurationsByShapeId.set(key, value))"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 325,
-          "line": "if (property.additionalUnits !== null) updates.additionalUnits = property.additionalUnits;"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 352,
-          "line": "for (const event of events) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 352,
-          "line": "for (const event of events) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 354,
-          "line": "for (const client of clients) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 354,
-          "line": "for (const client of clients) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 425,
-          "line": "chunks.push(chunk);"
+          "lineNumber": 247,
+          "line": ".filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 445,
-          "line": "if (eventsToProcess.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 471,
-          "line": "if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('importCalendarData.js')) {"
+          "lineNumber": 296,
+          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         }
       ],
-      "forEachMutationHits": [],
-      "score": 40,
+      "forEachMutationHits": [
+        {
+          "forEachAt": 227,
+          "mutationAt": 247,
+          "mutationRuleId": "assignProp"
+        },
+        {
+          "forEachAt": 228,
+          "mutationAt": 247,
+          "mutationRuleId": "assignProp"
+        }
+      ],
+      "score": 38,
       "priority": "P0"
     },
     {
@@ -885,9 +204,9 @@
         "forLoop": 0,
         "forOf": 0,
         "forIn": 0,
-        "while": 1,
+        "while": 0,
         "doWhile": 0,
-        "push": 1,
+        "push": 0,
         "pop": 0,
         "shift": 0,
         "unshift": 0,
@@ -970,16 +289,6 @@
           "line": "constraint.enforcement === 'flexible' && checkConstraintOverlap(constraint)"
         },
         {
-          "ruleId": "while",
-          "lineNumber": 527,
-          "line": "while (dayIterator < endDateOnly) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 528,
-          "line": "days.push(new Date(dayIterator))"
-        },
-        {
           "ruleId": "assignProp",
           "lineNumber": 651,
           "line": "direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined"
@@ -1073,16 +382,6 @@
           "line": "constraint.enforcement === 'flexible' && checkConstraintOverlap(constraint)"
         },
         {
-          "ruleId": "while",
-          "lineNumber": 527,
-          "line": "while (dayIterator < endDateOnly) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 528,
-          "line": "days.push(new Date(dayIterator))"
-        },
-        {
           "ruleId": "assignProp",
           "lineNumber": 651,
           "line": "direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined"
@@ -1101,227 +400,6 @@
           "ruleId": "assignProp",
           "lineNumber": 955,
           "line": "if (activeCapacityConstraints.length === 0) {"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 38,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__services__googleCalendarService.ts",
-      "repoPath": "server/src/services/googleCalendarService.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/googleCalendarService.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 1,
-        "forOf": 1,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 1,
-        "assignProp": 16,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 58,
-          "line": "if (rateLimitResult.status === 'exceeded') {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 93,
-          "line": "for (const [email, calendarData] of Object.entries(response.data.calendars)) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 93,
-          "line": "for (const [email, calendarData] of Object.entries(response.data.calendars)) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 102,
-          "line": "freeBusyData.calendars[email] = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 118,
-          "line": "if (error.code === 429 || error.code === 403) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 124,
-          "line": "if (error.code === 401) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 162,
-          "line": "if (rateLimitResult.status === 'exceeded') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 223,
-          "line": "if (error.code === 429 || error.code === 403) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 229,
-          "line": "if (error.code === 401) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 331,
-          "line": "if (rateLimitResult.status === 'exceeded') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 363,
-          "line": "eventResource.description = description;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 367,
-          "line": "eventResource.location = location;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 371,
-          "line": "eventResource.attendees = attendees.map(attendee => ({"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 418,
-          "line": "result.location = createdEvent.location;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 422,
-          "line": "result.attendees = createdEvent.attendees"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 436,
-          "line": "if (error.code === 429 || error.code === 403) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 442,
-          "line": "if (error.code === 401) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 448,
-          "line": "if (error.code === 403 && error.message?.includes('forbidden')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 454,
-          "line": "if (error.code === 404) {"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 58,
-          "line": "if (rateLimitResult.status === 'exceeded') {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 93,
-          "line": "for (const [email, calendarData] of Object.entries(response.data.calendars)) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 93,
-          "line": "for (const [email, calendarData] of Object.entries(response.data.calendars)) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 102,
-          "line": "freeBusyData.calendars[email] = {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 118,
-          "line": "if (error.code === 429 || error.code === 403) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 124,
-          "line": "if (error.code === 401) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 162,
-          "line": "if (rateLimitResult.status === 'exceeded') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 223,
-          "line": "if (error.code === 429 || error.code === 403) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 229,
-          "line": "if (error.code === 401) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 331,
-          "line": "if (rateLimitResult.status === 'exceeded') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 363,
-          "line": "eventResource.description = description;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 367,
-          "line": "eventResource.location = location;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 371,
-          "line": "eventResource.attendees = attendees.map(attendee => ({"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 418,
-          "line": "result.location = createdEvent.location;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 422,
-          "line": "result.attendees = createdEvent.attendees"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 436,
-          "line": "if (error.code === 429 || error.code === 403) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 442,
-          "line": "if (error.code === 401) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 448,
-          "line": "if (error.code === 403 && error.message?.includes('forbidden')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 454,
-          "line": "if (error.code === 404) {"
         }
       ],
       "forEachMutationHits": [],
@@ -2193,448 +1271,6 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__utils__transformers__componentAggregator.ts",
-      "repoPath": "client/src/utils/transformers/componentAggregator.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/componentAggregator.ts",
-      "counts": {
-        "forEach": 2,
-        "forLoop": 4,
-        "forOf": 4,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 3,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 7,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 35,
-          "line": "for (const rel of relationships) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 35,
-          "line": "for (const rel of relationships) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 41,
-          "line": "for (const child of rel.children) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 41,
-          "line": "for (const child of rel.children) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 42,
-          "line": "instanceComponents.push({"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 71,
-          "line": "ac.parentId === composerId &&"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 77,
-          "line": "for (const componentId of directComponents) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 77,
-          "line": "for (const componentId of directComponents) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 79,
-          "line": "ac => ac.parentId === componentId && !ac.disabled"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 84,
-          "line": "recursiveComponents.push(...nestedComponents)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 86,
-          "line": "recursiveComponents.push(componentId)"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 107,
-          "line": "for (const blockId of composedBlockIds) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 107,
-          "line": "for (const blockId of composedBlockIds) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 108,
-          "line": "const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 113,
-          "line": "rel => rel.parent.id === blockId"
-        },
-        {
-          "ruleId": "forEach",
-          "lineNumber": 116,
-          "line": "blockRelationships.forEach(rel => {"
-        },
-        {
-          "ruleId": "forEach",
-          "lineNumber": 117,
-          "line": "rel.children.forEach(partInstance => {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 142,
-          "line": "if (componentIds.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 158,
-          "line": "if (components.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": "const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 35,
-          "line": "for (const rel of relationships) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 35,
-          "line": "for (const rel of relationships) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 41,
-          "line": "for (const child of rel.children) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 41,
-          "line": "for (const child of rel.children) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 42,
-          "line": "instanceComponents.push({"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 71,
-          "line": "ac.parentId === composerId &&"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 77,
-          "line": "for (const componentId of directComponents) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 77,
-          "line": "for (const componentId of directComponents) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 79,
-          "line": "ac => ac.parentId === componentId && !ac.disabled"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 84,
-          "line": "recursiveComponents.push(...nestedComponents)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 86,
-          "line": "recursiveComponents.push(componentId)"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 107,
-          "line": "for (const blockId of composedBlockIds) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 107,
-          "line": "for (const blockId of composedBlockIds) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 108,
-          "line": "const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 113,
-          "line": "rel => rel.parent.id === blockId"
-        },
-        {
-          "ruleId": "forEach",
-          "lineNumber": 116,
-          "line": "blockRelationships.forEach(rel => {"
-        },
-        {
-          "ruleId": "forEach",
-          "lineNumber": 117,
-          "line": "rel.children.forEach(partInstance => {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 142,
-          "line": "if (componentIds.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 158,
-          "line": "if (components.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": "const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 30,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__booking__mockGoogleCalendar.ts",
-      "repoPath": "client/src/utils/booking/mockGoogleCalendar.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/mockGoogleCalendar.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 4,
-        "forOf": 3,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 5,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 1,
-        "reverse": 0,
-        "assignIndex": 1,
-        "assignProp": 4,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 205,
-          "line": "for (const calendarId of mergedConfig.calendarIds) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 205,
-          "line": "for (const calendarId of mergedConfig.calendarIds) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 219,
-          "line": "busyPeriods.push({"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 225,
-          "line": "for (let i = 0; i < adjustedPeriodsPerCalendar; i++) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 245,
-          "line": "period.end = toRFC3339DateTime(maxEndTime)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 253,
-          "line": "busyPeriods.push(period)"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 265,
-          "line": "calendars[calendarId] = { busy: busyPeriods }"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 289,
-          "line": "for (const calendar of Object.values(response.calendars)) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 289,
-          "line": "for (const calendar of Object.values(response.calendars)) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 291,
-          "line": "allBusyPeriods.push(...calendar.busy)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 295,
-          "line": "if (!mergeOverlapping || allBusyPeriods.length === 0) {"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 300,
-          "line": "const sorted = [...allBusyPeriods].sort((a, b) =>"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 306,
-          "line": "for (const period of sorted) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 306,
-          "line": "for (const period of sorted) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 307,
-          "line": "if (merged.length === 0) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 308,
-          "line": "merged.push({ ...period })"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 320,
-          "line": "lastMerged.end = period.end"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 323,
-          "line": "merged.push({ ...period })"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 205,
-          "line": "for (const calendarId of mergedConfig.calendarIds) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 205,
-          "line": "for (const calendarId of mergedConfig.calendarIds) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 219,
-          "line": "busyPeriods.push({"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 225,
-          "line": "for (let i = 0; i < adjustedPeriodsPerCalendar; i++) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 245,
-          "line": "period.end = toRFC3339DateTime(maxEndTime)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 253,
-          "line": "busyPeriods.push(period)"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 265,
-          "line": "calendars[calendarId] = { busy: busyPeriods }"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 289,
-          "line": "for (const calendar of Object.values(response.calendars)) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 289,
-          "line": "for (const calendar of Object.values(response.calendars)) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 291,
-          "line": "allBusyPeriods.push(...calendar.busy)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 295,
-          "line": "if (!mergeOverlapping || allBusyPeriods.length === 0) {"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 300,
-          "line": "const sorted = [...allBusyPeriods].sort((a, b) =>"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 306,
-          "line": "for (const period of sorted) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 306,
-          "line": "for (const period of sorted) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 307,
-          "line": "if (merged.length === 0) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 308,
-          "line": "merged.push({ ...period })"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 320,
-          "line": "lastMerged.end = period.end"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 323,
-          "line": "merged.push({ ...period })"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 29,
-      "priority": "P0"
-    },
-    {
       "id": "client__src__types__admin__AdminEntity.ts",
       "repoPath": "client/src/types/admin/AdminEntity.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/AdminEntity.ts",
@@ -2793,620 +1429,6 @@
       ],
       "forEachMutationHits": [],
       "score": 26,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__booking__appointmentSlotBuilder.ts",
-      "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentSlotBuilder.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 1,
-        "forOf": 1,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 3,
-        "assignProp": 7,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 71,
-          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.name === name)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 88,
-          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.id === id)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 148,
-          "line": "* PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 166,
-          "line": "ps => ps.name === partShapeName"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": ".filter(pi => pi.partShape === partShapeName)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 183,
-          "line": "return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 192,
-          "line": ".map(id => eventInstances.find(ei => ei.id === id))"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 242,
-          "line": "for (const partShapeName of uniquePartShapes) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 242,
-          "line": "for (const partShapeName of uniquePartShapes) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 251,
-          "line": "eventAssignmentsByPartShape[partShapeName] = events"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 344,
-          "line": "adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 347,
-          "line": "adjustedEventTimeRanges[minorEventName] = null"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 71,
-          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.name === name)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 88,
-          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.id === id)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 148,
-          "line": "* PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 166,
-          "line": "ps => ps.name === partShapeName"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": ".filter(pi => pi.partShape === partShapeName)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 183,
-          "line": "return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 192,
-          "line": ".map(id => eventInstances.find(ei => ei.id === id))"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 242,
-          "line": "for (const partShapeName of uniquePartShapes) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 242,
-          "line": "for (const partShapeName of uniquePartShapes) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 251,
-          "line": "eventAssignmentsByPartShape[partShapeName] = events"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 344,
-          "line": "adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 347,
-          "line": "adjustedEventTimeRanges[minorEventName] = null"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__booking__constraintExtractors.ts",
-      "repoPath": "client/src/utils/booking/constraintExtractors.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/constraintExtractors.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 2,
-        "forOf": 2,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 5,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 4,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "push",
-          "lineNumber": 62,
-          "line": "constraints.push(businessHoursConstraint)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 68,
-          "line": "constraints.push(leadTimeConstraint)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 74,
-          "line": "constraints.push(dateRangeConstraint)"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 88,
-          "line": "for (const bufferType of bufferTypes) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 88,
-          "line": "for (const bufferType of bufferTypes) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 92,
-          "line": "if (buffer.enforcement === undefined) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 96,
-          "line": "constraints.push({"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 124,
-          "line": "for (const { type, settingsKey } of capacityTypeMap) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 124,
-          "line": "for (const { type, settingsKey } of capacityTypeMap) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 128,
-          "line": "if (filter.enforcement === undefined) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 132,
-          "line": "if (filter.enforcement === 'off') {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 146,
-          "line": "constraints.push(constraint)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 228,
-          "line": "if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constraint.direction) {"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "push",
-          "lineNumber": 62,
-          "line": "constraints.push(businessHoursConstraint)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 68,
-          "line": "constraints.push(leadTimeConstraint)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 74,
-          "line": "constraints.push(dateRangeConstraint)"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 88,
-          "line": "for (const bufferType of bufferTypes) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 88,
-          "line": "for (const bufferType of bufferTypes) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 92,
-          "line": "if (buffer.enforcement === undefined) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 96,
-          "line": "constraints.push({"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 124,
-          "line": "for (const { type, settingsKey } of capacityTypeMap) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 124,
-          "line": "for (const { type, settingsKey } of capacityTypeMap) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 128,
-          "line": "if (filter.enforcement === undefined) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 132,
-          "line": "if (filter.enforcement === 'off') {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 146,
-          "line": "constraints.push(constraint)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 228,
-          "line": "if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constraint.direction) {"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__booking__partFinalizer.ts",
-      "repoPath": "client/src/utils/booking/partFinalizer.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/partFinalizer.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 2,
-        "forOf": 2,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 1,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 8,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "push",
-          "lineNumber": 40,
-          "line": "grouped.get(partShape)!.push(part)"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 139,
-          "line": "for (const part of partFinals) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 139,
-          "line": "for (const part of partFinals) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 147,
-          "line": "for (const eventInstance of events) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 147,
-          "line": "for (const eventInstance of events) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 176,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 177,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 178,
-          "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 194,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 195,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 196,
-          "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 221,
-          "line": ".filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 270,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "push",
-          "lineNumber": 40,
-          "line": "grouped.get(partShape)!.push(part)"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 139,
-          "line": "for (const part of partFinals) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 139,
-          "line": "for (const part of partFinals) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 147,
-          "line": "for (const eventInstance of events) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 147,
-          "line": "for (const eventInstance of events) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 176,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 177,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 178,
-          "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 194,
-          "line": "const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 195,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 196,
-          "line": "if (majorEventShape && majorEventShape.id === eventShape.id) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 221,
-          "line": ".filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 270,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__booking__selectionCardStyles.ts",
-      "repoPath": "client/src/utils/booking/selectionCardStyles.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/selectionCardStyles.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 7,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 1,
-        "assignProp": 3,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "push",
-          "lineNumber": 7,
-          "line": "classes.push('selection-card-bordered')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 11,
-          "line": "classes.push(config.appearance.cardPadding)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 15,
-          "line": "classes.push('active')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 18,
-          "line": "if (config.layout === 'stack' && config.controlPosition === 'left') {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 19,
-          "line": "classes.push('selection-card-left-radio')"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 34,
-          "line": "classes['d-none'] = true"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 43,
-          "line": "if (config.layout === 'stack') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 44,
-          "line": "if (config.controlPosition === 'left') {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 45,
-          "line": "classes.push('align-start', 'text-start')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 47,
-          "line": "classes.push('align-center', 'text-center')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 50,
-          "line": "classes.push('align-center', 'text-center')"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "push",
-          "lineNumber": 7,
-          "line": "classes.push('selection-card-bordered')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 11,
-          "line": "classes.push(config.appearance.cardPadding)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 15,
-          "line": "classes.push('active')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 18,
-          "line": "if (config.layout === 'stack' && config.controlPosition === 'left') {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 19,
-          "line": "classes.push('selection-card-left-radio')"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 34,
-          "line": "classes['d-none'] = true"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 43,
-          "line": "if (config.layout === 'stack') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 44,
-          "line": "if (config.controlPosition === 'left') {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 45,
-          "line": "classes.push('align-start', 'text-start')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 47,
-          "line": "classes.push('align-center', 'text-center')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 50,
-          "line": "classes.push('align-center', 'text-center')"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 22,
       "priority": "P0"
     },
     {
@@ -3702,6 +1724,137 @@
       "priority": "P0"
     },
     {
+      "id": "client__src__utils__booking__appointmentSlotBuilder.ts",
+      "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentSlotBuilder.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 3,
+        "assignProp": 7,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 71,
+          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.name === name)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 88,
+          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.id === id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 136,
+          "line": "* PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 154,
+          "line": "ps => ps.name === partShapeName"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 167,
+          "line": ".filter(pi => pi.partShape === partShapeName)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 171,
+          "line": "return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 180,
+          "line": ".map(id => eventInstances.find(ei => ei.id === id))"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 243,
+          "line": ".filter((entry): entry is [string, typeof eventInstances] => entry !== null)"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 336,
+          "line": "adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 339,
+          "line": "adjustedEventTimeRanges[minorEventName] = null"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 71,
+          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.name === name)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 88,
+          "line": "return slotShape.eventFinals.find(ef => ef.eventShape.id === id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 136,
+          "line": "* PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 154,
+          "line": "ps => ps.name === partShapeName"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 167,
+          "line": ".filter(pi => pi.partShape === partShapeName)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 171,
+          "line": "return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 180,
+          "line": ".map(id => eventInstances.find(ei => ei.id === id))"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 243,
+          "line": ".filter((entry): entry is [string, typeof eventInstances] => entry !== null)"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 336,
+          "line": "adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 339,
+          "line": "adjustedEventTimeRanges[minorEventName] = null"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 20,
+      "priority": "P0"
+    },
+    {
       "id": "client__src__utils__forms__fieldSectionCategorization.ts",
       "repoPath": "client/src/utils/forms/fieldSectionCategorization.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/fieldSectionCategorization.ts",
@@ -3726,52 +1879,52 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 116,
+          "lineNumber": 114,
           "line": "return meta.renderAs === 'statusButton'"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 124,
+          "lineNumber": 122,
           "line": ".sort((a, b) => a.order - b.order)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 126,
+          "lineNumber": 124,
           "line": "result.statusButtonFields = statusButtonFieldsWithOrder"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 139,
+          "lineNumber": 137,
           "line": "isStatusButton: meta.renderAs === 'statusButton'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 166,
+          "lineNumber": 164,
           "line": "if (fieldMeta.layout === 'inline') {"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 195,
+          "lineNumber": 193,
           "line": ".sort((a, b) => {"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 196,
+          "lineNumber": 194,
           "line": "const [aOrder] = a.split('::')"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 197,
+          "lineNumber": 195,
           "line": "const [bOrder] = b.split('::')"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 203,
+          "lineNumber": 201,
           "line": "result.directFields = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 207,
+          "lineNumber": 205,
           "line": "result.subPanelFields = {"
         }
       ],
@@ -3779,52 +1932,52 @@
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 116,
+          "lineNumber": 114,
           "line": "return meta.renderAs === 'statusButton'"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 124,
+          "lineNumber": 122,
           "line": ".sort((a, b) => a.order - b.order)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 126,
+          "lineNumber": 124,
           "line": "result.statusButtonFields = statusButtonFieldsWithOrder"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 139,
+          "lineNumber": 137,
           "line": "isStatusButton: meta.renderAs === 'statusButton'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 166,
+          "lineNumber": 164,
           "line": "if (fieldMeta.layout === 'inline') {"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 195,
+          "lineNumber": 193,
           "line": ".sort((a, b) => {"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 196,
+          "lineNumber": 194,
           "line": "const [aOrder] = a.split('::')"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 197,
+          "lineNumber": 195,
           "line": "const [bOrder] = b.split('::')"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 203,
+          "lineNumber": 201,
           "line": "result.directFields = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 207,
+          "lineNumber": 205,
           "line": "result.subPanelFields = {"
         }
       ],
@@ -3833,13 +1986,13 @@
       "priority": "P0"
     },
     {
-      "id": "server__src__routes__helpers__dataController.ts",
-      "repoPath": "server/src/routes/helpers/dataController.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/dataController.ts",
+      "id": "server__src__services__googleCalendarService.ts",
+      "repoPath": "server/src/services/googleCalendarService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/googleCalendarService.ts",
       "counts": {
         "forEach": 0,
-        "forLoop": 2,
-        "forOf": 2,
+        "forLoop": 1,
+        "forOf": 1,
         "forIn": 0,
         "while": 0,
         "doWhile": 0,
@@ -3850,133 +2003,123 @@
         "splice": 0,
         "sort": 0,
         "reverse": 0,
-        "assignIndex": 3,
-        "assignProp": 5,
+        "assignIndex": 1,
+        "assignProp": 8,
         "delete": 0
       },
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 68,
-          "line": "queryOptions.include = options.includes;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 72,
-          "line": "queryOptions.attributes = options.attributes;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 76,
-          "line": "queryOptions.attributes = autoAttributes;"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 86,
-          "line": "queryOptions.order = options.order;"
+          "line": "if (rateLimitResult.status === 'exceeded') {"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 120,
+          "line": "for (const [email, calendarData] of Object.entries(response.data.calendars)) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 120,
+          "line": "for (const [email, calendarData] of Object.entries(response.data.calendars)) {"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 129,
+          "line": "freeBusyData.calendars[email] = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 114,
-          "line": "options.attributes = getModelAttributes(Entity);"
+          "lineNumber": 218,
+          "line": "if (rateLimitResult.status === 'exceeded') {"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 140,
-          "line": "const [updatedRows] = await Entity.update(data as Partial<T[\"_creationAttributes\"]>, {"
+          "ruleId": "assignProp",
+          "lineNumber": 399,
+          "line": "if (rateLimitResult.status === 'exceeded') {"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 157,
-          "line": "const [patchedRows] = await Entity.update(data as Partial<T[\"_creationAttributes\"]>, {"
+          "ruleId": "assignProp",
+          "lineNumber": 430,
+          "line": "eventResource.description = description;"
         },
         {
-          "ruleId": "forLoop",
-          "lineNumber": 170,
-          "line": "for (const { id, ...data } of updates) {"
+          "ruleId": "assignProp",
+          "lineNumber": 434,
+          "line": "eventResource.location = location;"
         },
         {
-          "ruleId": "forOf",
-          "lineNumber": 170,
-          "line": "for (const { id, ...data } of updates) {"
+          "ruleId": "assignProp",
+          "lineNumber": 438,
+          "line": "eventResource.attendees = attendees.map(attendee => ({"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 175,
-          "line": "const [count] = await Entity.update(data as Partial<Attributes<T>>, {"
+          "ruleId": "assignProp",
+          "lineNumber": 483,
+          "line": "result.location = createdEvent.location;"
         },
         {
-          "ruleId": "forLoop",
-          "lineNumber": 215,
-          "line": "for (const dep of dependents) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 215,
-          "line": "for (const dep of dependents) {"
+          "ruleId": "assignProp",
+          "lineNumber": 487,
+          "line": "result.attendees = createdEvent.attendees"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 68,
-          "line": "queryOptions.include = options.includes;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 72,
-          "line": "queryOptions.attributes = options.attributes;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 76,
-          "line": "queryOptions.attributes = autoAttributes;"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 86,
-          "line": "queryOptions.order = options.order;"
+          "line": "if (rateLimitResult.status === 'exceeded') {"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 120,
+          "line": "for (const [email, calendarData] of Object.entries(response.data.calendars)) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 120,
+          "line": "for (const [email, calendarData] of Object.entries(response.data.calendars)) {"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 129,
+          "line": "freeBusyData.calendars[email] = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 114,
-          "line": "options.attributes = getModelAttributes(Entity);"
+          "lineNumber": 218,
+          "line": "if (rateLimitResult.status === 'exceeded') {"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 140,
-          "line": "const [updatedRows] = await Entity.update(data as Partial<T[\"_creationAttributes\"]>, {"
+          "ruleId": "assignProp",
+          "lineNumber": 399,
+          "line": "if (rateLimitResult.status === 'exceeded') {"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 157,
-          "line": "const [patchedRows] = await Entity.update(data as Partial<T[\"_creationAttributes\"]>, {"
+          "ruleId": "assignProp",
+          "lineNumber": 430,
+          "line": "eventResource.description = description;"
         },
         {
-          "ruleId": "forLoop",
-          "lineNumber": 170,
-          "line": "for (const { id, ...data } of updates) {"
+          "ruleId": "assignProp",
+          "lineNumber": 434,
+          "line": "eventResource.location = location;"
         },
         {
-          "ruleId": "forOf",
-          "lineNumber": 170,
-          "line": "for (const { id, ...data } of updates) {"
+          "ruleId": "assignProp",
+          "lineNumber": 438,
+          "line": "eventResource.attendees = attendees.map(attendee => ({"
         },
         {
-          "ruleId": "assignIndex",
-          "lineNumber": 175,
-          "line": "const [count] = await Entity.update(data as Partial<Attributes<T>>, {"
+          "ruleId": "assignProp",
+          "lineNumber": 483,
+          "line": "result.location = createdEvent.location;"
         },
         {
-          "ruleId": "forLoop",
-          "lineNumber": 215,
-          "line": "for (const dep of dependents) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 215,
-          "line": "for (const dep of dependents) {"
+          "ruleId": "assignProp",
+          "lineNumber": 487,
+          "line": "result.attendees = createdEvent.attendees"
         }
       ],
       "forEachMutationHits": [],
@@ -4105,140 +2248,9 @@
       "priority": "P0"
     },
     {
-      "id": "server__src__routes__external__calendarRoutes.ts",
-      "repoPath": "server/src/routes/external/calendarRoutes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/calendarRoutes.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 1,
-        "forOf": 1,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 8,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 50,
-          "line": "if (!calendarEmails || !Array.isArray(calendarEmails) || calendarEmails.length === 0) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 325,
-          "line": "for (const attendee of attendees) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 325,
-          "line": "for (const attendee of attendees) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 365,
-          "line": "eventParams.description = description;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 369,
-          "line": "eventParams.location = location;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 373,
-          "line": "eventParams.attendees = attendees as EventAttendee[];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 377,
-          "line": "eventParams.sendUpdates = sendUpdates;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 452,
-          "line": "if (process.env.NODE_ENV === 'production') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 493,
-          "line": "if (process.env.NODE_ENV === 'production') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 534,
-          "line": "if (process.env.NODE_ENV === 'production') {"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 50,
-          "line": "if (!calendarEmails || !Array.isArray(calendarEmails) || calendarEmails.length === 0) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 325,
-          "line": "for (const attendee of attendees) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 325,
-          "line": "for (const attendee of attendees) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 365,
-          "line": "eventParams.description = description;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 369,
-          "line": "eventParams.location = location;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 373,
-          "line": "eventParams.attendees = attendees as EventAttendee[];"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 377,
-          "line": "eventParams.sendUpdates = sendUpdates;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 452,
-          "line": "if (process.env.NODE_ENV === 'production') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 493,
-          "line": "if (process.env.NODE_ENV === 'production') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 534,
-          "line": "if (process.env.NODE_ENV === 'production') {"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 18,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__users__userRouter.ts",
-      "repoPath": "server/src/routes/internal/users/userRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/users/userRouter.ts",
+      "id": "client__src__utils__transformers__componentAggregator.ts",
+      "repoPath": "client/src/utils/transformers/componentAggregator.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/componentAggregator.ts",
       "counts": {
         "forEach": 0,
         "forLoop": 0,
@@ -4255,266 +2267,105 @@
         "reverse": 0,
         "assignIndex": 0,
         "assignProp": 9,
-        "delete": 1
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 59,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 60,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 63,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 120,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 121,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 124,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 178,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 182,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 233,
-          "line": "error: 'Failed to delete user',"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 59,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 60,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 63,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 120,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 121,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 124,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 178,
-          "line": "(error.name === 'SequelizeValidationError' ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 179,
-          "line": "error.name === 'SequelizeUniqueConstraintError')) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 182,
-          "line": "if (validationError.name === 'SequelizeUniqueConstraintError') {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 233,
-          "line": "error: 'Failed to delete user',"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 18,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__scripts__fixUserRolesAndEmails.ts",
-      "repoPath": "server/src/scripts/fixUserRolesAndEmails.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/fixUserRolesAndEmails.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 4,
-        "forOf": 3,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 2,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 3,
         "delete": 0
       },
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 71,
-          "line": "const clientUsers = existingUsers.filter(u => u.userRole === 'client');"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 74,
-          "line": "for (const user of clientUsers) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 74,
-          "line": "for (const user of clientUsers) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 86,
-          "line": "for (const user of agentUsers) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 86,
-          "line": "for (const user of agentUsers) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 97,
-          "line": "for (let i = 0; i < TEST_CLIENT_NAMES.length; i++) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 109,
-          "line": "createdClients.push(existingClient);"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 121,
-          "line": "createdClients.push(newClient);"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 136,
-          "line": "for (const appointment of appointments) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 136,
-          "line": "for (const appointment of appointments) {"
+          "lineNumber": 36,
+          "line": "rel.parent.entityKey === entityKind &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 143,
-          "line": "updates.scheduledById = randomScheduler.id;"
+          "lineNumber": 37,
+          "line": "rel.relationshipKind === 'instanceComponents'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 66,
+          "line": "ac.parentId === composerId &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 74,
+          "line": "ac => ac.parentId === componentId && !ac.disabled"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 102,
+          "line": "const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 106,
+          "line": "rel => rel.parent.id === blockId"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 134,
+          "line": "if (componentIds.length === 0) {"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 150,
-          "line": "? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'"
+          "line": "if (components.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 171,
+          "line": "const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 71,
-          "line": "const clientUsers = existingUsers.filter(u => u.userRole === 'client');"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 74,
-          "line": "for (const user of clientUsers) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 74,
-          "line": "for (const user of clientUsers) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 86,
-          "line": "for (const user of agentUsers) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 86,
-          "line": "for (const user of agentUsers) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 97,
-          "line": "for (let i = 0; i < TEST_CLIENT_NAMES.length; i++) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 109,
-          "line": "createdClients.push(existingClient);"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 121,
-          "line": "createdClients.push(newClient);"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 136,
-          "line": "for (const appointment of appointments) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 136,
-          "line": "for (const appointment of appointments) {"
+          "lineNumber": 36,
+          "line": "rel.parent.entityKey === entityKind &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 143,
-          "line": "updates.scheduledById = randomScheduler.id;"
+          "lineNumber": 37,
+          "line": "rel.relationshipKind === 'instanceComponents'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 66,
+          "line": "ac.parentId === composerId &&"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 74,
+          "line": "ac => ac.parentId === componentId && !ac.disabled"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 102,
+          "line": "const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 106,
+          "line": "rel => rel.parent.id === blockId"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 134,
+          "line": "if (componentIds.length === 0) {"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 150,
-          "line": "? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'"
+          "line": "if (components.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 171,
+          "line": "const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)"
         }
       ],
       "forEachMutationHits": [],
-      "score": 17,
+      "score": 18,
       "priority": "P0"
     },
     {
@@ -4714,17 +2565,17 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__services__calendarApiService.ts",
-      "repoPath": "client/src/services/calendarApiService.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/services/calendarApiService.ts",
+      "id": "client__src__utils__booking__constraintExtractors.ts",
+      "repoPath": "client/src/utils/booking/constraintExtractors.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/constraintExtractors.ts",
       "counts": {
         "forEach": 0,
-        "forLoop": 2,
-        "forOf": 2,
+        "forLoop": 0,
+        "forOf": 0,
         "forIn": 0,
         "while": 0,
         "doWhile": 0,
-        "push": 1,
+        "push": 3,
         "pop": 0,
         "shift": 0,
         "unshift": 0,
@@ -4737,107 +2588,87 @@
       },
       "matches": [
         {
-          "ruleId": "assignProp",
-          "lineNumber": 78,
-          "line": "this.name = 'CalendarApiError'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 152,
-          "line": "if (!calendarEmails || calendarEmails.length === 0) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 203,
-          "line": "for (const calendarEmail of Object.keys(response.calendars)) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 203,
-          "line": "for (const calendarEmail of Object.keys(response.calendars)) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 206,
-          "line": "for (const period of calendar.busy) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 206,
-          "line": "for (const period of calendar.busy) {"
+          "ruleId": "push",
+          "lineNumber": 62,
+          "line": "constraints.push(businessHoursConstraint)"
         },
         {
           "ruleId": "push",
-          "lineNumber": 207,
-          "line": "allBusyTimes.push({"
+          "lineNumber": 68,
+          "line": "constraints.push(leadTimeConstraint)"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 74,
+          "line": "constraints.push(dateRangeConstraint)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 230,
-          "line": "if (axiosError.response?.status === 401) {"
+          "lineNumber": 90,
+          "line": "if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 239,
-          "line": "if (axiosError.response?.status === 429) {"
+          "lineNumber": 95,
+          "line": "if (buffer.enforcement === undefined) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 247,
-          "line": "if (axiosError.response?.status === 404) {"
+          "lineNumber": 135,
+          "line": "if (filter.enforcement === undefined) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 139,
+          "line": "if (filter.enforcement === 'off') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 232,
+          "line": "if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constraint.direction) {"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "assignProp",
-          "lineNumber": 78,
-          "line": "this.name = 'CalendarApiError'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 152,
-          "line": "if (!calendarEmails || calendarEmails.length === 0) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 203,
-          "line": "for (const calendarEmail of Object.keys(response.calendars)) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 203,
-          "line": "for (const calendarEmail of Object.keys(response.calendars)) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 206,
-          "line": "for (const period of calendar.busy) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 206,
-          "line": "for (const period of calendar.busy) {"
+          "ruleId": "push",
+          "lineNumber": 62,
+          "line": "constraints.push(businessHoursConstraint)"
         },
         {
           "ruleId": "push",
-          "lineNumber": 207,
-          "line": "allBusyTimes.push({"
+          "lineNumber": 68,
+          "line": "constraints.push(leadTimeConstraint)"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 74,
+          "line": "constraints.push(dateRangeConstraint)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 230,
-          "line": "if (axiosError.response?.status === 401) {"
+          "lineNumber": 90,
+          "line": "if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 239,
-          "line": "if (axiosError.response?.status === 429) {"
+          "lineNumber": 95,
+          "line": "if (buffer.enforcement === undefined) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 247,
-          "line": "if (axiosError.response?.status === 404) {"
+          "lineNumber": 135,
+          "line": "if (filter.enforcement === undefined) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 139,
+          "line": "if (filter.enforcement === 'off') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 232,
+          "line": "if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constraint.direction) {"
         }
       ],
       "forEachMutationHits": [],
@@ -4845,124 +2676,13 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__utils__booking__confirmationStepData.ts",
-      "repoPath": "client/src/utils/booking/confirmationStepData.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/confirmationStepData.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 5,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 3,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 105,
-          "line": "serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 109,
-          "line": "propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 114,
-          "line": "if (prop.address) addressParts.push(prop.address)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 115,
-          "line": "if (prop.unit) addressParts.push(`#${prop.unit}`)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 116,
-          "line": "if (prop.city) addressParts.push(prop.city)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 117,
-          "line": "if (prop.state) addressParts.push(prop.state)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 118,
-          "line": "if (prop.zipCode) addressParts.push(prop.zipCode)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 213,
-          "line": "isFree: feeResult.totalFee === 0"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 105,
-          "line": "serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 109,
-          "line": "propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 114,
-          "line": "if (prop.address) addressParts.push(prop.address)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 115,
-          "line": "if (prop.unit) addressParts.push(`#${prop.unit}`)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 116,
-          "line": "if (prop.city) addressParts.push(prop.city)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 117,
-          "line": "if (prop.state) addressParts.push(prop.state)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 118,
-          "line": "if (prop.zipCode) addressParts.push(prop.zipCode)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 213,
-          "line": "isFree: feeResult.totalFee === 0"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 16,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-metadata__adminMetadataRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "id": "server__src__services__calendarErrorHandler.ts",
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/calendarErrorHandler.ts",
       "counts": {
         "forEach": 0,
         "forLoop": 1,
-        "forOf": 1,
+        "forOf": 0,
         "forIn": 0,
         "while": 0,
         "doWhile": 0,
@@ -4973,117 +2693,97 @@
         "splice": 0,
         "sort": 0,
         "reverse": 0,
-        "assignIndex": 3,
-        "assignProp": 4,
-        "delete": 1
+        "assignIndex": 0,
+        "assignProp": 7,
+        "delete": 0
       },
       "matches": [
         {
+          "ruleId": "assignProp",
+          "lineNumber": 47,
+          "line": "this.name = 'CalendarApiError';"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 48,
+          "line": "this.type = type;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 49,
+          "line": "this.statusCode = options?.statusCode;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 50,
+          "line": "this.retryable = options?.retryable ?? false;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 51,
+          "line": "this.originalError = options?.originalError;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 93,
+          "line": "if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 101,
+          "line": "if (error.code === 'ETIMEDOUT' || error.message?.includes('timeout')) {"
+        },
+        {
           "ruleId": "forLoop",
-          "lineNumber": 61,
-          "line": "for (const entry of allMetadata) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 61,
-          "line": "for (const entry of allMetadata) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 82,
-          "line": "result.blockShapeSpecific[blockShapeRef] = {};"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 84,
-          "line": "result.blockShapeSpecific[blockShapeRef][fieldKey] = metadataEntry;"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 87,
-          "line": "result.global[entityType][fieldKey] = metadataEntry;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 242,
-          "line": "existingWhere.blockShapeRef = finalBlockShapeRef;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 244,
-          "line": "existingWhere.blockShapeRef = { [Op.is]: null };"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 333,
-          "line": "whereClause.blockShapeRef = finalBlockShapeRef;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 335,
-          "line": "whereClause.blockShapeRef = { [Op.is]: null };"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 359,
-          "line": "error: 'Failed to delete metadata',"
+          "lineNumber": 220,
+          "line": "for (let attempt = 0; attempt <= retryConfig.maxRetries; attempt++) {"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
+          "ruleId": "assignProp",
+          "lineNumber": 47,
+          "line": "this.name = 'CalendarApiError';"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 48,
+          "line": "this.type = type;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 49,
+          "line": "this.statusCode = options?.statusCode;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 50,
+          "line": "this.retryable = options?.retryable ?? false;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 51,
+          "line": "this.originalError = options?.originalError;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 93,
+          "line": "if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 101,
+          "line": "if (error.code === 'ETIMEDOUT' || error.message?.includes('timeout')) {"
+        },
+        {
           "ruleId": "forLoop",
-          "lineNumber": 61,
-          "line": "for (const entry of allMetadata) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 61,
-          "line": "for (const entry of allMetadata) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 82,
-          "line": "result.blockShapeSpecific[blockShapeRef] = {};"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 84,
-          "line": "result.blockShapeSpecific[blockShapeRef][fieldKey] = metadataEntry;"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 87,
-          "line": "result.global[entityType][fieldKey] = metadataEntry;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 242,
-          "line": "existingWhere.blockShapeRef = finalBlockShapeRef;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 244,
-          "line": "existingWhere.blockShapeRef = { [Op.is]: null };"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 333,
-          "line": "whereClause.blockShapeRef = finalBlockShapeRef;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 335,
-          "line": "whereClause.blockShapeRef = { [Op.is]: null };"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 359,
-          "line": "error: 'Failed to delete metadata',"
+          "lineNumber": 220,
+          "line": "for (let attempt = 0; attempt <= retryConfig.maxRetries; attempt++) {"
         }
       ],
       "forEachMutationHits": [],
-      "score": 16,
+      "score": 15,
       "priority": "P0"
     },
     {
@@ -5302,107 +3002,6 @@
           "ruleId": "push",
           "lineNumber": 213,
           "line": "relationshipTypes.push('Valid Parts')"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 14,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__appointmentFieldFormatters.ts",
-      "repoPath": "client/src/utils/appointmentFieldFormatters.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/appointmentFieldFormatters.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 7,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 40,
-          "line": "const property = properties.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 58,
-          "line": "const user = users.find(u => u.id === value)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 68,
-          "line": "const user = users.find(u => u.id === value)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 93,
-          "line": "a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 99,
-          "line": "const user = users.find(u => u.id === clientAttendee.userId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 112,
-          "line": "a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 118,
-          "line": "const user = users.find(u => u.id === agentAttendee.userId)"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 40,
-          "line": "const property = properties.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 58,
-          "line": "const user = users.find(u => u.id === value)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 68,
-          "line": "const user = users.find(u => u.id === value)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 93,
-          "line": "a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 99,
-          "line": "const user = users.find(u => u.id === clientAttendee.userId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 112,
-          "line": "a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 118,
-          "line": "const user = users.find(u => u.id === agentAttendee.userId)"
         }
       ],
       "forEachMutationHits": [],
@@ -6925,6 +4524,97 @@
       "priority": "P0"
     },
     {
+      "id": "client__src__utils__appointmentFieldFormatters.ts",
+      "repoPath": "client/src/utils/appointmentFieldFormatters.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/appointmentFieldFormatters.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 6,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 40,
+          "line": "const property = properties.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 58,
+          "line": "const user = users.find(u => u.id === value)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 83,
+          "line": "a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 89,
+          "line": "const user = users.find(u => u.id === clientAttendee.userId)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 102,
+          "line": "a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 108,
+          "line": "const user = users.find(u => u.id === agentAttendee.userId)"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 40,
+          "line": "const property = properties.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 58,
+          "line": "const user = users.find(u => u.id === value)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 83,
+          "line": "a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 89,
+          "line": "const user = users.find(u => u.id === clientAttendee.userId)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 102,
+          "line": "a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 108,
+          "line": "const user = users.find(u => u.id === agentAttendee.userId)"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 12,
+      "priority": "P0"
+    },
+    {
       "id": "client__src__utils__blockInstanceUtils.ts",
       "repoPath": "client/src/utils/blockInstanceUtils.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/blockInstanceUtils.ts",
@@ -7839,6 +5529,87 @@
       "priority": "P1"
     },
     {
+      "id": "client__src__services__calendarApiService.ts",
+      "repoPath": "client/src/services/calendarApiService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/services/calendarApiService.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 5,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 78,
+          "line": "this.name = 'CalendarApiError'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 152,
+          "line": "if (!calendarEmails || calendarEmails.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 224,
+          "line": "if (axiosError.response?.status === 401) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 233,
+          "line": "if (axiosError.response?.status === 429) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 241,
+          "line": "if (axiosError.response?.status === 404) {"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 78,
+          "line": "this.name = 'CalendarApiError'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 152,
+          "line": "if (!calendarEmails || calendarEmails.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 224,
+          "line": "if (axiosError.response?.status === 401) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 233,
+          "line": "if (axiosError.response?.status === 429) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 241,
+          "line": "if (axiosError.response?.status === 404) {"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
       "id": "client__src__utils__booking__appointmentTimeCalculations.ts",
       "repoPath": "client/src/utils/booking/appointmentTimeCalculations.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentTimeCalculations.ts",
@@ -8247,218 +6018,6 @@
           "ruleId": "push",
           "lineNumber": 103,
           "line": "invalidRelationships.push({"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "id": "server__src__scripts__createAppointmentsFromCalendar.ts",
-      "repoPath": "server/src/scripts/createAppointmentsFromCalendar.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/createAppointmentsFromCalendar.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 3,
-        "forOf": 3,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 2,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 49,
-          "line": "for (const pattern of patterns) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 49,
-          "line": "for (const pattern of patterns) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 60,
-          "line": "if (array.length === 0) return undefined;"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 221,
-          "line": "for (const event of events) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 221,
-          "line": "for (const event of events) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 239,
-          "line": "for (const attendee of event.attendees) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 239,
-          "line": "for (const attendee of event.attendees) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 244,
-          "line": "if (user && user.userRole === 'agent') {"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 49,
-          "line": "for (const pattern of patterns) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 49,
-          "line": "for (const pattern of patterns) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 60,
-          "line": "if (array.length === 0) return undefined;"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 221,
-          "line": "for (const event of events) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 221,
-          "line": "for (const event of events) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 239,
-          "line": "for (const attendee of event.attendees) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 239,
-          "line": "for (const attendee of event.attendees) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 244,
-          "line": "if (user && user.userRole === 'agent') {"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "id": "server__src__scripts__importFromMCPEvents.ts",
-      "repoPath": "server/src/scripts/importFromMCPEvents.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/importFromMCPEvents.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 2,
-        "forOf": 2,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 2,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 1,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 49,
-          "line": "for (const pattern of patterns) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 49,
-          "line": "for (const pattern of patterns) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 65,
-          "line": "for (const attendee of event.attendees) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 65,
-          "line": "for (const attendee of event.attendees) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 67,
-          "line": "attendees.push({"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 76,
-          "line": "if (attendees.length === 0 && clientName) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 78,
-          "line": "attendees.push({"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 49,
-          "line": "for (const pattern of patterns) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 49,
-          "line": "for (const pattern of patterns) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 65,
-          "line": "for (const attendee of event.attendees) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 65,
-          "line": "for (const attendee of event.attendees) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 67,
-          "line": "attendees.push({"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 76,
-          "line": "if (attendees.length === 0 && clientName) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 78,
-          "line": "attendees.push({"
         }
       ],
       "forEachMutationHits": [],
@@ -9279,6 +6838,77 @@
           "ruleId": "push",
           "lineNumber": 84,
           "line": "slots.push({"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__utils__booking__selectionCardStyles.ts",
+      "repoPath": "client/src/utils/booking/selectionCardStyles.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/selectionCardStyles.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 1,
+        "assignProp": 3,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 11,
+          "line": "config.layout === 'stack' && config.controlPosition === 'left' && 'selection-card-left-radio'"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 26,
+          "line": "classes['d-none'] = true"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 36,
+          "line": "const layoutClasses = config.layout === 'stack'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 37,
+          "line": "? config.controlPosition === 'left'"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 11,
+          "line": "config.layout === 'stack' && config.controlPosition === 'left' && 'selection-card-left-radio'"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 26,
+          "line": "classes['d-none'] = true"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 36,
+          "line": "const layoutClasses = config.layout === 'stack'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 37,
+          "line": "? config.controlPosition === 'left'"
         }
       ],
       "forEachMutationHits": [],
@@ -10955,6 +8585,128 @@
       "priority": "P1"
     },
     {
+      "id": "client__src__utils__booking__confirmationStepData.ts",
+      "repoPath": "client/src/utils/booking/confirmationStepData.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/confirmationStepData.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 3,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 105,
+          "line": "serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 109,
+          "line": "propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 214,
+          "line": "isFree: feeResult.totalFee === 0"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 105,
+          "line": "serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 109,
+          "line": "propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 214,
+          "line": "isFree: feeResult.totalFee === 0"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__utils__booking__mockGoogleCalendar.ts",
+      "repoPath": "client/src/utils/booking/mockGoogleCalendar.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/mockGoogleCalendar.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 1,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 2,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 297,
+          "line": "if (!mergeOverlapping || allBusyPeriods.length === 0) {"
+        },
+        {
+          "ruleId": "sort",
+          "lineNumber": 302,
+          "line": "const sorted = [...allBusyPeriods].sort((a, b) =>"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 308,
+          "line": "if (merged.length === 0) {"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 297,
+          "line": "if (!mergeOverlapping || allBusyPeriods.length === 0) {"
+        },
+        {
+          "ruleId": "sort",
+          "lineNumber": 302,
+          "line": "const sorted = [...allBusyPeriods].sort((a, b) =>"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 308,
+          "line": "if (merged.length === 0) {"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "id": "client__src__utils__booking__timeSlotFitter.ts",
       "repoPath": "client/src/utils/booking/timeSlotFitter.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeSlotFitter.ts",
@@ -11070,310 +8822,6 @@
           "ruleId": "assignIndex",
           "lineNumber": 218,
           "line": "acc[propName as keyof GlobalEntity<GE>] = relationshipValue as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 1,
-        "forOf": 1,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 1,
-        "assignProp": 1,
-        "delete": 1
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 39,
-          "line": "if (inputConfig.targetMode === 'relationship') {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 79,
-          "line": "for (const meta of metadata) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 79,
-          "line": "for (const meta of metadata) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 80,
-          "line": "metadataRecord[meta.fieldKey] = {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 257,
-          "line": "error: 'Failed to delete primitive metadata',"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 39,
-          "line": "if (inputConfig.targetMode === 'relationship') {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 79,
-          "line": "for (const meta of metadata) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 79,
-          "line": "for (const meta of metadata) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 80,
-          "line": "metadataRecord[meta.fieldKey] = {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 257,
-          "line": "error: 'Failed to delete primitive metadata',"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "server__src__routes__internal__appointments__appointmentRouter.ts",
-      "repoPath": "server/src/routes/internal/appointments/appointmentRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentRouter.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 3,
-        "delete": 1
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 109,
-          "line": "if (!blockInstanceIds || blockInstanceIds.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 128,
-          "line": "if (snapshotIds.length === 0) return;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 202,
-          "line": "if (appointment.status === 'submitted' || appointment.status === 'confirmed') {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 305,
-          "line": "error: 'Failed to delete appointment',"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 109,
-          "line": "if (!blockInstanceIds || blockInstanceIds.length === 0) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 128,
-          "line": "if (snapshotIds.length === 0) return;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 202,
-          "line": "if (appointment.status === 'submitted' || appointment.status === 'confirmed') {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 305,
-          "line": "error: 'Failed to delete appointment',"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "server__src__routes__internal__businessRulesRouter.ts",
-      "repoPath": "server/src/routes/internal/businessRulesRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessRulesRouter.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 3,
-        "delete": 1
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 20,
-          "line": "if (blockInstanceId) where.blockInstanceId = blockInstanceId;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 21,
-          "line": "if (ruleType) where.ruleType = ruleType;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 22,
-          "line": "if (active !== undefined) where.active = active === 'true';"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 219,
-          "line": "error: 'Failed to delete business rule',"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 20,
-          "line": "if (blockInstanceId) where.blockInstanceId = blockInstanceId;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 21,
-          "line": "if (ruleType) where.ruleType = ruleType;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 22,
-          "line": "if (active !== undefined) where.active = active === 'true';"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 219,
-          "line": "error: 'Failed to delete business rule',"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "server__src__routes__internal__businessSettingsRouter.ts",
-      "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessSettingsRouter.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 2,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 2,
-        "delete": 1
-      },
-      "matches": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 84,
-          "line": "for (let day = 0; day <= 6; day++) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 127,
-          "line": "for (let day = 0; day <= 6; day++) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 433,
-          "line": "setting.settingValue = setting_value;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 484,
-          "line": "setting.settingValue = mergedValue;"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 519,
-          "line": "error: 'Failed to delete business setting',"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 84,
-          "line": "for (let day = 0; day <= 6; day++) {"
-        },
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 127,
-          "line": "for (let day = 0; day <= 6; day++) {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 433,
-          "line": "setting.settingValue = setting_value;"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 484,
-          "line": "setting.settingValue = mergedValue;"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 519,
-          "line": "error: 'Failed to delete business setting',"
         }
       ],
       "forEachMutationHits": [],
@@ -14230,77 +11678,6 @@
           "ruleId": "assignIndex",
           "lineNumber": 77,
           "line": "businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 4,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 1,
-        "forOf": 1,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 1,
-        "assignProp": 0,
-        "delete": 1
-      },
-      "matches": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 33,
-          "line": "for (const meta of metadata) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 33,
-          "line": "for (const meta of metadata) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 34,
-          "line": "metadataRecord[meta.relationshipKey] = {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 199,
-          "line": "error: 'Failed to delete relationship metadata',"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "forLoop",
-          "lineNumber": 33,
-          "line": "for (const meta of metadata) {"
-        },
-        {
-          "ruleId": "forOf",
-          "lineNumber": 33,
-          "line": "for (const meta of metadata) {"
-        },
-        {
-          "ruleId": "assignIndex",
-          "lineNumber": 34,
-          "line": "metadataRecord[meta.relationshipKey] = {"
-        },
-        {
-          "ruleId": "delete",
-          "lineNumber": 199,
-          "line": "error: 'Failed to delete relationship metadata',"
         }
       ],
       "forEachMutationHits": [],
@@ -23728,105 +21105,33 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 8,
+        "assignProp": 2,
         "delete": 0
       },
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 121,
+          "lineNumber": 103,
           "line": "if ('value' in providedEntity && typeof providedEntity.value === 'object') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 187,
+          "lineNumber": 169,
           "line": "if (result.type === 'unknown') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 203,
-          "line": "* PATTERN: Determined from dispatcher: component.type === 'icon'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 206,
-          "line": "return componentType.value.type === 'icon'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 212,
-          "line": "* PATTERN: Determined from dispatcher: component.type === 'primitive'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 215,
-          "line": "return componentType.value.type === 'primitive'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 221,
-          "line": "* PATTERN: Determined from dispatcher: component.type === 'relationshipCollection'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 224,
-          "line": "return componentType.value.type === 'relationshipCollection'"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 121,
+          "lineNumber": 103,
           "line": "if ('value' in providedEntity && typeof providedEntity.value === 'object') {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 187,
+          "lineNumber": 169,
           "line": "if (result.type === 'unknown') {",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 203,
-          "line": "* PATTERN: Determined from dispatcher: component.type === 'icon'",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 206,
-          "line": "return componentType.value.type === 'icon'",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 212,
-          "line": "* PATTERN: Determined from dispatcher: component.type === 'primitive'",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 215,
-          "line": "return componentType.value.type === 'primitive'",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 221,
-          "line": "* PATTERN: Determined from dispatcher: component.type === 'relationshipCollection'",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 224,
-          "line": "return componentType.value.type === 'relationshipCollection'",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         }
@@ -26844,12 +24149,12 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 147,
+          "lineNumber": 149,
           "line": "const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 170,
+          "lineNumber": 172,
           "line": "const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)"
         }
       ],
@@ -26870,14 +24175,14 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 147,
+          "lineNumber": 149,
           "line": "const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 170,
+          "lineNumber": 172,
           "line": "const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -26907,104 +24212,80 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 8,
+        "assignProp": 6,
         "delete": 0
       },
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 103,
-          "line": "set: (value: number | null) => { appointmentSlotOrderIndex.value = value }"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 115,
-          "line": "set: (value: number | null) => { appointmentSlotOrderIndex.value = value }"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 129,
+          "lineNumber": 101,
           "line": "selectedDate.value = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 184,
+          "lineNumber": 156,
           "line": "selectedDate.value = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 189,
+          "lineNumber": 161,
           "line": "selectedDate.value = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 206,
+          "lineNumber": 178,
           "line": "startTimeType.value = 'nonDifferential'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 208,
+          "lineNumber": 180,
           "line": "if (startTimeType.value === 'nonDifferential') {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 181,
           "line": "startTimeType.value = 'major'"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 103,
-          "line": "set: (value: number | null) => { appointmentSlotOrderIndex.value = value }",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 115,
-          "line": "set: (value: number | null) => { appointmentSlotOrderIndex.value = value }",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 129,
+          "lineNumber": 101,
           "line": "selectedDate.value = {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 184,
+          "lineNumber": 156,
           "line": "selectedDate.value = {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 189,
+          "lineNumber": 161,
           "line": "selectedDate.value = {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 206,
+          "lineNumber": 178,
           "line": "startTimeType.value = 'nonDifferential'",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 208,
+          "lineNumber": 180,
           "line": "if (startTimeType.value === 'nonDifferential') {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 181,
           "line": "startTimeType.value = 'major'",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -29439,11 +26720,37 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 0,
+        "assignProp": 2,
         "delete": 0
       },
-      "matches": [],
-      "allowed": [],
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 103,
+          "line": "majorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 147,
+          "line": "minorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id)"
+        }
+      ],
+      "allowed": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 103,
+          "line": "majorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 147,
+          "line": "minorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id)",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        }
+      ],
       "requiresReview": [],
       "forEachMutationHits": [],
       "score": 0,
@@ -38844,366 +36151,6 @@
       "id": "server__src__middlewares__notFound.ts",
       "repoPath": "server/src/middlewares/notFound.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/middlewares/notFound.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__external__googleFetchRoutes.ts",
-      "repoPath": "server/src/routes/external/googleFetchRoutes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/googleFetchRoutes.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__external__googleOauthRoutes.ts",
-      "repoPath": "server/src/routes/external/googleOauthRoutes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/googleOauthRoutes.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__external__htmlRoutes.ts",
-      "repoPath": "server/src/routes/external/htmlRoutes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/htmlRoutes.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__external__index.ts",
-      "repoPath": "server/src/routes/external/index.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/index.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__index.ts",
-      "repoPath": "server/src/routes/index.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/index.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__availabilityRouter.ts",
-      "repoPath": "server/src/routes/internal/availabilityRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/availabilityRouter.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__index.ts",
-      "repoPath": "server/src/routes/internal/index.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/index.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__participantRoutes__index.ts",
-      "repoPath": "server/src/routes/internal/participantRoutes/index.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/participantRoutes/index.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__participantRoutes__login-routes.ts",
-      "repoPath": "server/src/routes/internal/participantRoutes/login-routes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/participantRoutes/login-routes.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__participantRoutes__user-routes.ts",
-      "repoPath": "server/src/routes/internal/participantRoutes/user-routes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/participantRoutes/user-routes.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 0
-      },
-      "matches": [],
-      "allowed": [],
-      "requiresReview": [],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__properties__propertyRouter.ts",
-      "repoPath": "server/src/routes/internal/properties/propertyRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyRouter.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 0,
-        "delete": 1
-      },
-      "matches": [
-        {
-          "ruleId": "delete",
-          "lineNumber": 300,
-          "line": "error: 'Failed to delete property',"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "delete",
-          "lineNumber": 300,
-          "line": "error: 'Failed to delete property',"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 0,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__scripts__importRealCalendarEvents.ts",
-      "repoPath": "server/src/scripts/importRealCalendarEvents.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/importRealCalendarEvents.ts",
       "counts": {
         "forEach": 0,
         "forLoop": 0,

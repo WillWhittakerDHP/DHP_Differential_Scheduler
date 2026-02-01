@@ -42,18 +42,26 @@ const apiDevPanelVisible = ref(false)
 
 <template>
   <div class="admin-panel">
-    <!-- Dev Panel Toggle (dev mode only) -->
-    <div v-if="isDevMode" class="d-flex justify-end mb-2">
-      <VBtn
-        icon="mdi-bug"
-        variant="text"
-        size="small"
-        @click="apiDevPanelVisible = !apiDevPanelVisible"
-      >
-        <VIcon>mdi-bug</VIcon>
-        <VTooltip activator="parent">API Dev Panel</VTooltip>
-      </VBtn>
-    </div>
+    <!-- 
+      Dev Panel Toggle (dev mode only) 
+      LEARNING: Fixed position FAB matching global booking wizard toggle style
+      WHY: Consistent dev panel access across all pages
+      PATTERN: Admin has its own ApiDevPanel for OAuth, cache, rate limit debugging
+    -->
+    <VBtn
+      v-if="isDevMode"
+      icon
+      size="small"
+      color="info"
+      variant="elevated"
+      class="admin-dev-panel-toggle"
+      @click="apiDevPanelVisible = !apiDevPanelVisible"
+    >
+      <VIcon>mdi-bug</VIcon>
+      <VTooltip activator="parent" location="left">
+        API Dev Panel
+      </VTooltip>
+    </VBtn>
 
     <!-- API Dev Panel -->
     <ApiDevPanel
@@ -104,6 +112,22 @@ const apiDevPanelVisible = ref(false)
 <style scoped>
 .admin-panel {
   padding: 1rem;
+}
+
+/* Fixed position FAB for dev panel toggle - matches global booking wizard toggle */
+.admin-dev-panel-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 960px) {
+  .admin-dev-panel-toggle {
+    bottom: 16px;
+    right: 16px;
+  }
 }
 </style>
 

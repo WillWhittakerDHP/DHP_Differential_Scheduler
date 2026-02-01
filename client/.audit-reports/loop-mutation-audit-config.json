@@ -48,6 +48,31 @@
         "glob": "**/components/**/*.vue",
         "ruleIds": ["assignProp"],
         "reason": "Vue components use ref.value assignments for reactive state - legitimate Vue pattern"
+      },
+      {
+        "glob": "server/src/routes/**/*.ts",
+        "ruleIds": ["*"],
+        "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations"
+      },
+      {
+        "glob": "server/src/routes/**/*.js",
+        "ruleIds": ["*"],
+        "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations"
+      },
+      {
+        "glob": "server/src/scripts/**/*.ts",
+        "ruleIds": ["*"],
+        "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
+      },
+      {
+        "glob": "server/src/scripts/**/*.js",
+        "ruleIds": ["*"],
+        "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
+      },
+      {
+        "glob": "server/src/scripts/**/*.mjs",
+        "ruleIds": ["*"],
+        "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
       }
     ],
     "specific": []

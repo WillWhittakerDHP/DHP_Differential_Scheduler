@@ -13,8 +13,8 @@ Exception handling:
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **598**
-- **Requiring review: 1014**
+- Total files scanned: **599**
+- **Requiring review: 1022**
 - Allowed (with justification): 211 (inline: 0, pattern: 211, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
@@ -23,11 +23,12 @@ Exception handling:
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `client/src/composables/booking/useAppointmentSlots.ts` | 66 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 14 | 0 |
 | `client/src/views/admin/tabs/BusinessRulesTab.vue` | 47 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/external/calendarRoutes.ts` | 44 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/relationships/relationshipRouter.ts` | 44 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/partFinalizer.ts` | 42 | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 10 | 0 |
 | `server/src/routes/internal/properties/propertyRouter.ts` | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/services/calendarErrorHandler.ts` | 39 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/users/userRouter.ts` | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/external/calendarRoutes.ts` | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/BusinessControlsTab.vue` | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/entities/entityRouter.ts` | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/appointmentSlotBuilder.ts` | 26 | 0 | 0 | 3 | 0 | 1 | 0 | 0 | 3 | 0 |
@@ -50,7 +51,6 @@ Exception handling:
 | `server/src/test/setup/seedTestData.ts` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -520,6 +520,38 @@ magicLabel@485: hint="Link to annotation instance for validation message"
 magicLabel@495: hint="Enable this rule for validation"
 ```
 
+### `server/src/routes/external/calendarRoutes.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=7, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=16
+- requiring review: 24, allowed: 0
+
+```
+switchTypeLike@32: switch (error.type) {
+caseString@33: case 'auth':
+caseString@35: case 'permission':
+caseString@37: case 'rateLimit':
+caseString@39: case 'notFound':
+caseString@41: case 'network':
+caseString@42: case 'timeout':
+caseString@44: case 'invalid':
+magicLabel@128: res.setHeader('X-Data-Source', 'cache-fallback');
+magicLabel@130: res.setHeader('X-Data-Source', 'empty-fallback');
+magicLabel@153: message: error.message || 'An unexpected error occurred'
+magicLabel@231: res.setHeader('X-Data-Source', 'cache-fallback');
+magicLabel@233: res.setHeader('X-Data-Source', 'empty-fallback');
+magicLabel@257: message: error.message || 'An unexpected error occurred'
+magicLabel@435: message: error.message || 'An unexpected error occurred'
+magicLabel@455: error: 'Debug endpoints are not available in production'
+magicLabel@482: error: 'Internal server error',
+magicLabel@483: message: error.message || 'An unexpected error occurred'
+magicLabel@496: error: 'Debug endpoints are not available in production'
+magicLabel@523: error: 'Internal server error',
+magicLabel@524: message: error.message || 'An unexpected error occurred'
+magicLabel@537: error: 'Debug endpoints are not available in production'
+magicLabel@548: error: 'Internal server error',
+magicLabel@549: message: error.message || 'An unexpected error occurred'
+```
+
 ### `server/src/routes/internal/relationships/relationshipRouter.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=44
@@ -585,23 +617,23 @@ inlineLabelMap@132: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-
 magicLabel@132: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
 inlineLabelMap@134: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
 magicLabel@134: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-inlineLabelMap@177: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@177: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-fieldMapping@179: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@179: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@179: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@195: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@195: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-fieldMapping@197: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@197: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@197: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@245: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorRawDuration,majorRoundedDuration,minorRawDuration,minorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@245: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorRawDuration,majorRoundedDuration,minorRawDuration,minorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@249: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorRawDuration,majorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@249: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorRawDuration,majorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-fieldMapping@270: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@270: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@270: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@183: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@183: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@185: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@185: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@185: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@201: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@201: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@203: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@203: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@203: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@271: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorRawDuration,majorRoundedDuration,minorRawDuration,minorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@271: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorRawDuration,majorRoundedDuration,minorRawDuration,minorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@275: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorRawDuration,majorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@275: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorRawDuration,majorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@296: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@296: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@296: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
 ```
 
 ### `server/src/routes/internal/properties/propertyRouter.ts`
@@ -654,6 +686,33 @@ magicLabel@575: error: 'Failed to replace property types',
 magicLabel@576: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
+### `server/src/services/calendarErrorHandler.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=7, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
+- requiring review: 19, allowed: 0
+
+```
+magicLabel@47: this.name = 'CalendarApiError';
+switchTypeLike@65: switch (this.type) {
+caseString@66: case 'auth':
+caseString@68: case 'permission':
+caseString@70: case 'rateLimit':
+caseString@72: case 'notFound':
+caseString@74: case 'network':
+caseString@76: case 'timeout':
+caseString@78: case 'invalid':
+magicLabel@93: if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND') {
+magicLabel@101: if (error.code === 'ETIMEDOUT' || error.message?.includes('timeout')) {
+magicLabel@102: return new CalendarApiError('timeout', 'Request timed out', {
+magicLabel@112: return new CalendarApiError('auth', 'Authentication failed', {
+magicLabel@123: return new CalendarApiError('rateLimit', 'Rate limit exceeded', {
+magicLabel@129: return new CalendarApiError('permission', 'Permission denied', {
+magicLabel@137: return new CalendarApiError('notFound', 'Resource not found', {
+magicLabel@145: return new CalendarApiError('rateLimit', 'Rate limit exceeded', {
+magicLabel@161: return new CalendarApiError('unknown', error.message || 'Unknown error', {
+magicLabel@254: throw lastError || new CalendarApiError('unknown', 'Retry failed');
+```
+
 ### `server/src/routes/internal/users/userRouter.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=34
@@ -694,46 +753,6 @@ magicLabel@212: details: error instanceof Error ? error.message : 'Unknown error
 magicLabel@223: error: 'User not found',
 magicLabel@233: error: 'Failed to delete user',
 magicLabel@234: details: error instanceof Error ? error.message : 'Unknown error'
-```
-
-### `server/src/routes/external/calendarRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=32
-- requiring review: 32, allowed: 0
-
-```
-magicLabel@104: if (error.message?.includes('Rate limit')) {
-magicLabel@106: error: 'Rate limit exceeded',
-magicLabel@112: if (error.message?.includes('Authentication')) {
-magicLabel@114: error: 'Authentication failed',
-magicLabel@123: error: 'Internal server error',
-magicLabel@124: message: error.message || 'An unexpected error occurred'
-magicLabel@206: if (error.message?.includes('Rate limit')) {
-magicLabel@208: error: 'Rate limit exceeded',
-magicLabel@214: if (error.message?.includes('Authentication')) {
-magicLabel@216: error: 'Authentication failed',
-magicLabel@225: error: 'Internal server error',
-magicLabel@226: message: error.message || 'An unexpected error occurred'
-magicLabel@389: if (error.message?.includes('Rate limit')) {
-magicLabel@391: error: 'Rate limit exceeded',
-magicLabel@397: if (error.message?.includes('Authentication')) {
-magicLabel@399: error: 'Authentication failed',
-magicLabel@406: if (error.message?.includes('Permission denied')) {
-magicLabel@408: error: 'Permission denied',
-magicLabel@415: if (error.message?.includes('Calendar not found')) {
-magicLabel@417: error: 'Calendar not found',
-magicLabel@425: error: 'Invalid time range',
-magicLabel@433: error: 'Internal server error',
-magicLabel@434: message: error.message || 'An unexpected error occurred'
-magicLabel@454: error: 'Debug endpoints are not available in production'
-magicLabel@481: error: 'Internal server error',
-magicLabel@482: message: error.message || 'An unexpected error occurred'
-magicLabel@495: error: 'Debug endpoints are not available in production'
-magicLabel@522: error: 'Internal server error',
-magicLabel@523: message: error.message || 'An unexpected error occurred'
-magicLabel@536: error: 'Debug endpoints are not available in production'
-magicLabel@547: error: 'Internal server error',
-magicLabel@548: message: error.message || 'An unexpected error occurred'
 ```
 
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue`
@@ -815,17 +834,17 @@ magicLabel@607: details: error instanceof Error ? error.message : 'Unknown error
 
 ```
 magicLabel@64: * @param name - Event shape name (e.g., 'Major', 'Minor', 'Moveable')
-magicLabel@150: * @param partShapeName - Part shape name (e.g., "Client Presentation")
-fieldMapping@258: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-inlineLabelMap@258: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-magicLabel@258: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-caseString@417: case 'major':
-caseString@420: case 'minor':
-inlineLabelMap@423: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-magicLabel@423: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-inlineLabelMap@427: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-magicLabel@427: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-caseString@430: case 'nonDifferential':
+magicLabel@138: * @param partShapeName - Part shape name (e.g., "Client Presentation")
+fieldMapping@250: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@250: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@250: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+caseString@409: case 'major':
+caseString@412: case 'minor':
+inlineLabelMap@415: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+magicLabel@415: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+inlineLabelMap@419: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+magicLabel@419: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+caseString@422: case 'nonDifferential':
 ```
 
 ### `client/src/components/admin/dev/ApiDevPanel.vue`
@@ -1589,11 +1608,11 @@ magicLabel@47: subtitle: 'New order received from john',
 
 ```
 magicLabel@78: this.name = 'CalendarApiError'
-magicLabel@233: 'OAuth authentication required',
-magicLabel@242: 'API rate limit exceeded'
-magicLabel@250: 'Calendar not found or inaccessible'
-magicLabel@265: axiosError.response?.data?.error || 'Invalid response from server'
-magicLabel@272: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@227: 'OAuth authentication required',
+magicLabel@236: 'API rate limit exceeded'
+magicLabel@244: 'Calendar not found or inaccessible'
+magicLabel@259: axiosError.response?.data?.error || 'Invalid response from server'
+magicLabel@266: error instanceof Error ? error.message : 'Unknown error'
 ```
 
 ### `client/src/utils/booking/constraintExtractors.ts`
@@ -1602,13 +1621,13 @@ magicLabel@272: error instanceof Error ? error.message : 'Unknown error'
 - requiring review: 7, allowed: 0
 
 ```
-switchTypeLike@163: switch (constraint.type) {
-magicLabel@181: return { valid: false, error: 'Invalid dateRange constraint config' }
-magicLabel@186: return { valid: false, error: 'Invalid dateRange dates' }
-magicLabel@204: return { valid: false, error: 'Invalid overlap constraint minutes' }
-magicLabel@210: return { valid: false, error: 'Invalid overlap constraint placement' }
-magicLabel@226: return { valid: false, error: 'Invalid capacity constraint maxHours' }
-magicLabel@231: return { valid: false, error: 'Invalid capacity constraint direction' }
+switchTypeLike@167: switch (constraint.type) {
+magicLabel@185: return { valid: false, error: 'Invalid dateRange constraint config' }
+magicLabel@190: return { valid: false, error: 'Invalid dateRange dates' }
+magicLabel@208: return { valid: false, error: 'Invalid overlap constraint minutes' }
+magicLabel@214: return { valid: false, error: 'Invalid overlap constraint placement' }
+magicLabel@230: return { valid: false, error: 'Invalid capacity constraint maxHours' }
+magicLabel@235: return { valid: false, error: 'Invalid capacity constraint direction' }
 ```
 
 ### `client/src/views/admin/tabs/components/UsersTable.vue`
@@ -1855,18 +1874,6 @@ magicLabel@115: return childKey.replace('Instance', 'Shape') as GlobalEntityKey
 magicLabel@117: return childKey.replace('instance', 'shape').replace('Instance', 'Shape') as GlobalEntityKey
 ```
 
-### `client/src/composables/booking/useAppointmentTimes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@103: return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
-magicLabel@132: return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
-magicLabel@155: return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
-magicLabel@180: return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
-```
-
 ### `client/src/layouts/components/UserProfile.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
@@ -1887,8 +1894,8 @@ magicLabel@37: { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricin
 ```
 magicLabel@105: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
 magicLabel@109: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
-magicLabel@120: const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'
-magicLabel@126: : 'Not specified'
+magicLabel@121: const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'
+magicLabel@127: : 'Not specified'
 ```
 
 ### `server/src/db/models/booking/appointment_attendee.ts`
@@ -1909,10 +1916,10 @@ magicLabel@110: comment: 'Google Calendar event ID for tracking invitation statu
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@85: throw new Error('Invalid response from Google Calendar API');
-magicLabel@187: throw new Error('Invalid response from Google Calendar API');
-magicLabel@325: throw new Error('Event start time must be before end time');
-magicLabel@389: throw new Error('Invalid response from Google Calendar API - no event ID returned');
+magicLabel@112: throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API');
+magicLabel@242: throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API');
+magicLabel@391: throw new CalendarApiError('invalid', 'Event start time must be before end time');
+magicLabel@456: throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API - no event ID returned');
 ```
 
 ### `client/src/components/admin/BlockInstanceCreateModal.vue`
@@ -1976,7 +1983,7 @@ magicLabel@57: const shapeName = blockShape?.name as string || 'Instance'
 ```
 magicLabel@35: selectedDate: [required('Please select a date'), dateNotInPast()]
 magicLabel@41: return 'Please select a time slot'
-magicLabel@45: return 'Selected time slot is invalid'
+magicLabel@48: return 'Selected time slot is invalid'
 ```
 
 ### `client/src/composables/booking/useBusyTimes.ts`
@@ -2005,9 +2012,9 @@ magicLabel@111: const moveableEventFinal = findEventFinalByName(shape.slotShape,
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@72: availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
-magicLabel@75: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
-magicLabel@114: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
+magicLabel@76: availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
+magicLabel@79: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+magicLabel@164: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
 ```
 
 ### `client/src/main.ts`
@@ -2027,7 +2034,7 @@ magicLabel@47: if (errorString.includes('Cannot read properties of undefined') &
 - requiring review: 1, allowed: 0
 
 ```
-fieldEqualsString@126: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
+fieldEqualsString@116: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
 ```
 
 ### `client/src/utils/booking/constraintHelpers.ts`
@@ -2243,6 +2250,16 @@ magicLabel@32: // PATTERN: Map appointments to items array, prepend "Random Appo
 magicLabel@34: { text: 'Random Appointment', value: 'random' },
 ```
 
+### `client/src/composables/booking/useAppointmentTimes.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@103: return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
+magicLabel@157: return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
+```
+
 ### `client/src/composables/booking/useAvailabilitySettings.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
@@ -2281,16 +2298,6 @@ magicLabel@367: throw new Error('Failed to update entities')
 ```
 magicLabel@34: if (!dynamicId) throw new Error('Missing dynamicId for primitive mutation')
 magicLabel@45: const errorMessage = axiosError.response?.data?.error || 'Entity not found'
-```
-
-### `client/src/types/appointment.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@192: eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "majorEvent": {...}, "minorEvent": {...}, "Moveable": {...} })
-magicLabel@198: moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']
 ```
 
 ### `client/src/types/datetime.ts`
@@ -2650,6 +2657,15 @@ magicLabel@35: <Component :is="Component" />
 
 ```
 magicLabel@40: <Component :is="Component" />
+```
+
+### `client/src/types/appointment.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@192: eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "majorEvent": {...}, "minorEvent": {...}, "Moveable": {...} })
 ```
 
 ### `client/src/types/events.ts`

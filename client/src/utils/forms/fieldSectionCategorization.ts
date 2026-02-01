@@ -1,7 +1,6 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
-import type { FieldMetadata } from '@/configs/adminConfig'
 
 /**
  * LEARNING: NO DEFAULTS - removed DEFAULT_PANEL_ASSIGNMENTS
@@ -65,7 +64,6 @@ export interface CategorizeFieldsOptions {
  */
 export function categorizeFieldsBySection(
   fieldKeys: GlobalFieldKey<GlobalEntityKey>[],
-  _fieldsConfig: Record<string, FieldMetadata> | undefined, // DEPRECATED: Not used, kept for API compatibility
   options?: CategorizeFieldsOptions
 ): CategorizedFields {
   const result: CategorizedFields = {

@@ -148,39 +148,53 @@ describe('appointmentSlotBuilder', () => {
   describe('createTimeRangesFromSlotShape', () => {
     it('should create time ranges from SlotShape and start time', () => {
       const slotShape = {
-        totalDuration: 120,
-        onSite: 90,
-        clientPresent: 60,
-        moveable: 30,
-        differentialOffset: 30
+        rawDuration: 120,
+        roundedDuration: 120,
+        eventFinals: [
+          {
+            eventShape: { id: 'major', name: 'Major', entityKey: 'eventShape' as const },
+            rawDuration: 90,
+            roundedDuration: 90
+          },
+          {
+            eventShape: { id: 'minor', name: 'Minor', entityKey: 'eventShape' as const },
+            rawDuration: 60,
+            roundedDuration: 60
+          },
+          {
+            eventShape: { id: 'moveable', name: 'Moveable', entityKey: 'eventShape' as const },
+            rawDuration: 30,
+            roundedDuration: 30
+          }
+        ],
+        rawDifferentialOffset: 30,
+        roundedDifferentialOffset: 30
       }
       const startTime = '2026-01-15T10:00:00Z'
       
       const result = createTimeRangesFromSlotShape(slotShape, startTime)
       
       expect(result.totalTimeRange?.duration).toBe(120)
-      expect(result.onSiteTimeRange?.duration).toBe(90)
-      expect(result.clientPresentTimeRange?.duration).toBe(60)
-      expect(result.moveableTimeRange?.duration).toBe(30)
-      expect(result.clientPresentTimeRange?.startTime).toBe('2026-01-15T10:30:00.000Z') // startTime + 30 min offset
+      expect(result.eventTimeRanges['Major']?.duration).toBe(90)
+      expect(result.eventTimeRanges['Minor']?.duration).toBe(60)
+      expect(result.eventTimeRanges['Moveable']?.duration).toBe(30)
+      expect(result.eventTimeRanges['Major']?.startTime).toBe('2026-01-15T10:00:00.000Z')
     })
 
     it('should return null for zero durations', () => {
       const slotShape = {
-        totalDuration: 0,
-        onSite: 0,
-        clientPresent: 0,
-        moveable: 0,
-        differentialOffset: 0
+        rawDuration: 0,
+        roundedDuration: 0,
+        eventFinals: [],
+        rawDifferentialOffset: 0,
+        roundedDifferentialOffset: 0
       }
       const startTime = '2026-01-15T10:00:00Z'
       
       const result = createTimeRangesFromSlotShape(slotShape, startTime)
       
       expect(result.totalTimeRange).toBeNull()
-      expect(result.onSiteTimeRange).toBeNull()
-      expect(result.clientPresentTimeRange).toBeNull()
-      expect(result.moveableTimeRange).toBeNull()
+      expect(Object.keys(result.eventTimeRanges).length).toBe(0)
     })
   })
 

@@ -566,7 +566,7 @@ const navigateToUsers = (): void => {
                   class="clickable-cell"
                   @click="navigateToUsers"
                 >
-                  {{ getDisplayValue(item, 'agentId') }}
+                  {{ getDisplayValue(item, 'agent') }}
                 </span>
               </template>
               <!-- Agent Tooltip Content -->

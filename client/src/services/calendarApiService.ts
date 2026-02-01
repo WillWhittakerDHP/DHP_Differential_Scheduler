@@ -197,22 +197,16 @@ function transformFreeBusyResponse(response: ServerFreeBusyResponse): BusyTimeRa
     return []
   }
   
-  // Flatten all calendars' busy periods into single array
-  const allBusyTimes: BusyTimeRange[] = []
-  
-  for (const calendarEmail of Object.keys(response.calendars)) {
-    const calendar = response.calendars[calendarEmail]
-    if (calendar.busy && Array.isArray(calendar.busy)) {
-      for (const period of calendar.busy) {
-        allBusyTimes.push({
-          start: period.start as RFC3339DateTime,
-          end: period.end as RFC3339DateTime
-        })
-      }
-    }
-  }
-  
-  return allBusyTimes
+  // PATTERN: Flatten all calendars' busy periods into single array using flatMap
+  return Object.values(response.calendars)
+    .flatMap(calendar => 
+      (calendar.busy && Array.isArray(calendar.busy))
+        ? calendar.busy.map(period => ({
+            start: period.start as RFC3339DateTime,
+            end: period.end as RFC3339DateTime
+          }))
+        : []
+    )
 }
 
 /**

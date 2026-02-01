@@ -10,9 +10,9 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **610**
+- Files scanned: **611**
 - String literals found: **5** (showing those with 3+ occurrences)
-- Type definitions found: **504**
+- Type definitions found: **509**
 - Enum patterns found: **2**
 - Config locations found: **35**
 - Function patterns found: **330**
@@ -40,15 +40,15 @@ _No frequent string literals found._
 | `AnnotationShapeEntity` | interface | `client/src/types/entities.ts:71` |
 | `AnnotationWithMetadata` | type | `client/src/types/annotations.ts:53` |
 | `AppLogger` | type | `client/src/utils/logger.ts:17` |
-| `AppointmentRequest` | interface | `client/src/types/appointment.ts:247` |
-| `AppointmentResponse` | interface | `client/src/types/appointment.ts:330` |
+| `AppointmentRequest` | interface | `client/src/types/appointment.ts:241` |
+| `AppointmentResponse` | interface | `client/src/types/appointment.ts:324` |
 | `AppointmentShape` | interface | `client/src/types/appointment.ts:160` |
 | `AppointmentSlot` | interface | `client/src/types/appointment.ts:179` |
-| `AppointmentSlots` | type | `client/src/types/appointment.ts:207` |
+| `AppointmentSlots` | type | `client/src/types/appointment.ts:201` |
 | `AppointmentsTableModel` | interface | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:12` |
 | `AppointmentStatus` | type | `client/src/types/appointment.ts:69` |
-| `AttendeeRequest` | interface | `client/src/types/appointment.ts:235` |
-| `AttendeeResponse` | interface | `client/src/types/appointment.ts:307` |
+| `AttendeeRequest` | interface | `client/src/types/appointment.ts:229` |
+| `AttendeeResponse` | interface | `client/src/types/appointment.ts:301` |
 | `AutocompleteValue` | type | `client/src/utils/autocomplete.ts:1` |
 | `AvailabilitySettings` | interface | `client/src/configs/availabilitySettings.ts:204` |
 | `AvailabilitySettingsData` | interface | `server/src/db/models/admin/business_settings.ts:137` |
@@ -58,7 +58,7 @@ _No frequent string literals found._
 | `BlockInstanceFeeResult` | interface | `client/src/utils/booking/confirmationStepData.ts:32` |
 | `BlockInstanceFormData` | interface | `client/src/composables/admin/useBlockInstanceForm.ts:21` |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts:69` |
-| `BlockInstanceSnapshot` | interface | `client/src/types/appointment.ts:219` |
+| `BlockInstanceSnapshot` | interface | `client/src/types/appointment.ts:213` |
 | `BlockShapeEntity` | interface | `client/src/types/entities.ts:33` |
 | `BlockShapeType` | type | `client/src/constants/blockShapeTypes.ts:16` |
 | `BookingBlockInstance` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:39` |
@@ -83,11 +83,13 @@ _No frequent string literals found._
 | `CalendarApiErrorType` | type | `client/src/services/calendarApiService.ts:60` |
 | `CalendarApiOptions` | interface | `client/src/services/calendarApiService.ts:36` |
 | `CalendarConfig` | interface | `client/src/configs/availabilitySettings.ts:172` |
+| `CalendarErrorType` | type | `server/src/services/calendarErrorHandler.ts:16` |
 | `CalendarEventResult` | interface | `server/src/services/appointmentCalendarService.ts:17` |
+| `CalendarEventsResponseWithMeta` | interface | `server/src/services/googleCalendarService.ts:175` |
 | `CalendarProvider` | type | `client/src/configs/availabilitySettings.ts:158` |
 | `CapacityConstraint` | interface | `client/src/utils/booking/constraintExtractors.ts:37` |
-| `CategorizedFields` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:24` |
-| `CategorizeFieldsOptions` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:48` |
+| `CategorizedFields` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:23` |
+| `CategorizeFieldsOptions` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:47` |
 | `CollectionType` | type | `client/src/components/admin/generic/collections/RelationshipCollection.vue:23` |
 | `Component` | interface | `client/src/types/component.ts:45` |
 | `ComponentConfig` | interface | `client/src/types/component.ts:14` |
@@ -100,8 +102,8 @@ _No frequent string literals found._
 | `ContactInfo` | interface | `client/src/composables/booking/useContactsStepData.ts:17` |
 | `ContactsStepData` | interface | `client/src/composables/booking/useAppointmentDataCollection.ts:33` |
 | `ContingencyPeriod` | interface | `client/src/types/moveableScheduling.ts:10` |
-| `CreatedEventResponse` | interface | `server/src/services/googleCalendarService.ts:285` |
-| `CreateEventParams` | interface | `server/src/services/googleCalendarService.ts:269` |
+| `CreatedEventResponse` | interface | `server/src/services/googleCalendarService.ts:347` |
+| `CreateEventParams` | interface | `server/src/services/googleCalendarService.ts:331` |
 | `CreateRelationshipPayload` | interface | `client/src/types/relationships.ts:50` |
 | `CrudDataTableModel` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:43` |
 | `CrudDataTableModelOptions` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:11` |
@@ -111,7 +113,7 @@ _No frequent string literals found._
 | `DayOfWeek` | type | `client/src/types/datetime.ts:160` |
 | `DependentDelete` | type | `server/src/routes/helpers/dataController.ts:198` |
 | `DevPanelsComputedData` | interface | `client/src/composables/booking/useDevPanelsComputed.ts:18` |
-| `DifferentialTimeBlocks` | interface | `client/src/composables/booking/useTimeSlotCalculations.ts:28` |
+| `DifferentialTimeBlocks` | interface | `client/src/composables/booking/useTimeSlotCalculations.ts:31` |
 | `DisplayFieldConfigMap` | type | `client/src/configs/field/display/fullFieldDisplayConfig.ts:41` |
 | `DisplayFieldType` | interface | `client/src/configs/field/display/fullFieldDisplayConfig.ts:16` |
 | `DistributionPreview` | interface | `client/src/types/component.ts:52` |
@@ -124,11 +126,9 @@ _No frequent string literals found._
 | `EntityMetadataType` | type | `client/src/types/entityMetadata.ts:11` |
 | `EntityType` | type | `server/src/config/entityRegistry.ts:67` |
 | `EntityWithStringId` | type | `client/src/utils/optimistic/listByIdOptimistic.ts:1` |
-| `EventAttendee` | interface | `server/src/services/googleCalendarService.ts:258` |
+| `EventAttendee` | interface | `server/src/services/googleCalendarService.ts:320` |
 | `EventFinal` | interface | `client/src/types/appointment.ts:118` |
-| `EventInstance` | type | `client/src/types/events.ts:25` |
-| `EventInstanceEntity` | interface | `client/src/types/entities.ts:64` |
-| ... | ... | (+404 more) |
+| ... | ... | (+409 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 

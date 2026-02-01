@@ -108,15 +108,16 @@ export function buildConfirmationSummaryData(
   const propertyType =
     propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
 
-  const addressParts: string[] = []
-  if (propertyDetailsStepData) {
-    const prop = propertyDetailsStepData
-    if (prop.address) addressParts.push(prop.address)
-    if (prop.unit) addressParts.push(`#${prop.unit}`)
-    if (prop.city) addressParts.push(prop.city)
-    if (prop.state) addressParts.push(prop.state)
-    if (prop.zipCode) addressParts.push(prop.zipCode)
-  }
+  // PATTERN: Build address parts array immutably using filter + map
+  const addressParts = propertyDetailsStepData
+    ? [
+        propertyDetailsStepData.address,
+        propertyDetailsStepData.unit ? `#${propertyDetailsStepData.unit}` : null,
+        propertyDetailsStepData.city,
+        propertyDetailsStepData.state,
+        propertyDetailsStepData.zipCode
+      ].filter((part): part is string => typeof part === 'string' && part !== '')
+    : []
   const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'
 
   const squareFootage = propertyDetailsStepData?.squareFootage

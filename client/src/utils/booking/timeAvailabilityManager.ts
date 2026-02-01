@@ -521,17 +521,17 @@ function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): Time
     0, 0, 0, 0
   ))
 
-  // PATTERN: Generate array of days, then reduce to slots array
-  const days: Date[] = []
-  let dayIterator = new Date(startDateOnly)
-  while (dayIterator < endDateOnly) {
-    days.push(new Date(dayIterator))
-    dayIterator = new Date(Date.UTC(
-      dayIterator.getUTCFullYear(),
-      dayIterator.getUTCMonth(),
-      dayIterator.getUTCDate() + 1
+  // PATTERN: Generate array of days functionally using recursive helper, then reduce to slots array
+  const generateDays = (current: Date, end: Date, acc: Date[] = []): Date[] => {
+    if (current >= end) return acc
+    const next = new Date(Date.UTC(
+      current.getUTCFullYear(),
+      current.getUTCMonth(),
+      current.getUTCDate() + 1
     ))
+    return generateDays(next, end, [...acc, new Date(current)])
   }
+  const days = generateDays(startDateOnly, endDateOnly)
   
   const slots = days.reduce((acc, currentDate) => {
     // PATTERN: Use Date.UTC constructor to create new Date objects

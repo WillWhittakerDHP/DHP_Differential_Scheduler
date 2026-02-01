@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T20:44:34.941Z",
+  "generatedAt": "2026-02-01T21:38:16.542Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -15,7 +15,7 @@
   },
   "exceptionSummary": {
     "totalAllowed": 211,
-    "totalRequiresReview": 1014,
+    "totalRequiresReview": 1022,
     "bySource": {
       "inline": 0,
       "pattern": 211,
@@ -695,6 +695,270 @@
       ]
     },
     {
+      "id": "server__src__routes__external__calendarRoutes.ts",
+      "repoPath": "server/src/routes/external/calendarRoutes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/calendarRoutes.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 1,
+        "caseString": 7,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 16
+      },
+      "matches": [
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 32,
+          "line": "switch (error.type) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 33,
+          "line": "case 'auth':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 35,
+          "line": "case 'permission':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 37,
+          "line": "case 'rateLimit':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 39,
+          "line": "case 'notFound':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 41,
+          "line": "case 'network':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 42,
+          "line": "case 'timeout':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 44,
+          "line": "case 'invalid':"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 128,
+          "line": "res.setHeader('X-Data-Source', 'cache-fallback');"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 130,
+          "line": "res.setHeader('X-Data-Source', 'empty-fallback');"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 153,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 231,
+          "line": "res.setHeader('X-Data-Source', 'cache-fallback');"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 233,
+          "line": "res.setHeader('X-Data-Source', 'empty-fallback');"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 257,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 435,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 455,
+          "line": "error: 'Debug endpoints are not available in production'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 482,
+          "line": "error: 'Internal server error',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 483,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 496,
+          "line": "error: 'Debug endpoints are not available in production'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 523,
+          "line": "error: 'Internal server error',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 524,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 537,
+          "line": "error: 'Debug endpoints are not available in production'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 548,
+          "line": "error: 'Internal server error',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 549,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 32,
+          "line": "switch (error.type) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 33,
+          "line": "case 'auth':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 35,
+          "line": "case 'permission':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 37,
+          "line": "case 'rateLimit':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 39,
+          "line": "case 'notFound':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 41,
+          "line": "case 'network':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 42,
+          "line": "case 'timeout':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 44,
+          "line": "case 'invalid':"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 128,
+          "line": "res.setHeader('X-Data-Source', 'cache-fallback');"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 130,
+          "line": "res.setHeader('X-Data-Source', 'empty-fallback');"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 153,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 231,
+          "line": "res.setHeader('X-Data-Source', 'cache-fallback');"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 233,
+          "line": "res.setHeader('X-Data-Source', 'empty-fallback');"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 257,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 435,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 455,
+          "line": "error: 'Debug endpoints are not available in production'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 482,
+          "line": "error: 'Internal server error',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 483,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 496,
+          "line": "error: 'Debug endpoints are not available in production'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 523,
+          "line": "error: 'Internal server error',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 524,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 537,
+          "line": "error: 'Debug endpoints are not available in production'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 548,
+          "line": "error: 'Internal server error',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 549,
+          "line": "message: error.message || 'An unexpected error occurred'"
+        }
+      ],
+      "score": 44,
+      "priority": "P0",
+      "suggestions": []
+    },
+    {
       "id": "server__src__routes__internal__relationships__relationshipRouter.ts",
       "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipRouter.ts",
@@ -1211,87 +1475,87 @@
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 177,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 177,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 179,
+          "lineNumber": 185,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 179,
+          "lineNumber": 185,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 179,
+          "lineNumber": 185,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 195,
+          "lineNumber": 201,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 195,
+          "lineNumber": 201,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 197,
+          "lineNumber": 203,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 197,
+          "lineNumber": 203,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 197,
+          "lineNumber": 203,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 245,
+          "lineNumber": 271,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorRawDuration,majorRoundedDuration,minorRawDuration,minorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 245,
+          "lineNumber": 271,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorRawDuration,majorRoundedDuration,minorRawDuration,minorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 249,
+          "lineNumber": 275,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorRawDuration,majorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 249,
+          "lineNumber": 275,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorRawDuration,majorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 270,
+          "lineNumber": 296,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 270,
+          "lineNumber": 296,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 270,
+          "lineNumber": 296,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         }
       ],
@@ -1334,87 +1598,87 @@
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 177,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 177,
+          "lineNumber": 183,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 179,
+          "lineNumber": 185,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 179,
+          "lineNumber": 185,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 179,
+          "lineNumber": 185,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 195,
+          "lineNumber": 201,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 195,
+          "lineNumber": 201,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 197,
+          "lineNumber": 203,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 197,
+          "lineNumber": 203,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 197,
+          "lineNumber": 203,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 245,
+          "lineNumber": 271,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorRawDuration,majorRoundedDuration,minorRawDuration,minorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 245,
+          "lineNumber": 271,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorRawDuration,majorRoundedDuration,minorRawDuration,minorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 249,
+          "lineNumber": 275,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorRawDuration,majorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 249,
+          "lineNumber": 275,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorRawDuration,majorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 270,
+          "lineNumber": 296,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 270,
+          "lineNumber": 296,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 270,
+          "lineNumber": 296,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});"
         }
       ],
@@ -1873,6 +2137,220 @@
       "suggestions": []
     },
     {
+      "id": "server__src__services__calendarErrorHandler.ts",
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/calendarErrorHandler.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 1,
+        "caseString": 7,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 11
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 47,
+          "line": "this.name = 'CalendarApiError';"
+        },
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 65,
+          "line": "switch (this.type) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 66,
+          "line": "case 'auth':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 68,
+          "line": "case 'permission':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 70,
+          "line": "case 'rateLimit':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 72,
+          "line": "case 'notFound':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 74,
+          "line": "case 'network':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 76,
+          "line": "case 'timeout':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 78,
+          "line": "case 'invalid':"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 93,
+          "line": "if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND') {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 101,
+          "line": "if (error.code === 'ETIMEDOUT' || error.message?.includes('timeout')) {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 102,
+          "line": "return new CalendarApiError('timeout', 'Request timed out', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 112,
+          "line": "return new CalendarApiError('auth', 'Authentication failed', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 123,
+          "line": "return new CalendarApiError('rateLimit', 'Rate limit exceeded', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 129,
+          "line": "return new CalendarApiError('permission', 'Permission denied', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 137,
+          "line": "return new CalendarApiError('notFound', 'Resource not found', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 145,
+          "line": "return new CalendarApiError('rateLimit', 'Rate limit exceeded', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 161,
+          "line": "return new CalendarApiError('unknown', error.message || 'Unknown error', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 254,
+          "line": "throw lastError || new CalendarApiError('unknown', 'Retry failed');"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 47,
+          "line": "this.name = 'CalendarApiError';"
+        },
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 65,
+          "line": "switch (this.type) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 66,
+          "line": "case 'auth':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 68,
+          "line": "case 'permission':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 70,
+          "line": "case 'rateLimit':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 72,
+          "line": "case 'notFound':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 74,
+          "line": "case 'network':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 76,
+          "line": "case 'timeout':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 78,
+          "line": "case 'invalid':"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 93,
+          "line": "if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND') {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 101,
+          "line": "if (error.code === 'ETIMEDOUT' || error.message?.includes('timeout')) {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 102,
+          "line": "return new CalendarApiError('timeout', 'Request timed out', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 112,
+          "line": "return new CalendarApiError('auth', 'Authentication failed', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 123,
+          "line": "return new CalendarApiError('rateLimit', 'Rate limit exceeded', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 129,
+          "line": "return new CalendarApiError('permission', 'Permission denied', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 137,
+          "line": "return new CalendarApiError('notFound', 'Resource not found', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 145,
+          "line": "return new CalendarApiError('rateLimit', 'Rate limit exceeded', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 161,
+          "line": "return new CalendarApiError('unknown', error.message || 'Unknown error', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 254,
+          "line": "throw lastError || new CalendarApiError('unknown', 'Retry failed');"
+        }
+      ],
+      "score": 39,
+      "priority": "P0",
+      "suggestions": []
+    },
+    {
       "id": "server__src__routes__internal__users__userRouter.ts",
       "repoPath": "server/src/routes/internal/users/userRouter.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/users/userRouter.ts",
@@ -2233,350 +2711,6 @@
         }
       ],
       "score": 34,
-      "priority": "P0",
-      "suggestions": []
-    },
-    {
-      "id": "server__src__routes__external__calendarRoutes.ts",
-      "repoPath": "server/src/routes/external/calendarRoutes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/calendarRoutes.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 32
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 104,
-          "line": "if (error.message?.includes('Rate limit')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 106,
-          "line": "error: 'Rate limit exceeded',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 112,
-          "line": "if (error.message?.includes('Authentication')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 114,
-          "line": "error: 'Authentication failed',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 123,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 124,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 206,
-          "line": "if (error.message?.includes('Rate limit')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 208,
-          "line": "error: 'Rate limit exceeded',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 214,
-          "line": "if (error.message?.includes('Authentication')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 216,
-          "line": "error: 'Authentication failed',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 225,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 226,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 389,
-          "line": "if (error.message?.includes('Rate limit')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 391,
-          "line": "error: 'Rate limit exceeded',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 397,
-          "line": "if (error.message?.includes('Authentication')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 399,
-          "line": "error: 'Authentication failed',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 406,
-          "line": "if (error.message?.includes('Permission denied')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 408,
-          "line": "error: 'Permission denied',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 415,
-          "line": "if (error.message?.includes('Calendar not found')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 417,
-          "line": "error: 'Calendar not found',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 425,
-          "line": "error: 'Invalid time range',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 433,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 434,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 454,
-          "line": "error: 'Debug endpoints are not available in production'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 481,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 482,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 495,
-          "line": "error: 'Debug endpoints are not available in production'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 522,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 523,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 536,
-          "line": "error: 'Debug endpoints are not available in production'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 547,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 548,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 104,
-          "line": "if (error.message?.includes('Rate limit')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 106,
-          "line": "error: 'Rate limit exceeded',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 112,
-          "line": "if (error.message?.includes('Authentication')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 114,
-          "line": "error: 'Authentication failed',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 123,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 124,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 206,
-          "line": "if (error.message?.includes('Rate limit')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 208,
-          "line": "error: 'Rate limit exceeded',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 214,
-          "line": "if (error.message?.includes('Authentication')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 216,
-          "line": "error: 'Authentication failed',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 225,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 226,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 389,
-          "line": "if (error.message?.includes('Rate limit')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 391,
-          "line": "error: 'Rate limit exceeded',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 397,
-          "line": "if (error.message?.includes('Authentication')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 399,
-          "line": "error: 'Authentication failed',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 406,
-          "line": "if (error.message?.includes('Permission denied')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 408,
-          "line": "error: 'Permission denied',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 415,
-          "line": "if (error.message?.includes('Calendar not found')) {"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 417,
-          "line": "error: 'Calendar not found',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 425,
-          "line": "error: 'Invalid time range',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 433,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 434,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 454,
-          "line": "error: 'Debug endpoints are not available in production'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 481,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 482,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 495,
-          "line": "error: 'Debug endpoints are not available in production'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 522,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 523,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 536,
-          "line": "error: 'Debug endpoints are not available in production'"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 547,
-          "line": "error: 'Internal server error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 548,
-          "line": "message: error.message || 'An unexpected error occurred'"
-        }
-      ],
-      "score": 32,
       "priority": "P0",
       "suggestions": []
     },
@@ -3217,57 +3351,57 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 150,
+          "lineNumber": 138,
           "line": "* @param partShapeName - Part shape name (e.g., \"Client Presentation\")"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 258,
+          "lineNumber": 250,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 258,
+          "lineNumber": 250,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 258,
+          "lineNumber": 250,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 417,
+          "lineNumber": 409,
           "line": "case 'major':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 420,
+          "lineNumber": 412,
           "line": "case 'minor':"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 423,
+          "lineNumber": 415,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 423,
+          "lineNumber": 415,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 427,
+          "lineNumber": 419,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 427,
+          "lineNumber": 419,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 430,
+          "lineNumber": 422,
           "line": "case 'nonDifferential':"
         }
       ],
@@ -3280,57 +3414,57 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 150,
+          "lineNumber": 138,
           "line": "* @param partShapeName - Part shape name (e.g., \"Client Presentation\")"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 258,
+          "lineNumber": 250,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 258,
+          "lineNumber": 250,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 258,
+          "lineNumber": 250,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 417,
+          "lineNumber": 409,
           "line": "case 'major':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 420,
+          "lineNumber": 412,
           "line": "case 'minor':"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 423,
+          "lineNumber": 415,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 423,
+          "lineNumber": 415,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 427,
+          "lineNumber": 419,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 427,
+          "lineNumber": 419,
           "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 430,
+          "lineNumber": 422,
           "line": "case 'nonDifferential':"
         }
       ],
@@ -8712,27 +8846,27 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 233,
+          "lineNumber": 227,
           "line": "'OAuth authentication required',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 242,
+          "lineNumber": 236,
           "line": "'API rate limit exceeded'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 250,
+          "lineNumber": 244,
           "line": "'Calendar not found or inaccessible'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 265,
+          "lineNumber": 259,
           "line": "axiosError.response?.data?.error || 'Invalid response from server'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 272,
+          "lineNumber": 266,
           "line": "error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
@@ -8745,27 +8879,27 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 233,
+          "lineNumber": 227,
           "line": "'OAuth authentication required',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 242,
+          "lineNumber": 236,
           "line": "'API rate limit exceeded'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 250,
+          "lineNumber": 244,
           "line": "'Calendar not found or inaccessible'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 265,
+          "lineNumber": 259,
           "line": "axiosError.response?.data?.error || 'Invalid response from server'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 272,
+          "lineNumber": 266,
           "line": "error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
@@ -8791,37 +8925,37 @@
       "matches": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 163,
+          "lineNumber": 167,
           "line": "switch (constraint.type) {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 181,
+          "lineNumber": 185,
           "line": "return { valid: false, error: 'Invalid dateRange constraint config' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 186,
+          "lineNumber": 190,
           "line": "return { valid: false, error: 'Invalid dateRange dates' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 204,
+          "lineNumber": 208,
           "line": "return { valid: false, error: 'Invalid overlap constraint minutes' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 210,
+          "lineNumber": 214,
           "line": "return { valid: false, error: 'Invalid overlap constraint placement' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 226,
+          "lineNumber": 230,
           "line": "return { valid: false, error: 'Invalid capacity constraint maxHours' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 231,
+          "lineNumber": 235,
           "line": "return { valid: false, error: 'Invalid capacity constraint direction' }"
         }
       ],
@@ -8829,37 +8963,37 @@
       "requiresReview": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 163,
+          "lineNumber": 167,
           "line": "switch (constraint.type) {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 181,
+          "lineNumber": 185,
           "line": "return { valid: false, error: 'Invalid dateRange constraint config' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 186,
+          "lineNumber": 190,
           "line": "return { valid: false, error: 'Invalid dateRange dates' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 204,
+          "lineNumber": 208,
           "line": "return { valid: false, error: 'Invalid overlap constraint minutes' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 210,
+          "lineNumber": 214,
           "line": "return { valid: false, error: 'Invalid overlap constraint placement' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 226,
+          "lineNumber": 230,
           "line": "return { valid: false, error: 'Invalid capacity constraint maxHours' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 231,
+          "lineNumber": 235,
           "line": "return { valid: false, error: 'Invalid capacity constraint direction' }"
         }
       ],
@@ -10218,70 +10352,6 @@
       "suggestions": []
     },
     {
-      "id": "client__src__composables__booking__useAppointmentTimes.ts",
-      "repoPath": "client/src/composables/booking/useAppointmentTimes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentTimes.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 4
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 103,
-          "line": "return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 132,
-          "line": "return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 155,
-          "line": "return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 180,
-          "line": "return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 103,
-          "line": "return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 132,
-          "line": "return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 155,
-          "line": "return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 180,
-          "line": "return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null"
-        }
-      ],
-      "score": 4,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
       "id": "client__src__layouts__components__UserProfile.vue",
       "repoPath": "client/src/layouts/components/UserProfile.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/layouts/components/UserProfile.vue",
@@ -10379,12 +10449,12 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 120,
+          "lineNumber": 121,
           "line": "const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 126,
+          "lineNumber": 127,
           "line": ": 'Not specified'"
         }
       ],
@@ -10402,12 +10472,12 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 120,
+          "lineNumber": 121,
           "line": "const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 126,
+          "lineNumber": 127,
           "line": ": 'Not specified'"
         }
       ],
@@ -10497,46 +10567,46 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 85,
-          "line": "throw new Error('Invalid response from Google Calendar API');"
+          "lineNumber": 112,
+          "line": "throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API');"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 187,
-          "line": "throw new Error('Invalid response from Google Calendar API');"
+          "lineNumber": 242,
+          "line": "throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API');"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 325,
-          "line": "throw new Error('Event start time must be before end time');"
+          "lineNumber": 391,
+          "line": "throw new CalendarApiError('invalid', 'Event start time must be before end time');"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 389,
-          "line": "throw new Error('Invalid response from Google Calendar API - no event ID returned');"
+          "lineNumber": 456,
+          "line": "throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API - no event ID returned');"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 85,
-          "line": "throw new Error('Invalid response from Google Calendar API');"
+          "lineNumber": 112,
+          "line": "throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API');"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 187,
-          "line": "throw new Error('Invalid response from Google Calendar API');"
+          "lineNumber": 242,
+          "line": "throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API');"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 325,
-          "line": "throw new Error('Event start time must be before end time');"
+          "lineNumber": 391,
+          "line": "throw new CalendarApiError('invalid', 'Event start time must be before end time');"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 389,
-          "line": "throw new Error('Invalid response from Google Calendar API - no event ID returned');"
+          "lineNumber": 456,
+          "line": "throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API - no event ID returned');"
         }
       ],
       "score": 4,
@@ -10821,7 +10891,7 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 45,
+          "lineNumber": 48,
           "line": "return 'Selected time slot is invalid'"
         }
       ],
@@ -10839,7 +10909,7 @@
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 45,
+          "lineNumber": 48,
           "line": "return 'Selected time slot is invalid'"
         }
       ],
@@ -10953,17 +11023,17 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 72,
+          "lineNumber": 76,
           "line": "availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 75,
+          "lineNumber": 79,
           "line": "availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 114,
+          "lineNumber": 164,
           "line": "* NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names"
         }
       ],
@@ -10971,17 +11041,17 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 72,
+          "lineNumber": 76,
           "line": "availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 75,
+          "lineNumber": 79,
           "line": "availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 114,
+          "lineNumber": 164,
           "line": "* NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names"
         }
       ],
@@ -11061,7 +11131,7 @@
       "matches": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 126,
+          "lineNumber": 116,
           "line": "* WHY: Eliminates repeated field === \"...\" checks, makes formatters extensible"
         }
       ],
@@ -11069,7 +11139,7 @@
       "requiresReview": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 126,
+          "lineNumber": 116,
           "line": "* WHY: Eliminates repeated field === \"...\" checks, makes formatters extensible"
         }
       ],
@@ -12032,6 +12102,50 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__booking__useAppointmentTimes.ts",
+      "repoPath": "client/src/composables/booking/useAppointmentTimes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentTimes.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 2
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 103,
+          "line": "return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 157,
+          "line": "return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 103,
+          "line": "return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 157,
+          "line": "return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null"
+        }
+      ],
+      "score": 2,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__booking__useAvailabilitySettings.ts",
       "repoPath": "client/src/composables/booking/useAvailabilitySettings.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilitySettings.ts",
@@ -12201,50 +12315,6 @@
           "ruleId": "magicLabel",
           "lineNumber": 45,
           "line": "const errorMessage = axiosError.response?.data?.error || 'Entity not found'"
-        }
-      ],
-      "score": 2,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
-      "id": "client__src__types__appointment.ts",
-      "repoPath": "client/src/types/appointment.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/appointment.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 2
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 192,
-          "line": "eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { \"majorEvent\": {...}, \"minorEvent\": {...}, \"Moveable\": {...} })"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 198,
-          "line": "moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 192,
-          "line": "eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { \"majorEvent\": {...}, \"minorEvent\": {...}, \"Moveable\": {...} })"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 198,
-          "line": "moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']"
         }
       ],
       "score": 2,
@@ -13651,6 +13721,40 @@
           "ruleId": "magicLabel",
           "lineNumber": 40,
           "line": "<Component :is=\"Component\" />"
+        }
+      ],
+      "score": 1,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__types__appointment.ts",
+      "repoPath": "client/src/types/appointment.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/appointment.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 192,
+          "line": "eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { \"majorEvent\": {...}, \"minorEvent\": {...}, \"Moveable\": {...} })"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 192,
+          "line": "eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { \"majorEvent\": {...}, \"minorEvent\": {...}, \"Moveable\": {...} })"
         }
       ],
       "score": 1,

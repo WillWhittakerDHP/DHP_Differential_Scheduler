@@ -49,16 +49,6 @@ function formatPropertyField(
   return String(value)
 }
 
-function formatUserField(
-  value: unknown,
-  users: UserResponse[]
-): string {
-  if (!value) return formatNullValue(value)
-  
-  const user = users.find(u => u.id === value)
-  return user ? `${user.firstName} ${user.lastName}` : String(value)
-}
-
 function formatScheduledByField(
   value: unknown,
   users: UserResponse[]
@@ -129,10 +119,7 @@ function formatAgentField(
 export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   propertyVersionId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
   propertyId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
-  // Deprecated: clientId/agentId - kept for backward compatibility, use client/agent formatters instead
-  clientId: (_appointment, value, _properties, users) => formatUserField(value, users),
-  agentId: (_appointment, value, _properties, users) => formatUserField(value, users),
-  // New: Extract from attendees array
+  // Extract from attendees array
   client: (appointment, value, properties, users) => formatClientField(appointment, value, properties, users),
   agent: (appointment, value, properties, users) => formatAgentField(appointment, value, properties, users),
   scheduledById: (_appointment, value, _properties, users) => formatScheduledByField(value, users),
@@ -140,11 +127,8 @@ export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   selectedDate: (_appointment, value) => formatDateField(value),
   selectedTimeSlots: (_appointment, value) => formatArrayCountField(value, 'slot(s)'),
   selectedOptionIds: (_appointment, value) => formatArrayCountField(value, 'option(s)'),
-  // Deprecated: selectedOptionTypeBlocks - kept for backward compatibility
   selectedOptionTypeBlocks: (_appointment, value) => formatArrayCountField(value, 'option(s)'),
   propertyDetails: (_appointment, value) => formatNullValue(value),
-  // Deprecated: additionalContacts - kept for backward compatibility
-  additionalContacts: (_appointment, value) => formatNullValue(value),
 }
 
 export function getAppointmentFieldFormatter(field: string): FieldFormatter {

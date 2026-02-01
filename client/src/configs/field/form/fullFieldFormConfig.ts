@@ -34,10 +34,15 @@ export function buildFormFieldConfig(): FormFieldConfigMap {
 }
 
 /**
+ * @deprecated Use FieldMetadata from /admin-input-metadata instead
+ * 
  * Build form field configuration for a single entity (DEPRECATED)
  * LEARNING: No longer builds configs - metadata is the source of truth
  * WHY: Field configuration now comes from /admin-input-metadata
  * PATTERN: Return empty object - kept for API compatibility
+ * 
+ * MIGRATION: Use useEntityMetadata composable to access field metadata:
+ *            const { fieldMetadata } = useEntityMetadata(entityKey, entity)
  */
 export function buildAllPerEntityFieldConfig<GE extends GlobalEntityKey>(
   _entityKey: GE,

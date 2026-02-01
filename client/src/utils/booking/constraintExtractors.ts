@@ -80,38 +80,41 @@ export function extractRangeConstraints(
 export function extractOverlapConstraints(
   settings: AvailabilitySettings
 ): OverlapConstraint[] {
-  const constraints: OverlapConstraint[] = []
   const bufferTypes: Array<'appointment' | 'driveTime' | 'lunch'> = ['appointment', 'driveTime', 'lunch']
 
   // WHY: Single pattern for all buffer types reduces duplication and makes adding new types easier
-  // PATTERN: Loop over buffer types, extract and validate each buffer
-  for (const bufferType of bufferTypes) {
-    const buffer = settings.buffers?.[bufferType]
-    if (buffer && buffer.placement !== 'off' && buffer.minutes > 0) {
+  // PATTERN: Use map + filter to extract constraints immutably
+  return bufferTypes
+    .map(bufferType => {
+      const buffer = settings.buffers?.[bufferType]
+      if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) {
+        return null
+      }
+      
       // PATTERN: Check undefined BEFORE checking value to catch missing enforcement
       if (buffer.enforcement === undefined) {
         throw new Error(`Buffer enforcement is required for ${bufferType} buffer. Must be 'off', 'flexible', or 'hard'.`)
       }
       
-      constraints.push({
+      // PATTERN: After filtering out 'off', placement is guaranteed to be 'before' | 'after' | 'both'
+      // TypeScript needs explicit type assertion since it doesn't narrow BufferPlacement automatically
+      const constraint: OverlapConstraint = {
         type: bufferType,
-        placement: buffer.placement,
+        placement: buffer.placement as 'before' | 'after' | 'both',
         enforcement: buffer.enforcement,
         minutes: buffer.minutes
-      })
-    }
-  }
-
-  return constraints
+      }
+      
+      return constraint
+    })
+    .filter((constraint): constraint is OverlapConstraint => constraint !== null)
 }
 
 export function extractCapacityConstraints(
   settings: AvailabilitySettings
 ): CapacityConstraint[] {
-  const constraints: CapacityConstraint[] = []
-  
   // WHY: Single pattern for all capacity types reduces duplication and makes adding new types easier
-  // PATTERN: Loop over capacity types, extract and validate each constraint
+  // PATTERN: Use map + filter + map to extract constraints immutably
   const capacityTypeMap: Array<{
     type: CapacityConstraint['type']
     settingsKey: 'day' | 'calendarWeek' | 'rollingWeek'
@@ -121,19 +124,23 @@ export function extractCapacityConstraints(
     { type: TIME_BASIS_TYPES.ROLLING_WEEK, settingsKey: 'rollingWeek' }
   ]
   
-  for (const { type, settingsKey } of capacityTypeMap) {
-    const filter = settings.maxWorkHours?.[settingsKey]
-    if (filter) {
+  return capacityTypeMap
+    .map(({ type, settingsKey }) => {
+      const filter = settings.maxWorkHours?.[settingsKey]
+      if (!filter) {
+        return null
+      }
+      
       // PATTERN: Check undefined BEFORE checking value to catch missing enforcement
       if (filter.enforcement === undefined) {
         throw new Error(`Capacity enforcement is required for ${type} constraint. Must be 'off', 'flexible', or 'hard'.`)
       }
       
       if (filter.enforcement === 'off') {
-        continue
+        return null
       }
       
-      const constraint: CapacityConstraint = {
+      return {
         type,
         enforcement: filter.enforcement,
         maxHours: filter.maxHours,
@@ -142,12 +149,9 @@ export function extractCapacityConstraints(
               direction: (settings.maxWorkHours?.rollingWeek as RollingWeekCapacityFilter | undefined)?.direction 
             }
           : {})
-      }
-      constraints.push(constraint)
-    }
-  }
-  
-  return constraints
+      } as CapacityConstraint
+    })
+    .filter((constraint): constraint is CapacityConstraint => constraint !== null)
 }
 
 /**

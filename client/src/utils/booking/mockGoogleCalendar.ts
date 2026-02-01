@@ -200,70 +200,77 @@ export function generateMockFreeBusyResponse(
                         availableMinutes <= mergedConfig.maxDurationMinutes &&
                         adjustedPeriodsPerCalendar === 1
   
-  const calendars: Record<string, { busy: GoogleCalendarBusyPeriod[] }> = {}
-  
-  for (const calendarId of mergedConfig.calendarIds) {
-    const busyPeriods: GoogleCalendarBusyPeriod[] = []
-    
-    // LEARNING: Handle small window case - use full window as single period
-    // PATTERN: Generate one period using the full available window (constrained to 48 hours)
-    if (useFullWindow) {
-      const effectiveStart = new Date(earliestStartTime)
-      const effectiveEnd = new Date(constrainedEndDateTime)
+  // PATTERN: Use Object.fromEntries + map to generate calendars immutably
+  const calendars: Record<string, { busy: GoogleCalendarBusyPeriod[] }> = Object.fromEntries(
+    mergedConfig.calendarIds.map(calendarId => {
+      // LEARNING: Handle small window case - use full window as single period
+      // PATTERN: Generate one period using the full available window (constrained to 48 hours)
+      let busyPeriods: GoogleCalendarBusyPeriod[]
       
-      const actualStart = effectiveStart > new Date(dateRange.start) ? effectiveStart : new Date(dateRange.start)
-      
-      // PATTERN: Cap end time at 48-hour maximum
-      const periodEnd = effectiveEnd > maxEndTime ? maxEndTime : effectiveEnd
-      
-      busyPeriods.push({
-        start: toRFC3339DateTime(actualStart),
-        end: toRFC3339DateTime(periodEnd)
-      })
-      
-    } else {
-      for (let i = 0; i < adjustedPeriodsPerCalendar; i++) {
-        try {
-          // PATTERN: Use constrained end time instead of original end time
-          const constrainedDateRange = {
-            start: dateRange.start,
-            end: toRFC3339DateTime(constrainedEndDateTime)
-          }
-          
-          const period = generateRandomBusyPeriod(
-            constrainedDateRange,
-            earliestStartTime,
-            {
-              minDurationMinutes: mergedConfig.minDurationMinutes,
-              maxDurationMinutes: mergedConfig.maxDurationMinutes
+      if (useFullWindow) {
+        const effectiveStart = new Date(earliestStartTime)
+        const effectiveEnd = new Date(constrainedEndDateTime)
+        
+        const actualStart = effectiveStart > new Date(dateRange.start) ? effectiveStart : new Date(dateRange.start)
+        
+        // PATTERN: Cap end time at 48-hour maximum
+        const periodEnd = effectiveEnd > maxEndTime ? maxEndTime : effectiveEnd
+        
+        busyPeriods = [{
+          start: toRFC3339DateTime(actualStart),
+          end: toRFC3339DateTime(periodEnd)
+        }]
+        
+      } else {
+        // PATTERN: Use Array.from + map to generate periods immutably, filter out errors
+        busyPeriods = Array.from({ length: adjustedPeriodsPerCalendar }, (_, i) => {
+          try {
+            // PATTERN: Use constrained end time instead of original end time
+            const constrainedDateRange = {
+              start: dateRange.start,
+              end: toRFC3339DateTime(constrainedEndDateTime)
             }
-          )
-          
-          // PATTERN: Check and adjust period end time if needed
-          const periodEndDate = new Date(period.end)
-          if (periodEndDate > maxEndTime) {
-            period.end = toRFC3339DateTime(maxEndTime)
-            const periodStartDate = new Date(period.start)
-            const adjustedDuration = (maxEndTime.getTime() - periodStartDate.getTime()) / (1000 * 60)
-            if (adjustedDuration < mergedConfig.minDurationMinutes) {
-              throw new Error(`Period would be too short after 48-hour constraint: ${adjustedDuration} minutes`)
+            
+            const period = generateRandomBusyPeriod(
+              constrainedDateRange,
+              earliestStartTime,
+              {
+                minDurationMinutes: mergedConfig.minDurationMinutes,
+                maxDurationMinutes: mergedConfig.maxDurationMinutes
+              }
+            )
+            
+            // PATTERN: Check and adjust period end time if needed
+            const periodEndDate = new Date(period.end)
+            if (periodEndDate > maxEndTime) {
+              const adjustedPeriod = {
+                ...period,
+                end: toRFC3339DateTime(maxEndTime)
+              }
+              const periodStartDate = new Date(period.start)
+              const adjustedDuration = (maxEndTime.getTime() - periodStartDate.getTime()) / (1000 * 60)
+              if (adjustedDuration < mergedConfig.minDurationMinutes) {
+                throw new Error(`Period would be too short after 48-hour constraint: ${adjustedDuration} minutes`)
+              }
+              return adjustedPeriod
             }
+            
+            return period
+          } catch (error) {
+            // PATTERN: Include calendar ID, period index, and error details
+            logger.warn(`Skipping busy period ${i} for ${calendarId}:`, {
+              error,
+              errorMessage: error instanceof Error ? error.message : String(error),
+              errorStack: error instanceof Error ? error.stack : undefined
+            })
+            return null
           }
-          
-          busyPeriods.push(period)
-        } catch (error) {
-          // PATTERN: Include calendar ID, period index, and error details
-          logger.warn(`Skipping busy period ${i} for ${calendarId}:`, {
-            error,
-            errorMessage: error instanceof Error ? error.message : String(error),
-            errorStack: error instanceof Error ? error.stack : undefined
-          })
-        }
+        }).filter((period): period is GoogleCalendarBusyPeriod => period !== null)
       }
-    }
-    
-    calendars[calendarId] = { busy: busyPeriods }
-  }
+      
+      return [calendarId, { busy: busyPeriods }]
+    })
+  )
   
   const response: GoogleFreeBusyResponse = {
     kind: 'calendar#freeBusy',
@@ -283,30 +290,23 @@ export function extractBusyTimesFromFreeBusyResponse(
     return []
   }
   
-  // PATTERN: Use flatMap to extract busy arrays from all calendars
-  const allBusyPeriods: Array<{ start: string; end: string }> = []
-  
-  for (const calendar of Object.values(response.calendars)) {
-    if (calendar.busy) {
-      allBusyPeriods.push(...calendar.busy)
-    }
-  }
+  // PATTERN: Use flatMap to extract busy arrays from all calendars immutably
+  const allBusyPeriods = Object.values(response.calendars)
+    .flatMap(calendar => calendar.busy || [])
   
   if (!mergeOverlapping || allBusyPeriods.length === 0) {
     return allBusyPeriods
   }
   
-  // PATTERN: Sort by start time, then merge overlapping ranges
+  // PATTERN: Sort by start time, then merge overlapping ranges using reduce
   const sorted = [...allBusyPeriods].sort((a, b) => 
     new Date(a.start).getTime() - new Date(b.start).getTime()
   )
   
-  const merged: Array<{ start: string; end: string }> = []
-  
-  for (const period of sorted) {
+  // PATTERN: Use reduce to merge overlapping periods immutably
+  return sorted.reduce((merged: Array<{ start: string; end: string }>, period) => {
     if (merged.length === 0) {
-      merged.push({ ...period })
-      continue
+      return [{ ...period }]
     }
     
     const lastMerged = merged[merged.length - 1]
@@ -317,12 +317,15 @@ export function extractBusyTimesFromFreeBusyResponse(
     if (currentStart <= lastEnd) {
       const currentEnd = new Date(period.end)
       if (currentEnd > lastEnd) {
-        lastMerged.end = period.end
+        // PATTERN: Create new object instead of mutating
+        return [
+          ...merged.slice(0, -1),
+          { ...lastMerged, end: period.end }
+        ]
       }
+      return merged
     } else {
-      merged.push({ ...period })
+      return [...merged, { ...period }]
     }
-  }
-  
-  return merged
+  }, [])
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T20:44:37.733Z",
+  "generatedAt": "2026-02-01T21:38:20.509Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 610,
+  "fileCount": 611,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -3090,7 +3090,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-            "line": 28
+            "line": 31
           }
         ]
       },
@@ -4232,7 +4232,7 @@
         "locations": [
           {
             "file": "client/src/types/appointment.ts",
-            "line": 207
+            "line": 201
           }
         ]
       },
@@ -4242,7 +4242,7 @@
         "locations": [
           {
             "file": "client/src/types/appointment.ts",
-            "line": 210
+            "line": 204
           }
         ]
       },
@@ -4252,7 +4252,7 @@
         "locations": [
           {
             "file": "client/src/types/appointment.ts",
-            "line": 219
+            "line": 213
           },
           {
             "file": "server/src/db/models/booking/appointment.ts",
@@ -4266,7 +4266,7 @@
         "locations": [
           {
             "file": "client/src/types/appointment.ts",
-            "line": 235
+            "line": 229
           }
         ]
       },
@@ -4276,7 +4276,7 @@
         "locations": [
           {
             "file": "client/src/types/appointment.ts",
-            "line": 247
+            "line": 241
           }
         ]
       },
@@ -4286,7 +4286,7 @@
         "locations": [
           {
             "file": "client/src/types/appointment.ts",
-            "line": 272
+            "line": 266
           },
           {
             "file": "client/src/types/property.ts",
@@ -4300,7 +4300,7 @@
         "locations": [
           {
             "file": "client/src/types/appointment.ts",
-            "line": 289
+            "line": 283
           },
           {
             "file": "client/src/types/user.ts",
@@ -4314,7 +4314,7 @@
         "locations": [
           {
             "file": "client/src/types/appointment.ts",
-            "line": 307
+            "line": 301
           }
         ]
       },
@@ -4324,7 +4324,7 @@
         "locations": [
           {
             "file": "client/src/types/appointment.ts",
-            "line": 330
+            "line": 324
           }
         ]
       },
@@ -5134,7 +5134,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-            "line": 17
+            "line": 16
           }
         ]
       },
@@ -5144,7 +5144,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-            "line": 24
+            "line": 23
           }
         ]
       },
@@ -5154,7 +5154,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-            "line": 48
+            "line": 47
           }
         ]
       },
@@ -5482,6 +5482,36 @@
           }
         ]
       },
+      "CalendarErrorType": {
+        "definition": "export type CalendarErrorType =",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/services/calendarErrorHandler.ts",
+            "line": 16
+          }
+        ]
+      },
+      "RetryConfig": {
+        "definition": "export interface RetryConfig {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/services/calendarErrorHandler.ts",
+            "line": 171
+          }
+        ]
+      },
+      "FallbackResult": {
+        "definition": "export interface FallbackResult<T> {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/services/calendarErrorHandler.ts",
+            "line": 262
+          }
+        ]
+      },
       "CachedCalendarEvent": {
         "definition": "export interface CachedCalendarEvent {",
         "isInterface": true,
@@ -5498,7 +5528,27 @@
         "locations": [
           {
             "file": "server/src/services/googleCalendarService.ts",
-            "line": 18
+            "line": 28
+          }
+        ]
+      },
+      "FreeBusyResponseWithMeta": {
+        "definition": "export interface FreeBusyResponseWithMeta extends FreeBusyResponse {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/services/googleCalendarService.ts",
+            "line": 44
+          }
+        ]
+      },
+      "CalendarEventsResponseWithMeta": {
+        "definition": "export interface CalendarEventsResponseWithMeta {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/services/googleCalendarService.ts",
+            "line": 175
           }
         ]
       },
@@ -5508,7 +5558,7 @@
         "locations": [
           {
             "file": "server/src/services/googleCalendarService.ts",
-            "line": 258
+            "line": 320
           }
         ]
       },
@@ -5518,7 +5568,7 @@
         "locations": [
           {
             "file": "server/src/services/googleCalendarService.ts",
-            "line": 269
+            "line": 331
           }
         ]
       },
@@ -5528,7 +5578,7 @@
         "locations": [
           {
             "file": "server/src/services/googleCalendarService.ts",
-            "line": 285
+            "line": 347
           }
         ]
       },
@@ -6189,7 +6239,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useFieldComponent.ts",
-            "line": 94,
+            "line": 76,
             "name": "FieldComponent"
           }
         ]
@@ -6859,7 +6909,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-            "line": 58,
+            "line": 54,
             "name": "AvailabilityDefaults"
           }
         ]
@@ -7299,7 +7349,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-            "line": 56,
+            "line": 59,
             "name": "TimeSlotCalculations"
           }
         ]
@@ -8029,7 +8079,7 @@
         "locations": [
           {
             "file": "client/src/services/calendarApiService.ts",
-            "line": 282,
+            "line": 276,
             "name": "OAuthUrl"
           }
         ]
@@ -8339,7 +8389,7 @@
         "locations": [
           {
             "file": "client/src/utils/appointmentFieldFormatters.ts",
-            "line": 150,
+            "line": 134,
             "name": "AppointmentFieldFormatter"
           }
         ]
@@ -8764,7 +8814,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/componentAggregator.ts",
-            "line": 57,
+            "line": 52,
             "name": "ComponentsRecursive"
           },
           {
@@ -8779,7 +8829,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/componentAggregator.ts",
-            "line": 174,
+            "line": 166,
             "name": "ComposedEntity"
           }
         ]
@@ -8934,7 +8984,7 @@
         "locations": [
           {
             "file": "server/src/services/googleCalendarService.ts",
-            "line": 39,
+            "line": 65,
             "name": "FreeBusy"
           }
         ]
@@ -8944,7 +8994,7 @@
         "locations": [
           {
             "file": "server/src/services/googleCalendarService.ts",
-            "line": 143,
+            "line": 197,
             "name": "CalendarEvents"
           }
         ]
@@ -8954,7 +9004,7 @@
         "locations": [
           {
             "file": "server/src/services/googleCalendarService.ts",
-            "line": 307,
+            "line": 373,
             "name": "Event"
           }
         ]
@@ -9185,7 +9235,7 @@
       {
         "type": "status-workflow",
         "file": "client/src/utils/appointmentFieldFormatters.ts",
-        "line": 139,
+        "line": 126,
         "pattern": "AppointmentStatus workflow",
         "code": "status: (_appointment, value) => String(value || 'started'),"
       },

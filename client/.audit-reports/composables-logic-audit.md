@@ -162,14 +162,6 @@ Legend:
 
 - **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
 
-### `src/composables/admin/useFieldComponent.ts`
-
-- exports: `useFieldComponent`
-- score: **7**
-- return keys (first return): `componentType`, `fieldMetadataEntry`, `isIcon`, `isPartsCollection`, `isPrimitive`
-
-- **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
-
 ### `src/composables/formFields/useFormFieldsContext.ts`
 
 - exports: `useFormFieldsContext`
@@ -185,6 +177,14 @@ Legend:
 - return keys (first return): `caller`, `stack`
 
 - **P0** (side_effects): Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable.
+
+### `src/composables/admin/useFieldComponent.ts`
+
+- exports: `useFieldComponent`
+- score: **4**
+- return keys (first return): `componentType`
+
+- **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
 
 ### `src/composables/admin/useConditionalFieldVisibility.ts`
 
@@ -1581,7 +1581,7 @@ map@100: return slots.map(appointmentSlot => {
 filter@104: }).filter((slot): slot is TimeSlot => slot !== null)
 computed@112: const minorTimeSlots = computed(() => {
 map@128: return slots.map(appointmentSlot => {
-filter@133: }).filter((slot): slot is TimeSlot => slot !== null)
+filter@135: }).filter((slot): slot is TimeSlot => slot !== null)
 ```
 
 ### `src/composables/booking/useFreeBusyDataSource.ts`
@@ -1889,6 +1889,21 @@ map@122: return instances.map(i => i.id)
 watch@141: watch(loadedWizardState, (newState) => {
 ```
 
+### `src/composables/booking/useTimeSlotCalculations.ts`
+
+- counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@75: const majorLabel = computed(() =>
+computed@78: const minorLabel = computed(() =>
+computed@88: const majorDuration = computed(() => {
+map@100: const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+computed@122: const minorDuration = computed(() => {
+map@136: const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+filter@141: ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+computed@166: const differentialTimeBlocks = computed(() => {
+```
+
 ### `src/composables/booking/useWizardAppointmentManagement.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=1, async=2, await=5, dom=0, console=1
@@ -1981,23 +1996,6 @@ await@157: await createPartAssignmentsRelationship({
 await@162: await Promise.all([
 ```
 
-### `src/composables/admin/useFieldComponent.ts`
-
-- counts: vueQuery=0, watch=0, computed=7, ref=0, async=0, await=0, dom=0, console=3
-
-```
-computed@104: const entityKeyRef = computed(() => {
-computed@108: const fieldKeyRef = computed(() => {
-computed@139: const fieldMetadata = computed(() => {
-computed@163: const componentType = computed(() => {
-console@166: console.warn('[useFieldComponent] Unknown component type - missing fieldKey', {
-console@177: console.warn('[useFieldComponent] Unknown component type - missing entityKey', {
-console@188: console.warn('[useFieldComponent] Unknown component type determined', {
-computed@205: const isIcon = computed(() => {
-computed@214: const isPrimitive = computed(() => {
-computed@223: const isPartsCollection = computed(() => {
-```
-
 ### `src/composables/admin/useFieldInputHandlers.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=5, dom=0, console=1
@@ -2040,20 +2038,6 @@ timers@128: setTimeout(() => {
 filter@134: const idsToRemove = previousSelectedIds.value.filter(prevId => !selectedIds.includes(prevId))
 filter@139: .filter(id => !idsToRemove.includes(id)) // Remove old cards
 filter@140: .concat(idsToAdd.filter(id => !expandedCardIds.value.includes(id))) // Add new cards (avoid duplicates)
-```
-
-### `src/composables/booking/useAvailabilityDefaults.ts`
-
-- counts: vueQuery=0, watch=4, computed=2, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@101: const majorOrderIndex = computed({
-computed@113: const minorOrderIndex = computed({
-watch@125: watch(loadedWizardState, () => {
-watch@144: watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
-map@153: const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({
-watch@174: watch(timeSlots, (slots) => {
-watch@204: watch(isDifferentialService, (isEffectivelyDifferential) => {
 ```
 
 ### `src/composables/booking/useCascadeInstances.ts`
@@ -2279,6 +2263,18 @@ lifecycle@32: onMounted(() => {
 watch@36: watch(
 ```
 
+### `src/composables/booking/useAvailabilityDefaults.ts`
+
+- counts: vueQuery=0, watch=4, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+```
+watch@97: watch(loadedWizardState, () => {
+watch@116: watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
+map@125: const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({
+watch@146: watch(timeSlots, (slots) => {
+watch@176: watch(isDifferentialService, (isEffectivelyDifferential) => {
+```
+
 ### `src/composables/booking/useContactsStepData.ts`
 
 - counts: vueQuery=0, watch=1, computed=1, ref=3, async=0, await=0, dom=0, console=0
@@ -2289,18 +2285,6 @@ ref@99: const showTransactionManager = ref(false)
 ref@100: const showSeller = ref(false)
 watch@135: watch(loadedWizardState, (newState) => {
 computed@197: const stepData = computed(() => ({
-```
-
-### `src/composables/booking/useTimeSlotCalculations.ts`
-
-- counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@71: const majorLabel = computed(() =>
-computed@74: const minorLabel = computed(() =>
-computed@86: const majorDuration = computed(() => {
-computed@102: const minorDuration = computed(() => {
-computed@116: const differentialTimeBlocks = computed(() => {
 ```
 
 ### `src/composables/booking/useWizardDisplay.ts`
@@ -2338,6 +2322,20 @@ vueQuery@55: const globalDataQuery = useQuery<GlobalData>({
 async@57: queryFn: async () => {
 await@60: const staged = await globalTransformer.stageForHydration()
 dom@65: refetchOnWindowFocus: false, // Don't refetch on window focus
+```
+
+### `src/composables/admin/useFieldComponent.ts`
+
+- counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=3
+
+```
+computed@86: const entityKeyRef = computed(() => {
+computed@90: const fieldKeyRef = computed(() => {
+computed@121: const fieldMetadata = computed(() => {
+computed@145: const componentType = computed(() => {
+console@148: console.warn('[useFieldComponent] Unknown component type - missing fieldKey', {
+console@159: console.warn('[useFieldComponent] Unknown component type - missing entityKey', {
+console@170: console.warn('[useFieldComponent] Unknown component type determined', {
 ```
 
 ### `src/composables/admin/useFieldRendererComponent.ts`
@@ -2998,7 +2996,7 @@ computed@60: const shouldShowGridInline = computed(() => {
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@53: selectedDate: computed(() => selectedDate.value.start)
+computed@56: selectedDate: computed(() => selectedDate.value.start)
 ```
 
 ### `src/composables/booking/useTimeSlotDurations.ts`

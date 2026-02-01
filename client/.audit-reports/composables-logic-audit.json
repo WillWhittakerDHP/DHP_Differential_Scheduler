@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T20:44:33.614Z",
+  "generatedAt": "2026-02-01T21:38:13.238Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -4722,7 +4722,7 @@
         },
         {
           "ruleId": "filter",
-          "lineNumber": 133,
+          "lineNumber": 135,
           "line": "}).filter((slot): slot is TimeSlot => slot !== null)"
         }
       ],
@@ -6473,6 +6473,96 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__booking__useTimeSlotCalculations.ts",
+      "repoPath": "src/composables/booking/useTimeSlotCalculations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useTimeSlotCalculations.ts",
+      "counts": {
+        "computed": 5,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 2,
+        "reduce": 0,
+        "filter": 1,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 75,
+          "line": "const majorLabel = computed(() =>"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 78,
+          "line": "const minorLabel = computed(() =>"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 88,
+          "line": "const majorDuration = computed(() => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 100,
+          "line": "const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 122,
+          "line": "const minorDuration = computed(() => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 136,
+          "line": "const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 141,
+          "line": "? eventShapeEntities.filter(es => es.id !== majorEventShape.id)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 166,
+          "line": "const differentialTimeBlocks = computed(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useTimeSlotCalculations"
+      ],
+      "importSpecifiers": [
+        "@/composables/booking/useAvailabilitySettings",
+        "@/composables/useGlobal",
+        "@/composables/useLocalTime",
+        "@/composables/useTimeFormatting",
+        "@/types/appointment",
+        "@/types/datetime",
+        "@/types/entities",
+        "@/utils/booking/appointmentSlotBuilder",
+        "@/utils/eventAttendeeUtils",
+        "@/utils/transformers/globalToBookingTransformer",
+        "vue"
+      ],
+      "returnKeys": [
+        "duration",
+        "label",
+        "major",
+        "timeBlock"
+      ],
+      "complexityScore": 8,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "src__composables__booking__useWizardAppointmentManagement.ts",
       "repoPath": "src/composables/booking/useWizardAppointmentManagement.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardAppointmentManagement.ts",
@@ -6978,109 +7068,6 @@
       "suggestions": []
     },
     {
-      "id": "src__composables__admin__useFieldComponent.ts",
-      "repoPath": "src/composables/admin/useFieldComponent.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldComponent.ts",
-      "counts": {
-        "computed": 7,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 3
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 104,
-          "line": "const entityKeyRef = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 108,
-          "line": "const fieldKeyRef = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 139,
-          "line": "const fieldMetadata = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 163,
-          "line": "const componentType = computed(() => {"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 166,
-          "line": "console.warn('[useFieldComponent] Unknown component type - missing fieldKey', {"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 177,
-          "line": "console.warn('[useFieldComponent] Unknown component type - missing entityKey', {"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 188,
-          "line": "console.warn('[useFieldComponent] Unknown component type determined', {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 205,
-          "line": "const isIcon = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 214,
-          "line": "const isPrimitive = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 223,
-          "line": "const isPartsCollection = computed(() => {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useFieldComponent"
-      ],
-      "importSpecifiers": [
-        "./useEntityMetadata",
-        "@/constants/entities",
-        "@/constants/primitives",
-        "@/types/entities",
-        "@/types/entityMetadata",
-        "@/utils/forms/fieldComponentDispatcher",
-        "vue"
-      ],
-      "returnKeys": [
-        "componentType",
-        "fieldMetadataEntry",
-        "isIcon",
-        "isPartsCollection",
-        "isPrimitive"
-      ],
-      "complexityScore": 7,
-      "priority": "P2",
-      "suggestions": [
-        {
-          "kind": "logging",
-          "priority": "P2",
-          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
-        }
-      ]
-    },
-    {
       "id": "src__composables__admin__useFieldInputHandlers.ts",
       "repoPath": "src/composables/admin/useFieldInputHandlers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldInputHandlers.ts",
@@ -7319,87 +7306,6 @@
         "internalValue",
         "nestedSelections",
         "toggleCardExpansion"
-      ],
-      "complexityScore": 7,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useAvailabilityDefaults.ts",
-      "repoPath": "src/composables/booking/useAvailabilityDefaults.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityDefaults.ts",
-      "counts": {
-        "computed": 2,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 4,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 1,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 101,
-          "line": "const majorOrderIndex = computed({"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 113,
-          "line": "const minorOrderIndex = computed({"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 125,
-          "line": "watch(loadedWizardState, () => {"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 144,
-          "line": "watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 153,
-          "line": "const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 174,
-          "line": "watch(timeSlots, (slots) => {"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 204,
-          "line": "watch(isDifferentialService, (isEffectivelyDifferential) => {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useAvailabilityDefaults"
-      ],
-      "importSpecifiers": [
-        "@/composables/useTimeFormatting",
-        "@/types/appointment",
-        "@/types/datetime",
-        "@/utils/booking/timeSlotMatching",
-        "@/utils/transformers/appointmentToWizardTransformer",
-        "vue"
-      ],
-      "returnKeys": [
-        "appointmentSlotOrderIndex",
-        "majorOrderIndex",
-        "minorOrderIndex",
-        "selectedDate",
-        "startTimeType"
       ],
       "complexityScore": 7,
       "priority": "P2",
@@ -8648,6 +8554,75 @@
       "suggestions": []
     },
     {
+      "id": "src__composables__booking__useAvailabilityDefaults.ts",
+      "repoPath": "src/composables/booking/useAvailabilityDefaults.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityDefaults.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 4,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 1,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "watch",
+          "lineNumber": 97,
+          "line": "watch(loadedWizardState, () => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 116,
+          "line": "watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 125,
+          "line": "const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 146,
+          "line": "watch(timeSlots, (slots) => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 176,
+          "line": "watch(isDifferentialService, (isEffectivelyDifferential) => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAvailabilityDefaults"
+      ],
+      "importSpecifiers": [
+        "@/composables/useTimeFormatting",
+        "@/types/appointment",
+        "@/types/datetime",
+        "@/utils/booking/timeSlotMatching",
+        "@/utils/transformers/appointmentToWizardTransformer",
+        "vue"
+      ],
+      "returnKeys": [
+        "appointmentSlotOrderIndex",
+        "selectedDate",
+        "startTimeType"
+      ],
+      "complexityScore": 5,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "src__composables__booking__useContactsStepData.ts",
       "repoPath": "src/composables/booking/useContactsStepData.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useContactsStepData.ts",
@@ -8713,78 +8688,6 @@
         "showTransactionManager",
         "stepData",
         "transactionManagerInfo"
-      ],
-      "complexityScore": 5,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
-      "id": "src__composables__booking__useTimeSlotCalculations.ts",
-      "repoPath": "src/composables/booking/useTimeSlotCalculations.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useTimeSlotCalculations.ts",
-      "counts": {
-        "computed": 5,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 0,
-        "await": 0,
-        "vueQuery": 0,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 71,
-          "line": "const majorLabel = computed(() =>"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 74,
-          "line": "const minorLabel = computed(() =>"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 86,
-          "line": "const majorDuration = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 102,
-          "line": "const minorDuration = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 116,
-          "line": "const differentialTimeBlocks = computed(() => {"
-        }
-      ],
-      "exportUseFunctions": [
-        "useTimeSlotCalculations"
-      ],
-      "importSpecifiers": [
-        "@/composables/booking/useAvailabilitySettings",
-        "@/composables/useLocalTime",
-        "@/composables/useTimeFormatting",
-        "@/types/appointment",
-        "@/types/datetime",
-        "@/utils/booking/appointmentSlotBuilder",
-        "@/utils/transformers/globalToBookingTransformer",
-        "vue"
-      ],
-      "returnKeys": [
-        "duration",
-        "label",
-        "major",
-        "timeBlock"
       ],
       "complexityScore": 5,
       "priority": "P2",
@@ -8998,6 +8901,90 @@
           "kind": "side_effects",
           "priority": "P0",
           "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__admin__useFieldComponent.ts",
+      "repoPath": "src/composables/admin/useFieldComponent.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useFieldComponent.ts",
+      "counts": {
+        "computed": 4,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 3
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 86,
+          "line": "const entityKeyRef = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 90,
+          "line": "const fieldKeyRef = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 121,
+          "line": "const fieldMetadata = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 145,
+          "line": "const componentType = computed(() => {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 148,
+          "line": "console.warn('[useFieldComponent] Unknown component type - missing fieldKey', {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 159,
+          "line": "console.warn('[useFieldComponent] Unknown component type - missing entityKey', {"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 170,
+          "line": "console.warn('[useFieldComponent] Unknown component type determined', {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useFieldComponent"
+      ],
+      "importSpecifiers": [
+        "./useEntityMetadata",
+        "@/constants/entities",
+        "@/constants/primitives",
+        "@/types/entities",
+        "@/types/entityMetadata",
+        "@/utils/forms/fieldComponentDispatcher",
+        "vue"
+      ],
+      "returnKeys": [
+        "componentType"
+      ],
+      "complexityScore": 4,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "kind": "logging",
+          "priority": "P2",
+          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
         }
       ]
     },
@@ -12719,7 +12706,7 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 53,
+          "lineNumber": 56,
           "line": "selectedDate: computed(() => selectedDate.value.start)"
         }
       ],

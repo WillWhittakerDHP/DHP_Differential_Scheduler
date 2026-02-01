@@ -41,7 +41,10 @@ export function useAvailabilityValidation(
         return 'Please select a time slot'
       }
       // Validate that selectedSlot has valid totals
-      if (!selectedSlot.value.majorTimeRange && !selectedSlot.value.totalTimeRange) {
+      // PATTERN: Use eventTimeRanges or totalTimeRange instead of deprecated majorTimeRange
+      const hasValidTimeRange = selectedSlot.value.totalTimeRange || 
+        (selectedSlot.value.eventTimeRanges && Object.values(selectedSlot.value.eventTimeRanges).some(tr => tr !== null))
+      if (!hasValidTimeRange) {
         return 'Selected time slot is invalid'
       }
       return true

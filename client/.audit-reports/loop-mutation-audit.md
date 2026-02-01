@@ -12,44 +12,44 @@ Exception handling:
 
 ## Summary
 
-- Total files scanned: **594**
-- **Requiring review: 954**
-- Allowed (with justification): 991 (inline: 0, pattern: 991, specific: 0)
+- Total files scanned: **568**
+- **Requiring review: 733**
+- Allowed (with justification): 985 (inline: 0, pattern: 985, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | forEach | for-loops | push/splice/sort/reverse | assign | forEach→mutation hits | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | 56 | 0 | 0 | 1 | 27 | 0 | 0 |
-| `server/src/routes/internal/entities/entityRouter.ts` | 46 | 0 | 0 | 0 | 23 | 0 | 0 |
-| `server/src/scripts/importCalendarData.ts` | 40 | 0 | 6 | 2 | 15 | 0 | 0 |
-| `client/src/utils/booking/timeAvailabilityManager.ts` | 38 | 0 | 1 | 2 | 17 | 0 | 0 |
-| `server/src/services/googleCalendarService.ts` | 36 | 0 | 2 | 0 | 17 | 0 | 0 |
+| `client/src/utils/booking/partFinalizer.ts` | 38 | 2 | 2 | 1 | 8 | 2 | 0 |
+| `client/src/utils/booking/timeAvailabilityManager.ts` | 36 | 0 | 0 | 1 | 17 | 0 | 0 |
 | `server/src/config/app.js` | 35 | 0 | 4 | 2 | 14 | 0 | 0 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | 34 | 0 | 0 | 0 | 17 | 0 | 0 |
 | `client/src/utils/transformers/fetchToGlobalTransformer.ts` | 32 | 0 | 0 | 1 | 15 | 0 | 0 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | 32 | 0 | 4 | 4 | 10 | 0 | 0 |
-| `client/src/utils/transformers/componentAggregator.ts` | 30 | 2 | 8 | 3 | 7 | 0 | 0 |
-| `client/src/utils/booking/mockGoogleCalendar.ts` | 29 | 0 | 7 | 6 | 5 | 0 | 0 |
 | `client/src/types/admin/AdminEntity.ts` | 26 | 0 | 0 | 0 | 13 | 0 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | 22 | 0 | 2 | 0 | 10 | 0 | 0 |
-| `client/src/utils/booking/constraintExtractors.ts` | 22 | 0 | 4 | 5 | 4 | 0 | 0 |
-| `client/src/utils/booking/partFinalizer.ts` | 22 | 0 | 4 | 1 | 8 | 0 | 0 |
-| `client/src/utils/booking/selectionCardStyles.ts` | 22 | 0 | 0 | 7 | 4 | 0 | 0 |
 | `client/src/utils/timeSlotCalculations.ts` | 22 | 0 | 2 | 3 | 7 | 0 | 0 |
 | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 22 | 0 | 0 | 0 | 11 | 0 | 0 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | 20 | 0 | 0 | 0 | 10 | 0 | 0 |
 | `client/src/utils/forms/fieldSectionCategorization.ts` | 20 | 0 | 0 | 2 | 8 | 0 | 0 |
-| `server/src/routes/helpers/dataController.ts` | 20 | 0 | 4 | 0 | 8 | 0 | 0 |
+| `server/src/services/googleCalendarService.ts` | 20 | 0 | 2 | 0 | 9 | 0 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | 18 | 0 | 0 | 1 | 8 | 0 | 0 |
-| `server/src/routes/external/calendarRoutes.ts` | 18 | 0 | 2 | 0 | 8 | 0 | 0 |
-| `server/src/routes/internal/users/userRouter.ts` | 18 | 0 | 0 | 0 | 9 | 0 | 0 |
-| `server/src/scripts/fixUserRolesAndEmails.ts` | 17 | 0 | 7 | 2 | 3 | 0 | 0 |
+| `client/src/utils/transformers/componentAggregator.ts` | 18 | 0 | 0 | 0 | 9 | 0 | 0 |
 | `client/src/composables/booking/useStepValidation.ts` | 16 | 0 | 12 | 0 | 4 | 0 | 2 |
-| `client/src/services/calendarApiService.ts` | 16 | 0 | 4 | 1 | 5 | 0 | 0 |
-| `client/src/utils/booking/confirmationStepData.ts` | 16 | 0 | 0 | 5 | 3 | 0 | 0 |
-| `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | 16 | 0 | 2 | 0 | 7 | 0 | 0 |
+| `client/src/utils/booking/constraintExtractors.ts` | 16 | 0 | 0 | 3 | 5 | 0 | 0 |
+| `server/src/services/calendarErrorHandler.ts` | 15 | 0 | 1 | 0 | 7 | 0 | 0 |
 | `client/src/components/admin/generic/EntityCardSubPanels.vue` | 14 | 0 | 0 | 7 | 10 | 0 | 10 |
-| `client/src/utils/appointmentFieldFormatters.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `client/src/utils/entityDefaults.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/admin/block_shape.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/admin/business_settings.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/admin/part_shape.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/admin/valid_cascade.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/booking/active_annotation.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/booking/address.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/booking/annotation_instance.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/booking/annotation_shape.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/booking/appointment.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `server/src/db/models/booking/block_instance.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `client/src/utils/forms/formElementPatching.ts` | 13 | 1 | 4 | 0 | 4 | 0 | 0 |
 
 ## Action signals (heuristic)
 
@@ -58,112 +58,42 @@ Exception handling:
 
 ## Per-file forEach→mutation hits (highest signal)
 
-- (none detected)
+### `client/src/utils/booking/partFinalizer.ts`
+
+- hits: 2
+
+```
+forEach@227 -> assignProp@247
+forEach@228 -> assignProp@247
+```
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
 
-### `server/src/routes/internal/relationships/relationshipRouter.ts`
+### `client/src/utils/booking/partFinalizer.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=26
-
-```
-push@199: * WHY: Avoids queue.shift() and queue.push() mutations
-shift@199: * WHY: Avoids queue.shift() and queue.push() mutations
-assignProp@203: if (queue.length === 0) {
-assignIndex@207: const [currentId, ...remainingQueue] = queue;
-assignProp@257: req.relationshipConfig = RELATIONSHIP_REGISTRY[normalizedKind];
-assignProp@291: if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parent_id) {
-assignProp@304: if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {
-assignProp@320: if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {
-assignProp@321: options.order = [['orderIndex', 'ASC']];
-assignProp@325: if (req.params.relationshipType === 'eventAssignments') {
-assignProp@326: options.include = [
-assignProp@343: if (req.params.relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {
-assignProp@344: options.include = [
-assignProp@367: options.attributes = getModelAttributes(relationshipConfig.model);
-assignProp@400: if (req.params.relationshipType === 'instanceComponents') {
-assignProp@525: existing.disabled = false;
-assignProp@526: existing.orderIndex = order_index ?? existing.orderIndex;
-assignProp@568: // PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing
-assignProp@593: createData = req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS
-assignProp@604: if (req.params.relationshipType === 'instanceComponents') {
-assignProp@608: childBlockInstance.active = false;
-assignProp@614: parentBlockInstance.active = true;
-assignProp@627: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
-assignProp@639: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
-assignProp@675: component.orderIndex = order_index;
-assignProp@679: component.disabled = disabled;
-assignProp@708: component.disabled = true;
-assignProp@722: childBlockInstance.active = true;
-assignProp@772: assignment.userTypeBlockInstanceId = userTypeBlockInstanceId || null;
-```
-
-### `server/src/routes/internal/entities/entityRouter.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=23
+- counts: forEach=2, forLoop=1, forOf=1, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
 
 ```
-assignProp@57: req.entityConfig = getEntityConfig(entityType);
-assignProp@147: if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE && sanitizedData.bookingMode === '') {
-assignProp@148: sanitizedData.bookingMode = 'standalone';
-assignProp@150: if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {
-assignProp@151: sanitizedData.booking_mode = 'standalone';
-assignProp@160: (error.name === 'SequelizeValidationError' ||
-assignProp@161: error.name === 'SequelizeUniqueConstraintError')) {
-assignProp@165: if (validationError.name === 'SequelizeUniqueConstraintError') {
-assignProp@222: if (req.params.entityType === 'blockInstance') {
-assignProp@223: if (sanitizedData.bookingMode === '') {
-assignProp@224: sanitizedData.bookingMode = 'standalone';
-assignProp@226: if (sanitizedData.booking_mode === '') {
-assignProp@227: sanitizedData.booking_mode = 'standalone';
-assignProp@232: if (req.params.entityType === 'blockInstance') {
-assignProp@270: if (req.params.entityType === 'partInstance') {
-assignProp@384: if (req.params.entityType === 'blockInstance') {
-assignProp@474: if (req.params.entityType === 'partInstance') {
-assignProp@527: typeof error.parent === 'object' &&
-assignProp@529: error.parent.code === '23514') {
-assignProp@532: error.parent.constraint === 'check_state_control_mutual_exclusivity') {
-assignProp@544: (error.name === 'SequelizeValidationError' ||
-assignProp@545: error.name === 'SequelizeUniqueConstraintError')) {
-delete@573: // CRITICAL: For block instances, capture old state BEFORE delete for versioning
-assignProp@574: if (req.params.entityType === 'blockInstance') {
-```
-
-### `server/src/scripts/importCalendarData.ts`
-
-- counts: forEach=0, forLoop=3, forOf=3, forIn=0, while=0, push=2, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=12
-
-```
-assignProp@64: if (parts.length === 1) {
-assignProp@83: if (!addressString || addressString.trim().length === 0) {
-assignIndex@124: const [, streetAddress, city, state, zipCode] = match;
-assignProp@153: if (!event.attendees || event.attendees.length === 0) {
-forLoop@157: for (const attendee of event.attendees) {
-forOf@157: for (const attendee of event.attendees) {
-assignProp@158: if (!attendee.email || attendee.email === organizerEmail) {
-push@173: clients.push({
-assignIndex@197: const [user, created] = await User.findOrCreate({
-assignIndex@292: const [propertyDetails, detailsCreated] = await PropertyDetails.findOrCreate({
-assignProp@320: if (property.mlsNumber !== null) updates.mlsNumber = property.mlsNumber;
-assignProp@321: if (property.squareFootage !== null) updates.squareFootage = property.squareFootage;
-assignProp@322: if (property.bedrooms !== null) updates.bedrooms = property.bedrooms;
-assignProp@323: if (property.bathrooms !== null) updates.bathrooms = property.bathrooms;
-assignProp@324: if (property.foundationAccess !== null) updates.foundationAccess = property.foundationAccess;
-assignProp@325: if (property.additionalUnits !== null) updates.additionalUnits = property.additionalUnits;
-forLoop@352: for (const event of events) {
-forOf@352: for (const event of events) {
-forLoop@354: for (const client of clients) {
-forOf@354: for (const client of clients) {
-push@425: chunks.push(chunk);
-assignProp@445: if (eventsToProcess.length === 0) {
-assignProp@471: if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('importCalendarData.js')) {
+push@40: grouped.get(partShape)!.push(part)
+forLoop@153: for (const eventInstance of events) {
+forOf@153: for (const eventInstance of events) {
+assignProp@182: const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
+assignProp@183: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+assignProp@184: if (majorEventShape && majorEventShape.id === eventShape.id) {
+assignProp@200: const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
+assignProp@201: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+assignProp@202: if (majorEventShape && majorEventShape.id === eventShape.id) {
+forEach@227: eventRawDurations.forEach((value, key) => eventRawDurationsByShapeId.set(key, value))
+forEach@228: eventRoundedDurations.forEach((value, key) => eventRoundedDurationsByShapeId.set(key, value))
+assignProp@247: .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
+assignProp@296: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
 ```
 
 ### `client/src/utils/booking/timeAvailabilityManager.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=1, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=17
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=17
 
 ```
 assignProp@91: this.name = 'ConstraintValidationError'
@@ -180,38 +110,10 @@ assignProp@418: if (constraint.placement === 'before' || constraint.placement ==
 assignProp@422: if (constraint.placement === 'after' || constraint.placement === 'both') {
 assignProp@435: constraint => constraint.enforcement === 'hard' && checkConstraintOverlap(constraint)
 assignProp@443: constraint.enforcement === 'flexible' && checkConstraintOverlap(constraint)
-while@527: while (dayIterator < endDateOnly) {
-push@528: days.push(new Date(dayIterator))
 assignProp@651: direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined
 assignProp@942: if (!capacityConstraints || capacityConstraints.length === 0) {
 assignProp@949: if (availableSlots.length === 0) {
 assignProp@955: if (activeCapacityConstraints.length === 0) {
-```
-
-### `server/src/services/googleCalendarService.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=16
-
-```
-assignProp@58: if (rateLimitResult.status === 'exceeded') {
-forLoop@93: for (const [email, calendarData] of Object.entries(response.data.calendars)) {
-forOf@93: for (const [email, calendarData] of Object.entries(response.data.calendars)) {
-assignIndex@102: freeBusyData.calendars[email] = {
-assignProp@118: if (error.code === 429 || error.code === 403) {
-assignProp@124: if (error.code === 401) {
-assignProp@162: if (rateLimitResult.status === 'exceeded') {
-assignProp@223: if (error.code === 429 || error.code === 403) {
-assignProp@229: if (error.code === 401) {
-assignProp@331: if (rateLimitResult.status === 'exceeded') {
-assignProp@363: eventResource.description = description;
-assignProp@367: eventResource.location = location;
-assignProp@371: eventResource.attendees = attendees.map(attendee => ({
-assignProp@418: result.location = createdEvent.location;
-assignProp@422: result.attendees = createdEvent.attendees
-assignProp@436: if (error.code === 429 || error.code === 403) {
-assignProp@442: if (error.code === 401) {
-assignProp@448: if (error.code === 403 && error.message?.includes('forbidden')) {
-assignProp@454: if (error.code === 404) {
 ```
 
 ### `server/src/config/app.js`
@@ -316,58 +218,6 @@ assignProp@275: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex :
 assignProp@326: requiresUnitNumber: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean' ? blockInstanceWithProps.requiresUnitNumber : null,
 ```
 
-### `client/src/utils/transformers/componentAggregator.ts`
-
-- counts: forEach=2, forLoop=4, forOf=4, forIn=0, while=0, push=3, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
-
-```
-forLoop@35: for (const rel of relationships) {
-forOf@35: for (const rel of relationships) {
-forLoop@41: for (const child of rel.children) {
-forOf@41: for (const child of rel.children) {
-push@42: instanceComponents.push({
-assignProp@71: ac.parentId === composerId &&
-forLoop@77: for (const componentId of directComponents) {
-forOf@77: for (const componentId of directComponents) {
-assignProp@79: ac => ac.parentId === componentId && !ac.disabled
-push@84: recursiveComponents.push(...nestedComponents)
-push@86: recursiveComponents.push(componentId)
-forLoop@107: for (const blockId of composedBlockIds) {
-forOf@107: for (const blockId of composedBlockIds) {
-assignProp@108: const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)
-assignProp@113: rel => rel.parent.id === blockId
-forEach@116: blockRelationships.forEach(rel => {
-forEach@117: rel.children.forEach(partInstance => {
-assignProp@142: if (componentIds.length === 0) {
-assignProp@158: if (components.length === 0) {
-assignProp@179: const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)
-```
-
-### `client/src/utils/booking/mockGoogleCalendar.ts`
-
-- counts: forEach=0, forLoop=4, forOf=3, forIn=0, while=0, push=5, splice=0, sort=1, reverse=0, assignIndex=1, assignProp=4
-
-```
-forLoop@205: for (const calendarId of mergedConfig.calendarIds) {
-forOf@205: for (const calendarId of mergedConfig.calendarIds) {
-push@219: busyPeriods.push({
-forLoop@225: for (let i = 0; i < adjustedPeriodsPerCalendar; i++) {
-assignProp@245: period.end = toRFC3339DateTime(maxEndTime)
-push@253: busyPeriods.push(period)
-assignIndex@265: calendars[calendarId] = { busy: busyPeriods }
-forLoop@289: for (const calendar of Object.values(response.calendars)) {
-forOf@289: for (const calendar of Object.values(response.calendars)) {
-push@291: allBusyPeriods.push(...calendar.busy)
-assignProp@295: if (!mergeOverlapping || allBusyPeriods.length === 0) {
-sort@300: const sorted = [...allBusyPeriods].sort((a, b) =>
-forLoop@306: for (const period of sorted) {
-forOf@306: for (const period of sorted) {
-assignProp@307: if (merged.length === 0) {
-push@308: merged.push({ ...period })
-assignProp@320: lastMerged.end = period.end
-push@323: merged.push({ ...period })
-```
-
 ### `client/src/types/admin/AdminEntity.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=10
@@ -386,83 +236,6 @@ assignIndex@131: this[fieldKey as string] = value
 assignProp@132: this.isDirty = true
 assignIndex@143: this[fieldKey as string] = value
 assignProp@144: this.isDirty = true
-```
-
-### `client/src/utils/booking/appointmentSlotBuilder.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=7
-
-```
-assignProp@71: return slotShape.eventFinals.find(ef => ef.eventShape.name === name)
-assignProp@88: return slotShape.eventFinals.find(ef => ef.eventShape.id === id)
-assignProp@148: * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
-assignProp@166: ps => ps.name === partShapeName
-assignProp@179: .filter(pi => pi.partShape === partShapeName)
-assignProp@183: return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
-assignProp@192: .map(id => eventInstances.find(ei => ei.id === id))
-forLoop@242: for (const partShapeName of uniquePartShapes) {
-forOf@242: for (const partShapeName of uniquePartShapes) {
-assignIndex@251: eventAssignmentsByPartShape[partShapeName] = events
-assignIndex@344: adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange
-assignIndex@347: adjustedEventTimeRanges[minorEventName] = null
-```
-
-### `client/src/utils/booking/constraintExtractors.ts`
-
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=5, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
-
-```
-push@62: constraints.push(businessHoursConstraint)
-push@68: constraints.push(leadTimeConstraint)
-push@74: constraints.push(dateRangeConstraint)
-forLoop@88: for (const bufferType of bufferTypes) {
-forOf@88: for (const bufferType of bufferTypes) {
-assignProp@92: if (buffer.enforcement === undefined) {
-push@96: constraints.push({
-forLoop@124: for (const { type, settingsKey } of capacityTypeMap) {
-forOf@124: for (const { type, settingsKey } of capacityTypeMap) {
-assignProp@128: if (filter.enforcement === undefined) {
-assignProp@132: if (filter.enforcement === 'off') {
-push@146: constraints.push(constraint)
-assignProp@228: if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constraint.direction) {
-```
-
-### `client/src/utils/booking/partFinalizer.ts`
-
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
-
-```
-push@40: grouped.get(partShape)!.push(part)
-forLoop@139: for (const part of partFinals) {
-forOf@139: for (const part of partFinals) {
-forLoop@147: for (const eventInstance of events) {
-forOf@147: for (const eventInstance of events) {
-assignProp@176: const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
-assignProp@177: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-assignProp@178: if (majorEventShape && majorEventShape.id === eventShape.id) {
-assignProp@194: const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
-assignProp@195: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-assignProp@196: if (majorEventShape && majorEventShape.id === eventShape.id) {
-assignProp@221: .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
-assignProp@270: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-```
-
-### `client/src/utils/booking/selectionCardStyles.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=7, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=3
-
-```
-push@7: classes.push('selection-card-bordered')
-push@11: classes.push(config.appearance.cardPadding)
-push@15: classes.push('active')
-assignProp@18: if (config.layout === 'stack' && config.controlPosition === 'left') {
-push@19: classes.push('selection-card-left-radio')
-assignIndex@34: classes['d-none'] = true
-assignProp@43: if (config.layout === 'stack') {
-assignProp@44: if (config.controlPosition === 'left') {
-push@45: classes.push('align-start', 'text-start')
-push@47: classes.push('align-center', 'text-center')
-push@50: classes.push('align-center', 'text-center')
 ```
 
 ### `client/src/utils/timeSlotCalculations.ts`
@@ -502,40 +275,56 @@ assignProp@441: a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole =
 assignProp@444: a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'
 ```
 
+### `client/src/utils/booking/appointmentSlotBuilder.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=7
+
+```
+assignProp@71: return slotShape.eventFinals.find(ef => ef.eventShape.name === name)
+assignProp@88: return slotShape.eventFinals.find(ef => ef.eventShape.id === id)
+assignProp@136: * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
+assignProp@154: ps => ps.name === partShapeName
+assignProp@167: .filter(pi => pi.partShape === partShapeName)
+assignProp@171: return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
+assignProp@180: .map(id => eventInstances.find(ei => ei.id === id))
+assignIndex@243: .filter((entry): entry is [string, typeof eventInstances] => entry !== null)
+assignIndex@336: adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange
+assignIndex@339: adjustedEventTimeRanges[minorEventName] = null
+```
+
 ### `client/src/utils/forms/fieldSectionCategorization.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=2, reverse=0, assignIndex=2, assignProp=6
 
 ```
-assignProp@116: return meta.renderAs === 'statusButton'
-sort@124: .sort((a, b) => a.order - b.order)
-assignProp@126: result.statusButtonFields = statusButtonFieldsWithOrder
-assignProp@139: isStatusButton: meta.renderAs === 'statusButton'
-assignProp@166: if (fieldMeta.layout === 'inline') {
-sort@195: .sort((a, b) => {
-assignIndex@196: const [aOrder] = a.split('::')
-assignIndex@197: const [bOrder] = b.split('::')
-assignProp@203: result.directFields = {
-assignProp@207: result.subPanelFields = {
+assignProp@114: return meta.renderAs === 'statusButton'
+sort@122: .sort((a, b) => a.order - b.order)
+assignProp@124: result.statusButtonFields = statusButtonFieldsWithOrder
+assignProp@137: isStatusButton: meta.renderAs === 'statusButton'
+assignProp@164: if (fieldMeta.layout === 'inline') {
+sort@193: .sort((a, b) => {
+assignIndex@194: const [aOrder] = a.split('::')
+assignIndex@195: const [bOrder] = b.split('::')
+assignProp@201: result.directFields = {
+assignProp@205: result.subPanelFields = {
 ```
 
-### `server/src/routes/helpers/dataController.ts`
+### `server/src/services/googleCalendarService.ts`
 
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=5
+- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=8
 
 ```
-assignProp@68: queryOptions.include = options.includes;
-assignProp@72: queryOptions.attributes = options.attributes;
-assignProp@76: queryOptions.attributes = autoAttributes;
-assignProp@86: queryOptions.order = options.order;
-assignProp@114: options.attributes = getModelAttributes(Entity);
-assignIndex@140: const [updatedRows] = await Entity.update(data as Partial<T["_creationAttributes"]>, {
-assignIndex@157: const [patchedRows] = await Entity.update(data as Partial<T["_creationAttributes"]>, {
-forLoop@170: for (const { id, ...data } of updates) {
-forOf@170: for (const { id, ...data } of updates) {
-assignIndex@175: const [count] = await Entity.update(data as Partial<Attributes<T>>, {
-forLoop@215: for (const dep of dependents) {
-forOf@215: for (const dep of dependents) {
+assignProp@86: if (rateLimitResult.status === 'exceeded') {
+forLoop@120: for (const [email, calendarData] of Object.entries(response.data.calendars)) {
+forOf@120: for (const [email, calendarData] of Object.entries(response.data.calendars)) {
+assignIndex@129: freeBusyData.calendars[email] = {
+assignProp@218: if (rateLimitResult.status === 'exceeded') {
+assignProp@399: if (rateLimitResult.status === 'exceeded') {
+assignProp@430: eventResource.description = description;
+assignProp@434: eventResource.location = location;
+assignProp@438: eventResource.attendees = attendees.map(attendee => ({
+assignProp@483: result.location = createdEvent.location;
+assignProp@487: result.attendees = createdEvent.attendees
 ```
 
 ### `client/src/utils/transformers/annotationTransformers.ts`
@@ -554,57 +343,20 @@ assignProp@188: if (annotation.AnnotationAssignment && typeof annotation.Annotat
 assignProp@197: if (annotation.annotationAssignment && typeof annotation.annotationAssignment === 'object') {
 ```
 
-### `server/src/routes/external/calendarRoutes.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
-
-```
-assignProp@50: if (!calendarEmails || !Array.isArray(calendarEmails) || calendarEmails.length === 0) {
-forLoop@325: for (const attendee of attendees) {
-forOf@325: for (const attendee of attendees) {
-assignProp@365: eventParams.description = description;
-assignProp@369: eventParams.location = location;
-assignProp@373: eventParams.attendees = attendees as EventAttendee[];
-assignProp@377: eventParams.sendUpdates = sendUpdates;
-assignProp@452: if (process.env.NODE_ENV === 'production') {
-assignProp@493: if (process.env.NODE_ENV === 'production') {
-assignProp@534: if (process.env.NODE_ENV === 'production') {
-```
-
-### `server/src/routes/internal/users/userRouter.ts`
+### `client/src/utils/transformers/componentAggregator.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=9
 
 ```
-assignProp@59: (error.name === 'SequelizeValidationError' ||
-assignProp@60: error.name === 'SequelizeUniqueConstraintError')) {
-assignProp@63: if (validationError.name === 'SequelizeUniqueConstraintError') {
-assignProp@120: (error.name === 'SequelizeValidationError' ||
-assignProp@121: error.name === 'SequelizeUniqueConstraintError')) {
-assignProp@124: if (validationError.name === 'SequelizeUniqueConstraintError') {
-assignProp@178: (error.name === 'SequelizeValidationError' ||
-assignProp@179: error.name === 'SequelizeUniqueConstraintError')) {
-assignProp@182: if (validationError.name === 'SequelizeUniqueConstraintError') {
-delete@233: error: 'Failed to delete user',
-```
-
-### `server/src/scripts/fixUserRolesAndEmails.ts`
-
-- counts: forEach=0, forLoop=4, forOf=3, forIn=0, while=0, push=2, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-assignProp@71: const clientUsers = existingUsers.filter(u => u.userRole === 'client');
-forLoop@74: for (const user of clientUsers) {
-forOf@74: for (const user of clientUsers) {
-forLoop@86: for (const user of agentUsers) {
-forOf@86: for (const user of agentUsers) {
-forLoop@97: for (let i = 0; i < TEST_CLIENT_NAMES.length; i++) {
-push@109: createdClients.push(existingClient);
-push@121: createdClients.push(newClient);
-forLoop@136: for (const appointment of appointments) {
-forOf@136: for (const appointment of appointments) {
-assignProp@143: updates.scheduledById = randomScheduler.id;
-assignProp@150: ? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'
+assignProp@36: rel.parent.entityKey === entityKind &&
+assignProp@37: rel.relationshipKind === 'instanceComponents'
+assignProp@66: ac.parentId === composerId &&
+assignProp@74: ac => ac.parentId === componentId && !ac.disabled
+assignProp@102: const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)
+assignProp@106: rel => rel.parent.id === blockId
+assignProp@134: if (componentIds.length === 0) {
+assignProp@150: if (components.length === 0) {
+assignProp@171: const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)
 ```
 
 ### `client/src/composables/booking/useStepValidation.ts`
@@ -630,53 +382,34 @@ forLoop@96: for (const validator of Object.values(customValidators)) {
 forOf@96: for (const validator of Object.values(customValidators)) {
 ```
 
-### `client/src/services/calendarApiService.ts`
+### `client/src/utils/booking/constraintExtractors.ts`
 
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
-
-```
-assignProp@78: this.name = 'CalendarApiError'
-assignProp@152: if (!calendarEmails || calendarEmails.length === 0) {
-forLoop@203: for (const calendarEmail of Object.keys(response.calendars)) {
-forOf@203: for (const calendarEmail of Object.keys(response.calendars)) {
-forLoop@206: for (const period of calendar.busy) {
-forOf@206: for (const period of calendar.busy) {
-push@207: allBusyTimes.push({
-assignProp@230: if (axiosError.response?.status === 401) {
-assignProp@239: if (axiosError.response?.status === 429) {
-assignProp@247: if (axiosError.response?.status === 404) {
-```
-
-### `client/src/utils/booking/confirmationStepData.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=5, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=3, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
 
 ```
-assignProp@105: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
-assignProp@109: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
-push@114: if (prop.address) addressParts.push(prop.address)
-push@115: if (prop.unit) addressParts.push(`#${prop.unit}`)
-push@116: if (prop.city) addressParts.push(prop.city)
-push@117: if (prop.state) addressParts.push(prop.state)
-push@118: if (prop.zipCode) addressParts.push(prop.zipCode)
-assignProp@213: isFree: feeResult.totalFee === 0
+push@62: constraints.push(businessHoursConstraint)
+push@68: constraints.push(leadTimeConstraint)
+push@74: constraints.push(dateRangeConstraint)
+assignProp@90: if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) {
+assignProp@95: if (buffer.enforcement === undefined) {
+assignProp@135: if (filter.enforcement === undefined) {
+assignProp@139: if (filter.enforcement === 'off') {
+assignProp@232: if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constraint.direction) {
 ```
 
-### `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts`
+### `server/src/services/calendarErrorHandler.ts`
 
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=4
+- counts: forEach=0, forLoop=1, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
 
 ```
-forLoop@61: for (const entry of allMetadata) {
-forOf@61: for (const entry of allMetadata) {
-assignIndex@82: result.blockShapeSpecific[blockShapeRef] = {};
-assignIndex@84: result.blockShapeSpecific[blockShapeRef][fieldKey] = metadataEntry;
-assignIndex@87: result.global[entityType][fieldKey] = metadataEntry;
-assignProp@242: existingWhere.blockShapeRef = finalBlockShapeRef;
-assignProp@244: existingWhere.blockShapeRef = { [Op.is]: null };
-assignProp@333: whereClause.blockShapeRef = finalBlockShapeRef;
-assignProp@335: whereClause.blockShapeRef = { [Op.is]: null };
-delete@359: error: 'Failed to delete metadata',
+assignProp@47: this.name = 'CalendarApiError';
+assignProp@48: this.type = type;
+assignProp@49: this.statusCode = options?.statusCode;
+assignProp@50: this.retryable = options?.retryable ?? false;
+assignProp@51: this.originalError = options?.originalError;
+assignProp@93: if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND') {
+assignProp@101: if (error.code === 'ETIMEDOUT' || error.message?.includes('timeout')) {
+forLoop@220: for (let attempt = 0; attempt <= retryConfig.maxRetries; attempt++) {
 ```
 
 ### `client/src/components/admin/generic/EntityCardSubPanels.vue`
@@ -701,20 +434,6 @@ assignProp@205: } else if (props.entityKey === 'blockShape') {
 push@210: relationshipTypes.push('Valid Cascades')
 push@213: relationshipTypes.push('Valid Parts')
 assignProp@243: v-if="props.entityKey === 'blockInstance'"
-```
-
-### `client/src/utils/appointmentFieldFormatters.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
-
-```
-assignProp@40: const property = properties.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)
-assignProp@58: const user = users.find(u => u.id === value)
-assignProp@68: const user = users.find(u => u.id === value)
-assignProp@93: a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'
-assignProp@99: const user = users.find(u => u.id === clientAttendee.userId)
-assignProp@112: a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'
-assignProp@118: const user = users.find(u => u.id === agentAttendee.userId)
 ```
 
 ### `client/src/utils/entityDefaults.ts`
@@ -927,6 +646,19 @@ assignIndex@107: queryKey[1] === variables.entityType &&
 assignIndex@108: queryKey[2] === variables.entityId
 ```
 
+### `client/src/utils/appointmentFieldFormatters.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
+
+```
+assignProp@40: const property = properties.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)
+assignProp@58: const user = users.find(u => u.id === value)
+assignProp@83: a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'
+assignProp@89: const user = users.find(u => u.id === clientAttendee.userId)
+assignProp@102: a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'
+assignProp@108: const user = users.find(u => u.id === agentAttendee.userId)
+```
+
 ### `client/src/utils/blockInstanceUtils.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
@@ -1053,6 +785,18 @@ push@122: classes.push('ms-3')
 assignProp@141: v-if="mergedConfig.controlPosition === 'left'"
 ```
 
+### `client/src/services/calendarApiService.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
+
+```
+assignProp@78: this.name = 'CalendarApiError'
+assignProp@152: if (!calendarEmails || calendarEmails.length === 0) {
+assignProp@224: if (axiosError.response?.status === 401) {
+assignProp@233: if (axiosError.response?.status === 429) {
+assignProp@241: if (axiosError.response?.status === 404) {
+```
+
 ### `client/src/utils/booking/appointmentTimeCalculations.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=4
@@ -1112,35 +856,6 @@ forLoop@89: for (const childId of activeRelationships) {
 forOf@89: for (const childId of activeRelationships) {
 push@92: invalidRelationships.push({
 push@103: invalidRelationships.push({
-```
-
-### `server/src/scripts/createAppointmentsFromCalendar.ts`
-
-- counts: forEach=0, forLoop=3, forOf=3, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
-
-```
-forLoop@49: for (const pattern of patterns) {
-forOf@49: for (const pattern of patterns) {
-assignProp@60: if (array.length === 0) return undefined;
-forLoop@221: for (const event of events) {
-forOf@221: for (const event of events) {
-forLoop@239: for (const attendee of event.attendees) {
-forOf@239: for (const attendee of event.attendees) {
-assignProp@244: if (user && user.userRole === 'agent') {
-```
-
-### `server/src/scripts/importFromMCPEvents.ts`
-
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=2, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
-
-```
-forLoop@49: for (const pattern of patterns) {
-forOf@49: for (const pattern of patterns) {
-forLoop@65: for (const attendee of event.attendees) {
-forOf@65: for (const attendee of event.attendees) {
-push@67: attendees.push({
-assignProp@76: if (attendees.length === 0 && clientName) {
-push@78: attendees.push({
 ```
 
 ### `server/src/utils/adminMetadataComposer.ts`
@@ -1241,6 +956,17 @@ push@59: slots.push({
 push@75: slots.push({
 assignProp@83: if (slots.length === 0 && params.selectedSlot.totalTimeRange) {
 push@84: slots.push({
+```
+
+### `client/src/utils/booking/selectionCardStyles.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=3
+
+```
+assignProp@11: config.layout === 'stack' && config.controlPosition === 'left' && 'selection-card-left-radio'
+assignIndex@26: classes['d-none'] = true
+assignProp@36: const layoutClasses = config.layout === 'stack'
+assignProp@37: ? config.controlPosition === 'left'
 ```
 
 ### `client/src/utils/orderIndexUtils.ts`
@@ -1447,6 +1173,26 @@ assignProp@40: typeof metadata.isDefault === 'boolean' &&
 assignProp@41: (metadata.userTypeBlock === null || typeof metadata.userTypeBlock === 'string') // userTypeBlock is BlockInstance ID (GlobalEntityId) or null
 ```
 
+### `client/src/utils/booking/confirmationStepData.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+
+```
+assignProp@105: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
+assignProp@109: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
+assignProp@214: isFree: feeResult.totalFee === 0
+```
+
+### `client/src/utils/booking/mockGoogleCalendar.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=2
+
+```
+assignProp@297: if (!mergeOverlapping || allBusyPeriods.length === 0) {
+sort@302: const sorted = [...allBusyPeriods].sort((a, b) =>
+assignProp@308: if (merged.length === 0) {
+```
+
 ### `client/src/utils/booking/timeSlotFitter.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=1
@@ -1465,52 +1211,6 @@ assignProp@317: (params.rangeConstraints?.find(rc => rc.type === 'businessHours'
 assignIndex@141: ;(acc as Record<string, unknown>)[relKey] = relationshipValue
 assignProp@153: ;(relationshipData as Record<string, unknown>).attendees = eventShapeEntity.attendees
 assignIndex@218: acc[propName as keyof GlobalEntity<GE>] = relationshipValue as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
-```
-
-### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=1
-
-```
-assignProp@39: if (inputConfig.targetMode === 'relationship') {
-forLoop@79: for (const meta of metadata) {
-forOf@79: for (const meta of metadata) {
-assignIndex@80: metadataRecord[meta.fieldKey] = {
-delete@257: error: 'Failed to delete primitive metadata',
-```
-
-### `server/src/routes/internal/appointments/appointmentRouter.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-assignProp@109: if (!blockInstanceIds || blockInstanceIds.length === 0) {
-assignProp@128: if (snapshotIds.length === 0) return;
-assignProp@202: if (appointment.status === 'submitted' || appointment.status === 'confirmed') {
-delete@305: error: 'Failed to delete appointment',
-```
-
-### `server/src/routes/internal/businessRulesRouter.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-assignProp@20: if (blockInstanceId) where.blockInstanceId = blockInstanceId;
-assignProp@21: if (ruleType) where.ruleType = ruleType;
-assignProp@22: if (active !== undefined) where.active = active === 'true';
-delete@219: error: 'Failed to delete business rule',
-```
-
-### `server/src/routes/internal/businessSettingsRouter.ts`
-
-- counts: forEach=0, forLoop=2, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
-
-```
-forLoop@84: for (let day = 0; day <= 6; day++) {
-forLoop@127: for (let day = 0; day <= 6; day++) {
-assignProp@433: setting.settingValue = setting_value;
-assignProp@484: setting.settingValue = mergedValue;
-delete@519: error: 'Failed to delete business setting',
 ```
 
 ### `server/src/services/appointmentCalendarService.ts`
@@ -1869,17 +1569,6 @@ assignProp@513: formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
 assignProp@515: formData.value.calendarConfig.calendars.work = value
 assignProp@525: formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
 assignProp@527: formData.value.calendarConfig.calendars.personal = value
-```
-
-### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=0
-
-```
-forLoop@33: for (const meta of metadata) {
-forOf@33: for (const meta of metadata) {
-assignIndex@34: metadataRecord[meta.relationshipKey] = {
-delete@199: error: 'Failed to delete relationship metadata',
 ```
 
 ### `server/src/services/appointmentSnapshotLoader.ts`
@@ -3292,17 +2981,11 @@ delete@166: * WHY: Component needs delete function with confirmation
 
 ### `client/src/composables/admin/useFieldComponent.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
 
 ```
-assignProp@121: if ('value' in providedEntity && typeof providedEntity.value === 'object') {
-assignProp@187: if (result.type === 'unknown') {
-assignProp@203: * PATTERN: Determined from dispatcher: component.type === 'icon'
-assignProp@206: return componentType.value.type === 'icon'
-assignProp@212: * PATTERN: Determined from dispatcher: component.type === 'primitive'
-assignProp@215: return componentType.value.type === 'primitive'
-assignProp@221: * PATTERN: Determined from dispatcher: component.type === 'relationshipCollection'
-assignProp@224: return componentType.value.type === 'relationshipCollection'
+assignProp@103: if ('value' in providedEntity && typeof providedEntity.value === 'object') {
+assignProp@169: if (result.type === 'unknown') {
 ```
 
 ### `client/src/composables/admin/useFieldContextManager.ts`
@@ -3751,23 +3434,21 @@ assignProp@215: const slot = appointmentSlots.value.find(s => s.buttonIndex === 
 ```
 assignProp@92: if (!startTime || slots.length === 0) {
 assignProp@117: if (!startTime || slots.length === 0 || !isDifferential) {
-assignProp@147: const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)
-assignProp@170: const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)
+assignProp@149: const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)
+assignProp@172: const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)
 ```
 
 ### `client/src/composables/booking/useAvailabilityDefaults.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
 
 ```
-assignProp@103: set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
-assignProp@115: set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
-assignProp@129: selectedDate.value = {
-assignProp@184: selectedDate.value = {
-assignProp@189: selectedDate.value = {
-assignProp@206: startTimeType.value = 'nonDifferential'
-assignProp@208: if (startTimeType.value === 'nonDifferential') {
-assignProp@209: startTimeType.value = 'major'
+assignProp@101: selectedDate.value = {
+assignProp@156: selectedDate.value = {
+assignProp@161: selectedDate.value = {
+assignProp@178: startTimeType.value = 'nonDifferential'
+assignProp@180: if (startTimeType.value === 'nonDifferential') {
+assignProp@181: startTimeType.value = 'major'
 ```
 
 ### `client/src/composables/booking/useAvailabilityDevPanel.ts`
@@ -4130,9 +3811,12 @@ assignProp@30: if (props.startTimeType === type) {
 
 ### `client/src/composables/booking/useTimeSlotCalculations.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
 
-- (no matches)
+```
+assignProp@103: majorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
+assignProp@147: minorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id)
+```
 
 ### `client/src/composables/booking/useTimeSlotDurations.ts`
 
@@ -5765,80 +5449,6 @@ delete@17: * - Dynamic shape management (admins can create/edit/delete shapes)
 - (no matches)
 
 ### `server/src/middlewares/notFound.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/external/googleFetchRoutes.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/external/googleOauthRoutes.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/external/htmlRoutes.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/external/index.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/index.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/internal/availabilityRouter.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/internal/index.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/internal/participantRoutes/index.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/internal/participantRoutes/login-routes.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/internal/participantRoutes/user-routes.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-- (no matches)
-
-### `server/src/routes/internal/properties/propertyRouter.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
-
-```
-delete@300: error: 'Failed to delete property',
-```
-
-### `server/src/scripts/importRealCalendarEvents.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 

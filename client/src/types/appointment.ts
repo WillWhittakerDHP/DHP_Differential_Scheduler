@@ -190,12 +190,6 @@ export interface AppointmentSlot {
   // WHY: Precomputed because accessed frequently in UI (graphBars, derivePerspective, etc.)
   totalTimeRange: TimeRange | null          // From shape.slotShape.roundedDuration + startTime (uses rounded for display)
   eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "majorEvent": {...}, "minorEvent": {...}, "Moveable": {...} })
-  
-  // Legacy properties for backward compatibility during migration (onSite->major rename)
-  // PATTERN: Legacy properties that map to eventTimeRanges entries
-  majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']
-  minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']
-  moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']
 }
 
 /**

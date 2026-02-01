@@ -12,7 +12,7 @@
  * - Manage selectedDate, startTimeType, majorTimeSlot, minorTimeSlot state
  */
 
-import { ref, computed, watch, type Ref, type ComputedRef } from 'vue'
+import { ref, watch, type Ref, type ComputedRef } from 'vue'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { matchLoadedTimeSlots } from '@/utils/booking/timeSlotMatching'
 import type { TimeSlot } from '@/types/appointment'
@@ -37,10 +37,6 @@ export interface UseAvailabilityDefaultsReturn {
   startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
   
   appointmentSlotOrderIndex: Ref<number | null>
-  
-  majorOrderIndex: Ref<number | null>
-  
-  minorOrderIndex: Ref<number | null>
 }
 
 /**
@@ -90,30 +86,6 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
    *       but it's the same appointment slot button. Selection state persists when switching perspectives.
    */
   const appointmentSlotOrderIndex = ref<number | null>(null)
-
-  /**
-   * Major order index state (backward compatibility)
-   * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
-   * WHY: Step data may need separate major/minor TimeSlots, but selection uses single orderIndex
-   * PATTERN: Writable computed ref that syncs with appointmentSlotOrderIndex
-   * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
-   */
-  const majorOrderIndex = computed({
-    get: () => appointmentSlotOrderIndex.value,
-    set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
-  }) as Ref<number | null>
-
-  /**
-   * Minor order index state (backward compatibility)
-   * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
-   * WHY: Step data may need separate major/minor TimeSlots, but selection uses single orderIndex
-   * PATTERN: Writable computed ref that syncs with appointmentSlotOrderIndex
-   * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
-   */
-  const minorOrderIndex = computed({
-    get: () => appointmentSlotOrderIndex.value,
-    set: (value: number | null) => { appointmentSlotOrderIndex.value = value }
-  }) as Ref<number | null>
 
   /**
    * Watch loaded wizard state and reset selectedDate to today
@@ -215,8 +187,6 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
     selectedDate,
     startTimeType,
     appointmentSlotOrderIndex,
-    majorOrderIndex,
-    minorOrderIndex,
   }
 }
 

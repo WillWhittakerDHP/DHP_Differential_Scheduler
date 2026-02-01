@@ -127,9 +127,11 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     
     return slots.map(appointmentSlot => {
       const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData || undefined, availabilitySettings.value || null)
-      // NOTE: Uses 'Minor' as fallback for backward compatibility
-      const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.eventTimeRanges || {})[0] || 'Minor'
-      return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
+      // PATTERN: Use eventTimeRanges keys instead of hardcoded 'Minor'
+      // Get first available event time range, or fall back to totalTimeRange
+      const eventTimeRanges = transformed.eventTimeRanges || {}
+      const firstEventTimeRange = Object.values(eventTimeRanges).find(tr => tr !== null) || null
+      return firstEventTimeRange || transformed.totalTimeRange || null
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
@@ -174,10 +176,10 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     const globalData = useGlobal().getGlobalData()
     const { settings: availabilitySettings } = useAvailabilitySettings()
     const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData || undefined, availabilitySettings.value || null)
-    // PATTERN: Return TimeRange properties from eventTimeRanges
-    // NOTE: Uses 'Minor' as fallback for backward compatibility
-    const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.eventTimeRanges || {})[0] || 'Minor'
-    return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
+    // PATTERN: Return first available event time range from eventTimeRanges, or fall back to totalTimeRange
+    const eventTimeRanges = transformed.eventTimeRanges || {}
+    const firstEventTimeRange = Object.values(eventTimeRanges).find(tr => tr !== null) || null
+    return firstEventTimeRange || transformed.totalTimeRange || null
   }
 
   return {

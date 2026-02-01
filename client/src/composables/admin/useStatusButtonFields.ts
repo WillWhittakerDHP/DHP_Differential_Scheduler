@@ -33,7 +33,7 @@ export function useStatusButtonFields<GE extends GlobalEntityKey>(
   const { fieldMetadata } = useEntityMetadata(entityKey, anyEntityForMetadata)
 
   const statusButtonFields = computed(() => {
-    const categorized = categorizeFieldsBySection([], undefined, {
+    const categorized = categorizeFieldsBySection([], {
       fieldMetadata: fieldMetadata.value
     })
 

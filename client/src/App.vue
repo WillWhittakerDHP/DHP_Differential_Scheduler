@@ -11,8 +11,13 @@
       <RouterView />
       <AppNotification />
       
-      <!-- Dev Panel System (dev mode only) -->
-      <template v-if="isDevMode">
+      <!-- 
+        Dev Panel System (dev mode only) 
+        LEARNING: Only show booking wizard dev panel on non-admin routes
+        WHY: Admin page has its own ApiDevPanel for API debugging
+        PATTERN: Conditionally render based on route
+      -->
+      <template v-if="isDevMode && !isAdminRoute">
         <DevPanelsContainer :visible="debugPanelVisible" @close="debugPanelVisible = false" />
         <DevPanelToggle @toggle="debugPanelVisible = !debugPanelVisible" />
       </template>
@@ -31,7 +36,8 @@
  */
 
 import { useTheme } from 'vuetify'
-import { ref, provide, type Ref, type ComputedRef } from 'vue'
+import { ref, provide, computed, type Ref, type ComputedRef } from 'vue'
+import { useRoute } from 'vue-router'
 import AppNotification from '@/components/AppNotification.vue'
 import DevPanelToggle from '@/components/booking/dev/DevPanelToggle.vue'
 import DevPanelsContainer from '@/components/booking/dev/DevPanelsContainer.vue'
@@ -43,6 +49,14 @@ import type { AppointmentResponse } from '@/types/appointment'
 import type { useBookingWizard } from '@/composables/useBookingWizard'
 
 const { global } = useTheme()
+const route = useRoute()
+
+/**
+ * LEARNING: Check if current route is admin page
+ * WHY: Admin page has its own ApiDevPanel, so hide global booking wizard dev panel
+ * PATTERN: Reactive computed based on route path
+ */
+const isAdminRoute = computed(() => route.path.startsWith('/admin'))
 
 // WHY: Vuetify composables require Vue component context
 initCore()

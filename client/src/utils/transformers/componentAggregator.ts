@@ -30,16 +30,14 @@ function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
 ): InstanceComponent[] {
   const relationships = globalData.relationships.instanceComponents || []
   
-  const instanceComponents: InstanceComponent[] = []
-  
-  for (const rel of relationships) {
-    if (rel.parent.entityKey !== entityKind || rel.relationshipKind !== 'instanceComponents') {
-      continue
-    }
-    
-    // PATTERN: One InstanceComponent per child entity
-    for (const child of rel.children) {
-      instanceComponents.push({
+  // PATTERN: Use flatMap to transform relationships to InstanceComponents immutably
+  return relationships
+    .filter(rel => 
+      rel.parent.entityKey === entityKind && 
+      rel.relationshipKind === 'instanceComponents'
+    )
+    .flatMap(rel => 
+      rel.children.map(child => ({
         id: `${rel.parent.id}-${child.id}`, // Generate ID from parent-child pair
         parentId: rel.parent.id,
         childId: child.id,
@@ -47,11 +45,8 @@ function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
         disabled: false, // Default disabled (not available in GlobalRelationship)
         createdAt: new Date(), // Default date
         updatedAt: new Date(), // Default date
-      })
-    }
-  }
-  
-  return instanceComponents
+      }))
+    )
 }
 
 export function getComponentsRecursive(
@@ -73,21 +68,18 @@ export function getComponentsRecursive(
     )
     .map(ac => ac.childId)
   
-  const recursiveComponents: string[] = []
-  for (const componentId of directComponents) {
+  // PATTERN: Use flatMap to recursively collect components immutably
+  return directComponents.flatMap(componentId => {
     const isComponentAlsoComposer = instanceComponents.some(
       ac => ac.parentId === componentId && !ac.disabled
     )
     
     if (isComponentAlsoComposer) {
-      const nestedComponents = getComponentsRecursive(componentId, entityKind, instanceComponents, visited)
-      recursiveComponents.push(...nestedComponents)
+      return getComponentsRecursive(componentId, entityKind, instanceComponents, visited)
     } else {
-      recursiveComponents.push(componentId)
+      return [componentId]
     }
-  }
-  
-  return recursiveComponents
+  })
 }
 
 
@@ -102,23 +94,23 @@ export function composePartInstances(
   composedBlockIds: string[],
   globalData: GlobalData
 ): string[] {
-  const allPartInstanceIds = new Set<string>()
+  const partAssignmentsRelationships = globalData.relationships.partAssignments || []
   
-  for (const blockId of composedBlockIds) {
-    const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)
-    if (!blockInstance) continue
-    
-    const partAssignmentsRelationships = globalData.relationships.partAssignments || []
-    const blockRelationships = partAssignmentsRelationships.filter(
-      rel => rel.parent.id === blockId
-    )
-    
-    blockRelationships.forEach(rel => {
-      rel.children.forEach(partInstance => {
-        allPartInstanceIds.add(partInstance.id)
-      })
+  // PATTERN: Use flatMap to collect all part instance IDs immutably, then deduplicate with Set
+  const allPartInstanceIds = new Set(
+    composedBlockIds.flatMap(blockId => {
+      const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)
+      if (!blockInstance) return []
+      
+      const blockRelationships = partAssignmentsRelationships.filter(
+        rel => rel.parent.id === blockId
+      )
+      
+      return blockRelationships.flatMap(rel => 
+        rel.children.map(partInstance => partInstance.id)
+      )
     })
-  }
+  )
   
   return Array.from(allPartInstanceIds)
 }
