@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T23:48:02.009Z",
+  "generatedAt": "2026-02-01T00:29:32.283Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -810,6 +810,200 @@
           "kind": "split_candidate",
           "priority": "P1",
           "message": "Moderate complexity score. Consider separating query/mutations from derived state and formatting."
+        }
+      ]
+    },
+    {
+      "id": "src__composables__admin__useBusinessRules.ts",
+      "repoPath": "src/composables/admin/useBusinessRules.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useBusinessRules.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 5,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 6,
+        "await": 10,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 6
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 122,
+          "line": "const rules: Ref<BusinessRule[]> = ref([])"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 123,
+          "line": "const loading = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 124,
+          "line": "const saving = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 125,
+          "line": "const error: Ref<string | null> = ref(null)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 126,
+          "line": "const success: Ref<string | null> = ref(null)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 134,
+          "line": "const fetchRules = async (filters?: {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 151,
+          "line": "const response = await apiClient.get<BusinessRule[]>(url)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 154,
+          "line": "console.error('Error fetching business rules:', err)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 168,
+          "line": "const fetchRulesByBlock = async (blockInstanceId: GlobalEntityId): Promise<BusinessRule[]> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 173,
+          "line": "const response = await apiClient.get<BusinessRule[]>(`/internal/business-rules/block/${blockInstanceId}`)"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 176,
+          "line": "console.error('Error fetching business rules for block:', err)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 190,
+          "line": "const createRule = async (formData: BusinessRuleFormData): Promise<BusinessRule | null> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 196,
+          "line": "const response = await apiClient.post<BusinessRule>('/internal/business-rules', formData)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 201,
+          "line": "await fetchRules()"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 207,
+          "line": "console.error('Error creating business rule:', err)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 221,
+          "line": "const updateRule = async (id: GlobalEntityId, formData: BusinessRuleFormData): Promise<BusinessRule | null> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 227,
+          "line": "const response = await apiClient.put<BusinessRule>(`/internal/business-rules/${id}`, formData)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 232,
+          "line": "await fetchRules()"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 238,
+          "line": "console.error('Error updating business rule:', err)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 252,
+          "line": "const deleteRule = async (id: GlobalEntityId): Promise<boolean> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 258,
+          "line": "await apiClient.delete(`/internal/business-rules/${id}`)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 261,
+          "line": "await fetchRules()"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 264,
+          "line": "console.error('Error deleting business rule:', err)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 278,
+          "line": "const toggleRuleActive = async (id: GlobalEntityId, active: boolean): Promise<boolean> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 283,
+          "line": "await apiClient.put(`/internal/business-rules/${id}`, { active })"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 286,
+          "line": "await fetchRules()"
+        },
+        {
+          "ruleId": "console",
+          "lineNumber": 289,
+          "line": "console.error('Error toggling business rule:', err)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useBusinessRules"
+      ],
+      "importSpecifiers": [
+        "@/types/entities",
+        "@/utils/api",
+        "vue"
+      ],
+      "returnKeys": [
+        "createRule",
+        "deleteRule",
+        "error",
+        "fetchRules",
+        "fetchRulesByBlock",
+        "loading",
+        "rules",
+        "saving",
+        "success",
+        "updateRule"
+      ],
+      "complexityScore": 21,
+      "priority": "P1",
+      "suggestions": [
+        {
+          "kind": "split_candidate",
+          "priority": "P1",
+          "message": "Moderate complexity score. Consider separating query/mutations from derived state and formatting."
+        },
+        {
+          "kind": "logging",
+          "priority": "P2",
+          "message": "Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag)."
         }
       ]
     },
@@ -1837,82 +2031,82 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 85,
+          "lineNumber": 91,
           "line": "clientFirstName: computed(() => clientInfo.value.firstName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 86,
+          "lineNumber": 92,
           "line": "clientLastName: computed(() => clientInfo.value.lastName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 87,
+          "lineNumber": 93,
           "line": "clientEmail: computed(() => clientInfo.value.email),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 88,
+          "lineNumber": 94,
           "line": "agentFirstName: computed(() => agentInfo.value.firstName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 89,
+          "lineNumber": 95,
           "line": "agentLastName: computed(() => agentInfo.value.lastName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 90,
+          "lineNumber": 96,
           "line": "agentEmail: computed(() => agentInfo.value.email),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 91,
+          "lineNumber": 97,
           "line": "anotherClientFirstName: computed(() => anotherClientInfo.value.firstName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 92,
+          "lineNumber": 98,
           "line": "anotherClientLastName: computed(() => anotherClientInfo.value.lastName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 93,
+          "lineNumber": 99,
           "line": "anotherClientEmail: computed(() => anotherClientInfo.value.email),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 94,
+          "lineNumber": 100,
           "line": "transactionManagerFirstName: computed(() => transactionManagerInfo.value.firstName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 95,
+          "lineNumber": 101,
           "line": "transactionManagerLastName: computed(() => transactionManagerInfo.value.lastName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 96,
+          "lineNumber": 102,
           "line": "transactionManagerEmail: computed(() => transactionManagerInfo.value.email),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 97,
+          "lineNumber": 103,
           "line": "sellerFirstName: computed(() => sellerInfo.value.firstName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 98,
+          "lineNumber": 104,
           "line": "sellerLastName: computed(() => sellerInfo.value.lastName),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 99,
+          "lineNumber": 105,
           "line": "sellerEmail: computed(() => sellerInfo.value.email)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 103,
+          "lineNumber": 114,
           "line": "const reactiveRules = computed(() => {"
         }
       ],
@@ -8997,17 +9191,17 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 89,
+          "lineNumber": 95,
           "line": "const isMultiFamily = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 125,
+          "lineNumber": 131,
           "line": "const propertyTypeBlocksWithComponents = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 126,
+          "lineNumber": 132,
           "line": "return wizard.availablePropertyTypeBlocks.value.map(adjustment => {"
         }
       ],

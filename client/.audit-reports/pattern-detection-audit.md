@@ -10,12 +10,12 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **596**
+- Files scanned: **600**
 - String literals found: **2** (showing those with 3+ occurrences)
-- Type definitions found: **479**
+- Type definitions found: **487**
 - Enum patterns found: **2**
 - Config locations found: **34**
-- Function patterns found: **305**
+- Function patterns found: **306**
 - Common patterns found: **52**
 
 ## String Literals (Potential Enum/Key Candidates)
@@ -33,11 +33,11 @@ _No frequent string literals found._
 | `AdminObjectMap` | type | `client/src/utils/transformers/globalToAdminTransformer.ts:36` |
 | `AnnotationAssignmentResponse` | interface | `client/src/types/annotations.ts:81` |
 | `AnnotationInstance` | type | `client/src/types/annotations.ts:29` |
-| `AnnotationInstanceEntity` | interface | `client/src/types/entities.ts:103` |
+| `AnnotationInstanceEntity` | interface | `client/src/types/entities.ts:113` |
 | `AnnotationMap` | type | `client/src/types/annotations.ts:61` |
 | `AnnotationMetadata` | type | `client/src/types/annotations.ts:41` |
 | `AnnotationShape` | type | `client/src/types/annotations.ts:18` |
-| `AnnotationShapeEntity` | interface | `client/src/types/entities.ts:100` |
+| `AnnotationShapeEntity` | interface | `client/src/types/entities.ts:110` |
 | `AnnotationWithMetadata` | type | `client/src/types/annotations.ts:53` |
 | `AppLogger` | type | `client/src/utils/logger.ts:17` |
 | `AppointmentRequest` | interface | `client/src/types/appointment.ts:274` |
@@ -57,11 +57,11 @@ _No frequent string literals found._
 | `BlockInstanceFormData` | interface | `client/src/composables/admin/useBlockInstanceForm.ts:24` |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts:69` |
 | `BlockInstanceSnapshot` | interface | `client/src/types/appointment.ts:258` |
-| `BlockShapeEntity` | interface | `client/src/types/entities.ts:55` |
+| `BlockShapeEntity` | interface | `client/src/types/entities.ts:65` |
 | `BlockShapeType` | type | `client/src/constants/blockShapeTypes.ts:16` |
 | `BookingBlockInstance` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:54` |
 | `BookingBlockShape` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:40` |
-| `BookingData` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:78` |
+| `BookingData` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:80` |
 | `BookingMode` | type | `client/src/constants/entities.ts:31` |
 | `BookingPartInstance` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:21` |
 | `BookingWizardStepValidators` | interface | `client/src/composables/booking/useBookingWizardStepValidators.ts:6` |
@@ -74,6 +74,8 @@ _No frequent string literals found._
 | `BusinessDataCollectionEndpoints` | type | `client/src/composables/businessDataCollections/types.ts:51` |
 | `BusinessHoursConfig` | interface | `client/src/configs/availabilitySettings.ts:85` |
 | `BusinessHoursMap` | type | `client/src/utils/booking/timeSlotFitter.ts:70` |
+| `BusinessRule` | interface | `client/src/composables/admin/useBusinessRules.ts:89` |
+| `BusinessRuleFormData` | interface | `client/src/composables/admin/useBusinessRules.ts:106` |
 | `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotFitter.ts:75` |
 | `CapacityConstraint` | interface | `client/src/utils/booking/constraintExtractors.ts:37` |
 | `CategorizedFields` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:24` |
@@ -85,6 +87,7 @@ _No frequent string literals found._
 | `ComponentStrategy` | type | `client/src/types/component.ts:10` |
 | `ComposablePropertyValue` | type | `client/src/utils/transformers/composePropertyValue.ts:16` |
 | `ComposedFieldConfig` | interface | `client/src/types/shapeFieldMetadata.ts:49` |
+| `ConditionalValidationRuleConfig` | interface | `client/src/composables/admin/useBusinessRules.ts:53` |
 | `ConstraintEnforcement` | type | `client/src/configs/availabilitySettings.ts:38` |
 | `ContactInfo` | interface | `client/src/composables/booking/useContactsStepData.ts:20` |
 | `ContactsStepData` | interface | `client/src/composables/booking/useAppointmentDataCollection.ts:26` |
@@ -113,10 +116,10 @@ _No frequent string literals found._
 | `EntityWithStringId` | type | `client/src/utils/optimistic/listByIdOptimistic.ts:1` |
 | `EventFinal` | interface | `client/src/types/appointment.ts:135` |
 | `EventInstance` | type | `client/src/types/events.ts:25` |
-| `EventInstanceEntity` | interface | `client/src/types/entities.ts:93` |
+| `EventInstanceEntity` | interface | `client/src/types/entities.ts:103` |
 | `EventPerspectiveKey` | type | `client/src/configs/eventPerspectiveLabels.ts:43` |
 | `EventShape` | type | `client/src/types/events.ts:17` |
-| `EventShapeEntity` | interface | `client/src/types/entities.ts:86` |
+| `EventShapeEntity` | interface | `client/src/types/entities.ts:96` |
 | `FetchedInstanceComponent` | interface | `client/src/types/component.ts:35` |
 | `FetchedRelationship` | interface | `client/src/types/relationships.ts:26` |
 | `FieldComponent` | type | `client/src/utils/forms/fieldComponentDispatcher.ts:23` |
@@ -125,10 +128,7 @@ _No frequent string literals found._
 | `FieldFormatter` | type | `client/src/utils/appointmentFieldFormatters.ts:19` |
 | `FieldLocation` | type | `client/src/utils/forms/fieldLocationDispatcher.ts:63` |
 | `FieldLocationContext` | interface | `client/src/utils/forms/fieldLocationDispatcher.ts:75` |
-| `FieldMetadata` | type | `client/src/composables/_archived/useFieldMetadata.ts:48` |
-| `FieldMetadataConfig` | interface | `client/src/composables/admin/useFieldMetadataUpdate.ts:13` |
-| `FieldMetadataEntry` | interface | `client/src/types/entityMetadata.ts:24` |
-| ... | ... | (+379 more) |
+| ... | ... | (+387 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 
@@ -200,6 +200,7 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useAdminRelationshipMetadataMutations` | `use*` | 1 |
 | `useAttendeeQuickSelect` | `use*` | 1 |
 | `useBlockInstanceForm` | `use*` | 1 |
+| `useBusinessRules` | `use*` | 1 |
 | `useConditionalFieldVisibility` | `use*` | 1 |
 | `useDialogFormState` | `use*` | 1 |
 | `useDragAndDrop` | `use*` | 1 |
@@ -211,8 +212,7 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useEntityCardComputed` | `use*` | 1 |
 | `useEntityCardExpansion` | `use*` | 1 |
 | `useEntityCardFieldConfiguration` | `use*` | 1 |
-| `useEntityCardLayout` | `use*` | 1 |
-| ... | ... | (+275 more) |
+| ... | ... | (+276 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 

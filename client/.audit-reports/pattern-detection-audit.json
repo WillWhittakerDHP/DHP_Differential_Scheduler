@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T23:48:03.488Z",
+  "generatedAt": "2026-02-01T00:29:33.826Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 596,
+  "fileCount": 600,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -98,6 +98,7 @@
           "client/src/composables/admin/useAttendeeQuickSelect.ts",
           "client/src/composables/admin/useAvailabilitySettings.ts",
           "client/src/composables/admin/useBlockInstanceForm.ts",
+          "client/src/composables/admin/useBusinessRules.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
           "client/src/composables/admin/useDialogFormState.ts",
           "client/src/composables/admin/useDragAndDrop.ts",
@@ -288,7 +289,7 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 203
+        "patternCount": 204
       }
     ],
     "repeatedStringFiles": []
@@ -522,6 +523,110 @@
           {
             "file": "client/src/composables/admin/useBlockInstanceForm.ts",
             "line": 46
+          }
+        ]
+      },
+      "RuleType": {
+        "definition": "export type RuleType =",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useBusinessRules.ts",
+            "line": 20
+          },
+          {
+            "file": "server/src/db/models/admin/business_rule.ts",
+            "line": 27
+          }
+        ]
+      },
+      "RequiredFieldsRuleConfig": {
+        "definition": "export interface RequiredFieldsRuleConfig {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useBusinessRules.ts",
+            "line": 32
+          },
+          {
+            "file": "server/src/db/models/admin/business_rule.ts",
+            "line": 41
+          }
+        ]
+      },
+      "RequiresAgentRuleConfig": {
+        "definition": "export interface RequiresAgentRuleConfig {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useBusinessRules.ts",
+            "line": 43
+          },
+          {
+            "file": "server/src/db/models/admin/business_rule.ts",
+            "line": 54
+          }
+        ]
+      },
+      "ConditionalValidationRuleConfig": {
+        "definition": "export interface ConditionalValidationRuleConfig {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useBusinessRules.ts",
+            "line": 53
+          },
+          {
+            "file": "server/src/db/models/admin/business_rule.ts",
+            "line": 66
+          }
+        ]
+      },
+      "ValidationMessageRuleConfig": {
+        "definition": "export interface ValidationMessageRuleConfig {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useBusinessRules.ts",
+            "line": 66
+          },
+          {
+            "file": "server/src/db/models/admin/business_rule.ts",
+            "line": 81
+          }
+        ]
+      },
+      "RuleConfig": {
+        "definition": "export type RuleConfig =",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useBusinessRules.ts",
+            "line": 77
+          },
+          {
+            "file": "server/src/db/models/admin/business_rule.ts",
+            "line": 92
+          }
+        ]
+      },
+      "BusinessRule": {
+        "definition": "export interface BusinessRule {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useBusinessRules.ts",
+            "line": 89
+          }
+        ]
+      },
+      "BusinessRuleFormData": {
+        "definition": "export interface BusinessRuleFormData {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useBusinessRules.ts",
+            "line": 106
           }
         ]
       },
@@ -2445,7 +2550,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useContactsValidation.ts",
-            "line": 33
+            "line": 34
           }
         ]
       },
@@ -4261,7 +4366,7 @@
         "locations": [
           {
             "file": "client/src/types/entities.ts",
-            "line": 55
+            "line": 65
           }
         ]
       },
@@ -4271,7 +4376,7 @@
         "locations": [
           {
             "file": "client/src/types/entities.ts",
-            "line": 66
+            "line": 76
           }
         ]
       },
@@ -4281,7 +4386,7 @@
         "locations": [
           {
             "file": "client/src/types/entities.ts",
-            "line": 81
+            "line": 91
           }
         ]
       },
@@ -4291,7 +4396,7 @@
         "locations": [
           {
             "file": "client/src/types/entities.ts",
-            "line": 86
+            "line": 96
           }
         ]
       },
@@ -4301,7 +4406,7 @@
         "locations": [
           {
             "file": "client/src/types/entities.ts",
-            "line": 93
+            "line": 103
           }
         ]
       },
@@ -4311,7 +4416,7 @@
         "locations": [
           {
             "file": "client/src/types/entities.ts",
-            "line": 100
+            "line": 110
           }
         ]
       },
@@ -4321,7 +4426,7 @@
         "locations": [
           {
             "file": "client/src/types/entities.ts",
-            "line": 103
+            "line": 113
           }
         ]
       },
@@ -4331,7 +4436,7 @@
         "locations": [
           {
             "file": "client/src/types/entities.ts",
-            "line": 126
+            "line": 136
           }
         ]
       },
@@ -5093,7 +5198,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-            "line": 78
+            "line": 80
           }
         ]
       },
@@ -5615,6 +5720,16 @@
             "file": "client/src/composables/admin/useBlockInstanceForm.ts",
             "line": 118,
             "name": "BlockInstanceForm"
+          }
+        ]
+      },
+      "useBusinessRules": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useBusinessRules.ts",
+            "line": 120,
+            "name": "BusinessRules"
           }
         ]
       },
@@ -6703,7 +6818,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useContactsValidation.ts",
-            "line": 41,
+            "line": 42,
             "name": "ContactsValidation"
           }
         ]

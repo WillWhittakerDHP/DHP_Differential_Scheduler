@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T23:48:02.642Z",
+  "generatedAt": "2026-02-01T00:29:32.934Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -15,7 +15,7 @@
   },
   "exceptionSummary": {
     "totalAllowed": 211,
-    "totalRequiresReview": 874,
+    "totalRequiresReview": 926,
     "bySource": {
       "inline": 0,
       "pattern": 211,
@@ -415,6 +415,286 @@
       ]
     },
     {
+      "id": "client__src__views__admin__tabs__BusinessRulesTab.vue",
+      "repoPath": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 2,
+        "caseString": 8,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 15
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 89,
+          "line": "{ title: 'Required Fields', value: 'required_fields', description: 'Additional required fields based on block selection' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 90,
+          "line": "{ title: 'Requires Agent', value: 'requires_agent', description: 'Service requires agent/client contact information' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 91,
+          "line": "{ title: 'Conditional Validation', value: 'conditional_validation', description: 'Field validation depends on other field values' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 92,
+          "line": "{ title: 'Validation Message', value: 'validation_message', description: 'Custom validation messages for fields/blocks' }"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 120,
+          "line": "* WHY: Admin clicks \"Add Rule\" button, opens dialog with empty form"
+        },
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 216,
+          "line": "switch (rule.ruleType) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 217,
+          "line": "case 'required_fields':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 220,
+          "line": "case 'requires_agent':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 223,
+          "line": "case 'conditional_validation':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 226,
+          "line": "case 'validation_message':"
+        },
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 294,
+          "line": "switch (newType) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 295,
+          "line": "case 'required_fields':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 298,
+          "line": "case 'requires_agent':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 301,
+          "line": "case 'conditional_validation':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 304,
+          "line": "case 'validation_message':"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 354,
+          "line": "label=\"Select Block Instance\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 355,
+          "line": "hint=\"Choose a service or dwelling adjustment to configure validation rules\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 404,
+          "line": "{{ rule.active ? 'Active' : 'Inactive' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 467,
+          "line": "{{ editingRule ? 'Edit Business Rule' : 'Add Business Rule' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 476,
+          "line": "label=\"Rule Type\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 485,
+          "line": "label=\"Required Fields\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 503,
+          "line": "label=\"Service Requires Agent\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 504,
+          "line": "hint=\"Enable if this service requires agent and client contact information\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 524,
+          "line": "hint=\"Link to annotation instance for validation message\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 534,
+          "line": "hint=\"Enable this rule for validation\""
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 89,
+          "line": "{ title: 'Required Fields', value: 'required_fields', description: 'Additional required fields based on block selection' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 90,
+          "line": "{ title: 'Requires Agent', value: 'requires_agent', description: 'Service requires agent/client contact information' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 91,
+          "line": "{ title: 'Conditional Validation', value: 'conditional_validation', description: 'Field validation depends on other field values' },"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 92,
+          "line": "{ title: 'Validation Message', value: 'validation_message', description: 'Custom validation messages for fields/blocks' }"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 120,
+          "line": "* WHY: Admin clicks \"Add Rule\" button, opens dialog with empty form"
+        },
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 216,
+          "line": "switch (rule.ruleType) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 217,
+          "line": "case 'required_fields':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 220,
+          "line": "case 'requires_agent':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 223,
+          "line": "case 'conditional_validation':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 226,
+          "line": "case 'validation_message':"
+        },
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 294,
+          "line": "switch (newType) {"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 295,
+          "line": "case 'required_fields':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 298,
+          "line": "case 'requires_agent':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 301,
+          "line": "case 'conditional_validation':"
+        },
+        {
+          "ruleId": "caseString",
+          "lineNumber": 304,
+          "line": "case 'validation_message':"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 354,
+          "line": "label=\"Select Block Instance\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 355,
+          "line": "hint=\"Choose a service or dwelling adjustment to configure validation rules\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 404,
+          "line": "{{ rule.active ? 'Active' : 'Inactive' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 467,
+          "line": "{{ editingRule ? 'Edit Business Rule' : 'Add Business Rule' }}"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 476,
+          "line": "label=\"Rule Type\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 485,
+          "line": "label=\"Required Fields\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 503,
+          "line": "label=\"Service Requires Agent\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 504,
+          "line": "hint=\"Enable if this service requires agent and client contact information\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 524,
+          "line": "hint=\"Link to annotation instance for validation message\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 534,
+          "line": "hint=\"Enable this rule for validation\""
+        }
+      ],
+      "score": 47,
+      "priority": "P0",
+      "suggestions": [
+        {
+          "priority": "P2",
+          "kind": "ui_strings",
+          "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
+        }
+      ]
+    },
+    {
       "id": "server__src__routes__internal__relationships__relationshipRouter.ts",
       "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipRouter.ts",
@@ -432,222 +712,222 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 52,
+          "lineNumber": 53,
           "line": "displayName: 'Valid Cascade',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 58,
+          "lineNumber": 59,
           "line": "displayName: 'Valid Part',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 64,
+          "lineNumber": 65,
           "line": "displayName: 'Valid Annotation',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 70,
+          "lineNumber": 71,
           "line": "displayName: 'Valid Event',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 76,
+          "lineNumber": 77,
           "line": "displayName: 'Dependent Instance',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 82,
+          "lineNumber": 83,
           "line": "displayName: 'Booking Cascade',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 88,
+          "lineNumber": 89,
           "line": "displayName: 'Part Assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 94,
+          "lineNumber": 95,
           "line": "displayName: 'Annotation Assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 100,
+          "lineNumber": 101,
           "line": "displayName: 'Event Assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 106,
+          "lineNumber": 107,
           "line": "displayName: 'Attendee Assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 112,
+          "lineNumber": 113,
           "line": "displayName: 'Instance Component',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 283,
+          "lineNumber": 284,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 417,
+          "lineNumber": 418,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 437,
+          "lineNumber": 438,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 455,
+          "lineNumber": 456,
           "line": "error: 'Parent and child cannot be the same entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 489,
+          "lineNumber": 490,
           "line": "error: 'BlockInstance not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 540,
+          "lineNumber": 541,
           "line": "error: 'Components must have the same BlockShape as their parent',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 549,
+          "lineNumber": 550,
           "line": "error: 'Error validating entities',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 550,
+          "lineNumber": 551,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 568,
-          "line": "error: 'Error checking circular references',"
         },
         {
           "ruleId": "magicLabel",
           "lineNumber": 569,
+          "line": "error: 'Error checking circular references',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 570,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 592,
+          "lineNumber": 593,
           "line": "error: 'Component relationship already exists',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 612,
+          "lineNumber": 613,
           "line": "error: 'Invalid parent entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 622,
+          "lineNumber": 623,
           "line": "error: 'Invalid child entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 636,
+          "lineNumber": 637,
           "line": "error: 'Invalid block shape reference',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 644,
+          "lineNumber": 645,
           "line": "error: 'Invalid attendee type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 701,
+          "lineNumber": 702,
           "line": "if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 703,
+          "lineNumber": 704,
           "line": "error: 'Relationship already exists',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 715,
+          "lineNumber": 716,
           "line": "if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 717,
+          "lineNumber": 718,
           "line": "error: 'Invalid entity reference',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 718,
+          "lineNumber": 719,
           "line": "details: error.message || 'One of the referenced entities does not exist',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 728,
+          "lineNumber": 729,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 750,
+          "lineNumber": 751,
           "line": "error: 'Instance component not found',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 770,
-          "line": "error: 'Error updating instance component',"
         },
         {
           "ruleId": "magicLabel",
           "lineNumber": 771,
+          "line": "error: 'Error updating instance component',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 772,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 790,
+          "lineNumber": 791,
           "line": "error: 'Instance component not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 821,
+          "lineNumber": 822,
           "line": "message: 'Instance component deleted successfully',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 827,
+          "lineNumber": 828,
           "line": "error: 'Error deleting instance component',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 828,
+          "lineNumber": 829,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 856,
+          "lineNumber": 857,
           "line": "error: 'Annotation assignment not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 876,
+          "lineNumber": 877,
           "line": "error: 'Error updating annotation assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 877,
+          "lineNumber": 878,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 891,
+          "lineNumber": 892,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 923,
+          "lineNumber": 924,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
@@ -655,222 +935,222 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 52,
+          "lineNumber": 53,
           "line": "displayName: 'Valid Cascade',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 58,
+          "lineNumber": 59,
           "line": "displayName: 'Valid Part',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 64,
+          "lineNumber": 65,
           "line": "displayName: 'Valid Annotation',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 70,
+          "lineNumber": 71,
           "line": "displayName: 'Valid Event',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 76,
+          "lineNumber": 77,
           "line": "displayName: 'Dependent Instance',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 82,
+          "lineNumber": 83,
           "line": "displayName: 'Booking Cascade',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 88,
+          "lineNumber": 89,
           "line": "displayName: 'Part Assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 94,
+          "lineNumber": 95,
           "line": "displayName: 'Annotation Assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 100,
+          "lineNumber": 101,
           "line": "displayName: 'Event Assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 106,
+          "lineNumber": 107,
           "line": "displayName: 'Attendee Assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 112,
+          "lineNumber": 113,
           "line": "displayName: 'Instance Component',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 283,
+          "lineNumber": 284,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 417,
+          "lineNumber": 418,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 437,
+          "lineNumber": 438,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 455,
+          "lineNumber": 456,
           "line": "error: 'Parent and child cannot be the same entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 489,
+          "lineNumber": 490,
           "line": "error: 'BlockInstance not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 540,
+          "lineNumber": 541,
           "line": "error: 'Components must have the same BlockShape as their parent',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 549,
+          "lineNumber": 550,
           "line": "error: 'Error validating entities',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 550,
+          "lineNumber": 551,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 568,
-          "line": "error: 'Error checking circular references',"
         },
         {
           "ruleId": "magicLabel",
           "lineNumber": 569,
+          "line": "error: 'Error checking circular references',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 570,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 592,
+          "lineNumber": 593,
           "line": "error: 'Component relationship already exists',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 612,
+          "lineNumber": 613,
           "line": "error: 'Invalid parent entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 622,
+          "lineNumber": 623,
           "line": "error: 'Invalid child entity',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 636,
+          "lineNumber": 637,
           "line": "error: 'Invalid block shape reference',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 644,
+          "lineNumber": 645,
           "line": "error: 'Invalid attendee type',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 701,
+          "lineNumber": 702,
           "line": "if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 703,
+          "lineNumber": 704,
           "line": "error: 'Relationship already exists',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 715,
+          "lineNumber": 716,
           "line": "if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 717,
+          "lineNumber": 718,
           "line": "error: 'Invalid entity reference',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 718,
+          "lineNumber": 719,
           "line": "details: error.message || 'One of the referenced entities does not exist',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 728,
+          "lineNumber": 729,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 750,
+          "lineNumber": 751,
           "line": "error: 'Instance component not found',"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 770,
-          "line": "error: 'Error updating instance component',"
         },
         {
           "ruleId": "magicLabel",
           "lineNumber": 771,
+          "line": "error: 'Error updating instance component',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 772,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 790,
+          "lineNumber": 791,
           "line": "error: 'Instance component not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 821,
+          "lineNumber": 822,
           "line": "message: 'Instance component deleted successfully',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 827,
+          "lineNumber": 828,
           "line": "error: 'Error deleting instance component',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 828,
+          "lineNumber": 829,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 856,
+          "lineNumber": 857,
           "line": "error: 'Annotation assignment not found',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 876,
+          "lineNumber": 877,
           "line": "error: 'Error updating annotation assignment',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 877,
+          "lineNumber": 878,
           "line": "details: error instanceof Error ? error.message : 'Unknown error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 891,
+          "lineNumber": 892,
           "line": "res.status(500).json({ error: 'Relationship configuration missing' });"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 923,
+          "lineNumber": 924,
           "line": "details: error instanceof Error ? error.message : 'Unknown error'"
         }
       ],
@@ -3372,82 +3652,82 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 159,
+          "lineNumber": 160,
           "line": "get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 170,
+          "lineNumber": 171,
           "line": "get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 181,
+          "lineNumber": 182,
           "line": "get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 367,
+          "lineNumber": 368,
           "line": "{ title: 'Flexible', value: 'flexible' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 373,
+          "lineNumber": 374,
           "line": "{ title: 'Past 7 days', value: 'past' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 375,
+          "lineNumber": 376,
           "line": "{ title: 'Future 7 days', value: 'future' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 523,
+          "lineNumber": 524,
           "line": "{ title: 'Round Up', value: 'roundUp' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 524,
+          "lineNumber": 525,
           "line": "{ title: 'Round Down', value: 'roundDown' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 525,
+          "lineNumber": 526,
           "line": "{ title: 'Round Nearest', value: 'roundNearest' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1027,
+          "lineNumber": 1034,
           "line": "label=\"Major Attendees\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1038,
+          "lineNumber": 1045,
           "line": "label=\"Major Label\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1047,
+          "lineNumber": 1054,
           "line": "label=\"Minor Attendees\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1058,
+          "lineNumber": 1065,
           "line": "label=\"Minor Label\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1066,
+          "lineNumber": 1073,
           "line": "label=\"Differential Graph Default Label\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1074,
+          "lineNumber": 1081,
           "line": "label=\"Major State Label\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1082,
+          "lineNumber": 1089,
           "line": "label=\"Minor State Label\""
         }
       ],
@@ -3455,82 +3735,82 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 159,
+          "lineNumber": 160,
           "line": "get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 170,
+          "lineNumber": 171,
           "line": "get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 181,
+          "lineNumber": 182,
           "line": "get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 367,
+          "lineNumber": 368,
           "line": "{ title: 'Flexible', value: 'flexible' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 373,
+          "lineNumber": 374,
           "line": "{ title: 'Past 7 days', value: 'past' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 375,
+          "lineNumber": 376,
           "line": "{ title: 'Future 7 days', value: 'future' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 523,
+          "lineNumber": 524,
           "line": "{ title: 'Round Up', value: 'roundUp' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 524,
+          "lineNumber": 525,
           "line": "{ title: 'Round Down', value: 'roundDown' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 525,
+          "lineNumber": 526,
           "line": "{ title: 'Round Nearest', value: 'roundNearest' }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1027,
+          "lineNumber": 1034,
           "line": "label=\"Major Attendees\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1038,
+          "lineNumber": 1045,
           "line": "label=\"Major Label\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1047,
+          "lineNumber": 1054,
           "line": "label=\"Minor Attendees\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1058,
+          "lineNumber": 1065,
           "line": "label=\"Minor Label\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1066,
+          "lineNumber": 1073,
           "line": "label=\"Differential Graph Default Label\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1074,
+          "lineNumber": 1081,
           "line": "label=\"Major State Label\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 1082,
+          "lineNumber": 1089,
           "line": "label=\"Minor State Label\""
         }
       ],
@@ -4047,6 +4327,180 @@
           "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
         }
       ]
+    },
+    {
+      "id": "server__src__routes__internal__businessRulesRouter.ts",
+      "repoPath": "server/src/routes/internal/businessRulesRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessRulesRouter.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 15
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 43,
+          "line": "error: 'Failed to fetch business rules',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 61,
+          "line": "error: 'Business rule not found',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 71,
+          "line": "error: 'Failed to fetch business rule',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 104,
+          "line": "error: 'Failed to fetch business rules for block',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 121,
+          "line": "error: 'Missing required fields',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 131,
+          "line": "error: 'Invalid ruleType',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 151,
+          "line": "error: 'Failed to create business rule',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 170,
+          "line": "error: 'Business rule not found',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 179,
+          "line": "error: 'Missing required fields',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 198,
+          "line": "error: 'Failed to update business rule',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 217,
+          "line": "error: 'Business rule not found',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 230,
+          "line": "error: 'Failed to update business rule',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 248,
+          "line": "error: 'Business rule not found',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 257,
+          "line": "message: 'Business rule deleted successfully',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 263,
+          "line": "error: 'Failed to delete business rule',"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 43,
+          "line": "error: 'Failed to fetch business rules',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 61,
+          "line": "error: 'Business rule not found',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 71,
+          "line": "error: 'Failed to fetch business rule',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 104,
+          "line": "error: 'Failed to fetch business rules for block',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 121,
+          "line": "error: 'Missing required fields',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 131,
+          "line": "error: 'Invalid ruleType',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 151,
+          "line": "error: 'Failed to create business rule',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 170,
+          "line": "error: 'Business rule not found',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 179,
+          "line": "error: 'Missing required fields',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 198,
+          "line": "error: 'Failed to update business rule',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 217,
+          "line": "error: 'Business rule not found',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 230,
+          "line": "error: 'Failed to update business rule',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 248,
+          "line": "error: 'Business rule not found',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 257,
+          "line": "message: 'Business rule deleted successfully',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 263,
+          "line": "error: 'Failed to delete business rule',"
+        }
+      ],
+      "score": 15,
+      "priority": "P1",
+      "suggestions": []
     },
     {
       "id": "server__src__routes__internal__businessSettingsRouter.ts",
@@ -5331,62 +5785,62 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 122,
+          "lineNumber": 143,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 133,
+          "lineNumber": 154,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 165,
+          "lineNumber": 186,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 176,
+          "lineNumber": 197,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 220,
+          "lineNumber": 241,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 231,
+          "lineNumber": 252,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 275,
+          "lineNumber": 296,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 286,
+          "lineNumber": 307,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 287,
+          "lineNumber": 308,
           "line": "placeholder=\"Johnson\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 330,
+          "lineNumber": 351,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 341,
+          "lineNumber": 362,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 342,
+          "lineNumber": 363,
           "line": "placeholder=\"Williams\""
         }
       ],
@@ -5394,62 +5848,62 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 122,
+          "lineNumber": 143,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 133,
+          "lineNumber": 154,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 165,
+          "lineNumber": 186,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 176,
+          "lineNumber": 197,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 220,
+          "lineNumber": 241,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 231,
+          "lineNumber": 252,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 275,
+          "lineNumber": 296,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 286,
+          "lineNumber": 307,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 287,
+          "lineNumber": 308,
           "line": "placeholder=\"Johnson\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 330,
+          "lineNumber": 351,
           "line": "label=\"First Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 341,
+          "lineNumber": 362,
           "line": "label=\"Last Name\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 342,
+          "lineNumber": 363,
           "line": "placeholder=\"Williams\""
         }
       ],
@@ -6226,6 +6680,130 @@
         }
       ],
       "score": 11,
+      "priority": "P1",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__composables__admin__useBusinessRules.ts",
+      "repoPath": "client/src/composables/admin/useBusinessRules.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useBusinessRules.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 10
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 155,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to load business rules'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 177,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to load business rules for block'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 199,
+          "line": "success.value = 'Business rule created successfully'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 208,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to create business rule'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 230,
+          "line": "success.value = 'Business rule updated successfully'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 239,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to update business rule'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 259,
+          "line": "success.value = 'Business rule deleted successfully'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 265,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to delete business rule'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 284,
+          "line": "success.value = active ? 'Business rule enabled' : 'Business rule disabled'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 290,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to toggle business rule'"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 155,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to load business rules'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 177,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to load business rules for block'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 199,
+          "line": "success.value = 'Business rule created successfully'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 208,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to create business rule'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 230,
+          "line": "success.value = 'Business rule updated successfully'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 239,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to update business rule'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 259,
+          "line": "success.value = 'Business rule deleted successfully'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 265,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to delete business rule'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 284,
+          "line": "success.value = active ? 'Business rule enabled' : 'Business rule disabled'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 290,
+          "line": "error.value = err instanceof Error ? err.message : 'Failed to toggle business rule'"
+        }
+      ],
+      "score": 10,
       "priority": "P1",
       "suggestions": []
     },
@@ -10768,6 +11346,50 @@
       "suggestions": []
     },
     {
+      "id": "server__src__db__models__admin__business_rule.ts",
+      "repoPath": "server/src/db/models/admin/business_rule.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/admin/business_rule.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 2
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 135,
+          "line": "comment: 'Block instance this rule applies to',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 157,
+          "line": "comment: 'Optional link to annotation instance for validation message',"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 135,
+          "line": "comment: 'Block instance this rule applies to',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 157,
+          "line": "comment: 'Optional link to annotation instance for validation message',"
+        }
+      ],
+      "score": 2,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "server__src__db__models__booking__event_shape.ts",
       "repoPath": "server/src/db/models/booking/event_shape.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/event_shape.ts",
@@ -12501,7 +13123,7 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 142,
+          "lineNumber": 144,
           "line": "// Removed hardcoded \"User Type\" diagnostic logging - now using property-based filtering"
         }
       ],
@@ -12509,7 +13131,7 @@
       "requiresReview": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 142,
+          "lineNumber": 144,
           "line": "// Removed hardcoded \"User Type\" diagnostic logging - now using property-based filtering"
         }
       ],

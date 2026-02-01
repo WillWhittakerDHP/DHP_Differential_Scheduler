@@ -13,8 +13,8 @@ Exception handling:
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **584**
-- **Requiring review: 874**
+- Total files scanned: **588**
+- **Requiring review: 926**
 - Allowed (with justification): 211 (inline: 0, pattern: 211, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
@@ -22,6 +22,7 @@ Exception handling:
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `client/src/composables/booking/useAppointmentSlots.ts` | 66 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 14 | 0 |
+| `client/src/views/admin/tabs/BusinessRulesTab.vue` | 47 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/relationships/relationshipRouter.ts` | 44 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/properties/propertyRouter.ts` | 43 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/partFinalizer.ts` | 42 | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 10 | 0 |
@@ -38,6 +39,7 @@ Exception handling:
 | `client/src/views/admin/tabs/components/PropertiesTable.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/users/userRouter.ts` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/dev/DevPanelsContainer.vue` | 15 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 3 | 0 |
+| `server/src/routes/internal/businessRulesRouter.ts` | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/businessSettingsRouter.ts` | 15 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useAppointmentDataCollection.ts` | 14 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
 | `client/src/layouts/components/NavSearchBar.vue` | 14 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
@@ -49,8 +51,6 @@ Exception handling:
 | `server/src/test/setup/seedTestData.ts` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -282,6 +282,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
+### `client/src/views/admin/tabs/BusinessRulesTab.vue`
+
+- score: **47**
+
+- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
 ### `client/src/utils/booking/partFinalizer.ts`
 
 - score: **42**
@@ -487,56 +493,89 @@ inlineLabelMap@373: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-
 magicLabel@373: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
 ```
 
+### `client/src/views/admin/tabs/BusinessRulesTab.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=8, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=15
+- requiring review: 25, allowed: 0
+
+```
+magicLabel@89: { title: 'Required Fields', value: 'required_fields', description: 'Additional required fields based on block selection' },
+magicLabel@90: { title: 'Requires Agent', value: 'requires_agent', description: 'Service requires agent/client contact information' },
+magicLabel@91: { title: 'Conditional Validation', value: 'conditional_validation', description: 'Field validation depends on other field values' },
+magicLabel@92: { title: 'Validation Message', value: 'validation_message', description: 'Custom validation messages for fields/blocks' }
+magicLabel@120: * WHY: Admin clicks "Add Rule" button, opens dialog with empty form
+switchTypeLike@216: switch (rule.ruleType) {
+caseString@217: case 'required_fields':
+caseString@220: case 'requires_agent':
+caseString@223: case 'conditional_validation':
+caseString@226: case 'validation_message':
+switchTypeLike@294: switch (newType) {
+caseString@295: case 'required_fields':
+caseString@298: case 'requires_agent':
+caseString@301: case 'conditional_validation':
+caseString@304: case 'validation_message':
+magicLabel@354: label="Select Block Instance"
+magicLabel@355: hint="Choose a service or dwelling adjustment to configure validation rules"
+magicLabel@404: {{ rule.active ? 'Active' : 'Inactive' }}
+magicLabel@467: {{ editingRule ? 'Edit Business Rule' : 'Add Business Rule' }}
+magicLabel@476: label="Rule Type"
+magicLabel@485: label="Required Fields"
+magicLabel@503: label="Service Requires Agent"
+magicLabel@504: hint="Enable if this service requires agent and client contact information"
+magicLabel@524: hint="Link to annotation instance for validation message"
+magicLabel@534: hint="Enable this rule for validation"
+```
+
 ### `server/src/routes/internal/relationships/relationshipRouter.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=44
 - requiring review: 44, allowed: 0
 
 ```
-magicLabel@52: displayName: 'Valid Cascade',
-magicLabel@58: displayName: 'Valid Part',
-magicLabel@64: displayName: 'Valid Annotation',
-magicLabel@70: displayName: 'Valid Event',
-magicLabel@76: displayName: 'Dependent Instance',
-magicLabel@82: displayName: 'Booking Cascade',
-magicLabel@88: displayName: 'Part Assignment',
-magicLabel@94: displayName: 'Annotation Assignment',
-magicLabel@100: displayName: 'Event Assignment',
-magicLabel@106: displayName: 'Attendee Assignment',
-magicLabel@112: displayName: 'Instance Component',
-magicLabel@283: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@417: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@437: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@455: error: 'Parent and child cannot be the same entity',
-magicLabel@489: error: 'BlockInstance not found',
-magicLabel@540: error: 'Components must have the same BlockShape as their parent',
-magicLabel@549: error: 'Error validating entities',
-magicLabel@550: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@568: error: 'Error checking circular references',
-magicLabel@569: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@592: error: 'Component relationship already exists',
-magicLabel@612: error: 'Invalid parent entity',
-magicLabel@622: error: 'Invalid child entity',
-magicLabel@636: error: 'Invalid block shape reference',
-magicLabel@644: error: 'Invalid attendee type',
-magicLabel@701: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
-magicLabel@703: error: 'Relationship already exists',
-magicLabel@715: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
-magicLabel@717: error: 'Invalid entity reference',
-magicLabel@718: details: error.message || 'One of the referenced entities does not exist',
-magicLabel@728: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@750: error: 'Instance component not found',
-magicLabel@770: error: 'Error updating instance component',
-magicLabel@771: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@790: error: 'Instance component not found',
-magicLabel@821: message: 'Instance component deleted successfully',
-magicLabel@827: error: 'Error deleting instance component',
-magicLabel@828: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@856: error: 'Annotation assignment not found',
-magicLabel@876: error: 'Error updating annotation assignment',
-magicLabel@877: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@891: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@923: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@53: displayName: 'Valid Cascade',
+magicLabel@59: displayName: 'Valid Part',
+magicLabel@65: displayName: 'Valid Annotation',
+magicLabel@71: displayName: 'Valid Event',
+magicLabel@77: displayName: 'Dependent Instance',
+magicLabel@83: displayName: 'Booking Cascade',
+magicLabel@89: displayName: 'Part Assignment',
+magicLabel@95: displayName: 'Annotation Assignment',
+magicLabel@101: displayName: 'Event Assignment',
+magicLabel@107: displayName: 'Attendee Assignment',
+magicLabel@113: displayName: 'Instance Component',
+magicLabel@284: res.status(500).json({ error: 'Relationship configuration missing' });
+magicLabel@418: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@438: res.status(500).json({ error: 'Relationship configuration missing' });
+magicLabel@456: error: 'Parent and child cannot be the same entity',
+magicLabel@490: error: 'BlockInstance not found',
+magicLabel@541: error: 'Components must have the same BlockShape as their parent',
+magicLabel@550: error: 'Error validating entities',
+magicLabel@551: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@569: error: 'Error checking circular references',
+magicLabel@570: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@593: error: 'Component relationship already exists',
+magicLabel@613: error: 'Invalid parent entity',
+magicLabel@623: error: 'Invalid child entity',
+magicLabel@637: error: 'Invalid block shape reference',
+magicLabel@645: error: 'Invalid attendee type',
+magicLabel@702: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
+magicLabel@704: error: 'Relationship already exists',
+magicLabel@716: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
+magicLabel@718: error: 'Invalid entity reference',
+magicLabel@719: details: error.message || 'One of the referenced entities does not exist',
+magicLabel@729: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@751: error: 'Instance component not found',
+magicLabel@771: error: 'Error updating instance component',
+magicLabel@772: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@791: error: 'Instance component not found',
+magicLabel@822: message: 'Instance component deleted successfully',
+magicLabel@828: error: 'Error deleting instance component',
+magicLabel@829: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@857: error: 'Annotation assignment not found',
+magicLabel@877: error: 'Error updating annotation assignment',
+magicLabel@878: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@892: res.status(500).json({ error: 'Relationship configuration missing' });
+magicLabel@924: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
 ### `server/src/routes/internal/properties/propertyRouter.ts`
@@ -853,22 +892,22 @@ magicLabel@344: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c382
 - requiring review: 16, allowed: 0
 
 ```
-magicLabel@159: get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
-magicLabel@170: get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
-magicLabel@181: get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',
-magicLabel@367: { title: 'Flexible', value: 'flexible' },
-magicLabel@373: { title: 'Past 7 days', value: 'past' },
-magicLabel@375: { title: 'Future 7 days', value: 'future' }
-magicLabel@523: { title: 'Round Up', value: 'roundUp' },
-magicLabel@524: { title: 'Round Down', value: 'roundDown' },
-magicLabel@525: { title: 'Round Nearest', value: 'roundNearest' }
-magicLabel@1027: label="Major Attendees"
-magicLabel@1038: label="Major Label"
-magicLabel@1047: label="Minor Attendees"
-magicLabel@1058: label="Minor Label"
-magicLabel@1066: label="Differential Graph Default Label"
-magicLabel@1074: label="Major State Label"
-magicLabel@1082: label="Minor State Label"
+magicLabel@160: get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
+magicLabel@171: get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
+magicLabel@182: get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',
+magicLabel@368: { title: 'Flexible', value: 'flexible' },
+magicLabel@374: { title: 'Past 7 days', value: 'past' },
+magicLabel@376: { title: 'Future 7 days', value: 'future' }
+magicLabel@524: { title: 'Round Up', value: 'roundUp' },
+magicLabel@525: { title: 'Round Down', value: 'roundDown' },
+magicLabel@526: { title: 'Round Nearest', value: 'roundNearest' }
+magicLabel@1034: label="Major Attendees"
+magicLabel@1045: label="Major Label"
+magicLabel@1054: label="Minor Attendees"
+magicLabel@1065: label="Minor Label"
+magicLabel@1073: label="Differential Graph Default Label"
+magicLabel@1081: label="Major State Label"
+magicLabel@1089: label="Minor State Label"
 ```
 
 ### `client/src/views/admin/tabs/components/PropertiesTable.vue`
@@ -935,6 +974,29 @@ magicLabel@524: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c382
 magicLabel@616: {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
 magicLabel@768: label="Service Type"
 magicLabel@854: : 'Not configured' }}
+```
+
+### `server/src/routes/internal/businessRulesRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=15
+- requiring review: 15, allowed: 0
+
+```
+magicLabel@43: error: 'Failed to fetch business rules',
+magicLabel@61: error: 'Business rule not found',
+magicLabel@71: error: 'Failed to fetch business rule',
+magicLabel@104: error: 'Failed to fetch business rules for block',
+magicLabel@121: error: 'Missing required fields',
+magicLabel@131: error: 'Invalid ruleType',
+magicLabel@151: error: 'Failed to create business rule',
+magicLabel@170: error: 'Business rule not found',
+magicLabel@179: error: 'Missing required fields',
+magicLabel@198: error: 'Failed to update business rule',
+magicLabel@217: error: 'Business rule not found',
+magicLabel@230: error: 'Failed to update business rule',
+magicLabel@248: error: 'Business rule not found',
+magicLabel@257: message: 'Business rule deleted successfully',
+magicLabel@263: error: 'Failed to delete business rule',
 ```
 
 ### `server/src/routes/internal/businessSettingsRouter.ts`
@@ -1117,18 +1179,18 @@ magicLabel@138: name: 'Admin User',
 - requiring review: 12, allowed: 0
 
 ```
-magicLabel@122: label="First Name"
-magicLabel@133: label="Last Name"
-magicLabel@165: label="First Name"
-magicLabel@176: label="Last Name"
-magicLabel@220: label="First Name"
-magicLabel@231: label="Last Name"
-magicLabel@275: label="First Name"
-magicLabel@286: label="Last Name"
-magicLabel@287: placeholder="Johnson"
-magicLabel@330: label="First Name"
-magicLabel@341: label="Last Name"
-magicLabel@342: placeholder="Williams"
+magicLabel@143: label="First Name"
+magicLabel@154: label="Last Name"
+magicLabel@186: label="First Name"
+magicLabel@197: label="Last Name"
+magicLabel@241: label="First Name"
+magicLabel@252: label="Last Name"
+magicLabel@296: label="First Name"
+magicLabel@307: label="Last Name"
+magicLabel@308: placeholder="Johnson"
+magicLabel@351: label="First Name"
+magicLabel@362: label="Last Name"
+magicLabel@363: placeholder="Williams"
 ```
 
 ### `client/src/utils/booking/durationRounding.ts`
@@ -1243,6 +1305,24 @@ magicLabel@191: error: 'Invalid entityType',
 magicLabel@207: error: 'Relationship metadata not found',
 magicLabel@221: error: 'Failed to delete relationship metadata',
 magicLabel@222: details: error instanceof Error ? error.message : 'Unknown error',
+```
+
+### `client/src/composables/admin/useBusinessRules.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
+- requiring review: 10, allowed: 0
+
+```
+magicLabel@155: error.value = err instanceof Error ? err.message : 'Failed to load business rules'
+magicLabel@177: error.value = err instanceof Error ? err.message : 'Failed to load business rules for block'
+magicLabel@199: success.value = 'Business rule created successfully'
+magicLabel@208: error.value = err instanceof Error ? err.message : 'Failed to create business rule'
+magicLabel@230: success.value = 'Business rule updated successfully'
+magicLabel@239: error.value = err instanceof Error ? err.message : 'Failed to update business rule'
+magicLabel@259: success.value = 'Business rule deleted successfully'
+magicLabel@265: error.value = err instanceof Error ? err.message : 'Failed to delete business rule'
+magicLabel@284: success.value = active ? 'Business rule enabled' : 'Business rule disabled'
+magicLabel@290: error.value = err instanceof Error ? err.message : 'Failed to toggle business rule'
 ```
 
 ### `client/src/composables/booking/useWizardAppointmentManagement.ts`
@@ -2111,6 +2191,16 @@ magicLabel@39: message: "API Server",
 magicLabel@43: docs: "See API documentation for available endpoints"
 ```
 
+### `server/src/db/models/admin/business_rule.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@135: comment: 'Block instance this rule applies to',
+magicLabel@157: comment: 'Optional link to annotation instance for validation message',
+```
+
 ### `server/src/db/models/booking/event_shape.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
@@ -2563,7 +2653,7 @@ magicLabel@190: * NOTE: Backend uses annotation_assignments, frontend uses frien
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@142: // Removed hardcoded "User Type" diagnostic logging - now using property-based filtering
+magicLabel@144: // Removed hardcoded "User Type" diagnostic logging - now using property-based filtering
 ```
 
 ### `client/src/views/admin/entities/BlockInstanceList.vue`

@@ -6,13 +6,14 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **77**
+- Total files: **78**
 
 ## Top hotspots (by heuristic score)
 
 | File | computed | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/components/booking/dev/DevPanelsContainer.vue` | 11 | 0 | 0 | 4 | 4 | 0 | 1 |
+| `src/views/admin/tabs/BusinessRulesTab.vue` | 6 | 2 | 7 | 3 | 0 | 0 | 0 |
 | `src/views/admin/tabs/BusinessControlsTab.vue` | 12 | 0 | 0 | 2 | 0 | 0 | 0 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/DifferentialGraph.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -36,7 +37,6 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 | `src/components/admin/generic/fields/BooleanInput.vue` | 2 | 0 | 3 | 0 | 0 | 0 | 0 |
 | `src/components/admin/PartInstanceBulkEditModal.vue` | 2 | 0 | 0 | 2 | 0 | 0 | 1 |
 | `src/components/admin/generic/CardButton.vue` | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/booking/wrappers/ServiceSelectCards.vue` | 3 | 0 | 0 | 1 | 0 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
@@ -76,26 +76,57 @@ console@556: console.error(`[Event Error] Cannot determine ternary value for eve
 dom@1007: :deep(.v-window-item) {
 ```
 
+### `src/views/admin/tabs/BusinessRulesTab.vue`
+
+- counts: computed=6, ref=4, watch=2, async=3, await=4, map=3, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+computed@44: const availableBlockInstances = computed(() => {
+map@47: return blockInstances.map(bi => ({
+computed@60: const availableValidationMessages = computed(() => {
+map@66: return annotationInstances.map(ai => ({
+ref@74: const selectedBlockId: Ref<GlobalEntityId | null> = ref(null)
+ref@75: const showRuleDialog = ref(false)
+ref@76: const editingRule: Ref<BusinessRule | null> = ref(null)
+ref@79: const formData: Ref<BusinessRuleFormData> = ref({
+watch@100: watch(selectedBlockId, async (newBlockId) => {
+async@100: watch(selectedBlockId, async (newBlockId) => {
+await@102: await fetchRules({ blockInstanceId: newBlockId })
+computed@113: const filteredRules = computed(() => {
+filter@115: return rules.value.filter(rule => rule.blockInstanceId === selectedBlockId.value)
+async@174: const saveRule = async (): Promise<void> => {
+await@177: const result = await updateRule(editingRule.value.id, formData.value)
+await@183: const result = await createRule(formData.value)
+async@195: const handleDeleteRule = async (rule: BusinessRule): Promise<void> => {
+await@197: await deleteRule(rule.id)
+computed@239: const requiredFieldsArray = computed({
+map@250: fields: value.split(',').map(f => f.trim()).filter(f => f.length > 0),
+filter@250: fields: value.split(',').map(f => f.trim()).filter(f => f.length > 0),
+computed@257: const requiredFieldsCondition = computed({
+computed@274: const requiresAgent = computed({
+watch@293: watch(() => formData.value.ruleType, (newType) => {
+```
+
 ### `src/views/admin/tabs/BusinessControlsTab.vue`
 
 - counts: computed=12, ref=0, watch=0, async=0, await=0, map=2, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@44: const businessHoursForUI = computed(() => {
-computed@116: const availableUserTypeBlocks = computed(() => {
-map@124: .map(id => blockInstances.find(bi => bi.id === id))
-filter@125: .filter((bi): bi is NonNullable<typeof bi> => bi !== undefined)
-map@126: .map(bi => ({
-computed@136: const majorAttendees = computed({
-computed@147: const minorAttendees = computed({
-computed@158: const majorLabel = computed({
-computed@169: const minorLabel = computed({
-computed@180: const differentialGraphDefaultLabel = computed({
-computed@191: const majorStateLabel = computed({
-computed@202: const minorStateLabel = computed({
-computed@216: const maxBusinessHours = computed(() => {
-computed@234: return computed({
-computed@496: const saveButtonProps = computed(() => ({
+computed@45: const businessHoursForUI = computed(() => {
+computed@117: const availableUserTypeBlocks = computed(() => {
+map@125: .map(id => blockInstances.find(bi => bi.id === id))
+filter@126: .filter((bi): bi is NonNullable<typeof bi> => bi !== undefined)
+map@127: .map(bi => ({
+computed@137: const majorAttendees = computed({
+computed@148: const minorAttendees = computed({
+computed@159: const majorLabel = computed({
+computed@170: const minorLabel = computed({
+computed@181: const differentialGraphDefaultLabel = computed({
+computed@192: const majorStateLabel = computed({
+computed@203: const minorStateLabel = computed({
+computed@217: const maxBusinessHours = computed(() => {
+computed@235: return computed({
+computed@497: const saveButtonProps = computed(() => ({
 ```
 
 ### `src/components/booking/steps/ServiceSelectionStep.vue`
@@ -558,6 +589,23 @@ computed@209: const contingencyPeriodModel = computed({
 computed@219: const canConfirm = computed(() => {
 ```
 
+### `src/components/booking/steps/ContactsStep.vue`
+
+- counts: computed=1, ref=1, watch=2, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@13: import { inject, watch, computed, type Ref } from 'vue'
+provideInject@23: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+computed@37: const requiresAgent = computed(() => {
+provideInject@85: // WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
+provideInject@87: const parentContactsStepData = inject<Ref<ContactsStepData | null>>('contactsStepData')
+provideInject@88: const parentContactsStepValid = inject<Ref<boolean>>('contactsStepValid')
+provideInject@89: const parentContactsStepValidate = inject<Ref<(() => boolean) | null>>('contactsStepValidate')
+watch@98: watch(stepData, (newData) => {
+watch@107: watch(isFormValid, (newValid) => {
+ref@115: // PATTERN: Assign function to parent ref (no watch needed)
+```
+
 ### `src/components/booking/TimeSlotGrid.vue`
 
 - counts: computed=1, ref=0, watch=0, async=0, await=0, map=2, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -727,22 +775,6 @@ reduce@220: const bulkEditData: Record<string, number | null | undefined> = Obje
 ```
 dom@33: window.addEventListener('keydown', handleKeyDown)
 dom@37: window.removeEventListener('keydown', handleKeyDown)
-```
-
-### `src/components/booking/steps/ContactsStep.vue`
-
-- counts: computed=0, ref=1, watch=2, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@13: import { inject, watch, type Ref } from 'vue'
-provideInject@22: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
-provideInject@64: // WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
-provideInject@66: const parentContactsStepData = inject<Ref<ContactsStepData | null>>('contactsStepData')
-provideInject@67: const parentContactsStepValid = inject<Ref<boolean>>('contactsStepValid')
-provideInject@68: const parentContactsStepValidate = inject<Ref<(() => boolean) | null>>('contactsStepValidate')
-watch@77: watch(stepData, (newData) => {
-watch@86: watch(isFormValid, (newValid) => {
-ref@94: // PATTERN: Assign function to parent ref (no watch needed)
 ```
 
 ### `src/layouts/components/NavBarNotifications.vue`

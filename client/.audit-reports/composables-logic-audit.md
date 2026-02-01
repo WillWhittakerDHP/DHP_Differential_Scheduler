@@ -8,7 +8,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **230**
+- Total composable files scanned: **231**
 
 ## Top hotspots (heuristic)
 
@@ -18,6 +18,7 @@ Scope:
 | `src/composables/admin/useRelationshipCollectionData.ts` | 24 | 0 | 0 | 20 | 0 | 0 | 1 |
 | `src/composables/useRelationship.ts` | 22.5 | 5 | 0 | 3 | 15 | 0 | 1 |
 | `src/composables/dataCollections/useDataCollectionActions.ts` | 22 | 6 | 0 | 0 | 16 | 0 | 1 |
+| `src/composables/admin/useBusinessRules.ts` | 21 | 0 | 0 | 5 | 16 | 0 | 2 |
 | `src/composables/fieldContext/useFieldContextSaveHelpers.ts` | 21 | 0 | 0 | 0 | 9 | 0 | 1 |
 | `src/composables/admin/useInstanceGrouping.ts` | 19 | 0 | 1 | 6 | 0 | 0 | 0 |
 | `src/composables/booking/dev/usePanelPosition.ts` | 19 | 0 | 1 | 2 | 2 | 8 | 1 |
@@ -38,7 +39,6 @@ Scope:
 | `src/composables/fieldContext/useFieldContextState.ts` | 13.5 | 3 | 0 | 11 | 0 | 0 | 0 |
 | `src/composables/admin/useBlockInstanceForm.ts` | 13 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `src/composables/admin/usePartInstanceForm.ts` | 13 | 0 | 0 | 4 | 4 | 0 | 0 |
-| `src/composables/booking/useAvailabilityLogic.ts` | 13 | 0 | 1 | 8 | 0 | 0 | 0 |
 
 ## Redundancy candidates (heuristic)
 
@@ -97,6 +97,15 @@ Legend:
 - return keys (first return): `create`, `patch`, `remove`, `update`
 
 - **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
+
+### `src/composables/admin/useBusinessRules.ts`
+
+- exports: `useBusinessRules`
+- score: **21**
+- return keys (first return): `createRule`, `deleteRule`, `error`, `fetchRules`, `fetchRulesByBlock`, `loading`, `rules`, `saving`, `success`, `updateRule`
+
+- **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
+- **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
 
 ### `src/composables/fieldContext/useFieldContextSaveHelpers.ts`
 
@@ -859,6 +868,40 @@ filter@138: const updatedCollection = currentCollection.filter(item => item.id !
 await@144: await refetchQuery()
 ```
 
+### `src/composables/admin/useBusinessRules.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=5, async=6, await=10, dom=0, console=6
+
+```
+ref@122: const rules: Ref<BusinessRule[]> = ref([])
+ref@123: const loading = ref(false)
+ref@124: const saving = ref(false)
+ref@125: const error: Ref<string | null> = ref(null)
+ref@126: const success: Ref<string | null> = ref(null)
+async@134: const fetchRules = async (filters?: {
+await@151: const response = await apiClient.get<BusinessRule[]>(url)
+console@154: console.error('Error fetching business rules:', err)
+async@168: const fetchRulesByBlock = async (blockInstanceId: GlobalEntityId): Promise<BusinessRule[]> => {
+await@173: const response = await apiClient.get<BusinessRule[]>(`/internal/business-rules/block/${blockInstanceId}`)
+console@176: console.error('Error fetching business rules for block:', err)
+async@190: const createRule = async (formData: BusinessRuleFormData): Promise<BusinessRule | null> => {
+await@196: const response = await apiClient.post<BusinessRule>('/internal/business-rules', formData)
+await@201: await fetchRules()
+console@207: console.error('Error creating business rule:', err)
+async@221: const updateRule = async (id: GlobalEntityId, formData: BusinessRuleFormData): Promise<BusinessRule | null> => {
+await@227: const response = await apiClient.put<BusinessRule>(`/internal/business-rules/${id}`, formData)
+await@232: await fetchRules()
+console@238: console.error('Error updating business rule:', err)
+async@252: const deleteRule = async (id: GlobalEntityId): Promise<boolean> => {
+await@258: await apiClient.delete(`/internal/business-rules/${id}`)
+await@261: await fetchRules()
+console@264: console.error('Error deleting business rule:', err)
+async@278: const toggleRuleActive = async (id: GlobalEntityId, active: boolean): Promise<boolean> => {
+await@283: await apiClient.put(`/internal/business-rules/${id}`, { active })
+await@286: await fetchRules()
+console@289: console.error('Error toggling business rule:', err)
+```
+
 ### `src/composables/fieldContext/useFieldContextSaveHelpers.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=3, await=6, dom=0, console=0
@@ -1048,22 +1091,22 @@ computed@230: isLoading: computed(() => isLoading.value) // P1-3: Expose loading
 - counts: vueQuery=0, watch=0, computed=16, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@85: clientFirstName: computed(() => clientInfo.value.firstName),
-computed@86: clientLastName: computed(() => clientInfo.value.lastName),
-computed@87: clientEmail: computed(() => clientInfo.value.email),
-computed@88: agentFirstName: computed(() => agentInfo.value.firstName),
-computed@89: agentLastName: computed(() => agentInfo.value.lastName),
-computed@90: agentEmail: computed(() => agentInfo.value.email),
-computed@91: anotherClientFirstName: computed(() => anotherClientInfo.value.firstName),
-computed@92: anotherClientLastName: computed(() => anotherClientInfo.value.lastName),
-computed@93: anotherClientEmail: computed(() => anotherClientInfo.value.email),
-computed@94: transactionManagerFirstName: computed(() => transactionManagerInfo.value.firstName),
-computed@95: transactionManagerLastName: computed(() => transactionManagerInfo.value.lastName),
-computed@96: transactionManagerEmail: computed(() => transactionManagerInfo.value.email),
-computed@97: sellerFirstName: computed(() => sellerInfo.value.firstName),
-computed@98: sellerLastName: computed(() => sellerInfo.value.lastName),
-computed@99: sellerEmail: computed(() => sellerInfo.value.email)
-computed@103: const reactiveRules = computed(() => {
+computed@91: clientFirstName: computed(() => clientInfo.value.firstName),
+computed@92: clientLastName: computed(() => clientInfo.value.lastName),
+computed@93: clientEmail: computed(() => clientInfo.value.email),
+computed@94: agentFirstName: computed(() => agentInfo.value.firstName),
+computed@95: agentLastName: computed(() => agentInfo.value.lastName),
+computed@96: agentEmail: computed(() => agentInfo.value.email),
+computed@97: anotherClientFirstName: computed(() => anotherClientInfo.value.firstName),
+computed@98: anotherClientLastName: computed(() => anotherClientInfo.value.lastName),
+computed@99: anotherClientEmail: computed(() => anotherClientInfo.value.email),
+computed@100: transactionManagerFirstName: computed(() => transactionManagerInfo.value.firstName),
+computed@101: transactionManagerLastName: computed(() => transactionManagerInfo.value.lastName),
+computed@102: transactionManagerEmail: computed(() => transactionManagerInfo.value.email),
+computed@103: sellerFirstName: computed(() => sellerInfo.value.firstName),
+computed@104: sellerLastName: computed(() => sellerInfo.value.lastName),
+computed@105: sellerEmail: computed(() => sellerInfo.value.email)
+computed@114: const reactiveRules = computed(() => {
 ```
 
 ### `src/composables/booking/useMoveablePartsScheduling.ts`
@@ -2326,9 +2369,9 @@ computed@83: const instancesWithDisplay = computed(() => {
 
 ```
 computed@85: const requiresUnitNumber = computed(() => {
-computed@89: const isMultiFamily = computed(() => {
-computed@125: const propertyTypeBlocksWithComponents = computed(() => {
-map@126: return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
+computed@95: const isMultiFamily = computed(() => {
+computed@131: const propertyTypeBlocksWithComponents = computed(() => {
+map@132: return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
 ```
 
 ### `src/composables/booking/useWizardStepSync.ts`

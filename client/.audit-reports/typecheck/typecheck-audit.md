@@ -8,24 +8,26 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-01-31T23:48:01.500Z**
+- Generated at: **2026-02-01T00:29:31.705Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 57**
+- **Errors requiring review: 52**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **49**
+- Pools: **51**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2304-ts2304-cannot-find-name-relationship-types` | 90 | 8 | 1 | 0 | 0 |
 | P1 | `TS2304-ts2304-cannot-find-name-allactiveservicetypes` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-composables-booking-usewizard-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2339-ts2339-prop-servicetypeoptions` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-values-does-not-exist-in-type-draganddrop-unknown` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2739-ts2739-type-id-string-entitykey-blockinstance-name-string-basesqft-number-icon-string-active-boolean-bookingmode-both-st` | 12 | 1 | 1 | 0 | 0 |
 | P1 | `TS6133-ts6133-partscollection-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
 | P1 | `TS7006-ts7006-parameter-s-implicitly-has-an-any-type` | 10 | 1 | 1 | 0 | 0 |
+| P1 | `TS7006-ts7006-parameter-selected-implicitly-has-an-any-type` | 10 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-blockshapeid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-bookingblockinstance-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-clearotherdefaults-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
@@ -43,8 +45,6 @@ Exception handling:
 | P2 | `TS6133-ts6133-getusertypeblockoptionsfromglobaldata-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-globalentitykey-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-hasduplicateusertypeblock-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-isdevmodeenabled-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-isrelationship-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -55,21 +55,6 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
-
-### `server/src/routes/internal/relationships/relationshipRouter.ts`
-
-- errors: 8, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@145:10 Cannot find name 'RELATIONSHIP_TYPES'.
-TS2304@150:10 Cannot find name 'RELATIONSHIP_TYPES'.
-TS2304@155:10 Cannot find name 'RELATIONSHIP_TYPES'.
-TS2304@315:43 Cannot find name 'RELATIONSHIP_TYPES'.
-TS2304@351:41 Cannot find name 'RELATIONSHIP_TYPES'.
-TS2304@380:41 Cannot find name 'RELATIONSHIP_TYPES'.
-TS2304@608:28 Cannot find name 'RELATIONSHIP_TYPES'.
-TS2304@660:50 Cannot find name 'RELATIONSHIP_TYPES'.
-```
 
 ### `src/utils/optimistic/annotationAssignmentsOptimistic.ts`
 
@@ -135,6 +120,15 @@ TS6133@186:17 'parentEntityFromModel' is declared but its value is never read.
 ```
 TS6133@164:10 'FIELD_VISIBILITY' is declared but its value is never read.
 TS6133@217:28 'deleteFieldMetadata' is declared but its value is never read.
+```
+
+### `src/components/booking/steps/ContactsStep.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2307@18:27 Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.
+TS7006@39:5 Parameter 'selected' implicitly has an 'any' type.
 ```
 
 ### `src/composables/admin/useRelationshipCollection.ts`
@@ -227,6 +221,14 @@ TS6133@44:3 'entity' is declared but its value is never read.
 
 ```
 TS6133@134:9 'parentEntity' is declared but its value is never read.
+```
+
+### `src/composables/booking/useDependentInstances.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2739@129:15 Type '{ id: string; entityKey: "blockInstance"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: "both" | "standalone" | "addOn"; differential: "false" | "true"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent
 ```
 
 ### `src/composables/entityCrud/usePrimitiveMutation.ts`

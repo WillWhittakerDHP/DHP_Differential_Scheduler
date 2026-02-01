@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T23:48:03.791Z",
+  "generatedAt": "2026-02-01T00:29:34.144Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 447,
+  "fileCount": 451,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -101,6 +101,7 @@
           "client/src/composables/admin/useAttendeeQuickSelect.ts",
           "client/src/composables/admin/useAvailabilitySettings.ts",
           "client/src/composables/admin/useBlockInstanceForm.ts",
+          "client/src/composables/admin/useBusinessRules.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
           "client/src/composables/admin/useDialogFormState.ts",
           "client/src/composables/admin/useDragAndDrop.ts",
@@ -291,7 +292,7 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 203
+        "patternCount": 204
       }
     ],
     "repeatedStringFiles": []

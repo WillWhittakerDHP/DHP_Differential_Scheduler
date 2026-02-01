@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T23:48:01.500Z",
+  "generatedAt": "2026-02-01T00:29:31.705Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -14,7 +14,7 @@
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 57,
+    "totalRequiresReview": 52,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -173,6 +173,26 @@
       "repoPath": "src/components/booking/steps/AvailabilityStep.vue"
     },
     {
+      "file": "src/components/booking/steps/ContactsStep.vue",
+      "line": 18,
+      "col": 27,
+      "code": "TS2307",
+      "message": "Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
+      "raw": "src/components/booking/steps/ContactsStep.vue(18,27): error TS2307: Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/components/booking/steps/ContactsStep.vue"
+    },
+    {
+      "file": "src/components/booking/steps/ContactsStep.vue",
+      "line": 39,
+      "col": 5,
+      "code": "TS7006",
+      "message": "Parameter 'selected' implicitly has an 'any' type.",
+      "raw": "src/components/booking/steps/ContactsStep.vue(39,5): error TS7006: Parameter 'selected' implicitly has an 'any' type.",
+      "scope": "client",
+      "repoPath": "src/components/booking/steps/ContactsStep.vue"
+    },
+    {
       "file": "src/composables/admin/useMetadataEditorEntity.ts",
       "line": 44,
       "col": 3,
@@ -211,6 +231,16 @@
       "raw": "src/composables/admin/useRelationshipCollectionData.ts(134,9): error TS6133: 'parentEntity' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/composables/admin/useRelationshipCollectionData.ts"
+    },
+    {
+      "file": "src/composables/booking/useDependentInstances.ts",
+      "line": 129,
+      "col": 15,
+      "code": "TS2739",
+      "message": "Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
+      "raw": "src/composables/booking/useDependentInstances.ts(129,15): error TS2739: Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
+      "scope": "client",
+      "repoPath": "src/composables/booking/useDependentInstances.ts"
     },
     {
       "file": "src/composables/booking/useDevPanelsComputed.ts",
@@ -511,126 +541,10 @@
       "raw": "src/views/admin/tabs/ShapesTab.vue(24,1): error TS6133: 'EventShape' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/views/admin/tabs/ShapesTab.vue"
-    },
-    {
-      "file": "src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 145,
-      "col": 10,
-      "code": "TS2304",
-      "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-      "raw": "src/routes/internal/relationships/relationshipRouter.ts(145,10): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-    },
-    {
-      "file": "src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 150,
-      "col": 10,
-      "code": "TS2304",
-      "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-      "raw": "src/routes/internal/relationships/relationshipRouter.ts(150,10): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-    },
-    {
-      "file": "src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 155,
-      "col": 10,
-      "code": "TS2304",
-      "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-      "raw": "src/routes/internal/relationships/relationshipRouter.ts(155,10): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-    },
-    {
-      "file": "src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 315,
-      "col": 43,
-      "code": "TS2304",
-      "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-      "raw": "src/routes/internal/relationships/relationshipRouter.ts(315,43): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-    },
-    {
-      "file": "src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 351,
-      "col": 41,
-      "code": "TS2304",
-      "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-      "raw": "src/routes/internal/relationships/relationshipRouter.ts(351,41): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-    },
-    {
-      "file": "src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 380,
-      "col": 41,
-      "code": "TS2304",
-      "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-      "raw": "src/routes/internal/relationships/relationshipRouter.ts(380,41): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-    },
-    {
-      "file": "src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 608,
-      "col": 28,
-      "code": "TS2304",
-      "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-      "raw": "src/routes/internal/relationships/relationshipRouter.ts(608,28): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-    },
-    {
-      "file": "src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 660,
-      "col": 50,
-      "code": "TS2304",
-      "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-      "raw": "src/routes/internal/relationships/relationshipRouter.ts(660,50): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
     }
   ],
   "allowedErrors": [],
   "pools": [
-    {
-      "poolId": "TS2304-ts2304-cannot-find-name-relationship-types",
-      "groupKey": "TS2304::Cannot find name 'RELATIONSHIP_TYPES'.",
-      "errorCount": 8,
-      "fileCount": 1,
-      "severityScore": 80,
-      "blastRadiusScore": 2,
-      "repetitionScore": 8,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 90,
-      "sample": [
-        {
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 145,
-          "col": 10,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'."
-        },
-        {
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 150,
-          "col": 10,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'."
-        },
-        {
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 155,
-          "col": 10,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'."
-        }
-      ],
-      "priority": "P0"
-    },
     {
       "poolId": "TS2304-ts2304-cannot-find-name-allactiveservicetypes",
       "groupKey": "TS2304::Cannot find name 'allActiveServiceTypes'.",
@@ -649,6 +563,28 @@
           "col": 27,
           "code": "TS2304",
           "message": "Cannot find name 'allActiveServiceTypes'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-composables-booking-usewizard-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/steps/ContactsStep.vue",
+          "line": 18,
+          "col": 27,
+          "code": "TS2307",
+          "message": "Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations."
         }
       ],
       "priority": "P1"
@@ -693,6 +629,28 @@
           "col": 9,
           "code": "TS2353",
           "message": "Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2739-ts2739-type-id-string-entitykey-blockinstance-name-string-basesqft-number-icon-string-active-boolean-bookingmode-both-st",
+      "groupKey": "TS2739::Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 0 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 9,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 12,
+      "sample": [
+        {
+          "repoPath": "src/composables/booking/useDependentInstances.ts",
+          "line": 129,
+          "col": 15,
+          "code": "TS2739",
+          "message": "Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent"
         }
       ],
       "priority": "P1"
@@ -744,6 +702,28 @@
           "col": 60,
           "code": "TS7006",
           "message": "Parameter 's' implicitly has an 'any' type."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS7006-ts7006-parameter-selected-implicitly-has-an-any-type",
+      "groupKey": "TS7006::Parameter 'selected' implicitly has an 'any' type.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 7,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 10,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/steps/ContactsStep.vue",
+          "line": 39,
+          "col": 5,
+          "code": "TS7006",
+          "message": "Parameter 'selected' implicitly has an 'any' type."
         }
       ],
       "priority": "P1"
@@ -1697,94 +1677,6 @@
   ],
   "files": [
     {
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "errorCount": 8,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "errors": [
-        {
-          "file": "src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 145,
-          "col": 10,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-          "raw": "src/routes/internal/relationships/relationshipRouter.ts(145,10): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-        },
-        {
-          "file": "src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 150,
-          "col": 10,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-          "raw": "src/routes/internal/relationships/relationshipRouter.ts(150,10): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-        },
-        {
-          "file": "src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 155,
-          "col": 10,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-          "raw": "src/routes/internal/relationships/relationshipRouter.ts(155,10): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-        },
-        {
-          "file": "src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 315,
-          "col": 43,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-          "raw": "src/routes/internal/relationships/relationshipRouter.ts(315,43): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-        },
-        {
-          "file": "src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 351,
-          "col": 41,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-          "raw": "src/routes/internal/relationships/relationshipRouter.ts(351,41): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-        },
-        {
-          "file": "src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 380,
-          "col": 41,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-          "raw": "src/routes/internal/relationships/relationshipRouter.ts(380,41): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-        },
-        {
-          "file": "src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 608,
-          "col": 28,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-          "raw": "src/routes/internal/relationships/relationshipRouter.ts(608,28): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-        },
-        {
-          "file": "src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 660,
-          "col": 50,
-          "code": "TS2304",
-          "message": "Cannot find name 'RELATIONSHIP_TYPES'.",
-          "raw": "src/routes/internal/relationships/relationshipRouter.ts(660,50): error TS2304: Cannot find name 'RELATIONSHIP_TYPES'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts"
-        }
-      ]
-    },
-    {
       "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
       "errorCount": 7,
       "unsafeCastHits": 0,
@@ -2073,6 +1965,34 @@
       ]
     },
     {
+      "repoPath": "src/components/booking/steps/ContactsStep.vue",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/booking/steps/ContactsStep.vue",
+          "line": 18,
+          "col": 27,
+          "code": "TS2307",
+          "message": "Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
+          "raw": "src/components/booking/steps/ContactsStep.vue(18,27): error TS2307: Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/components/booking/steps/ContactsStep.vue"
+        },
+        {
+          "file": "src/components/booking/steps/ContactsStep.vue",
+          "line": 39,
+          "col": 5,
+          "code": "TS7006",
+          "message": "Parameter 'selected' implicitly has an 'any' type.",
+          "raw": "src/components/booking/steps/ContactsStep.vue(39,5): error TS7006: Parameter 'selected' implicitly has an 'any' type.",
+          "scope": "client",
+          "repoPath": "src/components/booking/steps/ContactsStep.vue"
+        }
+      ]
+    },
+    {
       "repoPath": "src/composables/admin/useRelationshipCollection.ts",
       "errorCount": 2,
       "unsafeCastHits": 0,
@@ -2307,6 +2227,24 @@
           "raw": "src/composables/admin/useRelationshipCollectionData.ts(134,9): error TS6133: 'parentEntity' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/composables/admin/useRelationshipCollectionData.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/booking/useDependentInstances.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/booking/useDependentInstances.ts",
+          "line": 129,
+          "col": 15,
+          "code": "TS2739",
+          "message": "Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
+          "raw": "src/composables/booking/useDependentInstances.ts(129,15): error TS2739: Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
+          "scope": "client",
+          "repoPath": "src/composables/booking/useDependentInstances.ts"
         }
       ]
     },

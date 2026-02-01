@@ -12,9 +12,9 @@ Exception handling:
 
 ## Summary
 
-- Total files scanned: **580**
-- **Requiring review: 878**
-- Allowed (with justification): 850 (inline: 0, pattern: 850, specific: 0)
+- Total files scanned: **584**
+- **Requiring review: 883**
+- Allowed (with justification): 921 (inline: 0, pattern: 921, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
@@ -69,36 +69,36 @@ Legend: `ruleId@lineNumber: line`
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=26
 
 ```
-push@205: * WHY: Avoids queue.shift() and queue.push() mutations
-shift@205: * WHY: Avoids queue.shift() and queue.push() mutations
-assignProp@209: if (queue.length === 0) {
-assignIndex@213: const [currentId, ...remainingQueue] = queue;
-assignProp@267: req.relationshipConfig = RELATIONSHIP_REGISTRY[normalizedKind];
-assignProp@315: if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parent_id) {
-assignProp@331: if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {
-assignProp@351: if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {
-assignProp@352: options.order = [['orderIndex', 'ASC']];
-assignProp@359: if (req.params.relationshipType === 'eventAssignments') {
-assignProp@360: options.include = [
-assignProp@380: if (req.params.relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {
-assignProp@381: options.include = [
-assignProp@406: options.attributes = getModelAttributes(relationshipConfig.model);
-assignProp@451: if (req.params.relationshipType === 'instanceComponents') {
-assignProp@585: existing.disabled = false;
-assignProp@586: existing.orderIndex = order_index ?? existing.orderIndex;
-assignProp@631: // PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing
-assignProp@660: createData = req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS
-assignProp@673: if (req.params.relationshipType === 'instanceComponents') {
-assignProp@679: childBlockInstance.active = false;
-assignProp@686: parentBlockInstance.active = true;
-assignProp@701: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
-assignProp@715: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
-assignProp@757: component.orderIndex = order_index;
-assignProp@761: component.disabled = disabled;
-delete@778: * Delete an instance component by ID (soft delete by setting disabled=true)
-assignProp@797: component.disabled = true;
-assignProp@815: childBlockInstance.active = true;
-assignProp@867: assignment.userTypeBlockInstanceId = userTypeBlockInstanceId || null;
+push@206: * WHY: Avoids queue.shift() and queue.push() mutations
+shift@206: * WHY: Avoids queue.shift() and queue.push() mutations
+assignProp@210: if (queue.length === 0) {
+assignIndex@214: const [currentId, ...remainingQueue] = queue;
+assignProp@268: req.relationshipConfig = RELATIONSHIP_REGISTRY[normalizedKind];
+assignProp@316: if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parent_id) {
+assignProp@332: if (req.params.relationshipType === 'annotationAssignments' && blockInstanceId) {
+assignProp@352: if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {
+assignProp@353: options.order = [['orderIndex', 'ASC']];
+assignProp@360: if (req.params.relationshipType === 'eventAssignments') {
+assignProp@361: options.include = [
+assignProp@381: if (req.params.relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {
+assignProp@382: options.include = [
+assignProp@407: options.attributes = getModelAttributes(relationshipConfig.model);
+assignProp@452: if (req.params.relationshipType === 'instanceComponents') {
+assignProp@586: existing.disabled = false;
+assignProp@587: existing.orderIndex = order_index ?? existing.orderIndex;
+assignProp@632: // PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing
+assignProp@661: createData = req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS
+assignProp@674: if (req.params.relationshipType === 'instanceComponents') {
+assignProp@680: childBlockInstance.active = false;
+assignProp@687: parentBlockInstance.active = true;
+assignProp@702: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
+assignProp@716: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
+assignProp@758: component.orderIndex = order_index;
+assignProp@762: component.disabled = disabled;
+delete@779: * Delete an instance component by ID (soft delete by setting disabled=true)
+assignProp@798: component.disabled = true;
+assignProp@816: childBlockInstance.active = true;
+assignProp@868: assignment.userTypeBlockInstanceId = userTypeBlockInstanceId || null;
 ```
 
 ### `server/src/routes/internal/entities/entityRouter.ts`
@@ -242,24 +242,24 @@ assignIndex@589: .filter((entry): entry is [string, unknown] => entry !== null)
 - counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=4, reverse=0, assignIndex=0, assignProp=10
 
 ```
-assignProp@96: const disabled = entity.disabled === true
-assignProp@138: .filter(rel => rel.relationshipKind === 'instanceComponents')
-sort@171: .sort((a, b) => {
-assignProp@172: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-assignProp@173: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-sort@196: .sort((a, b) => {
-assignProp@197: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-assignProp@198: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-sort@212: .sort((a, b) => {
-forLoop@270: for (const id of partAssignmentIds) {
-forOf@270: for (const id of partAssignmentIds) {
-assignProp@279: const composite = blockInstanceTyped.composite === true
-forLoop@308: for (const id of activeComponentPartIds) {
-forOf@308: for (const id of activeComponentPartIds) {
-sort@324: .sort((a: BookingPartInstance, b: BookingPartInstance) => {
-assignProp@325: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-assignProp@326: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-assignProp@381: requiresUnitNumber: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean' ? blockInstanceWithProps.requiresUnitNumber : null,
+assignProp@98: const disabled = entity.disabled === true
+assignProp@140: .filter(rel => rel.relationshipKind === 'instanceComponents')
+sort@173: .sort((a, b) => {
+assignProp@174: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+assignProp@175: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+sort@198: .sort((a, b) => {
+assignProp@199: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+assignProp@200: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+sort@214: .sort((a, b) => {
+forLoop@272: for (const id of partAssignmentIds) {
+forOf@272: for (const id of partAssignmentIds) {
+assignProp@281: const composite = blockInstanceTyped.composite === true
+forLoop@310: for (const id of activeComponentPartIds) {
+forOf@310: for (const id of activeComponentPartIds) {
+sort@326: .sort((a: BookingPartInstance, b: BookingPartInstance) => {
+assignProp@327: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+assignProp@328: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+assignProp@383: requiresUnitNumber: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean' ? blockInstanceWithProps.requiresUnitNumber : null,
 ```
 
 ### `client/src/utils/transformers/componentAggregator.ts`
@@ -1328,6 +1328,17 @@ assignIndex@93: metadataRecord[meta.fieldKey] = {
 delete@285: error: 'Failed to delete primitive metadata',
 ```
 
+### `server/src/routes/internal/businessRulesRouter.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+
+```
+assignProp@30: if (blockInstanceId) where.blockInstanceId = blockInstanceId;
+assignProp@31: if (ruleType) where.ruleType = ruleType;
+assignProp@32: if (active !== undefined) where.active = active === 'true';
+delete@263: error: 'Failed to delete business rule',
+```
+
 ### `server/src/routes/internal/businessSettingsRouter.ts`
 
 - counts: forEach=0, forLoop=2, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
@@ -1674,27 +1685,27 @@ delete@88: alert('Failed to delete part type')
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=19
 
 ```
-assignIndex@85: formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
-assignIndex@89: businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value
-assignProp@124: .map(id => blockInstances.find(bi => bi.id === id))
-assignProp@141: formData.value.differentialPerspectives = {}
-assignProp@143: formData.value.differentialPerspectives.majorAttendees = value
-assignProp@152: formData.value.differentialPerspectives = {}
-assignProp@154: formData.value.differentialPerspectives.minorAttendees = value
-assignProp@163: formData.value.differentialPerspectives = {}
-assignProp@165: formData.value.differentialPerspectives.majorLabel = value
-assignProp@174: formData.value.differentialPerspectives = {}
-assignProp@176: formData.value.differentialPerspectives.minorLabel = value
-assignProp@185: formData.value.differentialPerspectives = {}
-assignProp@187: formData.value.differentialPerspectives.differentialGraphDefaultLabel = value
-assignProp@196: formData.value.differentialPerspectives = {}
-assignProp@198: formData.value.differentialPerspectives.majorStateLabel = value
-assignProp@207: formData.value.differentialPerspectives = {}
-assignProp@209: formData.value.differentialPerspectives.minorStateLabel = value
-assignProp@305: if (formData.value) formData.value.maxWorkHours = parent
-assignProp@420: if (formData.value) formData.value.buffers = parent
-assignProp@462: if (leadTime && leadTime.type === 'leadTime' && 'minutes' in leadTime.config) {
-assignProp@482: if (formData.value) formData.value.rangeConstraints = parent
+assignIndex@86: formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
+assignIndex@90: businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value
+assignProp@125: .map(id => blockInstances.find(bi => bi.id === id))
+assignProp@142: formData.value.differentialPerspectives = {}
+assignProp@144: formData.value.differentialPerspectives.majorAttendees = value
+assignProp@153: formData.value.differentialPerspectives = {}
+assignProp@155: formData.value.differentialPerspectives.minorAttendees = value
+assignProp@164: formData.value.differentialPerspectives = {}
+assignProp@166: formData.value.differentialPerspectives.majorLabel = value
+assignProp@175: formData.value.differentialPerspectives = {}
+assignProp@177: formData.value.differentialPerspectives.minorLabel = value
+assignProp@186: formData.value.differentialPerspectives = {}
+assignProp@188: formData.value.differentialPerspectives.differentialGraphDefaultLabel = value
+assignProp@197: formData.value.differentialPerspectives = {}
+assignProp@199: formData.value.differentialPerspectives.majorStateLabel = value
+assignProp@208: formData.value.differentialPerspectives = {}
+assignProp@210: formData.value.differentialPerspectives.minorStateLabel = value
+assignProp@306: if (formData.value) formData.value.maxWorkHours = parent
+assignProp@421: if (formData.value) formData.value.buffers = parent
+assignProp@463: if (leadTime && leadTime.type === 'leadTime' && 'minutes' in leadTime.config) {
+assignProp@483: if (formData.value) formData.value.rangeConstraints = parent
 ```
 
 ### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts`
@@ -2727,15 +2738,16 @@ assignProp@480: <div v-else-if="wizard.availableOptionTypeBlocks.value.length ==
 
 ### `client/src/components/booking/steps/ContactsStep.vue`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@79: parentContactsStepData.value = newData
-assignProp@88: parentContactsStepValid.value = newValid
-assignProp@95: parentContactsStepValidate.value = validateForm
-delete@200: <!-- PATTERN: Conditional rendering with delete button -->
-delete@255: <!-- PATTERN: Conditional rendering with delete button -->
-delete@310: <!-- PATTERN: Conditional rendering with delete button -->
+assignProp@39: selected => selected.requires_agent === true
+assignProp@100: parentContactsStepData.value = newData
+assignProp@109: parentContactsStepValid.value = newValid
+assignProp@116: parentContactsStepValidate.value = validateForm
+delete@221: <!-- PATTERN: Conditional rendering with delete button -->
+delete@276: <!-- PATTERN: Conditional rendering with delete button -->
+delete@331: <!-- PATTERN: Conditional rendering with delete button -->
 ```
 
 ### `client/src/components/booking/steps/PropertyDetailsStep.vue`
@@ -2886,6 +2898,47 @@ assignProp@208: error.value = null
 assignProp@218: error.value = err instanceof Error ? err.message : 'Failed to save block instance'
 assignProp@220: isSubmitting.value = false
 push@230: router.push({ name: redirectRouteName })
+```
+
+### `client/src/composables/admin/useBusinessRules.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=33
+
+```
+assignProp@139: loading.value = true
+assignProp@140: error.value = null
+assignProp@152: rules.value = response.data || []
+assignProp@155: error.value = err instanceof Error ? err.message : 'Failed to load business rules'
+assignProp@156: rules.value = []
+assignProp@158: loading.value = false
+assignProp@169: loading.value = true
+assignProp@170: error.value = null
+assignProp@177: error.value = err instanceof Error ? err.message : 'Failed to load business rules for block'
+assignProp@180: loading.value = false
+assignProp@191: saving.value = true
+assignProp@192: error.value = null
+assignProp@193: success.value = null
+assignProp@199: success.value = 'Business rule created successfully'
+assignProp@208: error.value = err instanceof Error ? err.message : 'Failed to create business rule'
+assignProp@211: saving.value = false
+assignProp@222: saving.value = true
+assignProp@223: error.value = null
+assignProp@224: success.value = null
+assignProp@230: success.value = 'Business rule updated successfully'
+assignProp@239: error.value = err instanceof Error ? err.message : 'Failed to update business rule'
+assignProp@242: saving.value = false
+assignProp@253: saving.value = true
+assignProp@254: error.value = null
+assignProp@255: success.value = null
+assignProp@259: success.value = 'Business rule deleted successfully'
+assignProp@265: error.value = err instanceof Error ? err.message : 'Failed to delete business rule'
+delete@265: error.value = err instanceof Error ? err.message : 'Failed to delete business rule'
+assignProp@268: saving.value = false
+assignProp@279: saving.value = true
+assignProp@280: error.value = null
+assignProp@284: success.value = active ? 'Business rule enabled' : 'Business rule disabled'
+assignProp@290: error.value = err instanceof Error ? err.message : 'Failed to toggle business rule'
+assignProp@293: saving.value = false
 ```
 
 ### `client/src/composables/admin/useConditionalFieldVisibility.ts`
@@ -3652,18 +3705,21 @@ assignProp@207: showSeller.value = true
 
 ### `client/src/composables/booking/useContactsValidation.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=9
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=12
 
 ```
-assignProp@115: rules.anotherClientFirstName = validationRules.anotherClientFirstName
-assignProp@116: rules.anotherClientLastName = validationRules.anotherClientLastName
-assignProp@117: rules.anotherClientEmail = validationRules.anotherClientEmail
-assignProp@121: rules.transactionManagerFirstName = validationRules.transactionManagerFirstName
-assignProp@122: rules.transactionManagerLastName = validationRules.transactionManagerLastName
-assignProp@123: rules.transactionManagerEmail = validationRules.transactionManagerEmail
-assignProp@127: rules.sellerFirstName = validationRules.sellerFirstName
-assignProp@128: rules.sellerLastName = validationRules.sellerLastName
-assignProp@129: rules.sellerEmail = validationRules.sellerEmail
+assignProp@123: rules.agentFirstName = validationRules.agentFirstName
+assignProp@124: rules.agentLastName = validationRules.agentLastName
+assignProp@125: rules.agentEmail = validationRules.agentEmail
+assignProp@130: rules.anotherClientFirstName = validationRules.anotherClientFirstName
+assignProp@131: rules.anotherClientLastName = validationRules.anotherClientLastName
+assignProp@132: rules.anotherClientEmail = validationRules.anotherClientEmail
+assignProp@136: rules.transactionManagerFirstName = validationRules.transactionManagerFirstName
+assignProp@137: rules.transactionManagerLastName = validationRules.transactionManagerLastName
+assignProp@138: rules.transactionManagerEmail = validationRules.transactionManagerEmail
+assignProp@142: rules.sellerFirstName = validationRules.sellerFirstName
+assignProp@143: rules.sellerLastName = validationRules.sellerLastName
+assignProp@144: rules.sellerEmail = validationRules.sellerEmail
 ```
 
 ### `client/src/composables/booking/useDurationRounding.ts`
@@ -3730,11 +3786,12 @@ assignProp@108: if (!instanceComponentsRelationships || instanceComponentsRelati
 
 ### `client/src/composables/booking/usePropertyDetailsLogic.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
 
 ```
 assignProp@86: return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)
-assignProp@118: return blockShapeWithComposable.composable === true
+assignProp@97: selected => selected.is_multi_family === true
+assignProp@124: return blockShapeWithComposable.composable === true
 ```
 
 ### `client/src/composables/booking/usePropertyFormState.ts`
@@ -5029,6 +5086,46 @@ delete@90: deleteErrorMessage: 'Failed to delete block instance'
 
 - (no matches)
 
+### `client/src/views/admin/tabs/BusinessRulesTab.vue`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=33
+
+```
+assignProp@63: // TODO: Filter by annotationShape.name === 'validation_message'
+assignProp@104: rules.value = []
+assignProp@115: return rules.value.filter(rule => rule.blockInstanceId === selectedBlockId.value)
+assignProp@124: editingRule.value = null
+assignProp@125: formData.value = {
+assignProp@132: showRuleDialog.value = true
+assignProp@141: editingRule.value = rule
+assignProp@142: formData.value = {
+assignProp@149: showRuleDialog.value = true
+assignProp@158: showRuleDialog.value = false
+assignProp@159: editingRule.value = null
+assignProp@160: formData.value = {
+assignProp@196: if (confirm(`Delete business rule for ${ruleTypeOptions.find(o => o.value === rule.ruleType)?.title}?`)) {
+assignProp@207: return ruleTypeOptions.find(o => o.value === ruleType)?.title || ruleType
+assignProp@241: if (formData.value.ruleType === 'required_fields') {
+assignProp@248: if (formData.value.ruleType === 'required_fields') {
+assignProp@249: formData.value.ruleConfig = {
+assignProp@259: if (formData.value.ruleType === 'required_fields') {
+assignProp@265: if (formData.value.ruleType === 'required_fields') {
+assignProp@266: formData.value.ruleConfig = {
+assignProp@276: if (formData.value.ruleType === 'requires_agent') {
+assignProp@282: if (formData.value.ruleType === 'requires_agent') {
+assignProp@283: formData.value.ruleConfig = { requiresAgent: value }
+assignProp@296: formData.value.ruleConfig = { fields: [] }
+assignProp@299: formData.value.ruleConfig = { requiresAgent: false }
+assignProp@302: formData.value.ruleConfig = { field: '', dependsOn: '', condition: 'equals', value: '' }
+assignProp@305: formData.value.ruleConfig = { field: '', messageType: 'required' }
+assignProp@366: Rules for {{ availableBlockInstances.find(b => b.value === selectedBlockId)?.title }}
+assignProp@395: {{ availableValidationMessages.find(m => m.value === rule.validationMessageAnnotationId)?.title || 'Linked' }}
+assignProp@482: <div v-if="formData.ruleType === 'required_fields'" class="mb-4">
+assignProp@500: <div v-if="formData.ruleType === 'requires_agent'" class="mb-4">
+assignProp@510: <VAlert v-if="formData.ruleType === 'conditional_validation'" type="info" variant="tonal" class="mb-4">
+assignProp@515: <VAlert v-if="formData.ruleType === 'validation_message'" type="info" variant="tonal" class="mb-4">
+```
+
 ### `client/src/views/admin/tabs/components/AppointmentsTable.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=9
@@ -5204,6 +5301,12 @@ assignProp@524: expandedShapes.value = expandedShapes.value.filter(id => id !== 
 - (no matches)
 
 ### `server/src/db/models/admin/adminRelationshipMetadata.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+- (no matches)
+
+### `server/src/db/models/admin/business_rule.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
