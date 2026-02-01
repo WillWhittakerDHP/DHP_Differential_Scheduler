@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance, BookingCascade, PartAssignment, AnnotationAssignment, EventAssignment, EventShapeAttendee, InstanceComponent, BlockInstance, BlockShape, EventInstance, EventShape, PartShape, PartInstance, AnnotationInstance, AnnotationShape } from '../../../config/app.js';
 import { Model, ModelStatic } from 'sequelize';
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js';
+import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js';
 
 const router = Router();
 
