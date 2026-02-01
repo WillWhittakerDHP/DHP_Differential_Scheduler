@@ -37,6 +37,16 @@
 - Integrated RULES tab into AdminPanel
 - Admin can now configure validation rules per block instance
 
+### Session 1.5.3: Required Fields Validation Logic ✅
+**Completed:** 2026-01-31
+**Tasks Completed:** 1.5.3.1, 1.5.3.2
+**Key Accomplishments:**
+- Replaced hardcoded isMultiFamily name check with is_multi_family database flag
+- Made agent fields conditionally required based on requires_agent flag
+- Updated all TypeScript interfaces to include new flags
+- Transformer includes new flags in booking data
+- Wizard validation now database-driven
+
 ---
 
 ## In Progress Sessions
@@ -47,8 +57,8 @@ _No sessions in progress yet_
 
 ## Planned Sessions
 
-### Session 1.5.3: Required Fields Validation Logic
-**Status:** Not Started
+### Session 1.5.4: "Requires Agent" Logic Implementation (Optional)
+**Status:** Optional
 **Description:** Create database tables and models for business rules configuration. Replace hardcoded validation logic with database-driven rules.
 **Planned Tasks:**
 - Create business_rules table migration (rule_type, JSONB config, annotation link)
