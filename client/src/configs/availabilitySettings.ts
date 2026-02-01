@@ -149,6 +149,54 @@ export interface BufferConfig {
 }
 
 /**
+ * Drive time application rules
+ * LEARNING: Controls when drive time buffers are applied
+ * WHY: First/last appointment of day may need different handling than middle appointments
+ * PATTERN: Enum-like string literal union type
+ * 
+ * - 'all': Apply to all appointments (default for between-appointment travel)
+ * - 'first_only': Only apply to first appointment of day (travel FROM home/office)
+ * - 'last_only': Only apply to last appointment of day (travel TO home/office)
+ * - 'none': Disabled - don't apply this buffer
+ */
+export type DriveTimeApplyTo = 'all' | 'first_only' | 'last_only' | 'none'
+
+/**
+ * Drive time buffer configuration
+ * LEARNING: Semantic buffer for travel time with application rules
+ * WHY: driveTimeTo/driveTimeFrom have implicit placement (before/after) - no ambiguity
+ * PATTERN: Interface with minutes, enforcement, and applyTo (no placement needed)
+ * 
+ * Unlike BufferConfig which has explicit 'placement', DriveTimeConfig uses semantic naming:
+ * - driveTimeTo: Travel time to arrive at appointment (always applied BEFORE)
+ * - driveTimeFrom: Travel time to depart from appointment (always applied AFTER)
+ */
+export interface DriveTimeConfig {
+  minutes: number
+  enforcement: ConstraintEnforcement
+  applyTo: DriveTimeApplyTo
+}
+
+/**
+ * Default location for drive time calculations
+ * LEARNING: Starting/ending point for first/last appointment drive times
+ * WHY: Needed to calculate travel time from home/office to first appointment
+ * PATTERN: Interface with address string and optional coordinates for future Google Maps integration
+ * 
+ * This is used as:
+ * - Starting point for travel to first appointment of the day
+ * - Ending point for travel from last appointment of the day
+ */
+export interface DefaultLocation {
+  address: string           // Full address string (e.g., "123 Main St, City, State ZIP")
+  label?: string            // Optional label like "Home Office", "Shop", etc.
+  coordinates?: {           // Optional - for future Google Maps integration (Phase 2.2)
+    lat: number
+    lng: number
+  }
+}
+
+/**
  * Calendar provider type
  * LEARNING: Identifies the calendar service provider
  * WHY: Supports multiple calendar providers (Google, Outlook)
@@ -230,15 +278,26 @@ export interface AvailabilitySettings {
    * Overlap constraints (buffers) (optional)
    * LEARNING: Time gaps around appointments to prevent overlaps
    * WHY: Groups related buffer settings together for consistency and better organization
-   * PATTERN: Optional nested object with appointment, driveTime, and lunch buffers
+   * PATTERN: Optional nested object with appointment, driveTimeTo, driveTimeFrom, and lunch buffers
    * 
    * Note: leadTime moved to rangeConstraints.leadTime
+   * Note: Legacy 'driveTime' replaced with semantic 'driveTimeTo'/'driveTimeFrom' in drive time buffer refactor
    */
   buffers?: {
-    appointment?: BufferConfig   // Appointment buffer (adds time around appointments)
-    driveTime?: BufferConfig     // Drive time buffer (future: travel time between appointments)
-    lunch?: BufferConfig         // Lunch buffer (blocks time for lunch breaks)
+    appointment?: BufferConfig      // Appointment buffer (adds time around appointments)
+    driveTimeTo?: DriveTimeConfig   // Travel time TO arrive at appointment (applied BEFORE)
+    driveTimeFrom?: DriveTimeConfig // Travel time FROM appointment (applied AFTER)
+    lunch?: BufferConfig            // Lunch buffer (blocks time for lunch breaks)
+    // driveTime?: BufferConfig     // DEPRECATED: Use driveTimeTo/driveTimeFrom instead
   }
+  
+  /**
+   * Default location for drive time calculations (optional)
+   * LEARNING: Starting/ending point for first/last appointment drive times
+   * WHY: Needed to calculate travel time from home/office to first appointment and back
+   * PATTERN: Optional field with address and optional coordinates for Google Maps integration
+   */
+  defaultLocation?: DefaultLocation
   
   /**
    * Maximum work hours capacity filters (optional)
@@ -313,7 +372,8 @@ export interface RawAvailabilitySettings {
   }
   buffers?: {
     appointment?: BufferConfig
-    driveTime?: BufferConfig
+    driveTimeTo?: DriveTimeConfig   // Travel time TO arrive at appointment
+    driveTimeFrom?: DriveTimeConfig // Travel time FROM appointment
     lunch?: BufferConfig
   }
   maxWorkHours?: {
@@ -338,6 +398,7 @@ export interface RawAvailabilitySettings {
     selectTimeSlotLabel?: string
   }
   calendarConfig?: CalendarConfig
+  defaultLocation?: DefaultLocation
 }
 
 /**
@@ -430,7 +491,9 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         durationRounding: rawSettings.durationRounding,
         differentialPerspectives: rawSettings.differentialPerspectives,
         // Session 2.1.2: Include calendarConfig from raw settings
-        calendarConfig: rawSettings.calendarConfig
+        calendarConfig: rawSettings.calendarConfig,
+        // Drive time buffer refactor: Include defaultLocation for drive time calculations
+        defaultLocation: rawSettings.defaultLocation
       }
       
       cachedSettings = {

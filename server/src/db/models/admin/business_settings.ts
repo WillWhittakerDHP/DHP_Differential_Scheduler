@@ -134,6 +134,41 @@ export interface BufferConfig {
   enforcement: ConstraintEnforcement  // Added enforcement property
 }
 
+/**
+ * Drive time application rules
+ * LEARNING: Controls when drive time buffers are applied
+ * WHY: First/last appointment of day may need different handling than middle appointments
+ * PATTERN: Enum-like string literal union type
+ */
+export type DriveTimeApplyTo = 'all' | 'first_only' | 'last_only' | 'none'
+
+/**
+ * Drive time buffer configuration
+ * LEARNING: Semantic buffer for travel time with application rules
+ * WHY: driveTimeTo/driveTimeFrom have implicit placement (before/after) - no ambiguity
+ * PATTERN: Interface with minutes, enforcement, and applyTo (no placement needed)
+ */
+export interface DriveTimeConfig {
+  minutes: number;
+  enforcement: ConstraintEnforcement;
+  applyTo: DriveTimeApplyTo;
+}
+
+/**
+ * Default location for drive time calculations
+ * LEARNING: Starting/ending point for first/last appointment drive times
+ * WHY: Needed to calculate travel time from home/office to first appointment
+ * PATTERN: Interface with address string and optional coordinates
+ */
+export interface DefaultLocation {
+  address: string;
+  label?: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+}
+
 export interface AvailabilitySettingsData {
   businessHours: {
     0: { start: string; end: string }; // Sunday
@@ -151,9 +186,11 @@ export interface AvailabilitySettingsData {
     dateRange?: RangeConstraint;     // Date range boundaries (absolute start/end limits)
   };
   buffers?: {
-    appointment?: BufferConfig;    // Appointment buffer (adds time around appointments)
-    driveTime?: BufferConfig;      // Drive time buffer (future: travel time between appointments)
-    lunch?: BufferConfig;          // Lunch buffer (blocks time for lunch breaks)
+    appointment?: BufferConfig;       // Appointment buffer (adds time around appointments)
+    driveTimeTo?: DriveTimeConfig;    // Travel time TO arrive at appointment (applied BEFORE)
+    driveTimeFrom?: DriveTimeConfig;  // Travel time FROM appointment (applied AFTER)
+    lunch?: BufferConfig;             // Lunch buffer (blocks time for lunch breaks)
+    // driveTime?: BufferConfig;      // DEPRECATED: Use driveTimeTo/driveTimeFrom instead
   };
   maxWorkHours?: {
     day?: WorkCapacityFilter; // Work hours per day capacity filter
@@ -175,6 +212,7 @@ export interface AvailabilitySettingsData {
     majorStateLabel?: string;  // State message when major perspective is selected (e.g., "Showing Major Times")
     minorStateLabel?: string;  // State message when minor perspective is selected (e.g., "Showing Client FormalPresentation Times")
   };
+  defaultLocation?: DefaultLocation; // Starting/ending point for drive time calculations
 }
 
 export class BusinessSettings extends Model<

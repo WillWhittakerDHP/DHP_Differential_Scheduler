@@ -17,6 +17,9 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     rollingWeekLimit: 'Rolling Week Limit (7-day window)',
     appointmentBuffers: 'Appointment Buffers',
     driveTimeBuffer: 'Drive Time Buffer',
+    driveTimeToBuffer: 'Drive Time To (Arrival)',
+    driveTimeFromBuffer: 'Drive Time From (Departure)',
+    defaultLocation: 'Default Location',
     lunchBuffer: 'Lunch Buffer',
     calendar: 'Calendar'
   },
@@ -31,11 +34,14 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     direction: 'Direction',
     bufferTime: 'Buffer Time (minutes)',
     placement: 'Placement',
+    applyTo: 'Apply To',
     timeSlotIncrement: 'Slot Increment',
     timezone: 'Timezone',
     enableDurationRounding: 'Enable Duration Rounding',
     roundingIncrement: 'Rounding Increment (minutes)',
-    roundingMethod: 'Rounding Method'
+    roundingMethod: 'Rounding Method',
+    defaultLocationAddress: 'Home/Office Address',
+    defaultLocationLabel: 'Label (optional)'
   },
   validation: {
     startTimeRequired: 'Start time is required',
@@ -59,7 +65,12 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     timezone: 'Used for all availability calculations and time slot generation.',
     durationRounding: 'When enabled, appointment durations are rounded to the specified increment using the selected method. Round Up ensures durations never fall short, Round Down prevents exceeding, Round Nearest rounds to closest increment.',
     roundingIncrement: 'Interval to round durations to (e.g., 15 = rounds to nearest 15-minute mark)',
-    roundingMethod: 'How to round durations: Round Up (always round up), Round Down (always round down), Round Nearest (round to closest)'
+    roundingMethod: 'How to round durations: Round Up (always round up), Round Down (always round down), Round Nearest (round to closest)',
+    driveTimeToMinutes: 'Travel time needed to arrive at appointment',
+    driveTimeFromMinutes: 'Travel time needed to leave from appointment',
+    driveTimeApplyTo: 'Which appointments need this buffer',
+    defaultLocationAddress: 'Starting point for first appointment, ending point for last',
+    defaultLocationLabel: 'Optional label like "Home Office" or "Shop"'
   },
   help: {
     rangeConstraints: 'Range Constraints: Filter slots by when they can occur. Lead time prevents scheduling too close to current time. Date range sets absolute boundaries.',
@@ -78,6 +89,9 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     dateRangeDescription: 'Date range constraints allow you to set absolute start and end boundaries for when appointments can be scheduled.',
     driveTimeNotSetup: 'Not Set-up',
     driveTimeDescription: 'Drive time buffers add travel time between appointments to prevent scheduling conflicts when appointments are at different locations.',
+    driveTimeToDescription: 'Buffer time needed to travel TO an appointment. Applied BEFORE the appointment start time.',
+    driveTimeFromDescription: 'Buffer time needed to travel FROM an appointment. Applied AFTER the appointment end time.',
+    defaultLocationDescription: 'Your home or office address. Used as the starting point for first appointments and ending point for last appointments.',
     lunchNotSetup: 'Not Set-up',
     lunchDescription: 'Lunch buffers block time for lunch breaks to prevent scheduling appointments during meal times.'
   },

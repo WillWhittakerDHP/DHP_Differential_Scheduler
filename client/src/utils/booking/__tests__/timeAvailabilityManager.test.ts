@@ -6,7 +6,9 @@ import {
   checkSlotAvailability,
   checkRangeConstraints,
   ConstraintValidationError,
-  type BusyTimeRange
+  shouldApplyDriveTimeConstraint,
+  type BusyTimeRange,
+  type SlotPositionContext
 } from '../timeAvailabilityManager'
 import { DEFAULT_INCLUDE_FLAGS, type BusinessHoursMap } from '../timeSlotFitter'
 import type { OverlapConstraint, CapacityConstraint } from '../constraintExtractors'
@@ -367,8 +369,9 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
   it('should only mark the constraint that actually caused overlap', () => {
     const slotStart = new Date('2026-01-15T10:00:00Z')
     const slotEnd = new Date('2026-01-15T11:00:00Z')
-    const busyStart = new Date('2026-01-15T10:30:00Z')
-    const busyEnd = new Date('2026-01-15T10:45:00Z')
+    // Busy period is 9:50-9:55 - only overlaps with appointment "before" buffer (extends to 9:45)
+    const busyStart = new Date('2026-01-15T09:50:00Z')
+    const busyEnd = new Date('2026-01-15T09:55:00Z')
     
     const parsedBusyTimes = [{
       start: busyStart,
@@ -380,26 +383,127 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
       type: 'appointment',
       placement: 'before',
       enforcement: 'flexible',
-      minutes: 15
+      minutes: 15  // Extends slot check to 9:45, which overlaps with busy 9:50-9:55
     }
     
-    const driveTimeConstraint: OverlapConstraint = {
-      type: 'driveTime',
+    // LEARNING: Use driveTimeFrom instead of legacy driveTime
+    // WHY: driveTimeTo/driveTimeFrom replaced ambiguous driveTime with semantic meaning
+    const driveTimeFromConstraint: OverlapConstraint = {
+      type: 'driveTimeFrom',
       placement: 'after',
       enforcement: 'flexible',
-      minutes: 30
+      minutes: 30,  // Extends slot check to 11:30, does NOT overlap with busy 9:50-9:55
+      applyTo: 'all'
     }
 
     const result = checkSlotAvailability(
       slotStart,
       slotEnd,
       parsedBusyTimes,
-      [appointmentConstraint, driveTimeConstraint]
+      [appointmentConstraint, driveTimeFromConstraint]
     )
 
     expect(result.available).toBe(true)
     expect(result.violations).toEqual(['overlap.appointment'])
-    expect(result.violations).not.toContain('overlap.driveTime')
+    expect(result.violations).not.toContain('overlap.driveTimeFrom')
+  })
+
+  it('should apply driveTimeTo constraint only when position context indicates first of day', () => {
+    const slotStart = new Date('2026-01-15T09:00:00Z')
+    const slotEnd = new Date('2026-01-15T10:00:00Z')
+    const busyStart = new Date('2026-01-15T08:30:00Z') // Busy period before slot
+    const busyEnd = new Date('2026-01-15T08:45:00Z')
+    
+    const parsedBusyTimes = [{
+      start: busyStart,
+      end: busyEnd
+    }]
+
+    const driveTimeToConstraint: OverlapConstraint = {
+      type: 'driveTimeTo',
+      placement: 'before',
+      enforcement: 'hard',
+      minutes: 30, // Would extend to 8:30, overlapping with busy
+      applyTo: 'first_only'
+    }
+
+    // Without position context, first_only constraint should NOT apply
+    const resultWithoutContext = checkSlotAvailability(
+      slotStart,
+      slotEnd,
+      parsedBusyTimes,
+      [driveTimeToConstraint]
+    )
+    expect(resultWithoutContext.available).toBe(true) // Constraint not applied
+
+    // With isFirstOfDay=true, constraint SHOULD apply and block
+    const resultWithFirstContext = checkSlotAvailability(
+      slotStart,
+      slotEnd,
+      parsedBusyTimes,
+      [driveTimeToConstraint],
+      { isFirstOfDay: true, isLastOfDay: false }
+    )
+    expect(resultWithFirstContext.available).toBe(false) // Blocked by buffer overlap
+
+    // With isFirstOfDay=false, constraint should NOT apply
+    const resultWithMiddleContext = checkSlotAvailability(
+      slotStart,
+      slotEnd,
+      parsedBusyTimes,
+      [driveTimeToConstraint],
+      { isFirstOfDay: false, isLastOfDay: false }
+    )
+    expect(resultWithMiddleContext.available).toBe(true) // Constraint not applied
+  })
+
+  it('should apply driveTimeFrom constraint only when position context indicates last of day', () => {
+    const slotStart = new Date('2026-01-15T17:00:00Z')
+    const slotEnd = new Date('2026-01-15T18:00:00Z')
+    const busyStart = new Date('2026-01-15T18:15:00Z') // Busy period after slot
+    const busyEnd = new Date('2026-01-15T18:30:00Z')
+    
+    const parsedBusyTimes = [{
+      start: busyStart,
+      end: busyEnd
+    }]
+
+    const driveTimeFromConstraint: OverlapConstraint = {
+      type: 'driveTimeFrom',
+      placement: 'after',
+      enforcement: 'hard',
+      minutes: 30, // Would extend to 18:30, overlapping with busy
+      applyTo: 'last_only'
+    }
+
+    // Without position context, last_only constraint should NOT apply
+    const resultWithoutContext = checkSlotAvailability(
+      slotStart,
+      slotEnd,
+      parsedBusyTimes,
+      [driveTimeFromConstraint]
+    )
+    expect(resultWithoutContext.available).toBe(true) // Constraint not applied
+
+    // With isLastOfDay=true, constraint SHOULD apply and block
+    const resultWithLastContext = checkSlotAvailability(
+      slotStart,
+      slotEnd,
+      parsedBusyTimes,
+      [driveTimeFromConstraint],
+      { isFirstOfDay: false, isLastOfDay: true }
+    )
+    expect(resultWithLastContext.available).toBe(false) // Blocked by buffer overlap
+
+    // With isLastOfDay=false, constraint should NOT apply
+    const resultWithMiddleContext = checkSlotAvailability(
+      slotStart,
+      slotEnd,
+      parsedBusyTimes,
+      [driveTimeFromConstraint],
+      { isFirstOfDay: false, isLastOfDay: false }
+    )
+    expect(resultWithMiddleContext.available).toBe(true) // Constraint not applied
   })
 
   it('should block immediately on hard enforcement overlap', () => {
@@ -430,6 +534,101 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
 
     expect(result.available).toBe(false)
     expect(result.violations).toEqual([])
+  })
+})
+
+// DRIVE TIME APPLY-TO HELPER TESTS
+
+describe('shouldApplyDriveTimeConstraint', () => {
+  it('should return true for non-drive-time constraints', () => {
+    const constraint: OverlapConstraint = {
+      type: 'appointment',
+      placement: 'before',
+      enforcement: 'hard',
+      minutes: 15
+    }
+    
+    expect(shouldApplyDriveTimeConstraint(constraint)).toBe(true)
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(true)
+  })
+
+  it('should return true for driveTimeTo with applyTo=all', () => {
+    const constraint: OverlapConstraint = {
+      type: 'driveTimeTo',
+      placement: 'before',
+      enforcement: 'hard',
+      minutes: 30,
+      applyTo: 'all'
+    }
+    
+    expect(shouldApplyDriveTimeConstraint(constraint)).toBe(true)
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(true)
+  })
+
+  it('should return false for driveTimeTo with applyTo=first_only when no context', () => {
+    const constraint: OverlapConstraint = {
+      type: 'driveTimeTo',
+      placement: 'before',
+      enforcement: 'hard',
+      minutes: 30,
+      applyTo: 'first_only'
+    }
+    
+    // Without context, first_only should NOT apply
+    expect(shouldApplyDriveTimeConstraint(constraint)).toBe(false)
+  })
+
+  it('should return true for driveTimeTo with applyTo=first_only when isFirstOfDay', () => {
+    const constraint: OverlapConstraint = {
+      type: 'driveTimeTo',
+      placement: 'before',
+      enforcement: 'hard',
+      minutes: 30,
+      applyTo: 'first_only'
+    }
+    
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: true, isLastOfDay: false })).toBe(true)
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: true })).toBe(false)
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(false)
+  })
+
+  it('should return true for driveTimeFrom with applyTo=last_only when isLastOfDay', () => {
+    const constraint: OverlapConstraint = {
+      type: 'driveTimeFrom',
+      placement: 'after',
+      enforcement: 'hard',
+      minutes: 15,
+      applyTo: 'last_only'
+    }
+    
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: true })).toBe(true)
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: true, isLastOfDay: false })).toBe(false)
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(false)
+  })
+
+  it('should return false for driveTimeFrom with applyTo=none', () => {
+    const constraint: OverlapConstraint = {
+      type: 'driveTimeFrom',
+      placement: 'after',
+      enforcement: 'hard',
+      minutes: 15,
+      applyTo: 'none'
+    }
+    
+    expect(shouldApplyDriveTimeConstraint(constraint)).toBe(false)
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: true, isLastOfDay: true })).toBe(false)
+  })
+
+  it('should handle undefined applyTo by returning true (fallback)', () => {
+    const constraint: OverlapConstraint = {
+      type: 'driveTimeTo',
+      placement: 'before',
+      enforcement: 'hard',
+      minutes: 30,
+      applyTo: undefined
+    }
+    
+    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(true)
   })
 })
 

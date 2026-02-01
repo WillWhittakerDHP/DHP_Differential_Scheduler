@@ -66,6 +66,60 @@ import type {
   OverlapConstraint,
   CapacityConstraint
 } from './constraintExtractors'
+
+/**
+ * Slot position context for drive time constraint application
+ * LEARNING: Provides position information for determining when drive time constraints apply
+ * WHY: First/last appointment of day may need different handling than middle appointments
+ * PATTERN: Interface with boolean flags for position
+ * 
+ * Note: Currently optional - when not provided, applyTo='all' constraints apply, others don't
+ * Future enhancement: Determine position based on existing appointments in the day
+ */
+export interface SlotPositionContext {
+  isFirstOfDay: boolean
+  isLastOfDay: boolean
+}
+
+/**
+ * Check if a drive time constraint should be applied based on slot position
+ * LEARNING: Helper function to determine constraint applicability
+ * WHY: Centralizes applyTo logic for drive time constraints
+ * PATTERN: Pure function that returns boolean based on constraint and context
+ * 
+ * @param constraint - The overlap constraint to check
+ * @param context - Optional slot position context (if undefined, only 'all' applies)
+ * @returns true if constraint should be applied to this slot
+ */
+export function shouldApplyDriveTimeConstraint(
+  constraint: OverlapConstraint,
+  context?: SlotPositionContext
+): boolean {
+  // Non-drive-time constraints always apply (no applyTo filtering)
+  if (constraint.type !== 'driveTimeTo' && constraint.type !== 'driveTimeFrom') {
+    return true
+  }
+  
+  // If no context provided, only 'all' constraints apply
+  // WHY: Without position info, we can't know if first/last, so only 'all' is safe
+  if (!context) {
+    return constraint.applyTo === 'all'
+  }
+  
+  switch (constraint.applyTo) {
+    case 'all':
+      return true
+    case 'first_only':
+      return context.isFirstOfDay
+    case 'last_only':
+      return context.isLastOfDay
+    case 'none':
+      return false
+    default:
+      // Fallback for safety - apply if applyTo is undefined
+      return true
+  }
+}
 import {
   validateRangeConstraint,
   validateOverlapConstraint,
@@ -372,20 +426,22 @@ export function checkRangeConstraints(
 /**
  * Check if a slot overlaps with any busy periods
  * LEARNING: Unified function for checking overlap constraints (buffers) with all buffer types
- * WHY: Single pathway for all overlap prevention, consolidates appointment, driveTime, and lunch buffers
+ * WHY: Single pathway for all overlap prevention, consolidates appointment, driveTimeTo, driveTimeFrom, and lunch buffers
  * PATTERN: Check each constraint individually to accurately attribute violations to the specific constraint that caused overlap
  * 
  * @param slotStart - Slot start time as Date
  * @param slotEnd - Slot end time as Date
  * @param parsedBusyTimes - Array of pre-parsed busy time ranges with cached Date objects
  * @param overlapConstraints - Array of overlap constraints (buffers) to apply
+ * @param positionContext - Optional slot position context for drive time applyTo filtering
  * @returns Object with available boolean and violations array
  */
 export function checkSlotAvailability(
   slotStart: Date,
   slotEnd: Date,
   parsedBusyTimes: ParsedBusyTimeRange[],
-  overlapConstraints?: OverlapConstraint[]
+  overlapConstraints?: OverlapConstraint[],
+  positionContext?: SlotPositionContext
 ): { available: boolean; violations: string[] } {
   if (parsedBusyTimes.length === 0) {
     return { available: true, violations: [] }
@@ -393,6 +449,24 @@ export function checkSlotAvailability(
 
   // If no overlap constraints, check basic overlap
   if (!overlapConstraints || overlapConstraints.length === 0) {
+    const overlapsBusy = parsedBusyTimes.some(busy => {
+      return timeRangesOverlap(
+        { start: slotStart, end: slotEnd },
+        { start: busy.start, end: busy.end }
+      )
+    })
+    return { available: !overlapsBusy, violations: [] }
+  }
+
+  // LEARNING: Filter constraints based on position context for drive time applyTo logic
+  // WHY: driveTimeTo/driveTimeFrom have applyTo rules (first_only, last_only, all, none)
+  // PATTERN: Use shouldApplyDriveTimeConstraint to filter before checking overlaps
+  const applicableConstraints = overlapConstraints.filter(constraint => 
+    shouldApplyDriveTimeConstraint(constraint, positionContext)
+  )
+  
+  // If no applicable constraints after filtering, check basic overlap
+  if (applicableConstraints.length === 0) {
     const overlapsBusy = parsedBusyTimes.some(busy => {
       return timeRangesOverlap(
         { start: slotStart, end: slotEnd },
@@ -431,14 +505,14 @@ export function checkSlotAvailability(
     })
   }
 
-  const hardFailure = overlapConstraints.find(
+  const hardFailure = applicableConstraints.find(
     constraint => constraint.enforcement === 'hard' && checkConstraintOverlap(constraint)
   )
   if (hardFailure) {
     return { available: false, violations: [] }
   }
 
-  const violations = overlapConstraints
+  const violations = applicableConstraints
     .filter(constraint => 
       constraint.enforcement === 'flexible' && checkConstraintOverlap(constraint)
     )

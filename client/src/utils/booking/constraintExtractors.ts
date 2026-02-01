@@ -10,22 +10,27 @@ import type {
   AvailabilitySettings,
   RangeConstraint,
   RollingWeekCapacityFilter,
-  ConstraintEnforcement
+  ConstraintEnforcement,
+  DriveTimeApplyTo
 } from '@/configs/availabilitySettings'
 import type { BusinessHoursMap } from './timeSlotFitter'
 import { RANGE_CONSTRAINT_TYPES, TIME_BASIS_TYPES } from '@/constants/constraintTypes'
 
 /**
  * Overlap constraint (buffer) interface
- * LEARNING: Unified structure for all buffer types (appointment, driveTime, lunch)
+ * LEARNING: Unified structure for all buffer types (appointment, driveTimeTo, driveTimeFrom, lunch)
  * WHY: Consolidates buffer checking into single pathway
- * PATTERN: Interface with type, placement, enforcement, and minutes
+ * PATTERN: Interface with type, placement, enforcement, minutes, and optional applyTo
+ * 
+ * Note: driveTimeTo always has placement='before', driveTimeFrom always has placement='after'
+ * The applyTo field controls WHEN the constraint is applied (first/last/all appointments)
  */
 export interface OverlapConstraint {
-  type: 'appointment' | 'driveTime' | 'lunch'
+  type: 'appointment' | 'driveTimeTo' | 'driveTimeFrom' | 'lunch'
   placement: 'off' | 'before' | 'after' | 'both'
   enforcement: ConstraintEnforcement
   minutes: number
+  applyTo?: DriveTimeApplyTo  // Only for drive time constraints (driveTimeTo, driveTimeFrom)
 }
 
 /**
@@ -80,34 +85,66 @@ export function extractRangeConstraints(
 export function extractOverlapConstraints(
   settings: AvailabilitySettings
 ): OverlapConstraint[] {
-  const bufferTypes: Array<'appointment' | 'driveTime' | 'lunch'> = ['appointment', 'driveTime', 'lunch']
-
-  // WHY: Single pattern for all buffer types reduces duplication and makes adding new types easier
-  // PATTERN: Use map + filter to extract constraints immutably
-  return bufferTypes
-    .map(bufferType => {
-      const buffer = settings.buffers?.[bufferType]
-      if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) {
-        return null
-      }
-      
-      // PATTERN: Check undefined BEFORE checking value to catch missing enforcement
-      if (buffer.enforcement === undefined) {
-        throw new Error(`Buffer enforcement is required for ${bufferType} buffer. Must be 'off', 'flexible', or 'hard'.`)
-      }
-      
-      // PATTERN: After filtering out 'off', placement is guaranteed to be 'before' | 'after' | 'both'
-      // TypeScript needs explicit type assertion since it doesn't narrow BufferPlacement automatically
-      const constraint: OverlapConstraint = {
-        type: bufferType,
-        placement: buffer.placement as 'before' | 'after' | 'both',
-        enforcement: buffer.enforcement,
-        minutes: buffer.minutes
-      }
-      
-      return constraint
+  const constraints: OverlapConstraint[] = []
+  
+  // WHY: Handle standard buffer types (appointment, lunch) with placement
+  const standardBufferTypes: Array<'appointment' | 'lunch'> = ['appointment', 'lunch']
+  
+  standardBufferTypes.forEach(bufferType => {
+    const buffer = settings.buffers?.[bufferType]
+    if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) {
+      return
+    }
+    
+    // PATTERN: Check undefined BEFORE checking value to catch missing enforcement
+    if (buffer.enforcement === undefined) {
+      throw new Error(`Buffer enforcement is required for ${bufferType} buffer. Must be 'off', 'flexible', or 'hard'.`)
+    }
+    
+    // PATTERN: After filtering out 'off', placement is guaranteed to be 'before' | 'after' | 'both'
+    constraints.push({
+      type: bufferType,
+      placement: buffer.placement as 'before' | 'after' | 'both',
+      enforcement: buffer.enforcement,
+      minutes: buffer.minutes
     })
-    .filter((constraint): constraint is OverlapConstraint => constraint !== null)
+  })
+  
+  // WHY: Handle driveTimeTo with implicit placement='before' and applyTo configuration
+  // PATTERN: driveTimeTo is semantic - always applied BEFORE the appointment (arrival time)
+  const driveTimeTo = settings.buffers?.driveTimeTo
+  if (driveTimeTo && driveTimeTo.applyTo !== 'none' && driveTimeTo.minutes > 0) {
+    if (driveTimeTo.enforcement === undefined) {
+      throw new Error(`Buffer enforcement is required for driveTimeTo buffer. Must be 'off', 'flexible', or 'hard'.`)
+    }
+    
+    constraints.push({
+      type: 'driveTimeTo',
+      placement: 'before',  // Implicit - always before (travel TO appointment)
+      enforcement: driveTimeTo.enforcement,
+      minutes: driveTimeTo.minutes,
+      applyTo: driveTimeTo.applyTo
+    })
+  }
+  
+  // WHY: Handle driveTimeFrom with implicit placement='after' and applyTo configuration
+  // PATTERN: driveTimeFrom is semantic - always applied AFTER the appointment (departure time)
+  const driveTimeFrom = settings.buffers?.driveTimeFrom
+  if (driveTimeFrom && driveTimeFrom.applyTo !== 'none' && driveTimeFrom.minutes > 0) {
+    if (driveTimeFrom.enforcement === undefined) {
+      throw new Error(`Buffer enforcement is required for driveTimeFrom buffer. Must be 'off', 'flexible', or 'hard'.`)
+    }
+    
+    constraints.push({
+      type: 'driveTimeFrom',
+      placement: 'after',  // Implicit - always after (travel FROM appointment)
+      enforcement: driveTimeFrom.enforcement,
+      minutes: driveTimeFrom.minutes,
+      applyTo: driveTimeFrom.applyTo
+    })
+  }
+  
+  return constraints
 }
 
 export function extractCapacityConstraints(
@@ -213,6 +250,18 @@ export function validateOverlapConstraint(constraint: OverlapConstraint): { vali
   if (constraint.placement !== 'off' && !validPlacements.includes(constraint.placement)) {
     return { valid: false, error: 'Invalid overlap constraint placement' }
   }
+  
+  // LEARNING: Validate applyTo for drive time constraints
+  // PATTERN: Only validate applyTo if constraint is a drive time type
+  if (constraint.type === 'driveTimeTo' || constraint.type === 'driveTimeFrom') {
+    if (constraint.applyTo !== undefined) {
+      const validApplyTo: Array<DriveTimeApplyTo> = ['all', 'first_only', 'last_only', 'none']
+      if (!validApplyTo.includes(constraint.applyTo)) {
+        return { valid: false, error: 'Invalid overlap constraint applyTo value' }
+      }
+    }
+  }
+  
   return { valid: true }
 }
 

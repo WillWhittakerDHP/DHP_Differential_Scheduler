@@ -216,7 +216,7 @@ describe('constraintExtractors', () => {
       expect(result[0].minutes).toBe(15)
     })
 
-    it('should extract multiple buffer constraints', () => {
+    it('should extract multiple buffer constraints including new drive time structure', () => {
       const settings = createAvailabilitySettings({
         buffers: {
           appointment: {
@@ -224,10 +224,15 @@ describe('constraintExtractors', () => {
             enforcement: 'hard',
             minutes: 15
           },
-          driveTime: {
-            placement: 'after',
+          driveTimeTo: {
+            enforcement: 'hard',
+            minutes: 30,
+            applyTo: 'first_only'
+          },
+          driveTimeFrom: {
             enforcement: 'flexible',
-            minutes: 30
+            minutes: 20,
+            applyTo: 'last_only'
           },
           lunch: {
             placement: 'both',
@@ -239,10 +244,87 @@ describe('constraintExtractors', () => {
       
       const result = extractOverlapConstraints(settings)
       
-      expect(result).toHaveLength(3)
+      expect(result).toHaveLength(4)
       expect(result[0].type).toBe('appointment')
-      expect(result[1].type).toBe('driveTime')
-      expect(result[2].type).toBe('lunch')
+      expect(result[1].type).toBe('lunch')
+      expect(result[2].type).toBe('driveTimeTo')
+      expect(result[2].placement).toBe('before') // Implicit placement
+      expect(result[2].applyTo).toBe('first_only')
+      expect(result[3].type).toBe('driveTimeFrom')
+      expect(result[3].placement).toBe('after') // Implicit placement
+      expect(result[3].applyTo).toBe('last_only')
+    })
+
+    it('should extract driveTimeTo constraint with implicit before placement', () => {
+      const settings = createAvailabilitySettings({
+        buffers: {
+          driveTimeTo: {
+            enforcement: 'hard',
+            minutes: 30,
+            applyTo: 'all'
+          }
+        }
+      })
+      
+      const result = extractOverlapConstraints(settings)
+      
+      expect(result).toHaveLength(1)
+      expect(result[0].type).toBe('driveTimeTo')
+      expect(result[0].placement).toBe('before')
+      expect(result[0].minutes).toBe(30)
+      expect(result[0].applyTo).toBe('all')
+    })
+
+    it('should extract driveTimeFrom constraint with implicit after placement', () => {
+      const settings = createAvailabilitySettings({
+        buffers: {
+          driveTimeFrom: {
+            enforcement: 'flexible',
+            minutes: 15,
+            applyTo: 'last_only'
+          }
+        }
+      })
+      
+      const result = extractOverlapConstraints(settings)
+      
+      expect(result).toHaveLength(1)
+      expect(result[0].type).toBe('driveTimeFrom')
+      expect(result[0].placement).toBe('after')
+      expect(result[0].minutes).toBe(15)
+      expect(result[0].applyTo).toBe('last_only')
+    })
+
+    it('should skip driveTimeTo with applyTo none', () => {
+      const settings = createAvailabilitySettings({
+        buffers: {
+          driveTimeTo: {
+            enforcement: 'hard',
+            minutes: 30,
+            applyTo: 'none'
+          }
+        }
+      })
+      
+      const result = extractOverlapConstraints(settings)
+      
+      expect(result).toHaveLength(0)
+    })
+
+    it('should skip driveTimeFrom with zero minutes', () => {
+      const settings = createAvailabilitySettings({
+        buffers: {
+          driveTimeFrom: {
+            enforcement: 'hard',
+            minutes: 0,
+            applyTo: 'all'
+          }
+        }
+      })
+      
+      const result = extractOverlapConstraints(settings)
+      
+      expect(result).toHaveLength(0)
     })
 
     it('should skip buffers with placement off', () => {
@@ -555,6 +637,63 @@ describe('constraintExtractors', () => {
       
       expect(result.valid).toBe(false)
       expect(result.error).toContain('Invalid overlap constraint placement')
+    })
+
+    it('should validate driveTimeTo constraint with valid applyTo', () => {
+      const constraint: OverlapConstraint = {
+        type: 'driveTimeTo',
+        placement: 'before',
+        enforcement: 'hard',
+        minutes: 30,
+        applyTo: 'first_only'
+      }
+      
+      const result = validateOverlapConstraint(constraint)
+      
+      expect(result.valid).toBe(true)
+    })
+
+    it('should validate driveTimeFrom constraint with valid applyTo', () => {
+      const constraint: OverlapConstraint = {
+        type: 'driveTimeFrom',
+        placement: 'after',
+        enforcement: 'flexible',
+        minutes: 15,
+        applyTo: 'all'
+      }
+      
+      const result = validateOverlapConstraint(constraint)
+      
+      expect(result.valid).toBe(true)
+    })
+
+    it('should invalidate driveTimeTo constraint with invalid applyTo', () => {
+      const constraint: OverlapConstraint = {
+        type: 'driveTimeTo',
+        placement: 'before',
+        enforcement: 'hard',
+        minutes: 30,
+        applyTo: 'invalid' as any
+      }
+      
+      const result = validateOverlapConstraint(constraint)
+      
+      expect(result.valid).toBe(false)
+      expect(result.error).toContain('Invalid overlap constraint applyTo')
+    })
+
+    it('should allow applyTo on non-drive-time constraints (but ignore it)', () => {
+      const constraint: OverlapConstraint = {
+        type: 'appointment',
+        placement: 'before',
+        enforcement: 'hard',
+        minutes: 15,
+        applyTo: 'all' // Allowed but ignored for non-drive-time
+      }
+      
+      const result = validateOverlapConstraint(constraint)
+      
+      expect(result.valid).toBe(true)
     })
   })
 

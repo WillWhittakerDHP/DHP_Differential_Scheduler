@@ -27,3 +27,12 @@ export default defineConfig({
         '**/mocks/**',
         '**/factories/**',
         '**/__tests__/**',
+      ],
+    },
+  },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+})

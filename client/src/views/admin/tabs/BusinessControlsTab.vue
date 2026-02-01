@@ -11,7 +11,7 @@ import { useAvailabilitySettings, calculateMaxBusinessHours } from '@/composable
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { DAY_NAMES, TIME_INCREMENT_OPTIONS, TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
 import { useLocalTime } from '@/composables/useLocalTime'
-import type { BusinessHoursConfig, AvailabilitySettings, CalendarProvider } from '@/configs/availabilitySettings'
+import type { BusinessHoursConfig, AvailabilitySettings, CalendarProvider, DriveTimeApplyTo, DriveTimeConfig } from '@/configs/availabilitySettings'
 import { isValidCalendarEmail, DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { useGlobal } from '@/composables/useGlobal'
@@ -339,6 +339,16 @@ const bufferPlacementOptions = [
   { title: 'Both', value: 'both' }
 ]
 
+// LEARNING: Drive time applyTo options for first/last appointment rules
+// WHY: Allows admin to configure when drive time buffers apply
+// PATTERN: Array of options matching DriveTimeApplyTo type
+const driveTimeApplyToOptions: { title: string; value: DriveTimeApplyTo }[] = [
+  { title: 'All Appointments', value: 'all' },
+  { title: 'First Appointment Only', value: 'first_only' },
+  { title: 'Last Appointment Only', value: 'last_only' },
+  { title: 'None (Disabled)', value: 'none' }
+]
+
 // LEARNING: Helper functions to initialize buffers using functional patterns
 type Buffers = NonNullable<AvailabilitySettings['buffers']>
 const ensureBuffers = (current: Buffers | undefined) => {
@@ -384,6 +394,97 @@ const ensureAppointmentBuffer = createEnsureNested(
     enforcement: 'hard' as const
   })
 )
+
+// LEARNING: Ensure functions for new drive time buffer structure
+// WHY: driveTimeTo/driveTimeFrom replace legacy driveTime with semantic meaning and applyTo rules
+// PATTERN: createEnsureNested with DriveTimeConfig defaults
+
+const ensureDriveTimeTo = createEnsureNested(
+  ensureBuffers,
+  'driveTimeTo',
+  () => ({
+    minutes: 30,
+    enforcement: 'hard' as const,
+    applyTo: 'first_only' as const
+  } as DriveTimeConfig)
+)
+
+const ensureDriveTimeFrom = createEnsureNested(
+  ensureBuffers,
+  'driveTimeFrom',
+  () => ({
+    minutes: 15,
+    enforcement: 'hard' as const,
+    applyTo: 'last_only' as const
+  } as DriveTimeConfig)
+)
+
+// PATTERN: Factory function for drive time buffer computed properties
+// WHY: DriveTimeConfig doesn't have 'placement', uses different fields than BufferConfig
+function createDriveTimeComputed<TValue>(
+  bufferType: 'driveTimeTo' | 'driveTimeFrom',
+  property: keyof DriveTimeConfig,
+  getDefault: () => TValue,
+  ensureFunction: (current: Buffers | undefined) => Buffers
+) {
+  return createNestedComputed<TValue, Buffers>({
+    getValue: () => {
+      const bufferValue = formData.value?.buffers?.[bufferType]
+      if (!bufferValue) return undefined
+      return (bufferValue as unknown as Record<string, TValue>)[property]
+    },
+    getDefault,
+    getCurrentParent: () => formData.value?.buffers,
+    ensureParent: ensureFunction,
+    updateWithValue: (parent, value) => ({
+      ...parent,
+      [bufferType]: {
+        ...parent[bufferType]!,
+        [property]: value
+      }
+    } as Buffers),
+    setParent: (parent) => {
+      if (formData.value) formData.value.buffers = parent
+    }
+  })
+}
+
+// Computed properties for driveTimeTo
+const buffersDriveTimeToMinutes = createDriveTimeComputed('driveTimeTo', 'minutes', () => 30, ensureDriveTimeTo)
+const buffersDriveTimeToEnforcement = createDriveTimeComputed('driveTimeTo', 'enforcement', () => 'hard' as const, ensureDriveTimeTo)
+const buffersDriveTimeToApplyTo = createDriveTimeComputed('driveTimeTo', 'applyTo', () => 'first_only' as const, ensureDriveTimeTo)
+
+// Computed properties for driveTimeFrom
+const buffersDriveTimeFromMinutes = createDriveTimeComputed('driveTimeFrom', 'minutes', () => 15, ensureDriveTimeFrom)
+const buffersDriveTimeFromEnforcement = createDriveTimeComputed('driveTimeFrom', 'enforcement', () => 'hard' as const, ensureDriveTimeFrom)
+const buffersDriveTimeFromApplyTo = createDriveTimeComputed('driveTimeFrom', 'applyTo', () => 'last_only' as const, ensureDriveTimeFrom)
+
+// Computed properties for defaultLocation
+// LEARNING: defaultLocation is at root level of AvailabilitySettings, not nested in buffers
+// WHY: Used for drive time calculations but conceptually separate from buffer configs
+const defaultLocationAddress = computed({
+  get: () => formData.value?.defaultLocation?.address ?? '',
+  set: (value: string) => {
+    if (formData.value) {
+      if (!formData.value.defaultLocation) {
+        formData.value.defaultLocation = { address: '' }
+      }
+      formData.value.defaultLocation.address = value
+    }
+  }
+})
+
+const defaultLocationLabel = computed({
+  get: () => formData.value?.defaultLocation?.label ?? '',
+  set: (value: string) => {
+    if (formData.value) {
+      if (!formData.value.defaultLocation) {
+        formData.value.defaultLocation = { address: '' }
+      }
+      formData.value.defaultLocation.label = value
+    }
+  }
+})
 
 // LEARNING: Helper functions to initialize range constraints using functional patterns
 type RangeConstraints = NonNullable<AvailabilitySettings['rangeConstraints']>
@@ -854,24 +955,127 @@ const emailValidationRule = (value: string): true | string => {
                     </VExpansionPanelText>
                   </VExpansionPanel>
                   
-                  <!-- Drive Time Buffer -->
-                  <!-- TODO: Implement Drive Time Buffer UI
-                    * When implementing, follow the pattern used for Appointment Buffers above
-                    * Use ensureBuffers() and ensureDriveTimeBuffer() helper functions (create if needed)
-                    * Create computed properties with getters/setters for driveTime minutes/placement/enforcement (similar to buffersAppointmentMinutes, buffersAppointmentPlacement, buffersAppointmentEnforcement)
-                    * Use VTextField for minutes, VSelect for placement and enforcement (reuse bufferPlacementOptions and enforcementOptions)
-                    * See: client/src/configs/availabilitySettings.ts for BufferConfig interface (type: 'driveTime', minutes, placement, enforcement)
-                    * Use the useAvailabilitySettings composable's formData, saveSettings, and validation patterns
-                    * Drive time buffers add travel time between appointments to prevent scheduling conflicts
-                  -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.driveTimeBuffer">
+                  <!-- Drive Time To Buffer (Arrival) -->
+                  <!-- LEARNING: Travel time TO arrive at appointment, applied BEFORE start time -->
+                  <!-- WHY: Ensures enough time to travel to the appointment location -->
+                  <!-- PATTERN: DriveTimeConfig with applyTo instead of placement -->
+                  <VExpansionPanel :title="UI_STRINGS.panels.driveTimeToBuffer">
                     <VExpansionPanelText>
-                      <VAlert type="info" variant="tonal">
-                        <div class="text-body-2">{{ UI_STRINGS.help.driveTimeNotSetup }}</div>
-                        <div class="text-caption mt-1">
-                          {{ UI_STRINGS.help.driveTimeDescription }}
-                        </div>
-                      </VAlert>
+                      <div class="text-body-2 mb-4 text-medium-emphasis">
+                        {{ UI_STRINGS.help.driveTimeToDescription }}
+                      </div>
+                      <VRow>
+                        <VCol cols="12" sm="6" md="3">
+                          <VTextField
+                            v-model.number="buffersDriveTimeToMinutes"
+                            label="Minutes"
+                            type="number"
+                            min="0"
+                            step="5"
+                            :hint="UI_STRINGS.hints.driveTimeToMinutes"
+                            persistent-hint
+                            :rules="[
+                              (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
+                            ]"
+                          />
+                        </VCol>
+                        <VCol cols="12" sm="6" md="3">
+                          <VSelect
+                            v-model="buffersDriveTimeToApplyTo"
+                            :items="driveTimeApplyToOptions"
+                            :label="UI_STRINGS.labels.applyTo"
+                            :hint="UI_STRINGS.hints.driveTimeApplyTo"
+                            persistent-hint
+                          />
+                        </VCol>
+                        <VCol cols="12" sm="6" md="3">
+                          <VSelect
+                            v-model="buffersDriveTimeToEnforcement"
+                            :items="enforcementOptions"
+                            :label="UI_STRINGS.labels.enforcement"
+                            :hint="UI_STRINGS.hints.bufferEnforcement"
+                            persistent-hint
+                          />
+                        </VCol>
+                      </VRow>
+                    </VExpansionPanelText>
+                  </VExpansionPanel>
+                  
+                  <!-- Drive Time From Buffer (Departure) -->
+                  <!-- LEARNING: Travel time FROM appointment, applied AFTER end time -->
+                  <!-- WHY: Ensures enough time to travel from the appointment to the next location -->
+                  <!-- PATTERN: DriveTimeConfig with applyTo instead of placement -->
+                  <VExpansionPanel :title="UI_STRINGS.panels.driveTimeFromBuffer">
+                    <VExpansionPanelText>
+                      <div class="text-body-2 mb-4 text-medium-emphasis">
+                        {{ UI_STRINGS.help.driveTimeFromDescription }}
+                      </div>
+                      <VRow>
+                        <VCol cols="12" sm="6" md="3">
+                          <VTextField
+                            v-model.number="buffersDriveTimeFromMinutes"
+                            label="Minutes"
+                            type="number"
+                            min="0"
+                            step="5"
+                            :hint="UI_STRINGS.hints.driveTimeFromMinutes"
+                            persistent-hint
+                            :rules="[
+                              (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
+                            ]"
+                          />
+                        </VCol>
+                        <VCol cols="12" sm="6" md="3">
+                          <VSelect
+                            v-model="buffersDriveTimeFromApplyTo"
+                            :items="driveTimeApplyToOptions"
+                            :label="UI_STRINGS.labels.applyTo"
+                            :hint="UI_STRINGS.hints.driveTimeApplyTo"
+                            persistent-hint
+                          />
+                        </VCol>
+                        <VCol cols="12" sm="6" md="3">
+                          <VSelect
+                            v-model="buffersDriveTimeFromEnforcement"
+                            :items="enforcementOptions"
+                            :label="UI_STRINGS.labels.enforcement"
+                            :hint="UI_STRINGS.hints.bufferEnforcement"
+                            persistent-hint
+                          />
+                        </VCol>
+                      </VRow>
+                    </VExpansionPanelText>
+                  </VExpansionPanel>
+                  
+                  <!-- Default Location -->
+                  <!-- LEARNING: Starting/ending point for first/last appointment drive times -->
+                  <!-- WHY: Needed to calculate travel time from home/office to first appointment and back -->
+                  <!-- PATTERN: Address string with optional label for display -->
+                  <VExpansionPanel :title="UI_STRINGS.panels.defaultLocation">
+                    <VExpansionPanelText>
+                      <div class="text-body-2 mb-4 text-medium-emphasis">
+                        {{ UI_STRINGS.help.defaultLocationDescription }}
+                      </div>
+                      <VRow>
+                        <VCol cols="12" md="8">
+                          <VTextField
+                            v-model="defaultLocationAddress"
+                            :label="UI_STRINGS.labels.defaultLocationAddress"
+                            :hint="UI_STRINGS.hints.defaultLocationAddress"
+                            persistent-hint
+                            placeholder="123 Main St, City, State ZIP"
+                          />
+                        </VCol>
+                        <VCol cols="12" md="4">
+                          <VTextField
+                            v-model="defaultLocationLabel"
+                            :label="UI_STRINGS.labels.defaultLocationLabel"
+                            :hint="UI_STRINGS.hints.defaultLocationLabel"
+                            persistent-hint
+                            placeholder="Home Office"
+                          />
+                        </VCol>
+                      </VRow>
                     </VExpansionPanelText>
                   </VExpansionPanel>
                   
