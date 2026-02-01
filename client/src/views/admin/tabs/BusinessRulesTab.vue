@@ -62,9 +62,10 @@ const availableValidationMessages = computed(() => {
   
   // TODO: Filter by annotationShape.name === 'validation_message'
   // For now, show all annotation instances
+  // LEARNING: name field contains the annotation text (transformed from API "text" field)
   return annotationInstances.map(ai => ({
     id: ai.id,
-    title: ai.text || `Annotation ${ai.id}`,
+    title: ai.name || `Annotation ${ai.id}`,
     value: ai.id
   }))
 })

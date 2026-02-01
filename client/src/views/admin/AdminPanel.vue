@@ -11,7 +11,6 @@ import InstancesTab from './tabs/InstancesTab.vue'
 import ShapesTab from './tabs/ShapesTab.vue'
 import DataManagementTab from './tabs/DataManagementTab.vue'
 import BusinessControlsTab from './tabs/BusinessControlsTab.vue'
-import BusinessRulesTab from './tabs/BusinessRulesTab.vue'
 import { useAdmin } from '@/composables/useAdmin'
 
 /**
@@ -43,7 +42,6 @@ const currentTab = ref('instances')
       <VTab value="shapes">Shapes</VTab>
       <VTab value="data">APPOINTMENTS</VTab>
       <VTab value="business">CONTROLS</VTab>
-      <VTab value="rules">RULES</VTab>
     </VTabs>
     
     <!--
@@ -68,9 +66,6 @@ const currentTab = ref('instances')
       </VWindowItem>
       <VWindowItem key="business" value="business">
         <BusinessControlsTab />
-      </VWindowItem>
-      <VWindowItem key="rules" value="rules">
-        <BusinessRulesTab />
       </VWindowItem>
     </VWindow>
   </div>

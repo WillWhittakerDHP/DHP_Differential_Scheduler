@@ -16,6 +16,7 @@ import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStri
 import { useGlobal } from '@/composables/useGlobal'
 import { getAllUserTypeBlockIds } from '@/utils/eventAttendeeUtils'
 import type { GlobalEntityId } from '@/types/entities'
+import BusinessRulesTab from './BusinessRulesTab.vue'
 
 /**
  * LEARNING: Use availability settings composable
@@ -563,6 +564,7 @@ const roundingMethodOptions = [
       <VTabs v-model="currentMainTab" class="mb-4">
         <VTab value="constraints">{{ UI_STRINGS.tabs.constraints }}</VTab>
         <VTab value="calendar">{{ UI_STRINGS.tabs.calendar }}</VTab>
+        <VTab value="rules">Rules</VTab>
       </VTabs>
       
       <VWindow v-model="currentMainTab">
@@ -901,6 +903,11 @@ const roundingMethodOptions = [
               </div>
             </VWindowItem>
           </VWindow>
+        </VWindowItem>
+        
+        <!-- Rules Tab -->
+        <VWindowItem key="rules" value="rules">
+          <BusinessRulesTab />
         </VWindowItem>
         
         <!-- Calendar Tab -->
