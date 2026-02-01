@@ -35,7 +35,7 @@
 | Session | Name | Status |
 |---------|------|--------|
 | 1.5.1 | Business Rules Database Infrastructure | ✅ Complete |
-| 1.5.2 | Business Rules Admin Tab | ⏳ Not Started |
+| 1.5.2 | Business Rules Admin Tab | ✅ Complete |
 | 1.5.3 | Required Fields Validation Logic | ⏳ Not Started |
 | 1.5.4 | "Requires Agent" Logic Implementation | ⏳ Not Started |
 
@@ -90,21 +90,27 @@ Phase 1.4 completed all admin panel data flow fixes, established dual-cache arch
 
 ## Next Action
 
-**Ready for:** Session 1.5.2 - Business Rules Admin Tab
+**Ready for:** Session 1.5.3 - Required Fields Validation Logic
 
 **Completed in 1.5.1:**
 - ✅ Created business_rules table with typed JSONB configs
 - ✅ Added is_multi_family and requires_agent flags to block_instances
-- ✅ Created BusinessRule Sequelize model
-- ✅ Created business rules API router (full CRUD)
+- ✅ Created BusinessRule Sequelize model and API router
 - ✅ Seeded validation_message annotations and default business rules
 
-**Next Steps for 1.5.2:**
-1. Create BusinessRulesTab.vue component (follow BusinessControlsTab pattern)
-2. Build UI for managing business rules per block instance
-3. Create form for adding/editing rules (rule type, config, annotation link)
-4. Integrate tab into AdminPanel.vue
-5. Connect to /api/v1/internal/business-rules endpoints
+**Completed in 1.5.2:**
+- ✅ Created useBusinessRules composable with full CRUD operations
+- ✅ Created BusinessRulesTab.vue with block selection and rules table
+- ✅ Add/Edit dialog with type-specific config forms
+- ✅ Integrated RULES tab into AdminPanel
+- ✅ Delete with confirmation, toggle active status
+
+**Next Steps for 1.5.3:**
+1. Update wizard validation composables to use business rules
+2. Replace hardcoded `isMultiFamily` checks with `blockInstance.is_multi_family` flag
+3. Replace hardcoded required fields logic with business rules lookup
+4. Connect validation messages from annotation instances
+5. Test multi-family property validation with new business rules
 
 ---
 
@@ -172,6 +178,6 @@ Phase 1.4 completed all admin panel data flow fixes, established dual-cache arch
 ---
 
 **Phase Status:** In Progress
-**Last Completed Session:** 1.5.1 ✅
+**Last Completed Session:** 1.5.2 ✅
 **Phase Started:** 2026-01-31
 **Last Updated:** 2026-01-31

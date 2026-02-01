@@ -27,6 +27,16 @@
 - Seeded validation_message annotations and default business rules
 - All migrations ran successfully
 
+### Session 1.5.2: Business Rules Admin Tab ✅
+**Completed:** 2026-01-31
+**Tasks Completed:** 1.5.2.1, 1.5.2.2, 1.5.2.3
+**Key Accomplishments:**
+- Created useBusinessRules composable with full CRUD operations
+- Created BusinessRulesTab.vue with block selection and rules management
+- Add/Edit dialog with type-specific config forms
+- Integrated RULES tab into AdminPanel
+- Admin can now configure validation rules per block instance
+
 ---
 
 ## In Progress Sessions
@@ -37,7 +47,7 @@ _No sessions in progress yet_
 
 ## Planned Sessions
 
-### Session 1.5.2: Business Rules Admin Tab
+### Session 1.5.3: Required Fields Validation Logic
 **Status:** Not Started
 **Description:** Create database tables and models for business rules configuration. Replace hardcoded validation logic with database-driven rules.
 **Planned Tasks:**
