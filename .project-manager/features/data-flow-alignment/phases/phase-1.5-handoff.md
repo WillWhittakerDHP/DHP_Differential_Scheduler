@@ -106,9 +106,11 @@ Phase 1.4 completed all admin panel data flow fixes, established dual-cache arch
 ### Business Rules Design Approach
 
 **Database Storage:**
-- `business_rules` table with configurable validation rules
+- `business_rules` table with typed JSONB configs (rule_type determines config schema)
 - Relationships: `business_rules` → `block_instances` (which services/dwelling adjustments trigger rules)
-- Relationships: `business_rules` → `annotations` (which messages to show)
+- Relationships: `business_rules` → `annotation_instances` (validation messages)
+- Block instance flags: `is_multi_family`, `requires_agent` (follows `requiresUnitNumber` pattern)
+- Rule types: `required_fields`, `requires_agent`, `conditional_validation`, `validation_message`
 
 **Validation Flow:**
 1. Wizard step detects user selections (service, dwelling adjustment)

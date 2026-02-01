@@ -31,13 +31,19 @@ _No sessions in progress yet - Phase just started_
 
 ### Session 1.5.1: Business Rules Database Infrastructure
 **Status:** Not Started
-**Description:** Create database tables and models for business rules configuration
+**Description:** Create database tables and models for business rules configuration. Replace hardcoded validation logic with database-driven rules.
 **Planned Tasks:**
-- Create business_rules table migration
-- Create Sequelize model for business_rules
-- Create API routes for business rules CRUD
-- Set up relationships (business_rules → block_instances, business_rules → annotations)
-- Create seed scripts for default business rules
+- Create business_rules table migration (rule_type, JSONB config, annotation link)
+- Add validation flags to block_instances (is_multi_family, requires_agent)
+- Create BusinessRule Sequelize model with typed JSONB configs
+- Create business rules API router (full CRUD + block-specific queries)
+- Seed default business rules linked to annotation instances
+- Update existing block instances with new validation flags
+**Hardcoded Logic to Replace:**
+- Multi-family property detection (name contains "multi")
+- Conditional required fields (numberOfUnits if multi-family)
+- Hardcoded validation messages in wizard error handling
+- Agent/client always required (should be service-specific)
 
 ### Session 1.5.2: Business Rules Admin Tab
 **Status:** Not Started
