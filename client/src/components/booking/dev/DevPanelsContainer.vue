@@ -20,7 +20,7 @@ import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySe
 import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { PartFinal } from '@/utils/booking/PartFinal'
-import type { EventInstance, EventShape } from '@/types/events'
+import type { EventShape } from '@/types/events'
 import type { useBookingWizard } from '@/composables/useBookingWizard'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
@@ -371,8 +371,11 @@ const wizard = computed(() => {
   return devPanelButtons.value?.wizard ?? null
 })
 
-// LEARNING: allActiveServiceTypes and serviceTypeOptions are now provided by useDevPanelsComputed composable
+// LEARNING: allActiveServiceTypes and serviceTypeOptions are provided by useDevPanelsComputed composable
 // WHY: Extracted to composable to reduce component complexity
+const { allActiveServiceTypes, serviceTypeOptions } = useDevPanelsComputed({
+  appointmentData
+})
 
 const selectedServiceTypeId = computed(() => {
   const wizardInstance = wizard.value
@@ -392,7 +395,7 @@ const handleServiceTypeChange = (serviceId: string | null): void => {
   }
 }
 
-const { getGlobalData, getGlobalEntities } = useGlobal()
+const { getGlobalEntities } = useGlobal()
 
 const eventShapes = computed<EventShape[]>(() => {
   return getGlobalEntities('eventShape') as EventShape[]

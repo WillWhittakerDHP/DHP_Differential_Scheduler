@@ -12,9 +12,10 @@ import type {
   RollingWeekCapacityFilter,
   BufferConfig,
   BusinessHoursConfig,
-  RawAvailabilitySettings
+  RawAvailabilitySettings,
+  CalendarConfig
 } from '@/configs/availabilitySettings'
-import { invalidateAvailabilitySettingsCache } from '@/configs/availabilitySettings'
+import { invalidateAvailabilitySettingsCache, DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 import { DAY_NAMES } from '@/constants/availabilitySettings'
 import { useLocalTime } from '@/composables/useLocalTime'
 
@@ -115,6 +116,9 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         method: 'roundUp' as const
       }
       
+      // PATTERN: Provide default values for optional calendarConfig
+      const calendarConfig: CalendarConfig = rawSettings.calendarConfig || DEFAULT_CALENDAR_CONFIG
+      
       formData.value = {
         businessHours: businessHours,
         minuteIncrement: rawSettings.minuteIncrement,
@@ -123,7 +127,8 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         maxWorkHours: rawSettings.maxWorkHours,
         timezone: rawSettings.timezone,
         durationRounding,
-        differentialPerspectives: rawSettings.differentialPerspectives
+        differentialPerspectives: rawSettings.differentialPerspectives,
+        calendarConfig
       } as AvailabilitySettings
     } catch (err: any) {
       error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
@@ -262,6 +267,15 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
           // LEARNING: Type assertion needed because settingsToSave type doesn't include differentialPerspectives
           // PATTERN: Use Record<string, unknown> to allow dynamic property assignment
           ;(settingsToSave as Record<string, unknown>).differentialPerspectives = perspectives
+        }
+      }
+      
+      // PATTERN: Include calendarConfig if present in formData
+      // Session 2.0.2: Added for calendar integration
+      if (formData.value && 'calendarConfig' in formData.value) {
+        const calendarConfig = (formData.value as Record<string, unknown>).calendarConfig
+        if (calendarConfig) {
+          ;(settingsToSave as Record<string, unknown>).calendarConfig = calendarConfig
         }
       }
       

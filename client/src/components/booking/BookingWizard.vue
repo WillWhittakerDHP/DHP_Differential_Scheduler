@@ -301,7 +301,7 @@ useWizardDevMode({
                   @click="toggleQuoteMode"
                   class="quote-mode-button"
                 >
-                  {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
+                  {{ isQuoteMode ? 'I want to book' : 'I only want a quote' }}
                 </VBtn>
               </VCol>
             </VRow>

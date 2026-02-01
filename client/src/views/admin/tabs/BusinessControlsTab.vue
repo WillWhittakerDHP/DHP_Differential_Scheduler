@@ -11,7 +11,8 @@ import { useAvailabilitySettings, calculateMaxBusinessHours } from '@/composable
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { DAY_NAMES, TIME_INCREMENT_OPTIONS, TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
 import { useLocalTime } from '@/composables/useLocalTime'
-import type { BusinessHoursConfig, AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { BusinessHoursConfig, AvailabilitySettings, CalendarProvider } from '@/configs/availabilitySettings'
+import { isValidCalendarEmail, DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { useGlobal } from '@/composables/useGlobal'
 import { getAllUserTypeBlockIds } from '@/utils/eventAttendeeUtils'
@@ -84,7 +85,8 @@ const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constrain
 const { currentTab: currentSubTab } = useTabNavigation({ initialTab: 'range' })
 
 // PATTERN: Use tab navigation composable for state management
-const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'rounding' })
+// Session 2.0.2: Changed default to 'integration' for calendar integration tab
+const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'integration' })
 
 // PATTERN: Use useGlobal composable to access global entities
 const { getGlobalData, getGlobalEntities } = useGlobal()
@@ -456,6 +458,83 @@ const roundingMethodOptions = [
   { title: 'Round Down', value: 'roundDown' },
   { title: 'Round Nearest', value: 'roundNearest' }
 ]
+
+// Calendar Integration options
+// Session 2.0.2: Added for Google Calendar API integration
+const calendarProviderOptions: { title: string; value: CalendarProvider }[] = [
+  { title: 'None', value: 'none' },
+  { title: 'Google Calendar', value: 'google' },
+  { title: 'Microsoft Outlook', value: 'outlook' }
+]
+
+// Calendar config computed properties with defaults
+// PATTERN: Ensure calendarConfig exists before accessing
+const calendarEnabled = computed({
+  get: () => formData.value?.calendarConfig?.enabled ?? DEFAULT_CALENDAR_CONFIG.enabled,
+  set: (value: boolean) => {
+    if (formData.value) {
+      if (!formData.value.calendarConfig) {
+        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+      }
+      formData.value.calendarConfig.enabled = value
+    }
+  }
+})
+
+const calendarProvider = computed({
+  get: () => formData.value?.calendarConfig?.provider ?? DEFAULT_CALENDAR_CONFIG.provider,
+  set: (value: CalendarProvider) => {
+    if (formData.value) {
+      if (!formData.value.calendarConfig) {
+        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+      }
+      formData.value.calendarConfig.provider = value
+    }
+  }
+})
+
+const calendarPrimary = computed({
+  get: () => formData.value?.calendarConfig?.calendars?.primary ?? '',
+  set: (value: string) => {
+    if (formData.value) {
+      if (!formData.value.calendarConfig) {
+        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+      }
+      formData.value.calendarConfig.calendars.primary = value
+    }
+  }
+})
+
+const calendarWork = computed({
+  get: () => formData.value?.calendarConfig?.calendars?.work ?? '',
+  set: (value: string) => {
+    if (formData.value) {
+      if (!formData.value.calendarConfig) {
+        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+      }
+      formData.value.calendarConfig.calendars.work = value
+    }
+  }
+})
+
+const calendarPersonal = computed({
+  get: () => formData.value?.calendarConfig?.calendars?.personal ?? '',
+  set: (value: string) => {
+    if (formData.value) {
+      if (!formData.value.calendarConfig) {
+        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+      }
+      formData.value.calendarConfig.calendars.personal = value
+    }
+  }
+})
+
+// Email validation rules
+// PATTERN: Returns true if valid, or error message string if invalid
+const emailValidationRule = (value: string): true | string => {
+  if (!value || value.trim() === '') return true // Empty is OK (optional)
+  return isValidCalendarEmail(value) ? true : 'Please enter a valid email address'
+}
 </script>
 
 <template>
@@ -844,12 +923,136 @@ const roundingMethodOptions = [
           <!-- WHY: Provides tabbed interface for switching between Slot Increment, Duration Rounding, and Timezone -->
           <!-- PATTERN: VTabs/VWindow pattern matching Constraints panel -->
           <VTabs v-model="currentCalendarTab" class="mb-4">
+            <VTab value="integration">Integration</VTab>
             <VTab value="rounding">{{ UI_STRINGS.tabs.rounding }}</VTab>
             <VTab value="timezone">{{ UI_STRINGS.tabs.timezone }}</VTab>
             <VTab value="grid">Grid</VTab>
           </VTabs>
           
           <VWindow v-model="currentCalendarTab">
+              
+              <!-- Calendar Integration Tab -->
+              <!-- Session 2.0.2: Added for Google Calendar API integration -->
+              <VWindowItem key="integration" value="integration">
+                <div class="mb-6">
+                  <div class="text-subtitle-1 mb-3">Calendar Integration</div>
+                  <div class="text-body-2 mb-4 text-medium-emphasis">
+                    Connect external calendars to check availability and prevent double-booking.
+                    Calendar busy periods will be blocked when scheduling appointments.
+                  </div>
+                  
+                  <!-- Enable/Disable Toggle -->
+                  <VSwitch
+                    v-model="calendarEnabled"
+                    label="Enable Calendar Integration"
+                    hint="When enabled, the system will check connected calendars for availability"
+                    persistent-hint
+                    class="mb-4"
+                  />
+                  
+                  <!-- Provider Selection -->
+                  <VSelect
+                    v-model="calendarProvider"
+                    :items="calendarProviderOptions"
+                    label="Calendar Provider"
+                    hint="Select your calendar service provider"
+                    persistent-hint
+                    :disabled="!calendarEnabled"
+                    class="mb-4"
+                  />
+                  
+                  <!-- Calendar Email Fields (only show when enabled and provider selected) -->
+                  <div v-if="calendarEnabled && calendarProvider !== 'none'" class="mt-6">
+                    <div class="text-subtitle-2 mb-3">Calendar Email Addresses</div>
+                    <div class="text-body-2 mb-4 text-medium-emphasis">
+                      Enter the email addresses for each calendar to check. Leave optional fields empty if not used.
+                    </div>
+                    
+                    <!-- Primary Calendar -->
+                    <VTextField
+                      v-model="calendarPrimary"
+                      label="Primary Calendar"
+                      hint="Your main calendar email address (e.g., you@example.com)"
+                      persistent-hint
+                      placeholder="Enter email address"
+                      :rules="[emailValidationRule]"
+                      validate-on="blur"
+                      class="mb-4"
+                    >
+                      <template #prepend-inner>
+                        <VIcon>mdi-calendar-account</VIcon>
+                      </template>
+                    </VTextField>
+                    
+                    <!-- Work Calendar -->
+                    <VTextField
+                      v-model="calendarWork"
+                      label="Work Calendar (Optional)"
+                      hint="Separate work calendar if you have one"
+                      persistent-hint
+                      placeholder="Enter email address"
+                      :rules="[emailValidationRule]"
+                      validate-on="blur"
+                      class="mb-4"
+                    >
+                      <template #prepend-inner>
+                        <VIcon>mdi-briefcase-clock</VIcon>
+                      </template>
+                    </VTextField>
+                    
+                    <!-- Personal Calendar -->
+                    <VTextField
+                      v-model="calendarPersonal"
+                      label="Personal Calendar (Optional)"
+                      hint="Personal calendar to block personal appointments"
+                      persistent-hint
+                      placeholder="Enter email address"
+                      :rules="[emailValidationRule]"
+                      validate-on="blur"
+                      class="mb-4"
+                    >
+                      <template #prepend-inner>
+                        <VIcon>mdi-calendar-heart</VIcon>
+                      </template>
+                    </VTextField>
+                  </div>
+                  
+                  <!-- Info Alert for OAuth -->
+                  <VAlert
+                    v-if="calendarEnabled && calendarProvider !== 'none'"
+                    type="info"
+                    variant="tonal"
+                    class="mt-4"
+                  >
+                    <div class="text-body-2">
+                      <strong>Authentication Required:</strong> After saving, you'll need to authenticate with {{ calendarProvider === 'google' ? 'Google' : 'Microsoft' }} 
+                      to allow the system to access your calendar data.
+                    </div>
+                    <div class="text-caption mt-1">
+                      Calendar data is only used to check availability. No events will be modified without your permission.
+                    </div>
+                  </VAlert>
+                  
+                  <!-- Disabled state hint -->
+                  <VAlert
+                    v-if="!calendarEnabled"
+                    type="info"
+                    variant="tonal"
+                    class="mt-4"
+                  >
+                    <div class="text-body-2">
+                      Calendar integration is currently disabled. Enable it above to configure calendar connections.
+                    </div>
+                  </VAlert>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2 mt-4">
+                  <VBtn v-bind="saveButtonProps">
+                    {{ UI_STRINGS.buttons.saveSettings }}
+                  </VBtn>
+                </div>
+              </VWindowItem>
               
               <!-- Duration Rounding Tab -->
               <VWindowItem key="rounding" value="rounding">

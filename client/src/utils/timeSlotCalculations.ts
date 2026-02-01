@@ -10,7 +10,7 @@
 import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { toRFC3339DateTime, type RFC3339DateTime } from '@/types/datetime'
-import { getAvailabilitySettings, type BusinessHoursConfig } from '@/configs/availabilitySettings'
+import { getAvailabilitySettings, getCalendarEmailsArray, type BusinessHoursConfig } from '@/configs/availabilitySettings'
 import { fitAvailableTimeSlots, parseUTCDate } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
 import { generateMockFreeBusyResponse, extractBusyTimesFromFreeBusyResponse } from '@/utils/booking/mockGoogleCalendar'
 import { validateDateRange } from '@/utils/booking/dateRangeValidation'
@@ -100,12 +100,31 @@ export function getCalendarAvailability(dateRange: { start: RFC3339DateTime; end
     return []
   }
   
+  // Session 2.0.3: Read calendar emails from settings
+  // PATTERN: Use configured calendar emails instead of hardcoded values
+  const settings = getAvailabilitySettings()
+  const calendarEmails = getCalendarEmailsArray(settings?.calendarConfig)
+  
+  // PATTERN: Fall back to default IDs if no calendars configured
+  // WHY: Ensures mock data still works during development without calendar config
+  const calendarIds = calendarEmails.length > 0 
+    ? calendarEmails 
+    : ['primary', 'work', 'personal']
+  
+  // Session 2.0.3: Log calendar configuration usage
+  logger.debug('[getCalendarAvailability] Using calendars:', {
+    configured: calendarEmails.length > 0,
+    calendarIds,
+    enabled: settings?.calendarConfig?.enabled ?? false,
+    provider: settings?.calendarConfig?.provider ?? 'none'
+  })
+  
   try {
     const mockResponse = generateMockFreeBusyResponse(dateRange, {
       periodsPerCalendar: 3,  // 3 busy periods per calendar
       minDurationMinutes: 30,  // Minimum 30 minutes
       maxDurationMinutes: 120,  // Maximum 2 hours
-      calendarIds: ['primary', 'work', 'personal']  // Multiple calendars
+      calendarIds  // Session 2.0.3: Use configured calendars
     })
     
     // PATTERN: Extract and merge for accurate availability calculation

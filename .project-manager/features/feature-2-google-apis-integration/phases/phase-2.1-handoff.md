@@ -284,8 +284,24 @@ Dev panel toggle in "Free/Busy" section:
   - Ensures fresh data for subsequent availability checks
 
 ### OAuth Token Storage
-- **Initial**: Session storage (simpler, less persistent)
-- **Future**: Database storage (User model or OAuthTokens table) for production
+
+**Current (Development):** In-memory storage
+- Tokens stored in OAuth2Client instance
+- Lost on server restart → requires re-authentication
+- Simple, sufficient for development
+
+**Production Requirements:**
+- Access tokens expire after ~1 hour (auto-refresh works while server runs)
+- Refresh tokens are long-lived but lost on restart
+- **Recommended:** Database storage (User model or OAuthTokens table)
+- **Alternative:** Encrypted file storage for small deployments
+
+**Implementation Note (Future Session):**
+1. Create `OAuthToken` table: `{ userId, accessToken, refreshToken, expiryDate, createdAt }`
+2. On OAuth callback: Save tokens to database
+3. On server start: Load tokens from database
+4. On token refresh: Update database with new access token
+5. Consider encryption for token storage
 
 ---
 
