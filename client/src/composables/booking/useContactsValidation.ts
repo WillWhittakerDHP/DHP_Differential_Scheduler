@@ -25,7 +25,7 @@ export interface UseContactsValidationParams {
   showAnotherClient: ReadonlyVueRef<boolean>
   showTransactionManager: ReadonlyVueRef<boolean>
   showSeller: ReadonlyVueRef<boolean>
-  requiresAgent?: ReadonlyVueRef<boolean> // Optional: if true, agent fields are required (Session 1.5.3)
+  requiresAgent?: ReadonlyVueRef<boolean> // Optional: if true, agent fields are required
 }
 
 /**
@@ -110,7 +110,7 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
       clientEmail: validationRules.clientEmail
     }
     
-    // Add agent rules only if agent is required (Session 1.5.3)
+    // Add agent rules only if agent is required
     if (requiresAgent?.value) {
       rules.agentFirstName = validationRules.agentFirstName
       rules.agentLastName = validationRules.agentLastName

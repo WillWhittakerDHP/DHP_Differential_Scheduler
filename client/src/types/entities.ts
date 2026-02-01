@@ -52,12 +52,12 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
   differential?: TernaryBoolean;
   /**
    * If true, property type is multi-family (requires numberOfUnits field).
-   * Session 1.5.3: Database flag replaces name-based detection.
+   * Database flag replaces name-based detection.
    */
   is_multi_family?: boolean;
   /**
    * If true, service requires agent and client contact information.
-   * Session 1.5.3: Database flag for service-specific agent requirement.
+   * Database flag for service-specific agent requirement.
    */
   requires_agent?: boolean;
 }
