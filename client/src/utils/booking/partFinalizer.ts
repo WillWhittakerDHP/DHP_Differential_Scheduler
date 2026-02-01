@@ -42,13 +42,24 @@ function groupPartsByShape(
   }, new Map<string, BookingPartInstance[]>())
 }
 
+/**
+ * Create PartFinal instances from part instances
+ * LEARNING: Groups parts by shape and creates PartFinal with dual-track durations
+ * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
+ * PATTERN: Group by shape, then create PartFinal with rounding settings
+ * 
+ * @param parts - Array of BookingPartInstance objects
+ * @param settings - Optional availability settings for rounding configuration
+ * @returns Array of PartFinal instances
+ */
 export function createPartFinals(
-  parts: BookingPartInstance[]
+  parts: BookingPartInstance[],
+  settings?: AvailabilitySettings | null
 ): PartFinal[] {
   const partsByShape = groupPartsByShape(parts)
   
   return Array.from(partsByShape.entries()).map(([partShape, shapeParts]) =>
-    createPartFinal(partShape, shapeParts)
+    createPartFinal(partShape, shapeParts, settings)
   )
 }
 
@@ -96,11 +107,14 @@ export function calculateSlotShape(
   globalData?: GlobalData,
   availabilitySettings?: AvailabilitySettings | null
 ): import('@/types/appointment').SlotShape {
-  let totalDuration = 0
-  // NOTE: Old accumulation logic removed - will be recalculated from final durations
+  // DUAL-TRACK ARCHITECTURE: Track both raw and rounded durations
+  let rawDuration = 0
+  let roundedDuration = 0
   
   // PATTERN: Map<eventShapeId, duration> for accumulation, then convert to array
-  const eventDurationsByShapeId = new Map<string, number>()
+  // Track both raw and rounded separately
+  const eventRawDurationsByShapeId = new Map<string, number>()
+  const eventRoundedDurationsByShapeId = new Map<string, number>()
   
   const eventShapeById = new Map(eventShapes.map(es => [es.id, es]))
   
@@ -124,7 +138,9 @@ export function calculateSlotShape(
   
   for (const part of partFinals) {
     const baseTime = part.baseTime
-    totalDuration += baseTime
+    const roundedTime = part.roundedTime
+    rawDuration += baseTime
+    roundedDuration += roundedTime
     
     const events = eventAssignmentsByPartShape[part.partShape] || []
     
@@ -145,9 +161,11 @@ export function calculateSlotShape(
         const isActive = toBoolean(ternaryValue, 'strict')
         
         if (isActive) {
-          const currentDuration = eventDurationsByShapeId.get(eventShapeId) || 0
-          const newDuration = currentDuration + baseTime
-          eventDurationsByShapeId.set(eventShapeId, newDuration)
+          // DUAL-TRACK: Accumulate both raw and rounded
+          const currentRawDuration = eventRawDurationsByShapeId.get(eventShapeId) || 0
+          const currentRoundedDuration = eventRoundedDurationsByShapeId.get(eventShapeId) || 0
+          eventRawDurationsByShapeId.set(eventShapeId, currentRawDuration + baseTime)
+          eventRoundedDurationsByShapeId.set(eventShapeId, currentRoundedDuration + roundedTime)
           
           // PATTERN: Just log event processing, offset calculation happens after all events are processed
           if (useAttendeeBasedLogic) {
@@ -163,9 +181,11 @@ export function calculateSlotShape(
           }
         }
       } else {
-        const currentDuration = eventDurationsByShapeId.get(eventShapeId) || 0
-        const newDuration = currentDuration + baseTime
-        eventDurationsByShapeId.set(eventShapeId, newDuration)
+        // DUAL-TRACK: Accumulate both raw and rounded for boolean events
+        const currentRawDuration = eventRawDurationsByShapeId.get(eventShapeId) || 0
+        const currentRoundedDuration = eventRoundedDurationsByShapeId.get(eventShapeId) || 0
+        eventRawDurationsByShapeId.set(eventShapeId, currentRawDuration + baseTime)
+        eventRoundedDurationsByShapeId.set(eventShapeId, currentRoundedDuration + roundedTime)
         
         // PATTERN: Just log event processing, offset calculation happens after all events are processed
         if (useAttendeeBasedLogic) {
@@ -181,27 +201,31 @@ export function calculateSlotShape(
     }
   }
   
-  // LEARNING: Convert Map to EventFinal[] array
-  // WHY: Provides array of event shapes with durations, matching PartFinal[] pattern
-  // PATTERN: Map over eventDurationsByShapeId entries, create EventFinal for each with accumulated duration
-  // PATTERN: Iterate over eventDurationsByShapeId to only include event shapes that have durations accumulated
-  const eventFinals: import('@/types/appointment').EventFinal[] = Array.from(eventDurationsByShapeId.entries())
-    .map(([eventShapeId, duration]) => {
+  // LEARNING: Convert Map to EventFinal[] array with dual-track durations
+  // WHY: Provides array of event shapes with both raw and rounded durations, matching PartFinal[] pattern
+  // PATTERN: Map over eventRawDurationsByShapeId entries, create EventFinal for each with both accumulated durations
+  // PATTERN: Iterate over eventRawDurationsByShapeId to only include event shapes that have durations accumulated
+  const eventFinals: import('@/types/appointment').EventFinal[] = Array.from(eventRawDurationsByShapeId.entries())
+    .map(([eventShapeId, rawDuration]) => {
       const eventShape = eventShapeById.get(eventShapeId)
       if (!eventShape) {
         return null
       }
+      const roundedDuration = eventRoundedDurationsByShapeId.get(eventShapeId) || 0
       return {
         eventShape,
-        duration
+        rawDuration,
+        roundedDuration
       }
     })
     .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
-    .filter(ef => ef.duration > 0) // Only include events with duration > 0
+    .filter(ef => ef.rawDuration > 0) // Only include events with raw duration > 0
   
   // LEARNING: Calculate differentialOffset as the difference between major and minor event durations
   // PATTERN: Calculate offset from final event durations after all parts have been processed
-  let finalDifferentialOffset = 0
+  // DUAL-TRACK: Calculate both raw and rounded differential offsets
+  let rawDifferentialOffset = 0
+  let roundedDifferentialOffset = 0
   if (useAttendeeBasedLogic) {
     const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
     // PATTERN: Filter out major event shape before searching for minor event shape
@@ -211,22 +235,28 @@ export function calculateSlotShape(
     const minorEventShape = getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
     
     if (majorEventShape) {
-      const majorDuration = eventDurationsByShapeId.get(majorEventShape.id) || 0
+      const majorRawDuration = eventRawDurationsByShapeId.get(majorEventShape.id) || 0
+      const majorRoundedDuration = eventRoundedDurationsByShapeId.get(majorEventShape.id) || 0
       if (minorEventShape) {
-        const minorDuration = eventDurationsByShapeId.get(minorEventShape.id) || 0
-        finalDifferentialOffset = majorDuration - minorDuration
-        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+        const minorRawDuration = eventRawDurationsByShapeId.get(minorEventShape.id) || 0
+        const minorRoundedDuration = eventRoundedDurationsByShapeId.get(minorEventShape.id) || 0
+        rawDifferentialOffset = majorRawDuration - minorRawDuration
+        roundedDifferentialOffset = majorRoundedDuration - minorRoundedDuration
+        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorRawDuration,majorRoundedDuration,minorRawDuration,minorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
       } else {
-        finalDifferentialOffset = majorDuration
-        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+        rawDifferentialOffset = majorRawDuration
+        roundedDifferentialOffset = majorRoundedDuration
+        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorRawDuration,majorRoundedDuration,rawDifferentialOffset,roundedDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
       }
     }
   }
   
   const result = { 
-    totalDuration, 
+    rawDuration,
+    roundedDuration,
     eventFinals,
-    differentialOffset: finalDifferentialOffset
+    rawDifferentialOffset,
+    roundedDifferentialOffset
   }
   let logMajorEventShape: EventShapeEntity | null = null
   let logMinorEventShape: EventShapeEntity | null = null
@@ -237,7 +267,7 @@ export function calculateSlotShape(
       : eventShapeEntities
     logMinorEventShape = getMinorEventShape(eventShapesExcludingMajorForLog, minorAttendeeIds)
   }
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{rawDuration,roundedDuration,rawDifferentialOffset,roundedDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,rawDuration:ef.rawDuration,roundedDuration:ef.roundedDuration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
   return result
 }
 

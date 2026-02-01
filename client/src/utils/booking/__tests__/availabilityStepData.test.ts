@@ -42,11 +42,11 @@ function createAppointmentSlot(params: {
   const shape: import('@/types/appointment').AppointmentShape = {
     finalizedParts: [],
     slotShape: {
-      totalDuration: 0,
-      onSite: params.totalOnSiteDuration || 0,
-      clientPresent: params.totalClientPresentDuration || 0,
-      moveable: 0,
-      differentialOffset: 0
+      rawDuration: 0,
+      roundedDuration: 0,
+      eventFinals: [],
+      rawDifferentialOffset: 0,
+      roundedDifferentialOffset: 0
     }
   }
   

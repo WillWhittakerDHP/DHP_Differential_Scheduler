@@ -18,7 +18,6 @@ import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import { roundDuration } from '@/utils/booking/durationRounding'
 import {
   createPartFinals,
   filterZeroedParts,
@@ -115,9 +114,10 @@ export function createTimeRangesFromSlotShape(
   moveableTimeRange: TimeRange | null
 } {
   // PATTERN: Reduce eventFinals to Record object
+  // DUAL-TRACK: Use roundedDuration for display (time ranges shown to users)
   const eventTimeRanges = (slotShape.eventFinals || []).reduce((acc, eventFinal) => {
     const eventName = eventFinal.eventShape.name
-    const duration = eventFinal.duration
+    const duration = eventFinal.roundedDuration
     if (duration > 0) {
       return { ...acc, [eventName]: createTimeRange(startTime, duration) }
     } else {
@@ -126,9 +126,10 @@ export function createTimeRangesFromSlotShape(
   }, {} as Record<string, TimeRange | null>)
   
   // PATTERN: Legacy properties are calculated dynamically in applyShapeToTime using attendee-based logic
+  // DUAL-TRACK: Use roundedDuration for display
   const result = {
-    totalTimeRange: slotShape.totalDuration > 0
-      ? createTimeRange(startTime, slotShape.totalDuration)
+    totalTimeRange: slotShape.roundedDuration > 0
+      ? createTimeRange(startTime, slotShape.roundedDuration)
       : null,
     eventTimeRanges,
     // Legacy properties set to null - use eventTimeRanges with dynamic event names instead
@@ -229,8 +230,9 @@ export function buildAppointmentShape(
       : []
   )
   
-  // PATTERN: Create finalized parts, then filter out zeroed parts
-  const allFinalizedParts = createPartFinals(allParts)
+  // PATTERN: Create finalized parts with rounding settings, then filter out zeroed parts
+  // DUAL-TRACK: Pass settings to compute roundedTime at part level
+  const allFinalizedParts = createPartFinals(allParts, settings || null)
   const nonZeroedParts = filterZeroedParts(allFinalizedParts)
   
   // PATTERN: Build eventAssignmentsByPartShape Record keyed by partShape name (aggregated from PartInstances)
@@ -255,31 +257,9 @@ export function buildAppointmentShape(
   }
   
   // PATTERN: Use calculateSlotShape to get all durations in one pass
+  // DUAL-TRACK: Rounding is now computed at part level, so rounded values are already in slotShape
   fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-  let slotShape = calculateSlotShape(nonZeroedParts, eventAssignmentsByPartShape, eventShapes || [], globalData, settings || null)
-  
-  // PATTERN: Use configurable rounding function that respects settings
-  if (globalData && settings?.differentialPerspectives && slotShape.eventFinals.length > 0) {
-    const majorAttendeeIds = settings.differentialPerspectives.majorAttendees || []
-    if (majorAttendeeIds.length > 0) {
-      const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as import('@/types/entities').EventShapeEntity[]
-      const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-      if (majorEventShape) {
-        const majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
-        if (majorEventFinal) {
-          const roundedDuration = roundDuration(majorEventFinal.duration, settings || null)
-          slotShape = {
-            ...slotShape,
-            eventFinals: slotShape.eventFinals.map(ef => 
-              ef.eventShape.id === majorEventFinal.eventShape.id
-                ? { ...ef, duration: roundedDuration }
-                : ef
-            )
-          }
-        }
-      }
-    }
-  }
+  const slotShape = calculateSlotShape(nonZeroedParts, eventAssignmentsByPartShape, eventShapes || [], globalData, settings || null)
   
   const shape: AppointmentShape = {
     finalizedParts: nonZeroedParts,
@@ -299,7 +279,7 @@ export function buildAppointmentShape(
  * @param shape - AppointmentShape with finalized parts and SlotShape
  * @param startTime - Start time (ISO string)
  * @param buttonIndex - UI button index
- * @param fallbackDuration - Optional duration to use if shape.slotShape.totalDuration is 0
+ * @param fallbackDuration - Optional duration to use if shape.slotShape.roundedDuration is 0
  * @param isAvailable - Whether this slot is available
  * @returns AppointmentSlot with precomputed TimeRanges
  */
@@ -356,7 +336,8 @@ export function applyShapeToTime(
   const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
   let adjustedMinorTimeRange = minorTimeRange
   
-  if (majorTimeRange && minorTimeRange && majorEventName && minorEventName && effectiveSlotShape.differentialOffset >= 0) {
+  // DUAL-TRACK: Use roundedDifferentialOffset for display logic
+  if (majorTimeRange && minorTimeRange && majorEventName && minorEventName && effectiveSlotShape.roundedDifferentialOffset >= 0) {
     const minorDuration = majorTimeRange.duration - effectiveSlotShape.differentialOffset
     if (minorDuration > 0) {
       adjustedMinorTimeRange = createTimeRange(

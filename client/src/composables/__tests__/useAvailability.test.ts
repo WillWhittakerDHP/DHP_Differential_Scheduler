@@ -39,7 +39,7 @@ vi.mock('@/utils/timeSlotCalculations', () => {
       
       return slots
     }),
-    getCalendarAvailability: vi.fn(() => [])
+    getCalendarAvailabilitySync: vi.fn(() => [])
   }
 })
 
@@ -132,7 +132,7 @@ vi.mock('@/utils/timeSlotCalculations', () => ({
     
     return slots
   }),
-  getCalendarAvailability: vi.fn(() => [])
+  getCalendarAvailabilitySync: vi.fn(() => [])
 }))
 
 

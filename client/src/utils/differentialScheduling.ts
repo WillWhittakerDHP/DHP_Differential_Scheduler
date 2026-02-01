@@ -263,8 +263,9 @@ export function transformToMinorPerspective(
     adjustedEventTimeRanges[minorEventName] = minorTimeRange
   }
   
-  const totalTimeRange = slotShape.totalDuration > 0
-    ? createTimeRange(minorStartTime, slotShape.totalDuration)
+  // DUAL-TRACK: Use roundedDuration for display
+  const totalTimeRange = slotShape.roundedDuration > 0
+    ? createTimeRange(minorStartTime, slotShape.roundedDuration)
     : null
   
   return {

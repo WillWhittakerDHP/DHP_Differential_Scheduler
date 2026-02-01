@@ -120,6 +120,7 @@ declare global {
   const getBlockShapeIdByType: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByType
   const getBulkPatchEndpoint: typeof import('./src/utils/api').getBulkPatchEndpoint
   const getCalendarAvailability: typeof import('./src/utils/timeSlotCalculations').getCalendarAvailability
+  const getCalendarAvailabilitySync: typeof import('./src/utils/timeSlotCalculations').getCalendarAvailabilitySync
   const getClientEventShape: typeof import('./src/utils/eventAttendeeUtils').getClientEventShape
   const getComposedFormConfigEndpoint: typeof import('./src/utils/api').getComposedFormConfigEndpoint
   const getCurrentInstance: typeof import('vue').getCurrentInstance
@@ -584,6 +585,9 @@ declare global {
   export type { LogLevel, AppLogger, Logger } from './src/utils/logger'
   import('./src/utils/logger')
   // @ts-ignore
+  export type { GetCalendarAvailabilityOptions, FreeBusyDataSource } from './src/utils/timeSlotCalculations'
+  import('./src/utils/timeSlotCalculations')
+  // @ts-ignore
   export type { WizardInstance, WizardStateField, WizardFieldConfig } from './src/utils/wizardStateFieldConfig'
   import('./src/utils/wizardStateFieldConfig')
 }
@@ -673,6 +677,7 @@ declare module 'vue' {
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
     readonly getBulkPatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBulkPatchEndpoint']>
     readonly getCalendarAvailability: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getCalendarAvailability']>
+    readonly getCalendarAvailabilitySync: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getCalendarAvailabilitySync']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>

@@ -11,6 +11,8 @@
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { TernaryBoolean } from '@/types/ternary'
+import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import { roundDuration } from '@/utils/booking/durationRounding'
 
 /**
  * PartFinal: Aggregated part instance representing all parts of a given shape
@@ -21,7 +23,8 @@ import type { TernaryBoolean } from '@/types/ternary'
 export interface PartFinal {
   partShape: string  // Part shape name (e.g., "Client Presentation")
   
-  baseTime: number
+  baseTime: number      // Raw duration before rounding
+  roundedTime: number   // Rounded duration (computed from baseTime using rounding settings)
   baseFee: number
   rateOverBaseTime: number
   rateOverBaseFee: number
@@ -39,15 +42,31 @@ export interface PartFinal {
 
 
 
+/**
+ * Create PartFinal from grouped part instances
+ * LEARNING: Computes both raw (baseTime) and rounded (roundedTime) durations
+ * WHY: Dual-track architecture - stores both values for consistency and flexibility
+ * PATTERN: Round at part level, propagate upward through sums
+ * 
+ * @param partShape - Part shape name
+ * @param parts - Array of BookingPartInstance objects with same partShape
+ * @param settings - Optional availability settings for rounding configuration
+ * @returns PartFinal with both raw and rounded durations
+ */
 export function createPartFinal(
   partShape: string,
-  parts: BookingPartInstance[]
+  parts: BookingPartInstance[],
+  settings?: AvailabilitySettings | null
 ): PartFinal {
   // PATTERN: For now, use default values - these should be computed from eventAssignments in the future
   // NOTE: This is a temporary solution - these properties should be computed from events when creating PartFinal
+  const baseTime = parts.reduce((sum, p) => sum + (p.baseTime ?? 0), 0)
+  const roundedTime = roundDuration(baseTime, settings || null)
+  
   return {
     partShape,
-    baseTime: parts.reduce((sum, p) => sum + (p.baseTime ?? 0), 0),
+    baseTime,
+    roundedTime,
     baseFee: parts.reduce((sum, p) => sum + (p.baseFee ?? 0), 0),
     rateOverBaseTime: parts.reduce((sum, p) => sum + (p.rateOverBaseTime ?? 0), 0),
     rateOverBaseFee: parts.reduce((sum, p) => sum + (p.rateOverBaseFee ?? 0), 0),

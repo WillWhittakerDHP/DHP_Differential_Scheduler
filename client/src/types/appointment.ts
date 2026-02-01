@@ -110,11 +110,15 @@ export type PerspectiveKey = 'major' | 'minor' | 'nonDifferential'
  * EventFinal: Aggregated event duration for a given event shape
  * LEARNING: Groups event durations by event shape, similar to PartFinal pattern
  * WHY: Eliminates hardcoded event names, enables fully generic event system
- * PATTERN: Plain interface with event shape reference and calculated duration
+ * PATTERN: Plain interface with event shape reference and dual-track durations
+ * 
+ * DUAL-TRACK ARCHITECTURE: Stores both raw and rounded durations
+ * WHY: Ensures mathematical consistency - rounded values sum correctly, differential offsets align
  */
 export interface EventFinal {
   eventShape: EventShape  // The event shape definition (e.g., major event, minor event, Moveable)
-  duration: number        // Calculated duration for this event in minutes
+  rawDuration: number     // Sum of raw baseTime from parts (renamed from duration)
+  roundedDuration: number // Sum of roundedTime from parts
 }
 
 /**
@@ -125,12 +129,18 @@ export interface EventFinal {
  * 
  * Session Event Refactor: Uses EventFinal[] array instead of Record<string, number>
  * WHY: Enables fully generic event system - no hardcoded event names, matches PartFinal[] pattern
- * PATTERN: Array of EventFinal objects, each containing event shape and duration
+ * PATTERN: Array of EventFinal objects, each containing event shape and dual-track durations
+ * 
+ * DUAL-TRACK ARCHITECTURE: Stores both raw and rounded durations at every level
+ * WHY: Ensures mathematical consistency - rounded values sum correctly, differential offsets align
+ * PATTERN: Round at part level, sum rounded values upward, store both tracks
  */
 export interface SlotShape {
-  totalDuration: number        // Sum of all finalizedParts.baseTime
-  eventFinals: EventFinal[]   // Array of event shapes with their durations (e.g., [{ eventShape: majorEvent, duration: 120 }, ...])
-  differentialOffset: number    // Duration offset when major event exists but minor event does not
+  rawDuration: number           // Sum of all finalizedParts.baseTime (raw)
+  roundedDuration: number        // Sum of all finalizedParts.roundedTime (rounded)
+  eventFinals: EventFinal[]     // Array of event shapes with dual-track durations
+  rawDifferentialOffset: number      // Raw duration offset: major.rawDuration - minor.rawDuration
+  roundedDifferentialOffset: number  // Rounded duration offset: major.roundedDuration - minor.roundedDuration
 }
 
 /**
@@ -178,7 +188,7 @@ export interface AppointmentSlot {
   
   // Precomputed time ranges (accessed frequently, so precompute for performance)
   // WHY: Precomputed because accessed frequently in UI (graphBars, derivePerspective, etc.)
-  totalTimeRange: TimeRange | null          // From shape.slotShape.totalDuration + startTime
+  totalTimeRange: TimeRange | null          // From shape.slotShape.roundedDuration + startTime (uses rounded for display)
   eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "majorEvent": {...}, "minorEvent": {...}, "Moveable": {...} })
   
   // Legacy properties for backward compatibility during migration (onSite->major rename)

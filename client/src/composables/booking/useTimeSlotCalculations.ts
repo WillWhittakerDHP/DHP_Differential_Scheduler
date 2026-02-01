@@ -12,7 +12,6 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { toRFC3339DateTime } from '@/types/datetime'
-import { useDurationRounding } from '@/composables/booking/useDurationRounding'
 import { findEventFinalByName } from '@/utils/booking/appointmentSlotBuilder'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
@@ -65,10 +64,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   const { formatDuration } = useTimeFormatting()
   const { formatTimeRangeForDisplay } = useLocalTime()
   
-  // LEARNING: Get rounding function from composable
-  // PATTERN: Use composable for rounding logic
-  const { roundDuration } = useDurationRounding()
-  
   // PATTERN: Use composable to access reactive settings
   const { settings: availabilitySettings } = useAvailabilitySettings()
   
@@ -83,20 +78,17 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   /**
    * LEARNING: Get major event total from SlotShape (source of truth)
    * WHY: SlotShape already contains calculated major event duration, no need to filter raw parts
-   * PATTERN: Use helper function to find major event, apply rounding
-   * NOTE: Applies rounding based on availability settings
+   * PATTERN: Use helper function to find major event
    * NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings
    * Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
+   * DUAL-TRACK: Use roundedDuration - rounding already computed at part level
    */
   const majorDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
     
     const majorEventFinal = findEventFinalByName(shape.slotShape, 'Major')
-    const unroundedTotal = majorEventFinal?.duration ?? 0
-    
-    // PATTERN: Use composable rounding function that respects settings
-    return roundDuration(unroundedTotal)
+    return majorEventFinal?.roundedDuration ?? 0
   })
 
   /**
@@ -105,13 +97,14 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    * PATTERN: Use helper function to find minor event
    * NOTE: Uses 'Minor' as fallback for backward compatibility, but should use minor event from availabilitySettings
    * Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
+   * DUAL-TRACK: Use roundedDuration - rounding already computed at part level
    */
   const minorDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
     
     const minorEventFinal = findEventFinalByName(shape.slotShape, 'Minor')
-    return minorEventFinal?.duration ?? 0
+    return minorEventFinal?.roundedDuration ?? 0
   })
 
   /**
@@ -122,7 +115,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    */
   const differentialTimeBlocks = computed(() => {
     if (!majorTimeSlot.value) {
-      // PATTERN: Return total durations when no time selected
+      // PATTERN: Return rounded durations when no time selected (rounding computed at part level)
       return {
         major: {
           label: majorLabel.value,

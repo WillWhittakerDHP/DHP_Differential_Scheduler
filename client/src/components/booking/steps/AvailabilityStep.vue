@@ -28,6 +28,7 @@ import { useAppointmentDuration } from '@/composables/booking/useAppointmentDura
 import { useTimeSlotDurations } from '@/composables/booking/useTimeSlotDurations'
 import { useMockCalendarRefresh } from '@/composables/booking/useMockCalendarRefresh'
 import { useBusyTimes } from '@/composables/booking/useBusyTimes'
+import { useFreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
 import { usePerspectiveMapping } from '@/composables/booking/usePerspectiveMapping'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useAvailabilityStepHandlers } from '@/composables/booking/useAvailabilityStepHandlers'
@@ -156,11 +157,30 @@ const { appointmentDuration } = useAppointmentDuration({
 // PATTERN: Composable manages refresh key and reset functionality
 const { mockRefreshKey } = useMockCalendarRefresh()
 
+// Session 2.1.2: Use free/busy data source composable
+// PATTERN: Shared state for data source selection across components
+const { 
+  dataSource: freeBusyDataSource, 
+  calendarEmails, 
+  skipCache,
+  refreshKey: freeBusyRefreshKey 
+} = useFreeBusyDataSource()
+
 // LEARNING: Use busy times composable
-// PATTERN: Composable provides computed property for busy times
-const { busyTimes: busyTimesForStartTimes } = useBusyTimes({
+// PATTERN: Composable provides computed property for busy times with loading/error states
+// Session 2.1.2: Updated to support data source modes
+const { 
+  busyTimes: busyTimesForStartTimes,
+  error: busyTimesError,
+  errorMessage: busyTimesErrorMessage,
+  isLoading: busyTimesLoading,
+  authUrl: busyTimesAuthUrl
+} = useBusyTimes({
   dateRangeForApi,
-  mockRefreshKey
+  dataSource: freeBusyDataSource,
+  calendarEmails,
+  skipCache,
+  refreshKey: freeBusyRefreshKey
 })
 
 const {
@@ -305,7 +325,8 @@ useAvailabilityDevPanel({
   selectedSlot,
   dateRange: dateRangeForApi,
   busyPeriods: busyTimesForStartTimes,
-  refreshKey: mockRefreshKey
+  refreshKey: mockRefreshKey,
+  isEffectivelyDifferential
 })
 </script>
 

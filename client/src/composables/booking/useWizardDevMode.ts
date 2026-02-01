@@ -22,7 +22,11 @@ export interface UseWizardDevModeOptions {
     data: Ref<AppointmentResponse[]>
   }
   handleLoadAppointment: (id: string | null) => Promise<void>
+  handleUpdateAppointment: () => Promise<void>
   handleResetWizard: () => void
+  updateAppointment: {
+    isPending: Ref<boolean>
+  }
   wizard: ReturnType<typeof useBookingWizard>
 }
 
@@ -42,7 +46,9 @@ export function useWizardDevMode(
     isLoadingAppointment,
     fetchAll,
     handleLoadAppointment,
+    handleUpdateAppointment,
     handleResetWizard,
+    updateAppointment,
     wizard,
   } = options
 
@@ -68,8 +74,10 @@ export function useWizardDevMode(
       isLoadingAppointment: Ref<boolean>
       fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
       handleLoadAppointment: (id: string | null) => Promise<void>
+      handleUpdateAppointment: () => Promise<void>
       handleResetWizard: () => void
       handleResetMocks: () => void
+      updateAppointment: { isPending: Ref<boolean> }
       wizard: ReturnType<typeof useBookingWizard> | null
     } | null>>('devPanelButtons')
 
@@ -81,8 +89,10 @@ export function useWizardDevMode(
         isLoadingAppointment,
         fetchAll,
         handleLoadAppointment,
+        handleUpdateAppointment,
         handleResetWizard,
         handleResetMocks,
+        updateAppointment,
         wizard
       }
     }

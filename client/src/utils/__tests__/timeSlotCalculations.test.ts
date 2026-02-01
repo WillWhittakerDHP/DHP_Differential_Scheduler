@@ -20,7 +20,7 @@ vi.mock('@/configs/availabilitySettings', () => ({
 import {
   calculateDurationFromBlockInstances,
   generateTimeSlots,
-  getCalendarAvailability
+  getCalendarAvailabilitySync
 } from '../timeSlotCalculations'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
@@ -162,14 +162,14 @@ describe('timeSlotCalculations', () => {
     })
   })
 
-  describe('getCalendarAvailability', () => {
+  describe('getCalendarAvailabilitySync', () => {
     it('should return empty array (all times available)', () => {
       const dateRange = {
         start: '2026-01-03T00:00:00Z',
         end: '2026-01-04T00:00:00Z'
       }
       
-      const result = getCalendarAvailability(dateRange)
+      const result = getCalendarAvailabilitySync(dateRange)
       expect(result).toEqual([])
     })
 
@@ -179,8 +179,8 @@ describe('timeSlotCalculations', () => {
         end: '2026-01-10T00:00:00Z'
       }
       
-      expect(() => getCalendarAvailability(dateRange)).not.toThrow()
-      const result = getCalendarAvailability(dateRange)
+      expect(() => getCalendarAvailabilitySync(dateRange)).not.toThrow()
+      const result = getCalendarAvailabilitySync(dateRange)
       expect(Array.isArray(result)).toBe(true)
     })
   })

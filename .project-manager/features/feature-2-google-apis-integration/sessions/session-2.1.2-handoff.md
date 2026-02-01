@@ -278,5 +278,25 @@ Update `client/src/components/booking/steps/AvailabilityStep.vue`:
 
 ---
 
-**Session Status:** Not Started  
+**Session Status:** ✅ Complete  
 **Last Updated:** 2026-01-31
+
+---
+
+## Completion Summary
+
+All tasks completed successfully:
+- ✅ `calendarApiService.ts` created with `checkOAuthStatus()` and `fetchFreeBusy()`
+- ✅ Data source toggle in dev panel works (Real/Mock/Both/None)
+- ✅ "Force Refresh" button bypasses server cache
+- ✅ `getCalendarAvailability()` supports all four data source modes
+- ✅ `useBusyTimes` exposes `error` and `isLoading` states
+- ✅ Calendar emails read from `AvailabilitySettings.calendarConfig`
+- ✅ OAuth authentication checked before API calls
+- ✅ Errors displayed to user (not silently swallowed)
+- ✅ Server response correctly transformed to `BusyTimeRange[]`
+- ✅ Both mode correctly merges real + mock data
+
+**Bug fixes during session:**
+- Fixed missing `calendarConfig` in `getAvailabilitySettings()` conversion
+- Fixed sync/async function calls in legacy code

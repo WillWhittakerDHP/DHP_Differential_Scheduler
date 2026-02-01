@@ -7,7 +7,7 @@
  * PATTERN: Teleport to body, fixed positioning, tab interface with VWindow
  */
 
-import { ref, inject, computed, onMounted, onUnmounted, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
+import { ref, inject, computed, onMounted, onUnmounted, watch, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -17,7 +17,7 @@ import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
+import { getCalendarAvailabilitySync } from '@/utils/timeSlotCalculations'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { EventShape } from '@/types/events'
@@ -26,6 +26,8 @@ import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
 import { equals } from '@/utils/ternary/ternaryUtils'
 import { useDevPanelsComputed } from '@/composables/booking/useDevPanelsComputed'
+import { useFreeBusyDataSource, type FreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
+import { checkOAuthStatus, getOAuthUrl } from '@/services/calendarApiService'
 
 interface Props {
   visible: boolean
@@ -146,9 +148,11 @@ const slotShapeTotals = computed<SlotShape>(() => {
   
   if (!shape || !shape.slotShape) {
     return {
-      totalDuration: 0,
+      rawDuration: 0,
+      roundedDuration: 0,
       eventFinals: [],
-      differentialOffset: 0
+      rawDifferentialOffset: 0,
+      roundedDifferentialOffset: 0
     }
   }
   
@@ -289,6 +293,51 @@ const calendarData = computed(() => {
   }
 })
 
+// Session 2.1.2: Free/busy data source management
+const { 
+  dataSource: freeBusyDataSource, 
+  calendarEmails: configuredCalendarEmails,
+  forceRefresh: triggerForceRefresh,
+  isCalendarEnabled,
+  settingsLoaded: calendarSettingsLoaded
+} = useFreeBusyDataSource()
+
+// Data source options for radio group
+const dataSourceOptions: { title: string; value: FreeBusyDataSource }[] = [
+  { title: 'Real API', value: 'real' },
+  { title: 'Mock Data', value: 'mock' },
+  { title: 'Both (Merged)', value: 'both' },
+  { title: 'None', value: 'none' }
+]
+
+// OAuth status for showing auth prompt
+const oauthStatus = ref<{ authenticated: boolean; authUrl?: string }>({ authenticated: false })
+const isCheckingAuth = ref(false)
+
+// Check OAuth status when component mounts or data source changes to 'real' or 'both'
+const checkAuth = async () => {
+  if (freeBusyDataSource.value === 'real' || freeBusyDataSource.value === 'both') {
+    isCheckingAuth.value = true
+    try {
+      oauthStatus.value = await checkOAuthStatus()
+    } catch (error) {
+      oauthStatus.value = { authenticated: false, authUrl: getOAuthUrl() }
+    } finally {
+      isCheckingAuth.value = false
+    }
+  }
+}
+
+// Check auth on mount
+onMounted(() => {
+  checkAuth()
+})
+
+// Watch data source changes
+watch(freeBusyDataSource, () => {
+  checkAuth()
+})
+
 const busyPeriods = computed(() => {
   // PATTERN: Prefer prop over generated values for consistency
   if (calendarData.value.busyPeriods && calendarData.value.busyPeriods.length > 0) {
@@ -304,7 +353,9 @@ const busyPeriods = computed(() => {
   // PATTERN: Reference refreshKey in computed to trigger recalculation
   void calendarData.value.refreshKey // Force dependency tracking
   
-  const result = getCalendarAvailability(calendarData.value.dateRange)
+  // Session 2.1.2: Use sync version for dev panel display
+  // The actual async fetch happens in useBusyTimes which updates devPanelData.busyPeriods
+  const result = getCalendarAvailabilitySync(calendarData.value.dateRange)
   
   return result
 })
@@ -351,8 +402,10 @@ const devPanelButtonsRef = inject<Ref<{
   isLoadingAppointment: Ref<boolean>
   fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
   handleLoadAppointment: (id: string | null) => Promise<void>
+  handleUpdateAppointment: () => Promise<void>
   handleResetWizard: () => void
   handleResetMocks: () => void
+  updateAppointment: { isPending: Ref<boolean> }
   wizard: ReturnType<typeof useBookingWizard> | null
 } | null>>('devPanelButtons', ref(null))
 
@@ -401,22 +454,21 @@ const eventShapes = computed<EventShape[]>(() => {
   return getGlobalEntities('eventShape') as EventShape[]
 })
 
+/**
+ * LEARNING: Use the same isEffectivelyDifferential value that the grid uses
+ * WHY: Ensures dev panel flag matches what the grid actually shows - single source of truth
+ * PATTERN: Read from shared dev panel data instead of duplicating logic
+ */
 const isSelectedServiceDifferential = computed(() => {
-  const wizardInstance = wizard.value
-  if (!wizardInstance) {
-    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:537',message:'isSelectedServiceDifferential=false: no wizard',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+  const data = devPanelData.value
+  const isEffectivelyDifferentialRef = data.isEffectivelyDifferential
+  if (!isEffectivelyDifferentialRef) {
     return false
   }
-  
-  const selectedServices = wizardInstance.selectedServiceTypeBlocks?.value || []
-  if (selectedServices.length === 0) {
-    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:540',message:'isSelectedServiceDifferential=false: no services',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    return false
-  }
-  
-  const result = selectedServices.some(s => equals(s.differential, 'true'))
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:543',message:'isSelectedServiceDifferential result',data:{result,selectedServices:selectedServices.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-  return result
+  // Unwrap ComputedRef to get the actual boolean value
+  return typeof isEffectivelyDifferentialRef === 'object' && 'value' in isEffectivelyDifferentialRef
+    ? isEffectivelyDifferentialRef.value
+    : false
 })
 
 const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean => {
@@ -474,6 +526,17 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
               LOAD RANDOM APPOINTMENT
             </VBtn>
             <VBtn
+              color="success"
+              variant="outlined"
+              size="small"
+              prepend-icon="tabler-device-floppy"
+              :loading="devPanelButtons?.updateAppointment?.isPending?.value ?? false"
+              :disabled="(devPanelButtons?.updateAppointment?.isPending?.value || !devPanelButtons?.loadedAppointmentId?.value) ?? false"
+              @click="devPanelButtons?.handleUpdateAppointment"
+            >
+              UPDATE APPOINTMENT
+            </VBtn>
+            <VBtn
               color="secondary"
               variant="outlined"
               size="small"
@@ -482,29 +545,11 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
             >
               RESET WIZARD
             </VBtn>
-            <VBtn
-              color="warning"
-              variant="outlined"
-              size="small"
-              prepend-icon="tabler-refresh"
-              @click="devPanelButtons?.handleResetMocks"
-            >
-              RESET MOCKS
-            </VBtn>
-            <!-- Differential Service Indicator -->
-            <VChip
-              :color="isSelectedServiceDifferential ? 'success' : 'default'"
-              variant="outlined"
-              size="small"
-              prepend-icon="tabler-toggle-left"
-            >
-              {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
-            </VChip>
           </VCol>
         </VRow>
       </VCardText>
       
-      <VTabs v-model="activeTab" density="compact" color="info">
+      <VTabs v-model="activeTab" density="compact" color="info" class="flexible-tabs">
         <VTab value="slotShape">
           <VIcon size="small" class="mr-2">tabler-chart-bar</VIcon>
           Durations
@@ -522,8 +567,8 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
           Constraints
         </VTab>
         <VTab value="calendar">
-          <VIcon size="small" class="mr-2">tabler-calendar-off</VIcon>
-          Mocks
+          <VIcon size="small" class="mr-2">tabler-calendar-event</VIcon>
+          Free/Busy
         </VTab>
       </VTabs>
       
@@ -536,26 +581,32 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                 <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
                   SlotShape Totals
                 </VCardTitle>
-                <!-- First row: Total Duration and Differential Offset -->
+                <!-- First row: Duration and Differential Offset boxes -->
                 <VRow dense class="ma-0 mb-2">
                   <VCol cols="6">
                     <VCard variant="outlined" density="compact" class="pa-2">
-                      <div class="text-caption text-medium-emphasis">Total Duration</div>
-                      <div class="text-body-2 font-weight-medium">
-                        {{ formatDuration(slotShapeTotals.totalDuration) }}
+                      <div class="text-caption text-medium-emphasis font-weight-bold mb-1">
+                        Duration
+                      </div>
+                      <div class="text-body-2 mb-1">
+                        <div>Raw: {{ formatDuration(slotShapeTotals.rawDuration) }}</div>
+                        <div>Rounded: {{ formatDuration(slotShapeTotals.roundedDuration) }}</div>
                       </div>
                     </VCard>
                   </VCol>
                   <VCol cols="6">
                     <VCard variant="outlined" density="compact" class="pa-2">
-                      <div class="text-caption text-medium-emphasis">Differential Offset</div>
-                      <div class="text-body-2 font-weight-medium">
-                        {{ formatDuration(slotShapeTotals.differentialOffset) }}
+                      <div class="text-caption text-medium-emphasis font-weight-bold mb-1">
+                        Differential Offset
+                      </div>
+                      <div class="text-body-2 mb-1">
+                        <div>Raw: {{ formatDuration(slotShapeTotals.rawDifferentialOffset) }}</div>
+                        <div>Rounded: {{ formatDuration(slotShapeTotals.roundedDifferentialOffset) }}</div>
                       </div>
                     </VCard>
                   </VCol>
                 </VRow>
-                <!-- Second row: Event boxes (1/x width where x is number of events) -->
+                <!-- Third row: Event boxes showing both raw and rounded durations -->
                 <VRow v-if="slotShapeTotals.eventFinals.length > 0" dense class="ma-0">
                   <VCol 
                     v-for="eventFinal in slotShapeTotals.eventFinals" 
@@ -565,7 +616,10 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                     <VCard variant="outlined" density="compact" class="pa-2">
                       <div class="text-caption text-medium-emphasis">{{ eventFinal.eventShape.name }}</div>
                       <div class="text-body-2 font-weight-medium">
-                        {{ formatDuration(eventFinal.duration) }}
+                        Raw: {{ formatDuration(eventFinal.rawDuration) }}
+                      </div>
+                      <div class="text-body-2 font-weight-medium">
+                        Rounded: {{ formatDuration(eventFinal.roundedDuration) }}
                       </div>
                     </VCard>
                   </VCol>
@@ -660,6 +714,19 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                     <VIcon size="small">tabler-settings</VIcon>
                   </template>
                 </VSelect>
+              </div>
+              
+              <!-- Differential Service Indicator -->
+              <div class="mb-4">
+                <VChip
+                  :color="isSelectedServiceDifferential ? 'success' : 'default'"
+                  variant="outlined"
+                  size="default"
+                  prepend-icon="tabler-toggle-left"
+                  class="d-flex align-center"
+                >
+                  {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
+                </VChip>
               </div>
               
               <!-- Selected Services Summary -->
@@ -784,11 +851,112 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
             </div>
           </VWindowItem>
 
-          <!-- Tab 5: Calendar Mock -->
+          <!-- Tab 5: Free/Busy Data Source -->
+          <!-- Session 2.1.2: Updated with data source toggle -->
           <VWindowItem value="calendar">
             <div class="pa-3">
+              <!-- Data Source Selection -->
+              <div class="mb-4">
+                <div class="text-subtitle-2 mb-2">Data Source</div>
+                <VRadioGroup
+                  v-model="freeBusyDataSource"
+                  inline
+                  density="compact"
+                  hide-details
+                >
+                  <VRadio
+                    v-for="option in dataSourceOptions"
+                    :key="option.value"
+                    :label="option.title"
+                    :value="option.value"
+                  />
+                </VRadioGroup>
+                
+                <!-- Force Refresh and Reset Mocks Buttons -->
+                <div class="d-flex gap-2 mt-2">
+                  <VBtn
+                    variant="outlined"
+                    size="small"
+                    color="primary"
+                    prepend-icon="tabler-refresh"
+                    @click="triggerForceRefresh"
+                  >
+                    Force Refresh
+                  </VBtn>
+                  <VBtn
+                    v-if="devPanelButtons"
+                    variant="outlined"
+                    size="small"
+                    color="warning"
+                    prepend-icon="tabler-refresh"
+                    @click="devPanelButtons.handleResetMocks"
+                  >
+                    Reset Mocks
+                  </VBtn>
+                </div>
+              </div>
+              
+              <!-- OAuth Status Warning (when using real API) -->
+              <VAlert
+                v-if="(freeBusyDataSource === 'real' || freeBusyDataSource === 'both') && !oauthStatus.authenticated && !isCheckingAuth"
+                type="warning"
+                variant="tonal"
+                density="compact"
+                class="mb-4"
+              >
+                <template #prepend>
+                  <VIcon>tabler-alert-triangle</VIcon>
+                </template>
+                <div class="d-flex align-center justify-space-between">
+                  <span class="text-caption">Not connected to Google Calendar</span>
+                  <VBtn
+                    variant="text"
+                    size="small"
+                    color="warning"
+                    :href="oauthStatus.authUrl || getOAuthUrl()"
+                    target="_blank"
+                  >
+                    Connect
+                  </VBtn>
+                </div>
+              </VAlert>
+              
+              <!-- Auth Checking Indicator -->
+              <div v-if="isCheckingAuth" class="d-flex align-center mb-4">
+                <VProgressCircular indeterminate size="16" class="mr-2" />
+                <span class="text-caption">Checking authentication...</span>
+              </div>
+              
+              <!-- Calendar Configuration Info -->
+              <VAlert
+                v-if="freeBusyDataSource !== 'mock' && freeBusyDataSource !== 'none'"
+                :type="configuredCalendarEmails.length > 0 ? 'success' : (calendarSettingsLoaded ? 'info' : 'warning')"
+                variant="tonal"
+                density="compact"
+                class="mb-4"
+              >
+                <template #prepend>
+                  <VIcon v-if="!calendarSettingsLoaded">tabler-loader</VIcon>
+                  <VIcon v-else-if="configuredCalendarEmails.length > 0">tabler-check</VIcon>
+                  <VIcon v-else>tabler-info-circle</VIcon>
+                </template>
+                <div class="text-caption">
+                  <template v-if="!calendarSettingsLoaded">
+                    Loading calendar settings...
+                  </template>
+                  <template v-else-if="configuredCalendarEmails.length > 0">
+                    <strong>Configured calendars:</strong> {{ configuredCalendarEmails.join(', ') }}
+                  </template>
+                  <template v-else>
+                    No calendars configured. Go to Admin → Controls → Calendar → Integration to add calendars.
+                  </template>
+                </div>
+              </VAlert>
+              
+              <VDivider class="my-3" />
+
               <div v-if="!calendarData.dateRange" class="text-body-2 text-medium-emphasis mb-4">
-                Select a date to see mock calendar busy periods
+                Select a date to see busy periods
               </div>
 
               <template v-else>
@@ -818,7 +986,8 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                 <!-- WHY: Shows exactly what times are blocked -->
                 <!-- PATTERN: List display with formatted times and icons -->
                 <div v-if="busyPeriods.length === 0" class="text-body-2 text-medium-emphasis mb-4">
-                  No busy periods generated for this date range
+                  No busy periods for this date range
+                  <span v-if="freeBusyDataSource === 'none'" class="text-caption">(data source is "None")</span>
                 </div>
 
                 <VList v-else density="compact">
@@ -840,7 +1009,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                 </VList>
 
                 <!-- LEARNING: Info Message -->
-                <!-- WHY: Explains that busy periods are randomly generated -->
+                <!-- WHY: Explains the data source behavior -->
                 <!-- PATTERN: Alert component for informational messages -->
                 <VAlert
                   type="info"
@@ -852,8 +1021,18 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                     <VIcon>tabler-info-circle</VIcon>
                   </template>
                   <div class="text-caption">
-                    Busy periods are randomly generated each time slots are calculated. 
-                    Change the selected date or modify service selections to regenerate.
+                    <template v-if="freeBusyDataSource === 'mock'">
+                      Busy periods are randomly generated mock data. Change the selected date to regenerate.
+                    </template>
+                    <template v-else-if="freeBusyDataSource === 'real'">
+                      Busy periods are fetched from Google Calendar API (cached on server).
+                    </template>
+                    <template v-else-if="freeBusyDataSource === 'both'">
+                      Busy periods are merged from Google Calendar API and mock data.
+                    </template>
+                    <template v-else>
+                      Data source is "None" - all times are available.
+                    </template>
                   </div>
                 </VAlert>
               </template>
@@ -894,6 +1073,49 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
     left: 12px;
     width: calc(100vw - 24px);
     max-width: calc(100vw - 24px);
+  }
+}
+
+// Flexible and responsive tab spacing
+:deep(.flexible-tabs) {
+  .v-tab {
+    min-width: auto;
+    flex: 0 1 auto;
+    padding: 0 8px !important;
+    margin: 0 1px !important;
+    white-space: nowrap;
+  }
+  
+  .v-tabs__wrapper {
+    gap: 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  
+  .v-tabs__container {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  
+  // Responsive spacing - tighter on smaller screens
+  @media (max-width: 600px) {
+    .v-tab {
+      padding: 0 6px !important;
+      margin: 0 !important;
+      font-size: 0.75rem;
+      
+      .v-icon {
+        margin-right: 4px !important;
+      }
+    }
+  }
+  
+  // More space on larger screens
+  @media (min-width: 960px) {
+    .v-tab {
+      padding: 0 12px !important;
+      margin: 0 2px !important;
+    }
   }
 }
 </style>

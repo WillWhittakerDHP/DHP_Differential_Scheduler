@@ -85,9 +85,11 @@ export function useDevPanelsComputed(
     
     if (!shape || !shape.slotShape) {
       return {
-        totalDuration: 0,
+        rawDuration: 0,
+        roundedDuration: 0,
         eventFinals: [],
-        differentialOffset: 0
+        rawDifferentialOffset: 0,
+        roundedDifferentialOffset: 0
       }
     }
     

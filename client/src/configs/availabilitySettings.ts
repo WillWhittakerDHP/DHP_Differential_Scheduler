@@ -428,7 +428,9 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         maxWorkHours: rawSettings.maxWorkHours,
         timezone: rawSettings.timezone,
         durationRounding: rawSettings.durationRounding,
-        differentialPerspectives: rawSettings.differentialPerspectives
+        differentialPerspectives: rawSettings.differentialPerspectives,
+        // Session 2.1.2: Include calendarConfig from raw settings
+        calendarConfig: rawSettings.calendarConfig
       }
       
       cachedSettings = {

@@ -39,7 +39,6 @@ export default tseslint.config(
         ecmaVersion: 2020,
         sourceType: 'module',
         extraFileExtensions: ['.vue'],
-        extraFileExtensions: ['.vue'],
         project: false, // Don't require tsconfig for Vue files
       },
       globals: {
@@ -239,4 +238,4 @@ export default tseslint.config(
       '**/*.d.ts',
     ],
   },
-]
+)

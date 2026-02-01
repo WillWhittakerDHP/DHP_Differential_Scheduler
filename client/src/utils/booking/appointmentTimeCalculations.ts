@@ -108,13 +108,14 @@ export function normalizeAppointmentSlotsByOrderIndex(appointmentSlots: Appointm
  * LEARNING: Sums totalTime durations from all AppointmentSlot objects
  * WHY: Provides total appointment duration across all normalized time slots
  * PATTERN: Reduce AppointmentSlots to sum of totalTime durations
+ * DUAL-TRACK: Uses roundedDuration for display (totalTimeRange already uses rounded)
  * 
  * @param appointmentSlots - Array of AppointmentSlot objects
- * @returns Total duration in minutes
+ * @returns Total rounded duration in minutes
  */
 export function calculateTotalDurationFromAppointmentSlots(appointmentSlots: AppointmentSlots): number {
   return appointmentSlots.reduce((sum, appointmentSlot) => {
-    return sum + (appointmentSlot.totalTimeRange?.duration || appointmentSlot.shape.slotShape.totalDuration || 0)
+    return sum + (appointmentSlot.totalTimeRange?.duration || appointmentSlot.shape.slotShape.roundedDuration || 0)
   }, 0)
 }
 

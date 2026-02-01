@@ -10,7 +10,7 @@
 import { computed, ref, watch, type Ref, type ComputedRef, unref } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { calculateDurationFromBlockInstances, getCalendarAvailability } from '@/utils/timeSlotCalculations'
+import { calculateDurationFromBlockInstances, getCalendarAvailabilitySync } from '@/utils/timeSlotCalculations'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import { fitAllTimeSlotsWithAvailability, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import { preprocessBusyPeriods } from '@/utils/booking/timeAvailabilityManager'
@@ -108,8 +108,8 @@ export function useAvailability(
         if (signal.aborted) return
 
         // WHY: Mark slots that conflict with existing appointments as unavailable
-        // PATTERN: Use utility function to get busy times from mock/real calendar
-        const rawBusyTimes = getCalendarAvailability({
+        // PATTERN: Use sync version for immediate mock data (async version used in useBusyTimes)
+        const rawBusyTimes = getCalendarAvailabilitySync({
           start: validatedDateRange.start,
           end: validatedDateRange.end
         })

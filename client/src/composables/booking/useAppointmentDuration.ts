@@ -7,7 +7,6 @@
  */
 
 import { computed, type ComputedRef } from 'vue'
-import { useDurationRounding } from '@/composables/booking/useDurationRounding'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useGlobal } from '@/composables/useGlobal'
 import { buildAppointmentShape } from '@/utils/booking/appointmentSlotBuilder'
@@ -35,10 +34,6 @@ export function useAppointmentDuration(
   params: UseAppointmentDurationParams
 ): UseAppointmentDurationReturn {
   const { accumulatedBlockInstances } = params
-
-  // LEARNING: Get rounding function from composable
-  // PATTERN: Use composable for rounding logic
-  const { roundDuration } = useDurationRounding()
   
   // PATTERN: Use useGlobal composable to access globalData
   const { getGlobalData, getGlobalEntities } = useGlobal()
@@ -80,19 +75,17 @@ export function useAppointmentDuration(
       // WHY: Events are stored on AppointmentShape, durations computed in SlotShape as EventFinal[]
       // PATTERN: Use helper function to find event by name, eliminates hardcoded access
       // NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings
+      // DUAL-TRACK: Use roundedDuration - rounding already computed at part level
       const majorEventFinal = findEventFinalByName(shape.slotShape, 'Major')
-      const majorDuration = majorEventFinal?.duration || 0
+      const majorRoundedDuration = majorEventFinal?.roundedDuration || 0
       
-      // PATTERN: Use composable rounding function that respects settings
-      const roundedDuration = roundDuration(majorDuration)
-      
-      // PATTERN: Return total duration if major event duration is not available
-      if (roundedDuration <= 0) {
-        const totalDuration = shape.slotShape.totalDuration
-        return totalDuration > 0 ? totalDuration : null
+      // PATTERN: Return rounded total duration if major event duration is not available
+      if (majorRoundedDuration <= 0) {
+        const roundedTotalDuration = shape.slotShape.roundedDuration
+        return roundedTotalDuration > 0 ? roundedTotalDuration : null
       }
       
-      return roundedDuration
+      return majorRoundedDuration
     } catch (error) {
       return null
     }

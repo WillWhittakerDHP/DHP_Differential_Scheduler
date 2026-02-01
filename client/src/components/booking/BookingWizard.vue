@@ -229,7 +229,11 @@ useWizardDevMode({
   isLoadingAppointment,
   fetchAll,
   handleLoadAppointment,
+  handleUpdateAppointment,
   handleResetWizard,
+  updateAppointment: {
+    isPending: update.isPending,
+  },
 })
 </script>
 
@@ -273,24 +277,10 @@ useWizardDevMode({
               </VListItem>
             </VList>
             
-            <!-- LEARNING: Quote Mode Button and DevMode Controls -->
-            <!-- WHY: Allows users to toggle quote mode and update appointments in dev mode -->
-            <!-- PATTERN: VBtn with toggle state, devMode controls in same row -->
+            <!-- LEARNING: Quote Mode Button -->
+            <!-- WHY: Allows users to toggle quote mode -->
+            <!-- PATTERN: VBtn with toggle state -->
             <VRow class="mt-4 align-center justify-center" no-gutters>
-              <!-- Update Appointment Button (only in development) -->
-              <VCol v-if="isDevMode" cols="auto" class="mr-2">
-                <VBtn
-                  color="success"
-                  variant="outlined"
-                  size="small"
-                  prepend-icon="tabler-device-floppy"
-                  @click="handleUpdateAppointment"
-                  :loading="update.isPending.value"
-                  :disabled="update.isPending.value || !loadedAppointmentId"
-                >
-                  UPDATE APPOINTMENT
-                </VBtn>
-              </VCol>
               <!-- Quote Mode Button -->
               <VCol cols="auto">
                 <VBtn

@@ -10,6 +10,7 @@ import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTr
 import type { PartFinal } from './PartFinal'
 import { createPartFinal } from './PartFinal'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
+import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 
 /**
  * Group parts by part shape
@@ -33,13 +34,24 @@ export function groupPartsByPartShape(
   }, new Map<string, BookingPartInstance[]>())
 }
 
+/**
+ * Create PartFinal instances from part instances
+ * LEARNING: Groups parts by shape and creates PartFinal with dual-track durations
+ * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
+ * PATTERN: Group by shape, then create PartFinal with rounding settings
+ * 
+ * @param parts - Array of BookingPartInstance objects
+ * @param settings - Optional availability settings for rounding configuration
+ * @returns Array of PartFinal instances
+ */
 export function createPartFinals(
-  parts: BookingPartInstance[]
+  parts: BookingPartInstance[],
+  settings?: AvailabilitySettings | null
 ): PartFinal[] {
   const partsByShape = groupPartsByPartShape(parts)
   
   return Array.from(partsByShape.entries()).map(([partShape, shapeParts]) =>
-    createPartFinal(partShape, shapeParts)
+    createPartFinal(partShape, shapeParts, settings)
   )
 }
 

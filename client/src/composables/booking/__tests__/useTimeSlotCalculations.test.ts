@@ -22,16 +22,38 @@ describe('useTimeSlotCalculations', () => {
     totalDuration?: number
     moveable?: number
     differentialOffset?: number
-  }): AppointmentShape => ({
-    finalizedParts: [],
-    slotShape: {
-      totalDuration: params.totalDuration ?? (params.onSite ?? 0) + (params.clientPresent ?? 0),
-      onSite: params.onSite ?? 0,
-      clientPresent: params.clientPresent ?? 0,
-      moveable: params.moveable ?? 0,
-      differentialOffset: params.differentialOffset ?? 0
+  }): AppointmentShape => {
+    const onSite = params.onSite ?? 0
+    const clientPresent = params.clientPresent ?? 0
+    const totalDuration = params.totalDuration ?? (onSite + clientPresent)
+    const eventFinals: import('@/types/appointment').EventFinal[] = []
+    
+    if (onSite > 0) {
+      eventFinals.push({
+        eventShape: { id: 'major-id', name: 'Major' } as import('@/types/events').EventShape,
+        rawDuration: onSite,
+        roundedDuration: onSite
+      })
     }
-  })
+    if (clientPresent > 0) {
+      eventFinals.push({
+        eventShape: { id: 'minor-id', name: 'Minor' } as import('@/types/events').EventShape,
+        rawDuration: clientPresent,
+        roundedDuration: clientPresent
+      })
+    }
+    
+    return {
+      finalizedParts: [],
+      slotShape: {
+        rawDuration: totalDuration,
+        roundedDuration: totalDuration,
+        eventFinals,
+        rawDifferentialOffset: params.differentialOffset ?? 0,
+        roundedDifferentialOffset: params.differentialOffset ?? 0
+      }
+    }
+  }
 
   describe('onSiteTotal', () => {
     it('should return 0 when appointmentShape is null', () => {

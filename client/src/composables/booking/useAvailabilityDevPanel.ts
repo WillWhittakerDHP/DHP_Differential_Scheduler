@@ -26,8 +26,9 @@ const sharedDevPanelData = ref<{
   selectedDate?: ComputedRef<string | undefined>
   selectedTime?: ComputedRef<string | undefined>
   dateRange?: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
-  busyPeriods?: ComputedRef<BusyTimeRange[]>
+  busyPeriods?: Ref<BusyTimeRange[]> | ComputedRef<BusyTimeRange[]>
   refreshKey?: Ref<number>
+  isEffectivelyDifferential?: ComputedRef<boolean>
 }>({})
 
 export interface UseAvailabilityDevPanelParams {
@@ -43,9 +44,13 @@ export interface UseAvailabilityDevPanelParams {
   
   dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
   
-  busyPeriods: ComputedRef<BusyTimeRange[]>
+  /** Session 2.1.2: Accept Ref or ComputedRef for busy periods */
+  busyPeriods: Ref<BusyTimeRange[]> | ComputedRef<BusyTimeRange[]>
   
   refreshKey: Ref<number>
+  
+  /** Effective differential state - matches what the grid uses */
+  isEffectivelyDifferential: ComputedRef<boolean>
 }
 
 /**
@@ -66,7 +71,8 @@ export function useAvailabilityDevPanel(
     selectedSlot,
     dateRange,
     busyPeriods,
-    refreshKey
+    refreshKey,
+    isEffectivelyDifferential
   } = params
 
   // PATTERN: Update shared refs that can be accessed from anywhere
@@ -86,7 +92,8 @@ export function useAvailabilityDevPanel(
     }),
     dateRange,
     busyPeriods,
-    refreshKey
+    refreshKey,
+    isEffectivelyDifferential
   }
 }
 
