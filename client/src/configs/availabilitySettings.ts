@@ -178,6 +178,18 @@ export interface DriveTimeConfig {
 }
 
 /**
+ * Coordinates interface for location data
+ * LEARNING: Latitude/longitude coordinates from Google Places API
+ * WHY: Required for distance calculations in Phase 2.2
+ * PATTERN: Simple coordinate pair matching Google Maps format
+ * Session 2.2.1: Extracted for reusability
+ */
+export interface Coordinates {
+  lat: number
+  lng: number
+}
+
+/**
  * Default location for drive time calculations
  * LEARNING: Starting/ending point for first/last appointment drive times
  * WHY: Needed to calculate travel time from home/office to first appointment
@@ -190,10 +202,7 @@ export interface DriveTimeConfig {
 export interface DefaultLocation {
   address: string           // Full address string (e.g., "123 Main St, City, State ZIP")
   label?: string            // Optional label like "Home Office", "Shop", etc.
-  coordinates?: {           // Optional - for future Google Maps integration (Phase 2.2)
-    lat: number
-    lng: number
-  }
+  coordinates?: Coordinates // Optional - populated by Google Places API (Session 2.2.1)
 }
 
 /**

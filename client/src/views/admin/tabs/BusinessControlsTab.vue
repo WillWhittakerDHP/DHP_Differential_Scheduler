@@ -11,13 +11,14 @@ import { useAvailabilitySettings, calculateMaxBusinessHours } from '@/composable
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { DAY_NAMES, TIME_INCREMENT_OPTIONS, TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
 import { useLocalTime } from '@/composables/useLocalTime'
-import type { BusinessHoursConfig, AvailabilitySettings, CalendarProvider, DriveTimeApplyTo, DriveTimeConfig } from '@/configs/availabilitySettings'
+import type { BusinessHoursConfig, AvailabilitySettings, CalendarProvider, DriveTimeApplyTo, DriveTimeConfig, Coordinates } from '@/configs/availabilitySettings'
 import { isValidCalendarEmail, DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { useGlobal } from '@/composables/useGlobal'
 import { getAllUserTypeBlockIds } from '@/utils/eventAttendeeUtils'
 import type { GlobalEntityId } from '@/types/entities'
 import BusinessRulesTab from './BusinessRulesTab.vue'
+import AddressAutocomplete from '@/components/common/AddressAutocomplete.vue'
 
 /**
  * LEARNING: Use availability settings composable
@@ -482,6 +483,21 @@ const defaultLocationLabel = computed({
         formData.value.defaultLocation = { address: '' }
       }
       formData.value.defaultLocation.label = value
+    }
+  }
+})
+
+// LEARNING: Computed property for default location coordinates
+// WHY: AddressAutocomplete extracts coordinates from Google Places API
+// PATTERN: Coordinates stored alongside address for drive time calculations
+const defaultLocationCoordinates = computed({
+  get: () => formData.value?.defaultLocation?.coordinates,
+  set: (value: Coordinates | undefined) => {
+    if (formData.value) {
+      if (!formData.value.defaultLocation) {
+        formData.value.defaultLocation = { address: '' }
+      }
+      formData.value.defaultLocation.coordinates = value
     }
   }
 })
@@ -1050,7 +1066,8 @@ const emailValidationRule = (value: string): true | string => {
                   <!-- Default Location -->
                   <!-- LEARNING: Starting/ending point for first/last appointment drive times -->
                   <!-- WHY: Needed to calculate travel time from home/office to first appointment and back -->
-                  <!-- PATTERN: Address string with optional label for display -->
+                  <!-- PATTERN: Address with coordinates from Google Places API for drive time calculations -->
+                  <!-- SESSION: 2.2.1 - Updated to use AddressAutocomplete component -->
                   <VExpansionPanel :title="UI_STRINGS.panels.defaultLocation">
                     <VExpansionPanelText>
                       <div class="text-body-2 mb-4 text-medium-emphasis">
@@ -1058,13 +1075,21 @@ const emailValidationRule = (value: string): true | string => {
                       </div>
                       <VRow>
                         <VCol cols="12" md="8">
-                          <VTextField
+                          <!-- LEARNING: AddressAutocomplete replaces plain TextField -->
+                          <!-- WHY: Provides address suggestions and extracts coordinates for distance calculations -->
+                          <AddressAutocomplete
                             v-model="defaultLocationAddress"
+                            :coordinates="defaultLocationCoordinates"
                             :label="UI_STRINGS.labels.defaultLocationAddress"
                             :hint="UI_STRINGS.hints.defaultLocationAddress"
-                            persistent-hint
-                            placeholder="123 Main St, City, State ZIP"
+                            placeholder="Start typing your address..."
+                            @update:coordinates="defaultLocationCoordinates = $event"
                           />
+                          <!-- Show coordinates when available -->
+                          <div v-if="defaultLocationCoordinates" class="text-caption mt-1 text-medium-emphasis">
+                            <VIcon size="x-small" class="me-1">mdi-crosshairs-gps</VIcon>
+                            Coordinates: {{ defaultLocationCoordinates.lat.toFixed(6) }}, {{ defaultLocationCoordinates.lng.toFixed(6) }}
+                          </div>
                         </VCol>
                         <VCol cols="12" md="4">
                           <VTextField

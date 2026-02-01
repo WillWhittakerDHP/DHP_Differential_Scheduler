@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { CalendarRouter } from './calendarRoutes.js';
 import { GoogleOAuthRouter } from './googleOauthRoutes.js';
+import { MapsRouter } from './mapsRoutes.js';
 
 /**
  * External Routes
@@ -17,5 +18,8 @@ router.use('/calendar', CalendarRouter);
 
 // Mount OAuth routes
 router.use('/oauth', GoogleOAuthRouter);
+
+// Mount maps routes (Session 2.2.1)
+router.use('/maps', MapsRouter);
 
 export { router as ExternalRouter };

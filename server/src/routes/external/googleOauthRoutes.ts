@@ -96,11 +96,26 @@ router.get('/callback', async (req: Request, res: Response) => {
  * GET /api/v1/external/oauth/status
  * Check OAuth authentication status
  */
-router.get('/status', (_req: Request, res: Response) => {
+router.get('/status', (_req: Request, res: Response): void => {
   try {
     // Check OAuth client credentials (loaded from file on startup)
-    const credentials = getCredentials();
-    const authenticated = hasCredentials();
+    let credentials;
+    let authenticated = false;
+    
+    try {
+      credentials = getCredentials();
+      authenticated = hasCredentials();
+    } catch (credError: any) {
+      console.error('[GoogleOAuthRoutes] Error getting credentials:', credError);
+      // Return unauthenticated status if credentials check fails
+      res.json({
+        authenticated: false,
+        authUrl: '/api/v1/external/oauth',
+        message: 'Visit the authUrl to authenticate with Google',
+        error: credError.message
+      });
+      return;
+    }
     
     if (authenticated) {
       res.json({
@@ -121,9 +136,11 @@ router.get('/status', (_req: Request, res: Response) => {
     
   } catch (error: any) {
     console.error('[GoogleOAuthRoutes] Error checking status:', error);
+    console.error('[GoogleOAuthRoutes] Error stack:', error.stack);
     res.status(500).json({
       error: 'Failed to check authentication status',
-      message: error.message
+      message: error.message || 'Unknown error',
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 });

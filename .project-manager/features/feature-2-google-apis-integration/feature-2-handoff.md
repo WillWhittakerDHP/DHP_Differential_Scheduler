@@ -35,8 +35,15 @@
 |-------|------|--------|
 | 2.0 | Calendar Configuration UI (Prerequisite) | ⏳ Not Started |
 | 2.1 | Google Calendar API Integration | ✅ Complete |
-| 2.2 | Google Maps API Integration | ⏳ Not Started |
+| 2.2 | Google Maps API Integration | ⏳ In Progress |
 | 2.3 | MLS API Integration (Deferrable) | ⏳ Not Started |
+
+### Drive Time Buffer Refactor ✅ Complete
+Prerequisite for Phase 2.2 - Completed 2026-02-01
+- ✅ `driveTimeTo`/`driveTimeFrom` dual buffer architecture
+- ✅ `DefaultLocation` for home/office address with coordinates
+- ✅ `applyTo` config for first/last appointment rules
+- ✅ Admin UI panels for configuration
 
 ### Phase 2.1 Sessions (All Complete)
 
@@ -82,15 +89,24 @@
 
 ---
 
-## Next Phase: Phase 2.2 - Google Maps API Integration
+## Current Phase: Phase 2.2 - Google Maps API Integration
 
-**Status:** Not Started  
-**Prerequisite:** Drive Time Buffer Refactor (recommended before Phase 2.2)
+**Status:** ⏳ In Progress  
+**Prerequisite:** ✅ Drive Time Buffer Refactor (completed 2026-02-01)
 
 ### Phase 2.2 Overview
 - Set up Google Maps Places API for address autocomplete
 - Set up Google Maps Distance Matrix API for drive time calculations
 - Integrate with event locations from Phase 2.1
+- Use calculated drive times to populate buffer architecture
+
+### Phase 2.2 Sessions
+
+| Session | Name | Status |
+|---------|------|--------|
+| 2.2.1 | Address Autocomplete (Places API) | ⏳ Not Started |
+| 2.2.2 | Drive Time Calculations (Distance Matrix API) | ⏳ Not Started |
+| 2.2.3 | Error Handling & Fallbacks | ⏳ Not Started |
 
 ---
 
@@ -127,14 +143,15 @@
 - ✅ Admin dev panel for debugging
 
 ### Next Steps
-1. **Drive Time Buffer Refactor** (Recommended before Phase 2.2)
+1. ✅ **Drive Time Buffer Refactor** (Complete - 2026-02-01)
    - Sets up buffer architecture for drive time calculations
    - Plan: `~/.cursor/plans/drive_time_buffer_refactor_f78512ee.plan.md`
 
-2. **Phase 2.2:** Google Maps API Integration
-   - Address autocomplete (Places API)
-   - Drive time calculations (Distance Matrix API)
-   - Integration with event locations from Phase 2.1
+2. **Phase 2.2:** Google Maps API Integration (⏳ In Progress)
+   - **Session 2.2.1:** Address autocomplete (Places API) - Next
+   - **Session 2.2.2:** Drive time calculations (Distance Matrix API)
+   - **Session 2.2.3:** Error handling & fallbacks
+   - Handoff: `phases/phase-2.2-handoff.md`
 
 ---
 
