@@ -109,7 +109,7 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 | 2.1.2 | Calendar Availability Integration | ✅ Complete |
 | 2.1.3 | Appointment Attendees & Calendar Integration | ✅ Complete |
 | 2.1.4 | Full Event Fetching & Location Cache | ✅ Complete |
-| 2.1.5 | Error Handling & Fallbacks | ⏳ Not Started |
+| 2.1.5 | Error Handling & Fallbacks | ✅ Complete |
 | 2.1.6 | Admin API Dev Panel | ⏳ Not Started |
 
 ---
@@ -234,12 +234,25 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - ✅ **Verified**: Events with location data returned successfully
 - **CRITICAL**: Provides location data needed for Phase 2.2 (Google Maps API)
 
-### Session 2.1.5: Error Handling & Fallbacks
-- Handle API authentication errors (401/403)
-- Handle rate limiting (429/403 errors) with exponential backoff
-- Handle network errors
-- Return cached data if available during errors
-- Implement fallback strategies for when Google API is unavailable
+### Session 2.1.5: Error Handling & Fallbacks ✅ Complete
+- ✅ Created `calendarErrorHandler.ts` service with:
+  - `CalendarApiError` typed error class (auth, permission, rateLimit, notFound, network, timeout, invalid, unknown)
+  - `classifyError()` function to map Google API errors to typed errors
+  - `withRetry()` utility for exponential backoff retry (configurable retries, delays, jitter)
+  - `withFallback()` utility for graceful degradation (returns cached data on failure)
+  - `FallbackResult` type indicates data source (fresh, cache, empty)
+- ✅ Updated `getFreeBusy()` with retry and cache fallback
+  - Returns `FreeBusyResponseWithMeta` with `_meta.source` indicator
+  - Automatic retry (2 attempts) for transient errors
+  - Falls back to cached data if all retries fail
+- ✅ Updated `getCalendarEvents()` with retry and cache fallback
+  - Returns `CalendarEventsResponseWithMeta` with `_meta.source` indicator
+  - Same retry/fallback pattern as getFreeBusy
+- ✅ Updated `createEvent()` with retry (no fallback - writes must succeed)
+- ✅ Updated calendar routes with typed error handling
+  - HTTP headers indicate data source (`X-Data-Source: cache-fallback`)
+  - Consistent error response format with `type`, `message`, `retryable`
+- ✅ Network error detection (ECONNREFUSED, ETIMEDOUT, ENOTFOUND)
 
 ### Session 2.1.6: Admin API Dev Panel
 - Create admin dev panel component (`ApiDevPanel.vue`)
@@ -255,13 +268,14 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 
 ## Key Files
 
-### Server Files (Sessions 2.1.1, 2.1.3, 2.1.4 - Complete)
+### Server Files (Sessions 2.1.1, 2.1.3, 2.1.4, 2.1.5 - Complete)
 - ✅ `server/src/config/googleOAuth.ts` - OAuth client configuration (updated with calendar.events scope)
 - ✅ `server/src/services/rateLimiter.ts` - Rate limiting service
 - ✅ `server/src/services/freeBusyCache.ts` - Free-busy caching service (with invalidation)
 - ✅ `server/src/services/calendarEventsCache.ts` - Events caching service (with invalidation, location support)
-- ✅ `server/src/services/googleCalendarService.ts` - Calendar API service (getFreeBusy, getCalendarEvents, createEvent)
-- ✅ `server/src/routes/external/calendarRoutes.ts` - Calendar endpoints (GET/POST /events, POST /freebusy, debug endpoints)
+- ✅ `server/src/services/calendarErrorHandler.ts` - Error handling with retry and fallback utilities (Session 2.1.5)
+- ✅ `server/src/services/googleCalendarService.ts` - Calendar API service (with retry, fallback, typed errors)
+- ✅ `server/src/routes/external/calendarRoutes.ts` - Calendar endpoints (with typed error responses)
 - ✅ `server/src/routes/external/googleOauthRoutes.ts` - OAuth endpoints
 - ✅ `server/.env.development` - Environment config (updated scopes)
 
@@ -331,10 +345,16 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - ✅ Debug endpoint for events cache inspection
 - ✅ Verified with real calendar - returns events with location data
 
+### Session 2.1.5 Complete
+- ✅ `calendarErrorHandler.ts` service with typed errors and retry utilities
+- ✅ Exponential backoff with jitter for transient errors
+- ✅ Graceful degradation - cached data returned on API failure
+- ✅ Network error detection and classification
+- ✅ Routes updated with typed error responses
+
 ### Next Steps
-1. **Session 2.1.5:** Error Handling & Fallbacks
-2. **Session 2.1.6:** Admin API Dev Panel
-3. **Phase 2.2:** Google Maps API Integration (now unblocked by location data)
+1. **Session 2.1.6:** Admin API Dev Panel
+2. **Phase 2.2:** Google Maps API Integration (now unblocked by location data)
 
 ---
 
@@ -424,7 +444,7 @@ Dev panel toggle in "Free/Busy" section:
 ---
 
 **Phase Status:** In Progress  
-**Current Session:** Session 2.1.4 Complete - Next: Session 2.1.5  
+**Current Session:** Session 2.1.5 Complete - Next: Session 2.1.6  
 **Last Updated:** 2026-02-01
 
 ---

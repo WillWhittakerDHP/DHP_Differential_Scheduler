@@ -11,14 +11,42 @@ import { getCredentials } from '../../config/googleOAuth.js';
 import { getCacheStats, getAllCachedEntries as getAllFreeBusyEntries } from '../../services/freeBusyCache.js';
 import { getEventsCacheStats, getAllCachedEntries as getAllEventsEntries } from '../../services/calendarEventsCache.js';
 import { getRateLimitStats } from '../../services/rateLimiter.js';
+import { CalendarApiError, type CalendarErrorType } from '../../services/calendarErrorHandler.js';
 
 /**
  * Calendar Routes
  * 
  * LEARNING: Routes for Google Calendar API operations
  * WHY: Provides HTTP endpoints for calendar functionality
- * PATTERN: Express router with error handling middleware
+ * PATTERN: Express router with typed error handling
+ * 
+ * SESSION: 2.1.5 - Enhanced error handling with CalendarApiError
  */
+
+/**
+ * Map CalendarApiError type to HTTP status code
+ * LEARNING: Consistent HTTP status codes for different error types
+ * WHY: Clients can handle errors based on status code
+ */
+function getStatusCodeForError(error: CalendarApiError): number {
+  switch (error.type) {
+    case 'auth':
+      return 401;
+    case 'permission':
+      return 403;
+    case 'rateLimit':
+      return 429;
+    case 'notFound':
+      return 404;
+    case 'network':
+    case 'timeout':
+      return 503; // Service Unavailable
+    case 'invalid':
+      return 400;
+    default:
+      return 500;
+  }
+}
 
 const router = Router();
 
@@ -92,35 +120,36 @@ router.post('/freebusy', async (req: Request, res: Response) => {
     // Set credentials for calendar service
     setCalendarCredentials(credentials);
     
-    // Get free-busy data
+    // Get free-busy data (includes graceful degradation with cache fallback)
     const freeBusyData = await getFreeBusy(calendarEmails, timeMinDate, timeMaxDate);
+    
+    // Include metadata in response header if data came from cache fallback
+    if (freeBusyData._meta?.source === 'cache') {
+      res.setHeader('X-Data-Source', 'cache-fallback');
+    } else if (freeBusyData._meta?.source === 'empty') {
+      res.setHeader('X-Data-Source', 'empty-fallback');
+    }
     
     res.json(freeBusyData);
     
   } catch (error: any) {
     console.error('[CalendarRoutes] Error in /freebusy:', error);
     
-    // Handle specific error types
-    if (error.message?.includes('Rate limit')) {
-      res.status(429).json({
-        error: 'Rate limit exceeded',
-        message: error.message
+    // Handle typed CalendarApiError
+    if (error instanceof CalendarApiError) {
+      const statusCode = getStatusCodeForError(error);
+      res.status(statusCode).json({
+        error: error.type,
+        message: error.getUserMessage(),
+        retryable: error.retryable,
+        ...(error.type === 'auth' && { authUrl: '/api/v1/external/oauth' }),
       });
       return;
     }
     
-    if (error.message?.includes('Authentication')) {
-      res.status(401).json({
-        error: 'Authentication failed',
-        message: error.message,
-        authUrl: '/api/v1/external/oauth'
-      });
-      return;
-    }
-    
-    // Generic error
+    // Generic error fallback
     res.status(500).json({
-      error: 'Internal server error',
+      error: 'unknown',
       message: error.message || 'An unexpected error occurred'
     });
   }
@@ -194,35 +223,37 @@ router.get('/events', async (req: Request, res: Response) => {
     // Set credentials for calendar service
     setCalendarCredentials(credentials);
     
-    // Get calendar events
-    const events = await getCalendarEvents(calendarEmail, timeMinDate, timeMaxDate);
+    // Get calendar events (includes graceful degradation with cache fallback)
+    const result = await getCalendarEvents(calendarEmail, timeMinDate, timeMaxDate);
     
-    res.json(events);
+    // Include metadata in response header if data came from cache fallback
+    if (result._meta?.source === 'cache') {
+      res.setHeader('X-Data-Source', 'cache-fallback');
+    } else if (result._meta?.source === 'empty') {
+      res.setHeader('X-Data-Source', 'empty-fallback');
+    }
+    
+    // Return events array (clients may check _meta for data source)
+    res.json(result);
     
   } catch (error: any) {
     console.error('[CalendarRoutes] Error in /events:', error);
     
-    // Handle specific error types
-    if (error.message?.includes('Rate limit')) {
-      res.status(429).json({
-        error: 'Rate limit exceeded',
-        message: error.message
+    // Handle typed CalendarApiError
+    if (error instanceof CalendarApiError) {
+      const statusCode = getStatusCodeForError(error);
+      res.status(statusCode).json({
+        error: error.type,
+        message: error.getUserMessage(),
+        retryable: error.retryable,
+        ...(error.type === 'auth' && { authUrl: '/api/v1/external/oauth' }),
       });
       return;
     }
     
-    if (error.message?.includes('Authentication')) {
-      res.status(401).json({
-        error: 'Authentication failed',
-        message: error.message,
-        authUrl: '/api/v1/external/oauth'
-      });
-      return;
-    }
-    
-    // Generic error
+    // Generic error fallback
     res.status(500).json({
-      error: 'Internal server error',
+      error: 'unknown',
       message: error.message || 'An unexpected error occurred'
     });
   }
@@ -385,52 +416,22 @@ router.post('/events', async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error('[CalendarRoutes] Error in POST /events:', error);
     
-    // Handle specific error types
-    if (error.message?.includes('Rate limit')) {
-      res.status(429).json({
-        error: 'Rate limit exceeded',
-        message: error.message
+    // Handle typed CalendarApiError
+    if (error instanceof CalendarApiError) {
+      const statusCode = getStatusCodeForError(error);
+      res.status(statusCode).json({
+        error: error.type,
+        message: error.getUserMessage(),
+        retryable: error.retryable,
+        ...(error.type === 'auth' && { authUrl: '/api/v1/external/oauth' }),
+        ...(error.type === 'permission' && { authUrl: '/api/v1/external/oauth' }),
       });
       return;
     }
     
-    if (error.message?.includes('Authentication')) {
-      res.status(401).json({
-        error: 'Authentication failed',
-        message: error.message,
-        authUrl: '/api/v1/external/oauth'
-      });
-      return;
-    }
-    
-    if (error.message?.includes('Permission denied')) {
-      res.status(403).json({
-        error: 'Permission denied',
-        message: error.message + ' You may need to re-authenticate with calendar.events scope.',
-        authUrl: '/api/v1/external/oauth'
-      });
-      return;
-    }
-    
-    if (error.message?.includes('Calendar not found')) {
-      res.status(404).json({
-        error: 'Calendar not found',
-        message: error.message
-      });
-      return;
-    }
-    
-    if (error.message?.includes('before end')) {
-      res.status(400).json({
-        error: 'Invalid time range',
-        message: error.message
-      });
-      return;
-    }
-    
-    // Generic error
+    // Generic error fallback
     res.status(500).json({
-      error: 'Internal server error',
+      error: 'unknown',
       message: error.message || 'An unexpected error occurred'
     });
   }
