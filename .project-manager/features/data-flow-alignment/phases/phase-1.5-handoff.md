@@ -34,7 +34,7 @@
 
 | Session | Name | Status |
 |---------|------|--------|
-| 1.5.1 | Business Rules Database Infrastructure | ⏳ Not Started |
+| 1.5.1 | Business Rules Database Infrastructure | ✅ Complete |
 | 1.5.2 | Business Rules Admin Tab | ⏳ Not Started |
 | 1.5.3 | Required Fields Validation Logic | ⏳ Not Started |
 | 1.5.4 | "Requires Agent" Logic Implementation | ⏳ Not Started |
@@ -90,14 +90,21 @@ Phase 1.4 completed all admin panel data flow fixes, established dual-cache arch
 
 ## Next Action
 
-**Ready for:** Session 1.5.1 - Business Rules Database Infrastructure
+**Ready for:** Session 1.5.2 - Business Rules Admin Tab
 
-**First Steps:**
-1. Review existing annotation sets structure (globalData)
-2. Design business_rules table schema (relationships to block_instances and annotations)
-3. Create migration for business_rules table
-4. Create Sequelize model with TypeScript types
-5. Create API routes for CRUD operations
+**Completed in 1.5.1:**
+- ✅ Created business_rules table with typed JSONB configs
+- ✅ Added is_multi_family and requires_agent flags to block_instances
+- ✅ Created BusinessRule Sequelize model
+- ✅ Created business rules API router (full CRUD)
+- ✅ Seeded validation_message annotations and default business rules
+
+**Next Steps for 1.5.2:**
+1. Create BusinessRulesTab.vue component (follow BusinessControlsTab pattern)
+2. Build UI for managing business rules per block instance
+3. Create form for adding/editing rules (rule type, config, annotation link)
+4. Integrate tab into AdminPanel.vue
+5. Connect to /api/v1/internal/business-rules endpoints
 
 ---
 
@@ -165,6 +172,6 @@ Phase 1.4 completed all admin panel data flow fixes, established dual-cache arch
 ---
 
 **Phase Status:** In Progress
-**Last Completed Session:** None (Phase just started)
+**Last Completed Session:** 1.5.1 ✅
 **Phase Started:** 2026-01-31
 **Last Updated:** 2026-01-31

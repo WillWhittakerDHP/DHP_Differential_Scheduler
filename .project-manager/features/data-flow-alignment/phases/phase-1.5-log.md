@@ -17,19 +17,27 @@
 
 ## Completed Sessions
 
-_No sessions completed yet_
+### Session 1.5.1: Business Rules Database Infrastructure ✅
+**Completed:** 2026-01-31
+**Tasks Completed:** 1.5.1.1, 1.5.1.2, 1.5.1.3, 1.5.1.4, 1.5.1.5, 1.5.1.6
+**Key Accomplishments:**
+- Created business_rules table with typed JSONB configs
+- Added is_multi_family and requires_agent flags to block_instances
+- Created BusinessRule Sequelize model and API router
+- Seeded validation_message annotations and default business rules
+- All migrations ran successfully
 
 ---
 
 ## In Progress Sessions
 
-_No sessions in progress yet - Phase just started_
+_No sessions in progress yet_
 
 ---
 
 ## Planned Sessions
 
-### Session 1.5.1: Business Rules Database Infrastructure
+### Session 1.5.2: Business Rules Admin Tab
 **Status:** Not Started
 **Description:** Create database tables and models for business rules configuration. Replace hardcoded validation logic with database-driven rules.
 **Planned Tasks:**
@@ -98,10 +106,10 @@ _No decisions yet - Phase just started_
 
 ## Next Steps
 
-- Begin Session 1.5.1: Business Rules Database Infrastructure
-- Review Phase 1.4 completion to ensure all dependencies satisfied
-- Confirm database structure supports required relationships (blockInstance, annotationInstance)
-- Review annotationShape and annotationInstance structure for validation message integration
+- Begin Session 1.5.2: Business Rules Admin Tab
+- Create BusinessRulesTab.vue component following BusinessControlsTab pattern
+- Build UI for managing business rules per block instance
+- Connect to /api/v1/internal/business-rules endpoints
 
 ---
 
