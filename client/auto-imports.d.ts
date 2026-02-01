@@ -97,6 +97,8 @@ declare global {
   const getAnnotationOrderIndexEndpoint: typeof import('./src/utils/api').getAnnotationOrderIndexEndpoint
   const getAnnotationShapeByIdEndpoint: typeof import('./src/utils/api').getAnnotationShapeByIdEndpoint
   const getAnnotationShapeEndpoint: typeof import('./src/utils/api').getAnnotationShapeEndpoint
+  const getAnnotationTypeByIdEndpoint: typeof import('./src/utils/api').getAnnotationTypeByIdEndpoint
+  const getAnnotationTypeEndpoint: typeof import('./src/utils/api').getAnnotationTypeEndpoint
   const getAnnotationsForUserTypeBlock: typeof import('./src/utils/annotationUtils').getAnnotationsForUserTypeBlock
   const getApiErrorMessage: typeof import('./src/composables/useApiErrorMessage').getApiErrorMessage
   const getAppointmentByIdEndpoint: typeof import('./src/utils/api').getAppointmentByIdEndpoint
@@ -294,6 +296,7 @@ declare global {
   const useAnimate: typeof import('@vueuse/core').useAnimate
   const useAnnotationAssignments: typeof import('./src/composables/useAnnotationAssignments').useAnnotationAssignments
   const useAnnotationShapes: typeof import('./src/composables/useAnnotationShapes').useAnnotationShapes
+  const useAnnotationTypes: typeof import('./src/composables/useAnnotationType').useAnnotationTypes
   const useAnnotations: typeof import('./src/composables/useAnnotations').useAnnotations
   const useAppointment: typeof import('./src/composables/useAppointment').useAppointment
   const useAppointments: typeof import('./src/composables/useBusiness').useAppointments
@@ -335,6 +338,7 @@ declare global {
   const useCountdown: typeof import('@vueuse/core').useCountdown
   const useCounter: typeof import('@vueuse/core').useCounter
   const useCreateAnnotationShape: typeof import('./src/composables/useAnnotationShapes').useCreateAnnotationShape
+  const useCreateAnnotationType: typeof import('./src/composables/useAnnotationType').useCreateAnnotationType
   const useCreateEventInstance: typeof import('./src/composables/useEventInstances').useCreateEventInstance
   const useCreateEventShape: typeof import('./src/composables/useEventShapes').useCreateEventShape
   const useCssModule: typeof import('vue').useCssModule
@@ -348,6 +352,7 @@ declare global {
   const useDebounceFn: typeof import('@vueuse/core').useDebounceFn
   const useDebouncedRefHistory: typeof import('@vueuse/core').useDebouncedRefHistory
   const useDeleteAnnotationShape: typeof import('./src/composables/useAnnotationShapes').useDeleteAnnotationShape
+  const useDeleteAnnotationType: typeof import('./src/composables/useAnnotationType').useDeleteAnnotationType
   const useDeleteEventInstance: typeof import('./src/composables/useEventInstances').useDeleteEventInstance
   const useDeleteEventShape: typeof import('./src/composables/useEventShapes').useDeleteEventShape
   const useDeviceMotion: typeof import('@vueuse/core').useDeviceMotion
@@ -488,6 +493,7 @@ declare global {
   const useToggle: typeof import('@vueuse/core').useToggle
   const useTransition: typeof import('@vueuse/core').useTransition
   const useUpdateAnnotationShape: typeof import('./src/composables/useAnnotationShapes').useUpdateAnnotationShape
+  const useUpdateAnnotationType: typeof import('./src/composables/useAnnotationType').useUpdateAnnotationType
   const useUpdateEventInstance: typeof import('./src/composables/useEventInstances').useUpdateEventInstance
   const useUpdateEventShape: typeof import('./src/composables/useEventShapes').useUpdateEventShape
   const useUrlSearchParams: typeof import('@vueuse/core').useUrlSearchParams

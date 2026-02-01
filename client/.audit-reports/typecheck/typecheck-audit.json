@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T00:29:31.705Z",
+  "generatedAt": "2026-02-01T00:52:03.287Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -14,7 +14,7 @@
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 52,
+    "totalRequiresReview": 92,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -23,32 +23,162 @@
   },
   "errors": [
     {
+      "file": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+      "line": 5,
+      "col": 41,
+      "code": "TS2307",
+      "message": "Cannot find module 'vuetify/lib/components/VField/VField' or its corresponding type declarations.",
+      "raw": "src/@core/components/app-form-elements/AppDateTimePicker.vue(5,41): error TS2307: Cannot find module 'vuetify/lib/components/VField/VField' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue"
+    },
+    {
+      "file": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+      "line": 7,
+      "col": 41,
+      "code": "TS2307",
+      "message": "Cannot find module 'vuetify/lib/components/VInput/VInput' or its corresponding type declarations.",
+      "raw": "src/@core/components/app-form-elements/AppDateTimePicker.vue(7,41): error TS2307: Cannot find module 'vuetify/lib/components/VInput/VInput' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue"
+    },
+    {
+      "file": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+      "line": 9,
+      "col": 34,
+      "code": "TS2307",
+      "message": "Cannot find module 'vuetify/lib/util/helpers' or its corresponding type declarations.",
+      "raw": "src/@core/components/app-form-elements/AppDateTimePicker.vue(9,34): error TS2307: Cannot find module 'vuetify/lib/util/helpers' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue"
+    },
+    {
+      "file": "src/@core/components/cards/AppCardCode.vue",
+      "line": 2,
+      "col": 41,
+      "code": "TS2307",
+      "message": "Cannot find module 'shiki' or its corresponding type declarations.",
+      "raw": "src/@core/components/cards/AppCardCode.vue(2,41): error TS2307: Cannot find module 'shiki' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/cards/AppCardCode.vue"
+    },
+    {
+      "file": "src/@core/components/TheCustomizer.vue",
+      "line": 9,
+      "col": 29,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/customizer-icons/horizontal-light.svg' or its corresponding type declarations.",
+      "raw": "src/@core/components/TheCustomizer.vue(9,29): error TS2307: Cannot find module '@images/customizer-icons/horizontal-light.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/TheCustomizer.vue"
+    },
+    {
+      "file": "src/@core/components/TheCustomizer.vue",
+      "line": 14,
+      "col": 24,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/customizer-icons/border-light.svg' or its corresponding type declarations.",
+      "raw": "src/@core/components/TheCustomizer.vue(14,24): error TS2307: Cannot find module '@images/customizer-icons/border-light.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/TheCustomizer.vue"
+    },
+    {
+      "file": "src/@core/components/TheCustomizer.vue",
+      "line": 15,
+      "col": 23,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/customizer-icons/collapsed-light.svg' or its corresponding type declarations.",
+      "raw": "src/@core/components/TheCustomizer.vue(15,23): error TS2307: Cannot find module '@images/customizer-icons/collapsed-light.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/TheCustomizer.vue"
+    },
+    {
+      "file": "src/@core/components/TheCustomizer.vue",
+      "line": 16,
+      "col": 21,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/customizer-icons/compact-light.svg' or its corresponding type declarations.",
+      "raw": "src/@core/components/TheCustomizer.vue(16,21): error TS2307: Cannot find module '@images/customizer-icons/compact-light.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/TheCustomizer.vue"
+    },
+    {
+      "file": "src/@core/components/TheCustomizer.vue",
+      "line": 17,
+      "col": 25,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/customizer-icons/default-light.svg' or its corresponding type declarations.",
+      "raw": "src/@core/components/TheCustomizer.vue(17,25): error TS2307: Cannot find module '@images/customizer-icons/default-light.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/TheCustomizer.vue"
+    },
+    {
+      "file": "src/@core/components/TheCustomizer.vue",
+      "line": 18,
+      "col": 20,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/customizer-icons/ltr-light.svg' or its corresponding type declarations.",
+      "raw": "src/@core/components/TheCustomizer.vue(18,20): error TS2307: Cannot find module '@images/customizer-icons/ltr-light.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/TheCustomizer.vue"
+    },
+    {
+      "file": "src/@core/components/TheCustomizer.vue",
+      "line": 19,
+      "col": 20,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/customizer-icons/rtl-light.svg' or its corresponding type declarations.",
+      "raw": "src/@core/components/TheCustomizer.vue(19,20): error TS2307: Cannot find module '@images/customizer-icons/rtl-light.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/TheCustomizer.vue"
+    },
+    {
+      "file": "src/@core/components/TheCustomizer.vue",
+      "line": 20,
+      "col": 21,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/customizer-icons/wide-light.svg' or its corresponding type declarations.",
+      "raw": "src/@core/components/TheCustomizer.vue(20,21): error TS2307: Cannot find module '@images/customizer-icons/wide-light.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/@core/components/TheCustomizer.vue"
+    },
+    {
+      "file": "src/@core/utils/plugins.ts",
+      "line": 5,
+      "col": 31,
+      "code": "TS2339",
+      "message": "Property 'glob' does not exist on type 'ImportMeta'.",
+      "raw": "src/@core/utils/plugins.ts(5,31): error TS2339: Property 'glob' does not exist on type 'ImportMeta'.",
+      "scope": "client",
+      "repoPath": "src/@core/utils/plugins.ts"
+    },
+    {
       "file": "src/components/admin/generic/collections/PartsCollection.vue",
-      "line": 87,
+      "line": 78,
       "col": 7,
       "code": "TS6133",
       "message": "'collectionModel' is declared but its value is never read.",
-      "raw": "src/components/admin/generic/collections/PartsCollection.vue(87,7): error TS6133: 'collectionModel' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/collections/PartsCollection.vue(78,7): error TS6133: 'collectionModel' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
     },
     {
       "file": "src/components/admin/generic/collections/RelationshipCollection.vue",
-      "line": 161,
+      "line": 150,
       "col": 56,
       "code": "TS6133",
       "message": "'optionsFieldKey' is declared but its value is never read.",
-      "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(161,56): error TS6133: 'optionsFieldKey' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(150,56): error TS6133: 'optionsFieldKey' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue"
     },
     {
       "file": "src/components/admin/generic/collections/RelationshipCollection.vue",
-      "line": 186,
+      "line": 171,
       "col": 17,
       "code": "TS6133",
       "message": "'parentEntityFromModel' is declared but its value is never read.",
-      "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(186,17): error TS6133: 'parentEntityFromModel' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(171,17): error TS6133: 'parentEntityFromModel' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue"
     },
@@ -74,11 +204,11 @@
     },
     {
       "file": "src/components/admin/generic/fields/SelectInputs.vue",
-      "line": 406,
+      "line": 363,
       "col": 3,
       "code": "TS6133",
       "message": "'validOptionIds' is declared but its value is never read.",
-      "raw": "src/components/admin/generic/fields/SelectInputs.vue(406,3): error TS6133: 'validOptionIds' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/fields/SelectInputs.vue(363,3): error TS6133: 'validOptionIds' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/components/admin/generic/fields/SelectInputs.vue"
     },
@@ -94,11 +224,11 @@
     },
     {
       "file": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-      "line": 217,
+      "line": 204,
       "col": 28,
       "code": "TS6133",
       "message": "'deleteFieldMetadata' is declared but its value is never read.",
-      "raw": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue(217,28): error TS6133: 'deleteFieldMetadata' is declared but its value is never read.",
+      "raw": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue(204,28): error TS6133: 'deleteFieldMetadata' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue"
     },
@@ -124,121 +254,101 @@
     },
     {
       "file": "src/components/booking/dev/DevPanelsContainer.vue",
-      "line": 484,
+      "line": 389,
       "col": 27,
       "code": "TS2304",
       "message": "Cannot find name 'allActiveServiceTypes'.",
-      "raw": "src/components/booking/dev/DevPanelsContainer.vue(484,27): error TS2304: Cannot find name 'allActiveServiceTypes'.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(389,27): error TS2304: Cannot find name 'allActiveServiceTypes'.",
       "scope": "client",
       "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
     },
     {
       "file": "src/components/booking/dev/DevPanelsContainer.vue",
-      "line": 484,
+      "line": 389,
       "col": 60,
       "code": "TS7006",
       "message": "Parameter 's' implicitly has an 'any' type.",
-      "raw": "src/components/booking/dev/DevPanelsContainer.vue(484,60): error TS7006: Parameter 's' implicitly has an 'any' type.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(389,60): error TS7006: Parameter 's' implicitly has an 'any' type.",
       "scope": "client",
       "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
     },
     {
       "file": "src/components/booking/dev/DevPanelsContainer.vue",
-      "line": 492,
+      "line": 395,
       "col": 9,
       "code": "TS6133",
       "message": "'getGlobalData' is declared but its value is never read.",
-      "raw": "src/components/booking/dev/DevPanelsContainer.vue(492,9): error TS6133: 'getGlobalData' is declared but its value is never read.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(395,9): error TS6133: 'getGlobalData' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
     },
     {
       "file": "src/components/booking/dev/DevPanelsContainer.vue",
-      "line": 765,
+      "line": 647,
       "col": 27,
       "code": "TS2339",
       "message": "Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-      "raw": "src/components/booking/dev/DevPanelsContainer.vue(765,27): error TS2339: Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
+      "raw": "src/components/booking/dev/DevPanelsContainer.vue(647,27): error TS2339: Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
       "scope": "client",
       "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
     },
     {
       "file": "src/components/booking/steps/AvailabilityStep.vue",
-      "line": 102,
+      "line": 83,
       "col": 9,
       "code": "TS6133",
       "message": "'selectedOptions' is declared but its value is never read.",
-      "raw": "src/components/booking/steps/AvailabilityStep.vue(102,9): error TS6133: 'selectedOptions' is declared but its value is never read.",
+      "raw": "src/components/booking/steps/AvailabilityStep.vue(83,9): error TS6133: 'selectedOptions' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/components/booking/steps/AvailabilityStep.vue"
     },
     {
-      "file": "src/components/booking/steps/ContactsStep.vue",
-      "line": 18,
-      "col": 27,
-      "code": "TS2307",
-      "message": "Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
-      "raw": "src/components/booking/steps/ContactsStep.vue(18,27): error TS2307: Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
-      "scope": "client",
-      "repoPath": "src/components/booking/steps/ContactsStep.vue"
-    },
-    {
-      "file": "src/components/booking/steps/ContactsStep.vue",
-      "line": 39,
-      "col": 5,
-      "code": "TS7006",
-      "message": "Parameter 'selected' implicitly has an 'any' type.",
-      "raw": "src/components/booking/steps/ContactsStep.vue(39,5): error TS7006: Parameter 'selected' implicitly has an 'any' type.",
-      "scope": "client",
-      "repoPath": "src/components/booking/steps/ContactsStep.vue"
-    },
-    {
       "file": "src/composables/admin/useMetadataEditorEntity.ts",
-      "line": 44,
+      "line": 32,
       "col": 3,
       "code": "TS6133",
       "message": "'entity' is declared but its value is never read.",
-      "raw": "src/composables/admin/useMetadataEditorEntity.ts(44,3): error TS6133: 'entity' is declared but its value is never read.",
+      "raw": "src/composables/admin/useMetadataEditorEntity.ts(32,3): error TS6133: 'entity' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/composables/admin/useMetadataEditorEntity.ts"
     },
     {
       "file": "src/composables/admin/useRelationshipCollection.ts",
-      "line": 109,
+      "line": 97,
       "col": 9,
       "code": "TS6133",
       "message": "'getGlobalEntityById' is declared but its value is never read.",
-      "raw": "src/composables/admin/useRelationshipCollection.ts(109,9): error TS6133: 'getGlobalEntityById' is declared but its value is never read.",
+      "raw": "src/composables/admin/useRelationshipCollection.ts(97,9): error TS6133: 'getGlobalEntityById' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/composables/admin/useRelationshipCollection.ts"
     },
     {
       "file": "src/composables/admin/useRelationshipCollection.ts",
-      "line": 122,
+      "line": 109,
       "col": 5,
       "code": "TS6133",
       "message": "'parentTypeEntity' is declared but its value is never read.",
-      "raw": "src/composables/admin/useRelationshipCollection.ts(122,5): error TS6133: 'parentTypeEntity' is declared but its value is never read.",
+      "raw": "src/composables/admin/useRelationshipCollection.ts(109,5): error TS6133: 'parentTypeEntity' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/composables/admin/useRelationshipCollection.ts"
     },
     {
       "file": "src/composables/admin/useRelationshipCollectionData.ts",
-      "line": 134,
+      "line": 122,
       "col": 9,
       "code": "TS6133",
       "message": "'parentEntity' is declared but its value is never read.",
-      "raw": "src/composables/admin/useRelationshipCollectionData.ts(134,9): error TS6133: 'parentEntity' is declared but its value is never read.",
+      "raw": "src/composables/admin/useRelationshipCollectionData.ts(122,9): error TS6133: 'parentEntity' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/composables/admin/useRelationshipCollectionData.ts"
     },
     {
       "file": "src/composables/booking/useDependentInstances.ts",
-      "line": 129,
+      "line": 106,
       "col": 15,
       "code": "TS2739",
       "message": "Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
-      "raw": "src/composables/booking/useDependentInstances.ts(129,15): error TS2739: Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
+      "raw": "src/composables/booking/useDependentInstances.ts(106,15): error TS2739: Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
       "scope": "client",
       "repoPath": "src/composables/booking/useDependentInstances.ts"
     },
@@ -264,13 +374,33 @@
     },
     {
       "file": "src/composables/entityCrud/usePrimitiveMutation.ts",
-      "line": 175,
+      "line": 154,
       "col": 22,
       "code": "TS6133",
       "message": "'variables' is declared but its value is never read.",
-      "raw": "src/composables/entityCrud/usePrimitiveMutation.ts(175,22): error TS6133: 'variables' is declared but its value is never read.",
+      "raw": "src/composables/entityCrud/usePrimitiveMutation.ts(154,22): error TS6133: 'variables' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/composables/entityCrud/usePrimitiveMutation.ts"
+    },
+    {
+      "file": "src/configs/availabilitySettings.ts",
+      "line": 313,
+      "col": 38,
+      "code": "TS2339",
+      "message": "Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.",
+      "raw": "src/configs/availabilitySettings.ts(313,38): error TS2339: Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.",
+      "scope": "client",
+      "repoPath": "src/configs/availabilitySettings.ts"
+    },
+    {
+      "file": "src/configs/availabilitySettings.ts",
+      "line": 314,
+      "col": 28,
+      "code": "TS2339",
+      "message": "Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.",
+      "raw": "src/configs/availabilitySettings.ts(314,28): error TS2339: Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.",
+      "scope": "client",
+      "repoPath": "src/configs/availabilitySettings.ts"
     },
     {
       "file": "src/configs/field/form/appliedForm/annotationInstanceFields.ts",
@@ -283,12 +413,232 @@
       "repoPath": "src/configs/field/form/appliedForm/annotationInstanceFields.ts"
     },
     {
+      "file": "src/layouts/components/NavBarNotifications.vue",
+      "line": 4,
+      "col": 21,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/avatars/avatar-3.png' or its corresponding type declarations.",
+      "raw": "src/layouts/components/NavBarNotifications.vue(4,21): error TS2307: Cannot find module '@images/avatars/avatar-3.png' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/layouts/components/NavBarNotifications.vue"
+    },
+    {
+      "file": "src/layouts/components/NavBarNotifications.vue",
+      "line": 5,
+      "col": 21,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/avatars/avatar-4.png' or its corresponding type declarations.",
+      "raw": "src/layouts/components/NavBarNotifications.vue(5,21): error TS2307: Cannot find module '@images/avatars/avatar-4.png' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/layouts/components/NavBarNotifications.vue"
+    },
+    {
+      "file": "src/layouts/components/NavBarNotifications.vue",
+      "line": 6,
+      "col": 21,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/avatars/avatar-5.png' or its corresponding type declarations.",
+      "raw": "src/layouts/components/NavBarNotifications.vue(6,21): error TS2307: Cannot find module '@images/avatars/avatar-5.png' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/layouts/components/NavBarNotifications.vue"
+    },
+    {
+      "file": "src/layouts/components/NavBarNotifications.vue",
+      "line": 7,
+      "col": 20,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/cards/paypal-rounded.png' or its corresponding type declarations.",
+      "raw": "src/layouts/components/NavBarNotifications.vue(7,20): error TS2307: Cannot find module '@images/cards/paypal-rounded.png' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/layouts/components/NavBarNotifications.vue"
+    },
+    {
+      "file": "src/layouts/components/NavSearchBar.vue",
+      "line": 3,
+      "col": 22,
+      "code": "TS2307",
+      "message": "Cannot find module 'shepherd.js' or its corresponding type declarations.",
+      "raw": "src/layouts/components/NavSearchBar.vue(3,22): error TS2307: Cannot find module 'shepherd.js' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/layouts/components/NavSearchBar.vue"
+    },
+    {
+      "file": "src/plugins/1.router/additional-routes.ts",
+      "line": 9,
+      "col": 15,
+      "code": "TS2322",
+      "message": "Type '(to: RouteLocationNormalized) => { name: string; query?: undefined; } | { name: string; query: LocationQuery; }' is not assignable to type 'RouteRecordRedirectOption | undefined'.",
+      "raw": "src/plugins/1.router/additional-routes.ts(9,15): error TS2322: Type '(to: RouteLocationNormalized) => { name: string; query?: undefined; } | { name: string; query: LocationQuery; }' is not assignable to type 'RouteRecordRedirectOption | undefined'.",
+      "scope": "client",
+      "repoPath": "src/plugins/1.router/additional-routes.ts"
+    },
+    {
+      "file": "src/plugins/1.router/guards.ts",
+      "line": 1,
+      "col": 50,
+      "code": "TS2307",
+      "message": "Cannot find module 'unplugin-vue-router' or its corresponding type declarations.",
+      "raw": "src/plugins/1.router/guards.ts(1,50): error TS2307: Cannot find module 'unplugin-vue-router' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/plugins/1.router/guards.ts"
+    },
+    {
+      "file": "src/plugins/5.vuetify/icons.ts",
+      "line": 3,
+      "col": 29,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/svg/checkbox-checked.svg' or its corresponding type declarations.",
+      "raw": "src/plugins/5.vuetify/icons.ts(3,29): error TS2307: Cannot find module '@images/svg/checkbox-checked.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/plugins/5.vuetify/icons.ts"
+    },
+    {
+      "file": "src/plugins/5.vuetify/icons.ts",
+      "line": 4,
+      "col": 35,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/svg/checkbox-indeterminate.svg' or its corresponding type declarations.",
+      "raw": "src/plugins/5.vuetify/icons.ts(4,35): error TS2307: Cannot find module '@images/svg/checkbox-indeterminate.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/plugins/5.vuetify/icons.ts"
+    },
+    {
+      "file": "src/plugins/5.vuetify/icons.ts",
+      "line": 5,
+      "col": 31,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/svg/checkbox-unchecked.svg' or its corresponding type declarations.",
+      "raw": "src/plugins/5.vuetify/icons.ts(5,31): error TS2307: Cannot find module '@images/svg/checkbox-unchecked.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/plugins/5.vuetify/icons.ts"
+    },
+    {
+      "file": "src/plugins/5.vuetify/icons.ts",
+      "line": 6,
+      "col": 26,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/svg/radio-checked.svg' or its corresponding type declarations.",
+      "raw": "src/plugins/5.vuetify/icons.ts(6,26): error TS2307: Cannot find module '@images/svg/radio-checked.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/plugins/5.vuetify/icons.ts"
+    },
+    {
+      "file": "src/plugins/5.vuetify/icons.ts",
+      "line": 7,
+      "col": 28,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/svg/radio-unchecked.svg' or its corresponding type declarations.",
+      "raw": "src/plugins/5.vuetify/icons.ts(7,28): error TS2307: Cannot find module '@images/svg/radio-unchecked.svg' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "src/plugins/5.vuetify/icons.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 78,
+      "col": 3,
+      "code": "TS2411",
+      "message": "Property 'toPlainObject' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => GlobalEntity<GE>' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(78,3): error TS2411: Property 'toPlainObject' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => GlobalEntity<GE>' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 113,
+      "col": 3,
+      "code": "TS2411",
+      "message": "Property 'setOrderIndex' of type '(index: number) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(113,3): error TS2411: Property 'setOrderIndex' of type '(index: number) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 134,
+      "col": 3,
+      "code": "TS2411",
+      "message": "Property 'getField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(134,3): error TS2411: Property 'getField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 140,
+      "col": 3,
+      "code": "TS2411",
+      "message": "Property 'setField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(140,3): error TS2411: Property 'setField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 145,
+      "col": 3,
+      "code": "TS2411",
+      "message": "Property 'getValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(145,3): error TS2411: Property 'getValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 152,
+      "col": 3,
+      "code": "TS2411",
+      "message": "Property 'setValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(152,3): error TS2411: Property 'setValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 163,
+      "col": 11,
+      "code": "TS2411",
+      "message": "Property 'getDefaultValue' of type '<FieldKey extends GlobalFieldKey<GE>>(_fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(163,11): error TS2411: Property 'getDefaultValue' of type '<FieldKey extends GlobalFieldKey<GE>>(_fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 167,
+      "col": 3,
+      "code": "TS2411",
+      "message": "Property 'hasField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => boolean' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(167,3): error TS2411: Property 'hasField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => boolean' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 180,
+      "col": 3,
+      "code": "TS2411",
+      "message": "Property 'getFieldNames' of type '(formFieldConfig?: Record<string, ValidAdminValue> | undefined) => GlobalFieldKey<GE>[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(180,3): error TS2411: Property 'getFieldNames' of type '(formFieldConfig?: Record<string, ValidAdminValue> | undefined) => GlobalFieldKey<GE>[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
+      "file": "src/types/admin/AdminEntity.ts",
+      "line": 196,
+      "col": 3,
+      "code": "TS2411",
+      "message": "Property 'getRelationshipNames' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => string[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "raw": "src/types/admin/AdminEntity.ts(196,3): error TS2411: Property 'getRelationshipNames' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => string[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+      "scope": "client",
+      "repoPath": "src/types/admin/AdminEntity.ts"
+    },
+    {
       "file": "src/utils/admin/buildMetadataEntry.ts",
-      "line": 39,
+      "line": 24,
       "col": 47,
       "code": "TS6133",
       "message": "'isRelationship' is declared but its value is never read.",
-      "raw": "src/utils/admin/buildMetadataEntry.ts(39,47): error TS6133: 'isRelationship' is declared but its value is never read.",
+      "raw": "src/utils/admin/buildMetadataEntry.ts(24,47): error TS6133: 'isRelationship' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/admin/buildMetadataEntry.ts"
     },
@@ -304,31 +654,31 @@
     },
     {
       "file": "src/utils/annotationUtils.ts",
-      "line": 75,
+      "line": 53,
       "col": 10,
       "code": "TS6133",
       "message": "'formatAnnotationForDisplay' is declared but its value is never read.",
-      "raw": "src/utils/annotationUtils.ts(75,10): error TS6133: 'formatAnnotationForDisplay' is declared but its value is never read.",
+      "raw": "src/utils/annotationUtils.ts(53,10): error TS6133: 'formatAnnotationForDisplay' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/annotationUtils.ts"
     },
     {
       "file": "src/utils/annotationUtils.ts",
-      "line": 92,
+      "line": 70,
       "col": 10,
       "code": "TS6133",
       "message": "'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
-      "raw": "src/utils/annotationUtils.ts(92,10): error TS6133: 'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
+      "raw": "src/utils/annotationUtils.ts(70,10): error TS6133: 'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/annotationUtils.ts"
     },
     {
       "file": "src/utils/annotationUtils.ts",
-      "line": 134,
+      "line": 110,
       "col": 10,
       "code": "TS6133",
       "message": "'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
-      "raw": "src/utils/annotationUtils.ts(134,10): error TS6133: 'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
+      "raw": "src/utils/annotationUtils.ts(110,10): error TS6133: 'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/annotationUtils.ts"
     },
@@ -344,41 +694,41 @@
     },
     {
       "file": "src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 177,
+      "line": 162,
       "col": 3,
       "code": "TS6133",
       "message": "'validPartsRelationships' is declared but its value is never read.",
-      "raw": "src/utils/booking/appointmentSlotBuilder.ts(177,3): error TS6133: 'validPartsRelationships' is declared but its value is never read.",
+      "raw": "src/utils/booking/appointmentSlotBuilder.ts(162,3): error TS6133: 'validPartsRelationships' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/booking/appointmentSlotBuilder.ts"
     },
     {
       "file": "src/utils/booking/serviceDescriptions.ts",
-      "line": 9,
+      "line": 3,
       "col": 47,
       "code": "TS6133",
       "message": "'service' is declared but its value is never read.",
-      "raw": "src/utils/booking/serviceDescriptions.ts(9,47): error TS6133: 'service' is declared but its value is never read.",
+      "raw": "src/utils/booking/serviceDescriptions.ts(3,47): error TS6133: 'service' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/booking/serviceDescriptions.ts"
     },
     {
       "file": "src/utils/booking/serviceDescriptions.ts",
-      "line": 9,
+      "line": 3,
       "col": 78,
       "code": "TS6133",
       "message": "'userTypeBlockName' is declared but its value is never read.",
-      "raw": "src/utils/booking/serviceDescriptions.ts(9,78): error TS6133: 'userTypeBlockName' is declared but its value is never read.",
+      "raw": "src/utils/booking/serviceDescriptions.ts(3,78): error TS6133: 'userTypeBlockName' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/booking/serviceDescriptions.ts"
     },
     {
       "file": "src/utils/booking/timeSlotMatching.ts",
-      "line": 259,
+      "line": 229,
       "col": 10,
       "code": "TS6133",
       "message": "'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
-      "raw": "src/utils/booking/timeSlotMatching.ts(259,10): error TS6133: 'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
+      "raw": "src/utils/booking/timeSlotMatching.ts(229,10): error TS6133: 'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/booking/timeSlotMatching.ts"
     },
@@ -393,6 +743,16 @@
       "repoPath": "src/utils/differentialScheduling.ts"
     },
     {
+      "file": "src/utils/env/devMode.ts",
+      "line": 24,
+      "col": 26,
+      "code": "TS2339",
+      "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+      "raw": "src/utils/env/devMode.ts(24,26): error TS2339: Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+      "scope": "client",
+      "repoPath": "src/utils/env/devMode.ts"
+    },
+    {
       "file": "src/utils/eventAttendeeUtils.ts",
       "line": 13,
       "col": 15,
@@ -401,6 +761,36 @@
       "raw": "src/utils/eventAttendeeUtils.ts(13,15): error TS6196: 'GlobalEntity' is declared but never used.",
       "scope": "client",
       "repoPath": "src/utils/eventAttendeeUtils.ts"
+    },
+    {
+      "file": "src/utils/logger.ts",
+      "line": 69,
+      "col": 24,
+      "code": "TS2339",
+      "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+      "raw": "src/utils/logger.ts(69,24): error TS2339: Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+      "scope": "client",
+      "repoPath": "src/utils/logger.ts"
+    },
+    {
+      "file": "src/utils/logger.ts",
+      "line": 82,
+      "col": 24,
+      "code": "TS2339",
+      "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+      "raw": "src/utils/logger.ts(82,24): error TS2339: Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+      "scope": "client",
+      "repoPath": "src/utils/logger.ts"
+    },
+    {
+      "file": "src/utils/logger.ts",
+      "line": 92,
+      "col": 26,
+      "code": "TS2339",
+      "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+      "raw": "src/utils/logger.ts(92,26): error TS2339: Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+      "scope": "client",
+      "repoPath": "src/utils/logger.ts"
     },
     {
       "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
@@ -414,61 +804,61 @@
     },
     {
       "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 33,
+      "line": 32,
       "col": 6,
       "code": "TS6196",
       "message": "'AnnotationAssignmentPatch' is declared but never used.",
-      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(33,6): error TS6196: 'AnnotationAssignmentPatch' is declared but never used.",
+      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(32,6): error TS6196: 'AnnotationAssignmentPatch' is declared but never used.",
       "scope": "client",
       "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
     },
     {
       "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 46,
+      "line": 45,
       "col": 10,
       "code": "TS6133",
       "message": "'sortByOrderIndex' is declared but its value is never read.",
-      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(46,10): error TS6133: 'sortByOrderIndex' is declared but its value is never read.",
+      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(45,10): error TS6133: 'sortByOrderIndex' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
     },
     {
       "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 50,
+      "line": 49,
       "col": 10,
       "code": "TS6133",
       "message": "'clearOtherDefaults' is declared but its value is never read.",
-      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(50,10): error TS6133: 'clearOtherDefaults' is declared but its value is never read.",
+      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(49,10): error TS6133: 'clearOtherDefaults' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
     },
     {
       "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 72,
+      "line": 71,
       "col": 10,
       "code": "TS6133",
       "message": "'deriveBlockInstanceDescriptionFromAnnotations' is declared but its value is never read.",
-      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(72,10): error TS6133: 'deriveBlockInstanceDescriptionFromAnnotations' is declared but its value is never read.",
+      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(71,10): error TS6133: 'deriveBlockInstanceDescriptionFromAnnotations' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
     },
     {
       "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 80,
+      "line": 79,
       "col": 10,
       "code": "TS6133",
       "message": "'toAnnotationWithMetadata' is declared but its value is never read.",
-      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(80,10): error TS6133: 'toAnnotationWithMetadata' is declared but its value is never read.",
+      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(79,10): error TS6133: 'toAnnotationWithMetadata' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
     },
     {
       "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-      "line": 94,
+      "line": 92,
       "col": 10,
       "code": "TS6133",
       "message": "'updateBlockInstanceEntityInGlobalData' is declared but its value is never read.",
-      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(94,10): error TS6133: 'updateBlockInstanceEntityInGlobalData' is declared but its value is never read.",
+      "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(92,10): error TS6133: 'updateBlockInstanceEntityInGlobalData' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
     },
@@ -494,21 +884,21 @@
     },
     {
       "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 124,
+      "line": 106,
       "col": 9,
       "code": "TS6133",
       "message": "'partShapeId' is declared but its value is never read.",
-      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(124,9): error TS6133: 'partShapeId' is declared but its value is never read.",
+      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(106,9): error TS6133: 'partShapeId' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
     },
     {
       "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 125,
+      "line": 107,
       "col": 9,
       "code": "TS6133",
       "message": "'blockShapeId' is declared but its value is never read.",
-      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(125,9): error TS6133: 'blockShapeId' is declared but its value is never read.",
+      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(107,9): error TS6133: 'blockShapeId' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
     },
@@ -524,11 +914,11 @@
     },
     {
       "file": "src/views/admin/tabs/InstancesTab.vue",
-      "line": 311,
+      "line": 276,
       "col": 9,
       "code": "TS2353",
       "message": "Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
-      "raw": "src/views/admin/tabs/InstancesTab.vue(311,9): error TS2353: Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
+      "raw": "src/views/admin/tabs/InstancesTab.vue(276,9): error TS2353: Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
       "scope": "client",
       "repoPath": "src/views/admin/tabs/InstancesTab.vue"
     },
@@ -541,10 +931,121 @@
       "raw": "src/views/admin/tabs/ShapesTab.vue(24,1): error TS6133: 'EventShape' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/views/admin/tabs/ShapesTab.vue"
+    },
+    {
+      "file": "themeConfig.ts",
+      "line": 7,
+      "col": 18,
+      "code": "TS2307",
+      "message": "Cannot find module '@images/logo.svg?raw' or its corresponding type declarations.",
+      "raw": "themeConfig.ts(7,18): error TS2307: Cannot find module '@images/logo.svg?raw' or its corresponding type declarations.",
+      "scope": "client",
+      "repoPath": "themeConfig.ts"
     }
   ],
   "allowedErrors": [],
   "pools": [
+    {
+      "poolId": "TS2339-ts2339-prop-dev-importmetaenv",
+      "groupKey": "TS2339::prop:DEV@ImportMetaEnv",
+      "errorCount": 4,
+      "fileCount": 2,
+      "severityScore": 40,
+      "blastRadiusScore": 4,
+      "repetitionScore": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 48,
+      "sample": [
+        {
+          "repoPath": "src/utils/env/devMode.ts",
+          "line": 24,
+          "col": 26,
+          "code": "TS2339",
+          "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'."
+        },
+        {
+          "repoPath": "src/utils/logger.ts",
+          "line": 69,
+          "col": 24,
+          "code": "TS2339",
+          "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'."
+        },
+        {
+          "repoPath": "src/utils/logger.ts",
+          "line": 82,
+          "col": 24,
+          "code": "TS2339",
+          "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'."
+        }
+      ],
+      "priority": "P0"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-avatars-avatar-0-png-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/avatars/avatar-0.png' or its corresponding type declarations.",
+      "errorCount": 3,
+      "fileCount": 1,
+      "severityScore": 30,
+      "blastRadiusScore": 2,
+      "repetitionScore": 3,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 35,
+      "sample": [
+        {
+          "repoPath": "src/layouts/components/NavBarNotifications.vue",
+          "line": 4,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/avatars/avatar-3.png' or its corresponding type declarations."
+        },
+        {
+          "repoPath": "src/layouts/components/NavBarNotifications.vue",
+          "line": 5,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/avatars/avatar-4.png' or its corresponding type declarations."
+        },
+        {
+          "repoPath": "src/layouts/components/NavBarNotifications.vue",
+          "line": 6,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/avatars/avatar-5.png' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P0"
+    },
+    {
+      "poolId": "TS2339-ts2339-prop-vite-availability-cache-ttl-importmetaenv",
+      "groupKey": "TS2339::prop:VITE_AVAILABILITY_CACHE_TTL@ImportMetaEnv",
+      "errorCount": 2,
+      "fileCount": 1,
+      "severityScore": 20,
+      "blastRadiusScore": 2,
+      "repetitionScore": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 24,
+      "sample": [
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "line": 313,
+          "col": 38,
+          "code": "TS2339",
+          "message": "Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'."
+        },
+        {
+          "repoPath": "src/configs/availabilitySettings.ts",
+          "line": 314,
+          "col": 28,
+          "code": "TS2339",
+          "message": "Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'."
+        }
+      ],
+      "priority": "P0"
+    },
     {
       "poolId": "TS2304-ts2304-cannot-find-name-allactiveservicetypes",
       "groupKey": "TS2304::Cannot find name 'allActiveServiceTypes'.",
@@ -559,7 +1060,7 @@
       "sample": [
         {
           "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 484,
+          "line": 389,
           "col": 27,
           "code": "TS2304",
           "message": "Cannot find name 'allActiveServiceTypes'."
@@ -568,8 +1069,8 @@
       "priority": "P1"
     },
     {
-      "poolId": "TS2307-ts2307-cannot-find-module-composables-booking-usewizard-or-its-corresponding-type-declarations",
-      "groupKey": "TS2307::Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
+      "poolId": "TS2307-ts2307-cannot-find-module-images-cards-paypal-rounded-png-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/cards/paypal-rounded.png' or its corresponding type declarations.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 10,
@@ -580,11 +1081,495 @@
       "totalScore": 13,
       "sample": [
         {
-          "repoPath": "src/components/booking/steps/ContactsStep.vue",
-          "line": 18,
-          "col": 27,
+          "repoPath": "src/layouts/components/NavBarNotifications.vue",
+          "line": 7,
+          "col": 20,
           "code": "TS2307",
-          "message": "Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations."
+          "message": "Cannot find module '@images/cards/paypal-rounded.png' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-customizer-icons-border-light-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/customizer-icons/border-light.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/TheCustomizer.vue",
+          "line": 14,
+          "col": 24,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/border-light.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-customizer-icons-collapsed-light-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/customizer-icons/collapsed-light.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/TheCustomizer.vue",
+          "line": 15,
+          "col": 23,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/collapsed-light.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-customizer-icons-compact-light-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/customizer-icons/compact-light.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/TheCustomizer.vue",
+          "line": 16,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/compact-light.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-customizer-icons-default-light-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/customizer-icons/default-light.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/TheCustomizer.vue",
+          "line": 17,
+          "col": 25,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/default-light.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-customizer-icons-horizontal-light-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/customizer-icons/horizontal-light.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/TheCustomizer.vue",
+          "line": 9,
+          "col": 29,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/horizontal-light.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-customizer-icons-ltr-light-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/customizer-icons/ltr-light.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/TheCustomizer.vue",
+          "line": 18,
+          "col": 20,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/ltr-light.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-customizer-icons-rtl-light-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/customizer-icons/rtl-light.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/TheCustomizer.vue",
+          "line": 19,
+          "col": 20,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/rtl-light.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-customizer-icons-wide-light-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/customizer-icons/wide-light.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/TheCustomizer.vue",
+          "line": 20,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/wide-light.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-logo-svg-raw-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/logo.svg?raw' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "themeConfig.ts",
+          "line": 7,
+          "col": 18,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/logo.svg?raw' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-svg-checkbox-checked-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/svg/checkbox-checked.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/plugins/5.vuetify/icons.ts",
+          "line": 3,
+          "col": 29,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/checkbox-checked.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-svg-checkbox-indeterminate-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/svg/checkbox-indeterminate.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/plugins/5.vuetify/icons.ts",
+          "line": 4,
+          "col": 35,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/checkbox-indeterminate.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-svg-checkbox-unchecked-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/svg/checkbox-unchecked.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/plugins/5.vuetify/icons.ts",
+          "line": 5,
+          "col": 31,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/checkbox-unchecked.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-svg-radio-checked-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/svg/radio-checked.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/plugins/5.vuetify/icons.ts",
+          "line": 6,
+          "col": 26,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/radio-checked.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-images-svg-radio-unchecked-svg-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module '@images/svg/radio-unchecked.svg' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/plugins/5.vuetify/icons.ts",
+          "line": 7,
+          "col": 28,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/radio-unchecked.svg' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-shepherd-js-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module 'shepherd.js' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/layouts/components/NavSearchBar.vue",
+          "line": 3,
+          "col": 22,
+          "code": "TS2307",
+          "message": "Cannot find module 'shepherd.js' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-shiki-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module 'shiki' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/cards/AppCardCode.vue",
+          "line": 2,
+          "col": 41,
+          "code": "TS2307",
+          "message": "Cannot find module 'shiki' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-unplugin-vue-router-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module 'unplugin-vue-router' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/plugins/1.router/guards.ts",
+          "line": 1,
+          "col": 50,
+          "code": "TS2307",
+          "message": "Cannot find module 'unplugin-vue-router' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-vuetify-lib-components-vfield-vfield-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module 'vuetify/lib/components/VField/VField' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+          "line": 5,
+          "col": 41,
+          "code": "TS2307",
+          "message": "Cannot find module 'vuetify/lib/components/VField/VField' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-vuetify-lib-components-vinput-vinput-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module 'vuetify/lib/components/VInput/VInput' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+          "line": 7,
+          "col": 41,
+          "code": "TS2307",
+          "message": "Cannot find module 'vuetify/lib/components/VInput/VInput' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2307-ts2307-cannot-find-module-vuetify-lib-util-helpers-or-its-corresponding-type-declarations",
+      "groupKey": "TS2307::Cannot find module 'vuetify/lib/util/helpers' or its corresponding type declarations.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+          "line": 9,
+          "col": 34,
+          "code": "TS2307",
+          "message": "Cannot find module 'vuetify/lib/util/helpers' or its corresponding type declarations."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2322-ts2322-assign-routerecordredirectoption-undefined",
+      "groupKey": "TS2322::assign:(...) => {...} | {...}=>RouteRecordRedirectOption | undefined",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/plugins/1.router/additional-routes.ts",
+          "line": 9,
+          "col": 15,
+          "code": "TS2322",
+          "message": "Type '(to: RouteLocationNormalized) => { name: string; query?: undefined; } | { name: string; query: LocationQuery; }' is not assignable to type 'RouteRecordRedirectOption | undefined'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2339-ts2339-prop-glob-importmeta",
+      "groupKey": "TS2339::prop:glob@ImportMeta",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/@core/utils/plugins.ts",
+          "line": 5,
+          "col": 31,
+          "code": "TS2339",
+          "message": "Property 'glob' does not exist on type 'ImportMeta'."
         }
       ],
       "priority": "P1"
@@ -603,7 +1588,7 @@
       "sample": [
         {
           "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 765,
+          "line": 647,
           "col": 27,
           "code": "TS2339",
           "message": "Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'."
@@ -625,10 +1610,230 @@
       "sample": [
         {
           "repoPath": "src/views/admin/tabs/InstancesTab.vue",
-          "line": 311,
+          "line": 276,
           "col": 9,
           "code": "TS2353",
           "message": "Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-getdefaultvalue-of-type-fieldkey-extends-globalfieldkey-ge-fieldkey-fieldkey-validadminvalue-is-not-assi",
+      "groupKey": "TS2411::Property 'getDefaultValue' of type '<FieldKey extends GlobalFieldKey<GE>>(_fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 163,
+          "col": 11,
+          "code": "TS2411",
+          "message": "Property 'getDefaultValue' of type '<FieldKey extends GlobalFieldKey<GE>>(_fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-getfield-of-type-fieldkey-extends-globalfieldkey-ge-fieldkey-fieldkey-validadminvalue-is-not-assignable-",
+      "groupKey": "TS2411::Property 'getField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 134,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'getField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-getfieldnames-of-type-formfieldconfig-record-string-validadminvalue-undefined-globalfieldkey-ge-is-not-a",
+      "groupKey": "TS2411::Property 'getFieldNames' of type '(formFieldConfig?: Record<string, ValidAdminValue> | undefined) => GlobalFieldKey<GE>[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 180,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'getFieldNames' of type '(formFieldConfig?: Record<string, ValidAdminValue> | undefined) => GlobalFieldKey<GE>[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-getrelationshipnames-of-type-formfieldconfig-record-string-unknown-formfieldconfigmap-ge-undefined-strin",
+      "groupKey": "TS2411::Property 'getRelationshipNames' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => string[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 196,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'getRelationshipNames' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => string[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-getvalidadminvalue-of-type-fieldkey-extends-globalfieldkey-ge-fieldkey-fieldkey-validadminvalue-is-not-a",
+      "groupKey": "TS2411::Property 'getValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 145,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'getValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-hasfield-of-type-fieldkey-extends-globalfieldkey-ge-fieldkey-fieldkey-boolean-is-not-assignable-to-strin",
+      "groupKey": "TS2411::Property 'hasField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => boolean' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 167,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'hasField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => boolean' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-setfield-of-type-fieldkey-extends-globalfieldkey-ge-fieldkey-fieldkey-value-validadminvalue-void-is-not-",
+      "groupKey": "TS2411::Property 'setField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 140,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'setField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-setorderindex-of-type-index-number-void-is-not-assignable-to-string-index-type-void-validadminvalue-prim",
+      "groupKey": "TS2411::Property 'setOrderIndex' of type '(index: number) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 113,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'setOrderIndex' of type '(index: number) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-setvalidadminvalue-of-type-fieldkey-extends-globalfieldkey-ge-fieldkey-fieldkey-value-validadminvalue-vo",
+      "groupKey": "TS2411::Property 'setValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 152,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'setValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2411-ts2411-property-toplainobject-of-type-formfieldconfig-record-string-unknown-formfieldconfigmap-ge-undefined-globalentity",
+      "groupKey": "TS2411::Property 'toPlainObject' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => GlobalEntity<GE>' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 0 more ... | GlobalFieldKey<...>[]'.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/types/admin/AdminEntity.ts",
+          "line": 78,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'toPlainObject' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => GlobalEntity<GE>' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'."
         }
       ],
       "priority": "P1"
@@ -647,7 +1852,7 @@
       "sample": [
         {
           "repoPath": "src/composables/booking/useDependentInstances.ts",
-          "line": 129,
+          "line": 106,
           "col": 15,
           "code": "TS2739",
           "message": "Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent"
@@ -698,32 +1903,10 @@
       "sample": [
         {
           "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 484,
+          "line": 389,
           "col": 60,
           "code": "TS7006",
           "message": "Parameter 's' implicitly has an 'any' type."
-        }
-      ],
-      "priority": "P1"
-    },
-    {
-      "poolId": "TS7006-ts7006-parameter-selected-implicitly-has-an-any-type",
-      "groupKey": "TS7006::Parameter 'selected' implicitly has an 'any' type.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 7,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 10,
-      "sample": [
-        {
-          "repoPath": "src/components/booking/steps/ContactsStep.vue",
-          "line": 39,
-          "col": 5,
-          "code": "TS7006",
-          "message": "Parameter 'selected' implicitly has an 'any' type."
         }
       ],
       "priority": "P1"
@@ -742,7 +1925,7 @@
       "sample": [
         {
           "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 125,
+          "line": 107,
           "col": 9,
           "code": "TS6133",
           "message": "'blockShapeId' is declared but its value is never read."
@@ -786,7 +1969,7 @@
       "sample": [
         {
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 50,
+          "line": 49,
           "col": 10,
           "code": "TS6133",
           "message": "'clearOtherDefaults' is declared but its value is never read."
@@ -808,7 +1991,7 @@
       "sample": [
         {
           "repoPath": "src/components/admin/generic/collections/PartsCollection.vue",
-          "line": 87,
+          "line": 78,
           "col": 7,
           "code": "TS6133",
           "message": "'collectionModel' is declared but its value is never read."
@@ -830,7 +2013,7 @@
       "sample": [
         {
           "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-          "line": 217,
+          "line": 204,
           "col": 28,
           "code": "TS6133",
           "message": "'deleteFieldMetadata' is declared but its value is never read."
@@ -852,7 +2035,7 @@
       "sample": [
         {
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 72,
+          "line": 71,
           "col": 10,
           "code": "TS6133",
           "message": "'deriveBlockInstanceDescriptionFromAnnotations' is declared but its value is never read."
@@ -874,7 +2057,7 @@
       "sample": [
         {
           "repoPath": "src/composables/admin/useMetadataEditorEntity.ts",
-          "line": 44,
+          "line": 32,
           "col": 3,
           "code": "TS6133",
           "message": "'entity' is declared but its value is never read."
@@ -962,7 +2145,7 @@
       "sample": [
         {
           "repoPath": "src/utils/annotationUtils.ts",
-          "line": 75,
+          "line": 53,
           "col": 10,
           "code": "TS6133",
           "message": "'formatAnnotationForDisplay' is declared but its value is never read."
@@ -984,7 +2167,7 @@
       "sample": [
         {
           "repoPath": "src/utils/annotationUtils.ts",
-          "line": 92,
+          "line": 70,
           "col": 10,
           "code": "TS6133",
           "message": "'getAnnotationsForUserTypeBlock' is declared but its value is never read."
@@ -1006,7 +2189,7 @@
       "sample": [
         {
           "repoPath": "src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 492,
+          "line": 395,
           "col": 9,
           "code": "TS6133",
           "message": "'getGlobalData' is declared but its value is never read."
@@ -1028,7 +2211,7 @@
       "sample": [
         {
           "repoPath": "src/composables/admin/useRelationshipCollection.ts",
-          "line": 109,
+          "line": 97,
           "col": 9,
           "code": "TS6133",
           "message": "'getGlobalEntityById' is declared but its value is never read."
@@ -1050,7 +2233,7 @@
       "sample": [
         {
           "repoPath": "src/utils/annotationUtils.ts",
-          "line": 134,
+          "line": 110,
           "col": 10,
           "code": "TS6133",
           "message": "'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read."
@@ -1138,7 +2321,7 @@
       "sample": [
         {
           "repoPath": "src/utils/admin/buildMetadataEntry.ts",
-          "line": 39,
+          "line": 24,
           "col": 47,
           "code": "TS6133",
           "message": "'isRelationship' is declared but its value is never read."
@@ -1160,7 +2343,7 @@
       "sample": [
         {
           "repoPath": "src/utils/booking/timeSlotMatching.ts",
-          "line": 259,
+          "line": 229,
           "col": 10,
           "code": "TS6133",
           "message": "'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read."
@@ -1182,7 +2365,7 @@
       "sample": [
         {
           "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue",
-          "line": 161,
+          "line": 150,
           "col": 56,
           "code": "TS6133",
           "message": "'optionsFieldKey' is declared but its value is never read."
@@ -1204,7 +2387,7 @@
       "sample": [
         {
           "repoPath": "src/composables/admin/useRelationshipCollectionData.ts",
-          "line": 134,
+          "line": 122,
           "col": 9,
           "code": "TS6133",
           "message": "'parentEntity' is declared but its value is never read."
@@ -1226,7 +2409,7 @@
       "sample": [
         {
           "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue",
-          "line": 186,
+          "line": 171,
           "col": 17,
           "code": "TS6133",
           "message": "'parentEntityFromModel' is declared but its value is never read."
@@ -1248,7 +2431,7 @@
       "sample": [
         {
           "repoPath": "src/composables/admin/useRelationshipCollection.ts",
-          "line": 122,
+          "line": 109,
           "col": 5,
           "code": "TS6133",
           "message": "'parentTypeEntity' is declared but its value is never read."
@@ -1270,7 +2453,7 @@
       "sample": [
         {
           "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 124,
+          "line": 106,
           "col": 9,
           "code": "TS6133",
           "message": "'partShapeId' is declared but its value is never read."
@@ -1336,7 +2519,7 @@
       "sample": [
         {
           "repoPath": "src/components/booking/steps/AvailabilityStep.vue",
-          "line": 102,
+          "line": 83,
           "col": 9,
           "code": "TS6133",
           "message": "'selectedOptions' is declared but its value is never read."
@@ -1358,7 +2541,7 @@
       "sample": [
         {
           "repoPath": "src/utils/booking/serviceDescriptions.ts",
-          "line": 9,
+          "line": 3,
           "col": 47,
           "code": "TS6133",
           "message": "'service' is declared but its value is never read."
@@ -1380,7 +2563,7 @@
       "sample": [
         {
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 46,
+          "line": 45,
           "col": 10,
           "code": "TS6133",
           "message": "'sortByOrderIndex' is declared but its value is never read."
@@ -1402,7 +2585,7 @@
       "sample": [
         {
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 80,
+          "line": 79,
           "col": 10,
           "code": "TS6133",
           "message": "'toAnnotationWithMetadata' is declared but its value is never read."
@@ -1446,7 +2629,7 @@
       "sample": [
         {
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 94,
+          "line": 92,
           "col": 10,
           "code": "TS6133",
           "message": "'updateBlockInstanceEntityInGlobalData' is declared but its value is never read."
@@ -1534,7 +2717,7 @@
       "sample": [
         {
           "repoPath": "src/utils/booking/serviceDescriptions.ts",
-          "line": 9,
+          "line": 3,
           "col": 78,
           "code": "TS6133",
           "message": "'userTypeBlockName' is declared but its value is never read."
@@ -1556,7 +2739,7 @@
       "sample": [
         {
           "repoPath": "src/components/admin/generic/fields/SelectInputs.vue",
-          "line": 406,
+          "line": 363,
           "col": 3,
           "code": "TS6133",
           "message": "'validOptionIds' is declared but its value is never read."
@@ -1578,7 +2761,7 @@
       "sample": [
         {
           "repoPath": "src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 177,
+          "line": 162,
           "col": 3,
           "code": "TS6133",
           "message": "'validPartsRelationships' is declared but its value is never read."
@@ -1600,7 +2783,7 @@
       "sample": [
         {
           "repoPath": "src/composables/entityCrud/usePrimitiveMutation.ts",
-          "line": 175,
+          "line": 154,
           "col": 22,
           "code": "TS6133",
           "message": "'variables' is declared but its value is never read."
@@ -1622,7 +2805,7 @@
       "sample": [
         {
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 33,
+          "line": 32,
           "col": 6,
           "code": "TS6196",
           "message": "'AnnotationAssignmentPatch' is declared but never used."
@@ -1677,6 +2860,202 @@
   ],
   "files": [
     {
+      "repoPath": "src/types/admin/AdminEntity.ts",
+      "errorCount": 10,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 78,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'toPlainObject' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => GlobalEntity<GE>' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(78,3): error TS2411: Property 'toPlainObject' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => GlobalEntity<GE>' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        },
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 113,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'setOrderIndex' of type '(index: number) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(113,3): error TS2411: Property 'setOrderIndex' of type '(index: number) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        },
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 134,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'getField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(134,3): error TS2411: Property 'getField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        },
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 140,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'setField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(140,3): error TS2411: Property 'setField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        },
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 145,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'getValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(145,3): error TS2411: Property 'getValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        },
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 152,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'setValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(152,3): error TS2411: Property 'setValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        },
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 163,
+          "col": 11,
+          "code": "TS2411",
+          "message": "Property 'getDefaultValue' of type '<FieldKey extends GlobalFieldKey<GE>>(_fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(163,11): error TS2411: Property 'getDefaultValue' of type '<FieldKey extends GlobalFieldKey<GE>>(_fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        },
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 167,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'hasField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => boolean' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(167,3): error TS2411: Property 'hasField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => boolean' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        },
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 180,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'getFieldNames' of type '(formFieldConfig?: Record<string, ValidAdminValue> | undefined) => GlobalFieldKey<GE>[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(180,3): error TS2411: Property 'getFieldNames' of type '(formFieldConfig?: Record<string, ValidAdminValue> | undefined) => GlobalFieldKey<GE>[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        },
+        {
+          "file": "src/types/admin/AdminEntity.ts",
+          "line": 196,
+          "col": 3,
+          "code": "TS2411",
+          "message": "Property 'getRelationshipNames' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => string[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "raw": "src/types/admin/AdminEntity.ts(196,3): error TS2411: Property 'getRelationshipNames' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => string[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.",
+          "scope": "client",
+          "repoPath": "src/types/admin/AdminEntity.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/@core/components/TheCustomizer.vue",
+      "errorCount": 8,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/@core/components/TheCustomizer.vue",
+          "line": 9,
+          "col": 29,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/horizontal-light.svg' or its corresponding type declarations.",
+          "raw": "src/@core/components/TheCustomizer.vue(9,29): error TS2307: Cannot find module '@images/customizer-icons/horizontal-light.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/TheCustomizer.vue"
+        },
+        {
+          "file": "src/@core/components/TheCustomizer.vue",
+          "line": 14,
+          "col": 24,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/border-light.svg' or its corresponding type declarations.",
+          "raw": "src/@core/components/TheCustomizer.vue(14,24): error TS2307: Cannot find module '@images/customizer-icons/border-light.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/TheCustomizer.vue"
+        },
+        {
+          "file": "src/@core/components/TheCustomizer.vue",
+          "line": 15,
+          "col": 23,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/collapsed-light.svg' or its corresponding type declarations.",
+          "raw": "src/@core/components/TheCustomizer.vue(15,23): error TS2307: Cannot find module '@images/customizer-icons/collapsed-light.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/TheCustomizer.vue"
+        },
+        {
+          "file": "src/@core/components/TheCustomizer.vue",
+          "line": 16,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/compact-light.svg' or its corresponding type declarations.",
+          "raw": "src/@core/components/TheCustomizer.vue(16,21): error TS2307: Cannot find module '@images/customizer-icons/compact-light.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/TheCustomizer.vue"
+        },
+        {
+          "file": "src/@core/components/TheCustomizer.vue",
+          "line": 17,
+          "col": 25,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/default-light.svg' or its corresponding type declarations.",
+          "raw": "src/@core/components/TheCustomizer.vue(17,25): error TS2307: Cannot find module '@images/customizer-icons/default-light.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/TheCustomizer.vue"
+        },
+        {
+          "file": "src/@core/components/TheCustomizer.vue",
+          "line": 18,
+          "col": 20,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/ltr-light.svg' or its corresponding type declarations.",
+          "raw": "src/@core/components/TheCustomizer.vue(18,20): error TS2307: Cannot find module '@images/customizer-icons/ltr-light.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/TheCustomizer.vue"
+        },
+        {
+          "file": "src/@core/components/TheCustomizer.vue",
+          "line": 19,
+          "col": 20,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/rtl-light.svg' or its corresponding type declarations.",
+          "raw": "src/@core/components/TheCustomizer.vue(19,20): error TS2307: Cannot find module '@images/customizer-icons/rtl-light.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/TheCustomizer.vue"
+        },
+        {
+          "file": "src/@core/components/TheCustomizer.vue",
+          "line": 20,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/customizer-icons/wide-light.svg' or its corresponding type declarations.",
+          "raw": "src/@core/components/TheCustomizer.vue(20,21): error TS2307: Cannot find module '@images/customizer-icons/wide-light.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/TheCustomizer.vue"
+        }
+      ]
+    },
+    {
       "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
       "errorCount": 7,
       "unsafeCastHits": 0,
@@ -1694,61 +3073,61 @@
         },
         {
           "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 33,
+          "line": 32,
           "col": 6,
           "code": "TS6196",
           "message": "'AnnotationAssignmentPatch' is declared but never used.",
-          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(33,6): error TS6196: 'AnnotationAssignmentPatch' is declared but never used.",
+          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(32,6): error TS6196: 'AnnotationAssignmentPatch' is declared but never used.",
           "scope": "client",
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
         },
         {
           "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 46,
+          "line": 45,
           "col": 10,
           "code": "TS6133",
           "message": "'sortByOrderIndex' is declared but its value is never read.",
-          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(46,10): error TS6133: 'sortByOrderIndex' is declared but its value is never read.",
+          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(45,10): error TS6133: 'sortByOrderIndex' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
         },
         {
           "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 50,
+          "line": 49,
           "col": 10,
           "code": "TS6133",
           "message": "'clearOtherDefaults' is declared but its value is never read.",
-          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(50,10): error TS6133: 'clearOtherDefaults' is declared but its value is never read.",
+          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(49,10): error TS6133: 'clearOtherDefaults' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
         },
         {
           "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 72,
+          "line": 71,
           "col": 10,
           "code": "TS6133",
           "message": "'deriveBlockInstanceDescriptionFromAnnotations' is declared but its value is never read.",
-          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(72,10): error TS6133: 'deriveBlockInstanceDescriptionFromAnnotations' is declared but its value is never read.",
+          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(71,10): error TS6133: 'deriveBlockInstanceDescriptionFromAnnotations' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
         },
         {
           "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 80,
+          "line": 79,
           "col": 10,
           "code": "TS6133",
           "message": "'toAnnotationWithMetadata' is declared but its value is never read.",
-          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(80,10): error TS6133: 'toAnnotationWithMetadata' is declared but its value is never read.",
+          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(79,10): error TS6133: 'toAnnotationWithMetadata' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
         },
         {
           "file": "src/utils/optimistic/annotationAssignmentsOptimistic.ts",
-          "line": 94,
+          "line": 92,
           "col": 10,
           "code": "TS6133",
           "message": "'updateBlockInstanceEntityInGlobalData' is declared but its value is never read.",
-          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(94,10): error TS6133: 'updateBlockInstanceEntityInGlobalData' is declared but its value is never read.",
+          "raw": "src/utils/optimistic/annotationAssignmentsOptimistic.ts(92,10): error TS6133: 'updateBlockInstanceEntityInGlobalData' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/optimistic/annotationAssignmentsOptimistic.ts"
         }
@@ -1782,43 +3161,149 @@
         },
         {
           "file": "src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 484,
+          "line": 389,
           "col": 27,
           "code": "TS2304",
           "message": "Cannot find name 'allActiveServiceTypes'.",
-          "raw": "src/components/booking/dev/DevPanelsContainer.vue(484,27): error TS2304: Cannot find name 'allActiveServiceTypes'.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(389,27): error TS2304: Cannot find name 'allActiveServiceTypes'.",
           "scope": "client",
           "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
         },
         {
           "file": "src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 484,
+          "line": 389,
           "col": 60,
           "code": "TS7006",
           "message": "Parameter 's' implicitly has an 'any' type.",
-          "raw": "src/components/booking/dev/DevPanelsContainer.vue(484,60): error TS7006: Parameter 's' implicitly has an 'any' type.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(389,60): error TS7006: Parameter 's' implicitly has an 'any' type.",
           "scope": "client",
           "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
         },
         {
           "file": "src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 492,
+          "line": 395,
           "col": 9,
           "code": "TS6133",
           "message": "'getGlobalData' is declared but its value is never read.",
-          "raw": "src/components/booking/dev/DevPanelsContainer.vue(492,9): error TS6133: 'getGlobalData' is declared but its value is never read.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(395,9): error TS6133: 'getGlobalData' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
         },
         {
           "file": "src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 765,
+          "line": 647,
           "col": 27,
           "code": "TS2339",
           "message": "Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
-          "raw": "src/components/booking/dev/DevPanelsContainer.vue(765,27): error TS2339: Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
+          "raw": "src/components/booking/dev/DevPanelsContainer.vue(647,27): error TS2339: Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: \"services\" | \"finalizedParts\" | \"slotShape\" | \"constraints\" | \"calendar\"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.",
           "scope": "client",
           "repoPath": "src/components/booking/dev/DevPanelsContainer.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/plugins/5.vuetify/icons.ts",
+      "errorCount": 5,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/plugins/5.vuetify/icons.ts",
+          "line": 3,
+          "col": 29,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/checkbox-checked.svg' or its corresponding type declarations.",
+          "raw": "src/plugins/5.vuetify/icons.ts(3,29): error TS2307: Cannot find module '@images/svg/checkbox-checked.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/plugins/5.vuetify/icons.ts"
+        },
+        {
+          "file": "src/plugins/5.vuetify/icons.ts",
+          "line": 4,
+          "col": 35,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/checkbox-indeterminate.svg' or its corresponding type declarations.",
+          "raw": "src/plugins/5.vuetify/icons.ts(4,35): error TS2307: Cannot find module '@images/svg/checkbox-indeterminate.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/plugins/5.vuetify/icons.ts"
+        },
+        {
+          "file": "src/plugins/5.vuetify/icons.ts",
+          "line": 5,
+          "col": 31,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/checkbox-unchecked.svg' or its corresponding type declarations.",
+          "raw": "src/plugins/5.vuetify/icons.ts(5,31): error TS2307: Cannot find module '@images/svg/checkbox-unchecked.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/plugins/5.vuetify/icons.ts"
+        },
+        {
+          "file": "src/plugins/5.vuetify/icons.ts",
+          "line": 6,
+          "col": 26,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/radio-checked.svg' or its corresponding type declarations.",
+          "raw": "src/plugins/5.vuetify/icons.ts(6,26): error TS2307: Cannot find module '@images/svg/radio-checked.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/plugins/5.vuetify/icons.ts"
+        },
+        {
+          "file": "src/plugins/5.vuetify/icons.ts",
+          "line": 7,
+          "col": 28,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/svg/radio-unchecked.svg' or its corresponding type declarations.",
+          "raw": "src/plugins/5.vuetify/icons.ts(7,28): error TS2307: Cannot find module '@images/svg/radio-unchecked.svg' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/plugins/5.vuetify/icons.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/layouts/components/NavBarNotifications.vue",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/layouts/components/NavBarNotifications.vue",
+          "line": 4,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/avatars/avatar-3.png' or its corresponding type declarations.",
+          "raw": "src/layouts/components/NavBarNotifications.vue(4,21): error TS2307: Cannot find module '@images/avatars/avatar-3.png' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/layouts/components/NavBarNotifications.vue"
+        },
+        {
+          "file": "src/layouts/components/NavBarNotifications.vue",
+          "line": 5,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/avatars/avatar-4.png' or its corresponding type declarations.",
+          "raw": "src/layouts/components/NavBarNotifications.vue(5,21): error TS2307: Cannot find module '@images/avatars/avatar-4.png' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/layouts/components/NavBarNotifications.vue"
+        },
+        {
+          "file": "src/layouts/components/NavBarNotifications.vue",
+          "line": 6,
+          "col": 21,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/avatars/avatar-5.png' or its corresponding type declarations.",
+          "raw": "src/layouts/components/NavBarNotifications.vue(6,21): error TS2307: Cannot find module '@images/avatars/avatar-5.png' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/layouts/components/NavBarNotifications.vue"
+        },
+        {
+          "file": "src/layouts/components/NavBarNotifications.vue",
+          "line": 7,
+          "col": 20,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/cards/paypal-rounded.png' or its corresponding type declarations.",
+          "raw": "src/layouts/components/NavBarNotifications.vue(7,20): error TS2307: Cannot find module '@images/cards/paypal-rounded.png' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/layouts/components/NavBarNotifications.vue"
         }
       ]
     },
@@ -1840,33 +3325,109 @@
         },
         {
           "file": "src/utils/annotationUtils.ts",
-          "line": 75,
+          "line": 53,
           "col": 10,
           "code": "TS6133",
           "message": "'formatAnnotationForDisplay' is declared but its value is never read.",
-          "raw": "src/utils/annotationUtils.ts(75,10): error TS6133: 'formatAnnotationForDisplay' is declared but its value is never read.",
+          "raw": "src/utils/annotationUtils.ts(53,10): error TS6133: 'formatAnnotationForDisplay' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/annotationUtils.ts"
         },
         {
           "file": "src/utils/annotationUtils.ts",
-          "line": 92,
+          "line": 70,
           "col": 10,
           "code": "TS6133",
           "message": "'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
-          "raw": "src/utils/annotationUtils.ts(92,10): error TS6133: 'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
+          "raw": "src/utils/annotationUtils.ts(70,10): error TS6133: 'getAnnotationsForUserTypeBlock' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/annotationUtils.ts"
         },
         {
           "file": "src/utils/annotationUtils.ts",
-          "line": 134,
+          "line": 110,
           "col": 10,
           "code": "TS6133",
           "message": "'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
-          "raw": "src/utils/annotationUtils.ts(134,10): error TS6133: 'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
+          "raw": "src/utils/annotationUtils.ts(110,10): error TS6133: 'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/annotationUtils.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+      "errorCount": 3,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+          "line": 5,
+          "col": 41,
+          "code": "TS2307",
+          "message": "Cannot find module 'vuetify/lib/components/VField/VField' or its corresponding type declarations.",
+          "raw": "src/@core/components/app-form-elements/AppDateTimePicker.vue(5,41): error TS2307: Cannot find module 'vuetify/lib/components/VField/VField' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue"
+        },
+        {
+          "file": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+          "line": 7,
+          "col": 41,
+          "code": "TS2307",
+          "message": "Cannot find module 'vuetify/lib/components/VInput/VInput' or its corresponding type declarations.",
+          "raw": "src/@core/components/app-form-elements/AppDateTimePicker.vue(7,41): error TS2307: Cannot find module 'vuetify/lib/components/VInput/VInput' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue"
+        },
+        {
+          "file": "src/@core/components/app-form-elements/AppDateTimePicker.vue",
+          "line": 9,
+          "col": 34,
+          "code": "TS2307",
+          "message": "Cannot find module 'vuetify/lib/util/helpers' or its corresponding type declarations.",
+          "raw": "src/@core/components/app-form-elements/AppDateTimePicker.vue(9,34): error TS2307: Cannot find module 'vuetify/lib/util/helpers' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/app-form-elements/AppDateTimePicker.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/logger.ts",
+      "errorCount": 3,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/logger.ts",
+          "line": 69,
+          "col": 24,
+          "code": "TS2339",
+          "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+          "raw": "src/utils/logger.ts(69,24): error TS2339: Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+          "scope": "client",
+          "repoPath": "src/utils/logger.ts"
+        },
+        {
+          "file": "src/utils/logger.ts",
+          "line": 82,
+          "col": 24,
+          "code": "TS2339",
+          "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+          "raw": "src/utils/logger.ts(82,24): error TS2339: Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+          "scope": "client",
+          "repoPath": "src/utils/logger.ts"
+        },
+        {
+          "file": "src/utils/logger.ts",
+          "line": 92,
+          "col": 26,
+          "code": "TS2339",
+          "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+          "raw": "src/utils/logger.ts(92,26): error TS2339: Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+          "scope": "client",
+          "repoPath": "src/utils/logger.ts"
         }
       ]
     },
@@ -1888,21 +3449,21 @@
         },
         {
           "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 124,
+          "line": 106,
           "col": 9,
           "code": "TS6133",
           "message": "'partShapeId' is declared but its value is never read.",
-          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(124,9): error TS6133: 'partShapeId' is declared but its value is never read.",
+          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(106,9): error TS6133: 'partShapeId' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
         },
         {
           "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 125,
+          "line": 107,
           "col": 9,
           "code": "TS6133",
           "message": "'blockShapeId' is declared but its value is never read.",
-          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(125,9): error TS6133: 'blockShapeId' is declared but its value is never read.",
+          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(107,9): error TS6133: 'blockShapeId' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
         }
@@ -1916,21 +3477,21 @@
       "errors": [
         {
           "file": "src/components/admin/generic/collections/RelationshipCollection.vue",
-          "line": 161,
+          "line": 150,
           "col": 56,
           "code": "TS6133",
           "message": "'optionsFieldKey' is declared but its value is never read.",
-          "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(161,56): error TS6133: 'optionsFieldKey' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(150,56): error TS6133: 'optionsFieldKey' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue"
         },
         {
           "file": "src/components/admin/generic/collections/RelationshipCollection.vue",
-          "line": 186,
+          "line": 171,
           "col": 17,
           "code": "TS6133",
           "message": "'parentEntityFromModel' is declared but its value is never read.",
-          "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(186,17): error TS6133: 'parentEntityFromModel' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/collections/RelationshipCollection.vue(171,17): error TS6133: 'parentEntityFromModel' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/components/admin/generic/collections/RelationshipCollection.vue"
         }
@@ -1954,41 +3515,13 @@
         },
         {
           "file": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-          "line": 217,
+          "line": 204,
           "col": 28,
           "code": "TS6133",
           "message": "'deleteFieldMetadata' is declared but its value is never read.",
-          "raw": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue(217,28): error TS6133: 'deleteFieldMetadata' is declared but its value is never read.",
+          "raw": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue(204,28): error TS6133: 'deleteFieldMetadata' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue"
-        }
-      ]
-    },
-    {
-      "repoPath": "src/components/booking/steps/ContactsStep.vue",
-      "errorCount": 2,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "errors": [
-        {
-          "file": "src/components/booking/steps/ContactsStep.vue",
-          "line": 18,
-          "col": 27,
-          "code": "TS2307",
-          "message": "Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
-          "raw": "src/components/booking/steps/ContactsStep.vue(18,27): error TS2307: Cannot find module '@/composables/booking/useWizard' or its corresponding type declarations.",
-          "scope": "client",
-          "repoPath": "src/components/booking/steps/ContactsStep.vue"
-        },
-        {
-          "file": "src/components/booking/steps/ContactsStep.vue",
-          "line": 39,
-          "col": 5,
-          "code": "TS7006",
-          "message": "Parameter 'selected' implicitly has an 'any' type.",
-          "raw": "src/components/booking/steps/ContactsStep.vue(39,5): error TS7006: Parameter 'selected' implicitly has an 'any' type.",
-          "scope": "client",
-          "repoPath": "src/components/booking/steps/ContactsStep.vue"
         }
       ]
     },
@@ -2000,21 +3533,21 @@
       "errors": [
         {
           "file": "src/composables/admin/useRelationshipCollection.ts",
-          "line": 109,
+          "line": 97,
           "col": 9,
           "code": "TS6133",
           "message": "'getGlobalEntityById' is declared but its value is never read.",
-          "raw": "src/composables/admin/useRelationshipCollection.ts(109,9): error TS6133: 'getGlobalEntityById' is declared but its value is never read.",
+          "raw": "src/composables/admin/useRelationshipCollection.ts(97,9): error TS6133: 'getGlobalEntityById' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/composables/admin/useRelationshipCollection.ts"
         },
         {
           "file": "src/composables/admin/useRelationshipCollection.ts",
-          "line": 122,
+          "line": 109,
           "col": 5,
           "code": "TS6133",
           "message": "'parentTypeEntity' is declared but its value is never read.",
-          "raw": "src/composables/admin/useRelationshipCollection.ts(122,5): error TS6133: 'parentTypeEntity' is declared but its value is never read.",
+          "raw": "src/composables/admin/useRelationshipCollection.ts(109,5): error TS6133: 'parentTypeEntity' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/composables/admin/useRelationshipCollection.ts"
         }
@@ -2049,6 +3582,34 @@
       ]
     },
     {
+      "repoPath": "src/configs/availabilitySettings.ts",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/configs/availabilitySettings.ts",
+          "line": 313,
+          "col": 38,
+          "code": "TS2339",
+          "message": "Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.",
+          "raw": "src/configs/availabilitySettings.ts(313,38): error TS2339: Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.",
+          "scope": "client",
+          "repoPath": "src/configs/availabilitySettings.ts"
+        },
+        {
+          "file": "src/configs/availabilitySettings.ts",
+          "line": 314,
+          "col": 28,
+          "code": "TS2339",
+          "message": "Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.",
+          "raw": "src/configs/availabilitySettings.ts(314,28): error TS2339: Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.",
+          "scope": "client",
+          "repoPath": "src/configs/availabilitySettings.ts"
+        }
+      ]
+    },
+    {
       "repoPath": "src/utils/booking/serviceDescriptions.ts",
       "errorCount": 2,
       "unsafeCastHits": 0,
@@ -2056,21 +3617,21 @@
       "errors": [
         {
           "file": "src/utils/booking/serviceDescriptions.ts",
-          "line": 9,
+          "line": 3,
           "col": 47,
           "code": "TS6133",
           "message": "'service' is declared but its value is never read.",
-          "raw": "src/utils/booking/serviceDescriptions.ts(9,47): error TS6133: 'service' is declared but its value is never read.",
+          "raw": "src/utils/booking/serviceDescriptions.ts(3,47): error TS6133: 'service' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/booking/serviceDescriptions.ts"
         },
         {
           "file": "src/utils/booking/serviceDescriptions.ts",
-          "line": 9,
+          "line": 3,
           "col": 78,
           "code": "TS6133",
           "message": "'userTypeBlockName' is declared but its value is never read.",
-          "raw": "src/utils/booking/serviceDescriptions.ts(9,78): error TS6133: 'userTypeBlockName' is declared but its value is never read.",
+          "raw": "src/utils/booking/serviceDescriptions.ts(3,78): error TS6133: 'userTypeBlockName' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/booking/serviceDescriptions.ts"
         }
@@ -2094,13 +3655,49 @@
         },
         {
           "file": "src/views/admin/tabs/InstancesTab.vue",
-          "line": 311,
+          "line": 276,
           "col": 9,
           "code": "TS2353",
           "message": "Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
-          "raw": "src/views/admin/tabs/InstancesTab.vue(311,9): error TS2353: Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
+          "raw": "src/views/admin/tabs/InstancesTab.vue(276,9): error TS2353: Object literal may only specify known properties, and 'values' does not exist in type 'DragAndDrop<unknown>'.",
           "scope": "client",
           "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/@core/components/cards/AppCardCode.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/@core/components/cards/AppCardCode.vue",
+          "line": 2,
+          "col": 41,
+          "code": "TS2307",
+          "message": "Cannot find module 'shiki' or its corresponding type declarations.",
+          "raw": "src/@core/components/cards/AppCardCode.vue(2,41): error TS2307: Cannot find module 'shiki' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/@core/components/cards/AppCardCode.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/@core/utils/plugins.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/@core/utils/plugins.ts",
+          "line": 5,
+          "col": 31,
+          "code": "TS2339",
+          "message": "Property 'glob' does not exist on type 'ImportMeta'.",
+          "raw": "src/@core/utils/plugins.ts(5,31): error TS2339: Property 'glob' does not exist on type 'ImportMeta'.",
+          "scope": "client",
+          "repoPath": "src/@core/utils/plugins.ts"
         }
       ]
     },
@@ -2112,11 +3709,11 @@
       "errors": [
         {
           "file": "src/components/admin/generic/collections/PartsCollection.vue",
-          "line": 87,
+          "line": 78,
           "col": 7,
           "code": "TS6133",
           "message": "'collectionModel' is declared but its value is never read.",
-          "raw": "src/components/admin/generic/collections/PartsCollection.vue(87,7): error TS6133: 'collectionModel' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/collections/PartsCollection.vue(78,7): error TS6133: 'collectionModel' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/components/admin/generic/collections/PartsCollection.vue"
         }
@@ -2166,11 +3763,11 @@
       "errors": [
         {
           "file": "src/components/admin/generic/fields/SelectInputs.vue",
-          "line": 406,
+          "line": 363,
           "col": 3,
           "code": "TS6133",
           "message": "'validOptionIds' is declared but its value is never read.",
-          "raw": "src/components/admin/generic/fields/SelectInputs.vue(406,3): error TS6133: 'validOptionIds' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/fields/SelectInputs.vue(363,3): error TS6133: 'validOptionIds' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/components/admin/generic/fields/SelectInputs.vue"
         }
@@ -2184,11 +3781,11 @@
       "errors": [
         {
           "file": "src/components/booking/steps/AvailabilityStep.vue",
-          "line": 102,
+          "line": 83,
           "col": 9,
           "code": "TS6133",
           "message": "'selectedOptions' is declared but its value is never read.",
-          "raw": "src/components/booking/steps/AvailabilityStep.vue(102,9): error TS6133: 'selectedOptions' is declared but its value is never read.",
+          "raw": "src/components/booking/steps/AvailabilityStep.vue(83,9): error TS6133: 'selectedOptions' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/components/booking/steps/AvailabilityStep.vue"
         }
@@ -2202,11 +3799,11 @@
       "errors": [
         {
           "file": "src/composables/admin/useMetadataEditorEntity.ts",
-          "line": 44,
+          "line": 32,
           "col": 3,
           "code": "TS6133",
           "message": "'entity' is declared but its value is never read.",
-          "raw": "src/composables/admin/useMetadataEditorEntity.ts(44,3): error TS6133: 'entity' is declared but its value is never read.",
+          "raw": "src/composables/admin/useMetadataEditorEntity.ts(32,3): error TS6133: 'entity' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/composables/admin/useMetadataEditorEntity.ts"
         }
@@ -2220,11 +3817,11 @@
       "errors": [
         {
           "file": "src/composables/admin/useRelationshipCollectionData.ts",
-          "line": 134,
+          "line": 122,
           "col": 9,
           "code": "TS6133",
           "message": "'parentEntity' is declared but its value is never read.",
-          "raw": "src/composables/admin/useRelationshipCollectionData.ts(134,9): error TS6133: 'parentEntity' is declared but its value is never read.",
+          "raw": "src/composables/admin/useRelationshipCollectionData.ts(122,9): error TS6133: 'parentEntity' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/composables/admin/useRelationshipCollectionData.ts"
         }
@@ -2238,11 +3835,11 @@
       "errors": [
         {
           "file": "src/composables/booking/useDependentInstances.ts",
-          "line": 129,
+          "line": 106,
           "col": 15,
           "code": "TS2739",
           "message": "Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
-          "raw": "src/composables/booking/useDependentInstances.ts(129,15): error TS2739: Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
+          "raw": "src/composables/booking/useDependentInstances.ts(106,15): error TS2739: Type '{ id: string; entityKey: \"blockInstance\"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: \"both\" | \"standalone\" | \"addOn\"; differential: \"false\" | \"true\"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent",
           "scope": "client",
           "repoPath": "src/composables/booking/useDependentInstances.ts"
         }
@@ -2256,11 +3853,11 @@
       "errors": [
         {
           "file": "src/composables/entityCrud/usePrimitiveMutation.ts",
-          "line": 175,
+          "line": 154,
           "col": 22,
           "code": "TS6133",
           "message": "'variables' is declared but its value is never read.",
-          "raw": "src/composables/entityCrud/usePrimitiveMutation.ts(175,22): error TS6133: 'variables' is declared but its value is never read.",
+          "raw": "src/composables/entityCrud/usePrimitiveMutation.ts(154,22): error TS6133: 'variables' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/composables/entityCrud/usePrimitiveMutation.ts"
         }
@@ -2285,6 +3882,60 @@
       ]
     },
     {
+      "repoPath": "src/layouts/components/NavSearchBar.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/layouts/components/NavSearchBar.vue",
+          "line": 3,
+          "col": 22,
+          "code": "TS2307",
+          "message": "Cannot find module 'shepherd.js' or its corresponding type declarations.",
+          "raw": "src/layouts/components/NavSearchBar.vue(3,22): error TS2307: Cannot find module 'shepherd.js' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/layouts/components/NavSearchBar.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/plugins/1.router/additional-routes.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/plugins/1.router/additional-routes.ts",
+          "line": 9,
+          "col": 15,
+          "code": "TS2322",
+          "message": "Type '(to: RouteLocationNormalized) => { name: string; query?: undefined; } | { name: string; query: LocationQuery; }' is not assignable to type 'RouteRecordRedirectOption | undefined'.",
+          "raw": "src/plugins/1.router/additional-routes.ts(9,15): error TS2322: Type '(to: RouteLocationNormalized) => { name: string; query?: undefined; } | { name: string; query: LocationQuery; }' is not assignable to type 'RouteRecordRedirectOption | undefined'.",
+          "scope": "client",
+          "repoPath": "src/plugins/1.router/additional-routes.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/plugins/1.router/guards.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/plugins/1.router/guards.ts",
+          "line": 1,
+          "col": 50,
+          "code": "TS2307",
+          "message": "Cannot find module 'unplugin-vue-router' or its corresponding type declarations.",
+          "raw": "src/plugins/1.router/guards.ts(1,50): error TS2307: Cannot find module 'unplugin-vue-router' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "src/plugins/1.router/guards.ts"
+        }
+      ]
+    },
+    {
       "repoPath": "src/utils/admin/buildMetadataEntry.ts",
       "errorCount": 1,
       "unsafeCastHits": 0,
@@ -2292,11 +3943,11 @@
       "errors": [
         {
           "file": "src/utils/admin/buildMetadataEntry.ts",
-          "line": 39,
+          "line": 24,
           "col": 47,
           "code": "TS6133",
           "message": "'isRelationship' is declared but its value is never read.",
-          "raw": "src/utils/admin/buildMetadataEntry.ts(39,47): error TS6133: 'isRelationship' is declared but its value is never read.",
+          "raw": "src/utils/admin/buildMetadataEntry.ts(24,47): error TS6133: 'isRelationship' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/admin/buildMetadataEntry.ts"
         }
@@ -2328,11 +3979,11 @@
       "errors": [
         {
           "file": "src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 177,
+          "line": 162,
           "col": 3,
           "code": "TS6133",
           "message": "'validPartsRelationships' is declared but its value is never read.",
-          "raw": "src/utils/booking/appointmentSlotBuilder.ts(177,3): error TS6133: 'validPartsRelationships' is declared but its value is never read.",
+          "raw": "src/utils/booking/appointmentSlotBuilder.ts(162,3): error TS6133: 'validPartsRelationships' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/booking/appointmentSlotBuilder.ts"
         }
@@ -2346,11 +3997,11 @@
       "errors": [
         {
           "file": "src/utils/booking/timeSlotMatching.ts",
-          "line": 259,
+          "line": 229,
           "col": 10,
           "code": "TS6133",
           "message": "'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
-          "raw": "src/utils/booking/timeSlotMatching.ts(259,10): error TS6133: 'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
+          "raw": "src/utils/booking/timeSlotMatching.ts(229,10): error TS6133: 'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/booking/timeSlotMatching.ts"
         }
@@ -2371,6 +4022,24 @@
           "raw": "src/utils/differentialScheduling.ts(13,1): error TS6133: 'BookingBlockInstance' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/differentialScheduling.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/env/devMode.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/env/devMode.ts",
+          "line": 24,
+          "col": 26,
+          "code": "TS2339",
+          "message": "Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+          "raw": "src/utils/env/devMode.ts(24,26): error TS2339: Property 'DEV' does not exist on type 'ImportMetaEnv'.",
+          "scope": "client",
+          "repoPath": "src/utils/env/devMode.ts"
         }
       ]
     },
@@ -2425,6 +4094,24 @@
           "raw": "src/views/admin/tabs/ShapesTab.vue(24,1): error TS6133: 'EventShape' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/views/admin/tabs/ShapesTab.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "themeConfig.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "themeConfig.ts",
+          "line": 7,
+          "col": 18,
+          "code": "TS2307",
+          "message": "Cannot find module '@images/logo.svg?raw' or its corresponding type declarations.",
+          "raw": "themeConfig.ts(7,18): error TS2307: Cannot find module '@images/logo.svg?raw' or its corresponding type declarations.",
+          "scope": "client",
+          "repoPath": "themeConfig.ts"
         }
       ]
     }

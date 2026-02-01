@@ -14,7 +14,7 @@ Exception handling:
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
 - Total files scanned: **588**
-- **Requiring review: 926**
+- **Requiring review: 908**
 - Allowed (with justification): 211 (inline: 0, pattern: 211, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
@@ -24,21 +24,21 @@ Exception handling:
 | `client/src/composables/booking/useAppointmentSlots.ts` | 66 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 14 | 0 |
 | `client/src/views/admin/tabs/BusinessRulesTab.vue` | 47 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/relationships/relationshipRouter.ts` | 44 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/properties/propertyRouter.ts` | 43 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/partFinalizer.ts` | 42 | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 10 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | 27 | 0 | 0 | 3 | 0 | 1 | 0 | 0 | 3 | 0 |
+| `server/src/routes/internal/properties/propertyRouter.ts` | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/entities/entityRouter.ts` | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | 26 | 0 | 0 | 3 | 0 | 1 | 0 | 0 | 3 | 0 |
 | `server/src/scripts/backfill-input-config-from-selectable.mjs` | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/forms/fieldLocationDispatcher.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/appointments/appointmentRouter.ts` | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/admin/entityDisplayText.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/iconMapper.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useAvailabilityLogic.ts` | 16 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 4 | 0 |
 | `client/src/views/admin/tabs/BusinessControlsTab.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/components/PropertiesTable.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/users/userRouter.ts` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/dev/DevPanelsContainer.vue` | 15 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 3 | 0 |
+| `client/src/composables/booking/useAvailabilityLogic.ts` | 15 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 4 | 0 |
 | `server/src/routes/internal/businessRulesRouter.ts` | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/businessSettingsRouter.ts` | 15 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useAppointmentDataCollection.ts` | 14 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
@@ -47,10 +47,10 @@ Exception handling:
 | `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/scripts/fixUserRolesAndEmails.ts` | 14 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/EntityCard.vue` | 13 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `server/src/scripts/importCalendarData.ts` | 13 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 2 | 0 |
 | `server/src/test/setup/seedTestData.ts` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -59,16 +59,16 @@ Review periodically to ensure exceptions are still valid.
 
 | File | Rule | Line | Source | Reason |
 | --- | --- | ---: | --- | --- |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 250 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 251 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 252 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 253 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 254 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 255 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 343 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 415 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 418 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/availabilitySettings.ts` | magicLabel | 437 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 237 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 238 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 239 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 240 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 241 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 242 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 330 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 387 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 389 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/availabilitySettings.ts` | magicLabel | 408 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/businessControlsTabStrings.ts` | magicLabel | 11 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/businessControlsTabStrings.ts` | magicLabel | 12 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/businessControlsTabStrings.ts` | magicLabel | 13 | pattern | Config files are intentional sources of hardcoded values ... |
@@ -170,35 +170,35 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/configs/field/display/appliedDisplay/partShapeDisplays.ts` | magicLabel | 16 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/partShapeDisplays.ts` | magicLabel | 34 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/display/appliedDisplay/partShapeDisplays.ts` | magicLabel | 35 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 158 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 159 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 165 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 194 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 195 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 201 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 231 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 232 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 238 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 267 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 268 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 274 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 310 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 341 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 342 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 343 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 349 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 378 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 379 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 385 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 416 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 417 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 423 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 118 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 243 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 244 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 274 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 275 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 299 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 145 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 146 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 152 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 180 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 181 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 187 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 216 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 217 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 223 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 251 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 252 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 258 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 293 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 323 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 324 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 325 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 331 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 359 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 360 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 366 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 396 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 397 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | magicLabel | 403 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 109 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 233 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 234 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 263 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 264 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | magicLabel | 288 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | magicLabel | 15 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | magicLabel | 23 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | magicLabel | 31 | pattern | Config files are intentional sources of hardcoded values ... |
@@ -239,10 +239,10 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 26 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 40 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 51 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 58 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 65 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 72 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 48 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 55 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 62 | pattern | Config files are intentional sources of hardcoded values ... |
+| `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | magicLabel | 69 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/partShapePrimitiveFields.ts` | magicLabel | 18 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/field/form/appliedForm/partShapePrimitiveFields.ts` | magicLabel | 26 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/propertyValidationStrings.ts` | magicLabel | 10 | pattern | Config files are intentional sources of hardcoded values ... |
@@ -265,11 +265,11 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/configs/wizardSteps.ts` | magicLabel | 50 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/wizardSteps.ts` | magicLabel | 55 | pattern | Config files are intentional sources of hardcoded values ... |
 | `client/src/configs/wizardSteps.ts` | magicLabel | 56 | pattern | Config files are intentional sources of hardcoded values ... |
-| `client/src/utils/logger.ts` | caseString | 46 | pattern | Log level strings are standard and intentional - part of ... |
-| `client/src/utils/logger.ts` | caseString | 48 | pattern | Log level strings are standard and intentional - part of ... |
-| `client/src/utils/logger.ts` | caseString | 50 | pattern | Log level strings are standard and intentional - part of ... |
-| `client/src/utils/logger.ts` | caseString | 52 | pattern | Log level strings are standard and intentional - part of ... |
-| `client/src/utils/logger.ts` | caseString | 54 | pattern | Log level strings are standard and intentional - part of ... |
+| `client/src/utils/logger.ts` | caseString | 45 | pattern | Log level strings are standard and intentional - part of ... |
+| `client/src/utils/logger.ts` | caseString | 47 | pattern | Log level strings are standard and intentional - part of ... |
+| `client/src/utils/logger.ts` | caseString | 49 | pattern | Log level strings are standard and intentional - part of ... |
+| `client/src/utils/logger.ts` | caseString | 51 | pattern | Log level strings are standard and intentional - part of ... |
+| `client/src/utils/logger.ts` | caseString | 53 | pattern | Log level strings are standard and intentional - part of ... |
 
 
 ## Per-file suggestions
@@ -337,12 +337,6 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `server/src/scripts/importCalendarData.ts`
-
-- score: **13**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
 ### `client/src/components/booking/steps/ContactsStep.vue`
 
 - score: **12**
@@ -366,6 +360,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 - score: **11**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
+### `server/src/scripts/importCalendarData.ts`
+
+- score: **11**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `client/src/views/admin/tabs/components/AppointmentsTable.vue`
 
@@ -427,12 +427,6 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `client/src/components/admin/BlockInstanceCreateModal.vue`
-
-- score: **4**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
 ### `client/src/components/admin/generic/collections/RelationshipCollection.vue`
 
 - score: **4**
@@ -455,42 +449,42 @@ Legend: `ruleId@lineNumber: line`
 - requiring review: 36, allowed: 0
 
 ```
-fieldMapping@128: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-inlineLabelMap@128: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-magicLabel@128: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-fieldMapping@161: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-inlineLabelMap@161: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-magicLabel@161: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-fieldMapping@169: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-inlineLabelMap@169: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-magicLabel@169: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-fieldMapping@183: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});
-inlineLabelMap@183: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});
-magicLabel@183: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});
-inlineLabelMap@215: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
-magicLabel@215: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
-fieldMapping@221: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
-inlineLabelMap@221: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
-magicLabel@221: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
-inlineLabelMap@252: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
-magicLabel@252: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
-inlineLabelMap@261: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
-magicLabel@261: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
-inlineLabelMap@300: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-magicLabel@300: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-inlineLabelMap@313: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-magicLabel@313: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-inlineLabelMap@326: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-magicLabel@326: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-fieldMapping@348: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-inlineLabelMap@348: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-magicLabel@348: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-fieldMapping@356: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-inlineLabelMap@356: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-magicLabel@356: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-fieldMapping@373: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-inlineLabelMap@373: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-magicLabel@373: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+fieldMapping@104: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+inlineLabelMap@104: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+magicLabel@104: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+fieldMapping@128: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+inlineLabelMap@128: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+magicLabel@128: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+fieldMapping@133: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+inlineLabelMap@133: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+magicLabel@133: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
+fieldMapping@142: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@142: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@142: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@170: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+magicLabel@170: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+fieldMapping@174: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+inlineLabelMap@174: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+magicLabel@174: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+inlineLabelMap@196: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+magicLabel@196: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+inlineLabelMap@203: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+magicLabel@203: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
+inlineLabelMap@228: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+magicLabel@228: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+inlineLabelMap@237: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+magicLabel@237: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+inlineLabelMap@246: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+magicLabel@246: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+fieldMapping@262: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+inlineLabelMap@262: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+magicLabel@262: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,differentialOffset:shape.slotShape.differentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+fieldMapping@266: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+inlineLabelMap@266: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+magicLabel@266: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+fieldMapping@280: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+inlineLabelMap@280: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+magicLabel@280: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
 ```
 
 ### `client/src/views/admin/tabs/BusinessRulesTab.vue`
@@ -499,31 +493,31 @@ magicLabel@373: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c382
 - requiring review: 25, allowed: 0
 
 ```
-magicLabel@89: { title: 'Required Fields', value: 'required_fields', description: 'Additional required fields based on block selection' },
-magicLabel@90: { title: 'Requires Agent', value: 'requires_agent', description: 'Service requires agent/client contact information' },
-magicLabel@91: { title: 'Conditional Validation', value: 'conditional_validation', description: 'Field validation depends on other field values' },
-magicLabel@92: { title: 'Validation Message', value: 'validation_message', description: 'Custom validation messages for fields/blocks' }
-magicLabel@120: * WHY: Admin clicks "Add Rule" button, opens dialog with empty form
-switchTypeLike@216: switch (rule.ruleType) {
-caseString@217: case 'required_fields':
-caseString@220: case 'requires_agent':
-caseString@223: case 'conditional_validation':
-caseString@226: case 'validation_message':
-switchTypeLike@294: switch (newType) {
-caseString@295: case 'required_fields':
-caseString@298: case 'requires_agent':
-caseString@301: case 'conditional_validation':
-caseString@304: case 'validation_message':
-magicLabel@354: label="Select Block Instance"
-magicLabel@355: hint="Choose a service or dwelling adjustment to configure validation rules"
-magicLabel@404: {{ rule.active ? 'Active' : 'Inactive' }}
-magicLabel@467: {{ editingRule ? 'Edit Business Rule' : 'Add Business Rule' }}
-magicLabel@476: label="Rule Type"
-magicLabel@485: label="Required Fields"
-magicLabel@503: label="Service Requires Agent"
-magicLabel@504: hint="Enable if this service requires agent and client contact information"
-magicLabel@524: hint="Link to annotation instance for validation message"
-magicLabel@534: hint="Enable this rule for validation"
+magicLabel@72: { title: 'Required Fields', value: 'required_fields', description: 'Additional required fields based on block selection' },
+magicLabel@73: { title: 'Requires Agent', value: 'requires_agent', description: 'Service requires agent/client contact information' },
+magicLabel@74: { title: 'Conditional Validation', value: 'conditional_validation', description: 'Field validation depends on other field values' },
+magicLabel@75: { title: 'Validation Message', value: 'validation_message', description: 'Custom validation messages for fields/blocks' }
+magicLabel@103: * WHY: Admin clicks "Add Rule" button, opens dialog with empty form
+switchTypeLike@177: switch (rule.ruleType) {
+caseString@178: case 'required_fields':
+caseString@181: case 'requires_agent':
+caseString@184: case 'conditional_validation':
+caseString@187: case 'validation_message':
+switchTypeLike@255: switch (newType) {
+caseString@256: case 'required_fields':
+caseString@259: case 'requires_agent':
+caseString@262: case 'conditional_validation':
+caseString@265: case 'validation_message':
+magicLabel@315: label="Select Block Instance"
+magicLabel@316: hint="Choose a service or dwelling adjustment to configure validation rules"
+magicLabel@365: {{ rule.active ? 'Active' : 'Inactive' }}
+magicLabel@428: {{ editingRule ? 'Edit Business Rule' : 'Add Business Rule' }}
+magicLabel@437: label="Rule Type"
+magicLabel@446: label="Required Fields"
+magicLabel@464: label="Service Requires Agent"
+magicLabel@465: hint="Enable if this service requires agent and client contact information"
+magicLabel@485: hint="Link to annotation instance for validation message"
+magicLabel@495: hint="Enable this rule for validation"
 ```
 
 ### `server/src/routes/internal/relationships/relationshipRouter.ts`
@@ -532,101 +526,50 @@ magicLabel@534: hint="Enable this rule for validation"
 - requiring review: 44, allowed: 0
 
 ```
-magicLabel@53: displayName: 'Valid Cascade',
-magicLabel@59: displayName: 'Valid Part',
-magicLabel@65: displayName: 'Valid Annotation',
-magicLabel@71: displayName: 'Valid Event',
-magicLabel@77: displayName: 'Dependent Instance',
-magicLabel@83: displayName: 'Booking Cascade',
-magicLabel@89: displayName: 'Part Assignment',
-magicLabel@95: displayName: 'Annotation Assignment',
-magicLabel@101: displayName: 'Event Assignment',
-magicLabel@107: displayName: 'Attendee Assignment',
-magicLabel@113: displayName: 'Instance Component',
-magicLabel@284: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@418: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@438: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@456: error: 'Parent and child cannot be the same entity',
-magicLabel@490: error: 'BlockInstance not found',
-magicLabel@541: error: 'Components must have the same BlockShape as their parent',
-magicLabel@550: error: 'Error validating entities',
-magicLabel@551: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@569: error: 'Error checking circular references',
-magicLabel@570: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@593: error: 'Component relationship already exists',
-magicLabel@613: error: 'Invalid parent entity',
-magicLabel@623: error: 'Invalid child entity',
-magicLabel@637: error: 'Invalid block shape reference',
-magicLabel@645: error: 'Invalid attendee type',
-magicLabel@702: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
-magicLabel@704: error: 'Relationship already exists',
-magicLabel@716: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
-magicLabel@718: error: 'Invalid entity reference',
-magicLabel@719: details: error.message || 'One of the referenced entities does not exist',
-magicLabel@729: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@751: error: 'Instance component not found',
-magicLabel@771: error: 'Error updating instance component',
-magicLabel@772: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@791: error: 'Instance component not found',
-magicLabel@822: message: 'Instance component deleted successfully',
-magicLabel@828: error: 'Error deleting instance component',
-magicLabel@829: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@857: error: 'Annotation assignment not found',
-magicLabel@877: error: 'Error updating annotation assignment',
-magicLabel@878: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@892: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@924: details: error instanceof Error ? error.message : 'Unknown error'
-```
-
-### `server/src/routes/internal/properties/propertyRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=43
-- requiring review: 43, allowed: 0
-
-```
-magicLabel@67: error: 'Failed to fetch properties',
-magicLabel@68: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@88: error: 'Property not found',
-magicLabel@99: error: 'Error fetching property',
-magicLabel@100: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@133: error: 'Missing required fields',
-magicLabel@184: error: 'Failed to create property',
-magicLabel@185: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@206: error: 'Property not found',
-magicLabel@256: error: 'Failed to update property',
-magicLabel@257: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@277: error: 'Property not found',
-magicLabel@309: error: 'Failed to patch property',
-magicLabel@310: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@327: error: 'Property not found',
-magicLabel@340: error: 'Failed to delete property',
-magicLabel@341: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@376: error: 'Failed to fetch property types',
-magicLabel@377: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@387: * - blockInstanceId: UUID of the block_instance (must be "Properties" block_shape)
-magicLabel@392: * PATTERN: Validate block_shape is "Properties" before attempting insert
-magicLabel@411: error: 'Property version not found',
-magicLabel@417: // Application-level validation: Verify blockInstance has "Properties" block_shape
-magicLabel@424: error: 'Block instance not found',
-magicLabel@433: if (!blockShape || blockShape.name !== 'Properties') {
-magicLabel@435: error: 'Block instance must have "Properties" block_shape',
-magicLabel@459: error: 'Block instance must have "Properties" block_shape',
-magicLabel@468: error: 'Property type already assigned to this property version',
-magicLabel@475: error: 'Failed to add property type',
-magicLabel@476: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@494: error: 'Property type not found',
-magicLabel@513: error: 'Failed to update property type',
-magicLabel@514: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@531: error: 'Property type not found',
-magicLabel@543: error: 'Failed to remove property type',
-magicLabel@544: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@569: error: 'Property version not found',
-magicLabel@575: // Validate all blockInstanceIds have "Properties" block_shape
-magicLabel@583: !bi.block_shape || bi.block_shape.name !== 'Properties'
-magicLabel@588: error: 'All block instances must have "Properties" block_shape',
-magicLabel@599: error: 'Some block instances not found',
-magicLabel@638: error: 'Failed to replace property types',
-magicLabel@639: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@52: displayName: 'Valid Cascade',
+magicLabel@58: displayName: 'Valid Part',
+magicLabel@64: displayName: 'Valid Annotation',
+magicLabel@70: displayName: 'Valid Event',
+magicLabel@76: displayName: 'Dependent Instance',
+magicLabel@82: displayName: 'Booking Cascade',
+magicLabel@88: displayName: 'Part Assignment',
+magicLabel@94: displayName: 'Annotation Assignment',
+magicLabel@100: displayName: 'Event Assignment',
+magicLabel@106: displayName: 'Attendee Assignment',
+magicLabel@112: displayName: 'Instance Component',
+magicLabel@264: res.status(500).json({ error: 'Relationship configuration missing' });
+magicLabel@378: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@387: res.status(500).json({ error: 'Relationship configuration missing' });
+magicLabel@404: error: 'Parent and child cannot be the same entity',
+magicLabel@437: error: 'BlockInstance not found',
+magicLabel@483: error: 'Components must have the same BlockShape as their parent',
+magicLabel@492: error: 'Error validating entities',
+magicLabel@493: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@510: error: 'Error checking circular references',
+magicLabel@511: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@532: error: 'Component relationship already exists',
+magicLabel@550: error: 'Invalid parent entity',
+magicLabel@560: error: 'Invalid child entity',
+magicLabel@573: error: 'Invalid block shape reference',
+magicLabel@581: error: 'Invalid attendee type',
+magicLabel@627: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
+magicLabel@629: error: 'Relationship already exists',
+magicLabel@639: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
+magicLabel@641: error: 'Invalid entity reference',
+magicLabel@642: details: error.message || 'One of the referenced entities does not exist',
+magicLabel@652: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@668: error: 'Instance component not found',
+magicLabel@688: error: 'Error updating instance component',
+magicLabel@689: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@702: error: 'Instance component not found',
+magicLabel@728: message: 'Instance component deleted successfully',
+magicLabel@734: error: 'Error deleting instance component',
+magicLabel@735: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@763: error: 'Annotation assignment not found',
+magicLabel@781: error: 'Error updating annotation assignment',
+magicLabel@782: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@790: res.status(500).json({ error: 'Relationship configuration missing' });
+magicLabel@821: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
 ### `client/src/utils/booking/partFinalizer.ts`
@@ -635,51 +578,80 @@ magicLabel@639: details: error instanceof Error ? error.message : 'Unknown error
 - requiring review: 24, allowed: 0
 
 ```
-fieldMapping@129: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-inlineLabelMap@129: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-magicLabel@129: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-inlineLabelMap@137: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-magicLabel@137: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-inlineLabelMap@141: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-magicLabel@141: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-inlineLabelMap@196: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@196: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-fieldMapping@200: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@200: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@200: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@219: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@219: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-fieldMapping@223: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@223: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@223: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@273: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@273: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@279: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@279: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-fieldMapping@302: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-inlineLabelMap@302: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-magicLabel@302: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@112: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@112: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@112: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:125',message:'calculateSlotShape: checking availabilitySettings',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives,availabilitySettings:availabilitySettings?{differentialPerspectives:availabilitySettings.differentialPerspectives?{majorAttendees:availabilitySettings.differentialPerspectives.majorAttendees||[],minorAttendees:availabilitySettings.differentialPerspectives.minorAttendees||[]}:null}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@118: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@118: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic enabled',data:{majorAttendeeIds,minorAttendeeIds,useAttendeeBasedLogic},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@120: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@120: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:129',message:'calculateSlotShape: attendee-based logic disabled',data:{hasGlobalData:!!globalData,hasAvailabilitySettings:!!availabilitySettings,hasDifferentialPerspectives:!!availabilitySettings?.differentialPerspectives},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@159: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@159: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:178',message:'calculateSlotShape: event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@161: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@161: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@161: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:193',message:'calculateSlotShape: processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@175: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@175: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:258',message:'calculateSlotShape: boolean event - event perspective lookup',data:{majorAttendeeIds,eventShapeId:eventShape.id,eventPerspective,eventShapeAttendees:eventShape.attendees,isMajorEvent:majorEventShape?.id===eventShape.id,isMinorEvent:minorEventShape?.id===eventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@177: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@177: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@177: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:262',message:'calculateSlotShape: boolean event - processing major event',data:{eventShapeId:eventShape.id,eventPerspective:'major',partShape:part.partShape,baseTime:part.baseTime},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@218: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@218: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:340',message:'calculateSlotShape: calculating differentialOffset from durations',data:{majorDuration,minorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id,minorEventShapeId:minorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@221: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@221: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:347',message:'calculateSlotShape: calculating differentialOffset (no minor event)',data:{majorDuration,differentialOffset:finalDifferentialOffset,majorEventShapeId:majorEventShape.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+fieldMapping@240: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+inlineLabelMap@240: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+magicLabel@240: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'partFinalizer.ts:252',message:'calculateSlotShape: final result',data:{totalDuration,differentialOffset:finalDifferentialOffset,eventFinalsCount:eventFinals.length,eventFinals:eventFinals.map(ef=>({eventShapeId:ef.eventShape.id,eventPerspective:logMajorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MAJOR:(logMinorEventShape?.id===ef.eventShape.id?EVENT_PERSPECTIVE_KEYS.MINOR:EVENT_PERSPECTIVE_KEYS.OTHER),eventShapeAttendees:ef.eventShape.attendees,duration:ef.duration})),useAttendeeBasedLogic,majorAttendeeIds,minorAttendeeIds},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
 ```
 
-### `client/src/utils/booking/appointmentSlotBuilder.ts`
+### `server/src/routes/internal/properties/propertyRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=3, magicLabel=6
-- requiring review: 13, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=42
+- requiring review: 42, allowed: 0
 
 ```
-magicLabel@71: * @param name - Event shape name (e.g., 'Major', 'Minor', 'Moveable')
-magicLabel@142: // WHY: Eliminates hardcoded event name strings ('Major', 'Minor', 'Moveable')
-magicLabel@164: * @param partShapeName - Part shape name (e.g., "Client Presentation")
-fieldMapping@295: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-inlineLabelMap@295: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-magicLabel@295: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-caseString@519: case 'major':
-caseString@524: case 'minor':
-inlineLabelMap@530: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-magicLabel@530: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-inlineLabelMap@536: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-magicLabel@536: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-caseString@540: case 'nonDifferential':
+magicLabel@60: error: 'Failed to fetch properties',
+magicLabel@61: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@77: error: 'Property not found',
+magicLabel@88: error: 'Error fetching property',
+magicLabel@89: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@122: error: 'Missing required fields',
+magicLabel@168: error: 'Failed to create property',
+magicLabel@169: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@185: error: 'Property not found',
+magicLabel@231: error: 'Failed to update property',
+magicLabel@232: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@248: error: 'Property not found',
+magicLabel@276: error: 'Failed to patch property',
+magicLabel@277: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@288: error: 'Property not found',
+magicLabel@300: error: 'Failed to delete property',
+magicLabel@301: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@332: error: 'Failed to fetch property types',
+magicLabel@333: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@343: * - blockInstanceId: UUID of the block_instance (must be "Properties" block_shape)
+magicLabel@348: * PATTERN: Validate block_shape is "Properties" before attempting insert
+magicLabel@366: error: 'Property version not found',
+magicLabel@378: error: 'Block instance not found',
+magicLabel@387: if (!blockShape || blockShape.name !== 'Properties') {
+magicLabel@389: error: 'Block instance must have "Properties" block_shape',
+magicLabel@410: error: 'Block instance must have "Properties" block_shape',
+magicLabel@419: error: 'Property type already assigned to this property version',
+magicLabel@426: error: 'Failed to add property type',
+magicLabel@427: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@441: error: 'Property type not found',
+magicLabel@459: error: 'Failed to update property type',
+magicLabel@460: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@473: error: 'Property type not found',
+magicLabel@485: error: 'Failed to remove property type',
+magicLabel@486: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@510: error: 'Property version not found',
+magicLabel@516: // Validate all blockInstanceIds have "Properties" block_shape
+magicLabel@524: !bi.block_shape || bi.block_shape.name !== 'Properties'
+magicLabel@529: error: 'All block instances must have "Properties" block_shape',
+magicLabel@540: error: 'Some block instances not found',
+magicLabel@575: error: 'Failed to replace property types',
+magicLabel@576: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
 ### `server/src/routes/internal/entities/entityRouter.ts`
@@ -688,33 +660,53 @@ caseString@540: case 'nonDifferential':
 - requiring review: 27, allowed: 0
 
 ```
-magicLabel@46: error: 'Failed to fetch entity configuration',
-magicLabel@47: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@76: return res.status(500).json({ error: 'Entity configuration error' });
-magicLabel@94: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@137: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@151: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@171: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@185: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@213: (error.name === 'SequelizeValidationError' ||
-magicLabel@214: error.name === 'SequelizeUniqueConstraintError')) {
-magicLabel@220: if (validationError.name === 'SequelizeUniqueConstraintError') {
-magicLabel@240: const message = err.message || 'Validation error';
-magicLabel@265: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@279: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@404: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@418: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@437: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@457: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@467: error: 'Request body must be an array of update objects',
-magicLabel@510: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@524: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@650: error: 'Mutual exclusivity violation',
-magicLabel@660: (error.name === 'SequelizeValidationError' ||
-magicLabel@661: error.name === 'SequelizeUniqueConstraintError')) {
-magicLabel@676: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@690: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@732: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@33: error: 'Failed to fetch entity configuration',
+magicLabel@34: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@61: return res.status(500).json({ error: 'Entity configuration error' });
+magicLabel@68: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@102: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@110: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@130: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@138: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@160: (error.name === 'SequelizeValidationError' ||
+magicLabel@161: error.name === 'SequelizeUniqueConstraintError')) {
+magicLabel@165: if (validationError.name === 'SequelizeUniqueConstraintError') {
+magicLabel@181: const message = err.message || 'Validation error';
+magicLabel@203: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@211: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@322: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@330: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@347: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@367: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@377: error: 'Request body must be an array of update objects',
+magicLabel@417: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@425: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@534: error: 'Mutual exclusivity violation',
+magicLabel@544: (error.name === 'SequelizeValidationError' ||
+magicLabel@545: error.name === 'SequelizeUniqueConstraintError')) {
+magicLabel@558: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@566: res.status(500).json({ error: 'Entity configuration missing' });
+magicLabel@607: details: error instanceof Error ? error.message : 'Unknown error'
+```
+
+### `client/src/utils/booking/appointmentSlotBuilder.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=3, magicLabel=5
+- requiring review: 12, allowed: 0
+
+```
+magicLabel@65: * @param name - Event shape name (e.g., 'Major', 'Minor', 'Moveable')
+magicLabel@149: * @param partShapeName - Part shape name (e.g., "Client Presentation")
+fieldMapping@258: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+inlineLabelMap@258: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+magicLabel@258: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+caseString@439: case 'major':
+caseString@442: case 'minor':
+inlineLabelMap@445: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+magicLabel@445: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+inlineLabelMap@449: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+magicLabel@449: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+caseString@452: case 'nonDifferential':
 ```
 
 ### `server/src/scripts/backfill-input-config-from-selectable.mjs`
@@ -765,15 +757,15 @@ magicLabel@119: label="Select Mode"
 magicLabel@122: placeholder="Select mode"
 magicLabel@132: label="Enable Bulk Edit"
 magicLabel@166: const logger = createLogger('AdminPrimitiveMetadataEditor')
-magicLabel@379: logger.debug('Metadata cache refetched successfully')
-magicLabel@398: { title: 'Not Configured', value: 'notConfigured' },
-magicLabel@399: { title: 'Title Row', value: 'titleRow' },
-magicLabel@400: { title: 'Static As Title', value: 'staticAsTitle' },
-magicLabel@401: { title: 'Expanded Direct', value: 'expandedDirect' },
-magicLabel@402: { title: 'Expanded Panel', value: 'expandedPanel' },
-magicLabel@408: { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
-magicLabel@432: { title: 'Multiple', value: 'Multiple' },
-magicLabel@433: { title: 'Required', value: 'Required' },
+magicLabel@324: logger.debug('Metadata cache refetched successfully')
+magicLabel@339: { title: 'Not Configured', value: 'notConfigured' },
+magicLabel@340: { title: 'Title Row', value: 'titleRow' },
+magicLabel@341: { title: 'Static As Title', value: 'staticAsTitle' },
+magicLabel@342: { title: 'Expanded Direct', value: 'expandedDirect' },
+magicLabel@343: { title: 'Expanded Panel', value: 'expandedPanel' },
+magicLabel@349: { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
+magicLabel@367: { title: 'Multiple', value: 'Multiple' },
+magicLabel@368: { title: 'Required', value: 'Required' },
 ```
 
 ### `client/src/utils/forms/fieldLocationDispatcher.ts`
@@ -782,12 +774,12 @@ magicLabel@433: { title: 'Required', value: 'Required' },
 - requiring review: 6, allowed: 0
 
 ```
-switchTypeLike@225: switch (location.type) {
-caseString@226: case 'titleRow':
-caseString@228: case 'directInline':
-caseString@230: case 'directStacked':
-caseString@232: case 'subPanel':
-caseString@240: case 'hidden':
+switchTypeLike@186: switch (location.type) {
+caseString@187: case 'titleRow':
+caseString@189: case 'directInline':
+caseString@191: case 'directStacked':
+caseString@193: case 'subPanel':
+caseString@201: case 'hidden':
 ```
 
 ### `server/src/routes/internal/appointments/appointmentRouter.ts`
@@ -796,26 +788,26 @@ caseString@240: case 'hidden':
 - requiring review: 20, allowed: 0
 
 ```
-magicLabel@41: error: 'Failed to fetch appointments',
-magicLabel@42: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@70: error: 'Appointment not found',
-magicLabel@80: error: 'Error fetching appointment',
-magicLabel@81: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@121: throw new Error('One or more snapshot IDs are invalid');
-magicLabel@179: error: 'Failed to create appointment',
-magicLabel@180: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@195: error: 'Appointment not found',
-magicLabel@220: error: 'Failed to update appointment',
-magicLabel@221: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@236: error: 'Appointment not found',
-magicLabel@261: error: 'Failed to patch appointment',
-magicLabel@262: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@277: error: 'Appointment not found',
-magicLabel@287: error: 'Failed to delete appointment',
-magicLabel@288: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@305: error: 'Appointment not found',
-magicLabel@325: error: 'Error fetching appointment versions',
-magicLabel@326: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@37: error: 'Failed to fetch appointments',
+magicLabel@38: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@62: error: 'Appointment not found',
+magicLabel@72: error: 'Error fetching appointment',
+magicLabel@73: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@107: throw new Error('One or more snapshot IDs are invalid');
+magicLabel@156: error: 'Failed to create appointment',
+magicLabel@157: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@168: error: 'Appointment not found',
+magicLabel@193: error: 'Failed to update appointment',
+magicLabel@194: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@205: error: 'Appointment not found',
+magicLabel@230: error: 'Failed to patch appointment',
+magicLabel@231: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@242: error: 'Appointment not found',
+magicLabel@252: error: 'Failed to delete appointment',
+magicLabel@253: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@264: error: 'Appointment not found',
+magicLabel@284: error: 'Error fetching appointment versions',
+magicLabel@285: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
 ### `client/src/utils/admin/entityDisplayText.ts`
@@ -853,37 +845,19 @@ magicLabel@17: 'DollarOutlined': 'tabler-currency-dollar',
 magicLabel@18: 'ContactsOutlined': 'tabler-users',
 magicLabel@19: 'HomeOutlined': 'tabler-home',
 magicLabel@20: 'EyeOutlined': 'tabler-eye',
-magicLabel@23: 'ShoppingCartOutlined': 'tabler-shopping-cart',
-magicLabel@24: 'UserOutlined': 'tabler-user',
-magicLabel@25: 'TeamOutlined': 'tabler-users',
-magicLabel@26: 'SettingOutlined': 'tabler-settings',
-magicLabel@27: 'EditOutlined': 'tabler-edit',
-magicLabel@28: 'DeleteOutlined': 'tabler-trash',
-magicLabel@29: 'PlusOutlined': 'tabler-plus',
-magicLabel@30: 'MinusOutlined': 'tabler-minus',
-magicLabel@31: 'CheckOutlined': 'tabler-check',
-magicLabel@32: 'CloseOutlined': 'tabler-x',
-magicLabel@33: 'InfoCircleOutlined': 'tabler-info-circle',
-magicLabel@34: 'WarningOutlined': 'tabler-alert-triangle',
-magicLabel@35: 'QuestionCircleOutlined': 'tabler-help-circle',
-```
-
-### `client/src/composables/booking/useAvailabilityLogic.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=4, magicLabel=5
-- requiring review: 10, allowed: 0
-
-```
-magicLabel@309: // Check selected option type blocks (e.g., "No Client Presentation" option)
-fieldMapping@329: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:327',message:'isEffectivelyDifferential calculation',data:{isDifferentialService:isDifferentialService.value,hasDifferentialOverride:hasDifferentialOverride.value,selectedServices:wizard.selectedServiceTypeBlocks.value.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-inlineLabelMap@329: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:327',message:'isEffectivelyDifferential calculation',data:{isDifferentialService:isDifferentialService.value,hasDifferentialOverride:hasDifferentialOverride.value,selectedServices:wizard.selectedServiceTypeBlocks.value.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-magicLabel@329: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:327',message:'isEffectivelyDifferential calculation',data:{isDifferentialService:isDifferentialService.value,hasDifferentialOverride:hasDifferentialOverride.value,selectedServices:wizard.selectedServiceTypeBlocks.value.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-inlineLabelMap@333: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:329',message:'isEffectivelyDifferential=false: not differential service',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-magicLabel@333: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:329',message:'isEffectivelyDifferential=false: not differential service',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-inlineLabelMap@339: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:330',message:'isEffectivelyDifferential=false: has override',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-magicLabel@339: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:330',message:'isEffectivelyDifferential=false: has override',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-inlineLabelMap@344: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:331',message:'isEffectivelyDifferential=true',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-magicLabel@344: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:331',message:'isEffectivelyDifferential=true',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@22: 'ShoppingCartOutlined': 'tabler-shopping-cart',
+magicLabel@23: 'UserOutlined': 'tabler-user',
+magicLabel@24: 'TeamOutlined': 'tabler-users',
+magicLabel@25: 'SettingOutlined': 'tabler-settings',
+magicLabel@26: 'EditOutlined': 'tabler-edit',
+magicLabel@27: 'DeleteOutlined': 'tabler-trash',
+magicLabel@28: 'PlusOutlined': 'tabler-plus',
+magicLabel@29: 'MinusOutlined': 'tabler-minus',
+magicLabel@30: 'CheckOutlined': 'tabler-check',
+magicLabel@31: 'CloseOutlined': 'tabler-x',
+magicLabel@32: 'InfoCircleOutlined': 'tabler-info-circle',
+magicLabel@33: 'WarningOutlined': 'tabler-alert-triangle',
+magicLabel@34: 'QuestionCircleOutlined': 'tabler-help-circle',
 ```
 
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue`
@@ -892,22 +866,22 @@ magicLabel@344: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c382
 - requiring review: 16, allowed: 0
 
 ```
-magicLabel@160: get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
-magicLabel@171: get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
-magicLabel@182: get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',
-magicLabel@368: { title: 'Flexible', value: 'flexible' },
-magicLabel@374: { title: 'Past 7 days', value: 'past' },
-magicLabel@376: { title: 'Future 7 days', value: 'future' }
-magicLabel@524: { title: 'Round Up', value: 'roundUp' },
-magicLabel@525: { title: 'Round Down', value: 'roundDown' },
-magicLabel@526: { title: 'Round Nearest', value: 'roundNearest' }
-magicLabel@1034: label="Major Attendees"
-magicLabel@1045: label="Major Label"
-magicLabel@1054: label="Minor Attendees"
-magicLabel@1065: label="Minor Label"
-magicLabel@1073: label="Differential Graph Default Label"
-magicLabel@1081: label="Major State Label"
-magicLabel@1089: label="Minor State Label"
+magicLabel@132: get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
+magicLabel@143: get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
+magicLabel@154: get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',
+magicLabel@323: { title: 'Flexible', value: 'flexible' },
+magicLabel@328: { title: 'Past 7 days', value: 'past' },
+magicLabel@330: { title: 'Future 7 days', value: 'future' }
+magicLabel@455: { title: 'Round Up', value: 'roundUp' },
+magicLabel@456: { title: 'Round Down', value: 'roundDown' },
+magicLabel@457: { title: 'Round Nearest', value: 'roundNearest' }
+magicLabel@962: label="Major Attendees"
+magicLabel@973: label="Major Label"
+magicLabel@982: label="Minor Attendees"
+magicLabel@993: label="Minor Label"
+magicLabel@1001: label="Differential Graph Default Label"
+magicLabel@1009: label="Major State Label"
+magicLabel@1017: label="Minor State Label"
 ```
 
 ### `client/src/views/admin/tabs/components/PropertiesTable.vue`
@@ -940,22 +914,22 @@ magicLabel@182: No properties found. Click "Create Property" to add one.
 - requiring review: 16, allowed: 0
 
 ```
-magicLabel@25: error: 'Failed to fetch users',
-magicLabel@26: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@41: error: 'User not found',
-magicLabel@51: error: 'Error fetching user',
-magicLabel@52: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@68: error: 'Failed to create user',
-magicLabel@69: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@84: error: 'User not found',
-magicLabel@95: error: 'Failed to update user',
-magicLabel@96: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@111: error: 'User not found',
-magicLabel@122: error: 'Failed to patch user',
-magicLabel@123: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@138: error: 'User not found',
-magicLabel@148: error: 'Failed to delete user',
-magicLabel@149: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@21: error: 'Failed to fetch users',
+magicLabel@22: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@33: error: 'User not found',
+magicLabel@43: error: 'Error fetching user',
+magicLabel@44: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@56: error: 'Failed to create user',
+magicLabel@57: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@68: error: 'User not found',
+magicLabel@79: error: 'Failed to update user',
+magicLabel@80: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@91: error: 'User not found',
+magicLabel@102: error: 'Failed to patch user',
+magicLabel@103: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@114: error: 'User not found',
+magicLabel@124: error: 'Failed to delete user',
+magicLabel@125: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
 ### `client/src/components/booking/dev/DevPanelsContainer.vue`
@@ -964,16 +938,33 @@ magicLabel@149: details: error instanceof Error ? error.message : 'Unknown error
 - requiring review: 10, allowed: 0
 
 ```
-inlineLabelMap@508: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:537',message:'isSelectedServiceDifferential=false: no wizard',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-magicLabel@508: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:537',message:'isSelectedServiceDifferential=false: no wizard',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-inlineLabelMap@516: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:540',message:'isSelectedServiceDifferential=false: no services',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-magicLabel@516: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:540',message:'isSelectedServiceDifferential=false: no services',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-fieldMapping@524: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:543',message:'isSelectedServiceDifferential result',data:{result,selectedServices:selectedServices.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-inlineLabelMap@524: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:543',message:'isSelectedServiceDifferential result',data:{result,selectedServices:selectedServices.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-magicLabel@524: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:543',message:'isSelectedServiceDifferential result',data:{result,selectedServices:selectedServices.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-magicLabel@616: {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
-magicLabel@768: label="Service Type"
-magicLabel@854: : 'Not configured' }}
+inlineLabelMap@404: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:537',message:'isSelectedServiceDifferential=false: no wizard',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@404: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:537',message:'isSelectedServiceDifferential=false: no wizard',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+inlineLabelMap@410: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:540',message:'isSelectedServiceDifferential=false: no services',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@410: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:540',message:'isSelectedServiceDifferential=false: no services',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+fieldMapping@415: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:543',message:'isSelectedServiceDifferential result',data:{result,selectedServices:selectedServices.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+inlineLabelMap@415: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:543',message:'isSelectedServiceDifferential result',data:{result,selectedServices:selectedServices.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@415: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:543',message:'isSelectedServiceDifferential result',data:{result,selectedServices:selectedServices.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+magicLabel@498: {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
+magicLabel@650: label="Service Type"
+magicLabel@736: : 'Not configured' }}
+```
+
+### `client/src/composables/booking/useAvailabilityLogic.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=4, magicLabel=4
+- requiring review: 9, allowed: 0
+
+```
+fieldMapping@292: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:327',message:'isEffectivelyDifferential calculation',data:{isDifferentialService:isDifferentialService.value,hasDifferentialOverride:hasDifferentialOverride.value,selectedServices:wizard.selectedServiceTypeBlocks.value.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@292: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:327',message:'isEffectivelyDifferential calculation',data:{isDifferentialService:isDifferentialService.value,hasDifferentialOverride:hasDifferentialOverride.value,selectedServices:wizard.selectedServiceTypeBlocks.value.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@292: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:327',message:'isEffectivelyDifferential calculation',data:{isDifferentialService:isDifferentialService.value,hasDifferentialOverride:hasDifferentialOverride.value,selectedServices:wizard.selectedServiceTypeBlocks.value.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@294: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:329',message:'isEffectivelyDifferential=false: not differential service',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@294: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:329',message:'isEffectivelyDifferential=false: not differential service',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@298: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:330',message:'isEffectivelyDifferential=false: has override',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@298: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:330',message:'isEffectivelyDifferential=false: has override',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+inlineLabelMap@301: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:331',message:'isEffectivelyDifferential=true',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+magicLabel@301: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:331',message:'isEffectivelyDifferential=true',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
 ```
 
 ### `server/src/routes/internal/businessRulesRouter.ts`
@@ -982,21 +973,21 @@ magicLabel@854: : 'Not configured' }}
 - requiring review: 15, allowed: 0
 
 ```
-magicLabel@43: error: 'Failed to fetch business rules',
-magicLabel@61: error: 'Business rule not found',
-magicLabel@71: error: 'Failed to fetch business rule',
-magicLabel@104: error: 'Failed to fetch business rules for block',
-magicLabel@121: error: 'Missing required fields',
-magicLabel@131: error: 'Invalid ruleType',
-magicLabel@151: error: 'Failed to create business rule',
-magicLabel@170: error: 'Business rule not found',
-magicLabel@179: error: 'Missing required fields',
-magicLabel@198: error: 'Failed to update business rule',
-magicLabel@217: error: 'Business rule not found',
-magicLabel@230: error: 'Failed to update business rule',
-magicLabel@248: error: 'Business rule not found',
-magicLabel@257: message: 'Business rule deleted successfully',
-magicLabel@263: error: 'Failed to delete business rule',
+magicLabel@33: error: 'Failed to fetch business rules',
+magicLabel@47: error: 'Business rule not found',
+magicLabel@57: error: 'Failed to fetch business rule',
+magicLabel@80: error: 'Failed to fetch business rules for block',
+magicLabel@93: error: 'Missing required fields',
+magicLabel@102: error: 'Invalid ruleType',
+magicLabel@121: error: 'Failed to create business rule',
+magicLabel@136: error: 'Business rule not found',
+magicLabel@145: error: 'Missing required fields',
+magicLabel@163: error: 'Failed to update business rule',
+magicLabel@178: error: 'Business rule not found',
+magicLabel@190: error: 'Failed to update business rule',
+magicLabel@204: error: 'Business rule not found',
+magicLabel@213: message: 'Business rule deleted successfully',
+magicLabel@219: error: 'Failed to delete business rule',
 ```
 
 ### `server/src/routes/internal/businessSettingsRouter.ts`
@@ -1005,19 +996,19 @@ magicLabel@263: error: 'Failed to delete business rule',
 - requiring review: 13, allowed: 0
 
 ```
-fieldEqualsString@292: if (key && typeof key === 'string') {
-magicLabel@325: error: 'Failed to fetch business settings',
-magicLabel@326: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@365: error: 'Failed to fetch business setting',
-magicLabel@366: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@424: error: 'Failed to create business setting',
-magicLabel@425: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@484: error: 'Failed to update business setting',
-magicLabel@485: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@542: error: 'Failed to patch business setting',
-magicLabel@543: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@573: error: 'Failed to delete business setting',
-magicLabel@574: details: error instanceof Error ? error.message : 'Unknown error',
+fieldEqualsString@275: if (key && typeof key === 'string') {
+magicLabel@305: error: 'Failed to fetch business settings',
+magicLabel@306: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@338: error: 'Failed to fetch business setting',
+magicLabel@339: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@390: error: 'Failed to create business setting',
+magicLabel@391: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@443: error: 'Failed to update business setting',
+magicLabel@444: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@494: error: 'Failed to patch business setting',
+magicLabel@495: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@519: error: 'Failed to delete business setting',
+magicLabel@520: details: error instanceof Error ? error.message : 'Unknown error',
 ```
 
 ### `client/src/composables/booking/useAppointmentDataCollection.ts`
@@ -1026,14 +1017,14 @@ magicLabel@574: details: error instanceof Error ? error.message : 'Unknown error
 - requiring review: 8, allowed: 0
 
 ```
-magicLabel@101: showError('Please select at least one service type')
-magicLabel@107: showError('Property details are required')
-magicLabel@112: showError('Contact information is required')
-magicLabel@117: showError('Availability selection is required')
-fieldMapping@177: additionalContactIds.push({ id: createdAnotherClient.id, role: 'anotherClient' })
-fieldMapping@189: additionalContactIds.push({ id: createdTransactionManager.id, role: 'transactionManager' })
-fieldMapping@201: additionalContactIds.push({ id: createdSeller.id, role: 'seller' })
-magicLabel@296: const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
+magicLabel@89: showError('Please select at least one service type')
+magicLabel@95: showError('Property details are required')
+magicLabel@100: showError('Contact information is required')
+magicLabel@105: showError('Availability selection is required')
+fieldMapping@160: additionalContactIds.push({ id: createdAnotherClient.id, role: 'anotherClient' })
+fieldMapping@172: additionalContactIds.push({ id: createdTransactionManager.id, role: 'transactionManager' })
+fieldMapping@184: additionalContactIds.push({ id: createdSeller.id, role: 'seller' })
+magicLabel@268: const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
 ```
 
 ### `client/src/layouts/components/NavSearchBar.vue`
@@ -1042,18 +1033,18 @@ magicLabel@296: const errorMessage = error instanceof Error ? error.message : 'F
 - requiring review: 12, allowed: 0
 
 ```
-magicLabel@49: title: 'Popular Searches',
-magicLabel@51: { icon: 'tabler-chart-bar', title: 'Analytics', url: { name: 'dashboards-analytics' } },
-magicLabel@54: { icon: 'tabler-truck', title: 'Logistics', url: { name: 'dashboards-logistics' } },
-magicLabel@60: { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'apps-calendar' } },
-magicLabel@62: { icon: 'tabler-settings', title: 'Account Settings', url: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
-magicLabel@63: { icon: 'tabler-copy', title: 'Dialog Examples', url: { name: 'pages-dialog-examples' } },
-magicLabel@67: title: 'User Interface',
-magicLabel@69: { icon: 'tabler-typography', title: 'Typography', url: { name: 'pages-typography' } },
-magicLabel@70: { icon: 'tabler-menu-2', title: 'Accordion', url: { name: 'components-expansion-panel' } },
-magicLabel@79: { icon: 'tabler-file-invoice', title: 'Form Layouts', url: { name: 'forms-form-layouts' } },
-magicLabel@89: title: 'Analytics',
-fieldMapping@113: const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
+magicLabel@41: title: 'Popular Searches',
+magicLabel@43: { icon: 'tabler-chart-bar', title: 'Analytics', url: { name: 'dashboards-analytics' } },
+magicLabel@46: { icon: 'tabler-truck', title: 'Logistics', url: { name: 'dashboards-logistics' } },
+magicLabel@52: { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'apps-calendar' } },
+magicLabel@54: { icon: 'tabler-settings', title: 'Account Settings', url: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
+magicLabel@55: { icon: 'tabler-copy', title: 'Dialog Examples', url: { name: 'pages-dialog-examples' } },
+magicLabel@59: title: 'User Interface',
+magicLabel@61: { icon: 'tabler-typography', title: 'Typography', url: { name: 'pages-typography' } },
+magicLabel@62: { icon: 'tabler-menu-2', title: 'Accordion', url: { name: 'components-expansion-panel' } },
+magicLabel@71: { icon: 'tabler-file-invoice', title: 'Form Layouts', url: { name: 'forms-form-layouts' } },
+magicLabel@80: title: 'Analytics',
+fieldMapping@104: const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
 ```
 
 ### `server/src/config/entityRegistry.ts`
@@ -1062,20 +1053,20 @@ fieldMapping@113: const response = await api.get<SearchResults[]>(withQuery('/ap
 - requiring review: 14, allowed: 0
 
 ```
-magicLabel@140: displayName: 'Part Instance',
-magicLabel@141: description: 'Individual part instances with timing and fee configuration'
-magicLabel@146: displayName: 'Block Instance',
-magicLabel@147: description: 'Block instances with shape assignments and configuration',
-magicLabel@154: displayName: 'Part Shape',
-magicLabel@155: description: 'Part shape definitions and constraints'
-magicLabel@160: displayName: 'Block Shape',
-magicLabel@161: description: 'Block shape definitions and constraints'
-magicLabel@166: displayName: 'Event Shape',
-magicLabel@172: displayName: 'Event Instance',
-magicLabel@173: description: 'Event instance configurations with calendar event templates'
-magicLabel@178: displayName: 'Annotation Shape',
-magicLabel@184: displayName: 'Annotation Instance',
-magicLabel@185: description: 'Reusable annotation instances that can be assigned to block instances'
+magicLabel@122: displayName: 'Part Instance',
+magicLabel@123: description: 'Individual part instances with timing and fee configuration'
+magicLabel@128: displayName: 'Block Instance',
+magicLabel@129: description: 'Block instances with shape assignments and configuration',
+magicLabel@134: displayName: 'Part Shape',
+magicLabel@135: description: 'Part shape definitions and constraints'
+magicLabel@140: displayName: 'Block Shape',
+magicLabel@141: description: 'Block shape definitions and constraints'
+magicLabel@146: displayName: 'Event Shape',
+magicLabel@152: displayName: 'Event Instance',
+magicLabel@153: description: 'Event instance configurations with calendar event templates'
+magicLabel@158: displayName: 'Annotation Shape',
+magicLabel@164: displayName: 'Annotation Instance',
+magicLabel@165: description: 'Reusable annotation instances that can be assigned to block instances'
 ```
 
 ### `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts`
@@ -1084,20 +1075,20 @@ magicLabel@185: description: 'Reusable annotation instances that can be assigned
 - requiring review: 14, allowed: 0
 
 ```
-magicLabel@128: error: 'Failed to fetch batch metadata',
-magicLabel@129: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@152: error: 'Invalid entityType',
-magicLabel@174: error: 'Failed to fetch metadata',
-magicLabel@175: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@211: error: 'Invalid entityType',
-magicLabel@220: error: 'Missing required fields',
-magicLabel@242: error: 'Invalid renderAs',
-magicLabel@255: error: 'Missing inputConfig',
-magicLabel@347: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@368: error: 'Invalid entityType',
-magicLabel@409: error: 'Metadata not found',
-magicLabel@424: error: 'Failed to delete metadata',
-magicLabel@425: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@98: error: 'Failed to fetch batch metadata',
+magicLabel@99: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@116: error: 'Invalid entityType',
+magicLabel@134: error: 'Failed to fetch metadata',
+magicLabel@135: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@171: error: 'Invalid entityType',
+magicLabel@180: error: 'Missing required fields',
+magicLabel@199: error: 'Invalid renderAs',
+magicLabel@211: error: 'Missing inputConfig',
+magicLabel@294: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@307: error: 'Invalid entityType',
+magicLabel@344: error: 'Metadata not found',
+magicLabel@359: error: 'Failed to delete metadata',
+magicLabel@360: details: error instanceof Error ? error.message : 'Unknown error',
 ```
 
 ### `server/src/scripts/fixUserRolesAndEmails.ts`
@@ -1106,18 +1097,18 @@ magicLabel@425: details: error instanceof Error ? error.message : 'Unknown error
 - requiring review: 12, allowed: 0
 
 ```
-fieldMapping@30: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-magicLabel@57: { firstName: 'John', lastName: 'Homebuyer' },
-magicLabel@58: { firstName: 'Sarah', lastName: 'Purchaser' },
-magicLabel@59: { firstName: 'Michael', lastName: 'Newowner' },
-magicLabel@60: { firstName: 'Emily', lastName: 'Houseseeker' },
-magicLabel@61: { firstName: 'David', lastName: 'Propertybuyer' },
-magicLabel@62: { firstName: 'Jessica', lastName: 'Homeshopper' },
-magicLabel@63: { firstName: 'Robert', lastName: 'Estateclient' },
-magicLabel@64: { firstName: 'Amanda', lastName: 'Realestateclient' },
-magicLabel@192: ? agentUsers.find(u => u.id === updates.agentId)?.firstName || 'Unknown'
-magicLabel@195: ? createdClients.find(c => c.id === updates.clientId)?.firstName || 'Unknown'
-magicLabel@198: ? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'
+fieldMapping@29: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+magicLabel@47: { firstName: 'John', lastName: 'Homebuyer' },
+magicLabel@48: { firstName: 'Sarah', lastName: 'Purchaser' },
+magicLabel@49: { firstName: 'Michael', lastName: 'Newowner' },
+magicLabel@50: { firstName: 'Emily', lastName: 'Houseseeker' },
+magicLabel@51: { firstName: 'David', lastName: 'Propertybuyer' },
+magicLabel@52: { firstName: 'Jessica', lastName: 'Homeshopper' },
+magicLabel@53: { firstName: 'Robert', lastName: 'Estateclient' },
+magicLabel@54: { firstName: 'Amanda', lastName: 'Realestateclient' },
+magicLabel@159: ? agentUsers.find(u => u.id === updates.agentId)?.firstName || 'Unknown'
+magicLabel@162: ? createdClients.find(c => c.id === updates.clientId)?.firstName || 'Unknown'
+magicLabel@165: ? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'
 ```
 
 ### `client/src/components/admin/generic/EntityCard.vue`
@@ -1126,30 +1117,15 @@ magicLabel@198: ? allUsers.find(u => u.id === updates.scheduledById)?.firstName 
 - requiring review: 9, allowed: 0
 
 ```
-magicLabel@159: const logger = createLogger('EntityCard')
-magicLabel@189: if (isScopeExplicitlyEnabled('EntityCard')) {
-magicLabel@190: logger.debug('Form initialized', {
-magicLabel@288: logger.debug('Fields needing contexts', {
-magicLabel@396: logger.debug('Save triggered', {
-fieldMapping@414: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-magicLabel@414: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-fieldMapping@428: logger.debug('Form reset after save', { entityId: props.entity.id })
-magicLabel@428: logger.debug('Form reset after save', { entityId: props.entity.id })
-```
-
-### `server/src/scripts/importCalendarData.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=2, magicLabel=3
-- requiring review: 7, allowed: 0
-
-```
-magicLabel@70: * Handles various name formats: "John Smith", "John M. Smith", "Smith, John", etc.
-magicLabel@86: // Handle "First Last" or "First Middle Last" format
-magicLabel@220: firstName: firstName || 'Unknown',
-fieldMapping@254: where: { email: client.email },
-fieldMapping@328: const existingUser = await User.findOne({ where: { email: client.email } });
-inlineLabelMap@394: console.log('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
-inlineLabelMap@412: console.log('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+magicLabel@155: const logger = createLogger('EntityCard')
+magicLabel@178: if (isScopeExplicitlyEnabled('EntityCard')) {
+magicLabel@179: logger.debug('Form initialized', {
+magicLabel@264: logger.debug('Fields needing contexts', {
+magicLabel@364: logger.debug('Save triggered', {
+fieldMapping@379: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+magicLabel@379: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+fieldMapping@391: logger.debug('Form reset after save', { entityId: props.entity.id })
+magicLabel@391: logger.debug('Form reset after save', { entityId: props.entity.id })
 ```
 
 ### `server/src/test/setup/seedTestData.ts`
@@ -1158,19 +1134,19 @@ inlineLabelMap@412: console.log('💡 Usage: echo \'[{"summary":"...","location"
 - requiring review: 13, allowed: 0
 
 ```
-magicLabel@22: name: 'Standard Inspection',
-magicLabel@23: description: 'Standard home inspection service',
-magicLabel@30: name: 'Additional Service',
-magicLabel@31: description: 'Additional service option',
-magicLabel@39: name: 'Interior Inspection',
-magicLabel@40: description: 'Interior inspection component',
-magicLabel@47: name: 'Exterior Inspection',
-magicLabel@48: description: 'Exterior inspection component',
-magicLabel@59: name: 'Standard Inspection',
-magicLabel@72: name: 'Interior Check',
-magicLabel@84: name: 'Exterior Check',
-magicLabel@132: name: 'Test User',
-magicLabel@138: name: 'Admin User',
+magicLabel@17: name: 'Standard Inspection',
+magicLabel@18: description: 'Standard home inspection service',
+magicLabel@25: name: 'Additional Service',
+magicLabel@26: description: 'Additional service option',
+magicLabel@33: name: 'Interior Inspection',
+magicLabel@34: description: 'Interior inspection component',
+magicLabel@41: name: 'Exterior Inspection',
+magicLabel@42: description: 'Exterior inspection component',
+magicLabel@50: name: 'Standard Inspection',
+magicLabel@60: name: 'Interior Check',
+magicLabel@72: name: 'Exterior Check',
+magicLabel@114: name: 'Test User',
+magicLabel@120: name: 'Admin User',
 ```
 
 ### `client/src/components/booking/steps/ContactsStep.vue`
@@ -1179,18 +1155,18 @@ magicLabel@138: name: 'Admin User',
 - requiring review: 12, allowed: 0
 
 ```
-magicLabel@143: label="First Name"
-magicLabel@154: label="Last Name"
-magicLabel@186: label="First Name"
-magicLabel@197: label="Last Name"
-magicLabel@241: label="First Name"
-magicLabel@252: label="Last Name"
-magicLabel@296: label="First Name"
-magicLabel@307: label="Last Name"
-magicLabel@308: placeholder="Johnson"
-magicLabel@351: label="First Name"
-magicLabel@362: label="Last Name"
-magicLabel@363: placeholder="Williams"
+magicLabel@130: label="First Name"
+magicLabel@141: label="Last Name"
+magicLabel@173: label="First Name"
+magicLabel@184: label="Last Name"
+magicLabel@228: label="First Name"
+magicLabel@239: label="Last Name"
+magicLabel@283: label="First Name"
+magicLabel@294: label="Last Name"
+magicLabel@295: placeholder="Johnson"
+magicLabel@338: label="First Name"
+magicLabel@349: label="Last Name"
+magicLabel@350: placeholder="Williams"
 ```
 
 ### `client/src/utils/booking/durationRounding.ts`
@@ -1210,18 +1186,18 @@ caseString@97: case 'roundNearest':
 - requiring review: 12, allowed: 0
 
 ```
-magicLabel@78: error: 'Invalid entityType',
-magicLabel@112: error: 'Failed to fetch primitive metadata',
-magicLabel@113: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@149: error: 'Invalid entityType',
-magicLabel@158: error: 'Missing required fields',
-magicLabel@167: error: 'Invalid renderAs',
-magicLabel@180: error: 'Missing inputConfig',
-magicLabel@239: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@255: error: 'Invalid entityType',
-magicLabel@271: error: 'Primitive metadata not found',
-magicLabel@285: error: 'Failed to delete primitive metadata',
-magicLabel@286: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@67: error: 'Invalid entityType',
+magicLabel@99: error: 'Failed to fetch primitive metadata',
+magicLabel@100: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@129: error: 'Invalid entityType',
+magicLabel@138: error: 'Missing required fields',
+magicLabel@147: error: 'Invalid renderAs',
+magicLabel@159: error: 'Missing inputConfig',
+magicLabel@215: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@227: error: 'Invalid entityType',
+magicLabel@243: error: 'Primitive metadata not found',
+magicLabel@257: error: 'Failed to delete primitive metadata',
+magicLabel@258: details: error instanceof Error ? error.message : 'Unknown error',
 ```
 
 ### `server/src/utils/availabilities/availabiltiesDbUtils.ts`
@@ -1230,9 +1206,9 @@ magicLabel@286: details: error instanceof Error ? error.message : 'Unknown error
 - requiring review: 3, allowed: 0
 
 ```
-caseString@273: case 'past':
-caseString@289: case 'centered':
-caseString@305: case 'future':
+caseString@238: case 'past':
+caseString@253: case 'centered':
+caseString@268: case 'future':
 ```
 
 ### `client/src/components/booking/AppointmentSlotGrid.vue`
@@ -1241,13 +1217,13 @@ caseString@305: case 'future':
 - requiring review: 7, allowed: 0
 
 ```
-inlineLabelMap@111: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:94',message:'displaySlots: computing slots',data:{perspective:currentPerspective,slotsCount:props.appointmentSlots.length,hasGlobalData:!!globalData,hasSettings:!!availabilitySettings.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-magicLabel@111: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:94',message:'displaySlots: computing slots',data:{perspective:currentPerspective,slotsCount:props.appointmentSlots.length,hasGlobalData:!!globalData,hasSettings:!!availabilitySettings.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-fieldMapping@126: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:110',message:'displaySlots: minor perspective slot',data:{buttonIndex:appointmentSlot.buttonIndex,hasDisplayTime:!!displayTime,displayTime,isAvailable:appointmentSlot.isAvailable,hasTotalTimeRange:!!appointmentSlot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-inlineLabelMap@126: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:110',message:'displaySlots: minor perspective slot',data:{buttonIndex:appointmentSlot.buttonIndex,hasDisplayTime:!!displayTime,displayTime,isAvailable:appointmentSlot.isAvailable,hasTotalTimeRange:!!appointmentSlot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-magicLabel@126: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:110',message:'displaySlots: minor perspective slot',data:{buttonIndex:appointmentSlot.buttonIndex,hasDisplayTime:!!displayTime,displayTime,isAvailable:appointmentSlot.isAvailable,hasTotalTimeRange:!!appointmentSlot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-magicLabel@158: // PATTERN: Fallback to 'Unavailable' only if truly no time can be determined
-magicLabel@159: return 'Unavailable'
+inlineLabelMap@95: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:94',message:'displaySlots: computing slots',data:{perspective:currentPerspective,slotsCount:props.appointmentSlots.length,hasGlobalData:!!globalData,hasSettings:!!availabilitySettings.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+magicLabel@95: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:94',message:'displaySlots: computing slots',data:{perspective:currentPerspective,slotsCount:props.appointmentSlots.length,hasGlobalData:!!globalData,hasSettings:!!availabilitySettings.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+fieldMapping@106: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:110',message:'displaySlots: minor perspective slot',data:{buttonIndex:appointmentSlot.buttonIndex,hasDisplayTime:!!displayTime,displayTime,isAvailable:appointmentSlot.isAvailable,hasTotalTimeRange:!!appointmentSlot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+inlineLabelMap@106: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:110',message:'displaySlots: minor perspective slot',data:{buttonIndex:appointmentSlot.buttonIndex,hasDisplayTime:!!displayTime,displayTime,isAvailable:appointmentSlot.isAvailable,hasTotalTimeRange:!!appointmentSlot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+magicLabel@106: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:110',message:'displaySlots: minor perspective slot',data:{buttonIndex:appointmentSlot.buttonIndex,hasDisplayTime:!!displayTime,displayTime,isAvailable:appointmentSlot.isAvailable,hasTotalTimeRange:!!appointmentSlot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
+magicLabel@127: // PATTERN: Fallback to 'Unavailable' only if truly no time can be determined
+magicLabel@128: return 'Unavailable'
 ```
 
 ### `client/src/components/booking/steps/PropertyDetailsStep.vue`
@@ -1256,17 +1232,17 @@ magicLabel@159: return 'Unavailable'
 - requiring review: 11, allowed: 0
 
 ```
-magicLabel@98: { value: 'FL', title: 'Florida' },
-magicLabel@99: { value: 'VA', title: 'Virginia' },
-magicLabel@100: { value: 'DC', title: 'District of Columbia' },
-magicLabel@290: label="Address"
-magicLabel@313: placeholder="Los Angeles"
-magicLabel@338: label="Zip Code"
-magicLabel@390: label="MLS Number"
-magicLabel@398: label="Bedrooms"
-magicLabel@407: label="Bathrooms"
-magicLabel@416: label="Foundation Access"
-magicLabel@427: label="Number of Units"
+magicLabel@86: { value: 'FL', title: 'Florida' },
+magicLabel@87: { value: 'VA', title: 'Virginia' },
+magicLabel@88: { value: 'DC', title: 'District of Columbia' },
+magicLabel@242: label="Address"
+magicLabel@265: placeholder="Los Angeles"
+magicLabel@290: label="Zip Code"
+magicLabel@342: label="MLS Number"
+magicLabel@350: label="Bedrooms"
+magicLabel@359: label="Bathrooms"
+magicLabel@368: label="Foundation Access"
+magicLabel@379: label="Number of Units"
 ```
 
 ### `client/src/layouts/components/NavbarShortcuts.vue`
@@ -1294,17 +1270,30 @@ magicLabel@36: subtitle: 'Account Settings',
 - requiring review: 11, allowed: 0
 
 ```
-magicLabel@26: error: 'Invalid entityType',
-magicLabel@61: error: 'Failed to fetch relationship metadata',
-magicLabel@62: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@93: error: 'Invalid entityType',
-magicLabel@102: error: 'Missing required fields',
-magicLabel@116: error: 'Missing inputConfig',
-magicLabel@175: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@191: error: 'Invalid entityType',
-magicLabel@207: error: 'Relationship metadata not found',
-magicLabel@221: error: 'Failed to delete relationship metadata',
-magicLabel@222: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@21: error: 'Invalid entityType',
+magicLabel@53: error: 'Failed to fetch relationship metadata',
+magicLabel@54: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@80: error: 'Invalid entityType',
+magicLabel@89: error: 'Missing required fields',
+magicLabel@101: error: 'Missing inputConfig',
+magicLabel@157: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@169: error: 'Invalid entityType',
+magicLabel@185: error: 'Relationship metadata not found',
+magicLabel@199: error: 'Failed to delete relationship metadata',
+magicLabel@200: details: error instanceof Error ? error.message : 'Unknown error',
+```
+
+### `server/src/scripts/importCalendarData.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=2, magicLabel=1
+- requiring review: 5, allowed: 0
+
+```
+magicLabel@174: firstName: firstName || 'Unknown',
+fieldMapping@198: where: { email: client.email },
+fieldMapping@261: const existingUser = await User.findOne({ where: { email: client.email } });
+inlineLabelMap@317: console.log('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+inlineLabelMap@334: console.log('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 ```
 
 ### `client/src/composables/admin/useBusinessRules.ts`
@@ -1313,16 +1302,16 @@ magicLabel@222: details: error instanceof Error ? error.message : 'Unknown error
 - requiring review: 10, allowed: 0
 
 ```
-magicLabel@155: error.value = err instanceof Error ? err.message : 'Failed to load business rules'
-magicLabel@177: error.value = err instanceof Error ? err.message : 'Failed to load business rules for block'
-magicLabel@199: success.value = 'Business rule created successfully'
-magicLabel@208: error.value = err instanceof Error ? err.message : 'Failed to create business rule'
-magicLabel@230: success.value = 'Business rule updated successfully'
-magicLabel@239: error.value = err instanceof Error ? err.message : 'Failed to update business rule'
-magicLabel@259: success.value = 'Business rule deleted successfully'
-magicLabel@265: error.value = err instanceof Error ? err.message : 'Failed to delete business rule'
-magicLabel@284: success.value = active ? 'Business rule enabled' : 'Business rule disabled'
-magicLabel@290: error.value = err instanceof Error ? err.message : 'Failed to toggle business rule'
+magicLabel@154: error.value = err instanceof Error ? err.message : 'Failed to load business rules'
+magicLabel@176: error.value = err instanceof Error ? err.message : 'Failed to load business rules for block'
+magicLabel@198: success.value = 'Business rule created successfully'
+magicLabel@206: error.value = err instanceof Error ? err.message : 'Failed to create business rule'
+magicLabel@228: success.value = 'Business rule updated successfully'
+magicLabel@236: error.value = err instanceof Error ? err.message : 'Failed to update business rule'
+magicLabel@256: success.value = 'Business rule deleted successfully'
+magicLabel@261: error.value = err instanceof Error ? err.message : 'Failed to delete business rule'
+magicLabel@280: success.value = active ? 'Business rule enabled' : 'Business rule disabled'
+magicLabel@285: error.value = err instanceof Error ? err.message : 'Failed to toggle business rule'
 ```
 
 ### `client/src/composables/booking/useWizardAppointmentManagement.ts`
@@ -1331,16 +1320,16 @@ magicLabel@290: error.value = err instanceof Error ? err.message : 'Failed to to
 - requiring review: 10, allowed: 0
 
 ```
-magicLabel@98: showError('No appointments available to load')
-magicLabel@109: showError('Appointment not found')
-magicLabel@114: showError('Appointment not found')
-magicLabel@120: showError('Unable to load appointment data')
-magicLabel@163: success('Appointment loaded successfully')
-magicLabel@167: const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
-magicLabel@181: showError('No appointment loaded')
-magicLabel@196: success('Appointment updated successfully')
-magicLabel@198: const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
-magicLabel@237: success('Wizard reset successfully')
+magicLabel@93: showError('No appointments available to load')
+magicLabel@103: showError('Appointment not found')
+magicLabel@108: showError('Appointment not found')
+magicLabel@114: showError('Unable to load appointment data')
+magicLabel@146: success('Appointment loaded successfully')
+magicLabel@149: const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
+magicLabel@163: showError('No appointment loaded')
+magicLabel@178: success('Appointment updated successfully')
+magicLabel@180: const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
+magicLabel@216: success('Wizard reset successfully')
 ```
 
 ### `client/src/views/admin/tabs/components/AppointmentsTable.vue`
@@ -1349,16 +1338,16 @@ magicLabel@237: success('Wizard reset successfully')
 - requiring review: 10, allowed: 0
 
 ```
-magicLabel@60: * - Removed 'Quote Mode' column (replaced by 'quoted' status)
-magicLabel@61: * - Added 'Scheduled By' column
-magicLabel@64: { title: 'Property', key: 'propertyVersionId', sortable: true },
-magicLabel@65: { title: 'Property Type', key: 'propertyTypes', sortable: false },
-magicLabel@68: { title: 'Scheduled By', key: 'scheduledById', sortable: true },
-magicLabel@71: { title: 'Actions', key: 'actions', sortable: false },
-magicLabel@198: label="Scheduled By"
-magicLabel@232: label="Quote Mode"
-magicLabel@239: label="Selected Date"
-magicLabel@258: No appointments found. Click "Create Appointment" to add one.
+magicLabel@59: * - Removed 'Quote Mode' column (replaced by 'quoted' status)
+magicLabel@60: * - Added 'Scheduled By' column
+magicLabel@63: { title: 'Property', key: 'propertyVersionId', sortable: true },
+magicLabel@64: { title: 'Property Type', key: 'propertyTypes', sortable: false },
+magicLabel@67: { title: 'Scheduled By', key: 'scheduledById', sortable: true },
+magicLabel@70: { title: 'Actions', key: 'actions', sortable: false },
+magicLabel@196: label="Scheduled By"
+magicLabel@230: label="Quote Mode"
+magicLabel@237: label="Selected Date"
+magicLabel@256: No appointments found. Click "Create Appointment" to add one.
 ```
 
 ### `server/src/db/models/admin/adminMetadata.ts`
@@ -1367,15 +1356,15 @@ magicLabel@258: No appointments found. Click "Create Appointment" to add one.
 - requiring review: 9, allowed: 0
 
 ```
-magicLabel@65: comment: 'Entity type for this metadata entry',
-magicLabel@71: comment: 'Entity ID or sentinel UUID for global configs',
-magicLabel@90: comment: 'Field data type',
-magicLabel@95: comment: 'Human-readable label',
-magicLabel@102: comment: 'Whether field is required',
-magicLabel@109: comment: 'Field visibility setting',
-magicLabel@115: comment: 'Layout within section',
-magicLabel@141: comment: 'Panel name for expandedPanel visibility',
-magicLabel@148: comment: 'Whether field can be bulk edited',
+magicLabel@62: comment: 'Entity type for this metadata entry',
+magicLabel@68: comment: 'Entity ID or sentinel UUID for global configs',
+magicLabel@86: comment: 'Field data type',
+magicLabel@91: comment: 'Human-readable label',
+magicLabel@98: comment: 'Whether field is required',
+magicLabel@104: comment: 'Field visibility setting',
+magicLabel@110: comment: 'Layout within section',
+magicLabel@136: comment: 'Panel name for expandedPanel visibility',
+magicLabel@143: comment: 'Whether field can be bulk edited',
 ```
 
 ### `server/src/db/models/admin/adminPrimitiveMetadata.ts`
@@ -1384,15 +1373,15 @@ magicLabel@148: comment: 'Whether field can be bulk edited',
 - requiring review: 9, allowed: 0
 
 ```
-magicLabel@61: comment: 'Entity type for this primitive metadata entry',
-magicLabel@67: comment: 'Entity ID or sentinel UUID for global configs',
-magicLabel@80: comment: 'Field data type',
-magicLabel@85: comment: 'Human-readable label',
-magicLabel@92: comment: 'Whether field is required',
-magicLabel@99: comment: 'Field visibility setting',
-magicLabel@105: comment: 'Layout within section',
-magicLabel@136: comment: 'Panel name for expandedPanel visibility',
-magicLabel@143: comment: 'Whether field can be bulk edited',
+magicLabel@57: comment: 'Entity type for this primitive metadata entry',
+magicLabel@63: comment: 'Entity ID or sentinel UUID for global configs',
+magicLabel@75: comment: 'Field data type',
+magicLabel@80: comment: 'Human-readable label',
+magicLabel@87: comment: 'Whether field is required',
+magicLabel@93: comment: 'Field visibility setting',
+magicLabel@99: comment: 'Layout within section',
+magicLabel@130: comment: 'Panel name for expandedPanel visibility',
+magicLabel@137: comment: 'Whether field can be bulk edited',
 ```
 
 ### `client/src/utils/entityDefaults.ts`
@@ -1401,14 +1390,14 @@ magicLabel@143: comment: 'Whether field can be bulk edited',
 - requiring review: 8, allowed: 0
 
 ```
-magicLabel@30: blockInstance: 'Block Profile',
-magicLabel@31: blockShape: 'Block Shape',
-magicLabel@32: partInstance: 'Part Profile',
-magicLabel@33: partShape: 'Part Shape',
-magicLabel@34: eventShape: 'Event Shape',
-magicLabel@35: eventInstance: 'Event Profile',
-magicLabel@36: annotationShape: 'Annotation Shape',
-magicLabel@37: annotationInstance: 'Annotation Profile',
+magicLabel@22: blockInstance: 'Block Profile',
+magicLabel@23: blockShape: 'Block Shape',
+magicLabel@24: partInstance: 'Part Profile',
+magicLabel@25: partShape: 'Part Shape',
+magicLabel@26: eventShape: 'Event Shape',
+magicLabel@27: eventInstance: 'Event Profile',
+magicLabel@28: annotationShape: 'Annotation Shape',
+magicLabel@29: annotationInstance: 'Annotation Profile',
 ```
 
 ### `client/src/views/admin/tabs/InstancesTab.vue`
@@ -1417,14 +1406,14 @@ magicLabel@37: annotationInstance: 'Annotation Profile',
 - requiring review: 8, allowed: 0
 
 ```
-magicLabel@334: alert('Please create an event shape first')
-magicLabel@363: success('Event instance created successfully')
-magicLabel@471: : 'No Cascades'
-magicLabel@491: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@671: label="Event Shape"
-magicLabel@684: label="Title Template"
-magicLabel@692: label="Description Template"
-magicLabel@700: label="Location Template"
+magicLabel@299: alert('Please create an event shape first')
+magicLabel@328: success('Event instance created successfully')
+magicLabel@433: : 'No Cascades'
+magicLabel@453: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+magicLabel@633: label="Event Shape"
+magicLabel@646: label="Title Template"
+magicLabel@654: label="Description Template"
+magicLabel@662: label="Location Template"
 ```
 
 ### `server/src/db/models/admin/adminRelationshipMetadata.ts`
@@ -1433,14 +1422,14 @@ magicLabel@700: label="Location Template"
 - requiring review: 8, allowed: 0
 
 ```
-magicLabel@59: comment: 'Entity type for this relationship metadata entry',
-magicLabel@65: comment: 'Entity ID or sentinel UUID for global configs',
-magicLabel@78: comment: 'Relationship data type',
-magicLabel@83: comment: 'Human-readable label',
-magicLabel@90: comment: 'Whether relationship field is required',
-magicLabel@97: comment: 'Relationship field visibility setting',
-magicLabel@103: comment: 'Layout within section',
-magicLabel@141: comment: 'Whether relationship field can be bulk edited',
+magicLabel@55: comment: 'Entity type for this relationship metadata entry',
+magicLabel@61: comment: 'Entity ID or sentinel UUID for global configs',
+magicLabel@73: comment: 'Relationship data type',
+magicLabel@78: comment: 'Human-readable label',
+magicLabel@85: comment: 'Whether relationship field is required',
+magicLabel@91: comment: 'Relationship field visibility setting',
+magicLabel@97: comment: 'Layout within section',
+magicLabel@135: comment: 'Whether relationship field can be bulk edited',
 ```
 
 ### `server/src/scripts/importFromMCPEvents.ts`
@@ -1449,10 +1438,10 @@ magicLabel@141: comment: 'Whether relationship field can be bulk edited',
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@39: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-magicLabel@40: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-fieldMapping@104: start: event.start ? { dateTime: event.start.dateTime || event.start.date } : undefined,
-fieldMapping@105: end: event.end ? { dateTime: event.end.dateTime || event.end.date } : undefined,
+magicLabel@31: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+magicLabel@32: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+fieldMapping@89: start: event.start ? { dateTime: event.start.dateTime || event.start.date } : undefined,
+fieldMapping@90: end: event.end ? { dateTime: event.end.dateTime || event.end.date } : undefined,
 ```
 
 ### `client/src/components/booking/SelectionCard.vue`
@@ -1461,9 +1450,9 @@ fieldMapping@105: end: event.end ? { dateTime: event.end.dateTime || event.end.d
 - requiring review: 3, allowed: 0
 
 ```
-fieldMapping@184: emit('update:number', { itemId: props.item.id, number: finalValue })
-fieldMapping@199: :style="{ minHeight: configWithDefaults.appearance.minHeight }"
-magicLabel@252: label="Quantity"
+fieldMapping@159: emit('update:number', { itemId: props.item.id, number: finalValue })
+fieldMapping@174: :style="{ minHeight: configWithDefaults.appearance.minHeight }"
+magicLabel@227: label="Quantity"
 ```
 
 ### `client/src/utils/booking/timeAvailabilityManager.ts`
@@ -1473,10 +1462,10 @@ magicLabel@252: label="Quantity"
 
 ```
 magicLabel@91: this.name = 'ConstraintValidationError'
-switchTypeLike@306: switch (constraint.type) {
-fieldMapping@441: { start: busy.start, end: busy.end }
-fieldMapping@472: { start: busy.start, end: busy.end }
-switchTypeLike@1097: switch (keyParts.type) {
+switchTypeLike@281: switch (constraint.type) {
+fieldMapping@399: { start: busy.start, end: busy.end }
+fieldMapping@429: { start: busy.start, end: busy.end }
+switchTypeLike@988: switch (keyParts.type) {
 ```
 
 ### `client/src/composables/_archived/useFieldMetadata.ts`
@@ -1485,8 +1474,8 @@ switchTypeLike@1097: switch (keyParts.type) {
 - requiring review: 2, allowed: 0
 
 ```
-fieldEqualsString@250: if (key === 'helpText' || key === 'label' || key === 'placeholder') {
-fieldEqualsString@254: } else if (key === 'required' || key === 'disabled' || key === 'readOnly') {
+fieldEqualsString@194: if (key === 'helpText' || key === 'label' || key === 'placeholder') {
+fieldEqualsString@198: } else if (key === 'required' || key === 'disabled' || key === 'readOnly') {
 ```
 
 ### `client/src/layouts/components/NavBarNotifications.vue`
@@ -1503,33 +1492,19 @@ magicLabel@38: subtitle: 'Received Payment',
 magicLabel@47: subtitle: 'New order received from john',
 ```
 
-### `client/src/router/index.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@17: const logger = createLogger('Router Guard')
-magicLabel@76: // WHY: Reduces console noise - only log when explicitly enabled via VITE_DEBUG_SCOPES="Router Guard"
-magicLabel@78: if (isScopeExplicitlyEnabled('Router Guard')) {
-magicLabel@79: logger.debug('Prefetching admin metadata for', to.path)
-magicLabel@84: if (isScopeExplicitlyEnabled('Router Guard')) {
-magicLabel@85: logger.debug('Admin metadata prefetched successfully')
-```
-
 ### `client/src/utils/booking/constraintExtractors.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
 - requiring review: 7, allowed: 0
 
 ```
-switchTypeLike@201: switch (constraint.type) {
-magicLabel@219: return { valid: false, error: 'Invalid dateRange constraint config' }
-magicLabel@224: return { valid: false, error: 'Invalid dateRange dates' }
-magicLabel@242: return { valid: false, error: 'Invalid overlap constraint minutes' }
-magicLabel@249: return { valid: false, error: 'Invalid overlap constraint placement' }
-magicLabel@265: return { valid: false, error: 'Invalid capacity constraint maxHours' }
-magicLabel@270: return { valid: false, error: 'Invalid capacity constraint direction' }
+switchTypeLike@163: switch (constraint.type) {
+magicLabel@181: return { valid: false, error: 'Invalid dateRange constraint config' }
+magicLabel@186: return { valid: false, error: 'Invalid dateRange dates' }
+magicLabel@204: return { valid: false, error: 'Invalid overlap constraint minutes' }
+magicLabel@210: return { valid: false, error: 'Invalid overlap constraint placement' }
+magicLabel@226: return { valid: false, error: 'Invalid capacity constraint maxHours' }
+magicLabel@231: return { valid: false, error: 'Invalid capacity constraint direction' }
 ```
 
 ### `client/src/views/admin/tabs/components/UsersTable.vue`
@@ -1562,11 +1537,11 @@ fieldMapping@206: replacements: { shapeId: partShape.id, fieldKey },
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@238: relationshipTypes.push('Booking Cascades')
-magicLabel@251: relationshipTypes.push('Valid Cascades')
-magicLabel@254: relationshipTypes.push('Valid Parts')
-magicLabel@292: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@340: <!-- PATTERN: Simple panel with just "Annotations" label -->
+magicLabel@198: relationshipTypes.push('Booking Cascades')
+magicLabel@211: relationshipTypes.push('Valid Cascades')
+magicLabel@214: relationshipTypes.push('Valid Parts')
+magicLabel@251: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+magicLabel@299: <!-- PATTERN: Simple panel with just "Annotations" label -->
 ```
 
 ### `client/src/composables/booking/useWizardValidationErrors.ts`
@@ -1575,11 +1550,11 @@ magicLabel@340: <!-- PATTERN: Simple panel with just "Annotations" label -->
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@74: showError('Please select at least one property type')
-magicLabel@106: : 'Please complete all required fields'
-magicLabel@114: showError('Please complete all required fields before continuing')
-magicLabel@120: showError('Please complete all required fields before continuing')
-magicLabel@122: showError('Please complete all required fields before continuing')
+magicLabel@69: showError('Please select at least one property type')
+magicLabel@97: : 'Please complete all required fields'
+magicLabel@104: showError('Please complete all required fields before continuing')
+magicLabel@109: showError('Please complete all required fields before continuing')
+magicLabel@111: showError('Please complete all required fields before continuing')
 ```
 
 ### `client/src/composables/useFormValidation.ts`
@@ -1588,11 +1563,24 @@ magicLabel@122: showError('Please complete all required fields before continuing
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@47: const required = (message = 'This field is required'): ValidationRule => {
-magicLabel@68: const email = (message = 'Please enter a valid email address'): ValidationRule => {
-magicLabel@83: const phone = (message = 'Please enter a valid phone number'): ValidationRule => {
-magicLabel@162: const zipCode = (message = 'Please enter a valid zip code'): ValidationRule => {
-magicLabel@177: const dateNotInPast = (message = 'Date cannot be in the past'): ValidationRule => {
+magicLabel@30: const required = (message = 'This field is required'): ValidationRule => {
+magicLabel@51: const email = (message = 'Please enter a valid email address'): ValidationRule => {
+magicLabel@66: const phone = (message = 'Please enter a valid phone number'): ValidationRule => {
+magicLabel@144: const zipCode = (message = 'Please enter a valid zip code'): ValidationRule => {
+magicLabel@159: const dateNotInPast = (message = 'Date cannot be in the past'): ValidationRule => {
+```
+
+### `client/src/router/index.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
+- requiring review: 5, allowed: 0
+
+```
+magicLabel@17: const logger = createLogger('Router Guard')
+magicLabel@60: if (isScopeExplicitlyEnabled('Router Guard')) {
+magicLabel@61: logger.debug('Prefetching admin metadata for', to.path)
+magicLabel@66: if (isScopeExplicitlyEnabled('Router Guard')) {
+magicLabel@67: logger.debug('Admin metadata prefetched successfully')
 ```
 
 ### `client/src/utils/booking/slotGenerationValidation.ts`
@@ -1601,11 +1589,11 @@ magicLabel@177: const dateNotInPast = (message = 'Date cannot be in the past'): 
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@44: logger.warn('Non-integer duration will be rounded', { duration })
-magicLabel@62: logger.warn('Large minuteIncrement may result in few slots', { minuteIncrement })
-magicLabel@67: logger.error('Missing boundary parameters')
-magicLabel@77: logger.error('Invalid startBoundary datetime', { startBoundary })
-magicLabel@81: logger.error('Invalid endBoundary datetime', { endBoundary })
+magicLabel@40: logger.warn('Non-integer duration will be rounded', { duration })
+magicLabel@55: logger.warn('Large minuteIncrement may result in few slots', { minuteIncrement })
+magicLabel@59: logger.error('Missing boundary parameters')
+magicLabel@68: logger.error('Invalid startBoundary datetime', { startBoundary })
+magicLabel@72: logger.error('Invalid endBoundary datetime', { endBoundary })
 ```
 
 ### `server/src/api/api.controller.ts`
@@ -1614,9 +1602,9 @@ magicLabel@81: logger.error('Invalid endBoundary datetime', { endBoundary })
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@8: res.status(500).json({ error: "An error occurred" });
-fieldMapping@14: res.status(200).json({ msg: req.body });
-magicLabel@16: res.status(500).json({ error: "An error occurred" });
+magicLabel@7: res.status(500).json({ error: "An error occurred" });
+fieldMapping@13: res.status(200).json({ msg: req.body });
+magicLabel@15: res.status(500).json({ error: "An error occurred" });
 ```
 
 ### `server/src/db/models/admin/business_settings.ts`
@@ -1651,9 +1639,9 @@ magicLabel@69: comment: 'Order in which property types should be displayed',
 - requiring review: 3, allowed: 0
 
 ```
-fieldMapping@20: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-magicLabel@424: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-magicLabel@425: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+fieldMapping@13: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+magicLabel@346: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+magicLabel@347: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
 ```
 
 ### `server/src/scripts/importRealCalendarEvents.ts`
@@ -1662,21 +1650,9 @@ magicLabel@425: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez"
 - requiring review: 3, allowed: 0
 
 ```
-fieldMapping@18: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-magicLabel@51: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-magicLabel@52: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-```
-
-### `client/src/components/admin/BlockInstanceCreateModal.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@101: * WHY: Shows "Create" or "Duplicate" in modal title
-magicLabel@105: return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
-magicLabel@110: * WHY: Shows "Create" or "Duplicate" on button
-magicLabel@114: return props.sourceEntity ? 'Duplicate' : 'Create'
+fieldMapping@12: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+magicLabel@44: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
+magicLabel@45: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
 ```
 
 ### `client/src/components/admin/generic/collections/RelationshipCollection.vue`
@@ -1685,10 +1661,10 @@ magicLabel@114: return props.sourceEntity ? 'Duplicate' : 'Create'
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@215: parts: 'Click to create part instance',
-magicLabel@216: annotations: 'Click to create annotation instance',
-magicLabel@217: events: 'Click to create event instance'
-magicLabel@226: events: `No valid ${effectiveCollectionType.value === 'events' ? 'EventShapes' : 'Shapes'} configured. Configure valid options to add instances.`
+magicLabel@198: parts: 'Click to create part instance',
+magicLabel@199: annotations: 'Click to create annotation instance',
+magicLabel@200: events: 'Click to create event instance'
+magicLabel@209: events: `No valid ${effectiveCollectionType.value === 'events' ? 'EventShapes' : 'Shapes'} configured. Configure valid options to add instances.`
 ```
 
 ### `client/src/components/booking/IndependentSelectCard.vue`
@@ -1697,8 +1673,8 @@ magicLabel@226: events: `No valid ${effectiveCollectionType.value === 'events' ?
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@72: selectionComponent: 'VCheckbox',
-fieldMapping@179: :style="{ minHeight: mergedConfig.appearance.minHeight }"
+magicLabel@47: selectionComponent: 'VCheckbox',
+fieldMapping@135: :style="{ minHeight: mergedConfig.appearance.minHeight }"
 ```
 
 ### `client/src/composables/admin/useAvailabilitySettings.ts`
@@ -1708,9 +1684,9 @@ fieldMapping@179: :style="{ minHeight: mergedConfig.appearance.minHeight }"
 
 ```
 magicLabel@91: throw new Error('No settings found in API response')
-magicLabel@133: error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
-magicLabel@148: error.value = 'Settings must be loaded before validation'
-magicLabel@185: error.value = 'Settings must be loaded before saving'
+magicLabel@129: error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
+magicLabel@144: error.value = 'Settings must be loaded before validation'
+magicLabel@180: error.value = 'Settings must be loaded before saving'
 ```
 
 ### `client/src/composables/admin/usePartInstanceBulkEdit.ts`
@@ -1719,10 +1695,10 @@ magicLabel@185: error.value = 'Settings must be loaded before saving'
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@150: showError('No PartInstances to update')
-magicLabel@187: showError('No changes to apply')
-magicLabel@206: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
-magicLabel@245: showError('No valid fields to update')
+magicLabel@118: showError('No PartInstances to update')
+magicLabel@148: showError('No changes to apply')
+magicLabel@165: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
+magicLabel@201: showError('No valid fields to update')
 ```
 
 ### `client/src/composables/admin/useRelationshipCollection.ts`
@@ -1731,10 +1707,10 @@ magicLabel@245: showError('No valid fields to update')
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@130: // PATTERN: Replace 'Instance' with 'Shape' in entity key
-magicLabel@133: if (childKey.endsWith('Instance')) {
-magicLabel@134: return childKey.replace('Instance', 'Shape') as GlobalEntityKey
-magicLabel@137: return childKey.replace('instance', 'shape').replace('Instance', 'Shape') as GlobalEntityKey
+magicLabel@114: // PATTERN: Replace 'Instance' with 'Shape' in entity key
+magicLabel@117: if (childKey.endsWith('Instance')) {
+magicLabel@118: return childKey.replace('Instance', 'Shape') as GlobalEntityKey
+magicLabel@120: return childKey.replace('instance', 'shape').replace('Instance', 'Shape') as GlobalEntityKey
 ```
 
 ### `client/src/composables/booking/useAppointmentTimes.ts`
@@ -1743,10 +1719,10 @@ magicLabel@137: return childKey.replace('instance', 'shape').replace('Instance',
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@118: return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
-magicLabel@153: return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
-magicLabel@178: return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
-magicLabel@207: return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
+magicLabel@103: return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
+magicLabel@132: return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
+magicLabel@155: return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
+magicLabel@180: return transformed.eventTimeRanges?.[minorEventName] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Moveable'] || null
 ```
 
 ### `client/src/layouts/components/UserProfile.vue`
@@ -1755,10 +1731,10 @@ magicLabel@207: return transformed.eventTimeRanges?.[minorEventName] || transfor
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@39: { type: 'navItem', icon: 'tabler-user', title: 'Profile', to: { name: 'apps-user-view-id', params: { id: 21 } } },
-magicLabel@40: { type: 'navItem', icon: 'tabler-settings', title: 'Settings', to: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
-magicLabel@41: { type: 'navItem', icon: 'tabler-file-dollar', title: 'Billing Plan', to: { name: 'pages-account-settings-tab', params: { tab: 'billing-plans' } }, badgeProps: { color: 'error', content: '4' } },
-magicLabel@43: { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricing', to: { name: 'pages-pricing' } },
+magicLabel@33: { type: 'navItem', icon: 'tabler-user', title: 'Profile', to: { name: 'apps-user-view-id', params: { id: 21 } } },
+magicLabel@34: { type: 'navItem', icon: 'tabler-settings', title: 'Settings', to: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
+magicLabel@35: { type: 'navItem', icon: 'tabler-file-dollar', title: 'Billing Plan', to: { name: 'pages-account-settings-tab', params: { tab: 'billing-plans' } }, badgeProps: { color: 'error', content: '4' } },
+magicLabel@37: { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricing', to: { name: 'pages-pricing' } },
 ```
 
 ### `client/src/utils/booking/confirmationStepData.ts`
@@ -1767,10 +1743,21 @@ magicLabel@43: { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricin
 - requiring review: 4, allowed: 0
 
 ```
-magicLabel@123: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
-magicLabel@127: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
-magicLabel@138: const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'
-magicLabel@144: : 'Not specified'
+magicLabel@105: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
+magicLabel@109: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
+magicLabel@120: const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'
+magicLabel@126: : 'Not specified'
+```
+
+### `client/src/components/admin/BlockInstanceCreateModal.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@98: * WHY: Shows "Create" or "Duplicate" in modal title
+magicLabel@102: return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
+magicLabel@106: return props.sourceEntity ? 'Duplicate' : 'Create'
 ```
 
 ### `client/src/components/booking/dev/DevPanelToggle.vue`
@@ -1779,7 +1766,7 @@ magicLabel@144: : 'Not specified'
 - requiring review: 1, allowed: 0
 
 ```
-fieldEqualsString@26: if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
+fieldEqualsString@22: if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
 ```
 
 ### `client/src/components/booking/DifferentialGraph.vue`
@@ -1788,9 +1775,9 @@ fieldEqualsString@26: if ((event.ctrlKey || event.metaKey) && event.shiftKey && 
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@47: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
-magicLabel@53: availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
-magicLabel@153: <!-- WHY: Shows configurable "Select a Time Slot" message over entire graph with large text and greys it out -->
+magicLabel@45: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+magicLabel@49: availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
+magicLabel@135: <!-- WHY: Shows configurable "Select a Time Slot" message over entire graph with large text and greys it out -->
 ```
 
 ### `client/src/composables/admin/usePartInstanceCollection.ts`
@@ -1799,9 +1786,9 @@ magicLabel@153: <!-- WHY: Shows configurable "Select a Time Slot" message over e
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@138: const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
-magicLabel@140: const partShapeName = partShape?.name || 'PartShape'
-magicLabel@193: notifyError('Failed to link PartInstance to BlockInstance')
+magicLabel@124: const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
+magicLabel@126: const partShapeName = partShape?.name || 'PartShape'
+magicLabel@174: notifyError('Failed to link PartInstance to BlockInstance')
 ```
 
 ### `client/src/composables/admin/useSelectLabelResolution.ts`
@@ -1810,9 +1797,9 @@ magicLabel@193: notifyError('Failed to link PartInstance to BlockInstance')
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@49: * WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
-magicLabel@66: if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
-magicLabel@70: const shapeName = blockShape?.name as string || 'Instance'
+magicLabel@40: * WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
+magicLabel@54: if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
+magicLabel@57: const shapeName = blockShape?.name as string || 'Instance'
 ```
 
 ### `client/src/composables/booking/useAvailabilityValidation.ts`
@@ -1821,9 +1808,9 @@ magicLabel@70: const shapeName = blockShape?.name as string || 'Instance'
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@42: selectedDate: [required('Please select a date'), dateNotInPast()]
-magicLabel@49: return 'Please select a time slot'
-magicLabel@55: return 'Selected time slot is invalid'
+magicLabel@35: selectedDate: [required('Please select a date'), dateNotInPast()]
+magicLabel@41: return 'Please select a time slot'
+magicLabel@45: return 'Selected time slot is invalid'
 ```
 
 ### `client/src/composables/booking/useMoveablePartsScheduling.ts`
@@ -1832,9 +1819,9 @@ magicLabel@55: return 'Selected time slot is invalid'
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@58: if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
-magicLabel@112: const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
-magicLabel@122: const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
+magicLabel@55: if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
+magicLabel@103: const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
+magicLabel@111: const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
 ```
 
 ### `client/src/composables/booking/useTimeSlotCalculations.ts`
@@ -1843,9 +1830,9 @@ magicLabel@122: const moveableEventFinal = findEventFinalByName(shape.slotShape,
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@91: availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
-magicLabel@94: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
-magicLabel@137: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
+magicLabel@77: availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
+magicLabel@80: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+magicLabel@121: * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
 ```
 
 ### `client/src/main.ts`
@@ -1854,9 +1841,9 @@ magicLabel@137: * NOTE: 'Inspector' and 'Client' are UI labels for differential 
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@34: if (errorMessage.includes('Cannot read properties of undefined') &&
-magicLabel@45: if (errorMessage.includes('Cannot read properties of undefined') &&
-magicLabel@55: if (errorString.includes('Cannot read properties of undefined') &&
+magicLabel@27: if (errorMessage.includes('Cannot read properties of undefined') &&
+magicLabel@38: if (errorMessage.includes('Cannot read properties of undefined') &&
+magicLabel@47: if (errorString.includes('Cannot read properties of undefined') &&
 ```
 
 ### `client/src/utils/appointmentFieldFormatters.ts`
@@ -1865,7 +1852,7 @@ magicLabel@55: if (errorString.includes('Cannot read properties of undefined') &
 - requiring review: 1, allowed: 0
 
 ```
-fieldEqualsString@116: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
+fieldEqualsString@88: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
 ```
 
 ### `client/src/utils/booking/constraintHelpers.ts`
@@ -1874,7 +1861,7 @@ fieldEqualsString@116: * WHY: Eliminates repeated field === "..." checks, makes 
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@34: config: { start: dateRange.start, end: dateRange.end }
+fieldMapping@24: config: { start: dateRange.start, end: dateRange.end }
 ```
 
 ### `client/src/utils/collections/resolveByIds.ts`
@@ -1905,7 +1892,7 @@ magicLabel@39: label="Order Index"
 ```
 magicLabel@7: {{ isEdit ? 'Edit Block Type' : 'Create Block Type' }}
 magicLabel@29: label="Order Index"
-magicLabel@121: error.value = err instanceof Error ? err.message : 'Failed to save block type'
+magicLabel@120: error.value = err instanceof Error ? err.message : 'Failed to save block type'
 ```
 
 ### `client/src/views/admin/entities/PartInstanceForm.vue`
@@ -1947,7 +1934,7 @@ magicLabel@97: comment: 'Whether this annotation instance should be shown by def
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@268: await dep.Entity.destroy({ where: dep.where });
+fieldMapping@216: await dep.Entity.destroy({ where: dep.where });
 ```
 
 ### `server/src/scripts/fix-appointment-block-instances.mjs`
@@ -1988,8 +1975,8 @@ magicLabel@132: { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTI
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@267: { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
-magicLabel@268: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
+magicLabel@248: { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
+magicLabel@249: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
 ```
 
 ### `client/src/components/admin/MetadataEditModal.vue`
@@ -1998,8 +1985,8 @@ magicLabel@268: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@117: showError('Editor not available')
-magicLabel@129: const errorMessage = getApiErrorMessage(err, 'Failed to save metadata configuration')
+magicLabel@107: showError('Editor not available')
+magicLabel@118: const errorMessage = getApiErrorMessage(err, 'Failed to save metadata configuration')
 ```
 
 ### `client/src/components/booking/MoveablePartsModal.vue`
@@ -2012,24 +1999,14 @@ magicLabel@71: label="Deadline Date"
 magicLabel@80: label="Deadline Time"
 ```
 
-### `client/src/components/booking/steps/AvailabilityStep.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@390: aria-label="Select appointment date"
-magicLabel@588: // LEARNING: Hide calendar header (removes "SELECT DATE" text and thick bar)
-```
-
 ### `client/src/components/booking/types/selectionCardTypes.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@91: selectionComponent: 'VRadio' | 'VCheckbox' | 'custom'
-magicLabel@98: selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'
+magicLabel@71: selectionComponent: 'VRadio' | 'VCheckbox' | 'custom'
+magicLabel@73: selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'
 ```
 
 ### `client/src/composables/admin/tables/useAppointmentsTableModel.ts`
@@ -2038,8 +2015,8 @@ magicLabel@98: selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@90: entityLabel: 'Appointment',
-magicLabel@115: if (!payload.propertyVersionId && !payload.propertyId) return 'Property is required'
+magicLabel@82: entityLabel: 'Appointment',
+magicLabel@101: if (!payload.propertyVersionId && !payload.propertyId) return 'Property is required'
 ```
 
 ### `client/src/composables/admin/useAttendeeQuickSelect.ts`
@@ -2048,8 +2025,8 @@ magicLabel@115: if (!payload.propertyVersionId && !payload.propertyId) return 'P
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@89: const errorMessage = err instanceof Error ? err.message : 'Failed to load business settings'
-magicLabel@160: * WHY: Combines both major and minor attendees for "Select All" functionality
+magicLabel@64: const errorMessage = err instanceof Error ? err.message : 'Failed to load business settings'
+magicLabel@134: * WHY: Combines both major and minor attendees for "Select All" functionality
 ```
 
 ### `client/src/composables/admin/useInstanceBulkEdit.ts`
@@ -2058,8 +2035,8 @@ magicLabel@160: * WHY: Combines both major and minor attendees for "Select All" 
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@150: showError('No changes to apply')
-magicLabel@172: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
+magicLabel@121: showError('No changes to apply')
+magicLabel@138: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
 ```
 
 ### `client/src/composables/admin/useRelationshipCollectionField.ts`
@@ -2068,8 +2045,8 @@ magicLabel@172: const errorMessage = err instanceof Error ? err.message : 'Faile
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@177: // WHY: Options field name follows pattern: 'valid' + pluralized relationshipKey without 'Assignments' suffix
-magicLabel@179: if (relKey.endsWith('Assignments')) {
+magicLabel@167: // WHY: Options field name follows pattern: 'valid' + pluralized relationshipKey without 'Assignments' suffix
+magicLabel@169: if (relKey.endsWith('Assignments')) {
 ```
 
 ### `client/src/composables/booking/useAppointmentDropdown.ts`
@@ -2078,8 +2055,8 @@ magicLabel@179: if (relKey.endsWith('Assignments')) {
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@38: // PATTERN: Map appointments to items array, prepend "Random Appointment" option
-magicLabel@40: { text: 'Random Appointment', value: 'random' },
+magicLabel@32: // PATTERN: Map appointments to items array, prepend "Random Appointment" option
+magicLabel@34: { text: 'Random Appointment', value: 'random' },
 ```
 
 ### `client/src/composables/booking/useAvailabilitySettings.ts`
@@ -2088,8 +2065,8 @@ magicLabel@40: { text: 'Random Appointment', value: 'random' },
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@72: error.value = err instanceof Error ? err : new Error('Failed to load availability settings')
-magicLabel@92: error.value = err instanceof Error ? err : new Error('Failed to refresh availability settings')
+magicLabel@65: error.value = err instanceof Error ? err : new Error('Failed to load availability settings')
+magicLabel@85: error.value = err instanceof Error ? err : new Error('Failed to refresh availability settings')
 ```
 
 ### `client/src/composables/booking/useAvailableStartTimes.ts`
@@ -2098,8 +2075,8 @@ magicLabel@92: error.value = err instanceof Error ? err : new Error('Failed to r
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@66: const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
-magicLabel@225: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating slots'
+magicLabel@61: const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
+magicLabel@195: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating slots'
 ```
 
 ### `client/src/composables/entityCrud/useEntityCrudMutations.ts`
@@ -2108,8 +2085,8 @@ magicLabel@225: const errorMessage = err instanceof Error ? err.message : 'Unkno
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@346: throw new Error('Failed to update orderIndex')
-magicLabel@404: throw new Error('Failed to update entities')
+magicLabel@312: throw new Error('Failed to update orderIndex')
+magicLabel@367: throw new Error('Failed to update entities')
 ```
 
 ### `client/src/composables/entityCrud/usePrimitiveMutation.ts`
@@ -2119,7 +2096,7 @@ magicLabel@404: throw new Error('Failed to update entities')
 
 ```
 magicLabel@34: if (!dynamicId) throw new Error('Missing dynamicId for primitive mutation')
-magicLabel@47: const errorMessage = axiosError.response?.data?.error || 'Entity not found'
+magicLabel@45: const errorMessage = axiosError.response?.data?.error || 'Entity not found'
 ```
 
 ### `client/src/types/appointment.ts`
@@ -2128,8 +2105,8 @@ magicLabel@47: const errorMessage = axiosError.response?.data?.error || 'Entity 
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@214: eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "majorEvent": {...}, "minorEvent": {...}, "Moveable": {...} })
-magicLabel@222: moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']
+magicLabel@182: eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "majorEvent": {...}, "minorEvent": {...}, "Moveable": {...} })
+magicLabel@188: moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']
 ```
 
 ### `client/src/types/datetime.ts`
@@ -2148,17 +2125,7 @@ magicLabel@74: export type RFC3339DateTime = string & { readonly __brand: 'RFC33
 - requiring review: 1, allowed: 0
 
 ```
-inlineLabelMap@67: *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-15T11:00:00Z" }
-```
-
-### `client/src/utils/booking/PartFinal.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@23: partShape: string  // Part shape name (e.g., "Client Presentation")
-magicLabel@71: * @param partShape - Part shape name (e.g., "Client Presentation")
+inlineLabelMap@57: *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-15T11:00:00Z" }
 ```
 
 ### `client/src/utils/forms/getFieldKeys.ts`
@@ -2168,7 +2135,7 @@ magicLabel@71: * @param partShape - Part shape name (e.g., "Client Presentation"
 
 ```
 magicLabel@14: * WHY: Prevents "Unknown input type" warnings and ensures proper field handling
-magicLabel@58: // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
+magicLabel@33: // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
 ```
 
 ### `client/src/views/admin/tabs/ShapesTab.vue`
@@ -2177,8 +2144,8 @@ magicLabel@58: // PATTERN: Filter out known system/special fields to prevent "Un
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@256: success('Annotation shape created successfully')
-magicLabel@303: success('Event shape created successfully')
+magicLabel@213: success('Annotation shape created successfully')
+magicLabel@251: success('Event shape created successfully')
 ```
 
 ### `server/src/app.ts`
@@ -2187,8 +2154,8 @@ magicLabel@303: success('Event shape created successfully')
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@39: message: "API Server",
-magicLabel@43: docs: "See API documentation for available endpoints"
+magicLabel@36: message: "API Server",
+magicLabel@40: docs: "See API documentation for available endpoints"
 ```
 
 ### `server/src/db/models/admin/business_rule.ts`
@@ -2221,36 +2188,6 @@ magicLabel@67: onUpdate: 'CASCADE',
 magicLabel@68: onDelete: 'SET NULL',
 ```
 
-### `server/src/routes/external/calendarRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@30: //     console.error('Error fetching calendar events', error);
-magicLabel@31: //     res.status(500).send('Error fetching events');
-```
-
-### `server/src/routes/external/googleOauthRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@23: //       res.status(500).send('Error during authentication');
-magicLabel@26: //     res.status(400).send('Authorization code missing');
-```
-
-### `server/src/routes/internal/participantRoutes/login-routes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@17: //     return res.status(401).json({ message: 'Authentication failed' });
-magicLabel@24: //     return res.status(401).json({ message: 'Authentication failed' });
-```
-
 ### `client/src/components/admin/generic/collections/PartsCollection.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
@@ -2266,7 +2203,7 @@ magicLabel@10: :bulk-edit-modal-component="PartInstanceBulkEditModal"
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@302: : 'Unknown error - check field metadata configuration'
+magicLabel@249: : 'Unknown error - check field metadata configuration'
 ```
 
 ### `client/src/components/admin/generic/fields/IconInput.vue`
@@ -2284,7 +2221,7 @@ magicLabel@24: <span>{{ iconValue || fieldContext.displayConfig.placeholder || '
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@243: if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCode !== 32) {
+magicLabel@195: if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCode !== 32) {
 ```
 
 ### `client/src/components/booking/BookingWizard.vue`
@@ -2293,7 +2230,7 @@ magicLabel@243: if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCo
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@350: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
+magicLabel@304: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
 ```
 
 ### `client/src/components/booking/modals/PropertyConfirmationModal.vue`
@@ -2305,13 +2242,22 @@ magicLabel@350: {{ isQuoteMode ? 'Quote Mode Active' : 'I only want a quote' }}
 magicLabel@164: return parts.length > 0 ? parts.join(', ') : 'No address provided'
 ```
 
+### `client/src/components/booking/steps/AvailabilityStep.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@336: aria-label="Select appointment date"
+```
+
 ### `client/src/components/booking/TimeBasisButtonGrid.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@39: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+magicLabel@37: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
 ```
 
 ### `client/src/components/booking/TimeBasisSelector.vue`
@@ -2320,7 +2266,7 @@ magicLabel@39: availabilitySettings.value?.differentialPerspectives?.minorLabel 
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@41: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation'
+magicLabel@39: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation'
 ```
 
 ### `client/src/components/booking/TimeSlotGrid.vue`
@@ -2329,7 +2275,7 @@ magicLabel@41: availabilitySettings.value?.differentialPerspectives?.minorLabel 
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@172: {{ slotData.slot ? formatTimeRange(slotData.slot) : 'Unavailable' }}
+magicLabel@151: {{ slotData.slot ? formatTimeRange(slotData.slot) : 'Unavailable' }}
 ```
 
 ### `client/src/composables/admin/tables/useCrudDataTableModel.ts`
@@ -2356,7 +2302,7 @@ magicLabel@20: entityLabel: 'Property',
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@218: error.value = err instanceof Error ? err.message : 'Failed to save block instance'
+magicLabel@209: error.value = err instanceof Error ? err.message : 'Failed to save block instance'
 ```
 
 ### `client/src/composables/admin/useEntityCardActions.ts`
@@ -2365,7 +2311,7 @@ magicLabel@218: error.value = err instanceof Error ? err.message : 'Failed to sa
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@189: showError('Please fix form errors before saving')
+magicLabel@125: showError('Please fix form errors before saving')
 ```
 
 ### `client/src/composables/admin/useEntityList.ts`
@@ -2374,7 +2320,7 @@ magicLabel@189: showError('Please fix form errors before saving')
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@107: deleteErrorMessage = 'Failed to delete item'
+magicLabel@101: deleteErrorMessage = 'Failed to delete item'
 ```
 
 ### `client/src/composables/admin/usePartInstanceForm.ts`
@@ -2383,16 +2329,7 @@ magicLabel@107: deleteErrorMessage = 'Failed to delete item'
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@218: error.value = err instanceof Error ? err.message : 'Failed to save part instance'
-```
-
-### `client/src/composables/admin/useSelectFieldValue.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@119: // WHY: Prevents "The number of enabled nodes does not match the number of values" error
+magicLabel@209: error.value = err instanceof Error ? err.message : 'Failed to save part instance'
 ```
 
 ### `client/src/composables/admin/useShapeSaveHandlers.ts`
@@ -2401,7 +2338,7 @@ magicLabel@119: // WHY: Prevents "The number of enabled nodes does not match the
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@103: success('Annotation shape created successfully')
+magicLabel@88: success('Annotation shape created successfully')
 ```
 
 ### `client/src/composables/booking/useAvailabilityUI.ts`
@@ -2410,7 +2347,7 @@ magicLabel@103: success('Annotation shape created successfully')
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@128: selectedDate: 'Please select a date'
+magicLabel@116: selectedDate: 'Please select a date'
 ```
 
 ### `client/src/composables/booking/useCascadeInstances.ts`
@@ -2419,7 +2356,7 @@ magicLabel@128: selectedDate: 'Please select a date'
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@74: *   targetBlockShapeName: 'Base Service'
+magicLabel@47: *   targetBlockShapeName: 'Base Service'
 ```
 
 ### `client/src/composables/booking/usePropertyTypeBlockConfig.ts`
@@ -2428,7 +2365,7 @@ magicLabel@74: *   targetBlockShapeName: 'Base Service'
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@28: selectionComponent: 'VCheckbox' | 'VRadio'
+magicLabel@22: selectionComponent: 'VCheckbox' | 'VRadio'
 ```
 
 ### `client/src/composables/booking/useWizardFilteredOptions.ts`
@@ -2437,7 +2374,7 @@ magicLabel@28: selectionComponent: 'VCheckbox' | 'VRadio'
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@38: error: 'Booking data not loaded',
+magicLabel@37: error: 'Booking data not loaded',
 ```
 
 ### `client/src/composables/booking/useWizardNavigation.ts`
@@ -2446,7 +2383,7 @@ magicLabel@38: error: 'Booking data not loaded',
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@144: showError?.('Please complete all required fields before continuing')
+magicLabel@131: showError?.('Please complete all required fields before continuing')
 ```
 
 ### `client/src/composables/booking/useWizardSubmission.ts`
@@ -2455,7 +2392,7 @@ magicLabel@144: showError?.('Please complete all required fields before continui
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@81: const errorMessage = error instanceof Error ? error.message : 'Failed to create appointment'
+magicLabel@69: const errorMessage = error instanceof Error ? error.message : 'Failed to create appointment'
 ```
 
 ### `client/src/composables/componentEntity/useComponentEntityActions.ts`
@@ -2464,7 +2401,7 @@ magicLabel@81: const errorMessage = error instanceof Error ? error.message : 'Fa
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@96: if (!globalData) throw new Error('Global data not available')
+magicLabel@90: if (!globalData) throw new Error('Global data not available')
 ```
 
 ### `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts`
@@ -2473,7 +2410,7 @@ magicLabel@96: if (!globalData) throw new Error('Global data not available')
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@40: throw new Error('Component entity composable not available')
+magicLabel@32: throw new Error('Component entity composable not available')
 ```
 
 ### `client/src/composables/useApiErrorMessage.ts`
@@ -2482,7 +2419,7 @@ magicLabel@40: throw new Error('Component entity composable not available')
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@25: export function getApiErrorMessage(error: unknown, fallbackMessage: string = 'An error occurred'): string {
+magicLabel@14: export function getApiErrorMessage(error: unknown, fallbackMessage: string = 'An error occurred'): string {
 ```
 
 ### `client/src/composables/useAvailability.ts`
@@ -2491,7 +2428,7 @@ magicLabel@25: export function getApiErrorMessage(error: unknown, fallbackMessag
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@212: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating time slots'
+magicLabel@170: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating time slots'
 ```
 
 ### `client/src/composables/useEntityForm.ts`
@@ -2500,7 +2437,7 @@ magicLabel@212: const errorMessage = err instanceof Error ? err.message : 'Unkno
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@94: throw new Error('Form validation failed')
+magicLabel@84: throw new Error('Form validation failed')
 ```
 
 ### `client/src/layouts/blank.vue`
@@ -2509,7 +2446,7 @@ magicLabel@94: throw new Error('Form validation failed')
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@39: <Component :is="Component" />
+magicLabel@35: <Component :is="Component" />
 ```
 
 ### `client/src/layouts/default.vue`
@@ -2518,7 +2455,7 @@ magicLabel@39: <Component :is="Component" />
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@45: <Component :is="Component" />
+magicLabel@40: <Component :is="Component" />
 ```
 
 ### `client/src/types/events.ts`
@@ -2536,16 +2473,7 @@ magicLabel@13: * LEARNING: Defines what event types can exist (e.g., "OnSite", "
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@38: dayLabel: string          // "Today", "Tomorrow", "Jan 16"
-```
-
-### `client/src/types/property.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@50: // Property types (junction to block_instances with "Properties" block_shape)
+magicLabel@29: dayLabel: string          // "Today", "Tomorrow", "Jan 16"
 ```
 
 ### `client/src/utils/api.ts`
@@ -2554,7 +2482,7 @@ magicLabel@50: // Property types (junction to block_instances with "Properties" 
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@31: 'Content-Type': 'application/json',
+magicLabel@25: 'Content-Type': 'application/json',
 ```
 
 ### `client/src/utils/blockInstanceUtils.ts`
@@ -2563,7 +2491,7 @@ magicLabel@31: 'Content-Type': 'application/json',
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@183: { title: 'Generic', value: null },
+magicLabel@111: { title: 'Generic', value: null },
 ```
 
 ### `client/src/utils/booking/mockGoogleCalendar.ts`
@@ -2572,7 +2500,16 @@ magicLabel@183: { title: 'Generic', value: null },
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@218: message: 'Cannot generate busy periods - not enough time remaining'
+magicLabel@182: message: 'Cannot generate busy periods - not enough time remaining'
+```
+
+### `client/src/utils/booking/PartFinal.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@22: partShape: string  // Part shape name (e.g., "Client Presentation")
 ```
 
 ### `client/src/utils/booking/partShapeAggregator.ts`
@@ -2581,7 +2518,7 @@ magicLabel@218: message: 'Cannot generate busy periods - not enough time remaini
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@106: 'moveable': 'Moveable'
+magicLabel@92: 'moveable': 'Moveable'
 ```
 
 ### `client/src/utils/booking/selectionCardComponent.ts`
@@ -2617,7 +2554,7 @@ magicLabel@8: return config.selectionGroup || 'VRadioGroup'
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@129: * Handles both 'YYYY-MM-DD' and ISO timestamp formats
+magicLabel@96: * Handles both 'YYYY-MM-DD' and ISO timestamp formats
 ```
 
 ### `client/src/utils/eventAttendeeUtils.ts`
@@ -2626,7 +2563,7 @@ magicLabel@129: * Handles both 'YYYY-MM-DD' and ISO timestamp formats
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@138: * WHY: Used to identify which event represents minor perspective (replaces hardcoded "ClientPresent"/"client" check)
+magicLabel@129: * WHY: Used to identify which event represents minor perspective (replaces hardcoded "ClientPresent"/"client" check)
 ```
 
 ### `client/src/utils/forms/formElementPatching.ts`
@@ -2635,7 +2572,7 @@ magicLabel@138: * WHY: Used to identify which event represents minor perspective
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@70: if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
+magicLabel@63: if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
 ```
 
 ### `client/src/utils/transformers/annotationTransformers.ts`
@@ -2644,16 +2581,7 @@ magicLabel@70: if (element.tagName === 'INPUT' || element.tagName === 'SELECT' |
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@190: * NOTE: Backend uses annotation_assignments, frontend uses friendly "AnnotationAssignment" terminology
-```
-
-### `client/src/utils/transformers/globalToBookingTransformer.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@144: // Removed hardcoded "User Type" diagnostic logging - now using property-based filtering
+magicLabel@162: * NOTE: Backend uses annotation_assignments, frontend uses friendly "AnnotationAssignment" terminology
 ```
 
 ### `client/src/views/admin/entities/BlockInstanceList.vue`
@@ -2815,7 +2743,7 @@ magicLabel@88: comment: 'Order in which components should be displayed',
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@56: onDelete: 'CASCADE',
+magicLabel@55: onDelete: 'CASCADE',
 ```
 
 ### `server/src/routes/internal/availabilityRouter.ts`
@@ -2824,7 +2752,7 @@ magicLabel@56: onDelete: 'CASCADE',
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@133: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@79: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 
 ### `server/src/scripts/check-specific-shape.mjs`
@@ -2851,7 +2779,7 @@ magicLabel@71: name: "Single Family Home",
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@63: throw new Error('Test database not initialized')
+magicLabel@45: throw new Error('Test database not initialized')
 ```
 
 ### `server/src/utils/sequelizeHelpers.ts`
@@ -2860,5 +2788,5 @@ magicLabel@63: throw new Error('Test database not initialized')
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@31: if (typeName === 'VIRTUAL' || typeName.includes('VIRTUAL')) {
+magicLabel@14: if (typeName === 'VIRTUAL' || typeName.includes('VIRTUAL')) {
 ```

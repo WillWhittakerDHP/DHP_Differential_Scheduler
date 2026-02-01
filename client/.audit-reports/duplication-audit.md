@@ -32,30 +32,30 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@94`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@43`, `server/src/utils/adminPrimitiveMetadataComposer.ts@70`, … |
-| `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@95`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@44`, `server/src/utils/adminPrimitiveMetadataComposer.ts@71`, … |
-| `dup-a95a81e0c832` | 3 | 4 | 10 | `server/src/utils/adminMetadataComposer.ts@17`, `server/src/utils/adminMetadataComposer.ts@168`, `server/src/utils/adminPrimitiveMetadataComposer.ts@18`, … |
-| `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@186`, `server/src/utils/adminPrimitiveMetadataComposer.ts@156`, `server/src/utils/adminRelationshipMetadataComposer.ts@154` |
+| `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@81`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@35`, `server/src/utils/adminPrimitiveMetadataComposer.ts@50`, … |
+| `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@82`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@36`, `server/src/utils/adminPrimitiveMetadataComposer.ts@51`, … |
+| `dup-a95a81e0c832` | 3 | 4 | 10 | `server/src/utils/adminMetadataComposer.ts@14`, `server/src/utils/adminMetadataComposer.ts@128`, `server/src/utils/adminPrimitiveMetadataComposer.ts@15`, … |
+| `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@146`, `server/src/utils/adminPrimitiveMetadataComposer.ts@129`, `server/src/utils/adminRelationshipMetadataComposer.ts@127` |
 | `dup-11ee84441edb` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@71`, `server/src/db/models/booking/booking_cascade.ts@69`, `server/src/db/models/booking/dependent_instance.ts@73` |
-| `dup-1668da95d212` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@416`, `server/src/scripts/importFromMCPEvents.ts@31`, `server/src/scripts/importRealCalendarEvents.ts@43` |
+| `dup-1668da95d212` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@338`, `server/src/scripts/importFromMCPEvents.ts@23`, `server/src/scripts/importRealCalendarEvents.ts@36` |
 | `dup-1c4b860b6066` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@64`, `server/src/db/models/booking/booking_cascade.ts@62`, `server/src/db/models/booking/dependent_instance.ts@66` |
-| `dup-23dc8d6847f0` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@411`, `server/src/scripts/importFromMCPEvents.ts@26`, `server/src/scripts/importRealCalendarEvents.ts@38` |
-| `dup-27eb72adfb70` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@401`, `server/src/scripts/importFromMCPEvents.ts@16`, `server/src/scripts/importRealCalendarEvents.ts@28` |
-| `dup-2c7082786d05` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@402`, `server/src/scripts/importFromMCPEvents.ts@17`, `server/src/scripts/importRealCalendarEvents.ts@29` |
-| `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@185`, `server/src/utils/adminPrimitiveMetadataComposer.ts@155`, `server/src/utils/adminRelationshipMetadataComposer.ts@153` |
-| `dup-687fcb72cc8c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@419`, `server/src/scripts/importFromMCPEvents.ts@34`, `server/src/scripts/importRealCalendarEvents.ts@46` |
-| `dup-6b7db959e8c4` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@412`, `server/src/scripts/importFromMCPEvents.ts@27`, `server/src/scripts/importRealCalendarEvents.ts@39` |
-| `dup-70e1e9d10a19` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@399`, `server/src/scripts/importFromMCPEvents.ts@14`, `server/src/scripts/importRealCalendarEvents.ts@26` |
+| `dup-23dc8d6847f0` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@333`, `server/src/scripts/importFromMCPEvents.ts@18`, `server/src/scripts/importRealCalendarEvents.ts@31` |
+| `dup-27eb72adfb70` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@323`, `server/src/scripts/importFromMCPEvents.ts@8`, `server/src/scripts/importRealCalendarEvents.ts@21` |
+| `dup-2c7082786d05` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@324`, `server/src/scripts/importFromMCPEvents.ts@9`, `server/src/scripts/importRealCalendarEvents.ts@22` |
+| `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@145`, `server/src/utils/adminPrimitiveMetadataComposer.ts@128`, `server/src/utils/adminRelationshipMetadataComposer.ts@126` |
+| `dup-687fcb72cc8c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@341`, `server/src/scripts/importFromMCPEvents.ts@26`, `server/src/scripts/importRealCalendarEvents.ts@39` |
+| `dup-6b7db959e8c4` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@334`, `server/src/scripts/importFromMCPEvents.ts@19`, `server/src/scripts/importRealCalendarEvents.ts@32` |
+| `dup-70e1e9d10a19` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@321`, `server/src/scripts/importFromMCPEvents.ts@6`, `server/src/scripts/importRealCalendarEvents.ts@19` |
 | `dup-870c24d7c6a2` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@56`, `server/src/db/models/booking/booking_cascade.ts@54`, `server/src/db/models/booking/dependent_instance.ts@58` |
 | `dup-923c7320c59b` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@58`, `server/src/db/models/booking/booking_cascade.ts@56`, `server/src/db/models/booking/dependent_instance.ts@60` |
-| `dup-957d31420829` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@414`, `server/src/scripts/importFromMCPEvents.ts@29`, `server/src/scripts/importRealCalendarEvents.ts@41` |
+| `dup-957d31420829` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@336`, `server/src/scripts/importFromMCPEvents.ts@21`, `server/src/scripts/importRealCalendarEvents.ts@34` |
 | `dup-b310fa6a5478` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@76`, `server/src/db/models/booking/booking_cascade.ts@74`, `server/src/db/models/booking/dependent_instance.ts@78` |
-| `dup-b35c50fd2c1c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@404`, `server/src/scripts/importFromMCPEvents.ts@19`, `server/src/scripts/importRealCalendarEvents.ts@31` |
-| `dup-bd822504c01d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@406`, `server/src/scripts/importFromMCPEvents.ts@21`, `server/src/scripts/importRealCalendarEvents.ts@33` |
-| `dup-c03e46169b8e` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@409`, `server/src/scripts/importFromMCPEvents.ts@24`, `server/src/scripts/importRealCalendarEvents.ts@36` |
+| `dup-b35c50fd2c1c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@326`, `server/src/scripts/importFromMCPEvents.ts@11`, `server/src/scripts/importRealCalendarEvents.ts@24` |
+| `dup-bd822504c01d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@328`, `server/src/scripts/importFromMCPEvents.ts@13`, `server/src/scripts/importRealCalendarEvents.ts@26` |
+| `dup-c03e46169b8e` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@331`, `server/src/scripts/importFromMCPEvents.ts@16`, `server/src/scripts/importRealCalendarEvents.ts@29` |
 | `dup-c47b819ceac0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@62`, `server/src/db/models/booking/booking_cascade.ts@60`, `server/src/db/models/booking/dependent_instance.ts@64` |
-| `dup-c6a6995e461d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@410`, `server/src/scripts/importFromMCPEvents.ts@25`, `server/src/scripts/importRealCalendarEvents.ts@37` |
-| `dup-e6b94ea82365` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@400`, `server/src/scripts/importFromMCPEvents.ts@15`, `server/src/scripts/importRealCalendarEvents.ts@27` |
+| `dup-c6a6995e461d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@332`, `server/src/scripts/importFromMCPEvents.ts@17`, `server/src/scripts/importRealCalendarEvents.ts@30` |
+| `dup-e6b94ea82365` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@322`, `server/src/scripts/importFromMCPEvents.ts@7`, `server/src/scripts/importRealCalendarEvents.ts@20` |
 | `dup-ef36d1842f4c` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
 
 ## Per-group details (top)
@@ -67,16 +67,16 @@ LEARNING: When a group spans multiple files in the same domain, it’s often a g
 - unique files: **4**, occurrences: **10**, lineCount: **10**
 
 Locations:
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 94-103
-- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 43-52
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 70-79
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 88-97
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 120-129
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 138-147
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 68-77
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 86-95
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 118-127
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 136-145
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 81-90
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 35-44
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 50-59
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 67-76
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 96-105
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 112-121
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 48-57
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 65-74
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 94-103
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 110-119
 
 ```
 dataType: meta.dataType,
@@ -96,16 +96,16 @@ bulkEdit: meta.bulkEdit,
 - unique files: **4**, occurrences: **10**, lineCount: **10**
 
 Locations:
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 95-104
-- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 44-53
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 71-80
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 89-98
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 121-130
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 139-148
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 69-78
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 87-96
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 119-128
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 137-146
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 82-91
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 36-45
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 51-60
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 68-77
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 97-106
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 113-122
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 49-58
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 66-75
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 95-104
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 111-120
 
 ```
 label: meta.label,
@@ -125,10 +125,10 @@ inputConfig: meta.inputConfig || null,
 - unique files: **3**, occurrences: **4**, lineCount: **10**
 
 Locations:
-- `server/src/utils/adminMetadataComposer.ts` @ lines 17-27
-- `server/src/utils/adminMetadataComposer.ts` @ lines 168-178
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 18-28
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 16-26
+- `server/src/utils/adminMetadataComposer.ts` @ lines 14-24
+- `server/src/utils/adminMetadataComposer.ts` @ lines 128-138
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 15-25
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 13-23
 
 ```
 dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
@@ -148,9 +148,9 @@ inputConfig?: Record<string, unknown> | null;
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/utils/adminMetadataComposer.ts` @ lines 186-195
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 156-165
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 154-163
+- `server/src/utils/adminMetadataComposer.ts` @ lines 146-155
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 129-138
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 127-136
 
 ```
 label: meta.label,
@@ -192,9 +192,9 @@ timestamps: false,
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 416-428
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 31-43
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 43-55
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 338-350
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 23-35
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 36-48
 
 ```
 organizer: { email: "will@districthomepro.com", displayName: "Will" }
@@ -236,9 +236,9 @@ type: DataTypes.DATE,
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 411-425
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 26-40
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 38-52
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 333-347
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 18-32
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 31-45
 
 ```
 start: { dateTime: "2024-12-04T09:00:00-05:00" },
@@ -258,9 +258,9 @@ end: { dateTime: "2024-12-06T16:00:00-05:00" },
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 401-416
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 16-31
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 28-43
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 323-338
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 8-23
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 21-36
 
 ```
 start: { dateTime: "2024-12-02T11:45:00-05:00" },
@@ -280,9 +280,9 @@ organizer: { email: "will@districthomepro.com", displayName: "Will" }
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 402-419
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 17-34
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 29-46
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 324-341
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 9-26
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 22-39
 
 ```
 end: { dateTime: "2024-12-02T13:30:00-05:00" },
@@ -302,9 +302,9 @@ summary: "Home Inspection Results Meeting for Royi & Lucciola",
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/utils/adminMetadataComposer.ts` @ lines 185-194
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 155-164
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 153-162
+- `server/src/utils/adminMetadataComposer.ts` @ lines 145-154
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 128-137
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 126-135
 
 ```
 dataType: meta.dataType,
@@ -324,9 +324,9 @@ bulkEdit: meta.bulkEdit,
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 419-430
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 34-45
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 46-57
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 341-352
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 26-37
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 39-50
 
 ```
 summary: "Home Inspection Results Meeting for Royi & Lucciola",
@@ -346,9 +346,9 @@ organizer: { email: "will@districthomepro.com", displayName: "Will" }
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 412-426
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 27-41
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 39-53
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 334-348
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 19-33
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 32-46
 
 ```
 end: { dateTime: "2024-12-04T10:00:00-05:00" },
@@ -368,9 +368,9 @@ end: { dateTime: "2024-12-06T16:00:00-05:00" },
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 399-412
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 14-27
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 26-39
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 321-334
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 6-19
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 19-32
 
 ```
 summary: "Buyer's Inspection for Todd Litchfield",
@@ -434,9 +434,9 @@ type: DataTypes.DATE,
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 414-427
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 29-42
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 41-54
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 336-349
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 21-34
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 34-47
 
 ```
 { email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
@@ -478,9 +478,9 @@ underscored: true,
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 404-420
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 19-35
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 31-47
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 326-342
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 11-27
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 24-40
 
 ```
 { email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
@@ -500,9 +500,9 @@ location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 406-421
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 21-36
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 33-48
+- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 328-343
+- `server/src/scripts/importFromMCPEvents.ts` @ lines 13-28
+- `server/src/scripts/importRealCalendarEvents.ts` @ lines 26-41
 
 ```
 organizer: { email: "will@districthomepro.com", displayName: "Will" }
