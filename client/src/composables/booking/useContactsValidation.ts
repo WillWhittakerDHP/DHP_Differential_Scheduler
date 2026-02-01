@@ -25,6 +25,7 @@ export interface UseContactsValidationParams {
   showAnotherClient: ReadonlyVueRef<boolean>
   showTransactionManager: ReadonlyVueRef<boolean>
   showSeller: ReadonlyVueRef<boolean>
+  requiresAgent?: ReadonlyVueRef<boolean> // Optional: if true, agent fields are required (Session 1.5.3)
 }
 
 /**
@@ -47,15 +48,19 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     sellerInfo,
     showAnotherClient,
     showTransactionManager,
-    showSeller
+    showSeller,
+    requiresAgent
   } = params
 
   const { required, email } = useFormValidation()
 
   /**
-   * LEARNING: Form validation rules
+   * LEARNING: Form validation rules (now with conditional agent fields)
    * WHY: Defines validation rules for each contact form field
    * PATTERN: Object with field names as keys and arrays of ValidationRule as values
+   * SESSION 1.5.3: Agent fields now conditionally required based on selected services
+   * WHY: Some services require agent (e.g., Buyers Inspection), others don't
+   * PATTERN: Use requiresAgent parameter to determine if agent fields are required
    * LEARNING: Use centralized validation strings from config
    * WHY: Reduces hardcoding audit findings, centralizes all validation text for consistency
    * PATTERN: Import validation strings from config file instead of defining inline
@@ -64,9 +69,10 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     clientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
     clientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
     clientEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
-    agentFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
-    agentLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
-    agentEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
+    // Agent fields: conditionally required based on selected services (Session 1.5.3)
+    agentFirstName: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.firstName.required)] : [],
+    agentLastName: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.lastName.required)] : [],
+    agentEmail: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.email.required), email()] : [email()],
     anotherClientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
     anotherClientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
     anotherClientEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
@@ -99,15 +105,24 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     sellerEmail: computed(() => sellerInfo.value.email)
   }
 
-  // Create reactive rules that exclude optional fields when not visible
+  /**
+   * LEARNING: Create reactive rules that exclude optional fields when not visible
+   * WHY: Validation rules should only apply to visible fields
+   * PATTERN: Computed property that dynamically builds rules object
+   * SESSION 1.5.3: Agent fields now conditionally included based on requiresAgent flag
+   */
   const reactiveRules = computed(() => {
     const rules: Record<string, ValidationRule[]> = {
       clientFirstName: validationRules.clientFirstName,
       clientLastName: validationRules.clientLastName,
-      clientEmail: validationRules.clientEmail,
-      agentFirstName: validationRules.agentFirstName,
-      agentLastName: validationRules.agentLastName,
-      agentEmail: validationRules.agentEmail
+      clientEmail: validationRules.clientEmail
+    }
+    
+    // Add agent rules only if agent is required (Session 1.5.3)
+    if (requiresAgent?.value) {
+      rules.agentFirstName = validationRules.agentFirstName
+      rules.agentLastName = validationRules.agentLastName
+      rules.agentEmail = validationRules.agentEmail
     }
 
     // Add optional contact rules only if visible

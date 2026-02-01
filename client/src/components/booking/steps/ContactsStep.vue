@@ -10,16 +10,35 @@
  * Phase 1.2.3: Added support for loading contact data from appointments
  */
 
-import { inject, watch, type Ref } from 'vue'
+import { inject, watch, computed, type Ref } from 'vue'
 import { useContactsStepData } from '@/composables/booking/useContactsStepData'
 import { useContactsValidation } from '@/composables/booking/useContactsValidation'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { ContactsStepData } from '@/types/wizard'
+import { useWizard } from '@/composables/booking/useWizard'
 
 // LEARNING: Inject loaded wizard state for populating form fields
 // WHY: Enables populating contact information from loaded appointment
 // PATTERN: Inject provided loadedWizardState and pass to composable
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+
+// LEARNING: Access wizard state to check if selected services require agent
+// WHY: Some services require agent contact info (e.g., Buyers Inspection), others don't
+// PATTERN: Check requires_agent flag on selected service blocks
+// SESSION 1.5.3: Use database-driven requires_agent flag instead of hardcoded always-required
+const wizard = useWizard()
+
+/**
+ * LEARNING: Check if any selected services require agent contact information
+ * WHY: Replaces hardcoded "agent always required" with service-specific business rule
+ * PATTERN: Database flag (requires_agent) on block_instances
+ * SESSION 1.5.3: Database-driven agent requirement
+ */
+const requiresAgent = computed(() => {
+  return wizard.selectedServiceBlocks.value.some(
+    selected => selected.requires_agent === true
+  )
+})
 
 // LEARNING: Use contacts step data composable for contact form state management
 // WHY: Extracts contact form state and loaded wizard state handling from component
@@ -44,6 +63,7 @@ const {
 // LEARNING: Use contacts validation composable for validation logic
 // WHY: Extracts validation logic from component to composable
 // PATTERN: Composable handles all validation rules, error state, and validation functions
+// SESSION 1.5.3: Now passes requiresAgent to conditionally require agent fields
 const {
   validationRules,
   fieldErrors,
@@ -57,7 +77,8 @@ const {
   sellerInfo,
   showAnotherClient,
   showTransactionManager,
-  showSeller
+  showSeller,
+  requiresAgent
 })
 
 // LEARNING: Inject parent-provided refs for step data and validation state
