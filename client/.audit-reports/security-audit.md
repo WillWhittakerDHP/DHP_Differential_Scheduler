@@ -548,13 +548,13 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 
 ### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 40)
 
-- ❌ **Missing CSRF protection on POST route** (line 45)
+- ❌ **Missing CSRF protection on POST route** (line 73)
   - Route: /freebusy (POST)
-- ❌ **Missing CSRF protection on POST route** (line 262)
+- ❌ **Missing CSRF protection on POST route** (line 293)
   - Route: /events (POST)
-- ❌ **Missing CSRF protection on POST route** (line 45)
+- ❌ **Missing CSRF protection on POST route** (line 73)
   - Route: /freebusy (POST)
-- ❌ **Missing CSRF protection on POST route** (line 262)
+- ❌ **Missing CSRF protection on POST route** (line 293)
   - Route: /events (POST)
 
 ### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` [P0] (score: 40)

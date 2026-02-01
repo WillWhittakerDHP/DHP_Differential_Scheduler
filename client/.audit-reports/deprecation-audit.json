@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-02-01T20:48:36.622Z",
+  "generatedAt": "2026-02-01T21:40:58.624Z",
   "check": "Deprecation",
   "status": "warning",
   "summary": {
-    "totalFiles": 599,
+    "totalFiles": 600,
     "clientFiles": 483,
-    "serverFiles": 116,
-    "totalDeprecations": 56,
-    "withReplacement": 0,
-    "withoutReplacement": 56
+    "serverFiles": 117,
+    "totalDeprecations": 40,
+    "withReplacement": 1,
+    "withoutReplacement": 39
   },
   "issues": [
     {
@@ -145,68 +145,8 @@
       "severity": "info",
       "message": "Found Migration compatibility",
       "file": "client/src/composables/booking/useAppointmentTimes.ts",
-      "line": 130,
-      "code": "// NOTE: Uses 'Minor' as fallback for backward compatibility",
-      "deprecatedItem": "minorEventName",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useAppointmentTimes.ts",
-      "line": 154,
+      "line": 156,
       "code": "// NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility",
-      "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useAppointmentTimes.ts",
-      "line": 178,
-      "code": "// NOTE: Uses 'Minor' as fallback for backward compatibility",
-      "deprecatedItem": "minorEventName",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-      "line": 96,
-      "code": "* LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data",
-      "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-      "line": 99,
-      "code": "* NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex",
-      "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-      "line": 108,
-      "code": "* LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data",
-      "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-      "line": 111,
-      "code": "* NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex",
       "deprecatedItem": null,
       "replacement": null,
       "suggestion": "Review and remove deprecated code when safe"
@@ -225,29 +165,9 @@
       "severity": "info",
       "message": "Found Migration compatibility",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 26,
+      "line": 29,
       "code": "* NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives",
       "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 82,
-      "code": "* NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings",
-      "deprecatedItem": "instead",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 98,
-      "code": "* NOTE: Uses 'Minor' as fallback for backward compatibility, but should use minor event from availabilitySettings",
-      "deprecatedItem": "instead",
       "replacement": null,
       "suggestion": "Review and remove deprecated code when safe"
     },
@@ -333,9 +253,19 @@
     },
     {
       "severity": "warning",
-      "message": "Found Parenthetical deprecation note",
+      "message": "Found JSDoc @deprecated",
       "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
       "line": 37,
+      "code": "* @deprecated Use FieldMetadata from /admin-input-metadata instead",
+      "deprecatedItem": null,
+      "replacement": "FieldMetadata",
+      "suggestion": "Replace with `FieldMetadata` and remove deprecated code"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Parenthetical deprecation note",
+      "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
+      "line": 39,
       "code": "* Build form field configuration for a single entity (DEPRECATED)",
       "deprecatedItem": null,
       "replacement": null,
@@ -354,46 +284,6 @@
     {
       "severity": "info",
       "message": "Found Migration compatibility",
-      "file": "client/src/types/appointment.ts",
-      "line": 194,
-      "code": "// Legacy properties for backward compatibility during migration (onSite->major rename)",
-      "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Legacy marker",
-      "file": "client/src/types/appointment.ts",
-      "line": 196,
-      "code": "majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']",
-      "deprecatedItem": "majorTimeRange",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Legacy marker",
-      "file": "client/src/types/appointment.ts",
-      "line": 197,
-      "code": "minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']",
-      "deprecatedItem": "minorTimeRange",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Legacy marker",
-      "file": "client/src/types/appointment.ts",
-      "line": 198,
-      "code": "moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']",
-      "deprecatedItem": "moveableTimeRange",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
       "file": "client/src/types/property.ts",
       "line": 24,
       "code": "id: string; // PropertyVersion ID (for backward compatibility)",
@@ -402,50 +292,10 @@
       "suggestion": "Review and remove deprecated code when safe"
     },
     {
-      "severity": "warning",
-      "message": "Found Deprecated comment",
-      "file": "client/src/utils/appointmentFieldFormatters.ts",
-      "line": 132,
-      "code": "// Deprecated: clientId/agentId - kept for backward compatibility, use client/agent formatters instead",
-      "deprecatedItem": "clientId",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Deprecated comment",
-      "file": "client/src/utils/appointmentFieldFormatters.ts",
-      "line": 143,
-      "code": "// Deprecated: selectedOptionTypeBlocks - kept for backward compatibility",
-      "deprecatedItem": "selectedOptionTypeBlocks",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Deprecated comment",
-      "file": "client/src/utils/appointmentFieldFormatters.ts",
-      "line": 146,
-      "code": "// Deprecated: additionalContacts - kept for backward compatibility",
-      "deprecatedItem": "additionalContacts",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
       "severity": "info",
       "message": "Found Migration compatibility",
       "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 111,
-      "code": "// Legacy properties for backward compatibility during migration",
-      "deprecatedItem": "majorTimeRange",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 154,
+      "line": 142,
       "code": "* @param validPartsRelationships - Array of validParts relationships (for backward compatibility, not used in new logic)",
       "deprecatedItem": null,
       "replacement": null,
@@ -458,16 +308,6 @@
       "line": 10,
       "code": "* Defaults to major and minor for backward compatibility",
       "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Deprecated comment",
-      "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "line": 68,
-      "code": "_fieldsConfig: Record<string, FieldMetadata> | undefined, // DEPRECATED: Not used, kept for API compatibility",
-      "deprecatedItem": "_fieldsConfig",
       "replacement": null,
       "suggestion": "Review and remove deprecated code when safe"
     },
@@ -780,82 +620,15 @@
           "severity": "info",
           "message": "Found Migration compatibility",
           "file": "client/src/composables/booking/useAppointmentTimes.ts",
-          "line": 130,
-          "code": "// NOTE: Uses 'Minor' as fallback for backward compatibility",
-          "deprecatedItem": "minorEventName",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useAppointmentTimes.ts",
-          "line": 154,
+          "line": 156,
           "code": "// NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility",
           "deprecatedItem": null,
           "replacement": null,
           "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useAppointmentTimes.ts",
-          "line": 178,
-          "code": "// NOTE: Uses 'Minor' as fallback for backward compatibility",
-          "deprecatedItem": "minorEventName",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
         }
       ],
-      "score": 4,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilityDefaults.ts",
-      "issues": [
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-          "line": 96,
-          "code": "* LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-          "line": 99,
-          "code": "* NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-          "line": 108,
-          "code": "* LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-          "line": 111,
-          "code": "* NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 4,
-      "priority": "P1"
+      "score": 2,
+      "priority": "P2"
     },
     {
       "repoPath": "client/src/composables/booking/useBookingWizardStepValidators.ts",
@@ -881,34 +654,14 @@
           "severity": "info",
           "message": "Found Migration compatibility",
           "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 26,
+          "line": 29,
           "code": "* NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives",
           "deprecatedItem": null,
           "replacement": null,
           "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 82,
-          "code": "* NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings",
-          "deprecatedItem": "instead",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 98,
-          "code": "* NOTE: Uses 'Minor' as fallback for backward compatibility, but should use minor event from availabilitySettings",
-          "deprecatedItem": "instead",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
         }
       ],
-      "score": 3,
+      "score": 1,
       "priority": "P2"
     },
     {
@@ -1031,16 +784,26 @@
         },
         {
           "severity": "warning",
-          "message": "Found Parenthetical deprecation note",
+          "message": "Found JSDoc @deprecated",
           "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
           "line": 37,
+          "code": "* @deprecated Use FieldMetadata from /admin-input-metadata instead",
+          "deprecatedItem": null,
+          "replacement": "FieldMetadata",
+          "suggestion": "Replace with `FieldMetadata` and remove deprecated code"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Parenthetical deprecation note",
+          "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
+          "line": 39,
           "code": "* Build form field configuration for a single entity (DEPRECATED)",
           "deprecatedItem": null,
           "replacement": null,
           "suggestion": "Review and remove deprecated code when safe"
         }
       ],
-      "score": 4,
+      "score": 6,
       "priority": "P1"
     },
     {
@@ -1061,53 +824,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/types/appointment.ts",
-      "issues": [
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/types/appointment.ts",
-          "line": 194,
-          "code": "// Legacy properties for backward compatibility during migration (onSite->major rename)",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Legacy marker",
-          "file": "client/src/types/appointment.ts",
-          "line": 196,
-          "code": "majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']",
-          "deprecatedItem": "majorTimeRange",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Legacy marker",
-          "file": "client/src/types/appointment.ts",
-          "line": 197,
-          "code": "minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']",
-          "deprecatedItem": "minorTimeRange",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Legacy marker",
-          "file": "client/src/types/appointment.ts",
-          "line": 198,
-          "code": "moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']",
-          "deprecatedItem": "moveableTimeRange",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 4,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/types/property.ts",
       "issues": [
         {
@@ -1125,67 +841,20 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/utils/appointmentFieldFormatters.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "message": "Found Deprecated comment",
-          "file": "client/src/utils/appointmentFieldFormatters.ts",
-          "line": 132,
-          "code": "// Deprecated: clientId/agentId - kept for backward compatibility, use client/agent formatters instead",
-          "deprecatedItem": "clientId",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "warning",
-          "message": "Found Deprecated comment",
-          "file": "client/src/utils/appointmentFieldFormatters.ts",
-          "line": 143,
-          "code": "// Deprecated: selectedOptionTypeBlocks - kept for backward compatibility",
-          "deprecatedItem": "selectedOptionTypeBlocks",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "warning",
-          "message": "Found Deprecated comment",
-          "file": "client/src/utils/appointmentFieldFormatters.ts",
-          "line": 146,
-          "code": "// Deprecated: additionalContacts - kept for backward compatibility",
-          "deprecatedItem": "additionalContacts",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
       "issues": [
         {
           "severity": "info",
           "message": "Found Migration compatibility",
           "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 111,
-          "code": "// Legacy properties for backward compatibility during migration",
-          "deprecatedItem": "majorTimeRange",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 154,
+          "line": 142,
           "code": "* @param validPartsRelationships - Array of validParts relationships (for backward compatibility, not used in new logic)",
           "deprecatedItem": null,
           "replacement": null,
           "suggestion": "Review and remove deprecated code when safe"
         }
       ],
-      "score": 2,
+      "score": 1,
       "priority": "P2"
     },
     {
@@ -1203,23 +872,6 @@
         }
       ],
       "score": 1,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "message": "Found Deprecated comment",
-          "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-          "line": 68,
-          "code": "_fieldsConfig: Record<string, FieldMetadata> | undefined, // DEPRECATED: Not used, kept for API compatibility",
-          "deprecatedItem": "_fieldsConfig",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 2,
       "priority": "P2"
     },
     {
@@ -1373,6 +1025,7 @@
     }
   ],
   "recommendations": [
-    "Found 56 deprecation(s) without replacement - review before removing"
+    "Found 1 deprecation(s) with replacement suggestions - these are ready for cleanup",
+    "Found 39 deprecation(s) without replacement - review before removing"
   ]
 }

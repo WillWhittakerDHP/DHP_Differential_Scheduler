@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-02-01T20:46:52.168Z
+Generated at: 2026-02-01T21:41:15.709Z
 
 ## Summary
 
-- **Total source files**: 689
+- **Total source files**: 690
 - **Total test files**: 128
-- **Untested source files**: 572
+- **Untested source files**: 573
 - **Orphaned test files**: 10
 - **Coverage**: 17%
 
@@ -19,7 +19,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | `client/src/composables/booking/useAvailabilityStepHandlers.ts` | **8.1** | 10 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilityDevPanel.ts` | **8.0** | 10 | 8 | 8 | 0 | 4 |
-| `client/src/utils/booking/partFinalizer.ts` | **7.8** | 9 | 9 | 6 | 3 | 4 |
+| `client/src/utils/booking/partFinalizer.ts` | **7.9** | 9 | 9 | 6 | 4 | 4 |
 | `client/src/composables/booking/useAvailabilityEmptyState.ts` | **7.7** | 10 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useTimeBasisHandler.ts` | **7.7** | 9 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | **7.5** | 10 | 7 | 7 | 0 | 2 |

@@ -6,11 +6,11 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ## Summary
 
-- Files scanned: **599**
-- Files with issues: **159**
-- Issues found: **496**
+- Files scanned: **600**
+- Files with issues: **158**
+- Issues found: **504**
 - Critical: 0
-- Warnings: 496
+- Warnings: 504
 
 ## Issues by File (sorted by priority)
 
@@ -517,6 +517,74 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 - **WARNING** (line 234): Found Logical OR with default string
   ```
   panel: config.panel || 'none',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 11)
+
+- **WARNING** (line 46): Found "Default values" keyword: default
+  ```
+  default:
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 128): Found "Fallback patterns" keyword: fallback
+  ```
+  res.setHeader('X-Data-Source', 'cache-fallback');
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 130): Found "Fallback patterns" keyword: fallback
+  ```
+  res.setHeader('X-Data-Source', 'empty-fallback');
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 153): Found Logical OR with default string
+  ```
+  message: error.message || 'An unexpected error occurred'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 231): Found "Fallback patterns" keyword: fallback
+  ```
+  res.setHeader('X-Data-Source', 'cache-fallback');
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 233): Found "Fallback patterns" keyword: fallback
+  ```
+  res.setHeader('X-Data-Source', 'empty-fallback');
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 257): Found Logical OR with default string
+  ```
+  message: error.message || 'An unexpected error occurred'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 435): Found Logical OR with default string
+  ```
+  message: error.message || 'An unexpected error occurred'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 483): Found Logical OR with default string
+  ```
+  message: error.message || 'An unexpected error occurred'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 524): Found Logical OR with default string
+  ```
+  message: error.message || 'An unexpected error occurred'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 549): Found Logical OR with default string
+  ```
+  message: error.message || 'An unexpected error occurred'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
@@ -1056,39 +1124,83 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
+### `server/src/services/calendarErrorHandler.ts` [P0] (score: 7)
+
+- **WARNING** (line 50): Found Optional chaining with default value
+  ```
+  this.retryable = options?.retryable ?? false;
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 80): Found "Default values" keyword: default
+  ```
+  default:
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 121): Found Logical OR with default string
+  ```
+  const message = error.message?.toLowerCase() || '';
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 161): Found Logical OR with default string
+  ```
+  return new CalendarApiError('unknown', error.message || 'Unknown error', {
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 292): Found "Fallback patterns" keyword: fallback
+  ```
+  `[CalendarErrorHandler] Operation failed (${classifiedError.type}), checking cache fallback`
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 298): Found "Fallback patterns" keyword: fallback
+  ```
+  console.log('[CalendarErrorHandler] Returning cached data as fallback');
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 307): Found "Default values" keyword: default
+  ```
+  console.warn('[CalendarErrorHandler] No cache available, returning default value');
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
 ### `client/src/composables/booking/useTimeSlotCalculations.ts` [P0] (score: 6)
 
-- **WARNING** (line 29): Found "Legacy code" keyword: legacy
+- **WARNING** (line 32): Found "Legacy code" keyword: legacy
   ```
   major: TimeBlock  // Major perspective (legacy name)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 30): Found "Legacy code" keyword: legacy
+- **WARNING** (line 33): Found "Legacy code" keyword: legacy
   ```
   minor: TimeBlock | null  // Minor perspective (legacy name)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 72): Found Logical OR with default string
+- **WARNING** (line 76): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 75): Found Logical OR with default string
+- **WARNING** (line 79): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 91): Found Optional chaining with default value
+- **WARNING** (line 113): Found Optional chaining with default value
   ```
   return majorEventFinal?.roundedDuration ?? 0
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 107): Found Optional chaining with default value
+- **WARNING** (line 157): Found Optional chaining with default value
   ```
   return minorEventFinal?.roundedDuration ?? 0
   ```
@@ -1131,44 +1243,6 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   helpText: (meta as { helpText?: string }).helpText, // No default - undefined if not in metadata
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 6)
-
-- **WARNING** (line 124): Found Logical OR with default string
-  ```
-  message: error.message || 'An unexpected error occurred'
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 226): Found Logical OR with default string
-  ```
-  message: error.message || 'An unexpected error occurred'
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 434): Found Logical OR with default string
-  ```
-  message: error.message || 'An unexpected error occurred'
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 482): Found Logical OR with default string
-  ```
-  message: error.message || 'An unexpected error occurred'
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 523): Found Logical OR with default string
-  ```
-  message: error.message || 'An unexpected error occurred'
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 548): Found Logical OR with default string
-  ```
-  message: error.message || 'An unexpected error occurred'
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
 
 ### `server/src/routes/internal/users/userRouter.ts` [P0] (score: 6)
 
@@ -1321,6 +1395,44 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   console.log('📝 Update 3: Setting default User Type for appointments with NULL user_type_id...')
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+### `server/src/services/googleCalendarService.ts` [P0] (score: 6)
+
+- **WARNING** (line 148): Found "Default values" keyword: default
+  ```
+  { calendars: {} }  // Empty default if no cache
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 258): Found Logical OR with default string
+  ```
+  id: event.id || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 279): Found "Default values" keyword: default
+  ```
+  []  // Empty array as default if no cache
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 382): Found "Default values" keyword: default
+  ```
+  sendUpdates = 'all'  // Default to sending invitation emails
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 476): Found Logical OR with default string
+  ```
+  htmlLink: createdEvent.htmlLink || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 491): Found Logical OR with default string
+  ```
+  responseStatus: a.responseStatus || 'needsAction'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
 
 ### `client/src/components/admin/dev/ApiDevPanel.vue` [P0] (score: 5)
 
@@ -1722,25 +1834,25 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/transformers/componentAggregator.ts` [P1] (score: 4)
 
-- **WARNING** (line 46): Found "Default values" keyword: default
+- **WARNING** (line 44): Found "Default values" keyword: default
   ```
   orderIndex: 0, // Default orderIndex (not available in GlobalRelationship)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 47): Found "Default values" keyword: default
+- **WARNING** (line 45): Found "Default values" keyword: default
   ```
   disabled: false, // Default disabled (not available in GlobalRelationship)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 48): Found "Default values" keyword: default
+- **WARNING** (line 46): Found "Default values" keyword: default
   ```
   createdAt: new Date(), // Default date
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 49): Found "Default values" keyword: default
+- **WARNING** (line 47): Found "Default values" keyword: default
   ```
   updatedAt: new Date(), // Default date
   ```
@@ -1899,32 +2011,6 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 - **WARNING** (line 14): Found Logical OR with default string
   ```
   host: process.env.DB_HOST || '127.0.0.1',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-### `server/src/services/googleCalendarService.ts` [P1] (score: 4)
-
-- **WARNING** (line 203): Found Logical OR with default string
-  ```
-  id: event.id || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 316): Found "Default values" keyword: default
-  ```
-  sendUpdates = 'all'  // Default to sending invitation emails
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 411): Found Logical OR with default string
-  ```
-  htmlLink: createdEvent.htmlLink || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 426): Found Logical OR with default string
-  ```
-  responseStatus: a.responseStatus || 'needsAction'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
@@ -2102,71 +2188,31 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 265): Found Logical OR with default string
+- **WARNING** (line 259): Found Logical OR with default string
   ```
   axiosError.response?.data?.error || 'Invalid response from server'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-### `client/src/types/appointment.ts` [P1] (score: 3)
-
-- **WARNING** (line 196): Found "Legacy code" keyword: legacy
-  ```
-  majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 197): Found "Legacy code" keyword: legacy
-  ```
-  minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 198): Found "Legacy code" keyword: legacy
-  ```
-  moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
 ### `client/src/utils/booking/appointmentSlotBuilder.ts` [P1] (score: 3)
 
-- **WARNING** (line 414): Found Optional chaining with default value
+- **WARNING** (line 406): Found Optional chaining with default value
   ```
   const minorEventName = minorEventShape?.name ?? null
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 423): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 415): Found "Fallback patterns" keyword: fallback
   ```
   fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 434): Found "Default values" keyword: default
+- **WARNING** (line 426): Found "Default values" keyword: default
   ```
   default:
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-### `client/src/utils/forms/fieldSectionCategorization.ts` [P1] (score: 3)
-
-- **WARNING** (line 68): Found "Deprecated code" keyword: deprecated
-  ```
-  _fieldsConfig: Record<string, FieldMetadata> | undefined, // DEPRECATED: Not used, kept for API comp...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 121): Found "Default values" keyword: default
-  ```
-  color: meta.statusButtonColor || 'default',
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 121): Found Logical OR with default string
-  ```
-  color: meta.statusButtonColor || 'default',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
 
 ### `client/src/utils/forms/formElementPatching.ts` [P1] (score: 3)
 
@@ -2390,13 +2436,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useFieldComponent.ts` [P1] (score: 2)
 
-- **WARNING** (line 134): Found "Default values" keyword: default
+- **WARNING** (line 116): Found "Default values" keyword: default
   ```
   entityKeyRef.value ?? 'blockInstance', // Default to blockInstance if undefined
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 134): Found Nullish coalescing with default string
+- **WARNING** (line 116): Found Nullish coalescing with default string
   ```
   entityKeyRef.value ?? 'blockInstance', // Default to blockInstance if undefined
   ```
@@ -2483,20 +2529,6 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 - **WARNING** (line 41): Found Logical OR with default string
   ```
   text: addressText || `Appointment ${appointment.id.slice(0, 8)}`,
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-### `client/src/composables/booking/useAppointmentTimes.ts` [P1] (score: 2)
-
-- **WARNING** (line 131): Found Logical OR with default string
-  ```
-  const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.ev...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 179): Found Logical OR with default string
-  ```
-  const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.ev...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
@@ -2681,6 +2713,20 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   default:
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+### `client/src/utils/forms/fieldSectionCategorization.ts` [P1] (score: 2)
+
+- **WARNING** (line 119): Found "Default values" keyword: default
+  ```
+  color: meta.statusButtonColor || 'default',
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 119): Found Logical OR with default string
+  ```
+  color: meta.statusButtonColor || 'default',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
 
 ### `client/src/utils/forms/fieldSorting.ts` [P1] (score: 2)
 
@@ -3118,7 +3164,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/appointmentFieldFormatters.ts` [P2] (score: 1)
 
-- **WARNING** (line 139): Found Logical OR with default string
+- **WARNING** (line 126): Found Logical OR with default string
   ```
   status: (_appointment, value) => String(value || 'started'),
   ```

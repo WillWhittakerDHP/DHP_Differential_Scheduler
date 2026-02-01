@@ -5,7 +5,7 @@ Generated from `.audit-reports/test-audit.json`.
 ## Quick Stats
 
 - **Coverage**: 17%
-- **Untested**: 572 files
+- **Untested**: 573 files
 - **Orphaned**: 10 tests
 
 ## Top Untested Files (by Priority Score)
@@ -16,7 +16,7 @@ Files sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Independ
 | --- | --- | ---: | ---: | ---: | ---: |
 | `client/src/composables/booking/useAvailabilityStepHandlers.ts` | P0 | 8.1 | 10 | 7 | 2 |
 | `client/src/composables/booking/useAvailabilityDevPanel.ts` | P0 | 8.0 | 10 | 8 | 4 |
-| `client/src/utils/booking/partFinalizer.ts` | P0 | 7.8 | 9 | 9 | 4 |
+| `client/src/utils/booking/partFinalizer.ts` | P0 | 7.9 | 9 | 9 | 4 |
 | `client/src/composables/booking/useAvailabilityEmptyState.ts` | P0 | 7.7 | 10 | 7 | 2 |
 | `client/src/composables/booking/useTimeBasisHandler.ts` | P0 | 7.7 | 9 | 7 | 2 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | P0 | 7.5 | 10 | 7 | 2 |

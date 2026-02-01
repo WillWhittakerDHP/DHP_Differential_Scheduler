@@ -14,11 +14,22 @@ Identifies deprecated code that should be cleaned up, including:
 
 ## Summary
 
-- Files scanned: **599**
-- Files with deprecations: **34**
-- Deprecation markers found: **56**
-- With replacement suggestion: 0
-- Without replacement: 56
+- Files scanned: **600**
+- Files with deprecations: **30**
+- Deprecation markers found: **40**
+- With replacement suggestion: 1
+- Without replacement: 39
+
+## Ready to Remove (have replacement suggestions)
+
+These deprecations specify what to use instead - good candidates for cleanup:
+
+### `client/src/configs/field/form/fullFieldFormConfig.ts`
+
+- **Line 37**: item → use `FieldMetadata`
+  ```
+  * @deprecated Use FieldMetadata from /admin-input-metadata instead
+  ```
 
 ## Needs Review (no replacement specified)
 
@@ -111,41 +122,9 @@ These deprecations need investigation to determine if they can be removed:
   // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
   ```
 
-- **Line 130** (info): Found Migration compatibility
-  ```
-  // NOTE: Uses 'Minor' as fallback for backward compatibility
-  ```
-
-- **Line 154** (info): Found Migration compatibility
+- **Line 156** (info): Found Migration compatibility
   ```
   // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
-  ```
-
-- **Line 178** (info): Found Migration compatibility
-  ```
-  // NOTE: Uses 'Minor' as fallback for backward compatibility
-  ```
-
-### `client/src/composables/booking/useAvailabilityDefaults.ts`
-
-- **Line 96** (info): Found Migration compatibility
-  ```
-  * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
-  ```
-
-- **Line 99** (info): Found Migration compatibility
-  ```
-  * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
-  ```
-
-- **Line 108** (info): Found Migration compatibility
-  ```
-  * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility with step data
-  ```
-
-- **Line 111** (info): Found Migration compatibility
-  ```
-  * NOTE: This is kept for backward compatibility - actual selection uses appointmentSlotOrderIndex
   ```
 
 ### `client/src/composables/booking/useBookingWizardStepValidators.ts`
@@ -157,19 +136,9 @@ These deprecations need investigation to determine if they can be removed:
 
 ### `client/src/composables/booking/useTimeSlotCalculations.ts`
 
-- **Line 26** (info): Found Migration compatibility
+- **Line 29** (info): Found Migration compatibility
   ```
   * NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives
-  ```
-
-- **Line 82** (info): Found Migration compatibility
-  ```
-  * NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings
-  ```
-
-- **Line 98** (info): Found Migration compatibility
-  ```
-  * NOTE: Uses 'Minor' as fallback for backward compatibility, but should use minor event from availabilitySettings
   ```
 
 ### `client/src/composables/booking/useWizardDisplay.ts`
@@ -224,7 +193,7 @@ These deprecations need investigation to determine if they can be removed:
   * LEARNING: Full Form Field Config Builder (DEPRECATED - Metadata-only)
   ```
 
-- **Line 37** (warning): Found Parenthetical deprecation note
+- **Line 39** (warning): Found Parenthetical deprecation note
   ```
   * Build form field configuration for a single entity (DEPRECATED)
   ```
@@ -236,28 +205,6 @@ These deprecations need investigation to determine if they can be removed:
   * For backward compatibility, "text" is included and equals "name"
   ```
 
-### `client/src/types/appointment.ts`
-
-- **Line 194** (info): Found Migration compatibility
-  ```
-  // Legacy properties for backward compatibility during migration (onSite->major rename)
-  ```
-
-- **Line 196** (info): Found Legacy marker
-  ```
-  majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']
-  ```
-
-- **Line 197** (info): Found Legacy marker
-  ```
-  minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']
-  ```
-
-- **Line 198** (info): Found Legacy marker
-  ```
-  moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']
-  ```
-
 ### `client/src/types/property.ts`
 
 - **Line 24** (info): Found Migration compatibility
@@ -265,31 +212,9 @@ These deprecations need investigation to determine if they can be removed:
   id: string; // PropertyVersion ID (for backward compatibility)
   ```
 
-### `client/src/utils/appointmentFieldFormatters.ts`
-
-- **Line 132** (warning): Found Deprecated comment
-  ```
-  // Deprecated: clientId/agentId - kept for backward compatibility, use client/agent formatters instead
-  ```
-
-- **Line 143** (warning): Found Deprecated comment
-  ```
-  // Deprecated: selectedOptionTypeBlocks - kept for backward compatibility
-  ```
-
-- **Line 146** (warning): Found Deprecated comment
-  ```
-  // Deprecated: additionalContacts - kept for backward compatibility
-  ```
-
 ### `client/src/utils/booking/appointmentSlotBuilder.ts`
 
-- **Line 111** (info): Found Migration compatibility
-  ```
-  // Legacy properties for backward compatibility during migration
-  ```
-
-- **Line 154** (info): Found Migration compatibility
+- **Line 142** (info): Found Migration compatibility
   ```
   * @param validPartsRelationships - Array of validParts relationships (for backward compatibility, not used in new logic)
   ```
@@ -299,13 +224,6 @@ These deprecations need investigation to determine if they can be removed:
 - **Line 10** (info): Found Migration compatibility
   ```
   * Defaults to major and minor for backward compatibility
-  ```
-
-### `client/src/utils/forms/fieldSectionCategorization.ts`
-
-- **Line 68** (warning): Found Deprecated comment
-  ```
-  _fieldsConfig: Record<string, FieldMetadata> | undefined, // DEPRECATED: Not used, kept for API compatibility
   ```
 
 ### `client/src/utils/iconMapper.ts`
@@ -376,19 +294,13 @@ These deprecations need investigation to determine if they can be removed:
 
 | File | Priority | Score | Deprecations | With Replacement |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/utils/appointmentFieldFormatters.ts` | P1 | 6 | 3 | 0 |
-| `client/src/composables/booking/useAppointmentTimes.ts` | P1 | 4 | 4 | 0 |
-| `client/src/composables/booking/useAvailabilityDefaults.ts` | P1 | 4 | 4 | 0 |
-| `client/src/configs/field/form/fullFieldFormConfig.ts` | P1 | 4 | 2 | 0 |
-| `client/src/types/appointment.ts` | P1 | 4 | 4 | 0 |
-| `client/src/composables/booking/useTimeSlotCalculations.ts` | P2 | 3 | 3 | 0 |
+| `client/src/configs/field/form/fullFieldFormConfig.ts` | P1 | 6 | 3 | 1 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | P2 | 3 | 3 | 0 |
 | `client/src/components/booking/TimeSlotGrid.vue` | P2 | 2 | 2 | 0 |
 | `client/src/composables/booking/selectionCard/useSelectionCardState.ts` | P2 | 2 | 2 | 0 |
+| `client/src/composables/booking/useAppointmentTimes.ts` | P2 | 2 | 2 | 0 |
 | `client/src/composables/useAdmin.ts` | P2 | 2 | 2 | 0 |
 | `client/src/composables/useRelationship.ts` | P2 | 2 | 2 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | P2 | 2 | 2 | 0 |
-| `client/src/utils/forms/fieldSectionCategorization.ts` | P2 | 2 | 1 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | P2 | 2 | 2 | 0 |
 | `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 1 | 1 | 0 |
 | `client/src/components/booking/types/selectionCardTypes.ts` | P2 | 1 | 1 | 0 |
@@ -399,11 +311,13 @@ These deprecations need investigation to determine if they can be removed:
 | `client/src/composables/booking/useAppointmentDataCollection.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/booking/useAppointmentDuration.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/booking/useBookingWizardStepValidators.ts` | P2 | 1 | 1 | 0 |
+| `client/src/composables/booking/useTimeSlotCalculations.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/booking/useWizardDisplay.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/useBookingWizard.ts` | P2 | 1 | 1 | 0 |
 | `client/src/types/annotations.ts` | P2 | 1 | 1 | 0 |
 | `client/src/types/property.ts` | P2 | 1 | 1 | 0 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | P2 | 1 | 1 | 0 |
 | `client/src/utils/differentialScheduling.ts` | P2 | 1 | 1 | 0 |
 | `client/src/utils/iconMapper.ts` | P2 | 1 | 1 | 0 |
 | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P2 | 1 | 1 | 0 |

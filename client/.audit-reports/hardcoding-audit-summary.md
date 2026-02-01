@@ -12,11 +12,12 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `client/src/composables/booking/useAppointmentSlots.ts` | P0 | 66 | 0 | 0 | 0 | 0 | 0 | 0 | 14 |
 | `client/src/views/admin/tabs/BusinessRulesTab.vue` | P0 | 47 | 0 | 0 | 8 | 0 | 0 | 0 | 0 |
+| `server/src/routes/external/calendarRoutes.ts` | P0 | 44 | 0 | 0 | 7 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/relationships/relationshipRouter.ts` | P0 | 44 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/partFinalizer.ts` | P0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 10 |
 | `server/src/routes/internal/properties/propertyRouter.ts` | P0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/services/calendarErrorHandler.ts` | P0 | 39 | 0 | 0 | 7 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/users/userRouter.ts` | P0 | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/external/calendarRoutes.ts` | P0 | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/BusinessControlsTab.vue` | P0 | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/entities/entityRouter.ts` | P0 | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/appointmentSlotBuilder.ts` | P0 | 26 | 0 | 0 | 3 | 0 | 0 | 0 | 3 |
@@ -83,7 +84,6 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `client/src/composables/admin/useAvailabilitySettings.ts` | P2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/admin/usePartInstanceBulkEdit.ts` | P2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/admin/useRelationshipCollection.ts` | P2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useAppointmentTimes.ts` | P2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/layouts/components/UserProfile.vue` | P2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/confirmationStepData.ts` | P2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/db/models/booking/appointment_attendee.ts` | P2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -120,11 +120,11 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `client/src/composables/admin/useInstanceBulkEdit.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/admin/useRelationshipCollectionField.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useAppointmentDropdown.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useAppointmentTimes.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useAvailabilitySettings.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useAvailableStartTimes.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/entityCrud/useEntityCrudMutations.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/entityCrud/usePrimitiveMutation.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/types/appointment.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/types/datetime.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/types/googleCalendar.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
 | `client/src/utils/booking/availabilityStepData.ts` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -164,6 +164,7 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `client/src/composables/useEntityForm.ts` | P2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/layouts/blank.vue` | P2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/layouts/default.vue` | P2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/types/appointment.ts` | P2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/types/events.ts` | P2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/types/moveableScheduling.ts` | P2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/api.ts` | P2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T20:46:45.893Z",
+  "generatedAt": "2026-02-01T21:40:58.196Z",
   "check": "Fallback",
   "status": "warning",
   "issues": [
@@ -503,7 +503,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/composables/admin/useFieldComponent.ts",
-      "line": 134,
+      "line": 116,
       "code": "entityKeyRef.value ?? 'blockInstance', // Default to blockInstance if undefined",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -511,7 +511,7 @@
       "severity": "warning",
       "message": "Found Nullish coalescing with default string",
       "file": "client/src/composables/admin/useFieldComponent.ts",
-      "line": 134,
+      "line": 116,
       "code": "entityKeyRef.value ?? 'blockInstance', // Default to blockInstance if undefined",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -721,22 +721,6 @@
       "file": "client/src/composables/booking/useAppointmentSlots.ts",
       "line": 269,
       "code": "const minorEventName = minorEventShape?.name ?? null",
-      "suggestion": "Review for removal - prefer explicit error handling or type safety"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Logical OR with default string",
-      "file": "client/src/composables/booking/useAppointmentTimes.ts",
-      "line": 131,
-      "code": "const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.ev...",
-      "suggestion": "Review for removal - prefer explicit error handling or type safety"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Logical OR with default string",
-      "file": "client/src/composables/booking/useAppointmentTimes.ts",
-      "line": 179,
-      "code": "const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.ev...",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
     {
@@ -1015,7 +999,7 @@
       "severity": "warning",
       "message": "Found \"Legacy code\" keyword: legacy",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 29,
+      "line": 32,
       "code": "major: TimeBlock  // Major perspective (legacy name)",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -1023,7 +1007,7 @@
       "severity": "warning",
       "message": "Found \"Legacy code\" keyword: legacy",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 30,
+      "line": 33,
       "code": "minor: TimeBlock | null  // Minor perspective (legacy name)",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -1031,7 +1015,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 72,
+      "line": 76,
       "code": "availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1039,7 +1023,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 75,
+      "line": 79,
       "code": "availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1047,7 +1031,7 @@
       "severity": "warning",
       "message": "Found Optional chaining with default value",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 91,
+      "line": 113,
       "code": "return majorEventFinal?.roundedDuration ?? 0",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1055,7 +1039,7 @@
       "severity": "warning",
       "message": "Found Optional chaining with default value",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 107,
+      "line": 157,
       "code": "return minorEventFinal?.roundedDuration ?? 0",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1495,33 +1479,9 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/services/calendarApiService.ts",
-      "line": 265,
+      "line": 259,
       "code": "axiosError.response?.data?.error || 'Invalid response from server'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
-    },
-    {
-      "severity": "warning",
-      "message": "Found \"Legacy code\" keyword: legacy",
-      "file": "client/src/types/appointment.ts",
-      "line": 196,
-      "code": "majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']",
-      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
-    },
-    {
-      "severity": "warning",
-      "message": "Found \"Legacy code\" keyword: legacy",
-      "file": "client/src/types/appointment.ts",
-      "line": 197,
-      "code": "minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']",
-      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
-    },
-    {
-      "severity": "warning",
-      "message": "Found \"Legacy code\" keyword: legacy",
-      "file": "client/src/types/appointment.ts",
-      "line": 198,
-      "code": "moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']",
-      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
     {
       "severity": "warning",
@@ -1559,7 +1519,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/utils/appointmentFieldFormatters.ts",
-      "line": 139,
+      "line": 126,
       "code": "status: (_appointment, value) => String(value || 'started'),",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1583,7 +1543,7 @@
       "severity": "warning",
       "message": "Found Optional chaining with default value",
       "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 414,
+      "line": 406,
       "code": "const minorEventName = minorEventShape?.name ?? null",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -1591,7 +1551,7 @@
       "severity": "warning",
       "message": "Found \"Fallback patterns\" keyword: fallback",
       "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 423,
+      "line": 415,
       "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -1599,7 +1559,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "line": 434,
+      "line": 426,
       "code": "default:",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -1821,17 +1781,9 @@
     },
     {
       "severity": "warning",
-      "message": "Found \"Deprecated code\" keyword: deprecated",
-      "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "line": 68,
-      "code": "_fieldsConfig: Record<string, FieldMetadata> | undefined, // DEPRECATED: Not used, kept for API comp...",
-      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
-    },
-    {
-      "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "line": 121,
+      "line": 119,
       "code": "color: meta.statusButtonColor || 'default',",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -1839,7 +1791,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "line": 121,
+      "line": 119,
       "code": "color: meta.statusButtonColor || 'default',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2263,7 +2215,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/transformers/componentAggregator.ts",
-      "line": 46,
+      "line": 44,
       "code": "orderIndex: 0, // Default orderIndex (not available in GlobalRelationship)",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2271,7 +2223,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/transformers/componentAggregator.ts",
-      "line": 47,
+      "line": 45,
       "code": "disabled: false, // Default disabled (not available in GlobalRelationship)",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2279,7 +2231,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/transformers/componentAggregator.ts",
-      "line": 48,
+      "line": 46,
       "code": "createdAt: new Date(), // Default date",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2287,7 +2239,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/utils/transformers/componentAggregator.ts",
-      "line": 49,
+      "line": 47,
       "code": "updatedAt: new Date(), // Default date",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2853,9 +2805,57 @@
     },
     {
       "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
+      "file": "server/src/routes/external/calendarRoutes.ts",
+      "line": 46,
+      "code": "default:",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Fallback patterns\" keyword: fallback",
+      "file": "server/src/routes/external/calendarRoutes.ts",
+      "line": 128,
+      "code": "res.setHeader('X-Data-Source', 'cache-fallback');",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Fallback patterns\" keyword: fallback",
+      "file": "server/src/routes/external/calendarRoutes.ts",
+      "line": 130,
+      "code": "res.setHeader('X-Data-Source', 'empty-fallback');",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/external/calendarRoutes.ts",
-      "line": 124,
+      "line": 153,
+      "code": "message: error.message || 'An unexpected error occurred'",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Fallback patterns\" keyword: fallback",
+      "file": "server/src/routes/external/calendarRoutes.ts",
+      "line": 231,
+      "code": "res.setHeader('X-Data-Source', 'cache-fallback');",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Fallback patterns\" keyword: fallback",
+      "file": "server/src/routes/external/calendarRoutes.ts",
+      "line": 233,
+      "code": "res.setHeader('X-Data-Source', 'empty-fallback');",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": "server/src/routes/external/calendarRoutes.ts",
+      "line": 257,
       "code": "message: error.message || 'An unexpected error occurred'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2863,7 +2863,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/external/calendarRoutes.ts",
-      "line": 226,
+      "line": 435,
       "code": "message: error.message || 'An unexpected error occurred'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2871,7 +2871,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/external/calendarRoutes.ts",
-      "line": 434,
+      "line": 483,
       "code": "message: error.message || 'An unexpected error occurred'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2879,7 +2879,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/external/calendarRoutes.ts",
-      "line": 482,
+      "line": 524,
       "code": "message: error.message || 'An unexpected error occurred'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2887,15 +2887,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/external/calendarRoutes.ts",
-      "line": 523,
-      "code": "message: error.message || 'An unexpected error occurred'",
-      "suggestion": "Review for removal - prefer explicit error handling or type safety"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Logical OR with default string",
-      "file": "server/src/routes/external/calendarRoutes.ts",
-      "line": 548,
+      "line": 549,
       "code": "message: error.message || 'An unexpected error occurred'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -3853,6 +3845,62 @@
     },
     {
       "severity": "warning",
+      "message": "Found Optional chaining with default value",
+      "file": "server/src/services/calendarErrorHandler.ts",
+      "line": 50,
+      "code": "this.retryable = options?.retryable ?? false;",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
+      "file": "server/src/services/calendarErrorHandler.ts",
+      "line": 80,
+      "code": "default:",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": "server/src/services/calendarErrorHandler.ts",
+      "line": 121,
+      "code": "const message = error.message?.toLowerCase() || '';",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": "server/src/services/calendarErrorHandler.ts",
+      "line": 161,
+      "code": "return new CalendarApiError('unknown', error.message || 'Unknown error', {",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Fallback patterns\" keyword: fallback",
+      "file": "server/src/services/calendarErrorHandler.ts",
+      "line": 292,
+      "code": "`[CalendarErrorHandler] Operation failed (${classifiedError.type}), checking cache fallback`",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Fallback patterns\" keyword: fallback",
+      "file": "server/src/services/calendarErrorHandler.ts",
+      "line": 298,
+      "code": "console.log('[CalendarErrorHandler] Returning cached data as fallback');",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
+      "file": "server/src/services/calendarErrorHandler.ts",
+      "line": 307,
+      "code": "console.warn('[CalendarErrorHandler] No cache available, returning default value');",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/services/calendarEventsCache.ts",
       "line": 48,
@@ -3869,9 +3917,17 @@
     },
     {
       "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
+      "file": "server/src/services/googleCalendarService.ts",
+      "line": 148,
+      "code": "{ calendars: {} }  // Empty default if no cache",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/services/googleCalendarService.ts",
-      "line": 203,
+      "line": 258,
       "code": "id: event.id || '',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -3879,7 +3935,15 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "server/src/services/googleCalendarService.ts",
-      "line": 316,
+      "line": 279,
+      "code": "[]  // Empty array as default if no cache",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
+      "file": "server/src/services/googleCalendarService.ts",
+      "line": 382,
       "code": "sendUpdates = 'all'  // Default to sending invitation emails",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -3887,7 +3951,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/services/googleCalendarService.ts",
-      "line": 411,
+      "line": 476,
       "code": "htmlLink: createdEvent.htmlLink || '',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -3895,7 +3959,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/services/googleCalendarService.ts",
-      "line": 426,
+      "line": 491,
       "code": "responseStatus: a.responseStatus || 'needsAction'",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -4651,7 +4715,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/composables/admin/useFieldComponent.ts",
-          "line": 134,
+          "line": 116,
           "code": "entityKeyRef.value ?? 'blockInstance', // Default to blockInstance if undefined",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -4659,7 +4723,7 @@
           "severity": "warning",
           "message": "Found Nullish coalescing with default string",
           "file": "client/src/composables/admin/useFieldComponent.ts",
-          "line": 134,
+          "line": 116,
           "code": "entityKeyRef.value ?? 'blockInstance', // Default to blockInstance if undefined",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -4958,29 +5022,6 @@
       ],
       "score": 5,
       "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useAppointmentTimes.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "message": "Found Logical OR with default string",
-          "file": "client/src/composables/booking/useAppointmentTimes.ts",
-          "line": 131,
-          "code": "const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.ev...",
-          "suggestion": "Review for removal - prefer explicit error handling or type safety"
-        },
-        {
-          "severity": "warning",
-          "message": "Found Logical OR with default string",
-          "file": "client/src/composables/booking/useAppointmentTimes.ts",
-          "line": 179,
-          "code": "const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.ev...",
-          "suggestion": "Review for removal - prefer explicit error handling or type safety"
-        }
-      ],
-      "score": 2,
-      "priority": "P1"
     },
     {
       "repoPath": "client/src/composables/booking/useAvailabilityEmptyState.ts",
@@ -5338,7 +5379,7 @@
           "severity": "warning",
           "message": "Found \"Legacy code\" keyword: legacy",
           "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 29,
+          "line": 32,
           "code": "major: TimeBlock  // Major perspective (legacy name)",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -5346,7 +5387,7 @@
           "severity": "warning",
           "message": "Found \"Legacy code\" keyword: legacy",
           "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 30,
+          "line": 33,
           "code": "minor: TimeBlock | null  // Minor perspective (legacy name)",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -5354,7 +5395,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 72,
+          "line": 76,
           "code": "availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -5362,7 +5403,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 75,
+          "line": 79,
           "code": "availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -5370,7 +5411,7 @@
           "severity": "warning",
           "message": "Found Optional chaining with default value",
           "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 91,
+          "line": 113,
           "code": "return majorEventFinal?.roundedDuration ?? 0",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -5378,7 +5419,7 @@
           "severity": "warning",
           "message": "Found Optional chaining with default value",
           "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 107,
+          "line": 157,
           "code": "return minorEventFinal?.roundedDuration ?? 0",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -6021,40 +6062,9 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/services/calendarApiService.ts",
-          "line": 265,
+          "line": 259,
           "code": "axiosError.response?.data?.error || 'Invalid response from server'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
-        }
-      ],
-      "score": 3,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/types/appointment.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "message": "Found \"Legacy code\" keyword: legacy",
-          "file": "client/src/types/appointment.ts",
-          "line": 196,
-          "code": "majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']",
-          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
-        },
-        {
-          "severity": "warning",
-          "message": "Found \"Legacy code\" keyword: legacy",
-          "file": "client/src/types/appointment.ts",
-          "line": 197,
-          "code": "minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']",
-          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
-        },
-        {
-          "severity": "warning",
-          "message": "Found \"Legacy code\" keyword: legacy",
-          "file": "client/src/types/appointment.ts",
-          "line": 198,
-          "code": "moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']",
-          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         }
       ],
       "score": 3,
@@ -6113,7 +6123,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/utils/appointmentFieldFormatters.ts",
-          "line": 139,
+          "line": 126,
           "code": "status: (_appointment, value) => String(value || 'started'),",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -6151,7 +6161,7 @@
           "severity": "warning",
           "message": "Found Optional chaining with default value",
           "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 414,
+          "line": 406,
           "code": "const minorEventName = minorEventShape?.name ?? null",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -6159,7 +6169,7 @@
           "severity": "warning",
           "message": "Found \"Fallback patterns\" keyword: fallback",
           "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 423,
+          "line": 415,
           "code": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -6167,7 +6177,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-          "line": 434,
+          "line": 426,
           "code": "default:",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         }
@@ -6480,17 +6490,9 @@
       "issues": [
         {
           "severity": "warning",
-          "message": "Found \"Deprecated code\" keyword: deprecated",
-          "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-          "line": 68,
-          "code": "_fieldsConfig: Record<string, FieldMetadata> | undefined, // DEPRECATED: Not used, kept for API comp...",
-          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
-        },
-        {
-          "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-          "line": 121,
+          "line": 119,
           "code": "color: meta.statusButtonColor || 'default',",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -6498,12 +6500,12 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-          "line": 121,
+          "line": 119,
           "code": "color: meta.statusButtonColor || 'default',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
       ],
-      "score": 3,
+      "score": 2,
       "priority": "P1"
     },
     {
@@ -6985,7 +6987,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/transformers/componentAggregator.ts",
-          "line": 46,
+          "line": 44,
           "code": "orderIndex: 0, // Default orderIndex (not available in GlobalRelationship)",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -6993,7 +6995,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/transformers/componentAggregator.ts",
-          "line": 47,
+          "line": 45,
           "code": "disabled: false, // Default disabled (not available in GlobalRelationship)",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -7001,7 +7003,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/transformers/componentAggregator.ts",
-          "line": 48,
+          "line": 46,
           "code": "createdAt: new Date(), // Default date",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -7009,7 +7011,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/utils/transformers/componentAggregator.ts",
-          "line": 49,
+          "line": 47,
           "code": "updatedAt: new Date(), // Default date",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         }
@@ -7673,9 +7675,57 @@
       "issues": [
         {
           "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 46,
+          "code": "default:",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Fallback patterns\" keyword: fallback",
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 128,
+          "code": "res.setHeader('X-Data-Source', 'cache-fallback');",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Fallback patterns\" keyword: fallback",
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 130,
+          "code": "res.setHeader('X-Data-Source', 'empty-fallback');",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 124,
+          "line": 153,
+          "code": "message: error.message || 'An unexpected error occurred'",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Fallback patterns\" keyword: fallback",
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 231,
+          "code": "res.setHeader('X-Data-Source', 'cache-fallback');",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Fallback patterns\" keyword: fallback",
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 233,
+          "code": "res.setHeader('X-Data-Source', 'empty-fallback');",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 257,
           "code": "message: error.message || 'An unexpected error occurred'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7683,7 +7733,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 226,
+          "line": 435,
           "code": "message: error.message || 'An unexpected error occurred'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7691,7 +7741,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 434,
+          "line": 483,
           "code": "message: error.message || 'An unexpected error occurred'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7699,7 +7749,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 482,
+          "line": 524,
           "code": "message: error.message || 'An unexpected error occurred'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7707,20 +7757,12 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 523,
-          "code": "message: error.message || 'An unexpected error occurred'",
-          "suggestion": "Review for removal - prefer explicit error handling or type safety"
-        },
-        {
-          "severity": "warning",
-          "message": "Found Logical OR with default string",
-          "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 548,
+          "line": 549,
           "code": "message: error.message || 'An unexpected error occurred'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
       ],
-      "score": 6,
+      "score": 11,
       "priority": "P0"
     },
     {
@@ -8893,6 +8935,69 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found Optional chaining with default value",
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "line": 50,
+          "code": "this.retryable = options?.retryable ?? false;",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "line": 80,
+          "code": "default:",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "line": 121,
+          "code": "const message = error.message?.toLowerCase() || '';",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "line": 161,
+          "code": "return new CalendarApiError('unknown', error.message || 'Unknown error', {",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Fallback patterns\" keyword: fallback",
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "line": 292,
+          "code": "`[CalendarErrorHandler] Operation failed (${classifiedError.type}), checking cache fallback`",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Fallback patterns\" keyword: fallback",
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "line": 298,
+          "code": "console.log('[CalendarErrorHandler] Returning cached data as fallback');",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "line": 307,
+          "code": "console.warn('[CalendarErrorHandler] No cache available, returning default value');",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        }
+      ],
+      "score": 7,
+      "priority": "P0"
+    },
+    {
       "repoPath": "server/src/services/calendarEventsCache.ts",
       "issues": [
         {
@@ -8927,9 +9032,17 @@
       "issues": [
         {
           "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": "server/src/services/googleCalendarService.ts",
+          "line": 148,
+          "code": "{ calendars: {} }  // Empty default if no cache",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/services/googleCalendarService.ts",
-          "line": 203,
+          "line": 258,
           "code": "id: event.id || '',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -8937,7 +9050,15 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "server/src/services/googleCalendarService.ts",
-          "line": 316,
+          "line": 279,
+          "code": "[]  // Empty array as default if no cache",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": "server/src/services/googleCalendarService.ts",
+          "line": 382,
           "code": "sendUpdates = 'all'  // Default to sending invitation emails",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -8945,7 +9066,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/services/googleCalendarService.ts",
-          "line": 411,
+          "line": 476,
           "code": "htmlLink: createdEvent.htmlLink || '',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -8953,13 +9074,13 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/services/googleCalendarService.ts",
-          "line": 426,
+          "line": 491,
           "code": "responseStatus: a.responseStatus || 'needsAction'",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
       ],
-      "score": 4,
-      "priority": "P1"
+      "score": 6,
+      "priority": "P0"
     },
     {
       "repoPath": "server/src/services/rateLimiter.ts",
@@ -9056,7 +9177,7 @@
     }
   ],
   "recommendations": [
-    "Found 496 warning(s) - review defaults/fallbacks for removal in favor of dynamic/config-driven approaches"
+    "Found 504 warning(s) - review defaults/fallbacks for removal in favor of dynamic/config-driven approaches"
   ],
-  "summary": "Scanned 599 file(s) (483 client, 116 server). Found 496 issue(s): 0 critical, 496 warnings"
+  "summary": "Scanned 600 file(s) (483 client, 117 server). Found 504 issue(s): 0 critical, 504 warnings"
 }

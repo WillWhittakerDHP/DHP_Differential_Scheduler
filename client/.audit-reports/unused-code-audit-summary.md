@@ -57,6 +57,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/utils/transformers/composePropertyValue.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `server/src/routes/helpers/dataController.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `server/src/services/appointmentCalendarService.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
+| `server/src/services/googleCalendarService.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/composables/admin/useEntityCardExpansion.ts` | P1 | 7 | 2 | 0 | 1 | 0 |
 | `client/src/composables/booking/useFreeBusyDataSource.ts` | P1 | 7 | 2 | 0 | 1 | 0 |
 | `client/src/composables/admin/useConditionalFieldVisibility.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
@@ -273,9 +274,9 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/db/models/admin/adminRelationshipMetadata.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/db/models/booking/relationships.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/routes/external/googleFetchRoutes.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/services/calendarErrorHandler.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/calendarEventsCache.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/freeBusyCache.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/googleCalendarService.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/rateLimiter.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/test/setup/testDb.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/adminRelationshipMetadataComposer.ts` | P2 | 3 | 1 | 0 | 0 | 0 |

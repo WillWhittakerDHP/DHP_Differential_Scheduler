@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T20:46:51.108Z",
+  "generatedAt": "2026-02-01T21:41:06.866Z",
   "scope": {
     "included": [
       "server/src/**/*.{ts,mjs}"
@@ -3892,7 +3892,7 @@
         },
         {
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 45,
+          "line": 73,
           "route": "/freebusy",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3900,7 +3900,7 @@
         },
         {
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 262,
+          "line": 293,
           "route": "/events",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -4251,7 +4251,7 @@
         "server/src/routes/external/calendarRoutes.ts": [
           {
             "file": "server/src/routes/external/calendarRoutes.ts",
-            "line": 45,
+            "line": 73,
             "route": "/freebusy",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4259,7 +4259,7 @@
           },
           {
             "file": "server/src/routes/external/calendarRoutes.ts",
-            "line": 262,
+            "line": 293,
             "route": "/events",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -9155,7 +9155,7 @@
       "issues": [
         {
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 45,
+          "line": 73,
           "route": "/freebusy",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9163,7 +9163,7 @@
         },
         {
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 262,
+          "line": 293,
           "route": "/events",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9171,7 +9171,7 @@
         },
         {
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 45,
+          "line": 73,
           "route": "/freebusy",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9179,7 +9179,7 @@
         },
         {
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 262,
+          "line": 293,
           "route": "/events",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",

@@ -6,10 +6,10 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ## Summary
 
-- Files scanned: **610**
-- Files with issues: **303**
-- Issues found: **589**
-- Unused exports: 496
+- Files scanned: **611**
+- Files with issues: **304**
+- Issues found: **592**
+- Unused exports: 499
 - Commented exports: 1
 - Unused functions: 89
 - TODO markers: 3
@@ -1065,19 +1065,19 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [todo-marker] (line 224): TODO/FIXME marker about unused code
+- **INFO** [todo-marker] (line 225): TODO/FIXME marker about unused code
   ```
   const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented
   ```
   💡 Review and clean up unused code
 
-- **INFO** [todo-marker] (line 226): TODO/FIXME marker about unused code
+- **INFO** [todo-marker] (line 227): TODO/FIXME marker about unused code
   ```
   const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...
   ```
   💡 Review and clean up unused code
 
-- **INFO** [todo-marker] (line 227): TODO/FIXME marker about unused code
+- **INFO** [todo-marker] (line 228): TODO/FIXME marker about unused code
   ```
   const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...
   ```
@@ -1220,6 +1220,26 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 17): Unused export: CalendarEventResult (type)
   ```
   export interface CalendarEventResult {
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/services/googleCalendarService.ts` [P1] (score: 9)
+
+- **WARNING** [unused-export] (line 28): Unused export: FreeBusyResponse (type)
+  ```
+  export interface FreeBusyResponse {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 44): Unused export: FreeBusyResponseWithMeta (type)
+  ```
+  export interface FreeBusyResponseWithMeta extends FreeBusyResponse {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 175): Unused export: CalendarEventsResponseWithMeta (type)
+  ```
+  export interface CalendarEventsResponseWithMeta {
   ```
   💡 Remove if unused or document why kept
 
@@ -2369,13 +2389,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useTimeSlotCalculations.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 56): Unused export: useTimeSlotCalculations (function)
+- **WARNING** [unused-export] (line 59): Unused export: useTimeSlotCalculations (function)
   ```
   export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): UseTimeSlotCalculationsReturn {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 28): Unused export: DifferentialTimeBlocks (type)
+- **WARNING** [unused-export] (line 31): Unused export: DifferentialTimeBlocks (type)
   ```
   export interface DifferentialTimeBlocks {
   ```
@@ -2663,13 +2683,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/types/appointment.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 210): Unused export: PartInstanceSnapshot (type)
+- **WARNING** [unused-export] (line 204): Unused export: PartInstanceSnapshot (type)
   ```
   export interface PartInstanceSnapshot {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 219): Unused export: BlockInstanceSnapshot (type)
+- **WARNING** [unused-export] (line 213): Unused export: BlockInstanceSnapshot (type)
   ```
   export interface BlockInstanceSnapshot {
   ```
@@ -2705,7 +2725,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/appointmentFieldFormatters.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 129): Unused export: APPOINTMENT_FIELD_FORMATTERS (const)
+- **WARNING** [unused-export] (line 119): Unused export: APPOINTMENT_FIELD_FORMATTERS (const)
   ```
   export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   ```
@@ -2789,13 +2809,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/forms/fieldSectionCategorization.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 24): Unused export: CategorizedFields (type)
+- **WARNING** [unused-export] (line 23): Unused export: CategorizedFields (type)
   ```
   export interface CategorizedFields {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 48): Unused export: CategorizeFieldsOptions (type)
+- **WARNING** [unused-export] (line 47): Unused export: CategorizeFieldsOptions (type)
   ```
   export interface CategorizeFieldsOptions {
   ```
@@ -3489,7 +3509,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/form/fullFieldFormConfig.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 42): Unused export: buildAllPerEntityFieldConfig (function)
+- **WARNING** [unused-export] (line 47): Unused export: buildAllPerEntityFieldConfig (function)
   ```
   export function buildAllPerEntityFieldConfig<GE extends GlobalEntityKey>(
   ```
@@ -3745,7 +3765,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/transformers/componentAggregator.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 133): Unused export: composeProperties (function)
+- **WARNING** [unused-export] (line 125): Unused export: composeProperties (function)
   ```
   export function composeProperties<GE extends GlobalEntityKey>(
   ```
@@ -3815,6 +3835,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/services/calendarErrorHandler.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 171): Unused export: RetryConfig (type)
+  ```
+  export interface RetryConfig {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/services/calendarEventsCache.ts` [P2] (score: 3)
 
 - **WARNING** [unused-export] (line 209): Unused export: clearEventsCache (function)
@@ -3828,14 +3856,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 190): Unused export: clearCache (function)
   ```
   export function clearCache(): void {
-  ```
-  💡 Remove if unused or document why kept
-
-### `server/src/services/googleCalendarService.ts` [P2] (score: 3)
-
-- **WARNING** [unused-export] (line 18): Unused export: FreeBusyResponse (type)
-  ```
-  export interface FreeBusyResponse {
   ```
   💡 Remove if unused or document why kept
 

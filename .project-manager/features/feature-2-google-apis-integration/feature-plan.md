@@ -369,7 +369,7 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 **Session 2.2.2: Drive Time Calculations**
 - Set up Google Maps Distance Matrix API client
 - Calculate drive time FROM appointment address to busy event locations
-- Calculate drive time TO appointment address FROM home
+- Calculate drive time TO appointment address FROM default location (home/office)
 - Calculate drive time TO appointment address FROM previous appointment
 - Calculate drive time TO next appointment FROM appointment address
 - Calculate total drive time for day
@@ -377,14 +377,32 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 
 **Session 2.2.3: Error Handling & Fallbacks**
 - Handle API errors gracefully
-- Implement base drive time fallback
+- Implement base drive time fallback (uses configured driveTimeTo/driveTimeFrom minutes)
 - Handle address autocomplete failures (manual entry)
 - Log errors for debugging
 - Display user-friendly error messages
 
-### Drive-Time Buffer Plan Reference
+### Drive-Time Buffer Architecture Reference
 
-- `/.cursor/plans/drive_time_buffer_implementation_d7bfd3a0.plan.md` (detailed implementation plan)
+**Plan:** `~/.cursor/plans/drive_time_buffer_refactor_f78512ee.plan.md`
+
+**Key Architecture Changes:**
+The drive time buffer system has been redesigned with improved semantics:
+
+| Old Structure | New Structure |
+|--------------|---------------|
+| Single `driveTime` buffer with `placement: 'before' \| 'after' \| 'both'` | Dual buffers: `driveTimeTo` (arrival) and `driveTimeFrom` (departure) |
+| Ambiguous placement semantics | Placement is implicit in the buffer name |
+| No application rules | `applyTo: 'all' \| 'first_only' \| 'last_only' \| 'none'` |
+| No default location | `defaultLocation` field for home/office address |
+
+**To implement:** Follow the detailed plan at the path above. The plan includes:
+- Type definitions for client and server
+- Constraint extraction logic updates
+- Availability checking with slot position context
+- Admin UI panels for configuration
+- Database migration from legacy structure
+- Test updates
 
 ### Success Criteria
 
@@ -907,7 +925,11 @@ This phase is **deferrable** - MLS API integration can be deferred with manual e
 ### Internal Phase Dependencies
 
 - Phase 2.0 → Phase 2.1 (Calendar config required before API integration)
-- Phase 2.1 Session 2.1.4 → Phase 2.2 (**CRITICAL**: Event locations needed for drive time calculations)
+- Phase 2.1 Session 2.1.4 → **Drive Time Buffer Refactor** → Phase 2.2 (**CRITICAL** dependency chain)
+  - Session 2.1.4 provides event locations
+  - Drive Time Buffer Refactor sets up `driveTimeTo`/`driveTimeFrom` architecture with `applyTo` rules
+  - Phase 2.2 calculates actual drive times to populate the buffer values
+  - **Plan:** `~/.cursor/plans/drive_time_buffer_refactor_f78512ee.plan.md`
 - Phase 2.0 → Phase 2.2 (Calendar config may inform Maps integration)
 - Phase 2.1 → Phase 2.3 (Calendar integration before MLS, though MLS is independent)
 
@@ -975,10 +997,15 @@ This phase is **deferrable** - MLS API integration can be deferred with manual e
 ---
 
 **Last Updated:** 2026-02-01  
-**Status:** In Progress - Feature Started, Phase 2.1 Ready for Implementation
+**Status:** In Progress - Phase 2.1 Complete, Drive Time Buffer Refactor Next
 
 **Notes:**
 - Phase 2.1 incorporates detailed Google Calendar Free-Busy API Setup plan. Rate limiting and caching infrastructure is **CRITICAL** and must be implemented before making API calls to prevent quota exhaustion.
+- **Drive Time Buffer Refactor** (`~/.cursor/plans/drive_time_buffer_refactor_f78512ee.plan.md`) should be implemented before Phase 2.2. This refactor:
+  - Replaces single `driveTime` buffer with semantic `driveTimeTo`/`driveTimeFrom` buffers
+  - Adds `applyTo` config for first/last appointment application rules
+  - Adds `defaultLocation` field for admin-configurable home/office address
+  - Provides the architecture that Phase 2.2 will populate with calculated drive times
 - Phase 2.3 (MLS API) significantly expanded with Bright MLS integration details, field mapping configuration, feature-to-block-instance matching, and admin interface for mapping management. MLS integration is **deferrable** but provides significant UX improvement.
 - Bright MLS API access requires contacting contentlicensing@brightmls.com with GCAAR affiliate credentials.
 

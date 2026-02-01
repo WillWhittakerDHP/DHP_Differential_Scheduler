@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-01T20:46:52.168Z",
+  "generatedAt": "2026-02-01T21:41:15.709Z",
   "summary": {
-    "totalSourceFiles": 689,
+    "totalSourceFiles": 690,
     "totalTestFiles": 128,
-    "untestedSourceFiles": 572,
+    "untestedSourceFiles": 573,
     "orphanedTestFiles": 10,
     "coveragePercentage": 17
   },
@@ -2767,11 +2767,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
+        "reliability": 7,
         "independence": 4,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 4.4,
+        "cognitiveLoad": 0,
+        "overall": 5.1,
         "bucket": "P1"
       }
     },
@@ -6660,8 +6660,8 @@
         "reliability": 9,
         "independence": 6,
         "roi": 9,
-        "cognitiveLoad": 3,
-        "overall": 7.8,
+        "cognitiveLoad": 4,
+        "overall": 7.9,
         "bucket": "P0"
       }
     },
@@ -7171,11 +7171,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -9212,6 +9212,26 @@
       }
     },
     {
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "functions": [
+        "classifyError",
+        "logCalendarError"
+      ],
+      "classes": [
+        "CalendarApiError"
+      ],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 4,
+        "overall": 4.4,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "server/src/services/calendarEventsCache.ts",
       "functions": [
         "cacheEvents",
@@ -9268,9 +9288,9 @@
       "exportCount": 4,
       "priority": {
         "reliability": 4,
-        "independence": 5,
+        "independence": 4,
         "roi": 4,
-        "cognitiveLoad": 5,
+        "cognitiveLoad": 7,
         "overall": 4.3,
         "bucket": "P1"
       }
@@ -10267,9 +10287,9 @@
     },
     {
       "directory": "server/src/services",
-      "sourceCount": 7,
+      "sourceCount": 8,
       "testCount": 0,
-      "untestedCount": 7
+      "untestedCount": 8
     },
     {
       "directory": "server/src/test/setup",
@@ -13877,11 +13897,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
+        "reliability": 7,
         "independence": 4,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 4.4,
+        "cognitiveLoad": 0,
+        "overall": 5.1,
         "bucket": "P1"
       }
     },
@@ -15386,8 +15406,8 @@
         "reliability": 10,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 7.6,
+        "cognitiveLoad": 0,
+        "overall": 7.5,
         "bucket": "P0"
       }
     },
@@ -16528,9 +16548,9 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 7,
+        "independence": 6,
         "roi": 7,
-        "cognitiveLoad": 0,
+        "cognitiveLoad": 2,
         "overall": 7.5,
         "bucket": "P0"
       }
@@ -19416,7 +19436,6 @@
           "catch",
           "checkOAuthStatus",
           "fetchFreeBusy",
-          "for",
           "getErrorMessage",
           "getOAuthUrl",
           "handleApiError",
@@ -20281,8 +20300,8 @@
         "reliability": 5,
         "independence": 10,
         "roi": 9,
-        "cognitiveLoad": 1,
-        "overall": 6.8,
+        "cognitiveLoad": 0,
+        "overall": 6.7,
         "bucket": "P1"
       }
     },
@@ -20440,8 +20459,8 @@
         "reliability": 9,
         "independence": 6,
         "roi": 9,
-        "cognitiveLoad": 3,
-        "overall": 7.8,
+        "cognitiveLoad": 4,
+        "overall": 7.9,
         "bucket": "P0"
       }
     },
@@ -20667,8 +20686,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 9,
-        "cognitiveLoad": 1,
-        "overall": 5.6,
+        "cognitiveLoad": 0,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -20777,8 +20796,7 @@
           "sortBusyPeriods",
           "switch",
           "validateBusyPeriod",
-          "validateConstraintArrays",
-          "while"
+          "validateConstraintArrays"
         ]
       },
       "hasTest": true,
@@ -21686,8 +21704,8 @@
         "reliability": 10,
         "independence": 4,
         "roi": 10,
-        "cognitiveLoad": 1,
-        "overall": 7.9,
+        "cognitiveLoad": 0,
+        "overall": 7.8,
         "bucket": "P0"
       }
     },
@@ -21902,11 +21920,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -24764,6 +24782,42 @@
       }
     },
     {
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/calendarErrorHandler.ts",
+      "functions": [
+        "classifyError",
+        "logCalendarError"
+      ],
+      "classes": [
+        "CalendarApiError"
+      ],
+      "composables": [],
+      "classMethods": {
+        "CalendarApiError": [
+          "calculateBackoffDelay",
+          "catch",
+          "classifyError",
+          "error",
+          "for",
+          "getUserMessage",
+          "if",
+          "logCalendarError",
+          "switch"
+        ]
+      },
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 4,
+        "overall": 4.4,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "server/src/services/calendarEventsCache.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/calendarEventsCache.ts",
       "functions": [
@@ -24832,9 +24886,9 @@
       "exportCount": 4,
       "priority": {
         "reliability": 4,
-        "independence": 5,
+        "independence": 4,
         "roi": 4,
-        "cognitiveLoad": 5,
+        "cognitiveLoad": 7,
         "overall": 4.3,
         "bucket": "P1"
       }

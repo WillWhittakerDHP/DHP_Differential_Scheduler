@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T20:46:45.218Z",
+  "generatedAt": "2026-02-01T21:40:57.630Z",
   "check": "Unused Code",
   "status": "warning",
   "issues": [
@@ -2820,7 +2820,7 @@
       "type": "unused-export",
       "message": "Unused export: useTimeSlotCalculations (function)",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 56,
+      "line": 59,
       "code": "export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): UseTimeSlotCalculationsReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2830,7 +2830,7 @@
       "type": "unused-export",
       "message": "Unused export: DifferentialTimeBlocks (type)",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "line": 28,
+      "line": 31,
       "code": "export interface DifferentialTimeBlocks {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3718,7 +3718,7 @@
       "type": "unused-export",
       "message": "Unused export: buildAllPerEntityFieldConfig (function)",
       "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
-      "line": 42,
+      "line": 47,
       "code": "export function buildAllPerEntityFieldConfig<GE extends GlobalEntityKey>(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3939,7 +3939,7 @@
       "type": "unused-export",
       "message": "Unused export: PartInstanceSnapshot (type)",
       "file": "client/src/types/appointment.ts",
-      "line": 210,
+      "line": 204,
       "code": "export interface PartInstanceSnapshot {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3949,7 +3949,7 @@
       "type": "unused-export",
       "message": "Unused export: BlockInstanceSnapshot (type)",
       "file": "client/src/types/appointment.ts",
-      "line": 219,
+      "line": 213,
       "code": "export interface BlockInstanceSnapshot {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4199,7 +4199,7 @@
       "type": "unused-export",
       "message": "Unused export: APPOINTMENT_FIELD_FORMATTERS (const)",
       "file": "client/src/utils/appointmentFieldFormatters.ts",
-      "line": 129,
+      "line": 119,
       "code": "export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4289,7 +4289,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 224,
+      "line": 225,
       "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
       "suggestion": "Review and clean up unused code"
     },
@@ -4298,7 +4298,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 226,
+      "line": 227,
       "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
       "suggestion": "Review and clean up unused code"
     },
@@ -4307,7 +4307,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 227,
+      "line": 228,
       "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
       "suggestion": "Review and clean up unused code"
     },
@@ -4635,7 +4635,7 @@
       "type": "unused-export",
       "message": "Unused export: CategorizedFields (type)",
       "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "line": 24,
+      "line": 23,
       "code": "export interface CategorizedFields {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4645,7 +4645,7 @@
       "type": "unused-export",
       "message": "Unused export: CategorizeFieldsOptions (type)",
       "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "line": 48,
+      "line": 47,
       "code": "export interface CategorizeFieldsOptions {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4864,7 +4864,7 @@
       "type": "unused-export",
       "message": "Unused export: composeProperties (function)",
       "file": "client/src/utils/transformers/componentAggregator.ts",
-      "line": 133,
+      "line": 125,
       "code": "export function composeProperties<GE extends GlobalEntityKey>(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5643,6 +5643,16 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: RetryConfig (type)",
+      "file": "server/src/services/calendarErrorHandler.ts",
+      "line": 171,
+      "code": "export interface RetryConfig {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: clearEventsCache (function)",
       "file": "server/src/services/calendarEventsCache.ts",
       "line": 209,
@@ -5665,8 +5675,28 @@
       "type": "unused-export",
       "message": "Unused export: FreeBusyResponse (type)",
       "file": "server/src/services/googleCalendarService.ts",
-      "line": 18,
+      "line": 28,
       "code": "export interface FreeBusyResponse {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: FreeBusyResponseWithMeta (type)",
+      "file": "server/src/services/googleCalendarService.ts",
+      "line": 44,
+      "code": "export interface FreeBusyResponseWithMeta extends FreeBusyResponse {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: CalendarEventsResponseWithMeta (type)",
+      "file": "server/src/services/googleCalendarService.ts",
+      "line": 175,
+      "code": "export interface CalendarEventsResponseWithMeta {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -9623,7 +9653,7 @@
           "type": "unused-export",
           "message": "Unused export: useTimeSlotCalculations (function)",
           "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 56,
+          "line": 59,
           "code": "export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): UseTimeSlotCalculationsReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9633,7 +9663,7 @@
           "type": "unused-export",
           "message": "Unused export: DifferentialTimeBlocks (type)",
           "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-          "line": 28,
+          "line": 31,
           "code": "export interface DifferentialTimeBlocks {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10892,7 +10922,7 @@
           "type": "unused-export",
           "message": "Unused export: buildAllPerEntityFieldConfig (function)",
           "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
-          "line": 42,
+          "line": 47,
           "code": "export function buildAllPerEntityFieldConfig<GE extends GlobalEntityKey>(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11204,7 +11234,7 @@
           "type": "unused-export",
           "message": "Unused export: PartInstanceSnapshot (type)",
           "file": "client/src/types/appointment.ts",
-          "line": 210,
+          "line": 204,
           "code": "export interface PartInstanceSnapshot {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11214,7 +11244,7 @@
           "type": "unused-export",
           "message": "Unused export: BlockInstanceSnapshot (type)",
           "file": "client/src/types/appointment.ts",
-          "line": 219,
+          "line": 213,
           "code": "export interface BlockInstanceSnapshot {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11562,7 +11592,7 @@
           "type": "unused-export",
           "message": "Unused export: APPOINTMENT_FIELD_FORMATTERS (const)",
           "file": "client/src/utils/appointmentFieldFormatters.ts",
-          "line": 129,
+          "line": 119,
           "code": "export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11694,7 +11724,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 224,
+          "line": 225,
           "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
           "suggestion": "Review and clean up unused code"
         },
@@ -11703,7 +11733,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 226,
+          "line": 227,
           "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
           "suggestion": "Review and clean up unused code"
         },
@@ -11712,7 +11742,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 227,
+          "line": 228,
           "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
           "suggestion": "Review and clean up unused code"
         }
@@ -12180,7 +12210,7 @@
           "type": "unused-export",
           "message": "Unused export: CategorizedFields (type)",
           "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-          "line": 24,
+          "line": 23,
           "code": "export interface CategorizedFields {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12190,7 +12220,7 @@
           "type": "unused-export",
           "message": "Unused export: CategorizeFieldsOptions (type)",
           "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-          "line": 48,
+          "line": 47,
           "code": "export interface CategorizeFieldsOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12486,7 +12516,7 @@
           "type": "unused-export",
           "message": "Unused export: composeProperties (function)",
           "file": "client/src/utils/transformers/componentAggregator.ts",
-          "line": 133,
+          "line": 125,
           "code": "export function composeProperties<GE extends GlobalEntityKey>(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13491,6 +13521,23 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: RetryConfig (type)",
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "line": 171,
+          "code": "export interface RetryConfig {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/services/calendarEventsCache.ts",
       "issues": [
         {
@@ -13532,14 +13579,34 @@
           "type": "unused-export",
           "message": "Unused export: FreeBusyResponse (type)",
           "file": "server/src/services/googleCalendarService.ts",
-          "line": 18,
+          "line": 28,
           "code": "export interface FreeBusyResponse {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: FreeBusyResponseWithMeta (type)",
+          "file": "server/src/services/googleCalendarService.ts",
+          "line": 44,
+          "code": "export interface FreeBusyResponseWithMeta extends FreeBusyResponse {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: CalendarEventsResponseWithMeta (type)",
+          "file": "server/src/services/googleCalendarService.ts",
+          "line": 175,
+          "code": "export interface CalendarEventsResponseWithMeta {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
       ],
-      "score": 3,
-      "priority": "P2"
+      "score": 9,
+      "priority": "P1"
     },
     {
       "repoPath": "server/src/services/rateLimiter.ts",
@@ -13722,18 +13789,18 @@
     }
   ],
   "recommendations": [
-    "Found 496 unused export(s) - review for removal",
+    "Found 499 unused export(s) - review for removal",
     "Found 1 commented-out export(s) - review and clean up",
     "Found 89 unused function(s) - review for removal",
     "Found 3 TODO/FIXME marker(s) about unused code - review and clean up"
   ],
-  "summary": "Scanned 610 file(s) (483 client, 127 server). Found 589 issue(s): 496 unused exports, 1 commented exports, 89 unused functions, 3 TODO markers",
+  "summary": "Scanned 611 file(s) (483 client, 128 server). Found 592 issue(s): 499 unused exports, 1 commented exports, 89 unused functions, 3 TODO markers",
   "summaryData": {
-    "totalFiles": 610,
+    "totalFiles": 611,
     "skippedFilesCount": 0,
-    "filesWithIssues": 303,
-    "totalIssues": 589,
-    "unusedExports": 496,
+    "filesWithIssues": 304,
+    "totalIssues": 592,
+    "unusedExports": 499,
     "commentedExports": 1,
     "unusedFunctions": 89,
     "todoMarkers": 3,
