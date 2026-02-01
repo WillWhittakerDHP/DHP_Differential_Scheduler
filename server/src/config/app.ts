@@ -61,7 +61,7 @@ export const {
   AnnotationShape, AnnotationInstance, AnnotationAssignment,
   EventShape, EventInstance, EventAssignment, EventShapeAttendee,
   Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
-  BusinessSettings,
+  BusinessSettings, BusinessRule,
   AdminMetadata
 } = initializeModels(sequelize);
 
@@ -115,5 +115,6 @@ export default {
   User,
   Appointment,
   BusinessSettings,
+  BusinessRule,
   AdminMetadata,
 };

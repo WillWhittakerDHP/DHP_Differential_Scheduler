@@ -6,6 +6,7 @@ import { UserRouter } from "./users/userRouter.js";
 import { AppointmentRouter } from "./appointments/appointmentRouter.js";
 import { AvailabilityRouter } from "./availabilityRouter.js";
 import { BusinessSettingsRouter } from "./businessSettingsRouter.js";
+import BusinessRulesRouter from "./businessRulesRouter.js";
 import adminMetadataRouter from "./admin-metadata/adminMetadataRouter.js";
 
 const router = Router();
@@ -26,6 +27,9 @@ router.use('/availability', AvailabilityRouter);
 
 // ✅ Business settings CRUD routes
 router.use('/business-settings', BusinessSettingsRouter);
+
+// ✅ Business rules CRUD routes
+router.use('/business-rules', BusinessRulesRouter);
 
 // ✅ Admin metadata CRUD routes (unified metadata for all entity types - primitives + relationships)
 // LEARNING: Single endpoint follows entity pattern - backend routes based on fieldKey type

@@ -28,6 +28,7 @@ import { PropertyVersionTypeFactory } from "./booking/property_version_type.js";
 import { UserFactory } from "./participantModels/Users.js";
 import { AppointmentFactory } from "./booking/appointment.js";
 import { BusinessSettingsFactory } from "./admin/business_settings.js";
+import { BusinessRuleFactory } from "./admin/business_rule.js";
 import { AdminMetadataFactory } from "./admin/adminMetadata.js";
 
 export function initializeModels(sequelize: Sequelize) {
@@ -100,6 +101,8 @@ export function initializeModels(sequelize: Sequelize) {
   // 7️⃣ Define Admin Configuration Models
   // BusinessSettings: Admin-configurable business logic settings (availability settings, etc.)
   const BusinessSettings = BusinessSettingsFactory(sequelize);
+  // BusinessRule: Admin-configurable validation rules per block instance
+  const BusinessRule = BusinessRuleFactory(sequelize);
   // AdminMetadata: Unified admin metadata for all entity types (primitives + relationships)
   // LEARNING: Single model replaces AdminPrimitiveMetadata and AdminRelationshipMetadata
   // WHY: Follows entity pattern - single table with discriminator, backend routes based on field type
@@ -311,7 +314,7 @@ export function initializeModels(sequelize: Sequelize) {
     AnnotationShape, AnnotationInstance, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
-    BusinessSettings,
+    BusinessSettings, BusinessRule,
     AdminMetadata
   };
 }
