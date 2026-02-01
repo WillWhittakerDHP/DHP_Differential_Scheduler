@@ -107,7 +107,8 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 |---------|------|--------|
 | 2.1.1 | Infrastructure Setup & Free-Busy API | ✅ Complete |
 | 2.1.2 | Calendar Availability Integration | ⏳ Not Started |
-| 2.1.3 | Event Creation, Invitations & Cache Invalidation | ✅ Complete |
+| 2.1.3a | Event Creation API & Cache Invalidation | ✅ Complete |
+| 2.1.3b | Appointment Attendees Architecture & Integration | ⏳ In Progress |
 | 2.1.4 | Full Event Fetching & Location Cache | ⏳ Not Started |
 | 2.1.5 | Error Handling & Fallbacks | ⏳ Not Started |
 | 2.1.6 | Admin API Dev Panel | ⏳ Not Started |
@@ -148,7 +149,7 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - **Caching strategy:** Rely on server cache (no client-side cache needed)
 - Integration point: `client/src/utils/timeSlotCalculations.ts`
 
-### Session 2.1.3: Event Creation, Invitations & Cache Invalidation ✅ Complete
+### Session 2.1.3a: Event Creation API & Cache Invalidation ✅ Complete
 - ✅ Updated OAuth scopes to include `calendar.events` for write permissions
 - ✅ Implemented `createEvent()` function in googleCalendarService
   - Creates calendar events with summary, description, location
@@ -164,6 +165,56 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
   - Invalidates events cache for affected calendar
   - Ensures subsequent availability checks get fresh data
 - ✅ Verified compilation and server startup
+- ✅ Tested with real Google Calendar (scheduling@districthomepro.com)
+
+### Session 2.1.3b: Appointment Attendees Architecture & Integration ⏳ In Progress
+**Goal:** Create proper data architecture for appointment attendees and integrate with calendar event creation on booking submission.
+
+**Detailed Plan:** `~/.cursor/plans/appointment_attendees_architecture_64ca4ea1.plan.md`
+
+**Problem Solved:**
+- Current hardcoded `clientId`/`agentId` fields don't scale to multiple attendees
+- No connection between EventShapeAttendee (config) and actual Users (with emails)
+- Calendar invitations need proper attendee data flow
+
+**Implementation Phases:**
+
+**Phase 1: Database Schema**
+- [ ] Create `appointment_attendees` junction table
+  - Links appointments to Users with their roles (UserTypeBlock)
+  - Tracks invitation status per attendee
+  - Stores Google event ID for status tracking
+- [ ] Deprecate `clientId`/`agentId` columns (keep for backward compat)
+
+**Phase 2: Server Model & Relationships**
+- [ ] Create `AppointmentAttendee` Sequelize model
+- [ ] Add relationships in models/index.ts
+- [ ] Create `userTypeMapping.ts` utility (bridge hardcoded roles to UserTypeBlocks)
+
+**Phase 3: Server API Updates**
+- [ ] Update `appointmentRouter.ts` POST endpoint to accept `attendees` array
+- [ ] Create `appointmentCalendarService.ts` for calendar integration on submission
+- [ ] Auto-create calendar events when appointment status is 'submitted' or 'confirmed'
+
+**Phase 4: Client Updates**
+- [ ] Update `AppointmentRequest` type with `attendees` array
+- [ ] Modify `useAppointmentDataCollection.ts` to build attendees array
+- [ ] Deprecate `clientId`/`agentId` in request
+
+**Phase 5: Data Migration**
+- [ ] Migrate existing appointments to `appointment_attendees` table
+
+**Key Files to Create:**
+- `server/src/db/migrations/YYYYMMDD_create_appointment_attendees.mjs`
+- `server/src/db/models/booking/appointment_attendee.ts`
+- `server/src/utils/userTypeMapping.ts`
+- `server/src/services/appointmentCalendarService.ts`
+
+**Key Files to Modify:**
+- `server/src/db/models/index.ts`
+- `server/src/routes/internal/appointments/appointmentRouter.ts`
+- `client/src/types/appointment.ts`
+- `client/src/composables/booking/useAppointmentDataCollection.ts`
 
 ### Session 2.1.4: Full Event Fetching & Location Cache
 - Fetch full calendar events using `calendar.events.list()` (not just free-busy)
@@ -248,25 +299,29 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - ✅ Calendar and OAuth routes implemented
 - ✅ Free-busy endpoint tested with real data
 
-### Session 2.1.3 Complete
+### Session 2.1.3a Complete
 - ✅ OAuth scopes updated to include `calendar.events` for write permissions
 - ✅ `createEvent()` function implemented with attendee/invitation support
 - ✅ `POST /api/v1/external/calendar/events` endpoint added
 - ✅ Cache invalidation integrated (both free-busy and events caches)
 - ✅ Comprehensive error handling for event creation
 - ✅ Server compilation and startup verified
+- ✅ Tested with real Google Calendar
 
-### Next Steps (After Phase 2.0)
-1. **Phase 2.0:** Calendar Configuration UI
-   - Add `calendarConfig` to AvailabilitySettings
-   - Create UI for Primary/Work/Personal calendar emails
-2. **Session 2.1.2:** Calendar Availability Integration
-   - Create client-side API service
-   - Add data source toggle to dev panel
-   - Connect to availability system
-   - Implement explicit error handling
-3. **Session 2.1.4:** Full Event Fetching & Location Cache
-   - Required for drive time calculations in Phase 2.2
+### Session 2.1.3b In Progress
+- ⏳ Appointment Attendees Architecture planned
+- ⏳ Ready to implement database migration
+- **Plan file:** `~/.cursor/plans/appointment_attendees_architecture_64ca4ea1.plan.md`
+
+### Next Steps
+1. **Session 2.1.3b (CURRENT):** Appointment Attendees Architecture
+   - Create `appointment_attendees` table
+   - Build server model and relationships
+   - Update appointment creation to handle attendees
+   - Integrate calendar event creation on submission
+2. **Phase 2.0:** Calendar Configuration UI (can be parallel)
+3. **Session 2.1.2:** Calendar Availability Integration (after Phase 2.0)
+4. **Session 2.1.4:** Full Event Fetching & Location Cache
 
 ---
 
@@ -346,8 +401,9 @@ Dev panel toggle in "Free/Busy" section:
 ## Reference Documents
 
 - **Feature Plan**: `../feature-plan.md`
-- **Google Calendar Free-Busy Setup Plan**: `/Users/districthomepro/.cursor/plans/google_calendar_free-busy_api_setup_cbbaba01.plan.md` ⭐ **DETAILED IMPLEMENTATION GUIDE**
-- **Drive Time Buffer Plan**: `/Users/districthomepro/.cursor/plans/drive_time_buffer_implementation_d7bfd3a0.plan.md` (context for Session 2.1.4 - event locations needed for drive time calculations)
+- **Appointment Attendees Architecture Plan**: `~/.cursor/plans/appointment_attendees_architecture_64ca4ea1.plan.md` ⭐ **CURRENT SESSION GUIDE**
+- **Google Calendar Free-Busy Setup Plan**: `/Users/districthomepro/.cursor/plans/google_calendar_free-busy_api_setup_cbbaba01.plan.md`
+- **Drive Time Buffer Plan**: `/Users/districthomepro/.cursor/plans/drive_time_buffer_implementation_d7bfd3a0.plan.md` (context for Session 2.1.4)
 - **React Calendar Calls Reference**: `client/src/scheduler/externalAPI/calendarCalls.ts`
 - **Google Calendar API Documentation**: [Free-Busy API](https://developers.google.com/calendar/api/v3/reference/freebusy/query)
 - **Google OAuth 2.0 Setup Guide**: [OAuth 2.0 Guide](https://developers.google.com/identity/protocols/oauth2)
@@ -355,7 +411,7 @@ Dev panel toggle in "Free/Busy" section:
 ---
 
 **Phase Status:** In Progress  
-**Current Session:** Sessions 2.1.1 & 2.1.3 Complete - Next: Session 2.1.2 (Calendar Availability Integration) or Session 2.1.4 (Full Event Fetching)  
+**Current Session:** Session 2.1.3b - Appointment Attendees Architecture & Integration  
 **Last Updated:** 2026-02-01
 
 ---

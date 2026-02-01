@@ -20,6 +20,7 @@ import { EventShapeFactory } from "./booking/event_shape.js";
 import { EventInstanceFactory } from "./booking/event_instance.js";
 import { EventAssignmentFactory } from "./booking/event_assignment.js";
 import { EventShapeAttendeeFactory } from "./booking/event_shape_attendee.js";
+import { AppointmentAttendeeFactory } from "./booking/appointment_attendee.js";
 import { PropertyFactory } from "./booking/property.js";
 import { AddressFactory } from "./booking/address.js";
 import { PropertyVersionFactory } from "./booking/property_version.js";
@@ -59,6 +60,7 @@ export function initializeModels(sequelize: Sequelize) {
   const EventInstance = EventInstanceFactory(sequelize);
   const EventAssignment = EventAssignmentFactory(sequelize);
   const EventShapeAttendee = EventShapeAttendeeFactory(sequelize);
+  const AppointmentAttendee = AppointmentAttendeeFactory(sequelize);
 
   const Address = AddressFactory(sequelize);
   const PropertyVersion = PropertyVersionFactory(sequelize);
@@ -231,7 +233,36 @@ export function initializeModels(sequelize: Sequelize) {
 
   BlockInstance.hasMany(Appointment, { foreignKey: 'user_type_id', as: 'userTypeAppointments' });
   Appointment.belongsTo(BlockInstance, { foreignKey: 'user_type_id', as: 'userType' });
-  
+
+  // AppointmentAttendee relationships
+  // LEARNING: Junction table linking appointments to actual users with roles
+  // WHY: Replaces hardcoded clientId/agentId with flexible attendee model
+  Appointment.hasMany(AppointmentAttendee, { 
+    foreignKey: 'appointment_id', 
+    as: 'attendees' 
+  });
+  AppointmentAttendee.belongsTo(Appointment, { 
+    foreignKey: 'appointment_id', 
+    as: 'appointment' 
+  });
+
+  User.hasMany(AppointmentAttendee, { 
+    foreignKey: 'user_id', 
+    as: 'appointmentAttendances' 
+  });
+  AppointmentAttendee.belongsTo(User, { 
+    foreignKey: 'user_id', 
+    as: 'user' 
+  });
+
+  BlockInstance.hasMany(AppointmentAttendee, { 
+    foreignKey: 'user_type_block_instance_id', 
+    as: 'appointmentAttendees' 
+  });
+  AppointmentAttendee.belongsTo(BlockInstance, { 
+    foreignKey: 'user_type_block_instance_id', 
+    as: 'userTypeBlockInstance' 
+  });
 
   BlockInstanceVersion.hasMany(PartInstanceVersion, { 
     foreignKey: 'block_instance_version_id', 
@@ -251,6 +282,7 @@ export function initializeModels(sequelize: Sequelize) {
     AnnotationShape, AnnotationInstance, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
+    AppointmentAttendee,
     BusinessSettings, BusinessRule,
     AdminMetadata
   };
