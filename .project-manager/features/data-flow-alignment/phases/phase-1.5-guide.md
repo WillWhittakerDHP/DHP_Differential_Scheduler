@@ -32,12 +32,19 @@
 ## Sessions Breakdown
 
 - [ ] ### Session 1.5.1: Business Rules Database Infrastructure
-**Description:** Create database tables and models for business rules configuration (required fields, validation rules, agent requirements)
-**Tasks:** 5-6 tasks
+**Description:** Create database tables and models for business rules configuration. Replace hardcoded validation logic (isMultiFamily, requiresAgent, conditional required fields) with database-driven rules.
+**Tasks:** 6 tasks
 **Learning Goals:**
 - Database schema design for configurable business rules
 - Relationship modeling between business rules and block instances
-- Annotation sets integration with validation messages
+- Annotation instances integration with validation messages
+- Leveraging existing patterns (requiresUnitNumber flag, BusinessSettings JSONB)
+**Key Deliverables:**
+- `business_rules` table with rule_type and JSONB config
+- Block instance validation flags (is_multi_family, requires_agent)
+- BusinessRule Sequelize model with typed JSONB
+- Business rules API router (full CRUD)
+- Seed default business rules linked to annotation instances
 
 - [ ] ### Session 1.5.2: Business Rules Admin Tab
 **Description:** Create admin panel tab for managing business rules (required fields UI, validation message configuration)
