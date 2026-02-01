@@ -86,9 +86,15 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)
   })
 
+  /**
+   * LEARNING: Check if selected property type is multi-family using database flag
+   * WHY: Replaces hardcoded name check with database-driven flag
+   * PATTERN: Database flag (is_multi_family) instead of string matching
+   * SESSION: 1.5.3 - Replaced hardcoded logic with business rules infrastructure
+   */
   const isMultiFamily = computed(() => {
     return wizard.selectedPropertyTypeBlocks.value.some(
-      selected => selected.name.toLowerCase().includes('multi')
+      selected => selected.is_multi_family === true
     )
   })
 

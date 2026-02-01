@@ -68,6 +68,8 @@ export type BookingBlockInstance = {
   allowMultiple: boolean // Whether this block instance can be multiplied by ADU count or number
   requiresUnitNumber: boolean | null // If true, property requires a unit number (nullable by design)
   number?: number | null // Optional quantity multiplier for allowMultiple instances
+  is_multi_family: boolean // If true, property type is multi-family (requires numberOfUnits field)
+  requires_agent: boolean // If true, service requires agent and client contact information
 }
 
 /**
@@ -379,6 +381,8 @@ export class BookingTransformer {
       partInstances,
       allowMultiple: blockInstanceWithProps.allowMultiple ?? false,
       requiresUnitNumber: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean' ? blockInstanceWithProps.requiresUnitNumber : null,
+      is_multi_family: blockInstanceWithProps.is_multi_family ?? false,
+      requires_agent: blockInstanceWithProps.requires_agent ?? false
     }
   }
   
