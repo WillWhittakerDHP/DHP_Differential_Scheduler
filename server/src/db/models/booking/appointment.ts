@@ -8,11 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * Block Instance Snapshot Type
- * LEARNING: Represents a snapshot of block instance data at booking time
- * WHY: Preserves pricing/names for historical accuracy
- */
 export interface BlockInstanceSnapshot {
   id: string
   name: string
@@ -54,17 +49,6 @@ export class Appointment extends Model<
   declare selectedTimeSlots: Array<Record<string, unknown>> | null;
   declare isQuoteMode: boolean;
   declare quotePdfUrl: string | null;
-  /**
-   * Appointment status workflow:
-   * - started: Non-quote mode appointment creation in progress
-   * - held: Time slots held for clients who paid booking fee (TODO: implement booking fee logic)
-   * - rescheduling: Non-quote mode rescheduling in progress
-   * - quoted: Quote mode appointment creation in progress
-   * - submitted: Submitted through app, awaiting confirmation (TODO: implement confirmation routine)
-   * - confirmed: Submitted and confirmed
-   * - cancelled: Soft-delete, still reschedulable
-   * - deleted: Hard-delete
-   */
   declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancelled' | 'deleted';
   declare clientId: ForeignKey<string> | null;
   declare agentId: ForeignKey<string> | null;
@@ -201,17 +185,6 @@ export function AppointmentFactory(sequelize: Sequelize) {
         allowNull: true,
         field: 'quote_pdf_url',
       },
-      /**
-       * Appointment status workflow:
-       * - started: Non-quote mode appointment creation in progress
-       * - held: Time slots held for clients who paid booking fee (TODO: implement booking fee logic)
-       * - rescheduling: Non-quote mode rescheduling in progress
-       * - quoted: Quote mode appointment creation in progress
-       * - submitted: Submitted through app, awaiting confirmation (TODO: implement confirmation routine)
-       * - confirmed: Submitted and confirmed
-       * - cancelled: Soft-delete, still reschedulable
-       * - deleted: Hard-delete
-       */
       status: {
         type: DataTypes.ENUM('started', 'held', 'rescheduling', 'quoted', 'submitted', 'confirmed', 'cancelled', 'deleted'),
         allowNull: false,

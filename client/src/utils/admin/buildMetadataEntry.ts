@@ -6,25 +6,10 @@
 
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 
-/**
- * Options for building a metadata entry
- */
 export interface BuildMetadataEntryOptions {
-  /**
-   * Field key (for primitive metadata) or relationship key (for relationship metadata)
-   */
   key: string
-  /**
-   * Rendering updates to apply
-   */
   renderingUpdates: Partial<FieldMetadataEntry>
-  /**
-   * Existing metadata to merge with
-   */
   existingMetadata: FieldMetadataEntry
-  /**
-   * Whether this is for relationship metadata (affects inputConfig wrapping)
-   */
   isRelationship?: boolean
 }
 
@@ -38,7 +23,6 @@ export interface BuildMetadataEntryOptions {
 export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<string, unknown> {
   const { renderingUpdates, existingMetadata, isRelationship = false } = options
 
-  // Use existing canonical fields
   const canonicalFields = {
     dataType: existingMetadata.dataType,
     label: existingMetadata.label,
@@ -46,7 +30,6 @@ export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<s
   }
 
   // LEARNING: inputConfig is stored in direct format (not wrapped)
-  // WHY: Database stores inputConfig directly, not wrapped in relationshipSelect/typeSelect
   // PATTERN: Return inputConfig as-is, no wrapping needed
   const getInputConfig = (): Record<string, unknown> | null => {
     return renderingUpdates.inputConfig !== undefined 
@@ -54,29 +37,22 @@ export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<s
       : existingMetadata.inputConfig ?? null
   }
 
-  // LEARNING: Normalize panel based on visibility
-  // WHY: Panel must be 'none' for titleRow/expandedDirect/staticAsTitle, required for expandedPanel
   // PATTERN: Validate panel value based on visibility to ensure data integrity
   const visibility = renderingUpdates.visibility ?? existingMetadata.visibility
   let panel = renderingUpdates.panel ?? existingMetadata.panel
   
   if (visibility === 'titleRow' || visibility === 'expandedDirect' || visibility === 'staticAsTitle') {
-    // Panel must be 'none' for these visibility types
     panel = 'none'
   } else if (visibility === 'expandedPanel') {
-    // Panel must be set for expandedPanel (default to 'parts' if not set)
     if (!panel || panel === 'none') {
       panel = 'parts'
     }
   }
 
   const entry: Record<string, unknown> = {
-    // Note: fieldKey/relationshipKey is added by the mutation, not here
-    // Canonical fields (from existing metadata)
     dataType: canonicalFields.dataType,
     label: canonicalFields.label,
     isRequired: canonicalFields.isRequired,
-    // Rendering fields: use updates if provided, otherwise existing values - NO DEFAULTS
     visibility,
     layout: renderingUpdates.layout ?? existingMetadata.layout,
     displayOrder: renderingUpdates.displayOrder ?? existingMetadata.displayOrder,

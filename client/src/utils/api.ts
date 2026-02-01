@@ -18,12 +18,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
  */
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1/internal'
 
-/**
- * Create axios instance with base configuration
- * LEARNING: Axios instance provides shared configuration
- * WHY: Avoids repeating base URL and headers in every request
- * PATTERN: Create instance once, reuse throughout app
- */
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
@@ -40,11 +34,6 @@ const apiClient: AxiosInstance = axios.create({
  */
 apiClient.interceptors.request.use(
   (config) => {
-    // Add auth token if available (future enhancement)
-    // const token = localStorage.getItem('authToken')
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`
-    // }
     return config
   },
   (error) => {
@@ -61,11 +50,6 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    // Handle 401 Unauthorized (future enhancement)
-    // if (error.response?.status === 401) {
-    //   // Redirect to login
-    //   window.location.href = '/login'
-    // }
     
     return Promise.reject(error)
   }
@@ -125,9 +109,6 @@ export function getBulkPatchEndpoint(entityKey: string): string {
   return `/entities/${entityKey}/bulk`
 }
 
-// NOTE: Event and annotation endpoints removed - use generic entity endpoints instead
-// Use getEntityEndpoint('eventShape'), getEntityEndpoint('eventInstance'), etc.
-// Relationship endpoints (eventAssignments, annotationAssignments) remain in relationshipRouter
 
 /**
  * Admin Metadata API endpoints (unified)
@@ -150,23 +131,11 @@ export function getAdminMetadataBatchEndpoint(): string {
 }
 
 
-/**
- * Admin Primitive Metadata API endpoints (deprecated - use getAdminMetadataEndpoint)
- * LEARNING: Kept for backward compatibility during migration
- * WHY: Old code may still reference these endpoints
- * NOTE: These endpoints still work (routed to unified endpoint) but should be migrated to getAdminMetadataEndpoint
- */
 export function getAdminPrimitiveMetadataEndpoint(entityType: string, entityId: string): string {
   // Route to unified endpoint (backward compatibility)
   return getAdminMetadataEndpoint(entityType, entityId)
 }
 
-/**
- * Admin Relationship Metadata API endpoints (deprecated - use getAdminMetadataEndpoint)
- * LEARNING: Kept for backward compatibility during migration
- * WHY: Old code may still reference these endpoints
- * NOTE: These endpoints still work (routed to unified endpoint) but should be migrated to getAdminMetadataEndpoint
- */
 export function getAdminRelationshipMetadataEndpoint(entityType: string, entityId: string): string {
   // Route to unified endpoint (backward compatibility)
   return getAdminMetadataEndpoint(entityType, entityId)
@@ -237,9 +206,6 @@ export function getUserByIdEndpoint(id: string): string {
  * DELETE/PATCH endpoints use parent/child ID pattern
  */
 export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
-  // LEARNING: Use query parameter for filtering - backend needs to support blockInstanceId filter
-  // WHY: Relationship router currently only supports parent_id filter for instanceComponents
-  // TODO: Add backend support for filtering annotationAssignments by blockInstanceId
   return `/relationships/annotationAssignments?blockInstanceId=${blockInstanceId}`
 }
 

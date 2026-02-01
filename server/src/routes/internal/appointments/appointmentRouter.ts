@@ -14,10 +14,6 @@ import { loadAllAppointmentVersions } from '../../../services/appointmentSnapsho
 
 const router = Router();
 
-/**
- * GET /appointments
- * Get all appointments with relationships (propertyVersion with address and details, client, agent)
- */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const appointments = await fetchAll(Appointment, {
@@ -44,10 +40,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * GET /appointments/:id
- * Get an appointment by ID with relationships (propertyVersion with address and details, client, agent)
- */
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const appointment = await Appointment.findByPk(req.params.id, {
@@ -83,11 +75,6 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * Create snapshots for appointment
- * Includes validation for array FK references
- * WHY: Creates immutable versions for all selected block instances
- */
 async function createSnapshotsForAppointment(
   blockInstanceIds: string[]
 ): Promise<string[]> {
@@ -97,7 +84,6 @@ async function createSnapshotsForAppointment(
 
   const snapshots = await Promise.all(
     blockInstanceIds.map(async (blockInstanceId) => {
-      // Create version (will reuse if identical to latest)
       const version = await createBlockInstanceVersion(blockInstanceId);
       return version.id;
     })
@@ -122,17 +108,10 @@ async function validateSnapshotIds(snapshotIds: string[]): Promise<void> {
   }
 }
 
-/**
- * POST /appointments
- * Create a new appointment
- * LEARNING: Creates block instance versions for all selected instances
- * WHY: Preserves historical data for appointments
- */
 router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const appointmentData = req.body;
     
-    // 1. Create snapshots for all selected block instances
     const serviceSnapshotIds = await createSnapshotsForAppointment(
       appointmentData.selectedServiceIds || []
     );
@@ -148,7 +127,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     await validateSnapshotIds(propertySnapshotIds);
     await validateSnapshotIds(optionSnapshotIds);
     
-    // 3. Create appointment with snapshot IDs
     const appointment = await createRecord(Appointment, {
       ...appointmentData,
       serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
@@ -156,7 +134,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
     });
     
-    // Fetch with relationships for response
     const appointmentWithRelations = await Appointment.findByPk(appointment.id, {
       include: [
         { 
@@ -182,10 +159,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PUT /appointments/:id
- * Update an appointment by ID
- */
 router.put('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const updatedRows = await updateRecord(Appointment, req.params.id, req.body);
@@ -223,10 +196,6 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PATCH /appointments/:id
- * Partially update an appointment by ID
- */
 router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const updated = await patchRecord(Appointment, req.params.id, req.body);
@@ -264,10 +233,6 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * DELETE /appointments/:id
- * Delete an appointment by ID
- */
 router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const deleted = await deleteRecord(Appointment, req.params.id);
@@ -290,12 +255,6 @@ router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * GET /appointments/:id/versions
- * Get block instance versions for an appointment
- * LEARNING: Returns versions for service, property, and option snapshots
- * WHY: Enables loading historical data for appointments
- */
 router.get('/:id/versions', async (req: Request, res: Response): Promise<void> => {
   try {
     const appointment = await Appointment.findByPk(req.params.id);

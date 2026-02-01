@@ -34,14 +34,9 @@ const {
 
 const { rfc3339ToBusinessHoursHHmm, businessHoursHHmmToRfc3339 } = useLocalTime()
 
-// LEARNING: Use centralized UI strings from config
-// WHY: Reduces hardcoding audit findings, centralizes all UI text for consistency
-// PATTERN: Import UI strings from config file instead of defining in component
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
-// LEARNING: Create computed properties for business hours in HH:mm format for UI
 // WHY: Time inputs expect HH:mm format, but formData stores RFC3339 internally
-// PATTERN: Functional transform using map instead of for loop (audit compliance)
 const businessHoursForUI = computed(() => {
   if (!formData.value) {
     return {} as Record<number, { start: string; end: string }>
@@ -49,8 +44,6 @@ const businessHoursForUI = computed(() => {
   
   const currentFormData = formData.value
   
-  // LEARNING: Use functional map instead of for loop
-  // WHY: Aligns with functional-mutations rule, avoids mutation in loops
   // PATTERN: Array.from with map to create new object
   return Object.fromEntries(
     Array.from({ length: 7 }, (_, day) => {
@@ -66,22 +59,15 @@ const businessHoursForUI = computed(() => {
   ) as Record<number, { start: string; end: string }>
 })
 
-// LEARNING: Helper to safely access business hours config
-// WHY: Type narrowing for RangeConstraint.config to access hours property
-// PATTERN: Type guard function that checks if config is BusinessHoursConfig
 const isBusinessHoursConfig = (config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }): config is BusinessHoursConfig => {
   return 'hours' in config
 }
 
 // LEARNING: Watch for changes in UI business hours and update RFC3339 formData
-// WHY: When user changes time inputs (HH:mm), convert back to RFC3339 for storage
-// PATTERN: Function to update formData when UI values change with null safety
 const updateBusinessHours = (day: number, field: 'start' | 'end', value: string): void => {
   if (!formData.value) return
   
   const rfc3339Value = businessHoursHHmmToRfc3339(value)
-  // LEARNING: Update both top-level businessHours and rangeConstraints.businessHours.config.hours
-  // WHY: Slot generation reads from rangeConstraints.businessHours.config.hours, so both must stay in sync
   // PATTERN: Update both locations to ensure consistency with type narrowing
   formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
   
@@ -91,29 +77,18 @@ const updateBusinessHours = (day: number, field: 'start' | 'end', value: string)
   }
 }
 
-// LEARNING: Tab navigation for main tabs (Constraints and Calendar)
-// WHY: Provides tabbed interface for switching between main sections
 // PATTERN: Use tab navigation composable for state management
 const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constraints' })
 
-// LEARNING: Tab navigation for subtabs (Constraints)
-// WHY: Provides tabbed interface for switching between different constraint types
 // PATTERN: Use tab navigation composable for state management
 const { currentTab: currentSubTab } = useTabNavigation({ initialTab: 'range' })
 
-// LEARNING: Tab navigation for Calendar panel subtabs
-// WHY: Provides tabbed interface for Duration Rounding, Timezone, and Grid (Slot Increment moved to Grid tab)
 // PATTERN: Use tab navigation composable for state management
 const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'rounding' })
 
-// LEARNING: Get global data for UserTypeBlock selection
-// WHY: Need to display available UserTypeBlock instances for major/minor attendee configuration
 // PATTERN: Use useGlobal composable to access global entities
 const { getGlobalData, getGlobalEntities } = useGlobal()
 
-// LEARNING: Get available UserTypeBlock instances for attendee selection
-// WHY: Provides list of all state control blocks (UserTypeBlocks) for major/minor configuration
-// PATTERN: Filter BlockInstances by blockShape.isStateControl
 const availableUserTypeBlocks = computed(() => {
   const globalData = getGlobalData()
   if (!globalData) return []
@@ -131,9 +106,6 @@ const availableUserTypeBlocks = computed(() => {
     }))
 })
 
-// LEARNING: Computed properties for major/minor attendee selection
-// WHY: Provides v-model bindings for multi-select components
-// PATTERN: Computed with getter/setter for two-way binding
 const majorAttendees = computed({
   get: () => formData.value?.differentialPerspectives?.majorAttendees || [],
   set: (value: GlobalEntityId[]) => {
@@ -211,16 +183,11 @@ const minorStateLabel = computed({
   }
 })
 
-// LEARNING: Computed max business hours for workHoursLimit hint
-// WHY: Provides default value for workHoursLimit if not configured
-// PATTERN: Null-safe computed with early return
 const maxBusinessHours = computed(() => {
   if (!formData.value) return 0
   return calculateMaxBusinessHours(formData.value.businessHours)
 })
 
-// LEARNING: Generic helper to create computed properties for optional nested form data
-// WHY: Eliminates duplication across 11+ similar computed properties, prevents double ensure calls
 // PATTERN: Factory function that generates computed properties with consistent get/set pattern
 function createNestedComputed<TValue, TParent>(
   options: {
@@ -248,16 +215,11 @@ function createNestedComputed<TValue, TParent>(
 }
 
 // LEARNING: Helper functions to initialize capacity filters using functional patterns
-// WHY: Ensures formData has proper structure when user starts configuring filters
-// PATTERN: Pure builder functions that return new objects instead of mutating
 type MaxWorkHours = NonNullable<AvailabilitySettings['maxWorkHours']>
 const ensureMaxWorkHours = (current: MaxWorkHours | undefined) => {
   return current || {}
 }
 
-// LEARNING: Generic helper to ensure nested object exists in parent
-// WHY: Eliminates duplication across ensure functions (maxWorkHours, buffers, rangeConstraints)
-// PATTERN: Factory function that ensures parent exists, then ensures child key exists with defaults
 function createEnsureNested<TParent extends Record<string, unknown>>(
   ensureParent: (current: TParent | undefined) => TParent,
   key: string,
@@ -277,8 +239,6 @@ function createEnsureNested<TParent extends Record<string, unknown>>(
   }
 }
 
-// LEARNING: Specialized helper for maxWorkHours computed properties
-// WHY: Eliminates repetition across 6 similar maxWorkHours computed properties
 // PATTERN: Factory function that handles maxWorkHours parent/setter pattern
 function createMaxWorkHoursComputed<TValue, TFilter extends 'day' | 'calendarWeek' | 'rollingWeek'>(
   filter: TFilter,
@@ -335,7 +295,6 @@ const ensureRollingWeekLimit = createEnsureNested(
     direction: 'past' as const
   }),
   (parent) => {
-    // Ensure direction exists even if rollingWeek already exists
     if (parent.rollingWeek && !parent.rollingWeek.direction) {
       return {
         ...parent,
@@ -349,9 +308,6 @@ const ensureRollingWeekLimit = createEnsureNested(
   }
 )
 
-// LEARNING: Computed properties with getters/setters for capacity filter values
-// WHY: v-model requires valid member expressions, can't use optional chaining
-// PATTERN: Use specialized helper to eliminate repetition across maxWorkHours properties
 const maxWorkHoursDayMaxHours = createMaxWorkHoursComputed('day', 'maxHours', () => maxBusinessHours.value, ensureWorkHoursPerDay)
 const maxWorkHoursDayEnforcement = createMaxWorkHoursComputed('day', 'enforcement', () => 'off' as const, ensureWorkHoursPerDay)
 
@@ -362,21 +318,18 @@ const maxWorkHoursRollingWeekMaxHours = createMaxWorkHoursComputed('rollingWeek'
 const maxWorkHoursRollingWeekEnforcement = createMaxWorkHoursComputed('rollingWeek', 'enforcement', () => 'off' as const, ensureRollingWeekLimit)
 const maxWorkHoursRollingWeekDirection = createMaxWorkHoursComputed('rollingWeek', 'direction', () => 'past' as const, ensureRollingWeekLimit)
 
-// Enforcement options for selects
 const enforcementOptions = [
   { title: 'Off', value: 'off' },
   { title: 'Flexible', value: 'flexible' },
   { title: 'Hard', value: 'hard' }
 ]
 
-// Rolling week direction options
 const rollingWeekDirectionOptions = [
   { title: 'Past 7 days', value: 'past' },
   { title: 'Centered (3 before + day + 3 after)', value: 'centered' },
   { title: 'Future 7 days', value: 'future' }
 ]
 
-// Buffer placement options (for appointment buffer placement)
 const bufferPlacementOptions = [
   { title: 'Off', value: 'off' },
   { title: 'Before', value: 'before' },
@@ -385,15 +338,11 @@ const bufferPlacementOptions = [
 ]
 
 // LEARNING: Helper functions to initialize buffers using functional patterns
-// WHY: Ensures formData has proper structure when user starts configuring buffers
-// PATTERN: Pure builder functions that return new objects instead of mutating
 type Buffers = NonNullable<AvailabilitySettings['buffers']>
 const ensureBuffers = (current: Buffers | undefined) => {
   return current || {}
 }
 
-// LEARNING: Specialized helper for buffer computed properties
-// WHY: Eliminates repetition across buffer computed properties (minutes/placement/enforcement)
 // PATTERN: Factory function that handles buffers parent/setter pattern
 function createBuffersComputed<TValue>(
   bufferType: keyof Buffers,
@@ -435,8 +384,6 @@ const ensureAppointmentBuffer = createEnsureNested(
 )
 
 // LEARNING: Helper functions to initialize range constraints using functional patterns
-// WHY: Ensures formData has proper structure when user starts configuring range constraints
-// PATTERN: Pure builder functions that return new objects instead of mutating
 type RangeConstraints = NonNullable<AvailabilitySettings['rangeConstraints']>
 const ensureRangeConstraints = (current: RangeConstraints | undefined) => {
   return current || {}
@@ -454,9 +401,6 @@ const ensureLeadTimeConstraint = createEnsureNested(
   })
 )
 
-// LEARNING: Computed properties for range constraint settings
-// WHY: v-model requires valid member expressions, handle optional nested objects
-// PATTERN: Use generic helper to eliminate duplication and double ensure calls
 const rangeConstraintsLeadTimeMinutes = createNestedComputed({
   getValue: () => {
     const leadTime = formData.value?.rangeConstraints?.leadTime
@@ -484,16 +428,10 @@ const rangeConstraintsLeadTimeMinutes = createNestedComputed({
   }
 })
 
-// LEARNING: Computed properties for buffer settings
-// WHY: v-model requires valid member expressions, handle optional nested objects
-// PATTERN: Use specialized helper to eliminate repetition across buffer properties
 const buffersAppointmentMinutes = createBuffersComputed('appointment', 'minutes', () => 0, ensureAppointmentBuffer)
 const buffersAppointmentPlacement = createBuffersComputed('appointment', 'placement', () => 'off' as const, ensureAppointmentBuffer)
 const buffersAppointmentEnforcement = createBuffersComputed('appointment', 'enforcement', () => 'hard' as const, ensureAppointmentBuffer)
 
-// LEARNING: Save button props computed for reuse
-// WHY: Save button appears multiple times with identical props - extract to computed for DRY
-// PATTERN: Computed object that can be spread into VBtn component
 const saveButtonProps = computed(() => ({
   type: 'submit' as const,
   color: 'primary' as const,
@@ -501,14 +439,10 @@ const saveButtonProps = computed(() => ({
   disabled: saving.value
 }))
 
-// Expose constants for template use
 const dayNames = DAY_NAMES
 const timeIncrementOptions = TIME_INCREMENT_OPTIONS
 const timezoneOptions = TIMEZONE_OPTIONS
 
-// LEARNING: Rounding increment options
-// WHY: Provides predefined options for rounding increment selection
-// PATTERN: Array of objects with title and value for VSelect
 const roundingIncrementOptions = [
   { title: '5 minutes', value: 5 },
   { title: '10 minutes', value: 10 },
@@ -517,9 +451,6 @@ const roundingIncrementOptions = [
   { title: '60 minutes', value: 60 }
 ]
 
-// LEARNING: Rounding method options
-// WHY: Provides predefined options for rounding method selection
-// PATTERN: Array of objects with title and value for VSelect
 const roundingMethodOptions = [
   { title: 'Round Up', value: 'roundUp' },
   { title: 'Round Down', value: 'roundDown' },
@@ -656,7 +587,6 @@ const roundingMethodOptions = [
                     * Create computed properties with getters/setters for dateRange start/end dates (similar to rangeConstraintsLeadTimeMinutes)
                     * Use VTextField with type="datetime-local" or VDatePicker/VTimePicker components for date/time input
                     * Convert between RFC3339 format (stored in formData) and local datetime format (for UI)
-                    * Reference: formData.value.rangeConstraints?.dateRange structure matches RangeConstraint interface
                     * See: client/src/configs/availabilitySettings.ts for DateRangeConfig interface (start: string, end: string RFC3339)
                     * Use the useAvailabilitySettings composable's formData, saveSettings, and validation patterns
                   -->
@@ -851,7 +781,6 @@ const roundingMethodOptions = [
                     * Use ensureBuffers() and ensureDriveTimeBuffer() helper functions (create if needed)
                     * Create computed properties with getters/setters for driveTime minutes/placement/enforcement (similar to buffersAppointmentMinutes, buffersAppointmentPlacement, buffersAppointmentEnforcement)
                     * Use VTextField for minutes, VSelect for placement and enforcement (reuse bufferPlacementOptions and enforcementOptions)
-                    * Reference: formData.value.buffers?.driveTime structure matches BufferConfig interface
                     * See: client/src/configs/availabilitySettings.ts for BufferConfig interface (type: 'driveTime', minutes, placement, enforcement)
                     * Use the useAvailabilitySettings composable's formData, saveSettings, and validation patterns
                     * Drive time buffers add travel time between appointments to prevent scheduling conflicts
@@ -873,7 +802,6 @@ const roundingMethodOptions = [
                     * Use ensureBuffers() and ensureLunchBuffer() helper functions (create if needed)
                     * Create computed properties with getters/setters for lunch minutes/placement/enforcement (similar to buffersAppointmentMinutes, buffersAppointmentPlacement, buffersAppointmentEnforcement)
                     * Use VTextField for minutes, VSelect for placement and enforcement (reuse bufferPlacementOptions and enforcementOptions)
-                    * Reference: formData.value.buffers?.lunch structure matches BufferConfig interface
                     * See: client/src/configs/availabilitySettings.ts for BufferConfig interface (type: 'lunch', minutes, placement, enforcement)
                     * Use the useAvailabilitySettings composable's formData, saveSettings, and validation patterns
                     * Lunch buffers block time for lunch breaks to prevent scheduling during meal times

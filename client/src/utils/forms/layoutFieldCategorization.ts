@@ -4,18 +4,11 @@ export type FieldsByLayout<FieldKey extends string = string> = {
   hidden: FieldKey[]
 }
 
-/**
- * Keep only fields that are present in `allFields`, in the order they appear in `config`.
- *
- * LEARNING: Pure helper for stable layout ordering.
- * WHY: Inline/stacked configs define both inclusion and order.
- */
 export function filterFieldsInConfigOrder<FieldKey extends string>(
   allFields: readonly FieldKey[],
   config: readonly FieldKey[]
 ): FieldKey[] {
   const fieldSet = new Set(allFields.map(String))
-  // NOTE: keep the output typed as FieldKey while using string normalization for matching.
   return config.filter((fieldKey) => fieldSet.has(String(fieldKey)))
 }
 
@@ -36,7 +29,6 @@ export function categorizeFieldsByLayout(
 
   const inline = fields.filter((fieldKey) => inlineSet.has(String(fieldKey)))
   const stacked = fields.filter((fieldKey) => stackedSet.has(String(fieldKey)))
-  // Fields not in inlineFields or stackedFields are categorized as hidden
   const hidden = fields.filter((fieldKey) => {
     const fieldKeyStr = String(fieldKey)
     return !inlineSet.has(fieldKeyStr) && !stackedSet.has(fieldKeyStr)

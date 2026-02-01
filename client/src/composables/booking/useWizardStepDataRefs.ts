@@ -12,18 +12,11 @@ import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData, W
 
 export interface UseWizardStepDataRefsReturn extends WizardStepDataAndValidationRefs {}
 
-/**
- * LEARNING: Create and provide step data refs and validation state refs
- * WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
- * PATTERN: Create refs in composable, provide to children, return refs for parent access
- */
 export function useWizardStepDataRefs(): UseWizardStepDataRefsReturn {
-  // Step data refs
   const propertyDetailsStepData = ref<PropertyDetailsStepData | null>(null)
   const contactsStepData = ref<ContactsStepData | null>(null)
   const availabilityStepData = ref<AvailabilityStepData | null>(null)
 
-  // Step validation state refs
   const propertyDetailsStepValid = ref<boolean>(false)
   const propertyDetailsStepValidate = ref<(() => boolean) | null>(null)
   const propertyDetailsFieldErrors = ref<Record<string, string>>({})
@@ -32,12 +25,10 @@ export function useWizardStepDataRefs(): UseWizardStepDataRefsReturn {
   const availabilityStepValid = ref<boolean>(false)
   const availabilityStepValidate = ref<(() => boolean) | null>(null)
 
-  // Provide step data refs to children
   provide('propertyDetailsStepData', propertyDetailsStepData)
   provide('contactsStepData', contactsStepData)
   provide('availabilityStepData', availabilityStepData)
 
-  // Provide validation state refs to children
   provide('propertyDetailsStepValid', propertyDetailsStepValid)
   provide('propertyDetailsStepValidate', propertyDetailsStepValidate)
   provide('propertyDetailsFieldErrors', propertyDetailsFieldErrors)

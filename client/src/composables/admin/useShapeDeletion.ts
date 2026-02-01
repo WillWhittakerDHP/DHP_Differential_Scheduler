@@ -24,8 +24,6 @@ export function useShapeDeletion(): UseShapeDeletionReturn {
    * NOTE: EntityCard emits 'delete' event after successful deletion for parent awareness
    */
   const handleDeleteBlockShape = (_id: string): void => {
-    // EntityCard already handled the deletion - this is just for parent awareness
-    // Vue Query will automatically refetch and update the UI
   }
 
   /**
@@ -35,8 +33,6 @@ export function useShapeDeletion(): UseShapeDeletionReturn {
    * NOTE: EntityCard emits 'delete' event after successful deletion for parent awareness
    */
   const handleDeletePartShape = (_id: string): void => {
-    // EntityCard already handled the deletion - this is just for parent awareness
-    // Vue Query will automatically refetch and update the UI
   }
 
   /**
@@ -45,8 +41,6 @@ export function useShapeDeletion(): UseShapeDeletionReturn {
    * PATTERN: No-op handler - card handles all deletion logic
    */
   const handleDeleteAnnotationShape = (_id: string): void => {
-    // EntityCard already handled the deletion - this is just for parent awareness
-    // Vue Query will automatically refetch and update the UI
   }
 
   return {

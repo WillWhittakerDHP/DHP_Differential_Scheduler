@@ -30,7 +30,6 @@ import {
 } from '../useInstanceDescriptions'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Helper to create mock instance
 function createInstance(
   id: string,
   options: {
@@ -64,7 +63,6 @@ function createInstance(
   }
 }
 
-// Helper to create user type block
 function createUserTypeBlock(name: string): BookingBlockInstance {
   return createInstance(`user-type-${name.toLowerCase()}`, { name })
 }
@@ -87,7 +85,6 @@ describe('useInstanceDescriptions', () => {
         selectedUserTypeBlock,
       })
       
-      // Should return buyer-specific description
       const result = getFilteredDescription(instances.value[0], 'buyer')
       expect(result).toBe('Buyer desc')
     })
@@ -159,7 +156,6 @@ describe('useInstanceDescriptions', () => {
           ],
         }),
       ])
-      // User type name is "BUYER" (uppercase)
       const selectedUserTypeBlock = computed(() => createUserTypeBlock('BUYER'))
       
       const { instancesWithDescriptions } = useInstanceDescriptions({
@@ -228,7 +224,6 @@ describe('useInstanceDescriptions', () => {
       
       expect(instancesWithDescriptions.value).toHaveLength(1)
       
-      // Add another instance
       instancesRef.value = [
         ...instancesRef.value,
         createInstance('i2', {
@@ -262,7 +257,6 @@ describe('useInstanceDescriptions', () => {
       
       expect(instancesWithDescriptions.value[0].description).toBe('Buyer desc')
       
-      // Change user type
       userTypeRef.value = createUserTypeBlock('Seller')
       
       await nextTick()

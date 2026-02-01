@@ -25,22 +25,15 @@ import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTr
 import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 
-// LEARNING: Inject shared wizard instance from parent
-// WHY: Ensures all step components share the same wizard state
-// PATTERN: Use inject to get provided instance instead of creating new one
 const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-// LEARNING: Inject loaded wizard state for populating form fields
-// WHY: Enables populating property details from loaded appointment
-// PATTERN: Inject provided loadedWizardState and watch for changes
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
 
 
 // LEARNING: Use property type block selection composable
-// WHY: Extracts selection logic from component to composable
 // PATTERN: Composable provides reactive computed property for selection
 const { selectedPropertyTypeBlockId } = usePropertyTypeBlockSelection({
   selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
@@ -49,15 +42,12 @@ const { selectedPropertyTypeBlockId } = usePropertyTypeBlockSelection({
 })
 
 // LEARNING: Use property form state composable
-// WHY: Consolidates all form field refs into single object
 // PATTERN: Composable manages all form state refs
 const { formData } = usePropertyFormState()
 
-// LEARNING: Form watchers composable removed - now handled in usePropertyFormWatchers
 // WHY: Watcher logic moved to usePropertyFormWatchers composable
 
 // LEARNING: Use property details logic composable
-// WHY: Extracts business logic from component to composable
 // PATTERN: Composable provides reactive computed properties for property logic
 const propertyDetailsLogic = usePropertyDetailsLogic({
   wizard: {
@@ -83,7 +73,6 @@ const propertyDetailsLogic = usePropertyDetailsLogic({
   }
 })
 
-// Extract computed properties from composable
 const {
   requiresUnitNumber,
   isMultiFamily,
@@ -92,7 +81,6 @@ const {
 } = propertyDetailsLogic
 
 // LEARNING: State options for dropdown
-// WHY: Provides state selection options
 // PATTERN: Array of state objects
 const states = [
   { value: 'FL', title: 'Florida' },
@@ -100,14 +88,10 @@ const states = [
   { value: 'DC', title: 'District of Columbia' },
 ]
 
-// LEARNING: Create wizard state plugin for property type blocks (multi-select)
 // WHY: Allows SelectionCard to use wizard state directly
-// PATTERN: Create plugin and use in config
-// Session 1.3.9.5: Updated to use 'propertyTypeBlocks' field name
 const propertyTypeBlocksStatePlugin = createWizardStatePlugin('propertyTypeBlocks')
 
 // LEARNING: Use property type block config composable
-// WHY: Extracts config construction logic from component to composable
 // PATTERN: Composable provides reactive computed config
 const { rowSelectionConfig } = usePropertyTypeBlockConfig({
   selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
@@ -116,12 +100,9 @@ const { rowSelectionConfig } = usePropertyTypeBlockConfig({
 })
 
 
-// LEARNING: Removed unused selectedPropertyTypeBlockOptionComponentIds ref
-// WHY: This ref was not being used anywhere in the component
 // PATTERN: Clean up unused state
 
 // LEARNING: Use property form watchers composable
-// WHY: Extracts watcher logic from component to composable
 // PATTERN: Composable sets up watchers for form data synchronization
 usePropertyFormWatchers({
   formData: {
@@ -143,7 +124,6 @@ usePropertyFormWatchers({
 })
 
 // LEARNING: Use property validation composable
-// WHY: Extracts validation logic from component to composable
 // PATTERN: Composable provides validation functions and computed properties
 const {
   validationRules,
@@ -163,14 +143,8 @@ const {
   hasPropertyTypeBlock: computed(() => wizard.selectedPropertyTypeBlocks.value.length > 0)
 })
 
-// LEARNING: Form ref for VForm component
-// WHY: Enables programmatic form validation
-// PATTERN: Ref to VForm component instance
 const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
 
-// LEARNING: Inject parent-provided refs for step data and validation state
-// WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
-// PATTERN: Inject refs from parent, sync local state to them
 const parentPropertyDetailsStepData = inject<Ref<PropertyDetailsStepData | null>>('propertyDetailsStepData')
 const parentPropertyDetailsStepValid = inject<Ref<boolean>>('propertyDetailsStepValid')
 const parentPropertyDetailsStepValidate = inject<Ref<(() => boolean) | null>>('propertyDetailsStepValidate')
@@ -180,17 +154,12 @@ if (!parentPropertyDetailsStepData || !parentPropertyDetailsStepValid || !parent
   throw new Error('Parent-provided refs not found. Make sure BookingWizard provides propertyDetailsStepData, propertyDetailsStepValid, propertyDetailsStepValidate, and propertyDetailsFieldErrors.')
 }
 
-// LEARNING: Sync local stepData to parent-provided ref
-// WHY: Enables BookingWizard to collect property form data
-// PATTERN: Watch local stepData and update parent ref
 watch(stepData, (newData) => {
   if (parentPropertyDetailsStepData) {
     parentPropertyDetailsStepData.value = newData
   }
 }, { immediate: true, deep: true })
 
-// LEARNING: Sync local validation state to parent-provided refs
-// WHY: Enables BookingWizard to check step validity before navigation
 // PATTERN: Watch local validation state and update parent refs
 watch(isFormValid, (newValid) => {
   if (parentPropertyDetailsStepValid) {
@@ -198,9 +167,6 @@ watch(isFormValid, (newValid) => {
   }
 }, { immediate: true })
 
-// LEARNING: Assign validateForm function directly to parent ref
-// WHY: validateForm is a function, not a ref, so we assign it directly
-// PATTERN: Assign function to parent ref (no watch needed)
 parentPropertyDetailsStepValidate.value = validateForm
 
 watch(fieldErrors, (newErrors) => {
@@ -210,26 +176,12 @@ watch(fieldErrors, (newErrors) => {
 }, { immediate: true, deep: true })
 
 // LEARNING: Modal state for property confirmation
-// WHY: Controls visibility of property confirmation modal
-// PATTERN: Ref for modal visibility
 const showPropertyConfirmationModal = ref(false)
 
-/**
- * LEARNING: Handle property confirmation modal confirm
- * WHY: User confirmed property details, modal can close
- * PATTERN: Close modal - user can proceed with Next button
- */
 function handlePropertyConfirm(): void {
-  // Modal closes automatically, user can proceed with Next button
 }
 
-/**
- * LEARNING: Handle property confirmation modal edit
- * WHY: User wants to edit, modal closes and they can make changes
- * PATTERN: Close modal - user can edit form
- */
 function handlePropertyEdit(): void {
-  // Modal closes automatically, user can edit form
 }
 </script>
 
@@ -464,8 +416,5 @@ function handlePropertyEdit(): void {
 </template>
 
 <style scoped lang="scss">
-// LEARNING: Styles moved to SelectionCardGroup component
-// WHY: Card styling is now centralized in the generic component
-// PATTERN: No component-specific styles needed - SelectionCardGroup handles all card styling
 </style>
 

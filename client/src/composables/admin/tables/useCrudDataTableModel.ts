@@ -45,24 +45,19 @@ export interface CrudDataTableModel<
   CreatePayload extends object,
   UpdatePayload extends object
 > {
-  // Table state
   items: ComputedRef<TableItem[]>
   isLoading: ComputedRef<boolean>
   error: ComputedRef<unknown>
 
-  // Edit state
   editingId: Ref<string | null>
   editedData: Ref<Partial<UpdatePayload>>
 
-  // Create state
   isCreating: Ref<boolean>
   newItem: Ref<CreatePayload>
 
-  // Delete dialog state
   showDeleteDialog: Ref<boolean>
   deletingId: Ref<string | null>
 
-  // Handlers
   startEdit: (item: TableItem) => void
   cancelEdit: () => void
   saveEdit: () => Promise<void>
@@ -127,9 +122,7 @@ export function useCrudDataTableModel<
       notifySuccess(`${entityLabel} updated successfully`)
       cancelEdit()
     } catch (caughtError) {
-      // Explicit logging is handled by caller layer (notifications). We still surface a generic message.
       notifyError(`Failed to update ${entityLabel.toLowerCase()}`)
-      // Keep edit state so the user can retry
     }
   }
 

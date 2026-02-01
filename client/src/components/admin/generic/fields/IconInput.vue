@@ -131,8 +131,6 @@ const props = withDefaults(defineProps<Props>(), {
 const { fieldContext } = props
 
 // LEARNING: Use unified field value composable
-// WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
-// PATTERN: Always use useFieldValue for accessing field values
 const fieldValue = useFieldValue(fieldContext)
 
 const iconValue = computed((): string => {
@@ -140,55 +138,39 @@ const iconValue = computed((): string => {
   return typeof value === 'string' ? value : ''
 })
 
-// LEARNING: Display value shows icon name without prefix for better UX
-// WHY: Users see cleaner text (e.g., "home" instead of "tabler-home")
-// PATTERN: Computed property transforms value for display
 const displayValue = computed(() => {
   if (!iconValue.value) return ''
   return iconValue.value.replace('tabler-', '')
 })
 
 // LEARNING: Dialog visibility state
-// WHY: Controls when icon picker dialog is shown
 // PATTERN: ref for boolean dialog state
 const showPicker = ref(false)
 
-// LEARNING: Open icon picker dialog
-// WHY: Users click input or button to select icon
-// PATTERN: Set dialog visibility to true
 const openPicker = () => {
   if (!fieldContext.displayConfig.disabled) {
     showPicker.value = true
   }
 }
 
-// LEARNING: Handle icon selection from picker
-// WHY: Update field value when user selects icon
-// PATTERN: Set value via field context and close dialog
 const handleIconSelect = (icon: string) => {
   fieldContext.setValue(icon)
   showPicker.value = false
   
-  // LEARNING: Skip auto-save for new entities
-  // WHY: New entities haven't been created yet - icon selection should wait for explicit form save
   // PATTERN: Match TextInput/NumberInput behavior - new entities use handleSave, not field-level save
   if (entityCardSaveContext?.isNew) {
     return
   }
   
-  // Trigger validation and save
   fieldContext.validate().then((isValid) => {
     if (isValid) {
       fieldContext.save().catch(() => {
-        // Auto-save failed
       })
     }
   })
 }
 
-// LEARNING: Handle focus events
 // WHY: Track focus state for UI feedback
-// PATTERN: Delegate to field context
 const handleFocus = () => {
   fieldContext.setFocus(true)
 }

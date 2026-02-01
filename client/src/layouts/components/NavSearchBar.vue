@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-// @ts-expect-error - shepherd.js types may not be available, but module works at runtime
 import Shepherd from 'shepherd.js'
 import { withQuery } from 'ufo'
 import type { RouteLocationRaw } from 'vue-router'
@@ -13,11 +12,6 @@ interface Suggestion {
   url: RouteLocationRaw
 }
 
-/**
- * SearchResults type for app bar search
- * LEARNING: Type for search results from API
- * WHY: Defines structure of search result items
- */
 interface SearchResults {
   title: string
   children: Array<{
@@ -38,11 +32,9 @@ interface SuggestionGroup {
   content: Suggestion[]
 }
 
-// 👉 Is App Search Bar Visible
 const isAppSearchBarVisible = ref(false)
 const isLoading = ref(false)
 
-// 👉 Default suggestions
 
 const suggestionGroups: SuggestionGroup[] = [
   {
@@ -83,7 +75,6 @@ const suggestionGroups: SuggestionGroup[] = [
   },
 ]
 
-// 👉 No Data suggestion
 const noDataSuggestions: Suggestion[] = [
   {
     title: 'Analytics',
@@ -114,7 +105,6 @@ const fetchResults = async () => {
 
   searchResult.value = response.data
 
-  // ℹ️ simulate loading: we have used setTimeout for better user experience your can remove it
   setTimeout(() => {
     isLoading.value = false
   }, 500)
@@ -127,7 +117,6 @@ const closeSearchBar = () => {
   searchQuery.value = ''
 }
 
-// 👉 redirect the selected page
 const redirectToSuggestedPage = (selected: Suggestion) => {
   router.push(selected.url as string)
   closeSearchBar()

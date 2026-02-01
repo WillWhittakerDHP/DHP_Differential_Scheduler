@@ -18,19 +18,11 @@ import apiClient from '@/utils/api'
 import type { QueryClient } from '@tanstack/vue-query'
 import type { UseFieldContextStateReturn } from './useFieldContextState'
 
-/**
- * Parameters for saving component entity fields
- */
 export interface SaveComponentEntityParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   state: UseFieldContextStateReturn<GE, FieldKey>
   currentEntity: { id?: string; name?: string; entityKey?: string } | undefined
 }
 
-/**
- * LEARNING: Save component entity field
- * WHY: Extracts component entity save logic from main save function
- * PATTERN: Helper function that handles component entity field updates
- */
 export async function saveComponentEntityField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   params: SaveComponentEntityParams<GE, FieldKey>
 ): Promise<void> {
@@ -81,9 +73,6 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
   await Promise.all(promises)
 }
 
-/**
- * Parameters for saving relationship fields
- */
 export interface SaveRelationshipFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   state: UseFieldContextStateReturn<GE, FieldKey>
   currentEntity: { id?: string; name?: string; entityKey?: string } | undefined
@@ -91,11 +80,6 @@ export interface SaveRelationshipFieldParams<GE extends GlobalEntityKey, FieldKe
   queryClient: QueryClient
 }
 
-/**
- * LEARNING: Save relationship field
- * WHY: Extracts relationship field save logic from main save function
- * PATTERN: Helper function that handles relationship field updates
- */
 export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   params: SaveRelationshipFieldParams<GE, FieldKey>
 ): Promise<void> {
@@ -142,8 +126,6 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
 
   await Promise.all(promises)
 
-  // LEARNING: Cleanup invalid active relationships for specific relationship keys
-  // WHY: Ensures data consistency for cascade and parts relationships
   // PATTERN: Conditional cleanup for specific relationship types
   if (relationshipKey === 'validCascades' || relationshipKey === 'validParts') {
     try {
@@ -156,18 +138,15 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
         queryClient
       )
     } catch (error) {
-      // Dependency cleanup failed (non-critical)
     }
   }
 
-  // LEARNING: Invalidate and refetch queries after relationship updates
   // WHY: Ensures UI reflects latest relationship state
   // PATTERN: Invalidate related queries, then refetch global data
   queryClient.invalidateQueries({ queryKey: [relationshipKey] })
   queryClient.invalidateQueries({ queryKey: [state.entityKey] })
   await queryClient.refetchQueries({ queryKey: ['globalData'] })
 
-  // LEARNING: Invalidate scheduler admin queries for specific entity types
   // WHY: BlockInstance and BlockShape changes affect scheduler admin state
   // PATTERN: Conditional invalidation for specific entity types
   if (['blockInstance', 'blockShape'].includes(state.entityKey)) {
@@ -175,19 +154,11 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
   }
 }
 
-/**
- * Parameters for saving regular fields
- */
 export interface SaveRegularFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   state: UseFieldContextStateReturn<GE, FieldKey>
   queryClient: QueryClient
 }
 
-/**
- * LEARNING: Save regular field (non-relationship, non-component)
- * WHY: Extracts regular field save logic from main save function
- * PATTERN: Helper function that handles standard field updates
- */
 export async function saveRegularField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   params: SaveRegularFieldParams<GE, FieldKey>
 ): Promise<void> {
@@ -206,19 +177,11 @@ export async function saveRegularField<GE extends GlobalEntityKey, FieldKey exte
 
   await state.patchFieldAsync(patchPayload)
 
-  // LEARNING: Invalidate queries after field update
-  // WHY: Ensures UI reflects latest field value
   // PATTERN: Invalidate entity queries, conditionally invalidate scheduler admin
   queryClient.invalidateQueries({ queryKey: [state.entityKey] })
   if (['blockInstance', 'blockShape'].includes(state.entityKey)) {
     queryClient.invalidateQueries({ queryKey: ['schedulerAdmin'] })
   }
   
-  // LEARNING: After save, the store is updated optimistically
-  // WHY: The watch on entityValue in useFieldContextState will sync the field value
-  //      when it detects the store has updated and values match
-  //      The watch on storeEntity in EntityCard will reset the form when values change
   // PATTERN: Let the reactive watches handle syncing - no need to manually reset here
-  // NOTE: Optimistic update happens synchronously in onMutate, so store is updated immediately
-  //      The watches will detect the change and sync accordingly
 }

@@ -9,29 +9,14 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
-/**
- * useAvailabilityEmptyState composable parameters
- */
 export interface UseAvailabilityEmptyStateParams {
-  /**
-   * Whether service is effectively differential
-   */
   isEffectivelyDifferential: ComputedRef<boolean>
   
-  /**
-   * Start time type
-   */
   startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
   
-  /**
-   * Number of appointment slots
-   */
   appointmentSlotsCount: ComputedRef<number>
 }
 
-/**
- * useAvailabilityEmptyState composable return type
- */
 export interface UseAvailabilityEmptyStateReturn {
   /**
    * Empty state message (null if slots are available)
@@ -53,8 +38,6 @@ export function useAvailabilityEmptyState(
 ): UseAvailabilityEmptyStateReturn {
   const { isEffectivelyDifferential, startTimeType, appointmentSlotsCount } = params
   
-  // LEARNING: Get configured labels from availability settings
-  // WHY: Labels are configurable in admin panel, use configured values instead of hardcoded names
   const { settings: availabilitySettings } = useAvailabilitySettings()
   const majorLabel = computed(() => 
     availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'

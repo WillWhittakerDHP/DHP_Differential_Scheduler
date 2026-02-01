@@ -26,7 +26,6 @@
 
 import { describe, it, expect, vi } from 'vitest'
 
-// Mock iconMapper before importing the module under test
 vi.mock('@/utils/iconMapper', () => ({
   getIcon: vi.fn((icon: string | null | undefined) => icon ? `mapped-${icon}` : 'default-icon')
 }))
@@ -34,7 +33,6 @@ vi.mock('@/utils/iconMapper', () => ({
 import { mapSelectionCardItemsWithIconAndDescription } from '../selectionCardItemDisplay'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Helper to create mock instance
 function createInstance(
   id: string,
   options: {

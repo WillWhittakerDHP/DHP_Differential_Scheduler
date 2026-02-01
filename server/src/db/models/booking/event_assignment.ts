@@ -40,12 +40,9 @@ export class EventAssignment extends Model<
   declare parent_id: ForeignKey<string>;
   declare parentKind: 'partInstance' | 'blockInstance';
   declare child_id: ForeignKey<string>;
-  // NOTE: Metadata (ternaryValue, orderIndex) removed - now stored in event_shapes table
-  // Relationships just indicate which instances are active - metadata lives in shape tables
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  // Associations
   declare eventInstance?: EventInstance;
 }
 
@@ -97,8 +94,6 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
         },
         comment: 'Foreign key to event_instances table',
       },
-      // NOTE: Metadata columns (orderIndex, ternaryValue) removed - now stored in event_shapes table
-      // Relationships just indicate which instances are active - metadata lives in shape tables
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,

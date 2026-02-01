@@ -18,11 +18,7 @@ const emit = defineEmits<Emits>()
 
 const isDevMode = isDevModeEnabled()
 
-// LEARNING: Register keyboard shortcut for toggling panel
-// WHY: Provides quick access via Ctrl+Shift+D
-// PATTERN: Add event listener on mount, remove on unmount
 const handleKeyDown = (event: KeyboardEvent): void => {
-  // Check for Ctrl+Shift+D (or Cmd+Shift+D on Mac)
   if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
     event.preventDefault()
     emit('toggle')

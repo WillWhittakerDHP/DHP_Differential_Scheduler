@@ -32,41 +32,16 @@ type FieldRenderAs = 'text' | 'number' | 'select' | 'multiselect' | 'reference' 
  *       Instance fields use FieldMetadataEntry from entityMetadata.ts
  */
 export interface FieldMetadata {
-  /**
-   * LEARNING: Combined visibility + section into single property
-   * WHY: 'hidden' vs 'titleRow' vs 'expandedOnly' is really about visibility
-   *      The 'direct' vs 'panel' distinction is where expanded fields render
-   */
   visibility: FieldVisibility
   
-  /**
-   * Layout within the section
-   */
   layout: FieldLayout
   
-  /**
-   * Ordering within visibility group (lower = first)
-   */
   displayOrder: number
   
-  /**
-   * How to render the field
-   * - 'text' | 'number' | 'select' | 'multiselect' | 'reference': Standard form inputs
-   * - 'statusButton': Clickable VChip for boolean fields
-   * - 'iconSelect': Icon picker field
-   */
   renderAs: FieldRenderAs
   
-  /**
-   * Color for statusButton rendering (Vuetify color name)
-   * Use 'default' for standard coloring when renderAs is not 'statusButton'
-   */
   statusButtonColor?: string
   
-  /**
-   * Panel name for 'expandedPanel' visibility
-   * Required when visibility is 'expandedPanel', use 'none' otherwise
-   */
   panel: SubPanelType
 }
 
@@ -133,12 +108,6 @@ function buildInstanceConfig() {
   }
 }
 
-/**
- * Form field config - defines field types (primitive vs select)
- * LEARNING: Now uses dynamic builder that merges primitive + selectable configs
- * WHY: Ensures all property keys are included, not just hardcoded ones
- * PATTERN: Calls buildDynamicFormFieldConfig() from fullFieldFormConfig.ts
- */
 export function buildFormFieldConfig() {
   return buildDynamicFormFieldConfig()
 }
@@ -173,18 +142,12 @@ export type InstanceConfig = {
   }
 }
 
-/**
- * Admin config type
- */
 export interface AdminConfig {
   displayFieldConfig: DisplayFieldConfigMap
   formFieldConfig: FormFieldConfigMap
   instanceConfig: InstanceConfig
 }
 
-/**
- * Build admin config
- */
 export function buildAdminConfig(): AdminConfig {
   const formFieldConfig = buildFormFieldConfig()
   const displayFieldConfig = buildDisplayFieldConfig()
@@ -197,9 +160,6 @@ export function buildAdminConfig(): AdminConfig {
   }
 }
 
-/**
- * Lazy initialization pattern
- */
 let _adminConfig: AdminConfig | null = null
 
 export function getAdminConfig(): AdminConfig {
@@ -207,7 +167,6 @@ export function getAdminConfig(): AdminConfig {
     _adminConfig = buildAdminConfig()
   }
   // FIX: Removed log for cached config - this was being called excessively (98+ times)
-  //      The config is cached, so we don't need to log every access
   return _adminConfig
 }
 

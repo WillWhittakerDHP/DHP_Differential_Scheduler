@@ -17,12 +17,8 @@ import type { FormFieldConfig, FormFieldConfigMap } from '@/types/entity/formFie
 import type { DisplayFieldConfigMap } from '@/configs/field/display/fullFieldDisplayConfig'
 import type { InstanceConfig } from '@/configs/adminConfig'
 
-// Import Vue admin config (not React client)
 import { getAdminConfig, rebuildAdminConfig, type AdminConfig } from '../configs/adminConfig'
 
-// LEARNING: Cache computed refs to avoid creating duplicate computeds for the same entityKey/fieldKey
-// WHY: Each call to getFormFieldConfig creates a new computed, even though config is cached
-// PATTERN: Use WeakMap for automatic garbage collection when keys are no longer referenced
 const formFieldConfigCache = new Map<
   string,
   ComputedRef<FormFieldConfig<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined>
@@ -32,7 +28,6 @@ const entityFormFieldConfigCache = new Map<string, ComputedRef<FormFieldConfigMa
 const entityDisplayFieldConfigCache = new Map<string, ComputedRef<Record<string, unknown>>>()
 const instanceConfigCache = new Map<string, ComputedRef<InstanceConfig[GlobalEntityKey]>>()
 
-// Helper to create cache key
 const createCacheKey = (entityKey: string, fieldKey?: string): string => {
   return fieldKey ? `${entityKey}:${fieldKey}` : entityKey
 }
@@ -68,12 +63,10 @@ export function useAdminConfig() {
   let cachedConfig: AdminConfig | null = null
   const getConfig = (): AdminConfig => {
     // FIX: Only call getAdminConfig() once, then reuse the cached reference
-    //      This prevents excessive calls to getAdminConfig() which was logging 98+ times
     if (!cachedConfig) {
       try {
         cachedConfig = getAdminConfig()
       } catch (error) {
-        // Return empty config as fallback
         cachedConfig = {
           displayFieldConfig: {} as DisplayFieldConfigMap,
           formFieldConfig: {} as FormFieldConfigMap,
@@ -135,12 +128,10 @@ export function useAdminConfig() {
   ): ComputedRef<unknown> => {
     const cacheKey = createCacheKey(String(entityKey), String(fieldKey))
     
-    // Return cached computed if it exists
     if (displayFieldConfigCache.has(cacheKey)) {
       return displayFieldConfigCache.get(cacheKey)!
     }
     
-    // Create new computed and cache it
     const computedRef = computed(() => {
       const config = getConfig()
       return config?.displayFieldConfig?.[entityKey]?.[fieldKey as GlobalFieldKey<GE>]
@@ -160,12 +151,10 @@ export function useAdminConfig() {
   ): ComputedRef<Record<string, unknown>> => {
     const cacheKey = createCacheKey(String(entityKey))
     
-    // Return cached computed if it exists
     if (entityDisplayFieldConfigCache.has(cacheKey)) {
       return entityDisplayFieldConfigCache.get(cacheKey)!
     }
     
-    // Create new computed and cache it
     const computedRef = computed(() => {
       const config = getConfig()
       if (!config?.displayFieldConfig?.[entityKey]) {
@@ -191,12 +180,10 @@ export function useAdminConfig() {
   ): ComputedRef<InstanceConfig[GE]> => {
     const cacheKey = createCacheKey(String(entityKey))
     
-    // Return cached computed if it exists
     if (instanceConfigCache.has(cacheKey)) {
       return instanceConfigCache.get(cacheKey)! as ComputedRef<InstanceConfig[GE]>
     }
     
-    // Create new computed and cache it
     const computedRef = computed(() => {
       try {
         const config = getConfig()

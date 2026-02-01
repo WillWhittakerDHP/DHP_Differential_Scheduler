@@ -33,15 +33,6 @@ export function groupPartsByPartShape(
   }, new Map<string, BookingPartInstance[]>())
 }
 
-/**
- * Create finalized parts from all parts
- * LEARNING: Groups parts by shape and creates PartFinal for each group
- * WHY: Provides aggregated parts with totaled values and computed boolean flags
- * PATTERN: Group by shape, then create finalized part for each group
- * 
- * @param parts - Array of BookingPartInstance objects
- * @returns Array of PartFinal instances, one per unique part shape
- */
 export function createPartFinals(
   parts: BookingPartInstance[]
 ): PartFinal[] {
@@ -91,13 +82,8 @@ export function calculateSlotShape(
   let totalDuration = 0
   let differentialOffset = 0
   
-  // Initialize eventDurations Record
-  // LEARNING: Use Record to store durations for each event shape name
-  // WHY: Enables dynamic event types without hardcoded properties
   const eventDurations: Record<string, number> = {}
   
-  // Event mappings from part properties to event shape names
-  // LEARNING: Map part properties (computed from eventAssignments relationships) to event shape names
   // WHY: Properties are computed from relationships in booking transformer, map to event names here
   // PATTERN: Use properties computed from GlobalRelationship[] with metadata lookups
   const eventMappings: Record<string, string> = {
@@ -108,23 +94,17 @@ export function calculateSlotShape(
   
   for (const part of finalizedParts) {
     const baseTime = part.baseTime
-    // LEARNING: totalDuration always includes all parts (override contributes to totalDuration)
     totalDuration += baseTime
     
-    // LEARNING: Use toBoolean with 'strict' mode - only 'true' contributes to event calculations
-    // WHY: 'override' parts contribute to totalDuration but NOT to specific events
     const isMajor = toBoolean(part.major, 'strict')
     const isMinor = toBoolean(part.minor, 'strict')
     const isMoveable = part.moveable === true
     
-    // Compute event durations from part properties
     // LEARNING: Properties (major, minor, moveable) are computed from eventAssignments relationships in booking transformer
-    // WHY: Uniform relationship handling - events flow through GlobalRelationship[], properties computed during transformation
     // PATTERN: Use properties computed from relationships, map to event shape names
     if (isMajor) {
       const eventName = eventMappings['major']
       eventDurations[eventName] = (eventDurations[eventName] || 0) + baseTime
-      // LEARNING: differentialOffset only applies when major is true AND minor is false
       if (!isMinor) {
         differentialOffset += baseTime
       }
@@ -141,11 +121,7 @@ export function calculateSlotShape(
     }
   }
   
-  // LEARNING: SlotShape uses eventFinals array, not eventDurations Record
-  // WHY: SlotShape was refactored to use EventFinal[] array for generic event system
   // PATTERN: Convert eventDurations Record to eventFinals array format
-  // NOTE: This function needs to be updated to match the new SlotShape interface
-  // TODO: Update to use eventFinals array instead of eventDurations Record
   return { 
     totalDuration, 
     eventFinals: [], // TODO: Convert eventDurations to eventFinals array format

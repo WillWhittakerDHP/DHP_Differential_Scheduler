@@ -94,7 +94,6 @@ const error = ref<string | null>(null)
 
 onMounted(async () => {
   if (isEdit.value && entityId.value) {
-    // Load existing entity
     const entity = getGlobalEntityById('blockShape', entityId.value)
     if (entity) {
       formData.value = {

@@ -16,43 +16,19 @@ import { ref, computed, type Ref } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { GlobalEntityId } from '@/types/entities'
 
-/**
- * Attendee Quick Select Composable Return Type
- */
 export interface UseAttendeeQuickSelectReturn {
-  /**
-   * Whether settings are currently loading
-   */
   isLoading: Ref<boolean>
   
-  /**
-   * Error message if settings fetch failed
-   */
   error: Ref<string | null>
   
-  /**
-   * Whether major attendees are available
-   */
   hasMajorAttendees: Ref<boolean>
   
-  /**
-   * Whether minor attendees are available
-   */
   hasMinorAttendees: Ref<boolean>
   
-  /**
-   * Get major attendee IDs (filtered to valid options)
-   */
   selectMajor: (validOptionIds: string[]) => string[]
   
-  /**
-   * Get minor attendee IDs (filtered to valid options)
-   */
   selectMinor: (validOptionIds: string[]) => string[]
   
-  /**
-   * Get all attendee IDs (major + minor, filtered to valid options)
-   */
   selectAll: (validOptionIds: string[]) => string[]
 }
 
@@ -75,7 +51,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
    */
   const loadSettings = async (): Promise<void> => {
     if (settings.value) {
-      // Already loaded
       return
     }
 
@@ -94,7 +69,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
     }
   }
 
-  // Load settings immediately
   loadSettings()
 
   /**
@@ -164,7 +138,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
     const majorIds = selectMajor(validOptionIds)
     const minorIds = selectMinor(validOptionIds)
     
-    // Combine and deduplicate
     const allIds = [...majorIds, ...minorIds]
     const uniqueIds = Array.from(new Set(allIds))
     

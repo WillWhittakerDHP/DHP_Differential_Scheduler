@@ -25,13 +25,9 @@ export function useThemeMode(wizard?: UseBookingWizardReturn) {
   const theme = useTheme()
   
   // LEARNING: Computed property for quote mode state
-  // WHY: Provides reactive access to quote mode from wizard
   // PATTERN: Computed property that reads from wizard state
-  // NOTE: If wizard not provided, will be undefined and quote mode will be false
   const isQuoteMode = computed(() => wizard?.isQuoteMode.value ?? false)
   
-  // LEARNING: Computed properties for current theme colors
-  // WHY: Returns quote mode colors when active, otherwise normal theme colors
   // PATTERN: Computed properties that switch based on isQuoteMode
   const currentPrimary = computed(() => {
     return isQuoteMode.value ? quoteModeColors.primary : theme.current.value.colors.primary
@@ -45,13 +41,9 @@ export function useThemeMode(wizard?: UseBookingWizardReturn) {
     return isQuoteMode.value ? quoteModeColors.warning : theme.current.value.colors.warning
   })
   
-  // LEARNING: Watch isQuoteMode and update CSS variables
-  // WHY: Ensures CSS variables are updated when quote mode changes
   // PATTERN: Watch computed property and update CSS variables via utility
   watch(isQuoteMode, (isActive) => {
     if (isActive) {
-      // LEARNING: Set quote mode CSS variables
-      // WHY: Override theme variables with quote mode colors
       // PATTERN: Convert hex colors to RGB format for CSS variables, use utility for DOM access
       setCSSVariable('--v-theme-primary', hexToRgb(quoteModeColors.primary))
       setCSSVariable('--v-theme-primary-darken-1', hexToRgb(quoteModeColors['primary-darken-1']))
@@ -63,8 +55,6 @@ export function useThemeMode(wizard?: UseBookingWizardReturn) {
       setCSSVariable('--v-theme-on-secondary', quoteModeColors['on-secondary'])
       setCSSVariable('--v-theme-on-warning', quoteModeColors['on-warning'])
     } else {
-      // LEARNING: Reset to normal theme colors
-      // WHY: Restore normal colors when quote mode is disabled
       // PATTERN: Remove custom properties via utility to use default theme
       removeCSSVariable('--v-theme-primary')
       removeCSSVariable('--v-theme-primary-darken-1')

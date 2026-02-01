@@ -18,9 +18,6 @@ import { useEntityCrud } from '../useEntity'
 import { useGlobal } from '../useGlobal'
 import type { GlobalEntity } from '@/types/entities'
 
-/**
- * Part Instance Form Data Interface
- */
 export interface PartInstanceFormData {
   name: string
   partShapeRef: string
@@ -28,9 +25,6 @@ export interface PartInstanceFormData {
   active: boolean
 }
 
-/**
- * Part Instance Form Composable Options
- */
 export interface UsePartInstanceFormOptions {
   /**
    * LEARNING: Route name for navigation after submit
@@ -40,9 +34,6 @@ export interface UsePartInstanceFormOptions {
   redirectRouteName?: string
 }
 
-/**
- * Part Instance Form Composable Return Type
- */
 export interface UsePartInstanceFormReturn {
   /**
    * LEARNING: Whether component is in edit mode

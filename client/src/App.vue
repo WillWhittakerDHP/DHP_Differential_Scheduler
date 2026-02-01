@@ -44,10 +44,7 @@ import type { useBookingWizard } from '@/composables/useBookingWizard'
 
 const { global } = useTheme()
 
-// ℹ️ Sync current theme with initial loader theme
-// LEARNING: initCore and initConfigStore must be called in setup function for useTheme to work
 // WHY: Vuetify composables require Vue component context
-// PATTERN: Call initialization functions in component setup, not in main.ts
 initCore()
 initConfigStore()
 
@@ -59,18 +56,13 @@ const configStore = useConfigStore()
  */
 import { useGlobal } from './composables/useGlobal'
 
-// Initialize global singleton - route-specific composables initialize in their views
 useGlobal()
 
 // LEARNING: Dev panel visibility state
-// WHY: Controls visibility of floating debug panels
 // PATTERN: Reactive ref passed as prop to DevPanelsContainer
 const isDevMode = isDevModeEnabled()
 const debugPanelVisible = ref(false)
 
-// LEARNING: Provide dev panel buttons at app level
-// WHY: DevPanelsContainer is rendered in App.vue, so it needs buttons provided at this level
-// PATTERN: Provide refs that BookingWizard can update
 const devPanelButtons = ref<{
   selectedAppointmentId: Ref<string | null>
   appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>

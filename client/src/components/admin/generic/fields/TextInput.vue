@@ -105,39 +105,18 @@ const props = withDefaults(defineProps<Props>(), {
 
 // LEARNING: Use toRef to maintain reactivity when accessing props
 // WHY: Vue 3 best practice - destructuring props breaks reactivity, use toRef instead
-// PATTERN: Use toRef to create reactive reference to prop
-// NOTE: toRef handles undefined props - returns undefined ref if prop doesn't exist
 const fieldContextRef = toRef(props, 'fieldContext')
 
-// LEARNING: Computed to safely access fieldContext with fallback
-// WHY: fieldContext prop might be undefined initially, need to handle gracefully
-// PATTERN: Use computed to safely access fieldContext.value and unwrap the ref
 const fieldContext = computed(() => {
   const context = fieldContextRef.value
   if (!context) return undefined
-  // fieldContextRef.value is already the FieldContextType, not a Ref
   return context
 })
 
-/**
- * LEARNING: Inject EntityCard save handler for create cards
- * WHY: When creating new entities, pressing Enter should save the entire form and collapse,
- *      not just save the individual field
- * PATTERN: Use inject to access parent EntityCard's handleSave method
- */
 const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
 
-/**
- * LEARNING: Inject disableAutoSave flag from EntityCard
- * WHY: Allows parent to disable field blur auto-save (e.g., in bulk edit modals)
- * PATTERN: Use inject to access parent EntityCard's disableAutoSave flag
- */
 const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
 
-// LEARNING: Access field value directly from context.value
-// WHY: context.value is a Ref<ValidAdminValue> from vee-validate's useField
-//      When passed as prop, Vue may unwrap it, so we handle both cases
-// PATTERN: Access context.value directly - if it's a Ref, access .value; if unwrapped, use directly
 // FIX: Handle Vue's prop unwrapping - context.value may be unwrapped to the actual value
 const fieldValue = computed(() => {
   const context = fieldContext.value
@@ -154,12 +133,7 @@ const fieldValue = computed(() => {
 })
 
 // LEARNING: Computed property to reactively track readOnly state
-// WHY: v-if needs reactive computed to update when displayConfig.readOnly changes
-// PATTERN: Use computed to explicitly track displayConfig.readOnly - Vue tracks property access in computed
-// NOTE: Vue 3 best practice - access fieldContext through computed to ensure reactivity
 const isReadOnly = computed(() => {
-  // LEARNING: Access fieldContext.value safely
-  // WHY: fieldContext is computed, accessing .value ensures Vue tracks prop changes
   // PATTERN: Access fieldContext.value, then nested properties, to establish reactivity dependency
   const context = fieldContext.value
   if (!context) return false
@@ -169,35 +143,24 @@ const isReadOnly = computed(() => {
 })
 
 // LEARNING: Use Vuetify's display composable for responsive behavior
-// WHY: Provides access to current breakpoint and screen size information
-// PATTERN: Use useDisplay() to get responsive utilities
 const { width } = useDisplay()
 
-// LEARNING: Determine if textarea should be used based on content length
-// WHY: Long text or multi-line content is better displayed in textarea
-// PATTERN: Check content length and newlines, adjust threshold based on screen size
-//          Mobile: lower threshold (30 chars), Desktop: higher threshold (50 chars)
 const shouldUseTextarea = computed(() => {
   const value = fieldValue.value
   if (!value || typeof value !== 'string') {
     return false
   }
   
-  // Check for newlines - always use textarea if content has newlines
   if (value.includes('\n')) {
     return true
   }
   
-  // Adjust threshold based on screen size
-  // Mobile-first: lower threshold for smaller screens
   const isMobile = width.value < 600 // sm breakpoint
   const threshold = isMobile ? 30 : 50
   
-  // Use textarea if content exceeds threshold
   return value.length > threshold
 })
 
-// LEARNING: Handle value changes with field context
 // WHY: Field context manages form state and validation
 // PATTERN: Delegate to field context for state management
 const handleChange = (value: string) => {
@@ -207,9 +170,6 @@ const handleChange = (value: string) => {
 }
 
 // FIX: Use shared field input handlers from composable
-// LEARNING: Create handlers reactively using computed
-// WHY: fieldContext might be undefined initially, and handlers need to reference current context
-// PATTERN: Use computed to create handlers that reference current fieldContext.value
 const handlers = computed(() => {
   const context = fieldContext.value
   if (!context) {
@@ -227,24 +187,15 @@ const handlers = computed(() => {
 })
 
 // LEARNING: Access handlers through computed to ensure reactivity
-// WHY: handlers computed updates when fieldContext changes, ensuring handlers reference current context
-// PATTERN: Access handlers.value in template and methods
 const handleFocus = () => handlers.value.handleFocus()
 const handleBlur = () => handlers.value.handleBlur()
 const handleEnterKey = (event: KeyboardEvent) => handlers.value.handleEnterKey(event)
 
-/**
- * LEARNING: Handle spacebar keydown to prevent VExpansionPanel from toggling when typing
- * WHY: VExpansionPanel intercepts spacebar to toggle expansion, but spacebar should type in input fields
- * PATTERN: Stop propagation of spacebar events when focus is in an editable input field
- */
 const handleKeydown = (event: KeyboardEvent): void => {
-  // Only handle spacebar key
   if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCode !== 32) {
     return
   }
   
-  // Check if input is editable (not disabled or readonly)
   const context = fieldContext.value
   if (!context) {
     return
@@ -253,10 +204,7 @@ const handleKeydown = (event: KeyboardEvent): void => {
   const isEditable = !context.displayConfig.disabled && !context.displayConfig.readOnly
   
   if (isEditable) {
-    // Stop propagation to prevent VExpansionPanel from toggling when spacebar is pressed
-    // Allow spacebar to type in the input field normally
     event.stopPropagation()
-    // Don't preventDefault - we want spacebar to type in the input
   }
 }
 </script>

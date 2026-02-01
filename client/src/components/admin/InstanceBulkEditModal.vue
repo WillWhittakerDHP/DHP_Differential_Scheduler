@@ -104,9 +104,7 @@ const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
 const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   try {
     const editData = props.bulkEditData || {}
-    // Guard against missing blockShapeId
     if (!props.blockShapeId) {
-      // Return a minimal entity that will be replaced when blockShapeId is available
       return {
         id: '00000000-0000-0000-0000-000000000000',
         entityKey: 'blockInstance',
@@ -142,7 +140,6 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
     return entity
   } catch (error) {
     console.error('[InstanceBulkEditModal] Error creating templateEntity:', error)
-    // Return a safe fallback
     return {
       id: '00000000-0000-0000-0000-000000000000',
       entityKey: 'blockInstance',
@@ -160,11 +157,6 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   }
 })
 
-/**
- * LEARNING: Get metadata and filter to only include bulkEdit fields
- * WHY: Metadata is the single source of truth - filter at metadata level
- * PATTERN: Only include fields where bulkEdit: true in metadata
- */
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 const { fieldMetadata: blockInstanceMetadata } = useEntityMetadata('blockInstance', templateEntity)
@@ -180,7 +172,6 @@ const filteredMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
     return {}
   }
   
-  // LEARNING: Use Object.fromEntries with filter instead of forEach with mutations
   // WHY: Functional approach avoids mutations, aligns with workspace rules
   // PATTERN: Filter entries and convert back to object
   return Object.fromEntries(
@@ -192,21 +183,9 @@ function updateModelValue(value: boolean) {
   emit('update:modelValue', value)
 }
 
-/**
- * LEARNING: Handle EntityCard saved event (prevent actual save)
- * WHY: EntityCard will try to save when fields blur, but we don't want to save the template entity
- * PATTERN: Intercept saved event and do nothing - we'll extract values manually in handleApply
- */
 function handleEntityCardSaved() {
-  // Do nothing - prevent EntityCard from actually saving the template entity
-  // We extract form values manually in handleApply instead
 }
 
-/**
- * LEARNING: Handle Apply button click
- * WHY: Extract form values from EntityCard and emit as bulk edit data
- * PATTERN: Dynamically extract fields from filteredMetadata (declarative, no hardcoded field names)
- */
 function handleApply() {
   if (!entityCardRef.value?.form) {
     return
@@ -214,14 +193,11 @@ function handleApply() {
   
   const formValues = entityCardRef.value.form.values
   
-  // LEARNING: Extract only fields that have bulkEdit: true and have values
   // WHY: Use filteredMetadata as source of truth for which fields to extract
   // PATTERN: Use reduce instead of forEach + property assignment - functional approach
   const bulkEditData: Record<string, number | null | undefined> = Object.keys(filteredMetadata.value).reduce((acc, field) => {
     const value = (formValues as Record<string, unknown>)[field]
-    // Only include if value is not null, undefined, or empty string
     if (value !== null && value !== undefined && value !== '') {
-      // Convert to number for numeric fields
       const numericValue = Number(value)
       if (!isNaN(numericValue)) {
         acc[field] = numericValue

@@ -29,14 +29,11 @@ export function sortFieldsByDisplayOrder<GE extends GlobalEntityKey>(
   fields: GlobalFieldKey<GE>[],
   metadata: Record<string, FieldMetadataEntry>
 ): GlobalFieldKey<GE>[] {
-  // LEARNING: Handle undefined/null/empty arrays gracefully
-  // WHY: Defensive programming - prevents "fields is not iterable" errors
   // PATTERN: Return empty array if fields is falsy or not an array
   if (!fields || !Array.isArray(fields)) {
     return []
   }
   
-  // LEARNING: Create copy to avoid mutating input array
   // WHY: Functional approach - pure function shouldn't mutate inputs
   // PATTERN: Spread operator creates new array
   return [...fields].sort((a, b) => {
@@ -45,15 +42,11 @@ export function sortFieldsByDisplayOrder<GE extends GlobalEntityKey>(
     const orderA = metaA?.displayOrder ?? 0
     const orderB = metaB?.displayOrder ?? 0
     
-    // LEARNING: Sort by displayOrder first
-    // WHY: Primary sort key - determines field order
     // PATTERN: Compare displayOrder values
     if (orderA !== orderB) {
       return orderA - orderB
     }
     
-    // LEARNING: Fallback to alphabetical sorting when displayOrder is equal
-    // WHY: Ensures consistent ordering even when displayOrder values match
     // PATTERN: Use localeCompare for string comparison
     return String(a).localeCompare(String(b))
   })

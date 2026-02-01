@@ -1,29 +1,9 @@
-/**
- * USESELECTIONCARDSTYLES TESTS
- * 
- * Unit tests for useSelectionCardStyles composable.
- * Tests CSS class generation for selection cards.
- * 
- * What it covers:
- * - cardClasses: Main card CSS classes
- * - controlClasses: Selection control CSS classes
- * - contentContainerClasses: Content container CSS classes
- * 
- * How it works:
- * - Tests delegation to utility functions
- * - Tests computed reactivity
- * 
- * Dependencies:
- * - vitest for testing
- * - vue computed for reactive state
- */
 
 import { describe, it, expect } from 'vitest'
 import { computed, ref, nextTick } from 'vue'
 import { useSelectionCardStyles } from '../useSelectionCardStyles'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
-// Helper to create mock config
 function createConfig(overrides: Partial<SelectionCardConfig> = {}): SelectionCardConfig {
   return {
     selectionType: 'radio',

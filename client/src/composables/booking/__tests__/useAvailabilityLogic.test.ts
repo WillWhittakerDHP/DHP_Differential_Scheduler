@@ -1,12 +1,3 @@
-/**
- * USEAVAILABILITYLOGIC TESTS
- * 
- * Unit tests for useAvailabilityLogic.
- * Priority Score: 8.0 (Reliability: 10, ROI: 7, Independence: 8, Cognitive Load: 3)
- * 
- * Tests verify reactive computed properties for availability step logic,
- * date range calculations, property details extraction, and time slot grouping.
- */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { ref, computed } from 'vue'
@@ -15,9 +6,6 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { TimeSlot } from '@/types/appointment'
 import { isRFC3339DateTime } from '@/types/datetime'
 
-/**
- * Helper to create a BookingBlockInstance for testing
- */
 function createBookingBlockInstance(
   id: string,
   options: {
@@ -64,9 +52,6 @@ function createBookingBlockInstance(
   }
 }
 
-/**
- * Helper to create a TimeSlot for testing
- */
 function createTimeSlot(
   slotStart: string,
   options: {
@@ -327,7 +312,6 @@ describe('useAvailabilityLogic', () => {
         loadedWizardState,
       })
       
-      // Wait for watch to execute
       await new Promise(resolve => setTimeout(resolve, 0))
       
       expect(timeSlotsPerDay.value).toHaveLength(2)

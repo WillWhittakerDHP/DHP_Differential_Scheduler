@@ -1,21 +1,9 @@
-/**
- * USEBOOKINGWIZARDSTEPVALIDATORS TESTS
- * 
- * Unit tests for useBookingWizardStepValidators composable.
- * Tests step validator orchestration for booking wizard.
- * 
- * Coverage:
- * - stepValidators computed property
- * - Validator construction from refs
- * - Integration with buildBookingWizardStepValidators utility
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref } from 'vue'
 import { useBookingWizardStepValidators } from '../useBookingWizardStepValidators'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Mock the utility function
 vi.mock('@/utils/booking/bookingWizardStepValidators', () => ({
   buildBookingWizardStepValidators: vi.fn(),
 }))
@@ -54,7 +42,6 @@ describe('useBookingWizardStepValidators', () => {
         contactsStepValidate: null,
       })
 
-      // Access computed to trigger evaluation
       stepValidators.value
 
       expect(buildBookingWizardStepValidators).toHaveBeenCalledWith(
@@ -234,7 +221,6 @@ describe('useBookingWizardStepValidators', () => {
       stepValidators.value
       expect(buildBookingWizardStepValidators).toHaveBeenCalledTimes(1)
 
-      // Add a service
       selectedServices.value = [{ id: 'service-1' } as BookingBlockInstance]
       stepValidators.value
       expect(buildBookingWizardStepValidators).toHaveBeenCalledTimes(2)

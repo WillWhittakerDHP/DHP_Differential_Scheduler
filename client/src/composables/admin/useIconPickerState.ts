@@ -13,38 +13,17 @@
 
 import { ref, watch, type Ref } from 'vue'
 
-/**
- * Icon Picker State Composable Options
- */
 export interface UseIconPickerStateOptions {
-  /**
-   * Dialog open state
-   */
   dialogOpen: Ref<boolean>
   
-  /**
-   * Current icon prop (from parent)
-   */
   currentIcon?: Ref<string | null> | string | null
 }
 
-/**
- * Icon Picker State Composable Return Type
- */
 export interface UseIconPickerStateReturn {
-  /**
-   * Selected icon state
-   */
   selectedIcon: Ref<string | null>
   
-  /**
-   * Search term state
-   */
   searchTerm: Ref<string>
   
-  /**
-   * Reset state when dialog closes
-   */
   resetState: () => void
 }
 

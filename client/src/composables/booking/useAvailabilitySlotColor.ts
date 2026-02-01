@@ -8,19 +8,10 @@
 
 import { computed, type ComputedRef, type Ref } from 'vue'
 
-/**
- * useAvailabilitySlotColor composable parameters
- */
 export interface UseAvailabilitySlotColorParams {
-  /**
-   * Start time type (perspective: major, minor, or nonDifferential)
-   */
   startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
 }
 
-/**
- * useAvailabilitySlotColor composable return type
- */
 export interface UseAvailabilitySlotColorReturn {
   /**
    * Color for appointment slot grid

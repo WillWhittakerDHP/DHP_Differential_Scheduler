@@ -57,7 +57,6 @@ const dynamicFormRef = ref<InstanceType<typeof DynamicForm> | null>(null)
  */
 const currentEntityId = ref<GlobalEntityId>(props.entityId || ('new-' + Date.now()) as GlobalEntityId)
 
-// Watch for entityId changes
 watch(() => props.entityId, (newId) => {
   if (newId) {
     currentEntityId.value = newId
@@ -66,8 +65,6 @@ watch(() => props.entityId, (newId) => {
 
 const adminConfig = useAdminConfig()
 
-// LEARNING: Get metadata directly - no intermediate composable
-// WHY: Metadata is the single source of truth, extract keys directly
 const adminComp = useAdmin()
 const entity = computed(() => {
   if (!props.entityId) return null
@@ -80,13 +77,6 @@ const entity = computed(() => {
 
 const { fieldMetadata } = useEntityMetadata(props.entityKey, entity)
 
-// LEARNING: Get field keys immediately from entity object, merge with metadata when available
-// WHY: Field keys are static properties of the entity - they don't change, so get them immediately
-//      Metadata tells us HOW to render fields, but field keys come from the entity itself
-// PATTERN: Extract keys from entity immediately, use metadata for rendering config (not for key discovery)
-// LEARNING: Use shared utility to eliminate duplication
-// WHY: Same logic exists in DynamicForm - extract to shared utility
-// PATTERN: Use getFieldKeys utility function
 const fieldKeys = computed(() => {
   return getFieldKeys({
     entity: entity.value as Record<string, unknown> | null,
@@ -95,7 +85,6 @@ const fieldKeys = computed(() => {
   })
 })
 
-// LEARNING: Get layout config from instanceConfig (temporary until metadata provides layout)
 const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
 const inlineFieldsConfig = computed(() => {
   const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
@@ -124,9 +113,6 @@ const formFields = useFormFields({
   adminConfig
 })
 
-// LEARNING: Extract unified layout fields from composable
-// WHY: Use same layout mechanism for ALL entity types
-// PATTERN: readyInlineFields, readyStackedFields work for all entities
 const {
   readyInlineFields,
   readyStackedFields,

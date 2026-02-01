@@ -11,10 +11,8 @@ import tseslintParser from '@typescript-eslint/parser'
 import tseslintPlugin from '@typescript-eslint/eslint-plugin'
 
 export default [
-  // Base JavaScript recommended rules
   js.configs.recommended,
   
-  // Configuration for TypeScript files
   {
     files: ['**/*.ts'],
     languageOptions: {
@@ -24,7 +22,6 @@ export default [
         sourceType: 'module',
       },
       globals: {
-        // Node.js globals
         process: 'readonly',
         console: 'readonly',
         Buffer: 'readonly',
@@ -40,14 +37,12 @@ export default [
       '@typescript-eslint': tseslintPlugin,
     },
     rules: {
-      // TypeScript rules - only include rules that are available
       '@typescript-eslint/no-explicit-any': [
         'error',
         {
           ignoreRestArgs: true, // Allow `any` in rest arguments and generic constraints
         },
       ],
-      // Enable other common TypeScript rules that should be available
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -58,14 +53,12 @@ export default [
     },
   },
   
-  // Configuration for JavaScript files (if any)
   {
     files: ['**/*.js'],
     languageOptions: {
       ecmaVersion: 2020,
       sourceType: 'module',
       globals: {
-        // Node.js globals
         process: 'readonly',
         console: 'readonly',
         Buffer: 'readonly',
@@ -79,14 +72,12 @@ export default [
     },
   },
   
-  // Configuration for .mjs files (Sequelize config)
   {
     files: ['**/*.mjs'],
     languageOptions: {
       ecmaVersion: 2020,
       sourceType: 'module',
       globals: {
-        // Node.js globals
         process: 'readonly',
         console: 'readonly',
         Buffer: 'readonly',
@@ -100,15 +91,5 @@ export default [
     },
   },
   
-  // Ignore patterns
   {
     ignores: [
-      'dist/**',
-      'node_modules/**',
-      '*.config.js',
-      '*.config.ts',
-      'coverage/**',
-    ],
-  },
-]
-

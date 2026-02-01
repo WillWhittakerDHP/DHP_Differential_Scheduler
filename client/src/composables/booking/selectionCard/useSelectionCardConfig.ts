@@ -11,16 +11,10 @@ import type { SelectionCardConfig } from '@/components/booking/types/selectionCa
 import { mergeSelectionCardConfigWithDefaults } from '@/utils/booking/selectionCardConfig'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 
-/**
- * useSelectionCardConfig composable parameters
- */
 export interface UseSelectionCardConfigParams {
   config: ReadonlyVueRef<SelectionCardConfig | undefined>
 }
 
-/**
- * useSelectionCardConfig composable return type
- */
 export interface UseSelectionCardConfigReturn {
   configWithDefaults: ComputedRef<SelectionCardConfig>
 }

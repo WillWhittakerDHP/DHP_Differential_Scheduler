@@ -13,9 +13,6 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('slotGenerationValidation')
 
-/**
- * Parameters for slot generation validation
- */
 export interface SlotGenerationParams {
   duration: number
   minuteIncrement: number
@@ -35,7 +32,6 @@ export interface SlotGenerationParams {
 export function validateSlotGenerationParams(params: SlotGenerationParams): void {
   const { duration, minuteIncrement, startBoundary, endBoundary } = params
 
-  // Validate duration
   if (!duration || duration <= 0) {
     logger.error('Invalid duration: must be > 0', { duration })
     throw new Error(`duration must be greater than 0, got: ${duration}`)
@@ -53,22 +49,17 @@ export function validateSlotGenerationParams(params: SlotGenerationParams): void
     logger.error('Invalid minuteIncrement: must be an integer', { minuteIncrement })
     throw new Error(`minuteIncrement must be a positive integer, got: ${minuteIncrement}`)
   }
-  // P3-2: Extract magic number to constant
-  // LEARNING: Maximum recommended minute increment for time slots
-  // WHY: Large increments may result in very few available slots
   // PATTERN: Constant for maximum recommended value
   const MAX_RECOMMENDED_MINUTE_INCREMENT = 60
   if (minuteIncrement > MAX_RECOMMENDED_MINUTE_INCREMENT) {
     logger.warn('Large minuteIncrement may result in few slots', { minuteIncrement })
   }
 
-  // Validate boundaries
   if (!startBoundary || !endBoundary) {
     logger.error('Missing boundary parameters')
     throw new Error('startBoundary and endBoundary are required')
   }
 
-  // Cache boundary Date objects for validation
   const startBoundaryDate = new Date(startBoundary)
   const endBoundaryDate = new Date(endBoundary)
 

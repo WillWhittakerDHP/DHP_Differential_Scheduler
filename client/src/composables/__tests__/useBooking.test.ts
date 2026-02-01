@@ -1,16 +1,9 @@
-/**
- * USE BOOKING TESTS
- * 
- * Unit tests for useBooking composable.
- * Tests booking data fetching, transformation, and state management.
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useBooking } from '../useBooking'
 import { useGlobal } from '../useGlobal'
 import { createAtomicBlockGlobalData } from '@/utils/__tests__/factories/globalDataFactory'
 
-// Mock dependencies
 vi.mock('../useGlobal', () => ({
   useGlobal: vi.fn(() => ({
     globalData: {

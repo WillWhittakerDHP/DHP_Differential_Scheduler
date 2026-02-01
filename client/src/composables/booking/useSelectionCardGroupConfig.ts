@@ -16,16 +16,10 @@ import {
 } from '@/utils/booking/selectionCardGroupConfig'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 
-/**
- * useSelectionCardGroupConfig composable parameters
- */
 export interface UseSelectionCardGroupConfigParams {
   config: ReadonlyVueRef<SelectionCardConfig | undefined>
 }
 
-/**
- * useSelectionCardGroupConfig composable return type
- */
 export interface UseSelectionCardGroupConfigReturn {
   configWithDefaults: ComputedRef<SelectionCardConfig>
   useGroupWrapper: ComputedRef<boolean>
@@ -63,9 +57,6 @@ export function useSelectionCardGroupConfig(params: UseSelectionCardGroupConfigP
     return getSelectionGroupComponentName(configWithDefaults.value)
   })
 
-  /**
-   * LEARNING: Computed property for grid column props
-   */
   const gridColumnProps = computed(() => {
     return buildSelectionCardGridColumnProps(configWithDefaults.value)
   })

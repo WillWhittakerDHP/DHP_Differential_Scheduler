@@ -18,18 +18,9 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { ComponentItem, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 import { getInstanceComponentsForService, mapServicesWithComponents } from '@/utils/booking/instanceComponentsList'
 
-/**
- * useInstanceComponentsList composable options
- */
 export interface UseInstanceComponentsListOptions {
-  /**
-   * List of services to process
-   */
   services: ComputedRef<BookingBlockInstance[]>
   
-  /**
-   * Selected user type (for filtering component descriptions)
-   */
   selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null>
 }
 

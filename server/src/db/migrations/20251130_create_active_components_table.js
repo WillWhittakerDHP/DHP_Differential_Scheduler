@@ -7,7 +7,6 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    // Check if table already exists
     const tableExists = await queryInterface.tableExists('active_components');
     
     if (!tableExists) {
@@ -55,18 +54,15 @@ export default {
         },
       });
 
-      // Create unique index on parent_id + child_id
       await queryInterface.addIndex('active_components', ['parent_id', 'child_id'], {
         unique: true,
         name: 'unique_active_component_parent_child',
       });
 
-      // Create index on parent_id for faster lookups
       await queryInterface.addIndex('active_components', ['parent_id'], {
         name: 'idx_active_components_parent',
       });
 
-      // Create index on child_id for faster lookups
       await queryInterface.addIndex('active_components', ['child_id'], {
         name: 'idx_active_components_child',
       });
@@ -78,7 +74,6 @@ export default {
   },
 
   async down(queryInterface, Sequelize) {
-    // Remove indexes first
     try {
       await queryInterface.removeIndex('active_components', 'unique_active_component_parent_child');
       await queryInterface.removeIndex('active_components', 'idx_active_components_parent');
@@ -87,7 +82,6 @@ export default {
       console.log('ℹ️  Error removing indexes (may not exist):', error.message);
     }
 
-    // Remove table
     const tableExists = await queryInterface.tableExists('active_components');
     if (tableExists) {
       await queryInterface.dropTable('active_components');

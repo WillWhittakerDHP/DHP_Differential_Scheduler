@@ -36,8 +36,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
       const endpoint = getEntityByIdEndpoint(entityKey, dynamicId)
 
       try {
-        // LEARNING: PATCH response only contains {updated: 1}, not the updated entity
-        // WHY: Server doesn't return full entity, so we don't transform response
         // PATTERN: Just make API call, cache update happens in onMutate using variables
         await apiClient.patch(endpoint, admin)
         return { success: true }
@@ -47,8 +45,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
           const errorMessage = axiosError.response?.data?.error || 'Entity not found'
           const errorId = axiosError.response?.data?.id || dynamicId
 
-          // LEARNING: Remove entity from cache when it doesn't exist in database
-          // WHY: Entity exists in cache but not in database - remove from cache to prevent stale data
           // PATTERN: Update cache to remove missing entity, then invalidate to trigger refetch
           queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
             if (!old) return old
@@ -58,8 +54,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
               (entity) => String(entity.id) !== String(errorId)
             )
             
-            // LEARNING: For partInstance 404, also clean up orphaned partAssignments relationships
-            // WHY: If partInstance doesn't exist, relationships pointing to it are orphaned
             // PATTERN: Filter out relationships with children array containing the deleted partInstance
             let updatedRelationships = old.relationships
             if (entityKey === 'partInstance' && old.relationships?.partAssignments) {
@@ -81,7 +75,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
             }
           })
 
-          // Invalidate queries to trigger refetch
           queryClient.invalidateQueries({ queryKey: [entityKey] })
           if (entityKey === 'partInstance') {
             queryClient.invalidateQueries({ queryKey: ['partAssignments'] })
@@ -95,19 +88,15 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
     },
     onMutate: async (variables) => {
       // LEARNING: Optimistic update pattern
-      // WHY: Update cache immediately using mutation variables for instant UI feedback
       // PATTERN: Cancel queries → Snapshot → Update → Return context for rollback
       
       // 1. Cancel any outgoing refetches to prevent race conditions
       await queryClient.cancelQueries({ queryKey: ['globalData'] })
 
-      // 2. Snapshot the previous value for rollback
       const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
 
-      // 3. Optimistically update cache using variables (not response)
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) {
-          // Cache not initialized, return as-is (will be populated on next access)
           return old
         }
 
@@ -117,8 +106,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
         )
 
         if (entityIndex === -1) {
-          // Entity not found in cache - log warning but don't fail
-          // This can happen if cache is stale or entity was deleted
           if (isDevModeEnabled()) {
             console.warn(
               `[usePrimitiveMutation] Entity ${variables.dynamicId} not found in ${entityKey} cache. Cache may be stale.`
@@ -127,25 +114,18 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
           return old
         }
 
-        // LEARNING: Update using mutation variables, not response
-        // WHY: PATCH response doesn't contain updated entity, only {updated: 1}
         // PATTERN: Update specific field using variables.admin.key and variables.admin.value
-        // IMPORTANT: Use spread operator to preserve ALL existing fields, only update the single field
         const updatedEntities = [...currentEntities]
         updatedEntities[entityIndex] = {
           ...currentEntities[entityIndex], // LEARNING: Spread preserves all existing fields
           [variables.admin.key]: variables.admin.value, // Only update the single field being changed
         } as GlobalEntity<GlobalEntityTypeKey>
 
-        // LEARNING: Verify all fields are preserved after update
-        // WHY: Ensures we didn't accidentally lose any fields during update
         // PATTERN: Compare field counts before and after update
-        // NOTE: Field count increase is EXPECTED when adding a new field that didn't exist before
         if (isDevModeEnabled()) {
           const beforeKeys = Object.keys(currentEntities[entityIndex])
           const afterKeys = Object.keys(updatedEntities[entityIndex])
           const missingKeys = beforeKeys.filter(key => !afterKeys.includes(key))
-          // Only warn if fields were LOST, not if fields were ADDED (adding fields is expected)
           if (missingKeys.length > 0) {
             console.warn(`[usePrimitiveMutation] Field count mismatch - fields lost:`, {
               entityKey,
@@ -169,17 +149,12 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
         }
       })
 
-      // 4. Return context object for rollback
       return { previousData }
     },
     onError: (error, variables, context) => {
-      // LEARNING: Rollback optimistic update on error, EXCEPT for 404 errors
-      // WHY: If mutation fails with 404, entity doesn't exist in database - don't restore stale entity to cache
-      //      For other errors, rollback to restore previous state
       // PATTERN: Check if error is 404 before rolling back
       const axiosError = error as AxiosError<{ error?: string; id?: string }>
       const is404 = axiosError.response?.status === 404
-      // Also check error message for 404 pattern (error is thrown as Error, not AxiosError)
       const is404FromMessage = error instanceof Error && error.message.includes('not found') && error.message.includes('removed from the cache')
       const shouldSkipRollback = is404 || is404FromMessage
       
@@ -187,14 +162,11 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
         queryClient.setQueryData(['globalData'], context.previousData)
       }
 
-      // Log error for debugging
       if (isDevModeEnabled()) {
         console.error(`[usePrimitiveMutation] Failed to update ${entityKey}:`, error)
       }
     },
     onSuccess: () => {
-      // LEARNING: Side effects after successful mutation
-      // WHY: Invalidate related caches (scheduler) without refetching globalData
       // PATTERN: Only invalidate, don't refetch - let related queries refetch when needed
       if (['blockInstance', 'blockShape'].includes(entityKey)) {
         queryClient.invalidateQueries({ queryKey: ['schedulerAdmin'] })

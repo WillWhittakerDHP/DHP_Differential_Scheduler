@@ -33,7 +33,6 @@ export function buildUserTypeBlockRowSelectionConfig(options: SelectionConfigBui
     stateSource: 'wizard',
     layout: 'row',
     controlPosition: 'bottom',
-    // gridColumns will be set dynamically based on item count in UserTypeSelectCards
     gridColumns: { cols: '12', sm: '6', md: '4' },
     appearance: {
       showIcon: true,

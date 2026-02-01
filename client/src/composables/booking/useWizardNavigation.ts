@@ -8,27 +8,18 @@
 
 import { ref, computed, type Ref, type ComputedRef } from 'vue'
 
-/**
- * Step definition structure
- */
 export interface StepDefinition {
   icon: string
   title: string
   subtitle: string
 }
 
-/**
- * useWizardNavigation composable parameters
- */
 export interface UseWizardNavigationParams {
   steps: StepDefinition[]
   validateStep: (stepIndex: number) => boolean
   showError?: (message: string) => void
 }
 
-/**
- * useWizardNavigation composable return type
- */
 export interface UseWizardNavigationReturn {
   activeStep: Ref<number>
   completedSteps: Ref<Set<number>>
@@ -106,11 +97,9 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
     const isValid = validateStep(activeStep.value)
     
     if (!isValid) {
-      // Return false to indicate validation failed (caller should show error)
       return
     }
     
-    // Mark current step as completed
     markStepCompleted(activeStep.value)
     
     if (activeStep.value < steps.length - 1) {
@@ -130,7 +119,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
    * PATTERN: Validate current step and check completion of intermediate steps before allowing navigation
    */
   const handleStepClick = (index: number): void => {
-    // Allow backward navigation freely (no validation needed)
     if (index < activeStep.value) {
       activeStep.value = index
       return
@@ -138,17 +126,14 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
     
     // For forward navigation, validate current step and check intermediate steps
     if (index > activeStep.value) {
-      // Validate current step
       const currentStepValid = validateStep(activeStep.value)
       if (!currentStepValid) {
         showError?.('Please complete all required fields before continuing')
         return
       }
       
-      // Mark current step as completed if valid
       markStepCompleted(activeStep.value)
       
-      // Check if all intermediate steps are completed
       // If jumping multiple steps forward, validate all intermediate steps
       for (let i = activeStep.value + 1; i < index; i++) {
         if (!completedSteps.value.has(i)) {
@@ -187,17 +172,14 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
    * PATTERN: Step is accessible if it's the current step, a completed step, or the next step after all completed steps
    */
   const isStepAccessible = (index: number): boolean => {
-    // Always allow backward navigation (current step or previous)
     if (index <= activeStep.value) {
       return true
     }
     
-    // Allow clicking on the next immediate step (validation happens in handleStepClick)
     if (index === activeStep.value + 1) {
       return true
     }
     
-    // For steps further ahead, check if all previous steps are completed
     return arePreviousStepsCompleted(index)
   }
 

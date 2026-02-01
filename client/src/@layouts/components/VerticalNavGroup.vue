@@ -39,13 +39,6 @@ const isVerticalNavHovered = inject(
 const isGroupActive = ref(false)
 const isGroupOpen = ref(false)
 
-/**
- * Checks if any of children group is open or not.
- * This is helpful in preventing closing inactive parent group when inactive child group is opened. (i.e. Do not close "Nav Levels" group if child "Nav Level 2.2" is opened/clicked)
- *
- * @param {NavGroup['children']} children  - Nav group children
- * @return {boolean} returns if any of children is open or not.
- */
 const isAnyChildOpen = (children: NavGroup['children']): boolean => {
   return children.some(child => {
     let result = openGroups.value.includes(child.title)
@@ -68,17 +61,11 @@ const collapseChildren = (children: NavGroup['children']) => {
   })
 }
 
-/*
-  Watch for route changes, more specifically route path. Do note that this won't trigger if route's query is updated.
-
-  updates isActive & isOpen based on active state of group.
-*/
 watch(
   () => route.path,
   () => {
     const isActive = isNavGroupActive(props.item.children, router)
 
-    // Don't open group if vertical nav is collapsed and window size is more than overlay nav breakpoint
     isGroupOpen.value
       = isActive && !configStore.isVerticalNavMini(isVerticalNavHovered).value
     isGroupActive.value = isActive
@@ -97,17 +84,13 @@ watch(
 watch(
   isGroupOpen,
   (val: boolean) => {
-    // Find group index for adding/removing group from openGroups array
     const grpIndex = openGroups.value.indexOf(props.item.title)
 
-    // update openGroups array for addition/removal of current group
 
-    // If group is opened => Add it to `openGroups` array
     if (val && grpIndex === -1) {
       openGroups.value.push(props.item.title)
     }
 
-    // If group is closed remove itself and its children from the `openGroups`
     else if (!val && grpIndex !== -1) {
       openGroups.value.splice(grpIndex, 1)
       collapseChildren(props.item.children)
@@ -131,18 +114,15 @@ watch(
 watch(
   openGroups,
   val => {
-    // Prevent closing recently opened inactive group.
     const lastOpenedGroup = val.at(-1)
     if (lastOpenedGroup === props.item.title)
       return
 
     const isActive = isNavGroupActive(props.item.children, router)
 
-    // Goal of this watcher is to close inactive groups. So don't do anything for active groups.
     if (isActive)
       return
 
-    // We won't close group if any of child group is open in current group
     if (isAnyChildOpen(props.item.children))
       return
 
@@ -152,7 +132,6 @@ watch(
   { deep: true },
 )
 
-// ℹ️ Previously instead of below watcher we were using two individual watcher for `isVerticalNavHovered`, `isVerticalNavCollapsed` & `isLessThanOverlayNavBreakpoint`
 watch(configStore.isVerticalNavMini(isVerticalNavHovered), val => {
   isGroupOpen.value = val ? false : isGroupActive.value
 })

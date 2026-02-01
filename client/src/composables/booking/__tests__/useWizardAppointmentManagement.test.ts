@@ -1,24 +1,3 @@
-/**
- * USEWIZARDAPPOINTMENTMANAGEMENT TESTS
- * 
- * Unit tests for useWizardAppointmentManagement composable.
- * Tests appointment loading, updating, and wizard reset logic.
- * 
- * What it covers:
- * - handleLoadAppointment: Loading appointments into wizard state
- * - handleUpdateAppointment: Updating appointments from wizard state
- * - handleResetWizard: Resetting wizard state
- * - State tracking: loadedWizardState, loadedAppointmentId, selectedAppointmentId, isLoadingAppointment
- * 
- * How it works:
- * - Tests loading appointments by ID and random selection
- * - Tests updating appointments with collected wizard data
- * - Tests resetting wizard state to initial values
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref for reactive state
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref } from 'vue'

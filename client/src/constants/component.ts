@@ -1,10 +1,5 @@
 import type { ComponentStrategy, DistributionStrategy } from '../types/component';
 
-/**
- * WHY: Component Constants
-
-Centralized constants for entity component system
- */
 export const COMPONENT_RELATIONSHIP_KEY = 'instanceComponents' as const;
 
 /**

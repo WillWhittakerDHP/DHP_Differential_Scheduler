@@ -9,27 +9,19 @@
 
 import { computed, watchEffect } from 'vue'
 import { useGlobal } from './useGlobal'
-// Import Vue booking transformer (no React dependencies)
 import { bookingTransformer } from '@/utils/transformers/globalToBookingTransformer'
 import type { BookingData } from '@/utils/transformers/globalToBookingTransformer'
 import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
-// DIAGNOSTICS: Track instance creation
 let instanceCount = 0
 let callCount = 0
 const instanceCallSites: Array<{ count: number; stack: string }> = []
 
-// SINGLETON: Shared instance created on first call
 let bookingInstance: ReturnType<typeof createBookingInstance> | null = null
 
-/**
- * Helper to extract call site info from stack trace
- */
 function getCallSiteInfo(): { caller: string; stack: string } {
   const stack = new Error().stack || ''
   const lines = stack.split('\n')
-  // Skip first 3 lines: Error, getCallSiteInfo, useBooking
-  // Look for the actual caller (usually line 4 or 5)
   const callerLine = lines[3] || lines[4] || 'unknown'
   return {
     caller: callerLine.trim(),
@@ -37,11 +29,6 @@ function getCallSiteInfo(): { caller: string; stack: string } {
   }
 }
 
-/**
- * Create the actual composable instance
- * LEARNING: Separated from useBooking to enable singleton pattern
- * WHY: Allows creating instance once and reusing it
- */
 function createBookingInstance() {
   instanceCount++
   const callSite = getCallSiteInfo()
@@ -50,7 +37,6 @@ function createBookingInstance() {
   
   const { globalData } = useGlobal()
   // Legacy/test compatibility: expose simple primitives (not refs).
-  // NOTE: Loading/error are currently managed at the globalData layer.
   const isLoading = false
   const error: unknown | null = null
   
@@ -71,8 +57,6 @@ function createBookingInstance() {
       return null
     }
     
-    // Transform globalData to bookingData
-    // The transformer expects GlobalData format, which matches the type from useGlobal
     try {
       return bookingTransformer.transformGlobalToBooking(data)
     } catch (error) {
@@ -80,9 +64,7 @@ function createBookingInstance() {
     }
   })
   
-  // NOTE: Watcher is created once per singleton, not per component call
   watchEffect(() => {
-    // Access bookingData to establish reactivity
     void bookingData.value
   })
   
@@ -104,7 +86,6 @@ function createBookingInstance() {
 export function useBooking() {
   callCount++
   
-  // SINGLETON: Create instance on first call, reuse afterwards
   if (!bookingInstance) {
     bookingInstance = createBookingInstance()
   }
@@ -112,7 +93,6 @@ export function useBooking() {
   return bookingInstance
 }
 
-// DIAGNOSTICS: Export instance count for debugging
 attachDebugToWindow('__useBookingDebug', {
   instanceCount: () => instanceCount,
   callCount: () => callCount,

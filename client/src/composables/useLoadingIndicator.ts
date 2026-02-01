@@ -1,37 +1,16 @@
-/**
- * Loading Indicator Composable
- * 
- * LEARNING: Extracts loading indicator logic from AppLoadingIndicator component
- * WHY: Moves progress animation state and logic out of component into reusable composable
- * PATTERN: Composable that manages progress state, buffer animation, and handlers
- * 
- * Component-Composable Alignment: Extracted from AppLoadingIndicator.vue
- */
 
 import { ref, watch, type Ref } from 'vue'
 
-/**
- * Loading Indicator Composable Return Type
- */
 export interface UseLoadingIndicatorReturn {
-  // Progress state
   bufferValue: Ref<number>
   progressValue: Ref<number>
   isFallbackState: Ref<boolean>
   showProgress: Ref<boolean>
   
-  // Handlers
   fallbackHandle: () => void
   resolveHandle: () => void
 }
 
-/**
- * Loading Indicator Composable
- * 
- * LEARNING: Manages loading indicator progress animation state
- * WHY: Extracts progress animation logic from component to composable
- * PATTERN: Composable with refs for progress state and handlers for fallback/resolve
- */
 export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   const bufferValue = ref(20)
   const progressValue = ref(10)

@@ -12,11 +12,6 @@ export interface ComponentItem {
   active: boolean
 }
 
-/**
- * Selection card item interface
- * LEARNING: Represents a selectable item in SelectionCard
- * WHY: Type-safe definition for items passed to component
- */
 export interface SelectionCardItem {
   id: string
   name: string
@@ -26,11 +21,6 @@ export interface SelectionCardItem {
   [key: string]: unknown // Allow additional properties but type-safe
 }
 
-/**
- * Grid columns configuration interface
- * LEARNING: Responsive grid column configuration
- * WHY: Type-safe grid column props for Vuetify VCol component
- */
 export interface GridColumns {
   cols?: string | number
   sm?: string | number
@@ -76,25 +66,10 @@ export interface StatePlugin {
  * PATTERN: Comprehensive config object with defaults for backward compatibility
  */
 export interface SelectionCardConfig {
-  /**
-   * Selection type (radio, checkbox, or none)
-   * LEARNING: Determines selection behavior
-   * WHY: Allows single-select (radio), multi-select (checkbox), or no selection
-   */
   selectionType: 'radio' | 'checkbox' | 'none'
   
-  /**
-   * Component to use for selection control
-   * LEARNING: VRadio, VCheckbox, or custom component
-   * WHY: Allows different UI components for selection
-   */
   selectionComponent: 'VRadio' | 'VCheckbox' | 'custom'
   
-  /**
-   * Group wrapper component (or none)
-   * LEARNING: VRadioGroup, VCheckboxGroup, or no wrapper
-   * WHY: Radio buttons need grouping, checkboxes can work standalone
-   */
   selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'
   
   /**
@@ -111,32 +86,12 @@ export interface SelectionCardConfig {
    */
   statePlugins?: StatePlugin[]
   
-  /**
-   * Layout type (row or stack)
-   * LEARNING: Horizontal grid layout or vertical stack
-   * WHY: Different layouts for different use cases
-   */
   layout: 'row' | 'stack'
   
-  /**
-   * Control position (top, bottom, left, hidden)
-   * LEARNING: Where to position selection control
-   * WHY: Different visual arrangements
-   */
   controlPosition: 'top' | 'bottom' | 'left' | 'hidden'
   
-  /**
-   * Grid columns configuration
-   * LEARNING: Responsive grid column props
-   * WHY: Controls card layout in row mode
-   */
   gridColumns?: GridColumns
   
-  /**
-   * Appearance configuration
-   * LEARNING: Visual styling options
-   * WHY: Controls card appearance
-   */
   appearance: {
     showIcon: boolean
     showDescription?: boolean
@@ -145,11 +100,6 @@ export interface SelectionCardConfig {
     minHeight: string
   }
   
-  /**
-   * Expansion configuration for nested cards
-   * LEARNING: Options for expandable cards with nested components
-   * WHY: Supports composite cards with sub-selections
-   */
   expansion?: {
     enabled: boolean
     componentData?: (item: SelectionCardItem) => {

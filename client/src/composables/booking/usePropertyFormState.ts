@@ -14,13 +14,7 @@
 import { ref } from 'vue'
 import type { PropertyFormData } from '@/types/propertyForm'
 
-/**
- * usePropertyFormState composable return type
- */
 export interface UsePropertyFormStateReturn {
-  /**
-   * Consolidated form state object with all field refs
-   */
   formData: PropertyFormData
 }
 

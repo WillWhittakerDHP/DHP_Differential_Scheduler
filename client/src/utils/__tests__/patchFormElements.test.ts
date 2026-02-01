@@ -1,13 +1,3 @@
-/**
- * TEST: patchFormElements
- *
- * Covers:
- * - Sets `autocomplete="off"` on the form and all descendant form controls
- * - Adds a `control` property to form elements when missing (browser extension compatibility)
- *
- * Dependencies:
- * - JSDOM environment (configured in `vitest.config.ts`)
- */
 
 import { describe, it, expect } from 'vitest'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
@@ -40,18 +30,6 @@ describe('patchFormElements', () => {
   })
 })
 
-/**
- * PATCH FORM ELEMENTS TESTS
- * 
- * Unit tests for patchFormElements utility function.
- * Tests autocomplete attribute setting on form elements.
- * Phase 7: Edge Case Tests
- * 
- * WHAT: Tests that patchFormElements sets autocomplete="off" on form and all form controls
- * HOW: Creates DOM elements and verifies attributes are set correctly
- * WHY: Ensures password managers are disabled on forms
- * DEPENDENCIES: DOM API, autocomplete utility
- */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { patchFormElements } from '../patchFormElements'
@@ -64,15 +42,12 @@ describe('patchFormElements', () => {
   let textareaElement: HTMLTextAreaElement
 
   beforeEach(() => {
-    // Create form element
     formElement = document.createElement('form')
     
-    // Create form controls
     inputElement = document.createElement('input')
     selectElement = document.createElement('select')
     textareaElement = document.createElement('textarea')
     
-    // Append controls to form
     formElement.appendChild(inputElement)
     formElement.appendChild(selectElement)
     formElement.appendChild(textareaElement)
@@ -133,7 +108,6 @@ describe('patchFormElements', () => {
     
     patchFormElements(formElement)
     
-    // Should find nested input via querySelectorAll
     expect(nestedInput.getAttribute('autocomplete')).toBe(AUTCOMPLETE_OFF)
   })
 
@@ -167,37 +141,30 @@ describe('patchFormElements', () => {
   })
 
   it('should handle errors gracefully', () => {
-    // Mock setAttribute to throw an error
     const originalSetAttribute = formElement.setAttribute.bind(formElement)
     formElement.setAttribute = vi.fn(() => {
       throw new Error('Mock error')
     })
     
-    // Should not throw, should silently catch error
     expect(() => patchFormElements(formElement)).not.toThrow()
     
-    // Restore original
     formElement.setAttribute = originalSetAttribute
   })
 
   it('should handle querySelectorAll errors gracefully', () => {
-    // Mock querySelectorAll to throw an error
     const originalQuerySelectorAll = formElement.querySelectorAll.bind(formElement)
     formElement.querySelectorAll = vi.fn(() => {
       throw new Error('Mock querySelectorAll error')
     })
     
-    // Should not throw, should silently catch error
     expect(() => patchFormElements(formElement)).not.toThrow()
     
-    // Restore original
     formElement.querySelectorAll = originalQuerySelectorAll
   })
 
   it('should handle form element that is not actually a form', () => {
     const div = document.createElement('div') as unknown as HTMLFormElement
     
-    // Should handle gracefully even if not a real form
     expect(() => patchFormElements(div)).not.toThrow()
   })
 })

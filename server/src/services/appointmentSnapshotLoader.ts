@@ -11,7 +11,6 @@ import { Op } from 'sequelize';
  * PATTERN: Transform versions to BookingBlockInstance format
  */
 
-// Use InstanceType for Sequelize model instances
 type BlockInstanceVersionType = InstanceType<typeof BlockInstanceVersion>;
 type PartInstanceVersionType = InstanceType<typeof PartInstanceVersion>;
 
@@ -22,7 +21,6 @@ type PartInstanceVersionType = InstanceType<typeof PartInstanceVersion>;
 function transformBlockVersionToBookingInstance(
   blockVersion: InstanceType<typeof BlockInstanceVersion> & { partInstanceVersions?: InstanceType<typeof PartInstanceVersion>[] }
 ): any {
-  // Convert to plain object if it's a Sequelize instance
   const versionData = blockVersion instanceof Model ? blockVersion.toJSON() : blockVersion;
   const partVersions = versionData.partInstanceVersions || [];
   
@@ -47,10 +45,6 @@ function transformBlockVersionToBookingInstance(
   };
 }
 
-/**
- * Load block instance from version with error handling
- * WHY: Graceful degradation if version missing
- */
 export async function loadBlockInstanceFromVersion(
   versionId: string
 ): Promise<any | null> {
@@ -66,14 +60,9 @@ export async function loadBlockInstanceFromVersion(
     return null; // Graceful degradation
   }
   
-  // Transform version to BookingBlockInstance format
   return transformBlockVersionToBookingInstance(blockVersion);
 }
 
-/**
- * Load all versions for appointment
- * Filters out missing versions with warnings
- */
 export async function loadAppointmentVersions(
   snapshotIds: string[]
 ): Promise<any[]> {
@@ -85,7 +74,6 @@ export async function loadAppointmentVersions(
     snapshotIds.map(id => loadBlockInstanceFromVersion(id))
   );
   
-  // Filter out nulls (missing versions)
   const validVersions = versions.filter(v => v !== null) as any[];
   
   if (validVersions.length !== snapshotIds.length) {
@@ -97,10 +85,6 @@ export async function loadAppointmentVersions(
   return validVersions;
 }
 
-/**
- * Load versions for all appointment snapshot arrays
- * Returns object with service, property, and option versions
- */
 export async function loadAllAppointmentVersions(appointment: {
   serviceSnapshotIds?: string[] | null;
   propertySnapshotIds?: string[] | null;

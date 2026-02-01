@@ -1,10 +1,3 @@
-/**
- * ENTITY DEFAULTS TESTS
- * 
- * Unit tests for entityDefaults utility.
- * Tests entity default value generation and merging.
- * Phase 4B: Utility Functions
- */
 
 import { describe, it, expect } from 'vitest'
 import { getEntityDisplayName, mergeEntityDefaults, getDefaultEntityValues } from '../entityDefaults'
@@ -29,7 +22,6 @@ describe('entityDefaults', () => {
     })
 
     it('should return entity key as fallback for unknown types', () => {
-      // TypeScript won't allow this, but testing runtime behavior
       expect(getEntityDisplayName('unknownType' as GlobalEntityKey)).toBe('unknownType')
     })
   })
@@ -202,7 +194,6 @@ describe('entityDefaults', () => {
     })
 
     it('should preserve provided name if set in defaults', () => {
-      // This tests the mergeEntityDefaults behavior when name is provided
       const merged = mergeEntityDefaults('blockInstance', { name: 'Custom Name' })
       expect(merged.name).toBe('Custom Name')
     })

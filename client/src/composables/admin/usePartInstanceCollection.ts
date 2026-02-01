@@ -18,13 +18,8 @@ export interface PartInstanceCollectionModel {
   blockInstance: ComputedRef<GlobalEntity<'blockInstance'> | undefined>
   shouldShowPartInstances: ComputedRef<boolean>
   
-  /**
-   * LEARNING: Options field key from metadata
-   * WHY: Exposed for debugging and potential future use
-   */
   optionsFieldKey: ComputedRef<string>
 
-  // Inline creation support (EntityCard-based)
   expandedPlaceholders: Ref<string[]>
   getNewPartInstanceEntity: (partShapeId: string) => GlobalEntity<'partInstance'>
   handleNewPartInstanceSaved: (partShapeId: string, createdEntity: GlobalEntity<'partInstance'>) => Promise<void>
@@ -63,12 +58,9 @@ export function usePartInstanceCollection(
   const { getGlobalEntityById } = useGlobal()
   const queryClient = useQueryClient()
   const { success: _notifySuccess, error: notifyError } = useNotification()
-  // NOTE: notifySuccess not used after refactor - EntityCard shows its own success messages
 
   const { create: createPartAssignmentsRelationship } = useRelationshipCrud('partAssignments')
   const { create: _createPartInstance } = useEntityCrud('partInstance')
-  // NOTE: createPartInstance is available but EntityCard handles entity creation
-  // We only need to create the relationship after EntityCard saves
 
   const partInstanceData = usePartInstanceData({ 
     blockInstanceId
@@ -81,7 +73,6 @@ export function usePartInstanceCollection(
     generatePartInstanceName,
   } = partInstanceData
   
-  // Convert Ref to ComputedRef for interface compatibility
   const existingPartInstances = computed(() => existingPartInstancesRef.value)
 
   const blockInstance = computed(() => getGlobalEntityById('blockInstance', blockInstanceId.value))
@@ -89,7 +80,6 @@ export function usePartInstanceCollection(
   // FIX: blockShape computed is unused - removed to fix TS6133 error
 
   const shouldShowPartInstances = computed(() => {
-    // LEARNING: Show part instances if there are valid part shapes to display
     // WHY: Data-driven approach - if validPartShapes exists, show the panel
     // PATTERN: Check actual data availability instead of flag
     return validPartShapes.value.length > 0
@@ -111,8 +101,6 @@ export function usePartInstanceCollection(
    * PATTERN: Use dynamic defaults from metadata instead of hardcoding fields
    */
   const getNewPartInstanceEntity = (partShapeId: string): GlobalEntity<'partInstance'> => {
-    // LEARNING: Get defaults from metadata to ensure all required fields are included
-    // WHY: Automatically includes all fields (zeroOutPart, differentialOverride, etc.) without hardcoding
     // PATTERN: Use getDefaultEntityValues() which uses metadata to determine defaults
     let defaults
     try {
@@ -121,7 +109,6 @@ export function usePartInstanceCollection(
       defaults = { orderIndex: 0 }
     }
     
-    // Base entity with defaults and required fields
     const baseEntity = {
       id: `new-${partShapeId}`,
       entityKey: 'partInstance' as const,
@@ -130,7 +117,6 @@ export function usePartInstanceCollection(
     } as GlobalEntity<'partInstance'>
 
     if (!blockInstance.value) {
-      // Return entity with defaults if blockInstance not ready
       return baseEntity
     }
 
@@ -146,7 +132,6 @@ export function usePartInstanceCollection(
       partShapeId
     )
 
-    // Return entity with auto-generated name and all defaults
     return {
       ...baseEntity,
       name: autoName,
@@ -168,14 +153,12 @@ export function usePartInstanceCollection(
     try {
       const blockInstanceEntity = blockInstance.value as import('@/types/entities').BlockInstanceEntity
       
-      // Use the entity passed from the saved event instead of looking it up
       // This avoids timing issues where getPartInstanceForShape might not find it yet
       await createPartAssignmentsRelationship({
         parent_id: blockInstanceEntity.id,
         child_id: createdEntity.id,
       })
 
-      // Invalidate queries to refresh data
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['blockInstance'] }),
         queryClient.invalidateQueries({ queryKey: ['partInstance'] }),
@@ -183,13 +166,11 @@ export function usePartInstanceCollection(
         queryClient.invalidateQueries({ queryKey: ['globalData'] }),
       ])
 
-      // Collapse the placeholder
       const index = expandedPlaceholders.value.indexOf(partShapeId)
       if (index !== -1) {
         expandedPlaceholders.value.splice(index, 1)
       }
     } catch (_error) {
-      // Failed to create relationship
       notifyError('Failed to link PartInstance to BlockInstance')
     }
   }
@@ -216,7 +197,6 @@ export function usePartInstanceCollection(
     handleBulkEditConfirm
   } = partInstanceBulkEditComposable
   
-  // Type assertions to match interface expectations
   const bulkEditModeRef = bulkEditMode as Ref<boolean>
   // FIX: bulkEditData is already Ref<PartInstanceBulkEditData> from usePartInstanceBulkEdit
   const bulkEditDataRef = bulkEditData
@@ -232,12 +212,10 @@ export function usePartInstanceCollection(
     blockInstance,
     shouldShowPartInstances,
     optionsFieldKey,
-    // Inline creation (EntityCard-based)
     expandedPlaceholders,
     getNewPartInstanceEntity,
     handleNewPartInstanceSaved,
     handleNewPartInstanceCancelled,
-    // Bulk edit
     bulkEditMode: bulkEditModeRef,
     bulkEditData: bulkEditDataRef as Ref<PartInstanceBulkEditData>,
     toggleBulkEditMode,

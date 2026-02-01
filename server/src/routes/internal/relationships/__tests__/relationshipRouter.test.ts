@@ -1,10 +1,3 @@
-/**
- * RELATIONSHIP ROUTER INTEGRATION TESTS
- * 
- * Integration tests for relationship router endpoints.
- * Tests GET, POST, DELETE endpoints and error handling.
- * Phase 4C: Integration Tests
- */
 
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import request from 'supertest'
@@ -20,7 +13,6 @@ import {
   BlockInstance,
 } from '../../../../config/app'
 
-// Mock models
 jest.mock('../../../../config/app', () => ({
   ValidCascade: {
     findAll: jest.fn(),
@@ -63,7 +55,6 @@ jest.mock('../../../../config/app', () => ({
   },
 }))
 
-// Type definitions for test data
 type RelationshipType = { id: string; parent_id: string; child_id: string }
 
 describe('Relationship Router Integration Tests', () => {
@@ -272,7 +263,6 @@ describe('Relationship Router Integration Tests', () => {
         }
       }
 
-      // Test that valid kinds don't return 400
       for (const kind of validKinds) {
         const response = await request(app)
           .get(`/api/relationships/${kind}`)

@@ -39,7 +39,6 @@ export function calculateMajorStartTime(minorStartTime: string, majorTotal: numb
   // PATTERN: Use setUTCMinutes to subtract time in UTC
   majorStart.setUTCMinutes(majorStart.getUTCMinutes() - majorTotal)
   
-  // LEARNING: Handle edge case - if major start goes to previous day, clamp to same day at 9 AM
   // WHY: Prevent midnight rollover issues - major should arrive on same day as minor
   // PATTERN: Check if UTC date changed, reset to 9:00 AM UTC on same day if needed
   if (majorStart.getUTCDate() !== minorStart.getUTCDate()) {
@@ -60,19 +59,11 @@ export function calculateMajorStartTime(minorStartTime: string, majorTotal: numb
  * @returns Minor start time as ISO date string (same as selected slot for now)
  */
 export function calculateMinorStartTime(selectedSlotTime: string): string {
-  // LEARNING: For now, minor start time is the selected slot time
-  // WHY: Future property-based adjustments will be added here
   // PATTERN: Return selected slot time directly
   return selectedSlotTime
 }
 
-/**
- * WHY: Calculate property-based time adjustments (future enhancement)
-LEARNING: Calculate time adjustments based on property sqft, type, etc
- */
 export function calculatePropertyAdjustments(_propertyDetails?: Record<string, unknown> | null): number {
-  // TODO: Session 1.3.7 - Implement property-based adjustments
-  // For now, return 0 (no adjustments)
   return 0
 }
 
@@ -90,8 +81,6 @@ export function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTo
   const majorStart = new Date(majorStartTime)
   const minorStart = new Date(majorStart)
   
-  // LEARNING: Add majorTotal minutes to major start time
-  // WHY: Minor arrives after major has completed preparation
   // PATTERN: Use setUTCMinutes to add time in UTC
   minorStart.setUTCMinutes(minorStart.getUTCMinutes() + majorTotal)
   
@@ -116,12 +105,9 @@ export function transformToMajorPerspective(
   globalData?: GlobalData,
   availabilitySettings?: AvailabilitySettings | null
 ): import('@/types/appointment').AppointmentSlot {
-  // LEARNING: Get durations from SlotShape (source of truth)
-  // WHY: SlotShape contains all duration information needed
   // PATTERN: Use attendee-based logic when available, fall back to name-based logic
   const slotShape = appointmentSlot.shape.slotShape
   
-  // Find major and minor event shapes using attendee-based logic if available
   let majorEventFinal: import('@/types/appointment').EventFinal | undefined
   let minorEventFinal: import('@/types/appointment').EventFinal | undefined
   
@@ -133,8 +119,6 @@ export function transformToMajorPerspective(
     const majorEventShape = majorAttendeeIds.length > 0
       ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
       : null
-    // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
-    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
     const eventShapesExcludingMajor = majorEventShape
       ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
       : eventShapeEntities
@@ -142,7 +126,6 @@ export function transformToMajorPerspective(
       ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
       : null
     
-    // Find event finals by event shape ID
     if (majorEventShape) {
       majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
     }
@@ -151,7 +134,6 @@ export function transformToMajorPerspective(
     }
   }
   
-  // Fallback to name-based lookup if attendee-based logic didn't find events
   if (!majorEventFinal) {
     majorEventFinal = findEventFinalByName(slotShape, 'Major')
   }
@@ -162,18 +144,13 @@ export function transformToMajorPerspective(
   const majorDuration = majorEventFinal?.duration ?? 0
   const minorDuration = minorEventFinal?.duration ?? 0
   
-  // LEARNING: Calculate minor start time for minorTimeRange
-  // WHY: Minor presentation happens after major has completed work
   // PATTERN: Add majorDuration to major start time
   const minorStartTime = calculateMinorStartTimeFromMajor(majorStartTime, majorDuration)
   
-  // LEARNING: Create time ranges from SlotShape with new start time
   // WHY: Transform slot to use major start time as base
   // PATTERN: Use createTimeRangesFromSlotShape utility
   const timeRanges = createTimeRangesFromSlotShape(slotShape, majorStartTime)
   
-  // LEARNING: Adjust minorTimeRange to end when major finishes work
-  // WHY: Minor time should end when major finishes work
   // PATTERN: Use event shape names to look up time ranges (backward compatible with name-based keys)
   const majorEventName = majorEventFinal?.eventShape.name ?? 'Major'
   const minorEventName = minorEventFinal?.eventShape.name ?? 'Minor'
@@ -190,7 +167,6 @@ export function transformToMajorPerspective(
     }
   }
   
-  // Update eventTimeRanges Record with adjusted minor
   const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
   if (minorTimeRange) {
     adjustedEventTimeRanges[minorEventName] = minorTimeRange
@@ -222,12 +198,9 @@ export function transformToMinorPerspective(
   globalData?: GlobalData,
   availabilitySettings?: AvailabilitySettings | null
 ): import('@/types/appointment').AppointmentSlot {
-  // LEARNING: Get major duration from SlotShape (source of truth)
-  // WHY: SlotShape already contains calculated major duration, no need for separate parameter
   // PATTERN: Use attendee-based logic when available, fall back to name-based logic
   const slotShape = appointmentSlot.shape.slotShape
   
-  // Find major and minor event shapes using attendee-based logic if available
   let majorEventFinal: import('@/types/appointment').EventFinal | undefined
   let minorEventFinal: import('@/types/appointment').EventFinal | undefined
   
@@ -239,8 +212,6 @@ export function transformToMinorPerspective(
     const majorEventShape = majorAttendeeIds.length > 0
       ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
       : null
-    // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
-    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
     const eventShapesExcludingMajor = majorEventShape
       ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
       : eventShapeEntities
@@ -248,7 +219,6 @@ export function transformToMinorPerspective(
       ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
       : null
     
-    // Find event finals by event shape ID
     if (majorEventShape) {
       majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
     }
@@ -257,7 +227,6 @@ export function transformToMinorPerspective(
     }
   }
   
-  // Fallback to name-based lookup if attendee-based logic didn't find events
   if (!majorEventFinal) {
     majorEventFinal = findEventFinalByName(slotShape, 'Major')
   }
@@ -267,18 +236,13 @@ export function transformToMinorPerspective(
   
   const majorTotal = majorEventFinal?.duration ?? 0
   
-  // LEARNING: Calculate major start time (before minor arrives)
-  // WHY: Major perspective times are calculated backwards from minor start
   // PATTERN: Subtract majorTotal from minor start time
   const majorStartTime = calculateMajorStartTime(minorStartTime, majorTotal)
   
-  // LEARNING: Create time ranges from SlotShape with major start time
   // WHY: Transform slot to use major start time as base for major work
   // PATTERN: Use createTimeRangesFromSlotShape utility with major start time
   const timeRanges = createTimeRangesFromSlotShape(slotShape, majorStartTime)
   
-  // LEARNING: Adjust minorTimeRange to start at minor start time
-  // WHY: Minor time starts when minor arrives
   // PATTERN: Use event shape names to look up time ranges (backward compatible with name-based keys)
   const majorEventName = majorEventFinal?.eventShape.name ?? 'Major'
   const minorEventName = minorEventFinal?.eventShape.name ?? 'Minor'
@@ -294,14 +258,11 @@ export function transformToMinorPerspective(
     }
   }
   
-  // Update eventTimeRanges Record with adjusted minor
   const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
   if (minorTimeRange) {
     adjustedEventTimeRanges[minorEventName] = minorTimeRange
   }
   
-  // LEARNING: Create totalTimeRange starting at minor start time
-  // WHY: Total appointment time from minor perspective starts when minor arrives
   const totalTimeRange = slotShape.totalDuration > 0
     ? createTimeRange(minorStartTime, slotShape.totalDuration)
     : null

@@ -10,30 +10,13 @@ import { computed, type ComputedRef, type Ref } from 'vue'
 import type { TimeSlotsPerDay } from '@/composables/booking/useAvailabilityLogic'
 import type { ISO8601Date } from '@/types/datetime'
 
-/**
- * useTimeSlotDurations composable parameters
- */
 export interface UseTimeSlotDurationsParams {
-  /**
-   * Time slots grouped by day
-   */
   timeSlotsPerDay: ComputedRef<TimeSlotsPerDay[]>
   
-  /**
-   * Selected date
-   */
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
 }
 
-/**
- * useTimeSlotDurations composable return type
- */
 export interface UseTimeSlotDurationsReturn {
-  /**
-   * Map of startTime to duration (for fallback when shape duration is 0)
-   * LEARNING: Maps time slots to durations indexed by startTime
-   * WHY: If services have 0 baseTime, use time slot duration to ensure valid time ranges
-   */
   timeSlotDurations: ComputedRef<Map<string, number>>
 }
 
@@ -64,7 +47,6 @@ export function useTimeSlotDurations(
       return new Map<string, number>()
     }
     
-    // LEARNING: Use array-to-Map constructor instead of forEach with mutations
     // WHY: Functional approach avoids mutations, aligns with workspace rules
     // PATTERN: Build Map from array using constructor with entries
     return new Map(

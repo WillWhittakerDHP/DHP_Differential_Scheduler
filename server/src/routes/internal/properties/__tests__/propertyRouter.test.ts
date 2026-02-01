@@ -1,10 +1,3 @@
-/**
- * PROPERTY ROUTER INTEGRATION TESTS
- * 
- * Integration tests for property router endpoints.
- * Tests GET, POST, PUT, PATCH, DELETE endpoints with address/property details.
- * Phase 7: Remaining API Routes
- */
 
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import request from 'supertest'
@@ -12,7 +5,6 @@ import express, { Express } from 'express'
 import { PropertyRouter as propertyRouter } from '../propertyRouter'
 import { PropertyVersion, Address, PropertyDetails } from '../../../../config/app'
 
-// Type definitions for test data
 type PropertyVersionType = {
   id: string
   addressId: string
@@ -22,7 +14,6 @@ type PropertyVersionType = {
 type AddressType = { id: string; address: string }
 type PropertyDetailsType = { id: string; mlsNumber: string }
 
-// Mock models
 jest.mock('../../../../config/app', () => ({
   PropertyVersion: {
     findAll: jest.fn(),

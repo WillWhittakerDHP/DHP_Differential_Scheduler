@@ -8,7 +8,6 @@ interface DriveTimes {
 const GOOGLE_MAPS_API_URL = "https://maps.googleapis.com/maps/api/directions/json";
 const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 
-// Create a cache for drive times
 const driveTimeCache = new Map<string, DriveTimes>();
 
 export async function fetchDriveTimes(
@@ -16,16 +15,13 @@ export async function fetchDriveTimes(
   busyStart: string,
   busyEnd?: string
 ): Promise<DriveTimes> {
-  // Generate a cache key for this route
   const cacheKey = `${origin}-${busyStart}-${busyEnd || "none"}`;
 
-  // Check if the result is already cached
   if (driveTimeCache.has(cacheKey)) {
     return driveTimeCache.get(cacheKey)!;
   }
 
   try {
-    // Fetch DriveTimeTo
     const toRouteResponse = await axios.get(GOOGLE_MAPS_API_URL, {
       params: {
         origin,
@@ -46,7 +42,6 @@ export async function fetchDriveTimes(
 
     let DriveTimeFrom = 0;
 
-    // Fetch DriveTimeFrom if busyEnd is provided
     if (busyEnd) {
       const fromRouteResponse = await axios.get(GOOGLE_MAPS_API_URL, {
         params: {
@@ -67,13 +62,11 @@ export async function fetchDriveTimes(
       DriveTimeFrom = fromRouteResponse.data.routes[0].legs[0].duration.value;
     }
 
-    // Convert times to minutes and round up
     const roundedDriveTimes: DriveTimes = {
       DriveTimeTo: Math.ceil(DriveTimeTo / 60),
       DriveTimeFrom: Math.ceil(DriveTimeFrom / 60),
     };
 
-    // Cache the result
     driveTimeCache.set(cacheKey, roundedDriveTimes);
 
     return roundedDriveTimes;

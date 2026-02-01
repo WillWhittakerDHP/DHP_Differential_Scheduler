@@ -1,10 +1,3 @@
-/**
- * USE NOTIFICATION TESTS
- * 
- * Unit tests for useNotification composable.
- * Tests notification singleton pattern, show/hide functionality, and notification types.
- * Phase 5: High Priority Composables
- */
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { useNotification } from '../useNotification'
@@ -12,7 +5,6 @@ import { useNotification } from '../useNotification'
 describe('useNotification', () => {
   beforeEach(() => {
     vi.useFakeTimers()
-    // Reset notification state using the reset function
     const { reset } = useNotification()
     reset()
   })
@@ -26,7 +18,6 @@ describe('useNotification', () => {
       const instance1 = useNotification()
       const instance2 = useNotification()
       
-      // Should share same reactive state
       expect(instance1.notification).toBe(instance2.notification)
       expect(instance1.showNotification).toBe(instance2.showNotification)
     })
@@ -177,7 +168,6 @@ describe('useNotification', () => {
       
       close()
       
-      // Fast-forward time to trigger setTimeout
       vi.advanceTimersByTime(300)
       
       expect(notification.value).toBeNull()

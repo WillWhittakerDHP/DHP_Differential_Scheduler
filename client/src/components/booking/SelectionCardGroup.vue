@@ -24,9 +24,6 @@ import { useSelectionCardGroupConfig } from '@/composables/booking/useSelectionC
 import { useSelectionCardGroupState } from '@/composables/booking/useSelectionCardGroupState'
 import { useWizardNumberUpdate } from '@/composables/booking/useWizardNumberUpdate'
 
-/**
- * LEARNING: Component props interface
- */
 interface Props {
   items: SelectionCardItem[]
   modelValue: string | string[] | null
@@ -37,9 +34,6 @@ const props = withDefaults(defineProps<Props>(), {
   config: undefined
 })
 
-/**
- * LEARNING: Component emits
- */
 interface Emits {
   (e: 'update:modelValue', value: string | string[] | null): void
   (e: 'update:nestedSelection', itemId: string, componentIds: string[]): void
@@ -48,7 +42,6 @@ interface Emits {
 const emit = defineEmits<Emits>()
 
 // LEARNING: Use selection card group config composable
-// WHY: Extracts group config logic from component to composable
 // PATTERN: Composable provides group configuration
 const {
   configWithDefaults,
@@ -72,7 +65,6 @@ const selectionCardGroupComposable = useSelectionCardGroup({
   config: props.config
 })
 
-// LEARNING: Extract methods from composable
 // WHY: Component uses composable's methods
 // PATTERN: Destructure composable return values
 const {
@@ -80,7 +72,6 @@ const {
 } = selectionCardGroupComposable
 
 // LEARNING: Use selection card group state composable
-// WHY: Extracts state management logic from component to composable
 // PATTERN: Composable provides state management
 const {
   nestedSelections,
@@ -96,20 +87,13 @@ const {
 })
 
 // LEARNING: Use wizard number update composable
-// WHY: Provides method to update number field in wizard state
 // PATTERN: Composable that handles finding and updating instances in wizard arrays
 const { updateNumber } = useWizardNumberUpdate()
 
-/**
- * LEARNING: Handle number update from SelectionCard
- * WHY: Updates wizard state when user changes quantity input
- * PATTERN: Call wizard update composable with item ID and new number value
- */
 const handleNumberUpdate = (payload: { itemId: string; number: number | null }) => {
   updateNumber(payload.itemId, payload.number)
 }
 
-// LEARNING: Wrap internalValue to emit updates
 // WHY: Composable provides getter/setter structure, component needs to emit
 // PATTERN: Wrap composable's computed with emit
 const internalValue = computed({
@@ -119,7 +103,6 @@ const internalValue = computed({
   }
 })
 
-// LEARNING: Wrap handleNestedSelection to emit updates
 // WHY: Composable provides logic, component needs to emit
 // PATTERN: Wrap composable's handler with emit
 function handleNestedSelection(itemId: string, componentIds: string[]): void {

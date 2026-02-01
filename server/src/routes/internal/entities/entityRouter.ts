@@ -17,21 +17,8 @@ import { ENTITY_KEYS_ARRAY, ENTITY_KEYS } from '../../../constants/entities.js';
 
 const router = Router();
 
-/**
- * GET /entities/config
- * Returns the list of available entity kinds (entity keys)
- * Used during app initialization in development mode
- * 
- * LEARNING: Route returns entity keys (entity kinds)
- * WHY: Provides frontend with list of valid entity kinds for validation
- * PATTERN: Config endpoint for entity kind discovery
- * 
- * IMPORTANT: This route must be defined BEFORE /:entityType to avoid route conflicts
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- */
 router.get('/config', async (req: Request, res: Response): Promise<void> => {
   try {
-    // Return the valid entity kinds (entity keys)
     const entityKeys = ['blockInstance', 'blockShape', 'partInstance', 'partShape', 'eventShape', 'eventInstance', 'annotationShape', 'annotationInstance'];
     
     res.json({
@@ -59,8 +46,6 @@ router.get('/config', async (req: Request, res: Response): Promise<void> => {
  */
 router.param('entityType', (req, res, next, entityType) => {
   if (!isValidEntityType(entityType)) {
-      // LEARNING: Use ENTITY_KEYS_ARRAY constant instead of hardcoded array
-      // WHY: Eliminates hardcoded entity key strings, enables type-safe entity key references
       // PATTERN: Use constant array from entities.ts
       return res.status(404).json({ 
       error: `Unknown entity kind: ${entityType}`,
@@ -77,17 +62,6 @@ router.param('entityType', (req, res, next, entityType) => {
   }
 });
 
-/**
- * GET /entities/:entityType
- * Get all entities of a specific kind
- * 
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- * 
- * LEARNING: Include descriptions association for blockInstance entities
- * WHY: Descriptions are fetched as associations, not separate API calls
- * PATTERN: Conditional includes based on entity type - only blockInstance includes descriptions
- * NOTE: Descriptions are supporting data, not core entities (not in ENTITY_KEYS)
- */
 router.get('/:entityType', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req;
   if (!entityConfig) {
@@ -96,15 +70,9 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
   }
   
   try {
-    // LEARNING: Annotations are now fetched separately via annotation endpoints
     // WHY: Consistent pattern with relationships - annotations fetched separately, then attached during hydration
     // PATTERN: Entities fetched without associations, annotations attached in frontend transformer
     
-    // IMPORTANT: For models with `underscored: true`, always specify `attributes` explicitly
-    // to avoid duplicate columns in SQL queries (both snake_case and camelCase versions)
-    // LEARNING: Order entities by orderIndex to ensure consistent ordering (if field exists)
-    // WHY: Most entity types (blockInstance, blockShape, partInstance, partShape) have orderIndex fields,
-    //      but some (eventShape, eventInstance) do not
     // PATTERN: Build options object functionally using object spread
     const modelAttributes = Object.keys(entityConfig.model.rawAttributes || {});
     const baseOptions: { attributes?: string[]; order?: any[]; include?: any[] } = {};
@@ -113,7 +81,6 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
       ? { ...baseOptions, attributes: getModelAttributes(entityConfig.model) }
       : baseOptions;
     
-    // Order by orderIndex if the model has that field (check model attributes)
     const options = (() => {
       if (modelAttributes.includes('orderIndex')) {
         return { ...optionsWithAttributes, order: [['orderIndex', 'ASC']] };
@@ -124,8 +91,6 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
       }
     })();
     
-    // NOTE: Attendees are now fetched via /relationships/attendeeAssignments endpoint
-    // No special include needed - attendees come through relationships endpoint
     
     const data = await fetchAll(entityConfig.model, options);
     
@@ -139,12 +104,6 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
   }
 });
 
-/**
- * GET /entities/:entityType/:id
- * Get a specific entity by ID
- * 
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- */
 router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req;
   if (!entityConfig) {
@@ -173,12 +132,6 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
   }
 });
 
-/**
- * POST /entities/:entityType
- * Create a new entity
- * 
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- */
 router.post('/:entityType', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req;
   if (!entityConfig) {
@@ -188,17 +141,12 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
   
   try {
     // LEARNING: Sanitize empty strings for enum fields to prevent database errors
-    // WHY: PostgreSQL enums don't accept empty strings, need to convert to default or null
     // PATTERN: Convert empty strings for known enum fields to their default values
     const sanitizedData = { ...req.body };
     
-    // For blockInstance, convert empty booking_mode to default 'standalone'
-    // LEARNING: Use ENTITY_KEYS constant instead of hardcoded string
-    // WHY: Eliminates hardcoded entity key strings, enables type-safe entity key checks
     if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE && sanitizedData.bookingMode === '') {
       sanitizedData.bookingMode = 'standalone';
     }
-    // Handle snake_case version too
     if (req.params.entityType === 'blockInstance' && sanitizedData.booking_mode === '') {
       sanitizedData.booking_mode = 'standalone';
     }
@@ -207,19 +155,14 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
     res.status(201).json(created);
   } catch (error) {
     // LEARNING: Handle Sequelize validation errors as 400 Bad Request
-    // WHY: Validation errors (including unique constraint violations) are client errors, not server errors
     // PATTERN: Check error type, return appropriate status code with helpful message
     if (error instanceof Error && 
         (error.name === 'SequelizeValidationError' || 
          error.name === 'SequelizeUniqueConstraintError')) {
-      // LEARNING: Extract detailed validation error information
-      // WHY: SequelizeValidationError contains errors array with field-specific messages
       // PATTERN: Extract field names and messages from SequelizeValidationError.errors array
       const validationError = error as any;
       
       if (validationError.name === 'SequelizeUniqueConstraintError') {
-        // LEARNING: Extract field name from unique constraint error for better error message
-        // WHY: Unique constraint errors should indicate which field has the duplicate value
         // PATTERN: Check if error has fields property (SequelizeUniqueConstraintError structure)
         const fieldName = validationError?.fields ? Object.keys(validationError.fields)[0] : 'field';
         const fieldValue = validationError?.fields ? Object.values(validationError.fields)[0] : '';
@@ -231,8 +174,6 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
         return;
       }
       
-      // LEARNING: Extract field-specific validation errors from SequelizeValidationError
-      // WHY: SequelizeValidationError.errors is an array of field-specific error objects
       // PATTERN: Map errors array to extract field names and messages
       if (validationError.errors && Array.isArray(validationError.errors) && validationError.errors.length > 0) {
         const fieldErrors = validationError.errors.map((err: any) => {
@@ -248,7 +189,6 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
         return;
       }
       
-      // Fallback to generic error message
       res.status(400).json({
         error: `Validation failed for ${entityConfig.displayName}`,
         details: error.message,
@@ -256,8 +196,6 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
       return;
     }
     
-    // LEARNING: Other errors are server errors
-    // WHY: Unexpected errors indicate server-side issues
     // PATTERN: Log error and return 500
     console.error('[EntityRouter] Error:', error);
     res.status(500).json({ 
@@ -267,12 +205,6 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
   }
 });
 
-/**
- * PUT /entities/:entityType/:id
- * Update an entity (full replacement)
- * 
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- */
 router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req;
   if (!entityConfig) {
@@ -284,16 +216,13 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
   
   try {
     // LEARNING: Sanitize empty strings for enum fields to prevent database errors
-    // WHY: PostgreSQL enums don't accept empty strings, need to convert to default or null
     // PATTERN: Convert empty strings for known enum fields to their default values
     const sanitizedData = { ...req.body };
     
-    // For blockInstance, convert empty booking_mode to default 'standalone'
     if (req.params.entityType === 'blockInstance') {
       if (sanitizedData.bookingMode === '') {
         sanitizedData.bookingMode = 'standalone';
       }
-      // Handle snake_case version too
       if (sanitizedData.booking_mode === '') {
         sanitizedData.booking_mode = 'standalone';
       }
@@ -336,17 +265,12 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
       return;
     }
     
-    // LEARNING: For partInstance updates, disable old partAssignments relationships
-    // WHY: When a part instance is updated, we need to ensure only one partAssignments relationship exists
     //      per (parent_id, name, partShapeRef) group. Old relationships pointing to other part instances
-    //      with the same logical identity should be disabled.
     // PATTERN: After successful update, find and disable old relationships
     if (req.params.entityType === 'partInstance') {
       try {
         const updatedPartInstance = await PartInstance.findByPk(entityId);
         if (updatedPartInstance) {
-          // Find all partAssignments relationships pointing to this part instance
-          // This tells us which block instances reference this part
           const currentRelationships = await PartAssignment.findAll({
             where: {
               child_id: entityId,
@@ -354,12 +278,9 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
             }
           });
 
-          // LEARNING: Process relationships functionally using Promise.all with map
-          // WHY: Avoids for-loop mutations, processes operations in parallel for better performance
           // PATTERN: Use map to transform relationships into promises, then await all
           await Promise.all(
             currentRelationships.map(async (currentRel) => {
-              // Find all part instances with the same name and partShapeRef but different ID
               const duplicatePartInstances = await PartInstance.findAll({
                 where: {
                   name: updatedPartInstance.name,
@@ -371,8 +292,6 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
               if (duplicatePartInstances.length > 0) {
                 const duplicatePartIds = duplicatePartInstances.map(p => p.id);
                 
-                // Disable partAssignments relationships pointing to these duplicate part instances
-                // for the same parent_id (block instance)
                 await PartAssignment.update(
                   { disabled: true },
                   {
@@ -388,7 +307,6 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
           );
         }
       } catch (versioningError) {
-        // Log error but don't fail the update - versioning cleanup is best effort
         console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);
       }
     }
@@ -406,12 +324,6 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
   }
 });
 
-/**
- * PATCH /entities/:entityType/order_index
- * Bulk update order_index for multiple entities
- * 
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- */
 router.patch('/:entityType/order_index', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req;
   if (!entityConfig) {
@@ -420,8 +332,6 @@ router.patch('/:entityType/order_index', async (req: Request, res: Response): Pr
   }
   
   try {
-    // LEARNING: Transform snake_case field names to camelCase for Sequelize
-    // WHY: Sequelize models use camelCase property names (orderIndex), but frontend sends snake_case (order_index)
     // PATTERN: Transform payload before passing to bulkPatch to match Sequelize model property names
     const transformedUpdates = req.body.map((update: { id: string; order_index: number }) => ({
       id: update.id,
@@ -475,8 +385,6 @@ router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<v
       // Fetch old instances with part instances for versioning
       const blockInstanceIds = updates.map((update: { id: string }) => update.id);
       
-      // LEARNING: Use Promise.all with map to process block instances functionally
-      // WHY: Avoids for...of loop mutations, enables parallel processing
       // PATTERN: Map IDs to versioning operations, then execute in parallel
       await Promise.all(
         blockInstanceIds.map(async (blockInstanceId) => {
@@ -500,7 +408,6 @@ router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<v
       );
     }
     
-    // Perform the bulk update
     const updatedCount = await bulkPatch(entityConfig.model, updates);
     res.json({ updated: updatedCount });
   } catch (error) {
@@ -512,12 +419,6 @@ router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<v
   }
 });
 
-/**
- * PATCH /entities/:entityType/:id
- * Partially update an entity (single field or multiple fields)
- * 
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- */
 router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req;
   if (!entityConfig) {
@@ -529,8 +430,6 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
   const fieldKey = req.body.key;
   const newValue = req.body.value;
   
-  // LEARNING: Reject PATCH requests for temporary entity IDs
-  // WHY: Temporary IDs (starting with "new-") are used for unsaved entities that should be created via POST, not updated via PATCH
   // PATTERN: Validate entity ID format before attempting database operations
   if (entityId.startsWith('new-') || entityId === '00000000-0000-0000-0000-000000000000') {
     res.status(400).json({ 
@@ -542,7 +441,6 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
   }
   
   try {
-    // LEARNING: Parse update data from request body
     // WHY: Support both {key, value} format and direct field updates
     // PATTERN: Standard PATCH - parse data, update directly, let Sequelize handle validation
     let updateData;
@@ -552,7 +450,6 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
       updateData = req.body;
     }
     
-    // LEARNING: Minimal logging - just field key and value
     // WHY: Standard PATCH pattern - log essentials, not entire entity state
     // PATTERN: Log before update to track what's being changed
     console.log(`[EntityRouter] PATCH: ${entityConfig.displayName} ${entityId}`, {
@@ -560,7 +457,6 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
       value: newValue
     });
     
-    // LEARNING: Update directly - Sequelize handles validation and returns 0 if entity not found
     // WHY: Standard REST PATCH pattern - one database query, let ORM handle validation
     // PATTERN: Call update, check result, handle errors
     const updatedCount = await patchRecord(entityConfig.model, entityId, updateData);
@@ -573,17 +469,12 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
       return;
     }
     
-    // LEARNING: For partInstance updates, disable old partAssignments relationships
-    // WHY: When a part instance is updated, we need to ensure only one partAssignments relationship exists
     //      per (parent_id, name, partShapeRef) group. Old relationships pointing to other part instances
-    //      with the same logical identity should be disabled.
     // PATTERN: After successful update, find and disable old relationships
     if (req.params.entityType === 'partInstance') {
       try {
         const updatedPartInstance = await PartInstance.findByPk(entityId);
         if (updatedPartInstance) {
-          // Find all partAssignments relationships pointing to this part instance
-          // This tells us which block instances reference this part
           const currentRelationships = await PartAssignment.findAll({
             where: {
               child_id: entityId,
@@ -591,12 +482,9 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
             }
           });
 
-          // LEARNING: Process relationships functionally using Promise.all with map
-          // WHY: Avoids for-loop mutations, processes operations in parallel for better performance
           // PATTERN: Use map to transform relationships into promises, then await all
           await Promise.all(
             currentRelationships.map(async (currentRel) => {
-              // Find all part instances with the same name and partShapeRef but different ID
               const duplicatePartInstances = await PartInstance.findAll({
                 where: {
                   name: updatedPartInstance.name,
@@ -608,8 +496,6 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
               if (duplicatePartInstances.length > 0) {
                 const duplicatePartIds = duplicatePartInstances.map(p => p.id);
                 
-                // Disable partAssignments relationships pointing to these duplicate part instances
-                // for the same parent_id (block instance)
                 await PartAssignment.update(
                   { disabled: true },
                   {
@@ -625,7 +511,6 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
           );
         }
       } catch (versioningError) {
-        // Log error but don't fail the update - versioning cleanup is best effort
         console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);
       }
     }
@@ -633,7 +518,6 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
     res.json({ updated: updatedCount });
   } catch (error) {
     // LEARNING: Handle Sequelize validation errors as 400 Bad Request
-    // WHY: Validation errors are client errors, not server errors
     // PATTERN: Check error type, return appropriate status code
     
     // Handle database constraint violations (e.g., mutual exclusivity)
@@ -667,8 +551,6 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
       return;
     }
     
-    // LEARNING: Other errors are server errors
-    // WHY: Unexpected errors indicate server-side issues
     // PATTERN: Log error and return 500
     console.error('[EntityRouter] PATCH Error:', error);
     res.status(500).json({ 
@@ -678,12 +560,6 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
   }
 });
 
-/**
- * DELETE /entities/:entityType/:id
- * Delete an entity
- * 
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- */
 router.delete('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req;
   if (!entityConfig) {
@@ -710,7 +586,6 @@ router.delete('/:entityType/:id', async (req: Request, res: Response): Promise<v
       await createBlockInstanceVersionIfReferenced(entityId, oldInstance);
     }
     
-    // Perform the delete
     const deletedCount = await deleteRecord(entityConfig.model, entityId);
     
     if (deletedCount === 0) {

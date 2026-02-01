@@ -32,12 +32,8 @@ const VALID_PANELS = new Set([FIELD_PANEL.PARTS, FIELD_PANEL.RELATIONSHIPS, FIEL
  * PATTERN: Check RELATIONSHIP_KEYS to determine panel for relationship fields
  */
 export function determinePanelFromFieldKey(fieldKey: string): 'none' | 'parts' | 'relationships' | 'annotations' | 'events' {
-  // Check if fieldKey is a relationship field
   if (fieldKey in RELATIONSHIP_KEYS) {
-    // LEARNING: Use RELATIONSHIP_KEYS constants instead of hardcoded strings
-    // WHY: Eliminates hardcoded relationship key strings, enables type-safe checks
     // PATTERN: Use RELATIONSHIP_KEYS.frontendKey for comparison
-    // Map relationship fields to their panels
     if (fieldKey === RELATIONSHIP_KEYS.partAssignments.frontendKey) {
       return 'parts'
     }
@@ -47,11 +43,9 @@ export function determinePanelFromFieldKey(fieldKey: string): 'none' | 'parts' |
     if (fieldKey === RELATIONSHIP_KEYS.eventAssignments.frontendKey) {
       return 'events'
     }
-    // All other relationship fields go to relationships panel
     return 'relationships'
   }
   
-  // Primitive fields don't use panels
   return 'none'
 }
 
@@ -73,10 +67,6 @@ export type FieldLocation =
  * PATTERN: Pure function takes context as parameter
  */
 export interface FieldLocationContext {
-  /**
-   * Whether the entity card is expanded
-   * WHY: expandedDirect and expandedPanel fields only render when expanded
-   */
   isExpanded: boolean
 }
 
@@ -97,8 +87,6 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
   fieldMetadata: FieldMetadataEntry | undefined,
   context: FieldLocationContext
 ): FieldLocation {
-  // LEARNING: Handle missing metadata
-  // WHY: Fields without metadata should not render (fail fast, fail visible)
   // PATTERN: Return hidden with reason for debugging
   if (!fieldMetadata) {
     return { type: 'hidden', reason: 'notConfigured' }
@@ -107,72 +95,51 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
   const { visibility, panel, layout } = fieldMetadata
   const { isExpanded } = context
 
-  // LEARNING: Check visibility first - this is the primary location determinant
-  // WHY: Visibility determines WHERE field renders (header vs form body vs hidden)
   // PATTERN: Switch on visibility value, handle each case explicitly
 
   switch (visibility) {
     case FIELD_VISIBILITY.TITLE_ROW:
       // LEARNING: Title row fields render in title row regardless of expansion state
-      // WHY: Title row should always show these fields (e.g., status buttons)
       // PATTERN: Return titleRow location immediately
       return { type: 'titleRow', reason: 'titleRow' }
     
     case FIELD_VISIBILITY.STATIC_AS_TITLE:
-      // LEARNING: staticAsTitle fields render in title row (left-justified, read-only when collapsed)
-      // WHY: Name field should always be visible, read-only when collapsed
       // PATTERN: Treat like titleRow for location, but EntityCard handles special rendering
       return { type: 'titleRow', reason: 'staticAsTitle' }
 
     case FIELD_VISIBILITY.HIDDEN:
-      // LEARNING: Hidden fields never render
-      // WHY: Explicitly hidden fields should not appear anywhere
       // PATTERN: Return hidden immediately
       return { type: 'hidden', reason: 'hidden' }
 
     case FIELD_VISIBILITY.NOT_CONFIGURED:
-      // LEARNING: Not configured fields don't render
-      // WHY: Fields must be explicitly configured in metadata to render
       // PATTERN: Return hidden with notConfigured reason
       return { type: 'hidden', reason: 'notConfigured' }
 
     case FIELD_VISIBILITY.EXPANDED_DIRECT:
-      // LEARNING: Expanded direct fields render in form body when expanded
-      // WHY: These fields appear in main card content area, not in sub-panels
       // PATTERN: Check expansion state, then determine layout (inline vs stacked)
       if (!isExpanded) {
         return { type: 'hidden', reason: 'notExpanded' }
       }
 
-      // LEARNING: Determine layout (inline vs stacked)
-      // WHY: Layout determines how field is rendered (horizontal row vs vertical stack)
       // PATTERN: Check layout property, default to stacked if not specified
       if (layout === FIELD_LAYOUT.INLINE) {
         return { type: 'directInline', reason: 'expandedDirect' }
       } else {
-        // Default to stacked if layout is not 'inline' or not specified
         return { type: 'directStacked', reason: 'expandedDirect' }
       }
 
     case FIELD_VISIBILITY.EXPANDED_PANEL:
-      // LEARNING: Expanded panel fields render in sub-panels when expanded
-      // WHY: These fields appear in collapsible sub-panels (parts, relationships, annotations)
       // PATTERN: Check expansion state, then determine which panel
       if (!isExpanded) {
         return { type: 'hidden', reason: 'notExpanded' }
       }
 
-      // LEARNING: Determine which sub-panel automatically from field key
-      // WHY: Panel is automatically determined from field key, not manually configured
       // PATTERN: Use determinePanelFromFieldKey to get panel, fallback to metadata panel if valid
       const fieldKeyString = String(fieldKey)
       const determinedPanel = determinePanelFromFieldKey(fieldKeyString)
       
-      // Use determined panel if it's valid, otherwise check metadata panel
       const panelToUse = determinedPanel !== 'none' ? determinedPanel : panel
       
-      // LEARNING: Type guard function to narrow panel type
-      // WHY: TypeScript doesn't automatically narrow Set.has, so we use a type guard
       // PATTERN: Check if panel is valid, then TypeScript knows it's not "none"
       const isValidPanel = (p: string): p is 'parts' | 'relationships' | 'annotations' | 'events' => {
         return VALID_PANELS.has(p as 'parts' | 'relationships' | 'annotations' | 'events')
@@ -181,14 +148,10 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
         return { type: 'subPanel', panel: panelToUse, reason: 'expandedPanel' }
       }
 
-      // LEARNING: Fallback for expandedPanel without valid panel assignment
-      // WHY: If panel is 'none' or invalid, field should not render
       // PATTERN: Return hidden - panel assignment is required for expandedPanel visibility
       return { type: 'hidden', reason: 'notConfigured' }
 
     default:
-      // LEARNING: Unknown visibility value
-      // WHY: Fail explicitly for unknown visibility values
       // PATTERN: Return hidden with notConfigured reason
       return { type: 'hidden', reason: 'notConfigured' }
   }
@@ -215,8 +178,6 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
   }
   hidden: GlobalFieldKey<GE>[]
 } {
-  // LEARNING: Use reduce to group fields functionally
-  // WHY: Avoids array mutations (push) - builds grouped structure immutably
   // PATTERN: Reduce fieldKeys to grouped structure, then sort each group
   const grouped = fieldKeys.reduce((acc, fieldKey) => {
     const metadata = fieldMetadata[String(fieldKey)]
@@ -255,8 +216,6 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
     hidden: [] as GlobalFieldKey<GE>[]
   })
 
-  // LEARNING: Sort fields by displayOrder using shared utility
-  // WHY: Single source of truth for sorting logic, reusable across codebase
   // PATTERN: Use extracted sorting utility function
   return {
     titleRow: sortFieldsByDisplayOrder(grouped.titleRow, fieldMetadata),

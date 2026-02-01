@@ -39,7 +39,6 @@ interface Props {
 
 const props = defineProps<Props>()
 
-// Name generator for part instances
 const generatePartInstanceName = (
   blockInstanceName: string,
   partShapeName: string,
@@ -47,24 +46,18 @@ const generatePartInstanceName = (
   _partShapeId: string,
   existingChildren: GlobalEntity<GlobalEntityKey>[]
 ): string => {
-  // Get all existing part instances with same partShapeRef
-  // LEARNING: blockInstanceRef doesn't exist on PartInstanceEntity - removed when converting to relationships
-  // WHY: existingChildren are already filtered by parent blockInstance (via partAssignments relationship)
   // PATTERN: Only check partShapeRef since blockInstance is already known from the relationship parent
   const matchingPartInstances = existingChildren.filter((child) => {
     const partInstance = child as import('@/types/entities').PartInstanceEntity
     return partInstance.partShapeRef === _partShapeId
   })
   
-  // Base name without number
   const baseName = `${blockInstanceName}-${partShapeName}`
   
-  // If no matching instances exist, use base name
   if (matchingPartInstances.length === 0) {
     return baseName
   }
   
-  // Check if base name exists
   const baseNameExists = matchingPartInstances.some(
     (pi) => (pi as import('@/types/entities').PartInstanceEntity).name === baseName
   )
@@ -72,7 +65,6 @@ const generatePartInstanceName = (
     return baseName
   }
   
-  // Find the next available number
   let number = 1
   while (matchingPartInstances.some(
     (pi) => (pi as import('@/types/entities').PartInstanceEntity).name === `${baseName}-${number}`
@@ -83,14 +75,11 @@ const generatePartInstanceName = (
   return `${baseName}-${number}`
 }
 
-// Get relationship collection model
 const collectionModel = useRelationshipCollection({
   fieldContext: props.fieldContext,
   nameGenerator: generatePartInstanceName,
   enableBulkEdit: true,
   bulkEditComposable: (model) => {
-    // Wrap usePartInstanceBulkEdit to match RelationshipCollection interface
-    // Access existingChildren from the collection model passed as parameter
     const bulkEdit = usePartInstanceBulkEdit({
       existingPartInstances: computed(() => {
         return (model.existingChildren.value || []) as GlobalEntity<'partInstance'>[]
@@ -98,8 +87,6 @@ const collectionModel = useRelationshipCollection({
     })
     
     return {
-      // LEARNING: Ensure bulkEditMode is Ref<boolean> not Ref<boolean | undefined>
-      // WHY: Interface expects Ref<boolean>, need to ensure type is correct
       bulkEditMode: bulkEdit.bulkEditMode as Ref<boolean>,
       bulkEditData: bulkEdit.bulkEditData as Ref<Record<string, unknown>>,
       toggleBulkEditMode: bulkEdit.toggleBulkEditMode,
@@ -112,7 +99,6 @@ const collectionModel = useRelationshipCollection({
 
 const relationshipCollectionRef = ref<InstanceType<typeof RelationshipCollection> | null>(null)
 
-// Expose bulk edit state and functions to parent (for EntityCardSubPanels)
 const bulkEditMode = computed(() => relationshipCollectionRef.value?.bulkEditMode)
 const toggleBulkEditMode = () => {
   relationshipCollectionRef.value?.toggleBulkEditMode?.()

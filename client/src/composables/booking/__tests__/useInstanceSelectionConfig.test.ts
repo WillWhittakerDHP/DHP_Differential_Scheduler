@@ -63,15 +63,12 @@ describe('useInstanceSelectionConfig', () => {
         selectedValue,
       })
       
-      // Access initial config
       const initialConfig = selectionConfig.value
       expect(initialConfig).toBeDefined()
       
-      // Change selected value
       selectedValueRef.value = { id: 'test' }
       await nextTick()
       
-      // Config should still be valid
       expect(selectionConfig.value).toBeDefined()
     })
 
@@ -80,7 +77,6 @@ describe('useInstanceSelectionConfig', () => {
         selectionType: 'row',
       })
       
-      // Row configs use radio selection
       expect(selectionConfig.value.selectionType).toBe('radio')
     })
   })

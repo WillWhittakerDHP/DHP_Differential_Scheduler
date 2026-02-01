@@ -14,9 +14,6 @@ import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 
-/**
- * Entity Form Composable Options
- */
 export interface UseEntityFormOptions {
   entityKey: GlobalEntityKey
   entityId: string
@@ -24,15 +21,10 @@ export interface UseEntityFormOptions {
   entity: Ref<GlobalEntity<GlobalEntityKey>> | GlobalEntity<GlobalEntityKey>
 }
 
-/**
- * Entity Form Composable Return Type
- */
 export interface UseEntityFormReturn {
-  // Computed properties
   canSave: Ref<boolean>
   hasChanges: Ref<boolean>
   
-  // Methods
   save: () => Promise<void>
   reset: () => void
   validate: () => Promise<boolean>
@@ -47,12 +39,10 @@ export interface UseEntityFormReturn {
  */
 export function useEntityForm(options: UseEntityFormOptions): UseEntityFormReturn {
   const {
-    // entityKey and entityId available for future entity-specific form logic
     form,
     entity: entityOption
   } = options
   
-  // Convert entity to Ref if needed
   const entity = 'value' in entityOption ? entityOption : computed(() => entityOption)
   
   /**
@@ -93,8 +83,6 @@ export function useEntityForm(options: UseEntityFormOptions): UseEntityFormRetur
     if (!isValid) {
       throw new Error('Form validation failed')
     }
-    // Form values are available via form.values
-    // Actual save operation (API call) is handled by component
   }
   
   /**

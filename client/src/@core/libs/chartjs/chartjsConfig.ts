@@ -1,7 +1,6 @@
 import type { ThemeInstance } from 'vuetify'
 import { hexToRgb } from '@core/utils/colorConverter'
 
-// 👉 Colors variables
 const colorVariables = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const themeSecondaryTextColor = `rgba(${hexToRgb(themeColors.colors['on-surface'])},${themeColors.variables['medium-emphasis-opacity']})`
   const themeDisabledTextColor = `rgba(${hexToRgb(themeColors.colors['on-surface'])},${themeColors.variables['disabled-opacity']})`
@@ -10,9 +9,7 @@ const colorVariables = (themeColors: ThemeInstance['themes']['value']['colors'])
   return { labelColor: themeDisabledTextColor, borderColor: themeBorderColor, legendColor: themeSecondaryTextColor }
 }
 
-// SECTION config
 
-// 👉 Latest Bar Chart Config
 export const getLatestBarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const { borderColor, labelColor } = colorVariables(themeColors)
 
@@ -49,7 +46,6 @@ export const getLatestBarChartConfig = (themeColors: ThemeInstance['themes']['va
   }
 }
 
-// 👉 Horizontal Bar Chart Config
 export const getHorizontalBarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
@@ -98,7 +94,6 @@ export const getHorizontalBarChartConfig = (themeColors: ThemeInstance['themes']
   }
 }
 
-// 👉 Line Chart Config
 export const getLineChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
@@ -143,7 +138,6 @@ export const getLineChartConfig = (themeColors: ThemeInstance['themes']['value']
   }
 }
 
-// 👉 Radar Chart Config
 export const getRadarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
@@ -178,7 +172,6 @@ export const getRadarChartConfig = (themeColors: ThemeInstance['themes']['value'
   }
 }
 
-// 👉 Polar Chart Config
 export const getPolarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const { legendColor } = colorVariables(themeColors)
 
@@ -212,7 +205,6 @@ export const getPolarChartConfig = (themeColors: ThemeInstance['themes']['value'
   }
 }
 
-// 👉 Bubble Chart Config
 export const getBubbleChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const { borderColor, labelColor } = colorVariables(themeColors)
 
@@ -253,7 +245,6 @@ export const getBubbleChartConfig = (themeColors: ThemeInstance['themes']['value
   }
 }
 
-// 👉 Doughnut Chart Config
 export const getDoughnutChartConfig = () => {
   return {
     responsive: true,
@@ -268,7 +259,6 @@ export const getDoughnutChartConfig = () => {
   }
 }
 
-// 👉 Scatter Chart Config
 export const getScatterChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
@@ -324,7 +314,6 @@ export const getScatterChartConfig = (themeColors: ThemeInstance['themes']['valu
   }
 }
 
-// 👉 Line Area Chart Config
 export const getLineAreaChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
@@ -369,4 +358,3 @@ export const getLineAreaChartConfig = (themeColors: ThemeInstance['themes']['val
     },
   }
 }
-// !SECTION

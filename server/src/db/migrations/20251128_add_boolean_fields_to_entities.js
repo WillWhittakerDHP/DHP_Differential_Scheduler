@@ -11,7 +11,6 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    // 1. Add boolean fields to block_shapes
     const blockShapesDescription = await queryInterface.describeTable('block_shapes');
     
     if (!blockShapesDescription.active) {
@@ -47,15 +46,12 @@ export default {
       console.log('ℹ️  Column block_shapes.visible already exists, skipping');
     }
 
-    // 2. Add boolean fields to block_instances and rename visibility → visible
     const blockInstancesDescription = await queryInterface.describeTable('block_instances');
     
-    // Check if visibility column exists and rename it to visible
     if (blockInstancesDescription.visibility && !blockInstancesDescription.visible) {
       await queryInterface.renameColumn('block_instances', 'visibility', 'visible');
       console.log('✅ Renamed visibility column to visible in block_instances');
     } else if (!blockInstancesDescription.visible) {
-      // If visibility doesn't exist, add visible column
       await queryInterface.addColumn('block_instances', 'visible', {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -88,7 +84,6 @@ export default {
       console.log('ℹ️  Column block_instances.dependent already exists, skipping');
     }
 
-    // 3. Add boolean fields to part_shapes
     const partShapesDescription = await queryInterface.describeTable('part_shapes');
     
     if (!partShapesDescription.active) {
@@ -124,7 +119,6 @@ export default {
       console.log('ℹ️  Column part_shapes.visible already exists, skipping');
     }
 
-    // 4. Add boolean fields to part_instances
     const partInstancesDescription = await queryInterface.describeTable('part_instances');
     
     if (!partInstancesDescription.active) {
@@ -193,7 +187,6 @@ export default {
   },
 
   async down(queryInterface, Sequelize) {
-    // Remove indexes first
     try {
       await queryInterface.removeIndex('block_shapes', 'idx_block_shapes_active');
       await queryInterface.removeIndex('block_shapes', 'idx_block_shapes_visible');
@@ -207,7 +200,6 @@ export default {
       console.log('ℹ️  Error removing indexes (may not exist):', error.message);
     }
 
-    // Remove columns from part_instances
     try {
       await queryInterface.removeColumn('part_instances', 'visible');
       await queryInterface.removeColumn('part_instances', 'dependent');
@@ -217,7 +209,6 @@ export default {
       console.log('ℹ️  Error removing columns from part_instances:', error.message);
     }
 
-    // Remove columns from part_shapes
     try {
       await queryInterface.removeColumn('part_shapes', 'visible');
       await queryInterface.removeColumn('part_shapes', 'dependent');
@@ -227,11 +218,9 @@ export default {
       console.log('ℹ️  Error removing columns from part_shapes:', error.message);
     }
 
-    // Remove columns from block_instances and rename visible → visibility
     try {
       await queryInterface.removeColumn('block_instances', 'dependent');
       await queryInterface.removeColumn('block_instances', 'active');
-      // Rename visible back to visibility if it was renamed
       const blockInstancesDescription = await queryInterface.describeTable('block_instances');
       if (blockInstancesDescription.visible && !blockInstancesDescription.visibility) {
         await queryInterface.renameColumn('block_instances', 'visible', 'visibility');
@@ -244,7 +233,6 @@ export default {
       console.log('ℹ️  Error removing columns from block_instances:', error.message);
     }
 
-    // Remove columns from block_shapes
     try {
       await queryInterface.removeColumn('block_shapes', 'visible');
       await queryInterface.removeColumn('block_shapes', 'dependent');

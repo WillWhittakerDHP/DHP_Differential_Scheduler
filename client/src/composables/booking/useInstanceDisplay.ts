@@ -18,30 +18,14 @@ import { computed, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { mapSelectionCardItemsWithIconAndDescription } from '@/utils/booking/selectionCardItemDisplay'
 
-/**
- * Instance Display Composable Options
- */
 export interface UseInstanceDisplayOptions {
-  /**
-   * Block instances to transform (any shape: user type, service, property, option)
-   */
   instances: ComputedRef<BookingBlockInstance[]>
   
-  /**
-   * Optional: Selected user type for description filtering context
-   * LEARNING: Some descriptions are user-type-specific
-   */
   selectedUserTypeBlock?: ComputedRef<BookingBlockInstance | null>
   
 }
 
-/**
- * Instance Display Composable Return Type
- */
 export interface UseInstanceDisplayReturn {
-  /**
-   * Block instances with icons mapped and descriptions processed
-   */
   instancesWithDisplay: ComputedRef<BookingBlockInstance[]>
 }
 

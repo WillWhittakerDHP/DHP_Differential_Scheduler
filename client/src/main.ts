@@ -18,17 +18,10 @@ import { globalTransformer } from './utils/transformers/fetchToGlobalTransformer
 import type { GlobalData } from './utils/transformers/fetchToGlobalTransformer'
 import { patchFormElements } from './utils/patchFormElements'
 
-// Styles
 import '@core/scss/template/index.scss'
 import '@styles/styles.scss'
 
-/**
- * Error handler to silence password manager extension errors
- * WHY: Password manager extensions throw errors when scanning forms
- *      We catch these at the window level to silence them
- */
 if (typeof window !== 'undefined') {
-  // Catch unhandled errors
   window.addEventListener('error', (event) => {
     const errorMessage = event.message || String(event.error)
     if (errorMessage.includes('Cannot read properties of undefined') && 
@@ -48,7 +41,6 @@ if (typeof window !== 'undefined') {
     }
   })
   
-  // Also override console.error as backup
   const originalError = console.error
   console.error = function(...args: unknown[]) {
     const errorString = args.join(' ')
@@ -59,14 +51,10 @@ if (typeof window !== 'undefined') {
     originalError.apply(console, args)
   }
   
-  // Filter CursorBrowser automation logs
-  // WHY: Cursor's browser automation tool injects console logs that add noise
-  //      These logs are informational only and not needed for development
   // PATTERN: Override console.log to filter CursorBrowser messages
   const originalLog = console.log
   console.log = function(...args: unknown[]) {
     const logString = args.join(' ')
-    // Filter out CursorBrowser automation messages
     if (logString.includes('[CursorBrowser]')) {
       return
     }
@@ -74,10 +62,6 @@ if (typeof window !== 'undefined') {
   }
 }
 
-/**
- * Simple form patching: Set autocomplete attributes on forms
- * WHY: May discourage some password managers from scanning forms
- */
 if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') {
   /**
    * LEARNING: Extract form patching logic to pure function
@@ -85,7 +69,6 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
    * PATTERN: Pure function that handles single element, returns forms to patch
    */
   const patchElementForms = (element: HTMLElement): HTMLFormElement[] => {
-    // Patch element itself if it's a form
     if (element.tagName === 'FORM' && element.classList.contains('dynamic-form-inputs')) {
       patchFormElements(element as HTMLFormElement)
     }
@@ -102,7 +85,6 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
   }
 
   const globalFormObserver = new MutationObserver((mutations) => {
-    // LEARNING: Use flatMap to flatten nested structure and collect all forms
     // WHY: Functional approach - collect all forms first, then patch them
     // PATTERN: flatMap to transform mutations → nodes → elements → forms
     const allFormsToPatch = mutations.flatMap((mutation) =>
@@ -114,7 +96,6 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
         })
     )
     
-    // Patch all collected forms
     allFormsToPatch.forEach((form) => {
       patchFormElements(form)
     })
@@ -127,8 +108,6 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
     })
   }
   
-  // LEARNING: Use for...of for side effects (DOM mutations)
-  // WHY: for...of is acceptable for side effects per workspace rules
   // PATTERN: Use for...of when you need side effects, not transformations
   const existingForms = document.querySelectorAll('form.dynamic-form-inputs')
   for (const form of Array.from(existingForms)) {
@@ -136,25 +115,12 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
   }
 }
 
-/**
- * Create Vue app instance
- * LEARNING: createApp creates new Vue application instance
- * WHY: Modern Vue 3 API for app creation
- * PATTERN: Create app, register plugins, mount
- */
 const app = createApp(App)
 
-// Create Pinia instance for state management
 // LEARNING: Pinia is Vue's official state management library
-// WHY: Provides reactive state management across components
-// PATTERN: Use createPinia() and pass to plugin system
 const pinia = createPinia()
 setPiniaInstance(pinia)
 
-// Create QueryClient instance for prefetching
-// LEARNING: QueryClient manages cache and queries
-// WHY: Need access to queryClient to prefetch data before app mounts
-// PATTERN: Create QueryClient, prefetch data, then register plugin
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -165,44 +131,23 @@ const queryClient = new QueryClient({
 })
 setQueryClient(queryClient)
 
-// Prefetch global configuration data before mounting app (matching React's QueryProvider)
-// LEARNING: Prefetch configuration data on app initialization to populate cache
-// WHY: Ensures configuration data is available when composables read from cache
 // PATTERN: Use Vue transformer to fetch and transform configuration data
-// ARCHITECTURAL REFACTOR: Only prefetches configuration data (entities, relationships, annotations)
-// Business entities (appointments, properties, users) are fetched on-demand by their composables
 const prefetchGlobalData = async () => {
   try {
-    // Stage: Fetch and transform configuration entities/relationships from API
     const staged = await globalTransformer.stageForHydration()
     
-    // Hydrate: Transform to final GlobalData format with nested relationships
     const globalData = globalTransformer.hydrate(staged)
     
-    // Store in query cache under ["globalData"] key (matching React app)
-    // NOTE: Only contains configuration data, not business entities
     queryClient.setQueryData<GlobalData>(['globalData'], globalData)
     
-    // Configuration data prefetched and cached
   } catch (error) {
-    // Still mount the UI even if prefetch fails
   }
 }
 
-// Register all plugins via Vuexy's plugin system
-// LEARNING: Vuexy's registerPlugins auto-discovers and registers plugins
-// WHY: Centralized plugin registration, easier to manage
-// PATTERN: Plugins are auto-loaded from src/plugins directory
 registerPlugins(app)
 
-// Prefetch data and mount app
-// LEARNING: Prefetch data before mounting to ensure cache is populated
 // WHY: Composables read from cache on mount, so data must be prefetched first
-// PATTERN: Async prefetch, then mount
 prefetchGlobalData().then(() => {
-  // Mount app to DOM
-  // LEARNING: mount() attaches Vue app to DOM element
-  // WHY: Renders app in browser
   // PATTERN: Mount to #app element in index.html
   app.mount('#app')
 })

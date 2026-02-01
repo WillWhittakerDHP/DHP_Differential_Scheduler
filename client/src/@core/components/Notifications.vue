@@ -237,7 +237,6 @@ const toggleReadUnread = (isSeen: boolean, Id: number) => {
   }
 }
 
-// Badge Style Override for Notification Badge
 .notification-badge {
   .v-badge__badge {
     /* stylelint-disable-next-line liberty/use-logical-spec */

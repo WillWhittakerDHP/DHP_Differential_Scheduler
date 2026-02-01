@@ -1,10 +1,3 @@
-/**
- * NOT FOUND MIDDLEWARE TESTS
- * 
- * Unit tests for notFound middleware.
- * Tests 404 response for unknown routes.
- * Phase 4C: Integration Tests
- */
 
 import { describe, it, expect, beforeEach } from '@jest/globals'
 import { Request, Response, NextFunction } from 'express'

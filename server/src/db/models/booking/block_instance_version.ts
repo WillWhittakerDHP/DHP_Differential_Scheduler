@@ -30,7 +30,6 @@ export class BlockInstanceVersion extends Model<
   declare differential: 'true' | 'false' | 'override';
   declare createdAt: CreationOptional<Date>;
   
-  // Relationships
   declare partInstanceVersions?: any[]; // PartInstanceVersion[]
 }
 
@@ -47,7 +46,6 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         type: DataTypes.UUID,
         allowNull: false,
         field: 'block_instance_id',
-        // NO references - allows instance deletion while preserving history
       },
       name: {
         type: DataTypes.TEXT,

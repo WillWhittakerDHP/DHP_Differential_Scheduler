@@ -1,16 +1,3 @@
-/**
- * Form Element Patching Composable
- * 
- * LEARNING: Extracts DOM patching logic from components
- * WHY: Components should be thin UI wrappers - DOM manipulation logic belongs in composables
- * PATTERN: Composable that handles form element patching and MutationObserver setup
- * 
- * This composable handles:
- * - Finding form elements in DOM
- * - Patching form elements with autocomplete attributes
- * - Setting up MutationObserver to catch dynamically added form elements
- * - Cleaning up observers on unmount
- */
 
 import { onMounted, onBeforeUnmount, type Ref } from 'vue'
 import {
@@ -20,9 +7,6 @@ import {
   type VFormInstance,
 } from '@/utils/forms/formElementPatching'
 
-/**
- * Form Element Patching Composable Options
- */
 export interface UseFormElementPatchingOptions {
   /**
    * LEARNING: Form element reference
@@ -46,9 +30,6 @@ export interface UseFormElementPatchingOptions {
   useMutationObserver?: boolean
 }
 
-/**
- * Form Element Patching Composable Return Type
- */
 export interface UseFormElementPatchingReturn {
   /**
    * LEARNING: Try to patch form element immediately
@@ -65,13 +46,6 @@ export interface UseFormElementPatchingReturn {
   patchFormFromRef: () => void
 }
 
-/**
- * Form Element Patching Composable
- * 
- * LEARNING: Handles form element patching and DOM observation
- * WHY: Moves DOM manipulation logic out of components into reusable composable
- * PATTERN: Composable with lifecycle hooks for form patching
- */
 export function useFormElementPatching(
   options: UseFormElementPatchingOptions = {}
 ): UseFormElementPatchingReturn {
@@ -106,10 +80,8 @@ export function useFormElementPatching(
    * PATTERN: Use onMounted hook to patch form element
    */
   onMounted(() => {
-    // Try to patch from formRef if available
     patchFormFromRef()
     
-    // Set up MutationObserver fallback
     cleanupObserver = setupFormMutationObserver({
       formRef,
       formSelector,

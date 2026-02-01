@@ -18,12 +18,10 @@ export type UseFieldContextStateOptions<GE extends GlobalEntityKey, FieldKey ext
 }
 
 export type UseFieldContextStateReturn<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
-  // Inputs
   fieldKey: FieldKey
   entityKey: GE
   entityId: GlobalEntityId
 
-  // Derived identity/state
   isTempEntity: ComputedRef<boolean>
   adminComp: ReturnType<typeof useAdmin>
   entity: ComputedRef<unknown>
@@ -40,18 +38,15 @@ export type UseFieldContextStateReturn<GE extends GlobalEntityKey, FieldKey exte
   handleChange: (value: ValidAdminValue) => void
   setValue: (value: ValidAdminValue) => void
 
-  // UI-ish state
   isValidating: Ref<boolean>
   isFocused: Ref<boolean>
   isDisabled: Ref<boolean>
   displayConfig: FieldDisplayConfig<GE, FieldKey>
   validationRules: FieldValidationRules
 
-  // Mutations
   queryClient: ReturnType<typeof useQueryClient>
   patchFieldAsync: (payload: { admin: { key: string; value: ValidAdminValue }; dynamicId: string }) => Promise<unknown>
 
-  // Utilities
   toPlainValue: (value: unknown) => unknown
 }
 
@@ -91,11 +86,8 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     return adminComp.getEntity(entityKey, entityId)
   })
 
-  // LEARNING: Get field metadata to check for globalField mapping
-  // WHY: Some fields (like attendeeAssignments) use globalField to map to different property names (attendees)
   // PATTERN: Use useEntityMetadata to get inputConfig.globalField if available
   // LEARNING: Convert AdminObject to GlobalEntity for useEntityMetadata
-  // WHY: useEntityMetadata expects GlobalEntity | null, but entity is AdminObject | undefined
   // PATTERN: Map undefined to null and cast AdminObject to GlobalEntity (they're compatible)
   const entityForMetadata = computed(() => {
     const entityValue = entity.value
@@ -110,8 +102,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     return fieldMetadata.value[String(fieldKey)]
   })
   
-  // LEARNING: Determine the actual property name to read from entity
-  // WHY: Some fields use globalField in inputConfig to map to different property names
   // PATTERN: Check inputConfig.globalField first, fallback to fieldKey
   const actualPropertyName = computed(() => {
     const metadata = fieldMetadataEntry.value
@@ -139,8 +129,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
       return ''
     }
 
-    // LEARNING: Use actualPropertyName instead of fieldKey to handle globalField mappings
-    // WHY: attendeeAssignments field maps to 'attendees' property via globalField
     // PATTERN: Read from actualPropertyName which checks inputConfig.globalField
     const propertyName = actualPropertyName.value
     if (Object.prototype.hasOwnProperty.call(currentEntity, propertyName)) {
@@ -154,14 +142,10 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
 
   const getInitialValue = (): ValidAdminValue => {
     // LEARNING: Explicit initialValue takes precedence (per vee-validate pattern)
-    // WHY: If caller provides explicit initialValue, use it
     if (explicitInitialValue !== undefined) {
       return explicitInitialValue
     }
 
-    // LEARNING: Read from form's values (per vee-validate best practices)
-    // WHY: Fields should get initial values from form, not directly from entity
-    //      When form.resetForm() is called, it updates form.values, and fields should read from there
     // PATTERN: Check form.values first (form handles initial values via resetForm)
     if (formInstance && formInstance.values) {
       const formValues = formInstance.values
@@ -173,9 +157,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
       }
     }
 
-    // LEARNING: Fallback to entityValue only if form doesn't have the value
-    // WHY: This handles cases where field is created before form is initialized
-    //      But form.resetForm() should update form.values, so this is just a fallback
     return entityValue.value
   }
 
@@ -231,8 +212,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
   const isValidating = ref(false)
   const isFocused = ref(false)
 
-  // LEARNING: NO FALLBACKS - displayConfig must be complete from metadata
-  // WHY: Metadata is the single source of truth - missing config is a configuration error
   // PATTERN: Fail explicitly when required properties are missing
   const hasProvidedLabel = providedDisplayConfig.label !== undefined && providedDisplayConfig.label !== null
   const hasProvidedFieldType = providedDisplayConfig.fieldType !== undefined && providedDisplayConfig.fieldType !== null
@@ -246,8 +225,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     throw error
   }
 
-  // LEARNING: NO DEFAULTS - use provided values directly
-  // WHY: Metadata is authoritative - if property doesn't exist, it's undefined (not a default)
   // PATTERN: Use providedDisplayConfig properties directly, no fallbacks
   const isDisabled = ref(providedDisplayConfig.disabled === true) // Explicit boolean, no default
 
@@ -262,8 +239,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     displayOrder: providedDisplayConfig.displayOrder, // No default - undefined if not provided
   }
 
-  // LEARNING: NO DEFAULTS - validation rules come from metadata or are undefined
-  // WHY: Validation rules should be explicitly configured, not defaulted
   // PATTERN: Use providedValidationRules directly, no default required: false
   const validationRules: FieldValidationRules = {
     ...providedValidationRules,
@@ -274,8 +249,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
 
   const toPlainValue = (raw: unknown): unknown => toRaw(raw)
 
-  // LEARNING: Field-level watch removed - use form-level methods instead
-  // WHY: Vee-Validate automatically syncs useField() instances when resetForm() or setFieldValue() is called
   //      Form-level syncing in EntityCard handles all field updates using Vee-Validate's built-in API
   // PATTERN: Let form manage all field syncing, fields just react to form state
 

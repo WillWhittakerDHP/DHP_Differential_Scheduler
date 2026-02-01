@@ -1,25 +1,3 @@
-/**
- * USEWIZARDVALIDATIONERRORS TESTS
- * 
- * Unit tests for useWizardValidationErrors composable.
- * Tests wizard step validation error handling logic.
- * 
- * What it covers:
- * - handleNext: Enhanced handleNext with step-specific error messages
- * - Step 1 (Property Details): Field validation and error messages
- * - Step 2 (Availability): Validation error handling
- * - Step 3 (Contacts): Validation error handling
- * - Other steps: Generic error messages
- * 
- * How it works:
- * - Tests validation error handling for each step
- * - Tests field error message generation
- * - Tests missing field detection
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref/computed for reactive state
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref, nextTick } from 'vue'
@@ -129,7 +107,6 @@ describe('useWizardValidationErrors', () => {
       })
 
       it('should show property type error when no blocks selected and field errors empty', async () => {
-        // When fieldErrors is empty object, it goes to else branch
         // Since propertyDetailsStepData is null, it adds all fields to missingFields
         propertyDetailsFieldErrors.value = {}
         selectedPropertyTypeBlocks.value = []
@@ -150,15 +127,10 @@ describe('useWizardValidationErrors', () => {
 
         await handleNext()
 
-        // Should include property type in missing fields
         expect(showError).toHaveBeenCalledWith(expect.stringContaining('property type'))
       })
 
       it('should show property type error when no blocks selected and all fields present', async () => {
-        // When fieldErrors has entries but length is 0 after filtering, it checks property type
-        // Actually, looking at the code, if fieldErrors has entries, it shows those
-        // If fieldErrors is empty object, it goes to else branch
-        // To test the property type check in the if branch, we need fieldErrors with entries but empty after map
         propertyDetailsFieldErrors.value = {}
         selectedPropertyTypeBlocks.value = []
         propertyDetailsStepData.value = {
@@ -184,9 +156,6 @@ describe('useWizardValidationErrors', () => {
 
         await handleNext()
 
-        // When all fields are present but no property type selected, it should show property type error
-        // But the code goes to else branch when fieldErrors is empty, so it checks all fields
-        // The property type is included in missingFields
         expect(showError).toHaveBeenCalledWith(expect.stringContaining('property type'))
       })
 
@@ -216,7 +185,6 @@ describe('useWizardValidationErrors', () => {
 
         await handleNext()
 
-        // Should show generic message when all fields are present
         expect(showError).toHaveBeenCalled()
       })
 

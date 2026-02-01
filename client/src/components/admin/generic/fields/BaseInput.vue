@@ -63,7 +63,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // LEARNING: Computed properties provide reactive derived state
-// WHY: Automatically updates when props change
 // PATTERN: Use computed for derived state
 const hasError = computed(() => !!props.error)
 const fieldId = computed(() => `field-${props.fieldKey}`)

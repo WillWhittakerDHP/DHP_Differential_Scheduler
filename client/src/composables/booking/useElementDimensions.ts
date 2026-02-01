@@ -13,9 +13,6 @@
 
 import { ref, onMounted, onUnmounted, nextTick, type Ref } from 'vue'
 
-/**
- * Element Dimensions Composable Options
- */
 export interface UseElementDimensionsOptions {
   /**
    * LEARNING: Reference to element to measure
@@ -25,9 +22,6 @@ export interface UseElementDimensionsOptions {
   elementRef: Ref<HTMLElement | null>
 }
 
-/**
- * Element Dimensions Composable Return Type
- */
 export interface UseElementDimensionsReturn {
   /**
    * LEARNING: Current element content width (excluding padding)
@@ -69,8 +63,6 @@ export function useElementDimensions(
    * PATTERN: Get element width and subtract padding to get content area width
    */
   const measureWidth = (): void => {
-    // LEARNING: SSR safety check
-    // WHY: window and document are not available during server-side rendering
     // PATTERN: Check typeof window before accessing it
     if (typeof window === 'undefined') {
       return
@@ -80,8 +72,6 @@ export function useElementDimensions(
       return
     }
 
-    // LEARNING: Use getBoundingClientRect for initial measurement
-    // WHY: Need content width (excluding padding) to match contentRect behavior
     // PATTERN: Get element width and subtract padding to get content area width
     const rect = elementRef.value.getBoundingClientRect()
     const computedStyle = window.getComputedStyle(elementRef.value)
@@ -89,7 +79,6 @@ export function useElementDimensions(
     const paddingRight = parseFloat(computedStyle.paddingRight) || 0
     const measuredWidth = rect.width - paddingLeft - paddingRight // Content width excluding padding
 
-    // Only update if we get a valid width (greater than 0)
     if (measuredWidth > 0) {
       contentWidth.value = measuredWidth
     }
@@ -102,8 +91,6 @@ export function useElementDimensions(
    * NOTE: Use nextTick to ensure ref is available after DOM is mounted
    */
   onMounted(async () => {
-    // LEARNING: SSR safety check
-    // WHY: ResizeObserver is not available during server-side rendering
     // PATTERN: Check typeof window before accessing ResizeObserver
     if (typeof window === 'undefined' || typeof ResizeObserver === 'undefined') {
       return
@@ -111,8 +98,6 @@ export function useElementDimensions(
 
     await nextTick()
 
-    // LEARNING: Wait for layout to complete before measuring
-    // WHY: Element might not be fully laid out immediately after mount
     // PATTERN: Use requestAnimationFrame to ensure layout is complete
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -125,8 +110,6 @@ export function useElementDimensions(
                 return
               }
 
-              // LEARNING: Use borderBoxSize for total element width, then subtract padding
-              // WHY: borderBoxSize gives us the full element width including padding
               // PATTERN: Get total width and subtract padding to get content area width
               const borderBoxWidth = entry.borderBoxSize?.[0]?.inlineSize ?? entry.contentRect.width
               const computedStyle = window.getComputedStyle(elementRef.value)
@@ -134,7 +117,6 @@ export function useElementDimensions(
               const paddingRight = parseFloat(computedStyle.paddingRight) || 0
               const newWidth = borderBoxWidth - paddingLeft - paddingRight
 
-              // Only update if width is valid (greater than 0)
               if (newWidth > 0) {
                 contentWidth.value = newWidth
               }
@@ -142,8 +124,6 @@ export function useElementDimensions(
           })
           resizeObserver.observe(elementRef.value)
 
-          // LEARNING: Additional check after a delay to catch late layout changes
-          // WHY: Some layouts take multiple frames to settle
           setTimeout(() => {
             measureWidth()
           }, 200)

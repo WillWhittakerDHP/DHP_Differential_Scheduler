@@ -1,10 +1,3 @@
-/**
- * APPOINTMENT ROUTER INTEGRATION TESTS
- * 
- * Integration tests for appointment router endpoints.
- * Tests GET, POST, PUT, PATCH, DELETE endpoints with relationships.
- * Phase 7: Remaining API Routes
- */
 
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import request from 'supertest'
@@ -12,10 +5,8 @@ import express, { Express } from 'express'
 import { AppointmentRouter as appointmentRouter } from '../appointmentRouter'
 import { Appointment, PropertyVersion, Address, PropertyDetails, User } from '../../../../config/app'
 
-// Type definitions for test data
 type AppointmentType = { id: string; startTime: Date; endTime?: Date }
 
-// Mock models
 jest.mock('../../../../config/app', () => ({
   Appointment: {
     findAll: jest.fn(),
@@ -28,7 +19,6 @@ jest.mock('../../../../config/app', () => ({
   User: {},
 }))
 
-// Mock data controller
 jest.mock('../../../../routes/helpers/dataController', () => ({
   fetchAll: jest.fn(),
   fetchById: jest.fn(),

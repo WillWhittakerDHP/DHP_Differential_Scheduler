@@ -18,7 +18,6 @@ export type UseComponentEntityActionsReturn = {
     distributionValues?: Record<GlobalEntityId, Record<string, unknown>>
   }) => Promise<void>
 
-  // Mutation states
   isCreatingComponent: Ref<boolean>
   isAddingToComponent: Ref<boolean>
   isRemovingFromComponent: Ref<boolean>
@@ -33,7 +32,6 @@ export function useComponentEntityActions(params: {
   const { entityKey, getGlobalData, calculateDistributionPreview } = params
   const queryClient = useQueryClient()
 
-  // LEARNING: Use shared mutation handler for refetching globalData
   // WHY: Eliminates duplication of common refetch pattern
   // PATTERN: Extract shared handler to utility function
   const refetchGlobalData = createRefetchGlobalDataHandler(queryClient)
@@ -41,8 +39,6 @@ export function useComponentEntityActions(params: {
   const createComponentMutation = useMutation({
     mutationFn: async ({ composerId, componentIds }: { composerId: GlobalEntityId; componentIds: GlobalEntityId[] }) => {
       const endpoint = getRelationshipEndpoint('instanceComponents')
-      // LEARNING: Use shared utility for creating multiple relationships
-      // WHY: Eliminates duplication of conflict handling logic
       // PATTERN: Extract shared API call logic to utility function
       await createMultipleRelationships(endpoint, composerId, componentIds)
     },
@@ -60,8 +56,6 @@ export function useComponentEntityActions(params: {
       orderIndex?: number
     }) => {
       const endpoint = getRelationshipEndpoint('instanceComponents')
-      // LEARNING: Use shared utility for creating relationship with conflict handling
-      // WHY: Eliminates duplication of conflict handling logic
       // PATTERN: Extract shared API call logic to utility function
       await createRelationshipWithConflictHandling(endpoint, composerId, componentId, orderIndex ?? 0)
     },
@@ -103,14 +97,12 @@ export function useComponentEntityActions(params: {
         return
       }
 
-      // LEARNING: Use reduce to build componentUpdates object instead of forEach with mutations
       // WHY: Functional approach avoids forEach with object mutations
       // PATTERN: Reduce changes entries into componentUpdates object, then reduce preview items
       const componentUpdates = Object.entries(changes).reduce((acc, [propertyKey, newValue]) => {
         if (typeof newValue !== 'number') return acc
 
         const preview = calculateDistributionPreview(composerId, propertyKey, newValue, distributionStrategy)
-        // LEARNING: Use reduce to build componentUpdates immutably instead of forEach with mutations
         // WHY: Functional approach avoids mutations, aligns with workspace rules
         // PATTERN: Reduce preview items into componentUpdates object
         return preview.reduce((componentAcc, { componentId, newValue: componentNewValue }) => {
@@ -125,7 +117,6 @@ export function useComponentEntityActions(params: {
         }, acc)
       }, {} as Record<string, Record<string, unknown>>)
 
-      // LEARNING: Use map to create promises immutably
       // WHY: Functional approach avoids mutations, aligns with workspace rules
       // PATTERN: Map entries to promises, then await all
       const promises = Object.entries(componentUpdates).map(([componentId, componentChanges]) =>

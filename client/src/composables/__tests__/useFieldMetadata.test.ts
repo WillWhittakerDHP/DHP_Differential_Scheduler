@@ -1,17 +1,9 @@
-/**
- * USE FIELD METADATA TESTS
- * 
- * Unit tests for getFieldMetadata helper function.
- * Tests metadata extraction, caching, and field type derivation.
- * Phase 7: Form Field Composables
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { getFieldMetadata, clearMetadataCache } from '../useFieldMetadata'
 import { useAdminConfig } from '../useAdminConfig'
 import { RelationshipSelectModeEnum, PrimitiveModeEnum, PrimitiveTypeEnum } from '@/types/entity/formDataEnums'
 
-// Mock useAdminConfig
 const mockAdminConfig = {
   getFormFieldConfig: vi.fn(() => ({
     value: null,
@@ -28,7 +20,6 @@ vi.mock('../useAdminConfig', () => ({
 describe('getFieldMetadata', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Clear the metadata cache to ensure fresh mock data is used each test
     clearMetadataCache()
   })
 

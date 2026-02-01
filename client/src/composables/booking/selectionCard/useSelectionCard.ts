@@ -70,7 +70,6 @@ export function useSelectionCard(options: UseSelectionCardOptions): UseSelection
   })
 
   const handleSelection = (): void => {
-    // Emitting is handled by parent components; this composable exposes the logic hook.
     return
   }
 
@@ -121,7 +120,6 @@ export interface UseSelectionCardGroupReturn {
 export function useSelectionCardGroup(options: UseSelectionCardGroupOptions): UseSelectionCardGroupReturn {
   const { items: itemsOption, modelValue: modelValueOption, config: configOption } = options
 
-  // items is normalized to ref for consistent API, used for group-level operations
   const _items = isRef(itemsOption) ? itemsOption : ref(itemsOption)
   const modelValue = isRef(modelValueOption) ? modelValueOption : ref(modelValueOption)
   const config = configOption ? (isRef(configOption) ? configOption : ref(configOption)) : ref(undefined)

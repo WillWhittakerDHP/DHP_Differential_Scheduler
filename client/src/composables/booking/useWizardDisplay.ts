@@ -10,27 +10,18 @@ import { computed, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
-/**
- * Step definition structure
- */
 export interface StepDefinition {
   icon: string
   title: string
   subtitle: string
 }
 
-/**
- * useWizardDisplay composable parameters
- */
 export interface UseWizardDisplayParams {
   steps: StepDefinition[]
   selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
   loadedWizardState: Ref<WizardStateData | null> | null
 }
 
-/**
- * useWizardDisplay composable return type
- */
 export interface UseWizardDisplayReturn {
   stepSubtitles: ComputedRef<string[]>
   loadedServiceName: ComputedRef<string | null>
@@ -60,7 +51,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
   const stepSubtitles = computed(() => {
     const baseSubtitles = steps.map(step => step.subtitle)
     
-    // Update step 0 (Service Selection) subtitle when services are selected
     if (selectedServices.value.length > 0) {
       const firstService = selectedServices.value[0]
       if (selectedServices.value.length === 1) {

@@ -1,9 +1,3 @@
-/**
- * TIME AVAILABILITY MANAGER TESTS
- * 
- * Unit tests for busy period validation, sorting, merging, and preprocessing.
- * Tests the Category 5 improvements for busy period handling.
- */
 
 import { describe, it, expect, beforeAll, vi } from 'vitest'
 import { 
@@ -26,13 +20,7 @@ import {
   createBusyTimeRange
 } from './testDateHelpers'
 
-// ===================================================================
-// TEST DATA SETUP
-// ===================================================================
 
-// LEARNING: Set base date for consistent test runs
-// WHY: Ensures all dynamic dates are relative to a known point
-// PATTERN: Set once at test suite start, use helpers throughout
 beforeAll(() => {
   // Use a fixed date in the future to ensure tests don't use past dates
   const futureDate = new Date()
@@ -54,9 +42,6 @@ const standardBusinessHours: BusinessHoursMap = {
   5: { start: '2000-01-01T09:00:00Z', end: '2000-01-01T19:00:00Z' }  // Friday
 }
 
-// ===================================================================
-// BUSY PERIOD VALIDATION TESTS
-// ===================================================================
 
 describe('preprocessBusyPeriods', () => {
   describe('validation', () => {
@@ -239,7 +224,6 @@ describe('preprocessBusyPeriods', () => {
 
       const result = preprocessBusyPeriods(busyTimes)
 
-      // Should have 2 merged periods (sorted)
       expect(result.length).toBe(2)
       expect(result[0].start).toBe(time1)
       expect(result[0].end).toBe(end1) // Merged
@@ -249,9 +233,6 @@ describe('preprocessBusyPeriods', () => {
   })
 })
 
-// ===================================================================
-// INTEGRATION TESTS WITH SLOT GENERATION
-// ===================================================================
 
 describe('generateSlotsWithAvailability with preprocessed busy periods', () => {
   it('should correctly mark slots unavailable with merged busy periods', () => {
@@ -263,7 +244,6 @@ describe('generateSlotsWithAvailability with preprocessed busy periods', () => {
       { start: nextDayAtTime(1, 10, 30), end: busyEnd } // Overlaps, should merge
     ]
 
-    // Create structured rangeConstraints for test
     const rangeConstraints: RangeConstraint[] = [{
       type: 'businessHours',
       enforcement: 'hard',
@@ -280,10 +260,8 @@ describe('generateSlotsWithAvailability with preprocessed busy periods', () => {
       includeFlags: DEFAULT_INCLUDE_FLAGS
     }, rangeConstraints)
 
-    // Should have slots
     expect(result.slots.length).toBeGreaterThan(0)
 
-    // Slots from 10:00-12:00 should be unavailable (merged busy period covers this)
     const unavailableSlots = result.slots.filter(slot => {
       const slotStart = new Date(slot.startTime)
       const slotEnd = new Date(slot.endTime)
@@ -293,7 +271,6 @@ describe('generateSlotsWithAvailability with preprocessed busy periods', () => {
       return slotStart < busyEndDate && slotEnd > busyStartDate
     })
 
-    // All slots overlapping the merged busy period should be unavailable
     unavailableSlots.forEach(slot => {
       expect(slot.isAvailable).toBe(false)
     })
@@ -309,7 +286,6 @@ describe('generateSlotsWithAvailability with preprocessed busy periods', () => {
       { start: 'invalid', end: 'invalid' }                              // Invalid
     ]
 
-    // Create structured rangeConstraints for test
     const rangeConstraints: RangeConstraint[] = [{
       type: 'businessHours',
       enforcement: 'hard',
@@ -326,10 +302,8 @@ describe('generateSlotsWithAvailability with preprocessed busy periods', () => {
       includeFlags: DEFAULT_INCLUDE_FLAGS
     }, rangeConstraints)
 
-    // Should generate slots successfully (invalid busy periods filtered)
     expect(result.slots.length).toBeGreaterThan(0)
 
-    // Slots from 10:00-12:00 should be unavailable (valid busy period)
     const unavailableSlots = result.slots.filter(slot => {
       const slotStart = new Date(slot.startTime)
       const slotEnd = new Date(slot.endTime)
@@ -351,7 +325,6 @@ describe('generateSlotsWithAvailability with preprocessed busy periods', () => {
       { start: nextMonday9AM(), end: busyEnd } // Makes first slots unavailable
     ]
 
-    // Create structured rangeConstraints for test
     const rangeConstraints: RangeConstraint[] = [{
       type: 'businessHours',
       enforcement: 'hard',
@@ -368,18 +341,14 @@ describe('generateSlotsWithAvailability with preprocessed busy periods', () => {
       includeFlags: DEFAULT_INCLUDE_FLAGS
     }, rangeConstraints)
 
-    // Should have earliest completion
     expect(result.earliestCompletion).toBeTruthy()
 
-    // Earliest completion should be from an available slot (after 11:00)
     if (result.earliestCompletion) {
       const earliestCompletionDate = new Date(result.earliestCompletion)
       const busyEndDate = new Date(busyEnd)
       
-      // Earliest completion should be after busy period ends
       expect(earliestCompletionDate.getTime()).toBeGreaterThan(busyEndDate.getTime())
 
-      // Verify it matches an available slot's end time
       const availableSlots = result.slots.filter(slot => slot.isAvailable)
       const earliestAvailableSlot = availableSlots.reduce((earliest, slot) => {
         const slotEnd = new Date(slot.endTime)
@@ -392,9 +361,7 @@ describe('generateSlotsWithAvailability with preprocessed busy periods', () => {
   })
 })
 
-// ===================================================================
 // OVERLAP CONSTRAINT PRECISION TESTS
-// ===================================================================
 
 describe('checkSlotAvailability - precise overlap constraint checks', () => {
   it('should only mark the constraint that actually caused overlap', () => {
@@ -409,7 +376,6 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
       original: { start: busyStart.toISOString() as any, end: busyEnd.toISOString() as any }
     }]
 
-    // Appointment buffer with 15 min before - this will overlap
     const appointmentConstraint: OverlapConstraint = {
       type: 'appointment',
       placement: 'before',
@@ -417,7 +383,6 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
       minutes: 15
     }
     
-    // DriveTime buffer with 30 min after - this won't overlap
     const driveTimeConstraint: OverlapConstraint = {
       type: 'driveTime',
       placement: 'after',
@@ -432,7 +397,6 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
       [appointmentConstraint, driveTimeConstraint]
     )
 
-    // Should only have appointment violation, not driveTime
     expect(result.available).toBe(true)
     expect(result.violations).toEqual(['overlap.appointment'])
     expect(result.violations).not.toContain('overlap.driveTime')
@@ -469,9 +433,7 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
   })
 })
 
-// ===================================================================
 // RANGE CONSTRAINT TESTS WITH INJECTED TIME
-// ===================================================================
 
 describe('checkRangeConstraints - deterministic with injected time', () => {
   it('should use injected now for leadTime constraint', () => {
@@ -525,7 +487,6 @@ describe('checkRangeConstraints - deterministic with injected time', () => {
     }
 
     // With fixedNow at 09:00, slot at 09:15 should fail leadTime (15 min < 30 min)
-    // But with flexible enforcement, it should pass but mark violation
     const result = checkRangeConstraints(slot, [leadTimeConstraint], fixedNow)
     expect(result.passes).toBe(true)
     expect(result.violations).toContain('range.leadTime')
@@ -533,7 +494,6 @@ describe('checkRangeConstraints - deterministic with injected time', () => {
   })
 
   it('should use range. prefix for businessHours violations (UTC time-of-day)', () => {
-    // Slot at 8 AM UTC (before 9 AM UTC business hours)
     const slotStart = new Date('2026-01-20T08:00:00Z') // Monday 8 AM UTC
     const slotEnd = new Date('2026-01-20T08:30:00Z')
 
@@ -552,7 +512,6 @@ describe('checkRangeConstraints - deterministic with injected time', () => {
       config: { hours: standardBusinessHours }
     }
 
-    // Slot before business hours (8 AM UTC < 9 AM UTC) should pass with flexible enforcement but mark violation
     const result = checkRangeConstraints(slot, [businessHoursConstraint])
     expect(result.passes).toBe(true)
     expect(result.violations).toContain('range.businessHours')
@@ -586,22 +545,16 @@ describe('checkRangeConstraints - deterministic with injected time', () => {
 
     const cache = new Map()
     
-    // First call should parse and cache using UTC day
     const result1 = checkRangeConstraints(slot1, [businessHoursConstraint], new Date(), cache)
     expect(result1.passes).toBe(true)
     expect(cache.has(1)).toBe(true) // Monday UTC is day 1
 
-    // Second call should use cache
     const result2 = checkRangeConstraints(slot2, [businessHoursConstraint], new Date(), cache)
     expect(result2.passes).toBe(true)
-    // Cache should still have the entry
     expect(cache.has(1)).toBe(true)
   })
 })
 
-// ===================================================================
-// CONFIG VALIDATION TESTS
-// ===================================================================
 
 describe('checkRangeConstraints - config validation', () => {
   it('should handle invalid leadTime config gracefully', () => {
@@ -621,7 +574,6 @@ describe('checkRangeConstraints - config validation', () => {
     }
 
     const result = checkRangeConstraints(slot, [invalidConstraint])
-    // Should fail hard enforcement with invalid config
     expect(result.passes).toBe(false)
   })
 
@@ -642,19 +594,14 @@ describe('checkRangeConstraints - config validation', () => {
     }
 
     const result = checkRangeConstraints(slot, [invalidConstraint])
-    // Should fail hard enforcement with invalid config
     expect(result.passes).toBe(false)
   })
 })
 
-// ===================================================================
-// CAPACITY BATCHING TESTS
-// ===================================================================
 
 describe('generateSlotsWithAvailability - capacity batching', () => {
   it('should batch capacity checks for slots on same date', async () => {
     const mockFetch = vi.fn().mockResolvedValue({ data: { hours: 2 } })
-    // Mock the API client
     const apiClient = await import('@/utils/api')
     vi.spyOn(apiClient.default, 'get').mockImplementation(mockFetch)
 
@@ -667,7 +614,6 @@ describe('generateSlotsWithAvailability - capacity batching', () => {
       maxHours: 8
     }]
 
-    // Create structured rangeConstraints for test
     const rangeConstraints: RangeConstraint[] = [{
       type: 'businessHours',
       enforcement: 'hard',
@@ -684,29 +630,21 @@ describe('generateSlotsWithAvailability - capacity batching', () => {
       includeFlags: DEFAULT_INCLUDE_FLAGS
     }, rangeConstraints, undefined, capacityConstraints)
 
-    // Should have multiple slots on the same day
     expect(result.slots.length).toBeGreaterThan(1)
     
-    // All slots should be on the same date
     const slotDates = new Set(result.slots.map(slot => slot.startTime.split('T')[0]))
     expect(slotDates.size).toBe(1) // All same date
 
-    // API should be called once per unique date (not per slot)
-    // Note: This test verifies batching behavior - actual API calls depend on cache state
-    // The key improvement is that batching reduces redundant calls
   })
 })
 
-// ===================================================================
 // EXTRACT RANGE CONSTRAINTS TESTS - FAIL FAST ON LEGACY FIELDS
-// ===================================================================
 
 describe('extractRangeConstraints - fail fast on legacy fields', () => {
   it('should throw error when top-level businessHours exists without rangeConstraints.businessHours', () => {
     const settings: AvailabilitySettings = {
       businessHours: standardBusinessHours, // Legacy top-level field
       minuteIncrement: 15,
-      // Missing rangeConstraints.businessHours
     } as AvailabilitySettings
 
     expect(() => {
@@ -718,7 +656,6 @@ describe('extractRangeConstraints - fail fast on legacy fields', () => {
     const settings: AvailabilitySettings = {
       minuteIncrement: 15,
       rangeConstraints: {
-        // Missing businessHours
         leadTime: {
           type: 'leadTime',
           enforcement: 'hard',
@@ -782,9 +719,7 @@ describe('extractRangeConstraints - fail fast on legacy fields', () => {
   })
 })
 
-// ===================================================================
 // EXTRACT CAPACITY CONSTRAINTS TESTS
-// ===================================================================
 
 describe('extractCapacityConstraints', () => {
   it('should extract daily capacity constraint when enforcement is not off', () => {
@@ -924,13 +859,10 @@ describe('extractCapacityConstraints', () => {
   })
 })
 
-// ===================================================================
 // FLEXIBLE CONSTRAINT VIOLATION TESTS
-// ===================================================================
 
 describe('Flexible constraint violations', () => {
   it('should generate slots outside business hours and mark them with flexible violations', async () => {
-    // Generate slots from 8 AM to 8 PM (outside 9 AM - 7 PM business hours)
     const startBoundary = nextMonday9AM()
     const startBoundaryDate = new Date(startBoundary)
     startBoundaryDate.setUTCHours(8, 0, 0, 0)
@@ -954,10 +886,8 @@ describe('Flexible constraint violations', () => {
       includeFlags: DEFAULT_INCLUDE_FLAGS
     }, rangeConstraints)
 
-    // Should generate slots including those outside business hours
     expect(result.slots.length).toBeGreaterThan(0)
 
-    // Slots before 9 AM or after 7 PM should have flexible violations
     const slotsWithViolations = result.slots.filter(slot => {
       const slotStart = new Date(slot.startTime)
       const slotHour = slotStart.getUTCHours()
@@ -979,7 +909,6 @@ describe('Flexible constraint violations', () => {
     const dateRangeEndDate = new Date(dateRangeEnd)
     dateRangeEndDate.setUTCHours(16, 0, 0, 0)
 
-    // Generate slots from 9 AM to 7 PM (some outside 10 AM - 4 PM dateRange)
     const rangeConstraints: RangeConstraint[] = [{
       type: 'dateRange',
       enforcement: 'flexible', // Flexible enforcement
@@ -999,10 +928,8 @@ describe('Flexible constraint violations', () => {
       includeFlags: DEFAULT_INCLUDE_FLAGS
     }, rangeConstraints)
 
-    // Should generate slots including those outside dateRange
     expect(result.slots.length).toBeGreaterThan(0)
 
-    // Slots before 10 AM or after 4 PM should have flexible violations
     const slotsWithViolations = result.slots.filter(slot => {
       const slotStart = new Date(slot.startTime)
       const slotHour = slotStart.getUTCHours()
@@ -1017,13 +944,9 @@ describe('Flexible constraint violations', () => {
   })
 })
 
-// ===================================================================
-// UTC-ONLY BEHAVIOR TESTS
-// ===================================================================
 
 describe('UTC-only constraint checking', () => {
   it('should use UTC day of week for business hours checks', () => {
-    // Create a slot at UTC midnight (which might be a different local day)
     const slotUTC = new Date('2026-01-20T00:00:00Z') // Tuesday UTC
     const slot = {
       startTime: slotUTC.toISOString() as any,
@@ -1034,7 +957,6 @@ describe('UTC-only constraint checking', () => {
       isAvailable: true
     }
 
-    // Business hours only for Monday (day 1)
     const mondayOnlyHours: BusinessHoursMap = {
       1: { start: '2000-01-01T09:00:00Z', end: '2000-01-01T19:00:00Z' }
     }
@@ -1045,13 +967,11 @@ describe('UTC-only constraint checking', () => {
       config: { hours: mondayOnlyHours }
     }
 
-    // Slot is Tuesday UTC (day 2), should fail
     const result = checkRangeConstraints(slot, [businessHoursConstraint])
     expect(result.passes).toBe(false)
   })
 
   it('should use UTC time-of-day for business hours checks', () => {
-    // Create slot at 8 AM UTC (before 9 AM UTC business hours)
     const slotUTC = new Date('2026-01-20T08:00:00Z') // Monday 8 AM UTC
     const slot = {
       startTime: slotUTC.toISOString() as any,
@@ -1068,16 +988,13 @@ describe('UTC-only constraint checking', () => {
       config: { hours: standardBusinessHours }
     }
 
-    // Slot at 8 AM UTC should fail (business hours start at 9 AM UTC)
     const result = checkRangeConstraints(slot, [businessHoursConstraint])
     expect(result.passes).toBe(true) // Flexible allows it
     expect(result.violations).toContain('range.businessHours')
   })
 })
 
-// ===================================================================
 // CONSTRAINT VALIDATION ERROR TESTS
-// ===================================================================
 
 describe('Constraint validation errors', () => {
   it('should throw ConstraintValidationError for invalid range constraint', async () => {
@@ -1142,7 +1059,6 @@ describe('Constraint validation errors', () => {
   })
 
   it('should hard-fail when capacity API call fails (no fallback to 0)', async () => {
-    // Mock API to throw error
     const apiClient = await import('@/utils/api')
     vi.spyOn(apiClient.default, 'get').mockRejectedValue(new Error('API failure'))
 
@@ -1158,7 +1074,6 @@ describe('Constraint validation errors', () => {
       config: { hours: standardBusinessHours }
     }]
 
-    // Should throw error instead of silently allowing scheduling
     await expect(
       generateSlotsWithAvailability({
         startBoundary: nextMonday9AM(),
@@ -1171,7 +1086,6 @@ describe('Constraint validation errors', () => {
       }, rangeConstraints, undefined, capacityConstraints)
     ).rejects.toThrow()
 
-    // Cleanup
     vi.restoreAllMocks()
   })
 })

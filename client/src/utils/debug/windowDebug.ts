@@ -11,9 +11,6 @@
 
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
-/**
- * Type for window with debug properties
- */
 interface WindowWithDebug extends Window {
   [key: string]: unknown
 }
@@ -32,22 +29,16 @@ export function attachDebugToWindow(
   key: string,
   debugObject: Record<string, unknown>
 ): void {
-  // LEARNING: Only attach in dev mode
-  // WHY: Debug utilities should not be available in production
   // PATTERN: Check dev mode flag before proceeding
   if (!isDevModeEnabled()) {
     return
   }
 
-  // LEARNING: SSR safety check
-  // WHY: window is not available during server-side rendering
   // PATTERN: Check typeof window before accessing it
   if (typeof window === 'undefined') {
     return
   }
 
-  // LEARNING: Type assertion for window with debug properties
-  // WHY: TypeScript doesn't know about dynamic debug properties
   // PATTERN: Use interface extension and type assertion via unknown
   const windowWithDebug = window as unknown as WindowWithDebug
   windowWithDebug[key] = debugObject

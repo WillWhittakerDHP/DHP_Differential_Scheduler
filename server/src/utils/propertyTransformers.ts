@@ -13,13 +13,11 @@
  * PATTERN: Const object with field name mappings
  */
 export const PROPERTY_FIELD_MAPPINGS = {
-  // Address fields
   ADDRESS: 'address',
   UNIT: 'unit',
   CITY: 'city',
   STATE: 'state',
   ZIP_CODE: 'zipCode',
-  // Property details fields
   MLS_NUMBER: 'mlsNumber',
   SQUARE_FOOTAGE: 'squareFootage',
   BEDROOMS: 'bedrooms',
@@ -27,7 +25,6 @@ export const PROPERTY_FIELD_MAPPINGS = {
   FOUNDATION_ACCESS: 'foundationAccess',
   ADDITIONAL_UNITS: 'additionalUnits',
   SOURCE: 'source',
-  // Property version fields
   PROPERTY_VERSION_ID: 'propertyVersionId',
   ADDRESS_ID: 'addressId',
 } as const
@@ -46,13 +43,11 @@ export function transformPropertyVersion(propertyVersion: any) {
     id: propertyVersion.id,
     [PROPERTY_FIELD_MAPPINGS.PROPERTY_VERSION_ID]: propertyVersion.id,
     [PROPERTY_FIELD_MAPPINGS.ADDRESS_ID]: propertyVersion.addressId,
-    // Address fields
     [PROPERTY_FIELD_MAPPINGS.ADDRESS]: address?.[PROPERTY_FIELD_MAPPINGS.ADDRESS],
     [PROPERTY_FIELD_MAPPINGS.UNIT]: address?.[PROPERTY_FIELD_MAPPINGS.UNIT],
     [PROPERTY_FIELD_MAPPINGS.CITY]: address?.[PROPERTY_FIELD_MAPPINGS.CITY],
     [PROPERTY_FIELD_MAPPINGS.STATE]: address?.[PROPERTY_FIELD_MAPPINGS.STATE],
     [PROPERTY_FIELD_MAPPINGS.ZIP_CODE]: address?.[PROPERTY_FIELD_MAPPINGS.ZIP_CODE],
-    // Property details fields
     [PROPERTY_FIELD_MAPPINGS.MLS_NUMBER]: propertyDetails?.[PROPERTY_FIELD_MAPPINGS.MLS_NUMBER],
     [PROPERTY_FIELD_MAPPINGS.SQUARE_FOOTAGE]: propertyDetails?.[PROPERTY_FIELD_MAPPINGS.SQUARE_FOOTAGE],
     [PROPERTY_FIELD_MAPPINGS.BEDROOMS]: propertyDetails?.[PROPERTY_FIELD_MAPPINGS.BEDROOMS],
@@ -60,7 +55,6 @@ export function transformPropertyVersion(propertyVersion: any) {
     [PROPERTY_FIELD_MAPPINGS.FOUNDATION_ACCESS]: propertyDetails?.[PROPERTY_FIELD_MAPPINGS.FOUNDATION_ACCESS],
     [PROPERTY_FIELD_MAPPINGS.ADDITIONAL_UNITS]: propertyDetails?.[PROPERTY_FIELD_MAPPINGS.ADDITIONAL_UNITS],
     [PROPERTY_FIELD_MAPPINGS.SOURCE]: propertyDetails?.[PROPERTY_FIELD_MAPPINGS.SOURCE],
-    // Timestamps
     createdAt: propertyVersion.createdAt,
     updatedAt: propertyVersion.updatedAt,
   }

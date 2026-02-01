@@ -41,11 +41,6 @@ export interface UseWizardAppointmentManagementReturn {
   handleResetWizard: () => void
 }
 
-/**
- * LEARNING: Manage appointment loading, updating, and wizard reset
- * WHY: Encapsulates all appointment-related operations and state management
- * PATTERN: Composable that provides handlers and state for appointment operations
- */
 export function useWizardAppointmentManagement(
   options: UseWizardAppointmentManagementOptions
 ): UseWizardAppointmentManagementReturn {
@@ -101,7 +96,6 @@ export function useWizardAppointmentManagement(
         selectedAppointmentId.value = appointment.id
       } else {
         // LEARNING: Load appointment using composable with cache refresh
-        // WHY: Ensures appointment is loaded with all relationships from API
         // PATTERN: Composable handles cache refresh and returns appointment from cache
         try {
           appointment = await loadAppointmentById(appointmentIdOrRandom)
@@ -121,22 +115,17 @@ export function useWizardAppointmentManagement(
         return
       }
       
-      // Transform appointment to wizard state
       const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)
       
-      // Populate wizard state refs (skip cascade to avoid clearing dependent selections)
-      // Use spread operators to ensure Vue detects array changes
       wizard.selectUserTypeBlock(wizardState.userTypeBlock, true)
       wizard.selectedServiceTypeBlocks.value = [...wizardState.services]
       wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
       wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
       wizard.isQuoteMode.value = wizardState.isQuoteMode
       
-      // Set loaded wizard state for form field population
       loadedWizardState.value = wizardState
       loadedAppointmentId.value = appointment.id
       
-      // Populate step data refs (children will sync from these)
       propertyDetailsStepData.value = wizardState.propertyDetails
       contactsStepData.value = {
         clientInfo: wizardState.contacts.client,
@@ -148,20 +137,13 @@ export function useWizardAppointmentManagement(
         showTransactionManager: wizardState.contacts.additionalContacts.some(c => c.role === 'transactionManager'),
         showSeller: wizardState.contacts.additionalContacts.some(c => c.role === 'seller')
       }
-      // NOTE: availabilityStepData is provided by AvailabilityStep component when it mounts
-      // The loadedWizardState is already set above, and AvailabilityStep will read from it
-      // via useAvailabilityDefaults composable, so we don't need to set it directly here
       
-      // LEARNING: Automatically navigate to step 3 after loading appointment
       // WHY: Since appointment data is already loaded, skip step 2 and go directly to step 3 (Availability)
       // PATTERN: Mark intermediate steps as completed and navigate directly to target step
-      // Mark step 1 (Property Details) as completed to allow navigation
       completedSteps.value.add(1) // Property Details (step 2)
-      // Navigate directly to step 3 (Appointment Availability) - index 2
       activeStep.value = 2
       
       success('Appointment loaded successfully')
-      // Clear dropdown selection after load so user can select again
       selectedAppointmentId.value = null
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
@@ -217,12 +199,10 @@ export function useWizardAppointmentManagement(
     loadedAppointmentId.value = null
     selectedAppointmentId.value = null
     
-    // Reset step data refs
     propertyDetailsStepData.value = null
     contactsStepData.value = null
     availabilityStepData.value = null
     
-    // Reset validation state
     propertyDetailsStepValid.value = false
     propertyDetailsStepValidate.value = null
     propertyDetailsFieldErrors.value = {}
@@ -231,7 +211,6 @@ export function useWizardAppointmentManagement(
     availabilityStepValid.value = false
     availabilityStepValidate.value = null
     
-    // Reset to first step
     activeStep.value = 0
     
     success('Wizard reset successfully')

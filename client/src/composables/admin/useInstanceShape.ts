@@ -15,27 +15,13 @@ export interface UseInstanceShapeOptions {
 }
 
 export interface UseInstanceShapeReturn {
-  /**
-   * BlockShape entity (for blockInstance) or null
-   */
   blockShape: ComputedRef<import('@/types/entities').BlockShapeEntity | null>
   
-  /**
-   * PartShape entity (for partInstance) or null
-   */
   partShape: ComputedRef<import('@/types/entities').PartShapeEntity | null>
   
-  /**
-   * Get shape entity - returns blockShape for blockInstance, partShape for partInstance
-   */
   shape: ComputedRef<import('@/types/entities').BlockShapeEntity | import('@/types/entities').PartShapeEntity | null>
 }
 
-/**
- * LEARNING: Get shape entity from instance entity
- * WHY: Both BlockInstance and PartInstance need their shape entity to read fieldMetadata
- * PATTERN: Single code path for both entity types - only the shape type differs
- */
 export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceShapeReturn {
   const { entityKey, entityId } = options
   const { globalData } = useGlobal()
@@ -43,15 +29,12 @@ export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceS
   
   const entityIdRef = typeof entityId === 'string' ? computed(() => entityId) : entityId
   
-  // LEARNING: Get instance entity first
-  // WHY: Need instance to get shapeRef
   // PATTERN: Use adminComp.getEntity for consistency
   const instance = computed(() => {
     return adminComp.getEntity(entityKey, entityIdRef.value)
   })
   
   // LEARNING: Get shapeRef from instance - same pattern for both entity types
-  // WHY: BlockInstance has blockShapeRef, PartInstance has partShapeRef
   // PATTERN: Extract shapeRef based on entity type
   const shapeRef = computed(() => {
     if (!instance.value) return null
@@ -63,8 +46,6 @@ export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceS
     }
   })
   
-  // LEARNING: Get shape entity from globalData - same code path for both
-  // WHY: Both BlockShape and PartShape are in globalData.entities
   // PATTERN: Use same lookup logic, only entity type differs
   const blockShape = computed((): import('@/types/entities').BlockShapeEntity | null => {
     if (entityKey !== 'blockInstance' || !shapeRef.value) return null
@@ -86,8 +67,6 @@ export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceS
     return shape as import('@/types/entities').PartShapeEntity | null
   })
   
-  // LEARNING: Unified shape getter - returns the appropriate shape based on entity type
-  // WHY: Single code path for accessing shape entity
   const shape = computed(() => {
     if (entityKey === 'blockInstance') {
       return blockShape.value

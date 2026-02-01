@@ -31,8 +31,6 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-// LEARNING: Get configured labels from availability settings
-// WHY: Labels are configurable in admin panel
 const { settings: availabilitySettings } = useAvailabilitySettings()
 const majorLabel = computed(() => 
   availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
@@ -77,14 +75,10 @@ const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerPr
 </template>
 
 <style scoped lang="scss">
-// LEARNING: Toggle buttons responsive alignment
-// WHY: Ensures component respects parent column width and doesn't overflow
-// PATTERN: Use Vuetify responsive utilities, minimal custom CSS
 .toggle-buttons {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   min-width: 0; // LEARNING: Allow flex container to shrink below content size
-  // WHY: Prevents flex container from forcing width beyond parent column
 }
 </style>

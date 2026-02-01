@@ -18,8 +18,6 @@ export async function isBlockInstanceComposable(blockInstanceId: string): Promis
       return false;
     }
     
-    // LEARNING: Access Sequelize association via type assertion
-    // WHY: Sequelize associations are dynamically added, TypeScript doesn't know about them
     // PATTERN: Cast to any to access association, then cast association to proper type
     const blockInstanceWithShape = blockInstance as any;
     const blockShape = blockInstanceWithShape.block_shape as InstanceType<typeof BlockShape> | undefined;
@@ -35,17 +33,9 @@ export async function isBlockInstanceComposable(blockInstanceId: string): Promis
   }
 }
 
-/**
- * Get component config for an entity type
- * 
- * LEARNING: Component config is now dynamic based on BlockShape's composable property
- * WHY: Only BlockInstances with composable BlockShapes support component relationships
- * PATTERN: Return config if entity type supports component relationships, undefined otherwise
- */
 export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {
   const config = ENTITY_REGISTRY[entityType];
   
-  // For blockInstance, component relationships are enabled but must be checked per-instance via BlockShape
   if (entityType === 'blockInstance') {
     return {
       enabled: true, // Enabled at type level, but checked per-instance
@@ -95,7 +85,6 @@ export type ComponentStrategy = 'sum' | 'merge' | 'first' | 'every' | 'custom';
 export interface ComponentConfig {
   enabled: boolean;
   componentRules?: Record<string, ComponentStrategy>;
-  // Property-specific component strategies (e.g., baseFee: 'sum', partAssignments: 'merge', onSite: 'every')
 }
 
 /**
@@ -111,7 +100,6 @@ export interface EntityConfig {
   component?: ComponentConfig;
 }
 
-// Verify models are available (log warning but don't throw - models may be initialized later)
 if (!PartShape || !PartInstance || !BlockShape || !BlockInstance || !EventShape || !EventInstance || !AnnotationShape || !AnnotationInstance) {
   const missingModels = {
     PartShape: !!PartShape,
@@ -127,12 +115,6 @@ if (!PartShape || !PartInstance || !BlockShape || !BlockInstance || !EventShape 
   console.warn('[EntityRegistry] This is normal during module loading - models will be available after app initialization');
 }
 
-/**
- * Centralized Entity Registry
- * Maps entity type strings to Sequelize models and metadata
- * 
- * CRITICAL: Entity keys must match frontend PROPERTY_KEYS exactly
- */
 export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
   partInstance: {
     model: PartInstance,
@@ -145,8 +127,6 @@ export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
     tableName: 'block_instances',
     displayName: 'Block Instance',
     description: 'Block instances with shape assignments and configuration',
-    // Note: Component relationships enabled is checked dynamically via BlockShape's composable property
-    // Use getComponentConfig() to get component config for blockInstance
   },
   partShape: {
     model: PartShape,
@@ -193,10 +173,6 @@ export function isValidEntityType(value: string): value is EntityType {
   return value in ENTITY_REGISTRY;
 }
 
-/**
- * Get entity configuration by type
- * Throws error if entity type is invalid or model is not available
- */
 export function getEntityConfig(entityType: string): EntityConfig {
   if (!isValidEntityType(entityType)) {
     throw new Error(`Unknown entity type: ${entityType}. Valid types: ${Object.keys(ENTITY_REGISTRY).join(', ')}`);
@@ -204,7 +180,6 @@ export function getEntityConfig(entityType: string): EntityConfig {
   
   const config = ENTITY_REGISTRY[entityType];
   
-  // Runtime check: ensure model is actually available
   if (!config.model) {
     throw new Error(`Model not available for entity type: ${entityType}. Models may not be initialized yet.`);
   }

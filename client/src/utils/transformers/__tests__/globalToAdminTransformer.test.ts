@@ -1,15 +1,8 @@
-/**
- * GLOBAL TO ADMIN TRANSFORMER TESTS
- * 
- * Unit tests for AdminTransformer class.
- * Tests GlobalData to AdminObject transformation with relationships.
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { AdminTransformer } from '../globalToAdminTransformer'
 import { createAtomicBlockGlobalData, createCompositeBlockGlobalData } from '../../__tests__/factories/globalDataFactory'
 
-// Mock admin config
 vi.mock('@/configs/adminConfig', () => ({
   getAdminConfig: vi.fn(() => ({
     instanceConfig: {
@@ -117,7 +110,6 @@ describe('AdminTransformer', () => {
       
       const result = transformer.transformGlobalToAdmin(globalData)
       
-      // Check that relationships are attached
       const compositeBlock = result.blockInstance.find(b => b.id === 'composite-1')
       const component1 = result.blockInstance.find(b => b.id === 'component-1')
       

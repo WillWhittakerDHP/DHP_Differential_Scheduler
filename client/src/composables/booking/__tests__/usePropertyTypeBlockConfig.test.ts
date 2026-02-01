@@ -1,21 +1,3 @@
-/**
- * USEPROPERTYTYPEBLOCKCONFIG TESTS
- * 
- * Unit tests for usePropertyTypeBlockConfig composable.
- * Tests property type block selection config construction.
- * 
- * What it covers:
- * - rowSelectionConfig: Computed config for property type blocks
- * 
- * How it works:
- * - Tests config structure
- * - Tests state plugin integration
- * - Tests expansion componentData function
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref for reactive state
- */
 
 import { describe, it, expect, vi } from 'vitest'
 import { ref } from 'vue'

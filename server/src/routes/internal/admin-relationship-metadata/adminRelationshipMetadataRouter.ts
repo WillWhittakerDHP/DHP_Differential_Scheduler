@@ -11,11 +11,6 @@ import { getAdminRelationshipMetadata } from '../../../utils/adminRelationshipMe
 
 const router = Router();
 
-/**
- * GET /admin-relationship-metadata/:entityType/:entityId
- * Get relationship metadata for an entity (with inheritance for instances)
- * Returns merged metadata: instance overrides + inherited shape metadata
- */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId } = req.params;
@@ -29,14 +24,11 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
       return;
     }
 
-    // Use composer to get metadata (handles inheritance)
     const metadata = await getAdminRelationshipMetadata(
       entityType as 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
       entityId
     );
 
-    // Convert to Record format expected by client
-    // Map relationshipKey to fieldKey for consistency with field metadata structure
     const metadataRecord: Record<string, Omit<typeof metadata[0], 'relationshipKey'>> = {};
     for (const meta of metadata) {
       metadataRecord[meta.relationshipKey] = {
@@ -64,11 +56,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
   }
 });
 
-/**
- * POST /admin-relationship-metadata/:entityType/:entityId
- * Create or update relationship metadata for an entity
- * Body: { relationshipKey, dataType, label, isRequired, visibility, layout, displayOrder, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
- */
 router.post('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId } = req.params;
@@ -107,9 +94,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
 
     // Validate inputConfig - required for select/multiselect/reference/partsCollection fields
     // LEARNING: Accepts both FormFieldConfig structure (new format) and direct select config (old format)
-    // WHY: Supports backward compatibility during transition
     // PATTERN: Validate that inputConfig exists and is an object, accept any valid JSONB structure
-    // NOTE: Relationship metadata always uses relationshipSelect (never typeSelect)
     if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'relationshipCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
         res.status(400).json({
@@ -121,7 +106,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       }
     }
 
-    // Check if entry already exists
     const existing = await AdminRelationshipMetadata.findOne({
       where: {
         entityType: entityType as any,
@@ -131,7 +115,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     });
 
     if (existing) {
-      // Update existing entry
       await existing.update({
         dataType,
         label,
@@ -148,7 +131,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
 
       res.json(existing);
     } else {
-      // Create new entry
       const metadata = await AdminRelationshipMetadata.create({
         entityType: entityType as any,
         entityId: entityId,
@@ -177,10 +159,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
   }
 });
 
-/**
- * DELETE /admin-relationship-metadata/:entityType/:entityId/:relationshipKey
- * Delete relationship metadata for a specific relationship field
- */
 router.delete('/:entityType/:entityId/:relationshipKey', async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId, relationshipKey } = req.params;

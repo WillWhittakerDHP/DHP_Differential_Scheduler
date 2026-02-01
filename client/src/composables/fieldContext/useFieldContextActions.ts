@@ -21,11 +21,6 @@ export type UseFieldContextActionsReturn = {
   setValue: (value: ValidAdminValue) => void
 }
 
-/**
- * Actions module for `useFieldContext`.
- *
- * NOTE: This preserves existing behavior; it's mainly a mechanical extraction to reduce file size.
- */
 export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   state: UseFieldContextStateReturn<GE, FieldKey>
 ): UseFieldContextActionsReturn {
@@ -61,7 +56,6 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
     }
 
     const currentEntity = state.entity.value as { id?: string; name?: string; entityKey?: string } | undefined
-    // NOTE: allEntitiesInStore computation removed as it's not used - kept comment for future reference
 
     try {
       const verifyEndpoint = getEntityByIdEndpoint(state.entityKey, String(state.entityId))
@@ -97,8 +91,6 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
 
       const fieldKeyString = String(state.fieldKey)
 
-      // LEARNING: Route to appropriate save handler based on field type
-      // WHY: Different field types require different save logic
       // PATTERN: Check field type and delegate to specialized save function
       if (state.composedEntityComposable) {
         await saveComponentEntityField({

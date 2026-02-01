@@ -79,8 +79,6 @@ export function usePartsCollectionField<
   const selectConfig = computed<RelationshipFieldType<GE>>(() => {
     const meta = fieldMetadataEntry.value
     
-    // LEARNING: NO FALLBACKS - inputConfig is required for partsCollection fields
-    // WHY: PartsCollection fields must have inputConfig configured in metadata
     // PATTERN: Fail explicitly when inputConfig is missing
     if (!meta) {
       throw new Error(
@@ -96,13 +94,9 @@ export function usePartsCollectionField<
       )
     }
     
-    // LEARNING: For partsCollection fields, inputConfig should be RelationshipFieldType with targetMode: 'relationship'
-    // WHY: PartsCollection fields use relationship selects, not type selects
     // PATTERN: Cast inputConfig to RelationshipFieldType (backend validates structure)
     const config = meta.inputConfig as RelationshipFieldType<GE>
     
-    // LEARNING: Verify this is a relationship select (not type select)
-    // WHY: PartsCollection fields only work with relationship selects
     // PATTERN: Fail explicitly if targetMode is not 'relationship'
     if (config.targetMode !== 'relationship') {
       throw new Error(
@@ -123,8 +117,6 @@ export function usePartsCollectionField<
   const childEntityKey = computed<GlobalEntityKey>(() => {
     const config = selectConfig.value
     
-    // LEARNING: NO FALLBACKS - candidateChildKey is required
-    // WHY: PartsCollection fields must specify which entity type to display
     // PATTERN: Fail explicitly when candidateChildKey is missing
     if (!config.candidateChildKey) {
       throw new Error(
@@ -145,8 +137,6 @@ export function usePartsCollectionField<
   const relationshipKey = computed<string>(() => {
     const config = selectConfig.value
     
-    // LEARNING: NO FALLBACKS - targetKey is required
-    // WHY: PartsCollection fields must specify which relationship field to use
     // PATTERN: Fail explicitly when targetKey is missing
     if (!config.targetKey) {
       throw new Error(
@@ -165,8 +155,6 @@ export function usePartsCollectionField<
    * PATTERN: Hardcode 'validParts' since it's always the same for partsCollection fields
    */
   const optionsFieldKey = computed<string>(() => {
-    // LEARNING: partsCollection always uses 'validParts' field
-    // WHY: This is a stable requirement - partsCollection fields always read from validParts
     // PATTERN: Hardcode instead of requiring configuration
     return 'validParts'
   })
@@ -246,7 +234,6 @@ export function usePartsCollectionField<
       return false
     }
     
-    // Check if the shape entity has valid options (e.g., blockShape.validParts)
     const validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))
     const hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0
     
@@ -262,7 +249,6 @@ export function usePartsCollectionField<
   const defaultExpanded = computed<boolean | undefined>(() => {
     const meta = fieldMetadataEntry.value
     // LEARNING: NO DEFAULTS - expanded state should be explicitly configured
-    // WHY: If not configured, return undefined (not false)
     // PATTERN: Return undefined if not in metadata
     return (meta as { defaultExpanded?: boolean })?.defaultExpanded
   })
@@ -274,8 +260,6 @@ export function usePartsCollectionField<
    * PATTERN: Function that checks relationship array, fails if required data missing
    */
   const getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {
-    // LEARNING: NO FALLBACKS - parentEntity and relationshipKey are required
-    // WHY: Cannot determine parent ID without parent entity and relationship key
     // PATTERN: Fail explicitly when required data is missing
     if (!parentEntity.value) {
       throw new Error(
@@ -291,14 +275,11 @@ export function usePartsCollectionField<
       )
     }
     
-    // For partAssignments relationship, check if child ID is in parent's partAssignments array
     const parentRelationshipIds = getEntityFieldValue(parentEntity.value, String(relationshipKey.value))
     if (Array.isArray(parentRelationshipIds) && parentRelationshipIds.includes(child.id)) {
       return parentEntity.value.id
     }
     
-    // LEARNING: NO DEFAULT - return empty string if child is not in relationship
-    // WHY: Child might not belong to this parent - empty string indicates no relationship
     // PATTERN: Return empty string (not a default, indicates absence of relationship)
     return ''
   }
@@ -314,23 +295,19 @@ export function usePartsCollectionField<
   }
 
   return {
-    // Config-derived values
     childEntityKey,
     relationshipKey,
     optionsFieldKey,
     
-    // Parent/type entities
     parentEntity,
     parentTypeProperty,
     parentTypeEntityKey,
     parentTypeRef,
     parentTypeEntity,
     
-    // Display validation
     shouldDisplay,
     defaultExpanded,
     
-    // Helper functions
     getChildParentId,
     getParentId,
   }

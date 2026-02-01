@@ -23,7 +23,6 @@ export type AppLogger = {
   groupEnd: () => void
 }
 
-// Back-compat alias (some modules refer to this type name).
 export type Logger = AppLogger
 
 function parseLogLevel(raw: string | undefined): LogLevel | null {
@@ -84,7 +83,6 @@ export function isScopeExplicitlyEnabled(scope: string): boolean {
   const scopes = parseDebugScopesList(import.meta.env.VITE_DEBUG_SCOPES)
   if (!scopes) return false // Require explicit enabling if VITE_DEBUG_SCOPES is not set
   const normalized = scope.toLowerCase()
-  // Only return true if scope is explicitly listed (not via wildcard)
   return scopes.has(normalized)
 }
 

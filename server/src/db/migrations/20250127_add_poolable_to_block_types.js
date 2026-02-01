@@ -7,11 +7,9 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    // Check if column already exists
     const tableDescription = await queryInterface.describeTable('block_types');
     
     if (!tableDescription.poolable) {
-      // Add poolable column to block_types table
       await queryInterface.addColumn('block_types', 'poolable', {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -30,10 +28,8 @@ export default {
   },
 
   async down(queryInterface, Sequelize) {
-    // Remove index first
     await queryInterface.removeIndex('block_types', 'idx_block_types_poolable');
     
-    // Remove poolable column
     await queryInterface.removeColumn('block_types', 'poolable');
     
     console.log('✅ Removed poolable column from block_types table');

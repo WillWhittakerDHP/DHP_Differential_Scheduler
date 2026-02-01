@@ -42,16 +42,11 @@ const isDevMode = isDevModeEnabled()
 const activeTab = ref<'slotShape' | 'finalizedParts' | 'services' | 'constraints' | 'calendar'>('slotShape')
 const panelRef = ref<HTMLElement | null>(null)
 
-// LEARNING: Get shared dev panel data from composable
 // WHY: AvailabilityStep updates shared state, DevPanelsContainer reads it
 // PATTERN: Use shared ref pattern instead of provide/inject for cross-tree access
 const devPanelData = useDevPanelData()
 
-// LEARNING: Extract appointment data from shared dev panel data
-// WHY: Extract only needed props from shared data and unwrap ComputedRefs
-// PATTERN: Computed properties that provide defaults, unwrapping refs with .value
 // WHY: Access ComputedRef.value inside computed to ensure reactivity tracking
-// WHY: Access the shared ref first, then the nested ComputedRefs to ensure Vue tracks all dependencies
 interface AppointmentData {
   selectedBlockInstances: BookingBlockInstance[]
   appointmentSlots: AppointmentSlot[]
@@ -62,24 +57,19 @@ interface AppointmentData {
 
 const appointmentData = computed<AppointmentData>(() => {
   // LEARNING: Access shared ref first to establish dependency
-  // WHY: Ensures Vue tracks changes to the shared ref
   const data = devPanelData.value
   
   // LEARNING: Access ComputedRef values inside computed to ensure reactivity
-  // WHY: Vue tracks dependencies when accessing .value inside computed properties
   // PATTERN: Unwrap all ComputedRefs inside the computed function, accessing each one explicitly
   // WHY: Access each ComputedRef separately to ensure Vue tracks each dependency
   const appointmentSlotsRef = data.appointmentSlots
   const appointmentShapeRef = data.appointmentShape
   const selectedBlockInstancesRef = data.selectedBlockInstances
-  // LEARNING: Access ComputedRef values - these are ComputedRef<string | undefined> | undefined
-  // WHY: TypeScript needs to know these are ComputedRefs to properly access .value
   const selectedDateRef = data.selectedDate
   const selectedTimeRef = data.selectedTime
   
   // LEARNING: Unwrap ComputedRefs - accessing .value establishes reactivity tracking
   // WHY: Each .value access tells Vue to track that ComputedRef as a dependency
-  // WHY: Handle both ComputedRef and direct array values (Vue may auto-unwrap in some cases)
   // PATTERN: Check if it's a ComputedRef by checking for .value property, otherwise use directly
   const slots: AppointmentSlot[] = (appointmentSlotsRef && typeof appointmentSlotsRef === 'object' && 'value' in appointmentSlotsRef)
     ? (appointmentSlotsRef.value as AppointmentSlot[])
@@ -93,8 +83,6 @@ const appointmentData = computed<AppointmentData>(() => {
     ? (selectedBlockInstancesRef.value as BookingBlockInstance[])
     : (Array.isArray(selectedBlockInstancesRef) ? (selectedBlockInstancesRef as BookingBlockInstance[]) : [])
   
-  // LEARNING: Unwrap selectedDate and selectedTime with proper type guards
-  // WHY: These are ComputedRef<string | undefined> | undefined that need proper unwrapping
   // PATTERN: Check if ComputedRef exists before accessing .value
   let selectedDate: string | undefined = undefined
   if (selectedDateRef && typeof selectedDateRef === 'object' && 'value' in selectedDateRef) {
@@ -121,18 +109,10 @@ const appointmentData = computed<AppointmentData>(() => {
 // WHY: All local time conversions must go through useLocalTime composable
 const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()
 
-// LEARNING: Get availability settings for constraints display
-// WHY: Shows active constraints that affect slot generation
-// PATTERN: Use composable for settings access instead of direct API call
 const { settings: availabilitySettings } = useAvailabilitySettings()
 
-// LEARNING: Normalize optional ref for template safety
-// WHY: useAvailabilitySettings can return null during initialization
 const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
 
-// LEARNING: Calculate services summary
-// WHY: Shows overview of selected services
-// PATTERN: Map block instances to summary objects
 interface ServiceSummary {
   name: string
   differential: TernaryBoolean // LEARNING: Changed from boolean to TernaryBoolean to match BookingBlockInstance.differential
@@ -153,9 +133,6 @@ const servicesSummary = computed<ServiceSummary[]>(() => {
   }))
 })
 
-// LEARNING: Get finalized parts directly from AppointmentShape
-// WHY: Shows finalized parts directly from source of truth without any filtering
-// PATTERN: Direct access to appointmentShape.finalizedParts
 const finalizedParts = computed<PartFinal[]>(() => {
   const shape = appointmentData.value.appointmentShape
   if (!shape || !shape.finalizedParts) {
@@ -164,9 +141,6 @@ const finalizedParts = computed<PartFinal[]>(() => {
   return shape.finalizedParts
 })
 
-// LEARNING: Get SlotShape totals directly from AppointmentShape
-// WHY: Shows SlotShape properties directly without any filtering or categorization
-// PATTERN: Direct access to appointmentShape.slotShape properties
 const slotShapeTotals = computed<SlotShape>(() => {
   const shape = appointmentData.value.appointmentShape
   
@@ -181,9 +155,6 @@ const slotShapeTotals = computed<SlotShape>(() => {
   return shape.slotShape
 })
 
-// LEARNING: Format time slot results
-// WHY: Shows actual time values for selected appointment
-// PATTERN: Extract times from selected slot
 const timeSlotResults = computed(() => {
   const slots = appointmentData.value.appointmentSlots
   const selectedTime = appointmentData.value.selectedTime
@@ -198,16 +169,12 @@ const timeSlotResults = computed(() => {
   
   const slot = slots[0]
   
-  // Major arrival is the start of totalTimeRange
   const majorArrival = slot.totalTimeRange?.startTime || null
   
-  // Minor arrival is the start of minor event time range (or totalTimeRange if no minor event)
-  // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
   const minorEventName = 'Minor' // TODO: Get from availabilitySettings
   const minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]
   const minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null
   
-  // Appointment end is the end of totalTimeRange
   const appointmentEnd = slot.totalTimeRange?.endTime || null
   
   return {
@@ -217,9 +184,7 @@ const timeSlotResults = computed(() => {
   }
 })
 
-// LEARNING: Format time for display
 // WHY: Converts ISO strings to readable format
-// PATTERN: Use composable for UI-boundary formatting
 const formatTime = (isoString: string | null): string => {
   if (!isoString) return 'N/A'
   return formatDateTimeForDisplay(isoString as any, {
@@ -231,9 +196,7 @@ const formatTime = (isoString: string | null): string => {
   })
 }
 
-// LEARNING: Format duration for display
 // WHY: Converts minutes to readable format
-// PATTERN: Format minutes as hours and minutes
 const formatDuration = (minutes: number): string => {
   if (minutes === 0) return '0 min'
   const hours = Math.floor(minutes / 60)
@@ -247,25 +210,16 @@ const formatDuration = (minutes: number): string => {
   }
 }
 
-// LEARNING: Click-outside detection to hide panel
-// WHY: Provides intuitive way to close the panel by clicking outside
-// PATTERN: Add click listener to document, check if click is outside panel element
-// WHY: Only handle clicks when panel is visible to prevent closing immediately after opening
 const handleClickOutside = (event: MouseEvent): void => {
   if (!props.visible || !panelRef.value) return
   
-  // LEARNING: Ignore clicks on the toggle button itself
-  // WHY: Toggle button click should open/close panel, not trigger click-outside
   // PATTERN: Check if click target is within toggle button element
   const target = event.target as HTMLElement | null
   if (target?.closest('.dev-panel-toggle')) {
     return
   }
   
-  // LEARNING: Access DOM element from component ref
-  // WHY: VCard component ref exposes DOM via $el property
   // PATTERN: Use $el to get actual HTMLElement for contains() check
-  // WHY: Type assertion through unknown to safely convert HTMLElement ref to ComponentPublicInstance
   const panelEl = (panelRef.value as unknown as ComponentPublicInstance).$el as HTMLElement | null
   
   if (panelEl && !panelEl.contains(target as Node)) {
@@ -281,47 +235,32 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-// LEARNING: Extract calendar mock data from shared dev panel data
-// WHY: Extract only needed props from shared data and unwrap ComputedRefs
-// PATTERN: Computed properties that provide defaults, unwrapping refs with .value
 // WHY: Access ComputedRef.value inside computed to ensure reactivity tracking
 const calendarData = computed(() => {
   // LEARNING: Access shared ref first to establish dependency
-  // WHY: Ensures Vue tracks changes to the shared ref
   const data = devPanelData.value
   
   // LEARNING: Access dateRange ComputedRef to establish dependency tracking
-  // WHY: Accessing the ComputedRef itself tells Vue to track it
   const dateRangeRef = data.dateRange
   
-  // LEARNING: Unwrap dateRange ComputedRef properly
-  // WHY: dateRange is a ComputedRef that needs to be accessed with .value
   // PATTERN: Check if dateRange exists and unwrap it, handling both ComputedRef and direct values
   // WHY: Access .value inside computed to ensure Vue tracks the ComputedRef as a dependency
   let dateRangeValue: { start: RFC3339DateTime; end: RFC3339DateTime } | null = null
   
   if (dateRangeRef) {
-    // LEARNING: Check if it's a ComputedRef by checking for .value property
-    // WHY: Handle both ComputedRef and direct object values
-    // WHY: Accessing .value inside computed ensures Vue tracks this ComputedRef
     if (typeof dateRangeRef === 'object' && 'value' in dateRangeRef) {
       const value = dateRangeRef.value
       if (value && typeof value === 'object' && 'start' in value && 'end' in value) {
         dateRangeValue = value as { start: RFC3339DateTime; end: RFC3339DateTime }
       }
     } else if (dateRangeRef && typeof dateRangeRef === 'object' && 'start' in dateRangeRef && 'end' in dateRangeRef) {
-      // Direct object value
       dateRangeValue = dateRangeRef as { start: RFC3339DateTime; end: RFC3339DateTime }
     }
   }
   
   // LEARNING: Access busyPeriods ComputedRef to establish dependency tracking
-  // WHY: Accessing the ComputedRef itself tells Vue to track it
   const busyPeriodsRef = data.busyPeriods
   
-  // LEARNING: Unwrap busyPeriods ComputedRef
-  // WHY: busyPeriods is a ComputedRef that needs to be accessed with .value
-  // WHY: Accessing .value inside computed ensures Vue tracks this ComputedRef
   let busyPeriodsValue: BusyTimeRange[] = []
   if (busyPeriodsRef) {
     if (typeof busyPeriodsRef === 'object' && 'value' in busyPeriodsRef) {
@@ -335,7 +274,6 @@ const calendarData = computed(() => {
   }
   
   // LEARNING: Access refreshKey to establish dependency tracking
-  // WHY: Ensures Vue tracks changes to refreshKey
   // PATTERN: refreshKey is a Ref<number> | undefined, so access .value directly
   const refreshKeyRef = data.refreshKey
   let refreshKeyValue: number | undefined = undefined
@@ -351,27 +289,18 @@ const calendarData = computed(() => {
   }
 })
 
-// LEARNING: Get current busy periods from mock calendar
-// WHY: Shows what times are blocked for testing slot filtering
-// PATTERN: Use provided busyPeriods if available, otherwise generate from dateRange
-// WHY: Ensures mock panel shows exactly the same busy periods used by slot generation
 const busyPeriods = computed(() => {
-  // LEARNING: If busyPeriods prop is provided, use it directly
-  // WHY: Ensures mock panel shows exactly what slot generation uses
   // PATTERN: Prefer prop over generated values for consistency
   if (calendarData.value.busyPeriods && calendarData.value.busyPeriods.length > 0) {
     return calendarData.value.busyPeriods
   }
   
-  // LEARNING: Fall back to generating from dateRange if no busyPeriods provided
-  // WHY: Maintains backward compatibility
   // PATTERN: Generate busy periods from dateRange when prop not provided
   if (!calendarData.value.dateRange) {
     return []
   }
   
   // LEARNING: Include refreshKey in dependency to force recalculation
-  // WHY: Changing refreshKey forces mock data regeneration
   // PATTERN: Reference refreshKey in computed to trigger recalculation
   void calendarData.value.refreshKey // Force dependency tracking
   
@@ -380,9 +309,6 @@ const busyPeriods = computed(() => {
   return result
 })
 
-// LEARNING: Format busy period for human-readable display
-// WHY: Makes it easy to see what times are blocked at a glance
-// PATTERN: Use composable for UI-boundary formatting
 const formatBusyPeriod = (period: { start: RFC3339DateTime; end: RFC3339DateTime }): string => {
   const start = new Date(period.start)
   const end = new Date(period.end)
@@ -405,9 +331,6 @@ const formatBusyPeriod = (period: { start: RFC3339DateTime; end: RFC3339DateTime
   return `${startStr} - ${endStr} (${durationMinutes} min)`
 }
 
-// LEARNING: Calculate total blocked time across all periods
-// WHY: Provides summary metric for understanding how much time is blocked
-// PATTERN: Sum durations of all busy periods
 const totalBlockedMinutes = computed(() => {
   return busyPeriods.value.reduce((total, period) => {
     const start = new Date(period.start)
@@ -421,9 +344,6 @@ const totalBlockedHours = computed(() => {
   return Math.round((totalBlockedMinutes.value / 60) * 10) / 10
 })
 
-// LEARNING: Inject dev panel button functions and state from App.vue
-// WHY: DevPanelsContainer is rendered in App.vue, so it injects from app-level provide
-// PATTERN: Inject ref that BookingWizard updates, with default value to prevent undefined
 const devPanelButtonsRef = inject<Ref<{
   selectedAppointmentId: Ref<string | null>
   appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
@@ -436,9 +356,6 @@ const devPanelButtonsRef = inject<Ref<{
   wizard: ReturnType<typeof useBookingWizard> | null
 } | null>>('devPanelButtons', ref(null))
 
-// LEARNING: Computed to access the actual buttons object
-// WHY: devPanelButtonsRef is a Ref<object | null>, so we need to unwrap it
-// PATTERN: Return null if ref doesn't exist or value is null, ensure reactive updates
 const devPanelButtons = computed(() => {
   if (!devPanelButtonsRef || !devPanelButtonsRef.value) {
     return null
@@ -446,16 +363,10 @@ const devPanelButtons = computed(() => {
   return devPanelButtonsRef.value
 })
 
-// LEARNING: Computed to check if buttons are available
-// WHY: Provides a safe boolean check for template v-if
-// PATTERN: Separate computed for boolean check
 const hasDevPanelButtons = computed(() => {
   return devPanelButtons.value !== null
 })
 
-// LEARNING: Get wizard instance from dev panel buttons
-// WHY: Wizard instance is provided through devPanelButtons for accessing selection methods
-// PATTERN: Safely unwrap wizard from devPanelButtons
 const wizard = computed(() => {
   return devPanelButtons.value?.wizard ?? null
 })
@@ -463,9 +374,6 @@ const wizard = computed(() => {
 // LEARNING: allActiveServiceTypes and serviceTypeOptions are now provided by useDevPanelsComputed composable
 // WHY: Extracted to composable to reduce component complexity
 
-// LEARNING: Get currently selected service type for dropdown
-// WHY: Dropdown needs to show current selection
-// PATTERN: Get first selected service or null
 const selectedServiceTypeId = computed(() => {
   const wizardInstance = wizard.value
   if (!wizardInstance) return null
@@ -474,9 +382,6 @@ const selectedServiceTypeId = computed(() => {
   return selected[0].id
 })
 
-// LEARNING: Handle service type change from dropdown
-// WHY: Updates wizard selection when user selects a different service type
-// PATTERN: Find service instance by ID and call wizard toggle method
 const handleServiceTypeChange = (serviceId: string | null): void => {
   const wizardInstance = wizard.value
   if (!wizardInstance || !serviceId) return
@@ -487,49 +392,30 @@ const handleServiceTypeChange = (serviceId: string | null): void => {
   }
 }
 
-// LEARNING: Get global data accessor
-// WHY: Need to access event shapes from global data
 const { getGlobalData, getGlobalEntities } = useGlobal()
 
-// LEARNING: Get all event shapes from global data for dynamic iteration
-// WHY: Event shapes are dynamic entities, need to iterate through all of them
-// PATTERN: Computed property that reads from globalData using getGlobalEntities helper
 const eventShapes = computed<EventShape[]>(() => {
   return getGlobalEntities('eventShape') as EventShape[]
 })
 
-// LEARNING: Check if selected service is differential
-// WHY: Shows differential status in dev panel for debugging
-// PATTERN: Check if any selected service has differential === 'true' using equals helper
 const isSelectedServiceDifferential = computed(() => {
   const wizardInstance = wizard.value
   if (!wizardInstance) {
-    // #region agent log
     fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:537',message:'isSelectedServiceDifferential=false: no wizard',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
     return false
   }
   
   const selectedServices = wizardInstance.selectedServiceTypeBlocks?.value || []
   if (selectedServices.length === 0) {
-    // #region agent log
     fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:540',message:'isSelectedServiceDifferential=false: no services',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
     return false
   }
   
-  // Check if any service is differential
   const result = selectedServices.some(s => equals(s.differential, 'true'))
-  // #region agent log
   fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'DevPanelsContainer.vue:543',message:'isSelectedServiceDifferential result',data:{result,selectedServices:selectedServices.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-  // #endregion
   return result
 })
 
-// LEARNING: Check if a partShape has a specific event shape
-// WHY: Events are stored on AppointmentShape.eventAssignmentsByPartShape, need helper to check
-// PATTERN: Look up EventInstance[] for partShape, check EventShape via eventInstance.eventShapeRef
-// LEARNING: Use isTernary and ternaryDefault properties instead of hard-coded event names
 const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean => {
   const shape = appointmentData.value.appointmentShape
   if (!shape || !shape.eventAssignmentsByPartShape) return false
@@ -537,11 +423,9 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   const events = shape.eventAssignmentsByPartShape[partShapeName] || []
   if (events.length === 0) return false
   
-  // Get EventShapes from globalData to look up event shapes
   const allEventShapes = getGlobalEntities('eventShape') as EventShape[]
   const eventShapeById = new Map(allEventShapes.map(es => [es.id, es]))
   
-  // Check if any event has matching shape ID
   const matchingEvent = events.find(ei => {
     const es = eventShapeById.get(ei.eventShapeRef)
     return es?.id === eventShape.id
@@ -549,7 +433,6 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   
   if (!matchingEvent) return false
   
-  // For ternary events, use ternaryDefault or fail gracefully
   if (eventShape.isTernary) {
     const ternaryValue = eventShape.ternaryDefault
     if (ternaryValue === null) {
@@ -559,7 +442,6 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
     return toBoolean(ternaryValue, 'strict')
   }
   
-  // For boolean events, existence means active
   return true
 }
 
@@ -995,14 +877,10 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   background-color: rgb(var(--v-theme-surface)) !important;
   opacity: 1 !important;
   
-  // LEARNING: Ensure all child elements are also opaque
-  // WHY: Prevents any transparency from cascading down
   :deep(*) {
     background-color: transparent;
   }
   
-  // LEARNING: Ensure VCardText and content areas have solid backgrounds
-  // WHY: Makes panel content fully readable
   :deep(.v-card-text),
   :deep(.v-window-item) {
     background-color: rgb(var(--v-theme-surface));

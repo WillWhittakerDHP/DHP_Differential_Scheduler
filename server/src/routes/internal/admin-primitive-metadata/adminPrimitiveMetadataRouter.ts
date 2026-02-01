@@ -23,12 +23,10 @@ function computeRenderAs(
   inputConfig: Record<string, unknown> | null | undefined,
   fieldKey: string
 ): 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection' {
-  // Special cases first
   if (fieldKey === 'icon') {
     return 'iconSelect'
   }
   
-  // If inputConfig exists, determine select type from config
   if (inputConfig && typeof inputConfig === 'object') {
     const selectType = inputConfig.selectType as string | undefined
     if (selectType === 'partsCollectionSelect') {
@@ -38,15 +36,12 @@ function computeRenderAs(
     if (selectMode === 'multiple') {
       return 'multiselect'
     }
-    // Default to reference for relationship selects
     if (inputConfig.targetMode === 'relationship') {
       return 'reference'
     }
-    // Default to select for other selects
     return 'select'
   }
   
-  // Base renderAs on dataType
   // LEARNING: Ternary fields use 'boolean' dataType but render as statusButton
   // WHY: Ternary is a boolean variant with three states, still renders as status button
   if (dataType === 'boolean' || dataType === 'ternary') {
@@ -59,15 +54,9 @@ function computeRenderAs(
     return 'reference'
   }
   
-  // Default to text for string and other types
   return 'text'
 }
 
-/**
- * GET /admin-primitive-metadata/:entityType/:entityId
- * Get primitive metadata for an entity (with inheritance for instances)
- * Returns merged metadata: instance overrides + inherited shape metadata
- */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId } = req.params;
@@ -81,13 +70,11 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
       return;
     }
 
-    // Use composer to get metadata (handles inheritance)
     const metadata = await getAdminPrimitiveMetadata(
       entityType as 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
       entityId
     );
 
-    // Convert to Record format expected by client
     const metadataRecord: Record<string, Omit<typeof metadata[0], 'fieldKey'>> = {};
     for (const meta of metadata) {
       metadataRecord[meta.fieldKey] = {
@@ -115,11 +102,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
   }
 });
 
-/**
- * POST /admin-primitive-metadata/:entityType/:entityId
- * Create or update primitive metadata for an entity
- * Body: { fieldKey, dataType, label, isRequired, visibility, layout, displayOrder, renderAs?, statusButtonColor?, panel?, bulkEdit?, inputConfig? }
- */
 router.post('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId } = req.params;
@@ -138,8 +120,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       inputConfig = null,
     } = req.body;
     
-    // LEARNING: Auto-compute renderAs if not provided
-    // WHY: renderAs should be automatically determined from dataType and inputConfig
     // PATTERN: Use provided renderAs if present, otherwise compute it
     const renderAs = providedRenderAs || computeRenderAs(dataType, inputConfig, fieldKey)
 
@@ -172,7 +152,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
 
     // Validate inputConfig - required for select/multiselect/reference/relationshipCollection fields
     // LEARNING: Accepts both FormFieldConfig structure (new format) and direct select config (old format)
-    // WHY: Supports backward compatibility during transition
     // PATTERN: Validate that inputConfig exists and is an object, accept any valid JSONB structure
     if (renderAs === 'select' || renderAs === 'multiselect' || renderAs === 'reference' || renderAs === 'relationshipCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
@@ -185,7 +164,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       }
     }
 
-    // Check if entry already exists
     const existing = await AdminPrimitiveMetadata.findOne({
       where: {
         entityType: entityType as any,
@@ -195,7 +173,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     });
 
     if (existing) {
-      // Update existing entry
       await existing.update({
         dataType,
         label,
@@ -212,7 +189,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
 
       res.json(existing);
     } else {
-      // Create new entry
       const metadata = await AdminPrimitiveMetadata.create({
         entityType: entityType as any,
         entityId: entityId,
@@ -241,10 +217,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
   }
 });
 
-/**
- * DELETE /admin-primitive-metadata/:entityType/:entityId/:fieldKey
- * Delete primitive metadata for a specific field
- */
 router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId, fieldKey } = req.params;

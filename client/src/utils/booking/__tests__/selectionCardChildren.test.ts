@@ -1,19 +1,3 @@
-/**
- * SELECTIONCARDCHILDREN TESTS
- * 
- * Unit tests for selectionCardChildren utility.
- * Tests child item functions for selection cards.
- * 
- * What it covers:
- * - getVisibleSelectionCardChildren: Get visible children items
- * - shouldSelectionCardExpand: Determine if card should expand
- * 
- * How it works:
- * - Tests each function with various config and item inputs
- * 
- * Dependencies:
- * - vitest for testing
- */
 
 import { describe, it, expect, vi } from 'vitest'
 import {
@@ -22,7 +6,6 @@ import {
 } from '../selectionCardChildren'
 import type { SelectionCardConfig, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 
-// Helper to create mock item
 function createItem(id: string, options: Partial<SelectionCardItem> = {}): SelectionCardItem {
   return {
     id,
@@ -32,7 +15,6 @@ function createItem(id: string, options: Partial<SelectionCardItem> = {}): Selec
   } as SelectionCardItem
 }
 
-// Helper to create mock config
 function createConfig(overrides: Partial<SelectionCardConfig> = {}): SelectionCardConfig {
   return {
     selectionType: 'radio',

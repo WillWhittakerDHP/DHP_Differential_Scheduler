@@ -20,26 +20,14 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '../useFieldContext'
 
-/**
- * Fields structure (unified layout)
- */
 export interface FieldsByLayout {
   inline: Array<GlobalFieldKey<GlobalEntityKey>>
   stacked: Array<GlobalFieldKey<GlobalEntityKey>>
 }
 
-/**
- * Entity Card Layout Composable Options
- */
 export interface UseEntityCardLayoutOptions {
-  /**
-   * Entity type key
-   */
   entityKey: GlobalEntityKey
   
-  /**
-   * Reference to EntityFormContent component
-   */
   formContentRef: Ref<{
     readyInlineFields?: Ref<Array<GlobalFieldKey<GlobalEntityKey>>>
     readyStackedFields?: Ref<Array<GlobalFieldKey<GlobalEntityKey>>>
@@ -49,25 +37,13 @@ export interface UseEntityCardLayoutOptions {
   } | null>
 }
 
-/**
- * Entity Card Layout Composable Return Type
- */
 export interface UseEntityCardLayoutReturn {
-  /**
-   * Fields grouped by layout (inline/stacked)
-   */
   fields: Ref<FieldsByLayout>
   
-  /**
-   * Get field context for a field
-   */
   getFieldContext: (
     fieldKey: GlobalFieldKey<GlobalEntityKey>
   ) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   
-  /**
-   * Whether fields should be rendered
-   */
   shouldRenderFields: Ref<boolean>
 }
 
@@ -82,7 +58,6 @@ export function useEntityCardLayout(
   options: UseEntityCardLayoutOptions
 ): UseEntityCardLayoutReturn {
   const {
-    // entityKey available for future entity-specific layout logic if needed
     formContentRef
   } = options
   

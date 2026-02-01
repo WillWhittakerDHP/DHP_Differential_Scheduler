@@ -17,9 +17,6 @@ import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTr
 import type { ContactsStepData } from '@/types/wizard'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 
-// LEARNING: Inject loaded wizard state for populating form fields
-// WHY: Enables populating contact information from loaded appointment
-// PATTERN: Inject provided loadedWizardState and pass to composable
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 
 /**
@@ -43,7 +40,6 @@ const requiresAgent = computed(() => {
 })
 
 // LEARNING: Use contacts step data composable for contact form state management
-// WHY: Extracts contact form state and loaded wizard state handling from component
 // PATTERN: Composable handles all contact form data and optional section visibility
 const contactsStepData = useContactsStepData({
   loadedWizardState
@@ -83,9 +79,6 @@ const {
   requiresAgent
 })
 
-// LEARNING: Inject parent-provided refs for step data and validation state
-// WHY: Parent provides refs that children write to (provide/inject only works parent-to-child)
-// PATTERN: Inject refs from parent, sync local state to them
 const parentContactsStepData = inject<Ref<ContactsStepData | null>>('contactsStepData')
 const parentContactsStepValid = inject<Ref<boolean>>('contactsStepValid')
 const parentContactsStepValidate = inject<Ref<(() => boolean) | null>>('contactsStepValidate')
@@ -94,17 +87,12 @@ if (!parentContactsStepData || !parentContactsStepValid || !parentContactsStepVa
   throw new Error('Parent-provided refs not found. Make sure BookingWizard provides contactsStepData, contactsStepValid, and contactsStepValidate.')
 }
 
-// LEARNING: Sync local stepData to parent-provided ref
-// WHY: Enables BookingWizard to collect contact form data
-// PATTERN: Watch local stepData and update parent ref
 watch(stepData, (newData) => {
   if (parentContactsStepData) {
     parentContactsStepData.value = newData
   }
 }, { immediate: true, deep: true })
 
-// LEARNING: Sync local validation state to parent-provided refs
-// WHY: Enables BookingWizard to check step validity before navigation
 // PATTERN: Watch local validation state and update parent refs
 watch(isFormValid, (newValid) => {
   if (parentContactsStepValid) {
@@ -112,9 +100,6 @@ watch(isFormValid, (newValid) => {
   }
 }, { immediate: true })
 
-// LEARNING: Assign validateForm function directly to parent ref
-// WHY: validateForm is a function, not a ref, so we assign it directly
-// PATTERN: Assign function to parent ref (no watch needed)
 parentContactsStepValidate.value = validateForm
 </script>
 
@@ -421,7 +406,6 @@ parentContactsStepValidate.value = validateForm
 
 <style scoped lang="scss">
 .contacts-step {
-  // Component-specific styles if needed
 }
 </style>
 

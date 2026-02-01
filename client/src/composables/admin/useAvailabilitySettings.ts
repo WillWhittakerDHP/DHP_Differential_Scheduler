@@ -101,7 +101,6 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         throw new Error('minuteIncrement is required')
       }
       
-      // Extract business hours from rangeConstraints.businessHours.config.hours
       const businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig
       if (!businessHoursConfig.hours) {
         throw new Error('rangeConstraints.businessHours.config.hours is required')
@@ -109,8 +108,6 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
       const businessHours = businessHoursConfig.hours
       
       // Use settings directly - no migration
-      // LEARNING: Initialize durationRounding with defaults if not present
-      // WHY: Ensures formData always has durationRounding structure for UI binding
       // PATTERN: Provide default values for optional nested config
       const durationRounding = rawSettings.durationRounding || {
         enabled: false,
@@ -129,7 +126,6 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         differentialPerspectives: rawSettings.differentialPerspectives
       } as AvailabilitySettings
     } catch (err: any) {
-      // Explicit error - no fallbacks
       error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
       throw err
     } finally {
@@ -177,7 +173,6 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
    * PATTERN: API call with error handling and success feedback
    */
   const saveSettings = async (): Promise<void> => {
-    // Clear previous messages
     error.value = null
     success.value = null
     
@@ -226,15 +221,12 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
       // Include range constraints if configured
       if (formData.value.rangeConstraints) {
         settingsToSave.rangeConstraints = formData.value.rangeConstraints
-        // LEARNING: Ensure rangeConstraints.businessHours.config.hours matches top-level businessHours
-        // WHY: Slot generation reads from rangeConstraints.businessHours.config.hours, not top-level
         // PATTERN: Sync both locations to ensure consistency
         const businessHoursConstraint = settingsToSave.rangeConstraints.businessHours
         if (businessHoursConstraint && isBusinessHoursConfig(businessHoursConstraint.config)) {
           businessHoursConstraint.config.hours = formData.value.businessHours
         }
       } else {
-        // Create rangeConstraints with businessHours if it doesn't exist
         settingsToSave.rangeConstraints = {
           businessHours: {
             type: 'businessHours',
@@ -251,45 +243,36 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         settingsToSave.buffers = formData.value.buffers
       }
       
-      // Include capacity settings if configured
       if (formData.value.maxWorkHours) {
         settingsToSave.maxWorkHours = formData.value.maxWorkHours
       }
       if (formData.value.timezone) {
         settingsToSave.timezone = formData.value.timezone
       }
-      // LEARNING: Always include durationRounding if it exists in formData
-      // WHY: Ensures rounding configuration is persisted even with default values
       // PATTERN: Include optional config if present in formData
       if (formData.value.durationRounding) {
         settingsToSave.durationRounding = formData.value.durationRounding
       }
       
-      // Include differentialPerspectives if configured
       // LEARNING: Type assertion needed because TypeScript may not narrow type properly
-      // WHY: differentialPerspectives is optional in AvailabilitySettings interface, formData can be null
       // PATTERN: Use type assertion to access optional property that may exist at runtime
       if (formData.value && 'differentialPerspectives' in formData.value) {
         const perspectives = (formData.value as Record<string, unknown>).differentialPerspectives
         if (perspectives) {
           // LEARNING: Type assertion needed because settingsToSave type doesn't include differentialPerspectives
-          // WHY: settingsToSave is inferred from object literal, need to assert it can have differentialPerspectives
           // PATTERN: Use Record<string, unknown> to allow dynamic property assignment
           ;(settingsToSave as Record<string, unknown>).differentialPerspectives = perspectives
         }
       }
       
-      // Save settings to API
       await apiClient.put('/business-settings/availability_settings', {
         setting_value: settingsToSave,
       })
       
-      // Clear cache to force refresh
       invalidateAvailabilitySettingsCache()
       
       success.value = 'Settings saved successfully!'
       
-      // Clear success message after 3 seconds
       setTimeout(() => {
         success.value = null
       }, 3000)

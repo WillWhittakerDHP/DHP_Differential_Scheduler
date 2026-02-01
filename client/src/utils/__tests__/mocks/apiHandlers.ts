@@ -1,20 +1,10 @@
-/**
- * API MOCK HANDLERS
- * 
- * Mock Service Worker (MSW) request handlers for testing API calls.
- * Provides realistic API responses for all entity and relationship endpoints.
- */
 
 import { http, HttpResponse } from 'msw'
 import { createAtomicBlockGlobalData, createCompositeBlockGlobalData } from '../factories/globalDataFactory'
 
 const BASE_URL = 'http://localhost:3001/api/v1'
 
-/**
- * Mock handlers for entity endpoints
- */
 export const entityHandlers = [
-  // GET /entities/:entityKey
   http.get(`${BASE_URL}/entities/:entityKey`, ({ params }) => {
     const { entityKey } = params
     const globalData = createAtomicBlockGlobalData()
@@ -25,7 +15,6 @@ export const entityHandlers = [
     })
   }),
   
-  // GET /entities/:entityKey/:id
   http.get(`${BASE_URL}/entities/:entityKey/:id`, ({ params }) => {
     const { entityKey, id } = params
     const globalData = createAtomicBlockGlobalData()
@@ -45,7 +34,6 @@ export const entityHandlers = [
     })
   }),
   
-  // POST /entities/:entityKey
   http.post(`${BASE_URL}/entities/:entityKey`, async ({ request, params }) => {
     const { entityKey } = params
     const body = await request.json()
@@ -62,7 +50,6 @@ export const entityHandlers = [
     }, { status: 201 })
   }),
   
-  // PUT /entities/:entityKey/:id
   http.put(`${BASE_URL}/entities/:entityKey/:id`, async ({ request, params }) => {
     const { id } = params
     const body = await request.json()
@@ -77,7 +64,6 @@ export const entityHandlers = [
     })
   }),
   
-  // DELETE /entities/:entityKey/:id
   http.delete(`${BASE_URL}/entities/:entityKey/:id`, ({ params }) => {
     const { id } = params
     
@@ -88,11 +74,7 @@ export const entityHandlers = [
   }),
 ]
 
-/**
- * Mock handlers for relationship endpoints
- */
 export const relationshipHandlers = [
-  // GET /relationships/:relationshipKey
   http.get(`${BASE_URL}/relationships/:relationshipKey`, ({ params }) => {
     const { relationshipKey } = params
     const globalData = createCompositeBlockGlobalData()
@@ -103,7 +85,6 @@ export const relationshipHandlers = [
     })
   }),
   
-  // POST /relationships/:relationshipKey
   http.post(`${BASE_URL}/relationships/:relationshipKey`, async ({ request, params }) => {
     const { relationshipKey } = params
     const body = await request.json()
@@ -118,7 +99,6 @@ export const relationshipHandlers = [
     }, { status: 201 })
   }),
   
-  // DELETE /relationships/:relationshipKey/:parentId/:childId
   http.delete(`${BASE_URL}/relationships/:relationshipKey/:parentId/:childId`, () => {
     return HttpResponse.json({
       success: true,
@@ -127,11 +107,7 @@ export const relationshipHandlers = [
   }),
 ]
 
-/**
- * Mock handlers for appointment endpoints
- */
 export const appointmentHandlers = [
-  // GET /appointments
   http.get(`${BASE_URL}/appointments`, () => {
     return HttpResponse.json({
       success: true,
@@ -139,7 +115,6 @@ export const appointmentHandlers = [
     })
   }),
   
-  // GET /appointments/:id
   http.get(`${BASE_URL}/appointments/:id`, ({ params }) => {
     const { id } = params
     
@@ -157,7 +132,6 @@ export const appointmentHandlers = [
     })
   }),
   
-  // POST /appointments
   http.post(`${BASE_URL}/appointments`, async ({ request }) => {
     const body = await request.json()
     
@@ -173,11 +147,7 @@ export const appointmentHandlers = [
   }),
 ]
 
-/**
- * Mock handlers for availability endpoints
- */
 export const availabilityHandlers = [
-  // GET /availability
   http.get(`${BASE_URL}/availability`, () => {
     return HttpResponse.json({
       success: true,
@@ -189,9 +159,6 @@ export const availabilityHandlers = [
   }),
 ]
 
-/**
- * All mock handlers combined
- */
 export const handlers = [
   ...entityHandlers,
   ...relationshipHandlers,

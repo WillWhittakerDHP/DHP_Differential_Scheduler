@@ -15,22 +15,6 @@ import type { TimeSlot, TimeRange, AppointmentSlots } from '@/types/appointment'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { rfc3339ToLocalHHmm } from '@/composables/useLocalTime'
 
-/**
- * Extract time string (HH:mm) from RFC3339 datetime format
- * 
- * LEARNING: Extracts time portion from RFC3339 datetime for matching (UI-boundary function)
- * WHY: Time slot matching needs to compare times, but RFC3339 is UTC - convert to local for matching
- * PATTERN: Use useLocalTime composable to extract local HH:mm from RFC3339
- * 
- * LEARNING: Function used internally - not exported as it's not part of public API
- * WHY: This function is only used within this file by other functions
- * 
- * NOTE: This function is used for matching time slots, not display.
- * For display formatting, use useLocalTime composable directly.
- * 
- * @param value - RFC3339 datetime string or Date object
- * @returns Time string in HH:mm format (local timezone), or null if invalid
- */
 function extractTimeString(value: string | Date): string | null {
   try {
     // LEARNING: Only accept RFC3339 format (ISO timestamp)
@@ -54,7 +38,6 @@ function extractTimeString(value: string | Date): string | null {
     }
     
     // LEARNING: Use useLocalTime composable for local time extraction
-    // WHY: Centralizes all local time conversions at UI boundary
     // PATTERN: Use rfc3339ToLocalHHmm from useLocalTime
     return rfc3339ToLocalHHmm(rfc3339)
   } catch {
@@ -89,11 +72,6 @@ function findMatchingTimeSlot(
   })
 }
 
-/**
- * Loaded time slot structure (from saved appointments)
- * LEARNING: Uses startTime (RFC3339) to match SelectedTimeSlot format
- * WHY: SelectedTimeSlot now uses startTime/endTime format, matching code should use same format
- */
 export interface LoadedTimeSlot {
   startTime: string  // RFC3339 datetime string
   endTime?: string   // Optional RFC3339 datetime string (for future use)
@@ -123,7 +101,6 @@ export function matchLoadedTimeSlots(
 ): void {
   if (loadedSlots.length === 0 || availableSlots.length === 0) return
 
-  // Match first slot to major
   if (loadedSlots.length > 0) {
     const majorMatch = findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots)
     if (majorMatch) {
@@ -131,7 +108,6 @@ export function matchLoadedTimeSlots(
     }
   }
 
-  // Match second slot to minor (if exists)
   if (loadedSlots.length > 1) {
     const minorMatch = findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots)
     if (minorMatch) {
@@ -213,25 +189,19 @@ export function findMatchingAppointmentSlot(
   const appointmentSlot = findAppointmentSlotByOrderIndex(appointmentSlots, orderIndex)
   if (!appointmentSlot) return undefined
 
-  // LEARNING: Extract TimeRange based on time perspective
-  // WHY: Different perspectives show different times at the same position
   // PATTERN: Use eventTimeRanges lookup by event name (configured via availabilitySettings)
   let slot: TimeRange | null = null
   
   if (timeBasis === 'minor') {
-    // TODO: Get minor event name from availabilitySettings
     const minorEventName = 'Minor'
     slot = appointmentSlot.eventTimeRanges?.[minorEventName] || appointmentSlot.totalTimeRange
   } else {
-    // TODO: Get major event name from availabilitySettings
     const majorEventName = 'Major'
     slot = appointmentSlot.eventTimeRanges?.[majorEventName] || appointmentSlot.totalTimeRange
   }
 
   if (!slot) return undefined
 
-  // LEARNING: Verify the slot time matches loaded time
-  // WHY: Ensure we're matching the correct slot even when position matches
   // PATTERN: Compare time strings
   const loadedTimeString = extractTimeString(loadedSlot.startTime)
   const slotTimeString = extractTimeString(slot.startTime)
@@ -265,8 +235,6 @@ function matchLoadedTimeSlotsToAppointmentSlots(
 ): void {
   if (loadedSlots.length === 0 || appointmentSlots.length === 0) return
 
-  // LEARNING: Match first slot to major (orderIndex 0)
-  // WHY: First loaded slot represents major start time
   // PATTERN: Find AppointmentSlot at orderIndex 0, extract major perspective TimeSlot
   if (loadedSlots.length > 0) {
     const majorMatch = findMatchingAppointmentSlot(
@@ -280,11 +248,8 @@ function matchLoadedTimeSlotsToAppointmentSlots(
     }
   }
 
-  // LEARNING: Match second slot to minor (orderIndex 0 or 1, depending on structure)
-  // WHY: Second loaded slot represents minor start time (if different from major)
   // PATTERN: Try orderIndex 0 first (same position, different time), then orderIndex 1
   if (loadedSlots.length > 1) {
-    // Try matching at same orderIndex first (differential - same position, different time)
     let minorMatch = findMatchingAppointmentSlot(
       loadedSlots[1],
       appointmentSlots,
@@ -292,7 +257,6 @@ function matchLoadedTimeSlotsToAppointmentSlots(
       'minor'
     )
     
-    // If no match at orderIndex 0, try orderIndex 1 (different position)
     if (!minorMatch && appointmentSlots.length > 1) {
       minorMatch = findMatchingAppointmentSlot(
         loadedSlots[1],

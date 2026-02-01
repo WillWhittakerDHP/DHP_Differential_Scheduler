@@ -31,7 +31,6 @@ export class BlockInstance extends Model<
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  // ✅ Add valid children
   declare partAssignments?: PartAssignment[];
   declare bookingCascades?: BookingCascade[];
 }

@@ -7,31 +7,24 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    // Check if entity_pools table exists
     const tableExists = await queryInterface.tableExists('entity_pools');
     
     if (tableExists) {
-      // Rename table
       await queryInterface.renameTable('entity_pools', 'entity_aggregates');
       
-      // Rename columns
       await queryInterface.renameColumn('entity_aggregates', 'pool_coordinator_id', 'aggregate_id');
       await queryInterface.renameColumn('entity_aggregates', 'member_id', 'particle_id');
       
-      // Remove old indexes
       try {
         await queryInterface.removeIndex('entity_aggregates', 'idx_pool_coordinator');
       } catch (error) {
-        // Index might not exist, ignore
       }
       
       try {
         await queryInterface.removeIndex('entity_aggregates', 'idx_member');
       } catch (error) {
-        // Index might not exist, ignore
       }
       
-      // Create new indexes with new column names
       await queryInterface.addIndex('entity_aggregates', ['aggregate_id'], {
         name: 'idx_aggregate',
       });
@@ -60,38 +53,29 @@ export default {
   },
 
   async down(queryInterface, Sequelize) {
-    // Check if entity_aggregates table exists
     const tableExists = await queryInterface.tableExists('entity_aggregates');
     
     if (tableExists) {
-      // Remove indexes
       try {
         await queryInterface.removeIndex('entity_aggregates', 'idx_aggregate');
       } catch (error) {
-        // Ignore
       }
       
       try {
         await queryInterface.removeIndex('entity_aggregates', 'idx_particle');
       } catch (error) {
-        // Ignore
       }
       
-      // Remove constraint
       try {
         await queryInterface.removeConstraint('entity_aggregates', 'unique_aggregate_particle');
       } catch (error) {
-        // Ignore
       }
       
-      // Rename columns back
       await queryInterface.renameColumn('entity_aggregates', 'aggregate_id', 'pool_coordinator_id');
       await queryInterface.renameColumn('entity_aggregates', 'particle_id', 'member_id');
       
-      // Rename table back
       await queryInterface.renameTable('entity_aggregates', 'entity_pools');
       
-      // Recreate old indexes
       await queryInterface.addIndex('entity_pools', ['pool_coordinator_id'], {
         name: 'idx_pool_coordinator',
       });
@@ -100,7 +84,6 @@ export default {
         name: 'idx_member',
       });
       
-      // Recreate constraint
       await queryInterface.addConstraint('entity_pools', {
         fields: ['pool_coordinator_id', 'member_id'],
         type: 'unique',

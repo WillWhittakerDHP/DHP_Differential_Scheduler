@@ -13,7 +13,6 @@
 import { APPOINTMENT_STATUSES } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import { getStatusColor, getRoleColor } from '@/composables/admin/tables/useAppointmentHelpers'
-// Note: PropertyResponse and UserResponse types removed - not used
 
 /**
  * LEARNING: Component emits for parent communication
@@ -89,7 +88,6 @@ const navigateToUsers = (): void => {
   emit('navigate-to-tab', 'users')
 }
 
-// Helper functions moved to useAppointmentHelpers composable
 </script>
 
 <template>
@@ -673,10 +671,6 @@ const navigateToUsers = (): void => {
   color: rgb(var(--v-theme-primary));
 }
 
-/**
- * LEARNING: Tooltip content styling
- * WHY: Consistent, readable tooltip appearance
- */
 .tooltip-content {
   padding: 8px;
   min-width: 200px;
@@ -700,10 +694,6 @@ const navigateToUsers = (): void => {
   font-style: italic;
 }
 
-/**
- * LEARNING: Scheduled By tooltip name-prominent styling
- * WHY: User name is the primary info, role shown in cell
- */
 .tooltip-name {
   font-size: 1.1em;
   font-weight: bold;
@@ -727,10 +717,6 @@ const navigateToUsers = (): void => {
   margin-bottom: 4px;
 }
 
-/**
- * LEARNING: Clickable chip styling
- * WHY: Indicates chips are interactive (click to navigate)
- */
 .clickable-chip {
   cursor: pointer;
 }

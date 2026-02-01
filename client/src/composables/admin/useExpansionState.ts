@@ -12,18 +12,9 @@
 
 import { ref, type Ref } from 'vue'
 
-/**
- * Expansion State Composable Return Type
- */
 export interface UseExpansionStateReturn {
-  /**
-   * Expanded entities state (array of entity IDs)
-   */
   expandedEntities: Ref<string[]>
   
-  /**
-   * Check if a panel is expanded
-   */
   isPanelExpanded: (entityId: string) => boolean
 }
 

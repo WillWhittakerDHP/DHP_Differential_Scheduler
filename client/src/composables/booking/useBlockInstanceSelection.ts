@@ -11,14 +11,8 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 
-/**
- * Selection mode for block instances
- */
 export type SelectionMode = 'single' | 'multiple'
 
-/**
- * Generic block instance selection parameters
- */
 interface UseBlockInstanceSelectionParams {
   selectedBlocks: Ref<BookingBlockInstance[]>
   availableBlocks: ComputedRef<BookingBlockInstance[]>
@@ -26,23 +20,14 @@ interface UseBlockInstanceSelectionParams {
   selectionMode: SelectionMode
 }
 
-/**
- * Single-select return type (radio mode)
- */
 interface UseBlockInstanceSelectionReturnSingle {
   selectedBlockId: ComputedRef<string | null>
 }
 
-/**
- * Multi-select return type (checkbox mode)
- */
 interface UseBlockInstanceSelectionReturnMultiple {
   selectedBlockIds: ComputedRef<string[]>
 }
 
-/**
- * Union return type based on selection mode
- */
 type UseBlockInstanceSelectionReturn<Mode extends SelectionMode> = 
   Mode extends 'single' 
     ? UseBlockInstanceSelectionReturnSingle 
@@ -66,7 +51,6 @@ export function useBlockInstanceSelection<Mode extends SelectionMode>(
   } = params
 
   if (selectionMode === 'single') {
-    // Single-select mode (radio buttons)
     const selectedBlockId = computed({
       get: () => selectedBlocks.value.length > 0 
         ? selectedBlocks.value[0].id 
@@ -83,13 +67,11 @@ export function useBlockInstanceSelection<Mode extends SelectionMode>(
 
     return { selectedBlockId } as unknown as UseBlockInstanceSelectionReturn<Mode>
   } else {
-    // Multi-select mode (checkboxes)
     const selectedBlockIds = computed({
       get: () => selectedBlocks.value.map(b => b.id),
       set: (ids: string[]) => {
         const { resolved: blocks } = resolveByIds(availableBlocks.value, ids)
         
-        // Update using toggle if available, otherwise direct assignment
         if (toggleBlock) {
           selectedBlocks.value = []
           for (const block of blocks) {

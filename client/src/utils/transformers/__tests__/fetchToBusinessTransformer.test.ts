@@ -1,21 +1,3 @@
-/**
- * FETCH TO BUSINESS TRANSFORMER TESTS
- * 
- * Unit tests for BusinessTransformer class.
- * Tests business data fetching logic.
- * 
- * What it covers:
- * - fetchAll: Fetches appointments, properties, and users in parallel
- * - Error handling: Returns empty arrays on error
- * 
- * How it works:
- * - Mocks API client to test successful and error scenarios
- * - Tests parallel fetching behavior
- * - Tests error handling
- * 
- * Dependencies:
- * - vitest for testing
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { BusinessTransformer, businessTransformer } from '../fetchToBusinessTransformer'
@@ -23,7 +5,6 @@ import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
 
-// Mock API client
 vi.mock('@/utils/api', () => ({
   default: {
     get: vi.fn()
@@ -40,7 +21,6 @@ describe('BusinessTransformer', () => {
   beforeEach(async () => {
     vi.clearAllMocks()
     transformer = new BusinessTransformer()
-    // Get the mocked apiClient
     const apiModule = await import('@/utils/api')
     apiClient = apiModule.default
   })

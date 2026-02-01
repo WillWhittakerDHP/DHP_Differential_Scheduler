@@ -32,20 +32,12 @@ import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDrop
 import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
-// LEARNING: Create single wizard instance for all steps
-// WHY: Ensures all step components share the same wizard state
-// PATTERN: Create instance once in parent, provide to children
 const wizard = useBookingWizard()
 provide('wizard', wizard)
 
-// LEARNING: Step definitions from centralized config
-// WHY: Extracted to configs/wizardSteps.ts for reusability
-// PATTERN: Import step configuration from config file
 const steps = WIZARD_STEPS
 
-// LEARNING: Step data refs management
 // WHY: Encapsulates step data and validation state refs creation and provide/inject setup
-// PATTERN: Use composable for managing step data refs
 const {
   propertyDetailsStepData,
   contactsStepData,
@@ -59,15 +51,9 @@ const {
   availabilityStepValidate,
 } = useWizardStepDataRefs()
 
-// LEARNING: Provide loaded wizard state for form field population
-// WHY: Enables step components to populate form fields from loaded appointment
-// PATTERN: Provide reactive ref that step components can watch
-// NOTE: loadedWizardState will be provided by useWizardAppointmentManagement
 
 // LEARNING: Use wizard validation composable
-// WHY: Extracts validation logic from component to composable
 // PATTERN: Composable provides validation function
-// NOTE: Pass refs directly; composable unwraps them reactively.
 const { stepValidators } = useBookingWizardStepValidators({
   selectedUserTypeBlock: wizard.selectedUserTypeBlock,
   selectedServices: wizard.selectedServiceTypeBlocks,
@@ -83,16 +69,12 @@ const { validateStep } = useWizardValidation({
   stepValidators: stepValidators, // Pass computed ref directly so validation uses current values
 })
 
-// LEARNING: Get notification functions BEFORE using them in composables
-// WHY: showError is needed by useWizardNavigation, so it must be defined first
-// PATTERN: Define dependencies before using them
 // NOTE: Define showError explicitly to avoid temporal dead zone issues
 const notificationComposable = useNotification()
 const showError = notificationComposable.error
 const success = notificationComposable.success
 
 // LEARNING: Use wizard navigation composable
-// WHY: Extracts navigation logic from component to composable
 // PATTERN: Composable provides navigation functions and state
 const {
   activeStep,
@@ -109,9 +91,6 @@ const {
   showError
 })
 
-// LEARNING: Validation error handling
-// WHY: Encapsulates step-specific validation error message logic
-// PATTERN: Use composable for handling validation errors
 const { handleNext } = useWizardValidationErrors({
   activeStep,
   validateStep,
@@ -125,34 +104,25 @@ const { handleNext } = useWizardValidationErrors({
   selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
 })
 
-// LEARNING: Step click handler
 // WHY: Navigation composable handles validation, just pass through
-// PATTERN: Use composable function directly
 const handleStepClick = baseHandleStepClick
 
-// LEARNING: Appointment mutation for creating appointments
-// WHY: Handles appointment creation with loading and error states
 // PATTERN: useMutation from useAppointment composable
 const { create, update, fetchAll, fetchRandom } = useAppointment()
 const { loadAppointmentById } = useAppointmentLoader()
 const { create: createProperty } = useProperty()
 const { create: createUser } = useUser()
-// NOTE: success and showError are already defined above via useNotification()
 
-// LEARNING: Get booking data for appointment transformation
 // WHY: Needed to transform appointment to wizard state
 // PATTERN: Use useBooking composable to get scheduler data
 const { bookingData } = useBooking()
 
-// LEARNING: Appointment dropdown items
 // WHY: Encapsulates appointment dropdown formatting logic
-// PATTERN: Use composable for formatting appointments array to dropdown items
 const { appointmentDropdownItems } = useAppointmentDropdown({
   fetchAll,
 })
 
 // LEARNING: Use appointment data collection composable
-// WHY: Extracts massive data collection logic from component to composable
 // PATTERN: Composable provides data collection function
 const { collectAppointmentData } = useAppointmentDataCollection({
   wizard: {
@@ -170,9 +140,6 @@ const { collectAppointmentData } = useAppointmentDataCollection({
   showError
 })
 
-// LEARNING: Appointment management
-// WHY: Encapsulates appointment loading, updating, and wizard reset logic
-// PATTERN: Use composable for managing appointment operations
 // NOTE: Must be called before useWizardDisplay since it provides loadedWizardState
 const {
   loadedWizardState,
@@ -209,7 +176,6 @@ const {
 })
 
 // LEARNING: Use wizard display composable
-// WHY: Extracts display logic from component to composable
 // PATTERN: Composable provides reactive computed properties for display
 const {
   stepSubtitles,
@@ -220,30 +186,23 @@ const {
 })
 
 // LEARNING: Use wizard step content composable
-// WHY: Extracts component mapping logic from component to composable
 // PATTERN: Composable provides step content component mapping
 const { getStepContent } = useWizardStepContent()
 
 // LEARNING: Use theme mode composable for quote mode theme switching
-// WHY: Provides reactive theme colors and updates CSS variables when quote mode changes
 // PATTERN: Composable watches isQuoteMode and updates theme colors automatically
 // NOTE: Pass wizard instance directly since we have it in scope
 useThemeMode(wizard)
 
 // LEARNING: Computed property for quote mode state
-// WHY: Provides reactive access to quote mode for UI color changes
 // PATTERN: Computed property that reads from wizard state
 const isQuoteMode = computed(() => wizard.isQuoteMode.value)
 
-// LEARNING: Toggle quote mode handler
-// WHY: Allows toggling quote mode from stepper button
-// PATTERN: Simple toggle function
 const toggleQuoteMode = (): void => {
   wizard.isQuoteMode.value = !wizard.isQuoteMode.value
 }
 
 // LEARNING: Use wizard submission composable
-// WHY: Extracts submission logic from component to composable
 // PATTERN: Composable provides submission function
 const { handleSubmit } = useWizardSubmission({
   collectAppointmentData,
@@ -254,14 +213,9 @@ const { handleSubmit } = useWizardSubmission({
   success
 })
 
-// LEARNING: Provide loaded wizard state for form field population
-// WHY: Enables step components to populate form fields from loaded appointment
-// PATTERN: Provide reactive ref that step components can watch
 provide('loadedWizardState', loadedWizardState)
 
-// LEARNING: Dev mode logic
 // WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
-// PATTERN: Use composable for managing dev mode
 const isDevMode = isDevModeEnabled()
 // LEARNING: Dev mode composable called for side effects, handleResetMocks not currently used
 // WHY: Composable may set up watchers or other side effects
@@ -393,10 +347,8 @@ useWizardDevMode({
 .booking-wizard {
   height: 100%;
   
-  // LEARNING: Quote mode color variables (20% less vibrant)
   // WHY: Defines quote mode color palette as CSS custom properties
   // PATTERN: CSS variables that override Vuetify theme variables when quote mode is active
-  // Colors: Primary-quote (#33BF78), Secondary-quote (#BD7832), Warning-quote (#E6465A)
   --quote-mode-primary: 51, 191, 120; // #33BF78 (green, 20% less vibrant)
   --quote-mode-primary-darken-1: 45, 168, 102; // #2DA866 (darker green)
   --quote-mode-secondary: 189, 120, 50; // #BD7832 (orange-brown, green - 120°, 20% less vibrant)
@@ -407,21 +359,14 @@ useWizardDevMode({
   --quote-mode-on-secondary: 255, 255, 255; // White text on orange-brown
   --quote-mode-on-warning: 255, 255, 255; // White text on red
   
-  // LEARNING: Inactive color variables for appointment slot buttons
-  // WHY: Provides muted colors for non-selected appointment slots
   // PATTERN: Lighter versions of active colors (80% white + 20% color)
-  // Normal mode inactive colors
   --inactive-primary: 227, 225, 252; // #E3E1FC (light purple, 80% white + 20% #7367F0)
   --inactive-secondary: 255, 236, 217; // #FFECD9 (light orange, 80% white + 20% #FF9F43)
   
-  // Quote mode inactive colors
   --quote-mode-inactive-primary: 214, 242, 228; // #D6F2E4 (light green, 80% white + 20% #33BF78)
   --quote-mode-inactive-secondary: 242, 228, 214; // #F2E4D6 (light orange-brown, 80% white + 20% #BD7832)
   
-  // LEARNING: Override Vuetify theme variables when quote mode is active
-  // WHY: All components using primary/secondary/warning colors automatically use quote mode colors
   // PATTERN: CSS variable override at component root level with :deep() to ensure cascading
-  // NOTE: useThemeMode composable also updates document root CSS variables for global scope
   &.quote-mode-active {
     --v-theme-primary: var(--quote-mode-primary);
     --v-theme-primary-darken-1: var(--quote-mode-primary-darken-1);
@@ -433,11 +378,9 @@ useWizardDevMode({
     --v-theme-on-secondary: var(--quote-mode-on-secondary);
     --v-theme-on-warning: var(--quote-mode-on-warning);
     
-    // Update inactive colors for quote mode
     --inactive-primary: var(--quote-mode-inactive-primary);
     --inactive-secondary: var(--quote-mode-inactive-secondary);
     
-    // Ensure variables cascade to all child elements (including Vuetify components)
     :deep(*) {
       --v-theme-primary: var(--quote-mode-primary);
       --v-theme-primary-darken-1: var(--quote-mode-primary-darken-1);
@@ -483,8 +426,6 @@ useWizardDevMode({
       padding: 16px 8px !important;
     }
     
-    // LEARNING: Quote mode active styling
-    // WHY: Provides visual feedback when quote mode is active
     // PATTERN: Background color change and border color change (colors handled by CSS variables)
     .booking-wizard.quote-mode-active & {
       background-color: rgba(var(--v-theme-primary), 0.05);
@@ -492,8 +433,6 @@ useWizardDevMode({
     }
   }
   
-  // LEARNING: Quote mode control styling
-  // WHY: Styles the quote mode button below stepper
   // PATTERN: Centered button with transition effects
   .quote-mode-control {
     margin-top: 16px;
@@ -518,8 +457,6 @@ useWizardDevMode({
   }
 }
 
-// LEARNING: Custom horizontal stepper styling
-// WHY: Creates visual stepper appearance at the top of the wizard
 // PATTERN: VList-based horizontal stepper with connectors and state styling
 .horizontal-stepper {
   padding: 0;
@@ -529,7 +466,6 @@ useWizardDevMode({
   justify-content: space-between;
   align-items: flex-start;
   
-  // Ensure VList items are arranged horizontally
   :deep(.v-list-item) {
     flex-direction: column;
     align-items: center;
@@ -594,7 +530,6 @@ useWizardDevMode({
       }
     }
     
-    // Connector line positioned after each step (except last)
     &:not(:last-child)::after {
       content: '';
       position: absolute;

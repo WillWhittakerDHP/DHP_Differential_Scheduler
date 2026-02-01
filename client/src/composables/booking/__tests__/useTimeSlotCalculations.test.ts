@@ -1,21 +1,9 @@
-/**
- * USETIMESLOTCALCULATIONS TESTS
- * 
- * Unit tests for useTimeSlotCalculations composable.
- * Tests duration calculations and time block formatting.
- * 
- * Coverage:
- * - onSiteTotal computed (sum of onSite part baseTime)
- * - presentationDuration computed (sum of clientPresent part baseTime)
- * - timeOnSiteBlocks computed (time block display data)
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref, computed } from 'vue'
 import { useTimeSlotCalculations } from '../useTimeSlotCalculations'
 import type { TimeSlot, AppointmentShape } from '@/types/appointment'
 
-// Mock useTimeFormatting
 vi.mock('@/composables/useTimeFormatting', () => ({
   useTimeFormatting: vi.fn(() => ({
     formatDuration: vi.fn((minutes: number) => {
@@ -28,7 +16,6 @@ vi.mock('@/composables/useTimeFormatting', () => ({
 }))
 
 describe('useTimeSlotCalculations', () => {
-  // Helper to create mock AppointmentShape
   const createMockAppointmentShape = (params: {
     onSite?: number
     clientPresent?: number

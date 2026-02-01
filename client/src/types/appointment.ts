@@ -76,9 +76,6 @@ export type AppointmentStatus =
   | 'cancelled' 
   | 'deleted';
 
-/**
- * Array of all appointment status values for use in select dropdowns
- */
 export const APPOINTMENT_STATUSES: AppointmentStatus[] = [
   'started',
   'held',
@@ -90,25 +87,12 @@ export const APPOINTMENT_STATUSES: AppointmentStatus[] = [
   'deleted',
 ];
 
-/**
- * TimeRange: Pure time range (no characteristics)
- * Used for totals and display
- */
 export interface TimeRange {
   startTime: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
   endTime: RFC3339DateTime      // RFC3339 datetime string (ISO 8601 with timezone)
   duration: number               // minutes
 }
 
-/**
- * TimeSlot: Time range with part characteristics
- * Used for category-specific slots
- * 
- * P0-2: Timezone handling
- * - startTime and endTime are RFC3339 UTC strings (e.g., "2026-01-15T14:00:00Z")
- * - All times are stored in UTC for consistency between client and server
- * - Display times are converted to local timezone in UI components
- */
 export interface TimeSlot extends TimeRange {
   major: boolean
   minor: boolean
@@ -120,10 +104,6 @@ export interface TimeSlot extends TimeRange {
 
 
 
-/**
- * PerspectiveKey: Keys for deriving display times
- * Logic names (not UI labels)
- */
 export type PerspectiveKey = 'major' | 'minor' | 'nonDifferential'
 
 /**
@@ -168,15 +148,10 @@ export interface SlotShape {
  * PATTERN: Store EventInstance[] keyed by partShape name on AppointmentShape
  */
 export interface AppointmentShape {
-  // Source of truth: finalized parts grouped by part shape only
   finalizedParts: PartFinal[]
   
-  // Slot shape: durations needed to create AppointmentSlot time ranges
   slotShape: SlotShape
   
-  // Event assignments for each part shape (appointment-level feature)
-  // LEARNING: Events are appointment features, parts just determine which events apply
-  // WHY: Events configured at shape level, stored here for efficient lookup during SlotShape calculation
   // PATTERN: Map partShape name → EventInstance[] for that shape
   eventAssignmentsByPartShape: Record<string, EventInstance[]>
 }
@@ -196,26 +171,17 @@ export interface AppointmentSlot {
   isAvailable: boolean  // true = available, false = busy/unavailable
   orderIndex?: number  // Optional: normalized position for multiple appointments (0-based)
   
-  // Reference to AppointmentShape (contains SlotShape, avoids duplication)
-  // LEARNING: Reference instead of duplicating SlotShape in each slot
-  // WHY: Memory efficiency - many slots share same shape, avoids duplicating 5 numbers per slot
   // PATTERN: Reference shape, access slotShape via shape.slotShape
-  // NOTE: Access pattern: slot.shape.slotShape.totalDuration (one level deeper, but no duplication)
   shape: AppointmentShape
   
-  // Base start time for this slot
   startTime: string
   
   // Precomputed time ranges (accessed frequently, so precompute for performance)
-  // LEARNING: Clear naming - these are TimeRanges, not durations
-  // WHY: Makes it clear these are time ranges with start/end times, not duration numbers
   // WHY: Precomputed because accessed frequently in UI (graphBars, derivePerspective, etc.)
   totalTimeRange: TimeRange | null          // From shape.slotShape.totalDuration + startTime
   eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange (e.g., { "majorEvent": {...}, "minorEvent": {...}, "Moveable": {...} })
   
   // Legacy properties for backward compatibility during migration (onSite->major rename)
-  // LEARNING: These are computed from eventTimeRanges for convenience
-  // WHY: Provides backward compatibility during migration from onSite/clientPresent to major/minor
   // PATTERN: Legacy properties that map to eventTimeRanges entries
   majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']
   minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']
@@ -230,16 +196,7 @@ export interface AppointmentSlot {
  */
 export type AppointmentSlots = AppointmentSlot[]
 
-// Removed unused exports: AvailabilityRequest, AvailabilityResponse
-// LEARNING: These types were exported but never imported elsewhere
-// WHY: Removes dead code to improve maintainability
 
-/**
- * Part Instance Snapshot Type
- * LEARNING: Represents a snapshot of part instance data at booking time
- * WHY: Preserves pricing/time data for historical accuracy
- * NOTE: Still used in deprecated fields of AppointmentRequest/AppointmentResponse
- */
 export interface PartInstanceSnapshot {
   id: string
   name: string
@@ -249,12 +206,6 @@ export interface PartInstanceSnapshot {
   rateOverBaseTime: number
 }
 
-/**
- * Block Instance Snapshot Type
- * LEARNING: Represents a snapshot of block instance data at booking time
- * WHY: Preserves pricing/names for historical accuracy
- * NOTE: Still used in deprecated fields of AppointmentRequest/AppointmentResponse
- */
 export interface BlockInstanceSnapshot {
   id: string
   name: string
@@ -265,12 +216,6 @@ export interface BlockInstanceSnapshot {
   partInstances: PartInstanceSnapshot[]
 }
 
-/**
- * AppointmentRequest interface for appointment creation
- * LEARNING: Request payload for creating appointments
- * WHY: Type-safe appointment creation structure matching server model
- * NOTE: propertyVersionId is the new field, propertyId is deprecated but kept for migration compatibility
- */
 export interface AppointmentRequest {
   propertyVersionId?: string | null; // New field (PropertyVersion ID)
   propertyId?: string | null; // Deprecated, kept for migration compatibility
@@ -305,11 +250,6 @@ export interface AppointmentRequest {
   moveableScheduling?: MoveableSchedulingOptions | null;
 }
 
-/**
- * Property interface for appointment relationships
- * LEARNING: Property data structure from appointment API relationships
- * WHY: Type-safe property data handling
- */
 export interface PropertyResponse {
   id: string;
   address: string;
@@ -327,11 +267,6 @@ export interface PropertyResponse {
   updatedAt: string;
 }
 
-/**
- * User interface for appointment relationships
- * LEARNING: User data structure from appointment API relationships
- * WHY: Type-safe user data handling
- */
 export interface UserResponse {
   id: string;
   firstName: string;
@@ -344,13 +279,6 @@ export interface UserResponse {
   updatedAt: string;
 }
 
-/**
- * AppointmentResponse interface matching server model
- * LEARNING: Response structure from appointment API
- * WHY: Type-safe appointment response handling
- * Phase 1.2.3: Added property, client, and agent relationships
- * Session 1.3.8: Updated to use propertyVersionId (propertyId deprecated but kept for compatibility)
- */
 export interface AppointmentResponse {
   id: string;
   propertyVersionId?: string | null; // New field (PropertyVersion ID)
@@ -397,7 +325,6 @@ export interface AppointmentResponse {
   moveableScheduling?: MoveableSchedulingOptions | null;
   createdAt: string;
   updatedAt: string;
-  // Relationships (included in API response)
   propertyVersion?: {
     id: string;
     addressId: string;

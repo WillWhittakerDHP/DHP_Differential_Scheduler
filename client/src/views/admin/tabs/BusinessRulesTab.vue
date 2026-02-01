@@ -36,11 +36,6 @@ const {
  */
 const { getGlobalEntities } = useGlobal()
 
-/**
- * LEARNING: Get available block instances for selection
- * WHY: Admin needs to select which service/dwelling adjustment to configure rules for
- * PATTERN: Filter block instances, map to select options
- */
 const availableBlockInstances = computed(() => {
   const blockInstances = getGlobalEntities('blockInstance')
   
@@ -48,21 +43,12 @@ const availableBlockInstances = computed(() => {
     id: bi.id,
     title: bi.name || `Block ${bi.id}`,
     value: bi.id,
-    // Group by blockShape.name if available (optional enhancement)
   }))
 })
 
-/**
- * LEARNING: Get available annotation instances for validation messages
- * WHY: Admin links business rules to annotation instances for messages
- * PATTERN: Filter annotation instances by type "validation_message"
- */
 const availableValidationMessages = computed(() => {
   const annotationInstances = getGlobalEntities('annotationInstance')
   
-  // TODO: Filter by annotationShape.name === 'validation_message'
-  // For now, show all annotation instances
-  // LEARNING: name field contains the annotation text (transformed from API "text" field)
   return annotationInstances.map(ai => ({
     id: ai.id,
     title: ai.name || `Annotation ${ai.id}`,
@@ -70,12 +56,10 @@ const availableValidationMessages = computed(() => {
   }))
 })
 
-// UI State
 const selectedBlockId: Ref<GlobalEntityId | null> = ref(null)
 const showRuleDialog = ref(false)
 const editingRule: Ref<BusinessRule | null> = ref(null)
 
-// Form Data
 const formData: Ref<BusinessRuleFormData> = ref({
   blockInstanceId: '',
   ruleType: 'required_fields',
@@ -84,7 +68,6 @@ const formData: Ref<BusinessRuleFormData> = ref({
   active: true
 })
 
-// Rule Type Options
 const ruleTypeOptions = [
   { title: 'Required Fields', value: 'required_fields', description: 'Additional required fields based on block selection' },
   { title: 'Requires Agent', value: 'requires_agent', description: 'Service requires agent/client contact information' },
@@ -166,20 +149,13 @@ const closeDialog = (): void => {
   }
 }
 
-/**
- * LEARNING: Save business rule (create or update)
- * WHY: Admin submits form, calls createRule or updateRule based on editingRule
- * PATTERN: Check if editing, call appropriate method, close dialog on success
- */
 const saveRule = async (): Promise<void> => {
   if (editingRule.value) {
-    // Update existing rule
     const result = await updateRule(editingRule.value.id, formData.value)
     if (result) {
       closeDialog()
     }
   } else {
-    // Create new rule
     const result = await createRule(formData.value)
     if (result) {
       closeDialog()
@@ -187,31 +163,16 @@ const saveRule = async (): Promise<void> => {
   }
 }
 
-/**
- * LEARNING: Delete business rule with confirmation
- * WHY: Admin clicks "Delete" on rule, confirms, deletes rule
- * PATTERN: Confirm dialog, call deleteRule on confirm
- */
 const handleDeleteRule = async (rule: BusinessRule): Promise<void> => {
   if (confirm(`Delete business rule for ${ruleTypeOptions.find(o => o.value === rule.ruleType)?.title}?`)) {
     await deleteRule(rule.id)
   }
 }
 
-/**
- * LEARNING: Format rule type for display
- * WHY: Convert rule_type enum to human-readable label
- * PATTERN: Find matching option, return title
- */
 const formatRuleType = (ruleType: RuleType): string => {
   return ruleTypeOptions.find(o => o.value === ruleType)?.title || ruleType
 }
 
-/**
- * LEARNING: Format rule config for display
- * WHY: Show rule config in a readable format
- * PATTERN: Type-specific formatting based on ruleType
- */
 const formatRuleConfig = (rule: BusinessRule): string => {
   switch (rule.ruleType) {
     case 'required_fields':

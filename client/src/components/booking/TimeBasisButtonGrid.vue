@@ -29,8 +29,6 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-// LEARNING: Get configured labels from availability settings
-// WHY: Labels are configurable in admin panel
 const { settings: availabilitySettings } = useAvailabilitySettings()
 const majorLabel = computed(() => 
   availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
@@ -70,8 +68,6 @@ const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerPr
 </template>
 
 <style scoped lang="scss">
-// LEARNING: Time basis button grid layout
-// WHY: Matches AppointmentSlotGrid styling for visual consistency
 // PATTERN: CSS Grid with fixed 140px columns, same as appointment slot grid
 .time-basis-button-grid {
   display: grid;
@@ -92,8 +88,6 @@ const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerPr
     margin-bottom: 1.5rem;
   }
   
-  // LEARNING: Time basis button sizing - matches appointment slot buttons
-  // WHY: Ensures visual consistency with appointment slot grid
   // PATTERN: Same sizing as .appointment-slot-btn
   .time-basis-btn {
     min-height: 44px; // Touch-friendly minimum size
@@ -111,8 +105,6 @@ const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerPr
       padding: 0.625rem 1.25rem !important; // Match appointment slot button padding
     }
     
-    // LEARNING: Inactive button styling (non-selected)
-    // WHY: Matches appointment slot button inactive styling
     // PATTERN: Same opacity and cursor as appointment slot buttons
     &--inactive {
       opacity: 0.6;

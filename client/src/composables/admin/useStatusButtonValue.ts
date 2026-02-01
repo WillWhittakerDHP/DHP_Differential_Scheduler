@@ -8,12 +8,6 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 
-/**
- * Get status button boolean value from entity
- * LEARNING: Read status-button booleans directly from the entity
- * WHY: Metadata may include fields that don't exist on an entity record yet (migration in progress)
- * PATTERN: Log missing property errors explicitly and default to false (visible failure, not silent filtering)
- */
 export function getStatusButtonBooleanValue<GE extends GlobalEntityKey>(
   entityKey: GE,
   entity: GlobalEntity<GE>,
@@ -34,9 +28,6 @@ export function getStatusButtonBooleanValue<GE extends GlobalEntityKey>(
   return fieldValue === true || fieldValue === 1 || fieldValue === 'true'
 }
 
-/**
- * Export as object for easier destructuring
- */
 export const useStatusButtonValue = {
   getStatusButtonBooleanValue
 }

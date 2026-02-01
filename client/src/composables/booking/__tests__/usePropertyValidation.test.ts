@@ -26,7 +26,6 @@ import { ref, computed } from 'vue'
 import { usePropertyValidation } from '../usePropertyValidation'
 
 describe('usePropertyValidation', () => {
-  // Helper to create form data refs
   function createFormData() {
     return {
       address: ref(''),
@@ -92,7 +91,6 @@ describe('usePropertyValidation', () => {
       formData.state.value = 'IL'
       formData.zipCode.value = '60601'
       formData.propertySize.value = 2500
-      // numberOfUnits is null
       
       const { isFormValid } = usePropertyValidation({
         formData,

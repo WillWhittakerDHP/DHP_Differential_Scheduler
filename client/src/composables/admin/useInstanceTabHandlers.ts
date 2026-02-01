@@ -33,8 +33,6 @@ export function useInstanceTabHandlers(
    *          causing content to disappear and potentially causing layout/scrolling issues
    */
   const handleTabClick = (tabValue: string): void => {
-    // Always set to clicked tab - don't allow collapse to empty string
-    // Empty string causes VWindow to have no matching VWindowItem, breaking the UI
     activeTab.value = tabValue
   }
 

@@ -37,8 +37,6 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-// LEARNING: Get configured labels from availability settings
-// WHY: Labels are configurable in admin panel
 const { settings: availabilitySettings } = useAvailabilitySettings()
 const majorLabel = computed(() => 
   availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
@@ -47,13 +45,10 @@ const minorLabel = computed(() =>
   availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
 )
 
-// LEARNING: Get configured labels from availability settings
-// WHY: Labels are configurable in admin panel
 const selectTimeSlotLabel = computed(() => 
   availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
 )
 
-// LEARNING: Get configured state labels from availability settings
 // WHY: State labels are configurable in admin panel
 const majorStateLabel = computed(() => 
   availabilitySettings.value?.differentialPerspectives?.majorStateLabel || `Showing ${majorLabel.value} times`
@@ -62,14 +57,10 @@ const minorStateLabel = computed(() =>
   availabilitySettings.value?.differentialPerspectives?.minorStateLabel || `Showing ${minorLabel.value} times`
 )
 
-// LEARNING: Check if a slot is selected
-// WHY: Determines when to show overlay vs filled bars
 const hasSelectedSlot = computed(() => 
   props.graphBars.major !== null || props.graphBars.minor !== null
 )
 
-// LEARNING: Handler for bar clicks
-// WHY: Toggles between major/minor perspectives when bars are clicked
 // PATTERN: Same toggle logic as TimeBasisButtonGrid
 const handleBarClick = (type: 'major' | 'minor'): void => {
   // For non-differential services, cannot change
@@ -77,13 +68,10 @@ const handleBarClick = (type: 'major' | 'minor'): void => {
     return
   }
   
-  // Toggle: clicking selected bar switches to other, clicking active bar selects it
   if (props.startTimeType === type) {
-    // Clicking selected bar switches to the other option
     const newType = type === 'major' ? 'minor' : 'major'
     emit('time-basis-change', newType)
   } else {
-    // Clicking active bar selects it
     emit('time-basis-change', type)
   }
 }
@@ -94,9 +82,7 @@ const handleBarClick = (type: 'major' | 'minor'): void => {
 const { formatTimeRange } = useTimeFormatting()
 
 // LEARNING: Computed properties for Differential Graph bar states
-// WHY: Reflects Time Basis Selector selection visually per user story
 // PATTERN: Computed properties that return 'selected', 'active', or 'single' based on state
-// USER_STORY: Corresponding bar becomes Selected when Time Basis Selector is selected, other remains Active
 const majorBarState = computed(() => {
   if (!props.isDifferentialService) return 'single'
   return props.startTimeType === 'major' ? 'selected' : 'active'
@@ -107,8 +93,6 @@ const minorBarState = computed(() => {
   return props.startTimeType === 'minor' ? 'selected' : 'active'
 })
 
-// LEARNING: Format time ranges for display
-// WHY: Converts TimeRange objects to display strings
 // PATTERN: Use formatTimeRange helper, fallback to duration if no time range
 const majorTimeDisplay = computed(() => {
   if (props.graphBars.major) {
@@ -125,7 +109,6 @@ const minorTimeDisplay = computed(() => {
 })
 
 // LEARNING: Computed label for selected state
-// WHY: Explains what the buttons represent based on selected perspective
 // PATTERN: Uses configurable state labels with fallback to default format
 const stateLabel = computed(() => {
   if (!props.isDifferentialService) return null
@@ -135,7 +118,6 @@ const stateLabel = computed(() => {
 })
 
 // LEARNING: Check if state is selected and time slot exists
-// WHY: Only show label when relevant (differential service with selected time slot)
 const showStateLabel = computed(() => {
   return props.isDifferentialService && 
          (props.graphBars.major || props.graphBars.minor) &&
@@ -202,12 +184,6 @@ const showStateLabel = computed(() => {
 </template>
 
 <style scoped lang="scss">
-// LEARNING: Differential Graph styling
-// WHY: Visual bars showing major and minor time blocks
-// PATTERN: Stacked horizontal bars with different widths and colors
-// USER_STORY: Top bar full width, bottom bar right-justified half width, aligned on right edge
-// LEARNING: Constrain graph width to calendar width
-// WHY: Largest bar should be no wider than calendar
 .differential-graph {
   position: relative;
   display: flex;
@@ -221,7 +197,6 @@ const showStateLabel = computed(() => {
   padding: 0; // Remove any default padding
   
   @media (max-width: 599px) {
-    // On mobile, calendar might be narrower, so use 100% of container
     width: 100%;
     max-width: 100%;
   }
@@ -232,8 +207,6 @@ const showStateLabel = computed(() => {
   }
 }
 
-// LEARNING: State label styling
-// WHY: Small label explaining what the buttons represent
 .state-label {
   font-size: 0.75rem;
   color: rgba(var(--v-theme-on-surface), 0.6);
@@ -242,9 +215,6 @@ const showStateLabel = computed(() => {
   font-weight: 500;
 }
 
-// LEARNING: Time bar base styling - Outline Only
-// WHY: Container for visual bar outline, no fill or text content
-// PATTERN: Border-only styling, no background fill
 .time-bar {
   position: relative;
   min-height: 48px; // Touch-friendly minimum size
@@ -260,8 +230,6 @@ const showStateLabel = computed(() => {
   }
 }
 
-// LEARNING: Bar text styling
-// WHY: Text displayed inside the bar
 .bar-text {
   display: flex;
   flex-direction: column;
@@ -275,8 +243,6 @@ const showStateLabel = computed(() => {
   z-index: 1;
   position: relative;
   
-  // LEARNING: Larger text for selected bar
-  // WHY: Makes selected bar text more prominent
   &.selected-text {
     font-size: 1rem;
     font-weight: 600;
@@ -284,8 +250,6 @@ const showStateLabel = computed(() => {
   }
 }
 
-// LEARNING: Bar label styling (major/minor label)
-// WHY: Shows configured label prominently on each bar
 .bar-label {
   font-weight: 600;
   font-size: 0.75rem;
@@ -293,18 +257,13 @@ const showStateLabel = computed(() => {
   letter-spacing: 0.5px;
 }
 
-// LEARNING: Bar time styling (time range display)
-// WHY: Shows time range below the label
 .bar-time {
   font-size: 0.75rem;
   font-weight: 400;
 }
 
-// LEARNING: Filled bar state
-// WHY: Shows filled background when time slot is selected
 // PATTERN: Always show color when slot selected, with opacity based on selection state
 .time-bar.filled {
-  // Major bar - always show primary color
   &.major-bar {
     background-color: rgba(var(--v-theme-primary), 0.4);
     
@@ -318,7 +277,6 @@ const showStateLabel = computed(() => {
     }
   }
   
-  // Minor bar - always show secondary color
   &.minor-bar {
     background-color: rgba(var(--v-theme-secondary), 0.4);
     
@@ -337,16 +295,12 @@ const showStateLabel = computed(() => {
   }
 }
 
-// LEARNING: Major bar - Full width outline (constrained to graph width)
-// WHY: Full width bar outline in primary color, but width is constrained by parent graph
 .major-bar {
   width: 100%;
   max-width: 100%; // Ensure it doesn't exceed parent
   box-sizing: border-box; // Include border in width calculation
 }
 
-// LEARNING: Minor bar - Right-justified half width outline
-// WHY: Half width bar aligned to right, secondary color
 .minor-bar {
   width: 50%;
   max-width: 50%; // Ensure it doesn't exceed half of parent
@@ -354,7 +308,6 @@ const showStateLabel = computed(() => {
   box-sizing: border-box; // Include border in width calculation
 }
 
-// LEARNING: Clickable bar styling
 // WHY: Makes bars interactive with hover and focus states
 // PATTERN: Cursor pointer, hover effects, focus states for accessibility
 .clickable-bar {
@@ -381,8 +334,6 @@ const showStateLabel = computed(() => {
 }
 
 // LEARNING: Bar states - Selected/Active border colors
-// WHY: Visual distinction between Selected and Active bars
-// PATTERN: Selected bars have colored border, Active bars have muted border
 .major-bar.selected {
   border-color: rgb(var(--v-theme-primary));
 }
@@ -399,17 +350,12 @@ const showStateLabel = computed(() => {
   border-color: rgba(var(--v-theme-secondary), 0.4);
 }
 
-// LEARNING: Selected bar shadow for emphasis
-// WHY: Makes selected bar more prominent
 // PATTERN: Box shadow on selected state
 .major-bar.selected,
 .minor-bar.selected {
   box-shadow: 0 2px 4px rgba(var(--v-theme-on-surface), 0.2);
 }
 
-// LEARNING: Overlay styling - covers entire graph with large text
-// WHY: Shows prominent message when no time slot is selected
-// PATTERN: Absolute positioning with large, bold, centered text
 .overlay {
   position: absolute;
   top: 0;
@@ -436,9 +382,6 @@ const showStateLabel = computed(() => {
   }
 }
 
-// LEARNING: Grey out graph when overlay is visible
-// WHY: Visual indication that graph is disabled until slot is selected
-// PATTERN: Apply filter/opacity when has-overlay class is present
 .differential-graph.has-overlay {
   filter: grayscale(0.5);
   opacity: 0.6;

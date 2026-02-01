@@ -34,7 +34,6 @@ import {
 } from '../selectionCardState'
 import type { StatePlugin, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 
-// Helper to create mock plugin
 function createMockPlugin(id: string, getValue = vi.fn(() => false)): StatePlugin {
   return {
     id,
@@ -43,7 +42,6 @@ function createMockPlugin(id: string, getValue = vi.fn(() => false)): StatePlugi
   }
 }
 
-// Helper to create mock item
 function createMockItem(id: string): SelectionCardItem {
   return {
     id,

@@ -6,9 +6,6 @@ export type UseWizardValidationReturn = {
   validateStep: (stepIndex: number) => boolean
 }
 
-/**
- * Pure validation helper for wizard steps.
- */
 export function createWizardValidator(stepValidators: WizardStepValidatorsMap): UseWizardValidationReturn {
   const validateStep = (stepIndex: number): boolean => {
     const validator = stepValidators[stepIndex]

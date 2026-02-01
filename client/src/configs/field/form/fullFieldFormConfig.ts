@@ -21,9 +21,6 @@ import type { FormFieldConfig } from '../../../types/entity/formFields'
  * PATTERN: Return empty object - any code accessing this should use metadata instead
  */
 export function buildFormFieldConfig(): FormFieldConfigMap {
-  // LEARNING: Return empty configs - metadata is authoritative
-  // WHY: Field configuration is now stored in admin_input_metadata table
-  //      Frontend should read from /admin-input-metadata, not from hardcoded configs
   return {
     blockInstance: {},
     blockShape: {},
@@ -47,8 +44,6 @@ export function buildAllPerEntityFieldConfig<GE extends GlobalEntityKey>(
   _primitiveFieldConfig: unknown,
   _selectableFieldConfig: unknown
 ): Partial<Record<GlobalFieldKey<GE>, FormFieldConfig<GE, GlobalFieldKey<GE>>>> {
-  // LEARNING: Return empty config - metadata is authoritative
-  // WHY: All field configuration now comes from admin_input_metadata table
   return {}
 }
 

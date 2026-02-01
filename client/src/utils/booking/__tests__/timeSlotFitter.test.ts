@@ -1,10 +1,3 @@
-/**
- * TIME SLOT FITTER TESTS
- * 
- * Unit tests for fitTimeSlots() core utility.
- * Tests boundaries, business hours, busy times, and edge cases.
- * Session 1.4.14: Core Time Slot Fitter Utility
- */
 
 import { describe, it, expect, beforeAll } from 'vitest'
 import { fitTimeSlots, fitTimeSlotsWithAvailability, timeRangesOverlap, parseUTCDate, parseTimeToMinutes, DEFAULT_INCLUDE_FLAGS, type BusinessHoursMap } from '../timeSlotFitter'
@@ -23,24 +16,14 @@ import {
   nextDayDateOnly
 } from './testDateHelpers'
 
-// ===================================================================
-// TEST DATA SETUP
-// ===================================================================
 
-// LEARNING: Set base date for consistent test runs
-// WHY: Ensures all dynamic dates are relative to a known point
-// PATTERN: Set once at test suite start, use helpers throughout
 beforeAll(() => {
   // Use a fixed date in the future to ensure tests don't use past dates
-  // This ensures mock Google Calendar and other date-dependent logic works
   const futureDate = new Date()
   futureDate.setUTCDate(futureDate.getUTCDate() + 7) // 7 days in the future
   setTestBaseDate(futureDate)
 })
 
-/**
- * Standard business hours (9 AM - 7 PM, Monday-Friday)
- */
 const standardBusinessHours: BusinessHoursMap = {
   0: { start: '09:00', end: '17:00' }, // Sunday - shorter hours
   1: { start: '09:00', end: '19:00' }, // Monday
@@ -51,15 +34,10 @@ const standardBusinessHours: BusinessHoursMap = {
   6: { start: '09:00', end: '17:00' }  // Saturday - shorter hours
 }
 
-// ===================================================================
-// HELPER FUNCTION TESTS
-// ===================================================================
 
 describe('timeSlotFitter helpers', () => {
   describe('parseUTCDate', () => {
     it('should parse YYYY-MM-DD format in UTC', () => {
-      // LEARNING: Use dynamic date helper instead of hardcoded date
-      // WHY: Avoids stale dates that break tests over time
       const testDate = nextDayDateOnly(1) // Next Monday
       const date = parseUTCDate(testDate)
       const expectedDate = new Date(testDate + 'T00:00:00Z')
@@ -72,7 +50,6 @@ describe('timeSlotFitter helpers', () => {
     })
 
     it('should parse ISO timestamp format', () => {
-      // LEARNING: Use dynamic date helper
       const testDateTime = nextMonday9AM()
       const date = parseUTCDate(testDateTime)
       const expectedDate = new Date(testDateTime)
@@ -93,7 +70,6 @@ describe('timeSlotFitter helpers', () => {
 
   describe('timeRangesOverlap', () => {
     it('should detect overlapping ranges', () => {
-      // LEARNING: Use dynamic dates instead of hardcoded
       const monday10AM = nextDayAtTime(1, 10, 0) // Monday 10 AM
       const monday12PM = nextDayAtTime(1, 12, 0) // Monday 12 PM
       const monday11AM = nextDayAtTime(1, 11, 0) // Monday 11 AM
@@ -162,9 +138,6 @@ describe('timeSlotFitter helpers', () => {
   })
 })
 
-// ===================================================================
-// FIT TIME SLOTS TESTS
-// ===================================================================
 
 describe('fitTimeSlots', () => {
   describe('basic functionality', () => {
@@ -181,13 +154,11 @@ describe('fitTimeSlots', () => {
       expect(result.slots.length).toBeGreaterThan(0)
       expect(result.earliestCompletion).toBeTruthy()
 
-      // First slot should start at or after startBoundary
       const firstSlot = result.slots[0]
       expect(new Date(firstSlot.startTime).getTime()).toBeGreaterThanOrEqual(
         new Date(nextMonday9AM()).getTime()
       )
 
-      // Last slot should end at or before endBoundary
       const lastSlot = result.slots[result.slots.length - 1]
       expect(new Date(lastSlot.endTime).getTime()).toBeLessThanOrEqual(
         new Date(nextMonday7PM()).getTime()
@@ -303,9 +274,6 @@ describe('fitTimeSlots', () => {
 
       expect(result.slots.length).toBeGreaterThan(0)
 
-      // Should have slots on both days
-      // LEARNING: Check dates dynamically based on generated dates
-      // WHY: Avoids hardcoded dates that become stale
       // PATTERN: Use day-of-week comparison instead of specific dates
       const startDate = new Date(startBoundary)
       const endDate = new Date(endBoundary)
@@ -321,17 +289,13 @@ describe('fitTimeSlots', () => {
         return date.getUTCDay() === tuesdayDayOfWeek
       })
       
-      // LEARNING: If no Tuesday slots found, check if endBoundary conversion prevents them
       // WHY: In timezones behind UTC, Tuesday noon UTC might be early Tuesday local time
       // PATTERN: Accept slots on either Monday or Tuesday if endBoundary is early Tuesday
       if (tuesdaySlots.length === 0 && mondaySlots.length > 0) {
-        // Check if endBoundary in local time is early Tuesday (before business hours)
         const endBoundaryLocal = new Date(endBoundary)
         const tuesdayBusinessStart = new Date(endBoundaryLocal)
         tuesdayBusinessStart.setUTCHours(9, 0, 0, 0) // Tuesday 9 AM UTC
-        // If endBoundary is before business hours start, no Tuesday slots expected
         if (endBoundaryLocal < tuesdayBusinessStart) {
-          // This is expected - endBoundary is too early for Tuesday slots
           expect(mondaySlots.length).toBeGreaterThan(0)
           return
         }
@@ -360,7 +324,6 @@ describe('fitTimeSlots', () => {
         const dayOfWeek = start.getDay()
         const dayHours = standardBusinessHours[dayOfWeek as keyof BusinessHoursMap]
 
-        // Slot should start within business hours
         const startMinutes = start.getHours() * 60 + start.getMinutes()
         const businessStartMinutes = parseTimeToMinutes(dayHours.start)
         const businessEndMinutes = parseTimeToMinutes(dayHours.end)
@@ -384,9 +347,7 @@ describe('fitTimeSlots', () => {
         const start = new Date(slot.startTime)
         const end = new Date(slot.endTime)
 
-        // Start should be at or after 9 AM
         expect(start.getHours()).toBeGreaterThanOrEqual(9)
-        // End should be at or before 7 PM
         expect(end.getHours()).toBeLessThanOrEqual(19)
       })
     })
@@ -409,7 +370,6 @@ describe('fitTimeSlots', () => {
       result.slots.forEach(slot => {
         const start = new Date(slot.startTime)
         if (start.getDay() === 0) {
-          // Sunday slots should be within 10 AM - 4 PM
           expect(start.getHours()).toBeGreaterThanOrEqual(10)
           expect(start.getHours()).toBeLessThan(16)
         }
@@ -448,7 +408,6 @@ describe('fitTimeSlots', () => {
           const busyStart = new Date(busy.start)
           const busyEnd = new Date(busy.end)
 
-          // Slot should not overlap busy time
           const overlaps = timeRangesOverlap(
             { start: slotStart, end: slotEnd },
             { start: busyStart, end: busyEnd }
@@ -505,8 +464,6 @@ describe('fitTimeSlots', () => {
     })
 
     it('should filter out slots using mock Google Calendar busy times', () => {
-      // LEARNING: Test integration with mock Google Calendar free/busy data
-      // WHY: Verifies that mock calendar data works correctly with fitTimeSlots()
       // PATTERN: Generate mock response, extract busy times, verify filtering
       
       const dateRange = {
@@ -514,7 +471,6 @@ describe('fitTimeSlots', () => {
         end: nextMonday7PM()
       }
 
-      // Generate mock Google Calendar free/busy response
       const mockResponse = generateMockFreeBusyResponse(dateRange, {
         periodsPerCalendar: 2,
         minDurationMinutes: 30,
@@ -522,13 +478,10 @@ describe('fitTimeSlots', () => {
         calendarIds: ['primary', 'work']
       })
 
-      // Extract busy times from mock response
       const busyTimes = extractBusyTimesFromFreeBusyResponse(mockResponse, true)
 
-      // Verify busy times were generated
       expect(busyTimes.length).toBeGreaterThan(0)
 
-      // Generate slots with busy times
       const result = fitTimeSlots({
         startBoundary: dateRange.start,
         endBoundary: dateRange.end,
@@ -539,8 +492,6 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
-      // LEARNING: Verify that no slots overlap with busy times
-      // WHY: Mock calendar data should correctly filter out unavailable slots
       // PATTERN: Check each slot against all busy periods
       result.slots.forEach(slot => {
         const slotStart = new Date(slot.startTime)
@@ -558,8 +509,6 @@ describe('fitTimeSlots', () => {
         })
       })
 
-      // LEARNING: Should have fewer slots than without busy times
-      // WHY: Busy periods should reduce available slots
       // PATTERN: Compare with result without busy times
       const resultWithoutBusy = fitTimeSlots({
         startBoundary: dateRange.start,
@@ -595,13 +544,10 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
-        // LEARNING: Should generate slots (not filter them out)
         // WHY: New approach generates all slots and marks availability
         // PATTERN: Check that slots array has items
         expect(result.slots.length).toBeGreaterThan(0)
 
-        // LEARNING: All slots should have isAvailable flag
-        // WHY: Availability status is marked on each slot
         // PATTERN: Check that every slot has isAvailable property
         result.slots.forEach(slot => {
           expect(slot).toHaveProperty('isAvailable')
@@ -627,7 +573,6 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
-        // LEARNING: Find slots that overlap busy period
         // WHY: Verify they are marked as unavailable
         // PATTERN: Check slots that should overlap busy time
         const busyStart = new Date(busyTimes[0].start)
@@ -665,7 +610,6 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
-        // LEARNING: Find slots that don't overlap busy period
         // WHY: Verify they are marked as available
         // PATTERN: Check slots that shouldn't overlap busy time
         const busyStart = new Date(busyTimes[0].start)
@@ -708,7 +652,6 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
-        // New approach (generates all slots, marks availability)
         const newResult = fitTimeSlotsWithAvailability({
         startBoundary: nextMonday9AM(),
         endBoundary: nextMonday7PM(),
@@ -725,7 +668,6 @@ describe('fitTimeSlots', () => {
         expect(newResult.slots.length).toBeGreaterThanOrEqual(oldResult.slots.length)
 
         // LEARNING: Count of available slots should match old approach
-        // WHY: Available slots should be the same, just with additional busy slots
         // PATTERN: Count available slots in new result
         const availableCount = newResult.slots.filter(slot => slot.isAvailable).length
         expect(availableCount).toBe(oldResult.slots.length)
@@ -749,8 +691,6 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
-        // LEARNING: Earliest completion should be from an available slot
-        // WHY: Only available slots count for earliest completion
         // PATTERN: Find earliest available slot and compare
         if (result.earliestCompletion) {
           const earliestAvailableSlot = result.slots
@@ -778,8 +718,6 @@ describe('fitTimeSlots', () => {
           includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
-        // LEARNING: All slots should be available when no busy times
-        // WHY: No conflicts means all slots are available
         // PATTERN: Check that all slots have isAvailable: true
         result.slots.forEach(slot => {
           expect(slot.isAvailable).toBe(true)
@@ -804,11 +742,7 @@ describe('fitTimeSlots', () => {
           includeFlags: DEFAULT_INCLUDE_FLAGS
         })
 
-        // LEARNING: Should generate slots on both days
-        // WHY: Generates all slots regardless of busy periods
         // PATTERN: Check that slots span multiple days
-        // LEARNING: Filter slots by day of week instead of hardcoded dates
-        // WHY: Avoids hardcoded dates that become stale
         // PATTERN: Use day-of-week comparison
         const startDate = new Date(nextMonday9AM())
         const mondayDayOfWeek = startDate.getUTCDay()
@@ -826,8 +760,6 @@ describe('fitTimeSlots', () => {
         expect(mondaySlots.length).toBeGreaterThan(0)
         expect(tuesdaySlots.length).toBeGreaterThan(0)
 
-        // LEARNING: Slots overlapping busy period should be marked unavailable
-        // WHY: Multi-day busy periods should mark overlapping slots correctly
         // PATTERN: Check slots that overlap busy period
         const busyStart = new Date(busyTimes[0].start)
         const busyEnd = new Date(busyTimes[0].end)
@@ -1051,7 +983,6 @@ describe('fitTimeSlots', () => {
 
       expect(result.earliestCompletion).toBeTruthy()
 
-      // Earliest completion should be the end time of the first available slot
       const firstAvailableSlot = result.slots.find(slot => slot.isAvailable)
       expect(firstAvailableSlot).toBeTruthy()
       
@@ -1063,7 +994,6 @@ describe('fitTimeSlots', () => {
     })
 
     it('should return null if no available slots generated', () => {
-      // Create busy times that cover all slots
       const busyTimes = [
         { start: nextMonday9AM(), end: nextMonday7PM() }
       ]
@@ -1078,7 +1008,6 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
-      // LEARNING: fitTimeSlots filters during generation, so busy slots are not generated
       // WHY: fitTimeSlots uses "filter during generation" approach, not "generate all then filter"
       // PATTERN: When all slots are busy, no slots are returned (they're filtered out)
       expect(result.slots.length).toBe(0)
@@ -1126,8 +1055,6 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
-      // Should only have slots that fit within business hours (10 hours)
-      // 9 AM - 7 PM = 10 hours, so should have very few slots
       result.slots.forEach(slot => {
         const end = new Date(slot.endTime)
         expect(end.getHours()).toBeLessThanOrEqual(19)
@@ -1149,7 +1076,6 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
-      // Should skip invalid day and continue with other days
       expect(Array.isArray(result.slots)).toBe(true)
     })
 
@@ -1168,7 +1094,6 @@ describe('fitTimeSlots', () => {
         includeFlags: DEFAULT_INCLUDE_FLAGS
       })
 
-      // Should handle gracefully (may return empty or skip that day)
       expect(Array.isArray(result.slots)).toBe(true)
     })
   })

@@ -19,7 +19,6 @@ const startServer = async () => {
   }
 };
 
-// Start database initialization
 startServer();
 
 /* Middleware */
@@ -32,8 +31,6 @@ app.use(express.urlencoded({ extended: true }));
 /* Routes */
 app.use("/api", routes);
 
-// WHY: This is an API-only server - the Vue client runs separately
-// PATTERN: Return a helpful message for non-API routes instead of redirecting
 app.get("/", (req, res) => {
   res.json({
     message: "API Server",

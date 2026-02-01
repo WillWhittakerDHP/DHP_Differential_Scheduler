@@ -64,28 +64,13 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { fieldContext } = props
 
-/**
- * LEARNING: Inject EntityCard save handler for create cards
- * WHY: When creating new entities, pressing Enter should save the entire form and collapse,
- *      not just save the individual field
- * PATTERN: Use inject to access parent EntityCard's handleSave method
- */
 const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
 
-/**
- * LEARNING: Inject disableAutoSave flag from EntityCard
- * WHY: Allows parent to disable field blur auto-save (e.g., in bulk edit modals)
- * PATTERN: Use inject to access parent EntityCard's disableAutoSave flag
- */
 const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
 
 // LEARNING: Use unified field value composable
-// WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
-// PATTERN: Always use useFieldValue for accessing field values
 const fieldValue = useFieldValue(fieldContext)
 
-// LEARNING: Handle value changes - convert string to number
-// WHY: HTML inputs return strings, but we need numbers
 // PATTERN: Convert string to number before setting value
 const handleChange = (value: string | number) => {
   const numValue = typeof value === 'string' ? parseFloat(value) : value

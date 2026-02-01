@@ -29,12 +29,6 @@ import {
   getMinorEventShape 
 } from '@/utils/eventAttendeeUtils'
 
-/**
- * Create a TimeRange from start time and duration
- * LEARNING: toISOString() always produces valid RFC3339 format (UTC with Z suffix)
- * WHY: Date.toISOString() is guaranteed to return RFC3339-compliant string
- * PATTERN: Use type assertion since we know the format is correct
- */
 export function createTimeRange(startTime: string, duration: number): TimeRange {
   const start = new Date(startTime)
   const end = new Date(start)
@@ -120,26 +114,17 @@ export function createTimeRangesFromSlotShape(
   minorTimeRange: TimeRange | null
   moveableTimeRange: TimeRange | null
 } {
-  // Build eventTimeRanges Record dynamically from eventFinals array
-  // LEARNING: Create TimeRange for each event final in eventFinals array
-  // WHY: Enables fully generic event system without hardcoded event names
-  // LEARNING: Build eventTimeRanges functionally using reduce instead of for-of loop with mutations
-  // WHY: Avoids object property mutations - builds object immutably
   // PATTERN: Reduce eventFinals to Record object
   const eventTimeRanges = (slotShape.eventFinals || []).reduce((acc, eventFinal) => {
     const eventName = eventFinal.eventShape.name
     const duration = eventFinal.duration
     if (duration > 0) {
-      // LEARNING: Create time range for all events - differential offset adjustment handled in applyShapeToTime
-      // WHY: No special handling needed here - applyShapeToTime handles minor time range adjustment using attendee-based logic
       return { ...acc, [eventName]: createTimeRange(startTime, duration) }
     } else {
       return { ...acc, [eventName]: null }
     }
   }, {} as Record<string, TimeRange | null>)
   
-  // LEARNING: Legacy properties removed - use eventTimeRanges with dynamic event names instead
-  // WHY: Eliminates hardcoded event name strings ('Major', 'Minor', 'Moveable')
   // PATTERN: Legacy properties are calculated dynamically in applyShapeToTime using attendee-based logic
   const result = {
     totalTimeRange: slotShape.totalDuration > 0
@@ -177,7 +162,6 @@ function lookupEventsForPartShape(
   validPartsRelationships: GlobalRelationship[],
   blockInstances: BookingBlockInstance[]
 ): EventInstance[] {
-  // Find partShape entity by name
   const partShapeEntity = Array.from(partShapeById.values()).find(
     ps => ps.name === partShapeName
   )
@@ -190,24 +174,19 @@ function lookupEventsForPartShape(
   // WHY: Events are configured at instance level, matching validParts/partAssignments pattern
   // PATTERN: Find PartInstances with this partShape, then filter eventAssignments by those PartInstances
   
-  // Collect all PartInstance IDs from blockInstances that match this partShape
   const partInstanceIds = blockInstances
     .flatMap(bi => bi.partInstances || [])
     .filter(pi => pi.partShape === partShapeName)
     .map(pi => pi.id)
   
-  // Filter eventAssignments relationships by PartInstances that match this partShape
   const instanceEventAssignmentsRels = eventAssignmentsRelationships.filter(rel => {
-    // Check if parent is one of our PartInstances
     return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
   })
   
-  // Extract child IDs and map to EventInstance[]
   const eventInstanceIds = instanceEventAssignmentsRels.flatMap(rel => 
     rel.children.map(child => child.id)
   )
   
-  // Map IDs to EventInstance objects and deduplicate (multiple PartInstances may have same EventInstance)
   const uniqueEventInstanceIds = new Set(eventInstanceIds)
   const result = Array.from(uniqueEventInstanceIds)
     .map(id => eventInstances.find(ei => ei.id === id))
@@ -243,9 +222,6 @@ export function buildAppointmentShape(
   validPartsRelationships?: GlobalRelationship[],
   globalData?: GlobalData
 ): AppointmentShape {
-  // Collect all parts from block instances
-  // LEARNING: Use flatMap to collect all parts from all block instances
-  // WHY: Provides flat array of all parts for aggregation
   // PATTERN: Functional approach - flatMap instead of forEach with push mutations
   const allParts = blockInstances.flatMap(blockInstance => 
     blockInstance.partInstances && blockInstance.partInstances.length > 0 
@@ -253,23 +229,16 @@ export function buildAppointmentShape(
       : []
   )
   
-  // LEARNING: Group parts by part shape and create finalized parts
-  // WHY: Part shape is the semantic unit - all instances of same shape should be totaled
   // PATTERN: Create finalized parts, then filter out zeroed parts
   const allFinalizedParts = createPartFinals(allParts)
   const nonZeroedParts = filterZeroedParts(allFinalizedParts)
   
-  // Look up events for each unique partShape
-  // LEARNING: Events are appointment-level features, stored on AppointmentShape
-  // WHY: Events are configured at instance level, aggregated by partShape name for grouping
   // PATTERN: Build eventAssignmentsByPartShape Record keyed by partShape name (aggregated from PartInstances)
   const eventAssignmentsByPartShape: Record<string, EventInstance[]> = {}
   
   if (eventInstances && eventAssignmentsRelationships && partShapeById) {
-    // Get unique partShape names from finalized parts
     const uniquePartShapes = new Set(nonZeroedParts.map(pf => pf.partShape))
     
-    // Look up EventInstance[] for each unique partShape
     for (const partShapeName of uniquePartShapes) {
       const events = lookupEventsForPartShape(
         partShapeName,
@@ -285,23 +254,11 @@ export function buildAppointmentShape(
     }
   }
   
-  // Calculate SlotShape from non-zeroed finalized parts and events
-  // LEARNING: Single-pass calculation for efficiency
-  // WHY: More efficient than multiple filter+reduce operations
   // PATTERN: Use calculateSlotShape to get all durations in one pass
-  // LEARNING: Pass globalData and settings for attendee-based differential offset calculation
-  // WHY: Enables dynamic event identification based on attendees instead of hardcoded names
-  // #region agent log
   fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-  // #endregion
   let slotShape = calculateSlotShape(nonZeroedParts, eventAssignmentsByPartShape, eventShapes || [], globalData, settings || null)
   
-  // LEARNING: Round major event duration based on availability settings
-  // WHY: Ensures end times align with configured time increments when rounding is enabled
   // PATTERN: Use configurable rounding function that respects settings
-  // Session Event Refactor: Round major event duration in eventFinals array using helper function
-  // LEARNING: Find major event using attendee-based logic - no fallback to hardcoded name
-  // WHY: Must use attendee-based logic to find major event shape
   if (globalData && settings?.differentialPerspectives && slotShape.eventFinals.length > 0) {
     const majorAttendeeIds = settings.differentialPerspectives.majorAttendees || []
     if (majorAttendeeIds.length > 0) {
@@ -355,9 +312,6 @@ export function applyShapeToTime(
   globalData?: GlobalData,
   availabilitySettings?: AvailabilitySettings | null
 ): AppointmentSlot {
-  // Use fallback duration if shape has no duration
-  // LEARNING: Always create totalTimeRange, using fallbackDuration if shape.slotShape.totalDuration is 0
-  // WHY: Ensures buttons always have a display time with valid duration, even when no services are selected
   const effectiveSlotShape = shape.slotShape.totalDuration > 0
     ? shape.slotShape
     : {
@@ -365,17 +319,10 @@ export function applyShapeToTime(
         totalDuration: fallbackDuration || 0
       }
   
-  // Create all time ranges from SlotShape
-  // LEARNING: Precompute TimeRanges for performance
-  // WHY: TimeRanges are accessed frequently in UI, so precompute them
   // PATTERN: Use utility function to create all TimeRanges at once
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
   
-  // LEARNING: For differential services, minorTimeRange should end when major finishes work
-  // WHY: Minor perspective should show time from minor arrival to when major finishes work
   // PATTERN: Adjust minorTimeRange to end at majorTimeRange.endTime if both exist
-  // LEARNING: Find major/minor event shapes using attendee-based logic - no fallback to hardcoded names
-  // WHY: Must use attendee-based logic to find major/minor events
   let majorTimeRange: TimeRange | null = null
   let minorTimeRange: TimeRange | null = null
   let majorEventName: string | null = null
@@ -389,8 +336,6 @@ export function applyShapeToTime(
     const majorEventShape = majorAttendeeIds.length > 0
       ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
       : null
-    // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
-    // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
     const eventShapesExcludingMajor = majorEventShape
       ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
       : eventShapeEntities
@@ -412,7 +357,6 @@ export function applyShapeToTime(
   let adjustedMinorTimeRange = minorTimeRange
   
   if (majorTimeRange && minorTimeRange && majorEventName && minorEventName && effectiveSlotShape.differentialOffset >= 0) {
-    // Minor time should end when major finishes work
     const minorDuration = majorTimeRange.duration - effectiveSlotShape.differentialOffset
     if (minorDuration > 0) {
       adjustedMinorTimeRange = createTimeRange(
@@ -427,8 +371,6 @@ export function applyShapeToTime(
   }
   
   // Validate: minorTimeRange and majorTimeRange must end at the same time
-  // LEARNING: For differential services, both perspectives should end when major finishes work
-  // WHY: Minor time ends when major finishes work, not when total appointment ends
   // PATTERN: Validate that minor and major times align
   if (adjustedMinorTimeRange && majorTimeRange) {
     if (adjustedMinorTimeRange.endTime !== majorTimeRange.endTime) {
@@ -452,20 +394,6 @@ export function applyShapeToTime(
   return slot
 }
 
-/**
- * Derive the TimeRange for a given perspective
- * 
- * @param slot - AppointmentSlot with precomputed totals
- * @param perspective - Which perspective to derive ('major' | 'minor' | 'nonDifferential')
- * @param globalData - Optional GlobalData for attendee-based logic (if not provided, falls back to name-based logic)
- * @param availabilitySettings - Optional AvailabilitySettings for major/minor attendee configuration
- * @returns TimeRange for display, or null if not applicable
- * 
- * LEARNING: Falls back to totalTimeRange if perspective-specific range is null
- * WHY: Ensures buttons always have a display time, even when specific perspective ranges are null
- * LEARNING: Uses attendee-based logic to find major/minor event names dynamically
- * WHY: Enables configurable event identification based on attendees instead of hardcoded names
- */
 export function derivePerspective(
   slot: AppointmentSlot,
   perspective: 'major' | 'minor' | 'nonDifferential',
@@ -474,11 +402,8 @@ export function derivePerspective(
 ): TimeRange | null {
   let result: TimeRange | null = null
   
-  // LEARNING: Require globalData and availabilitySettings for attendee-based logic
-  // WHY: No fallbacks to hardcoded names - fail gracefully if configuration is missing
   // PATTERN: Return null if required data is not available
   if (!globalData || !slot.shape.slotShape.eventFinals || !availabilitySettings?.differentialPerspectives) {
-    // Return totalTimeRange for major/nonDifferential if no configuration available
     if (perspective === 'nonDifferential' || perspective === 'major') {
       return slot.totalTimeRange
     }
@@ -492,8 +417,6 @@ export function derivePerspective(
   const majorEventShape = majorAttendeeIds.length > 0
     ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
     : null
-  // LEARNING: Exclude major event shape when finding minor to avoid matching the same event
-  // WHY: Minor attendees may include all major attendees, so we need to exclude the major event
   const eventShapesExcludingMajor = majorEventShape
     ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
     : eventShapeEntities
@@ -501,11 +424,8 @@ export function derivePerspective(
     ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
     : null
   
-  // LEARNING: Require event shapes to be found - no fallbacks to hardcoded names
-  // WHY: If attendee-based logic can't find event shapes, fail gracefully
   // PATTERN: Return null or totalTimeRange if event shapes are not found
   if (!majorEventShape) {
-    // For non-differential, fall back to totalTimeRange so buttons still work
     if (perspective === 'nonDifferential' || perspective === 'major') {
       return slot.totalTimeRange
     }
@@ -517,29 +437,20 @@ export function derivePerspective(
   
   switch (perspective) {
     case 'major':
-      // LEARNING: Fallback to totalTimeRange if majorTimeRange is null (but use attendee-based name)
-      // WHY: Ensures buttons always have a display time
       result = slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange
       break
     case 'minor':
-      // LEARNING: Fallback to totalTimeRange if minor event shape not found
-      // WHY: Ensures buttons always have a display time, even if minor event shape isn't identified
       // PATTERN: Show totalTimeRange as fallback so slot remains visible and clickable
       if (!minorEventShape || !minorEventName) {
-        // #region agent log
         fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:525',message:'derivePerspective: minor event shape not found, using totalTimeRange fallback',data:{hasMinorEventShape:!!minorEventShape,minorEventName,hasTotalTimeRange:!!slot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-        // #endregion
         result = slot.totalTimeRange
       } else {
         result = slot.eventTimeRanges?.[minorEventName] ?? slot.totalTimeRange
-        // #region agent log
         fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:530',message:'derivePerspective: minor perspective result',data:{minorEventName,hasEventTimeRange:!!slot.eventTimeRanges?.[minorEventName],hasTotalTimeRange:!!slot.totalTimeRange,result:!!result},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-        // #endregion
       }
       break
     case 'nonDifferential':
       // LEARNING: Show major time for non-differential (same as major view)
-      // WHY: Non-differential services should show major times on buttons, not total appointment time
       result = slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange
       break
     default:

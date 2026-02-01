@@ -216,7 +216,6 @@ describe('selectionCardConfig', () => {
     it('should fill missing values from defaults', () => {
       const userConfig: SelectionCardConfig = {
         selectionType: 'checkbox',
-        // Missing: selectionComponent, stateSource, layout, etc.
       } as SelectionCardConfig
       
       const result = mergeSelectionCardConfigWithDefaults(userConfig)
@@ -245,7 +244,6 @@ describe('selectionCardConfig', () => {
       expect(result.selectionType).toBe('checkbox')
       expect(result.layout).toBe('column')
       expect(result.appearance.showIcon).toBe(false)
-      // Defaults should fill in the rest
       expect(result.selectionGroup).toBe('VRadioGroup')
       expect(result.controlPosition).toBe('bottom')
     })

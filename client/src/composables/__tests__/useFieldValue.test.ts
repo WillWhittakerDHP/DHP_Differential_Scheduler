@@ -1,10 +1,3 @@
-/**
- * USE FIELD VALUE TESTS
- * 
- * Unit tests for useFieldValue composable.
- * Tests unified field value access with Ref unwrapping handling.
- * Phase 7: Form Field Composables
- */
 
 import { describe, it, expect } from 'vitest'
 import { ref } from 'vue'

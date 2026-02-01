@@ -1,11 +1,3 @@
-/**
- * USEAVAILABILITYDEFAULTS TESTS
- * 
- * Unit tests for useAvailabilityDefaults.
- * Priority Score: 7.9 (Reliability: 10, ROI: 7, Independence: 8, Cognitive Load: 2)
- * 
- * Tests verify default date selection, time slot matching, and state management.
- */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { ref, computed } from 'vue'
@@ -13,7 +5,6 @@ import { useAvailabilityDefaults } from '../useAvailabilityDefaults'
 import type { TimeSlot } from '@/types/appointment'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
-// Mock useTimeFormatting
 vi.mock('@/composables/useTimeFormatting', () => ({
   useTimeFormatting: () => ({
     getFirstAvailabilityDate: vi.fn((slots: TimeSlot[]) => {
@@ -35,9 +26,6 @@ vi.mock('@/composables/useTimeFormatting', () => ({
   }),
 }))
 
-/**
- * Helper to create a TimeSlot for testing
- */
 function createTimeSlot(
   slotStart: string,
   options: {
@@ -127,7 +115,6 @@ describe('useAvailabilityDefaults', () => {
         timeSlots,
       })
       
-      // Wait for watchers to execute
       await new Promise(resolve => setTimeout(resolve, 0))
       
       expect(inspectorTimeSlot.value).not.toBeNull()
@@ -244,15 +231,12 @@ describe('useAvailabilityDefaults', () => {
         timeSlots,
       })
       
-      // Set a date first (simulating user selection)
       selectedDate.value = { start: '2024-01-25', end: null }
       
-      // Update timeSlots - should not override user selection
       timeSlots = computed(() => slots)
       
       await new Promise(resolve => setTimeout(resolve, 0))
       
-      // Should preserve user selection
       expect(selectedDate.value.start).toBe('2024-01-25')
     })
 
@@ -264,7 +248,6 @@ describe('useAvailabilityDefaults', () => {
         timeSlots,
       })
       
-      // Should be initialized to today (not null)
       expect(selectedDate.value.start).toBeTruthy()
       expect(selectedDate.value.start).toMatch(/^\d{4}-\d{2}-\d{2}$/)
     })
@@ -277,12 +260,10 @@ describe('useAvailabilityDefaults', () => {
         timeSlots,
       })
       
-      // Set to null to test behavior
       selectedDate.value = { start: null, end: null }
       
       await new Promise(resolve => setTimeout(resolve, 0))
       
-      // Should remain null when no slots (watcher checks for slots.length > 0)
       expect(selectedDate.value.start).toBeNull()
     })
   })

@@ -1,10 +1,3 @@
-/**
- * ERROR HANDLER MIDDLEWARE TESTS
- * 
- * Unit tests for errorHandler middleware.
- * Tests error response format, status code handling, and stack trace hiding.
- * Phase 4C: Integration Tests
- */
 
 import { describe, it, expect, beforeEach } from '@jest/globals'
 import { Request, Response, NextFunction } from 'express'

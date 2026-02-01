@@ -38,7 +38,6 @@ import {
   type TimeSlot,
 } from '../timeFormatting'
 
-// Helper to create TimeSlot
 function createSlot(startHour: number, startMin: number, endHour: number, endMin: number): TimeSlot {
   const start = new Date(2026, 0, 9, startHour, startMin, 0)
   const end = new Date(2026, 0, 9, endHour, endMin, 0)
@@ -181,7 +180,6 @@ describe('timeFormatting', () => {
 
   describe('getTodayDate', () => {
     beforeEach(() => {
-      // Mock current date
       vi.useFakeTimers()
     })
 

@@ -41,9 +41,6 @@ export const partInstancePrimitiveFields = {
     globalField: "zeroOutPart",
   },
   
-  // NOTE: onSite, clientPresent, and moveable are no longer editable at instance level.
-  // They are configured at the shape level via EventAssignment relationships.
-  // See: /events/eventInstance endpoints for managing event assignments to part shapes.
   
   baseTime: {
     primitiveType: PrimitiveTypeEnum.Number,

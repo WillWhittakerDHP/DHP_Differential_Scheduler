@@ -21,8 +21,6 @@ export function usePartInstanceDeletion(): UsePartInstanceDeletionReturn {
    * PATTERN: No-op handler - card handles all deletion logic, Vue Query will automatically refetch
    */
   const handleDeletePartInstance = (_id: string): void => {
-    // EntityCard already handled the deletion
-    // Vue Query will automatically refetch and update the UI
   }
 
   return {

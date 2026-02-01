@@ -31,7 +31,6 @@ import {
 } from '../confirmationStepData'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Helper to create mock BlockInstance
 function createBlockInstance(
   id: string,
   name: string,
@@ -152,8 +151,6 @@ describe('confirmationStepData', () => {
 
     it('should calculate overage fee with square footage', () => {
       const block = createBlockInstance('block-1', 'Block 1', [100], false, [0.5, 0.25])
-      // baseFee: 100, rateOverBaseFee: 0.5 + 0.25 = 0.75
-      // overageFee: 0.75 * 2000 = 1500
       
       const fee = calculateBlockInstanceFee(block, 2000)
       
@@ -241,8 +238,6 @@ describe('confirmationStepData', () => {
     describe('with allowMultiple', () => {
       it('should multiply both base and overage fees by aduCount when allowMultiple is true', () => {
         const block = createBlockInstance('block-1', 'Block 1', [100], true, [0.5])
-        // baseFee: 100, overageFee: 0.5 * 2000 = 1000
-        // With multiplier 3: baseFee: 300, overageFee: 3000, totalFee: 3300
         
         const fee = calculateBlockInstanceFee(block, 2000, 3)
         
@@ -617,8 +612,6 @@ describe('confirmationStepData', () => {
         selectedPropertyTypeBlocks: [],
         selectedOptionTypeBlocks: [],
       }
-      // baseFee: 100 + 150 = 250
-      // overageFee: (0.5 + 0.25) * 2000 = 1500
       
       const priceData = buildConfirmationPriceData(wizard, 2000)
       
@@ -633,8 +626,6 @@ describe('confirmationStepData', () => {
         selectedPropertyTypeBlocks: [createBlockInstance('p1', 'Pool', [50], false, [0.1])],
         selectedOptionTypeBlocks: [createBlockInstance('o1', 'Rush', [30], false, [0.05])],
       }
-      // baseFee: 100 + 50 + 30 = 180
-      // overageFee: (0.5 + 0.1 + 0.05) * 2000 = 1300
       
       const priceData = buildConfirmationPriceData(wizard, 2000)
       
@@ -665,8 +656,6 @@ describe('confirmationStepData', () => {
         selectedPropertyTypeBlocks: [],
         selectedOptionTypeBlocks: [],
       }
-      // baseFee: 100 * 3 = 300
-      // overageFee: (0.5 * 2000) * 3 = 3000
       
       const priceData = buildConfirmationPriceData(wizard, 2000, 3)
       
@@ -745,8 +734,6 @@ describe('confirmationStepData', () => {
           createBlockInstance('li1', 'Delivery', [25], false, [0.1]),
         ],
       }
-      // baseFee: 100 + 25 = 125
-      // overageFee: 0.1 * 2000 = 200
       
       const priceData = buildConfirmationPriceData(wizard, 2000)
       

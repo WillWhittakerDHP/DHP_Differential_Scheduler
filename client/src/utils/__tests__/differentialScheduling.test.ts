@@ -1,10 +1,3 @@
-/**
- * DIFFERENTIAL SCHEDULING TESTS
- * 
- * Unit tests for differential scheduling calculation utilities.
- * Tests inspector/client arrival time calculations and property adjustments.
- * Session 1.3.7: Client-Side Availability Calculations
- */
 
 import { describe, it, expect } from 'vitest'
 import {
@@ -16,13 +9,7 @@ import {
 } from '../differentialScheduling'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// ===================================================================
-// TEST DATA SETUP
-// ===================================================================
 
-/**
- * Helper to create a BookingPartInstance
- */
 function createPartInstance(
   id: string,
   baseTime: number,
@@ -48,9 +35,6 @@ function createPartInstance(
   }
 }
 
-/**
- * Helper to create a BookingBlockInstance
- */
 function createBlockInstance(
   id: string,
   partInstances: BookingBlockInstance['partInstances'] = []
@@ -72,9 +56,6 @@ function createBlockInstance(
   }
 }
 
-// ===================================================================
-// TESTS
-// ===================================================================
 
 describe('differentialScheduling', () => {
   describe('calculateOnSiteTotal', () => {
@@ -193,7 +174,6 @@ describe('differentialScheduling', () => {
       const inspectorStart = new Date(result)
       const clientStart = new Date(clientStartTime)
       
-      // Inspector should start 1 hour before client
       expect(inspectorStart.getTime()).toBe(clientStart.getTime() - (60 * 60 * 1000))
     })
 
@@ -205,7 +185,6 @@ describe('differentialScheduling', () => {
       const inspectorStart = new Date(result)
       const clientStart = new Date(clientStartTime)
       
-      // Should clamp to same day at 9:00 AM UTC (prevent going to previous day)
       expect(inspectorStart.getUTCDate()).toBe(clientStart.getUTCDate())
       expect(inspectorStart.getUTCHours()).toBe(9)
       expect(inspectorStart.getUTCMinutes()).toBe(0)
@@ -218,7 +197,6 @@ describe('differentialScheduling', () => {
       const result = calculateInspectorStartTime(clientStartTime, onSiteTotal)
       const inspectorStart = new Date(result)
       
-      // Inspector should start at 7:30 AM UTC
       expect(inspectorStart.getUTCHours()).toBe(7)
       expect(inspectorStart.getUTCMinutes()).toBe(30)
     })
@@ -231,7 +209,6 @@ describe('differentialScheduling', () => {
       const inspectorStart = new Date(result)
       const clientStart = new Date(clientStartTime)
       
-      // Inspector should start 4 hours before client
       expect(inspectorStart.getTime()).toBe(clientStart.getTime() - (240 * 60 * 1000))
     })
 
@@ -243,7 +220,6 @@ describe('differentialScheduling', () => {
       const inspectorStart = new Date(result)
       const clientStart = new Date(clientStartTime)
       
-      // Inspector should start at same time as client
       expect(inspectorStart.getTime()).toBe(clientStart.getTime())
     })
 
@@ -253,7 +229,6 @@ describe('differentialScheduling', () => {
       
       const result = calculateInspectorStartTime(clientStartTime, onSiteTotal)
       
-      // Should be valid ISO string
       expect(() => new Date(result)).not.toThrow()
       expect(result).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/)
     })

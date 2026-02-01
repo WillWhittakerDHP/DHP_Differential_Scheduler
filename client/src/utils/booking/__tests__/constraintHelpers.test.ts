@@ -10,9 +10,6 @@ import { describe, it, expect } from 'vitest'
 import { extractAllConstraints, ensureDateRangeInSettings } from '../constraintHelpers'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 
-/**
- * Create minimal valid availability settings for testing
- */
 function createMinimalSettings(): AvailabilitySettings {
   return {
     businessHours: {

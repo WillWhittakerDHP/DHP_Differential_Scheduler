@@ -30,12 +30,6 @@ export function setTestBaseDate(date: Date = new Date()): void {
   testBaseDate = new Date(date)
 }
 
-/**
- * Get the current test base date
- * LEARNING: Returns the base date being used for test generation
- * WHY: Allows tests to reference the base date
- * PATTERN: Use when you need to know what date tests are using
- */
 export function getTestBaseDate(): Date {
   return new Date(testBaseDate)
 }
@@ -59,17 +53,6 @@ function getNextDayOfWeek(dayOfWeek: number, baseDate: Date = testBaseDate): Dat
   return date
 }
 
-/**
- * Create an RFC3339 datetime string for a specific date and time
- * LEARNING: Generates UTC datetime strings for tests
- * WHY: Tests need consistent datetime format
- * PATTERN: Use for boundary dates, busy times, etc.
- * 
- * @param date - Date object (will use UTC components)
- * @param hours - Hours (0-23) in UTC
- * @param minutes - Minutes (0-59), defaults to 0
- * @returns RFC3339DateTime string
- */
 export function createTestDateTime(
   date: Date,
   hours: number,
@@ -80,58 +63,26 @@ export function createTestDateTime(
   return testDate.toISOString() as RFC3339DateTime
 }
 
-/**
- * Create a test date for "next Monday at 9 AM UTC"
- * LEARNING: Common pattern for business day tests
- * WHY: Many tests use Monday as a standard business day
- * PATTERN: Use for standard business day scenarios
- */
 export function nextMonday9AM(): RFC3339DateTime {
   const monday = getNextDayOfWeek(1) // Monday = 1
   return createTestDateTime(monday, 9, 0)
 }
 
-/**
- * Create a test date for "next Monday at 7 PM UTC"
- * LEARNING: Common pattern for end of business day tests
- * WHY: Many tests use 7 PM as end of business hours
- * PATTERN: Use for end-of-day scenarios
- */
 export function nextMonday7PM(): RFC3339DateTime {
   const monday = getNextDayOfWeek(1) // Monday = 1
   return createTestDateTime(monday, 19, 0)
 }
 
-/**
- * Create a test date for "next Thursday at 9 AM UTC"
- * LEARNING: Common pattern for mid-week tests
- * WHY: Thursday is often used as a representative weekday
- * PATTERN: Use for weekday scenarios
- */
 export function nextThursday9AM(): RFC3339DateTime {
   const thursday = getNextDayOfWeek(4) // Thursday = 4
   return createTestDateTime(thursday, 9, 0)
 }
 
-/**
- * Create a test date for "next Thursday at 7 PM UTC"
- */
 export function nextThursday7PM(): RFC3339DateTime {
   const thursday = getNextDayOfWeek(4) // Thursday = 4
   return createTestDateTime(thursday, 19, 0)
 }
 
-/**
- * Create a test date for "next day at specific time"
- * LEARNING: Flexible helper for any day/time combination
- * WHY: Not all tests need Monday or Thursday
- * PATTERN: Use when you need a specific day/time
- * 
- * @param dayOfWeek - Day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
- * @param hours - Hours (0-23) in UTC
- * @param minutes - Minutes (0-59), defaults to 0
- * @returns RFC3339DateTime string
- */
 export function nextDayAtTime(
   dayOfWeek: number,
   hours: number,
@@ -141,51 +92,17 @@ export function nextDayAtTime(
   return createTestDateTime(day, hours, minutes)
 }
 
-/**
- * Create a test date for "today at specific time"
- * LEARNING: Use when you need today's date
- * WHY: Some tests need current date, not future dates
- * PATTERN: Use for "today" scenarios
- * 
- * @param hours - Hours (0-23) in UTC
- * @param minutes - Minutes (0-59), defaults to 0
- * @returns RFC3339DateTime string
- */
 export function todayAtTime(hours: number, minutes: number = 0): RFC3339DateTime {
   const today = new Date(testBaseDate)
   return createTestDateTime(today, hours, minutes)
 }
 
-/**
- * Create a test date for "tomorrow at specific time"
- * LEARNING: Use when you need tomorrow's date
- * WHY: Some tests need next day scenarios
- * PATTERN: Use for "tomorrow" scenarios
- * 
- * @param hours - Hours (0-23) in UTC
- * @param minutes - Minutes (0-59), defaults to 0
- * @returns RFC3339DateTime string
- */
 export function tomorrowAtTime(hours: number, minutes: number = 0): RFC3339DateTime {
   const tomorrow = new Date(testBaseDate)
   tomorrow.setUTCDate(tomorrow.getUTCDate() + 1)
   return createTestDateTime(tomorrow, hours, minutes)
 }
 
-/**
- * Create a busy time range for tests
- * LEARNING: Helper for creating busy time test data
- * WHY: Many tests need busy time ranges
- * PATTERN: Use for busy time scenarios
- * 
- * @param startDayOfWeek - Day of week for start (0 = Sunday, ..., 6 = Saturday)
- * @param startHours - Start hours (0-23) in UTC
- * @param startMinutes - Start minutes (0-59), defaults to 0
- * @param endDayOfWeek - Day of week for end (can be same or next day)
- * @param endHours - End hours (0-23) in UTC
- * @param endMinutes - End minutes (0-59), defaults to 0
- * @returns Busy time range object
- */
 export function createBusyTimeRange(
   startDayOfWeek: number,
   startHours: number,
@@ -205,15 +122,6 @@ export function createBusyTimeRange(
   }
 }
 
-/**
- * Create a date-only string (YYYY-MM-DD) for a specific day
- * LEARNING: Helper for date-only test data
- * WHY: Some tests need ISO8601Date format
- * PATTERN: Use for date selection scenarios
- * 
- * @param dayOfWeek - Day of week (0 = Sunday, ..., 6 = Saturday)
- * @returns ISO8601Date string (YYYY-MM-DD)
- */
 export function nextDayDateOnly(dayOfWeek: number): string {
   const day = getNextDayOfWeek(dayOfWeek)
   const year = day.getUTCFullYear()
@@ -222,18 +130,6 @@ export function nextDayDateOnly(dayOfWeek: number): string {
   return `${year}-${month}-${date}`
 }
 
-/**
- * Create a date range for tests
- * LEARNING: Helper for creating date range test data
- * WHY: Many tests need start/end boundaries
- * PATTERN: Use for boundary scenarios
- * 
- * @param startDayOfWeek - Day of week for start
- * @param startHours - Start hours (0-23) in UTC
- * @param endDayOfWeek - Day of week for end
- * @param endHours - End hours (0-23) in UTC
- * @returns Object with startBoundary and endBoundary
- */
 export function createDateRange(
   startDayOfWeek: number,
   startHours: number,

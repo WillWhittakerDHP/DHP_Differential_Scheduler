@@ -15,7 +15,6 @@ import { ref, computed, nextTick } from 'vue'
 import { useConfirmationStepData } from '../useConfirmationStepData'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Helper to create a mock block instance
 function createBlockInstance(
   id: string,
   name: string,
@@ -53,7 +52,6 @@ function createBlockInstance(
 describe('useConfirmationStepData', () => {
   describe('priceData reactivity with ADU changes', () => {
     it('should update priceData when additionalUnits changes', async () => {
-      // Create a service with allowMultiple: true
       const service = createBlockInstance('service-1', 'Test Service', 100, true)
       
       const wizard = {
@@ -64,7 +62,6 @@ describe('useConfirmationStepData', () => {
         selectedUserTypeBlock: ref<BookingBlockInstance | null>(null),
       }
       
-      // Initial property details with ADU = 1
       const propertyDetailsStepData = ref({
         address: '123 Main St',
         unit: '',
@@ -86,25 +83,20 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // Initial price should be baseFee * 1 = 100
       expect(priceData.value.totalFee).toBe(100)
       expect(priceData.value.baseFeeTotal).toBe(100)
       expect(priceData.value.overageFeeTotal).toBe(0) // No rateOverBaseFee
       
-      // Change ADU to 2
       propertyDetailsStepData.value.additionalUnits = 2
       await nextTick()
       
-      // Price should update to baseFee * 2 = 200
       expect(priceData.value.totalFee).toBe(200)
       expect(priceData.value.baseFeeTotal).toBe(200)
       expect(priceData.value.overageFeeTotal).toBe(0)
       
-      // Change ADU to 3
       propertyDetailsStepData.value.additionalUnits = 3
       await nextTick()
       
-      // Price should update to baseFee * 3 = 300
       expect(priceData.value.totalFee).toBe(300)
       expect(priceData.value.baseFeeTotal).toBe(300)
       expect(priceData.value.overageFeeTotal).toBe(0)
@@ -142,7 +134,6 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // When additionalUnits is null, multiplier should default to 1
       expect(priceData.value.totalFee).toBe(100)
     })
     
@@ -178,14 +169,12 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // Replace entire ref
       propertyDetailsStepData.value = {
         ...propertyDetailsStepData.value,
         additionalUnits: 5,
       }
       await nextTick()
       
-      // Price should update to baseFee * 5 = 500
       expect(priceData.value.totalFee).toBe(500)
       expect(priceData.value.baseFeeTotal).toBe(500)
       expect(priceData.value.overageFeeTotal).toBe(0)
@@ -207,7 +196,6 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData: null,
       })
       
-      // Should default to multiplier of 1 when propertyDetailsStepData is null
       expect(priceData.value.totalFee).toBe(100)
       expect(priceData.value.baseFeeTotal).toBe(100)
       expect(priceData.value.overageFeeTotal).toBe(0)
@@ -246,9 +234,6 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // Service 1: 50 * 2 = 100 (multiplied by ADU)
-      // Service 2: 75 * 1 = 75 (not multiplied, allowMultiple: false)
-      // Total: 175
       expect(priceData.value.totalFee).toBe(175)
     })
     
@@ -284,7 +269,6 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // Property adjustment: 50 * 3 = 150
       expect(priceData.value.totalFee).toBe(150)
       expect(priceData.value.baseFeeTotal).toBe(150)
       expect(priceData.value.overageFeeTotal).toBe(0)
@@ -322,17 +306,14 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // Initial: 100 * 2 = 200
       expect(priceData.value.totalFee).toBe(200)
       expect(priceData.value.baseFeeTotal).toBe(200)
       expect(priceData.value.overageFeeTotal).toBe(0)
       
-      // Change service selection
       const newService = createBlockInstance('service-2', 'New Service', 150, true)
       wizard.selectedServices.value = [newService]
       await nextTick()
       
-      // Should update: 150 * 2 = 300
       expect(priceData.value.totalFee).toBe(300)
       expect(priceData.value.baseFeeTotal).toBe(300)
       expect(priceData.value.overageFeeTotal).toBe(0)
@@ -370,7 +351,6 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // baseFee: 100, overageFee: 0.5 * 2000 = 1000
       expect(priceData.value.baseFeeTotal).toBe(100)
       expect(priceData.value.overageFeeTotal).toBe(1000)
       expect(priceData.value.totalFee).toBe(1100) // 100 + 1000
@@ -408,7 +388,6 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // baseFee: 100, overageFee: 0.5 * 2000 = 1000 (using propertySize)
       expect(priceData.value.baseFeeTotal).toBe(100)
       expect(priceData.value.overageFeeTotal).toBe(1000)
       expect(priceData.value.totalFee).toBe(1100)
@@ -446,7 +425,6 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // baseFee: 100, overageFee: 0 (no square footage)
       expect(priceData.value.baseFeeTotal).toBe(100)
       expect(priceData.value.overageFeeTotal).toBe(0)
       expect(priceData.value.totalFee).toBe(100)
@@ -484,16 +462,13 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // Initial: baseFee: 100, overageFee: 0.5 * 1000 = 500
       expect(priceData.value.baseFeeTotal).toBe(100)
       expect(priceData.value.overageFeeTotal).toBe(500)
       expect(priceData.value.totalFee).toBe(600)
       
-      // Change square footage
       propertyDetailsStepData.value.squareFootage = 2000
       await nextTick()
       
-      // Updated: baseFee: 100, overageFee: 0.5 * 2000 = 1000
       expect(priceData.value.baseFeeTotal).toBe(100)
       expect(priceData.value.overageFeeTotal).toBe(1000)
       expect(priceData.value.totalFee).toBe(1100)
@@ -531,7 +506,6 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // baseFee: 100 * 3 = 300, overageFee: (0.5 * 2000) * 3 = 3000
       expect(priceData.value.baseFeeTotal).toBe(300)
       expect(priceData.value.overageFeeTotal).toBe(3000)
       expect(priceData.value.totalFee).toBe(3300) // 300 + 3000
@@ -571,16 +545,13 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // Initial: 100 (service) + 25 (line item) = 125
       expect(priceData.value.totalFee).toBe(125)
       expect(priceData.value.lineItemFees?.totalFee).toBe(25)
       expect(priceData.value.lineItems).toHaveLength(1)
       
-      // Add another line item
       wizard.selectedLineItemBlocks.value = [lineItem1, lineItem2]
       await nextTick()
       
-      // Updated: 100 + 25 + 15 = 140
       expect(priceData.value.totalFee).toBe(140)
       expect(priceData.value.lineItemFees?.totalFee).toBe(40)
       expect(priceData.value.lineItems).toHaveLength(2)
@@ -618,7 +589,6 @@ describe('useConfirmationStepData', () => {
         propertyDetailsStepData,
       })
       
-      // Line item: 25 * 3 = 75
       expect(priceData.value.totalFee).toBe(75)
       expect(priceData.value.lineItemFees?.totalFee).toBe(75)
     })

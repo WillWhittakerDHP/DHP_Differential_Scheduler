@@ -14,9 +14,6 @@
  */
 export const ENTITY_CARD_SAVE_KEY = Symbol('entityCardSave')
 
-/**
- * Type definition for EntityCard save context
- */
 export interface EntityCardSaveContext {
   handleSave: () => Promise<void>
   isNew: boolean

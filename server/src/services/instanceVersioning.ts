@@ -12,19 +12,13 @@ import { BlockInstance, PartInstance, Appointment, BlockInstanceVersion, PartIns
  * CRITICAL: Capture old state BEFORE update/delete to preserve historical data correctly
  */
 
-// Use InstanceType for Sequelize model instances
 type BlockInstanceType = InstanceType<typeof BlockInstance>;
 type BlockInstanceVersionType = InstanceType<typeof BlockInstanceVersion>;
 
-/**
- * Check if version matches instance (field equality)
- * WHY: Avoid creating duplicate versions for identical data
- */
 function versionsMatch(
   version: BlockInstanceVersionType | InstanceType<typeof BlockInstanceVersion>,
   instance: BlockInstanceType | InstanceType<typeof BlockInstance>
 ): boolean {
-  // Convert to plain objects if they're Sequelize instances
   const versionData: any = version instanceof Model ? version.toJSON() : version;
   const instanceData: any = instance instanceof Model ? instance.toJSON() : instance;
   
@@ -35,10 +29,6 @@ function versionsMatch(
          versionData.differential === instanceData.differential;
 }
 
-/**
- * Find appointments using a block instance
- * Checks all appointment array fields (selectedServiceIds, selectedPropertyIds, selectedOptionIds)
- */
 async function findAppointmentsUsingBlockInstance(
   blockInstanceId: string
 ): Promise<InstanceType<typeof Appointment>[]> {
@@ -53,17 +43,11 @@ async function findAppointmentsUsingBlockInstance(
   });
 }
 
-/**
- * Create a block instance version from an instance
- * Includes creating part instance versions as children
- */
 async function createVersionFromInstance(
   blockInstance: BlockInstanceType | InstanceType<typeof BlockInstance>
 ): Promise<InstanceType<typeof BlockInstanceVersion>> {
-  // Convert to plain object if it's a Sequelize instance
   const instanceData = blockInstance instanceof Model ? blockInstance.toJSON() : blockInstance;
   
-  // Create block instance version
   const blockVersion = await BlockInstanceVersion.create({
     blockInstanceId: instanceData.id,
     name: instanceData.name,
@@ -73,8 +57,6 @@ async function createVersionFromInstance(
     differential: instanceData.differential,
   });
 
-  // Get part instances for this block instance via PartAssignment
-  // Use the belongsToMany relationship through PartAssignment
   const blockInstanceWithParts = await BlockInstance.findByPk(instanceData.id, {
     include: [
       {
@@ -87,7 +69,6 @@ async function createVersionFromInstance(
     ]
   });
 
-  // Create part instance versions
   // Type assertion needed because Sequelize includes don't preserve exact types
   const partInstances = (blockInstanceWithParts as any)?.part_assignment_instances as InstanceType<typeof PartInstance>[] | undefined;
   
@@ -123,14 +104,12 @@ export async function createBlockInstanceVersionIfReferenced(
   blockInstanceId: string,
   oldBlockInstance: BlockInstanceType | InstanceType<typeof BlockInstance>  // CRITICAL: Pass OLD data
 ): Promise<string | null> {
-  // 1. Check if any appointments reference this block instance
   const appointments = await findAppointmentsUsingBlockInstance(blockInstanceId);
   
   if (appointments.length === 0) {
     return null; // No need to create version
   }
   
-  // 2. Check if latest version matches current state (reuse if identical)
   const latestVersion = await BlockInstanceVersion.findOne({
     where: { blockInstanceId },
     order: [['createdAt', 'DESC']],
@@ -146,14 +125,9 @@ export async function createBlockInstanceVersionIfReferenced(
   return blockVersion.id;
 }
 
-/**
- * Create a version for a block instance (used during appointment creation)
- * Checks for existing matching version before creating new one
- */
 export async function createBlockInstanceVersion(
   blockInstanceId: string
 ): Promise<InstanceType<typeof BlockInstanceVersion>> {
-  // Get current instance with part instances
   const instance = await BlockInstance.findByPk(blockInstanceId, {
     include: [
       {
@@ -170,7 +144,6 @@ export async function createBlockInstanceVersion(
     throw new Error(`Block instance ${blockInstanceId} not found`);
   }
 
-  // Check if latest version matches current state
   const latestVersion = await BlockInstanceVersion.findOne({
     where: { blockInstanceId },
     order: [['createdAt', 'DESC']],
@@ -180,6 +153,5 @@ export async function createBlockInstanceVersion(
     return latestVersion; // Reuse existing version
   }
 
-  // Create new version
   return await createVersionFromInstance(instance);
 }

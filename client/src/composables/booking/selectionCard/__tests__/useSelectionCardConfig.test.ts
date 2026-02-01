@@ -1,20 +1,3 @@
-/**
- * USESELECTIONCARDCONFIG TESTS
- * 
- * Unit tests for useSelectionCardConfig composable.
- * Tests config merging with defaults.
- * 
- * What it covers:
- * - configWithDefaults: Merge user config with defaults
- * 
- * How it works:
- * - Tests delegation to mergeSelectionCardConfigWithDefaults
- * - Tests computed reactivity
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref/computed for reactive state
- */
 
 import { describe, it, expect } from 'vitest'
 import { ref, computed, nextTick } from 'vue'

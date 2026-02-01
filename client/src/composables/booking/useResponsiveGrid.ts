@@ -14,9 +14,6 @@
 import { computed, type Ref } from 'vue'
 import { useElementDimensions } from './useElementDimensions'
 
-/**
- * Responsive Grid Composable Options
- */
 export interface UseResponsiveGridOptions {
   /**
    * LEARNING: Reference to grid container element
@@ -61,9 +58,6 @@ export interface UseResponsiveGridOptions {
   padding?: number
 }
 
-/**
- * Responsive Grid Composable Return Type
- */
 export interface UseResponsiveGridReturn {
   /**
    * LEARNING: Current container width
@@ -122,23 +116,16 @@ export function useResponsiveGrid(
    * NOTE: Relies on ResizeObserver to measure actual container width from Vuetify grid
    */
   const buttonGridColumns = computed(() => {
-    // Return minimum columns if container width is not yet measured
     if (containerWidth.value === 0) {
       return minColumns
     }
     
-    // LEARNING: Calculate available width for buttons
-    // WHY: containerWidth.value is already contentRect.width (excludes padding), so use it directly
     // PATTERN: contentRect.width gives us the content area width where buttons are placed
     const availableWidth = containerWidth.value
     
-    // LEARNING: Calculate how many columns fit
-    // WHY: Each column needs buttonMinWidth + gap space
     // PATTERN: Floor division to get whole columns that fit
     const calculatedColumns = Math.floor(availableWidth / (buttonMinWidth + gap))
     
-    // LEARNING: Ensure at least minColumns, at most maxColumns
-    // WHY: Respect min/max constraints while using calculated value
     const result = Math.max(
       minColumns,
       Math.min(
@@ -147,8 +134,6 @@ export function useResponsiveGrid(
       )
     )
     
-    // LEARNING: Debug logging removed
-    // WHY: Debug logging should use proper logger utility, not console.log
     // PATTERN: Remove debug console.log statements - use proper logging if needed
     
     return result
@@ -160,8 +145,6 @@ export function useResponsiveGrid(
    * PATTERN: Checks viewport width and column count to determine if single-column mode should be used
    */
   const isSingleColumn = computed(() => {
-    // Only use single-column mode if viewport is mobile-sized
-    // This enables vertical scrolling only on small screens
     // LEARNING: Use element dimensions composable's viewport check helper
     // WHY: Isolates viewport access for better testability
     // PATTERN: Check viewport width via utility function

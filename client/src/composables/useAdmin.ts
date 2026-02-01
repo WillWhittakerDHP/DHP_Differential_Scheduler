@@ -18,22 +18,15 @@ import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
-// DIAGNOSTICS: Track instance creation
 let instanceCount = 0
 let callCount = 0
 const instanceCallSites: Array<{ count: number; stack: string }> = []
 
-// SINGLETON: Shared instance created on first call
 let adminInstance: ReturnType<typeof createAdminInstance> | null = null
 
-/**
- * Helper to extract call site info from stack trace
- */
 function getCallSiteInfo(): { caller: string; stack: string } {
   const stack = new Error().stack || ''
   const lines = stack.split('\n')
-  // Skip first 3 lines: Error, getCallSiteInfo, useAdmin
-  // Look for the actual caller (usually line 4 or 5)
   const callerLine = lines[3] || lines[4] || 'unknown'
   return {
     caller: callerLine.trim(),
@@ -41,22 +34,15 @@ function getCallSiteInfo(): { caller: string; stack: string } {
   }
 }
 
-/**
- * Create the actual composable instance
- * LEARNING: Separated from useAdmin to enable singleton pattern
- * WHY: Allows creating instance once and reusing it, preventing recalculation
- */
 function createAdminInstance() {
   instanceCount++
   const callSite = getCallSiteInfo()
   instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
   
   
-  // SINGLETON: This will now reuse the singleton useGlobal instance
   const { getGlobalEntities, getGlobalEntityById, globalData } = useGlobal()
   
   // LEARNING: Use metadata cache composable for lazy-loaded admin metadata
-  // WHY: Metadata is only needed for admin page, not loaded during app startup
   // PATTERN: Separate cache key ['adminMetadata'] from globalData
   const metadataCache = useMetadataCache()
   
@@ -86,8 +72,6 @@ function createAdminInstance() {
       }
     }
     
-    // Transform GlobalData to AdminObjectMap
-    // NOTE: adminTransformer is a singleton, so no instance creation overhead
     return adminTransformer.transformGlobalToAdmin(data)
   })
   
@@ -113,7 +97,6 @@ function createAdminInstance() {
    */
   function getEntities<GE extends GlobalEntityKey>(entityKey: GE): AdminObject<GE>[] {
     const entities = transformedEntities.value[entityKey] as AdminObject<GE>[] | undefined
-    // LEARNING: Always return an array, even if entityKey doesn't exist
     // WHY: Prevents undefined errors when accessing entities that haven't been loaded yet
     // PATTERN: Return empty array as safe default
     return entities ?? []
@@ -138,8 +121,6 @@ function createAdminInstance() {
   function getEntityMap<GE extends GlobalEntityKey>(entityKey: GE): Map<GlobalEntityId, AdminObject<GE>> {
     const entities = getEntities(entityKey)
     const entityMap = new Map<GlobalEntityId, AdminObject<GE>>()
-    // LEARNING: Ensure entities is an array before iterating
-    // WHY: Prevents errors when entities haven't been loaded yet or entityKey doesn't exist
     // PATTERN: Check if entities is array before forEach
     if (Array.isArray(entities)) {
     entities.forEach(entity => {
@@ -187,8 +168,6 @@ function createAdminInstance() {
       return {}
     }
     
-    // LEARNING: For blockInstance entities, pass blockShapeRef to metadata cache
-    // WHY: Each BlockShape's instances can have their own metadata configuration
     // PATTERN: useMetadataCache.getMetadata handles the fallback logic
     let blockShapeRef: string | null = null
     if (entityType === 'blockInstance' && entityKey === 'blockInstance') {
@@ -197,7 +176,6 @@ function createAdminInstance() {
     }
     
     // LEARNING: Delegate to metadata cache composable
-    // WHY: All lookup logic (global vs BlockShape-specific) is handled by the cache
     // PATTERN: Single source of truth for metadata access
     return metadataCache.getMetadata(entityType, blockShapeRef)
   }
@@ -246,7 +224,6 @@ function createAdminInstance() {
 export function useAdmin() {
   callCount++
   
-  // SINGLETON: Create instance on first call, reuse afterwards
   if (!adminInstance) {
     adminInstance = createAdminInstance()
   }
@@ -254,7 +231,6 @@ export function useAdmin() {
   return adminInstance
 }
 
-// DIAGNOSTICS: Export instance count for debugging
 attachDebugToWindow('__useAdminDebug', {
   instanceCount: () => instanceCount,
   callCount: () => callCount,

@@ -1,10 +1,3 @@
-/**
- * USE RELATIONSHIP TESTS
- * 
- * Unit tests for useRelationship composable.
- * Tests relationship CRUD operations, cache reading, and mutations.
- * Phase 4A: Core Composables
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useRelationshipCrud } from '../useRelationship'
@@ -14,7 +7,6 @@ import { createPartAssignmentsRel } from '@/utils/__tests__/factories/relationsh
 import { useGlobal } from '../useGlobal'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 
-// Mock Vue Query
 const mockQueryClient = {
   invalidateQueries: vi.fn(),
   refetchQueries: vi.fn(),
@@ -31,7 +23,6 @@ vi.mock('@tanstack/vue-query', () => ({
   useQueryClient: vi.fn(() => mockQueryClient),
 }))
 
-// Mock useGlobal
 const mockGlobalData = createAtomicBlockGlobalData()
 const relationship = createPartAssignmentsRel('block-1', ['part-1', 'part-2'])
 mockGlobalData.relationships.partAssignments = [relationship]
@@ -44,7 +35,6 @@ vi.mock('../useGlobal', () => ({
   })),
 }))
 
-// Mock API client
 vi.mock('@/utils/api', () => ({
   default: {
     post: vi.fn(),
@@ -82,7 +72,6 @@ describe('useRelationshipCrud', () => {
     })
 
     it('should return empty array when relationships are missing', () => {
-      // Mock empty relationships
       const emptyGlobalData: GlobalData = {
         entities: {
           blockInstance: [],
@@ -115,7 +104,6 @@ describe('useRelationshipCrud', () => {
     it('should flatten parent-children structure', () => {
       const { relationships } = useRelationshipCrud('partAssignments')
       
-      // Should have one relationship per child
       expect(relationships.value.length).toBe(2) // block-1 has 2 children
     })
   })
@@ -170,8 +158,6 @@ describe('useRelationshipCrud', () => {
     })
 
     it('should use optimistic updates (no refetch needed on success)', async () => {
-      // LEARNING: Implementation uses optimistic updates via onMutate
-      // WHY: Immediate UI feedback - cache is updated before API call completes
       // PATTERN: Optimistic updates don't need refetchQueries on success
       vi.mocked(apiClient.post).mockResolvedValue({ data: {} })
       
@@ -184,8 +170,6 @@ describe('useRelationshipCrud', () => {
         child_id: 'part-3',
       })
       
-      // Optimistic updates don't call refetchQueries - cache is already updated in onMutate
-      // Only refetch() function explicitly calls refetchQueries
       expect(mockQueryClient.refetchQueries).not.toHaveBeenCalled()
     })
 
@@ -218,8 +202,6 @@ describe('useRelationshipCrud', () => {
     })
 
     it('should use optimistic updates (no refetch needed on success)', async () => {
-      // LEARNING: Implementation uses optimistic updates via onMutate
-      // WHY: Immediate UI feedback - cache is updated before API call completes
       // PATTERN: Optimistic updates don't need refetchQueries on success
       vi.mocked(apiClient.delete).mockResolvedValue({})
       
@@ -227,8 +209,6 @@ describe('useRelationshipCrud', () => {
       
       await remove('block-1', 'part-1')
       
-      // Optimistic updates don't call refetchQueries - cache is already updated in onMutate
-      // Only refetch() function explicitly calls refetchQueries
       expect(mockQueryClient.refetchQueries).not.toHaveBeenCalled()
     })
 

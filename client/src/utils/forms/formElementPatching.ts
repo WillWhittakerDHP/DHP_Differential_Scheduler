@@ -1,9 +1,3 @@
-/**
- * Form Element DOM Patching Utilities
- *
- * WHY: Keep DOM access out of composables/components so audits can track side-effects cleanly.
- * PATTERN: Utilities own `document`, `MutationObserver`, and DOM traversal. Callers only orchestrate.
- */
 
 import type { Ref } from 'vue'
 import { nextTick } from 'vue'
@@ -56,7 +50,6 @@ export async function patchFormFromVFormRef(
     return
   }
 
-  // Fallback: try querying document after mount tick.
   await nextTick()
   const fallback = getFormElementBySelector(formSelector)
   if (fallback) {
@@ -85,7 +78,6 @@ export function setupFormMutationObserver(options: FormElementPatchingOptions): 
   if (typeof MutationObserver === 'undefined') return () => {}
 
   const observer = new MutationObserver((mutations) => {
-    // Patch the form as soon as it appears.
     const formElement = getFormElementBySelector(formSelector)
     if (formElement) {
       const descriptor = Object.getOwnPropertyDescriptor(formElement, 'elements')
@@ -96,7 +88,6 @@ export function setupFormMutationObserver(options: FormElementPatchingOptions): 
       }
     }
 
-    // Patch autocomplete on dynamically added controls.
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
         if (node.nodeType !== Node.ELEMENT_NODE) continue

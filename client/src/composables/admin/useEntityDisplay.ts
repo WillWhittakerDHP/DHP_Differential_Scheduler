@@ -16,9 +16,6 @@ import {
 } from '@/utils/admin/entityDisplayText'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-/**
- * useEntityDisplay composable return type
- */
 export interface UseEntityDisplayReturn {
   getEntityDisplayName: (entityKey: GlobalEntityKey, entity: GlobalEntity<GlobalEntityKey>) => string
   getEntityName: (entityKey: GlobalEntityKey, entity: GlobalEntity<GlobalEntityKey>) => string
@@ -51,14 +48,12 @@ export function useEntityDisplay(): UseEntityDisplayReturn {
       const config = adminConfig.getInstanceConfig(entityKey).value
       const titleField = config?.titleField as string | undefined
       if (titleField) {
-        // LEARNING: Access property directly so Vue can track changes
         // WHY: Direct property access ensures reactivity when entity properties change
         // PATTERN: Access entity[titleField] directly, Vue will track this access
         const value = getEntityFieldValue(entity, titleField)
         return String(value || '')
       }
       // LEARNING: Access entity.name directly for reactivity
-      // WHY: Direct property access ensures Vue tracks changes to entity.name
       return entity.name || `${entityKey} ${entity.id}`
     } catch {
       return entity.name || `${entityKey} ${entity.id}`

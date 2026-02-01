@@ -17,11 +17,6 @@ import { computed, ref } from 'vue'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 
-/**
- * MetadataCache type - structured metadata for all entity types
- * LEARNING: Mirrors the batch endpoint response structure
- * WHY: Clear separation between global configs and BlockShape-specific configs
- */
 export interface MetadataCache {
   global: {
     blockShape: Record<string, FieldMetadataEntry>
@@ -36,30 +31,17 @@ export interface MetadataCache {
   blockShapeSpecific: Record<string, Record<string, FieldMetadataEntry>>
 }
 
-// SINGLETON: Shared query instance for metadata cache
 let metadataCacheInstance: ReturnType<typeof createMetadataCacheInstance> | null = null
 
-/**
- * Fetch all admin metadata from batch endpoint
- * LEARNING: Single API call fetches all metadata
- * WHY: Replaces N+4 individual calls with 1 batch call
- */
 async function fetchAllAdminMetadata(): Promise<MetadataCache> {
   const endpoint = getAdminMetadataBatchEndpoint()
   const response = await apiClient.get<MetadataCache>(endpoint)
   return response.data
 }
 
-/**
- * Create the metadata cache instance
- * LEARNING: Separated to enable singleton pattern
- */
 function createMetadataCacheInstance() {
   const queryClient = useQueryClient()
   
-  // Track if metadata loading has been requested
-  // LEARNING: Reactive flag to control when query is enabled
-  // WHY: Allows synchronous enabling of query when admin page mounts
   // PATTERN: Use ref for reactive flag, computed for enabled state
   const metadataLoadRequested = ref(false)
   
@@ -87,13 +69,9 @@ function createMetadataCacheInstance() {
    * FIX: Changed from async to sync to prevent race condition with component rendering
    */
   function ensureMetadataLoaded(): void {
-    // Check if metadata is already in cache
     const existingData = queryClient.getQueryData<MetadataCache>(['adminMetadata'])
     
     if (!existingData && !metadataLoadRequested.value) {
-      // Enable query to trigger fetch (Vue Query will handle it reactively)
-      // LEARNING: Setting this to true enables the query immediately
-      // WHY: Components can check isLoading/isLoaded while metadata fetches
       metadataLoadRequested.value = true
     }
   }
@@ -118,7 +96,6 @@ function createMetadataCacheInstance() {
       return {}
     }
     
-    // For blockInstance with blockShapeRef, try BlockShape-specific first
     if (entityType === 'blockInstance' && blockShapeRef) {
       const blockShapeSpecific = data.blockShapeSpecific[blockShapeRef]
       if (blockShapeSpecific && Object.keys(blockShapeSpecific).length > 0) {
@@ -126,15 +103,9 @@ function createMetadataCacheInstance() {
       }
     }
     
-    // Return global config for this entity type
     return (data.global[entityType] || {}) as Record<string, FieldMetadataEntry>
   }
   
-  /**
-   * Get metadata entry for a specific field
-   * LEARNING: Convenience function for single field lookup
-   * WHY: Some components need just one field's metadata
-   */
   function getFieldMetadata(
     entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
     fieldKey: string,
@@ -151,20 +122,10 @@ function createMetadataCacheInstance() {
    */
   const isLoaded = computed(() => !!metadataQuery.data.value)
   
-  /**
-   * Invalidate metadata cache
-   * LEARNING: Called after metadata mutations to refresh cache
-   * WHY: Ensures cache stays in sync with backend
-   */
   function invalidateMetadataCache(): void {
     queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
   }
   
-  /**
-   * Get the full metadata cache (for components that need full access)
-   * LEARNING: Returns the complete MetadataCache object
-   * WHY: Some components like useAdmin need access to full structure
-   */
   function getMetadataCache(): MetadataCache | null {
     return metadataQuery.data.value || null
   }
@@ -178,8 +139,6 @@ function createMetadataCacheInstance() {
     isLoading: metadataQuery.isLoading,
     isLoaded,
     error: metadataQuery.error,
-    // LEARNING: Expose reactive metadata data for direct access
-    // WHY: Allows useEntityMetadata to track metadataQuery.data changes reactively
     // PATTERN: Expose computed ref that tracks metadataQuery.data
     metadataData: computed(() => metadataQuery.data.value),
   }
@@ -196,7 +155,6 @@ function createMetadataCacheInstance() {
  * 2. In components: call getMetadata(entityType, blockShapeRef) to get metadata
  */
 export function useMetadataCache() {
-  // SINGLETON: Create instance on first call, reuse afterwards
   if (!metadataCacheInstance) {
     metadataCacheInstance = createMetadataCacheInstance()
   }

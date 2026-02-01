@@ -12,20 +12,10 @@ const router = Router();
  * PATTERN: REST API with full CRUD + block-specific query endpoint
  */
 
-/**
- * GET /api/v1/internal/business-rules
- * Get all business rules or filter by query params
- * 
- * Query params:
- * - blockInstanceId: Filter by block instance
- * - ruleType: Filter by rule type
- * - active: Filter by active status
- */
 router.get('/', async (req: Request, res: Response) => {
   try {
     const { blockInstanceId, ruleType, active } = req.query;
     
-    // Build where clause based on query params
     const where: Record<string, unknown> = {};
     if (blockInstanceId) where.blockInstanceId = blockInstanceId;
     if (ruleType) where.ruleType = ruleType;
@@ -46,10 +36,6 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
-/**
- * GET /api/v1/internal/business-rules/:id
- * Get single business rule by ID
- */
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -74,14 +60,6 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * GET /api/v1/internal/business-rules/block/:blockInstanceId
- * Get all business rules for a specific block instance
- * 
- * LEARNING: Special endpoint for wizard validation (fetch all rules for selected blocks)
- * WHY: Wizard needs to load rules for all selected services/dwelling adjustments
- * PATTERN: Block-specific query with annotation include
- */
 router.get('/block/:blockInstanceId', async (req: Request, res: Response) => {
   try {
     const { blockInstanceId } = req.params;
@@ -94,8 +72,6 @@ router.get('/block/:blockInstanceId', async (req: Request, res: Response) => {
       order: [['ruleType', 'ASC']],
     });
     
-    // TODO: Include validation message annotations via sequelize association (future enhancement)
-    // For now, client will need to fetch annotation instances separately
     
     res.json(businessRules);
   } catch (error) {
@@ -107,10 +83,6 @@ router.get('/block/:blockInstanceId', async (req: Request, res: Response) => {
   }
 });
 
-/**
- * POST /api/v1/internal/business-rules
- * Create new business rule
- */
 router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { blockInstanceId, ruleType, ruleConfig, validationMessageAnnotationId, active } = req.body;
@@ -124,7 +96,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       return;
     }
     
-    // Validate ruleType
     const validRuleTypes: RuleType[] = ['required_fields', 'requires_agent', 'conditional_validation', 'validation_message'];
     if (!validRuleTypes.includes(ruleType)) {
       res.status(400).json({ 
@@ -135,7 +106,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       return;
     }
     
-    // Create business rule
     const businessRule = await BusinessRule.create({
       blockInstanceId,
       ruleType,
@@ -154,10 +124,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PUT /api/v1/internal/business-rules/:id
- * Update business rule (full replace)
- */
 router.put('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -182,7 +148,6 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
       return;
     }
     
-    // Update business rule
     await businessRule.update({
       blockInstanceId,
       ruleType,
@@ -201,10 +166,6 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PATCH /api/v1/internal/business-rules/:id
- * Partial update business rule
- */
 router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -220,7 +181,6 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
       return;
     }
     
-    // Update only provided fields
     await businessRule.update(updates);
     
     res.json(businessRule);
@@ -233,10 +193,6 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * DELETE /api/v1/internal/business-rules/:id
- * Delete business rule
- */
 router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;

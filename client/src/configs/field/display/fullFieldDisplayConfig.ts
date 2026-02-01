@@ -12,10 +12,6 @@ import { partInstanceDisplays } from './appliedDisplay/partInstanceDisplays'
 import { partShapeDisplays } from './appliedDisplay/partShapeDisplays'
 import { buildSelectableDisplayType, type SelectableDisplayType } from './selectableDisplayConfig'
 
-/**
- * Display configuration for individual fields
- * Includes label, placeholder, visibility, styling, and validation configs
- */
  
 export interface DisplayFieldType<GE extends GlobalEntityKey, _FieldKey extends GlobalFieldKey<GE>> {
   label: string;
@@ -54,13 +50,7 @@ type DisplayFieldTypeMap = {
   };
 };
 
-// Removed unused type: DisplayFieldAdmin
-// LEARNING: Type was declared but never used
-// WHY: Removes dead code to improve maintainability
 
-/**
- * Build complete display field configuration for all entities
- */
 export function buildDisplayFieldConfig(): DisplayFieldConfigMap {
   const selectableDisplayConfig = buildSelectableDisplayType();
 
@@ -92,10 +82,6 @@ export function buildDisplayFieldConfig(): DisplayFieldConfigMap {
   };
 }
 
-/**
- * Build display field configuration for a single entity
- * Merges primitive and selectable display configs, iterates over all field keys
- */
 function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
   _entityKey: GE,
   primitiveDisplayConfig: DisplayFieldTypeMap[GE],
@@ -105,12 +91,10 @@ function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
   const primitiveKeys = Object.keys(primitiveDisplayConfig || {});
   const selectableKeys = Object.keys(selectableDisplayConfig || {});
   
-  // ✅ Merge all field keys, avoiding duplicates
   const allFieldKeys = [...new Set([...primitiveKeys, ...selectableKeys])];
 
   const result: Partial<Record<GlobalFieldKey<GE>, DisplayFieldConfig<GE, GlobalFieldKey<GE>>>> = {};
 
-  // Build configuration using functional approach
   Object.assign(result, 
     Object.fromEntries(
       allFieldKeys.map(fieldKey => {
@@ -144,7 +128,4 @@ function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
   return result;
 }
 
-// Removed unused function: buildDisplayFieldType
-// LEARNING: Function was declared but never used
-// WHY: Removes dead code to improve maintainability
 

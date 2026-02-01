@@ -42,7 +42,6 @@ export interface PartsTotalsResult {
  */
 export function calculatePartsTotals(parts: PartWithTotals[]): PartsTotalsResult {
   // LEARNING: Sum each property using reduce, treating null/undefined as 0
-  // WHY: Ensures consistent handling of missing values
   // PATTERN: Use reduce with fallback to 0 for null/undefined values
   const totalBaseFee = parts.reduce((sum, part) => sum + (part.baseFee ?? 0), 0)
   const totalBaseTime = parts.reduce((sum, part) => sum + (part.baseTime ?? 0), 0)

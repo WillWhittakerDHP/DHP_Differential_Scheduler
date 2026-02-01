@@ -47,7 +47,6 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
   
   const { getGlobalEntityById } = useGlobal()
   
-  // Convert entityId to computed ref
   const entityIdRef = computed(() => {
     if (typeof entityId === 'string') {
       return entityId
@@ -55,7 +54,6 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
     return entityId.value
   })
   
-  // Read entity reactively from store using entityId
   const entityRef = computed(() => {
     // If entity is provided, use it (for backward compatibility)
     if (entity) {
@@ -64,19 +62,14 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       }
       return entity
     }
-    // Otherwise, read from store reactively
     return getGlobalEntityById(entityKey, entityIdRef.value)
   })
   
-  // Use primitive mutation for efficient single-field updates
   const { mutateAsync } = usePrimitiveMutation(entityKey)
   
-  // LEARNING: Get query client for cache invalidation
-  // WHY: Need to invalidate metadata cache after status button toggle
   // PATTERN: Use useQueryClient composable for cache access
   const queryClient = useQueryClient()
   
-  // Track pending toggles to prevent duplicate rapid calls
   const pendingToggles = ref(new Set<string>())
   
   const toggleStatusButton = async (
@@ -88,21 +81,15 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       return
     }
     
-    // Create unique key for this toggle operation
     const toggleKey = `${currentEntity.id}-${String(fieldKey)}`
     
-    // LEARNING: Prevent duplicate calls
-    // WHY: Rapid clicks can cause race conditions and duplicate API calls
     // PATTERN: Return early if toggle is already in progress
     if (pendingToggles.value.has(toggleKey)) {
       return
     }
     
-    // Mark toggle as pending
     pendingToggles.value.add(toggleKey)
     
-    // LEARNING: Stop event propagation to prevent triggering other click handlers
-    // WHY: Prevents clicks from propagating to parent elements (expansion panels, delete buttons, etc.)
     // PATTERN: Explicitly stop propagation in handler as backup to @click.stop.prevent
     if (event) {
       event.stopPropagation()
@@ -110,12 +97,9 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
     }
     
     try {
-      // LEARNING: Handle ternary boolean fields and nullable boolean fields
-      // WHY: Some fields are ternary ('true' | 'false' | 'override'), others are boolean or nullable boolean
       // PATTERN: Check if field is ternary, otherwise treat as boolean
       const currentRaw = currentEntity[fieldKey]
       
-      // Check if field is ternary boolean
       const isTernary = currentRaw === 'true' || currentRaw === 'false' || currentRaw === 'override'
       
       if (isTernary) {
@@ -130,7 +114,6 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
         } else if (currentTernary === 'true') {
           newTernary = 'override'
         } else {
-          // currentTernary === 'override'
           newTernary = 'false'
         }
         
@@ -141,20 +124,15 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
           }
         ]
         
-        // Execute update
         for (const payload of updatePayload) {
           await mutateAsync(payload)
         }
         
-        // Invalidate metadata cache
         queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
         onToggle?.(String(fieldKey))
         return
       }
       
-      // Handle nullable boolean fields
-      // WHY: Some booleans are intentionally nullable in the DB (e.g., requiresUnitNumber)
-      //      In the admin UI, we still want the status chip to be toggleable even when null
       // PATTERN: Treat null/undefined as false, but guard against non-boolean unexpected types
       const isBooleanish = currentRaw === true || currentRaw === false || 
                           currentRaw === null || currentRaw === undefined
@@ -167,8 +145,6 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       const currentValue = currentRaw === true
       const newValue = !currentValue
       
-      // LEARNING: Handle mutual exclusivity for blockShape isStateControl and canHaveParts
-      // WHY: These fields are mutually exclusive - setting one to true requires the other to be false
       // PATTERN: Automatically clear the other field when one is set to true
       const updatePayload: Array<{ admin: { key: string; value: boolean }; dynamicId: string }> = [
         {
@@ -177,10 +153,8 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
         }
       ]
       
-      // If this is a blockShape and we're setting one of the mutually exclusive fields to true
       if (entityKey === 'blockShape' && newValue === true) {
         if (fieldKey === 'isStateControl') {
-          // Setting isStateControl to true - clear canHaveParts
           const currentCanHaveParts = (currentEntity as any).canHaveParts === true
           if (currentCanHaveParts) {
             updatePayload.push({
@@ -189,7 +163,6 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
             })
           }
         } else if (fieldKey === 'canHaveParts') {
-          // Setting canHaveParts to true - clear isStateControl
           const currentIsStateControl = (currentEntity as any).isStateControl === true
           if (currentIsStateControl) {
             updatePayload.push({
@@ -200,28 +173,20 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
         }
       }
       
-      // LEARNING: Use primitive mutation for single-field updates (or multiple if mutual exclusivity applies)
       // WHY: More efficient than full PUT, uses PATCH with {key, value} format
       // PATTERN: usePrimitiveMutation for field-level updates
-      // Execute all updates in sequence
       for (const payload of updatePayload) {
         await mutateAsync(payload)
       }
       
-      // LEARNING: Invalidate metadata cache after status button toggle
-      // WHY: Status button color comes from metadata - UI needs to reflect metadata changes
       // PATTERN: Invalidate metadata cache so status button color updates immediately
       queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
       
-      // LEARNING: Notify parent of successful toggle
       // WHY: Allows parent to track status button changes for save state management
       // PATTERN: Call optional callback after successful mutation
       onToggle?.(String(fieldKey))
     } catch (error) {
-      // Error is silently handled - mutation will rollback optimistically
     } finally {
-      // LEARNING: Clear pending toggle after operation completes (success or failure)
-      // WHY: Ensures the toggle can be triggered again after the operation finishes
       // PATTERN: Use finally block to ensure cleanup happens even if update fails
       pendingToggles.value.delete(toggleKey)
     }

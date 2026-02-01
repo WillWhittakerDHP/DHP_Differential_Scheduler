@@ -64,17 +64,11 @@
  */
 export async function sumWorkHoursForDay(date: Date): Promise<number> {
   try {
-    // Import Appointment model dynamically to avoid circular dependencies
     const { Appointment } = await import('../../db/models/booking/appointment.js');
     
-    // Convert date to YYYY-MM-DD format for DATEONLY comparison
     const dateOnly = date.toISOString().split('T')[0];
     
-    // Query appointments for the specific date with scheduled statuses
-    // LEARNING: Only count 'submitted' or 'confirmed' appointments (not 'started', 'held', etc.)
-    // WHY: Supports asynchronous appointment workflow where appointments exist in DB before calendar sync
     // PATTERN: Filter by status to only include appointments that should count toward capacity
-    // See: client/src/types/appointment.ts for AppointmentStatus union type definition
     const appointments = await Appointment.findAll({
       where: {
         selectedDate: dateOnly,
@@ -82,7 +76,6 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
       }
     });
     
-    // Sum durations from all appointments' selectedTimeSlots
     let totalMinutes = 0;
     for (const appointment of appointments) {
       if (appointment.selectedTimeSlots && Array.isArray(appointment.selectedTimeSlots)) {
@@ -94,18 +87,14 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
       }
     }
     
-    // Convert minutes to hours
     const totalHours = totalMinutes / 60;
     
     return totalHours;
   } catch (error) {
-    // LEARNING: Handle database errors gracefully with logging
-    // WHY: Prevents crashes and provides debugging information
     // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`[ERROR] Failed to sum work hours for date ${date.toISOString()}:`, errorMessage);
     
-    // Return 0 as safe default (allows scheduling if query fails)
     return 0;
   }
 }
@@ -128,15 +117,12 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
  */
 export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise<number> {
   try {
-    // Import Appointment model and Sequelize operators dynamically to avoid circular dependencies
     const { Appointment } = await import('../../db/models/booking/appointment.js');
     const { Op } = await import('sequelize');
     
-    // Convert dates to YYYY-MM-DD format for DATEONLY comparison
     const startDateOnly = startDate.toISOString().split('T')[0];
     const endDateOnly = endDate.toISOString().split('T')[0];
     
-    // Query appointments in the date range with scheduled statuses
     const appointments = await Appointment.findAll({
       where: {
         selectedDate: {
@@ -146,7 +132,6 @@ export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): 
       }
     });
     
-    // Sum durations from all appointments' selectedTimeSlots
     let totalMinutes = 0;
     for (const appointment of appointments) {
       if (appointment.selectedTimeSlots && Array.isArray(appointment.selectedTimeSlots)) {
@@ -158,18 +143,14 @@ export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): 
       }
     }
     
-    // Convert minutes to hours
     const totalHours = totalMinutes / 60;
     
     return totalHours;
   } catch (error) {
-    // LEARNING: Handle database errors gracefully with logging
-    // WHY: Prevents crashes and provides debugging information
     // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`[ERROR] Failed to sum work hours for date range ${startDate.toISOString()} to ${endDate.toISOString()}:`, errorMessage);
     
-    // Return 0 as safe default (allows scheduling if query fails)
     return 0;
   }
 }
@@ -193,15 +174,10 @@ export async function sumWorkHoursForCalendarWeek(date: Date): Promise<number> {
   try {
     // LEARNING: Use UTC methods for all date calculations
     // WHY: Ensures consistent behavior regardless of server timezone
-    // Get the day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday) in UTC
     const dayOfWeek = date.getUTCDay();
     
-    // Calculate days from Monday (Monday = 0, Sunday = 6)
-    // If it's Sunday (dayOfWeek = 0), we need to go back 6 days to get Monday
-    // Otherwise, go back (dayOfWeek - 1) days to get Monday
     const daysFromMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
     
-    // Calculate Monday of the week in UTC
     const monday = new Date(Date.UTC(
       date.getUTCFullYear(),
       date.getUTCMonth(),
@@ -209,7 +185,6 @@ export async function sumWorkHoursForCalendarWeek(date: Date): Promise<number> {
       0, 0, 0, 0
     ));
     
-    // Calculate Sunday of the week in UTC (6 days after Monday)
     const sunday = new Date(Date.UTC(
       monday.getUTCFullYear(),
       monday.getUTCMonth(),
@@ -217,25 +192,16 @@ export async function sumWorkHoursForCalendarWeek(date: Date): Promise<number> {
       23, 59, 59, 999
     ));
     
-    // Use date range function to sum hours
     return await sumWorkHoursForDateRange(monday, sunday);
   } catch (error) {
-    // LEARNING: Handle errors gracefully with logging
-    // WHY: Prevents crashes and provides debugging information
     // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`[ERROR] Failed to sum work hours for calendar week containing ${date.toISOString()}:`, errorMessage);
     
-    // Return 0 as safe default (allows scheduling if query fails)
     return 0;
   }
 }
 
-/**
- * Rolling week direction type
- * LEARNING: Defines how rolling 7-day window is calculated
- * WHY: Different businesses may prefer different rolling week calculations
- */
 export type RollingWeekDirection = 'past' | 'centered' | 'future'
 
 /**
@@ -261,7 +227,6 @@ export async function sumWorkHoursForRollingWeek(date: Date, direction: RollingW
     let startDate: Date;
     let endDate: Date;
     
-    // Create reference date at start of day in UTC
     const referenceDateUTC = new Date(Date.UTC(
       date.getUTCFullYear(),
       date.getUTCMonth(),
@@ -271,7 +236,6 @@ export async function sumWorkHoursForRollingWeek(date: Date, direction: RollingW
     
     switch (direction) {
       case 'past':
-        // Past 7 days: 6 days before + reference date (7 days total)
         endDate = new Date(Date.UTC(
           referenceDateUTC.getUTCFullYear(),
           referenceDateUTC.getUTCMonth(),
@@ -287,7 +251,6 @@ export async function sumWorkHoursForRollingWeek(date: Date, direction: RollingW
         break;
         
       case 'centered':
-        // Centered: 3 days before + reference date + 3 days after (7 days total)
         startDate = new Date(Date.UTC(
           referenceDateUTC.getUTCFullYear(),
           referenceDateUTC.getUTCMonth(),
@@ -303,7 +266,6 @@ export async function sumWorkHoursForRollingWeek(date: Date, direction: RollingW
         break;
         
       case 'future':
-        // Future 7 days: reference date + next 6 days (7 days total)
         startDate = new Date(Date.UTC(
           referenceDateUTC.getUTCFullYear(),
           referenceDateUTC.getUTCMonth(),
@@ -319,7 +281,6 @@ export async function sumWorkHoursForRollingWeek(date: Date, direction: RollingW
         break;
         
       default:
-        // Default to past if invalid direction
         console.warn(`[WARN] Invalid rolling week direction: ${direction}, defaulting to 'past'`);
         endDate = new Date(Date.UTC(
           referenceDateUTC.getUTCFullYear(),
@@ -335,16 +296,12 @@ export async function sumWorkHoursForRollingWeek(date: Date, direction: RollingW
         ));
     }
     
-    // Use date range function to sum hours
     return await sumWorkHoursForDateRange(startDate, endDate);
   } catch (error) {
-    // LEARNING: Handle errors gracefully with logging
-    // WHY: Prevents crashes and provides debugging information
     // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`[ERROR] Failed to sum work hours for rolling week (${direction}) containing ${date.toISOString()}:`, errorMessage);
     
-    // Return 0 as safe default (allows scheduling if query fails)
     return 0;
   }
 }

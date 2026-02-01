@@ -10,15 +10,7 @@ import { computed, type ComputedRef } from 'vue'
 import { roundDuration as roundDurationUtil, type DurationRoundingConfig } from '@/utils/booking/durationRounding'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
-/**
- * useDurationRounding composable return type
- */
 export interface UseDurationRoundingReturn {
-  /**
-   * Round duration based on current availability settings
-   * LEARNING: Reactive rounding function that respects current settings
-   * WHY: Provides easy-to-use rounding that updates when settings change
-   */
   roundDuration: (duration: number) => number
   
   /**
@@ -28,11 +20,6 @@ export interface UseDurationRoundingReturn {
    */
   isRoundingEnabled: ComputedRef<boolean>
   
-  /**
-   * Current rounding configuration
-   * LEARNING: Reactive computed property with current rounding config
-   * WHY: Allows components to display rounding settings
-   */
   roundingConfig: ComputedRef<DurationRoundingConfig | null>
 }
 
@@ -56,7 +43,6 @@ export function useDurationRounding(): UseDurationRoundingReturn {
     
     const config = settings.value.durationRounding
     if (!config) {
-      // Return default config (disabled)
       return {
         enabled: false,
         increment: settings.value.minuteIncrement || 15,

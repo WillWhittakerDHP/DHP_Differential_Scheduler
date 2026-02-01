@@ -10,9 +10,6 @@ import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useEntityDisplay } from './useEntityDisplay'
 
-/**
- * useShapeDisplayNames composable return type
- */
 export interface UseShapeDisplayNamesReturn {
   blockShapeDisplayNames: ComputedRef<Map<string, string>>
   partShapeDisplayNames: ComputedRef<Map<string, string>>

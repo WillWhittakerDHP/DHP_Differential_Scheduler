@@ -93,7 +93,6 @@ export interface WizardComputedProperties {
  * PATTERN: Combines state, methods, and computed properties
  */
 export type UseBookingWizardReturn = {
-  // State (reactive refs)
   selectedUserTypeBlock: import('vue').Ref<BookingBlockInstance | null>
   selectedServiceTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
   selectedOptionTypeBlocks: import('vue').Ref<BookingBlockInstance[]>
@@ -101,7 +100,6 @@ export type UseBookingWizardReturn = {
   selectedLineItemBlocks: import('vue').Ref<BookingBlockInstance[]>
   isQuoteMode: import('vue').Ref<boolean>
 } & WizardSelectionMethods & WizardComputedProperties & {
-  // Internal (for debugging/waiting)
   bookingData: ComputedRef<BookingData | null>
 }
 

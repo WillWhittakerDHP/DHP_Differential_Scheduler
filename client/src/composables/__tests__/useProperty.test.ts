@@ -1,15 +1,3 @@
-/**
- * USE PROPERTY TESTS
- * 
- * Unit tests for useProperty composable.
- * Tests property CRUD operations, queries, and cache invalidation.
- * Phase 4A: Core Composables
- * 
- * Session 1.4.7: Updated to test BusinessData cache pattern
- * ARCHITECTURAL CHANGE: Business entities now use ['businessData'] cache key
- * - Uses optimistic updates + refetchQueries pattern
- * - Reads from businessData.properties
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref, type Ref } from 'vue'
@@ -18,7 +6,6 @@ import apiClient from '@/utils/api'
 import type { PropertyRequest, PropertyResponse } from '@/types/property'
 import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
 
-// Mock Vue Query
 const mockQueryClient = {
   invalidateQueries: vi.fn(),
   refetchQueries: vi.fn(),
@@ -39,7 +26,6 @@ const mockProperty: PropertyResponse = {
   updatedAt: new Date().toISOString(),
 }
 
-// Mock businessData for useBusiness
 const mockBusinessData: Ref<BusinessData | undefined> = ref({
   appointments: [],
   properties: [mockProperty],
@@ -48,7 +34,6 @@ const mockBusinessData: Ref<BusinessData | undefined> = ref({
 const mockIsLoading = ref(false)
 const mockError: Ref<Error | null> = ref(null)
 
-// Mock useBusiness composable
 vi.mock('../useBusiness', () => ({
   useBusiness: vi.fn(() => ({
     businessData: mockBusinessData,
@@ -83,7 +68,6 @@ vi.mock('@tanstack/vue-query', () => ({
   useQueryClient: vi.fn(() => mockQueryClient),
 }))
 
-// Mock API client
 vi.mock('@/utils/api', () => ({
   default: {
     get: vi.fn(),
@@ -99,7 +83,6 @@ vi.mock('@/utils/api', () => ({
 describe('useProperty', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Reset mock businessData
     mockBusinessData.value = {
       appointments: [],
       properties: [mockProperty],
@@ -145,7 +128,6 @@ describe('useProperty', () => {
         zipCode: '62701',
       })
       
-      // Session 1.4.7: Optimistic update + refetchQueries pattern
       expect(mockQueryClient.setQueryData).toHaveBeenCalled()
       expect(mockQueryClient.refetchQueries).toHaveBeenCalledWith({ queryKey: ['businessData'] })
     })
@@ -306,13 +288,11 @@ describe('useProperty', () => {
     it('should read properties from businessData cache', () => {
       const { fetchAll } = useProperty()
       
-      // Should return object with data, isLoading, error
       expect(fetchAll).toBeDefined()
       expect(fetchAll.data).toBeDefined()
       expect(fetchAll.isLoading).toBeDefined()
       expect(fetchAll.error).toBeDefined()
       
-      // Data should be computed property reading from ['businessData'] cache
       expect(fetchAll.data.value).toEqual([mockProperty])
       expect(fetchAll.isLoading.value).toBe(false)
     })
@@ -343,13 +323,11 @@ describe('useProperty', () => {
       const { fetchById } = useProperty()
       const query = fetchById('prop-1')
       
-      // Should return object with data, isLoading, error
       expect(query).toBeDefined()
       expect(query.data).toBeDefined()
       expect(query.isLoading).toBeDefined()
       expect(query.error).toBeDefined()
       
-      // Data should be computed property finding property by ID
       expect(query.data.value).toEqual(mockProperty)
       expect(query.isLoading.value).toBe(false)
     })

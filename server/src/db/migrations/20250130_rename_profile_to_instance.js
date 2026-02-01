@@ -8,12 +8,10 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    // Check if tables exist before renaming
     const blockProfilesExists = await queryInterface.tableExists('block_profiles');
     const partProfilesExists = await queryInterface.tableExists('part_profiles');
     
     if (blockProfilesExists) {
-      // 1. Rename block_profiles table to block_instances
       await queryInterface.renameTable('block_profiles', 'block_instances');
       console.log('✅ Renamed block_profiles table to block_instances');
     } else {
@@ -21,7 +19,6 @@ export default {
     }
     
     if (partProfilesExists) {
-      // 2. Rename part_profiles table to part_instances
       await queryInterface.renameTable('part_profiles', 'part_instances');
       console.log('✅ Renamed part_profiles table to part_instances');
     } else {
@@ -114,7 +111,6 @@ export default {
         await queryInterface.removeConstraint('block_instances', 'block_profiles_block_shape_ref_fkey').catch(() => {});
         await queryInterface.removeConstraint('block_instances', 'block_instances_block_shape_ref_fkey').catch(() => {});
         
-        // Add new constraint
         await queryInterface.addConstraint('block_instances', {
           fields: ['block_shape_ref'],
           type: 'foreign key',
@@ -141,7 +137,6 @@ export default {
         await queryInterface.removeConstraint('part_instances', 'part_profiles_part_shape_ref_fkey').catch(() => {});
         await queryInterface.removeConstraint('part_instances', 'part_instances_part_shape_ref_fkey').catch(() => {});
         
-        // Add new constraint
         await queryInterface.addConstraint('part_instances', {
           fields: ['part_shape_ref'],
           type: 'foreign key',
@@ -164,7 +159,6 @@ export default {
   },
 
   async down(queryInterface, Sequelize) {
-    // Revert: Rename tables back to original names
     const blockInstancesExists = await queryInterface.tableExists('block_instances');
     const partInstancesExists = await queryInterface.tableExists('part_instances');
     

@@ -91,7 +91,6 @@ export type RFC3339DateTime = string & { readonly __brand: 'RFC3339DateTime' }
  * ```
  */
 export function isRFC3339DateTime(value: string): value is RFC3339DateTime {
-  // RFC3339 regex: YYYY-MM-DDTHH:mm:ss[.sss](Z|±HH:mm)
   const rfc3339Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?([+-]\d{2}:\d{2}|Z)$/
   return rfc3339Regex.test(value)
 }
@@ -177,15 +176,6 @@ export function toDayOfWeek(n: number): DayOfWeek {
   return n as DayOfWeek
 }
 
-/**
- * Get day of week from Date object
- * LEARNING: Extracts day of week from Date as DayOfWeek type
- * WHY: Date.getDay() always returns 0-6, so this is safe
- * PATTERN: Type-safe extraction function
- * 
- * @param date - Date object
- * @returns DayOfWeek (0 = Sunday, 6 = Saturday)
- */
 export function getDayOfWeek(date: Date): DayOfWeek {
   return date.getDay() as DayOfWeek  // getDay() always returns 0-6
 }

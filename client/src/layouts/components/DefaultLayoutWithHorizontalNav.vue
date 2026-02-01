@@ -3,7 +3,6 @@ import navItems from '@/navigation/horizontal'
 
 import { themeConfig } from '@themeConfig'
 
-// Components
 import Footer from '@/layouts/components/Footer.vue'
 import NavBarNotifications from '@/layouts/components/NavBarNotifications.vue'
 import NavSearchBar from '@/layouts/components/NavSearchBar.vue'

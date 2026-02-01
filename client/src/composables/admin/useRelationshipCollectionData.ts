@@ -20,9 +20,6 @@ import { useRelationshipCrud } from '@/composables/useRelationship'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-/**
- * Relationship Collection Data Composable Options
- */
 export interface UseRelationshipCollectionDataOptions {
   parentEntityId: ComputedRef<string> | Ref<string> | string
   parentEntityKey: ComputedRef<GlobalEntityKey> | GlobalEntityKey
@@ -35,15 +32,10 @@ export interface UseRelationshipCollectionDataOptions {
   shapeRefProperty: string // Property name on child entity that references shape (e.g., 'partShapeRef', 'annotationShapeRef', 'eventShapeRef')
 }
 
-/**
- * Relationship Collection Data Composable Return Type
- */
 export interface UseRelationshipCollectionDataReturn {
-  // Computed properties
   validShapes: Ref<GlobalEntity<GlobalEntityKey>[]>
   existingChildren: Ref<GlobalEntity<GlobalEntityKey>[]>
   
-  // Helper functions
   getChildForShape: (shapeId: string) => GlobalEntity<GlobalEntityKey> | undefined
   getShapeName: (shapeId: string) => string
 }
@@ -70,7 +62,6 @@ export function useRelationshipCollectionData(
     shapeRefProperty
   } = options
   
-  // Convert inputs to ComputedRefs for consistency
   const parentEntityIdRef = typeof parentEntityId === 'string' 
     ? computed(() => parentEntityId)
     : typeof parentEntityId === 'object' && 'value' in parentEntityId
@@ -119,11 +110,8 @@ export function useRelationshipCollectionData(
     ? computed(() => parentTypeRefInput.value)
     : parentTypeRefInput as ComputedRef<string | null>
   
-  // Initialize composables
   const { getGlobalEntityById } = useGlobal()
   const adminComp = useAdmin()
-  // LEARNING: Add type assertion for relationshipKey to GlobalRelationshipKey
-  // WHY: useRelationshipCrud expects GlobalRelationshipKey, but relationshipKey is ComputedRef<string>
   const { relationships: relationshipsRef } = useRelationshipCrud(relationshipKey.value as import('@/constants/relationships').GlobalRelationshipKey)
   
   /**
@@ -153,15 +141,12 @@ export function useRelationshipCollectionData(
   const validShapes = computed((): GlobalEntity<GlobalEntityKey>[] => {
     if (!parentTypeEntity.value) return []
     
-    // Get parent type entity with relationships from admin store
     const typeEntityWithRels = adminComp.getEntity(parentTypeEntityKey.value, parentTypeEntity.value.id)
     if (!typeEntityWithRels) return []
     
-    // Get valid options relationship array (contains shape IDs)
     const validOptions = getEntityFieldValue(typeEntityWithRels, optionsFieldKey.value)
     if (!validOptions || !Array.isArray(validOptions)) return []
     
-    // Map shape IDs to shape entities
     const shapes = adminComp.getEntitiesByKey(shapeEntityKey.value) as GlobalEntity<GlobalEntityKey>[]
     const { resolved } = resolveByIds(shapes, validOptions)
     return resolved.sort((a, b) => {

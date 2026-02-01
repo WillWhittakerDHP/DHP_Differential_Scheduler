@@ -38,17 +38,11 @@ export function transformApiRelationships(
   const config = RELATIONSHIP_KEYS[relationshipKey]
   if (!config) return []
   
-  // LEARNING: Filter relationships by kind FIRST to avoid processing wrong relationship types
-  // WHY: fetchedRelationships contains ALL relationship types mixed together from the API
-  //      Without filtering, we'd try to resolve child_ids from wrong relationship types
-  //      (e.g., validParts child_ids would be looked up in blockShape instead of partShape)
   // PATTERN: Filter by kind before processing to ensure we only process the correct relationship type
   const filteredRelationships = fetchedRelationships.filter(
     rel => rel.kind === relationshipKey
   )
   
-  // Group relationships by parent_id
-  // LEARNING: Use reduce to build Map instead of forEach with Map.set mutations
   // WHY: Functional approach avoids forEach with Map mutations
   const parentMap = filteredRelationships
     .filter(rel => !rel.disabled)
@@ -58,20 +52,14 @@ export function transformApiRelationships(
       return map
     }, new Map<string, string[]>())
   
-  // Transform to GlobalRelationship format
-  // LEARNING: Use map/flatMap to build array instead of forEach with push mutations
   // WHY: Functional approach avoids forEach with array mutations
   const globalRelationships: GlobalRelationship[] = Array.from(parentMap.entries())
     .map(([parentId, childIds]) => {
-      // Find parent entity
       const parentEntity = findById(entities[config.parentEntity] || [], parentId)
       if (!parentEntity) {
         return null
       }
       
-      // Find child entities
-      // LEARNING: Events and annotations are now core entities stored in entities Record
-      // WHY: All entities (including events/annotations) are now in the unified entities structure
       // PATTERN: Resolve child entities from entities Record (includes all entity types)
       const childEntityArray = entities[config.childEntity] || []
       
@@ -136,15 +124,10 @@ export function groupRelationshipsByParent(
 export function groupRelationshipsByParent(
   relationships: FetchedRelationship[] | GlobalRelationship[]
 ): Map<string, string[]> | Map<string, GlobalRelationship[]> {
-  // LEARNING: Detect which type of relationship array we have
-  // WHY: Tests pass GlobalRelationship[], production uses FetchedRelationship[]
   // PATTERN: Check for parent_id property (FetchedRelationship) vs parent property (GlobalRelationship)
   if (relationships.length > 0 && 'parent_id' in relationships[0]) {
-    // FetchedRelationship[] path
     const fetchedRels = relationships as FetchedRelationship[]
     
-    // LEARNING: Use reduce to build Map with immutable array operations
-    // WHY: Map.set() mutations are acceptable for Map operations, but array operations should be immutable
     // PATTERN: Reduce relationships to Map, creating new arrays instead of mutating existing ones
     const parentMap = fetchedRels
       .filter(rel => !rel.disabled)
@@ -156,11 +139,8 @@ export function groupRelationshipsByParent(
     
     return parentMap
   } else {
-    // GlobalRelationship[] path
     const globalRels = relationships as GlobalRelationship[]
     
-    // LEARNING: Use reduce to build Map with immutable array operations
-    // WHY: Map.set() mutations are acceptable for Map operations, but array operations should be immutable
     // PATTERN: Reduce relationships to Map, creating new arrays instead of mutating existing ones
     const parentMap = globalRels
       .filter(rel => rel.parent)
@@ -174,16 +154,6 @@ export function groupRelationshipsByParent(
   }
 }
 
-/**
- * Extract child IDs from relationships
- * 
- * LEARNING: Common pattern for extracting child entity IDs
- * WHY: Used in admin transformer to attach relationship arrays
- * PATTERN: Flat map children arrays to extract IDs
- * 
- * @param relationships - Array of GlobalRelationship objects
- * @returns Array of child entity IDs
- */
 export function extractChildIds(relationships: GlobalRelationship[]): string[] {
   return relationships.flatMap(rel => 
     rel.children ? rel.children.map(child => child.id) : []
@@ -224,23 +194,18 @@ export function getComponentsRecursive(
   
   visited.add(composerId)
   
-  // Find relationships where this composer is parent
   const composerRelationships = relationships.filter(
     rel => rel.relationshipKind === 'instanceComponents' &&
            rel.parent.id === composerId &&
            rel.parent.entityKey === entityKind
   )
   
-  // Get direct component IDs
   const directComponents = composerRelationships.flatMap(rel =>
     rel.children.map(child => child.id)
   )
   
-  // LEARNING: Use flatMap to build recursive components functionally
-  // WHY: Avoids array mutations (push) - builds components array immutably
   // PATTERN: Map each component to its recursive components, then flatten
   const recursiveComponents = directComponents.flatMap((componentId) => {
-    // Check if this component is itself a composer
     const isComponentAlsoComposer = relationships.some(
       rel => rel.relationshipKind === 'instanceComponents' &&
              rel.parent.id === componentId &&
@@ -248,10 +213,8 @@ export function getComponentsRecursive(
     )
     
     if (isComponentAlsoComposer) {
-      // Recursively get components of this component
       return getComponentsRecursive(componentId, entityKind, relationships, visited)
     } else {
-      // Direct component, not a composer
       return [componentId]
     }
   })
@@ -281,27 +244,23 @@ export function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
   relationships: GlobalRelationship[],
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 ): Partial<GlobalEntity<GE>> {
-  // Filter to instanceComponents relationships for this entity kind
   const componentRelationships = relationships.filter(
     rel => rel.relationshipKind === 'instanceComponents' &&
            rel.parent.entityKey === entityKind
   )
   
-  // Get all components (recursive to handle hierarchical component relationships)
     const componentIds = getComponentsRecursive(composerId, entityKind, componentRelationships)
   
   if (componentIds.length === 0) {
     return {}
   }
   
-  // Get component entities
   const { resolved: components } = resolveByIds(entities[entityKind] || [], componentIds)
   
   if (components.length === 0) {
     return {}
   }
   
-  // Compose properties using shared utility
   const composed = composePropertiesFromComponents(
     components,
     entityKind,
@@ -311,28 +270,12 @@ export function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
   return composed as Partial<GlobalEntity<GE>>
 }
 
-/**
- * Get composed entity from relationships
- * 
- * LEARNING: Creates computed view of composer from components
- * WHY: Composers are computed views, not stored entities
- * PATTERN: Merge composer base properties with composed component properties
- * 
- * ARCHITECTURAL CHANGE: Now works with GlobalRelationship[] instead of ActiveComponent[]
- * 
- * @param composerId - Composer entity ID
- * @param entityKind - Entity type key
- * @param relationships - GlobalRelationship[] for instanceComponents
- * @param entities - Entity map from GlobalData
- * @returns Composed entity or null if not found
- */
 export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
   relationships: GlobalRelationship[],
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 ): GlobalEntity<GE> | null {
-  // Get composer entity (base properties)
   const composerEntity = findById(entities[entityKind] || [], composerId)
   if (!composerEntity) {
     
@@ -340,17 +283,14 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
   }
   
   // LEARNING: Type assertion needed because entities array is union type
-  // WHY: TypeScript can't infer specific entity type from union type array
   // PATTERN: Assert to specific entity type when we know the entityKind
   const composer = composerEntity as GlobalEntity<GE>
   
-  // Filter to instanceComponents relationships for this entity kind
   const componentRelationships = relationships.filter(
     rel => rel.relationshipKind === 'instanceComponents' &&
            rel.parent.entityKey === entityKind
   )
   
-  // Compose properties from components
   const composed = composePropertiesFromRelationships(
     composerId,
     entityKind,
@@ -358,8 +298,6 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
     entities
   )
   
-  // Merge composer with composed properties
-  // Composed properties override composer properties (computed view)
   const composedEntity: GlobalEntity<GE> = {
     ...composer,
     ...composed,
@@ -391,12 +329,10 @@ export function composePartInstances(
   composedBlockIds: string[],
   relationships: GlobalRelationship[]
 ): string[] {
-  // Filter to partAssignments relationships
   const constituentRelationships = relationships.filter(
     rel => rel.relationshipKind === 'partAssignments'
   )
   
-  // LEARNING: Use flatMap to collect part instance IDs functionally
   // WHY: Avoids nested forEach patterns - flattens nested structure functionally
   // PATTERN: Map blockIds to relationships, then flatMap to part instance IDs
   const partInstanceIds = composedBlockIds.flatMap((blockId) => {
@@ -408,8 +344,6 @@ export function composePartInstances(
     )
   })
   
-  // LEARNING: Build Set functionally using Set constructor instead of forEach with Set.add()
-  // WHY: Avoids forEach mutations - creates Set immutably from array
   // PATTERN: Use Set constructor with array to build Set functionally, then convert back to array
   return Array.from(new Set(partInstanceIds))
 }

@@ -4,22 +4,15 @@ import { Sequelize, ValidationError } from "sequelize";
 import { initializeModels } from "../db/models/index.js";
 
 
-// console.log(`🟡 NODE_ENV: ${process.env.NODE_ENV}`);
-// console.log(`🟡 Loading .env from: ./env.${process.env.NODE_ENV || "development"}`);
 
-// Load environment variables based on NODE_ENV
-// WHY: Try to load environment-specific file, fallback to development if not found
-// PATTERN: dotenv.config() doesn't throw if file is missing, but we want to ensure env vars are loaded
 const envFile = `./.env.${process.env.NODE_ENV || "development"}`;
 const result = dotenv.config({ path: envFile });
 
-// If the environment-specific file doesn't exist and we're not in development, try development as fallback
 if (result.error && process.env.NODE_ENV !== "development") {
   console.warn(`⚠️  ${envFile} not found, falling back to .env.development`);
   dotenv.config({ path: "./.env.development" });
 }
 
-// console.log("🟢 DB_HOST from process.env:", process.env.DB_HOST);
 
 // ✅ Validate required environment variables
 const schema = Joi.object({
@@ -40,7 +33,6 @@ if (error) {
   process.exit(1);
 }
 
-// ✅ Initialize Sequelize
 export const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASSWORD, {
   host: config.DB_HOST,
   port: config.DB_PORT,
@@ -48,11 +40,6 @@ export const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB
   logging: false, // Disable SQL logging - set to console.log when debugging
 });
 
-// ✅ Ensure Models Are Loaded
-// NOTE: Renamed for clearer domain terminology:
-// - ValidIndependentComponent → AdditionalServiceOption → DependentInstanceOption → DependentInstance (2026-01-20, final naming)
-// - ActiveCascade → BookingCascade (2026-01-08)
-// - ActiveComponent → ServiceComponent → InstanceComponent (2026-01-07)
 export const { 
   PartShape, PartInstance, BlockShape, BlockInstance, 
   BlockInstanceVersion, PartInstanceVersion,

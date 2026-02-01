@@ -6,7 +6,6 @@ export const avatarText = (value: string) => {
   return nameArray.map(word => word.charAt(0).toUpperCase()).join('')
 }
 
-// TODO: Try to implement this: https://twitter.com/fireship_dev/status/1565424801216311297
 export const kFormatter = (num: number) => {
   const regex = /\B(?=(\d{3})+(?!\d))/g
 
@@ -36,7 +35,6 @@ export const formatDateToMonthShort = (value: string, toTimeForCurrentDay = true
   let formatting: Record<string, string> = { month: 'short', day: 'numeric' }
 
   if (toTimeForCurrentDay) {
-    // Use useLocalTime.isTodayLocal() instead
     const today = new Date()
     if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
       formatting = { hour: 'numeric', minute: 'numeric' }

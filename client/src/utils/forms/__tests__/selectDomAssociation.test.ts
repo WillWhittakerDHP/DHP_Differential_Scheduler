@@ -1,13 +1,3 @@
-/**
- * TEST: selectDomAssociation
- *
- * Covers:
- * - Ensures a rendered AppSelect wrapper has a native <select> with the expected `name`
- * - Patches the nearest form via `patchFormElements` (autocomplete + extension compatibility)
- *
- * Dependencies:
- * - JSDOM environment (configured in `vitest.config.ts`)
- */
 
 import { describe, it, expect } from 'vitest'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'

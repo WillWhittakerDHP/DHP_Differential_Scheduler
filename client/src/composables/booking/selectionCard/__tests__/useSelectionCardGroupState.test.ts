@@ -1,33 +1,9 @@
-/**
- * USESELECTIONCARDGROUPSTATE TESTS
- * 
- * Unit tests for useSelectionCardGroupState composable.
- * Tests group state management for selection cards.
- * 
- * What it covers:
- * - expandedCardIds: Track expanded cards
- * - nestedSelections: Track nested selections per card
- * - expansionStates: Computed expansion state object
- * - internalValue: Computed model value
- * - handleNestedSelection: Update nested selections
- * - toggleCardExpansion: Toggle card expansion
- * 
- * How it works:
- * - Tests state management logic
- * - Tests auto-expansion on selection
- * - Tests computed reactivity
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref/computed for reactive state
- */
 
 import { describe, it, expect, vi } from 'vitest'
 import { ref, computed, nextTick } from 'vue'
 import { useSelectionCardGroupState } from '../useSelectionCardGroupState'
 import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 
-// Helper to create mock item
 function createItem(id: string, options: Partial<SelectionCardItem> = {}): SelectionCardItem {
   return {
     id,

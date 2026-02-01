@@ -20,11 +20,6 @@ export interface UseAppointmentDropdownReturn {
   appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
 }
 
-/**
- * LEARNING: Format appointments array to dropdown items
- * WHY: Provides formatted list of appointments for dropdown selection
- * PATTERN: Transform appointments array to dropdown format with address display
- */
 export function useAppointmentDropdown(
   options: UseAppointmentDropdownOptions
 ): UseAppointmentDropdownReturn {
@@ -33,7 +28,6 @@ export function useAppointmentDropdown(
   const appointmentDropdownItems = computed(() => {
     const appointments = fetchAll.data.value || []
     
-    // LEARNING: Use map to create items array instead of forEach with push mutations
     // WHY: Functional approach avoids forEach with array mutations
     // PATTERN: Map appointments to items array, prepend "Random Appointment" option
     const items = [

@@ -10,59 +10,26 @@ import { type Ref } from 'vue'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 
-/**
- * useAvailabilityStepHandlers composable parameters
- */
 export interface UseAvailabilityStepHandlersParams {
-  /**
-   * Appointment slot order index ref (for updating selection)
-   */
   appointmentSlotOrderIndex: Ref<number | null>
   
-  /**
-   * Whether moveable parts are detected
-   */
   hasMoveableParts: Ref<boolean>
   
-  /**
-   * Currently selected slot
-   */
   selectedSlot: Ref<AppointmentSlot | null>
   
-  /**
-   * Function to open moveable modal
-   */
   openMoveableModal: () => void
   
-  /**
-   * Function to close moveable modal
-   */
   closeMoveableModal: () => void
   
-  /**
-   * Moveable options (for confirming selection)
-   */
   moveableOptions: Ref<MoveableSchedulingOptions | null>
   
-  /**
-   * Selected moveable slot index
-   */
   selectedMoveableSlotIndex: Ref<number | null>
   
-  /**
-   * Confirmed moveable scheduling ref (for storing confirmed selection)
-   */
   confirmedMoveableScheduling: Ref<MoveableSchedulingOptions | null>
   
-  /**
-   * Start time type ref (for time basis change handler)
-   */
   startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
 }
 
-/**
- * useAvailabilityStepHandlers composable return type
- */
 export interface UseAvailabilityStepHandlersReturn {
   /**
    * Handler for appointment slot click
@@ -121,14 +88,6 @@ export function useAvailabilityStepHandlers(
     appointmentSlotOrderIndex.value = buttonIndex
     
     // TEMPORARY: Moveable parts scheduling disabled
-    // TODO: Re-enable when confirmation modal system is implemented
-    // After selection, check for moveable parts
-    // Use nextTick to ensure selectedSlot has updated
-    // nextTick(() => {
-    //   if (hasMoveableParts.value && selectedSlot.value) {
-    //     openMoveableModal()
-    //   }
-    // })
   }
 
   /**
@@ -155,7 +114,6 @@ export function useAvailabilityStepHandlers(
    */
   const handleMoveableCancel = (): void => {
     closeMoveableModal()
-    // Reset selection when canceling
     selectedMoveableSlotIndex.value = null
   }
 

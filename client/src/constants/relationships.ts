@@ -92,9 +92,6 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'blockInstance' as GlobalEntityKey,
   },
-  // Note: "descriptions" annotation is intentionally NOT included as a core relationship
-  // Descriptions are part of the annotation system (see constants/annotations.ts)
-  // and are handled separately from relationships to maintain type safety
 } as const
 
 /**

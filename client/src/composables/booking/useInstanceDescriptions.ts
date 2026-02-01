@@ -18,33 +18,15 @@ import { computed, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { getFilteredServiceDescription, mapServicesWithFilteredDescriptions } from '@/utils/booking/serviceDescriptions'
 
-/**
- * Instance Descriptions Composable Options
- */
 export interface UseInstanceDescriptionsOptions {
-  /**
-   * Block instances to filter descriptions for (any shape)
-   */
   instances: ComputedRef<BookingBlockInstance[]>
   
-  /**
-   * Selected user type (for filtering descriptions by user type context)
-   */
   selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null>
 }
 
-/**
- * Instance Descriptions Composable Return Type
- */
 export interface UseInstanceDescriptionsReturn {
-  /**
-   * Helper function to filter descriptions by user type
-   */
   getFilteredDescription: (instance: BookingBlockInstance, userTypeBlockName: string | null) => string
   
-  /**
-   * Block instances with filtered descriptions applied
-   */
   instancesWithDescriptions: ComputedRef<BookingBlockInstance[]>
 }
 

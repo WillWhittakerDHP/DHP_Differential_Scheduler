@@ -32,7 +32,6 @@ export class PartInstanceVersion extends Model<
   declare rateOverBaseTime: number;
   declare createdAt: CreationOptional<Date>;
   
-  // Relationships
   declare blockInstanceVersion?: any; // BlockInstanceVersion
 }
 
@@ -59,7 +58,6 @@ export function PartInstanceVersionFactory(sequelize: Sequelize) {
         type: DataTypes.UUID,
         allowNull: false,
         field: 'part_instance_id',
-        // NO references - allows instance deletion while preserving history
       },
       name: {
         type: DataTypes.TEXT,

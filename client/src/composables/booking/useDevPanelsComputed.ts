@@ -52,18 +52,11 @@ interface TimeSlotResults {
   appointmentEnd: string | null
 }
 
-/**
- * LEARNING: Extract computed logic from DevPanelsContainer.vue
- * WHY: Reduces component complexity from 13 computed properties to composable usage
- * PATTERN: Composable provides all computed properties needed for dev panel display
- */
 export function useDevPanelsComputed(
   options: UseDevPanelsComputedOptions
 ): UseDevPanelsComputedReturn {
   const { appointmentData } = options
 
-  // LEARNING: Calculate services summary
-  // WHY: Shows overview of selected services
   // PATTERN: Map block instances to summary objects
   const servicesSummary = computed<ServiceSummary[]>(() => {
     const instances = appointmentData.value.selectedBlockInstances
@@ -77,8 +70,6 @@ export function useDevPanelsComputed(
     }))
   })
 
-  // LEARNING: Get finalized parts directly from AppointmentShape
-  // WHY: Shows finalized parts directly from source of truth without any filtering
   // PATTERN: Direct access to appointmentShape.finalizedParts
   const finalizedParts = computed<PartFinal[]>(() => {
     const shape = appointmentData.value.appointmentShape
@@ -88,8 +79,6 @@ export function useDevPanelsComputed(
     return shape.finalizedParts
   })
 
-  // LEARNING: Get SlotShape totals directly from AppointmentShape
-  // WHY: Shows SlotShape properties directly without any filtering or categorization
   // PATTERN: Direct access to appointmentShape.slotShape properties
   const slotShapeTotals = computed<SlotShape>(() => {
     const shape = appointmentData.value.appointmentShape
@@ -106,7 +95,6 @@ export function useDevPanelsComputed(
   })
 
   // LEARNING: Format time slot results
-  // WHY: Shows actual time values for selected appointment
   // PATTERN: Extract times from selected slot
   const timeSlotResults = computed<TimeSlotResults>(() => {
     const slots = appointmentData.value.appointmentSlots
@@ -122,16 +110,12 @@ export function useDevPanelsComputed(
     
     const slot = slots[0]
     
-    // Major arrival is the start of totalTimeRange
     const majorArrival = slot.totalTimeRange?.startTime || null
     
-    // Minor arrival is the start of minor event time range (or totalTimeRange if no minor event)
-    // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
     const minorEventName = 'Minor' // TODO: Get from availabilitySettings
     const minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]
     const minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null
     
-    // Appointment end is the end of totalTimeRange
     const appointmentEnd = slot.totalTimeRange?.endTime || null
     
     return {
@@ -141,13 +125,9 @@ export function useDevPanelsComputed(
     }
   })
 
-  // LEARNING: Get booking data for service type filtering
-  // WHY: Need bookingData to get all active service block instances
   // PATTERN: Use useBooking composable to get booking data
   const { bookingData } = useBooking()
 
-  // LEARNING: Get all active service block instances (not filtered by cascades)
-  // WHY: Debug panel should allow selecting any active service type for testing
   // PATTERN: Filter bookingData.blockInstances by service block shape ID and active status
   const allActiveServiceTypes = computed((): BookingBlockInstance[] => {
     const data = bookingData.value

@@ -23,11 +23,9 @@ export class AdminPrimitiveMetadata extends Model<
   declare entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance';
   declare entityId: string;
   declare fieldKey: string;
-  // Canonical properties
   declare dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   declare label: string;
   declare isRequired: boolean;
-  // Layout/rendering properties
   declare visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
@@ -36,9 +34,7 @@ export class AdminPrimitiveMetadata extends Model<
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
-  // Input configuration (for select/multiselect/reference fields)
   declare inputConfig: CreationOptional<Record<string, unknown> | null>;
-  // Inheritance
   declare inheritsFromEntityType: CreationOptional<'blockShape' | 'partShape' | null>;
   declare inheritsFromEntityId: CreationOptional<string | null>;
   declare createdAt: CreationOptional<Date>;
@@ -72,7 +68,6 @@ export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {
         field: 'field_key',
         comment: 'Primitive field name/key (e.g., name, active, composable)',
       },
-      // Canonical properties
       dataType: {
         type: DataTypes.ENUM('string', 'number', 'boolean', 'ternary', 'array', 'reference'),
         allowNull: false,
@@ -91,7 +86,6 @@ export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {
         field: 'is_required',
         comment: 'Whether field is required',
       },
-      // Layout/rendering properties
       visibility: {
         type: DataTypes.ENUM('titleRow', 'staticAsTitle', 'expandedDirect', 'expandedPanel', 'hidden', 'notConfigured'),
         allowNull: false,
@@ -148,7 +142,6 @@ export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {
         field: 'input_config',
         comment: 'Input configuration for select/multiselect/reference fields (target entity/relationship, selectMode, groupByKey, etc.)',
       },
-      // Inheritance
       inheritsFromEntityType: {
         type: DataTypes.STRING,
         allowNull: true,

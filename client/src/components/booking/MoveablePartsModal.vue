@@ -196,16 +196,11 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-// Computed for v-model
 const showModalModel = computed({
   get: () => props.showModal,
   set: (value: boolean) => emit('update:showModal', value)
 })
 
-// Computed for contingencyPeriod v-model
-// LEARNING: Use computed with getter/setter for v-model binding
-// WHY: Allows two-way binding of nested object properties
-// PATTERN: Computed property that reads from props and emits updates
 const contingencyPeriodModel = computed({
   get: () => props.contingencyPeriod,
   set: (value: Props['contingencyPeriod']) => {
@@ -213,15 +208,10 @@ const contingencyPeriodModel = computed({
   }
 })
 
-// LEARNING: Can confirm if all required fields are valid
-// WHY: Validates contingency period and slot selection before allowing confirmation
-// PATTERN: Computed property that checks all validation requirements
 const canConfirm = computed(() => {
   // Cannot confirm if options are still loading or not available
   if (!props.moveableOptions) return false
   
-  // LEARNING: Validate contingency period when hasContingency is true
-  // WHY: If user specifies a contingency deadline, endDate must be provided
   // PATTERN: Check hasContingency flag and require endDate if true
   if (props.contingencyPeriod.hasContingency) {
     if (!props.contingencyPeriod.endDate) {
@@ -229,14 +219,10 @@ const canConfirm = computed(() => {
     }
   }
   
-  // LEARNING: If no slots available, can confirm (user can proceed without selecting a slot)
-  // WHY: Some scenarios don't require slot selection
   if (props.moveableOptions.availableSlots.length === 0) {
     return true
   }
   
-  // LEARNING: If slots are available, a slot must be selected
-  // WHY: User must choose when moveable work should be completed
   // PATTERN: Return true only if selectedSlotIndex is not null
   return props.selectedSlotIndex !== null
 })

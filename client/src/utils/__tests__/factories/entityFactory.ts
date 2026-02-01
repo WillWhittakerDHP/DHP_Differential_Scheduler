@@ -1,16 +1,7 @@
-/**
- * ENTITY FACTORY
- * 
- * Factory functions for generating mock entities for testing.
- * Provides reusable builders for all GlobalEntity types.
- */
 
 import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
 import type { GlobalEntityId } from '@/types/entities'
 
-/**
- * Base entity factory with common properties
- */
 function createBaseEntity<GE extends GlobalEntityKey>(
   id: string,
   entityKey: GE,
@@ -27,9 +18,6 @@ function createBaseEntity<GE extends GlobalEntityKey>(
   } as GlobalEntity<GE>
 }
 
-/**
- * Create a block instance entity
- */
 export function createBlockInstance(
   id: GlobalEntityId,
   name: string,
@@ -60,9 +48,6 @@ export function createBlockInstance(
   } as Partial<GlobalEntity<'blockInstance'>>)
 }
 
-/**
- * Create a part instance entity
- */
 export function createPartInstance(
   id: GlobalEntityId,
   name: string,
@@ -93,9 +78,6 @@ export function createPartInstance(
   } as Partial<GlobalEntity<'partInstance'>>)
 }
 
-/**
- * Create a block shape entity
- */
 export function createBlockShape(
   id: GlobalEntityId,
   name: string,
@@ -114,9 +96,6 @@ export function createBlockShape(
   } as Partial<GlobalEntity<'blockShape'>>)
 }
 
-/**
- * Create a part shape entity
- */
 export function createPartShape(
   id: GlobalEntityId,
   name: string,
@@ -135,9 +114,6 @@ export function createPartShape(
   } as Partial<GlobalEntity<'partShape'>>)
 }
 
-/**
- * Create multiple entities of the same type with sequential IDs
- */
 export function createEntities<GE extends GlobalEntityKey>(
   entityKey: GE,
   count: number,
@@ -151,10 +127,6 @@ export function createEntities<GE extends GlobalEntityKey>(
   })
 }
 
-/**
- * Create a complete set of related entities for testing
- * (e.g., block instance with parts, shapes, etc.)
- */
 export function createEntitySet() {
   const blockShape = createBlockShape('block-shape-1', 'Test Block Shape')
   const partShape1 = createPartShape('part-shape-1', 'Test Part Shape 1')

@@ -43,13 +43,6 @@ export const sortByOrderIndex = <GE extends GlobalEntityKey>(
   })
 }
 
-/**
- * Update orderIndex values after drag/drop reordering
- * Call this when user completes a drag/drop operation
- * LEARNING: Reorders array and normalizes indices
- * WHY: After drag, we need to update the array order and ensure sequential indices
- * PATTERN: Splice to move item, then normalize all indices
- */
 export const updateOrderAfterDragDrop = <GE extends GlobalEntityKey>(
   entities: GlobalEntity<GE>[],
   fromIndex: number,
@@ -59,7 +52,6 @@ export const updateOrderAfterDragDrop = <GE extends GlobalEntityKey>(
   const [movedItem] = reordered.splice(fromIndex, 1)
   reordered.splice(toIndex, 0, movedItem)
   
-  // Normalize to sequential indices after reordering
   return normalizeOrderIndices(reordered)
 }
 

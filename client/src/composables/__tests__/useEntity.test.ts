@@ -1,16 +1,9 @@
-/**
- * USE ENTITY TESTS
- * 
- * Unit tests for useEntity composables (CRUD operations).
- * Tests entity creation, updates, deletion, and error handling.
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { usePrimitiveMutation, useEntityCrud } from '../useEntity'
 import apiClient from '@/utils/api'
 import type { GlobalEntity } from '@/types/entities'
 
-// Mock queryClient with getQueryData
 const mockQueryClient = {
   invalidateQueries: vi.fn(),
   refetchQueries: vi.fn(),
@@ -25,7 +18,6 @@ const mockQueryClient = {
   setQueryData: vi.fn(),
 }
 
-// Mock dependencies
 vi.mock('@tanstack/vue-query', () => ({
   useMutation: vi.fn((config) => ({
     mutate: vi.fn(),
@@ -132,7 +124,6 @@ describe('useEntity', () => {
         dynamicId: 'block-1',
       })
       
-      // Verify mutation completed successfully
       expect(apiClient.patch).toHaveBeenCalled()
     })
   })

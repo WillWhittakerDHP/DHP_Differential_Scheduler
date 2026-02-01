@@ -54,7 +54,6 @@ type UsePropertyReturn = {
 export function useProperty(): UsePropertyReturn {
   const { isLoading, error } = useBusiness()
   
-  // Use BusinessData collection CRUD for standardized operations
   const { create, update, patch, remove, fetchAll: baseFetchAll, fetchById } = useBusinessDataCollectionCrud<
     PropertyResponse,
     PropertyRequest,
@@ -72,7 +71,6 @@ export function useProperty(): UsePropertyReturn {
     },
   })
 
-  // Wrap fetchAll to include loading state from useBusiness
   const fetchAll = {
     data: baseFetchAll.data,
     isLoading: computed(() => isLoading.value),

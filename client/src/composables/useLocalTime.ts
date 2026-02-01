@@ -77,37 +77,15 @@ function localHHmmToRfc3339(hhmm: string, date: Date | ISO8601Date): RFC3339Date
   if (date instanceof Date) {
     dateObj = new Date(date)
   } else {
-    // Parse ISO8601Date string (YYYY-MM-DD)
     const [year, month, day] = date.split('-').map(Number)
     dateObj = new Date(year, month - 1, day)
   }
   
-  // Set time in local timezone
   dateObj.setHours(hours, minutes, 0, 0)
   
-  // Convert to UTC RFC3339
   return dateObj.toISOString() as RFC3339DateTime
 }
 
-/**
- * Format RFC3339 datetime for display using Intl.DateTimeFormat
- * LEARNING: Formats UTC RFC3339 datetime for display in local timezone
- * WHY: Provides flexible formatting options for different display contexts
- * PATTERN: Parse RFC3339, use Intl.DateTimeFormat for locale-aware formatting
- * 
- * @param rfc3339 - RFC3339 datetime string (UTC)
- * @param options - Intl.DateTimeFormatOptions for formatting
- * @returns Formatted time string in local timezone
- * 
- * @example
- * ```typescript
- * formatTimeForDisplay('2026-01-15T14:30:00Z', { 
- *   hour: 'numeric', 
- *   minute: '2-digit',
- *   hour12: true 
- * }) // Returns: "9:30 AM" (in local timezone)
- * ```
- */
 function formatTimeForDisplay(
   rfc3339: RFC3339DateTime,
   options?: Intl.DateTimeFormatOptions
@@ -122,15 +100,6 @@ function formatTimeForDisplay(
   return date.toLocaleString('en-US', defaultOptions)
 }
 
-/**
- * Format time range (TimeRange or TimeSlot) for display
- * LEARNING: Formats time range for display in local timezone
- * WHY: Common pattern for displaying time slots and ranges
- * PATTERN: Extract start/end times, format both, combine with separator
- * 
- * @param range - TimeRange or TimeSlot object with startTime/endTime
- * @returns Formatted time range string (e.g., "9:30 AM - 10:30 AM")
- */
 function formatTimeRangeForDisplay(range: TimeRange | TimeSlot): string {
   if (!('startTime' in range && 'endTime' in range)) {
     throw new Error('Invalid time range object: must have startTime/endTime')
@@ -151,37 +120,10 @@ function formatTimeRangeForDisplay(range: TimeRange | TimeSlot): string {
   return `${formatTime(start)} - ${formatTime(end)}`
 }
 
-/**
- * Extract time-of-day (HH:mm) from RFC3339 datetime in local timezone
- * LEARNING: Extracts time portion from RFC3339 and returns as HH:mm in local timezone
- * WHY: Used for time-only display when date portion is not needed
- * PATTERN: Parse RFC3339, extract local hours/minutes, format as HH:mm
- * 
- * @param rfc3339 - RFC3339 datetime string (UTC)
- * @returns Time string in HH:mm format (24-hour) in local timezone
- */
 function rfc3339ToLocalTimeOfDay(rfc3339: RFC3339DateTime): string {
   return rfc3339ToLocalHHmm(rfc3339)
 }
 
-/**
- * Format RFC3339 datetime for date-only display using Intl.DateTimeFormat
- * LEARNING: Formats UTC RFC3339 datetime for date display in local timezone
- * WHY: Provides flexible date formatting options for different display contexts
- * PATTERN: Parse RFC3339, use Intl.DateTimeFormat for locale-aware date formatting
- * 
- * @param rfc3339 - RFC3339 datetime string (UTC)
- * @param options - Intl.DateTimeFormatOptions for formatting (defaults to date-only)
- * @returns Formatted date string in local timezone
- * 
- * @example
- * ```typescript
- * formatDateForDisplay('2026-01-15T14:30:00Z', { 
- *   month: 'short', 
- *   day: 'numeric' 
- * }) // Returns: "Jan 15" (in local timezone)
- * ```
- */
 function formatDateForDisplay(
   rfc3339: RFC3339DateTime,
   options?: Intl.DateTimeFormatOptions
@@ -195,27 +137,6 @@ function formatDateForDisplay(
   return date.toLocaleDateString('en-US', defaultOptions)
 }
 
-/**
- * Format RFC3339 datetime for date+time display using Intl.DateTimeFormat
- * LEARNING: Formats UTC RFC3339 datetime for full date+time display in local timezone
- * WHY: Provides flexible date+time formatting options for different display contexts
- * PATTERN: Parse RFC3339, use Intl.DateTimeFormat for locale-aware date+time formatting
- * 
- * @param rfc3339 - RFC3339 datetime string (UTC)
- * @param options - Intl.DateTimeFormatOptions for formatting (defaults to date+time)
- * @returns Formatted date+time string in local timezone
- * 
- * @example
- * ```typescript
- * formatDateTimeForDisplay('2026-01-15T14:30:00Z', { 
- *   month: 'short',
- *   day: 'numeric',
- *   hour: 'numeric',
- *   minute: '2-digit',
- *   hour12: true
- * }) // Returns: "Jan 15, 9:30 AM" (in local timezone)
- * ```
- */
 function formatDateTimeForDisplay(
   rfc3339: RFC3339DateTime,
   options?: Intl.DateTimeFormatOptions
@@ -232,27 +153,10 @@ function formatDateTimeForDisplay(
   return date.toLocaleString('en-US', defaultOptions)
 }
 
-/**
- * Format ISO8601Date (YYYY-MM-DD) for display
- * LEARNING: Formats date-only values for UI display
- * WHY: selectedDate is stored as DATEONLY, needs formatting for display
- * PATTERN: Convert DATEONLY to RFC3339 (midnight UTC), then format
- * 
- * @param dateOnly - ISO8601Date string (YYYY-MM-DD format)
- * @param options - Intl.DateTimeFormatOptions for formatting
- * @returns Formatted date string in local timezone
- * 
- * @example
- * ```typescript
- * formatDateOnlyForDisplay('2026-01-15') // Returns: "Jan 15" (in local timezone)
- * formatDateOnlyForDisplay('2026-01-15', { year: 'numeric' }) // Returns: "Jan 15, 2026"
- * ```
- */
 function formatDateOnlyForDisplay(
   dateOnly: ISO8601Date,
   options?: Intl.DateTimeFormatOptions
 ): string {
-  // Convert DATEONLY to RFC3339 (midnight UTC)
   const rfc3339 = `${dateOnly}T00:00:00Z` as RFC3339DateTime
   return formatDateForDisplay(rfc3339, options)
 }
@@ -289,34 +193,14 @@ function businessHoursHHmmToRfc3339(time: string): RFC3339DateTime {
   // LEARNING: Create Date object in local timezone with reference date
   // WHY: Business hours are local time-of-day, so we set hours/minutes in local timezone
   // PATTERN: Create new Date from reference date (already in local timezone), set local time, then convert to UTC RFC3339
-  // NOTE: BUSINESS_HOURS_REFERENCE_DATE is created in local timezone, so getTime() preserves that, then setHours modifies it
   const localDate = new Date(BUSINESS_HOURS_REFERENCE_DATE.getTime())
   localDate.setHours(hours, minutes, 0, 0) // Set in LOCAL timezone (date stays on same day since reference is local)
   
-  // Convert to UTC RFC3339
   return localDate.toISOString() as RFC3339DateTime
 }
 
-/**
- * Extract business hours time-of-day (HH:mm) from RFC3339 using reference date
- * LEARNING: Converts RFC3339 to HH:mm format for UI display (UI-boundary function for admin forms)
- * WHY: Business hours stored as RFC3339 but displayed as HH:mm in local timezone
- * PATTERN: Parse RFC3339, extract LOCAL hours/minutes (not UTC) since business hours represent local time-of-day
- * NOTE: Business hours RFC3339 strings represent local time-of-day stored as UTC. When we display,
- *       we need to convert back to local time to show the original local time-of-day.
- * 
- * @param rfc3339 - RFC3339 datetime string (using reference date, stored as UTC but represents local time-of-day)
- * @returns Time string in HH:mm format (24-hour) representing LOCAL time-of-day
- * 
- * @example
- * ```typescript
- * // If RFC3339 is "2000-01-01T14:00:00.000Z" (stored UTC representing 9:00 AM EST)
- * rfc3339ToBusinessHoursHHmm('2000-01-01T14:00:00.000Z') // Returns: "09:00" (9 AM local)
- * ```
- */
 function rfc3339ToBusinessHoursHHmm(rfc3339: RFC3339DateTime): string {
   const date = new Date(rfc3339)
-  // LEARNING: Use getHours() and getMinutes() to get LOCAL time-of-day
   // WHY: Business hours RFC3339 strings represent local time-of-day, so we extract local time
   const hours = String(date.getHours()).padStart(2, '0')
   const minutes = String(date.getMinutes()).padStart(2, '0')
@@ -346,27 +230,8 @@ function userTimeToRfc3339(hhmm: string, date: Date | ISO8601Date): RFC3339DateT
   return localHHmmToRfc3339(hhmm, date)
 }
 
-/**
- * Extract business hours minutes from RFC3339 datetime
- * LEARNING: Extracts hours and minutes for business hours comparison (UI-boundary function)
- * WHY: Business hours are stored as RFC3339 with reference date but represent local time-of-day
- * PATTERN: Parse RFC3339, extract local hours/minutes (not UTC) since business hours represent local time-of-day
- * 
- * This function is used for business hours comparison logic, not display.
- * Business hours RFC3339 strings represent local time-of-day stored as UTC.
- * 
- * @param rfc3339 - RFC3339 datetime string (using reference date, stored as UTC but represents local time-of-day)
- * @returns Object with hours and minutes in local timezone
- * 
- * @example
- * ```typescript
- * // If RFC3339 is "2000-01-01T14:00:00.000Z" (stored UTC representing 9:00 AM EST)
- * extractBusinessHoursMinutes('2000-01-01T14:00:00.000Z') // Returns: { hours: 9, minutes: 0 }
- * ```
- */
 export function extractBusinessHoursMinutes(rfc3339: RFC3339DateTime): { hours: number; minutes: number } {
   const date = new Date(rfc3339)
-  // LEARNING: Use getHours() and getMinutes() to get LOCAL time-of-day
   // WHY: Business hours RFC3339 strings represent local time-of-day, so we extract local time
   return {
     hours: date.getHours(),
@@ -395,7 +260,6 @@ export function extractBusinessHoursMinutes(rfc3339: RFC3339DateTime): { hours: 
  */
 export function rfc3339ToLocalMinutesFromMidnight(rfc3339: RFC3339DateTime): number {
   const date = new Date(rfc3339)
-  // LEARNING: Use getHours() and getMinutes() to get LOCAL time-of-day
   // WHY: Business hours are interpreted as local time-of-day, so we need local minutes from midnight
   return date.getHours() * 60 + date.getMinutes()
 }

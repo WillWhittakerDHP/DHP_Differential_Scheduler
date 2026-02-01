@@ -25,8 +25,6 @@ const menuProps = computed(() => {
     attrs.multiple !== undefined ? 'v-list-select-multiple' : ''
   ].filter(Boolean)
   
-  // LEARNING: For multi-select, keep menu open when clicking items
-  // WHY: Better UX - allows selecting multiple items without menu closing
   // PATTERN: Set closeOnContentClick based on multiple prop
   const isMultiple = attrs.multiple !== undefined
   
@@ -38,8 +36,6 @@ const menuProps = computed(() => {
   const userMenuProps = (attrs['menu-props'] || attrs.menuProps) as Record<string, unknown> | undefined
   
   if (userMenuProps) {
-    // LEARNING: Merge contentClass arrays if user provided one
-    // WHY: Preserve default classes while allowing additional classes
     // PATTERN: Combine arrays, filter out falsy values
     const userContentClass = userMenuProps.contentClass
       ? (Array.isArray(userMenuProps.contentClass) 

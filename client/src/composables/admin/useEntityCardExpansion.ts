@@ -18,11 +18,6 @@ export interface UseEntityCardExpansionReturn {
   handleExpansionChange: (event: { value: boolean }) => void
 }
 
-/**
- * LEARNING: Manage expansion state for EntityCard
- * WHY: Tracks expansion state synced with VExpansionPanel group:selected events
- * PATTERN: Internal ref synced with props and panel events
- */
 export function useEntityCardExpansion(
   options: UseEntityCardExpansionOptions
 ): UseEntityCardExpansionReturn {
@@ -34,7 +29,6 @@ export function useEntityCardExpansion(
   const internalExpanded = ref(expandedValue ?? true)
 
   // LEARNING: Keep internal state in sync with prop updates
-  // WHY: Parent may programmatically control expansion (e.g., auto-expand on create)
   // PATTERN: Watch prop changes, but allow group:selected to be the primary source of truth
   if (isRef(options.expanded)) {
     watch(options.expanded, (newValue) => {
@@ -42,7 +36,6 @@ export function useEntityCardExpansion(
     })
   }
 
-  // LEARNING: Handle panel selection changes from Vuetify group
   // WHY: Ensures expansion state reflects the actual UI state
   // PATTERN: Update internal state when VExpansionPanel emits group:selected
   function handleExpansionChange(event: { value: boolean }): void {

@@ -53,13 +53,9 @@ var dotenv_1 = require("dotenv");
 var joi_1 = require("joi");
 var sequelize_1 = require("sequelize");
 var index_js_1 = require("../db/models/index.js");
-// console.log(`🟡 NODE_ENV: ${process.env.NODE_ENV}`);
-// console.log(`🟡 Loading .env from: ./env.${process.env.NODE_ENV || "development"}`);
-// Load environment variables based on NODE_ENV
 dotenv_1.default.config({
     path: "./.env.".concat(process.env.NODE_ENV || "development"),
 });
-// console.log("🟢 DB_HOST from process.env:", process.env.DB_HOST);
 // ✅ Validate required environment variables
 var schema = joi_1.default.object({
     NODE_ENV: joi_1.default.string().valid("development", "test", "production").default("development"),
@@ -76,18 +72,11 @@ if (error) {
     console.error("🟠 Current env variables:", process.env);
     process.exit(1);
 }
-// ✅ Initialize Sequelize
 exports.sequelize = new sequelize_1.Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASSWORD, {
     host: config.DB_HOST,
     port: config.DB_PORT,
     dialect: "postgres",
-    // logging: console.log, // Disable logging unless debugging
 });
-// ✅ Ensure Models Are Loaded
-// NOTE: Renamed for clearer domain terminology:
-// - ValidIndependentComponent → AdditionalServiceOption → DependentInstanceOption (2026-01-09)
-// - ActiveCascade → BookingCascade (2026-01-08)
-// - ActiveComponent → ServiceComponent → InstanceComponent (2026-01-07)
 exports.PartShape = (_a = (0, index_js_1.initializeModels)(exports.sequelize), _a.PartShape), exports.PartInstance = _a.PartInstance, exports.BlockShape = _a.BlockShape, exports.BlockInstance = _a.BlockInstance, exports.ValidCascade = _a.ValidCascade, exports.ValidConstituent = _a.ValidConstituent, exports.DependentInstanceOption = _a.DependentInstanceOption, exports.BookingCascade = _a.BookingCascade, exports.ActiveConstituent = _a.ActiveConstituent, exports.InstanceComponent = _a.InstanceComponent, exports.AnnotationShape = _a.AnnotationShape, exports.AnnotationInstance = _a.AnnotationInstance, exports.ActiveAnnotation = _a.ActiveAnnotation, exports.Address = _a.Address, exports.PropertyVersion = _a.PropertyVersion, exports.PropertyDetails = _a.PropertyDetails, exports.PropertyVersionType = _a.PropertyVersionType, exports.Property = _a.Property, exports.User = _a.User, exports.Appointment = _a.Appointment, exports.BusinessSettings = _a.BusinessSettings;
 // ✅ Database Connection - Migrations handle schema
 var initializeDatabase = function () { return __awaiter(void 0, void 0, void 0, function () {

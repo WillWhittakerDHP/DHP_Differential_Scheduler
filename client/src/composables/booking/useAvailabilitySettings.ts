@@ -26,9 +26,6 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAvailabilitySettings')
 
-/**
- * Return type for useAvailabilitySettings composable
- */
 export interface UseAvailabilitySettingsReturn {
   settings: ComputedRef<AvailabilitySettings | null>
   isLoading: Ref<boolean>
@@ -53,18 +50,14 @@ export function useAvailabilitySettings(
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
 
-  // Fetch settings if not provided initially
   watchEffect(async () => {
     if (settings.value) {
-      // Settings already available, skip fetching
       return
     }
 
     try {
       isLoading.value = true
       error.value = null
-      // P2-1: Fetch settings once, share across composables
-      // LEARNING: getAvailabilitySettings has built-in caching, but this provides reactive shared instance
       // WHY: Allows provide/inject pattern for better coordination
       const fetchedSettings = await getAvailabilitySettings()
       settings.value = fetchedSettings

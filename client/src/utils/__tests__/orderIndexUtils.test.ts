@@ -1,10 +1,3 @@
-/**
- * ORDER INDEX UTILS TESTS
- * 
- * Unit tests for orderIndexUtils.
- * Tests order index manipulation utilities for drag-and-drop.
- * Phase 4B: Utility Functions
- */
 
 import { describe, it, expect } from 'vitest'
 import { normalizeOrderIndices, sortByOrderIndex, updateOrderAfterDragDrop } from '../orderIndexUtils'
@@ -102,7 +95,6 @@ describe('orderIndexUtils', () => {
       
       const sorted = sortByOrderIndex(entities)
       
-      // null should be treated as 0, so block-1 should come first
       expect(sorted[0].id).toBe('block-1')
       expect(sorted[1].id).toBe('block-2')
     })
@@ -142,14 +134,12 @@ describe('orderIndexUtils', () => {
         createBlockInstance('block-3', 'Block 3', { orderIndex: 2 }),
       ]
       
-      // Move block-1 from index 0 to index 2
       const reordered = updateOrderAfterDragDrop(entities, 0, 2)
       
       expect(reordered[0].id).toBe('block-2')
       expect(reordered[1].id).toBe('block-3')
       expect(reordered[2].id).toBe('block-1')
       
-      // Should be normalized
       expect(reordered[0].orderIndex).toBe(0)
       expect(reordered[1].orderIndex).toBe(1)
       expect(reordered[2].orderIndex).toBe(2)
@@ -162,7 +152,6 @@ describe('orderIndexUtils', () => {
         createBlockInstance('block-3', 'Block 3', { orderIndex: 2 }),
       ]
       
-      // Move block-2 from index 1 to index 0
       const reordered = updateOrderAfterDragDrop(entities, 1, 0)
       
       expect(reordered[0].id).toBe('block-2')
@@ -177,7 +166,6 @@ describe('orderIndexUtils', () => {
         createBlockInstance('block-3', 'Block 3', { orderIndex: 2 }),
       ]
       
-      // Move block-1 from index 0 to index 2
       const reordered = updateOrderAfterDragDrop(entities, 0, 2)
       
       expect(reordered[0].id).toBe('block-2')

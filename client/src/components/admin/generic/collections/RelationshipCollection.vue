@@ -125,21 +125,12 @@ import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useNotification } from '@/composables/useNotification'
 
-/**
- * Collection type for customization
- */
 export type CollectionType = 'parts' | 'annotations' | 'events'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   collectionType?: CollectionType
-  /**
-   * Optional bulk edit modal component (only used for parts currently)
-   */
   bulkEditModalComponent?: any
-  /**
-   * Optional name generator function
-   */
   nameGenerator?: (
     parentName: string,
     shapeName: string,
@@ -154,13 +145,10 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 
-// Use composable for relationshipCollection field logic
 const fieldConfig = useRelationshipCollectionField(props.fieldContext)
 
-// Extract parent entity and config from composable
 const { parentEntity, childEntityKey, relationshipKey, optionsFieldKey } = fieldConfig
 
-// Determine collection type from fieldKey if not provided
 const effectiveCollectionType = computed<CollectionType>(() => {
   if (props.collectionType) return props.collectionType
   const fieldKey = String(props.fieldContext.fieldKey)
@@ -169,13 +157,10 @@ const effectiveCollectionType = computed<CollectionType>(() => {
   return 'parts' // default
 })
 
-// Use generic collection composable
 const collectionModel = useRelationshipCollection({
   fieldContext: props.fieldContext,
   nameGenerator: props.nameGenerator,
   enableBulkEdit: effectiveCollectionType.value === 'parts',
-  // TODO: Add bulk edit composable when needed for parts
-  // bulkEditComposable: () => usePartInstanceBulkEdit({ ... })
 })
 
 const {
@@ -198,10 +183,8 @@ const {
   handleBulkEditConfirm
 } = collectionModel
 
-// Use parentEntity from field config (more reliable)
 const effectiveParentEntity = parentEntity
 
-// Computed properties for UI customization
 const collectionClass = computed(() => {
   return `${effectiveCollectionType.value}-collection-list`
 })
@@ -228,7 +211,6 @@ const emptyStateMessage = computed(() => {
   return typeMap[effectiveCollectionType.value]
 })
 
-// Bulk edit state
 const hasBulkEditData = computed(() => {
   if (!bulkEditData) return false
   return Object.keys(bulkEditData.value).length > 0
@@ -238,17 +220,11 @@ const isBulkEditModalOpen = computed(() => {
   return bulkEditMode?.value ?? false
 })
 
-// Deletion handler
 const queryClient = useQueryClient()
 const { error: notifyError } = useNotification()
-// LEARNING: Add type assertion for relationshipKey to GlobalRelationshipKey
-// WHY: useRelationshipCrud expects GlobalRelationshipKey, but relationshipKey is ComputedRef<string>
 const relationshipCrud = useRelationshipCrud(relationshipKey.value as import('@/constants/relationships').GlobalRelationshipKey)
 const { relationships, remove: removeRelationship } = relationshipCrud
 
-// LEARNING: Wrapper to handle EntityCard delete event signature (id: string)
-// WHY: EntityCard emits delete event with id: string, but we need the full entity
-// PATTERN: Look up entity from existingChildren using the id
 const handleDeleteChildById = async (id: string) => {
   const entity = existingChildren.value.find(child => String(child.id) === id)
   if (!entity) {
@@ -262,18 +238,14 @@ const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
   if (!effectiveParentEntity.value) return
   
   try {
-    // Find and remove the relationship
     const relationship = relationships.value?.find(
       rel => String(rel.parent_id) === effectiveParentEntity.value!.id && 
              String(rel.child_id) === entity.id
     )
     
     if (relationship) {
-      // LEARNING: removeRelationship expects parentId and childId, not relationship.id
-      // WHY: Function signature is remove(parentId: GlobalEntityId, childId: GlobalEntityId)
       await removeRelationship(effectiveParentEntity.value.id, entity.id)
       
-      // Invalidate queries to refresh data
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: [props.fieldContext.entityKey] }),
         queryClient.invalidateQueries({ queryKey: [childEntityKey.value] }),

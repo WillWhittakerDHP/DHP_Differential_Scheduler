@@ -1,15 +1,8 @@
-/**
- * USE BOOKING WIZARD TESTS
- * 
- * Integration tests for useBookingWizard composable.
- * Tests wizard navigation, state management, and validation.
- */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { useBookingWizard } from '../useBookingWizard'
 import { createAtomicBlockGlobalData } from '@/utils/__tests__/factories/globalDataFactory'
 
-// Mock dependencies
 vi.mock('../useBooking', () => ({
   useBooking: () => ({
     bookingData: {
@@ -41,15 +34,12 @@ describe('useBookingWizard', () => {
         orderIndex: 0,
       } as unknown as import('@/utils/transformers/globalToBookingTransformer').BookingBlockInstance
       
-      // Initially empty
       expect(wizard.selectedServices.value.length).toBe(0)
       
-      // Toggle on
       wizard.toggleService(mockService)
       expect(wizard.selectedServices.value.length).toBe(1)
       expect(wizard.selectedServices.value[0].id).toBe('block-1')
       
-      // Toggle off
       wizard.toggleService(mockService)
       expect(wizard.selectedServices.value.length).toBe(0)
     })

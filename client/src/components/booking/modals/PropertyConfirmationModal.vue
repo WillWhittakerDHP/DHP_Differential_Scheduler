@@ -164,11 +164,6 @@ const fullAddress = computed(() => {
   return parts.length > 0 ? parts.join(', ') : 'No address provided'
 })
 
-/**
- * LEARNING: Format foundation access value
- * WHY: Capitalizes first letter for display
- * PATTERN: Helper function for formatting
- */
 function formatFoundationAccess(access: string): string {
   return access.charAt(0).toUpperCase() + access.slice(1)
 }
@@ -177,21 +172,11 @@ function updateModelValue(value: boolean) {
   emit('update:modelValue', value)
 }
 
-/**
- * LEARNING: Handle Confirm button click
- * WHY: Emits confirm event and closes modal
- * PATTERN: Emit event and close modal
- */
 function handleConfirm(): void {
   emit('confirm')
   updateModelValue(false)
 }
 
-/**
- * LEARNING: Handle Edit button click
- * WHY: Emits edit event and closes modal
- * PATTERN: Emit event and close modal
- */
 function handleEdit(): void {
   emit('edit')
   updateModelValue(false)
@@ -199,5 +184,4 @@ function handleEdit(): void {
 </script>
 
 <style scoped lang="scss">
-// Component-specific styles if needed
 </style>

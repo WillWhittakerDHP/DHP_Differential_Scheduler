@@ -19,11 +19,6 @@ export interface GoogleCalendarBusyPeriod {
   end: string    // RFC3339 format
 }
 
-/**
- * Error object from Google Calendar API
- * LEARNING: Errors can occur for individual calendars
- * WHY: Some calendars may be inaccessible or have permission issues
- */
 export interface GoogleCalendarError {
   domain: string  // Error domain (e.g., "global")
   reason: string   // Error reason (e.g., "notFound", "groupTooBig")
@@ -40,11 +35,6 @@ export interface GoogleCalendarFreeBusy {
   errors?: GoogleCalendarError[]
 }
 
-/**
- * Group information from Google Calendar free/busy API
- * LEARNING: Groups can contain multiple calendars
- * WHY: Google Calendar supports calendar groups for organization
- */
 export interface GoogleCalendarGroup {
   calendars: string[]
   errors?: GoogleCalendarError[]

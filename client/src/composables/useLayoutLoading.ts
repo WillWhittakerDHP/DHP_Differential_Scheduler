@@ -10,32 +10,16 @@
 
 import { ref, watch, type Ref } from 'vue'
 
-/**
- * Loading Indicator Instance Interface
- * LEARNING: Defines interface for loading indicator component instance
- * WHY: Provides type safety for loading indicator ref
- * PATTERN: Interface matching the exposed methods from AppLoadingIndicator component
- */
 export interface LoadingIndicatorInstance {
   fallbackHandle: () => void
   resolveHandle: () => void
 }
 
-/**
- * Layout Loading Composable Options
- */
 export interface UseLayoutLoadingOptions {
-  /**
-   * Loading indicator component ref
-   */
   refLoadingIndicator: Ref<LoadingIndicatorInstance | null>
 }
 
-/**
- * Layout Loading Composable Return Type
- */
 export interface UseLayoutLoadingReturn {
-  // Fallback state
   isFallbackStateActive: Ref<boolean>
 }
 

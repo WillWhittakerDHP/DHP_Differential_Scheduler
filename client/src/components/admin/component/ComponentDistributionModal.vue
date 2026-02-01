@@ -149,7 +149,6 @@ const componentDistributionComposable = useComponentDistribution({
   modalOpen: computed(() => props.modelValue)
 })
 
-// LEARNING: Extract computed properties and methods from composable
 // WHY: Component uses composable's computed values and methods
 // PATTERN: Destructure composable return values
 const {
@@ -168,7 +167,6 @@ async function handleConfirm() {
   
   try {
     if (selectedStrategy.value === 'manual') {
-      // LEARNING: Use reduce instead of forEach to build nested object
       // WHY: Functional approach avoids mutations, aligns with workspace rules
       // PATTERN: Reduce array to nested object structure
       const distributionValues = preview.value.reduce<Record<GlobalEntityId, Record<string, unknown>>>(

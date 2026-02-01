@@ -7,10 +7,6 @@ import type { NavGroup, NavLink, NavLinkProps } from '@layouts/types'
 
 export const openGroups = ref<string[]>([])
 
-/**
- * Return nav link props to use
- // @param {Object, String} item navigation routeName or route Object provided in navigation data
- */
 
 export const getComputedNavLinkToProp = computed(() => (link: NavLink) => {
   const props: NavLinkProps = {
@@ -18,8 +14,6 @@ export const getComputedNavLinkToProp = computed(() => (link: NavLink) => {
     rel: link.rel,
   }
 
-  // If route is string => it assumes string is route name => Create route object from route name
-  // If route is not string => It assumes it's route object => returns passed route object
   if (link.to)
     props.to = typeof link.to === 'string' ? { name: link.to } : link.to
   else props.href = link.href
@@ -27,12 +21,6 @@ export const getComputedNavLinkToProp = computed(() => (link: NavLink) => {
   return props
 })
 
-/**
- * Return route name for navigation link
- * If link is string then it will assume it is route-name
- * IF link is object it will resolve the object and will return the link
- // @param {Object, String} link navigation link object/string
- */
 export const resolveNavLinkRouteName = (link: NavLink, router: Router) => {
   if (!link.to)
     return null
@@ -43,15 +31,9 @@ export const resolveNavLinkRouteName = (link: NavLink, router: Router) => {
   return router.resolve(link.to).name
 }
 
-/**
- * Check if nav-link is active
- * @param {object} link nav-link object
- */
 export const isNavLinkActive = (link: NavLink, router: Router) => {
-  // Matched routes array of current route
   const matchedRoutes = router.currentRoute.value.matched
 
-  // Check if provided route matches route's matched route
   const resolveRoutedName = resolveNavLinkRouteName(link, router)
 
   if (!resolveRoutedName)
@@ -62,35 +44,19 @@ export const isNavLinkActive = (link: NavLink, router: Router) => {
   })
 }
 
-/**
- * Check if nav group is active
- * @param {Array} children Group children
- */
 export const isNavGroupActive = (children: (NavLink | NavGroup)[], router: Router): boolean =>
   children.some(child => {
-    // If child have children => It's group => Go deeper(recursive)
     if ('children' in child)
       return isNavGroupActive(child.children, router)
 
-    // else it's link => Check for matched Route
     return isNavLinkActive(child, router)
   })
 
-/**
- * Change `dir` attribute based on direction
- * @param dir 'ltr' | 'rtl'
- */
 export const _setDirAttr = (dir: 'ltr' | 'rtl') => {
-  // Check if document exists for SSR
   if (typeof document !== 'undefined')
     document.documentElement.setAttribute('dir', dir)
 }
 
-/**
- * Return dynamic i18n props based on i18n plugin is enabled or not
- * @param key i18n translation key
- * @param tag tag to wrap the translation with
- */
 export const getDynamicI18nProps = (key: string, tag = 'span') => {
   if (!layoutConfig.app.i18n.enable)
     return {}
@@ -121,11 +87,6 @@ export const switchToVerticalNavOnLtOverlayNavBreakpoint = () => {
     */
   const lgAndUpNav = ref(configStore.appContentLayoutNav)
 
-  /*
-      There might be case where we manually switch from vertical to horizontal nav and vice versa in `lgAndUp` screen
-      So when user comes back from `mdAndDown` to `lgAndUp` we can set updated nav type
-      For this we need to update the `lgAndUpNav` value if screen is `lgAndUp`
-    */
   watch(
     () => configStore.appContentLayoutNav,
     value => {
@@ -134,23 +95,13 @@ export const switchToVerticalNavOnLtOverlayNavBreakpoint = () => {
     },
   )
 
-  /*
-      This is layout switching part
-      If it's `mdAndDown` => We will use vertical nav no matter what previous nav type was
-      Or if it's `lgAndUp` we need to switch back to `lgAndUp` nav type. For this we will tracker property `lgAndUpNav`
-    */
   watch(() => configStore.isLessThanOverlayNavBreakpoint, val => {
     configStore.appContentLayoutNav = val ? AppContentLayoutNav.Vertical : lgAndUpNav.value
   }, { immediate: true })
 }
 
-/**
- * Convert Hex color to rgb
- * @param hex
- */
 
 export const hexToRgb = (hex: string) => {
-  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
 
   hex = hex.replace(shorthandRegex, (_m: string, r: string, g: string, b: string) => {
@@ -162,9 +113,6 @@ export const hexToRgb = (hex: string) => {
   return result ? `${Number.parseInt(result[1], 16)},${Number.parseInt(result[2], 16)},${Number.parseInt(result[3], 16)}` : null
 }
 
-/**
- *RGBA color to Hex color with / without opacity
- */
 export const rgbaToHex = (rgba: string, forceRemoveAlpha = false) => {
   return (
     `#${

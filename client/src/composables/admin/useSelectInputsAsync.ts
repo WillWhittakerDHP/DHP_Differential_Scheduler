@@ -23,18 +23,12 @@ export interface UseSelectInputsAsyncReturn {
   quickSelect: ReturnType<typeof useAttendeeQuickSelect>
 }
 
-/**
- * LEARNING: Extract async logic from SelectInputs.vue
- * WHY: Reduces component complexity by moving async handlers to composable
- * PATTERN: Composable provides async handlers for quick-select operations
- */
 export function useSelectInputsAsync(
   options: UseSelectInputsAsyncOptions
 ): UseSelectInputsAsyncReturn {
   const { options: optionsRef, handleChange } = options
 
   // LEARNING: Use attendee quick-select composable for AttendeeSelect fields
-  // WHY: Provides quick-select functionality for major/minor attendees from business settings
   // PATTERN: Initialize composable for quick-select operations
   const quickSelect = useAttendeeQuickSelect()
 
@@ -46,9 +40,6 @@ export function useSelectInputsAsync(
   const validOptionIds = computed(() => {
     return optionsRef.value
       .map(opt => {
-        // Handle nested options (grouped selects)
-        // LEARNING: Type guard to check if opt is SelectOption with children property
-        // WHY: options.value can be union type, need to check for SelectOption before accessing children
         if ('children' in opt && opt.children) {
           return opt.children.map((child: SelectOption) => String(child.value))
         }

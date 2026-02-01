@@ -22,30 +22,14 @@ import {
   type FieldLocationContext
 } from '@/utils/forms/fieldLocationDispatcher'
 
-/**
- * Field Location Composable Options
- */
 export interface UseFieldLocationOptions<GE extends GlobalEntityKey> {
-  /**
-   * Field keys to determine locations for
-   */
   fieldKeys: Ref<GlobalFieldKey<GE>[]> | ComputedRef<GlobalFieldKey<GE>[]>
   
-  /**
-   * Field metadata (required for location determination)
-   */
   fieldMetadata: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>
   
-  /**
-   * Whether the entity card is expanded
-   * WHY: expandedDirect and expandedPanel fields only render when expanded
-   */
   isExpanded: Ref<boolean> | ComputedRef<boolean>
 }
 
-/**
- * Field Location Composable Return Type
- */
 export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {
   /**
    * Get location for a specific field

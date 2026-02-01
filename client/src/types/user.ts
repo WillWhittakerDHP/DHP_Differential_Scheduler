@@ -14,11 +14,6 @@ export interface UserRequest {
   loginId?: number | null;
 }
 
-/**
- * UserResponse interface matching server model
- * LEARNING: Response structure from user API
- * WHY: Type-safe user response handling
- */
 export interface UserResponse {
   id: string;
   firstName: string;

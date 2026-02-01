@@ -51,14 +51,12 @@ const notifications = ref<Notification[]>([
 ])
 
 const removeNotification = (notificationId: number) => {
-  // LEARNING: Use filter to create new array instead of splice mutation
   // WHY: Functional approach avoids forEach with splice mutations
   // PATTERN: Filter out the notification with matching ID
   notifications.value = notifications.value.filter(item => item.id !== notificationId)
 }
 
 const markRead = (notificationId: number[]) => {
-  // LEARNING: Use map to create new array instead of mutating in place
   // WHY: Functional approach avoids forEach with property mutations
   // PATTERN: Map notifications and update isSeen for matching IDs
   const idsSet = new Set(notificationId)
@@ -68,7 +66,6 @@ const markRead = (notificationId: number[]) => {
 }
 
 const markUnRead = (notificationId: number[]) => {
-  // LEARNING: Use map to create new array instead of mutating in place
   // WHY: Functional approach avoids forEach with property mutations
   // PATTERN: Map notifications and update isSeen for matching IDs
   const idsSet = new Set(notificationId)

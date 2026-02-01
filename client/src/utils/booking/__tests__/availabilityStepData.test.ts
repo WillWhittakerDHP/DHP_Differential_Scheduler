@@ -31,7 +31,6 @@ import {
 import type { AppointmentSlot } from '@/types/appointment'
 import type { RFC3339DateTime } from '@/types/datetime'
 
-// Helper to create mock AppointmentSlot
 function createAppointmentSlot(params: {
   totalOnSiteStartTime?: RFC3339DateTime
   totalOnSiteEndTime?: RFC3339DateTime
@@ -256,7 +255,6 @@ describe('availabilityStepData', () => {
         selectedTimeSlots: null,
       })
       
-      // Should be a different object reference
       expect(result.selectedDate).not.toBe(inputDate)
       expect(result.selectedDate).toEqual(inputDate)
     })

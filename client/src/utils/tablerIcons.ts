@@ -10,7 +10,6 @@
  */
 
 export const tablerIcons = [
-  // Common UI icons
   'tabler-home',
   'tabler-user',
   'tabler-users',
@@ -27,7 +26,6 @@ export const tablerIcons = [
   'tabler-sort-ascending',
   'tabler-sort-descending',
   
-  // Navigation
   'tabler-arrow-left',
   'tabler-arrow-right',
   'tabler-arrow-up',
@@ -39,7 +37,6 @@ export const tablerIcons = [
   'tabler-arrow-back',
   'tabler-arrow-forward',
   
-  // Shopping & Commerce
   'tabler-shopping-cart',
   'tabler-shopping-bag',
   'tabler-credit-card',
@@ -48,7 +45,6 @@ export const tablerIcons = [
   'tabler-tag',
   'tabler-tags',
   
-  // Communication
   'tabler-mail',
   'tabler-mail-opened',
   'tabler-phone',
@@ -57,7 +53,6 @@ export const tablerIcons = [
   'tabler-bell',
   'tabler-bell-ringing',
   
-  // Files & Documents
   'tabler-file',
   'tabler-file-text',
   'tabler-file-upload',
@@ -67,13 +62,11 @@ export const tablerIcons = [
   'tabler-file-alert',
   'tabler-file-check',
   
-  // Calendar & Time
   'tabler-calendar',
   'tabler-calendar-event',
   'tabler-clock',
   'tabler-hourglass',
   
-  // Status & Feedback
   'tabler-alert-circle',
   'tabler-alert-triangle',
   'tabler-info-circle',
@@ -81,7 +74,6 @@ export const tablerIcons = [
   'tabler-x-circle',
   'tabler-help-circle',
   
-  // Media
   'tabler-photo',
   'tabler-camera',
   'tabler-video',
@@ -89,7 +81,6 @@ export const tablerIcons = [
   'tabler-play',
   'tabler-pause',
   
-  // Business & Work
   'tabler-briefcase',
   'tabler-building',
   'tabler-building-store',
@@ -99,7 +90,6 @@ export const tablerIcons = [
   'tabler-trending-up',
   'tabler-trending-down',
   
-  // Location & Travel
   'tabler-map-pin',
   'tabler-map',
   'tabler-navigation',
@@ -109,9 +99,7 @@ export const tablerIcons = [
   
   // User Types (from migration)
   'tabler-clipboard-check', // Inspector
-  // Note: tabler-shopping-cart, tabler-users, and tabler-home already listed above
   
-  // Common Actions
   'tabler-download',
   'tabler-upload',
   'tabler-refresh',
@@ -123,7 +111,6 @@ export const tablerIcons = [
   'tabler-link',
   'tabler-external-link',
   
-  // Layout & Design
   'tabler-layout',
   'tabler-layout-grid',
   'tabler-layout-list',
@@ -134,14 +121,12 @@ export const tablerIcons = [
   'tabler-align-right',
   'tabler-align-justified',
   
-  // Text Formatting
   'tabler-bold',
   'tabler-italic',
   'tabler-underline',
   'tabler-strikethrough',
   'tabler-typography',
   
-  // Tools & Utilities
   'tabler-tool',
   'tabler-wrench',
   'tabler-screwdriver',
@@ -149,7 +134,6 @@ export const tablerIcons = [
   'tabler-paint',
   'tabler-color-picker',
   
-  // Security & Privacy
   'tabler-lock',
   'tabler-lock-open',
   'tabler-shield',
@@ -157,21 +141,18 @@ export const tablerIcons = [
   'tabler-key',
   'tabler-fingerprint',
   
-  // Health & Medical
   'tabler-heart',
   'tabler-activity',
   'tabler-pulse',
   'tabler-stethoscope',
   'tabler-pill',
   
-  // Education & Learning
   'tabler-school',
   'tabler-book',
   'tabler-bookmark',
   'tabler-certificate',
   'tabler-graduation-cap',
   
-  // Technology
   'tabler-device-desktop',
   'tabler-device-mobile',
   'tabler-device-tablet',
@@ -181,7 +162,6 @@ export const tablerIcons = [
   'tabler-cpu',
   'tabler-server',
   
-  // Weather & Nature
   'tabler-sun',
   'tabler-moon',
   'tabler-cloud',
@@ -190,19 +170,16 @@ export const tablerIcons = [
   'tabler-leaf',
   'tabler-tree',
   
-  // Food & Dining
   'tabler-coffee',
   'tabler-glass',
   'tabler-cake',
   'tabler-pizza',
   
-  // Sports & Recreation
   'tabler-ball-football',
   'tabler-ball-basketball',
   'tabler-trophy',
   'tabler-medal',
   
-  // Miscellaneous
   'tabler-star',
   'tabler-star-filled',
   'tabler-flag',
@@ -223,7 +200,6 @@ export const tablerIcons = [
   'tabler-triangle',
   'tabler-hexagon',
   
-  // Additional common icons
   'tabler-eye',
   'tabler-eye-off',
   'tabler-eye-check',
@@ -249,7 +225,6 @@ export const tablerIcons = [
   'tabler-arrow-up-circle',
   'tabler-arrow-left-circle',
   'tabler-arrow-right-circle',
-  // Note: tabler-arrow-down-circle, tabler-chevron-up, and tabler-chevron-down already listed above
   'tabler-chevrons-left',
   'tabler-chevrons-right',
   'tabler-chevrons-up',
@@ -321,7 +296,6 @@ export const tablerIcons = [
   'tabler-arrow-curve-left',
   'tabler-arrow-curve-right',
   'tabler-arrow-down-bar',
-  // Note: tabler-arrow-down-circle already listed above
   'tabler-arrow-down-left',
   'tabler-arrow-down-left-circle',
   'tabler-arrow-down-right',

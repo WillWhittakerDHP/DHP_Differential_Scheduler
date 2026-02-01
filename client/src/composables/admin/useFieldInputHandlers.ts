@@ -36,15 +36,11 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
   const handleBlur = async (): Promise<void> => {
     fieldContext.setFocus(false)
     
-    // LEARNING: Skip auto-save for new entities
-    // WHY: New entities haven't been created yet - fields should wait for explicit form save
     // PATTERN: Match handleEnterKey behavior - new entities use handleSave, not field-level save
     if (entityCardSaveContext?.isNew) {
       return
     }
     
-    // LEARNING: Check if auto-save is disabled before saving
-    // WHY: Bulk edit modals use template entities that shouldn't be auto-saved on blur
     // PATTERN: Skip auto-save if disableAutoSave flag is set
     if (disableAutoSave) {
       return
@@ -66,45 +62,34 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
   }
 
   const handleEnterKey = async (event: KeyboardEvent): Promise<void> => {
-    // Prevent default form submission behavior
     event.preventDefault()
     
-    // Validate field
     const isValid = await fieldContext.validate()
     
     if (!isValid) {
       return
     }
     
-    // LEARNING: For create cards, save entire form instead of just the field
-    // WHY: Creates the entity and triggers collapse logic via onSaved callback
     // PATTERN: Check if we're in a create card context and use handleSave if available
     if (entityCardSaveContext?.isNew && entityCardSaveContext.handleSave) {
       try {
         await entityCardSaveContext.handleSave()
-        // Blur the field after successful save to remove focus
         fieldContext.setFocus(false)
-        // Blur the actual input element
         const target = event.target as HTMLElement
         if (target && 'blur' in target && typeof target.blur === 'function') {
           target.blur()
         }
       } catch (error) {
-        // Save failed
       }
     } else {
-      // For existing entities, save just the field
       try {
         await fieldContext.save()
-        // Blur the field after successful save
         fieldContext.setFocus(false)
-        // Blur the actual input element
         const target = event.target as HTMLElement
         if (target && 'blur' in target && typeof target.blur === 'function') {
           target.blur()
         }
       } catch (error) {
-        // Save failed
       }
     }
   }

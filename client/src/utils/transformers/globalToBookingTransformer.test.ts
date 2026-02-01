@@ -1,27 +1,10 @@
-/**
- * GLOBAL TO BOOKING TRANSFORMER TESTS
- * 
- * Unit tests for the globalToBookingTransformer.
- * Tests transformation of GlobalData to booking-optimized format, including:
- * - Atomic block instances with partAssignments
- * - Composite block instances merging own parts with component parts
- * - Deduplication to prevent double-counting parts
- * - Filtering of disabled entities and components
- * - Sorting by orderIndex
- */
 
 import { describe, it, expect } from 'vitest'
 import { bookingTransformer } from './globalToBookingTransformer'
 import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import type { GlobalEntity } from '@/types/entities'
 
-// ===================================================================
-// TEST DATA SETUP
-// ===================================================================
 
-/**
- * Helper to create a block instance entity
- */
 function createBlockInstance(
   id: string,
   name: string,
@@ -51,9 +34,6 @@ function createBlockInstance(
   } as GlobalEntity<'blockInstance'>
 }
 
-/**
- * Helper to create a part instance entity
- */
 function createPartInstance(
   id: string,
   name: string,
@@ -87,9 +67,6 @@ function createPartInstance(
   } as GlobalEntity<'partInstance'>
 }
 
-/**
- * Helper to create a block shape entity
- */
 function createBlockShape(id: string, name: string): GlobalEntity<'blockShape'> {
   return {
     id,
@@ -100,9 +77,6 @@ function createBlockShape(id: string, name: string): GlobalEntity<'blockShape'> 
   } as GlobalEntity<'blockShape'>
 }
 
-/**
- * Helper to create a part shape entity
- */
 function createPartShape(id: string, name: string): GlobalEntity<'partShape'> {
   return {
     id,
@@ -113,9 +87,6 @@ function createPartShape(id: string, name: string): GlobalEntity<'partShape'> {
   } as GlobalEntity<'partShape'>
 }
 
-/**
- * Helper to create a partAssignments relationship
- */
 function createPartAssignmentsRel(
   parentId: string,
   childIds: string[]
@@ -127,9 +98,6 @@ function createPartAssignmentsRel(
   }
 }
 
-/**
- * Helper to create an instanceComponents relationship
- */
 function createActiveComponentsRel(
   parentId: string,
   childIds: string[]
@@ -141,14 +109,10 @@ function createActiveComponentsRel(
   }
 }
 
-// ===================================================================
-// TESTS
-// ===================================================================
 
 describe('BookingTransformer', () => {
   describe('transformGlobalToBooking', () => {
     it('should transform atomic block instance with partAssignments', () => {
-      // Setup: Atomic block instance with parts
       const blockInstance = createBlockInstance('block-1', 'Atomic Block', {
         blockShapeRef: 'shape-1',
         orderIndex: 1,
@@ -196,7 +160,6 @@ describe('BookingTransformer', () => {
     })
 
     it('should transform composite block instance with only own partAssignments', () => {
-      // Setup: Composite block instance with its own parts (no components)
       const compositeBlock = createBlockInstance('composite-1', 'Composite Block', {
         composite: true,
         blockShapeRef: 'shape-1',
@@ -237,7 +200,6 @@ describe('BookingTransformer', () => {
     })
 
     it('should transform composite block instance with only component parts', () => {
-      // Setup: Composite block instance with components that have parts
       const compositeBlock = createBlockInstance('composite-1', 'Composite Block', {
         composite: true,
         blockShapeRef: 'shape-1',
@@ -289,25 +251,18 @@ describe('BookingTransformer', () => {
 
       const result = bookingTransformer.transformGlobalToBooking(globalData)
 
-      // Composite should appear with merged component parts
       expect(result.blockInstances).toHaveLength(1)
       expect(result.blockInstances[0].id).toBe('composite-1')
       expect(result.blockInstances[0].partInstances).toHaveLength(2)
       expect(result.blockInstances[0].partInstances[0].id).toBe('part-1')
       expect(result.blockInstances[0].partInstances[1].id).toBe('part-2')
 
-      // Components should be filtered out (not appear in scheduler)
       const componentIds = result.blockInstances.map(b => b.id)
       expect(componentIds).not.toContain('component-1')
       expect(componentIds).not.toContain('component-2')
     })
 
     it('should merge composite own parts with component parts and deduplicate', () => {
-      // Setup: Composite block instance with:
-      // - Own part: part-1
-      // - Component 1 has: part-1 (duplicate), part-2
-      // - Component 2 has: part-2 (duplicate), part-3
-      // Expected: part-1, part-2, part-3 (no duplicates)
       const compositeBlock = createBlockInstance('composite-1', 'Composite Block', {
         composite: true,
         blockShapeRef: 'shape-1',
@@ -349,11 +304,8 @@ describe('BookingTransformer', () => {
         },
         relationships: {
           partAssignments: [
-            // Composite's own parts
             createPartAssignmentsRel('composite-1', ['part-1']),
-            // Component 1 parts (includes duplicate part-1)
             createPartAssignmentsRel('component-1', ['part-1', 'part-2']),
-            // Component 2 parts (includes duplicate part-2)
             createPartAssignmentsRel('component-2', ['part-2', 'part-3']),
           ],
           bookingCascades: [],
@@ -368,25 +320,21 @@ describe('BookingTransformer', () => {
 
       const result = bookingTransformer.transformGlobalToBooking(globalData)
 
-      // Should have exactly 3 unique parts (no duplicates)
       expect(result.blockInstances).toHaveLength(1)
       expect(result.blockInstances[0].id).toBe('composite-1')
       expect(result.blockInstances[0].partInstances).toHaveLength(3)
       
-      // Verify all parts are present
       const partIds = result.blockInstances[0].partInstances.map(p => p.id)
       expect(partIds).toContain('part-1')
       expect(partIds).toContain('part-2')
       expect(partIds).toContain('part-3')
       
-      // Verify no duplicates (each part ID appears exactly once)
       const partIdSet = new Set(partIds)
       expect(partIdSet.size).toBe(3)
       expect(partIds.length).toBe(3)
     })
 
     it('should sort part instances by orderIndex', () => {
-      // Setup: Parts with different orderIndex values
       const blockInstance = createBlockInstance('block-1', 'Block', {
         blockShapeRef: 'shape-1',
         orderIndex: 1,
@@ -436,7 +384,6 @@ describe('BookingTransformer', () => {
     })
 
     it('should filter out disabled part instances', () => {
-      // Setup: Block instance with enabled and disabled parts
       const blockInstance = createBlockInstance('block-1', 'Block', {
         blockShapeRef: 'shape-1',
         orderIndex: 1,
@@ -482,7 +429,6 @@ describe('BookingTransformer', () => {
     })
 
     it('should filter out disabled block instances', () => {
-      // Setup: Enabled and disabled block instances
       const blockInstance1 = createBlockInstance('block-1', 'Block 1', {
         blockShapeRef: 'shape-1',
         orderIndex: 1,
@@ -519,7 +465,6 @@ describe('BookingTransformer', () => {
     })
 
     it('should sort block instances by orderIndex', () => {
-      // Setup: Block instances with different orderIndex values
       const blockInstance1 = createBlockInstance('block-1', 'Block 1', {
         blockShapeRef: 'shape-1',
         orderIndex: 3, // Should be last

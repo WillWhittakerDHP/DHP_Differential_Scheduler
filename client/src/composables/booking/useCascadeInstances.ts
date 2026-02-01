@@ -15,46 +15,19 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-/**
- * Options for useCascadeInstances composable
- */
 export interface UseCascadeInstancesOptions {
-  /**
-   * Parent block instance that has booking cascades
-   * LEARNING: activeBlockIds contains cascade child IDs
-   */
   parentInstance: ComputedRef<BookingBlockInstance | null> | Ref<BookingBlockInstance | null>
   
-  /**
-   * Booking data containing all block instances
-   */
   bookingData: Ref<BookingData | null>
   
-  /**
-   * Optional: Filter cascade instances by target block shape name
-   * LEARNING: Without this, returns all cascaded instances regardless of shape
-   * WHY: User Type cascades may include both Base Service and other shapes
-   */
   targetBlockShapeName?: string
 }
 
-/**
- * Return type for useCascadeInstances composable
- */
 export interface UseCascadeInstancesReturn {
-  /**
-   * IDs of cascade child instances
-   */
   cascadeInstanceIds: ComputedRef<string[]>
   
-  /**
-   * Resolved cascade child instances
-   */
   cascadeInstances: ComputedRef<BookingBlockInstance[]>
   
-  /**
-   * Whether parent has any cascade instances
-   */
   hasCascades: ComputedRef<boolean>
 }
 
@@ -104,14 +77,11 @@ export function useCascadeInstances(
     const ids = new Set(cascadeInstanceIds.value)
     if (ids.size === 0) return []
     
-    // Filter block instances by cascade IDs
     let instances = data.blockInstances.filter(
       instance => ids.has(instance.id)
     )
     
-    // Optionally filter by target block shape
     if (targetBlockShapeName) {
-      // Find block shape ID by name
       const targetShape = data.blockShapes.find(
         shape => shape.name === targetBlockShapeName
       )
@@ -123,14 +93,9 @@ export function useCascadeInstances(
       }
     }
     
-    // Sort by orderIndex
     return instances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
   })
   
-  /**
-   * LEARNING: Convenience flag for conditional rendering
-   * WHY: Avoids length checks in templates
-   */
   const hasCascades = computed((): boolean => {
     return cascadeInstances.value.length > 0
   })

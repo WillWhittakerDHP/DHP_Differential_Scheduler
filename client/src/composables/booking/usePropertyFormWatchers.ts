@@ -12,19 +12,11 @@ import type { PropertyFormData } from '@/types/propertyForm'
 
 // FIX: Use shared PropertyFormData type from propertyForm.ts
 
-/**
- * usePropertyFormWatchers composable parameters
- */
 export interface UsePropertyFormWatchersParams {
   formData: PropertyFormData
   loadedWizardState: Ref<WizardStateData | null> | null
 }
 
-/**
- * usePropertyFormWatchers composable return type
- * NOTE: Empty interface is intentional - watchers are set up internally with no external API
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UsePropertyFormWatchersReturn {}
 
 /**
@@ -74,7 +66,6 @@ export function usePropertyFormWatchers(
     watch(loadedWizardState, (newState) => {
       if (newState?.propertyDetails) {
         const details = newState.propertyDetails
-        // String fields - ensure they're strings (transformer guarantees this)
         formData.address.value = typeof details.address === 'string' ? details.address : ''
         formData.unit.value = typeof details.unit === 'string' ? details.unit : ''
         formData.city.value = typeof details.city === 'string' ? details.city : ''
@@ -82,7 +73,6 @@ export function usePropertyFormWatchers(
         formData.zipCode.value = typeof details.zipCode === 'string' ? details.zipCode : ''
         formData.mlsNumber.value = typeof details.mlsNumber === 'string' ? details.mlsNumber : ''
         
-        // Number fields - ensure they're numbers or null
         formData.propertySize.value = typeof details.propertySize === 'number' ? details.propertySize : null
         formData.numberOfUnits.value = typeof details.numberOfUnits === 'number' ? details.numberOfUnits : null
         formData.squareFootage.value = typeof details.squareFootage === 'number' ? details.squareFootage : null
@@ -90,7 +80,6 @@ export function usePropertyFormWatchers(
         formData.bathrooms.value = typeof details.bathrooms === 'number' ? details.bathrooms : null
         formData.additionalUnits.value = typeof details.additionalUnits === 'number' ? details.additionalUnits : null
         
-        // Foundation access - ensure it's the correct type
         formData.foundationAccess.value = typeof details.foundationAccess === 'string' && 
           (details.foundationAccess === 'basement' || details.foundationAccess === 'crawlspace' || details.foundationAccess === 'slab')
           ? details.foundationAccess as 'basement' | 'crawlspace' | 'slab'

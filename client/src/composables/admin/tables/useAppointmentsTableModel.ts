@@ -52,19 +52,11 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     return formatter(appointment, value, properties.value, users.value)
   }
 
-  /**
-   * LEARNING: Helper to find property by ID for tooltip display
-   * WHY: Retrieves full property data for tooltip content
-   */
   const getPropertyById = (propertyVersionId: string | null | undefined): PropertyResponse | undefined => {
     if (!propertyVersionId) return undefined
     return properties.value.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)
   }
 
-  /**
-   * LEARNING: Helper to find user by ID for tooltip display
-   * WHY: Retrieves full user data for tooltip content
-   */
   const getUserById = (userId: string | null | undefined): UserResponse | undefined => {
     if (!userId) return undefined
     return users.value.find(u => u.id === userId)
@@ -100,12 +92,6 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     deleteItem: async (id) => remove.mutateAsync(id),
     notifySuccess: (message) => success(message),
     notifyError: (message) => error(message),
-    /**
-     * LEARNING: Default values for new appointments
-     * WHY: 'started' is the initial status for appointments being created
-     * 
-     * TODO: Future logic - Consider auto-setting scheduledById from current logged-in user
-     */
     getCreateDefaults: () => ({
       status: 'started',
       isQuoteMode: false,

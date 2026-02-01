@@ -34,7 +34,6 @@ import { useDependentInstances } from '../useDependentInstances'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { GlobalRelationship } from '@/types/relationships'
 
-// Mock useGlobal
 const mockGetGlobalData = vi.fn()
 const mockGetGlobalEntityById = vi.fn()
 
@@ -45,7 +44,6 @@ vi.mock('@/composables/useGlobal', () => ({
   })
 }))
 
-// Helper to create a mock BookingBlockInstance
 function createBlockInstance(
   id: string,
   options: {
@@ -76,8 +74,6 @@ function createBlockInstance(
   }
 }
 
-// Helper to create a mock relationship
-// LEARNING: GlobalRelationship has parent/children structure (GlobalEntity objects), not flat refs
 function createRelationship(
   parentId: string,
   childIds: string[]
@@ -150,7 +146,6 @@ describe('useDependentInstances', () => {
         relationships: externalRelationships,
       })
       
-      // Should only include dependentInstances relationships
       expect(dependentInstanceIds.value).toEqual(['external-child'])
     })
 
@@ -377,21 +372,17 @@ describe('useDependentInstances', () => {
         parentInstance,
       })
       
-      // Initially null
       expect(dependentInstanceIds.value).toEqual([])
       expect(dependentInstances.value).toHaveLength(0)
       
-      // Change to parent-1
       parentInstance.value = createBlockInstance('parent-1')
       expect(dependentInstanceIds.value).toEqual(['child-1'])
       expect(dependentInstances.value).toHaveLength(1)
       
-      // Change to parent-2
       parentInstance.value = createBlockInstance('parent-2')
       expect(dependentInstanceIds.value).toEqual(['child-2'])
       expect(dependentInstances.value).toHaveLength(1)
       
-      // Back to null
       parentInstance.value = null
       expect(dependentInstanceIds.value).toEqual([])
       expect(dependentInstances.value).toHaveLength(0)

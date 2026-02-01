@@ -1,21 +1,8 @@
-/**
- * USERESPONSIVEGRID TESTS
- * 
- * Unit tests for useResponsiveGrid composable.
- * Tests responsive grid column calculations and ResizeObserver setup.
- * 
- * Coverage:
- * - containerWidth tracking
- * - buttonGridColumns computed (column calculation)
- * - isSingleColumn computed (mobile detection)
- * - Options handling (minColumns, maxColumns, buttonMinWidth, gap, padding)
- */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { ref, nextTick } from 'vue'
 import { useResponsiveGrid } from '../useResponsiveGrid'
 
-// Mock ResizeObserver
 const mockResizeObserver = vi.fn()
 const mockObserve = vi.fn()
 const mockDisconnect = vi.fn()
@@ -33,7 +20,6 @@ describe('useResponsiveGrid', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     originalInnerWidth = window.innerWidth
-    // Default to desktop viewport
     Object.defineProperty(window, 'innerWidth', { value: 1024, writable: true })
   })
 
@@ -69,11 +55,8 @@ describe('useResponsiveGrid', () => {
         padding: 32,
       })
 
-      // Set container width
       containerWidth.value = 500
 
-      // Formula: Math.floor((width - padding) / (buttonMinWidth + gap))
-      // Math.floor((500 - 32) / (80 + 10)) = Math.floor(468 / 90) = 5
       expect(buttonGridColumns.value).toBe(5)
     })
 
@@ -87,7 +70,6 @@ describe('useResponsiveGrid', () => {
         padding: 32,
       })
 
-      // Set narrow width that would calculate to fewer columns
       containerWidth.value = 100
 
       expect(buttonGridColumns.value).toBe(3) // Clamped to min
@@ -103,7 +85,6 @@ describe('useResponsiveGrid', () => {
         padding: 32,
       })
 
-      // Set wide width that would calculate to more columns
       containerWidth.value = 2000
 
       expect(buttonGridColumns.value).toBe(4) // Clamped to max
@@ -115,7 +96,6 @@ describe('useResponsiveGrid', () => {
 
       containerWidth.value = 500
 
-      // Default: minColumns=2, maxColumns=8, buttonMinWidth=80, gap=10, padding=32
       expect(buttonGridColumns.value).toBe(5)
     })
   })
@@ -167,12 +147,9 @@ describe('useResponsiveGrid', () => {
       const gridRef = ref<HTMLElement | null>(null)
       useResponsiveGrid({ gridRef })
 
-      // Simulate mount by setting ref
       gridRef.value = mockElement
       await nextTick()
 
-      // Note: ResizeObserver is created in onMounted, which won't run in unit tests
-      // without mounting a component. This tests the structure.
     })
   })
 
@@ -211,7 +188,6 @@ describe('useResponsiveGrid', () => {
       })
 
       containerWidth.value = 500
-      // Math.floor((500 - 32) / (120 + 10)) = Math.floor(468 / 130) = 3
       expect(buttonGridColumns.value).toBe(3)
     })
 
@@ -227,7 +203,6 @@ describe('useResponsiveGrid', () => {
       })
 
       containerWidth.value = 500
-      // Math.floor((500 - 32) / (80 + 20)) = Math.floor(468 / 100) = 4
       expect(buttonGridColumns.value).toBe(4)
     })
 
@@ -243,7 +218,6 @@ describe('useResponsiveGrid', () => {
       })
 
       containerWidth.value = 500
-      // Math.floor((500 - 100) / (80 + 10)) = Math.floor(400 / 90) = 4
       expect(buttonGridColumns.value).toBe(4)
     })
   })

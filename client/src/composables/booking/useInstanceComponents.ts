@@ -20,38 +20,17 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { ComponentItem } from '@/components/booking/types/selectionCardTypes'
 import type { GlobalEntity } from '@/types/entities'
 
-/**
- * Service Components Composable Options
- */
 export interface UseInstanceComponentsOptions {
-  /**
-   * Service to get components for
-   */
   service: ComputedRef<BookingBlockInstance | null>
   
-  /**
-   * Selected user type (for filtering component descriptions)
-   */
   selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null>
 }
 
-/**
- * Service Components Composable Return Type
- */
 export interface UseInstanceComponentsReturn {
-  /**
-   * Whether the service is a composable block
-   */
   isComposable: ComputedRef<boolean>
   
-  /**
-   * Active components for the service
-   */
   instanceComponents: ComputedRef<ComponentItem[]>
   
-  /**
-   * Component count
-   */
   componentCount: ComputedRef<number>
 }
 

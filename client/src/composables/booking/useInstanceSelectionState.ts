@@ -33,43 +33,19 @@ export interface GenericWizardInstance {
   toggleServiceTypeBlock: (service: BookingBlockInstance, skipCascade?: boolean) => void
 }
 
-/**
- * useInstanceSelectionState composable parameters
- */
 export interface UseInstanceSelectionStateParams {
-  /**
-   * Available instances for selection (for ID resolution)
-   */
   availableInstances: ComputedRef<BookingBlockInstance[]>
   
-  /**
-   * Currently selected instances (for getter)
-   */
   selectedInstances: ComputedRef<BookingBlockInstance[]> | Ref<BookingBlockInstance[]>
   
-  /**
-   * Toggle function for updating selection
-   */
   toggleSelection?: (instance: BookingBlockInstance, skipCascade?: boolean) => void
   
-  /**
-   * Loaded wizard state for populating selections (optional)
-   */
   loadedWizardState?: Ref<WizardStateData | null> | null
 }
 
-/**
- * useInstanceSelectionState composable return type
- */
 export interface UseInstanceSelectionStateReturn {
-  /**
-   * V-model bridge for single-select (returns ID or null)
-   */
   selectedId: ComputedRef<string | null>
   
-  /**
-   * V-model bridge for multi-select (returns array of IDs)
-   */
   selectedIds: ComputedRef<string[]>
 }
 
@@ -149,7 +125,6 @@ export function useInstanceSelectionState(
       if (toggleSelection) {
         const { resolved: instances } = resolveByIds(availableInstances.value, ids)
         
-        // For multi-select, update all selections
         for (const instance of instances) {
           toggleSelection(instance, true) // Skip cascade during batch update
         }
@@ -166,7 +141,6 @@ export function useInstanceSelectionState(
     watch(loadedWizardState, (newState) => {
       if (newState) {
         nextTick(() => {
-          // State is already set by loadAppointment, wizard reactivity handles UI
         })
       }
     }, { immediate: true })

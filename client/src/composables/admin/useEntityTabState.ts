@@ -13,28 +13,14 @@ import { watch, type Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
-/**
- * Entity Tab State Composable Options
- */
 export interface UseEntityTabStateOptions<EntityKey extends GlobalEntityKey> {
-  /**
-   * Filtered entities (computed)
-   */
   filteredEntities: Ref<GlobalEntity<EntityKey>[]>
   
-  /**
-   * Drag handlers (with syncArrays method)
-   */
   dragHandlers: {
     syncArrays: () => void
   }
 }
 
-/**
- * Entity Tab State Composable Return Type
- * NOTE: Empty interface is intentional - watchers are set up internally with no external API
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UseEntityTabStateReturn {}
 
 /**

@@ -24,7 +24,6 @@ export class BlockShape extends Model<
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  // ✅ Add valid children types
   declare valid_parts?: ValidPart[];
   declare valid_cascades?: ValidCascade[];
   declare default_parts?: ValidPart[];

@@ -16,9 +16,6 @@ interface Props {
 const props = defineProps<Props>()
 const emit = defineEmits<Emit>()
 
-// 👉 Hotkey
-// WHY: useMagicKeys returns keys with snake_case (ctrl_k, meta_k) following VueUse convention
-// PATTERN: Destructure and rename to camelCase to satisfy linting rules
 const { ctrl_k: ctrlK, meta_k: metaK } = useMagicKeys({
   passive: false,
   onEventFired(e) {
@@ -31,7 +28,6 @@ const refSearchList = ref<VList>()
 const refSearchInput = ref<HTMLInputElement>()
 const searchQueryLocal = ref('')
 
-// 👉 watching control + / to open dialog
  
 watch([
   ctrlK, metaK,
@@ -40,13 +36,11 @@ watch([
 })
  
 
-// 👉 clear search result and close the dialog
 const clearSearchAndCloseDialog = () => {
   searchQueryLocal.value = ''
   emit('update:isDialogVisible', false)
 }
 
-// 👉 get fucus on search list
 const getFocusOnSearchList = (e: KeyboardEvent) => {
   if (e.key === 'ArrowDown') {
     e.preventDefault()
@@ -63,7 +57,6 @@ const dialogModelValueUpdate = (val: boolean) => {
   emit('update:isDialogVisible', val)
 }
 
-// 👉 clear search query when redirect to another page
 watch(
   () => props.isDialogVisible,
   () => { searchQueryLocal.value = '' },

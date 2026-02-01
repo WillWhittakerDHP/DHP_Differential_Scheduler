@@ -1,15 +1,8 @@
-/**
- * FETCH TO GLOBAL TRANSFORMER TESTS
- * 
- * Unit tests for GlobalTransformer class.
- * Tests API response transformation to GlobalData format.
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { GlobalTransformer } from '../fetchToGlobalTransformer'
 import apiClient from '../../api'
 
-// Mock API client
 vi.mock('../../api', () => ({
   default: {
     get: vi.fn(),
@@ -33,7 +26,6 @@ describe('GlobalTransformer', () => {
   
   describe('stageForHydration and hydrate', () => {
     it('should transform API response to GlobalData format', async () => {
-      // Mock API responses for all entity types and relationships
       vi.mocked(apiClient.get).mockImplementation((url: string) => {
         if (url.includes('/entities/')) {
           return Promise.resolve({
@@ -75,17 +67,13 @@ describe('GlobalTransformer', () => {
     })
     
     it('should handle API errors gracefully', async () => {
-      // Mock to reject on first call (entity fetch)
       vi.mocked(apiClient.get).mockRejectedValueOnce(new Error('API Error'))
       
-      // LEARNING: stageForHydration catches errors and returns empty data structure
-      // WHY: Graceful error handling prevents app crashes
       // PATTERN: Return empty data structure instead of throwing
       const result = await transformer.stageForHydration()
       
       expect(result).toBeDefined()
       expect(result.fetchedEntities).toBeDefined()
-      // Should have empty arrays for all entity types
       expect(Object.keys(result.fetchedEntities)).toHaveLength(4)
     })
   })
@@ -160,7 +148,6 @@ describe('GlobalTransformer', () => {
       
       const result = transformer.hydrate(staged)
       
-      // Should skip relationships with missing entities
       expect(result.relationships.partAssignments).toHaveLength(0)
     })
   })
@@ -188,7 +175,6 @@ describe('GlobalTransformer', () => {
             }]
           })
         }
-        // Return empty arrays for all other endpoints
         return Promise.resolve({ data: [] })
       })
       
@@ -200,7 +186,6 @@ describe('GlobalTransformer', () => {
       if (partInstance) {
         expect(partInstance.id).toBe('part-1')
         expect(partInstance.name).toBe('Test Part')
-        // Properties should be transformed from snake_case to camelCase
         expect((partInstance as any).baseTime).toBeDefined()
         expect((partInstance as any).baseFee).toBeDefined()
       }
@@ -217,7 +202,6 @@ describe('GlobalTransformer', () => {
             ]
           })
         }
-        // Return empty arrays for all other endpoints
         return Promise.resolve({ data: [] })
       })
       

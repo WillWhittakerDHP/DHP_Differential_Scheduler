@@ -14,11 +14,6 @@ const router = Router();
 
 const AVAILABILITY_SETTINGS_KEY = 'availability_settings';
 
-/**
- * Default availability settings (fallback if no settings exist in database)
- * LEARNING: Provides sensible defaults matching client-side defaultAvailabilitySettings
- * WHY: Ensures system works even if settings haven't been configured yet
- */
 const defaultAvailabilitySettings: AvailabilitySettingsData = {
   businessHours: {
     0: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Sunday
@@ -61,11 +56,6 @@ const defaultAvailabilitySettings: AvailabilitySettingsData = {
   }
 };
 
-/**
- * Validate AvailabilitySettings structure
- * LEARNING: Type guard to ensure settings match expected structure
- * WHY: Prevents invalid data from being stored
- */
 function validateAvailabilitySettings(data: any): data is AvailabilitySettingsData {
   if (!data || typeof data !== 'object') {
     return false;
@@ -86,7 +76,6 @@ function validateAvailabilitySettings(data: any): data is AvailabilitySettingsDa
     return false; // buffers.leadTime deprecated - must use rangeConstraints.leadTime
   }
 
-  // Validate businessHours
   if (!data.businessHours || typeof data.businessHours !== 'object') {
     return false;
   }
@@ -279,24 +268,16 @@ function validateAvailabilitySettings(data: any): data is AvailabilitySettingsDa
   return true;
 }
 
-/**
- * GET /business-settings
- * Get all business settings (or get by key if query param provided)
- * LEARNING: Returns settings or defaults if none exist
- * WHY: Provides current configuration for admin panel and availability calculations
- */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.query;
 
     if (key && typeof key === 'string') {
-      // Get specific setting by key
       const setting = await BusinessSettings.findOne({
         where: { settingKey: key },
       });
 
       if (!setting) {
-        // Return defaults for availability_settings if not found
         if (key === AVAILABILITY_SETTINGS_KEY) {
           res.json({
             setting_key: AVAILABILITY_SETTINGS_KEY,
@@ -312,7 +293,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
         setting_value: setting.settingValue,
       });
     } else {
-      // Get all settings
       const settings = await BusinessSettings.findAll();
       res.json(settings.map(s => ({
         setting_key: s.settingKey,
@@ -328,12 +308,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * GET /business-settings/:key
- * Get specific setting by key
- * LEARNING: Convenience endpoint for getting single setting
- * WHY: Allows direct access to specific settings without query params
- */
 router.get('/:key', async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.params;
@@ -343,7 +317,6 @@ router.get('/:key', async (req: Request, res: Response): Promise<void> => {
     });
 
     if (!setting) {
-      // Return defaults for availability_settings if not found
       if (key === AVAILABILITY_SETTINGS_KEY) {
         res.json({
           setting_key: AVAILABILITY_SETTINGS_KEY,
@@ -368,12 +341,6 @@ router.get('/:key', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * POST /business-settings
- * Create new business setting
- * LEARNING: Creates new setting record
- * WHY: Allows admin to create new settings configurations
- */
 router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { setting_key, setting_value } = req.body;
@@ -399,7 +366,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       }
     }
 
-    // Check if setting already exists
     const existing = await BusinessSettings.findOne({
       where: { settingKey: setting_key },
     });
@@ -427,12 +393,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PUT /business-settings/:key
- * Update business setting (full replace)
- * LEARNING: Replaces entire setting value
- * WHY: Allows admin to update settings with full replacement
- */
 router.put('/:key', async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.params;
@@ -459,7 +419,6 @@ router.put('/:key', async (req: Request, res: Response): Promise<void> => {
     });
 
     if (!setting) {
-      // Create if doesn't exist (upsert behavior)
       const newSetting = await BusinessSettings.create({
         settingKey: key,
         settingValue: setting_value,
@@ -487,12 +446,6 @@ router.put('/:key', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PATCH /business-settings/:key
- * Partially update business setting
- * LEARNING: Merges partial updates into existing setting value
- * WHY: Allows admin to update only specific fields without replacing entire object
- */
 router.patch('/:key', async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.params;
@@ -512,7 +465,6 @@ router.patch('/:key', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Merge partial update into existing value
     const mergedValue = {
       ...setting.settingValue,
       ...setting_value,
@@ -545,12 +497,6 @@ router.patch('/:key', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * DELETE /business-settings/:key
- * Delete business setting
- * LEARNING: Removes setting record from database
- * WHY: Allows admin to remove settings configurations
- */
 router.delete('/:key', async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.params;

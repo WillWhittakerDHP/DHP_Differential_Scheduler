@@ -24,7 +24,6 @@ import { ref, computed } from 'vue'
 import { useContactsValidation } from '../useContactsValidation'
 import type { ContactInfo } from '../useContactsStepData'
 
-// Helper to create contact info ref
 function createContactInfo(data: Partial<ContactInfo> = {}): ContactInfo {
   return {
     firstName: data.firstName ?? '',
@@ -35,7 +34,6 @@ function createContactInfo(data: Partial<ContactInfo> = {}): ContactInfo {
 }
 
 describe('useContactsValidation', () => {
-  // Helper to create all contact refs
   function createContactRefs() {
     return {
       clientInfo: ref(createContactInfo()),
@@ -95,7 +93,6 @@ describe('useContactsValidation', () => {
         lastName: 'Agent',
         email: 'jane@realty.com',
       })
-      // anotherClientInfo is empty
       
       const { isFormValid } = useContactsValidation({
         ...contacts,
@@ -119,7 +116,6 @@ describe('useContactsValidation', () => {
         lastName: 'Agent',
         email: 'jane@realty.com',
       })
-      // anotherClientInfo is empty but hidden
       
       const { isFormValid } = useContactsValidation({
         ...contacts,

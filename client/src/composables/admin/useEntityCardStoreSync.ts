@@ -15,24 +15,12 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
 export interface UseEntityCardStoreSyncOptions<GE extends GlobalEntityKey> {
-  /**
-   * Entity type key
-   */
   entityKey: GE
   
-  /**
-   * Entity ID (reactive)
-   */
   entityId: Ref<string> | ComputedRef<string>
   
-  /**
-   * Form instance to sync
-   */
   form: FormContext
   
-  /**
-   * Whether this is a new entity (no sync needed for new entities)
-   */
   isNew: boolean
   
   /**
@@ -42,17 +30,10 @@ export interface UseEntityCardStoreSyncOptions<GE extends GlobalEntityKey> {
    */
   getStoreEntity: () => GlobalEntity<GE> | undefined
   
-  /**
-   * Initial entity (from props)
-   * WHY: Used to detect when store entity first loads
-   */
   initialEntity: GlobalEntity<GE>
 }
 
 export interface UseEntityCardStoreSyncReturn<GE extends GlobalEntityKey> {
-  /**
-   * Computed store entity (with relationships attached)
-   */
   storeEntity: ComputedRef<GlobalEntity<GE> | undefined>
 }
 
@@ -96,7 +77,6 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
    * PATTERN: Compare entity IDs, not object references, to avoid unnecessary resets
    */
   if (!isNew) {
-    // Track last entity ID to detect actual changes
     let lastEntityId = String(entityId.value)
     
     watch(storeEntity, (newStoreEntity, oldStoreEntity) => {
@@ -107,29 +87,18 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
       const newEntityId = String(newStoreEntity.id)
       const entityIdChanged = newEntityId !== lastEntityId
       const isInitialLoad = oldStoreEntity === undefined
-      // LEARNING: Detect when store entity first loads (was undefined, now has value)
-      // WHY: When store entity loads for the first time, we need to reset form with store entity values
       // PATTERN: Check if oldStoreEntity was undefined and newStoreEntity is different from initialEntity
       const storeEntityJustLoaded = oldStoreEntity === undefined && newStoreEntity !== initialEntity
       
-      // LEARNING: Reset form ONLY when:
-      // 1. Entity ID changes (different entity)
       // 2. Initial load (oldStoreEntity is falsy)
-      // 3. Store entity just loaded (was props.entity, now is store entity)
-      // WHY: For same entity with changed values, use form.setFieldValue() for individual fields
       //      This uses Vee-Validate's built-in form-level API instead of field-level watches
       // PATTERN: Reset on entity ID change/initial load, use setFieldValue for individual field updates
       const shouldReset = entityIdChanged || isInitialLoad || storeEntityJustLoaded
 
       if (shouldReset) {
-        // LEARNING: Reset form when entity ID changes or on initial load
-        // WHY: resetForm updates all fields and sets initial values for future resets
         // PATTERN: Use resetForm for entity changes, setFieldValue for individual field updates
         lastEntityId = newEntityId
         
-        // LEARNING: Use resetForm to update both current values AND initial values (per vee-validate docs)
-        // WHY: resetForm updates all fields that are part of the form, even if they were created before
-        //      It sets both current values and new initial values for future resets
         // PATTERN: Call resetForm with values to update all fields
         form.resetForm({
           values: {
@@ -137,14 +106,10 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
           }
         })
       } else if (oldStoreEntity) {
-        // LEARNING: Store entity changed but same ID - use form.setFieldValue() for individual fields
-        // WHY: Vee-Validate automatically syncs useField() instances when setFieldValue() is called
         //      This is more efficient than resetting the entire form and uses Vee-Validate's built-in API
         // PATTERN: Compare old vs new to find changed fields, then use setFieldValue for each
-        // NOTE: Only sync fields that exist in the form (check form.values) to avoid calling setFieldValue for non-form fields
         const formFieldKeys = form.values ? Object.keys(form.values) : []
         const changedFields = Object.keys(newStoreEntity).filter(key => {
-          // Only check fields that exist in the form
           if (!formFieldKeys.includes(key)) {
             return false
           }
@@ -154,10 +119,7 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
         })
         
         if (changedFields.length > 0 && form) {
-          // LEARNING: Use Vee-Validate's form.setFieldValue() for each changed field
-          // WHY: setFieldValue() automatically syncs the corresponding useField() instance
           //      This is the correct Vee-Validate method for programmatic field updates
-          //      Only call setFieldValue for fields that exist in the form (already filtered above)
           // PATTERN: Use form-level API instead of field-level watches, filter to form fields only
           const formInstance = form as ReturnType<typeof useForm>
           changedFields.forEach(fieldKey => {

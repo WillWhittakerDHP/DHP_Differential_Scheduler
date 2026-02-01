@@ -23,21 +23,14 @@ import { useDynamicGridConfig } from '@/composables/booking/useDynamicGridConfig
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
-// LEARNING: Inject shared wizard instance from parent
-// WHY: Ensures all step components share the same wizard state
-// PATTERN: Use inject to get provided instance instead of creating new one
 const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-// LEARNING: Inject loaded wizard state for populating form fields
-// WHY: Enables populating selections from loaded appointment
-// PATTERN: Inject provided loadedWizardState and watch for changes
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 
 // LEARNING: Use instance selection state composable for v-model bridges
-// WHY: Extracts v-model bridge logic from component to composable
 // PATTERN: Composable provides computed properties with getter/setter
 const { selectedId: selectedUserTypeBlockId } = useInstanceSelectionState({
   availableInstances: computed(() => wizard.availableUserTypeBlocks.value),
@@ -53,7 +46,6 @@ const { selectedIds: selectedServiceIds } = useInstanceSelectionState({
   loadedWizardState
 })
 
-// Use instance selection config composable
 const rowSelectionConfigComposable = useInstanceSelectionConfig({
   selectionType: 'row',
   stateField: 'userTypeBlock',
@@ -78,7 +70,6 @@ const userTypeDisplay = useInstanceDisplay({
 const wizardStateSelector = userTypeDisplay.instancesWithDisplay
 
 // LEARNING: Use dynamic grid config composable
-// WHY: Extracts grid column calculation logic from component to composable
 // PATTERN: Composable provides config with dynamic grid columns
 const { dynamicConfig: rowSelectionConfig } = useDynamicGridConfig({
   baseConfig: baseRowSelectionConfig,
@@ -91,24 +82,17 @@ const serviceDisplay = useInstanceDisplay({
 })
 const baseServicesWithIconsFromComposable = serviceDisplay.instancesWithDisplay
 
-// Use instance components list composable to enhance services with component data
 const instanceComponents = useInstanceComponentsList({
   services: computed(() => baseServicesWithIconsFromComposable.value),
   selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)
 })
 
-// Base services with icons and components
 const baseServicesWithIcons = computed(() => {
   return instanceComponents.servicesWithComponents.value
 })
 
-// LEARNING: Dev mode flag for template usage
-// WHY: Centralized devMode check for consistent behavior across app
-// PATTERN: Use shared devMode helper instead of direct env access
 const isDevMode = isDevModeEnabled()
 
-// LEARNING: Removed unused selectedOptionComponentIds ref
-// WHY: This ref was not being used anywhere in the component
 // PATTERN: Clean up unused state
 
 // LEARNING: Removed watch on loadedWizardState - now handled in useInstanceSelectionState composable
@@ -199,13 +183,7 @@ const isDevMode = isDevModeEnabled()
 </template>
 
 <style scoped lang="scss">
-/**
- * WHY: Ensures consistent spacing and proper responsive behavior
- * PATTERN: Mobile-first responsive design with Vuetify breakpoints
- */
 .service-selection-step {
-  // LEARNING: Consistent container padding
-  // WHY: Ensures content doesn't touch edges on all screen sizes
   // PATTERN: Responsive padding using Vuetify spacing utilities
   padding: 0;
   
@@ -214,9 +192,6 @@ const isDevMode = isDevModeEnabled()
   }
 }
 
-// LEARNING: Service type section spacing
-// WHY: Provides visual separation between user type selection and service selection
-// PATTERN: Responsive margin-top for proper visual hierarchy
 .service-type-section {
   margin-top: 2.5rem;
   
@@ -229,9 +204,6 @@ const isDevMode = isDevModeEnabled()
   }
 }
 
-// LEARNING: Service cards spacing
-// WHY: Ensures proper spacing between service selection cards
-// PATTERN: Margin bottom on card group container
 .service-cards {
   margin-bottom: 1rem;
 }

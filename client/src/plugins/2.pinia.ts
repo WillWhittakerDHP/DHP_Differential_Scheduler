@@ -10,7 +10,6 @@
 import type { App } from 'vue'
 import type { Pinia } from 'pinia'
 
-// Pinia instance will be passed from main.ts
 let piniaInstance: Pinia | null = null
 
 export function setPiniaInstance(instance: Pinia) {

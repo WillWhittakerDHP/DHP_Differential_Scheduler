@@ -16,20 +16,6 @@
 
 import type { RFC3339DateTime, ISO8601Date } from '@/types/datetime'
 
-/**
- * Extract date-only (ISO 8601 YYYY-MM-DD) from RFC3339 datetime
- * LEARNING: Converts RFC3339 datetime to ISO 8601 date format for UI display
- * WHY: Datetimes stored as RFC3339 but dates displayed as ISO 8601 (YYYY-MM-DD)
- * PATTERN: Parse RFC3339, extract date components in UTC
- * 
- * @param rfc3339 - RFC3339 datetime string
- * @returns ISO 8601 date string (YYYY-MM-DD format)
- * 
- * @example
- * ```typescript
- * rfc3339ToDateOnly('2026-01-15T10:00:00Z') // Returns: "2026-01-15"
- * ```
- */
 export function rfc3339ToDateOnly(rfc3339: RFC3339DateTime): ISO8601Date {
   const date = new Date(rfc3339)
   const year = date.getUTCFullYear()

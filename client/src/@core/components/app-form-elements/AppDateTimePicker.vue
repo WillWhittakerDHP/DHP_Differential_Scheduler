@@ -2,18 +2,14 @@
 import FlatPickr from 'vue-flatpickr-component'
 import { useTheme } from 'vuetify'
 
-// @ts-expect-error There won't be declaration file for it
 import { VField, makeVFieldProps } from 'vuetify/lib/components/VField/VField'
 
-// @ts-expect-error There won't be declaration file for it
 import { VInput, makeVInputProps } from 'vuetify/lib/components/VInput/VInput'
 
-// @ts-expect-error There won't be declaration file for it
 import { filterInputAttrs } from 'vuetify/lib/util/helpers'
 
 import { useConfigStore } from '@core/stores/config'
 
-// inherit Attribute make false
 defineOptions({
   inheritAttrs: false,
 })
@@ -69,7 +65,6 @@ const { focused } = useFocus(refFlatPicker)
 const isCalendarOpen = ref(false)
 const isInlinePicker = ref(false)
 
-// flat picker prop manipulation
 if (compAttrs.config && compAttrs.config.inline) {
   isInlinePicker.value = compAttrs.config.inline
   Object.assign(compAttrs, { altInputClass: 'inlinePicker' })
@@ -81,7 +76,6 @@ compAttrs.config = {
   nextArrow: '<i class="tabler-chevron-right v-icon" style="font-size: 20px; height: 20px; width: 20px;"></i>',
 }
 
-// v-field clear prop
 const onClear = (el: MouseEvent) => {
   el.stopPropagation()
 
@@ -96,9 +90,7 @@ const vuetifyTheme = useTheme()
 
 const vuetifyThemesName = Object.keys(vuetifyTheme.themes.value)
 
-// Themes class added to flat-picker component for light and dark support
 const updateThemeClassInCalendar = () => {
-  // ℹ️ Flatpickr don't render it's instance in mobile and device simulator
   if (!refFlatPicker.value.fp.calendarContainer)
     return
 
@@ -237,7 +229,6 @@ $heading-color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity
 $body-color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
 $disabled-color: rgba(var(--v-theme-on-background), var(--v-disabled-opacity));
 
-// hide the input when your picker is inline
 input[altinputclass="inlinePicker"] {
   display: none;
 }
@@ -391,7 +382,6 @@ input[altinputclass="inlinePicker"] {
   }
 
   &.open {
-    // Open calendar above overlay
     z-index: 2401;
   }
 
@@ -417,7 +407,6 @@ input[altinputclass="inlinePicker"] {
   box-shadow: 0 3px 14px 0 rgb(15 20 34 / 38%);
 }
 
-// Time picker hover & focus bg color
 .flatpickr-time input:hover,
 .flatpickr-time .flatpickr-am-pm:hover,
 .flatpickr-time input:focus,
@@ -425,7 +414,6 @@ input[altinputclass="inlinePicker"] {
   background: transparent;
 }
 
-// Time picker
 .flatpickr-time {
   .flatpickr-am-pm,
   .flatpickr-time-separator,
@@ -450,19 +438,16 @@ input[altinputclass="inlinePicker"] {
   }
 }
 
-//  Added bg color for flatpickr input only as it has default readonly attribute
 .flatpickr-input[readonly],
 .flatpickr-input ~ .form-control[readonly],
 .flatpickr-human-friendly[readonly] {
   background-color: inherit;
 }
 
-// week sections
 .flatpickr-weekdays {
   margin-block: 0.375rem;
 }
 
-// Month and year section
 .flatpickr-current-month {
   .flatpickr-monthDropdown-months {
     appearance: none;

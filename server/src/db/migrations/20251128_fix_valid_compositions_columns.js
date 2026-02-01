@@ -9,7 +9,6 @@ export default {
   async up(queryInterface, Sequelize) {
     const validCompositionsExists = await queryInterface.tableExists('valid_compositions');
     if (validCompositionsExists) {
-      // Check if columns need to be renamed
       const tableDescription = await queryInterface.describeTable('valid_compositions');
       
       if (tableDescription.createdAt && !tableDescription.created_at) {

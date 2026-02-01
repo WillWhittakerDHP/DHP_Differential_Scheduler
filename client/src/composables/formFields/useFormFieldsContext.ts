@@ -34,9 +34,6 @@ export type UseFormFieldsContextReturn = {
   ) => FieldContextType<GE, FieldKey> | undefined
 }
 
-/**
- * State module: manages form instance + FieldContext cache creation.
- */
 export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseFormFieldsContextReturn {
   const { entityKey, entityId, fieldKeys, fieldMetadata: providedFieldMetadata, form: providedForm, adminConfig: providedAdminConfig } = options
 
@@ -44,24 +41,17 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
   const { warning: showWarning } = useNotification()
   const appInstance = getCurrentInstance()?.appContext.app
 
-  // LEARNING: Wait for provided form to be ready instead of creating fallback empty form
-  // WHY: Creating fallback form causes fields to register with empty form instance, losing initial values
   // PATTERN: Use computed to reactively access provided form, create new form only if none provided
-  // NOTE: useForm() must be called during setup, so we create it once if no form provided
   const fallbackForm = providedForm ? undefined : useForm()
   const formInstance = computed<FormContext | undefined>(() => {
     if (providedForm) {
-      // Wait for provided form to be ready - return undefined if not ready yet
       return providedForm.value || undefined
     }
-    // Use fallback form if no form was provided
     return fallbackForm
   })
 
   const fieldContextCache = ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>(new Map()) as unknown as Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
 
-  // LEARNING: Track fields that have already shown warnings to avoid spam
-  // WHY: Prevent duplicate warnings for the same missing metadata field
   // PATTERN: Set to track warned fields
   const warnedFields = ref<Set<string>>(new Set())
 
@@ -78,11 +68,8 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
   const isFormReady = computed(() => {
     const currentFormInstance = formInstance.value
     if (!currentFormInstance) {
-      // Form not ready yet - wait for providedForm.value to be set
       return false
     }
-    // LEARNING: Form is ready if it has a values object
-    // WHY: Form.values will be populated by resetForm in EntityCard, we just need the form instance
     // PATTERN: Check if form has values object - it will be populated by resetForm
     const hasValuesObject = currentFormInstance.values !== undefined && 
                            currentFormInstance.values !== null && 
@@ -90,14 +77,10 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     return hasValuesObject
   })
 
-  // LEARNING: Computed to check if metadata is ready (both input and relationship metadata loaded)
-  // WHY: Gate warnings until metadata is fully loaded and can be meaningfully displayed
   // PATTERN: Check both metadata sources are loaded and merged metadata has keys
   const isMetadataReady = computed(() => {
     const metadata = providedFieldMetadata?.value
     const hasMetadata = !!metadata && Object.keys(metadata).length > 0
-    // If metadata is provided via prop, assume it's ready (parent component handles loading)
-    // Otherwise, check that we have some metadata keys (even if empty, that's still "ready")
     return hasMetadata || providedFieldMetadata !== undefined
   })
 
@@ -108,8 +91,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     const baseKeys = fieldKeys.value || []
     const combinedKeys = Array.from(new Set([...baseKeys, ...metadataKeys])) as GlobalFieldKey<GlobalEntityKey>[]
 
-    // LEARNING: Only warn for missing metadata after metadata is ready
-    // WHY: Suppress warnings during async loading - wait until metadata can be meaningfully displayed
     // PATTERN: Gate warnings on isMetadataReady
     if (isMetadataReady.value && metadata) {
       combinedKeys.forEach((fieldKey) => {
@@ -140,22 +121,15 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
    *       based on renderAs. fieldType here is just about the underlying data type.
    */
   const getFieldTypeFromMetadata = (meta: FieldMetadataEntry): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['displayConfig']['fieldType'] => {
-    // LEARNING: fieldType is about data type, not rendering
-    // WHY: renderAs is handled by component dispatcher, not form field context
     // PATTERN: Base fieldType on dataType only
     
-    // Select-like fields are not rendered by PrimitiveInputs, but we still set a sensible type for displayConfig
     if (meta.renderAs === 'multiselect') return 'multiselect'
     if (meta.renderAs === 'select' || meta.renderAs === 'reference') return 'select'
 
-    // LEARNING: Base fieldType on dataType - component dispatcher handles renderAs
-    // WHY: fieldType describes the data, renderAs describes how to render it
     // PATTERN: Check dataType to determine fieldType
     if (meta.dataType === 'boolean') return 'boolean'
     if (meta.dataType === 'number') return 'number'
-    // Note: dataType doesn't include 'date', so date fields are handled via renderAs
 
-    // Default to text for string/array/reference
     return 'text'
   }
 
@@ -163,8 +137,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     const metadata = providedFieldMetadata?.value
     const hasMetadataKeys = !!metadata && Object.keys(metadata).length > 0
     
-    // LEARNING: Only warn for empty metadata after metadata is ready
-    // WHY: Suppress warnings during async loading - wait until metadata can be meaningfully displayed
     // PATTERN: Gate warnings on isMetadataReady
     if (!hasMetadataKeys && isMetadataReady.value) {
       const warningKey = `${entityKey}:metadata-empty`
@@ -174,7 +146,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
         showWarning(warningMessage, 6000)
         warnedFields.value.add(warningKey)
       }
-      // Return fallback config to prevent crashes
       return {
         fieldType: 'text',
         label: fieldKey,
@@ -184,8 +155,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       }
     }
     
-    // LEARNING: Return fallback if metadata not ready yet (suppress warnings during loading)
-    // WHY: Don't warn or crash while metadata is still loading
     // PATTERN: Return fallback config silently during loading
     if (!hasMetadataKeys) {
       return {
@@ -199,8 +168,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     
     const meta = metadata[fieldKey]
 
-    // LEARNING: Only warn for missing field metadata after metadata is ready
-    // WHY: Suppress warnings during async loading - wait until metadata can be meaningfully displayed
     // PATTERN: Gate warnings on isMetadataReady
     if (!meta && isMetadataReady.value) {
       const warningMessage = `Missing FieldMetadataEntry for ${entityKey}.${fieldKey}. Field must be configured in /admin-input-metadata or /admin-relationship-metadata before rendering.`
@@ -209,7 +176,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
         showWarning(warningMessage, 6000)
         warnedFields.value.add(fieldKey)
       }
-      // Return fallback config to prevent crashes
       return {
         fieldType: 'text',
         label: fieldKey,
@@ -219,8 +185,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       }
     }
 
-    // LEARNING: Return fallback if field metadata not found yet (suppress warnings during loading)
-    // WHY: Don't warn or crash while metadata is still loading
     // PATTERN: Return fallback config silently during loading
     if (!meta) {
       return {
@@ -232,8 +196,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       }
     }
 
-    // LEARNING: Warn for missing label but don't throw - use fallback
-    // WHY: User requested warnings instead of crashes
     // PATTERN: Warn and use fallback value
     if (!meta.label) {
       const warningMessage = `Missing label in FieldMetadataEntry for ${entityKey}.${fieldKey}. Metadata should include label property.`
@@ -244,8 +206,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       }
     }
 
-    // LEARNING: Use metadata values with fallbacks for missing properties
-    // WHY: User requested warnings instead of crashes - provide sensible defaults
     // PATTERN: Use metadata properties with fallbacks for required fields
     return {
       label: meta.label || fieldKey, // Fallback to fieldKey if label missing
@@ -264,14 +224,10 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       return
     }
 
-    // LEARNING: Check for component instance BEFORE creating context
     // WHY: useField from vee-validate requires a component instance (uses lifecycle hooks like onMounted, provide)
-    //      If no instance is available, defer creation to nextTick
     // PATTERN: Verify component instance exists, defer if not available
     const instance = getCurrentInstance()
     if (!instance) {
-      // LEARNING: Defer context creation to nextTick if no component instance
-      // WHY: watchEffect may run after setup completes, so we defer to ensure component instance is available
       // PATTERN: Use nextTick to defer context creation until component context is guaranteed
       nextTick(() => {
         createFieldContext(fieldKey, entityIdValue)
@@ -279,14 +235,10 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       return
     }
 
-    // LEARNING: Create field context directly without effectScope
     // WHY: useField requires component instance (for lifecycle hooks), not effect scope
-    //      Component instance is verified above, so useField should work
     // PATTERN: Call useFieldContext directly when component instance is available
     try {
       const buildContext = () => {
-        // LEARNING: Verify component instance is still available
-        // WHY: getCurrentInstance() should work if we're still in component setup/watchEffect
         // PATTERN: Check instance before calling useFieldContext
         const currentInstance = getCurrentInstance()
         if (!currentInstance) {
@@ -309,8 +261,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
         ) as unknown as FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
 
         fieldContextCache.value.set(cacheKey, fieldContext)
-        // LEARNING: Map mutations aren't reactive by default
-        // WHY: Vue doesn't track Map.set() for computed invalidation
         // PATTERN: triggerRef forces recompute for dependent computed values
         triggerRef(fieldContextCache)
       }
@@ -322,8 +272,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       }
     } catch (error) {
       console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)
-      // LEARNING: Don't throw - let watchEffect retry on next reactive update
-      // WHY: If metadata loads later, watchEffect will trigger again and retry context creation
       // PATTERN: Log error but don't crash - allow retry
     }
   }
@@ -351,13 +299,9 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     }
   }
 
-  // LEARNING: Create contexts once in setup, then watch for new fields
-  // WHY: useFieldContext must run in setup/injection context (watchEffect runs in current context)
   // PATTERN: Eager creation from initial field keys, then watchEffect to catch async metadata loads
   createContextsForFields()
   
-  // LEARNING: Watch for new fields that need contexts (e.g., when relationship metadata loads)
-  // WHY: Relationship metadata loads asynchronously, so fieldKeys updates after initial setup
   // PATTERN: watchEffect runs in current injection context, so useFieldContext calls are valid
   watchEffect(() => {
     const fieldsToCreate = fieldsNeedingContexts.value
@@ -366,8 +310,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     }
   })
 
-  // LEARNING: Removed effectScope cleanup - no longer using effectScope for field contexts
-  // WHY: useField requires component instance, not effect scope, so no cleanup needed
   // PATTERN: Field contexts are cleaned up automatically when component unmounts
 
   const getFieldContext = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
@@ -383,10 +325,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     return context as unknown as FieldContextType<GE, FieldKey>
   }
 
-  // LEARNING: Return form instance - use provided form when ready, otherwise fallback
-  // WHY: Return type expects FormContext, so we need to ensure one is always available
   // PATTERN: Return the form instance (provided when ready, or fallback if none provided)
-  // NOTE: Field contexts wait for isFormReady before registering, so this is safe
   return {
     adminConfig,
     formInstance: (formInstance.value || fallbackForm)!,

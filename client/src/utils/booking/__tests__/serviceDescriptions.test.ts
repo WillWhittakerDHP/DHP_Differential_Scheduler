@@ -31,7 +31,6 @@ import {
 } from '../serviceDescriptions'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Helper to create mock service
 function createService(
   id: string,
   options: {

@@ -1,10 +1,3 @@
-/**
- * MOCK GOOGLE CALENDAR TESTS
- * 
- * Unit tests for mock Google Calendar free/busy data generator.
- * Tests mock response generation, busy period extraction, and format compliance.
- * Session 1.4.15: Google Calendar Free/Busy Mock Setup
- */
 
 import { describe, it, expect } from 'vitest'
 import {
@@ -13,29 +6,17 @@ import {
   type MockBusyPeriodConfig
 } from '../mockGoogleCalendar'
 
-// ===================================================================
-// TEST DATA SETUP
-// ===================================================================
 
-/**
- * Standard date range for testing (single day)
- */
 const standardDateRange = {
   start: '2026-01-15T00:00:00Z',
   end: '2026-01-16T00:00:00Z'
 }
 
-/**
- * Multi-day date range for testing
- */
 const multiDayDateRange = {
   start: '2026-01-15T00:00:00Z',
   end: '2026-01-17T00:00:00Z'
 }
 
-// ===================================================================
-// GENERATE MOCK FREE/BUSY RESPONSE TESTS
-// ===================================================================
 
 describe('generateMockFreeBusyResponse', () => {
   describe('basic functionality', () => {
@@ -93,8 +74,6 @@ describe('generateMockFreeBusyResponse', () => {
           expect(isNaN(startDate.getTime())).toBe(false)
           expect(isNaN(endDate.getTime())).toBe(false)
           
-          // LEARNING: End should be after start
-          // WHY: Busy periods must have valid time ranges
           expect(endDate.getTime()).toBeGreaterThan(startDate.getTime())
         }
       }
@@ -115,8 +94,6 @@ describe('generateMockFreeBusyResponse', () => {
           const periodStart = new Date(period.start)
           const periodEnd = new Date(period.end)
 
-          // LEARNING: Busy periods should be within the queried date range
-          // WHY: Google Calendar API only returns busy periods within timeMin/timeMax
           // PATTERN: Validate that periods don't extend outside the range
           expect(periodStart.getTime()).toBeGreaterThanOrEqual(rangeStart.getTime())
           expect(periodEnd.getTime()).toBeLessThanOrEqual(rangeEnd.getTime())
@@ -150,8 +127,6 @@ describe('generateMockFreeBusyResponse', () => {
       }
 
       for (const calendar of Object.values(response.calendars)) {
-        // LEARNING: Should generate approximately the requested number of periods
-        // WHY: Config allows customization for different test scenarios
         // PATTERN: Check that periods are generated (may be fewer if range is too small)
         expect(calendar.busy.length).toBeGreaterThan(0)
         expect(calendar.busy.length).toBeLessThanOrEqual(5)
@@ -176,8 +151,6 @@ describe('generateMockFreeBusyResponse', () => {
           const end = new Date(period.end)
           const durationMinutes = (end.getTime() - start.getTime()) / (1000 * 60)
 
-          // LEARNING: Duration should be within configured range
-          // WHY: Allows testing with specific duration scenarios
           // PATTERN: Validate duration is within min/max bounds
           expect(durationMinutes).toBeGreaterThanOrEqual(60)
           expect(durationMinutes).toBeLessThanOrEqual(90)
@@ -197,7 +170,6 @@ describe('generateMockFreeBusyResponse', () => {
         throw new Error('calendars should be defined')
       }
 
-      // Should generate busy periods across multiple days
       const allPeriods: Array<{ start: string; end: string }> = []
       for (const calendar of Object.values(response.calendars)) {
         allPeriods.push(...calendar.busy)
@@ -205,7 +177,6 @@ describe('generateMockFreeBusyResponse', () => {
 
       expect(allPeriods.length).toBeGreaterThan(0)
 
-      // Verify periods span multiple days
       const dates = new Set(
         allPeriods.map(p => new Date(p.start).toISOString().split('T')[0])
       )
@@ -239,9 +210,6 @@ describe('generateMockFreeBusyResponse', () => {
   })
 })
 
-// ===================================================================
-// EXTRACT BUSY TIMES TESTS
-// ===================================================================
 
 describe('extractBusyTimesFromFreeBusyResponse', () => {
   describe('basic functionality', () => {
@@ -252,7 +220,6 @@ describe('extractBusyTimesFromFreeBusyResponse', () => {
       expect(Array.isArray(busyTimes)).toBe(true)
       expect(busyTimes.length).toBeGreaterThan(0)
 
-      // LEARNING: Each busy time should have start and end properties
       // WHY: fitTimeSlots() expects this format
       // PATTERN: Validate structure matches expected format
       for (const busyTime of busyTimes) {
@@ -294,14 +261,10 @@ describe('extractBusyTimesFromFreeBusyResponse', () => {
     it('should merge overlapping busy periods when mergeOverlapping is true', () => {
       const response = generateMockFreeBusyResponse(standardDateRange)
       
-      // Get busy times without merging
       const withoutMerging = extractBusyTimesFromFreeBusyResponse(response, false)
       
-      // Get busy times with merging
       const withMerging = extractBusyTimesFromFreeBusyResponse(response, true)
 
-      // LEARNING: Merged periods should be fewer or equal to unmerged
-      // WHY: Overlapping periods from different calendars get combined
       // PATTERN: Merging reduces count when periods overlap
       expect(withMerging.length).toBeLessThanOrEqual(withoutMerging.length)
     })
@@ -327,8 +290,6 @@ describe('extractBusyTimesFromFreeBusyResponse', () => {
 
       const merged = extractBusyTimesFromFreeBusyResponse(response, true)
       
-      // LEARNING: Adjacent periods should be merged into one
-      // WHY: Prevents gaps in busy time calculation
       // PATTERN: Check that merged result has fewer periods
       expect(merged.length).toBe(1)
       expect(merged[0].start).toBe('2026-01-15T10:00:00Z')
@@ -356,8 +317,6 @@ describe('extractBusyTimesFromFreeBusyResponse', () => {
 
       const merged = extractBusyTimesFromFreeBusyResponse(response, true)
       
-      // LEARNING: Overlapping periods should be merged
-      // WHY: Avoids double-counting when calendars have overlapping events
       // PATTERN: Merged period should span from earliest start to latest end
       expect(merged.length).toBe(1)
       expect(merged[0].start).toBe('2026-01-15T10:00:00Z')
@@ -385,8 +344,6 @@ describe('extractBusyTimesFromFreeBusyResponse', () => {
 
       const merged = extractBusyTimesFromFreeBusyResponse(response, true)
       
-      // LEARNING: Non-overlapping periods should remain separate
-      // WHY: Only overlapping/adjacent periods should be merged
       // PATTERN: Check that both periods are present
       expect(merged.length).toBe(2)
     })
@@ -398,13 +355,11 @@ describe('extractBusyTimesFromFreeBusyResponse', () => {
       const busyTimes = extractBusyTimesFromFreeBusyResponse(response)
 
       // LEARNING: Format should match what fitTimeSlots() expects
-      // WHY: Direct compatibility enables seamless integration
       // PATTERN: Validate structure matches BusyTimeRange interface
       for (const busyTime of busyTimes) {
         expect(busyTime).toHaveProperty('start')
         expect(busyTime).toHaveProperty('end')
         
-        // Should be valid ISO strings parseable as Date
         expect(() => new Date(busyTime.start)).not.toThrow()
         expect(() => new Date(busyTime.end)).not.toThrow()
         

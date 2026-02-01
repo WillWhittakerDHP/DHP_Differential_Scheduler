@@ -1,20 +1,3 @@
-/**
- * SELECTIONCARDGROUPCONFIG TESTS
- * 
- * Unit tests for selectionCardGroupConfig utility.
- * Tests group config functions for selection cards.
- * 
- * What it covers:
- * - shouldUseSelectionGroupWrapper: Determine if group wrapper needed
- * - getSelectionGroupComponentName: Get group component name
- * - buildSelectionCardGridColumnProps: Build grid column props
- * 
- * How it works:
- * - Tests each function with various config inputs
- * 
- * Dependencies:
- * - vitest for testing
- */
 
 import { describe, it, expect } from 'vitest'
 import {

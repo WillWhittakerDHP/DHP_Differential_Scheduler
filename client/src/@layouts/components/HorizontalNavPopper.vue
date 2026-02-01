@@ -54,7 +54,6 @@ const updatePopper = async () => {
 
       NOTE: This issue starts from third level children (Top Level > Sub item > Sub item).
     */
-        // strategy: 'fixed',
       })
 
     popperContentStyles.value.left = `${x}px`
@@ -62,10 +61,6 @@ const updatePopper = async () => {
   }
 }
 
-/*
- 💡 Only add scroll event listener for updating position once horizontal nav is made static.
-  We don't want to update position every time user scrolls when horizontal nav is sticky
-*/
 until(() => configStore.horizontalNavType)
   .toMatch(type => type === 'static')
   .then(() => { useEventListener('scroll', updatePopper) })
@@ -83,7 +78,6 @@ const hideContent = () => {
 
 onMounted(updatePopper)
 
-// ℹ️ Recalculate popper position when it's triggerer changes its position
 watch(
   [
     () => configStore.isAppRTL,
@@ -92,7 +86,6 @@ watch(
   updatePopper,
 )
 
-// Watch for route changes and close popper content if route is changed
 const route = useRoute()
 
 watch(() => route.fullPath, hideContent)

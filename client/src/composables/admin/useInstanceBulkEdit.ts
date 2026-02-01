@@ -17,48 +17,21 @@ import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
 import type { GlobalEntity } from '@/types/entities'
 
-/**
- * Instance Bulk Edit Composable Options
- */
 export interface UseInstanceBulkEditOptions {
-  /**
-   * BlockInstances grouped by BlockShape
-   */
   blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
 }
 
-/**
- * Instance Bulk Edit Composable Return Type
- */
 export interface UseInstanceBulkEditReturn {
-  /**
-   * Bulk edit mode state per BlockShape tab
-   */
   bulkEditMode: Ref<Map<string, boolean>>
   
-  /**
-   * Bulk edit form data per BlockShape tab
-   */
   bulkEditData: Ref<Map<string, { baseSqFt?: number }>>
   
-  /**
-   * Helper function to get bulk edit baseSqFt computed for a specific BlockShape
-   */
   getBulkEditBaseSqFt: (blockShapeId: string) => ComputedRef<number | undefined>
   
-  /**
-   * Helper function to get bulk edit data for a BlockShape
-   */
   getBulkEditData: (blockShapeId: string) => { baseSqFt?: number }
   
-  /**
-   * Toggle bulk edit mode for a BlockShape tab
-   */
   toggleBulkEditMode: (blockShapeId: string) => void
   
-  /**
-   * Apply bulk edit to all BlockInstances in a BlockShape tab
-   */
   applyBulkEdit: (blockShapeId: string) => Promise<void>
 }
 
@@ -107,8 +80,6 @@ export function useInstanceBulkEdit(
    *       Non-null assertion is safe because watcher runs during setup before template renders
    */
   const getBulkEditBaseSqFt = (blockShapeId: string): ComputedRef<number | undefined> => {
-    // Only return cached computed - never create during render
-    // Watcher with immediate: true creates all computeds during setup, before template renders
     return bulkEditBaseSqFtComputeds.value.get(blockShapeId)!
   }
 
@@ -151,21 +122,16 @@ export function useInstanceBulkEdit(
         return
       }
       
-      // LEARNING: Build array of { id, ...fields } updates for bulk PATCH
-      // WHY: Bulk PATCH endpoint expects array of updates, one per entity
       // PATTERN: Map instances to update objects with id and editData fields
       const updates = instances.map(instance => ({
         id: instance.id,
         ...editData,
       }))
       
-      // LEARNING: Single bulk PATCH request instead of N individual PUT requests
-      // WHY: More efficient (1 request vs N requests), semantically correct (PATCH for partial updates)
       // PATTERN: Use patchBulk mutation for bulk updates
       await patchBulk(updates)
       success(`Updated ${instances.length} BlockInstance(s)`)
       
-      // Clear bulk edit data
       bulkEditData.value.set(blockShapeId, {})
     } catch (err) {
       console.error('[useInstanceBulkEdit] Error in applyBulkEdit:', err)
@@ -181,7 +147,6 @@ export function useInstanceBulkEdit(
    */
   watch(blockInstancesByShape, (map) => {
     map.forEach((_instances, blockShapeId) => {
-      // Create bulk edit computed if it doesn't exist
       if (!bulkEditBaseSqFtComputeds.value.has(blockShapeId)) {
         bulkEditBaseSqFtComputeds.value.set(blockShapeId, computed({
           get() {

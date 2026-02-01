@@ -1,15 +1,3 @@
-/**
- * API ENDPOINT BUILDER TESTS
- * 
- * Unit tests for API endpoint builder functions.
- * Tests that endpoint builders construct correct URL paths.
- * Phase 7: Edge Case Tests
- * 
- * WHAT: Tests all endpoint builder functions return correct URL paths
- * HOW: Calls each function with various inputs and verifies output
- * WHY: Ensures type-safe endpoint construction works correctly
- * DEPENDENCIES: api.ts endpoint builder functions
- */
 
 import { describe, it, expect } from 'vitest'
 import {

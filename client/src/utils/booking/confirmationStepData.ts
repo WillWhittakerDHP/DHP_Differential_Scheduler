@@ -61,44 +61,26 @@ export function calculateBlockInstanceFee(
   squareFootage: number | null,
   aduCount?: number | null
 ): BlockInstanceFeeResult {
-  // LEARNING: Create finalized parts and filter out zeroed parts
-  // WHY: Zeroed parts should not contribute to fees
   // PATTERN: Group by part shape, create finalized parts, filter zeroed
   const finalizedParts = createPartFinals(blockInstance.partInstances || [])
   const nonZeroedFinalizedParts = filterZeroedParts(finalizedParts)
   
-  // LEARNING: Extract non-zeroed part instances from finalized parts
-  // WHY: Need original part instances for fee calculation
   // PATTERN: Flat map sourcePartInstances from non-zeroed finalized parts
   const nonZeroedParts = nonZeroedFinalizedParts.flatMap(fp => fp.sourcePartInstances)
   
-  // LEARNING: Use shared utility to calculate parts totals
-  // WHY: Ensures consistency with admin code and provides single source of truth
   // PATTERN: Use calculatePartsTotals utility for base calculations
   const partsTotals = calculatePartsTotals(nonZeroedParts)
   
-  // LEARNING: Calculate base fee from parts totals
-  // WHY: Base fees are fixed fees regardless of property size
   // PATTERN: Use totalBaseFee from shared utility
   const baseFee = partsTotals.totalBaseFee
   
-  // LEARNING: Calculate overage fee: sum of (rateOverBaseFee * squareFootage) for each part
-  // WHY: Overage fees scale with property square footage
   // PATTERN: Multiply totalRateOverBaseFee by squareFootage
-  // NOTE: If squareFootage is null or 0, overage fee is 0
   const sqft = squareFootage ?? 0
   const overageFee = partsTotals.totalRateOverBaseFee * sqft
   
-  // LEARNING: Calculate total fee before multiplier
-  // WHY: Need base total to apply multiplier correctly
   const totalFeeBeforeMultiplier = baseFee + overageFee
   
-  // LEARNING: Multiply by quantity if allowMultiple is true
-  // WHY: Some services need to be multiplied by quantity (e.g., ADU count)
-  // NOTE: Quantities are stored in appointment.serviceQuantities/propertyQuantities, not on blockInstance
-  //       This function receives quantities via wizard state which includes appointment quantities
   if (blockInstance.allowMultiple) {
-    // TODO: Update to use appointment quantities from wizard state when available
     const multiplier = aduCount ?? 1
     return {
       baseFee: baseFee * multiplier,
@@ -167,13 +149,9 @@ export function buildConfirmationPriceData(
   squareFootage: number | null,
   aduCount?: number | null
 ): PriceData {
-  // LEARNING: Extract square footage from propertyDetailsStepData
-  // WHY: Overage fees depend on property square footage
   // PATTERN: Use squareFootage parameter (extracted from propertyDetailsStepData by caller)
   const sqft = squareFootage ?? 0
   
-  // LEARNING: Calculate fees for services
-  // WHY: Base services contribute to total fee
   // PATTERN: Reduce to sum fees from all selected services
   const serviceFees = wizard.selectedServices.reduce(
     (acc, service) => {
@@ -187,8 +165,6 @@ export function buildConfirmationPriceData(
     { baseFee: 0, overageFee: 0, totalFee: 0 }
   )
 
-  // LEARNING: Calculate fees for property type blocks
-  // WHY: Property type adjustments contribute to total fee
   // PATTERN: Reduce to sum fees from all selected property type blocks
   const propertyTypeBlockFees = wizard.selectedPropertyTypeBlocks.reduce(
     (acc, adjustment) => {
@@ -202,8 +178,6 @@ export function buildConfirmationPriceData(
     { baseFee: 0, overageFee: 0, totalFee: 0 }
   )
 
-  // LEARNING: Calculate fees for option type blocks
-  // WHY: Availability options contribute to total fee
   // PATTERN: Reduce to sum fees from all selected option type blocks
   const optionTypeBlockFees = wizard.selectedOptionTypeBlocks.reduce(
     (acc, option) => {
@@ -217,8 +191,6 @@ export function buildConfirmationPriceData(
     { baseFee: 0, overageFee: 0, totalFee: 0 }
   )
 
-  // LEARNING: Calculate fees for line item blocks
-  // WHY: Line items are separate from main booking blocks and displayed individually
   // PATTERN: Reduce to sum fees from all selected line item blocks
   const lineItemBlockFees = wizard.selectedLineItemBlocks.reduce(
     (acc, lineItem) => {
@@ -232,8 +204,6 @@ export function buildConfirmationPriceData(
     { baseFee: 0, overageFee: 0, totalFee: 0 }
   )
 
-  // LEARNING: Calculate individual line items for display
-  // WHY: Each line item block should be displayed separately in confirmation step
   // PATTERN: Map each selected line item block to display object with label, amount, and isFree flag
   const lineItems = wizard.selectedLineItemBlocks.map(lineItem => {
     const feeResult = calculateBlockInstanceFee(lineItem, sqft, aduCount)
@@ -244,15 +214,11 @@ export function buildConfirmationPriceData(
     }
   })
 
-  // LEARNING: Sum all base fees and overage fees separately
-  // WHY: Need to track base vs overage fees for potential display breakdown
   // PATTERN: Sum base fees and overage fees across all block types (including line items)
   const baseFeeTotal = serviceFees.baseFee + propertyTypeBlockFees.baseFee + optionTypeBlockFees.baseFee + lineItemBlockFees.baseFee
   const overageFeeTotal = serviceFees.overageFee + propertyTypeBlockFees.overageFee + optionTypeBlockFees.overageFee + lineItemBlockFees.overageFee
   const totalFee = baseFeeTotal + overageFeeTotal
 
-  // LEARNING: Calculate order totals
-  // WHY: Need bag total, order total, and final total for display
   // PATTERN: Apply discounts and delivery charges to calculate final total
   const bagTotal = totalFee
   const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented

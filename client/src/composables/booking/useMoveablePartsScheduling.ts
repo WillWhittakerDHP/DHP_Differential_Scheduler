@@ -22,9 +22,6 @@ import type { EventShapeEntity } from '@/types/entities'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
-// LEARNING: Use scoped logger for controllable debug output
-// WHY: Prevents debug logs in production, allows scope-based filtering
-// PATTERN: createLogger(scope) provides debug/info/warn/error methods
 const logger = createLogger('useMoveablePartsScheduling')
 
 const isBusinessHoursConfig = (config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }): config is BusinessHoursConfig => {
@@ -58,7 +55,6 @@ function formatDayLabel(
   if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
   
   // LEARNING: Use composable for UI-boundary formatting
-  // WHY: All local time conversions must go through useLocalTime
   return formatDateForDisplay(isoDate, { month: 'short', day: 'numeric' })
 }
 
@@ -91,21 +87,16 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
   const { getGlobalData } = useGlobal()
   const { settings } = useAvailabilitySettings()
   
-  // Modal visibility state
   const showModal = ref(false)
   
-  // User's contingency preferences
   const contingencyPeriod = ref<ContingencyPeriod>({ ...DEFAULT_CONTINGENCY })
   
-  // Selected slot index
   const selectedSlotIndex = ref<number | null>(null)
   
   // Moveable options (computed via watchEffect since it's async)
   const moveableOptions = ref<MoveableSchedulingOptions | null>(null)
   const isLoadingOptions = ref(false)
   
-  // Detection: does current appointment have moveable parts?
-  // Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
   const hasMoveableParts = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return false
@@ -114,8 +105,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     return moveableDuration > 0
   })
   
-  // Moveable duration from shape
-  // Session Event Refactor: Use eventFinals array with helper function instead of hardcoded Record access
   const moveableDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape) return 0
@@ -123,9 +112,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     return moveableEventFinal?.duration ?? 0
   })
   
-  // Calculate available slots using fitTimeSlots
-  // LEARNING: Use watchEffect for async operations
-  // WHY: Computed properties can't be async, so we use watchEffect to update a ref
   // PATTERN: Watch dependencies and update ref when they change
   watchEffect(async () => {
     if (!hasMoveableParts.value || !selectedSlot.value) {
@@ -136,9 +122,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     const slot = selectedSlot.value
     const duration = moveableDuration.value
     
-    // Inner boundary: end of major (on-site) work
-    // LEARNING: Use attendee-based logic to find major event name dynamically
-    // WHY: Eliminates hardcoded 'Major' event name string
     // PATTERN: Find major event shape using attendee-based logic, then use its name to look up time range
     let majorTimeRange: import('@/types/appointment').TimeRange | null = null
     const globalData = getGlobalData()
@@ -153,7 +136,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         }
       }
     }
-    // Fallback to totalTimeRange if major event not found
     const innerBoundary = majorTimeRange?.endTime ?? slot.totalTimeRange?.endTime
     if (!innerBoundary) {
       moveableOptions.value = null
@@ -163,12 +145,10 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     try {
       isLoadingOptions.value = true
       
-      // Outer boundary: contingency deadline or default
       // LEARNING: Use UTC methods for date manipulation
       // WHY: All business logic should use UTC to avoid timezone issues
       let outerBoundary: RFC3339DateTime
       if (contingencyPeriod.value.hasContingency && contingencyPeriod.value.endDate) {
-        // Parse date string (YYYY-MM-DD format)
         const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
         if (contingencyPeriod.value.endTime) {
           const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
@@ -176,12 +156,10 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
           const date = new Date(Date.UTC(year, month - 1, day, hours, minutes, 0, 0))
           outerBoundary = toRFC3339DateTime(date)
         } else {
-          // Default to 5pm UTC
           const date = new Date(Date.UTC(year, month - 1, day, 17, 0, 0, 0))
           outerBoundary = toRFC3339DateTime(date)
         }
       } else {
-        // Default: N days after appointment
         const innerBoundaryDate = new Date(innerBoundary)
         const defaultDate = new Date(Date.UTC(
           innerBoundaryDate.getUTCFullYear(),
@@ -192,7 +170,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         outerBoundary = toRFC3339DateTime(defaultDate)
       }
       
-      // Get business hours
       const settings = await getAvailabilitySettings()
       
       // LEARNING: Extract businessHours from structured rangeConstraints
@@ -206,7 +183,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         throw new Error('businessHours must be provided in rangeConstraints.businessHours.config.hours')
       }
       
-      // Fit moveable work into available time
       const result = await fitAvailableTimeSlots({  // P3-6: Renamed for clarity
         startBoundary: innerBoundary,
         endBoundary: outerBoundary,
@@ -216,7 +192,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         includeFlags: { major: false, minor: false, moveable: true }
       })
       
-      // Transform to MoveableSlot format with labels
       const availableSlots: MoveableSlot[] = result.slots.map((slot) => ({
         startTime: slot.startTime,
         endTime: slot.endTime,
@@ -241,7 +216,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     }
   })
   
-  // Selected moveable slot (computed from index)
   const selectedMoveableSlot = computed<MoveableSlot | null>(() => {
     if (selectedSlotIndex.value === null || !moveableOptions.value) {
       return null
@@ -249,7 +223,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     return moveableOptions.value.availableSlots[selectedSlotIndex.value] ?? null
   })
   
-  // Actions
   const openModal = () => { 
     showModal.value = true 
   }
@@ -267,19 +240,16 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
   }
   
   return {
-    // State
     showModal,
     contingencyPeriod,
     selectedSlotIndex,
     isLoadingOptions,
     
-    // Computed
     hasMoveableParts,
     moveableDuration,
     moveableOptions: computed(() => moveableOptions.value),
     selectedMoveableSlot,
     
-    // Actions
     openModal,
     closeModal,
     selectSlot,

@@ -30,48 +30,21 @@ const sharedDevPanelData = ref<{
   refreshKey?: Ref<number>
 }>({})
 
-/**
- * useAvailabilityDevPanel composable parameters
- */
 export interface UseAvailabilityDevPanelParams {
-  /**
-   * Selected block instances
-   */
   selectedBlockInstances: ComputedRef<BookingBlockInstance[]>
   
-  /**
-   * Appointment slots
-   */
   appointmentSlots: ComputedRef<AppointmentSlot[]>
   
-  /**
-   * Appointment shape
-   */
   appointmentShape: ComputedRef<AppointmentShape | null>
   
-  /**
-   * Selected date
-   */
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   
-  /**
-   * Selected slot
-   */
   selectedSlot: Ref<AppointmentSlot | null>
   
-  /**
-   * Date range for API
-   */
   dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
   
-  /**
-   * Busy periods
-   */
   busyPeriods: ComputedRef<BusyTimeRange[]>
   
-  /**
-   * Refresh key for mock calendar data
-   */
   refreshKey: Ref<number>
 }
 
@@ -96,8 +69,6 @@ export function useAvailabilityDevPanel(
     refreshKey
   } = params
 
-  // LEARNING: Update shared dev panel data
-  // WHY: Makes data available to DevPanelsContainer which is rendered at App level
   // PATTERN: Update shared refs that can be accessed from anywhere
   sharedDevPanelData.value = {
     selectedBlockInstances,

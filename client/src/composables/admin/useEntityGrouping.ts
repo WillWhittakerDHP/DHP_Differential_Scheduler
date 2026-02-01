@@ -11,37 +11,18 @@ import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
-/**
- * useEntityGrouping composable parameters
- */
 export interface UseEntityGroupingParams<
   EntityKey extends GlobalEntityKey,
   GroupKey extends GlobalEntityKey
 > {
-  /**
-   * Entity type to group (e.g., 'blockInstance')
-   */
   entityKey: EntityKey
   
-  /**
-   * Entity type to group by (e.g., 'blockShape')
-   */
   groupKey: GroupKey
   
-  /**
-   * Function to get the group ID from an entity
-   * e.g., (instance) => String(instance.blockShapeRef)
-   */
   groupBy: (entity: GlobalEntity<EntityKey>) => string
 }
 
-/**
- * useEntityGrouping composable return type
- */
 export interface UseEntityGroupingReturn<EntityKey extends GlobalEntityKey> {
-  /**
-   * Entities grouped by group ID, sorted by orderIndex within each group
-   */
   entitiesByGroup: ComputedRef<Map<string, GlobalEntity<EntityKey>[]>>
 }
 
@@ -71,15 +52,12 @@ export function useEntityGrouping<
     const groupEntities = getGlobalEntities(groupKey)
     const entities = getGlobalEntities(entityKey)
     
-    // LEARNING: Use reduce to build Map immutably instead of forEach with mutations
     // WHY: Functional approach avoids mutations, aligns with workspace rules
     // PATTERN: Reduce groupEntities to Map, creating new arrays instead of mutating
     return groupEntities.reduce((map, groupEntity) => {
       const groupId = String(groupEntity.id)
       const groupEntitiesList = entities
         .filter(entity => groupBy(entity) === groupId)
-        // LEARNING: Copy array before sorting to avoid readonly proxy errors
-        // WHY: Vue Query returns readonly proxies, we need mutable copy for sort()
         // PATTERN: Spread operator creates new array
         .map(entity => ({ ...entity }))
         .sort((a, b) => a.orderIndex - b.orderIndex)

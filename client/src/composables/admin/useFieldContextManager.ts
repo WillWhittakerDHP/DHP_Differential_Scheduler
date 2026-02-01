@@ -35,11 +35,6 @@ export interface UseFieldContextManagerReturn {
   fieldsMissingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
 }
 
-/**
- * LEARNING: Manage field context access with warnings
- * WHY: Fail visibly - warn when fields don't have contexts instead of silently hiding them
- * PATTERN: Wrap original getFieldContext with warning logic
- */
 export function useFieldContextManager(
   options: UseFieldContextManagerOptions
 ): UseFieldContextManagerReturn {
@@ -65,8 +60,6 @@ export function useFieldContextManager(
       isMetadataLoading.value ||
       fieldsNeedingContexts.value.includes(fieldKey)
 
-    // LEARNING: Only warn for missing contexts after metadata is ready and not pending
-    // WHY: Suppress warnings during async loading - wait until metadata can be meaningfully displayed
     // PATTERN: Gate warnings on isMetadataReady and !isPending
     if (!context && !isPending && isMetadataReady.value) {
       showWarning(`Field "${String(fieldKey)}" is missing configuration. Check /admin-input-metadata or /admin-relationship-metadata.`, 6000)

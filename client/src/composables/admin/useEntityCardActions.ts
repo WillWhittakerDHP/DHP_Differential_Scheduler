@@ -23,98 +23,41 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
 
-/**
- * Entity Card Actions Composable Options
- */
 export interface UseEntityCardActionsOptions {
-  /**
-   * Entity type key
-   */
   entityKey: GlobalEntityKey
   
-  /**
-   * Entity instance (existing entity or initial values for new entity)
-   */
   entity: Ref<GlobalEntity<GlobalEntityKey>> | GlobalEntity<GlobalEntityKey>
   
-  /**
-   * Form instance (optional - will create if not provided)
-   */
   form?: FormContext
   
-  /**
-   * Whether this is a new entity being created (vs editing existing)
-   */
   isNew?: boolean
   
-  /**
-   * Delete event emitter function (for existing entities)
-   */
   onDelete?: (id: string) => void
   
-  /**
-   * Saved event emitter function (for new entities - passes created entity)
-   */
   onSaved?: (entity: GlobalEntity<GlobalEntityKey>) => void
   
-  /**
-   * Cancelled event emitter function (for new entities)
-   */
   onCancelled?: () => void
 }
 
-/**
- * Entity Card Actions Composable Return Type
- */
 export interface UseEntityCardActionsReturn {
-  /**
-   * Whether form can be saved
-   */
   canSave: Ref<boolean>
   
-  /**
-   * Whether form has changes
-   */
   hasChanges: Ref<boolean>
   
-  /**
-   * Delete dialog visibility state
-   */
   showDeleteDialog: Ref<boolean>
   
-  /**
-   * Whether this is a new entity being created
-   */
   isNew: boolean
   
-  /**
-   * Save handler (creates new or updates existing)
-   */
   handleSave: () => Promise<void>
   
-  /**
-   * Reset/undo handler
-   */
   handleUndo: () => void
   
-  /**
-   * Delete click handler (opens dialog)
-   */
   handleDeleteClick: () => void
   
-  /**
-   * Delete confirmation handler
-   */
   handleDelete: () => Promise<void>
   
-  /**
-   * Cancel delete handler (closes dialog)
-   */
   handleCancelDelete: () => void
   
-  /**
-   * Cancel creation handler (for new entities only)
-   */
   handleCancel: () => void
 }
 
@@ -138,29 +81,22 @@ export function useEntityCardActions(
     onCancelled
   } = options
   
-  // Convert entity to Ref if needed
   const entity = 'value' in entityOption ? entityOption : ref(entityOption)
   
-  // Form instance - use provided or create new
   const form = providedForm || useForm({
     initialValues: {
       ...entity.value,
     }
   })
   
-  // Entity CRUD operations
   const { create: createEntity, update: updateEntity, remove } = useEntityCrud(entityKey)
   
-  // Notifications
   const { success, error: showError } = useNotification()
   
-  // Entity display composable
   const { getEntitySuccessMessage, getEntityCreateMessage, getEntityDeleteTitle } = useEntityDisplay()
   
-  // Delete dialog state
   const showDeleteDialog = ref(false)
   
-  // Entity form composable (only for existing entities)
   const entityFormComposable = useEntityForm({
     entityKey,
     entityId: entity.value.id,
@@ -190,12 +126,8 @@ export function useEntityCardActions(
         return
       }
       
-      // Get form values
       const formValues = form.values as Record<string, ValidAdminValue>
       
-      // LEARNING: Merge original entity properties with form values
-      // WHY: Form values only contain fields that are rendered/form fields
-      //      Required fields like eventShapeRef/partShapeRef might not be form fields but must be included
       // PATTERN: Spread original entity first, then form values override (form values take precedence)
       const entityToSave = {
         ...entity.value,
@@ -203,21 +135,16 @@ export function useEntityCardActions(
       } as Record<string, ValidAdminValue>
       
       if (isNew) {
-        // Create new entity
         const createdEntity = await createEntity(entityToSave)
         success(getEntityCreateMessage(entityKey))
         onSaved?.(createdEntity)
       } else {
-        // Update existing entity
       await updateEntity(entityToSave, entity.value.id)
       success(getEntitySuccessMessage(entityKey))
-        // LEARNING: Also call onSaved for existing entities to allow parent to collapse card
-        // WHY: Consistent behavior - both new and existing cards emit saved event
         onSaved?.(entity.value)
       }
     } catch (err) {
       // LEARNING: Use composable for error message extraction
-      // WHY: Centralizes error message parsing logic
       // PATTERN: Composable handles AxiosError, Error, and unknown error types
       const errorMessage = getApiErrorMessage(err, `Failed to save ${entityKey}. Please try again.`)
       showError(errorMessage)

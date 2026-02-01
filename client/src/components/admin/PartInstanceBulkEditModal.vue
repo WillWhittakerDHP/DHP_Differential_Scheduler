@@ -105,13 +105,7 @@ const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
 const { globalData } = useGlobal()
 const { entities: partInstances } = useEntityCrud('partInstance')
 
-/**
- * LEARNING: Get first PartInstance for this BlockInstance to extract partShapeRef
- * WHY: Need partShapeRef to create templateEntity for metadata fetching
- * PATTERN: Get first PartInstance, extract partShapeRef from it
- */
 const firstPartInstanceForMetadata = computed(() => {
-  // Get PartInstances for this BlockInstance via relationships.partAssignments
   const relationships = globalData.value?.relationships?.partAssignments ?? []
   const constituentIds = new Set(
     relationships
@@ -126,11 +120,6 @@ const firstPartInstanceForMetadata = computed(() => {
   return instances[0]
 })
 
-/**
- * LEARNING: Get partShapeRef from first PartInstance
- * WHY: Need partShapeRef to create templateEntity for metadata fetching (PartInstance metadata inherits from PartShape)
- * PATTERN: Extract partShapeRef from first PartInstance, fallback to empty string if none exists
- */
 const partShapeRef = computed(() => {
   const firstInstance = firstPartInstanceForMetadata.value
   return firstInstance?.partShapeRef || ''
@@ -147,9 +136,7 @@ const partShapeRef = computed(() => {
 const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
   try {
     const editData = props.bulkEditData || {}
-    // Guard against missing partShapeRef
     if (!partShapeRef.value) {
-      // Return a minimal entity that will be replaced when partShapeRef is available
       return {
         id: '00000000-0000-0000-0000-000000000000',
         entityKey: 'partInstance',
@@ -179,7 +166,6 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
     return entity
   } catch (error) {
     console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
-    // Return a safe fallback
     return {
       id: '00000000-0000-0000-0000-000000000000',
       entityKey: 'partInstance',
@@ -194,11 +180,6 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
   }
 })
 
-/**
- * LEARNING: Get metadata and filter to only include bulkEdit fields
- * WHY: Metadata is the single source of truth - filter at metadata level
- * PATTERN: Only include fields where bulkEdit: true in metadata
- */
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 const { fieldMetadata: partInstanceMetadata } = useEntityMetadata('partInstance', templateEntity)
 
@@ -213,7 +194,6 @@ const filteredMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
     return {}
   }
   
-  // LEARNING: Use Object.fromEntries with filter instead of forEach with mutations
   // WHY: Functional approach avoids mutations, aligns with workspace rules
   // PATTERN: Filter entries and convert back to object
   return Object.fromEntries(
@@ -225,22 +205,9 @@ function updateModelValue(value: boolean) {
   emit('update:modelValue', value)
 }
 
-/**
- * LEARNING: Handle EntityCard saved event (prevent actual save)
- * WHY: EntityCard will try to save when fields blur, but we don't want to save the template entity
- * PATTERN: Intercept saved event and do nothing - we'll extract values manually in handleApply
- */
 function handleEntityCardSaved() {
-  // Do nothing - prevent EntityCard from actually saving the template entity
-  // We extract form values manually in handleApply instead
 }
 
-/**
- * LEARNING: Handle Apply button click
- * WHY: Extract form values from EntityCard and emit as bulk edit data
- * PATTERN: Dynamically read fields with bulkEdit: true from config, extract only those fields
- * FIX: Remove hardcoded field list, use config to determine which fields to extract
- */
 function handleApply() {
   if (!entityCardRef.value?.form) {
     return
@@ -248,14 +215,11 @@ function handleApply() {
   
   const formValues = entityCardRef.value.form.values
   
-  // LEARNING: Use reduce instead of forEach + property assignment
   // WHY: Functional approach - build object without mutations
   // PATTERN: Reduce to transform filteredMetadata keys into bulkEditData object
   const bulkEditData: PartInstanceBulkEditData = Object.keys(filteredMetadata.value).reduce((acc, field) => {
     const value = (formValues as Record<string, unknown>)[field]
-    // Only include if value is not null, undefined, or empty string
     if (value !== null && value !== undefined && value !== '') {
-      // Convert to number for numeric fields
       const numericValue = Number(value)
       if (!isNaN(numericValue)) {
         (acc as Record<string, number>)[field] = numericValue

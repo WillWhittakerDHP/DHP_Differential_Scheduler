@@ -1,17 +1,9 @@
-/**
- * USEMOVEABLEPARTSSCHEDULING TESTS
- * 
- * Unit tests for useMoveablePartsScheduling composable.
- * Tests moveable parts detection, modal state, and slot calculation.
- * Session 1.4.15: Moveable Parts Scheduling Modal
- */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { ref, computed } from 'vue'
 import { useMoveablePartsScheduling } from '../useMoveablePartsScheduling'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 
-// Mock availability settings
 vi.mock('@/configs/availabilitySettings', () => ({
   getAvailabilitySettings: async () => ({
     businessHours: {
@@ -28,9 +20,6 @@ vi.mock('@/configs/availabilitySettings', () => ({
   })
 }))
 
-/**
- * Helper to create an AppointmentShape for testing
- */
 function createAppointmentShape(options: {
   totalMoveableDuration?: number
   totalOnSiteDuration?: number
@@ -48,9 +37,6 @@ function createAppointmentShape(options: {
   }
 }
 
-/**
- * Helper to create an AppointmentSlot for testing
- */
 function createAppointmentSlot(options: {
   totalOnSiteEndTime?: string
   totalTimeEndTime?: string
@@ -190,7 +176,6 @@ describe('useMoveablePartsScheduling', () => {
         selectedSlot
       })
 
-      // Modify contingency period
       contingencyPeriod.value.hasContingency = true
       contingencyPeriod.value.endDate = '2026-01-20'
       contingencyPeriod.value.endTime = '17:00'

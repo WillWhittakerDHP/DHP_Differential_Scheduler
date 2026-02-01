@@ -87,7 +87,6 @@ export function useNotification() {
    */
   function close() {
     showNotification.value = false
-    // Clear notification after animation
     setTimeout(() => {
       notification.value = null
     }, 300)

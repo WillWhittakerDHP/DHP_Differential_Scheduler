@@ -11,13 +11,11 @@ import vuetify from 'vite-plugin-vuetify';
 import svgLoader from 'vite-svg-loader';
 import AutoImport from 'unplugin-auto-import/vite';
 import { fileURLToPath, URL } from 'node:url';
-// https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
         vue(),
         vuetify({ autoImport: true }),
         svgLoader(), // Enable SVG imports
-        // Auto-import Vue functions (like Vuexy does)
         AutoImport({
             imports: ['vue', '@vueuse/core', 'pinia'],
             dirs: [
@@ -28,8 +26,6 @@ export default defineConfig({
             ],
             vueTemplate: true,
             dts: true, // Generate TypeScript declarations
-            // LEARNING: Configure resolver to handle @ alias
-            // WHY: Unimport needs to know how to resolve @ alias during scanning to avoid warnings
             // PATTERN: Add custom resolver function to map @ alias to src directory
             resolvers: [
                 function (id) {

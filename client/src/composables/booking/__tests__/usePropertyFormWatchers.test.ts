@@ -1,28 +1,9 @@
-/**
- * USEPROPERTYFORMWATCHERS TESTS
- * 
- * Unit tests for usePropertyFormWatchers composable.
- * Tests form data synchronization watchers.
- * 
- * What it covers:
- * - MLS data syncing to form fields
- * - Loaded wizard state population
- * 
- * How it works:
- * - Tests watch behavior for MLS data
- * - Tests watch behavior for loaded state
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref for reactive state
- */
 
 import { describe, it, expect } from 'vitest'
 import { ref, nextTick } from 'vue'
 import { usePropertyFormWatchers, type PropertyFormData } from '../usePropertyFormWatchers'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
-// Helper to create form data refs
 function createFormData(): PropertyFormData {
   return {
     address: ref(''),

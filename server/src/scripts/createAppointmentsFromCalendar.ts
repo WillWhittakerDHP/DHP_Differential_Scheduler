@@ -1,16 +1,9 @@
-/**
- * Create Appointments from Google Calendar Events
- * 
- * This script creates appointment records in the database based on
- * calendar events fetched from Google Calendar via MCP.
- */
 
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { Appointment, PropertyVersion, Address, User, sequelize, initializeDatabase } from '../config/app.js';
 
-// Load environment variables
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const envPath = path.resolve(__dirname, '../../.env.development');
@@ -43,13 +36,6 @@ interface CalendarEvent {
   };
 }
 
-/**
- * Extract AGENT name from event summary
- * LEARNING: Calendar event summaries like "Buyer's Inspection for Todd Litchfield" 
- * contain the AGENT name (the real estate agent who scheduled the inspection),
- * NOT the actual home buyer (client).
- * WHY: Real estate agents schedule inspections on behalf of their clients
- */
 function extractAgentNameFromSummary(summary: string | undefined): string | null {
   if (!summary) return null;
   
@@ -70,32 +56,22 @@ function extractAgentNameFromSummary(summary: string | undefined): string | null
   return null;
 }
 
-/**
- * Get a random element from an array
- * WHY: Used for randomly assigning scheduledById from available users
- */
 function getRandomElement<T>(array: T[]): T | undefined {
   if (array.length === 0) return undefined;
   return array[Math.floor(Math.random() * array.length)];
 }
 
-/**
- * Parse address string into components for matching
- */
 function parseAddressForMatching(addressString: string | undefined): { address: string; city: string; state: string } | null {
   if (!addressString) return null;
   
-  // Remove "USA" suffix if present
   const cleaned = addressString.replace(/,?\s*USA\s*$/i, '').trim();
   
-  // Try to extract address, city, state
   // Pattern: "123 Main St, City, ST" or "123 Main St, City, ST 12345"
   const parts = cleaned.split(',').map(p => p.trim());
   
   if (parts.length >= 2) {
     const address = parts[0];
     const city = parts[1] || '';
-    // State might be in last part with or without zip
     const lastPart = parts[parts.length - 1] || '';
     const stateMatch = lastPart.match(/\b([A-Z]{2})\b/);
     const state = stateMatch ? stateMatch[1] : '';
@@ -105,7 +81,6 @@ function parseAddressForMatching(addressString: string | undefined): { address: 
     }
   }
   
-  // Fallback: try to extract just address (first part)
   if (parts.length > 0) {
     return {
       address: parts[0],
@@ -117,9 +92,6 @@ function parseAddressForMatching(addressString: string | undefined): { address: 
   return null;
 }
 
-/**
- * Find user by name (first + last) or email
- */
 async function findUserByNameOrEmail(name: string | null, email: string | null): Promise<string | null> {
   if (email) {
     const user = await User.findOne({ where: { email } });
@@ -146,18 +118,12 @@ async function findUserByNameOrEmail(name: string | null, email: string | null):
   return null;
 }
 
-/**
- * Find property version by address
- * LEARNING: Updated to use new three-table structure (Address → PropertyVersion)
- * WHY: Returns PropertyVersion ID instead of Property ID for appointment creation
- */
 async function findPropertyByAddress(location: string | undefined): Promise<string | null> {
   if (!location) return null;
   
   const addressParts = parseAddressForMatching(location);
   if (!addressParts) return null;
   
-  // Try exact match first (address + city + state)
   if (addressParts.city && addressParts.state) {
     const address = await Address.findOne({
       where: {
@@ -170,17 +136,13 @@ async function findPropertyByAddress(location: string | undefined): Promise<stri
       ],
     });
     
-    // LEARNING: Sequelize associations are dynamically added, TypeScript doesn't know about them
-    // WHY: Need type assertion to access association property
     // PATTERN: Use 'as any' cast to access Sequelize associations
     const addressWithAssociations = address as any;
     if (addressWithAssociations && addressWithAssociations.propertyVersions && addressWithAssociations.propertyVersions.length > 0) {
-      // Return first PropertyVersion ID
       return addressWithAssociations.propertyVersions[0].id;
     }
   }
   
-  // Try partial match on address only
   const address = await Address.findOne({
     where: {
       address: addressParts.address,
@@ -190,8 +152,6 @@ async function findPropertyByAddress(location: string | undefined): Promise<stri
     ],
   });
   
-  // LEARNING: Sequelize associations are dynamically added, TypeScript doesn't know about them
-  // WHY: Need type assertion to access association property
   // PATTERN: Use 'as any' cast to access Sequelize associations
   const addressWithAssociations = address as any;
   if (addressWithAssociations && addressWithAssociations.propertyVersions && addressWithAssociations.propertyVersions.length > 0) {
@@ -212,11 +172,9 @@ function parseEventDateTime(event: CalendarEvent): { selectedDate: Date | null; 
   
   if (!start) return { selectedDate: null, selectedTimeSlots: null };
   
-  // Parse date
   const startDate = new Date(start);
   const selectedDate = startDate;
   
-  // Parse time slots if we have both start and end times
   // LEARNING: Google Calendar API already provides RFC3339 format, use directly
   let selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = null;
   
@@ -230,10 +188,6 @@ function parseEventDateTime(event: CalendarEvent): { selectedDate: Date | null; 
   return { selectedDate, selectedTimeSlots };
 }
 
-/**
- * Determine appointment status from event summary
- * UPDATED: Uses new workflow status values (started, held, rescheduling, quoted, submitted, confirmed, cancelled, deleted)
- */
 function determineStatus(summary: string | undefined): 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancelled' | 'deleted' {
   if (!summary) return 'started';
   
@@ -251,22 +205,9 @@ function determineStatus(summary: string | undefined): 'started' | 'held' | 'res
     return 'quoted';
   }
   
-  // Most calendar events are confirmed appointments
   return 'confirmed';
 }
 
-/**
- * Create appointments from calendar events
- * 
- * LEARNING: Calendar event summaries contain AGENT names, not client names
- * WHY: Real estate agents schedule inspections for their clients
- * 
- * Updated logic:
- * - Extract agent name from summary (e.g., "Buyer's Inspection for Todd Litchfield" → Todd Litchfield is the AGENT)
- * - Set agentId to the extracted agent
- * - clientId left null (actual clients need to be added separately or from event description)
- * - scheduledById randomly assigned from available users
- */
 async function createAppointmentsFromEvents(events: CalendarEvent[]): Promise<{
   created: number;
   skipped: number;
@@ -275,19 +216,16 @@ async function createAppointmentsFromEvents(events: CalendarEvent[]): Promise<{
   const stats = { created: 0, skipped: 0, errors: 0 };
   const organizerEmail = 'will@districthomepro.com';
   
-  // Get all users for random scheduledById assignment
   const allUsers = await User.findAll();
   
   for (const event of events) {
     try {
-      // Skip events without location (can't match to property)
       if (!event.location) {
         console.log(`⏭️  Skipping "${event.summary}" - no location`);
         stats.skipped++;
         continue;
       }
       
-      // Find property version
       const propertyVersionId = await findPropertyByAddress(event.location);
       if (!propertyVersionId) {
         console.log(`⏭️  Skipping "${event.summary}" - property not found: ${event.location}`);
@@ -295,17 +233,13 @@ async function createAppointmentsFromEvents(events: CalendarEvent[]): Promise<{
         continue;
       }
       
-      // Find AGENT (not client!) from event summary
-      // LEARNING: The name in "Buyer's Inspection for [Name]" is the real estate agent
       let agentId: string | null = null;
       
-      // Try to find agent from attendees first (non-organizer attendees might be agents)
       if (event.attendees && event.attendees.length > 0) {
         for (const attendee of event.attendees) {
           if (attendee.email && attendee.email !== organizerEmail) {
             const foundUserId = await findUserByNameOrEmail(null, attendee.email);
             if (foundUserId) {
-              // Verify this user is actually an agent
               const user = await User.findByPk(foundUserId);
               if (user && user.userRole === 'agent') {
                 agentId = foundUserId;
@@ -316,7 +250,6 @@ async function createAppointmentsFromEvents(events: CalendarEvent[]): Promise<{
         }
       }
       
-      // If no agent found in attendees, try extracting from summary
       if (!agentId) {
         const agentName = extractAgentNameFromSummary(event.summary);
         if (agentName) {
@@ -324,17 +257,13 @@ async function createAppointmentsFromEvents(events: CalendarEvent[]): Promise<{
         }
       }
       
-      // Parse date/time
       const { selectedDate, selectedTimeSlots } = parseEventDateTime(event);
       
-      // Determine status
       const status = determineStatus(event.summary);
       
-      // Get a random user for scheduledById
       const randomScheduler = getRandomElement(allUsers);
       const scheduledById = randomScheduler?.id || null;
       
-      // Check if appointment already exists (by property version + date)
       if (selectedDate) {
         const existing = await Appointment.findOne({
           where: {
@@ -350,8 +279,6 @@ async function createAppointmentsFromEvents(events: CalendarEvent[]): Promise<{
         }
       }
       
-      // Create appointment
-      // LEARNING: agentId is set from event summary, clientId left null (actual client unknown from calendar)
       await Appointment.create({
         propertyVersionId,
         userTypeId: null, // Would need to determine from event
@@ -383,17 +310,12 @@ async function createAppointmentsFromEvents(events: CalendarEvent[]): Promise<{
   return stats;
 }
 
-/**
- * Main function
- */
 async function main() {
   try {
     console.log('📅 Creating appointments from Google Calendar events...');
     
-    // Connect to database
     await initializeDatabase();
     
-    // Calendar events from our previous import (you can fetch fresh ones via MCP if needed)
     const calendarEvents: CalendarEvent[] = [
       {
         summary: "Buyer's Inspection for Todd Litchfield",
@@ -713,7 +635,6 @@ async function main() {
     
     console.log(`📊 Processing ${calendarEvents.length} calendar events...\n`);
     
-    // Create appointments
     const stats = await createAppointmentsFromEvents(calendarEvents);
     
     console.log('\n📊 Summary:');
@@ -730,7 +651,6 @@ async function main() {
   }
 }
 
-// Run the script
 main()
   .then(() => {
     process.exit(0);

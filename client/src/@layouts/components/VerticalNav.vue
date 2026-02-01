@@ -39,10 +39,6 @@ const resolveNavItemComponent = (item: NavLink | NavSectionTitle | NavGroup): un
   return VerticalNavLink
 }
 
-/*
-  ℹ️ Close overlay side when route is changed
-  Close overlay vertical nav when link is clicked
-*/
 const route = useRoute()
 
 watch(() => route.name, () => {
@@ -178,7 +174,6 @@ const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered)
 @use "@configured-variables" as variables;
 @use "@layouts/styles/mixins";
 
-// 👉 Vertical Nav
 .layout-vertical-nav {
   position: fixed;
   z-index: variables.$layout-vertical-nav-z-index;
@@ -216,11 +211,8 @@ const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered)
   .nav-items {
     block-size: 100%;
 
-    // ℹ️ We no loner needs this overflow styles as perfect scrollbar applies it
-    // overflow-x: hidden;
 
     // // ℹ️ We used `overflow-y` instead of `overflow` to mitigate overflow x. Revert back if any issue found.
-    // overflow-y: auto;
   }
 
   .nav-item-title {
@@ -230,7 +222,6 @@ const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered)
     white-space: nowrap;
   }
 
-  // 👉 Collapsed
   .layout-vertical-nav-collapsed & {
     &:not(.hovered) {
       inline-size: variables.$layout-vertical-nav-collapsed-width;
@@ -238,7 +229,6 @@ const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered)
   }
 }
 
-// Small screen vertical nav transition
 @media (max-width: 1279px) {
   .layout-vertical-nav {
     &:not(.visible) {

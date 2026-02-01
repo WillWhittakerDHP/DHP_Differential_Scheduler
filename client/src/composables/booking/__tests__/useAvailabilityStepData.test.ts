@@ -1,21 +1,9 @@
-/**
- * USEAVAILABILITYSTEPDATA TESTS
- * 
- * Unit tests for useAvailabilityStepData composable.
- * Tests step data aggregation and time slot transformation.
- * 
- * Coverage:
- * - selectedTimeSlots computed (time slot transformation to API format)
- * - stepData computed (availability step data for wizard)
- * - Handling null/undefined time slots
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref, computed } from 'vue'
 import { useAvailabilityStepData } from '../useAvailabilityStepData'
 import type { TimeSlot } from '@/types/appointment'
 
-// Mock the utility functions
 vi.mock('@/utils/booking/availabilityStepData', () => ({
   buildSelectedTimeSlots: vi.fn(),
   buildAvailabilityStepData: vi.fn(),
@@ -26,7 +14,6 @@ import { buildSelectedTimeSlots, buildAvailabilityStepData } from '@/utils/booki
 describe('useAvailabilityStepData', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Setup default mock returns
     vi.mocked(buildSelectedTimeSlots).mockReturnValue(null)
     vi.mocked(buildAvailabilityStepData).mockReturnValue({
       selectedDate: { start: null, end: null },
@@ -53,7 +40,6 @@ describe('useAvailabilityStepData', () => {
         presentationDuration,
       })
 
-      // Access computed to trigger evaluation
       selectedTimeSlots.value
 
       expect(buildSelectedTimeSlots).toHaveBeenCalledWith({
@@ -146,7 +132,6 @@ describe('useAvailabilityStepData', () => {
         presentationDuration,
       })
 
-      // Access computed to trigger evaluation
       stepData.value
 
       expect(buildAvailabilityStepData).toHaveBeenCalledWith({
@@ -210,11 +195,9 @@ describe('useAvailabilityStepData', () => {
         presentationDuration,
       })
 
-      // Initial call
       selectedTimeSlots.value
       expect(buildSelectedTimeSlots).toHaveBeenCalledTimes(1)
 
-      // Change date
       selectedDate.value = { start: '2026-01-16', end: null }
       selectedTimeSlots.value
       expect(buildSelectedTimeSlots).toHaveBeenCalledTimes(2)
@@ -240,11 +223,9 @@ describe('useAvailabilityStepData', () => {
         presentationDuration,
       })
 
-      // Initial call
       selectedTimeSlots.value
       expect(buildSelectedTimeSlots).toHaveBeenCalledTimes(1)
 
-      // Set inspector time slot
       inspectorTimeSlot.value = {
         slotStart: '2026-01-15T09:00:00',
         slotEnd: '2026-01-15T11:00:00',

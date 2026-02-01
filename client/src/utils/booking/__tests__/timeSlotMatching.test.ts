@@ -36,7 +36,6 @@ import {
 } from '../timeSlotMatching'
 import type { TimeSlot } from '@/types/appointment'
 
-// Helper to create mock TimeSlot
 function createTimeSlot(slotStart: string, duration = 60): TimeSlot {
   return {
     slotStart,
@@ -50,7 +49,6 @@ describe('timeSlotMatching', () => {
   describe('extractTimeString', () => {
     describe('RFC3339 datetime format (UTC)', () => {
       it('should extract UTC time from RFC3339 datetime string', () => {
-        // RFC3339 format: 2026-01-09T09:30:00Z (UTC)
         const rfc3339 = '2026-01-09T09:30:00Z'
         expect(extractTimeString(rfc3339)).toBe('09:30')
       })
@@ -71,7 +69,6 @@ describe('timeSlotMatching', () => {
       })
 
       it('should extract UTC time from Date object', () => {
-        // Create date in UTC
         const date = new Date(Date.UTC(2026, 0, 9, 9, 0, 0)) // Jan 9, 2026 9:00 AM UTC
         
         expect(extractTimeString(date)).toBe('09:00')

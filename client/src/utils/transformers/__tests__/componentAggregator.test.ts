@@ -1,12 +1,3 @@
-/**
- * COMPONENTAGGREGATOR TESTS
- * 
- * Unit tests for componentAggregator.
- * Priority Score: 8.2 (Reliability: 10, ROI: 10, Independence: 4, Cognitive Load: 4)
- * 
- * Tests verify component aggregation logic including recursive component resolution
- * and part instance composition from composed block instances.
- */
 
 import { describe, it, expect } from 'vitest'
 import { composePartInstances, getComponentsRecursive } from '@/utils/transformers/componentAggregator'
@@ -14,9 +5,6 @@ import type { GlobalData, GlobalRelationship } from '@/utils/transformers/fetchT
 import type { InstanceComponent } from '@/types/component'
 import type { GlobalEntity } from '@/types/entities'
 
-/**
- * Helper to create a block instance entity
- */
 function createBlockInstance(id: string, name: string): GlobalEntity<'blockInstance'> {
   return {
     id,
@@ -28,9 +16,6 @@ function createBlockInstance(id: string, name: string): GlobalEntity<'blockInsta
   } as GlobalEntity<'blockInstance'>
 }
 
-/**
- * Helper to create a partAssignments relationship
- */
 function createPartAssignmentsRel(
   parentId: string,
   childIds: string[]
@@ -42,9 +27,6 @@ function createPartAssignmentsRel(
   }
 }
 
-/**
- * Helper to create an InstanceComponent
- */
 function createInstanceComponent(
   parentId: string,
   childId: string,
@@ -64,7 +46,6 @@ function createInstanceComponent(
 describe('componentAggregator', () => {
   describe('composePartInstances', () => {
     it('should compose part instances from multiple composed block instances', () => {
-      // Arrange
       const globalData: GlobalData = {
         entities: {
           blockInstance: [
@@ -88,10 +69,8 @@ describe('componentAggregator', () => {
         },
       }
       
-      // Act
       const result = composePartInstances(['block-1', 'block-2'], globalData)
       
-      // Assert
       expect(result).toHaveLength(4)
       expect(result).toContain('part-1')
       expect(result).toContain('part-2')
@@ -100,7 +79,6 @@ describe('componentAggregator', () => {
     })
 
     it('should deduplicate part instances when blocks share parts', () => {
-      // Arrange
       const globalData: GlobalData = {
         entities: {
           blockInstance: [
@@ -124,10 +102,8 @@ describe('componentAggregator', () => {
         },
       }
       
-      // Act
       const result = composePartInstances(['block-1', 'block-2'], globalData)
       
-      // Assert
       expect(result).toHaveLength(3) // part-1, part-2, part-3 (part-2 deduplicated)
       expect(result).toContain('part-1')
       expect(result).toContain('part-2')
@@ -135,7 +111,6 @@ describe('componentAggregator', () => {
     })
 
     it('should handle empty composed block IDs array', () => {
-      // Arrange
       const globalData: GlobalData = {
         entities: {
           blockInstance: [createBlockInstance('block-1', 'Block 1')],
@@ -153,16 +128,13 @@ describe('componentAggregator', () => {
         },
       }
       
-      // Act
       const result = composePartInstances([], globalData)
       
-      // Assert
       expect(result).toEqual([])
       expect(result).toHaveLength(0)
     })
 
     it('should skip block IDs that do not exist in globalData', () => {
-      // Arrange
       const globalData: GlobalData = {
         entities: {
           blockInstance: [createBlockInstance('block-1', 'Block 1')],
@@ -182,16 +154,13 @@ describe('componentAggregator', () => {
         },
       }
       
-      // Act
       const result = composePartInstances(['block-1', 'block-nonexistent'], globalData)
       
-      // Assert
       expect(result).toHaveLength(1)
       expect(result).toContain('part-1')
     })
 
     it('should handle blocks with no part instances', () => {
-      // Arrange
       const globalData: GlobalData = {
         entities: {
           blockInstance: [
@@ -205,7 +174,6 @@ describe('componentAggregator', () => {
         relationships: {
           partAssignments: [
             createPartAssignmentsRel('block-1', ['part-1']),
-            // block-2 has no partAssignments
           ],
           bookingCascades: [],
           instanceComponents: [],
@@ -215,16 +183,13 @@ describe('componentAggregator', () => {
         },
       }
       
-      // Act
       const result = composePartInstances(['block-1', 'block-2'], globalData)
       
-      // Assert
       expect(result).toHaveLength(1)
       expect(result).toContain('part-1')
     })
 
     it('should handle empty partAssignments relationships', () => {
-      // Arrange
       const globalData: GlobalData = {
         entities: {
           blockInstance: [createBlockInstance('block-1', 'Block 1')],
@@ -242,10 +207,8 @@ describe('componentAggregator', () => {
         },
       }
       
-      // Act
       const result = composePartInstances(['block-1'], globalData)
       
-      // Assert
       expect(result).toEqual([])
       expect(result).toHaveLength(0)
     })
@@ -253,18 +216,14 @@ describe('componentAggregator', () => {
 
   describe('getComponentsRecursive', () => {
     it('should get direct components that are not composers', () => {
-      // Arrange
       const instanceComponents: InstanceComponent[] = [
         createInstanceComponent('composer-1', 'component-1'),
         createInstanceComponent('composer-1', 'component-2'),
         createInstanceComponent('other-composer', 'component-3'),
       ]
       
-      // Act
       const result = getComponentsRecursive('composer-1', 'blockInstance', instanceComponents)
       
-      // Assert
-      // component-1 and component-2 are not composers (no children), so they're returned
       expect(result).toHaveLength(2)
       expect(result).toContain('component-1')
       expect(result).toContain('component-2')
@@ -272,19 +231,14 @@ describe('componentAggregator', () => {
     })
 
     it('should get recursive components when components are themselves composers', () => {
-      // Arrange
       const instanceComponents: InstanceComponent[] = [
         createInstanceComponent('composer-1', 'component-1'),
         createInstanceComponent('component-1', 'component-2'), // component-1 is also a composer
         createInstanceComponent('component-2', 'component-3'), // component-2 is also a composer
       ]
       
-      // Act
       const result = getComponentsRecursive('composer-1', 'blockInstance', instanceComponents)
       
-      // Assert
-      // Function returns only leaf components (components that are not composers themselves)
-      // component-1 and component-2 are composers, so only component-3 is returned
       expect(result).toHaveLength(1)
       expect(result).toContain('component-3')
       expect(result).not.toContain('component-1') // component-1 is a composer, not returned
@@ -292,32 +246,25 @@ describe('componentAggregator', () => {
     })
 
     it('should handle circular references by returning empty array', () => {
-      // Arrange
       const instanceComponents: InstanceComponent[] = [
         createInstanceComponent('composer-1', 'component-1'),
         createInstanceComponent('component-1', 'composer-1'), // Circular reference
       ]
       
-      // Act
       const result = getComponentsRecursive('composer-1', 'blockInstance', instanceComponents)
       
-      // Assert
-      // Should detect circular reference and return empty array
       expect(result).toEqual([])
     })
 
     it('should filter out disabled components', () => {
-      // Arrange
       const instanceComponents: InstanceComponent[] = [
         createInstanceComponent('composer-1', 'component-1', { disabled: false }),
         createInstanceComponent('composer-1', 'component-2', { disabled: true }),
         createInstanceComponent('composer-1', 'component-3', { disabled: false }),
       ]
       
-      // Act
       const result = getComponentsRecursive('composer-1', 'blockInstance', instanceComponents)
       
-      // Assert
       expect(result).toHaveLength(2)
       expect(result).toContain('component-1')
       expect(result).toContain('component-3')
@@ -325,45 +272,34 @@ describe('componentAggregator', () => {
     })
 
     it('should return empty array when composer has no components', () => {
-      // Arrange
       const instanceComponents: InstanceComponent[] = [
         createInstanceComponent('other-composer', 'component-1'),
       ]
       
-      // Act
       const result = getComponentsRecursive('composer-1', 'blockInstance', instanceComponents)
       
-      // Assert
       expect(result).toEqual([])
       expect(result).toHaveLength(0)
     })
 
     it('should handle empty instanceComponents array', () => {
-      // Arrange
       const instanceComponents: InstanceComponent[] = []
       
-      // Act
       const result = getComponentsRecursive('composer-1', 'blockInstance', instanceComponents)
       
-      // Assert
       expect(result).toEqual([])
       expect(result).toHaveLength(0)
     })
 
     it('should use visited set to prevent infinite loops', () => {
-      // Arrange
       const instanceComponents: InstanceComponent[] = [
         createInstanceComponent('composer-1', 'component-1'),
         createInstanceComponent('component-1', 'component-2'),
         createInstanceComponent('component-2', 'component-1'), // Creates cycle component-1 -> component-2 -> component-1
       ]
       
-      // Act
       const result = getComponentsRecursive('composer-1', 'blockInstance', instanceComponents)
       
-      // Assert
-      // When component-2 tries to recursively get component-1, it detects the circular reference
-      // (component-1 is already in visited set) and returns empty array
       // This causes component-2 to not be added (since it's a composer with no valid components)
       // So the result is empty (no leaf components found due to cycle)
       expect(result).toEqual([])
@@ -371,27 +307,17 @@ describe('componentAggregator', () => {
     })
 
     it('should handle complex nested component structure', () => {
-      // Arrange
       const instanceComponents: InstanceComponent[] = [
-        // composer-1 has component-1 and component-2
         createInstanceComponent('composer-1', 'component-1'),
         createInstanceComponent('composer-1', 'component-2'),
-        // component-1 has component-3 and component-4 (component-1 is a composer)
         createInstanceComponent('component-1', 'component-3'),
         createInstanceComponent('component-1', 'component-4'),
-        // component-2 has component-5 (component-2 is a composer)
         createInstanceComponent('component-2', 'component-5'),
-        // component-3 has component-6 (component-3 is a composer)
         createInstanceComponent('component-3', 'component-6'),
       ]
       
-      // Act
       const result = getComponentsRecursive('composer-1', 'blockInstance', instanceComponents)
       
-      // Assert
-      // Function returns only leaf components (not composers themselves)
-      // component-1, component-2, component-3 are composers, so not returned
-      // component-4, component-5, component-6 are leaf components
       expect(result).toHaveLength(3)
       expect(result).toContain('component-4')
       expect(result).toContain('component-5')

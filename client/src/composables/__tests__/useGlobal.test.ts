@@ -1,19 +1,9 @@
-/**
- * USE GLOBAL TESTS
- * 
- * Unit tests for useGlobal composable.
- * Tests singleton pattern, Vue Query integration, and entity retrieval functions.
- * Phase 4A: Core Composables
- */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { useGlobal } from '../useGlobal'
 import { useQuery } from '@tanstack/vue-query'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 
-// LEARNING: vi.hoisted() moves variable definitions to run BEFORE vi.mock() hoisting
-// WHY: vi.mock() is hoisted to top of file, so referenced variables must also be hoisted
-// PATTERN: Use vi.hoisted() for any variables used inside vi.mock() factory functions
 const { mockGlobalData, mockQueryData, mockUseQuery } = vi.hoisted(() => {
   // Create mock global data inline since we can't import factory in hoisted block
   const mockGlobalData = {
@@ -47,7 +37,6 @@ vi.mock('@tanstack/vue-query', () => ({
   useQuery: mockUseQuery,
 }))
 
-// Mock transformer
 vi.mock('@/utils/transformers/fetchToGlobalTransformer', () => ({
   globalTransformer: {
     stageForHydration: vi.fn().mockResolvedValue({}),
@@ -58,18 +47,15 @@ vi.mock('@/utils/transformers/fetchToGlobalTransformer', () => ({
 describe('useGlobal', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Reset mock to default behavior
     mockUseQuery.mockReturnValue({
       data: mockQueryData,
     })
-    // Reset singleton
     if ((window as any).__useGlobalDebug) {
       (window as any).__useGlobalDebug.reset()
     }
   })
 
   afterEach(() => {
-    // Reset singleton
     if ((window as any).__useGlobalDebug) {
       (window as any).__useGlobalDebug.reset()
     }
@@ -93,14 +79,11 @@ describe('useGlobal', () => {
     })
 
     it('should track instance count', () => {
-      // LEARNING: The debug interface may not be available in all environments
-      // WHY: useGlobal may not expose __useGlobalDebug in production/test builds
       // PATTERN: Test singleton behavior through repeated calls instead
       const instance1 = useGlobal()
       const instance2 = useGlobal()
       const instance3 = useGlobal()
       
-      // All calls should return the same instance (singleton behavior)
       expect(instance1).toBe(instance2)
       expect(instance2).toBe(instance3)
     })
@@ -119,12 +102,10 @@ describe('useGlobal', () => {
     })
 
     it('should return empty array when globalData is null', () => {
-      // Reset singleton first
       if ((window as any).__useGlobalDebug) {
         (window as any).__useGlobalDebug.reset()
       }
       
-      // Mock null globalData
       mockUseQuery.mockReturnValueOnce({
         data: { value: null },
       })
@@ -136,12 +117,10 @@ describe('useGlobal', () => {
     })
 
     it('should return empty array when entities are missing', () => {
-      // Reset singleton first
       if ((window as any).__useGlobalDebug) {
         (window as any).__useGlobalDebug.reset()
       }
       
-      // Mock empty entities
       mockUseQuery.mockReturnValueOnce({
         data: { value: { entities: {} } },
       })
@@ -185,20 +164,16 @@ describe('useGlobal', () => {
     it('should handle string ID comparison', () => {
       const { getGlobalEntityById } = useGlobal()
       
-      // Test with numeric string ID
       const entity = getGlobalEntityById('blockInstance', '1')
       
-      // Should handle string comparison correctly
       expect(entity).toBeDefined()
     })
 
     it('should return undefined when globalData is null', () => {
-      // Reset singleton first
       if ((window as any).__useGlobalDebug) {
         (window as any).__useGlobalDebug.reset()
       }
       
-      // Mock null globalData
       mockUseQuery.mockReturnValueOnce({
         data: { value: null },
       })
@@ -222,12 +197,10 @@ describe('useGlobal', () => {
     })
 
     it('should return null when globalData is null', () => {
-      // Reset singleton first
       if ((window as any).__useGlobalDebug) {
         (window as any).__useGlobalDebug.reset()
       }
       
-      // Mock null globalData
       mockUseQuery.mockReturnValueOnce({
         data: { value: null },
       })
@@ -239,13 +212,10 @@ describe('useGlobal', () => {
     })
 
     it('should return null when globalData value is undefined', () => {
-      // Reset singleton first
       if ((window as any).__useGlobalDebug) {
         (window as any).__useGlobalDebug.reset()
       }
       
-      // LEARNING: useQuery always returns a ref for data, but its value can be undefined
-      // WHY: When query hasn't loaded yet or is loading, data.value is undefined
       // PATTERN: Test realistic scenarios - undefined value, not null ref
       mockUseQuery.mockReturnValueOnce({
         data: { value: undefined },

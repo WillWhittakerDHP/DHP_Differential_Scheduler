@@ -26,7 +26,6 @@
 
 import { describe, it, expect, vi } from 'vitest'
 
-// Mock the Vue components to avoid importing actual .vue files in tests
 vi.mock('@/components/booking/steps/ServiceSelectionStep.vue', () => ({
   default: { name: 'ServiceSelectionStep' }
 }))
@@ -104,10 +103,8 @@ describe('wizardStepContent', () => {
           getBookingWizardStepContent(4),
         ]
         
-        // All steps should have components
         expect(stepComponents.every(c => c !== null)).toBe(true)
         
-        // Components should be in expected order
         const componentNames = stepComponents.map(c => (c as { name: string }).name)
         expect(componentNames).toEqual([
           'ServiceSelectionStep',

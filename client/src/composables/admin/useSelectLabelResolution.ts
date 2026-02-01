@@ -15,21 +15,12 @@ import type { FieldContextType } from '@/composables/useFieldContext'
 import type { GlobalEntity } from '@/types/entities'
 
 export interface UseSelectLabelResolutionOptions {
-  /**
-   * Field context containing label and entity information
-   */
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   
-  /**
-   * Current entity for resolving placeholders
-   */
   currentEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
 }
 
 export interface UseSelectLabelResolutionReturn {
-  /**
-   * Resolved label with placeholders replaced
-   */
   resolvedLabel: ComputedRef<string>
 }
 
@@ -52,20 +43,16 @@ export function useSelectLabelResolution(
   const resolvedLabel = computed(() => {
     const rawLabel = fieldContext.displayConfig.label || ''
     
-    // Check if label contains the {blockShapeName} placeholder
     if (!rawLabel.includes('{blockShapeName}')) {
       return rawLabel
     }
     
-    // Get the block shape name from the current entity
     const entity = currentEntity.value
     if (!entity) return rawLabel
     
-    // Get blockShapeRef from entity - it's stored as a string ID reference
     const blockShapeRef = getEntityFieldValue(entity, 'blockShapeRef') as string | undefined
     if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
     
-    // Look up the block shape entity to get its name
     const blockShape = adminComp.getEntity('blockShape', blockShapeRef)
     const shapeName = blockShape?.name as string || 'Instance'
     

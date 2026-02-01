@@ -26,8 +26,6 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
 
   const slots: SelectedTimeSlot[] = []
 
-  // Add major slot
-  // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
   const majorEventName = 'Major' // TODO: Get from availabilitySettings
   const majorTimeRange = params.selectedSlot.eventTimeRanges?.[majorEventName]
   if (majorTimeRange) {
@@ -38,8 +36,6 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
     })
   }
 
-  // Add minor slot if different from major
-  // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
   const minorEventName = 'Minor' // TODO: Get from availabilitySettings
   const minorTimeRange = params.selectedSlot.eventTimeRanges?.[minorEventName]
   if (minorTimeRange && 

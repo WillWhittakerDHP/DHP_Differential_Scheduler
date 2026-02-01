@@ -21,11 +21,9 @@ export class AdminRelationshipMetadata extends Model<
   declare entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance';
   declare entityId: string;
   declare relationshipKey: string;
-  // Canonical properties
   declare dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   declare label: string;
   declare isRequired: boolean;
-  // Layout/rendering properties
   declare visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
@@ -34,9 +32,7 @@ export class AdminRelationshipMetadata extends Model<
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
-  // Input configuration (for select/multiselect/reference fields)
   declare inputConfig: CreationOptional<Record<string, unknown> | null>;
-  // Inheritance
   declare inheritsFromEntityType: CreationOptional<'blockShape' | 'partShape' | null>;
   declare inheritsFromEntityId: CreationOptional<string | null>;
   declare createdAt: CreationOptional<Date>;
@@ -70,7 +66,6 @@ export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {
         field: 'relationship_key',
         comment: 'Relationship name/key (e.g., partAssignments, validCascades)',
       },
-      // Canonical properties
       dataType: {
         type: DataTypes.ENUM('string', 'number', 'boolean', 'ternary', 'array', 'reference'),
         allowNull: false,
@@ -89,7 +84,6 @@ export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {
         field: 'is_required',
         comment: 'Whether relationship field is required',
       },
-      // Layout/rendering properties
       visibility: {
         type: DataTypes.ENUM('titleRow', 'staticAsTitle', 'expandedDirect', 'expandedPanel', 'hidden', 'notConfigured'),
         allowNull: false,
@@ -146,7 +140,6 @@ export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {
         field: 'input_config',
         comment: 'Input configuration for relationship fields (selectMode, groupByKey, etc.)',
       },
-      // Inheritance
       inheritsFromEntityType: {
         type: DataTypes.STRING,
         allowNull: true,

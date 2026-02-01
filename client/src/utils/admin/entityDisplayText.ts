@@ -32,22 +32,10 @@ const ENTITY_TYPE_LABELS: Record<GlobalEntityKey, string> = {
   annotationInstance: 'Annotation Instances',
 }
 
-/**
- * Get entity type name (singular, PascalCase)
- * LEARNING: Config-driven instead of if/else chain
- * WHY: Eliminates hardcoding, single source of truth
- * PATTERN: Lookup from config record
- */
 export function getEntityTypeName(entityKey: GlobalEntityKey): string {
   return ENTITY_TYPE_NAMES[entityKey] ?? entityKey
 }
 
-/**
- * Get entity type label (plural form for admin UI)
- * LEARNING: Config-driven instead of if/else chain
- * WHY: Eliminates hardcoding, single source of truth
- * PATTERN: Lookup from config record
- */
 export function getEntityTypeLabel(entityKey: GlobalEntityKey): string {
   return ENTITY_TYPE_LABELS[entityKey] ?? entityKey
 }

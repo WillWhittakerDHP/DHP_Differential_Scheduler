@@ -76,15 +76,12 @@ export function useInstanceDragAndDrop(
    */
   watch(mainInstancesByShape, (instancesMap) => {
     instancesMap.forEach((instances, blockShapeId) => {
-      // Create refs if they don't exist
       if (!blockInstancesLists.value.has(blockShapeId)) {
         blockInstancesLists.value.set(blockShapeId, ref([...instances]))
         blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map(i => String(i.id))))
         
-        // Create computed for filtered instances for this group
         const filteredInstances = computed(() => mainInstancesByShape.value.get(blockShapeId) || [])
         
-        // Create drag handlers for this group
         const dragHandlers = useEntityDragHandlers({
           entityIds: blockInstanceIdsMap.value.get(blockShapeId)!,
           entityList: blockInstancesLists.value.get(blockShapeId)!,
@@ -93,13 +90,11 @@ export function useInstanceDragAndDrop(
         })
         groupDragHandlers.value.set(blockShapeId, dragHandlers)
         
-        // Use entity tab state for array syncing (similar to ShapesTab pattern)
         useEntityTabState({
           filteredEntities: filteredInstances,
           dragHandlers
         })
       } else {
-        // Update existing refs and sync
         const handlers = groupDragHandlers.value.get(blockShapeId)
         if (handlers) {
           handlers.syncArrays()
@@ -122,7 +117,6 @@ export function useInstanceDragAndDrop(
     containers.forEach((container, blockShapeId) => {
       if (!container || !(container instanceof HTMLElement)) return
       
-      // Skip if already set up
       if (groupDragInstances.value.has(blockShapeId)) return
       
       const instancesList = blockInstancesLists.value.get(blockShapeId)
@@ -141,33 +135,22 @@ export function useInstanceDragAndDrop(
           
           const panelsRefForDrag = ref(panelsEl)
           
-          // Clean up previous instance if it exists
           const existingInstance = groupDragInstances.value.get(blockShapeId)
           if (existingInstance) {
             groupDragInstances.value.delete(blockShapeId)
           }
           
-          // LEARNING: Only initialize drag-and-drop if there are values
-          // WHY: Prevents "number of enabled nodes does not match number of values" error
-          //      when DOM nodes haven't been created yet or values array is empty
           // PATTERN: Check values array length before initializing drag-and-drop
           const instanceIdsArray = instanceIds.value
           if (!instanceIdsArray || instanceIdsArray.length === 0) return
           
-          // LEARNING: Verify DOM nodes exist and match values count
-          // WHY: Prevents "number of enabled nodes does not match number of values" error
-          //      when drag-and-drop initializes before DOM nodes are rendered
           // PATTERN: Count draggable nodes and ensure they match values array length
           const draggableClasses = [`draggable-instance-${blockShapeId}`, 'draggable-instance-item']
-          // LEARNING: Create draggable checker function to ensure consistency
-          // WHY: Use the same logic for counting nodes and determining draggability
           // PATTERN: Reuse the same checker function for both validation and drag-and-drop config
           const isDraggableChecker = createMultiClassDraggableChecker(draggableClasses)
           const enabledNodesCount = countDraggableNodes(panelsEl, isDraggableChecker)
           
           if (enabledNodesCount !== instanceIdsArray.length) {
-            // LEARNING: Wait for DOM to render before initializing
-            // WHY: DOM nodes haven't been created yet, need to wait for next render cycle
             // PATTERN: Skip initialization and let watcher retry on next update
             return
           }
@@ -175,11 +158,8 @@ export function useInstanceDragAndDrop(
           groupDragInstances.value.set(blockShapeId, dragAndDrop({
             parent: panelsRefForDrag,
             values: instanceIds, // LEARNING: Pass Ref, not plain array
-            // WHY: FormKit drag-and-drop needs a Ref to reactively track changes
             // PATTERN: Pass the Ref directly, not the .value
             group: `blockInstances-${blockShapeId}`,
-            // LEARNING: Use shared draggable checker function
-            // WHY: Eliminates duplication between useDragAndDrop and useInstanceDragAndDrop
             // PATTERN: Extract common logic to shared utility
             draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
             plugins: [animations()],
@@ -192,7 +172,6 @@ export function useInstanceDragAndDrop(
             },
           }))
         } catch (_error) {
-          // Failed to initialize drag-and-drop
         }
       })
     })
@@ -214,9 +193,7 @@ export function useInstanceDragAndDrop(
    */
   onBeforeUnmount(() => {
     isMounted.value = false
-    // Clear drag instances
     groupDragInstances.value.forEach(_instance => {
-      // Cleanup handled by drag-and-drop library
     })
     groupDragInstances.value.clear()
   })

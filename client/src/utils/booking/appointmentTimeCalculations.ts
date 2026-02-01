@@ -43,8 +43,6 @@ export function calculateAppointmentSlots(
     return []
   }
   
-  // LEARNING: Build AppointmentShape from block instances with optional events data
-  // WHY: Shape contains finalized parts and SlotShape (source of truth)
   // PATTERN: Use buildAppointmentShape to create shape, pass events data if available
   const shape = buildAppointmentShape(
     blockInstances, 
@@ -53,23 +51,16 @@ export function calculateAppointmentSlots(
     eventShapes,
     eventAssignmentsRelationships,
     partShapeById
-    // LEARNING: Removed 3 undefined arguments (validPartsRelationships, globalData)
-    // WHY: Function signature only accepts 8 parameters, not 9
     // PATTERN: Only pass required parameters, omit optional ones that aren't needed
   )
   
-  // LEARNING: Apply shape to start time if provided
-  // WHY: Creates AppointmentSlot with TimeRanges from SlotShape
   // PATTERN: Use applyShapeToTime to create slot
   if (baseStartTime) {
     const appointmentSlot = applyShapeToTime(shape, baseStartTime, 0, undefined, true, undefined, undefined)
     return [appointmentSlot]
   }
   
-  // LEARNING: Return slot without time ranges if no start time provided
-  // WHY: Some callers may only need the shape structure
   // PATTERN: Create minimal slot with shape reference
-  // Session Event Refactor: Use eventTimeRanges Record instead of hardcoded properties
   const appointmentSlot: AppointmentSlot = {
     buttonIndex: 0,
     isAvailable: true,
@@ -97,8 +88,6 @@ export function normalizeAppointmentSlotsByOrderIndex(appointmentSlots: Appointm
     return []
   }
   
-  // LEARNING: Sort by orderIndex
-  // WHY: Ensures correct order before normalization
   // PATTERN: Sort ascending by orderIndex
   // FIX: Handle orderIndex from index signature - check type before arithmetic
   const sorted = [...appointmentSlots].sort((a, b) => {
@@ -107,8 +96,6 @@ export function normalizeAppointmentSlotsByOrderIndex(appointmentSlots: Appointm
     return aIndex - bIndex
   })
   
-  // LEARNING: Reassign sequential orderIndex values
-  // WHY: Normalizes orderIndex to 0, 1, 2, ... for consistent UI positioning
   // PATTERN: Map over sorted array, assign index as orderIndex
   return sorted.map((appointmentSlot, index) => ({
     ...appointmentSlot,

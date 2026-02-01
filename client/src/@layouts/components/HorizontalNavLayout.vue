@@ -2,8 +2,6 @@
 import { HorizontalNav } from '@layouts/components'
 import type { HorizontalNavItems } from '@layouts/types'
 
-// ℹ️ Using import from `@layouts` causing build to hangup
-// import { useLayouts } from '@layouts'
 import { useLayoutConfigStore } from '@layouts/stores/config'
 
 defineProps<{
@@ -61,7 +59,6 @@ const configStore = useLayoutConfigStore()
     flex-direction: column;
 
     // // TODO(v2): Check why we need height in vertical nav & min-height in horizontal nav
-    // min-height: 100%;
     min-block-size: 100dvh;
 
     .layout-navbar-and-nav-container {
@@ -72,20 +69,9 @@ const configStore = useLayoutConfigStore()
       z-index: variables.$layout-horizontal-nav-layout-navbar-z-index;
       block-size: variables.$layout-horizontal-nav-navbar-height;
 
-      // ℹ️ For now we are not independently managing navbar and horizontal nav so we won't use below style to avoid conflicting with combo style of navbar and horizontal nav
-      // If we add independent style of navbar & horizontal nav then we have to add :not for avoiding conflict with combo styles
-      // .layout-navbar-sticky & {
-      //   @extend %layout-navbar-sticky;
-      // }
 
-      // ℹ️ For now we are not independently managing navbar and horizontal nav so we won't use below style to avoid conflicting with combo style of navbar and horizontal nav
-      // If we add independent style of navbar & horizontal nav then we have to add :not for avoiding conflict with combo styles
-      // .layout-navbar-hidden & {
-      //   @extend %layout-navbar-hidden;
-      // }
     }
 
-    // 👉 Navbar
     .navbar-content-container {
       @include mixins.boxed-content;
     }
@@ -104,8 +90,6 @@ const configStore = useLayoutConfigStore()
       }
     }
 
-    // 👉 Footer
-    // Boxed content
     .layout-footer {
       .footer-content-container {
         @include mixins.boxed-content;
@@ -113,7 +97,6 @@ const configStore = useLayoutConfigStore()
     }
   }
 
-  // If both navbar & horizontal nav sticky
   &.layout-navbar-sticky.horizontal-nav-sticky {
     .layout-navbar-and-nav-container {
       position: sticky;
@@ -129,20 +112,10 @@ const configStore = useLayoutConfigStore()
   }
 }
 
-// 👉 Horizontal nav nav
 .layout-horizontal-nav {
   z-index: variables.$layout-horizontal-nav-z-index;
 
-  // .horizontal-nav-sticky & {
-  //   width: 100%;
-  //   will-change: transform;
-  //   position: sticky;
-  //   top: 0;
-  // }
 
-  // .horizontal-nav-hidden & {
-  //   display: none;
-  // }
 
   .horizontal-nav-content-container {
     @include mixins.boxed-content(true);

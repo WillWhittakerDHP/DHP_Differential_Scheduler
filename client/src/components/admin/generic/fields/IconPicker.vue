@@ -121,7 +121,6 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<Emits>()
 
 // LEARNING: Use icon picker state composable for state management
-// WHY: Extracts state sync logic from component to composable
 // PATTERN: Composable handles icon selection state and prop syncing
 const iconPickerState = useIconPickerState({
   dialogOpen: computed(() => props.modelValue),
@@ -134,10 +133,6 @@ const {
   resetState
 } = iconPickerState
 
-// LEARNING: Filter icons based on search term
-// WHY: Users need to find icons quickly when there are many options
-// PATTERN: Computed property filters array based on search term
-// NOTE: Deduplicate icons to prevent Vue key warnings
 const filteredIcons = computed(() => {
   const icons = !searchTerm.value 
     ? tablerIcons 
@@ -149,14 +144,10 @@ const filteredIcons = computed(() => {
         )
       })()
   
-  // LEARNING: Deduplicate icons to prevent Vue duplicate key warnings
-  // WHY: If tablerIcons array has duplicates, Vue will warn about duplicate keys
   // PATTERN: Use Set to remove duplicates while preserving order
   return Array.from(new Set(icons))
 })
 
-// LEARNING: Handle dialog visibility changes
-// WHY: Reset search when dialog closes
 // PATTERN: Reset state on close via composable
 const handleDialogUpdate = (value: boolean) => {
   emit('update:modelValue', value)
@@ -165,18 +156,12 @@ const handleDialogUpdate = (value: boolean) => {
   }
 }
 
-// LEARNING: Handle icon selection
-// WHY: Users click icons to select them - auto-select and close
-// PATTERN: Emit selected icon immediately and close dialog
 const handleIconSelect = (icon: string) => {
   selectedIcon.value = icon
   emit('select', icon)
   emit('update:modelValue', false)
 }
 
-// LEARNING: Handle confirm button click (fallback for keyboard users)
-// WHY: Some users may prefer explicit confirmation
-// PATTERN: Emit event and close dialog
 const handleConfirm = () => {
   if (selectedIcon.value) {
     emit('select', selectedIcon.value)
@@ -184,9 +169,6 @@ const handleConfirm = () => {
   }
 }
 
-// LEARNING: Handle close button click
-// WHY: Close dialog without selecting
-// PATTERN: Emit update event
 const handleClose = () => {
   emit('update:modelValue', false)
 }

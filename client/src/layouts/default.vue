@@ -9,24 +9,19 @@ const DefaultLayoutWithVerticalNav = defineAsyncComponent(() => import('./compon
 
 const configStore = useConfigStore()
 
-// ℹ️ This will switch to vertical nav when define breakpoint is reached when in horizontal nav layout
-// Remove below composable usage if you are not using horizontal nav layout in your app
 switchToVerticalNavOnLtOverlayNavBreakpoint()
 
 const { layoutAttrs, injectSkinClasses } = useSkins()
 
 injectSkinClasses()
 
-// SECTION: Loading Indicator
 // LEARNING: Use layout loading composable
-// WHY: Extracts loading indicator watcher from layout component to composable
 // PATTERN: Composable handles loading indicator state and watchers
 const refLoadingIndicator = ref<LoadingIndicatorInstance | null>(null)
 
 const { isFallbackStateActive } = useLayoutLoading({
   refLoadingIndicator
 })
-// !SECTION
 </script>
 
 <template>
@@ -49,6 +44,5 @@ const { isFallbackStateActive } = useLayoutLoading({
 </template>
 
 <style lang="scss">
-// As we are using `layouts` plugin we need its styles to be imported
 @use "@layouts/styles/default-layout";
 </style>

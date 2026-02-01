@@ -17,9 +17,6 @@ import { useComponentEntity } from './useComponentEntity'
 import { useGlobal } from './useGlobal'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-/**
- * Component Distribution Composable Options
- */
 export interface UseComponentDistributionOptions {
   entityKey: GlobalEntityKey
   composerId: Ref<GlobalEntityId> | GlobalEntityId
@@ -27,17 +24,10 @@ export interface UseComponentDistributionOptions {
   newValue: Ref<number> | number
   distributionStrategy: Ref<string> | string
   manualValues?: Ref<Record<GlobalEntityId, number>> | Record<GlobalEntityId, number>
-  /**
-   * Modal open state (optional - if provided, will reset state when modal opens)
-   */
   modalOpen?: Ref<boolean>
 }
 
-/**
- * Component Distribution Composable Return Type
- */
 export interface UseComponentDistributionReturn {
-  // Computed properties
   preview: Ref<Array<{
     componentId: GlobalEntityId
     currentValue: number
@@ -45,7 +35,6 @@ export interface UseComponentDistributionReturn {
     change: number
   }>>
   
-  // Methods
   getCurrentValue: (componentId: GlobalEntityId) => number
   getComponentName: (componentId: GlobalEntityId) => string
   formatValue: (value: number) => string
@@ -70,7 +59,6 @@ export function useComponentDistribution(options: UseComponentDistributionOption
     modalOpen
   } = options
   
-  // Convert options to Refs if needed
   const composerId = isRef(composerIdOption) ? composerIdOption : computed(() => composerIdOption)
   const propertyKey = isRef(propertyKeyOption) ? propertyKeyOption : computed(() => propertyKeyOption)
   const newValue = isRef(newValueOption) ? newValueOption : computed(() => newValueOption)
@@ -83,7 +71,6 @@ export function useComponentDistribution(options: UseComponentDistributionOption
       : ref(manualValuesOption)
     : ref<Record<GlobalEntityId, number>>({})
   
-  // Initialize composables
   const componentEntity = useComponentEntity(entityKey)
   const { getGlobalData } = useGlobal()
   
@@ -132,7 +119,6 @@ export function useComponentDistribution(options: UseComponentDistributionOption
    * PATTERN: Empty function for consistency with component API
    */
   const updateManualPreview = (): void => {
-    // Preview updates automatically via computed property
   }
   
   /**
@@ -147,7 +133,6 @@ export function useComponentDistribution(options: UseComponentDistributionOption
       
       const composerIdValue = composerId.value
       const componentIds = componentEntity.getComponents(composerIdValue).map(ac => ac.childId)
-      // LEARNING: Use reduce to build object immutably instead of forEach with mutations
       // WHY: Functional approach avoids mutations, aligns with workspace rules
       // PATTERN: Reduce componentIds to object with current values, then merge with existing manualValues
       const newManualValues = componentIds.reduce<Record<GlobalEntityId, number>>((acc, componentId) => {
@@ -185,7 +170,6 @@ export function useComponentDistribution(options: UseComponentDistributionOption
    */
   const preview = computed(() => {
     if (distributionStrategy.value === 'manual') {
-      // Use manual values if set, otherwise use current values
       const globalData = getGlobalData()
       if (!globalData) return []
       
@@ -202,7 +186,6 @@ export function useComponentDistribution(options: UseComponentDistributionOption
       })
     }
     
-    // Use componentEntity's calculateDistributionPreview for other strategies
     return componentEntity.calculateDistributionPreview(
       composerId.value,
       propertyKey.value,

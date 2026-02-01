@@ -1,30 +1,11 @@
-/**
- * USEWIZARDNUMBERUPDATE TESTS
- * 
- * Unit tests for useWizardNumberUpdate composable.
- * Tests number field update for block instances.
- * 
- * What it covers:
- * - updateNumber: Update number in wizard state
- * 
- * How it works:
- * - Tests finding and updating instances in wizard arrays
- * - Tests fallback when wizard not provided
- * 
- * Dependencies:
- * - vitest for testing
- * - vue provide/inject for wizard context
- */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { ref } from 'vue'
 import * as vue from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Create mock function at module scope
 const mockInject = vi.fn()
 
-// Mock inject before importing the composable
 vi.mock('vue', async () => {
   const actual = await vi.importActual<typeof vue>('vue')
   return {
@@ -33,10 +14,8 @@ vi.mock('vue', async () => {
   }
 })
 
-// Import after mock
 import { useWizardNumberUpdate } from '../useWizardNumberUpdate'
 
-// Helper to create mock block instance
 function createInstance(id: string, number: number | null = null): BookingBlockInstance {
   return {
     id,

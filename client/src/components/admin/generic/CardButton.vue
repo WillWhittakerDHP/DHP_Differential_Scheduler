@@ -214,14 +214,9 @@ function handleClick(event: MouseEvent): void {
 </template>
 
 <style scoped lang="scss">
-// LEARNING: Base card button styling
-// WHY: Consistent button appearance across all types
-// PATTERN: Base styles with type-specific overrides
 .card-button {
   transition: all 0.2s ease;
   
-  // LEARNING: Absolute positioning for non-inline buttons
-  // WHY: Buttons positioned in corners need absolute positioning
   // PATTERN: Position classes with top/right/bottom/left values
   &.card-button-top-right {
     position: absolute;
@@ -247,7 +242,6 @@ function handleClick(event: MouseEvent): void {
     left: 0.75rem;
   }
   
-  // LEARNING: Expansion button specific styling
   // WHY: Expansion buttons need hover state and icon transition
   // PATTERN: Type-specific styling with hover effects
   &.card-button-expansion {
@@ -265,11 +259,8 @@ function handleClick(event: MouseEvent): void {
     }
   }
   
-  // LEARNING: Stacked button z-index override
-  // WHY: Stacked buttons need higher z-index (handled via inline style, but keep class for specificity)
   // PATTERN: Class for potential future styling needs
   &.card-button-stacked {
-    // Z-index handled via computed style binding
   }
 }
 </style>

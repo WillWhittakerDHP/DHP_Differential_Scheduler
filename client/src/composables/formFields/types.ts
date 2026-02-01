@@ -8,9 +8,6 @@ import type { useAdminConfig } from '@/composables/useAdminConfig'
 import type { FieldsByLayout } from '@/utils/forms/layoutFieldCategorization'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 
-/**
- * Form Fields Composable Options
- */
 export interface UseFormFieldsOptions {
   entityKey: GlobalEntityKey
   entityId: Ref<GlobalEntityId>
@@ -27,15 +24,7 @@ export interface UseFormFieldsOptions {
   adminConfig?: ReturnType<typeof useAdminConfig>
 }
 
-/**
- * Form Fields Composable Return Type
- * 
- * LEARNING: Unified return type for ALL entity types
- * WHY: No entity-type-specific code paths - single unified layout mechanism
- * PATTERN: All entities use same field categorization (inline/stacked)
- */
 export interface UseFormFieldsReturn {
-  // Field context management
   fieldContextCache: Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
   isFormReady: ComputedRef<boolean>
   fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
@@ -43,15 +32,12 @@ export interface UseFormFieldsReturn {
     fieldKey: FieldKey
   ) => FieldContextType<GE, FieldKey> | undefined
 
-  // BlockShape properties (for blockInstance - still needed for conditional logic)
   getBlockShapeProperties: () => { composable: boolean; canHaveParts: boolean }
   shouldShowPartInstances: Ref<boolean>
 
-  // Field categorization
   categorizeFieldsByLayout: (fields: GlobalFieldKey<GlobalEntityKey>[]) => FieldsByLayout
   getReadyFields: (fields: GlobalFieldKey<GlobalEntityKey>[]) => GlobalFieldKey<GlobalEntityKey>[]
 
-  // Unified field categorization (for ALL entity types)
   inlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
   stackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
   readyInlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>

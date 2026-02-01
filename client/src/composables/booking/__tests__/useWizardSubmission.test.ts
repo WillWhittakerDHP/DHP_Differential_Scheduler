@@ -30,7 +30,6 @@ import { ref } from 'vue'
 import { useWizardSubmission } from '../useWizardSubmission'
 import type { AppointmentRequest } from '@/types/appointment'
 
-// Mock appointment data
 function createMockAppointmentRequest(): AppointmentRequest {
   return {
     propertyId: 'property-1',
@@ -128,7 +127,6 @@ describe('useWizardSubmission', () => {
       const { handleSubmit } = createComposable()
       await handleSubmit()
 
-      // All steps 0-3 should be completed
       expect(completedSteps.value.size).toBe(4)
     })
   })
@@ -255,7 +253,6 @@ describe('useWizardSubmission', () => {
       await handleSubmit()
       expect(mockMutateAsync).toHaveBeenCalledTimes(1)
       
-      // Reset step for second submission
       activeStep.value = 3
       completedSteps.value.clear()
       

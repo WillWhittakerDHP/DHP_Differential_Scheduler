@@ -34,10 +34,8 @@ export function useComponentEntity<GE extends GlobalEntityKey>(entityKey: GE) {
   })
 
   return {
-    // Queries
     instanceComponents,
 
-    // Methods
     canBeComposed: domain.canBeComposed,
     getAvailableComponents: domain.getAvailableComponents,
     getComponents: domain.getComponents,
@@ -46,13 +44,11 @@ export function useComponentEntity<GE extends GlobalEntityKey>(entityKey: GE) {
     getComposedEntity: domain.getComposedEntity,
     calculateDistributionPreview: domain.calculateDistributionPreview,
 
-    // Mutations
     createComponent: actions.createComponent,
     addToComponent: actions.addToComponent,
     removeFromComponent: actions.removeFromComponent,
     updateComponentWithDistribution: actions.updateComponentWithDistribution,
 
-    // Mutation states
     isCreatingComponent: actions.isCreatingComponent,
     isAddingToComponent: actions.isAddingToComponent,
     isRemovingFromComponent: actions.isRemovingFromComponent,

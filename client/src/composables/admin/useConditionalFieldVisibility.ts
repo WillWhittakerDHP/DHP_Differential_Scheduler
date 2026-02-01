@@ -49,10 +49,8 @@ export function useConditionalFieldVisibility(
   const filteredFieldsByLocation = computed<FieldsByLocation>(() => {
     const base = fieldsByLocation.value
     
-    // Get form values for conditional checks
     const formValues = form.values
     
-    // Filter composite field: only show when BlockShape.composable === true
     const filteredDirectStacked = base.directStacked.filter(fieldKey => {
       if (String(fieldKey) === 'composite') {
         return isComposable.value === true
@@ -67,7 +65,6 @@ export function useConditionalFieldVisibility(
       return true
     })
     
-    // Filter instanceComponents: only show when composite=true AND composable=true
     const filteredRelationships = base.subPanels.relationships.filter(fieldKey => {
       if (String(fieldKey) === 'instanceComponents') {
         const compositeValue = formValues.composite === true

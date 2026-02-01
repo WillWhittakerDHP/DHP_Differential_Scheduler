@@ -11,21 +11,12 @@ import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardG
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
 export interface UseDynamicGridConfigOptions {
-  /**
-   * Base selection card config
-   */
   baseConfig: ComputedRef<SelectionCardConfig>
   
-  /**
-   * Item count for grid column calculation
-   */
   itemCount: ComputedRef<number>
 }
 
 export interface UseDynamicGridConfigReturn {
-  /**
-   * Selection card config with dynamic grid columns
-   */
   dynamicConfig: ComputedRef<SelectionCardConfig>
 }
 

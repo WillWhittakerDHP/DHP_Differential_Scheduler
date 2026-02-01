@@ -10,13 +10,6 @@ import { getIcon } from './iconMapper'
 import type { GlobalEntity } from '@/types/entities'
 import type { ComponentItem } from '@/components/booking/types/selectionCardTypes'
 
-/**
- * Extract components from a service's instanceComponents relationships
- * 
- * LEARNING: Pure function that extracts components from instanceComponents relationships
- * WHY: Can be used in both composables and components without reactivity concerns
- * PATTERN: Takes all required data as parameters, returns ComponentItem[]
- */
 export function extractInstanceComponents(params: {
   serviceId: string
   instanceComponentsRelationships: Array<{ childId: string }>
@@ -39,21 +32,17 @@ export function extractInstanceComponents(params: {
       const componentBlockInstance = getGlobalEntityById('blockInstance', ac.childId)
       if (!componentBlockInstance) return null
 
-      // Get blockShape to check if component's blockShape is composable
       const componentWithShapeRef = componentBlockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
       const componentBlockShape = getGlobalEntityById('blockShape', componentWithShapeRef.blockShapeRef)
       if (!componentBlockShape) return null
 
       const componentBlockShapeWithComposable = componentBlockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
-      // Only include components whose blockShape is composable
       if (componentBlockShapeWithComposable.composable !== true) return null
 
-      // Get icon for component
       const componentWithIcon = componentBlockInstance as GlobalEntity<'blockInstance'> & {
         icon?: string
       }
 
-      // Map icon
       const iconValue = componentWithIcon.icon || ''
       const mappedIcon = getIcon(iconValue)
 

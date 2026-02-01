@@ -1,12 +1,3 @@
-/**
- * USEAPPOINTMENTDATACOLLECTION TESTS
- * 
- * Unit tests for useAppointmentDataCollection.
- * Priority Score: 7.9 (Reliability: 9, ROI: 7, Independence: 9, Cognitive Load: 4)
- * 
- * Tests verify appointment data collection logic including validation,
- * property/user creation, quantity extraction, and snapshot generation.
- */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { ref } from 'vue'
@@ -14,9 +5,6 @@ import { useAppointmentDataCollection } from '../useAppointmentDataCollection'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData } from '../useAppointmentDataCollection'
 
-/**
- * Helper to create a BookingBlockInstance for testing
- */
 function createBookingBlockInstance(
   id: string,
   options: {
@@ -367,7 +355,6 @@ describe('useAppointmentDataCollection', () => {
       
       await collectAppointmentData()
       
-      // Should create client, agent, anotherClient, transactionManager, and seller
       expect(createUser.mutateAsync).toHaveBeenCalledTimes(5)
     })
 
@@ -622,7 +609,6 @@ describe('useAppointmentDataCollection', () => {
         selectedTimeSlots: null,
       })
       
-      // Test with propertyVersionId
       createProperty.mutateAsync.mockResolvedValueOnce({ propertyVersionId: 'version-1', id: 'property-1' })
       
       const { collectAppointmentData } = useAppointmentDataCollection({
@@ -638,7 +624,6 @@ describe('useAppointmentDataCollection', () => {
       const result1 = await collectAppointmentData()
       expect(result1?.propertyVersionId).toBe('version-1')
       
-      // Test fallback to id
       createProperty.mutateAsync.mockResolvedValueOnce({ id: 'property-2' })
       
       const result2 = await collectAppointmentData()

@@ -26,38 +26,17 @@ import type { FieldContextType } from '../useFieldContext'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 
-/**
- * Select Filtering Composable Options
- */
 export interface UseSelectFilteringOptions {
-  /**
-   * All entities to filter from
-   */
   allEntities: ComputedRef<GlobalEntity<GlobalEntityKey>[]>
   
-  /**
-   * Select config (direct format, relationship or type based on targetMode)
-   */
   selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
   
-  /**
-   * Current entity (for filtering logic)
-   */
   currentEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | undefined>
   
-  /**
-   * Option entity key (which entity type we're filtering)
-   */
   optionEntityKey: ComputedRef<GlobalEntityKey>
   
-  /**
-   * Field context
-   */
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   
-  /**
-   * Raw field value (for instanceComponents filtering)
-   */
   rawFieldValue: ReadonlyVueRef<unknown>
   
   /**
@@ -66,51 +45,22 @@ export interface UseSelectFilteringOptions {
    */
   isAnnotationAssignmentSelect: ComputedRef<boolean>
   
-  /**
-   * Whether this is an AttendeeSelect field
-   * LEARNING: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
-   */
   isAttendeeSelect: ComputedRef<boolean>
 }
 
-/**
- * Select Filtering Composable Return Type
- */
 export interface UseSelectFilteringReturn {
-  /**
-   * Filtered entities based on select config
-   */
   filteredEntities: ComputedRef<GlobalEntity<GlobalEntityKey>[]>
   
-  /**
-   * Whether this is an active child select (bookingCascades pattern)
-   */
   isActiveChildSelect: ComputedRef<boolean>
   
-  /**
-   * Whether this is a direct matching select (dependentInstances pattern)
-   */
   isDirectMatchingSelect: ComputedRef<boolean>
   
-  /**
-   * Parent type entity key (for active child selects)
-   */
   parentTypeEntityKey: ComputedRef<GlobalEntityKey | null>
   
-  /**
-   * Parent type reference (blockShapeRef/partShapeRef)
-   */
   parentTypeRef: ComputedRef<string | null>
   
-  /**
-   * Parent type entity (with relationships attached)
-   */
   parentTypeEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
   
-  /**
-   * Whether this is an AttendeeSelect field
-   * LEARNING: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
-   */
   isAttendeeSelect: ComputedRef<boolean>
 }
 
@@ -149,20 +99,16 @@ export function useSelectFiltering(
     }
     
     // LEARNING: Active child select pattern: parent type entity lookup
-    // WHY: When candidateParentKey is different from selectedParentKey, we're looking up a parent type entity
-    //      When candidateChildPath is empty, we're not doing direct matching
     // PATTERN: Check config properties to detect pattern, not field name
     const hasCandidateParentKey = 'candidateParentKey' in config && !!config.candidateParentKey
     const hasCandidateParentPath = 'candidateParentPath' in config && !!config.candidateParentPath
     const hasCandidateChildPath = 'candidateChildPath' in config && config.candidateChildPath && config.candidateChildPath.length > 0
     
-    // LEARNING: Active child select: candidateParentKey !== selectedParentKey AND candidateChildPath is empty
     // WHY: This pattern means we look up a parent type entity (e.g., blockShape) and filter by its valid children array
     // PATTERN: Config-driven detection instead of hardcoded field name check
     if (hasCandidateParentKey && hasCandidateParentPath && !hasCandidateChildPath) {
       const candidateParentKey = config.candidateParentKey as GlobalEntityKey
       const selectedParentKey = config.selectedParentKey as GlobalEntityKey
-      // Only apply if candidateParentKey is different from selectedParentKey (indicates parent type lookup)
       return candidateParentKey !== selectedParentKey
     }
     
@@ -181,7 +127,6 @@ export function useSelectFiltering(
     }
     
     // LEARNING: Direct matching pattern: both candidateParentPath and candidateChildPath have values
-    // WHY: This means we get a value from current entity (candidateParentPath) and match it against candidate's value (candidateChildPath)
     // PATTERN: Config-driven detection based on path configuration
     const hasCandidateParentPath = 'candidateParentPath' in config && config.candidateParentPath && config.candidateParentPath.length > 0
     const hasCandidateChildPath = 'candidateChildPath' in config && config.candidateChildPath && config.candidateChildPath.length > 0
@@ -189,14 +134,9 @@ export function useSelectFiltering(
     return Boolean(hasCandidateParentPath && hasCandidateChildPath)
   })
 
-  /**
-   * LEARNING: Get parent type entity key for active child selects
-   * WHY: For bookingCascades, need to get parent's type (blockShape) and its valid children
-   */
   const parentTypeEntityKey = computed<GlobalEntityKey | null>(() => {
     if (!isActiveChildSelect.value) return null
     
-    // LEARNING: Use candidateParentKey from config instead of hardcoding
     // WHY: Config-driven approach allows flexibility and matches relationship configs
     // PATTERN: Read from selectConfig.candidateParentKey
     const config = selectConfig.value
@@ -218,22 +158,18 @@ export function useSelectFiltering(
   const parentTypeRef = computed<string | null>(() => {
     if (!isActiveChildSelect.value) return null
     
-    // LEARNING: Use candidateParentPath from config instead of hardcoding
     // WHY: Config-driven approach matches relationship configs after phase 9 renaming
     // PATTERN: Read from selectConfig.candidateParentPath
     const config = selectConfig.value
     let typeRefKey: string
     
     if (config && 'candidateParentPath' in config && config.candidateParentPath && config.candidateParentPath.length > 0) {
-      // Use first path element (e.g., ["blockShapeRef"] -> "blockShapeRef")
       typeRefKey = config.candidateParentPath[0]
     } else {
       // Fallback to hardcoded logic (backward compatibility)
       typeRefKey = fieldContext.entityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
     }
     
-    // LEARNING: For existing entities, get from currentEntity
-    // WHY: Store is source of truth for existing entities
     if (currentEntity.value) {
       const refValue = getEntityFieldValue(currentEntity.value, typeRefKey)
       if (refValue) {
@@ -241,16 +177,12 @@ export function useSelectFiltering(
       }
     }
     
-    // LEARNING: For new entities (temp IDs), try to get from form values
-    // WHY: New entities don't exist in store yet, but form might have blockShapeRef
     // PATTERN: Check if entityId is temp ID, then try to access form values
     const entityIdString = String(fieldContext.entityId)
     const isTempEntity = entityIdString.startsWith('new-')
     
     if (isTempEntity || !currentEntity.value) {
       try {
-        // LEARNING: Try to get form instance from vee-validate context
-        // WHY: Form values contain blockShapeRef for new entities
         // PATTERN: Use useForm() without parameters to get current form context
         const form = useForm()
         if (form && form.values && typeof form.values === 'object') {
@@ -261,8 +193,6 @@ export function useSelectFiltering(
           }
         }
       } catch {
-        // LEARNING: Form might not be available in context - that's okay
-        // WHY: Not all fields have form context, so we gracefully handle this
         // PATTERN: Silently return null if form is not available
       }
     }
@@ -315,15 +245,10 @@ export function useSelectFiltering(
    */
   const filteredEntities = computed(() => {
     if (!selectConfig.value) {
-      // No config - return all entities (fallback)
       return allEntities.value
     }
     
-    // Special case: instanceComponents field - use component filtering logic
     if (composedEntityComposable && fieldContext.entityId) {
-      // LEARNING: Get current form value to include optimistically selected components
-      // WHY: Form value updates immediately when user selects/deselects, but query cache only updates after save
-      //      We need to show selected components in options even if they're not yet in the query cache
       // PATTERN: Read raw field value directly to avoid circular dependency (fieldValue depends on options)
       const currentFormValue = rawFieldValue.value
       const selectedComponentIdsFromForm = new Set(
@@ -334,37 +259,26 @@ export function useSelectFiltering(
             : []
       )
       
-      // Get available components from query cache (excludes current components)
       const availableComponents = composedEntityComposable.getAvailableComponents(fieldContext.entityId)
       
-      // LEARNING: Filter out components that are currently selected in the form
-      // WHY: If user just selected a component, it should disappear from available options immediately
-      //      even though it's not yet saved to the server
       // PATTERN: Filter available components to exclude those in form value
       const availableComponentsFiltered = availableComponents.filter(
         component => !selectedComponentIdsFromForm.has(component.id)
       )
       
-      // Get current components from query cache (already saved components)
       const currentComponents = composedEntityComposable.getComponents(fieldContext.entityId)
-      // LEARNING: ActiveComponent has childId property, not componentId
-      // WHY: getComponents() returns ActiveComponent[] which uses childId to reference the component entity
       const currentComponentIdsFromQuery = new Set(currentComponents.map(ea => ea.childId))
       
-      // LEARNING: Get entities for both query cache components and form-selected components
-      // WHY: Options must include all selected components (from query cache AND form) so chips can display them
       // PATTERN: Combine query cache components with form-selected components, deduplicate
       const allSelectedComponentIds = new Set([
         ...currentComponentIdsFromQuery,
         ...selectedComponentIdsFromForm
       ])
       
-      // Get entities for selected components (from both query cache and form)
       const selectedComponentEntities = allSelectedComponentIds.size > 0
         ? allEntities.value.filter((candidate) => allSelectedComponentIds.has(String(candidate.id)))
         : []
       
-      // Combine available (filtered) and selected components, deduplicate by ID using functional approach
       const allComponents = [...availableComponentsFiltered, ...selectedComponentEntities]
       const uniqueComponents = allComponents.reduce((map, component) => {
         if (!map.has(component.id)) {
@@ -376,24 +290,16 @@ export function useSelectFiltering(
       return Array.from(uniqueComponents.values())
     }
     
-    // Special case: bookingCascades/partAssignments
-    // Filter by parent's type's valid children
     if (isActiveChildSelect.value) {
-      // LEARNING: For new entities, parentTypeRef might come from form values
-      // WHY: New entities don't exist in store yet, but form has blockShapeRef
       // PATTERN: Check parentTypeRef (which checks form values) instead of just currentEntity
       const entityIdString = String(fieldContext.entityId)
       const isTempEntity = entityIdString.startsWith('new-')
       
-      // LEARNING: Only warn if it's not a temp entity (temp entities are expected to not exist)
-      // WHY: Temp entities don't exist in store - that's normal behavior
       // PATTERN: Skip warning for temp entities, only warn for existing entities that should exist
       if (!currentEntity.value && !isTempEntity) {
         return []
       }
       
-      // LEARNING: parentTypeRef can come from form values for temp entities
-      // WHY: For new entities, blockShapeRef is in form, not store
       // PATTERN: Check parentTypeRef (which checks form) and parentTypeEntity
       if (!parentTypeRef.value) {
         return []
@@ -403,18 +309,11 @@ export function useSelectFiltering(
         return []
       }
       
-      // Get valid children array from parent type entity
-      // For bookingCascades: blockShape.validCascades
-      // For partAssignments: blockShape.validParts (or partShape.validParts)
       const validChildrenKey = fieldKey.value === 'bookingCascades' ? 'validCascades' : 'validParts'
       
-      // LEARNING: Use type-safe property access with fallback
-      // WHY: Property might be undefined if relationships aren't attached yet
       // PATTERN: Check if property exists, use empty array as fallback
       const validChildrenRefs = getEntityFieldValue(parentTypeEntity.value, validChildrenKey)
       
-      // LEARNING: Check if relationship property exists and is valid
-      // WHY: Property might be undefined (not attached) or empty array (no relationships configured)
       // PATTERN: Distinguish between missing property (bug) vs empty array (expected)
       if (validChildrenRefs === undefined) {
         return []
@@ -428,12 +327,8 @@ export function useSelectFiltering(
         return []
       }
       
-      // Create Set for O(1) lookup
       const validChildrenSet = new Set(validChildrenRefs)
       
-      // Filter candidates where their typeRef matches one in valid children
-      // For blockInstance: check blockShapeRef
-      // For partInstance: check partShapeRef
       const candidateTypeRefKey = optionEntityKey.value === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
       
       const filtered = allEntities.value.filter((candidate) => {
@@ -446,7 +341,6 @@ export function useSelectFiltering(
     }
     
     // LEARNING: Direct matching pattern (e.g., dependentInstances)
-    // WHY: Filter candidates by matching their candidateChildPath value against current entity's candidateParentPath value
     // PATTERN: Get value from current entity, filter candidates by matching their path value
     if (isDirectMatchingSelect.value) {
       const config = selectConfig.value
@@ -461,18 +355,13 @@ export function useSelectFiltering(
         return allEntities.value
       }
       
-      // LEARNING: Get the path key from candidateParentPath (e.g., ["blockShapeRef"] -> "blockShapeRef")
-      // WHY: We need to access the property on the current entity
       // PATTERN: Use first path element as property key
       const parentPathKey = candidateParentPath[0]
       const childPathKey = candidateChildPath[0]
       
-      // LEARNING: Get current entity's value from candidateParentPath
-      // WHY: We need to match candidates against this value
       // PATTERN: Get from currentEntity or form (for temp entities), similar to parentTypeRef logic
       let currentEntityValue: string | null = null
       
-      // Try to get from currentEntity first (existing entities)
       if (currentEntity.value) {
         const refValue = getEntityFieldValue(currentEntity.value, parentPathKey)
         if (refValue) {
@@ -480,8 +369,6 @@ export function useSelectFiltering(
         }
       }
       
-      // LEARNING: For temp entities or if not found in store, try form values
-      // WHY: New entities don't exist in store yet, but form has the value
       // PATTERN: Check form values similar to parentTypeRef logic
       if (!currentEntityValue) {
         const entityIdString = String(fieldContext.entityId)
@@ -498,59 +385,42 @@ export function useSelectFiltering(
               }
             }
           } catch {
-            // Form might not be available - that's okay
           }
         }
       }
       
-      // LEARNING: If we don't have a value to match against, return empty array
-      // WHY: Can't filter without knowing what to match
       // PATTERN: Return empty array when value is not available
       if (!currentEntityValue) {
         return []
       }
       
-      // LEARNING: Filter candidates by matching their candidateChildPath value against current entity's value
-      // WHY: Only show candidates that match the current entity's path value (e.g., same blockShapeRef)
       // PATTERN: Filter allEntities by comparing path values
       const filtered = allEntities.value.filter((candidate) => {
-        // LEARNING: Exclude current entity itself from candidates
         // WHY: Can't select the same entity as a component of itself
         // PATTERN: Check entity ID to exclude self
         if (String(candidate.id) === String(fieldContext.entityId)) {
           return false
         }
         
-        // Get candidate's value from candidateChildPath
         const candidateValue = getEntityFieldValue(candidate, childPathKey)
         
-        // Match if candidate's value equals current entity's value
         return candidateValue && String(candidateValue) === currentEntityValue
       })
       
       return filtered
     }
     
-    // LEARNING: Annotations don't need filtering - all annotations are available
-    // WHY: Annotations are independent entities, not filtered by relationships
     // PATTERN: Return all annotation instances when AnnotationAssignmentSelect is detected
-    // LEARNING: Annotations are now core entities, no special filtering needed
     if (isAnnotationAssignmentSelect.value) {
       return allEntities.value
     }
     
-    // Get config once for reuse
     const config = selectConfig.value
     
-    // LEARNING: Attendee assignments filter BlockInstances by BlockShape.isStateControl === true
-    // WHY: Attendees are UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)
     // PATTERN: Filter BlockInstances by checking their BlockShape's isStateControl property
     if (isAttendeeSelect.value && optionEntityKey.value === 'blockInstance') {
-      // Get all block shapes to check isStateControl property
       const allBlockShapes = adminComp.getEntities('blockShape')
       
-      // LEARNING: Filter block shapes to only those with isStateControl === true
-      // WHY: UserTypeBlock instances belong to BlockShapes where isStateControl === true
       // PATTERN: Filter block shapes, then filter block instances by their blockShapeRef
       const stateControlBlockShapeIds = new Set(
         allBlockShapes
@@ -574,14 +444,12 @@ export function useSelectFiltering(
       return filtered
     }
     
-    // Apply filterOptions if provided
     if (config && 'filterOptions' in config && typeof config.filterOptions === 'function' && currentEntity.value) {
       return allEntities.value.filter((candidate) => 
         (config.filterOptions as (candidate: unknown, currentEntity: unknown) => boolean)(candidate, currentEntity.value)
       )
     }
     
-    // Type selects: No filtering needed
     const result = allEntities.value
     return result
   })

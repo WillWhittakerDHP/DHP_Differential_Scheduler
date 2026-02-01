@@ -92,20 +92,9 @@ const props = withDefaults(defineProps<Props>(), {
   showLabel: true
 })
 
-// LEARNING: Handle undefined fieldContext gracefully
-// WHY: Field context might not be created yet when component renders (e.g., during watch updates)
-// PATTERN: Template uses v-if="fieldContext" to handle undefined case
 const fieldContext = toRef(props, 'fieldContext')
 
-/**
- * LEARNING: Create modified field context with readOnly override
- * WHY: Allows parent components to dynamically control read-only state (e.g., make name field readonly when card is collapsed)
- * PATTERN: Use toRef to track readOnly prop reactively, create computed that properly tracks nested property changes
- * NOTE: Vue 3 best practice - ensure computed tracks all dependencies, including nested object properties
- */
-// LEARNING: Use toRef to track readOnly prop reactively
 // WHY: Vue 3 best practice - use toRef for prop tracking to ensure reactivity
-// PATTERN: toRef creates reactive reference to prop
 const readOnlyProp = toRef(props, 'readOnly')
 
 const effectiveFieldContext = computed(() => {
@@ -118,15 +107,12 @@ const effectiveFieldContext = computed(() => {
   // PATTERN: Read prop value in computed to establish reactivity dependency
   const readOnlyValue = readOnlyProp.value
   
-  // If readOnly prop is not provided, use original fieldContext
   if (readOnlyValue === undefined) {
     return fieldContext.value
   }
   
-  // LEARNING: Create new object reference with new displayConfig to ensure Vue tracks the change
   // WHY: Vue tracks object references - creating new objects ensures reactivity
   // PATTERN: Create new displayConfig object with readOnly override, then new fieldContext object
-  // NOTE: This ensures Vue detects the change in nested displayConfig.readOnly property
   // FIX: Preserve Refs when spreading - don't unwrap value Ref
   const originalDisplayConfig = fieldContext.value.displayConfig
   const newDisplayConfig: typeof originalDisplayConfig = {
@@ -134,14 +120,10 @@ const effectiveFieldContext = computed(() => {
     readOnly: readOnlyValue
   }
   
-  // LEARNING: Preserve Refs when creating new fieldContext object
-  // WHY: Spreading preserves object structure, but we need to ensure value Ref is preserved
   // PATTERN: Copy all properties - value Ref should be preserved by spread
-  // NOTE: JavaScript spread doesn't unwrap Refs, so value should remain a Ref
   return {
     ...fieldContext.value,
     displayConfig: newDisplayConfig
-    // NOTE: value Ref is preserved by spread - no need to explicitly set it
   }
 })
 
@@ -149,12 +131,7 @@ const fieldKey = computed(() => effectiveFieldContext.value?.fieldKey)
 const entityKey = computed(() => effectiveFieldContext.value?.entityKey)
 
 // LEARNING: Use unified field value composable
-// WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
-// PATTERN: Always use useFieldValue for accessing field values
-// LEARNING: Guard against undefined fieldContext
-// WHY: Field context might not be created yet when component renders
 // PATTERN: Only call composables if fieldContext exists
-// NOTE: Use original fieldContext for composables, not effectiveFieldContext (composables need the real context)
 if (fieldContext.value) {
   useFieldValue(fieldContext.value)
 }
@@ -176,15 +153,11 @@ let entityForMetadataLookup: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
 if (fieldContext.value) {
   entityForMetadataLookup = useFieldContextMetadataEntity(fieldContext.value)
 } else {
-  // Fallback when fieldContext is undefined - return computed that always returns null
-  // LEARNING: Match return type of useFieldContextMetadataEntity
   // WHY: Ensures type consistency between fallback and actual composable return
   // PATTERN: Use same ComputedRef type as composable
   entityForMetadataLookup = computed(() => null) as ComputedRef<GlobalEntity<GlobalEntityKey> | null>
 }
-// LEARNING: Use computed to return null when effectiveFieldContext is undefined
 // WHY: effectiveFieldContext can be undefined even when fieldContext exists (due to readOnly override)
-// PATTERN: Computed wrapper that checks effectiveFieldContext
 const entityForMetadata = computed(() => {
   if (!effectiveFieldContext.value) {
     return null
@@ -192,19 +165,10 @@ const entityForMetadata = computed(() => {
   return entityForMetadataLookup.value
 })
 
-// LEARNING: Removed premature warning from FieldRenderer
-// WHY: EntityCard already handles missing context warnings comprehensively with readiness gates
 // PATTERN: Let parent component (EntityCard) handle warnings - it has access to metadata loading state
-// NOTE: VAlert in template still shows when fieldContext is missing, but no console warning
 
-// LEARNING: Pass metadata to useFieldComponent if available
-// WHY: Avoids duplicate metadata loads when parent component already has metadata
-// PATTERN: Use provided metadata, otherwise let useFieldComponent load it
 const fieldMetadataRef = computed(() => props.fieldMetadata ?? {})
 
-// LEARNING: Removed debug console.trace
-// WHY: Field rendering is now working correctly with effect scopes and readiness gates
-// PATTERN: Remove debug logs once issues are resolved
 
 const fieldComponent = useFieldComponent({
   entityKey,
@@ -214,9 +178,6 @@ const fieldComponent = useFieldComponent({
 })
 
 
-// LEARNING: Determine collectionType for RelationshipCollection based on fieldKey
-// WHY: RelationshipCollection needs collectionType prop to customize behavior
-// PATTERN: Infer collectionType from fieldKey or use default
 const collectionType = computed(() => {
   const key = String(fieldKey.value)
   if (key.includes('annotation')) return 'annotations'
@@ -225,11 +186,6 @@ const collectionType = computed(() => {
   return 'parts' // default
 })
 
-// LEARNING: Component map for dynamic rendering based on componentType
-// WHY: Single source of truth for component type → component mapping
-// PATTERN: Map FieldComponent type to Vue component
-// NOTE: Using Component type to allow all Vue component types
-// NOTE: relationshipCollection type uses RelationshipCollection component
 const componentMap: Record<FieldComponent['type'], Component | null> = {
   icon: IconInput,
   primitive: PrimitiveInputs,
@@ -238,13 +194,9 @@ const componentMap: Record<FieldComponent['type'], Component | null> = {
   unknown: null
 }
 
-// LEARNING: Components that accept showLabel prop
-// WHY: Not all components accept showLabel (RelationshipCollection, PartsCollection don't)
-// PATTERN: Array of component types that accept the prop
 const componentsWithLabel: Array<FieldComponent['type']> = ['icon', 'primitive', 'select']
 
 // LEARNING: Use field renderer component composable
-// WHY: Extracts component rendering logic from component to composable
 // PATTERN: Composable provides component to render and validation computed properties
 const {
   componentToRender,
@@ -256,9 +208,6 @@ const {
   hasFieldContext: computed(() => !!effectiveFieldContext.value)
 })
 
-// LEARNING: Error logging for unknown component types
-// WHY: Comprehensive error logging helps diagnose failures with full context
-// PATTERN: Watch computed property that tracks when error UI should show
 watch(
   shouldShowError,
   (showError) => {
@@ -272,8 +221,6 @@ watch(
     const metadataEntry = fieldComponent.fieldMetadataEntry.value
     const reason = 'reason' in componentType ? componentType.reason : 'unknown'
     
-    // LEARNING: Log comprehensive diagnostic information to console
-    // WHY: Console logs provide full diagnostic data without cluttering UI
     // PATTERN: Structured error logging with all relevant context
     console.error('[FieldRenderer] Unknown input type detected', {
       location: 'FieldRenderer.vue',

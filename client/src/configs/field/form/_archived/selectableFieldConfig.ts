@@ -8,12 +8,8 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
-// LEARNING: GlobalAnnotationKey removed - annotations are now core entities
-// WHY: Annotations are now part of the unified entity system, not separate constants
-// import type { GlobalAnnotationKey } from '@/constants/annotations' // Removed - annotations are core entities
 import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '@/types/entity/formDataEnums'
 
-// Union of all possible field keys from child entities
 type ChildFieldKey = GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE> | GlobalFieldKey<typeof ENTITY_KEY_PART_INSTANCE> | GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE> | GlobalFieldKey<typeof ENTITY_KEY_PART_SHAPE>;
 
 export type RelationshipFieldType<
@@ -85,11 +81,6 @@ export type SelectableFieldType<
   | RelationshipFieldType<GE, GlobalRelationshipKey>
   | VirtualFieldType<GE>;
   
-// LEARNING: Union type that includes both field keys and annotation keys
-// WHY: Annotations aren't part of GlobalFieldKey but need to be configurable
-// PATTERN: Allow both field keys for selectable fields
-// LEARNING: GlobalAnnotationKey removed - annotations are now core entities
-// WHY: Annotations are part of the unified entity system, not separate constants
 type SelectableFieldKey<GE extends GlobalEntityKey> = GlobalFieldKey<GE>;
 
 export type SelectableFieldTypeSuite = {
@@ -234,7 +225,6 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
         selectMode: RelationshipSelectModeEnum.Multiple,
         placeholder: "Which block shapes are valid as children?",
         
-        // 🆕 Dependency impact configuration
         dependencyImpact: {
           affectedEntityKey: ENTITY_KEY_BLOCK_INSTANCE,
           affectedField: "bookingCascades", 
@@ -265,7 +255,6 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
         selectMode: RelationshipSelectModeEnum.Multiple,
         placeholder: "Which part shapes are valid as children?",
         
-        // 🆕 Dependency impact configuration
         dependencyImpact: {
           affectedEntityKey: ENTITY_KEY_PART_INSTANCE,
           affectedField: "partAssignments",

@@ -20,7 +20,6 @@ import { isDevModeEnabled } from '@/utils/env/devMode'
  * - rollback safely in `onError`
  */
 // LEARNING: Types used internally - not exported as they're not part of public API
-// WHY: These types are only used within this file for internal type safety
 type AnnotationAssignmentLike = {
   id: string
   blockInstanceId: string
@@ -81,7 +80,6 @@ function toAnnotationWithMetadata(
   annotation: AnnotationInstance,
   assignment: Pick<AnnotationAssignmentLike, 'orderIndex' | 'isDefault' | 'userTypeBlockBlockInstanceId'>
 ): AnnotationWithMetadata {
-  // Effective userTypeBlock: through-table override takes precedence.
   const effectiveUserTypeBlock = assignment.userTypeBlockBlockInstanceId ?? annotation.userTypeBlock
   return {
     ...annotation,

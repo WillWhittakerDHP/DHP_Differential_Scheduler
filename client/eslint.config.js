@@ -16,25 +16,19 @@ import security from 'eslint-plugin-security'
 import vueParser from 'vue-eslint-parser'
 
 export default tseslint.config(
-  // Base JavaScript recommended rules
   js.configs.recommended,
   
-  // Vue plugin configuration
   ...vue.configs['flat/essential'],
   
-  // TypeScript ESLint recommended rules
   ...tseslint.configs.recommended,
   
-  // Security plugin
   {
     plugins: {
       security,
     },
   },
   
-  // Configuration for Vue files
   // LEARNING: Vue files need vue-eslint-parser as the parser, with TypeScript parser for script blocks
-  // WHY: vue-eslint-parser handles Vue SFC syntax, then delegates to TypeScript parser for <script> blocks
   // PATTERN: Separate config block for Vue files with proper parser setup
   {
     files: ['**/*.vue'],
@@ -45,12 +39,10 @@ export default tseslint.config(
         ecmaVersion: 2020,
         sourceType: 'module',
         extraFileExtensions: ['.vue'],
-        // Include auto-imports type definitions
         extraFileExtensions: ['.vue'],
         project: false, // Don't require tsconfig for Vue files
       },
       globals: {
-        // Vue auto-imports (from unplugin-auto-import)
         ref: 'readonly',
         computed: 'readonly',
         watch: 'readonly',
@@ -63,7 +55,6 @@ export default tseslint.config(
         getCurrentInstance: 'readonly',
         useAttrs: 'readonly',
         useId: 'readonly',
-        // VueUse auto-imports
         useMagicKeys: 'readonly',
         useDropZone: 'readonly',
         useFileDialog: 'readonly',
@@ -83,9 +74,7 @@ export default tseslint.config(
         until: 'readonly',
         toRef: 'readonly',
         syncRef: 'readonly',
-        // Vue types
         PropType: 'readonly',
-        // Browser globals
         window: 'readonly',
         console: 'readonly',
         document: 'readonly',
@@ -111,13 +100,11 @@ export default tseslint.config(
         alert: 'readonly',
         confirm: 'readonly',
         fetch: 'readonly',
-        // Constants (from auto-imports)
         COOKIE_MAX_AGE_1_YEAR: 'readonly',
       },
     },
   },
   
-  // Configuration for TypeScript and JavaScript files
   {
     files: ['**/*.{js,mjs,cjs,ts}'],
     languageOptions: {
@@ -127,33 +114,17 @@ export default tseslint.config(
     },
   },
   
-  // Shared rules for all files
   {
     files: ['**/*.{js,mjs,cjs,ts,vue}'],
     rules: {
-      // Block imports from React app (client/) directory
-      // LEARNING: no-restricted-imports prevents importing from specific paths
       // WHY: This rule is now obsolete as migration is complete - client/ is the Vue app
       // PATTERN: Rule disabled as migration is complete
-      // 'no-restricted-imports': [
-      //   'error',
-      //   {
-      //     patterns: [
-      //       {
-      //         group: ['**/client/**', '**/client/*', 'client/**', 'client/*'],
       //         message: 'Importing from the React app (client/) is not allowed during Vue migration. Please migrate the code to client/ instead.',
-      //       },
-      //     ],
-      //   },
-      // ],
       
-      // Vue-specific rules
       'vue/multi-word-component-names': 'off', // Allow single-word component names
       'vue/no-v-html': 'warn', // Warn about v-html usage (security concern)
-      // Vuetify data tables use slot names like `#item.foo` (dot syntax). Allow that pattern.
       'vue/valid-v-slot': ['error', { allowModifiers: true }],
       
-      // TypeScript rules
       '@typescript-eslint/no-explicit-any': [
         'error',
         {
@@ -175,14 +146,11 @@ export default tseslint.config(
        * PATTERN: // PATTERN: Disable this rule as it doesn't provide value for our codebase patterns
        */
       'security/detect-object-injection': 'off',
-      // WHY: detect-non-literal-regexp can flag legitimate dynamic RegExp construction.
       //      We keep this as 'warn' to catch potential issues, but will add disable comments
-      //      for specific safe cases (e.g., controlled regex input in validators).
       'security/detect-non-literal-regexp': 'warn',
     },
   },
 
-  // Node scripts (generation / tooling)
   {
     files: ['scripts/**/*.{js,mjs,cjs}'],
     languageOptions: {
@@ -193,9 +161,6 @@ export default tseslint.config(
     },
   },
 
-  // Test files (Vitest)
-  // LEARNING: Tests have different ergonomic needs (Vitest globals, occasional `any`, `require` in legacy tests).
-  // WHY: Keeps production code strict while allowing tests to be readable and fast to write.
   {
     files: ['src/**/__tests__/**/*.{ts,tsx}', 'src/**/*.test.{ts,tsx}'],
     languageOptions: {
@@ -226,22 +191,14 @@ export default tseslint.config(
     },
   },
 
-  // View-only component rules
-  // LEARNING: These rules enforce separation of concerns by preventing logic in presentation components
   // WHY: Keeps components focused on rendering, moving business logic to composables
   // PATTERN: Apply stricter rules to components that should be view-only (adjust file patterns as needed)
-  // RESOURCE: https://eslint.vuejs.org/rules/no-restricted-syntax.html
   {
     files: [
       '**/*.view.vue',           // Files ending in .view.vue
       '**/presentation/**/*.vue', // Components in presentation/ directories
-      // Add more patterns here as needed, e.g.:
-      // '**/components/ui/**/*.vue',  // UI-only components
-      // '**/components/display/**/*.vue',  // Display components
     ],
     rules: {
-      // Prevent method calls in template expressions
-      // WHY: View-only components should display data, not execute logic
       'vue/no-restricted-syntax': [
         'error',
         {
@@ -258,12 +215,8 @@ export default tseslint.config(
         },
       ],
       
-      // Prevent this usage in templates
-      // WHY: Forces explicit property access, making dependencies clearer
       'vue/this-in-template': 'error',
       
-      // Flag unused methods/computed as errors
-      // WHY: Helps catch logic that shouldn't be in view-only components
       'vue/no-unused-properties': [
         'error',
         {
@@ -275,19 +228,9 @@ export default tseslint.config(
       // WHY: Async logic should be in composables, not components
       'vue/no-async-in-computed-properties': 'error',
       
-      // Prevent computed properties referenced in data
-      // WHY: Reduces complexity and intermixing of logic
       'vue/no-computed-properties-in-data': 'error',
     },
   },
   
-  // Ignore patterns
   {
     ignores: [
-      'dist/**',
-      'node_modules/**',
-      '*.config.js',
-      '*.config.ts',
-    ],
-  },
-)

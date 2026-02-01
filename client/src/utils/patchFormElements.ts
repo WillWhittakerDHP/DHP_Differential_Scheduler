@@ -1,6 +1,3 @@
-/**
- * Simple utility to set autocomplete on forms
- */
 
 import { AUTCOMPLETE_OFF } from './autocomplete'
 
@@ -31,6 +28,5 @@ export function patchFormElements(formElement: HTMLFormElement): void {
       }
     }
   } catch (error) {
-    // Failed to patch form elements
   }
 }

@@ -1,8 +1,3 @@
-/**
- * LEARNING: Form Data Enums - Field type and mode enumerations
- * WHY: Type-safe field type definitions for form configuration
- * PATTERN: Enum definitions matching React structure
- */
 
 enum FieldTypeEnum { 
   Primitive = "primitive",

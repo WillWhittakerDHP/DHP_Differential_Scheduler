@@ -45,28 +45,23 @@ export function composeProperty<T extends string | number | boolean | unknown[]>
   
   switch (strategy) {
     case COMPONENT_STRATEGIES.SUM:
-      // Sum numeric values
       return values.reduce((sum, val) => {
         const num = typeof val === 'number' ? val : 0
         return sum + num
       }, 0) as number
     
     case COMPONENT_STRATEGIES.MERGE: {
-      // Merge arrays (flatten and deduplicate)
       const merged = values.flat().filter((val, index, arr) => arr.indexOf(val) === index)
       return merged as T[]
     }
     
     case COMPONENT_STRATEGIES.FIRST:
-      // Use first non-undefined value
       return values.find(val => val !== undefined && val !== null) ?? values[0]
     
     case COMPONENT_STRATEGIES.EVERY:
-      // Boolean AND - all must be true
       return values.every(val => Boolean(val)) as boolean
     
     case COMPONENT_STRATEGIES.CUSTOM:
-      // Custom component (not implemented yet)
       return values[0]
     
     default:
@@ -95,7 +90,6 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
     return {}
   }
 
-  // Get all property keys from components using functional approach
   const propertyKeys = new Set(
     components.flatMap(component =>
       Object.keys(component).filter(key =>
@@ -104,22 +98,17 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
     )
   )
 
-  // Compose properties using functional approach
   const composed = Array.from(propertyKeys).reduce((acc, propertyKey) => {
-    // Get values from components
     let values: unknown[] = components
       .map((component) => (component as Partial<GlobalEntity<GE>>)[propertyKey as keyof GlobalEntity<GE>])
       .filter((val) => val !== undefined)
     
-    // Filter to composable values
     const composableValues = values.filter(isComposablePropertyValue)
     if (composableValues.length === 0) {
       return acc
     }
     
-    // Determine strategy from value type
     // LEARNING: Strategy determined from actual value types, not configuration
-    // WHY: Eliminates need for configuration object and prevents stale rules for removed properties
     // PATTERN: Check value type to determine appropriate composition strategy
     const firstValue = composableValues[0]
     let strategy: ComponentStrategy
@@ -137,7 +126,6 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
     // WHY: State control blockShapes (isStateControl: true) should not contribute to square footage accumulation
     // PATTERN: For baseSqFt sum operations on blockInstance, exclude components with isStateControl: true blockShapes
     if (propertyKey === 'baseSqFt' && entityKind === 'blockInstance' && strategy === COMPONENT_STRATEGIES.SUM && blockShapes) {
-      // Filter components to exclude those with isStateControl: true blockShapes (state control mode)
       const filteredComponents = components.filter(component => {
         const blockInstance = component as GlobalEntity<'blockInstance'>
         const blockShapeRef = getEntityFieldValue(blockInstance, 'blockShapeRef')
@@ -158,7 +146,6 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
         return !isStateControl
       })
       
-      // Re-get values from filtered components
       values = filteredComponents
         .map((component) => (component as Partial<GlobalEntity<GE>>)[propertyKey as keyof GlobalEntity<GE>])
         .filter((val) => val !== undefined)

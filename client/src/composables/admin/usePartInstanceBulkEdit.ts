@@ -29,48 +29,21 @@ export interface PartInstanceBulkEditData {
   [fieldKey: string]: number | null | undefined
 }
 
-/**
- * Part Instance Bulk Edit Composable Options
- */
 export interface UsePartInstanceBulkEditOptions {
-  /**
-   * Existing PartInstances to apply bulk edit to
-   */
   existingPartInstances: ComputedRef<GlobalEntity<'partInstance'>[]>
 }
 
-/**
- * Part Instance Bulk Edit Composable Return Type
- */
 export interface UsePartInstanceBulkEditReturn {
-  /**
-   * Bulk edit mode state
-   */
   bulkEditMode: ReturnType<typeof ref<boolean>>
   
-  /**
-   * Bulk edit form data
-   */
   bulkEditData: ReturnType<typeof ref<PartInstanceBulkEditData>>
   
-  /**
-   * Toggle bulk edit mode
-   */
   toggleBulkEditMode: () => void
   
-  /**
-   * Apply bulk edit to all PartInstances
-   */
   applyPartInstanceBulkEdit: () => Promise<void>
   
-  /**
-   * Handle bulk edit modal visibility update
-   */
   handleBulkEditModalUpdate: (value: boolean) => void
   
-  /**
-   * Handle bulk edit modal confirm event
-   */
   handleBulkEditConfirm: (data: PartInstanceBulkEditData) => void
 }
 
@@ -89,15 +62,11 @@ export function usePartInstanceBulkEdit(
   const { patchBulk } = useEntityCrud('partInstance')
   const { success, error: showError } = useNotification()
 
-  // LEARNING: Get first PartInstance for metadata fetching
-  // WHY: Use PartInstance metadata (which inherits from PartShape) to match what modal uses
   // PATTERN: Use PartInstance entity instead of PartShape for consistency with modal
   const firstPartInstanceForMetadata = computed(() => {
     return existingPartInstances.value[0] || null
   })
 
-  // LEARNING: Fetch field metadata using unified system
-  // WHY: Need to check which fields have bulkEdit: true
   // PATTERN: Use useEntityMetadata with PartInstance entity (matches modal)
   const { fieldMetadata: bulkEditFieldMetadata } = useEntityMetadata(
     'partInstance',
@@ -127,7 +96,6 @@ export function usePartInstanceBulkEdit(
   const toggleBulkEditMode = (): void => {
     bulkEditMode.value = !bulkEditMode.value
     if (!bulkEditMode.value) {
-      // Clear bulk edit data when exiting bulk edit mode
       bulkEditData.value = {
         baseTime: null,
         rateOverBaseTime: null,
@@ -151,22 +119,15 @@ export function usePartInstanceBulkEdit(
         return
       }
       
-      // LEARNING: Use PartInstance metadata already fetched at top level
-      // WHY: bulkEditFieldMetadata uses PartInstance which inherits from PartShape
       // PATTERN: Read from reactive ref, no need to look up PartShape separately
       const fieldMetadata = bulkEditFieldMetadata.value
       
-      // LEARNING: Get list of fields that are enabled for bulk edit
-      // WHY: Double-check that we only include fields with bulkEdit: true
       // PATTERN: Read from new metadata system to get authoritative list of bulk edit enabled fields
       const bulkEditEnabledFields = Object.keys(fieldMetadata).filter(fieldKey => {
         const metadata = fieldMetadata[fieldKey]
         return metadata?.bulkEdit === true
       })
       
-      // Filter to only include fields that:
-      // 1. Have non-null/undefined values
-      // 2. Are in the bulkEditEnabledFields list (have bulkEdit: true in config)
       const fieldsToUpdate = Object.fromEntries(
         Object.entries(bulkEditData.value).filter(([fieldKey, value]) => {
           if (value === null || value === undefined) {
@@ -193,8 +154,6 @@ export function usePartInstanceBulkEdit(
         ...fieldsToUpdate,
       }))
       
-      // LEARNING: Single bulk PATCH request instead of N individual PUT requests
-      // WHY: More efficient (1 request vs N requests), semantically correct (PATCH for partial updates)
       // PATTERN: Use patchBulk mutation for bulk updates
       await patchBulk(updates)
       success(`Updated ${instances.length} PartInstance(s)`)
@@ -225,12 +184,9 @@ export function usePartInstanceBulkEdit(
    */
   const handleBulkEditConfirm = (data: PartInstanceBulkEditData): void => {
     // LEARNING: Trust the data from modal since it's already filtered by PartInstance metadata
-    // WHY: Modal already filters based on PartInstance metadata with bulkEdit: true
     // PATTERN: Use data directly, but validate against metadata as safety check
     const fieldMetadata = bulkEditFieldMetadata.value
     
-    // Only include fields that have bulkEdit: true in config (safety check)
-    // LEARNING: Use reduce to build object immutably instead of forEach with mutations
     // WHY: Functional approach avoids mutations, aligns with workspace rules
     // PATTERN: Reduce entries to filtered object instead of mutating
     const filteredData = Object.entries(data).reduce<PartInstanceBulkEditData>((acc, [fieldKey, value]) => {

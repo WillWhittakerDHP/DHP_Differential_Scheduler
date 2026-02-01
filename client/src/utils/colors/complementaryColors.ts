@@ -21,7 +21,6 @@
  * PATTERN: Simple mapping object for color pairs
  */
 export const COMPLEMENTARY_COLOR_MAP: Record<string, string> = {
-  // Primary colors and their complements
   'secondary': 'info',      // Orange -> Blue
   'info': 'secondary',      // Blue -> Orange
   'yellow': 'purple',       // Yellow -> Purple
@@ -31,18 +30,9 @@ export const COMPLEMENTARY_COLOR_MAP: Record<string, string> = {
   'primary': 'secondary',   // Indigo -> Orange (closest complementary)
   'grey': 'grey',           // Grey stays grey (neutral)
   'brown': 'info',          // Brown -> Blue (complementary to brown/orange)
-  // Default fallback
   'default': 'grey',
 }
 
-/**
- * LEARNING: Get complementary color for a given color name
- * WHY: StatusButton override state needs complementary color
- * PATTERN: Lookup in map with fallback
- * 
- * @param color - Vuetify color name (e.g., 'success', 'secondary', 'info')
- * @returns Complementary color name
- */
 export function getComplementaryColor(color: string): string {
   return COMPLEMENTARY_COLOR_MAP[color] || COMPLEMENTARY_COLOR_MAP['default']
 }

@@ -11,9 +11,6 @@ import { inject, type Ref } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
 
-// LEARNING: Inject wizard instance from parent
-// WHY: Need access to wizard selections for summary display
-// PATTERN: Use inject to get provided wizard instance
 const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
@@ -22,18 +19,13 @@ if (!wizard) {
 import type { AvailabilityStepData } from '@/types/wizardStepData'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 
-// LEARNING: Inject step data from other steps
-// WHY: Need property and availability data for summary display
-// PATTERN: Inject provided step data refs
 // FIX: Use shared types from wizardStepData.ts and wizard.ts
 
 const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
 const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
 
-// Note: Debug logging removed - use Vue DevTools to inspect reactivity if needed
 
 // LEARNING: Use confirmation step data composable
-// WHY: Extracts data aggregation and fee calculation logic from component to composable
 // PATTERN: Composable aggregates wizard state and step data, calculates fees
 const {
   summaryData,
@@ -241,9 +233,6 @@ const {
 </template>
 
 <style scoped lang="scss">
-// LEARNING: Custom table styling matching Jose's design exactly
-// WHY: Removes default table borders and adjusts padding to match Jose's spacing
-// PATTERN: Deep selector to style VTable internals with exact spacing (0.75 spacing units)
 :deep(.summary-table) {
   tbody {
     tr {
@@ -264,17 +253,11 @@ const {
   }
 }
 
-// LEARNING: Large price display styling matching Jose's design
-// WHY: Makes the total fee prominently displayed with exact font size
-// PATTERN: Custom font size for large number display (3.75rem)
 .price-display {
   line-height: 1;
   font-size: 3.75rem !important;
 }
 
-// LEARNING: Final total section padding matching Jose's design
-// WHY: Matches Jose's py: 3.5 spacing exactly
-// PATTERN: Custom padding class (3.5 spacing units = 28px)
 .final-total-section {
   padding-top: 28px !important; // theme.spacing(3.5)
   padding-bottom: 28px !important; // theme.spacing(3.5)

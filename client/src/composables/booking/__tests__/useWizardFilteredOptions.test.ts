@@ -1,12 +1,3 @@
-/**
- * USEWIZARDFILTEREDOPTIONS TESTS
- * 
- * Unit tests for useWizardFilteredOptions.
- * Priority Score: 8.0 (Reliability: 10, ROI: 7, Independence: 8, Cognitive Load: 3)
- * 
- * Tests verify cascade filtering logic for wizard options,
- * including services, availability options, and property types.
- */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { ref } from 'vue'
@@ -14,9 +5,6 @@ import { useWizardFilteredOptions } from '../useWizardFilteredOptions'
 import type { BookingData, BookingBlockInstance, BookingBlockShape } from '@/utils/transformers/globalToBookingTransformer'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 
-/**
- * Helper to create a BookingBlockInstance for testing
- */
 function createBookingBlockInstance(
   id: string,
   options: {
@@ -46,9 +34,6 @@ function createBookingBlockInstance(
   }
 }
 
-/**
- * Helper to create a BookingBlockShape for testing
- */
 function createBookingBlockShape(
   id: string,
   options: {
@@ -63,9 +48,6 @@ function createBookingBlockShape(
   }
 }
 
-/**
- * Helper to create BookingData for testing
- */
 function createBookingData(options: {
   blockInstances?: BookingBlockInstance[]
   blockShapes?: BookingBlockShape[]
@@ -227,7 +209,6 @@ describe('useWizardFilteredOptions', () => {
         selectedPropertyTypeBlocks,
       })
       
-      // Should include cascade result (service-1) and preserve selected (service-2)
       expect(availableServices.value).toHaveLength(2)
       expect(availableServices.value.map(b => b.id)).toContain('service-1')
       expect(availableServices.value.map(b => b.id)).toContain('service-2')
@@ -379,7 +360,6 @@ describe('useWizardFilteredOptions', () => {
         selectedPropertyTypeBlocks,
       })
       
-      // Should only return Option blocks, not Property blocks
       expect(availableOptionTypeBlocks.value).toHaveLength(1)
       expect(availableOptionTypeBlocks.value[0].id).toBe('option-1')
       expect(availableOptionTypeBlocks.value.map(b => b.id)).not.toContain('property-1')
@@ -415,7 +395,6 @@ describe('useWizardFilteredOptions', () => {
         selectedPropertyTypeBlocks,
       })
       
-      // Should fallback to all Option blocks
       expect(availableOptionTypeBlocks.value).toHaveLength(2)
       expect(availableOptionTypeBlocks.value.map(b => b.id)).toContain('option-1')
       expect(availableOptionTypeBlocks.value.map(b => b.id)).toContain('option-2')
@@ -491,7 +470,6 @@ describe('useWizardFilteredOptions', () => {
         selectedPropertyTypeBlocks,
       })
       
-      // Should only return Property blocks, not Option blocks
       expect(availablePropertyTypeBlocks.value).toHaveLength(1)
       expect(availablePropertyTypeBlocks.value[0].id).toBe('property-1')
       expect(availablePropertyTypeBlocks.value.map(b => b.id)).not.toContain('option-1')
@@ -577,7 +555,6 @@ describe('useWizardFilteredOptions', () => {
         selectedPropertyTypeBlocks,
       })
       
-      // Should include options from both services
       expect(availableOptionTypeBlocks.value.map(b => b.id)).toContain('option-1')
       expect(availableOptionTypeBlocks.value.map(b => b.id)).toContain('option-2')
     })

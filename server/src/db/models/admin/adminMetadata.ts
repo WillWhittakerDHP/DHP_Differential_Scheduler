@@ -25,11 +25,9 @@ export class AdminMetadata extends Model<
   declare entityId: string; // Entity ID or sentinel UUID for global configs
   declare fieldKey: string; // Unified - replaces both fieldKey and relationshipKey
   declare blockShapeRef: CreationOptional<string | null>; // BlockShape ID for BlockShape-specific instance metadata
-  // Canonical properties
   declare dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
   declare label: string;
   declare isRequired: boolean;
-  // Layout/rendering properties
   declare visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
   declare layout: 'inline' | 'stacked';
   declare displayOrder: number;
@@ -37,7 +35,6 @@ export class AdminMetadata extends Model<
   declare statusButtonColor: CreationOptional<string | null>;
   declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
   declare bulkEdit: boolean;
-  // Input configuration (for select/multiselect/reference fields)
   declare inputConfig: CreationOptional<Record<string, unknown> | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -82,7 +79,6 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         field: 'block_shape_ref',
         comment: 'BlockShape ID for BlockShape-specific instance metadata (NULL = global config)',
       },
-      // Canonical properties
       dataType: {
         type: DataTypes.ENUM('string', 'number', 'boolean', 'ternary', 'array', 'reference'),
         allowNull: false,
@@ -101,7 +97,6 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         field: 'is_required',
         comment: 'Whether field is required',
       },
-      // Layout/rendering properties
       visibility: {
         type: DataTypes.ENUM('titleRow', 'staticAsTitle', 'expandedDirect', 'expandedPanel', 'hidden', 'notConfigured'),
         allowNull: false,

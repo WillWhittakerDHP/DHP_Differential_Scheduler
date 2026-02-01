@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// @ts-expect-error - shiki types may not be available, but module works at runtime
 import { getSingletonHighlighter } from 'shiki'
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 
@@ -19,8 +18,6 @@ const props = withDefaults(defineProps<Props>(), {
   noPadding: false,
 })
 
-// LEARNING: Cookie max age constant (1 year in seconds)
-// WHY: Reusable constant for cookie expiration
 const COOKIE_MAX_AGE_1_YEAR = 365 * 24 * 60 * 60
 
 const preferredCodeLanguage = useCookie<CodeLanguages>('preferredCodeLanguage', {

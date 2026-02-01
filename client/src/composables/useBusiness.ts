@@ -15,11 +15,6 @@ import { computed, type ComputedRef } from 'vue'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { businessTransformer, type BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
 
-/**
- * Business data cache key
- * LEARNING: Constant for cache key to ensure consistency
- * WHY: Prevents typos and makes refactoring easier
- */
 export const BUSINESS_DATA_QUERY_KEY = ['businessData'] as const
 
 /**

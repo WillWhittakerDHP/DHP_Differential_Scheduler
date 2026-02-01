@@ -142,11 +142,7 @@ void useEntityStatus({
   entityKey: props.entityKey,
   entity: computed(() => props.entity)
 })
-// NOTE: Entity status composable is initialized for potential future use (component badges, etc.)
-// The destructured values are intentionally not used in the current UI
 
-// NOTE: useAnnotationDisplay composable removed - annotation chips no longer displayed in card header
-// Annotations are shown in the Annotations sub-panel instead
 
 const adminConfig = useAdminConfig()
 const admin = useAdmin()
@@ -167,7 +163,6 @@ const logger = createLogger('EntityCard')
  * NOTE: Must be defined before titleFieldContext watch that uses it
  */
 const form = props.form || useForm({
-  // LEARNING: Initialize form with entity from props initially
   // WHY: Store sync composable will handle updating form when store entity loads
   // PATTERN: Initialize with props.entity, store sync will update when store entity is available
   initialValues: {
@@ -175,16 +170,10 @@ const form = props.form || useForm({
   }
 })
 
-// LEARNING: Explicitly set form values to ensure they're available immediately
-// WHY: Vee-Validate might not populate form.values immediately from initialValues
-//      Setting values explicitly ensures form.values is populated before field contexts are created
-// PATTERN: Use setValues to populate form.values synchronously
 if (!props.form) {
   form.setValues({
     ...props.entity,
   })
-  // LEARNING: EntityCard form initialization logs are opt-in only
-  // WHY: Reduces console noise - only log when explicitly enabled via VITE_DEBUG_SCOPES=EntityCard
   // PATTERN: Use isScopeExplicitlyEnabled to require explicit enabling
   if (isScopeExplicitlyEnabled('EntityCard')) {
     logger.debug('Form initialized', { 
@@ -202,7 +191,6 @@ if (!props.form) {
  * PATTERN: Composable handles all sync scenarios (ID change, initial load, field updates)
  * NOTE: Only sync if form wasn't provided by parent (parent handles sync in that case)
  */
-// LEARNING: Store sync is called for side effects (watch setup), result not needed
 // WHY: Composable sets up watchers, we don't need to use the return value
 // PATTERN: Call composable without storing result when only side effects are needed
 if (!props.form && !props.isNew) {
@@ -241,8 +229,6 @@ const entityCardComputed = useEntityCardComputed({
   isMetadataLoading
 })
 
-// LEARNING: Extract computed properties from composable
-// WHY: Use composable-provided computed properties instead of defining in component
 // PATTERN: Destructure computed properties from composable
 const { fieldKeys, isMetadataReady, entityName, isComposable } = entityCardComputed
 
@@ -262,13 +248,6 @@ const {
   filteredMetadata: props.fieldMetadata
 })
 
-/**
- * LEARNING: Create field contexts directly in EntityCard using useFormFields
- * WHY: Previously delegated to EntityFormContent, but that caused timing issues
- *      (template tried to render fields before EntityFormContent mounted)
- * PATTERN: Create field contexts at the same level where they're used
- * FIX: This eliminates the "Cannot read properties of undefined (reading 'fieldKey')" error
- */
 const formFields = useFormFields({
   entityKey: props.entityKey,
   entityId: computed(() => props.entity.id),
@@ -280,9 +259,6 @@ const formFields = useFormFields({
   adminConfig
 })
 
-// LEARNING: Log field context creation
-// WHY: Helps debug field rendering issues
-// PATTERN: Watch fieldsNeedingContexts to log when contexts are created
 watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
   if (fieldsNeedingContexts.length > 0) {
     logger.debug('Fields needing contexts', { 
@@ -293,9 +269,6 @@ watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
   }
 })
 
-// LEARNING: Form readiness computed property
-// WHY: Template uses isFormReady multiple times, computed wrapper provides cleaner API
-// PATTERN: Create computed property that accesses formFields.isFormReady
 const isFormReady = computed(() => formFields.isFormReady.value)
 
 /**
@@ -313,7 +286,6 @@ const { getFieldContext, fieldsMissingContexts } = useFieldContextManager({
 
 // LEARNING: isComposable is now provided by useEntityCardComputed composable
 // WHY: Extracted to composable to reduce component complexity
-// PATTERN: Use composable-provided computed property
 
 /**
  * LEARNING: Conditional field visibility filtering
@@ -329,7 +301,6 @@ const { filteredFieldsByLocation } = useConditionalFieldVisibility({
 
 // LEARNING: entityName is now provided by useEntityCardComputed composable
 // WHY: Extracted to composable to reduce component complexity
-// PATTERN: Use composable-provided computed property
 
 /**
  * LEARNING: Use entity card actions composable for save/reset/delete handlers
@@ -375,12 +346,9 @@ const unifiedSaveState = useEntityCardSaveState({
   entityKey: props.entityKey,
   entityId: String(props.entity.id),
   getEntityValues: () => {
-    // LEARNING: Get current entity values from store after save
-    // WHY: After save, entity is updated in store, so we use store entity for reset
     // PATTERN: Get entity from store (has latest saved values) or fall back to props.entity
     const savedEntity = props.isNew ? props.entity : (admin.getEntity(props.entityKey, props.entity.id) || props.entity)
     // LEARNING: Convert entity to Record<string, unknown> via unknown for type safety
-    // WHY: TypeScript requires explicit conversion through unknown when converting between incompatible types
     // PATTERN: Convert via unknown first, then to Record<string, unknown>
     return savedEntity as unknown as Record<string, unknown>
   }
@@ -402,10 +370,7 @@ const handleSave = async (): Promise<void> => {
   
   await _handleSave()
   
-  // LEARNING: Reset form with updated entity values from store after save
-  // WHY: After save, entity is updated in store, form should reflect the saved values
   // PATTERN: Wait for next tick to ensure store is updated, then get entity and reset form
-  // NOTE: Vue Query mutations update cache, but we wait a tick to ensure propagation
   await nextTick()
   
   if (!props.isNew) {
@@ -415,20 +380,17 @@ const handleSave = async (): Promise<void> => {
       throw new Error(`Saved entity not found after save: ${props.entityKey} ${props.entity.id}`)
     }
     
-    // Reset form with saved entity values to ensure fields display updated values
     form.resetForm({
       values: {
         ...savedEntity,
       }
     })
-    // Also use setValues to ensure fields sync immediately
     form.setValues({
       ...savedEntity,
     })
     logger.debug('Form reset after save', { entityId: props.entity.id })
   }
   
-  // Reset unified save state after successful save
   unifiedSaveState.resetSaveState()
 }
 
@@ -439,7 +401,6 @@ const handleSave = async (): Promise<void> => {
  */
 const handleUndo = (): void => {
   _handleUndo()
-  // Reset unified save state when undoing changes
   unifiedSaveState.resetSaveState()
 }
 
@@ -449,39 +410,23 @@ const handleUndo = (): void => {
  * PATTERN: Emit event instead of creating immediately - same pattern as create flow
  */
 const handleDuplicate = async (): Promise<void> => {
-  // Only allow duplication for block instances
   if (props.entityKey !== 'blockInstance') {
     return
   }
 
-  // Get current entity values (saved values, not form.values which may have unsaved changes)
   const currentEntity = props.entity as GlobalEntity<'blockInstance'>
   
-  // Emit duplicate event - parent will handle showing inline creation card
   emit('duplicate', currentEntity)
 }
 
-/**
- * LEARNING: Provide handleSave and isNew to child input components
- * WHY: Allows input components (like TextInput) to trigger full form save on Enter key
- *      when creating new entities, instead of just saving the individual field
- * PATTERN: Use provide/inject to pass parent methods to children
- */
 provide(ENTITY_CARD_SAVE_KEY, {
   handleSave,
   isNew: props.isNew,
   disableAutoSave: props.disableAutoSave
 })
 
-/**
- * LEARNING: Provide disableAutoSave flag to child input components
- * WHY: Allows field components to check if auto-save should be disabled (e.g., in bulk edit modals)
- * PATTERN: Use provide/inject to pass flag to children
- */
 provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
-// LEARNING: Delete dialog title - use composable function directly
-// WHY: Simple function call doesn't need computed wrapper
 // PATTERN: Call function directly in template when value doesn't need reactivity
 
 /**
@@ -491,10 +436,6 @@ provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
  */
 const titleRowFields = fieldLocation.titleRowFields
 
-// LEARNING: Title row event handling simplified
-// WHY: Use Vue event modifiers (@click.stop) directly in template
-//      Space bar handling is done in TextInput component's handleKeydown
-// PATTERN: No complex DOM traversal needed - event modifiers handle it declaratively
 
 /**
  * LEARNING: Expose methods and state for parent components (minimal API)
@@ -507,11 +448,9 @@ defineExpose({
   form,
   handleSave,
   // LEARNING: Expose readiness state for parent components (if needed for other purposes)
-  // WHY: Some parent components may need to check readiness for non-rendering purposes
   // PATTERN: Expose computed properties for external access
   isMetadataReady,
   isFormReady: formFields.isFormReady
-  // NOTE: titleRowFields and composedFieldMetadata no longer exposed - EntityCard renders them internally
 })
 </script>
 

@@ -8,9 +8,6 @@
  * with a unified FieldMetadataEntry that combines canonical and layout properties.
  */
 
-/**
- * Entity metadata type - used for admin_primitive_metadata table
- */
 export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance'
 
 /**
@@ -36,9 +33,6 @@ export interface FieldMetadataEntry {
   panel: 'none' | 'parts' | 'relationships' | 'annotations' | 'events'
   bulkEdit: boolean
   
-  // Input configuration (for select/multiselect/reference fields)
-  // LEARNING: JSONB column stores select behavior config (target entity/relationship, selectMode, groupByKey, etc.)
-  // WHY: Select fields need behavioral configuration beyond renderAs
   // PATTERN: Only populated for fields with renderAs: select|multiselect|reference, null otherwise
   inputConfig?: Record<string, unknown> | null
 }

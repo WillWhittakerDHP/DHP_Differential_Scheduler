@@ -10,16 +10,6 @@ import type { AvailabilitySettings, RangeConstraint } from '@/configs/availabili
 import type { OverlapConstraint, CapacityConstraint } from './constraintExtractors'
 import { extractRangeConstraints, extractOverlapConstraints, extractCapacityConstraints } from './constraintExtractors'
 
-/**
- * Ensure dateRange is set in rangeConstraints before extraction
- * LEARNING: Centralizes dateRange setup logic to eliminate duplication
- * WHY: DRY principle - single source of truth for dateRange constraint setup
- * PATTERN: Pure function that adds dateRange if missing
- * 
- * @param settings - Availability settings
- * @param dateRange - Date range to set in rangeConstraints
- * @returns Settings with dateRange in rangeConstraints
- */
 export function ensureDateRangeInSettings(
   settings: AvailabilitySettings,
   dateRange: { start: string; end: string }
@@ -37,15 +27,6 @@ export function ensureDateRangeInSettings(
   }
 }
 
-/**
- * Extract all constraints from availability settings
- * LEARNING: Centralizes constraint extraction logic to eliminate duplication
- * WHY: DRY principle - single source of truth for extracting all constraint types
- * PATTERN: Pure function that extracts range, overlap, and capacity constraints
- * 
- * @param settings - Availability settings
- * @returns Object with rangeConstraints, overlapConstraints, and capacityConstraints arrays
- */
 export function extractAllConstraints(
   settings: AvailabilitySettings
 ): {

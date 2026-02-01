@@ -1,10 +1,3 @@
-/**
- * USER ROUTER INTEGRATION TESTS
- * 
- * Integration tests for user router endpoints.
- * Tests GET, POST, PUT, PATCH, DELETE endpoints.
- * Phase 7: Remaining API Routes
- */
 
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import request from 'supertest'
@@ -12,7 +5,6 @@ import express, { Express } from 'express'
 import { UserRouter as userRouter } from '../userRouter'
 import { User } from '../../../../config/app'
 
-// Mock data controller
 jest.mock('../../../../routes/helpers/dataController', () => ({
   fetchAll: jest.fn(),
   fetchById: jest.fn(),

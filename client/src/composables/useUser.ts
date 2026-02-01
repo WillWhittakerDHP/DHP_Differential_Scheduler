@@ -54,7 +54,6 @@ type UseUserReturn = {
 export function useUser(): UseUserReturn {
   const { isLoading, error } = useBusiness()
   
-  // Use BusinessData collection CRUD for standardized operations
   const { create, update, patch, remove, fetchAll: baseFetchAll, fetchById } = useBusinessDataCollectionCrud<
     UserResponse,
     UserRequest,
@@ -72,7 +71,6 @@ export function useUser(): UseUserReturn {
     },
   })
 
-  // Wrap fetchAll to include loading state from useBusiness
   const fetchAll = {
     data: baseFetchAll.data,
     isLoading: computed(() => isLoading.value),

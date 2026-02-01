@@ -12,9 +12,6 @@ import type { GlobalEntityId } from '@/types/entities'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
 
-// LEARNING: Use scoped logger for controllable debug output
-// WHY: Prevents debug logs in production, allows scope-based filtering
-// PATTERN: createLogger(scope) provides debug/info/warn/error methods
 const logger = createLogger('availabilitySettings')
 
 /**
@@ -158,11 +155,6 @@ export interface BufferConfig {
  * PATTERN: Interface matching server-side adminSettings structure
  */
 export interface AvailabilitySettings {
-  /**
-   * Business hours per day of week (0 = Sunday, 6 = Saturday)
-   * LEARNING: Defines when appointments can be scheduled each day
-   * WHY: Allows different hours per day (e.g., shorter hours on weekends)
-   */
   businessHours: {
     0: DayHours // Sunday
     1: DayHours // Monday
@@ -173,11 +165,6 @@ export interface AvailabilitySettings {
     6: DayHours // Saturday
   }
   
-  /**
-   * Time slot increment in minutes
-   * LEARNING: Interval between available time slots
-   * WHY: Controls granularity of appointment times (15 min = slots at :00, :15, :30, :45)
-   */
   minuteIncrement: number
   
   /**
@@ -349,25 +336,13 @@ function isCacheValid(): boolean {
   return isValid
 }
 
-/**
- * Get availability settings from API
- * LEARNING: Fetches settings from business-settings API endpoint with TTL-based cache
- * WHY: Allows admin to configure settings without code changes, with automatic refresh
- * PATTERN: API call with error handling, TTL validation, explicit errors only
- * 
- * @returns Promise<AvailabilitySettings> - Settings from API
- * @throws Error if API fails or response is invalid
- */
 export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
-  // Check cache validity (TTL-based)
   if (cachedSettings && isCacheValid()) {
     return cachedSettings.settings
   }
   
-  // Cache miss or expired - fetch from API
 
   try {
-    // Fetch settings from API
     const response = await apiClient.get('/business-settings/availability_settings')
     
     if (response.data && response.data.setting_value) {
@@ -382,7 +357,6 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         throw new Error('minuteIncrement is required')
       }
       
-      // Extract business hours from rangeConstraints.businessHours.config.hours
       const businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig
       const businessHours = businessHoursConfig.hours
       
@@ -400,7 +374,6 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         differentialPerspectives: rawSettings.differentialPerspectives
       }
       
-      // Update cache with timestamp
       cachedSettings = {
         settings: convertedSettings,
         cachedAt: Date.now()
@@ -409,12 +382,10 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
       return convertedSettings
     }
     
-    // Invalid response - throw explicit error
     throw new Error('Invalid API response: missing setting_value or required fields')
   } catch (error) {
     logger.error('Failed to fetch settings from API', { error })
     
-    // Explicit error - no fallbacks
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
     throw new Error(`Failed to fetch availability settings: ${errorMessage}`)
   }

@@ -23,19 +23,9 @@ import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
 
-/**
- * Component props
- */
 interface Props {
-  /**
-   * Optional custom configuration
-   */
   config?: Partial<SelectionCardConfig>
   
-  /**
-   * Whether to show dependent instances
-   * LEARNING: When true, services with dependentInstances show nested children
-   */
   showDependentInstances?: boolean
 }
 
@@ -43,9 +33,6 @@ const props = withDefaults(defineProps<Props>(), {
   showDependentInstances: true
 })
 
-/**
- * Component emits
- */
 interface Emits {
   (e: 'toggle', id: string): void
   (e: 'toggleDependentOption', parentId: string, childId: string): void
@@ -53,23 +40,19 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-// LEARNING: Get wizard instance for state management
 const wizard = useBookingWizard()
 
-// LEARNING: Use instance display for icon mapping
 const { instancesWithDisplay } = useInstanceDisplay({
   instances: computed(() => wizard.availableServices.value),
   selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)
 })
 
-// LEARNING: Use instance selection config for layout
 const { selectionConfig } = useInstanceSelectionConfig({
   selectionType: 'stack',
   stateField: 'services',
   selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
 })
 
-// LEARNING: Merge custom config with defaults
 const mergedConfig = computed<SelectionCardConfig>(() => {
   const baseConfig = selectionConfig.value
   
@@ -87,27 +70,20 @@ const mergedConfig = computed<SelectionCardConfig>(() => {
   return baseConfig
 })
 
-// LEARNING: V-model bridge for single-select (radio UI, array storage)
 // WHY: UI behaves as single-select but stored as array for consistency
-// PATTERN: Replace array with single selection when new service is selected
 const selectedIds = computed<string[]>({
   get: () => wizard.selectedServiceTypeBlocks.value.map(s => s.id),
   set: (ids: string[]) => {
-    // Single-select behavior: replace array with new selection
-    // If empty array, clear selection
     if (ids.length === 0) {
       if (wizard.selectedServiceTypeBlocks.value.length > 0) {
-        // Clear selection by toggling the currently selected service
         wizard.toggleServiceTypeBlock(wizard.selectedServiceTypeBlocks.value[0], true)
       }
       return
     }
     
-    // Get the new service ID (should be single item for radio)
     const newId = ids[ids.length - 1] // Take last item if multiple (shouldn't happen with radio)
     const currentId = wizard.selectedServiceTypeBlocks.value[0]?.id
     
-    // Only update if selection changed
     if (newId !== currentId) {
       const service = wizard.availableServices.value.find(s => s.id === newId)
       if (service) {

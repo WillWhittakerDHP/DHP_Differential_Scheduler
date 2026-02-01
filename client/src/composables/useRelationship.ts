@@ -81,15 +81,12 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
   const isLoading = computed(() => false)
   const error = computed(() => undefined)
   
-  // LEARNING: Use shared mutation handler for refetching globalData
   // WHY: Eliminates duplication of common refetch pattern
   // PATTERN: Extract shared handler to utility function
   const refetchGlobalData = createRefetchGlobalDataHandler(queryClient)
   
-  // Refetch function that invalidates globalData
   const refetch = refetchGlobalData
   
-  // Mutation: Create relationship
   const createMutation = useMutation({
     mutationFn: async (payload: CreateRelationshipPayload) => {
       const response = await apiClient.post<FetchedRelationship>(endpoint, payload)
@@ -97,20 +94,15 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
     },
     onMutate: async (payload) => {
       // LEARNING: Optimistic update pattern for relationship creation
-      // WHY: Add relationship immediately for instant UI feedback
       // PATTERN: Cancel → Snapshot → Add relationship → Return context
-      // LEARNING: Use shared utility to cancel queries
-      // WHY: Eliminates duplication and combines multiple await calls
       // PATTERN: Extract shared query cancellation logic
       await cancelQueriesBeforeMutate(queryClient, [['globalData']])
       const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
 
-      // Get relationship config to determine parent/child entity types
       const { RELATIONSHIP_KEYS } = await import('@/constants/relationships')
       const config = RELATIONSHIP_KEYS[relationshipKey]
       if (!config) return { previousData }
 
-      // Optimistically add relationship to cache
       queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) => {
         if (!old) return old
 
@@ -118,7 +110,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
         const parentId = String(payload.parent_id)
         const childId = String(payload.child_id)
 
-        // Find parent and child entities from cache
         const parentEntity = old.entities[config.parentEntity]?.find((e) => String(e.id) === parentId)
         const childEntity = old.entities[config.childEntity]?.find((e) => String(e.id) === childId)
 
@@ -132,21 +123,17 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
           return old
         }
 
-        // Check if relationship already exists
         const existingRelIndex = currentRelationships.findIndex(
           (rel: GlobalRelationship) => rel.parent.id === parentId && rel.children.some((c: { id: string }) => c.id === childId)
         )
 
         if (existingRelIndex !== -1) {
-          // Relationship already exists, no change needed
           return old
         }
 
-        // Find or create GlobalRelationship for this parent
         const parentRelIndex = currentRelationships.findIndex((rel) => rel.parent.id === parentId)
         
         if (parentRelIndex === -1) {
-          // Create new GlobalRelationship for this parent
           const updatedRelationships = [
             ...currentRelationships,
             {
@@ -163,7 +150,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
             },
           }
         } else {
-          // Add child to existing GlobalRelationship
           const updatedRelationships = [...currentRelationships]
           updatedRelationships[parentRelIndex] = {
             ...updatedRelationships[parentRelIndex],
@@ -182,7 +168,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
       return { previousData }
     },
     onError: (_error: unknown, _payload: CreateRelationshipPayload, context: { previousData?: GlobalData } | undefined) => {
-      // LEARNING: Rollback optimistic relationship creation on error
       // WHY: If creation fails, restore previous cache state
       // PATTERN: Use context from onMutate to restore previous data
       if (context?.previousData) {
@@ -191,7 +176,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
     },
   })
   
-  // Mutation: Delete relationship
   const deleteMutation = useMutation({
     mutationFn: async ({ parentId, childId }: { parentId: GlobalEntityId; childId: GlobalEntityId }) => {
       const deleteEndpoint = getRelationshipByParentChildEndpoint(
@@ -203,15 +187,11 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
     },
     onMutate: async ({ parentId, childId }) => {
       // LEARNING: Optimistic update pattern for relationship deletion
-      // WHY: Remove relationship immediately for instant UI feedback
       // PATTERN: Cancel → Snapshot → Remove relationship → Return context
-      // LEARNING: Use shared utility to cancel queries
-      // WHY: Eliminates duplication and combines multiple await calls
       // PATTERN: Extract shared query cancellation logic
       await cancelQueriesBeforeMutate(queryClient, [['globalData']])
       const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
 
-      // Optimistically remove relationship from cache
       queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) => {
         if (!old) return old
 
@@ -219,11 +199,9 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
         const parentIdStr = String(parentId)
         const childIdStr = String(childId)
 
-        // Find GlobalRelationship for this parent
         const parentRelIndex = currentRelationships.findIndex((rel: GlobalRelationship) => rel.parent.id === parentIdStr)
 
         if (parentRelIndex === -1) {
-          // Relationship doesn't exist, no change needed
           return old
         }
 
@@ -231,7 +209,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
         const updatedChildren = parentRel.children.filter((child: { id: string }) => child.id !== childIdStr)
 
         if (updatedChildren.length === 0) {
-          // Remove entire GlobalRelationship if no children remain
           const updatedRelationships = currentRelationships.filter((_: GlobalRelationship, index: number) => index !== parentRelIndex)
           return {
             ...old,
@@ -241,7 +218,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
             },
           }
         } else {
-          // Update GlobalRelationship with remaining children
           const updatedRelationships = [...currentRelationships]
           updatedRelationships[parentRelIndex] = {
             ...parentRel,
@@ -260,7 +236,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
       return { previousData }
     },
     onError: (_error: unknown, _variables: { parentId: GlobalEntityId; childId: GlobalEntityId }, context: { previousData?: GlobalData } | undefined) => {
-      // LEARNING: Rollback optimistic relationship deletion on error
       // WHY: If deletion fails, restore previous cache state
       // PATTERN: Use context from onMutate to restore previous data
       if (context?.previousData) {
@@ -270,12 +245,10 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
   })
   
   return {
-    // State - return computed refs for reactivity
     relationships,
     isLoading,
     error,
     
-    // Actions
     create: async (payload: CreateRelationshipPayload) => {
       const result = await createMutation.mutateAsync(payload)
       return result

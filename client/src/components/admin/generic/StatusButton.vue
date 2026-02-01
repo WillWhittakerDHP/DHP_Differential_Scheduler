@@ -63,31 +63,22 @@ const isOverride = computed(() => {
   return props.isActive === 'override'
 })
 
-// LEARNING: Get complementary color for override state
 // WHY: Override state uses complementary color for visual distinction
-// PATTERN: Use complementary color mapping utility
 const complementaryColor = computed(() => {
   return getComplementaryColor(props.color)
 })
 
 // LEARNING: Determine chip color based on state
 // WHY: Different states need different colors for visual distinction
-// PATTERN: 'true' uses configured color, 'override' keeps original color for text/border (background handled by CSS), 'false' uses provided color
-// NOTE: Override state keeps original color so text and border remain original color, only background changes via CSS
 const chipColor = computed(() => {
-  // Always use original color - override state handles background separately via CSS
   return props.color
 })
 
 // LEARNING: Determine chip variant based on state
-// WHY: Variant provides visual distinction - flat (filled) for true and override, outlined for false
-// PATTERN: 'true' = flat (filled with configured color), 'override' = flat (filled with complementary color via CSS), 'false' = outlined
-// NOTE: Override uses 'flat' variant to keep button shape consistent, color change handled via CSS variables
 const chipVariant = computed(() => {
   if (props.isActive === false || props.isActive === 'false') {
     return 'outlined'
   }
-  // Both 'true' and 'override' use 'flat' variant - shape stays consistent
   return 'flat'
 })
 
@@ -103,13 +94,10 @@ interface Emits {
 const emit = defineEmits<Emits>()
 
 const handleClick = (event: Event) => {
-  // LEARNING: Don't emit click if disabled
-  // WHY: Disabled buttons should not trigger actions
   // PATTERN: Early return for disabled state
   if (props.disabled) {
     return
   }
-  // LEARNING: Emit click event to parent
   // WHY: Standard Vue pattern - parent handles the logic
   // PATTERN: Emit event, parent handles async operations
   emit('click', event)
@@ -117,9 +105,6 @@ const handleClick = (event: Event) => {
 </script>
 
 <style scoped lang="scss">
-// LEARNING: Position override icon absolutely to prevent layout width changes
-// WHY: Icon should not affect button width - only color changes, not size
-// PATTERN: Absolute positioning - icon overlays at right edge without affecting layout
 .status-button-override :deep(.v-chip__content) {
   position: relative;
 }
@@ -136,10 +121,7 @@ const handleClick = (event: Event) => {
 
 // LEARNING: Override state styling - less vibrant complementary background with original text/border
 // WHY: Override state should have original color text/border but complementary color background (less vibrant/opaque)
-// PATTERN: Use CSS custom properties to override background and text colors separately
-// NOTE: Using 0.35 opacity for less vibrant, less opaque appearance
 .status-button-override {
-  // Override background with less vibrant, less opaque complementary color
   &[data-complementary-color="info"] {
     background-color: rgba(var(--v-theme-info), 0.35) !important;
   }
@@ -165,7 +147,6 @@ const handleClick = (event: Event) => {
     background-color: rgba(var(--v-theme-grey), 0.35) !important;
   }
   
-  // Override text color to use original color (not the "on-{color}" variant)
   &[data-original-color="info"] {
     color: rgb(var(--v-theme-info)) !important;
     border-color: rgb(var(--v-theme-info)) !important;
@@ -199,10 +180,8 @@ const handleClick = (event: Event) => {
     border-color: rgb(var(--v-theme-grey)) !important;
   }
   
-  // Add border for override state (flat variant doesn't have border by default)
   border: 1px solid !important;
   
-  // Override icon color to match text
   .status-button-override-icon {
     color: inherit !important;
   }

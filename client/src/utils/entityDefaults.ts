@@ -18,14 +18,6 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('entityDefaults')
 
-/**
- * LEARNING: Get human-readable display name for entity type
- * WHY: Used in default name generation and user-facing messages
- * PATTERN: Config-driven mapping instead of switch statement
- * 
- * @param entityKey - The entity type key
- * @returns Human-readable display name for the entity type
- */
 const ENTITY_DISPLAY_NAMES: Record<GlobalEntityKey, string> = {
   blockInstance: 'Block Profile',
   blockShape: 'Block Shape',
@@ -75,42 +67,27 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
     return { orderIndex: 0 }
   }
 
-  // If metadata not loaded, log warning but continue
   if (!metadata || Object.keys(metadata).length === 0) {
     logger.warn(`Metadata not loaded for entityType: ${entityType}. Defaults may be incomplete.`)
   }
 
-  // LEARNING: Build defaults functionally using reduce instead of for-of loop with mutations
-  // WHY: Avoids object property mutations - builds object immutably
   // PATTERN: Start with orderIndex, then reduce metadata entries to build defaults object
   const baseDefaults: Record<string, ValidAdminValue> = { orderIndex: 0 }
 
-  // LEARNING: Iterate through metadata to build defaults dynamically
-  // WHY: No hardcoded field lists - automatically includes all fields from metadata
   // PATTERN: Use metadata dataType and isRequired to determine appropriate defaults
-  // LEARNING: Use reduce to build defaults object functionally
-  // WHY: Avoids object property mutations - builds object immutably
   // PATTERN: Reduce metadata entries to defaults object
   let defaults: Record<string, ValidAdminValue>
   try {
     defaults = Object.entries(metadata || {}).reduce((acc, [fieldKey, fieldMetadata]) => {
       const { dataType, isRequired } = fieldMetadata
 
-      // Skip if already set (e.g., orderIndex)
       if (fieldKey in acc) return acc
 
-      // LEARNING: Set defaults based on dataType and isRequired
-      // WHY: Different field types need different default values
       // PATTERN: Boolean fields default to false (required) or undefined (nullable), ternary fields default to 'false', numbers to 0, strings to ''
-      //          Exception: 'active' field defaults to true for instance entities (blockInstance, partInstance, eventInstance, annotationInstance)
       if (dataType === 'boolean' || dataType === 'ternary') {
-        // Required booleans default to false, nullable booleans default to undefined
-        // Ternary fields default to 'false' (string enum)
         if (dataType === 'ternary') {
           return { ...acc, [fieldKey]: 'false' }
         } else {
-          // LEARNING: 'active' field defaults to true for instance entities
-          // WHY: Matches Sequelize model defaults (active: true) for blockInstance, partInstance, eventInstance, annotationInstance
           // PATTERN: Check field name and entity type to determine if active should default to true
           if (fieldKey === 'active' && (
             entityType === 'blockInstance' || 
@@ -124,20 +101,15 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
           }
         }
       } else if (dataType === 'number') {
-        // Required numbers default to 0
         if (isRequired) {
           return { ...acc, [fieldKey]: 0 }
         }
-        // Nullable numbers don't need defaults
         return acc
       } else if (dataType === 'string') {
-        // Strings default to empty string (allows placeholder to show)
         return { ...acc, [fieldKey]: '' }
       } else if (dataType === 'array') {
-        // Arrays default to empty array
         return { ...acc, [fieldKey]: [] }
       }
-      // Reference fields don't need defaults (they're relationships)
       return acc
     }, baseDefaults)
   } catch (error) {
@@ -198,22 +170,15 @@ export function mergeEntityDefaults<GE extends GlobalEntityKey>(
   entityKey: GE,
   providedData: Partial<GlobalEntity<GE>>
 ): Partial<GlobalEntity<GE>> {
-  // LEARNING: Use dynamic defaults from metadata instead of hardcoded ENTITY_REQUIRED_DEFAULTS
-  // WHY: Automatically includes all fields from metadata
   // PATTERN: getDynamicEntityDefaults() provides complete defaults based on metadata
   const defaults = getDynamicEntityDefaults(entityKey)
   
-  // Merge: provided values override defaults
   const merged = {
     ...defaults,
     ...providedData,
   } as Partial<GlobalEntity<GE>>
   
-  // LEARNING: Ensure orderIndex is always a number, never null or undefined
-  // WHY: Database requires orderIndex to be NOT NULL, so we must guarantee it's set
   // PATTERN: Explicit validation for critical required fields using object spread
-  // LEARNING: Use object spread instead of property assignment
-  // WHY: Avoids object property mutations
   // PATTERN: Build final object with spread operator
   const finalMerged = (merged.orderIndex === null || merged.orderIndex === undefined)
     ? {
@@ -225,40 +190,19 @@ export function mergeEntityDefaults<GE extends GlobalEntityKey>(
   return finalMerged
 }
 
-/**
- * Get default form values for entity creation
- * 
- * LEARNING: Provides default values for form initialization when creating new entities
- * WHY: Forms need initial values to prevent null/undefined errors and provide sensible defaults
- * PATTERN: Uses dynamic metadata-based defaults instead of hardcoded values
- * 
- * LEARNING: Dynamic defaults from metadata
- * WHY: No hardcoded field lists - automatically includes all fields from metadata
- * PATTERN: Uses getDynamicEntityDefaults() to get defaults based on metadata dataType and isRequired
- * 
- * @param entityKey - The entity type key
- * @returns Record of default values for form initialization
- */
 export function getDefaultEntityValues(entityKey: GlobalEntityKey): Record<string, ValidAdminValue> {
-  // LEARNING: Get dynamic defaults from metadata
-  // WHY: Automatically includes all fields (including zeroOutPart, differentialOverride, etc.)
   // PATTERN: Metadata is single source of truth for field types and required status
   const defaults = getDynamicEntityDefaults(entityKey)
   
-  // Create result with defaults
   const result: Record<string, ValidAdminValue> = {
     ...defaults,
   } as Record<string, ValidAdminValue>
   
-  // LEARNING: Set empty name to allow placeholder to show
-  // WHY: Placeholders provide better UX than pre-filled values that need to be deleted
   // PATTERN: Use empty string so placeholder from display config is visible
   if (result.name === undefined) {
     result.name = ''
   }
   
-  // LEARNING: Ensure orderIndex is always set (required NOT NULL field)
-  // WHY: Database requires orderIndex to be NOT NULL, so we must guarantee it's set
   // PATTERN: Explicit check with fallback to 0 (defensive check even though metadata should include it)
   if (result.orderIndex === null || result.orderIndex === undefined) {
     result.orderIndex = 0

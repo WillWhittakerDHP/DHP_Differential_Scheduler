@@ -19,33 +19,15 @@ import { Icon } from '@iconify/vue'
 import type { SelectionCardItem, SelectionCardConfig } from './types/selectionCardTypes'
 import { mergeSelectionCardConfigWithDefaults } from '@/utils/booking/selectionCardConfig'
 
-/**
- * Component props
- */
 interface Props {
-  /**
-   * The item to display
-   */
   item: SelectionCardItem
   
-  /**
-   * Configuration for appearance and behavior
-   */
   config?: Partial<SelectionCardConfig>
   
-  /**
-   * Whether the item is selected
-   */
   modelValue: boolean
   
-  /**
-   * Custom appearance overrides
-   */
   appearance?: Partial<SelectionCardConfig['appearance']>
   
-  /**
-   * Whether the card is disabled
-   */
   disabled?: boolean
 }
 
@@ -54,19 +36,12 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false
 })
 
-/**
- * Component emits
- */
 interface Emits {
   (e: 'update:modelValue', value: boolean): void
 }
 
 const emit = defineEmits<Emits>()
 
-/**
- * LEARNING: Default configuration for independent select cards
- * WHY: Provides sensible defaults for dependent option display
- */
 const defaultConfig: SelectionCardConfig = {
   selectionType: 'checkbox',
   selectionComponent: 'VCheckbox',
@@ -82,16 +57,11 @@ const defaultConfig: SelectionCardConfig = {
   }
 }
 
-/**
- * LEARNING: Merged config with defaults
- * WHY: Allows customization while providing sensible defaults
- */
 const mergedConfig = computed<SelectionCardConfig>(() => {
   const baseConfig = props.config 
     ? mergeSelectionCardConfigWithDefaults({ ...defaultConfig, ...props.config })
     : mergeSelectionCardConfigWithDefaults(defaultConfig)
   
-  // Apply appearance overrides if provided
   if (props.appearance) {
     return {
       ...baseConfig,
@@ -105,20 +75,12 @@ const mergedConfig = computed<SelectionCardConfig>(() => {
   return baseConfig
 })
 
-/**
- * LEARNING: Handle card click to toggle selection
- * WHY: Entire card is clickable for better UX
- */
 function handleClick(): void {
   if (!props.disabled) {
     emit('update:modelValue', !props.modelValue)
   }
 }
 
-/**
- * LEARNING: Handle checkbox click (stop propagation to prevent double-toggle)
- * WHY: Checkbox click shouldn't bubble to card click
- */
 function handleCheckboxClick(e: Event): void {
   e.stopPropagation()
   if (!props.disabled) {
@@ -126,9 +88,6 @@ function handleCheckboxClick(e: Event): void {
   }
 }
 
-/**
- * LEARNING: Card classes for styling
- */
 const cardClasses = computed(() => {
   const classes = [
     'independent-select-card',
@@ -156,9 +115,6 @@ const cardClasses = computed(() => {
   return classes.join(' ')
 })
 
-/**
- * LEARNING: Content classes for layout
- */
 const contentClasses = computed(() => {
   const classes = ['d-flex', 'flex-column', 'flex-grow-1']
   

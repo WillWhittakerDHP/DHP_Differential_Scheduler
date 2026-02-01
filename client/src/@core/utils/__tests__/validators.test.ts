@@ -1,9 +1,3 @@
-/**
- * VALIDATORS TESTS
- * 
- * Unit tests for form validation functions.
- * Tests email, password, URL, number, and string validators.
- */
 
 import { describe, it, expect } from 'vitest'
 import {

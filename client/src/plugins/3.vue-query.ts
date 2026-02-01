@@ -11,7 +11,6 @@ import type { App } from 'vue'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import type { QueryClient } from '@tanstack/vue-query'
 
-// QueryClient instance will be passed from main.ts
 let queryClientInstance: QueryClient | null = null
 
 export function setQueryClient(instance: QueryClient) {

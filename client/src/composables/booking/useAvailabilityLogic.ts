@@ -29,19 +29,12 @@ interface DateRange {
   end: ISO8601Date | null
 }
 
-/**
- * Time slots per day structure
- */
 export interface TimeSlotsPerDay {
   date: string
   inspectorTimeSlots: TimeSlot[]
   clientTimeSlots: TimeSlot[]
 }
 
-/**
- * useAvailabilityLogic composable parameters
- * NOTE: Internal type only - not exported as it's not used outside this file
- */
 interface UseAvailabilityLogicParams {
   selectedDate: Ref<DateRange>
   propertyDetailsStepData: Ref<PropertyDetails | null> | null
@@ -55,27 +48,16 @@ interface UseAvailabilityLogicParams {
   loadedWizardState: Ref<WizardStateData | null> | null
 }
 
-/**
- * Selected time slot structure for API
- */
 export interface SelectedTimeSlot {
   time: string
   duration: number
 }
 
-/**
- * Appointment slots per day structure
- * NOTE: Internal type only - not exported as it's not used outside this file
- */
 interface AppointmentSlotsPerDay {
   date: string
   appointmentSlots: AppointmentSlots
 }
 
-/**
- * useAvailabilityLogic composable return type
- * NOTE: Internal type only - not exported as it's not used outside this file
- */
 interface UseAvailabilityLogicReturn {
   dateRangeForApi: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
   propertyDetails: ComputedRef<PropertyDetails | null>
@@ -103,7 +85,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     propertyDetailsStepData,
     wizard,
     timeSlots,
-    // loadedWizardState available for future loaded appointment state handling
   } = params
 
   /**
@@ -117,14 +98,11 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     // LEARNING: Parse selected date in UTC using shared utility
     // WHY: All business logic should use UTC to avoid timezone issues
     // PATTERN: Use parseUTCDate utility with built-in validation
-    // NOTE: selectedDate.value.start is ISO 8601 date format (YYYY-MM-DD)
-    // P2-8: Use existing parseUTCDate utility instead of manual parsing
     const startValue = selectedDate.value.start
     if (!startValue) return null
     
     const startDate = parseUTCDate(startValue)
     if (!startDate) {
-      // parseUTCDate logs warnings internally, just return null
       return null
     }
     // LEARNING: Use UTC methods for all date operations
@@ -138,8 +116,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     ))
     
     // LEARNING: Determine start datetime: always use start of day (midnight UTC) for consistency
-    // WHY: Busy periods need to cover the entire day to match slots, which start at business hours
-    //      The mock generator will filter out past times, so using start of day ensures full coverage
     // PATTERN: Always use start of day UTC, let mock generator handle past time filtering
     const startDateTime = new Date(Date.UTC(
       startDate.getUTCFullYear(),
@@ -148,8 +124,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       0, 0, 0, 0
     ))
     
-    // LEARNING: Early return if date is in the past (not today)
-    // WHY: Past dates can't render in UI, but today should be allowed even if midnight has passed
     // PATTERN: Compare date portions only (not times) to allow today, using UTC dates
     const now = new Date()
     const today = new Date(Date.UTC(
@@ -170,7 +144,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     }
     
     // LEARNING: End datetime: end of day (23:59:59) in UTC
-    // WHY: Covers entire day for busy period generation
     // PATTERN: Use Date.UTC() to create end of day in UTC, then convert to RFC3339
     const endDateTime = new Date(Date.UTC(
       endDate.getUTCFullYear(),
@@ -241,7 +214,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       return []
     }
 
-    // Group time slots by date
     const slotsByDate = new Map<string, TimeSlot[]>()
     
     slots.forEach(slot => {
@@ -259,18 +231,12 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       slotsByDate.get(slotDate)!.push(slot)
     })
 
-    // P2-2: Calculate AppointmentSlots lazily - only when computed is accessed
-    // LEARNING: Generate AppointmentSlots for each date on-demand
-    // WHY: Avoids unnecessary computation for slots user will never select
     // PATTERN: Calculate AppointmentSlots only when this computed is accessed
-    // NOTE: This is still calculated for all slots, but only when needed (not in watch)
-    // TODO: Further optimize to calculate only for selected slot when that pattern is available
     return Array.from(slotsByDate.entries()).map(([date, slots]) => {
       const appointmentSlotsForDate: AppointmentSlots = []
       
       slots.forEach((slot, index) => {
         const calculatedSlots = calculateAppointmentSlots(blockInstances, slot.startTime)
-        // Normalize orderIndex to match slot position
         const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
           ...calculatedSlot,
           orderIndex: index
@@ -301,12 +267,10 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    * PATTERN: Check all selected services and option type blocks for differential === 'override'
    */
   const hasDifferentialOverride = computed(() => {
-    // Check selected services
     const serviceHasOverride = wizard.selectedServiceTypeBlocks.value.some(service =>
       service.differential === 'override'
     )
     
-    // Check selected option type blocks (e.g., "No Client Presentation" option)
     const optionHasOverride = wizard.selectedOptionTypeBlocks.value.some(option =>
       option.differential === 'override'
     )
@@ -325,24 +289,16 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    * - If service.differential === 'true' AND no override → return true (differential)
    */
   const isEffectivelyDifferential = computed(() => {
-    // #region agent log
     fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:327',message:'isEffectivelyDifferential calculation',data:{isDifferentialService:isDifferentialService.value,hasDifferentialOverride:hasDifferentialOverride.value,selectedServices:wizard.selectedServiceTypeBlocks.value.map(s=>({id:s.id,name:s.name,differential:s.differential}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
     if (!isDifferentialService.value) {
-      // #region agent log
       fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:329',message:'isEffectivelyDifferential=false: not differential service',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-      // #endregion
       return false
     }
     if (hasDifferentialOverride.value) {
-      // #region agent log
       fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:330',message:'isEffectivelyDifferential=false: has override',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-      // #endregion
       return false
     }
-    // #region agent log
     fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAvailabilityLogic.ts:331',message:'isEffectivelyDifferential=true',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
     return true
   })
 
@@ -358,7 +314,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       return
     }
 
-    // Group time slots by date
     const slotsByDate = new Map<string, TimeSlot[]>()
     
     slots.forEach(slot => {
@@ -376,7 +331,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       slotsByDate.get(slotDate)!.push(slot)
     })
 
-    // Transform to timeSlotsPerDay format
     timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
       /**
        * WHY: Differential scheduling (separate inspector/client times) will be implemented in Feature 4
@@ -408,7 +362,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
         if (value instanceof Date) {
           dateString = value.toISOString().split('T')[0] as ISO8601Date
         } else if (typeof value === 'string') {
-          // Extract date part if it includes time (ensure ISO 8601 format)
           dateString = (value.includes('T') ? value.split('T')[0] : value) as ISO8601Date
         }
       }
@@ -428,15 +381,11 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       return []
     }
     
-    // Find time slots for selected date
     const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
     if (!daySlots) {
       return []
     }
     
-    // Return major time slots (component will filter by startTimeType if needed)
-    // LEARNING: Use inspectorTimeSlots property name to match TimeSlotsPerDay interface
-    // WHY: Interface uses inspectorTimeSlots, not majorTimeSlots
     return daySlots.inspectorTimeSlots
   })
 
@@ -447,7 +396,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
    */
   const matchLoadedTimeSlots = matchLoadedTimeSlotsUtil
 
-  // Placeholder for selectedTimeSlots - will be computed in component using this helper
   const selectedTimeSlots = computed<SelectedTimeSlot[] | null>(() => null)
 
   return {

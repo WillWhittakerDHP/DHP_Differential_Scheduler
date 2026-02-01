@@ -20,7 +20,6 @@ import { staticPrimaryColor, staticPrimaryDarkenColor, themes } from './theme'
 import { themeConfig } from '@themeConfig'
 import { resolveVuetifyTheme } from '@core/utils/vuetify'
 
-// Styles
 import { cookieRef } from '@layouts/stores/config'
 import '@core/scss/template/libs/vuetify/index.scss'
 import 'vuetify/styles'

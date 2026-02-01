@@ -25,14 +25,12 @@ import { getAppointmentVersionsEndpoint } from '@/utils/api'
  * WHY: Type-safe structure for loading appointment data into wizard
  */
 export interface WizardStateData {
-  // Wizard selections (block instances)
   userTypeBlock: BookingBlockInstance | null
   services: BookingBlockInstance[] // Multi-select array - replaces baseService
   propertyTypeBlocks: BookingBlockInstance[] // Multi-select array - replaces propertyTypeBlock
   optionTypeBlocks: BookingBlockInstance[]
   lineItemBlocks: BookingBlockInstance[] // Line item blocks (bookingMode: "addOn")
   
-  // Property details form fields
   propertyDetails: {
     address: string
     unit: string
@@ -49,7 +47,6 @@ export interface WizardStateData {
     additionalUnits: number | null
   }
   
-  // Contact form fields
   contacts: {
     client: {
       firstName: string
@@ -69,13 +66,11 @@ export interface WizardStateData {
     }>
   }
   
-  // Availability data
   availability: {
     selectedDate: { start: string | null; end: string | null }
     selectedTimeSlots: Array<{ time: string; duration: number }> | null
   }
   
-  // Quote mode
   isQuoteMode: boolean
 }
 
@@ -148,7 +143,6 @@ function _findBlockInstanceByIdAndShapeName(
     return null
   }
   
-  // Use ID-based validation
   return findBlockInstanceByIdAndShapeId(bookingData, id, blockShapeId)
 }
 
@@ -164,7 +158,6 @@ function findBlockInstancesByIds(
 ): BookingBlockInstance[] {
   if (!ids || !bookingData || ids.length === 0) return []
   
-  // Preserve previous behavior: keep bookingData.blockInstances ordering.
   const requestedIds = new Set(ids.map((id) => String(id)))
   const found = bookingData.blockInstances.filter((bi) => requestedIds.has(String(bi.id)))
 
@@ -184,7 +177,6 @@ function transformVersionToBookingInstance(
 ): BookingBlockInstance {
   // FIX: bookingData parameter is kept for API consistency but not currently used in this function
   void bookingData
-  // Use current instance as base if available, otherwise create minimal structure
   const base: Partial<BookingBlockInstance> = currentInstance || {
     id: version.id,
     entityKey: 'blockInstance' as const,
@@ -198,9 +190,7 @@ function transformVersionToBookingInstance(
     requiresUnitNumber: null,
   }
 
-  // Transform part instances from version format to BookingPartInstance format
   // LEARNING: Convert boolean to TernaryBoolean for backward compatibility
-  // WHY: During migration, some values may still be boolean
   // PATTERN: Convert boolean to TernaryBoolean, default to 'false'
   const convertToTernary = (value: TernaryBoolean | boolean | undefined, defaultValue: TernaryBoolean = 'false'): TernaryBoolean => {
     if (value === true) return 'true'
@@ -210,7 +200,6 @@ function transformVersionToBookingInstance(
   }
 
   const partInstances: BookingPartInstance[] = version.partInstances.map(pi => {
-    // Try to find matching part instance from current instance for metadata
     const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
     
     return {
@@ -221,8 +210,6 @@ function transformVersionToBookingInstance(
       baseTime: pi.baseTime,
       rateOverBaseFee: pi.rateOverBaseFee,
       rateOverBaseTime: pi.rateOverBaseTime,
-      // LEARNING: onSite, clientPresent, and moveable are deprecated - removed when converting to events
-      // WHY: These properties were deprecated when converting to using events (EventAssignment relationships)
       // PATTERN: Events should be accessed via EventAssignment relationships instead
       active: currentPart?.active ?? true,
       orderIndex: currentPart?.orderIndex ?? 0,
@@ -232,7 +219,6 @@ function transformVersionToBookingInstance(
     }
   })
 
-  // Override with version data (these are the versioned fields)
   return {
     ...base,
     id: version.id,
@@ -273,11 +259,9 @@ export async function transformAppointmentToWizard(
     ? stateControlBlocks.find(block => block.id === userTypeId)
     : null
   
-  // Verify UUID resolution - log warning if userTypeId doesn't resolve
   if (userTypeId && !userTypeBlock) {
     const fallback = findBlockInstanceById(bookingData, userTypeId)
     if (fallback) {
-      // Fallback found but shouldn't be used (block shape mismatch)
       console.warn(`[AppointmentTransformer] userTypeId ${userTypeId} resolved to block instance but is not a state control block`)
     } else {
       console.warn(`[AppointmentTransformer] userTypeId ${userTypeId} not found in booking data`)
@@ -286,7 +270,6 @@ export async function transformAppointmentToWizard(
   
   const userTypeBlockResult = userTypeBlock || null
   
-  // Fetch versions if snapshotIds exist
   let versionsData: AppointmentVersionsResponse | null = null
   if (appointment.serviceSnapshotIds || appointment.propertySnapshotIds || appointment.optionSnapshotIds) {
     try {
@@ -300,21 +283,16 @@ export async function transformAppointmentToWizard(
     }
   }
 
-  // Session 1.3.9.3: Updated to handle array of service IDs
   const serviceIds = appointment.selectedServiceIds || []
   
-  // Find Service block shape ID by type (stable semantic identifier)
   const serviceBlockShapeId = getBlockShapeIdByType(bookingData, BLOCK_SHAPE_TYPES.SERVICE)
   const allServicesFound = findBlockInstancesByIds(bookingData, serviceIds)
-  // LEARNING: Filter by type to ensure only Service blocks are returned
-  // WHY: Type is immutable and independent of display name, ensures correct blocks
   const servicesFound = serviceBlockShapeId
     ? allServicesFound.filter(
         service => service.blockShapeRef === serviceBlockShapeId
       )
     : allServicesFound // Use all found instances if block shape ID is null
   
-  // Verify UUID resolution - log warning if service IDs don't resolve
   if (serviceIds.length > 0 && servicesFound.length !== serviceIds.length) {
     const foundIds = new Set(servicesFound.map(s => s.id))
     const missingIds = serviceIds.filter(id => !foundIds.has(id))
@@ -332,34 +310,26 @@ export async function transformAppointmentToWizard(
     }
   }
   
-  // Use versions if available, otherwise use current instances directly
   let services: BookingBlockInstance[]
   if (versionsData?.services && versionsData.services.length > 0) {
-    // Use versions (complete immutable records)
     services = versionsData.services.map(version => {
       const currentInstance = servicesFound.find(s => s.id === version.id) || null
       return transformVersionToBookingInstance(version, currentInstance, bookingData)
     })
   } else {
-    // No versions - use current instances directly
     services = servicesFound
   }
   
-  // Session 1.3.9.3: Updated to handle array of property type block IDs
   const propertyTypeBlockIds = appointment.selectedPropertyIds || []
   
-  // Find Property block shape ID by type (stable semantic identifier)
   const propertyBlockShapeId = getBlockShapeIdByType(bookingData, BLOCK_SHAPE_TYPES.PROPERTY)
   const allPropertyBlocksFound = findBlockInstancesByIds(bookingData, propertyTypeBlockIds)
-  // LEARNING: Filter by type to ensure only Property blocks are returned
-  // WHY: Type is immutable and independent of display name, ensures correct blocks
   const propertyTypeBlocksFound = propertyBlockShapeId
     ? allPropertyBlocksFound.filter(
         property => property.blockShapeRef === propertyBlockShapeId
       )
     : allPropertyBlocksFound // Use all found instances if block shape ID is null
   
-  // Verify UUID resolution - log warning if property type block IDs don't resolve
   if (propertyTypeBlockIds.length > 0 && propertyTypeBlocksFound.length !== propertyTypeBlockIds.length) {
     const foundIds = new Set(propertyTypeBlocksFound.map(d => d.id))
     const missingIds = propertyTypeBlockIds.filter(id => !foundIds.has(id))
@@ -368,16 +338,13 @@ export async function transformAppointmentToWizard(
     }
   }
   
-  // Use versions if available, otherwise use current instances directly
   let propertyTypeBlocks: BookingBlockInstance[]
   if (versionsData?.properties && versionsData.properties.length > 0) {
-    // Use versions
     propertyTypeBlocks = versionsData.properties.map(version => {
       const currentInstance = propertyTypeBlocksFound.find(p => p.id === version.id) || null
       return transformVersionToBookingInstance(version, currentInstance, bookingData)
     })
   } else {
-    // No versions - use current instances directly
     propertyTypeBlocks = propertyTypeBlocksFound
   }
   
@@ -387,7 +354,6 @@ export async function transformAppointmentToWizard(
     optionTypeBlockIds
   )
   
-  // Verify UUID resolution - log warning if availability option IDs don't resolve
   if (optionTypeBlockIds.length > 0 && optionTypeBlocksFound.length !== optionTypeBlockIds.length) {
     const foundIds = new Set(optionTypeBlocksFound.map(o => o.id))
     const missingIds = optionTypeBlockIds.filter(id => !foundIds.has(id))
@@ -396,29 +362,22 @@ export async function transformAppointmentToWizard(
     }
   }
   
-  // Use versions if available, otherwise use current instances directly
   let optionTypeBlocks: BookingBlockInstance[]
   if (versionsData?.options && versionsData.options.length > 0) {
-    // Use versions
     optionTypeBlocks = versionsData.options.map(version => {
       const currentInstance = optionTypeBlocksFound.find(o => o.id === version.id) || null
       return transformVersionToBookingInstance(version, currentInstance, bookingData)
     })
   } else {
-    // No versions - use current instances directly
     optionTypeBlocks = optionTypeBlocksFound
   }
   
-  // LEARNING: Extract line item blocks from appointment (bookingMode: "addOn")
-  // WHY: Line items are separate from main booking blocks and stored separately
   // PATTERN: Check for selectedLineItemIds in appointment, filter from bookingData.lineItemBlocks
-  // NOTE: Forward-compatible - returns empty array if no line item data exists yet
   const lineItemBlockIds = (appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds || []
   const lineItemBlocksFound = lineItemBlockIds.length > 0 && bookingData.lineItemBlocks
     ? bookingData.lineItemBlocks.filter(block => lineItemBlockIds.includes(block.id))
     : []
   
-  // Verify UUID resolution - log warning if line item IDs don't resolve
   if (lineItemBlockIds.length > 0 && lineItemBlocksFound.length !== lineItemBlockIds.length) {
     const foundIds = new Set(lineItemBlocksFound.map(li => li.id))
     const missingIds = lineItemBlockIds.filter(id => !foundIds.has(id))
@@ -427,45 +386,32 @@ export async function transformAppointmentToWizard(
     }
   }
   
-  // Use versions if available, otherwise use current instances directly
   let lineItemBlocks: BookingBlockInstance[]
   if (versionsData?.lineItems && versionsData.lineItems.length > 0) {
-    // Use versions (if line item versions are supported)
     lineItemBlocks = versionsData.lineItems.map((version: VersionBlockInstance) => {
       const currentInstance = lineItemBlocksFound.find(li => li.id === version.id) || null
       return transformVersionToBookingInstance(version, currentInstance, bookingData)
     })
   } else {
-    // No versions - use current instances directly
     lineItemBlocks = lineItemBlocksFound
   }
   
-  // Map property data (from propertyVersion relationship)
-  // LEARNING: Uses new three-table structure (propertyVersion → address + propertyDetails)
-  // WHY: Property data is stored in normalized propertyVersion structure
   const propertyVersion = appointment.propertyVersion
   const address = propertyVersion?.address
   const propertyDetailsArray = propertyVersion?.propertyDetails
   
-  // Extract property details record (first item if array, otherwise the value itself)
   const propertyDetailsRecord = Array.isArray(propertyDetailsArray)
     ? propertyDetailsArray[0] // Use first/latest property details
     : propertyDetailsArray ?? null
   
-  // LEARNING: Helper to safely extract string values from nested objects
-  // WHY: Prevents [object Object] from appearing in form fields when objects are stored instead of primitives
   // PATTERN: Check if value is a string, otherwise return empty string (don't try to extract from objects)
   const extractString = (value: unknown): string => {
     if (typeof value === 'string') return value
     return ''
   }
   
-  // LEARNING: Helper to safely extract number values from nested objects
-  // WHY: Prevents [object Object] from appearing in form fields when objects are stored instead of primitives
   // PATTERN: Check if value is a number, otherwise return null (don't try to extract from objects)
-  // NOTE: Function removed as it's not currently used - kept comment for future reference
   
-  // Extract foundation access with proper type checking
   const extractFoundationAccess = (value: unknown): 'basement' | 'crawlspace' | 'slab' | null => {
     if (typeof value === 'string' && (value === 'basement' || value === 'crawlspace' || value === 'slab')) {
       return value
@@ -473,16 +419,13 @@ export async function transformAppointmentToWizard(
     return null
   }
   
-  // Property details extraction from propertyVersion structure
   const propertyDetails = {
-    // Address fields from propertyVersion.address
     address: address?.address ?? '',
     unit: address?.unit ?? '',
     city: address?.city ?? '',
     state: address?.state ?? '',
     zipCode: address?.zipCode ?? '',
     
-    // Property details from propertyVersion.propertyDetails[0]
     propertySize: propertyDetailsRecord?.squareFootage ?? null,
     numberOfUnits: propertyDetailsRecord?.additionalUnits ?? null,
     mlsNumber: extractString(propertyDetailsRecord?.mlsNumber),
@@ -493,14 +436,11 @@ export async function transformAppointmentToWizard(
     additionalUnits: propertyDetailsRecord?.additionalUnits ?? null,
   }
   
-  // Map contact data (from relationships or additionalContacts)
   const client = appointment.client
   const agent = appointment.agent
   const additionalContacts = appointment.additionalContacts || []
   
-  // Map additional contacts to role-based structure
   const mappedAdditionalContacts = additionalContacts.map((contact: Record<string, unknown>) => {
-    // Try to determine role from contact data or default to anotherClient
     const role = (contact.role as string) || 'anotherClient'
     return {
       firstName: (contact.firstName as string) || '',
@@ -524,13 +464,11 @@ export async function transformAppointmentToWizard(
     additionalContacts: mappedAdditionalContacts,
   }
   
-  // Map availability data
   const selectedDate = {
     start: appointment.selectedDate || null,
     end: appointment.selectedDateRangeEnd || null,
   }
   
-  // Transform time slots from appointment format to wizard format
   // LEARNING: WizardStateData expects { time: string; duration: number } format
   // WHY: Transform from { startTime, endTime, duration } to { time, duration } format
   const selectedTimeSlots = appointment.selectedTimeSlots

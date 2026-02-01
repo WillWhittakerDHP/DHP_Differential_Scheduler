@@ -10,7 +10,6 @@ const configStore = useConfigStore()
 
 const selectedItem = ref([configStore.theme])
 
-// Update icon if theme is changed from other sources
 watch(
   () => configStore.theme,
   () => {

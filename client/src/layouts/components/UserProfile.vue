@@ -6,7 +6,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const ability = useAbility()
 
-// TODO: Get type from backend
 type UserDataCookie = {
   avatar?: string
   fullName?: string
@@ -17,20 +16,15 @@ type UserDataCookie = {
 const userData = useCookie<UserDataCookie | null>('userData')
 
 const logout = async () => {
-  // Remove "accessToken" from cookie
   useCookie('accessToken').value = null
 
-  // Remove "userData" from cookie
   userData.value = null
 
-  // Redirect to login page
   await router.push('/login')
 
   // ℹ️ We had to remove abilities in then block because if we don't nav menu items mutation is visible while redirecting user to login page
-  // Remove "userAbilities" from cookie
   useCookie('userAbilityRules').value = null
 
-  // Reset ability to initial ability
   ability.update([])
 }
 

@@ -1,15 +1,3 @@
-/**
- * USE APPOINTMENT TESTS
- * 
- * Unit tests for useAppointment composable.
- * Tests appointment CRUD operations, queries, and cache invalidation.
- * Phase 5: High Priority Composables
- * 
- * Session 1.4.7: Updated to test BusinessData cache pattern
- * ARCHITECTURAL CHANGE: Business entities now use ['businessData'] cache key
- * - Uses optimistic updates + refetchQueries pattern
- * - Reads from businessData.appointments
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref, type Ref } from 'vue'
@@ -18,7 +6,6 @@ import apiClient from '@/utils/api'
 import type { AppointmentRequest, AppointmentResponse } from '@/types/appointment'
 import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
 
-// Mock Vue Query
 const mockQueryClient = {
   invalidateQueries: vi.fn(),
   refetchQueries: vi.fn(),
@@ -47,7 +34,6 @@ const mockAppointment: AppointmentResponse = {
   updatedAt: new Date().toISOString(),
 }
 
-// Mock businessData for useBusiness
 const mockBusinessData: Ref<BusinessData | undefined> = ref({
   appointments: [mockAppointment],
   properties: [],
@@ -56,7 +42,6 @@ const mockBusinessData: Ref<BusinessData | undefined> = ref({
 const mockIsLoading = ref(false)
 const mockError: Ref<Error | null> = ref(null)
 
-// Mock useBusiness composable
 vi.mock('../useBusiness', () => ({
   useBusiness: vi.fn(() => ({
     businessData: mockBusinessData,
@@ -91,7 +76,6 @@ vi.mock('@tanstack/vue-query', () => ({
   useQueryClient: vi.fn(() => mockQueryClient),
 }))
 
-// Mock API client
 vi.mock('@/utils/api', () => ({
   default: {
     get: vi.fn(),
@@ -107,7 +91,6 @@ vi.mock('@/utils/api', () => ({
 describe('useAppointment', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Reset mock businessData
     mockBusinessData.value = {
       appointments: [mockAppointment],
       properties: [],
@@ -151,7 +134,6 @@ describe('useAppointment', () => {
         selectedDate: new Date().toISOString().split('T')[0],
       })
       
-      // Session 1.4.7: Optimistic update + refetchQueries pattern
       expect(mockQueryClient.setQueryData).toHaveBeenCalled()
       expect(mockQueryClient.refetchQueries).toHaveBeenCalledWith({ queryKey: ['businessData'] })
     })
@@ -311,13 +293,11 @@ describe('useAppointment', () => {
     it('should read appointments from businessData cache', () => {
       const { fetchAll } = useAppointment()
       
-      // Should return object with data, isLoading, error
       expect(fetchAll).toBeDefined()
       expect(fetchAll.data).toBeDefined()
       expect(fetchAll.isLoading).toBeDefined()
       expect(fetchAll.error).toBeDefined()
       
-      // Data should be computed property reading from ['businessData'] cache
       expect(fetchAll.data.value).toEqual([mockAppointment])
       expect(fetchAll.isLoading.value).toBe(false)
     })
@@ -348,13 +328,11 @@ describe('useAppointment', () => {
       const { fetchById } = useAppointment()
       const query = fetchById('appt-1')
       
-      // Should return object with data, isLoading, error
       expect(query).toBeDefined()
       expect(query.data).toBeDefined()
       expect(query.isLoading).toBeDefined()
       expect(query.error).toBeDefined()
       
-      // Data should be computed property finding appointment by ID
       expect(query.data.value).toEqual(mockAppointment)
       expect(query.isLoading.value).toBe(false)
     })
@@ -378,7 +356,6 @@ describe('useAppointment', () => {
 
   describe('fetchRandom helper', () => {
     it('should return random appointment from businessData cache', async () => {
-      // Set up multiple appointments in cache
       mockBusinessData.value = {
         appointments: [
           { ...mockAppointment, id: 'appt-1' },

@@ -7,11 +7,9 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    // Check if table already exists
     const tableExists = await queryInterface.tableExists('pooled_instances');
     
     if (!tableExists) {
-      // Create pooled_instances table
       await queryInterface.createTable('pooled_instances', {
         id: {
           type: Sequelize.UUID,
@@ -80,7 +78,6 @@ export default {
   },
 
   async down(queryInterface, Sequelize) {
-    // Remove indexes first
     await queryInterface.removeIndex('pooled_instances', 'idx_pool_master');
     await queryInterface.removeIndex('pooled_instances', 'idx_pool_member');
     await queryInterface.removeIndex('pooled_instances', 'idx_entity_type');
@@ -88,7 +85,6 @@ export default {
     // Remove unique constraint
     await queryInterface.removeConstraint('pooled_instances', 'unique_pool_membership');
     
-    // Drop table
     await queryInterface.dropTable('pooled_instances');
     
     console.log('✅ Removed pooled_instances table');

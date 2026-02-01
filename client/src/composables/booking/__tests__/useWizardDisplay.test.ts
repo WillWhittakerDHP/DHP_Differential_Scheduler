@@ -31,7 +31,6 @@ import { useWizardDisplay, type StepDefinition } from '../useWizardDisplay'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
-// Mock steps
 const mockSteps: StepDefinition[] = [
   { icon: 'wrench', title: 'Services', subtitle: 'Identifying your needs' },
   { icon: 'home', title: 'Property', subtitle: 'About your property' },
@@ -40,7 +39,6 @@ const mockSteps: StepDefinition[] = [
   { icon: 'check', title: 'Confirm', subtitle: 'Review and confirm' },
 ]
 
-// Helper to create mock service
 function createService(id: string, name: string): BookingBlockInstance {
   return {
     id,

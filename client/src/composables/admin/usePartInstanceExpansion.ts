@@ -30,8 +30,6 @@ export function usePartInstanceExpansion(
    * PATTERN: Add/remove instance ID from expanded array
    */
   const togglePartInstanceExpansion = (instanceId: string): void => {
-    // LEARNING: Vue unwraps refs in templates, so expandedPartInstances is string[] not Ref<string[]>
-    // WHY: v-model automatically unwraps refs, so we access the array directly
     // PATTERN: Access array directly, not through .value
     const currentExpanded = expandedPartInstances.value
     const index = currentExpanded.indexOf(instanceId)

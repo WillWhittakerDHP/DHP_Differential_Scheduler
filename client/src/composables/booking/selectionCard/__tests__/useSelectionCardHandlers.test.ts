@@ -32,7 +32,6 @@ import { computed, ref } from 'vue'
 import { useSelectionCardHandlers } from '../useSelectionCardHandlers'
 import type { SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
 
-// Helper to create mock item
 function createItem(id: string): SelectionCardItem {
   return {
     id,
@@ -42,7 +41,6 @@ function createItem(id: string): SelectionCardItem {
   } as SelectionCardItem
 }
 
-// Helper to create mock plugin
 function createMockPlugin(): StatePlugin {
   return {
     id: 'test-plugin',
@@ -51,7 +49,6 @@ function createMockPlugin(): StatePlugin {
   }
 }
 
-// Helper to create mock emit
 function createMockEmit() {
   return vi.fn() as unknown as {
     (e: 'update:modelValue', value: string | null | string[]): void
@@ -301,13 +298,11 @@ describe('useSelectionCardHandlers', () => {
       
       handleParentClick(mockEvent)
       
-      // Should have called emit (handleSelection fallback)
       expect(emit).toHaveBeenCalledWith('update:modelValue', 'item-1')
     })
 
     it('should stop propagation for nested component clicks', () => {
       const emit = createMockEmit()
-      // Create a parent with nested-components class
       const parentElement = document.createElement('div')
       parentElement.classList.add('nested-components')
       const childElement = document.createElement('button')

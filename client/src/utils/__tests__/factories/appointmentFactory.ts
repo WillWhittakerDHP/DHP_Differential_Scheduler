@@ -1,15 +1,7 @@
-/**
- * APPOINTMENT FACTORY
- * 
- * Factory functions for generating mock appointments for testing.
- */
 
 import type { Appointment } from '@/types/appointment'
 import type { GlobalEntityId } from '@/types/entities'
 
-/**
- * Create a basic appointment
- */
 export function createAppointment(
   id: GlobalEntityId,
   options: {
@@ -39,9 +31,6 @@ export function createAppointment(
   } as Appointment
 }
 
-/**
- * Create multiple appointments for testing
- */
 export function createAppointments(
   count: number,
   baseDate: Date = new Date('2026-01-15T10:00:00Z')
@@ -60,9 +49,6 @@ export function createAppointments(
   })
 }
 
-/**
- * Create an appointment with associated block instances
- */
 export function createAppointmentWithBlocks(
   id: GlobalEntityId,
   blockInstanceIds: string[],

@@ -1,10 +1,3 @@
-/**
- * USE COMPONENT ENTITY TESTS
- * 
- * Unit tests for useComponentEntity composable.
- * Tests component management operations, computed entities, and distribution strategies.
- * Phase 5: High Priority Composables
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useComponentEntity } from '../useComponentEntity'
@@ -15,7 +8,6 @@ import { createMultipleBlocksGlobalData } from '@/utils/__tests__/factories/glob
 import { createActiveComponentsRel } from '@/utils/__tests__/factories/relationshipFactory'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 
-// Mock Vue Query
 const mockQueryClient = {
   refetchQueries: vi.fn(),
 }
@@ -31,7 +23,6 @@ vi.mock('@tanstack/vue-query', () => ({
   useQueryClient: vi.fn(() => mockQueryClient),
 }))
 
-// Mock useGlobal
 const mockGlobalData = createMultipleBlocksGlobalData(3)
 const componentRel = createActiveComponentsRel('block-1', ['block-2', 'block-3'])
 mockGlobalData.relationships.instanceComponents = [componentRel]
@@ -45,20 +36,16 @@ vi.mock('../useGlobal', () => ({
   })),
 }))
 
-// Mock relationship transformers
 vi.mock('@/utils/transformers/relationshipTransformers', () => ({
   getComposedEntityFromRelationships: vi.fn((composerId, entityKey, relationships, entities) => {
-    // Return mock composed entity
     return entities.blockInstance?.find((e: any) => e.id === composerId) || null
   }),
   getComponentsRecursive: vi.fn((composerId, entityKey, relationships) => {
-    // Return component IDs from relationships
     const rel = relationships.find((r: any) => r.parent.id === composerId)
     return rel ? rel.children.map((c: any) => c.id) : []
   }),
 }))
 
-// Mock API client
 vi.mock('@/utils/api', () => ({
   default: {
     post: vi.fn(),
@@ -73,7 +60,6 @@ vi.mock('@/utils/api', () => ({
 describe('useComponentEntity', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Reset globalData
     mockGlobalData.relationships.instanceComponents = [componentRel]
   })
 
@@ -110,7 +96,6 @@ describe('useComponentEntity', () => {
     it('should filter by instanceComponents relationship kind', () => {
       const { instanceComponents } = useComponentEntity('blockInstance')
       
-      // Should only include instanceComponents relationships
       instanceComponents.value.forEach(comp => {
         expect(comp).toHaveProperty('parentId')
         expect(comp).toHaveProperty('childId')
@@ -143,7 +128,6 @@ describe('useComponentEntity', () => {
     })
 
     it('should return true when BlockShape is composable', () => {
-      // Update mock to have composable blockShape
       const blockInstance = mockGlobalData.entities.blockInstance[0]
       const blockShape = mockGlobalData.entities.blockShape.find(
         (bs: any) => bs.id === blockInstance.blockShapeRef
@@ -184,7 +168,6 @@ describe('useComponentEntity', () => {
       
       const available = getAvailableComponents('block-1')
       
-      // block-2 and block-3 are already components, so they shouldn't be available
       expect(available.every((comp: any) => comp.id !== 'block-2')).toBe(true)
       expect(available.every((comp: any) => comp.id !== 'block-3')).toBe(true)
     })

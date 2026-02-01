@@ -1,9 +1,3 @@
-/**
- * RELATIONSHIP TRANSFORMERS TESTS
- * 
- * Unit tests for relationship transformation utilities.
- * Tests relationship finding, filtering, and component operations.
- */
 
 import { describe, it, expect } from 'vitest'
 import { 

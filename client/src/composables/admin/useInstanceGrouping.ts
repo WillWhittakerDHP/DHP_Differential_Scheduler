@@ -17,48 +17,21 @@ import { useGlobal } from '../useGlobal'
 import { useAdmin } from '../useAdmin'
 import type { GlobalEntity } from '@/types/entities'
 
-/**
- * Instance Grouping Composable Options
- */
 export interface UseInstanceGroupingOptions {
-  /**
-   * Active tab state (for initialization)
-   */
   activeTab?: Ref<string>
 }
 
-/**
- * Instance Grouping Composable Return Type
- */
 export interface UseInstanceGroupingReturn {
-  /**
-   * BlockShapes sorted by orderIndex
-   */
   sortedBlockShapes: ComputedRef<GlobalEntity<'blockShape'>[]>
   
-  /**
-   * BlockInstances grouped by BlockShape ID
-   */
   blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
   
-  /**
-   * BlockInstance count per BlockShape
-   */
   blockInstancesCountByShape: ComputedRef<Map<string, number>>
   
-  /**
-   * BlockShape composable flags
-   */
   blockShapeComposable: ComputedRef<Map<string, boolean>>
   
-  /**
-   * BlockShape state control flags
-   */
   blockShapeStateControl: ComputedRef<Map<string, boolean>>
   
-  /**
-   * BlockShape valid cascades
-   */
   blockShapeValidCascades: ComputedRef<Map<string, string[]>>
 }
 
@@ -99,7 +72,6 @@ export function useInstanceGrouping(
     const blockShapes = getEntities('blockShape')
     const blockInstances = getEntities('blockInstance')
     
-    // LEARNING: Use reduce to build Map instead of forEach with Map.set mutations
     // WHY: Functional approach avoids forEach with Map mutations
     // PATTERN: Reduce blockShapes into a Map of instances grouped by shape ID
     return blockShapes.reduce((map, blockShape) => {
@@ -117,7 +89,6 @@ export function useInstanceGrouping(
    * PATTERN: Computed Map that derives from blockInstancesByShape
    */
   const blockInstancesCountByShape = computed(() => {
-    // LEARNING: Use Array.from + reduce to build Map instead of forEach with Map.set mutations
     // WHY: Functional approach avoids forEach with Map mutations
     // PATTERN: Convert Map entries to array, then reduce into new Map
     return Array.from(blockInstancesByShape.value.entries()).reduce((map, [blockShapeId, instances]) => {
@@ -134,7 +105,6 @@ export function useInstanceGrouping(
   const blockShapeComposable = computed(() => {
     const blockShapes = getEntities('blockShape')
     
-    // LEARNING: Use reduce to build Map instead of forEach with Map.set mutations
     // WHY: Functional approach avoids forEach with Map mutations
     // PATTERN: Reduce blockShapes into a Map of composable flags
     return blockShapes.reduce((map, blockShape) => {
@@ -151,7 +121,6 @@ export function useInstanceGrouping(
   const blockShapeStateControl = computed(() => {
     const blockShapes = getEntities('blockShape')
     
-    // LEARNING: Use reduce to build Map instead of forEach with Map.set mutations
     // WHY: Functional approach avoids forEach with Map mutations
     // PATTERN: Reduce blockShapes into a Map of state control flags
     return blockShapes.reduce((map, blockShape) => {
@@ -170,24 +139,19 @@ export function useInstanceGrouping(
     const blockShapes = getEntities('blockShape')
     
     if (!globalData || !globalData.relationships || !globalData.relationships.validCascades) {
-      // Set empty arrays for all BlockShapes if no validCascades data
-      // LEARNING: Use reduce to build Map instead of forEach with Map.set mutations
       return blockShapes.reduce((map, blockShape) => {
         map.set(String(blockShape.id), [])
         return map
       }, new Map<string, string[]>())
     }
     
-    // LEARNING: Use reduce to build Map instead of forEach with Map.set mutations
     // WHY: Functional approach avoids forEach with Map mutations
     // PATTERN: Reduce blockShapes into a Map of valid cascade names
     return blockShapes.reduce((map, blockShape) => {
-      // Find validCascades relationships where this BlockShape is the parent
       const validCascadeRels = globalData.relationships.validCascades.filter(
         rel => String(rel.parent.id) === String(blockShape.id)
       )
       
-      // Extract child BlockShape names
       const cascadeNames = validCascadeRels
         .flatMap(rel => rel.children)
         .map(child => child.name)
@@ -204,9 +168,7 @@ export function useInstanceGrouping(
    * PATTERN: Single watcher for side effects (updating activeTab), not reactive data access
    */
   watch(sortedBlockShapes, (shapes) => {
-    // Set initial active tab when BlockShapes load
     if (activeTab && shapes.length > 0) {
-      // If no active tab or active tab doesn't exist in current shapes, set to first
       if (!activeTab.value || !shapes.some(s => String(s.id) === activeTab.value)) {
         activeTab.value = String(shapes[0].id)
       }

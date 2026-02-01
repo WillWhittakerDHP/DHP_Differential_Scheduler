@@ -42,19 +42,14 @@ export function useBookingWizard(): UseBookingWizardReturn {
   const { bookingData } = useBooking()
   
   // LEARNING: Reactive state for wizard selections
-  // WHY: Enables reactive UI updates when selections change
   // PATTERN: Use ref for single values, ref([]) for arrays
-  // Session 1.3.9.3: Updated to use arrays for multi-select support
   const selectedUserTypeBlock = ref<BookingBlockInstance | null>(null)
   const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - renamed from selectedServices for consistency
   const selectedOptionTypeBlocks = ref<BookingBlockInstance[]>([])
   const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedPropertyTypeBlock
   const selectedLineItemBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array for line item blocks (bookingMode: "addOn")
   
-  // LEARNING: Quote mode with localStorage persistence
-  // WHY: Persists quote mode across page reloads and navigation
   // PATTERN: Use useStorage from VueUse for reactive localStorage binding
-  // NOTE: When loading appointments, this will be overridden with appointment's quote mode
   const isQuoteMode = useStorage<boolean>('booking-wizard-quote-mode', false)
 
   /**
@@ -68,7 +63,6 @@ export function useBookingWizard(): UseBookingWizardReturn {
    */
   const selectUserTypeBlock = (block: BookingBlockInstance | null, skipCascade = false): void => {
     selectedUserTypeBlock.value = block
-    // Clear dependent selections when user type changes (unless loading appointment)
     if (!skipCascade) {
       selectedServiceTypeBlocks.value = []
       selectedOptionTypeBlocks.value = []
@@ -86,15 +80,11 @@ export function useBookingWizard(): UseBookingWizardReturn {
    * @param skipCascade - If true, skip cascading clears (used during appointment loading)
    */
   const toggleServiceTypeBlock = (block: BookingBlockInstance, skipCascade = false): void => {
-    // Single-select behavior: replace array with new selection
-    // If clicking the same service, deselect it (empty array)
     if (selectedServiceTypeBlocks.value.length === 1 && selectedServiceTypeBlocks.value[0].id === block.id) {
       selectedServiceTypeBlocks.value = []
     } else {
-      // Replace with new selection
       selectedServiceTypeBlocks.value = [block]
     }
-    // Clear dependent selections when services change (unless loading appointment)
     if (!skipCascade) {
       selectedOptionTypeBlocks.value = []
       selectedPropertyTypeBlocks.value = []
@@ -109,12 +99,10 @@ export function useBookingWizard(): UseBookingWizardReturn {
    */
   const togglePropertyTypeBlock = (block: BookingBlockInstance): void => {
     if (selectedPropertyTypeBlocks.value.length === 1 && selectedPropertyTypeBlocks.value[0]?.id === block.id) {
-      // Deselect if clicking the already-selected property type
       selectedPropertyTypeBlocks.value = []
       return
     }
 
-    // Replace with new selection (single-select behavior)
     selectedPropertyTypeBlocks.value = [block]
   }
 
@@ -184,7 +172,6 @@ export function useBookingWizard(): UseBookingWizardReturn {
     }
 
     try {
-      // Transform appointment to wizard state
       const wizardStateData = await transformAppointmentToWizard(appointment, bookingData.value)
       
       /**
@@ -198,8 +185,6 @@ export function useBookingWizard(): UseBookingWizardReturn {
       selectedLineItemBlocks.value = wizardStateData.lineItemBlocks || []
       isQuoteMode.value = wizardStateData.isQuoteMode || false
       
-      // Return wizard state data for form field population
-      // Note: Form fields are managed in step components, so they need to be populated separately
       return wizardStateData
     } catch (error) {
       return null
@@ -220,21 +205,17 @@ export function useBookingWizard(): UseBookingWizardReturn {
     selectedPropertyTypeBlocks.value = []
     selectedOptionTypeBlocks.value = []
     selectedLineItemBlocks.value = []
-    // LEARNING: Reset quote mode - useStorage will automatically sync to localStorage
-    // WHY: Clears quote mode when resetting wizard
     // PATTERN: Setting value will update localStorage via useStorage
     isQuoteMode.value = false
   }
 
   return {
-    // State
     selectedUserTypeBlock,
     selectedServiceTypeBlocks,
     selectedOptionTypeBlocks,
     selectedPropertyTypeBlocks,
     selectedLineItemBlocks,
     isQuoteMode,
-    // Methods
     selectUserTypeBlock,
     toggleServiceTypeBlock,
     toggleOptionTypeBlock,
@@ -242,21 +223,17 @@ export function useBookingWizard(): UseBookingWizardReturn {
     toggleLineItemBlock,
     loadAppointment,
     resetWizard,
-    // Computed
     availableUserTypeBlocks,
     availableServices,
     availableOptionTypeBlocks,
     availablePropertyTypeBlocks,
     availableLineItemBlocks,
-    // Errors
     servicesCascadeError,
     availabilityOptionsCascadeError,
     propertyTypesCascadeError,
-    // Accumulation computed properties
     accServices,
     accProperty,
     accAvailability,
-    // Internal (for debugging/waiting)
     bookingData,
   }
 }

@@ -58,7 +58,6 @@ export function useAppointment(): UseAppointmentReturn {
   const queryClient = useQueryClient()
   const { businessData, isLoading, error } = useBusiness()
   
-  // Use BusinessData collection CRUD for standardized operations
   const { create, update, patch, remove, fetchAll: baseFetchAll, fetchById } = useBusinessDataCollectionCrud<
     AppointmentResponse,
     AppointmentRequest,
@@ -76,7 +75,6 @@ export function useAppointment(): UseAppointmentReturn {
     },
   })
 
-  // Wrap fetchAll to include loading state from useBusiness
   const fetchAll = {
     data: baseFetchAll.data,
     isLoading: computed(() => isLoading.value),
@@ -92,7 +90,6 @@ export function useAppointment(): UseAppointmentReturn {
    */
   const fetchRandom = async (): Promise<AppointmentResponse | null> => {
     try {
-      // If data is loading, wait for it (poll every 100ms, max 5 seconds)
       if (isLoading.value) {
         let attempts = 0
         const maxAttempts = 50
@@ -102,10 +99,8 @@ export function useAppointment(): UseAppointmentReturn {
         }
       }
       
-      // If no data after loading, try refetching
       if (!businessData.value || businessData.value.appointments.length === 0) {
         await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
-        // Wait a bit for refetch to complete
         await new Promise(resolve => setTimeout(resolve, 500))
       }
       

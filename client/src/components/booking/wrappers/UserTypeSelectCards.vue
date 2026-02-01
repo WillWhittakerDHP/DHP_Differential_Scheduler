@@ -23,48 +23,34 @@ import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
 import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
 
-/**
- * Component props
- */
 interface Props {
-  /**
-   * Optional custom configuration
-   */
   config?: Partial<SelectionCardConfig>
 }
 
 const props = withDefaults(defineProps<Props>(), {})
 
-/**
- * Component emits
- */
 interface Emits {
   (e: 'select', id: string | null): void
 }
 
 const emit = defineEmits<Emits>()
 
-// LEARNING: Get wizard instance for state management
 const wizard = useBookingWizard()
 
-// LEARNING: Use instance display for icon/description mapping
 const { instancesWithDisplay } = useInstanceDisplay({
   instances: computed(() => wizard.availableUserTypeBlocks.value)
 })
 
-// LEARNING: Use instance selection config for layout
 const { selectionConfig } = useInstanceSelectionConfig({
   selectionType: 'row',
   stateField: 'userTypeBlock',
   selectedValue: computed(() => wizard.selectedUserTypeBlock.value)
 })
 
-// LEARNING: Merge custom config with defaults and calculate dynamic grid columns
 const mergedConfig = computed<SelectionCardConfig>(() => {
   const baseConfig = selectionConfig.value
   const itemCount = instancesWithDisplay.value.length
   
-  // Calculate grid columns based on item count (fit on one row if < 5 items)
   const dynamicGridColumns = calculateGridColumnsForItemCount(itemCount)
   
   if (props.config) {
@@ -85,7 +71,6 @@ const mergedConfig = computed<SelectionCardConfig>(() => {
   }
 })
 
-// LEARNING: V-model bridge for single-select
 const selectedId = computed<string | null>({
   get: () => wizard.selectedUserTypeBlock.value?.id || null,
   set: (id: string | null) => {

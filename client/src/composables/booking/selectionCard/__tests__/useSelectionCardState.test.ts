@@ -1,30 +1,9 @@
-/**
- * USESELECTIONCARDSTATE TESTS
- * 
- * Unit tests for useSelectionCardState composable.
- * Tests selection state management.
- * 
- * What it covers:
- * - activeStatePlugin: Get active state plugin
- * - isSelected: Selection state based on plugin or modelValue
- * - pluginWatchSource: Watch source for reactivity
- * 
- * How it works:
- * - Tests plugin selection logic
- * - Tests selection state calculation
- * - Tests fallback to modelValue
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref/computed for reactive state
- */
 
 import { describe, it, expect, vi } from 'vitest'
 import { ref, computed, nextTick } from 'vue'
 import { useSelectionCardState } from '../useSelectionCardState'
 import type { SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
 
-// Helper to create mock item
 function createItem(id: string): SelectionCardItem {
   return {
     id,
@@ -33,7 +12,6 @@ function createItem(id: string): SelectionCardItem {
   } as SelectionCardItem
 }
 
-// Helper to create mock plugin
 function createMockPlugin(getValue = vi.fn(() => false)): StatePlugin {
   return {
     id: 'test-plugin',
@@ -74,7 +52,6 @@ describe('useSelectionCardState', () => {
         emit,
       })
       
-      // Should create a local plugin
       expect(activeStatePlugin.value).not.toBeNull()
       expect(activeStatePlugin.value).toHaveProperty('getValue')
       expect(activeStatePlugin.value).toHaveProperty('setValue')
@@ -129,7 +106,6 @@ describe('useSelectionCardState', () => {
         emit,
       })
       
-      // Local plugin will be created, but it should reflect the modelValue
       expect(typeof isSelected.value).toBe('boolean')
     })
 
@@ -165,14 +141,11 @@ describe('useSelectionCardState', () => {
         emit,
       })
       
-      // Initial state
       const initialSelected = isSelected.value
       
-      // Change model value
       modelValueRef.value = 'item-1'
       await nextTick()
       
-      // Should update
       expect(typeof isSelected.value).toBe('boolean')
     })
   })

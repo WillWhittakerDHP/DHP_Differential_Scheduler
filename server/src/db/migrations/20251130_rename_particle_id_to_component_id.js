@@ -7,7 +7,6 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    // Check if column exists using SQL query (more reliable than describeTable)
     const [results] = await queryInterface.sequelize.query(`
       SELECT column_name 
       FROM information_schema.columns 
@@ -19,15 +18,12 @@ export default {
     const hasParticleId = columnNames.includes('particle_id');
     const hasComponentId = columnNames.includes('component_id');
     
-    // If particle_id exists and component_id doesn't, rename it
     if (hasParticleId && !hasComponentId) {
       await queryInterface.renameColumn('active_compositions', 'particle_id', 'component_id');
       console.log('✅ Renamed particle_id column to component_id on active_compositions');
       
-      // PostgreSQL automatically updates indexes when columns are renamed, but we need to check
       // if there are any indexes with old names that need updating
       try {
-        // Check for idx_particle index and rename it if it exists
         const [indexResults] = await queryInterface.sequelize.query(`
           SELECT indexname 
           FROM pg_indexes 
@@ -64,16 +60,13 @@ export default {
         console.log('ℹ️  Error updating constraint name (may not exist):', error.message);
       }
     } else if (hasComponentId) {
-      // component_id already exists, do nothing
       console.log('ℹ️  Column active_compositions.component_id already exists, skipping');
     } else if (!hasParticleId && !hasComponentId) {
-      // Neither exists, this shouldn't happen but handle gracefully
       console.log('⚠️  Neither particle_id nor component_id exists in active_compositions table');
     }
   },
 
   async down(queryInterface, Sequelize) {
-    // Check current state using SQL query
     const [results] = await queryInterface.sequelize.query(`
       SELECT column_name 
       FROM information_schema.columns 
@@ -85,12 +78,10 @@ export default {
     const hasParticleId = columnNames.includes('particle_id');
     const hasComponentId = columnNames.includes('component_id');
     
-    // If component_id exists, rename it back to particle_id
     if (hasComponentId && !hasParticleId) {
       await queryInterface.renameColumn('active_compositions', 'component_id', 'particle_id');
       console.log('✅ Renamed component_id column back to particle_id on active_compositions');
       
-      // Update index names back
       try {
         const [indexResults] = await queryInterface.sequelize.query(`
           SELECT indexname 
@@ -128,7 +119,6 @@ export default {
         console.log('ℹ️  Error updating constraint name:', error.message);
       }
     } else if (hasParticleId) {
-      // particle_id already exists, do nothing
       console.log('ℹ️  Column active_compositions.particle_id already exists, no change needed');
     }
   }

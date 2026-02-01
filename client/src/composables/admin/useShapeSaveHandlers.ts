@@ -51,45 +51,30 @@ export function useShapeSaveHandlers(
   const annotationShapeCrud = useEntityCrud('annotationShape')
   const { success } = useNotification()
 
-  /**
-   * LEARNING: Handle BlockShape creation save
-   */
   const handleBlockShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>): void => {
     isCreatingBlockShape.value = false
     newBlockShapeInitialValues.value = null
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
   }
 
-  /**
-   * LEARNING: Handle BlockShape creation cancel
-   */
   const handleBlockShapeCancelled = (): void => {
     isCreatingBlockShape.value = false
     newBlockShapeInitialValues.value = null
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
   }
 
-  /**
-   * LEARNING: Handle PartShape creation save
-   */
   const handlePartShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>): void => {
     isCreatingPartShape.value = false
     newPartShapeInitialValues.value = null
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
   }
 
-  /**
-   * LEARNING: Handle PartShape creation cancel
-   */
   const handlePartShapeCancelled = (): void => {
     isCreatingPartShape.value = false
     newPartShapeInitialValues.value = null
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
   }
 
-  /**
-   * LEARNING: Handle AnnotationShape creation save
-   */
   const handleAnnotationShapeCreate = async (): Promise<void> => {
     if (!newAnnotationShapeName.value.trim()) return
     
@@ -105,13 +90,9 @@ export function useShapeSaveHandlers(
       newAnnotationShapeName.value = ''
       expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
     } catch (_error) {
-      // Failed to create annotation shape
     }
   }
 
-  /**
-   * LEARNING: Handle AnnotationShape creation cancel
-   */
   const handleAnnotationShapeCancelled = (): void => {
     isCreatingAnnotationShape.value = false
     newAnnotationShapeName.value = ''
@@ -124,7 +105,6 @@ export function useShapeSaveHandlers(
    * PATTERN: Remove entity ID from expandedShapes to collapse the panel
    */
   const handleExistingShapeSaved = (entity: GlobalEntity<GlobalEntityKey>): void => {
-    // Collapse the card by removing from expanded list
     expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
   }
 

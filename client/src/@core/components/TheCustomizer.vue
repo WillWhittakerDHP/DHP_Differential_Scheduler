@@ -23,7 +23,6 @@ const isNavDrawerOpen = ref(false)
 
 const configStore = useConfigStore()
 
-// 👉 Primary Color
 const vuetifyTheme = useTheme()
 
 const colors: { main: string; darken: string }[] = [
@@ -47,20 +46,16 @@ watch(
   { immediate: true },
 )
 
-// ℹ️ It will set primary color for current theme only
 const setPrimaryColor = useDebounceFn((color: { main: string; darken: string }) => {
   vuetifyTheme.themes.value[vuetifyTheme.name.value].colors.primary = color.main
   vuetifyTheme.themes.value[vuetifyTheme.name.value].colors['primary-darken-1'] = color.darken
 
-  // ℹ️ We need to store this color value in cookie so vuetify plugin can pick on next reload
   cookieRef<string | null>(`${vuetifyTheme.name.value}ThemePrimaryColor`, null).value = color.main
   cookieRef<string | null>(`${vuetifyTheme.name.value}ThemePrimaryDarkenColor`, null).value = color.darken
 
-  // ℹ️ Update initial loader color
   useStorage<string | null>(namespaceConfig('initial-loader-color'), null).value = color.main
 }, 100)
 
-// 👉 Mode
 const themeMode = computed(() => {
   return [
     {
@@ -81,7 +76,6 @@ const themeMode = computed(() => {
   ]
 })
 
-// 👉 Skin
 const themeSkin = computed(() => {
   return [
     {
@@ -97,7 +91,6 @@ const themeSkin = computed(() => {
   ]
 })
 
-// 👉 Layout
 const currentLayout = ref<'vertical' | 'collapsed' | 'horizontal'>(configStore.isVerticalNavCollapsed ? 'collapsed' : configStore.appContentLayoutNav)
 
 const layouts = computed(() => {
@@ -131,7 +124,6 @@ watch(currentLayout, () => {
   }
 })
 
-// watch vertical sidebar collapse state
 watch(
   () => configStore.isVerticalNavCollapsed,
   () => {
@@ -141,7 +133,6 @@ watch(
   },
 )
 
-// 👉 Content Width
 const contentWidth = computed(() => {
   return [
     {
@@ -157,7 +148,6 @@ const contentWidth = computed(() => {
   ]
 })
 
-// 👉 Direction
 const currentDir = ref(configStore.isAppRTL ? 'rtl' : 'ltr')
 
 const direction = computed(() => {
@@ -183,7 +173,6 @@ watch(currentDir, () => {
     configStore.isAppRTL = false
 })
 
-// check if any value set in cookie
 const isCookieHasAnyValue = ref(false)
 
 const { locale } = useI18n({ useScope: 'global' })
@@ -228,10 +217,8 @@ watch([
   isCookieHasAnyValue.value = JSON.stringify(themeConfigValue) !== JSON.stringify(initialConfigValue)
 }, { deep: true, immediate: true })
 
-// remove all theme related values from localStorage
 const resetCustomizer = async () => {
   if (isCookieHasAnyValue.value) {
-    // reset themeConfig values
     vuetifyTheme.themes.value.light.colors.primary = staticPrimaryColor
     vuetifyTheme.themes.value.dark.colors.primary = staticPrimaryColor
     vuetifyTheme.themes.value.light.colors['primary-darken-1'] = staticPrimaryDarkenColor

@@ -37,14 +37,12 @@ import type { PartFinal } from '../PartFinal'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 
-// Mock dependencies
 vi.mock('@/utils/timeSlotCalculations', () => ({
   roundUpToIncrement: vi.fn((duration: number, increment: number) => {
     return Math.ceil(duration / increment) * increment
   })
 }))
 
-// Helper to create mock part instance
 function createPartInstance(
   id: string,
   baseTime: number,
@@ -75,7 +73,6 @@ function createPartInstance(
   } as BookingPartInstance
 }
 
-// Helper to create mock block instance
 function createBlockInstance(
   id: string,
   partInstances: BookingPartInstance[] = []
@@ -209,8 +206,6 @@ describe('appointmentSlotBuilder', () => {
       
       expect(result.finalizedParts.length).toBe(3) // Three different part shapes
       expect(result.slotShape.totalDuration).toBe(135) // 30 + 45 + 60
-      // LEARNING: Use eventFinals array instead of individual properties
-      // WHY: New structure uses eventFinals array for dynamic event types
       const onSiteEventFinal = findEventFinalByName(result.slotShape, 'OnSite')
       const clientPresentEventFinal = findEventFinalByName(result.slotShape, 'ClientPresent')
       const moveableEventFinal = findEventFinalByName(result.slotShape, 'Moveable')
@@ -229,7 +224,6 @@ describe('appointmentSlotBuilder', () => {
       
       const result = buildAppointmentShape([blockInstance])
       
-      // Zeroed parts should be filtered out
       expect(result.finalizedParts.length).toBe(0)
       expect(result.slotShape.totalDuration).toBe(0)
     })
@@ -295,15 +289,12 @@ describe('appointmentSlotBuilder', () => {
         slotShape: calculateSlotShape(filterZeroedParts(finalizedParts))
       }
       
-      // Should not throw - clientPresentTimeRange ends when onSiteTimeRange ends
       const result = applyShapeToTime(shape, '2026-01-15T10:00:00Z', 0, undefined, true)
       
       expect(result.onSiteTimeRange?.endTime).toBe(result.clientPresentTimeRange?.endTime)
     })
 
     it('should ensure clientPresentTimeRange and onSiteTimeRange end times match when both exist', () => {
-      // The implementation calculates clientPresentTimeRange to end when onSiteTimeRange ends
-      // This test verifies that the validation ensures they match
       const finalizedParts = createPartFinals([
         createPartInstance('1', 30, { onSite: true, clientPresent: false, partShape: 'shape-1' }),
         createPartInstance('2', 30, { onSite: true, clientPresent: true, partShape: 'shape-2' })
@@ -315,10 +306,8 @@ describe('appointmentSlotBuilder', () => {
       
       const result = applyShapeToTime(shape, '2026-01-15T10:00:00Z', 0, undefined, true)
       
-      // Both should exist
       expect(result.onSiteTimeRange).toBeTruthy()
       expect(result.clientPresentTimeRange).toBeTruthy()
-      // They should end at the same time (when inspector finishes on-site work)
       expect(result.onSiteTimeRange?.endTime).toBe(result.clientPresentTimeRange?.endTime)
     })
   })

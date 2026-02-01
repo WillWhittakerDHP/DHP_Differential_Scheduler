@@ -31,7 +31,6 @@ import { ref, nextTick } from 'vue'
 import { usePropertyDetailsLogic } from '../usePropertyDetailsLogic'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Mock useGlobal and useComponentEntity
 vi.mock('@/composables/useGlobal', () => ({
   useGlobal: () => ({
     getGlobalEntityById: vi.fn(() => null),
@@ -45,7 +44,6 @@ vi.mock('@/composables/useComponentEntity', () => ({
   }),
 }))
 
-// Helper to create mock property block
 function createPropertyBlock(
   id: string,
   options: {
@@ -73,7 +71,6 @@ function createPropertyBlock(
   }
 }
 
-// Helper to create form data refs
 function createFormData() {
   return {
     address: ref(''),

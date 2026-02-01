@@ -2,16 +2,11 @@ import type { RouteRecordRaw, RouteLocationNormalized } from 'vue-router'
 
 const emailRouteComponent = () => import('@/pages/apps/email/index.vue')
 
-// 👉 Redirects
 export const redirects: RouteRecordRaw[] = [
-  // ℹ️ We are redirecting to different pages based on role.
-  // NOTE: Role is just for UI purposes. ACL is based on abilities.
   {
     path: '/',
     name: 'index',
-    // @ts-expect-error - Vue Router redirect function type is complex, this works at runtime
     redirect: (to: RouteLocationNormalized) => {
-      // TODO: Get type from backend
       const userData = useCookie<Record<string, unknown> | null | undefined>('userData')
       const userRole = userData.value?.role
 
@@ -36,7 +31,6 @@ export const redirects: RouteRecordRaw[] = [
 ]
 
 export const routes: RouteRecordRaw[] = [
-  // Email filter
   {
     path: '/apps/email/filter/:filter',
     name: 'apps-email-filter',
@@ -47,13 +41,11 @@ export const routes: RouteRecordRaw[] = [
     },
   },
 
-  // Email label
   {
     path: '/apps/email/label/:label',
     name: 'apps-email-label',
     component: emailRouteComponent,
     meta: {
-      // contentClass: 'email-application',
       navActiveLink: 'apps-email',
       layoutWrapperClasses: 'layout-content-height-fixed',
     },

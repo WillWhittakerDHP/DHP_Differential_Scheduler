@@ -1,17 +1,8 @@
-/**
- * RELATIONSHIP FACTORY
- * 
- * Factory functions for generating mock relationships for testing.
- * Provides builders for all GlobalRelationship types.
- */
 
 import type { GlobalRelationship } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 
-/**
- * Create a partAssignments relationship (blockInstance -> partInstances)
- */
 export function createPartAssignmentsRel(
   parentId: string,
   childIds: string[]
@@ -23,9 +14,6 @@ export function createPartAssignmentsRel(
   }
 }
 
-/**
- * Create an instanceComponents relationship (blockInstance -> blockInstances)
- */
 export function createActiveComponentsRel(
   parentId: string,
   childIds: string[]
@@ -37,9 +25,6 @@ export function createActiveComponentsRel(
   }
 }
 
-/**
- * Create an bookingCascades relationship (blockInstance -> blockInstances)
- */
 export function createActiveCascadesRel(
   parentId: string,
   childIds: string[]
@@ -51,9 +36,6 @@ export function createActiveCascadesRel(
   }
 }
 
-/**
- * Create a validParts relationship (blockShape -> partShapes)
- */
 export function createValidPartsRel(
   parentId: string,
   childIds: string[]
@@ -65,9 +47,6 @@ export function createValidPartsRel(
   }
 }
 
-/**
- * Create a validCascades relationship (blockShape -> blockShapes)
- */
 export function createValidCascadesRel(
   parentId: string,
   childIds: string[]
@@ -79,9 +58,6 @@ export function createValidCascadesRel(
   }
 }
 
-/**
- * Create a dependentInstances relationship (blockInstance -> blockInstances)
- */
 export function createDependentInstancesRel(
   parentId: string,
   childIds: string[]
@@ -93,9 +69,6 @@ export function createDependentInstancesRel(
   }
 }
 
-/**
- * Create a generic relationship with specified types
- */
 export function createRelationship<RK extends GlobalRelationshipKey>(
   relationshipKind: RK,
   parentId: string,
@@ -110,9 +83,6 @@ export function createRelationship<RK extends GlobalRelationshipKey>(
   } as GlobalRelationship<RK>
 }
 
-/**
- * Create a set of relationships for a composite block with components
- */
 export function createCompositeRelationships(
   compositeBlockId: string,
   componentIds: string[],

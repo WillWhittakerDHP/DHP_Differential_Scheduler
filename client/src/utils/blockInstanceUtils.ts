@@ -12,24 +12,8 @@ import type { BookingBlockInstance, BookingData, BookingBlockShape } from '@/uti
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import { findById } from '@/utils/collections/findById'
 
-// Removed unused function: getBlockInstancesByShapeId
-// LEARNING: Function was declared but never used
-// WHY: Removes dead code to improve maintainability
 
-// Removed unused function: getBlockInstancesByShapeIdFromBooking
-// LEARNING: Function was declared but only used by other unused functions
-// WHY: Removes dead code to improve maintainability
 
-/**
- * Find block instance by ID and block shape ID
- * LEARNING: Validates block instance matches expected block shape
- * WHY: Prevents matching wrong block types (e.g., baseService ID in userTypeBlockId field)
- * 
- * @param bookingData - BookingData containing block instances
- * @param id - Block instance ID to find
- * @param blockShapeId - Expected block shape ID
- * @returns BookingBlockInstance if found and matches block shape, null otherwise
- */
 export function findBlockInstanceByIdAndShapeId(
   bookingData: BookingData,
   id: string | null | undefined,
@@ -49,25 +33,12 @@ export function findBlockInstanceByIdAndShapeId(
   return blockInstance
 }
 
-/**
- * Get state control block shapes from BookingData
- * LEARNING: Filters block shapes by type === 'user' for explicit semantic typing
- * WHY: Type provides stable semantic identification independent of properties
- * PATTERN: Use type-based filtering for state control blocks (user type)
- * NOTE: Uses type-based filtering (type === 'user') for state control blocks
- * 
- * @param bookingData - BookingData containing block shapes
- * @returns Array of BookingBlockShape entities where type === 'user'
- */
 function getStateControlBlockShapes(
   bookingData: BookingData
 ): BookingBlockShape[] {
-  // LEARNING: Defensive read for tests/edge-cases where bookingData may be partially constructed.
   // WHY: Some transformers/tests intentionally pass "empty" booking data objects.
   const blockShapes = bookingData.blockShapes ?? []
   
-  // LEARNING: Strict type-based filtering - no fallbacks
-  // WHY: Fallbacks hide data configuration errors, making bugs hard to diagnose
   const filtered = blockShapes.filter(
     blockShape => {
       if (!blockShape.type) {
@@ -85,14 +56,6 @@ function getStateControlBlockShapes(
   return filtered
 }
 
-/**
- * Get state control block instances from BookingData
- * LEARNING: Gets all block instances that belong to state control block shapes
- * WHY: State control blocks are identified by property (isStateControl: true)
- * 
- * @param bookingData - BookingData containing block instances and block shapes
- * @returns Array of BookingBlockInstance entities that belong to state control block shapes
- */
 export function getStateControlBlockInstances(
   bookingData: BookingData
 ): BookingBlockInstance[] {
@@ -108,16 +71,6 @@ export function getStateControlBlockInstances(
   return filtered
 }
 
-/**
- * Get block shape ID by name from BookingData
- * LEARNING: Helper to find block shape ID by name (for migration/fallback)
- * WHY: Temporary bridge function until all code uses ID-based filtering
- * NOTE: Prefer using block shape IDs directly instead of name lookups
- * 
- * @param bookingData - BookingData containing block shapes
- * @param name - Block shape name to find
- * @returns Block shape ID if found, null otherwise
- */
 export function getBlockShapeIdByName(
   bookingData: BookingData,
   name: string
@@ -129,20 +82,7 @@ export function getBlockShapeIdByName(
   return blockShape?.id ?? null
 }
 
-// Removed unused function: getBlockInstancesByShapeName
-// LEARNING: Function was declared but never used
-// WHY: Removes dead code to improve maintainability
 
-/**
- * Get block shape ID by type from BookingData
- * LEARNING: Stable type-based lookup for block shape ID
- * WHY: Type is immutable semantic identifier, independent of display name
- * PATTERN: Use type instead of name for reliable filtering
- * 
- * @param bookingData - BookingData containing block shapes
- * @param type - Block shape type to find ('user', 'service', 'property', 'option')
- * @returns Block shape ID if found, null otherwise
- */
 export function getBlockShapeIdByType(
   bookingData: BookingData,
   type: BlockShapeType
@@ -154,19 +94,7 @@ export function getBlockShapeIdByType(
   return blockShape?.id ?? null
 }
 
-// Removed unused function: getBlockInstancesByType
-// LEARNING: Function was declared but never used
-// WHY: Removes dead code to improve maintainability
 
-/**
- * Get state control block instance options for select components
- * LEARNING: Generates options array from state control block instances
- * WHY: Provides formatted options for UI components (selects, dropdowns)
- * PATTERN: Map entities to option format with title and value
- * 
- * @param globalData - GlobalData containing all entities
- * @returns Array of state control block instance options with title and value
- */
 export function getStateControlBlockInstanceOptions(
   globalData: GlobalData
 ): Array<{ title: string; value: string | null }> {
@@ -203,13 +131,11 @@ export function generateIncrementedName(
   blockShapeRef: string,
   getEntitiesByKey: (entityKey: 'blockInstance') => GlobalEntity<'blockInstance'>[]
 ): string {
-  // Get all instances with same blockShapeRef
   const allBlockInstances = getEntitiesByKey('blockInstance')
   const instancesWithSameShape = allBlockInstances.filter(
     (instance) => instance.blockShapeRef === blockShapeRef
   )
 
-  // Check if name ends with a number pattern (e.g., "Name 1", "Name 2")
   const numberPattern = /\s+(\d+)$/
   const match = currentName.match(numberPattern)
   
@@ -217,16 +143,13 @@ export function generateIncrementedName(
   let startNumber: number
   
   if (match) {
-    // Name ends with a number - extract base name and increment
     baseName = currentName.substring(0, match.index).trim()
     startNumber = parseInt(match[1], 10) + 1
   } else {
-    // Name doesn't end with a number - use full name as base and start from 1
     baseName = currentName
     startNumber = 1
   }
 
-  // Find the next available number
   let newNumber = startNumber
   while (
     instancesWithSameShape.some(

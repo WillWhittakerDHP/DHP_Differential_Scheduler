@@ -36,16 +36,6 @@ function hasDuplicateUserTypeBlock(
   return otherAnnotations.some(a => a.userTypeBlock === currentAnnotation.userTypeBlock)
 }
 
-/**
- * LEARNING: Get available user types for an annotation (filter out already-used types)
- * WHY: Prevents selecting user types that are already in use
- * PATTERN: Return user type options with disabled state for unavailable types
- * 
- * @param currentAnnotation - The annotation being edited
- * @param allAnnotations - All annotations for the block instance
- * @param userTypeBlockOptions - Available user type options
- * @returns User type options with disabled state set for unavailable types
- */
 export function getAvailableUserTypeBlocksForAnnotation(
   currentAnnotation: AnnotationWithMetadata,
   allAnnotations: AnnotationWithMetadata[],
@@ -60,18 +50,6 @@ export function getAvailableUserTypeBlocksForAnnotation(
   }))
 }
 
-/**
- * LEARNING: Format annotation for display
- * WHY: Consistent formatting of annotations across UI
- * PATTERN: Simple text extraction with optional metadata display
- * 
- * LEARNING: Function not exported - unused in codebase
- * WHY: This function is not currently used, kept for potential future use
- * NOTE: If needed in future, uncomment export
- * 
- * @param annotation - Annotation to format
- * @returns Formatted string for display
- */
 function formatAnnotationForDisplay(annotation: AnnotationWithMetadata): string {
   return annotation.text
 }
@@ -94,10 +72,8 @@ function getAnnotationsForUserTypeBlock(
   userTypeBlock: UserTypeBlock | null
 ): AnnotationWithMetadata[] {
   if (userTypeBlock === null) {
-    // Return generic annotations (userTypeBlock === null)
     return annotations.filter(a => a.userTypeBlock === null)
   }
-  // Return annotations matching the user type
   return annotations.filter(a => a.userTypeBlock === userTypeBlock)
 }
 

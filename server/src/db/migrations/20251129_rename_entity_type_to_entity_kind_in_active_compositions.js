@@ -11,7 +11,6 @@ export default {
   async up(queryInterface, Sequelize) {
     const tableName = 'active_compositions';
     
-    // Check if table exists
     const tableDescription = await queryInterface.describeTable(tableName);
     
     if (!tableDescription) {
@@ -19,9 +18,7 @@ export default {
       return;
     }
     
-    // Check if entity_type column exists
     if (tableDescription.entity_type) {
-      // Rename column from entity_type to entity_kind
       await queryInterface.renameColumn(tableName, 'entity_type', 'entity_kind');
       console.log('✅ Renamed column entity_type → entity_kind in active_compositions');
     } else if (tableDescription.entity_kind) {
@@ -41,11 +38,9 @@ export default {
         console.log('✅ Removed old index idx_entity_type');
       }
     } catch (error) {
-      // Index might not exist, which is fine
       console.log('ℹ️  Old index idx_entity_type not found or already removed');
     }
     
-    // Create new index with correct name
     try {
       const indexes = await queryInterface.showIndex(tableName);
       const newIndexExists = indexes.some(idx => idx.name === 'idx_entity_kind');
@@ -60,14 +55,12 @@ export default {
       }
     } catch (error) {
       console.error('⚠️  Error creating index idx_entity_kind:', error);
-      // Continue even if index creation fails
     }
   },
 
   async down(queryInterface, Sequelize) {
     const tableName = 'active_compositions';
     
-    // Check if table exists
     const tableDescription = await queryInterface.describeTable(tableName);
     
     if (!tableDescription) {
@@ -75,9 +68,7 @@ export default {
       return;
     }
     
-    // Check if entity_kind column exists
     if (tableDescription.entity_kind) {
-      // Remove new index
       try {
         const indexes = await queryInterface.showIndex(tableName);
         const newIndexExists = indexes.some(idx => idx.name === 'idx_entity_kind');
@@ -90,11 +81,9 @@ export default {
         console.log('ℹ️  Index idx_entity_kind not found or already removed');
       }
       
-      // Rename column back from entity_kind to entity_type
       await queryInterface.renameColumn(tableName, 'entity_kind', 'entity_type');
       console.log('✅ Renamed column entity_kind → entity_type in active_compositions');
       
-      // Recreate old index
       try {
         await queryInterface.addIndex(tableName, ['entity_type'], {
           name: 'idx_entity_type',

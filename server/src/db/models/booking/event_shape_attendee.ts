@@ -41,7 +41,6 @@ export class EventShapeAttendee extends Model<
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  // Associations
   declare eventShape?: EventShape;
   declare userTypeBlockInstance?: BlockInstance; // The BlockInstance representing the user type
 }

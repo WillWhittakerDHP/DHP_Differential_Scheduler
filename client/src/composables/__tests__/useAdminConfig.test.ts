@@ -1,16 +1,8 @@
-/**
- * USE ADMIN CONFIG TESTS
- * 
- * Unit tests for useAdminConfig composable.
- * Tests config access, caching, and reactive computed refs.
- * Phase 7: Config Composables
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useAdminConfig, _clearCache } from '../useAdminConfig'
 import { getAdminConfig, rebuildAdminConfig } from '@/configs/adminConfig'
 
-// Mock admin config
 const mockAdminConfig = {
   formFieldConfig: {
     blockInstance: {
@@ -84,7 +76,6 @@ describe('useAdminConfig', () => {
       
       expect(config.value).toBeDefined()
       
-      // Config should be reactive (computed)
       expect(typeof config.value).toBe('object')
     })
   })
@@ -186,7 +177,6 @@ describe('useAdminConfig', () => {
       
       const adminConfig = useAdminConfig()
       
-      // Should not throw
       const config = adminConfig.getFormFieldConfig('blockInstance', 'name')
       
       expect(config.value).toBeUndefined()

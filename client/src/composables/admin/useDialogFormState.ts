@@ -12,33 +12,15 @@
 
 import { ref, watch, type Ref } from 'vue'
 
-/**
- * Dialog Form State Composable Options
- */
 export interface UseDialogFormStateOptions<T extends Record<string, unknown> = Record<string, unknown>> {
-  /**
-   * Dialog open state
-   */
   dialogOpen: Ref<boolean>
   
-  /**
-   * Initial form values (used for reset)
-   */
   initialValues?: T
 }
 
-/**
- * Dialog Form State Composable Return Type
- */
 export interface UseDialogFormStateReturn<T extends Record<string, unknown> = Record<string, unknown>> {
-  /**
-   * Form values ref
-   */
   formValues: Ref<T>
   
-  /**
-   * Reset form to initial values
-   */
   resetForm: () => void
 }
 

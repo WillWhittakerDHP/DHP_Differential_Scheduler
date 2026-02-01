@@ -29,11 +29,6 @@ export interface UseInputConfigEditorReturn {
   updateInputConfigField: (fieldKey: string, fieldName: keyof InputConfigFormData, value: unknown) => void
 }
 
-/**
- * LEARNING: Manage inputConfig editing for metadata fields
- * WHY: Provides form-friendly structure for editing inputConfig object
- * PATTERN: Parse inputConfig into form fields, update individual fields, reconstruct object
- */
 export function useInputConfigEditor(
   options: UseInputConfigEditorOptions
 ): UseInputConfigEditorReturn {
@@ -61,7 +56,6 @@ export function useInputConfigEditor(
     }
     
     // LEARNING: inputConfig is stored in direct format (not wrapped)
-    // WHY: Database stores inputConfig directly, not wrapped in relationshipSelect/typeSelect
     // PATTERN: Use inputConfig directly
     return {
       targetMode: (inputConfig.targetMode as string) || null,
@@ -80,14 +74,12 @@ export function useInputConfigEditor(
    * PATTERN: Construct object based on targetMode and field values
    */
   function buildInputConfig(fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
-    // Handle options-based selects (like bookingMode)
     if (formData.options !== null) {
       return {
         options: formData.options
       }
     }
     
-    // Handle empty/not configured
     if (!formData.targetMode || !formData.selectMode) {
       return null
     }
@@ -111,11 +103,8 @@ export function useInputConfigEditor(
         baseConfig.placeholder = formData.placeholder
       }
       
-      // For relationshipCollection, ensure optionsFieldKey is set
       const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
       if (renderAs === 'relationshipCollection') {
-        // optionsFieldKey will be determined dynamically by useRelationshipCollectionField
-        // No need to hardcode here
       }
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {

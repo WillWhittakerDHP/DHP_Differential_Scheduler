@@ -20,7 +20,6 @@ export function getEntityFieldValue(
   entity: GlobalEntity<GlobalEntityKey>,
   fieldKey: string
 ): unknown {
-  // Use hasOwnProperty so we don't accidentally read from prototype.
   if (!Object.prototype.hasOwnProperty.call(entity, fieldKey)) return undefined
   return entity[fieldKey as keyof typeof entity]
 }

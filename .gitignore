@@ -4,6 +4,10 @@ dist
 *.log
 coverage
 
+# Comment audit reports (regenerate as needed)
+COMMENT_AUDIT_REPORT.md
+comment-audit-data.json
+
 # Ignore dated property configuration backups
 backups/property-configs/property-config-*.json
 

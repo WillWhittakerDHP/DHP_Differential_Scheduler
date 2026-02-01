@@ -1,16 +1,9 @@
-/**
- * USE ADMIN TESTS
- * 
- * Unit tests for useAdmin composable.
- * Tests admin data fetching, transformation, and entity access.
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useAdmin } from '../useAdmin'
 import { useGlobal } from '../useGlobal'
 import { createAtomicBlockGlobalData } from '@/utils/__tests__/factories/globalDataFactory'
 
-// Mock dependencies
 vi.mock('../useGlobal', () => ({
   useGlobal: vi.fn(() => ({
     globalData: {
@@ -58,15 +51,12 @@ describe('useAdmin', () => {
       
       const blockInstance = adminData.value.blockInstance[0]
       
-      // Admin entities should have relationship arrays attached
       expect(blockInstance).toBeDefined()
     })
   })
   
   describe('entity accessors', () => {
     it('should provide block instances via adminData', () => {
-      // LEARNING: useAdmin returns adminData computed property, not individual entity refs
-      // WHY: All entities accessed through adminData.value.entityKey
       const { adminData } = useAdmin()
       
       expect(adminData.value.blockInstance).toBeInstanceOf(Array)
@@ -93,7 +83,6 @@ describe('useAdmin', () => {
   
   describe('entity lookup', () => {
     it('should find entity by ID using getEntity', () => {
-      // LEARNING: useAdmin provides getEntity function, not findEntityById
       // WHY: getEntity is the standard naming pattern in the composable
       const { getEntity } = useAdmin()
       
@@ -105,7 +94,6 @@ describe('useAdmin', () => {
     })
     
     it('should return undefined for nonexistent entity', () => {
-      // LEARNING: getEntity returns undefined (not null) when entity not found
       // WHY: Standard JavaScript pattern for missing values
       const { getEntity } = useAdmin()
       
@@ -117,22 +105,18 @@ describe('useAdmin', () => {
   
   describe('data state handling', () => {
     // LEARNING: useAdmin uses singleton pattern for performance
-    // WHY: Prevents recalculation of transformedEntities on every component mount
     // PATTERN: Instance is created on first call and reused afterwards
     
     it('should use singleton pattern', () => {
-      // Call useAdmin multiple times
       const instance1 = useAdmin()
       const instance2 = useAdmin()
       
-      // Should return the same instance
       expect(instance1).toBe(instance2)
     })
     
     it('should provide adminData as computed property', () => {
       const { adminData } = useAdmin()
       
-      // adminData should be a computed with a value property
       expect(adminData).toBeDefined()
       expect(adminData.value).toBeDefined()
     })
@@ -146,13 +130,10 @@ describe('useAdmin', () => {
       
       const instances = adminData.value.blockInstance
       
-      // Should return an array of entities
       expect(Array.isArray(instances)).toBe(true)
     })
     
     it('should provide getEntities function for entity access', () => {
-      // LEARNING: getEntities provides type-safe entity access
-      // WHY: Returns entities filtered by entity key
       const { getEntities } = useAdmin()
       
       const blockInstances = getEntities('blockInstance')

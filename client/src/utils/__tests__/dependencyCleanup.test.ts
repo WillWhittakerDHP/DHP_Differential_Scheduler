@@ -1,10 +1,3 @@
-/**
- * DEPENDENCY CLEANUP TESTS
- * 
- * Unit tests for dependencyCleanup utility.
- * Tests cleanup of invalid active relationships when valid relationships change.
- * Phase 6: Medium Priority Utilities
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { cleanupInvalidActiveRelationships } from '../dependencyCleanup'
@@ -13,7 +6,6 @@ import type { QueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey, GlobalEntityId } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 
-// Mock composables
 const mockAdminConfig = {
   getFormFieldConfig: vi.fn(() => ({
     value: {
@@ -41,7 +33,6 @@ vi.mock('@/composables/useAdmin', () => ({
   useAdmin: vi.fn(() => mockAdmin),
 }))
 
-// Mock API client
 vi.mock('@/utils/api', () => ({
   default: {
     delete: vi.fn(),
@@ -60,7 +51,6 @@ describe('dependencyCleanup', () => {
       invalidateQueries: vi.fn(),
     } as any
     
-    // Reset mocks
     mockAdminConfig.getFormFieldConfig.mockReturnValue({
       value: {
         relationshipSelect: {
@@ -158,12 +148,10 @@ describe('dependencyCleanup', () => {
         mockQueryClient
       )
       
-      // Should delete invalid relationship (block-1 -> block-3)
       expect(apiClient.delete).toHaveBeenCalledWith(
         '/api/relationships/bookingCascades/block-1/block-3'
       )
       
-      // Should not delete valid relationship (block-1 -> block-2)
       expect(apiClient.delete).not.toHaveBeenCalledWith(
         '/api/relationships/bookingCascades/block-1/block-2'
       )
@@ -192,7 +180,6 @@ describe('dependencyCleanup', () => {
         mockQueryClient
       )
       
-      // Should check blockShapeRef for validCascades
       expect(mockAdmin.getEntity).toHaveBeenCalledWith('blockInstance', 'block-2')
     })
 
@@ -231,7 +218,6 @@ describe('dependencyCleanup', () => {
         mockQueryClient
       )
       
-      // Should check partShapeRef for validParts
       expect(mockAdmin.getEntity).toHaveBeenCalledWith('partInstance', 'part-1')
     })
 
@@ -311,7 +297,6 @@ describe('dependencyCleanup', () => {
       mockAdmin.getEntity.mockReturnValue(childEntity)
       vi.mocked(apiClient.delete).mockRejectedValue(new Error('Delete failed'))
       
-      // Should not throw
       await expect(
         cleanupInvalidActiveRelationships(
           'blockShape',

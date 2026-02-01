@@ -19,9 +19,6 @@ import type { GlobalEntity } from '@/types/entities'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { getFieldComponent, type FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 
-/**
- * Field Component Composable Options
- */
 export interface UseFieldComponentOptions {
   /**
    * LEARNING: Entity key for field
@@ -52,9 +49,6 @@ export interface UseFieldComponentOptions {
   fieldMetadata?: ComputedRef<Record<string, FieldMetadataEntry>> | Ref<Record<string, FieldMetadataEntry>>
 }
 
-/**
- * Field Component Composable Return Type
- */
 export interface UseFieldComponentReturn {
   /**
    * LEARNING: Component type determined by dispatcher
@@ -70,46 +64,16 @@ export interface UseFieldComponentReturn {
    */
   fieldMetadataEntry: ComputedRef<FieldMetadataEntry | undefined>
   
-  /**
-   * @deprecated Use componentType.value.type === 'icon' instead
-   * LEARNING: Whether field is icon type
-   * WHY: Kept for backward compatibility, but prefer componentType
-   */
   isIcon: Ref<boolean>
   
-  /**
-   * @deprecated Use componentType.value.type === 'primitive' instead
-   * LEARNING: Whether field is primitive type
-   * WHY: Kept for backward compatibility, but prefer componentType
-   */
   isPrimitive: Ref<boolean>
   
-  /**
-   * @deprecated Use componentType.value.type === 'partsCollection' instead
-   * LEARNING: Whether field is partsCollection type
-   * WHY: Kept for backward compatibility, but prefer componentType
-   */
   isPartsCollection: Ref<boolean>
   
-  /**
-   * @deprecated Use componentType.value.type === 'annotations' instead
-   * LEARNING: Whether field is annotations type
-   * WHY: Kept for backward compatibility, but prefer componentType
-   */
   isAnnotations: Ref<boolean>
   
-  /**
-   * @deprecated Use componentType.value.type === 'select' instead
-   * LEARNING: Whether field is select type
-   * WHY: Kept for backward compatibility, but prefer componentType
-   */
   isSelect: Ref<boolean>
   
-  /**
-   * @deprecated Use componentType.value.type === 'relationshipCollection' instead
-   * LEARNING: Whether field is relationship collection type
-   * WHY: Kept for backward compatibility, but prefer componentType
-   */
   isRelationshipCollection: Ref<boolean>
 }
 
@@ -164,8 +128,6 @@ export function useFieldComponent(
     entity
   )
 
-  // LEARNING: Use provided metadata if available, otherwise use fetched metadata
-  // WHY: Both are ComputedRefs, so we need to create a new computed that tracks the right one
   // PATTERN: Create a computed that reactively accesses the correct source
   const fieldMetadata = computed(() => {
     if (providedFieldMetadata) {
@@ -271,9 +233,6 @@ export function useFieldComponent(
    * @deprecated Use componentType.value.type === 'relationshipCollection' instead
    */
   const isAnnotations = computed<boolean>(() => {
-    // Annotations now use relationshipCollection type
-    // LEARNING: Use fieldKeyRef.value instead of fieldKey.value to handle undefined case
-    // WHY: fieldKeyRef is computed and handles undefined/null cases
     // PATTERN: Always return boolean, not boolean | undefined
     return componentType.value.type === 'relationshipCollection' && !!fieldKeyRef.value && String(fieldKeyRef.value) === 'annotations'
   })

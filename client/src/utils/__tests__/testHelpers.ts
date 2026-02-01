@@ -7,9 +7,6 @@
 
 import { expect } from 'vitest'
 
-/**
- * Compare two dates with a tolerance (in milliseconds)
- */
 export function expectDatesClose(
   actual: Date | string,
   expected: Date | string,
@@ -22,9 +19,6 @@ export function expectDatesClose(
   expect(diff).toBeLessThanOrEqual(toleranceMs)
 }
 
-/**
- * Wait for a condition to become true
- */
 export async function waitFor(
   condition: () => boolean,
   options: {
@@ -50,24 +44,15 @@ export async function flushPromises(): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, 0))
 }
 
-/**
- * Create a mock function that returns a resolved promise
- */
 export function createMockAsyncFn<T>(returnValue: T) {
   return vi.fn().mockResolvedValue(returnValue)
 }
 
-/**
- * Create a mock function that returns a rejected promise
- */
 export function createMockAsyncErrorFn(error: Error | string) {
   const errorObj = typeof error === 'string' ? new Error(error) : error
   return vi.fn().mockRejectedValue(errorObj)
 }
 
-/**
- * Assert that an array is sorted by a specific property
- */
 export function expectSortedBy<T>(
   array: T[],
   key: keyof T,
@@ -85,9 +70,6 @@ export function expectSortedBy<T>(
   }
 }
 
-/**
- * Assert that an array contains unique values
- */
 export function expectUniqueValues<T>(array: T[], key?: keyof T) {
   const values = key ? array.map(item => item[key]) : array
   const uniqueValues = new Set(values)
@@ -95,9 +77,6 @@ export function expectUniqueValues<T>(array: T[], key?: keyof T) {
   expect(uniqueValues.size).toBe(array.length)
 }
 
-/**
- * Deep equality comparison with optional tolerance for numbers
- */
 export function expectDeepEqualWithTolerance(
   actual: any,
   expected: any,
@@ -119,9 +98,6 @@ export function expectDeepEqualWithTolerance(
   }
 }
 
-/**
- * Mock localStorage for tests
- */
 export function mockLocalStorage() {
   const store: Record<string, string> = {}
   
@@ -139,16 +115,10 @@ export function mockLocalStorage() {
   }
 }
 
-/**
- * Create a spy on console methods
- */
 export function spyOnConsole(method: 'log' | 'error' | 'warn' | 'info' = 'error') {
   return vi.spyOn(console, method).mockImplementation(() => {})
 }
 
-/**
- * Suppress console output during tests
- */
 export function suppressConsole() {
   const spies = {
     log: vi.spyOn(console, 'log').mockImplementation(() => {}),

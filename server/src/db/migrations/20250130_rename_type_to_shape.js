@@ -7,12 +7,10 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-  // Check if tables exist before renaming
   const blockTypesExists = await queryInterface.tableExists('block_types');
   const partTypesExists = await queryInterface.tableExists('part_types');
   
   if (blockTypesExists) {
-    // 1. Rename tables
     await queryInterface.renameTable('block_types', 'block_shapes');
     console.log('✅ Renamed block_types table to block_shapes');
   } else {
@@ -26,7 +24,6 @@ export default {
     console.log('ℹ️  Table part_types does not exist, skipping rename');
   }
 
-  // 2. Rename columns in block_profiles table
   const blockProfilesExists = await queryInterface.tableExists('block_profiles');
   if (blockProfilesExists) {
     const blockProfilesDescription = await queryInterface.describeTable('block_profiles');
@@ -38,7 +35,6 @@ export default {
     }
   }
 
-  // 3. Rename columns in part_profiles table
   const partProfilesExists = await queryInterface.tableExists('part_profiles');
   if (partProfilesExists) {
     const partProfilesDescription = await queryInterface.describeTable('part_profiles');
@@ -130,9 +126,7 @@ export default {
   },
 
   async down(queryInterface, Sequelize) {
-  // Reverse the operations in opposite order
   
-  // 7. Revert part_profiles foreign key
   await queryInterface.removeConstraint('part_profiles', 'part_profiles_part_shape_ref_fkey');
   await queryInterface.addConstraint('part_profiles', {
     fields: ['part_shape_ref'],
@@ -146,7 +140,6 @@ export default {
   });
   await queryInterface.renameColumn('part_profiles', 'part_shape_ref', 'part_type_ref');
 
-  // 6. Revert block_profiles foreign key
   await queryInterface.removeConstraint('block_profiles', 'block_profiles_block_shape_ref_fkey');
   await queryInterface.addConstraint('block_profiles', {
     fields: ['block_shape_ref'],
@@ -160,7 +153,6 @@ export default {
   });
   await queryInterface.renameColumn('block_profiles', 'block_shape_ref', 'block_type_ref');
 
-  // 5. Revert valid_blocks foreign keys
   await queryInterface.removeConstraint('valid_blocks', 'valid_blocks_child_id_fkey');
   await queryInterface.removeConstraint('valid_blocks', 'valid_blocks_parent_id_fkey');
   await queryInterface.addConstraint('valid_blocks', {
@@ -184,7 +176,6 @@ export default {
     onDelete: 'CASCADE',
   });
 
-  // 4. Revert valid_parts foreign keys
   await queryInterface.removeConstraint('valid_parts', 'valid_parts_child_id_fkey');
   await queryInterface.removeConstraint('valid_parts', 'valid_parts_parent_id_fkey');
   await queryInterface.addConstraint('valid_parts', {
@@ -208,7 +199,6 @@ export default {
     onDelete: 'CASCADE',
   });
 
-  // 3. Revert table renames
   await queryInterface.renameTable('part_shapes', 'part_types');
   await queryInterface.renameTable('block_shapes', 'block_types');
   }

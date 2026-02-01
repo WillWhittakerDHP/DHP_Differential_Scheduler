@@ -24,10 +24,7 @@ export function useInstanceSaveHandlers(): UseInstanceSaveHandlersReturn {
    * FIX: Removed auto-collapse behavior - instance stays visible after save
    */
   const handleExistingBlockInstanceSaved = (_entity: GlobalEntity<GlobalEntityKey>): void => {
-    // LEARNING: Keep instance expanded after save
-    // WHY: User expects to see the saved changes and continue editing if needed
     // PATTERN: Don't auto-collapse - let user manually collapse if desired
-    // Instance remains in expandedInstances, so card stays visible
   }
 
   return {

@@ -22,26 +22,14 @@ export interface SelectDomTarget {
 }
 
 export interface UseSelectDomTargetsOptions {
-  /**
-   * Field context containing field key
-   */
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   
-  /**
-   * Whether to use multiple selects (grouped)
-   */
   shouldUseMultipleSelects: ComputedRef<boolean>
   
-  /**
-   * Groups for multiple selects
-   */
   groupedByKey: ComputedRef<SelectGroup[]>
 }
 
 export interface UseSelectDomTargetsReturn {
-  /**
-   * DOM targets for form association
-   */
   selectDomTargets: ComputedRef<SelectDomTarget[]>
 }
 
@@ -64,7 +52,6 @@ export function useSelectDomTargets(
     const fieldKeyString = String(fieldContext.fieldKey)
 
     if (shouldUseMultipleSelects.value) {
-      // LEARNING: Use map to create targets for each group immutably
       // WHY: Functional approach avoids mutations, aligns with workspace rules
       // PATTERN: Map groups to DOM targets instead of forEach with mutations
       return groupedByKey.value.map(group => {

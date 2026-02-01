@@ -9,9 +9,6 @@
 import { type Ref } from 'vue'
 import type { AppointmentRequest } from '@/types/appointment'
 
-/**
- * useWizardSubmission composable parameters
- */
 export interface UseWizardSubmissionParams {
   collectAppointmentData: () => Promise<AppointmentRequest | null>
   createAppointment: {
@@ -23,9 +20,6 @@ export interface UseWizardSubmissionParams {
   success: (message: string) => void
 }
 
-/**
- * useWizardSubmission composable return type
- */
 export interface UseWizardSubmissionReturn {
   handleSubmit: () => Promise<void>
 }
@@ -56,23 +50,17 @@ export function useWizardSubmission(
    */
   const handleSubmit = async (): Promise<void> => {
     try {
-      // Collect appointment data (creates property and users)
       const appointmentData = await collectAppointmentData()
       
       if (!appointmentData) {
         return // Error already shown
       }
 
-      // Call appointment creation mutation
       await createAppointment.mutateAsync(appointmentData)
       
-      // Show success message
       success('Appointment created successfully!')
       
-      // LEARNING: Navigate to confirmation step after successful appointment creation
-      // WHY: Shows user the confirmation step with appointment summary
       // PATTERN: Set activeStep to confirmation step index (step 4, index 4)
-      // Mark all steps up to confirmation as completed
       for (let i = 0; i < 4; i++) {
         completedSteps.value.add(i)
       }

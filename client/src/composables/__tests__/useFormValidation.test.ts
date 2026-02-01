@@ -1,10 +1,3 @@
-/**
- * USE FORM VALIDATION TESTS
- * 
- * Unit tests for useFormValidation composable.
- * Tests all validation rules and form-level validation.
- * Phase 4A: Core Composables
- */
 
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ref } from 'vue'
@@ -266,7 +259,6 @@ describe('useFormValidation', () => {
   describe('dateNotInPast rule', () => {
     it('should return true for today', () => {
       const rule = validation.dateNotInPast()
-      // Create today's date in a timezone-safe way
       // WHY: Using ISO string can cause timezone issues (UTC date may be "yesterday" in local time)
       // PATTERN: Pass Date object directly instead of string to avoid parsing issues
       const today = new Date()
@@ -375,7 +367,6 @@ describe('useFormValidation', () => {
       
       const result = validation.validateForm(data, rules)
       
-      // Should stop at email validation error, not required
       expect(result.errors.email).toBe('Please enter a valid email address')
     })
   })

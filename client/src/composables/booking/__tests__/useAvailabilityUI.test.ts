@@ -1,27 +1,12 @@
-/**
- * USEAVAILABILITYUI TESTS
- * 
- * Unit tests for useAvailabilityUI composable.
- * Tests UI state management for availability step.
- * 
- * Coverage:
- * - currentTimeSlots computed (filtered by startTimeType)
- * - selectedTimeSlot computed (getter/setter based on mode)
- * - handleTimeSlotClick (selection toggle)
- * - shouldMoveGridBelow computed (responsive layout)
- * - handleDateChange (date validation)
- */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { ref, computed, nextTick } from 'vue'
 import { useAvailabilityUI } from '../useAvailabilityUI'
 import type { TimeSlot } from '@/types/appointment'
 
-// Mock useFormValidation
 vi.mock('@/composables/useFormValidation', () => ({
   useFormValidation: vi.fn(() => ({
     dateNotInPast: vi.fn(() => (date: string) => {
-      // Simple mock: dates starting with '2025' are "in the past"
       if (date.startsWith('2025')) return 'Date cannot be in the past'
       return true
     }),
@@ -31,7 +16,6 @@ vi.mock('@/composables/useFormValidation', () => ({
 describe('useAvailabilityUI', () => {
   let originalInnerWidth: number
 
-  // Test fixtures
   const createTimeSlot = (start: string, end: string): TimeSlot => ({
     slotStart: start,
     slotEnd: end,

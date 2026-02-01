@@ -41,17 +41,11 @@ import DifferentialGraph from '@/components/booking/DifferentialGraph.vue'
 import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
-// LEARNING: Inject shared wizard instance from parent
-// WHY: Ensures all step components share the same wizard state
-// PATTERN: Use inject to get provided instance instead of creating new one
 const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-// LEARNING: Inject loaded wizard state for populating form fields
-// WHY: Enables populating availability date from loaded appointment
-// PATTERN: Inject provided loadedWizardState, fail explicitly if not provided
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 if (!loadedWizardState) {
   throw new Error('loadedWizardState not provided. Make sure BookingWizard provides loadedWizardState.')
@@ -62,24 +56,13 @@ if (!loadedWizardState) {
 // PATTERN: Composable provides pure utility functions
 const { getTodayDate } = useTimeFormatting()
 
-// LEARNING: Inject property details step data for property-based adjustments
-// WHY: Enables property-based time adjustments in availability calculations
-// PATTERN: Inject provided propertyDetailsStepData, fail explicitly if not provided
 const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData')
 if (!propertyDetailsStepData) {
   throw new Error('propertyDetailsStepData not provided. Make sure BookingWizard provides propertyDetailsStepData.')
 }
 
-// LEARNING: Create ref wrapper for timeSlots to enable reactive watching
 // WHY: Resolves circular dependency between composables:
-//      - useAvailabilityDefaults needs timeSlots (nullable) but useAvailability creates it later
-//      - useAvailability needs accumulatedBlockInstances from useAvailabilityLogic
-//      - useAvailabilityLogic needs timeSlots (non-null) from useAvailability
-// PATTERN: Hold the computed ref in a wrapper, then expose two views:
-// - nullable (for defaults) to avoid treating "not initialized yet" as "empty"
-// - non-null array (for logic) to satisfy composable typing
 // NOTE: This wrapper pattern is necessary due to initialization order constraints.
-//       The wrapper is updated after useAvailability creates timeSlots (line ~156).
 const timeSlotsWrapper = ref<ComputedRef<TimeSlot[]> | null>(null)
 const timeSlotsForDefaults = computed(() => {
   const wrapper = timeSlotsWrapper.value
@@ -94,26 +77,17 @@ const timeSlotsForLogic = computed(() => {
 
 // LEARNING: Compute effective differential state before useAvailabilityDefaults
 // WHY: useAvailabilityDefaults needs effective differential state (considering overrides) to auto-select startTimeType
-// PATTERN: Check if service is differential AND no part has differentialOverride: true
 // NOTE: This is calculated early because useAvailabilityDefaults needs it before useAvailabilityLogic is called
-//       After useAvailabilityLogic is called, we use its isEffectivelyDifferential for everything else
 const isEffectivelyDifferentialForDefaults = computed(() => {
   const selectedServices = wizard.selectedServiceTypeBlocks.value
   const selectedOptions = wizard.selectedOptionTypeBlocks.value
   
-  // LEARNING: Use equals() helper for ternary boolean comparison
-  // WHY: differential is TernaryBoolean ('true'/'false'/'override'), not boolean
   // PATTERN: Use equals() helper from ternaryUtils for proper comparison
-  // Check if any service is differential
   const isDifferential = selectedServices.some(s => equals(s.differential, 'true'))
   if (!isDifferential) return false
   
-  // LEARNING: differentialOverride property was deprecated when converting to events
-  // WHY: This property no longer exists on BookingPartInstance - removed when converting to EventAssignment relationships
   // PATTERN: Differential override logic should be handled via events if needed in the future
-  // NOTE: Removed differentialOverride check - if this functionality is needed, it should be implemented via events
   
-  // If override exists, force non-differential
   const serviceHasOverride = false // Removed: differentialOverride check deprecated
   const optionHasOverride = false // Removed: differentialOverride check deprecated
   if (serviceHasOverride || optionHasOverride) return false
@@ -122,7 +96,6 @@ const isEffectivelyDifferentialForDefaults = computed(() => {
 })
 
 // LEARNING: Use availability defaults composable for state management and defaulting
-// WHY: Extracts state management and defaulting logic from component
 // PATTERN: Composable manages selectedDate, startTimeType, appointmentSlotOrderIndex
 const {
   selectedDate,
@@ -135,10 +108,7 @@ const {
 })
 
 // LEARNING: Use availability logic composable
-// WHY: Extracts business logic from component to composable
 // PATTERN: Composable provides reactive computed properties for availability logic
-// NOTE: This composable provides accumulatedBlockInstances, dateRangeForApi, and propertyDetails
-//       which were previously defined locally in the component
 const {
   accumulatedBlockInstances,
   dateRangeForApi,
@@ -161,20 +131,15 @@ const {
 
 // LEARNING: useAvailability composable for calculating time slots client-side
 // WHY: Calculates available time slots from part instances without API dependency
-// PATTERN: Uses computed properties from useAvailabilityLogic (accumulatedBlockInstances, dateRangeForApi, propertyDetails)
 const { timeSlots } = useAvailability(
   accumulatedBlockInstances,
   dateRangeForApi,
   propertyDetails as ComputedRef<Record<string, unknown> | null>
 )
 
-// LEARNING: Update timeSlotsWrapper with actual timeSlots computed ref
-// WHY: Enables useAvailabilityDefaults and useAvailabilityLogic to watch actual timeSlots reactively
-// PATTERN: Update wrapper ref after timeSlots is created
 timeSlotsWrapper.value = timeSlots as ComputedRef<TimeSlot[]>
  
 // LEARNING: Use availability option selection composable
-// WHY: Extracts selection logic from component to composable
 // PATTERN: Composable provides reactive computed property for selection
 const { selectedOptionTypeBlockId } = useOptionTypeBlockSelection({
   selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
@@ -182,19 +147,16 @@ const { selectedOptionTypeBlockId } = useOptionTypeBlockSelection({
 })
 
 // LEARNING: Use appointment duration composable
-// WHY: Extracts duration calculation logic from component to composable
 // PATTERN: Composable provides computed property for appointment duration
 const { appointmentDuration } = useAppointmentDuration({
   accumulatedBlockInstances
 })
 
 // LEARNING: Use mock calendar refresh composable
-// WHY: Extracts mock calendar refresh management from component to composable
 // PATTERN: Composable manages refresh key and reset functionality
 const { mockRefreshKey } = useMockCalendarRefresh()
 
 // LEARNING: Use busy times composable
-// WHY: Extracts busy times calculation logic from component to composable
 // PATTERN: Composable provides computed property for busy times
 const { busyTimes: busyTimesForStartTimes } = useBusyTimes({
   dateRangeForApi,
@@ -211,7 +173,6 @@ const {
 })
 
 // LEARNING: Use time slot durations composable
-// WHY: Extracts time slot duration mapping logic from component to composable
 // PATTERN: Composable provides computed Map for time slot durations
 // WHY: Wrap Ref in computed to match ComposablesRef type requirement
 const { timeSlotDurations } = useTimeSlotDurations({
@@ -220,27 +181,21 @@ const { timeSlotDurations } = useTimeSlotDurations({
 })
 
 // LEARNING: Use perspective mapping composable
-// WHY: Extracts perspective mapping logic from component to composable
 // PATTERN: Composable provides computed property for perspective mapping
 const { perspective } = usePerspectiveMapping({
   startTimeType
 })
 
-// LEARNING: Map appointmentSlotOrderIndex to selectedButtonIndex
-// WHY: New system uses buttonIndex instead of orderIndex
 // PATTERN: Use appointmentSlotOrderIndex as buttonIndex
 const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
 
 // LEARNING: Use availability slot color composable
-// WHY: Extracts color selection logic from component to composable
 // PATTERN: Composable provides computed property for slot color
 const { slotColor } = useAvailabilitySlotColor({
   startTimeType
 })
 
 // LEARNING: Use new appointment slots composable
-// WHY: Uses shape + slot separation for efficient calculation
-// PATTERN: Builds shape once, applies to each available time
 const {
   appointmentShape,
   appointmentSlots,
@@ -257,7 +212,6 @@ const {
 })
 
 // LEARNING: Use moveable parts scheduling composable
-// WHY: Detects moveable parts and manages scheduling modal
 // PATTERN: Composable provides moveable parts detection and scheduling options
 const moveablePartsScheduling = useMoveablePartsScheduling({
   appointmentShape,
@@ -276,11 +230,9 @@ const {
   isLoadingOptions
 } = moveablePartsScheduling
 
-// Ref to store confirmed moveable scheduling
 const confirmedMoveableScheduling = ref<typeof moveableOptions.value>(null)
 
 // LEARNING: Use availability empty state composable
-// WHY: Extracts empty state message logic from component to composable
 // PATTERN: Composable provides computed property for empty state message
 const { emptyStateMessage } = useAvailabilityEmptyState({
   isEffectivelyDifferential,
@@ -289,7 +241,6 @@ const { emptyStateMessage } = useAvailabilityEmptyState({
 })
 
 // LEARNING: Use availability step data composable
-// WHY: Extracts step data aggregation and time slot transformation from component to composable
 // PATTERN: Composable provides reactive computed properties for step data
 const { stepData } = useAvailabilityStepData({
   selectedDate,
@@ -298,7 +249,6 @@ const { stepData } = useAvailabilityStepData({
 })
 
 // LEARNING: Use availability validation composable
-// WHY: Extracts validation logic from component to composable
 // PATTERN: Composable provides validation functions and computed properties
 const { fieldErrors, isFormValid, validateForm } = useAvailabilityValidation({
   selectedDate,
@@ -306,7 +256,6 @@ const { fieldErrors, isFormValid, validateForm } = useAvailabilityValidation({
 })
 
 // LEARNING: Use wizard step sync composable
-// WHY: Extracts parent ref syncing logic from component to reusable composable
 // PATTERN: Composable handles all parent ref syncing automatically
 useWizardStepSync({
   stepData,
@@ -318,7 +267,6 @@ useWizardStepSync({
 })
 
 // LEARNING: Use availability UI composable
-// WHY: Extracts responsive layout and date handling logic from component to composable
 // PATTERN: Composable provides reactive computed properties and handler functions
 const {
   handleDateChange
@@ -329,7 +277,6 @@ const {
 })
 
 // LEARNING: Use availability step handlers composable
-// WHY: Extracts event handler logic from component to composable
 // PATTERN: Composable provides all event handler functions
 const {
   handleAppointmentSlotClick,
@@ -349,7 +296,6 @@ const {
 })
 
 // LEARNING: Use availability dev panel composable
-// WHY: Extracts dev panel data providing logic from component to composable
 // PATTERN: Composable provides reactive computed object via provide
 useAvailabilityDevPanel({
   selectedBlockInstances: accumulatedBlockInstances,
@@ -529,34 +475,19 @@ useAvailabilityDevPanel({
 </template>
 
 <style scoped lang="scss">
-/**
- * WHY: Ensures consistent spacing and proper responsive behavior
- * PATTERN: Mobile-first responsive design with Vuetify breakpoints
- */
 .availability-step {
-  // LEARNING: Consistent container padding
-  // WHY: Ensures content doesn't touch edges on all screen sizes
   padding: 0;
 }
 
-// LEARNING: Calendar grid row layout
-// WHY: Ensure columns are side-by-side on desktop, stacked on mobile
-// PATTERN: Let Vuetify handle wrapping naturally, override flex properties on columns
 .calendar-grid-row {
-  // Vuetify handles flex-wrap automatically based on column widths
 }
 
 
-// LEARNING: Calendar column spacing and layout
-// WHY: Calendar widget has fixed width (~328px), column should size to content
-// PATTERN: Override only flex properties, not display (Vuetify handles display)
 .calendar-col {
   margin-bottom: 1.5rem;
   
   @media (min-width: 600px) {
     margin-bottom: 0;
-    // LEARNING: Size calendar column to content, not percentage
-    // WHY: Calendar widget has fixed intrinsic width (~328px)
     // PATTERN: Override flex properties only, let Vuetify handle display
     flex: 0 0 auto !important; // Size to content, don't grow/shrink
     max-width: none !important; // Remove Vuetify's max-width constraint
@@ -564,12 +495,6 @@ useAvailabilityDevPanel({
   }
 }
 
-// LEARNING: Calendar container styling
-// WHY: Let VDatePicker use its native fixed width (~328px) instead of forcing percentage-based width
-// PATTERN: Remove width constraints, let native widget size control rendering
-// LEARNING: VDatePicker has intrinsic fixed width - don't override with 100% or overflow:hidden
-// LEARNING: Constrain container to calendar width
-// WHY: Graph bars should not expand calendar column beyond calendar width
 .calendar-container {
   display: flex;
   flex-direction: column;
@@ -579,16 +504,11 @@ useAvailabilityDevPanel({
   align-items: flex-start; // Align children to start, don't stretch
   gap: 0; // Remove gap between calendar and graph
   
-  // LEARNING: Calendar widget styling
-  // WHY: Let VDatePicker render at its native fixed width, only style visual appearance
   // PATTERN: Deep selector for visual styling only, no width/overflow constraints
   :deep(.availability-calendar) {
     box-sizing: border-box;
     
-    // LEARNING: Hide calendar header (removes "SELECT DATE" text and thick bar)
-    // WHY: User requested removal of header text and thinner bar
     // PATTERN: Hide header element with CSS using multiple selectors for Vuetify 3
-    // NOTE: Vuetify 3 may use different class structure - targeting all possible variants
     .v-date-picker-header,
     .v-date-picker-month__header,
     [class*="date-picker-header"],
@@ -601,9 +521,6 @@ useAvailabilityDevPanel({
       overflow: hidden !important;
     }
     
-    // LEARNING: Hide header content and title elements
-    // WHY: Remove all header-related elements completely
-    // NOTE: Vuetify 3 structure may vary - targeting common patterns
     .v-date-picker-header__content,
     .v-date-picker-header__title,
     .v-date-picker-header__prepend,
@@ -620,10 +537,6 @@ useAvailabilityDevPanel({
       overflow: hidden !important;
     }
     
-    // LEARNING: Ensure no spacing from hidden header
-    // WHY: Remove any gaps left by hidden header
-    // LEARNING: Let VDatePicker month view use native width
-    // WHY: Native fixed width prevents clipping during window resize
     .v-date-picker-month {
       margin-top: 0 !important;
       padding-top: 0 !important;
@@ -631,10 +544,7 @@ useAvailabilityDevPanel({
       padding-bottom: 0 !important;
     }
     
-    // LEARNING: Current day styling (outline/border)
-    // WHY: Highlights today's date with neutral color outline
     // PATTERN: Style .v-date-picker-month__day with today class
-    // NOTE: Vuetify 3 uses different class structure - targeting both possible class names
     .v-date-picker-month__day--today,
     .v-date-picker-month__day.v-date-picker-month__day--today {
       .v-btn {
@@ -644,10 +554,7 @@ useAvailabilityDevPanel({
       }
     }
     
-    // LEARNING: Selected day styling (primary color highlight)
-    // WHY: Highlights selected date with primary color
     // PATTERN: Style .v-date-picker-month__day with selected class
-    // NOTE: Vuetify 3 uses different class structure - targeting both possible class names
     .v-date-picker-month__day--selected,
     .v-date-picker-month__day.v-date-picker-month__day--selected {
       .v-btn {
@@ -657,8 +564,6 @@ useAvailabilityDevPanel({
       }
     }
     
-    // LEARNING: Day button touch-friendly sizing
-    // WHY: Ensures adequate touch targets (minimum 44x44px) for mobile
     // PATTERN: Minimum height and width for touch targets
     .v-date-picker-month__day {
       .v-btn {
@@ -670,7 +575,6 @@ useAvailabilityDevPanel({
         transition: all 0.2s ease;
         
         // LEARNING: Hover state for better UX
-        // WHY: Provides visual feedback on hover
         // PATTERN: Hover state styling
         &:hover:not(.v-btn--disabled) {
           background-color: rgba(var(--v-theme-primary), 0.1);
@@ -693,8 +597,6 @@ useAvailabilityDevPanel({
       color: rgba(var(--v-theme-on-surface), 0.7);
     }
     
-    // LEARNING: Disabled date styling
-    // WHY: Ensures disabled dates (past dates) are visually distinct
     // PATTERN: Style disabled date buttons
     .v-date-picker-month__day--disabled {
       .v-btn {
@@ -705,8 +607,6 @@ useAvailabilityDevPanel({
   }
 }
 
-// LEARNING: Time graph wrapper spacing
-// WHY: Position graph directly below calendar with minimal spacing
 .time-graph-wrapper {
   margin-top: 0.5rem;
   margin-bottom: 0;
@@ -716,25 +616,17 @@ useAvailabilityDevPanel({
   }
 }
 
-// LEARNING: Time selection column spacing
-// WHY: Grid column fills remaining space after calendar
-// PATTERN: Flex grow to fill remaining space, calendar is fixed width
 .time-selection-col {
   padding-left: 0;
   min-width: 0; // Allow column to shrink if needed
   
   @media (min-width: 600px) {
     padding-left: 1rem;
-    // LEARNING: Grid column fills remaining space after calendar
-    // WHY: Calendar column sizes to content, grid should fill the rest
     // PATTERN: Flex grow to fill remaining space
     flex: 1 1 0% !important; // Grow to fill remaining space
   }
 }
 
-// LEARNING: Wrapper div for flex layout of children
-// WHY: Separates flex layout (children) from grid width (VCol)
-// PATTERN: Let Vuetify handle VCol width, wrapper handles internal flex layout
 .time-selection-content {
   display: flex;
   flex-direction: column;
@@ -744,8 +636,6 @@ useAvailabilityDevPanel({
   min-width: 0; // Allow wrapper to shrink below content size
   box-sizing: border-box;
   min-height: 300px;
-  // LEARNING: Ensure wrapper fills VCol completely
-  // WHY: VCol uses flexbox internally, wrapper must fill available space
   // PATTERN: Explicit width constraints to ensure proper filling
   flex: 1 1 auto; // Fill available space in flex container
   
@@ -755,9 +645,6 @@ useAvailabilityDevPanel({
 }
 
 
-// LEARNING: Date placeholder styling
-// WHY: Provides visual feedback when no date is selected
-// PATTERN: Responsive height, left-aligned to match calendar
 .date-placeholder {
   min-height: 300px;
   width: 100%;
@@ -767,9 +654,6 @@ useAvailabilityDevPanel({
   }
 }
 
-// LEARNING: Availability options row spacing
-// WHY: Provides visual separation between time selection and availability options
-// PATTERN: Responsive margin top
 .availability-options-row {
   margin-top: 2rem;
   
@@ -782,9 +666,7 @@ useAvailabilityDevPanel({
   }
 }
 
-// LEARNING: Availability options section spacing
 // WHY: Abuts bottom of time selection grid, same width as grid column
-// PATTERN: No top margin/padding to abut grid, full width of parent column
 .availability-options-section {
   margin-top: 0;
   padding-top: 1.5rem;
@@ -795,8 +677,6 @@ useAvailabilityDevPanel({
   }
 }
 
-// LEARNING: Appointment slot grid when abutting availability options
-// WHY: Remove bottom margin so availability options abut directly below
 .appointment-slot-grid-abut {
   margin-bottom: 0 !important;
   
@@ -805,9 +685,6 @@ useAvailabilityDevPanel({
   }
 }
 
-// LEARNING: Availability cards spacing
-// WHY: Ensures proper spacing between availability option cards
-// PATTERN: Margin bottom on card group container
 .availability-cards {
   margin-bottom: 1rem;
 }

@@ -14,18 +14,12 @@ import { useDisplay } from 'vuetify'
 import { useFormValidation } from '@/composables/useFormValidation'
 import type { ISO8601Date } from '@/types/datetime'
 
-/**
- * useAvailabilityUI composable parameters
- */
 export interface UseAvailabilityUIParams {
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   selectedButtonIndex: Ref<number | null>
   fieldErrors: Ref<Record<string, string>>
 }
 
-/**
- * useAvailabilityUI composable return type
- */
 export interface UseAvailabilityUIReturn {
   shouldShowGridInline: ComputedRef<boolean> // LEARNING: Renamed from shouldMoveGridBelow - true when grid should be inline (side-by-side)
   handleDateChange: (value: string | Date | string[] | Date[] | null) => void
@@ -65,13 +59,11 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
    */
   const shouldShowGridInline = computed(() => {
     // Calendar has fixed width ~328px, grid needs at least 1 column (140px) + padding
-    // Plus gap between columns (~16px) and padding
     const CALENDAR_WIDTH = 328
     const GRID_MIN_WIDTH = 140 + 20 // button width + padding
     const COLUMN_GAP = 16 // Vuetify default gap
     const MIN_TOTAL_WIDTH = CALENDAR_WIDTH + GRID_MIN_WIDTH + COLUMN_GAP
     
-    // Show inline if viewport is wide enough OR if sm+ breakpoint (Vuetify handles layout)
     // Use sm+ breakpoint as fallback since Vuetify grid handles the actual layout
     return width.value >= MIN_TOTAL_WIDTH || smAndUp.value
   })
@@ -90,7 +82,6 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
     
     if (value) {
       if (Array.isArray(value)) {
-        // Handle array (take first date)
         const firstValue = value[0]
         if (firstValue instanceof Date) {
           dateString = firstValue.toISOString().split('T')[0] as ISO8601Date
@@ -108,21 +99,18 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
     if (dateString) {
       const dateResult = dateNotInPast()(dateString)
       if (dateResult === true) {
-        // Date is valid, clear error
         if (fieldErrors.value.selectedDate) {
           const newErrors = { ...fieldErrors.value }
           delete newErrors.selectedDate
           fieldErrors.value = newErrors
         }
       } else {
-        // Date is invalid, set error
         fieldErrors.value = {
           ...fieldErrors.value,
           selectedDate: dateResult as string
         }
       }
     } else {
-      // No date selected, set required error
       fieldErrors.value = {
         ...fieldErrors.value,
         selectedDate: 'Please select a date'

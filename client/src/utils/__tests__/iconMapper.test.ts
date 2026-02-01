@@ -1,10 +1,3 @@
-/**
- * ICON MAPPER TESTS
- * 
- * Unit tests for iconMapper utility.
- * Tests icon mapping from Ant Design to Tabler format, fallback handling.
- * Phase 4B: Utility Functions
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { getIcon, mapIcon } from '../iconMapper'
@@ -12,7 +5,6 @@ import { getIcon, mapIcon } from '../iconMapper'
 describe('iconMapper', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Suppress console.log in tests
     vi.spyOn(console, 'log').mockImplementation(() => {})
   })
 

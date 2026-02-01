@@ -20,23 +20,15 @@ export interface PropertyRequest {
   source?: 'api' | 'manual' | 'client'; // Defaults to 'client' if not provided
 }
 
-/**
- * PropertyResponse interface matching transformed server response
- * LEARNING: Response structure from property API (transformed from three-table structure)
- * WHY: Type-safe property response handling, maintains backward compatibility
- * NOTE: id is PropertyVersion.id, includes propertyVersionId and addressId for reference
- */
 export interface PropertyResponse {
   id: string; // PropertyVersion ID (for backward compatibility)
   propertyVersionId: string; // PropertyVersion ID
   addressId: string; // Address ID
-  // Address fields
   address: string;
   unit?: string | null;
   city: string;
   state: string;
   zipCode: string;
-  // Property details fields
   mlsNumber?: string | null;
   squareFootage?: number | null;
   bedrooms?: number | null;
@@ -44,10 +36,8 @@ export interface PropertyResponse {
   foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null;
   additionalUnits?: number | null;
   source?: 'api' | 'manual' | 'client';
-  // Timestamps
   createdAt: string;
   updatedAt: string;
-  // Property types (junction to block_instances with "Properties" block_shape)
   propertyTypes?: PropertyVersionType[];
 }
 
@@ -64,7 +54,6 @@ export interface PropertyVersionType {
   orderIndex: number;
   createdAt: string;
   updatedAt: string;
-  // Included block instance (when fetched with associations)
   blockInstance?: {
     id: string;
     name: string;
@@ -73,9 +62,6 @@ export interface PropertyVersionType {
   };
 }
 
-/**
- * Request to update property types
- */
 export interface PropertyTypesRequest {
   blockInstanceIds: string[];
 }

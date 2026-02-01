@@ -42,12 +42,6 @@ export const EVENT_PERSPECTIVE_LABELS = {
  */
 export type EventPerspectiveKey = typeof EVENT_PERSPECTIVE_KEYS[keyof typeof EVENT_PERSPECTIVE_KEYS]
 
-/**
- * Get perspective label
- * LEARNING: Helper function to get label for a perspective key
- * WHY: Provides type-safe access to perspective labels
- * PATTERN: Simple lookup function
- */
 export function getPerspectiveLabel(perspective: EventPerspectiveKey): string {
   return EVENT_PERSPECTIVE_LABELS[perspective]
 }

@@ -10,23 +10,15 @@ import type { GlobalFieldKey } from '../../../constants/primitives'
 import type { GlobalRelationshipKey } from '../../../constants/relationships'
 import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '../../../types/entity/formDataEnums'
 
-// Union of all possible field keys from child entities
 // FIX: Use entity key constants (these are string literals, so they work in types)
 type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInstance"> | GlobalFieldKey<"blockShape"> | GlobalFieldKey<"partShape">;
 
-// LEARNING: Helper type to get valid relationship keys for an entity type
-// WHY: Relationships are attached to entities but aren't part of GlobalFieldKey
-// PATTERN: Explicitly map entity types to their valid relationship keys
 // NOTE: Using string literals here because TypeScript type system needs literal types, not typeof constants
 type ValidRelationshipKeys<GE extends GlobalEntityKey> = 
   GE extends "blockShape" ? "validCascades" | "validParts" | "validAnnotations" | "eventAssignments" :
   GE extends "blockInstance" ? "bookingCascades" | "partAssignments" | "annotationAssignments" | "instanceComponents" | "dependentInstances" :
   never;
 
-// LEARNING: Union type that includes both field keys and valid relationship keys
-// WHY: SelectableDisplayTypeSuite needs to allow entity fields and relationships
-// PATTERN: Combine GlobalFieldKey with valid relationship keys for each entity type
-// NOTE: Annotations are now core entities, so they're included in GlobalEntityKey
 type SelectableFieldKey<GE extends GlobalEntityKey> = GlobalFieldKey<GE> | ValidRelationshipKeys<GE>;
 
 export type RelationshipDisplayType<
@@ -50,7 +42,6 @@ export type RelationshipDisplayType<
   selectMode: RelationshipSelectModeEnum;
   groupByKey?: ChildFieldKey;
   
-  // Display-specific properties
   label: string;
   placeholder?: string;
   className?: string;
@@ -61,7 +52,6 @@ export type RelationshipDisplayType<
   width?: number | string;
   align?: "left" | "center" | "right";
   
-  // Display formatting options
   displayFormat?: "list" | "chips" | "badges" | "collection" | "cards";
   emptyStateText?: string;
   maxDisplayItems?: number;
@@ -98,7 +88,6 @@ export type VirtualDisplayType<
   selectMode: RelationshipSelectModeEnum;
   groupByKey?: GlobalFieldKey<GlobalEntityKey>;
   
-  // Display-specific properties
   label: string;
   placeholder?: string;
   className?: string;
@@ -109,7 +98,6 @@ export type VirtualDisplayType<
   width?: number | string;
   align?: "left" | "center" | "right";
   
-  // Display formatting options
   displayFormat?: "text" | "badge" | "icon" | "chip";
   emptyStateText?: string;
   showIcon?: boolean;
@@ -154,7 +142,6 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         selectType: TypeSelectEnum.BlockShape,
         selectMode: RelationshipSelectModeEnum.Required,
         
-        // Display properties
         label: "Block Type",
         placeholder: "No block type selected",
         inline: true,
@@ -190,7 +177,6 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         selectMode: RelationshipSelectModeEnum.Multiple,
         groupByKey: "blockShapeRef",
         
-        // Display properties
         label: "Booking Cascade",
         placeholder: "No cascades selected",
         inline: false,
@@ -227,7 +213,6 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         selectType: RelationshipSelectTypeEnum.PartAssignmentSelect,
         selectMode: RelationshipSelectModeEnum.Nested,
         
-        // Display properties
         label: "Part Assignments",
         placeholder: "No parts selected",
         inline: false,
@@ -263,7 +248,6 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         selectType: RelationshipSelectTypeEnum.DependentInstanceSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
-        // Display properties
         label: "Dependent Instances",
         placeholder: "No dependent instances",
         inline: false,
@@ -299,7 +283,6 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         selectType: RelationshipSelectTypeEnum.InstanceComponentSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
-        // Display properties
         label: "{blockShapeName} Components",
         placeholder: "Select components...",
         inline: false,
@@ -337,7 +320,6 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         selectType: RelationshipSelectTypeEnum.ValidCascadeSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
-        // Display properties
         label: "Valid Booking Cascade",
         placeholder: "No valid cascades",
         tooltip: "Defines which block shapes can be selected as children in booking cascades. BlockInstances of this BlockShape can only select from these valid cascades in their 'Active Cascades' field. This controls the hierarchical relationship options available during booking.",
@@ -374,7 +356,6 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         selectType: RelationshipSelectTypeEnum.ValidPartSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
-        // Display properties
         label: "Valid Part Shapes",
         placeholder: "No valid part shapes",
         inline: false,
@@ -412,7 +393,6 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         selectType: TypeSelectEnum.PartShape,
         selectMode: RelationshipSelectModeEnum.Required,
         
-        // Display properties
         label: "Part Type",
         placeholder: "No part type selected",
         inline: true,

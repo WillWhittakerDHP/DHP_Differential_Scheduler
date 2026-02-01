@@ -10,9 +10,6 @@
 import { AdminPrimitiveMetadata } from '../db/models/admin/adminPrimitiveMetadata.js';
 import { QueryTypes, Op } from 'sequelize';
 
-/**
- * Field metadata entry (matches client-side FieldMetadataEntry)
- */
 export interface FieldMetadataEntry {
   fieldKey: string;
   dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
@@ -28,21 +25,10 @@ export interface FieldMetadataEntry {
   inputConfig?: Record<string, unknown> | null;
 }
 
-/**
- * Get admin primitive metadata for an entity
- * Instance entities fall back to global configs if no instance-specific metadata exists
- * 
- * NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
- * 
- * @param entityType - Entity type: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
- * @param entityId - Entity ID or sentinel UUID for global configs
- * @returns Array of field metadata entries
- */
 export async function getAdminPrimitiveMetadata(
   entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
   entityId: string
 ): Promise<FieldMetadataEntry[]> {
-  // Fetch metadata for this entity
   const entityMetadata = await AdminPrimitiveMetadata.findAll({
     where: {
       entityType: entityType,
@@ -51,19 +37,13 @@ export async function getAdminPrimitiveMetadata(
     order: [['display_order', 'ASC'], ['field_key', 'ASC']],
   });
 
-  // If this is an instance entity, handle metadata
-  // LEARNING: Instances do NOT inherit fields from shapes - they have their own fields
-  // WHY: blockInstance has fields like baseSqFt that don't exist in blockShape
-  //      partInstance has fields that don't exist in partShape
   // PATTERN: Return instance metadata directly, no inheritance merging
   if (entityType === 'blockInstance' || entityType === 'partInstance') {
-    // Check if this is a global config sentinel UUID
     const BLOCK_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000001';
     const PART_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000002';
     const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003';
     const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
     
-    // For global instance configs, return metadata directly without inheritance
     if (entityType === 'partInstance' && entityId === PART_INSTANCE_GLOBAL_CONFIG_ID) {
       return entityMetadata.map(meta => ({
         fieldKey: meta.fieldKey,
@@ -81,7 +61,6 @@ export async function getAdminPrimitiveMetadata(
       }));
     }
     
-    // For global blockInstance config, return metadata directly without inheritance
     if (entityType === 'blockInstance' && entityId === BLOCK_INSTANCE_GLOBAL_CONFIG_ID) {
       return entityMetadata.map(meta => ({
         fieldKey: meta.fieldKey,
@@ -99,10 +78,7 @@ export async function getAdminPrimitiveMetadata(
       }));
     }
     
-    // For non-sentinel instance entities, check if instance-specific metadata exists
-    // If no instance-specific metadata, fall back to global config
     if (entityMetadata.length === 0) {
-      // No instance-specific metadata found, fall back to global config
       const fallbackEntityId = entityType === 'blockInstance' 
         ? BLOCK_INSTANCE_GLOBAL_CONFIG_ID 
         : PART_INSTANCE_GLOBAL_CONFIG_ID;
@@ -131,8 +107,6 @@ export async function getAdminPrimitiveMetadata(
       }));
     }
     
-    // Instance-specific metadata exists, return it directly (no inheritance)
-    // Instances have their own fields, they don't inherit from shapes
     return entityMetadata.map(meta => ({
       fieldKey: meta.fieldKey,
       dataType: meta.dataType,
@@ -149,7 +123,6 @@ export async function getAdminPrimitiveMetadata(
     }));
   }
 
-  // For shape entities, return entity metadata directly
   return entityMetadata.map(meta => ({
     fieldKey: meta.fieldKey,
     dataType: meta.dataType,

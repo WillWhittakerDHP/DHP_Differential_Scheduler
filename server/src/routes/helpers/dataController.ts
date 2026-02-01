@@ -64,21 +64,16 @@ const fetchAll = async <T extends Model>(
 ): Promise<T[]> => {
   const queryOptions: any = {};
   
-  // Handle includes
   if (options?.includes && options.includes.length > 0) {
     queryOptions.include = options.includes;
   }
   
-  // Handle attributes - if provided, use them
   if (options?.attributes) {
     queryOptions.attributes = options.attributes;
   } else {
-    // If attributes not provided, check if model uses underscored: true
-    // If so, automatically extract attributes to prevent duplicate columns
     if (isModelUnderscored(Entity)) {
       const autoAttributes = getModelAttributes(Entity);
       queryOptions.attributes = autoAttributes;
-      // Log warning to encourage explicit specification
       console.warn(
         `[fetchAll] Model ${Entity.name} uses underscored: true but attributes were not explicitly provided. ` +
         `Auto-extracted attributes: ${autoAttributes.join(', ')}. ` +
@@ -87,7 +82,6 @@ const fetchAll = async <T extends Model>(
     }
   }
   
-  // Handle order - if provided, use it
   if (options?.order && options.order.length > 0) {
     queryOptions.order = options.order;
   }
@@ -116,7 +110,6 @@ const fetchById = async <T extends Model>(
 ): Promise<T | null> => {
   const options: any = {};
   
-  // If model uses underscored: true, automatically extract attributes to prevent duplicate columns
   if (isModelUnderscored(Entity)) {
     options.attributes = getModelAttributes(Entity);
   }
@@ -125,42 +118,23 @@ const fetchById = async <T extends Model>(
 };
 
 
-/**
- * Generic function to create a new record.
- * @param Entity - The Sequelize model.
- * @param data - The data for the new record.
- * @returns The created model instance.
- */
 const createRecord = async <T extends Model>(
   Entity: ModelStatic<T>,
   data: MakeNullishOptional<T["_creationAttributes"]> // ✅ Enforces correct attribute types
 ): Promise<T> => {
-  // LEARNING: No sanitization - forms should send proper types
-  // WHY: Fix root cause instead of masking problems with sanitization
   // PATTERN: Server validates and rejects invalid types with clear errors
   return await Entity.create(data);
 };
 
-/**
- * Generic function to update a record by ID.
- * @param Entity - The Sequelize model.
- * @param id - The ID of the record to update.
- * @param data - The new data to update.
- * @returns True if updated, false if not found.
- */
 const updateRecord = async <T extends Model>(
   Entity: ModelStatic<T>,
   id: string, 
   data: Partial<T["_creationAttributes"]> 
 ): Promise<number> => {
-  // LEARNING: Use type-safe where clause - all models have id: CreationOptional<string>
   // WHY: Avoids 'as unknown as' by using proper type extraction from model attributes
   // PATTERN: NonNullable ensures we use the defined string type, not string | undefined
-  // API Best Practice: Extract types from the model rather than asserting
   const whereClause: WhereById<T> = { id };
   
-  // LEARNING: No sanitization - forms should send proper types
-  // WHY: Fix root cause instead of masking problems with sanitization
   // PATTERN: Server validates and rejects invalid types with clear errors
   
   const [updatedRows] = await Entity.update(data as Partial<T["_creationAttributes"]>, {
@@ -170,25 +144,14 @@ const updateRecord = async <T extends Model>(
   return updatedRows; 
 };
 
-/**
- * Generic function to patch a single record by ID.
- * Allows partial updates (e.g., single field).
- * @param Entity - The Sequelize model.
- * @param id - The ID of the record to patch.
- * @param data - Partial data to update.
- * @returns True if patched, false if not found.
- */
 const patchRecord = async <T extends Model>(
   Entity: ModelStatic<T>,
   id: string,
   data: Partial<T["_creationAttributes"]>
 ): Promise<number> => {
-  // LEARNING: Use type-safe where clause - all models have id: CreationOptional<string>
   // WHY: Avoids 'as unknown as' by using proper type extraction from model attributes
   const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
 
-  // LEARNING: No sanitization - PATCH requests send proper types
-  // WHY: Fix root cause instead of masking problems with sanitization
   // PATTERN: Server validates and rejects invalid types with clear errors
 
   const [patchedRows] = await Entity.update(data as Partial<T["_creationAttributes"]>, {
@@ -198,12 +161,6 @@ const patchRecord = async <T extends Model>(
   return patchedRows;
 };
 
-/**
- * Generic function to update multiple records by ID.
- * @param Entity - The Sequelize model.
- * @param updates - Array of objects with `id` and updated fields.
- * @returns Number of successfully updated records.
- */
 const bulkPatch = async <T extends Model>(
   Entity: ModelStatic<T>,
   updates: Array<{ id: string } & Partial<T["_creationAttributes"]>>
@@ -218,24 +175,15 @@ const bulkPatch = async <T extends Model>(
     const [count] = await Entity.update(data as Partial<Attributes<T>>, {
       where: whereClause as WhereOptions<T["_attributes"]>,
     });
-// console.log(`   ✅ Updated rows count: ${count}`);
     updatedCount += count;
   }
-// console.log(`🐍 [bulkPatch] Finished. Total updated: ${updatedCount}`);
   return updatedCount;
 };
 
-/**
- * Generic function to delete a record by ID.
- * @param Entity - The Sequelize model.
- * @param id - The ID of the record to delete.
- * @returns True if deleted, false if not found.
- */
 const deleteRecord = async <T extends Model>(
   Entity: ModelStatic<T>,
   id: string
 ): Promise<number> => {
-  // LEARNING: Use type-safe where clause - all models have id: CreationOptional<string>
   // WHY: Avoids 'as unknown as' by using proper type extraction from model attributes
   const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
 
@@ -268,7 +216,6 @@ export const safeDelete = async ({
     await dep.Entity.destroy({ where: dep.where });
   }
 
-  // ✅ Leverage your `deleteRecord` helper for the parent
   return deleteRecord(parent.Entity, parent.id);
 };
 

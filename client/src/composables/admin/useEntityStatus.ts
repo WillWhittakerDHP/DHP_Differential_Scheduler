@@ -19,48 +19,21 @@ import { useAdmin } from '../useAdmin'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
-/**
- * Entity Status Composable Options
- */
 export interface UseEntityStatusOptions {
-  /**
-   * Entity key
-   */
   entityKey: GlobalEntityKey
   
-  /**
-   * Entity
-   */
   entity: ComputedRef<GlobalEntity<GlobalEntityKey>>
 }
 
-/**
- * Entity Status Composable Return Type
- */
 export interface UseEntityStatusReturn {
-  /**
-   * Whether entity is a composer (has components)
-   */
   isComposer: ComputedRef<boolean>
   
-  /**
-   * Whether entity is a component (belongs to composer)
-   */
   isComponent: ComputedRef<boolean>
   
-  /**
-   * Whether entity is composable (can be composed but isn't)
-   */
   isComposable: ComputedRef<boolean>
   
-  /**
-   * Component count
-   */
   componentCount: ComputedRef<number>
   
-  /**
-   * Composer name (if entity is a component)
-   */
   composerName: ComputedRef<string | null>
 }
 
@@ -78,7 +51,6 @@ export function useEntityStatus(
   
   const adminComp = useAdmin()
   
-  // Only initialize component entity composable for blockInstance
   const componentEntityComposable = entityKey === 'blockInstance'
     ? useComponentEntity('blockInstance')
     : null
@@ -123,10 +95,6 @@ export function useEntityStatus(
    */
   const isComposable = computed(() => {
     if (entityKey !== 'blockInstance' || !componentEntityComposable) return false
-    // Can be composed if:
-    // 1. BlockShape is composable
-    // 2. Not already a composer
-    // 3. Not already a component
     return canBeComposed(entity.value.id) && !isComposer.value && !isComponent.value
   })
 
@@ -152,7 +120,6 @@ export function useEntityStatus(
     const composerId = getComposerId(entity.value.id)
     if (!composerId) return null
     
-    // Get composer entity from admin store
     const composer = adminComp.getEntity('blockInstance', composerId)
     return composer?.name || `BlockInstance ${composerId.slice(0, 8)}`
   })

@@ -9,9 +9,6 @@
 import type { Component } from 'vue'
 import { getBookingWizardStepContent } from '@/utils/booking/wizardStepContent'
 
-/**
- * useWizardStepContent composable return type
- */
 export interface UseWizardStepContentReturn {
   getStepContent: (step: number) => Component | null
 }

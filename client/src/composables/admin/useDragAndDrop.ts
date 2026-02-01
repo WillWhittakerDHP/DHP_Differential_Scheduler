@@ -12,14 +12,8 @@ import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { getPanelsElement, countDraggableNodes, createSingleClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
 import type { GlobalEntity } from '@/types/entities'
 
-/**
- * Drag-and-drop handler function type
- */
 export type DragEndHandler = () => Promise<void>
 
-/**
- * useDragAndDrop composable parameters
- */
 export interface UseDragAndDropParams {
   containerRef: Ref<HTMLElement | null>
   panelsContainerRef: Ref<ComponentPublicInstance | HTMLElement | null>
@@ -31,9 +25,6 @@ export interface UseDragAndDropParams {
   draggableClass: string
 }
 
-/**
- * useDragAndDrop composable return type
- */
 export interface UseDragAndDropReturn {
   isMounted: Ref<boolean>
 }
@@ -51,8 +42,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
     containerRef,
     panelsContainerRef,
     entityIds,
-    // entityList and filteredEntities are passed for type completeness but not directly used
-    // (they're accessed through entityIds which is derived from them)
     dragEndHandler,
     group,
     draggableClass
@@ -75,58 +64,39 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
   onMounted(() => {
     isMounted.value = true
     
-    // Set up drag-and-drop
     watcherStop.value = watch([containerRef, panelsContainerRef], ([container, panelsComponentRef]) => {
-      // LEARNING: Guard against accessing refs after unmount
-      // WHY: Prevents errors when VWindow switches tabs and components unmount
       // PATTERN: Check mount status before DOM manipulation
       if (!isMounted.value || !container) return
       
-      // LEARNING: Ensure container is a valid DOM element
-      // WHY: Prevents errors if ref is not yet assigned or has been cleared
       // PATTERN: Check that container is an HTMLElement before proceeding
       if (!(container instanceof HTMLElement)) return
       
       nextTick(() => {
-        // Double-check mount status after nextTick (component might have unmounted)
         if (!isMounted.value) return
         
         try {
-          // Get the actual .v-expansion-panels DOM element
           const panelsEl = getPanelsElement(panelsComponentRef, container, isMounted)
           if (!panelsEl || !(panelsEl instanceof HTMLElement)) return
           
-          // LEARNING: Verify DOM nodes exist and match values count
-          // WHY: Prevents "number of enabled nodes does not match number of values" error
-          //      when drag-and-drop initializes before DOM nodes are rendered
           // PATTERN: Count draggable nodes and ensure they match values array length
           const entityIdsArray = entityIds.value
           if (!entityIdsArray || entityIdsArray.length === 0) return
           
-          // LEARNING: Create draggable checker function to ensure consistency
-          // WHY: Use the same logic for counting nodes and determining draggability
           // PATTERN: Reuse the same checker function for both validation and drag-and-drop config
           const isDraggableChecker = createSingleClassDraggableChecker(draggableClass)
           const enabledNodesCount = countDraggableNodes(panelsEl, isDraggableChecker)
           
           if (enabledNodesCount !== entityIdsArray.length) {
-            // LEARNING: Wait for DOM to render before initializing
-            // WHY: DOM nodes haven't been created yet, need to wait for next render cycle
             // PATTERN: Skip initialization and let watcher retry on next update
             return
           }
           
-          // Create a ref for the actual DOM element
           const panelsRef = ref(panelsEl)
           
-          // Set up drag-and-drop instance
-          // NOTE: @formkit/drag-and-drop handles cleanup automatically when DOM elements are removed
           dragAndDrop({
             parent: panelsRef,
             values: entityIds,
             group,
-            // LEARNING: Use shared draggable checker function
-            // WHY: Eliminates duplication between useDragAndDrop and useInstanceDragAndDrop
             // PATTERN: Extract common logic to shared utility
             draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
             plugins: [animations()],
@@ -139,8 +109,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
             },
           })
         } catch (error) {
-          // LEARNING: Catch errors during drag-and-drop setup
-          // WHY: Prevents errors from propagating when component is being mounted/unmounted
           // PATTERN: Silently handle error to prevent breaking Vue's mount process
         }
       })
@@ -156,7 +124,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
     // Mark as unmounted immediately to prevent any watcher callbacks from running
     isMounted.value = false
     
-    // Stop watchers immediately (they might trigger during transition if not stopped first)
     watcherStop.value?.()
   })
 
@@ -166,7 +133,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
    * PATTERN: Use onUnmounted for final cleanup after Vue finishes unmounting
    */
   onUnmounted(() => {
-    // Clear refs to help Vue's garbage collection
     containerRef.value = null
     panelsContainerRef.value = null
   })

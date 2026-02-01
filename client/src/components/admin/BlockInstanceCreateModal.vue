@@ -91,9 +91,6 @@ const emit = defineEmits<Emits>()
 const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
 const admin = useAdmin()
 
-// LEARNING: Stable temp ID for form management
-// WHY: Generate once when modal opens, not on every computed evaluation
-// PATTERN: Use ref to store stable ID that persists across computed re-evaluations
 const tempEntityId = ref<string>(`new-${Date.now()}`)
 
 /**
@@ -105,11 +102,6 @@ const modalTitle = computed(() => {
   return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
 })
 
-/**
- * LEARNING: Create button text based on operation type
- * WHY: Shows "Create" or "Duplicate" on button
- * PATTERN: Computed property that checks if sourceEntity exists
- */
 const createButtonText = computed(() => {
   return props.sourceEntity ? 'Duplicate' : 'Create'
 })
@@ -122,7 +114,6 @@ const createButtonText = computed(() => {
  */
 const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   if (props.sourceEntity) {
-    // Duplicate: use source entity with incremented name
     const newName = generateIncrementedName(
       props.sourceEntity.name || '',
       props.sourceEntity.blockShapeRef,
@@ -135,7 +126,6 @@ const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       id: tempEntityId.value,
     } as GlobalEntity<'blockInstance'>
   } else {
-    // Create: use defaults with blockShapeRef pre-filled
     const defaults = getDefaultEntityValues('blockInstance')
     return {
       ...defaults,
@@ -145,9 +135,6 @@ const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   }
 })
 
-// LEARNING: Regenerate temp ID when modal opens
-// WHY: Ensures fresh ID for each modal open
-// PATTERN: Watch modelValue prop and regenerate ID when modal opens
 watch(() => props.modelValue, (isOpen) => {
   if (isOpen) {
     tempEntityId.value = `new-${Date.now()}`
@@ -164,7 +151,6 @@ const canSave = computed(() => {
     return false
   }
   
-  // For new entities, allow save if form is ready (name field is required)
   const form = entityCardRef.value.form
   return form.meta.value.valid && entityCardRef.value.isFormReady
 })
@@ -173,36 +159,19 @@ function updateModelValue(value: boolean) {
   emit('update:modelValue', value)
 }
 
-/**
- * LEARNING: Handle EntityCard saved event
- * WHY: EntityCard emits saved event when form is saved successfully
- * PATTERN: Emit created event and close modal
- */
 function handleEntityCardSaved(entity: GlobalEntity<GlobalEntityKey>): void {
   emit('created', entity as GlobalEntity<'blockInstance'>)
   updateModelValue(false)
 }
 
-/**
- * LEARNING: Handle Create button click
- * WHY: Triggers EntityCard's save method to create the entity
- * PATTERN: Call EntityCard's handleSave method via ref
- */
 async function handleCreate(): Promise<void> {
   if (!entityCardRef.value) {
     return
   }
   
-  // Trigger EntityCard's save method
-  // EntityCard will handle the actual creation and emit 'saved' event
   await entityCardRef.value.handleSave()
 }
 
-/**
- * LEARNING: Handle Cancel button click
- * WHY: Closes modal without saving
- * PATTERN: Simply close the modal
- */
 function handleCancel(): void {
   updateModelValue(false)
 }

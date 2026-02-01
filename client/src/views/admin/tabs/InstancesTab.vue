@@ -99,7 +99,6 @@ const { entities: _blockShapes } = useEntityCrud('blockShape')
 
 const { globalData: _globalData } = useGlobal()
 
-// Component-child detection moved to useInstanceFiltering composable
 
 /**
  * LEARNING: Expansion state for BlockShape entity cards
@@ -119,18 +118,11 @@ const {
   handleExistingBlockShapeSaved
 } = useShapeEditModal({ expandedBlockShapes })
 
-/**
- * LEARNING: Handle bulk edit modal confirm event
- * WHY: Simple wrapper that updates bulk edit data and applies changes
- * PATTERN: Simple event handler - acceptable to keep in component as it's just a wrapper
- * NOTE: Accepts generic Record type to match modal's declarative field extraction
- */
 const handleBulkEditConfirm = (blockShapeId: string, data: Record<string, number | null | undefined>): void => {
   bulkEditData.value.set(blockShapeId, data as { baseSqFt?: number })
   applyBulkEdit(blockShapeId)
 }
 
-// Admin config removed - not used in component (only used in composables)
 
 /**
  * LEARNING: EntityCard is now self-contained
@@ -194,25 +186,13 @@ const createModalOpen = ref(false)
 const createModalBlockShapeId = ref<string>('')
 const createModalSourceEntity = ref<GlobalEntity<'blockInstance'> | undefined>(undefined)
 
-/**
- * LEARNING: Handler for Create button click
- * WHY: Opens modal with empty form for creating new instance
- * PATTERN: Set blockShapeId and open modal
- */
 const handleCreateClick = (blockShapeId: string): void => {
   createModalBlockShapeId.value = blockShapeId
   createModalSourceEntity.value = undefined
   createModalOpen.value = true
 }
 
-/**
- * LEARNING: Handler for Duplicate button click
- * WHY: Opens modal with pre-filled values from source entity
- * PATTERN: Set blockShapeId and sourceEntity, then open modal
- */
 const handleDuplicateClick = (sourceEntity: GlobalEntity<GlobalEntityKey>): void => {
-  // LEARNING: EntityCard emits union type, but InstancesTab only handles blockInstance
-  // WHY: Type safety - EntityCard can emit any entity type, but we only handle blockInstance
   // PATTERN: Type assertion since InstancesTab only uses EntityCard with entity-key="blockInstance"
   const blockInstanceEntity = sourceEntity as GlobalEntity<'blockInstance'>
   createModalBlockShapeId.value = blockInstanceEntity.blockShapeRef
@@ -220,14 +200,8 @@ const handleDuplicateClick = (sourceEntity: GlobalEntity<GlobalEntityKey>): void
   createModalOpen.value = true
 }
 
-/**
- * LEARNING: Handler for instance created event from modal
- * WHY: Closes modal after successful creation
- * PATTERN: Vue Query will automatically refetch and update the list
- */
 const handleInstanceCreated = (_entity: GlobalEntity<'blockInstance'>): void => {
   createModalOpen.value = false
-  // Vue Query will automatically refetch and update the list
 }
 
 /**
@@ -257,21 +231,15 @@ const { entities: eventShapes } = useEntityCrud('eventShape')
 const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
 const isCreatingEventInstanceLoading = ref(false)
 
-// LEARNING: Drag-and-drop setup for event instances
-// WHY: Enable drag-and-drop reordering of event instances
-// PATTERN: Similar to entity drag-and-drop but for config data
 const eventInstancesList = ref<EventInstance[]>([])
 const eventInstanceIds = ref<string[]>([])
 const eventInstancesContainer = ref<HTMLElement | null>(null)
 const eventInstancesPanelsContainer = ref<ComponentPublicInstance | HTMLElement | null>(null)
 
-// LEARNING: Filtered and sorted event instances
-// WHY: Sort by orderIndex for display
 const filteredEventInstances = computed(() => {
   return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
 })
 
-// LEARNING: Order index mutations for event instances
 // WHY: Events are now core entities, use generic entity CRUD pattern
 // PATTERN: Use useEntityCrud directly, matching block/part shapes pattern
 const { patchOrderIndex: patchEventInstanceOrderIndex } = useEntityCrud('eventInstance')
@@ -286,19 +254,16 @@ const eventInstancesDragHandlers = useEntityDragHandlers({
   }
 })
 
-// LEARNING: Sync arrays when filtered results change
 watch(filteredEventInstances, () => {
   eventInstancesDragHandlers.syncArrays()
 }, { immediate: true })
 
-// LEARNING: Drag-and-drop instance for event instances
 let eventInstancesDragInstance: ReturnType<typeof dragAndDrop> | null = null
 
 onMounted(() => {
   nextTick(() => {
     if (!eventInstancesPanelsContainer.value) return
     
-    // Get the actual DOM element from VExpansionPanels component
     const panelsElement = eventInstancesPanelsContainer.value instanceof HTMLElement
       ? eventInstancesPanelsContainer.value
       : (eventInstancesPanelsContainer.value.$el?.querySelector('.v-expansion-panels') as HTMLElement)
@@ -365,7 +330,6 @@ const handleEventInstanceCreate = async () => {
     newEventInstanceData.value = null
     expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
   } catch (error) {
-    // Failed to create event instance
   } finally {
     isCreatingEventInstanceLoading.value = false
   }
@@ -378,10 +342,8 @@ const handleEventInstanceCancelled = () => {
 }
 
 function handleDeleteEventInstance(_id: string) {
-  // EntityCard already handled the deletion - this is just for parent awareness
 }
 
-// All watch blocks and lifecycle hooks moved to useInstanceDragAndDrop composable
 </script>
 
 <template>

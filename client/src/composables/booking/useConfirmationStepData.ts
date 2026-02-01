@@ -10,9 +10,6 @@ import { computed, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { buildConfirmationPriceData, buildConfirmationSummaryData } from '@/utils/booking/confirmationStepData'
 
-/**
- * Summary data structure
- */
 export interface SummaryData {
   serviceType: string
   propertyType: string
@@ -61,9 +58,6 @@ import type { PropertyDetailsStepData } from '@/types/wizard'
  * FIX: Use shared types from wizardStepData.ts and wizard.ts
  */
 
-/**
- * useConfirmationStepData composable parameters
- */
 export interface UseConfirmationStepDataParams {
   wizard: {
     selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
@@ -76,9 +70,6 @@ export interface UseConfirmationStepDataParams {
   availabilityStepData?: Ref<AvailabilityStepData> | null
 }
 
-/**
- * useConfirmationStepData composable return type
- */
 export interface UseConfirmationStepDataReturn {
   summaryData: ComputedRef<SummaryData>
   priceData: ComputedRef<PriceData>
@@ -97,7 +88,6 @@ export function useConfirmationStepData(
   const {
     wizard,
     propertyDetailsStepData,
-    // availabilityStepData available for future scheduling display
   } = params
 
   /**
@@ -131,11 +121,9 @@ export function useConfirmationStepData(
    * PATTERN: Extract stepDataValue first, then access nested properties
    */
   const priceData = computed<PriceData>(() => {
-    // Explicitly access value to ensure reactivity tracking
     const stepDataValue = propertyDetailsStepData?.value
     const aduCount = stepDataValue?.additionalUnits ?? null
     
-    // LEARNING: Extract square footage with fallback to propertySize
     // WHY: Overage fees depend on square footage, use propertySize as fallback if squareFootage not available
     // PATTERN: Use squareFootage if available, otherwise fallback to propertySize, otherwise null
     const squareFootage = stepDataValue?.squareFootage ?? stepDataValue?.propertySize ?? null
@@ -148,8 +136,6 @@ export function useConfirmationStepData(
     }, squareFootage, aduCount)
   })
 
-  // LEARNING: Debug watches removed
-  // WHY: Debug logging should use proper logger utility, not console.log
   // PATTERN: Remove dev-mode debug watches - use proper logging if needed
 
   return {

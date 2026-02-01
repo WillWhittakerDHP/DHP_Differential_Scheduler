@@ -38,7 +38,6 @@ import type {
 } from '@/configs/availabilitySettings'
 import type { OverlapConstraint, CapacityConstraint } from '../constraintExtractors'
 
-// Helper to create mock availability settings
 function createAvailabilitySettings(
   overrides: Partial<AvailabilitySettings> = {}
 ): AvailabilitySettings {
@@ -166,7 +165,6 @@ describe('constraintExtractors', () => {
     })
 
     it('should throw error if businessHours constraint is missing', () => {
-      // Create settings without businessHours and without rangeConstraints
       const settings = createAvailabilitySettings({
         businessHours: undefined as any,
         rangeConstraints: undefined

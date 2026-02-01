@@ -32,7 +32,6 @@ import {
 } from '../useInstanceDisplay'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Helper to create mock instance
 function createInstance(
   id: string,
   options: {
@@ -61,7 +60,6 @@ function createInstance(
   }
 }
 
-// Helper to create user type block
 function createUserTypeBlock(name: string): BookingBlockInstance {
   return createInstance(`user-type-${name.toLowerCase()}`, { name })
 }
@@ -86,7 +84,6 @@ describe('useInstanceDisplay', () => {
       
       const { instancesWithDisplay } = useInstanceDisplay({ instances })
       
-      // Icon should be preserved/mapped
       expect(instancesWithDisplay.value[0].icon).toBeTruthy()
     })
 

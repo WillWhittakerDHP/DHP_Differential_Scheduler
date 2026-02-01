@@ -97,23 +97,12 @@ function applyRoundingMethod(
     case 'roundNearest':
       return roundNearest(duration, increment)
     default:
-      // Fallback to roundUp for unknown methods
       return roundUp(duration, increment)
   }
 }
 
-/**
- * Get rounding configuration from settings
- * LEARNING: Extracts rounding config with defaults
- * WHY: Provides safe access to rounding config with fallbacks
- * PATTERN: Check for config existence, provide defaults
- * 
- * @param settings - Availability settings (may be null)
- * @returns Rounding configuration with defaults
- */
 function getRoundingConfig(settings: AvailabilitySettings | null): DurationRoundingConfig {
   if (!settings?.durationRounding) {
-    // Default: disabled, 15-minute increment, round up
     return {
       enabled: false,
       increment: settings?.minuteIncrement || 15,
@@ -121,7 +110,6 @@ function getRoundingConfig(settings: AvailabilitySettings | null): DurationRound
     }
   }
   
-  // Use configured values, defaulting increment to minuteIncrement if not specified
   return {
     enabled: settings.durationRounding.enabled,
     increment: settings.durationRounding.increment || settings.minuteIncrement || 15,
@@ -163,11 +151,9 @@ export function roundDuration(
 ): number {
   const config = getRoundingConfig(settings)
   
-  // If rounding is disabled, return original duration
   if (!config.enabled) {
     return duration
   }
   
-  // Apply rounding method
   return applyRoundingMethod(duration, config.increment, config.method)
 }

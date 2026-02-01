@@ -1,28 +1,8 @@
-/**
- * USEINSTANCECOMPONENTS TESTS
- * 
- * Unit tests for useInstanceComponents composable.
- * Tests service component logic.
- * 
- * What it covers:
- * - isComposable: Detect if service is composable
- * - instanceComponents: Extract active components
- * - componentCount: Component count
- * 
- * How it works:
- * - Tests with mocked global state
- * - Tests computed properties
- * 
- * Dependencies:
- * - vitest for testing
- * - vue computed for reactive state
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { computed } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Mock useGlobal
 vi.mock('../../useGlobal', () => ({
   useGlobal: () => ({
     getGlobalEntityById: vi.fn(() => null),
@@ -30,7 +10,6 @@ vi.mock('../../useGlobal', () => ({
   }),
 }))
 
-// Mock useComponentEntity
 vi.mock('../../useComponentEntity', () => ({
   useComponentEntity: () => ({
     getComponents: vi.fn(() => []),
@@ -39,7 +18,6 @@ vi.mock('../../useComponentEntity', () => ({
 
 import { useInstanceComponents } from '../useInstanceComponents'
 
-// Helper to create mock service
 function createService(id: string, options: Partial<BookingBlockInstance> = {}): BookingBlockInstance {
   return {
     id,

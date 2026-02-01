@@ -17,9 +17,6 @@ import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
 
 // FIX: Use shared PropertyDetailsData type from propertyForm.ts
 
-/**
- * Component item structure
- */
 export interface ComponentItem {
   id: string
   name: string
@@ -28,17 +25,11 @@ export interface ComponentItem {
   active: boolean
 }
 
-/**
- * Selection card item with components
- */
 export interface SelectionCardItemWithComponents extends BookingBlockInstance {
   composite?: boolean
   instanceComponents?: ComponentItem[]
 }
 
-/**
- * usePropertyDetailsLogic composable parameters
- */
 export interface UsePropertyDetailsLogicParams {
   wizard: {
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
@@ -49,9 +40,6 @@ export interface UsePropertyDetailsLogicParams {
   formData: PropertyFormData
 }
 
-/**
- * usePropertyDetailsLogic composable return type
- */
 export interface UsePropertyDetailsLogicReturn {
   requiresUnitNumber: ComputedRef<boolean>
   isMultiFamily: ComputedRef<boolean>
@@ -71,7 +59,6 @@ export interface UsePropertyDetailsLogicReturn {
 export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): UsePropertyDetailsLogicReturn {
   const {
     wizard,
-    // loadedWizardState available for future loaded appointment state handling
     formData
   } = params
 
@@ -107,14 +94,12 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     const globalData = getGlobalData()
     if (!globalData) return false
     
-    // Get block instance from globalData to access blockShapeRef
     const globalBlockInstance = getGlobalEntityById('blockInstance', blockInstance.id)
     if (!globalBlockInstance) return false
     
     const blockInstanceWithShapeRef = globalBlockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
     const blockShapeRef = blockInstanceWithShapeRef.blockShapeRef
     
-    // Get blockShape entity to check composable property
     const blockShape = getGlobalEntityById('blockShape', blockShapeRef)
     if (!blockShape) return false
     
@@ -128,7 +113,6 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
    */
   const propertyTypeBlocksWithComponents = computed(() => {
     return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
-      // Check if adjustment is composable and get visible components
       const isComposable = isComposableBlock(adjustment)
       let instanceComponents: ComponentItem[] = []
       
@@ -188,7 +172,6 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
    * PATTERN: Empty function that can be implemented later
    */
   const syncMLSData = (): void => {
-    // TODO: Implement MLS data synchronization
   }
 
   return {

@@ -1,26 +1,19 @@
-/**
- * Import Real Calendar Events
- * Processes calendar events fetched via MCP and imports them into the database
- */
 
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Load environment variables - ensure we're loading from the server root
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const envPath = path.resolve(__dirname, '../../.env.development');
 dotenv.config({ path: envPath });
 
-// Also try loading .env if .env.development doesn't exist
 if (!process.env.DB_HOST) {
   dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 }
 
 import { importCalendarData } from './importCalendarData.js';
 
-// Real calendar events from MCP - converted to proper format
 const realEvents = [
   {
     summary: "Buyer's Inspection for Todd Litchfield",
@@ -338,20 +331,16 @@ const realEvents = [
   }
 ];
 
-// Extract client names from event summaries and add as attendees
 function enhanceEventsWithClientNames(events: any[]): any[] {
   return events.map(event => {
-    // Extract client name from summary patterns
     const clientNameMatch = event.summary?.match(/for\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)?)/);
     const clientName = clientNameMatch ? clientNameMatch[1] : null;
     
-    // If we found a client name and no real attendees (besides Will), add the client
     const hasRealAttendees = event.attendees?.some((a: any) => 
       a.email && !a.email.includes('districthomepro.com')
     );
     
     if (clientName && !hasRealAttendees) {
-      // Create a placeholder email for the client
       const email = `${clientName.toLowerCase().replace(/\s+/g, '.')}@client.placeholder`;
       return {
         ...event,
@@ -370,7 +359,6 @@ function enhanceEventsWithClientNames(events: any[]): any[] {
   });
 }
 
-// Main execution
 async function main() {
   try {
     console.log('📅 Processing real calendar events for import...');
@@ -378,7 +366,6 @@ async function main() {
     const enhancedEvents = enhanceEventsWithClientNames(realEvents);
     console.log(`📊 Processing ${enhancedEvents.length} events`);
     
-    // Import the events (importCalendarData will handle database connection)
     await importCalendarData(enhancedEvents);
     
     console.log('✅ Import completed successfully!');

@@ -15,23 +15,11 @@
 
 import type { SelectionCardItem } from './types/selectionCardTypes'
 
-/**
- * Component props
- */
 interface Props {
-  /**
-   * Array of dependent option items to display
-   */
   options: SelectionCardItem[]
   
-  /**
-   * Currently selected option IDs (array for multi-select)
-   */
   modelValue: string[]
   
-  /**
-   * Whether the checkbox list is disabled
-   */
   disabled?: boolean
 }
 
@@ -40,35 +28,24 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false
 })
 
-/**
- * Component emits
- */
 interface Emits {
   (e: 'update:modelValue', value: string[]): void
 }
 
 const emit = defineEmits<Emits>()
 
-/**
- * Check if an option is selected
- */
 function isOptionSelected(optionId: string): boolean {
   return props.modelValue.includes(optionId)
 }
 
-/**
- * Handle checkbox toggle
- */
 function handleToggle(optionId: string, selected: boolean): void {
   const current = [...props.modelValue]
   
   if (selected) {
-    // Add to array if not already present
     if (!current.includes(optionId)) {
       current.push(optionId)
     }
   } else {
-    // Remove from array
     const index = current.indexOf(optionId)
     if (index > -1) {
       current.splice(index, 1)

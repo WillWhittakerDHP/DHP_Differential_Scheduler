@@ -19,29 +19,14 @@ import type { TimeSlot } from '@/types/appointment'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { ISO8601Date } from '@/types/datetime'
 
-/**
- * useAvailabilityDefaults composable options
- */
 export interface UseAvailabilityDefaultsOptions {
-  /**
-   * Loaded wizard state (for populating from appointment)
-   */
   loadedWizardState: Ref<WizardStateData | null>
   
-  /**
-   * Available time slots
-   */
   timeSlots: ComputedRef<TimeSlot[] | null>
   
-  /**
-   * Whether the selected service supports differential scheduling
-   */
   isDifferentialService: ComputedRef<boolean>
 }
 
-/**
- * useAvailabilityDefaults composable return type
- */
 export interface UseAvailabilityDefaultsReturn {
   /**
    * Selected date state
@@ -49,28 +34,12 @@ export interface UseAvailabilityDefaultsReturn {
    */
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   
-  /**
-   * Start time type (major, minor, or nonDifferential for non-differential services)
-   */
   startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
   
-  /**
-   * Appointment slot order index (position in availability grid)
-   * LEARNING: Single orderIndex that persists across perspective changes
-   * WHY: Same button regardless of inspector/client view - only display time and color change
-   */
   appointmentSlotOrderIndex: Ref<number | null>
   
-  /**
-   * Major order index (backward compatibility)
-   * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility
-   */
   majorOrderIndex: Ref<number | null>
   
-  /**
-   * Minor order index (backward compatibility)
-   * LEARNING: Derived from appointmentSlotOrderIndex for backward compatibility
-   */
   minorOrderIndex: Ref<number | null>
 }
 
@@ -154,8 +123,6 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
    * NOTE: This ensures we always calculate slots for today/future, not past dates
    */
   watch(loadedWizardState, () => {
-    // LEARNING: Always reset to today when loading appointments (dummy or real)
-    // WHY: For testing, we need to test time slot calculations for today/future, not past dates
     // PATTERN: Reset selectedDate to today whenever loadedWizardState changes
     const today = getTodayDate()
     if (selectedDate.value.start !== today) {
@@ -164,7 +131,6 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
         end: null
       }
     }
-    // Time slot matching happens in the next watcher below
   }, { immediate: true })
 
   /**
@@ -181,8 +147,6 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
         availableSlots && 
         availableSlots.length > 0) {
       // Temporary: Use TimeSlot matching for now, will be updated to orderIndex matching
-      // This requires AppointmentSlots to be available, which will be handled in useAvailabilityUI
-      // For now, we'll match by time and find the orderIndex in the UI layer
       // WHY: Transform selectedTimeSlots from { time, duration } format to { startTime, endTime } format
       const tempMajorSlot = ref<TimeSlot | null>(null)
       const tempMinorSlot = ref<TimeSlot | null>(null)
@@ -196,7 +160,6 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
         tempMajorSlot,
         tempMinorSlot
       )
-      // Note: orderIndex matching will be handled in useAvailabilityUI when AppointmentSlots are available
     }
   }, { immediate: true })
 
@@ -209,25 +172,20 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
    *       The loadedWizardState watcher runs first and sets date to today, so this only runs if date is null
    */
   watch(timeSlots, (slots) => {
-    // Only auto-select if no date is currently selected and we have slots
     if (!selectedDate.value.start && slots && slots.length > 0) {
       const today = getTodayDate()
       const firstDate = getFirstAvailabilityDate(slots)
       
-      // LEARNING: Prefer today over past dates
-      // WHY: For testing, we need to test time slot calculations for today/future, not past dates
       // PATTERN: Use today if it's >= firstDate, otherwise use firstDate (which should be today or future)
       const todayDate = new Date(today)
       const firstDateObj = firstDate ? new Date(firstDate) : null
       
-      // Use today if it's today or future, otherwise use firstDate (which should be today or future)
       if (firstDate && firstDateObj && firstDateObj >= todayDate) {
         selectedDate.value = {
           start: firstDate,
           end: null
         }
       } else {
-        // Fallback to today if firstDate is in the past or null
         selectedDate.value = {
           start: today,
           end: null
@@ -245,10 +203,8 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
    */
   watch(isDifferentialService, (isEffectivelyDifferential) => {
     if (!isEffectivelyDifferential) {
-      // Non-differential services (or overridden to non-differential) always use 'nonDifferential'
       startTimeType.value = 'nonDifferential'
     } else {
-      // Effectively differential services default to 'major' view (step 3 starts in major state)
       if (startTimeType.value === 'nonDifferential') {
         startTimeType.value = 'major'
       }

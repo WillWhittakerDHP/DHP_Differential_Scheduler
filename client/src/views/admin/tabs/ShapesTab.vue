@@ -23,7 +23,6 @@ import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import { useNotification } from '@/composables/useNotification'
 import type { EventShape } from '@/types/events'
 
-// NOTE: useEntityDisplay removed - display names handled by useShapeDisplayNames
 
 /**
  * LEARNING: Use entity filtering composable for PartShape and BlockShape
@@ -76,7 +75,6 @@ const createEventShapeMutation = eventShapesComposable.create
  */
 const activeTab = ref('blockShapes')
 
-// NOTE: Search functionality removed - no longer needed
 
 /**
  * LEARNING: Use expansion state composable for expansion state management
@@ -98,10 +96,6 @@ const { success } = useNotification()
  */
 const blockShapeMetadataModalOpen = ref(false)
 
-/**
- * LEARNING: Toggle global BlockShape metadata modal
- * WHY: Opens/closes the modal for configuring all BlockShape field definitions
- */
 const toggleBlockShapeMetadataModal = (): void => {
   blockShapeMetadataModalOpen.value = !blockShapeMetadataModalOpen.value
 }
@@ -113,10 +107,6 @@ const toggleBlockShapeMetadataModal = (): void => {
  */
 const partShapeMetadataModalOpen = ref(false)
 
-/**
- * LEARNING: Toggle global PartShape metadata modal
- * WHY: Opens/closes the modal for configuring all PartShape field definitions
- */
 const togglePartShapeMetadataModal = (): void => {
   partShapeMetadataModalOpen.value = !partShapeMetadataModalOpen.value
 }
@@ -128,21 +118,11 @@ const togglePartShapeMetadataModal = (): void => {
  */
 const partInstanceMetadataModalOpen = ref(false)
 
-/**
- * LEARNING: Toggle global PartInstance metadata modal
- * WHY: Opens/closes the modal for configuring all PartInstance field definitions
- */
 const togglePartInstanceMetadataModal = (): void => {
   partInstanceMetadataModalOpen.value = !partInstanceMetadataModalOpen.value
 }
 
-/**
- * LEARNING: Handle PartInstance metadata saved
- * WHY: Close modal after saving field definitions
- */
 const handlePartInstanceMetadataSaved = () => {
-  // LEARNING: MetadataEditModal emits 'saved' with no parameters
-  // WHY: Modal doesn't need to pass entity back, just signals that save completed
   // PATTERN: Handler matches emit signature (no parameters)
   partInstanceMetadataModalOpen.value = false
 }
@@ -154,10 +134,6 @@ const handlePartInstanceMetadataSaved = () => {
  */
 const annotationShapeMetadataModalOpen = ref(false)
 
-/**
- * LEARNING: Toggle global AnnotationShape metadata modal
- * WHY: Opens/closes the modal for configuring all AnnotationShape field definitions
- */
 const toggleAnnotationShapeMetadataModal = (): void => {
   annotationShapeMetadataModalOpen.value = !annotationShapeMetadataModalOpen.value
 }
@@ -169,10 +145,6 @@ const toggleAnnotationShapeMetadataModal = (): void => {
  */
 const eventShapeMetadataModalOpen = ref(false)
 
-/**
- * LEARNING: Toggle global EventShape metadata modal
- * WHY: Opens/closes the modal for configuring all EventShape field definitions
- */
 const toggleEventShapeMetadataModal = (): void => {
   eventShapeMetadataModalOpen.value = !eventShapeMetadataModalOpen.value
 }
@@ -190,14 +162,10 @@ const newAnnotationShapeName = ref('')
 const newEventShapeName = ref('')
 
 // LEARNING: Events and annotations are now core entities, use entity CRUD composable
-// (Already defined above with useEntityCrud)
 const isCreatingAnnotationShapeLoading = ref(false)
 const isCreatingEventShapeLoading = ref(false)
 
 
-/**
- * LEARNING: Function to start inline PartShape creation
- */
 const createPartShape = () => {
   const defaults = getDefaultEntityValues('partShape')
   newPartShapeInitialValues.value = {
@@ -219,29 +187,18 @@ const startCreatingAnnotationShape = () => {
   expandedShapes.value = ['new-annotationShape', ...expandedShapes.value]
 }
 
-/**
- * LEARNING: Handle PartShape creation save
- */
 const handlePartShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>) => {
   isCreatingPartShape.value = false
   newPartShapeInitialValues.value = null
   expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
 }
 
-/**
- * LEARNING: Handle PartShape creation cancel
- */
 const handlePartShapeCancelled = () => {
   isCreatingPartShape.value = false
   newPartShapeInitialValues.value = null
   expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
 }
 
-/**
- * LEARNING: Handle AnnotationShape creation save
- * WHY: Uses mutation function from useEntityCrud composable
- * PATTERN: Call mutation function with entity data
- */
 const handleAnnotationShapeCreate = async () => {
   if (!newAnnotationShapeName.value.trim()) return
   
@@ -258,15 +215,11 @@ const handleAnnotationShapeCreate = async () => {
     newAnnotationShapeName.value = ''
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
   } catch (error) {
-    // Failed to create annotation shape
   } finally {
     isCreatingAnnotationShapeLoading.value = false
   }
 }
 
-/**
- * LEARNING: Handle AnnotationShape creation cancel
- */
 const handleAnnotationShapeCancelled = () => {
   isCreatingAnnotationShape.value = false
   newAnnotationShapeName.value = ''
@@ -284,11 +237,6 @@ const startCreatingEventShape = () => {
   expandedShapes.value = ['new-eventShape', ...expandedShapes.value]
 }
 
-/**
- * LEARNING: Handle EventShape creation save
- * WHY: Uses mutation function from useEntityCrud composable
- * PATTERN: Call mutation function with entity data
- */
 const handleEventShapeCreate = async () => {
   if (!newEventShapeName.value.trim()) return
   
@@ -305,15 +253,11 @@ const handleEventShapeCreate = async () => {
     newEventShapeName.value = ''
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
   } catch (error) {
-    // Failed to create event shape
   } finally {
     isCreatingEventShapeLoading.value = false
   }
 }
 
-/**
- * LEARNING: Handle EventShape creation cancel
- */
 const handleEventShapeCancelled = () => {
   isCreatingEventShape.value = false
   newEventShapeName.value = ''
@@ -321,9 +265,7 @@ const handleEventShapeCancelled = () => {
 }
 
 
-// NOTE: Annotation shapes and event shapes are loaded above via useEntityCrud
 
-// LEARNING: Dialogs removed in favor of inline EntityCard creation
 // WHY: Unified component pattern - all create/edit happens in EntityCard
 
 /**
@@ -344,7 +286,6 @@ const partShapesPanelsContainer = ref<HTMLElement | null>(null)
 const blockShapesPanelsContainer = ref<HTMLElement | null>(null)
 const annotationShapesPanelsContainer = ref<HTMLElement | null>(null)
 
-// LEARNING: getPanelsElement moved to useDragAndDrop composable
 // WHY: Extracted to composable for better organization
 
 /**
@@ -367,7 +308,6 @@ const blockShapeIds = ref<string[]>([])
 // WHY: Extracted to composables for better organization
 
 // LEARNING: Use entity drag handlers composables
-// WHY: Extracts drag end handling logic from component to generic composables
 // PATTERN: Generic composable provides drag end handlers and array syncing
 const partShapesDragHandlers = useEntityDragHandlers({
   entityIds: partShapeIds,
@@ -384,7 +324,6 @@ const blockShapesDragHandlers = useEntityDragHandlers({
 })
 
 // LEARNING: Use entity tab state composable for array syncing watchers
-// WHY: Extracts watcher logic from component to generic composable
 // PATTERN: Generic composable handles array syncing watchers
 useEntityTabState({
   filteredEntities: filteredPartShapes,
@@ -397,7 +336,6 @@ useEntityTabState({
 })
 
 // LEARNING: Use drag-and-drop composables
-// WHY: Extracts drag-and-drop initialization and cleanup logic from component to composables
 // PATTERN: Composable handles all drag-and-drop setup, watchers, and cleanup
 const { isMounted: _partShapesMounted } = useDragAndDrop({
   containerRef: partShapesContainer,
@@ -428,8 +366,6 @@ PATTERN: No-op handler - EntityCard handles all deletion logic including confirm
 NOTE: EntityCard emits 'delete' event after successful deletion for parent awareness
  */
 function handleDeletePartShape(_id: string) {
-  // EntityCard already handled the deletion - this is just for parent awareness
-  // Vue Query will automatically refetch and update the UI
 }
 
 /**
@@ -439,8 +375,6 @@ function handleDeletePartShape(_id: string) {
  * NOTE: EntityCard emits 'delete' event after successful deletion for parent awareness
  */
 function handleDeleteBlockShape(_id: string) {
-  // EntityCard already handled the deletion - this is just for parent awareness
-  // Vue Query will automatically refetch and update the UI
 }
 
 /**
@@ -451,8 +385,6 @@ function handleDeleteBlockShape(_id: string) {
  * WHY: Prevents errors when Vue is rendering/unmounting components during VWindow transitions
  */
 const filteredAnnotationShapes = computed(() => {
-  // LEARNING: Guard against undefined annotationShapes during transitions
-  // WHY: Prevents errors when component is mounting/unmounting
   // PATTERN: Check that annotationShapes is an array before spreading
   if (!Array.isArray(annotationShapes.value)) {
     return []
@@ -467,8 +399,6 @@ const filteredAnnotationShapes = computed(() => {
  * PATTERN: Guard against undefined eventShapes during component mounting/unmounting
  */
 const safeEventShapes = computed(() => {
-  // LEARNING: Guard against undefined eventShapes during transitions
-  // WHY: Prevents errors when component is mounting/unmounting
   // PATTERN: Check that eventShapes is an array before accessing
   if (!Array.isArray(eventShapes.value)) {
     return []
@@ -489,9 +419,6 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
 
 // LEARNING: isPanelExpanded is now provided by useExpansionState composable
 
-// LEARNING: Removed manual form and context creation
-// WHY: EntityCard handles all form and context creation through DynamicFormInputs
-// PATTERN: Trust the unified system - EntityCard creates its own form and contexts internally
 
 /**
  * LEARNING: Event handler for deleting AnnotationShape
@@ -499,8 +426,6 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
  * PATTERN: No-op handler - card handles all deletion logic
  */
 function handleDeleteAnnotationShape(_id: string) {
-  // EntityCard already handled the deletion - this is just for parent awareness
-  // Vue Query will automatically refetch and update the UI
 }
 
 /**
@@ -509,18 +434,10 @@ function handleDeleteAnnotationShape(_id: string) {
  * PATTERN: No-op handler - card handles all deletion logic
  */
 function handleDeleteEventShape(_id: string) {
-  // EntityCard already handled the deletion - this is just for parent awareness
-  // Vue Query will automatically refetch and update the UI
 }
 
 
-/**
- * LEARNING: Handle save on existing Shape - collapse the card
- * WHY: User expects card to collapse after saving changes
- * PATTERN: Remove entity ID from expandedShapes to collapse the panel
- */
 function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
-  // Collapse the card by removing from expanded list
   expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
 }
 </script>

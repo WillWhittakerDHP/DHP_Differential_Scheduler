@@ -1,20 +1,3 @@
-/**
- * SERVICESELECTIONCONFIGBUILDERS TESTS
- * 
- * Unit tests for serviceSelectionConfigBuilders utility.
- * Tests config builder functions for service selection.
- * 
- * What it covers:
- * - buildUserTypeBlockRowSelectionConfig: Build row selection config
- * - buildServicesStackSelectionConfig: Build stack selection config
- * 
- * How it works:
- * - Tests config structure with and without state plugin
- * - Tests expansion componentData function
- * 
- * Dependencies:
- * - vitest for testing
- */
 
 import { describe, it, expect } from 'vitest'
 import {
@@ -23,7 +6,6 @@ import {
 } from '../serviceSelectionConfigBuilders'
 import type { StatePlugin, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 
-// Mock state plugin
 function createMockStatePlugin(): StatePlugin {
   return {
     id: 'test-plugin',

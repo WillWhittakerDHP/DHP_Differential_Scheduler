@@ -1,28 +1,9 @@
-/**
- * USESELECTIONCARDCOMPONENT TESTS
- * 
- * Unit tests for useSelectionCardComponent composable.
- * Tests selection component name and props generation.
- * 
- * What it covers:
- * - selectionComponentName: Dynamic component name based on config
- * - selectionComponentProps: Props for the selection component
- * 
- * How it works:
- * - Tests delegation to utility functions
- * - Tests computed reactivity
- * 
- * Dependencies:
- * - vitest for testing
- * - vue computed for reactive state
- */
 
 import { describe, it, expect } from 'vitest'
 import { computed } from 'vue'
 import { useSelectionCardComponent } from '../useSelectionCardComponent'
 import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
-// Helper to create mock item
 function createItem(id: string): SelectionCardItem {
   return {
     id,
@@ -31,7 +12,6 @@ function createItem(id: string): SelectionCardItem {
   } as SelectionCardItem
 }
 
-// Helper to create mock config
 function createConfig(overrides: Partial<SelectionCardConfig> = {}): SelectionCardConfig {
   return {
     selectionType: 'radio',

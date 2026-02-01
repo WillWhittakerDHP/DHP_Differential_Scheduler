@@ -75,7 +75,6 @@ describe('wizardValidation', () => {
       it('should return true when no validator for step', () => {
         const validators: WizardStepValidatorsMap = {
           0: () => true,
-          // No validator for step 1
         }
         
         const { validateStep } = createWizardValidator(validators)

@@ -10,19 +10,11 @@
 
 import { computed, type ComputedRef } from 'vue'
 
-/**
- * LEARNING: Format null/undefined values for display
- * WHY: Consistent formatting across table models
- */
 export function formatNullValue(value: unknown): string {
   if (value === null || value === undefined) return '—'
   return String(value)
 }
 
-/**
- * LEARNING: Create items source computed from query result
- * WHY: Consistent array handling across table models
- */
 export function createItemsSource<T>(
   data: ComputedRef<T[] | undefined>
 ): ComputedRef<T[]> {

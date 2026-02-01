@@ -19,8 +19,6 @@
  * @param value - The CSS variable value (e.g., '255, 0, 0' for RGB)
  */
 export function setCSSVariable(key: string, value: string): void {
-  // LEARNING: SSR safety check
-  // WHY: document is not available during server-side rendering
   // PATTERN: Check typeof document before accessing it
   if (typeof document === 'undefined') {
     return
@@ -40,8 +38,6 @@ export function setCSSVariable(key: string, value: string): void {
  * @param key - The CSS variable name to remove (e.g., '--v-theme-primary')
  */
 export function removeCSSVariable(key: string): void {
-  // LEARNING: SSR safety check
-  // WHY: document is not available during server-side rendering
   // PATTERN: Check typeof document before accessing it
   if (typeof document === 'undefined') {
     return

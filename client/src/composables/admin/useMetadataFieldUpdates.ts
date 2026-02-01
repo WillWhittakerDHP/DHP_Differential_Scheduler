@@ -24,11 +24,6 @@ export interface UseMetadataFieldUpdatesReturn {
   updateFieldRendering: (fieldKey: string, updates: Partial<FieldMetadataEntry>) => void
 }
 
-/**
- * LEARNING: Manage field metadata updates with validation
- * WHY: Handles field rendering updates with automatic renderAs computation and validation
- * PATTERN: Update function that computes renderAs and validates panel/layout based on visibility
- */
 export function useMetadataFieldUpdates(
   options: UseMetadataFieldUpdatesOptions
 ): UseMetadataFieldUpdatesReturn {
@@ -44,12 +39,10 @@ export function useMetadataFieldUpdates(
     inputConfig: Record<string, unknown> | null | undefined,
     fieldKey: string
   ): FieldMetadataEntry['renderAs'] {
-    // Special cases first
     if (fieldKey === 'icon') {
       return 'iconSelect'
     }
     
-    // If inputConfig exists, determine select type from config
     if (inputConfig) {
       const selectType = inputConfig.selectType as string | undefined
       if (selectType === 'partsCollectionSelect') {
@@ -59,15 +52,12 @@ export function useMetadataFieldUpdates(
       if (selectMode === 'multiple') {
         return 'multiselect'
       }
-      // Default to reference for relationship selects
       if (inputConfig.targetMode === 'relationship') {
         return 'reference'
       }
-      // Default to select for other selects
       return 'select'
     }
     
-    // Base renderAs on dataType
     // LEARNING: Ternary fields use 'boolean' dataType but render as statusButton
     // WHY: Ternary is a boolean variant with three states, still renders as status button
     if (dataType === 'boolean' || dataType === 'ternary') {
@@ -80,7 +70,6 @@ export function useMetadataFieldUpdates(
       return 'reference'
     }
     
-    // Default to text for string and other types
     return 'text'
   }
 
@@ -90,28 +79,21 @@ export function useMetadataFieldUpdates(
    * PATTERN: Compute renderAs, validate panel/layout, update pending changes
    */
   function updateFieldRendering(fieldKey: string, updates: Partial<FieldMetadataEntry>): void {
-    // LEARNING: Auto-compute renderAs when inputConfig changes
-    // WHY: renderAs should always be computed, not manually set
     // PATTERN: Compute renderAs if inputConfig is being updated
     const effectiveMeta = getEffectiveFieldMetadata(fieldKey)
     const newDataType = effectiveMeta?.dataType
     const newInputConfig = updates.inputConfig !== undefined ? updates.inputConfig : effectiveMeta?.inputConfig
     
-    // Auto-compute renderAs if inputConfig changed
     if (updates.inputConfig !== undefined) {
       updates.renderAs = computeRenderAs(newDataType, newInputConfig, fieldKey)
     }
     
-    // LEARNING: Validate panel based on visibility
-    // WHY: Panel must be 'none' for titleRow and expandedDirect, automatically determined for expandedPanel
     // PATTERN: Normalize panel value when visibility changes, auto-determine from field key for expandedPanel
     if (updates.visibility !== undefined) {
       const newVisibility = updates.visibility
       if (newVisibility === 'titleRow' || newVisibility === 'expandedDirect' || newVisibility === 'staticAsTitle') {
-        // Panel must be 'none' for these visibility types
         updates.panel = 'none'
       } else if (newVisibility === 'expandedPanel') {
-        // Panel is automatically determined from field key
         const determinedPanel = determinePanelFromFieldKey(fieldKey)
         updates.panel = determinedPanel !== 'none' ? determinedPanel : 'parts'
       }

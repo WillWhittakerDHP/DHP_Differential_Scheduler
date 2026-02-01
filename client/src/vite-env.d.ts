@@ -1,4 +1,3 @@
-/// <reference types="vite/client" />
 
 /**
  * WHY: Vite Environment Types
@@ -13,7 +12,6 @@ interface ImportMetaEnv {
   readonly VITE_VERBOSE_LOGGING?: string
   readonly VITE_DEBUG_SCOPES?: string
   readonly VITE_LOG_LEVEL?: string
-  // Add other Vite environment variables as needed
 }
 
 interface ImportMeta {

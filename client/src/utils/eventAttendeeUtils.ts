@@ -86,15 +86,6 @@ export function getAgentEventShape(
   ) || null
 }
 
-/**
- * Get all UserTypeBlock BlockInstance IDs (state control blocks)
- * LEARNING: Returns all BlockInstances that belong to state control BlockShapes (including inactive)
- * WHY: Provides list of all available user types for attendee configuration, allowing selection of inactive user types
- * PATTERN: Filter BlockInstances by blockShape.isStateControl (no active filter)
- * 
- * @param globalData - GlobalData containing all entities
- * @returns Array of UserTypeBlock BlockInstance IDs
- */
 export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[] {
   const blockShapes = (globalData.entities.blockShape || []) as BlockShapeEntity[]
   const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)

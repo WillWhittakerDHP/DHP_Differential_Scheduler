@@ -1,10 +1,3 @@
-/**
- * USE FIELD CONTEXT TESTS
- * 
- * Unit tests for useFieldContext composable.
- * Tests field state, validation, save operations, and value management.
- * Phase 7: Form Field Composables
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref } from 'vue'
@@ -14,9 +7,6 @@ import { usePrimitiveMutation } from '../useEntity'
 import { useQueryClient } from '@tanstack/vue-query'
 import apiClient from '@/utils/api'
 
-// LEARNING: vi.hoisted() moves variable definitions to run BEFORE vi.mock() hoisting
-// WHY: vi.mock() is hoisted to top of file, so referenced variables must also be hoisted
-// PATTERN: Use vi.hoisted() for any variables used inside vi.mock() factory functions
 const { mockUseField, mockUseForm } = vi.hoisted(() => ({
   mockUseField: vi.fn(() => ({
     value: ref('initial'),
@@ -34,7 +24,6 @@ const { mockUseField, mockUseForm } = vi.hoisted(() => ({
   })),
 }))
 
-// Mock dependencies
 vi.mock('../useAdmin', () => ({
   useAdmin: vi.fn(() => ({
     getEntity: vi.fn(() => ({ id: 'block-1', name: 'Test Block' })),
@@ -151,7 +140,6 @@ describe('useFieldContext', () => {
       const context = useFieldContext('name', 'blockInstance', 'block-1')
       
       expect(context.displayConfig).toBeDefined()
-      // LEARNING: When upstream metadata isn't provided, FieldContext logs an explicit error
       // and falls back to simple defaults (no legacy config lookup).
       expect(context.displayConfig.label).toBe('name')
       expect(context.displayConfig.placeholder).toBe('Enter name')

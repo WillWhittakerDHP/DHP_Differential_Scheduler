@@ -16,27 +16,18 @@ import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/for
 import { useAdmin } from './useAdmin'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-/**
- * Select Option Format
- */
 export interface SelectOption {
   title: string
   value: string
   children?: SelectOption[]
 }
 
-/**
- * Grouped Entities Format (for multiple selects)
- */
 export interface GroupedEntities {
   groupKey: string
   groupLabel: string
   entities: GlobalEntity<GlobalEntityKey>[]
 }
 
-/**
- * Select Options Composable Options
- */
 export interface UseSelectOptionsOptions {
   filteredEntities: Ref<GlobalEntity<GlobalEntityKey>[]>
   selectConfig: Ref<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
@@ -47,20 +38,14 @@ export interface UseSelectOptionsOptions {
   adminComp?: ReturnType<typeof useAdmin>
 }
 
-/**
- * Select Options Composable Return Type
- */
 export interface UseSelectOptionsReturn {
-  // Transformed options
   options: Ref<SelectOption[]>
   groupedByKey: Ref<GroupedEntities[]>
   shouldUseMultipleSelects: Ref<boolean>
   
-  // Helper functions
   getGroupOptions: (group: GroupedEntities) => SelectOption[]
   getGroupValue: (group: GroupedEntities) => string | string[] | null
   
-  // Value normalization
   normalizedValue: Ref<string | string[] | null>
 }
 
@@ -81,7 +66,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
     adminComp: providedAdminComp
   } = opts
   
-  // Initialize admin composable
   const adminComp = providedAdminComp || useAdmin()
   
   /**
@@ -99,16 +83,12 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
     
     const groupByKey = config.groupByKey
     
-    // LEARNING: Map property keys to entity keys for entity map lookup
-    // WHY: groupByKey is a property key (e.g., 'blockShapeRef'), but getEntityMap needs entity key (e.g., 'blockShape')
     // PATTERN: Infer entity key from groupByKey pattern or use config's candidateParentKey
     let groupEntityKey: GlobalEntityKey | null = null
     
-    // Try to infer from config's candidateParentKey if available
     if ('candidateParentKey' in config && config.candidateParentKey) {
       groupEntityKey = config.candidateParentKey as GlobalEntityKey
     } else {
-      // Fallback: infer from groupByKey pattern
       const propertyToEntityKeyMap: Record<string, GlobalEntityKey> = {
         'blockShapeRef': 'blockShape',
         'partShapeRef': 'partShape',
@@ -118,10 +98,8 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
       groupEntityKey = propertyToEntityKeyMap[groupByKey] || null
     }
     
-    // Get parent entity map if we have an entity key
     const groupParentMap = groupEntityKey ? adminComp.getEntityMap(groupEntityKey) : new Map()
     
-    // Group entities by their groupByKey property value
     const groupedMap = new Map<string, { 
       groupKey: string
       groupLabel: string
@@ -129,7 +107,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
     }>()
     
     entities.forEach((entity) => {
-      // Try direct property first, then ref pattern
       const groupKey =
         getEntityFieldValue(entity, groupByKey) ??
         getEntityFieldValue(entity, `${groupByKey}Ref`)
@@ -140,9 +117,7 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
       
       const groupKeyString = String(groupKey)
       
-      // Initialize group if not exists
       if (!groupedMap.has(groupKeyString)) {
-        // Try to get parent entity for label
         const groupParent = groupEntityKey ? groupParentMap.get(groupKeyString) : null
         const groupLabel = groupParent 
           ? (getEntityFieldValue(groupParent, String(optionLabelKey.value)) as string | undefined) || String(groupParent.id)
@@ -155,7 +130,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
         })
       }
       
-      // Add entity to its group
       const group = groupedMap.get(groupKeyString)
       if (group) {
         group.entities.push(entity)
@@ -177,7 +151,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
     }
     
     const groups = groupedByKey.value
-    // Use multiple selects when there are 2+ distinct groups
     return groups.length > 1
   })
   
@@ -224,14 +197,9 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
     const entities = filteredEntities.value
     const config = selectConfig.value
     
-    // Handle grouping if configured (e.g., bookingCascades grouped by blockShape)
     // NOTE: AppSelect with grouped options and multiple selection (chips) has issues finding items
-    // When chips render, AppSelect/Vuetify looks for items by value but can't find them in nested children structure
-    // Solution: For multiple selection, flatten grouped options so chips can display titles correctly
     if (config && 'groupByKey' in config && config.groupByKey && entities.length > 0) {
       try {
-        // LEARNING: Use Map for O(1) lookups instead of O(n) array searches
-        // WHY: Efficient entity lookups for grouping parent entities
         // PATTERN: Get entity map for groupByKey entity type (e.g., blockShape)
         const groupByKey = config.groupByKey
         if (!groupByKey) {
@@ -241,8 +209,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
           }))
         }
         
-        // LEARNING: Map property keys to entity keys for entity map lookup
-        // WHY: groupByKey is a property key (e.g., 'blockShapeRef'), but getEntityMap needs entity key (e.g., 'blockShape')
         // PATTERN: Map common property keys to their corresponding entity keys
         const propertyToEntityKeyMap: Record<string, GlobalEntityKey> = {
           'blockShapeRef': 'blockShape',
@@ -257,16 +223,12 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
         
         const groupedMap = new Map<string, { parent: GlobalEntity<GlobalEntityKey>; children: GlobalEntity<GlobalEntityKey>[] }>()
         
-        // Group entities by their groupByKey property value
         // LEARNING: Handle both direct property access and ref pattern (e.g., blockShape vs blockShapeRef)
-        // WHY: Entities may have direct property (blockShape) or ref property (blockShapeRef)
         // PATTERN: Try direct property first, then ref pattern, matching React's getProperty fallback
         let skippedCount = 0
         let addedCount = 0
         
         entities.forEach((entity) => {
-          // Get the group key from entity
-          // For blockInstance grouped by blockShape: try entity.blockShape, then entity.blockShapeRef
           const groupKey =
             getEntityFieldValue(entity, groupByKey) ??
             getEntityFieldValue(entity, `${groupByKey}Ref`)
@@ -276,7 +238,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
             return
           }
           
-          // Initialize group if not exists
           if (!groupedMap.has(String(groupKey))) {
             const groupParent = groupParentMap.get(String(groupKey))
             if (groupParent) {
@@ -290,7 +251,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
             }
           }
           
-          // Add entity to its group
           if (groupedMap.has(String(groupKey))) {
             groupedMap.get(String(groupKey))!.children.push(entity as GlobalEntity<GlobalEntityKey>)
             addedCount++
@@ -317,8 +277,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
           })
         }))
         
-        // For multiple selection with chips, AppSelect/Vuetify can't resolve nested children
-        // Flatten grouped options so chips can find items by value
         if (isMultiple.value) {
           const flattened = result.flatMap(group => group.children)
           return flattened
@@ -326,13 +284,9 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
         
         return result
       } catch (error) {
-        // Grouping failed, falling back to flat options
       }
     }
     
-    // Return flat options
-    // Use optionLabelKey (defaults to 'name') as title, 'id' as value
-    // LEARNING: AppSelect uses 'title' property for display (configured via item-title prop)
     const flatOptions = entities.map((entity) => ({
       title: (getEntityFieldValue(entity, String(optionLabelKey.value)) as string | undefined) || String((entity as GlobalEntity<GlobalEntityKey>).id),
       value: String((entity as GlobalEntity<GlobalEntityKey>).id)
@@ -349,24 +303,19 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
   const normalizedValue = computed(() => {
     const value = rawFieldValue.value
     
-    // For multiple selects, ensure value is always an array of strings
     if (isMultiple.value) {
       if (Array.isArray(value)) {
-        // Ensure all values are strings (item-value uses String(entity.id))
         return value.map(v => String(v)).filter(v => v !== '')
       }
       if (value === null || value === undefined || value === '') {
         return []
       }
-      // If it's a string, convert to array with string value
       if (typeof value === 'string') {
         return [String(value)]
       }
-      // For any other type (number, etc.), convert to string and wrap in array
       return [String(value)]
     }
     
-    // For single selects, ensure value is string to match item-value format
     if (value === null || value === undefined || value === '') {
       return null
     }

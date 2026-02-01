@@ -1,10 +1,3 @@
-/**
- * ANNOTATION UTILS TESTS
- * 
- * Unit tests for annotationUtils.
- * Tests annotation validation, filtering, and formatting utilities.
- * Phase 6: Medium Priority Utilities
- */
 
 import { describe, it, expect } from 'vitest'
 import {
@@ -217,7 +210,6 @@ describe('annotationUtils', () => {
         userTypeBlockOptions
       )
       
-      // null userTypeBlock should not be disabled (can have multiple)
       expect(available.find(o => o.value === null)?.disabled).toBe(false)
     })
   })
@@ -474,7 +466,6 @@ describe('annotationUtils', () => {
       
       const options = getUserTypeBlockOptionsFromGlobalData(globalData)
       
-      // Should still have generic option
       expect(options).toBeInstanceOf(Array)
       expect(options.length).toBeGreaterThanOrEqual(1)
     })

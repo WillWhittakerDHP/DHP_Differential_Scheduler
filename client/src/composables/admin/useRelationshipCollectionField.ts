@@ -80,8 +80,6 @@ export function useRelationshipCollectionField<
   const selectConfig = computed<RelationshipFieldType<GE>>(() => {
     const meta = fieldMetadataEntry.value
     
-    // LEARNING: NO FALLBACKS - inputConfig is required for relationshipCollection fields
-    // WHY: RelationshipCollection fields must have inputConfig configured in metadata
     // PATTERN: Fail explicitly when inputConfig is missing
     if (!meta) {
       throw new Error(
@@ -98,12 +96,9 @@ export function useRelationshipCollectionField<
     }
     
     // LEARNING: inputConfig is stored in direct format (not wrapped)
-    // WHY: Database stores inputConfig directly, not wrapped in relationshipSelect/typeSelect
     // PATTERN: Use inputConfig directly as RelationshipFieldType
     const config = meta.inputConfig as RelationshipFieldType<GE>
     
-    // LEARNING: Verify this is a relationship select (not type select)
-    // WHY: RelationshipCollection fields only work with relationship selects
     // PATTERN: Fail explicitly if targetMode is not 'relationship'
     if (config.targetMode !== 'relationship') {
       throw new Error(
@@ -124,8 +119,6 @@ export function useRelationshipCollectionField<
   const childEntityKey = computed<GlobalEntityKey>(() => {
     const config = selectConfig.value
     
-    // LEARNING: NO FALLBACKS - candidateChildKey is required
-    // WHY: RelationshipCollection fields must specify which entity type to display
     // PATTERN: Fail explicitly when candidateChildKey is missing
     if (!config.candidateChildKey) {
       throw new Error(
@@ -146,8 +139,6 @@ export function useRelationshipCollectionField<
   const relationshipKey = computed<string>(() => {
     const config = selectConfig.value
     
-    // LEARNING: NO FALLBACKS - targetKey is required
-    // WHY: RelationshipCollection fields must specify which relationship field to use
     // PATTERN: Fail explicitly when targetKey is missing
     if (!config.targetKey) {
       throw new Error(
@@ -173,20 +164,15 @@ export function useRelationshipCollectionField<
     const config = selectConfig.value
     const relKey = relationshipKey.value
     
-    // LEARNING: Derive optionsFieldKey from relationshipKey
     // WHY: Options field name follows pattern: 'valid' + pluralized relationshipKey without 'Assignments' suffix
     // PATTERN: Transform 'partAssignments' → 'validParts', 'annotationAssignments' → 'validAnnotations', etc.
     if (relKey.endsWith('Assignments')) {
       const withoutAssignments = relKey.replace(/Assignments$/, '')
-      // Pluralize: add 's' to make it plural (part → parts, annotation → annotations, event → events)
       const pluralized = `${withoutAssignments}s`
-      // Capitalize first letter and prepend 'valid'
       const capitalized = pluralized.charAt(0).toUpperCase() + pluralized.slice(1)
       return `valid${capitalized}`
     }
     
-    // LEARNING: Fallback: try to get from config.selectedChildPath if available
-    // WHY: Some configs might specify the options field explicitly
     // PATTERN: Check config.selectedChildPath for options field name
     if (config.selectedChildPath && Array.isArray(config.selectedChildPath) && config.selectedChildPath.length > 0) {
       const lastPath = config.selectedChildPath[config.selectedChildPath.length - 1]
@@ -195,8 +181,6 @@ export function useRelationshipCollectionField<
       }
     }
     
-    // LEARNING: If derivation fails, throw error
-    // WHY: Options field key is required for relationshipCollection fields
     // PATTERN: Fail explicitly when optionsFieldKey cannot be determined
     throw new Error(
       `[useRelationshipCollectionField] Cannot determine optionsFieldKey for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
@@ -229,7 +213,6 @@ export function useRelationshipCollectionField<
   const parentTypeProperty = computed<string | null>(() => {
     if (fieldContext.entityKey === 'blockInstance') return 'blockShapeRef'
     if (fieldContext.entityKey === 'partInstance') return 'partShapeRef'
-    // For shape-level entities (blockShape, partShape), they are already the type
     if (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') return null
     return null
   })
@@ -243,7 +226,6 @@ export function useRelationshipCollectionField<
   const parentTypeEntityKey = computed<GlobalEntityKey | null>(() => {
     if (fieldContext.entityKey === 'blockInstance') return 'blockShape' as GlobalEntityKey
     if (fieldContext.entityKey === 'partInstance') return 'partShape' as GlobalEntityKey
-    // For shape-level entities, the entity itself is the type
     if (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') {
       return fieldContext.entityKey
     }
@@ -259,12 +241,10 @@ export function useRelationshipCollectionField<
    * For shape-level entities, returns the entity ID directly
    */
   const parentTypeRef = computed<string | null>(() => {
-    // For shape-level entities, the entity itself is the type
     if (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') {
       return fieldContext.entityId
     }
     
-    // For instance-level entities, read the type reference property
     if (!parentEntity.value || !parentTypeProperty.value) return null
     return getEntityFieldValue(parentEntity.value, parentTypeProperty.value) as string | null
   })
@@ -289,14 +269,12 @@ export function useRelationshipCollectionField<
    * For shape-level entities, checks the entity itself for valid options
    */
   const shouldDisplay = computed<boolean>(() => {
-    // For shape-level entities, check the entity itself
     if (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') {
       if (!parentEntity.value) return false
       const validOptions = getEntityFieldValue(parentEntity.value, String(optionsFieldKey.value))
       return Array.isArray(validOptions) && validOptions.length > 0
     }
     
-    // For instance-level entities, check the parent type entity
     if (!parentEntity.value || !parentTypeProperty.value) {
       return false
     }
@@ -309,7 +287,6 @@ export function useRelationshipCollectionField<
       return false
     }
     
-    // Check if the shape entity has valid options (e.g., blockShape.validParts)
     const validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))
     const hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0
     
@@ -325,7 +302,6 @@ export function useRelationshipCollectionField<
   const defaultExpanded = computed<boolean | undefined>(() => {
     const meta = fieldMetadataEntry.value
     // LEARNING: NO DEFAULTS - expanded state should be explicitly configured
-    // WHY: If not configured, return undefined (not false)
     // PATTERN: Return undefined if not in metadata
     return (meta as { defaultExpanded?: boolean })?.defaultExpanded
   })
@@ -337,8 +313,6 @@ export function useRelationshipCollectionField<
    * PATTERN: Function that checks relationship array, fails if required data missing
    */
   const getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {
-    // LEARNING: NO FALLBACKS - parentEntity and relationshipKey are required
-    // WHY: Cannot determine parent ID without parent entity and relationship key
     // PATTERN: Fail explicitly when required data is missing
     if (!parentEntity.value) {
       throw new Error(
@@ -354,14 +328,11 @@ export function useRelationshipCollectionField<
       )
     }
     
-    // Check if child ID is in parent's relationship array
     const parentRelationshipIds = getEntityFieldValue(parentEntity.value, String(relationshipKey.value))
     if (Array.isArray(parentRelationshipIds) && parentRelationshipIds.includes(child.id)) {
       return parentEntity.value.id
     }
     
-    // LEARNING: NO DEFAULT - return empty string if child is not in relationship
-    // WHY: Child might not belong to this parent - empty string indicates no relationship
     // PATTERN: Return empty string (not a default, indicates absence of relationship)
     return ''
   }
@@ -377,23 +348,19 @@ export function useRelationshipCollectionField<
   }
 
   return {
-    // Config-derived values
     childEntityKey,
     relationshipKey,
     optionsFieldKey,
     
-    // Parent/type entities
     parentEntity,
     parentTypeProperty,
     parentTypeEntityKey,
     parentTypeRef,
     parentTypeEntity,
     
-    // Display validation
     shouldDisplay,
     defaultExpanded,
     
-    // Helper functions
     getChildParentId,
     getParentId,
   }

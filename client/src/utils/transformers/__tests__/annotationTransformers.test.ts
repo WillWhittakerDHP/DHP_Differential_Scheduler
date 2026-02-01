@@ -1,9 +1,3 @@
-/**
- * ANNOTATION TRANSFORMERS TESTS
- * 
- * Unit tests for annotation transformation utilities.
- * Tests annotation transformation, filtering, and grouping.
- */
 
 import { describe, it, expect } from 'vitest'
 import {
@@ -68,7 +62,6 @@ describe('annotationTransformers', () => {
       expect(result.name).toBe('Buyer')
       expect(result.text).toBe('Buyer')
       expect(result.type).toBe('type-1')
-      // Note: orderIndex and isDefault come from relationships, not base annotation
     })
     
     it('should handle missing optional fields', () => {

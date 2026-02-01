@@ -1,24 +1,3 @@
-/**
- * USESELECTIONCARDGROUPCONFIG TESTS
- * 
- * Unit tests for useSelectionCardGroupConfig composable.
- * Tests group configuration for selection cards.
- * 
- * What it covers:
- * - configWithDefaults: Merged config with defaults
- * - useGroupWrapper: Whether to use group wrapper
- * - groupComponentName: Name of group component
- * - gridColumnProps: Grid column props for layout
- * 
- * How it works:
- * - Tests config merging
- * - Tests group wrapper determination
- * - Tests component name resolution
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref/computed for reactive state
- */
 
 import { describe, it, expect } from 'vitest'
 import { ref, computed } from 'vue'
@@ -79,7 +58,6 @@ describe('useSelectionCardGroupConfig', () => {
       
       const { groupComponentName } = useSelectionCardGroupConfig({ config })
       
-      // Returns the selectionGroup value as-is
       expect(groupComponentName.value).toBe('v-radio-group')
     })
 
@@ -90,7 +68,6 @@ describe('useSelectionCardGroupConfig', () => {
       
       const { groupComponentName } = useSelectionCardGroupConfig({ config })
       
-      // Returns the selectionGroup value as-is (used for conditional rendering)
       expect(groupComponentName.value).toBe('none')
     })
   })

@@ -11,18 +11,12 @@ import type { SelectionCardItem } from '@/components/booking/types/selectionCard
 import type { ComponentItem } from './usePropertyDetailsLogic'
 import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
 
-/**
- * usePropertyTypeBlockConfig composable parameters
- */
 export interface UsePropertyTypeBlockConfigParams {
   selectedPropertyTypeBlocks: Ref<unknown[]>
   propertyTypeBlocksStatePlugin: unknown | null
   availablePropertyTypeBlocks?: Ref<unknown[]>
 }
 
-/**
- * Selection card config type
- */
 export interface SelectionCardConfig {
   selectionType: 'checkbox' | 'radio'
   selectionComponent: 'VCheckbox' | 'VRadio'
@@ -48,9 +42,6 @@ export interface SelectionCardConfig {
   statePlugins?: unknown[]
 }
 
-/**
- * usePropertyTypeBlockConfig composable return type
- */
 export interface UsePropertyTypeBlockConfigReturn {
   rowSelectionConfig: ComputedRef<SelectionCardConfig>
 }
@@ -77,10 +68,8 @@ export function usePropertyTypeBlockConfig(
    * PATTERN: Shared config object matching user types configuration with enhanced config properties and wizard state plugin
    */
   const rowSelectionConfig = computed(() => {
-    // Access wizard state to make this computed reactive to wizard changes
     void selectedPropertyTypeBlocks.value
     
-    // Calculate grid columns based on item count (fit on one row if < 5 items)
     const itemCount = availablePropertyTypeBlocks?.value?.length || 0
     const dynamicGridColumns = calculateGridColumnsForItemCount(itemCount)
     
@@ -118,7 +107,6 @@ export function usePropertyTypeBlockConfig(
       }
     }
     
-    // Add state plugin if available
     if (propertyTypeBlocksStatePlugin) {
       return {
         ...baseConfig,
@@ -126,7 +114,6 @@ export function usePropertyTypeBlockConfig(
       }
     }
     
-    // Fallback to local state if plugin not available
     return {
       ...baseConfig,
       stateSource: 'local' as const

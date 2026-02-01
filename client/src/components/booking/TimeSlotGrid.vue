@@ -32,7 +32,6 @@ interface Props {
   maxColumns?: number
   buttonMinWidth?: number
   gap?: number
-  // For AppointmentSlots transformation
   blockInstances?: BookingBlockInstance[]
   isDifferentialService?: boolean
 }
@@ -57,13 +56,9 @@ const emit = defineEmits<{
   'slot-click': [slot: TimeSlot | TimeRange, orderIndex: number] // TimeSlot extends TimeRange
 }>()
 
-// LEARNING: Ref for grid container
-// WHY: Needed for ResizeObserver and grid styling
-// PATTERN: Template ref to HTMLElement
 const gridRef = ref<HTMLElement | null>(null)
 
 // LEARNING: Use responsive grid composable
-// WHY: Extracts column calculation logic from component to composable
 // PATTERN: Composable provides column calculations and ResizeObserver management
 const {
   buttonGridColumns,
@@ -96,32 +91,21 @@ interface SlotData {
  * PATTERN: If appointmentSlots provided, transform based on timeBasis and include orderIndex; otherwise use slots prop
  */
 const displaySlots = computed(() => {
-  // LEARNING: Use AppointmentSlots if provided
-  // WHY: New structure supports dual-time display for differential scheduling
   // PATTERN: Transform AppointmentSlots based on timeBasis, include orderIndex
   if (props.appointmentSlots && props.appointmentSlots.length > 0) {
-    // LEARNING: Use map + filter instead of forEach + push
     // WHY: Functional approach - transform array without mutations
     // PATTERN: Map to transform, filter to remove nulls
     return props.appointmentSlots
       .map(appointmentSlot => {
-        // LEARNING: slot can be TimeSlot or TimeRange (TimeSlot extends TimeRange)
-        // WHY: totalTime and timeOnSite are TimeRange, but category slots are TimeSlot
         // PATTERN: Accept both types since TimeSlot extends TimeRange
         let slot: TimeSlot | TimeRange | null = null
         
         if (props.timeBasis === 'minor' && props.isDifferentialService) {
-          // LEARNING: Show minor perspective time slot
-          // WHY: Minor sees their arrival time for differential appointments
           // PATTERN: Use minor event time range from AppointmentSlot, fallback to totalTimeRange
-          // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
           const minorEventName = 'Minor' // TODO: Get from availabilitySettings
           slot = appointmentSlot.eventTimeRanges?.[minorEventName] || appointmentSlot.totalTimeRange
         } else {
-          // LEARNING: Show major perspective time slot (default)
-          // WHY: Major sees their start time, or same time for non-differential
           // PATTERN: Use major event time range from AppointmentSlot, fallback to totalTimeRange
-          // NOTE: Uses eventTimeRanges lookup by event name (configured via availabilitySettings)
           const majorEventName = 'Major' // TODO: Get from availabilitySettings
           slot = appointmentSlot.eventTimeRanges?.[majorEventName] || appointmentSlot.totalTimeRange
         }
@@ -135,15 +119,10 @@ const displaySlots = computed(() => {
       .filter((item): item is SlotData => item !== null)
   }
   
-  // LEARNING: Fallback to legacy slots prop
-  // WHY: Maintains backward compatibility with existing code
   // PATTERN: Return slots prop with array index as orderIndex
   return (props.slots || []).map((slot, index) => ({ slot, orderIndex: index }))
 })
 
-// LEARNING: Handler for time slot button clicks
-// WHY: Emits slot click event with orderIndex to parent component
-// PATTERN: Event handler that emits TimeSlot object and orderIndex
 const handleSlotClick = (slotData: SlotData): void => {
   emit('slot-click', slotData.slot, slotData.orderIndex)
 }
@@ -175,21 +154,15 @@ const handleSlotClick = (slotData: SlotData): void => {
 </template>
 
 <style scoped lang="scss">
-// LEARNING: Time slot grid layout with dynamic columns
-// WHY: Creates responsive grid layout that adapts to available width
-// PATTERN: CSS Grid with dynamic column count based on available width
 .time-slot-grid {
   display: grid;
   width: 100%; // Ensure grid fills parent container
   box-sizing: border-box; // Include padding in width calculation
-  // LEARNING: Use CSS custom property for dynamic column count
-  // WHY: Allows computed property to control grid columns reactively
   // PATTERN: CSS Grid repeat() with CSS custom property, fallback to 2 columns
   grid-template-columns: repeat(var(--grid-columns, 2), 1fr);
   grid-auto-rows: min-content; // Allow natural height
   gap: 8px;
   padding: 1.5rem 0;
-  // Match calendar height - ensure grid is at least as tall as calendar widget
   min-height: 300px;
   // Remove fixed max-height - let content wrap naturally
   max-height: none;
@@ -198,16 +171,12 @@ const handleSlotClick = (slotData: SlotData): void => {
   @media (min-width: 600px) {
     gap: 10px;
     padding: 2rem 0;
-    // Match calendar height on larger screens
     min-height: 350px;
-    // Fill available width, wrap naturally, scroll if needed
     max-height: calc(100vh - 400px); // Use viewport height minus header/footer space
     overflow-y: auto;
     overflow-x: hidden;
   }
   
-  // LEARNING: Time slot button sizing
-  // WHY: Ensures adequate touch targets on mobile (minimum 44x44px) and proper text display
   // PATTERN: Minimum height and width for touch-friendly buttons with proper padding
   .time-slot-btn {
     min-height: 44px; // Touch-friendly minimum size
@@ -224,8 +193,6 @@ const handleSlotClick = (slotData: SlotData): void => {
     }
   }
   
-  // LEARNING: Single-column mode with vertical scrolling (ONLY on mobile)
-  // WHY: Enables vertical scrolling when space is too limited for multiple columns
   // PATTERN: Single column layout with max-height and overflow-y: auto
   &.single-column {
     grid-template-columns: 1fr;
@@ -234,8 +201,6 @@ const handleSlotClick = (slotData: SlotData): void => {
     overflow-x: hidden;
     scroll-behavior: smooth;
     
-    // LEARNING: Custom scrollbar styling (optional, for better UX)
-    // WHY: Makes scrollbar more visible and touch-friendly
     // PATTERN: Webkit scrollbar styling
     &::-webkit-scrollbar {
       width: 8px;

@@ -1,10 +1,3 @@
-/**
- * ENTITY ROUTER INTEGRATION TESTS
- * 
- * Integration tests for entity router endpoints.
- * Tests GET, POST, PUT, DELETE endpoints and error handling.
- * Phase 4C: Integration Tests
- */
 
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import request from 'supertest'
@@ -13,7 +6,6 @@ import { EntityRouter as entityRouter } from '../entityRouter'
 import { getTestDb } from '../../../../test/setup/testDb'
 import { BlockInstance, BlockShape, PartInstance, PartShape } from '../../../../config/app'
 
-// Mock data controller
 jest.mock('../../../../routes/helpers/dataController', () => ({
   fetchAll: jest.fn(),
   fetchById: jest.fn(),
@@ -24,7 +16,6 @@ jest.mock('../../../../routes/helpers/dataController', () => ({
   bulkPatch: jest.fn(),
 }))
 
-// Mock entity registry
 jest.mock('../../../../config/entityRegistry', () => ({
   getEntityConfig: jest.fn((entityType: string) => {
     const configs: Record<string, any> = {

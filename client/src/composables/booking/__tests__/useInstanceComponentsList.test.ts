@@ -1,27 +1,8 @@
-/**
- * USEINSTANCECOMPONENTSLIST TESTS
- * 
- * Unit tests for useInstanceComponentsList composable.
- * Tests component aggregation for multiple services.
- * 
- * What it covers:
- * - servicesWithComponents: Services enhanced with component data
- * - getInstanceComponents: Helper to get components for a service
- * 
- * How it works:
- * - Tests with mocked global state
- * - Tests computed properties
- * 
- * Dependencies:
- * - vitest for testing
- * - vue computed for reactive state
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { computed, ref, nextTick } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Mock useGlobal
 vi.mock('../../useGlobal', () => ({
   useGlobal: () => ({
     getGlobalEntityById: vi.fn(() => null),
@@ -29,7 +10,6 @@ vi.mock('../../useGlobal', () => ({
   }),
 }))
 
-// Mock useComponentEntity
 vi.mock('../../useComponentEntity', () => ({
   useComponentEntity: () => ({
     getComponents: vi.fn(() => []),
@@ -38,7 +18,6 @@ vi.mock('../../useComponentEntity', () => ({
 
 import { useInstanceComponentsList } from '../useInstanceComponentsList'
 
-// Helper to create mock service
 function createService(id: string, options: Partial<BookingBlockInstance> = {}): BookingBlockInstance {
   return {
     id,

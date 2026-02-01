@@ -9,35 +9,16 @@
 import { computed, ref, type Ref, type ComputedRef } from 'vue'
 import type { ValidationRule } from '@/composables/useFormValidation'
 
-/**
- * Custom validator function
- */
 export type CustomValidator = () => true | string
 
-/**
- * Step validation parameters
- */
 export interface UseStepValidationParams {
-  /**
-   * Form data as key-value pairs
-   */
   formData: Record<string, Ref<unknown>>
   
-  /**
-   * Validation rules - can be computed for reactive rules
-   */
   validationRules: ComputedRef<Record<string, ValidationRule[]>> | Record<string, ValidationRule[]>
   
-  /**
-   * Custom validators that don't fit field-based validation
-   * e.g., "at least one block selected"
-   */
   customValidators?: Record<string, CustomValidator>
 }
 
-/**
- * Step validation return type
- */
 export interface UseStepValidationReturn {
   validationRules: ComputedRef<Record<string, ValidationRule[]>>
   fieldErrors: Ref<Record<string, string>>
@@ -61,7 +42,6 @@ export function useStepValidation(
     customValidators = {}
   } = params
 
-  // Normalize rules to ComputedRef
   const validationRules: ComputedRef<Record<string, ValidationRule[]>> = computed(() => {
     if ('value' in rulesInput) {
       return rulesInput.value as Record<string, ValidationRule[]>
@@ -78,7 +58,6 @@ export function useStepValidation(
     const rules = validationRules.value
     const errors: Record<string, string> = {}
     
-    // Validate fields
     for (const [field, fieldRules] of Object.entries(rules)) {
       const value = formData[field]?.value
       for (const rule of fieldRules) {
@@ -90,7 +69,6 @@ export function useStepValidation(
       }
     }
     
-    // Run custom validators
     for (const [field, validator] of Object.entries(customValidators)) {
       const result = validator()
       if (result !== true) {
@@ -102,13 +80,9 @@ export function useStepValidation(
     return Object.keys(errors).length === 0
   }
 
-  /**
-   * Form validity computed property
-   */
   const isFormValid = computed(() => {
     const rules = validationRules.value
     
-    // Validate fields
     for (const [field, fieldRules] of Object.entries(rules)) {
       const value = formData[field]?.value
       for (const rule of fieldRules) {
@@ -119,7 +93,6 @@ export function useStepValidation(
       }
     }
     
-    // Run custom validators
     for (const validator of Object.values(customValidators)) {
       const result = validator()
       if (result !== true) {

@@ -1,20 +1,3 @@
-/**
- * INSTANCECOMPONENTSLIST TESTS
- * 
- * Unit tests for instanceComponentsList utility.
- * Tests component extraction for services.
- * 
- * What it covers:
- * - getInstanceComponentsForService: Get components for a service
- * - mapServicesWithComponents: Map services and add component data
- * 
- * How it works:
- * - Tests each function with various inputs
- * - Uses mocked dependency functions
- * 
- * Dependencies:
- * - vitest for testing
- */
 
 import { describe, it, expect, vi } from 'vitest'
 import {
@@ -24,10 +7,8 @@ import {
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { GlobalEntity } from '@/types/entities'
 
-// Mock isServiceComposable
 vi.mock('@/utils/instanceComponentUtils', () => ({
   isServiceComposable: vi.fn(({ serviceId }: { serviceId: string }) => {
-    // Return true for 'composable-service', false otherwise
     return serviceId === 'composable-service'
   }),
   extractInstanceComponents: vi.fn(() => [
@@ -35,7 +16,6 @@ vi.mock('@/utils/instanceComponentUtils', () => ({
   ]),
 }))
 
-// Helper to create mock service
 function createService(id: string, name = `Service ${id}`): BookingBlockInstance {
   return {
     id,

@@ -23,7 +23,6 @@ import { ref } from 'vue'
 import { useAvailabilityValidation } from '../useAvailabilityValidation'
 import type { TimeSlot } from '@/types/appointment'
 
-// Helper to create mock time slot
 function createTimeSlot(slotStart: string): TimeSlot {
   return {
     slotStart,

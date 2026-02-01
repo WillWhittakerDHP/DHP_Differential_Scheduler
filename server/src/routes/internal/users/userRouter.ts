@@ -11,10 +11,6 @@ import {
 
 const router = Router();
 
-/**
- * GET /users
- * Get all users
- */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const users = await fetchAll(User);
@@ -28,10 +24,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * GET /users/:id
- * Get a user by ID
- */
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await fetchById(User, req.params.id);
@@ -54,10 +46,6 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * POST /users
- * Create a new user
- */
 router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await createRecord(User, req.body);
@@ -71,10 +59,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PUT /users/:id
- * Update a user by ID
- */
 router.put('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const updatedRows = await updateRecord(User, req.params.id, req.body);
@@ -98,10 +82,6 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PATCH /users/:id
- * Partially update a user by ID
- */
 router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const updated = await patchRecord(User, req.params.id, req.body);
@@ -125,10 +105,6 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * DELETE /users/:id
- * Delete a user by ID
- */
 router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const deleted = await deleteRecord(User, req.params.id);

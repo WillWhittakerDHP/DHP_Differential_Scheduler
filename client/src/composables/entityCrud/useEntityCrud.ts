@@ -66,12 +66,10 @@ export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entit
   }
 
   return {
-    // State
     entities,
     isLoading: actions.isLoading,
     error: actions.error,
 
-    // Actions
     create: actions.create,
     update: actions.update,
     updateWithComponentCheck,
@@ -80,7 +78,6 @@ export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entit
     patchBulk: actions.patchBulk,
     refetch: actions.refetch,
 
-    // Component methods
     isComposer,
     isComputedProperty,
     composedEntity,

@@ -17,22 +17,14 @@ import { useRelationshipCrud } from './useRelationship'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-/**
- * Part Instance Data Composable Options
- */
 export interface UsePartInstanceDataOptions {
   blockInstanceId: Ref<string> | string
 }
 
-/**
- * Part Instance Data Composable Return Type
- */
 export interface UsePartInstanceDataReturn {
-  // Computed properties
   validPartShapes: Ref<GlobalEntity<'partShape'>[]>
   existingPartInstances: Ref<GlobalEntity<'partInstance'>[]>
   
-  // Helper functions
   getPartInstanceForShape: (partShapeId: string) => GlobalEntity<'partInstance'> | undefined
   getPartShapeName: (partShapeId: string) => string
   generatePartInstanceName: (
@@ -53,14 +45,11 @@ export interface UsePartInstanceDataReturn {
 export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePartInstanceDataReturn {
   const { blockInstanceId } = options
   
-  // Convert blockInstanceId to Ref if it's a string
   const blockInstanceIdRef = typeof blockInstanceId === 'string' 
     ? computed(() => blockInstanceId)
     : blockInstanceId
   
-  // Note: optionsFieldKey was removed from UsePartInstanceDataOptions
   
-  // Initialize composables
   const { getGlobalEntityById } = useGlobal()
   const adminComp = useAdmin()
   const { relationships: partAssignments } = useRelationshipCrud('partAssignments')
@@ -93,15 +82,12 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   const validPartShapes = computed((): GlobalEntity<'partShape'>[] => {
     if (!blockShape.value) return []
     
-    // Get BlockShape with relationships from admin store
     const blockShapeWithRels = adminComp.getEntity('blockShape', blockShape.value.id)
     if (!blockShapeWithRels) return []
     
-    // Get validParts relationship array (contains PartShape IDs)
     const validParts = blockShapeWithRels.validParts
     if (!validParts || !Array.isArray(validParts)) return []
     
-    // Map PartShape IDs to PartShape entities
     const partShapes = adminComp.getEntitiesByKey('partShape') as GlobalEntity<'partShape'>[]
     const { resolved } = resolveByIds(partShapes, validParts)
     return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
@@ -155,7 +141,6 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
     blockInstanceRef: string,
     partShapeRef: string
   ): string => {
-    // Get all existing partInstances with same blockInstanceRef and partShapeRef
     const allPartInstances = adminComp.getEntitiesByKey('partInstance')
     const matchingPartInstances = allPartInstances.filter((pp) => {
       const partInstance = pp as GlobalEntity<'partInstance'>
@@ -163,21 +148,17 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
              getEntityFieldValue(partInstance, 'partShapeRef') === partShapeRef
     })
     
-    // Base name without number
     const baseName = `${blockInstanceName}-${partShapeName}`
     
-    // If no matching profiles exist, use base name
     if (matchingPartInstances.length === 0) {
       return baseName
     }
     
-    // Check if base name exists
     const baseNameExists = matchingPartInstances.some((pp) => (pp as GlobalEntity<'partInstance'>).name === baseName)
     if (!baseNameExists) {
       return baseName
     }
     
-    // Find the next available number
     let number = 1
     while (matchingPartInstances.some((pp) => (pp as GlobalEntity<'partInstance'>).name === `${baseName}-${number}`)) {
       number++

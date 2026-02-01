@@ -25,18 +25,6 @@ import {
   ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID,
 } from '@/utils/entities/entityTypeMapping'
 
-/**
- * Get entity for metadata editor (always uses global config sentinel UUIDs)
- * 
- * LEARNING: Always uses sentinel UUIDs for global configs
- * WHY: Metadata editor always edits global configs, not instance-specific configs
- * PATTERN: Determine sentinel UUID based on entityKey
- * 
- * @param entityKey - Entity type key
- * @param entity - Entity object (used to extract blockShapeRef if needed)
- * @param blockShapeRef - Optional BlockShape ID for BlockShape-specific instance metadata
- * @returns Computed ref to entity for metadata lookup
- */
 export function useMetadataEditorEntity<
   GlobalEntityTypeKey extends GlobalEntityKey
 >(
@@ -45,8 +33,6 @@ export function useMetadataEditorEntity<
   blockShapeRef?: string | null
 ): ComputedRef<GlobalEntity<GlobalEntityTypeKey> | null> {
   return computed(() => {
-    // LEARNING: Always use sentinel UUID for global config
-    // WHY: Metadata editor always edits global configs
     // PATTERN: Determine sentinel UUID based on entityKey
     let entityId: string | null = null
 
@@ -72,8 +58,6 @@ export function useMetadataEditorEntity<
       return null
     }
 
-    // LEARNING: Create entity for metadata lookup with sentinel UUID
-    // WHY: useEntityMetadata needs entity with id and shape references
     // PATTERN: Build minimal entity object with id, entityKey, and optional blockShapeRef
     const baseEntity = {
       id: entityId,
@@ -81,7 +65,6 @@ export function useMetadataEditorEntity<
       name: '',
     } as GlobalEntity<GlobalEntityTypeKey>
 
-    // For blockInstance with blockShapeRef, include it in the entity
     if (entityKey === 'blockInstance' && blockShapeRef) {
       (baseEntity as GlobalEntity<'blockInstance'>).blockShapeRef = blockShapeRef
     }

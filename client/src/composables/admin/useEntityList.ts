@@ -17,9 +17,6 @@ import { useNotification } from '../useNotification'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntityId } from '@/types/entities'
 
-/**
- * Entity List Composable Options
- */
 export interface UseEntityListOptions {
   /**
    * LEARNING: Entity key for CRUD operations
@@ -64,9 +61,6 @@ export interface UseEntityListOptions {
   deleteErrorMessage?: string | ((error: unknown) => string)
 }
 
-/**
- * Entity List Composable Return Type
- */
 export interface UseEntityListReturn {
   /**
    * LEARNING: Navigate to create page

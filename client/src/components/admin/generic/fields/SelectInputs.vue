@@ -176,19 +176,15 @@ const props = withDefaults(defineProps<Props>(), {
 const { fieldContext } = props
 
 // LEARNING: Use unified field value composable
-// WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
-// PATTERN: Always use useFieldValue for accessing field values
 const rawFieldValue = useFieldValue(fieldContext)
 
 // LEARNING: Use admin composable to get entities with relationships attached
-// WHY: AdminEntity has relationships (validCascades, validParts) attached, raw GlobalEntity doesn't
 // PATTERN: Use admin store/composable for admin interface operations
 const adminComp = useAdmin()
 
 // LEARNING: Use select config composable for all configuration logic
 // WHY: Moves config parsing out of component into reusable composable
 // PATTERN: Composable handles field config, select config, and derived properties
-// NOTE: useSelectConfig now handles enum selects gracefully (returns undefined for selectConfig)
 const selectConfigComposable = useSelectConfig({ fieldContext })
 const {
   selectConfig,
@@ -203,27 +199,16 @@ const {
   optionLabelKey
 } = selectConfigComposable
 
-// LEARNING: Get all entities for filtering
-// WHY: Need source entities before filtering
-// PATTERN: Use admin store for all entity types (including annotations - now core entities)
 const allEntities = computed(() => {
-  // LEARNING: Annotations are now core entities accessible via admin store
-  // WHY: All entities (including events/annotations) are now in the unified entities structure
   // PATTERN: Use admin store for all entity types - no special handling needed
   return adminComp.getEntitiesByKey(optionEntityKey.value)
 })
 
-// LEARNING: Get current entity from admin store (with relationships attached)
-// WHY: Need AdminEntity with relationships for filtering logic
-// PATTERN: Use admin store getEntity which returns AdminEntity
 const currentEntityRaw = computed(() => {
   return adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
 })
 
 // LEARNING: Convert AdminObject to GlobalEntity for useSelectLabelResolution and useSelectFiltering
-// WHY: useSelectLabelResolution expects GlobalEntity | null, useSelectFiltering expects GlobalEntity | undefined
-//      getEntity returns AdminObject | undefined
-// PATTERN: Map undefined to null for useSelectLabelResolution, keep undefined for useSelectFiltering
 const currentEntity = computed<GlobalEntity<GlobalEntityKey> | null>(() => {
   return currentEntityRaw.value ?? null
 })
@@ -232,7 +217,6 @@ const currentEntityForFiltering = computed<GlobalEntity<GlobalEntityKey> | undef
 })
 
 // LEARNING: Use select label resolution composable
-// WHY: Extracts label placeholder replacement logic from component to composable
 // PATTERN: Composable provides resolved label with placeholders replaced
 const { resolvedLabel } = useSelectLabelResolution({
   fieldContext,
@@ -242,7 +226,6 @@ const { resolvedLabel } = useSelectLabelResolution({
 // LEARNING: Use select filtering composable for all filtering logic
 // WHY: Moves complex filtering logic out of component into reusable composable
 // PATTERN: Composable handles active child selects, direct matching, component filtering, etc.
-// NOTE: isAttendeeSelect is already computed in selectConfigComposable and destructured above
 const selectFilteringComposable = useSelectFiltering({
   allEntities,
   selectConfig,
@@ -257,8 +240,6 @@ const {
   filteredEntities,
 } = selectFilteringComposable
 
-// LEARNING: Provide enum options for type field
-// WHY: Block shape type is an enum with fixed values
 const enumOptions = computed(() => {
   if (!isEnumSelect.value) return []
   
@@ -271,7 +252,6 @@ const enumOptions = computed(() => {
 })
 
 // LEARNING: Use select options composable for all option transformations
-// WHY: Moves all data transformation logic out of component to prevent recursion
 // PATTERN: Composable handles option mapping, grouping, and value normalization
 const fieldKey = computed(() => String(fieldContext.fieldKey))
 const selectOptionsComposable = useSelectOptions({
@@ -284,7 +264,6 @@ const selectOptionsComposable = useSelectOptions({
   adminComp
 })
 
-// LEARNING: Extract computed properties and functions from composable
 // WHY: Component uses composable's computed values and helper functions
 // PATTERN: Destructure composable return values for use in template
 const {
@@ -295,9 +274,6 @@ const {
   getGroupValue
 } = selectOptionsComposable
 
-// LEARNING: Use metadata options for options selects, enum options for enum selects
-// WHY: bookingMode uses metadata.inputConfig.options, blockShape.type uses enum options
-// PATTERN: Prefer optionsSelectOptions, then enum options, then entity options
 const options = computed(() => {
   if (isOptionsSelect.value) {
     return optionsSelectOptions.value
@@ -319,10 +295,8 @@ const selectFieldValueComposable = useSelectFieldValue({
 const { fieldValue } = selectFieldValueComposable
 
 
-// Method to log chip rendering data
 const logChipRender = (item: { title: string; value: string | number }): string => {
   if (isDevModeEnabled()) {
-    // Find the matching option from our options array to see what AppSelect should be using
     let matchingOption: SelectOption | undefined = undefined
     const optionsArray = options.value as SelectOption[]
     for (const opt of optionsArray) {
@@ -334,7 +308,6 @@ const logChipRender = (item: { title: string; value: string | number }): string 
       if (matchingOption) break
     }
     
-    // If AppSelect is using value as title, return the correct title from our options
     if (item.title === String(item.value) && matchingOption) {
       return matchingOption.title
     }
@@ -342,18 +315,8 @@ const logChipRender = (item: { title: string; value: string | number }): string 
   return item.title // Return title for display
 }
 
-/**
- * LEARNING: Inject EntityCard save context for create cards
- * WHY: When creating new entities, selects should not trigger mutations
- * PATTERN: Match TextInput/NumberInput pattern - inject context and pass to handlers
- */
 const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
 
-/**
- * LEARNING: Inject disableAutoSave flag from EntityCard
- * WHY: Allows parent to disable field blur auto-save (e.g., in bulk edit modals)
- * PATTERN: Match TextInput/NumberInput pattern
- */
 const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
 
 // LEARNING: Use select handlers composable for all event handling logic
@@ -377,11 +340,8 @@ const {
 } = selectHandlersComposable
 
 // LEARNING: Use select DOM targets composable
-// WHY: Extracts DOM target calculation logic from component to composable
 // PATTERN: Composable provides DOM targets for form association
 // LEARNING: Convert Ref to ComputedRef and GroupedEntities[] to SelectGroup[]
-// WHY: useSelectDomTargets expects ComputedRef types and SelectGroup[] (without entities)
-// PATTERN: Map types appropriately - SelectGroup is subset of GroupedEntities
 const shouldUseMultipleSelectsComputed = computed(() => shouldUseMultipleSelects.value)
 const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({
   groupKey: group.groupKey,
@@ -395,9 +355,6 @@ const { selectDomTargets } = useSelectDomTargets({
 
 useSelectFormAssociation({ targets: selectDomTargets })
 
-// LEARNING: Extract async logic from component to composable
-// WHY: Reduces component complexity, improves testability
-// PATTERN: Use composable for async quick-select handlers
 const selectInputsAsync = useSelectInputsAsync({
   options,
   handleChange
@@ -423,10 +380,6 @@ const {
   margin-bottom: 0;
 }
 
-/**
- * WHY: Ensures proper spacing and layout for chips
- * PATTERN: Match Vuexy's chip styling pattern with custom overrides for visual separation
- */
 .select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {
   margin: 0;
 }

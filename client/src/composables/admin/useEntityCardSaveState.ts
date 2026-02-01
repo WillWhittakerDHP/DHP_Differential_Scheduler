@@ -26,29 +26,14 @@ export interface UseEntityCardSaveStateOptions {
 }
 
 export interface UseEntityCardSaveStateReturn {
-  /**
-   * Whether the form can be saved (has form changes OR status button changes)
-   */
   canSave: ComputedRef<boolean>
   
-  /**
-   * Whether there are any changes (form or status button)
-   */
   hasChanges: ComputedRef<boolean>
   
-  /**
-   * Mark a status button field as changed
-   */
   markStatusButtonChanged: (fieldKey: string) => void
   
-  /**
-   * Reset save state (clear both form and status button changes)
-   */
   resetSaveState: () => void
   
-  /**
-   * Check if a specific status button field has been changed
-   */
   isStatusButtonChanged: (fieldKey: string) => boolean
 }
 
@@ -62,7 +47,6 @@ export function useEntityCardSaveState(
 ): UseEntityCardSaveStateReturn {
   const { form, getEntityValues } = options
   
-  // Track which status button fields have been changed
   const statusButtonChanges = ref(new Set<string>())
   
   /**
@@ -98,16 +82,12 @@ export function useEntityCardSaveState(
    * PATTERN: Reset form to saved entity values and clear status button changes Set
    */
   const resetSaveState = (): void => {
-    // LEARNING: Reset form to saved entity values
-    // WHY: After save, entity is updated in store, so we reset form to match saved entity
-    //      This clears form.meta.value.dirty
     // PATTERN: Reset form to current entity values from store
     const entityValues = getEntityValues()
     form.resetForm({
       values: entityValues
     })
     
-    // Clear status button changes
     statusButtonChanges.value.clear()
   }
   

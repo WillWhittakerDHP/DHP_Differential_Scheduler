@@ -13,11 +13,6 @@ import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { TernaryBoolean } from '@/types/ternary'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 
-/**
- * Booking Part Instance type
- * LEARNING: Lightweight part instance for booking
- * WHY: Plain object optimized for read-only operations
- */
 export type BookingPartInstance = {
   id: string
   entityKey: 'partInstance'
@@ -32,11 +27,6 @@ export type BookingPartInstance = {
   zeroOutPart: boolean
 }
 
-/**
- * Booking Block Shape type
- * LEARNING: Lightweight block shape for property-based filtering
- * WHY: Enables filtering by block shape properties (e.g., canHaveParts) and type without full entity
- */
 export type BookingBlockShape = {
   id: string
   name: string
@@ -46,11 +36,6 @@ export type BookingBlockShape = {
   composable: boolean
 }
 
-/**
- * Booking Block Instance type
- * LEARNING: Lightweight block instance with embedded part instances
- * WHY: Denormalized structure for fast access without joins
- */
 export type BookingBlockInstance = {
   id: string
   entityKey: 'blockInstance'
@@ -72,11 +57,6 @@ export type BookingBlockInstance = {
   requires_agent: boolean // If true, service requires agent and client contact information
 }
 
-/**
- * Booking Data type
- * LEARNING: Container for booking-optimized data
- * WHY: Single structure with all booking data
- */
 export type BookingData = {
   blockInstances: BookingBlockInstance[] // Main booking blocks (standalone, both) - excludes addOn
   lineItemBlocks: BookingBlockInstance[] // Line item blocks (bookingMode: "addOn") - separate for line item selection
@@ -93,7 +73,6 @@ export class BookingTransformer {
   private isEntityActive(entity: Record<string, unknown> | null | undefined): boolean {
     if (!entity) return false
 
-    // LEARNING: Some entities omit `active` in older/test fixtures.
     // WHY: We want "active unless explicitly inactive/disabled" semantics across the transformer.
     const disabled = entity.disabled === true
     const active = entity.active !== false
@@ -119,7 +98,6 @@ export class BookingTransformer {
     const instanceComponentsRelationships = relationships.instanceComponents || []
     
     
-    // Create lookup maps for denormalization
     const partInstanceById = new Map(
       partInstances.map(partInstance => [partInstance.id, partInstance])
     )
@@ -130,10 +108,7 @@ export class BookingTransformer {
       partShapes.map(partShape => [partShape.id, partShape])
     )
     
-    // LEARNING: Get set of component IDs (blockInstances that are instanceComponents of other blockInstances)
-    // WHY: Components should not appear in booking - they're part of composed entities, not standalone options
     // PATTERN: Extract all child IDs from instanceComponents relationships to create exclusion set
-    // LEARNING: Use flatMap and Set constructor instead of forEach with add
     // WHY: Functional approach avoids forEach with Set mutations
     const componentIds = new Set(
       instanceComponentsRelationships
@@ -141,19 +116,11 @@ export class BookingTransformer {
         .flatMap(rel => rel.children.map(child => child.id))
     )
     
-    // Removed hardcoded "User Type" diagnostic logging - now using property-based filtering
     
-    /**
-     * WHY: // WHY: Need to see all data before filtering to understand what's being filtered out
-     */
-    // LEARNING: Filter main booking blocks (excludes addOn and component children)
-    // WHY: Main booking blocks are standalone or both bookingMode, not addOn-only
     // PATTERN: Filter active, non-component blocks with bookingMode !== 'addOn'
     const bookingBlockInstances = blockInstances
       // LEARNING: Components should not be shown as standalone booking options.
       // WHY: They are only meaningful as parts of composed (composite) services.
-      //
-      // LEARNING: Add-on only instances should not be shown in main booking lists.
       // WHY: They are only selectable as nested add-on options under a parent instance.
       .filter((blockInstance) => {
         const isActive = this.isEntityActive(blockInstance as unknown as Record<string, unknown>)
@@ -176,7 +143,6 @@ export class BookingTransformer {
         return aOrder - bOrder
       })
     
-    // LEARNING: Filter line item blocks (bookingMode: "addOn")
     // WHY: Line items are separate from main booking blocks and displayed as individual line items
     // PATTERN: Filter active, non-component blocks with bookingMode === 'addOn'
     const lineItemBlocks = blockInstances
@@ -201,7 +167,6 @@ export class BookingTransformer {
         return aOrder - bOrder
       })
     
-    // Transform block shapes for property-based filtering
     const bookingBlockShapes: BookingBlockShape[] = blockShapes
       .map(blockShape => ({
         id: blockShape.id,
@@ -212,7 +177,6 @@ export class BookingTransformer {
         composable: blockShape.composable,
       }))
       .sort((a, b) => {
-        // Sort by name for consistent ordering
         return a.name.localeCompare(b.name)
       })
     
@@ -241,20 +205,15 @@ export class BookingTransformer {
     blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
     partShapeById: Map<string, GlobalEntity<'partShape'>>
   ): BookingBlockInstance {
-    // Get blockInstance's own partAssignments
     const partAssignmentsRels = findRelationshipsByParent(
       blockInstance.id,
       partAssignmentsRelationships
     )
     const partAssignmentsRel = partAssignmentsRels[0] // Get first relationship (should be only one)
     
-    // LEARNING: Use Set to deduplicate part instance IDs
-    // WHY: Prevents double-counting when composite has own parts AND component parts
     // PATTERN: Start with composite's own parts, then add component parts
     const partInstanceIds = new Set<string>()
     
-    // Add composite's own parts (if any)
-    // LEARNING: Use filter + forEach on Set instead of forEach with Set.add mutations
     // WHY: Functional approach - filter active parts, then add to Set
     // PATTERN: Filter children to active parts, then add IDs to Set
     if (partAssignmentsRel) {
@@ -265,23 +224,18 @@ export class BookingTransformer {
         })
         .map(child => child.id)
       
-      // LEARNING: Add active part IDs to Set using spread operator
       // WHY: Functional approach - spread array into Set constructor instead of forEach
       // FIX: Use for...of instead of forEach for side effects (Set.add)
-      // Note: Set.add in forEach is acceptable for building accumulator Sets, but for...of is preferred for side effects
       for (const id of partAssignmentIds) {
         partInstanceIds.add(id)
       }
     }
     
-    // LEARNING: For composite instances, also merge parts from components
-    // WHY: Composites can have parts from both their own partAssignments and from components
     // PATTERN: Check composite property, get component IDs, then compose their parts
     const blockInstanceTyped = blockInstance as BlockInstanceEntity
     const composite = blockInstanceTyped.composite === true
     
     if (composite) {
-      // Get component IDs for this composite
       const componentRels = findRelationshipsByParent(
         blockInstance.id,
         instanceComponentsRelationships
@@ -289,18 +243,12 @@ export class BookingTransformer {
       const componentIds = extractChildIds(componentRels)
       
       if (componentIds.length > 0) {
-        // Get parts from components using composePartInstances
-        // LEARNING: composePartInstances already uses Set internally, so it deduplicates
-        // WHY: Ensures no duplicate part instances from multiple components
         // PATTERN: Merge component parts into the Set
         const componentPartIds = composePartInstances(
           componentIds,
           partAssignmentsRelationships
         )
         
-        // Add component parts to the Set (Set automatically deduplicates)
-        // LEARNING: Filter active parts, then add to Set
-        // WHY: Set.add is a legitimate operation for building Sets - use for...of for side effects
         // PATTERN: for...of with Set.add is acceptable for building accumulator Sets (side effects)
         // FIX: Use for...of instead of forEach for side effects (Set.add)
         const activeComponentPartIds = componentPartIds.filter(partId => {
@@ -313,7 +261,6 @@ export class BookingTransformer {
       }
     }
     
-    // Transform deduplicated part instance IDs to BookingPartInstance[]
     const partInstances: BookingPartInstance[] = Array.from(partInstanceIds)
       .map((partId) => partInstanceById.get(partId))
       .filter((partInstance: GlobalEntity<'partInstance'> | undefined): partInstance is GlobalEntity<'partInstance'> =>
@@ -329,14 +276,11 @@ export class BookingTransformer {
         return aOrder - bOrder
       })
     
-    // Denormalize blockShape
     const blockInstanceWithShapeRef = blockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
     const blockShapeRef = blockInstanceWithShapeRef.blockShapeRef
     const blockShapeEntity = blockShapeById.get(blockShapeRef)
     const blockShape = blockShapeEntity?.name || blockShapeRef
     
-    // Find bookingCascades relationship
-    // LEARNING: Use shared utility for relationship finding and child ID extraction
     // WHY: DRY principle - consistent relationship operations across transformers
     // PATTERN: Use findRelationshipsByParent() and extractChildIds() instead of manual operations
     const bookingCascadesRels = findRelationshipsByParent(
@@ -356,7 +300,6 @@ export class BookingTransformer {
     }
     
     // LEARNING: Convert boolean to TernaryBoolean for backward compatibility during migration
-    // WHY: During migration, some values may still be boolean
     // PATTERN: Convert boolean to TernaryBoolean, default to 'false'
     const convertDifferentialToTernary = (value: TernaryBoolean | boolean | undefined): TernaryBoolean => {
       if (value === true) return 'true'
@@ -399,7 +342,6 @@ export class BookingTransformer {
     partInstance: GlobalEntity<'partInstance'>,
     partShapeById: Map<string, GlobalEntity<'partShape'>>
   ): BookingPartInstance {
-    // Denormalize partShape
     const partInstanceTyped = partInstance as GlobalEntity<'partInstance'> & { partShapeRef: string }
     const partShapeRef = partInstanceTyped.partShapeRef
     const partShapeEntity = partShapeById.get(partShapeRef)
@@ -429,6 +371,5 @@ export class BookingTransformer {
   }
 }
 
-// Export singleton
 export const bookingTransformer = new BookingTransformer()
 

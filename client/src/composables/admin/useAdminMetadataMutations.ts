@@ -24,19 +24,6 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAdminMetadataMutations')
 
-/**
- * Save field rendering configuration
- * Merges rendering updates with existing canonical fields and POSTs full entry
- * 
- * LEARNING: Accepts fieldKey (not relationshipKey) - backend determines metadataType
- * WHY: Matches entity pattern - mutations accept all fields, backend routes based on type
- * PATTERN: Frontend doesn't need to know type - backend checks RELATIONSHIP_KEYS
- * 
- * @param entityType - Entity type (blockShape, partShape, blockInstance, partInstance)
- * @param entityId - Entity ID (sentinel UUID for shapes, actual ID for instances)
- * @param fieldKey - Field key to update (unified - works for both primitives and relationships)
- * @param renderingUpdates - Rendering field updates (visibility, layout, displayOrder, etc.)
- */
 export function useAdminMetadataMutations() {
   const queryClient = useQueryClient()
   const { getFieldMetadata } = useMetadataCache()
@@ -57,20 +44,13 @@ export function useAdminMetadataMutations() {
       existingMetadata: FieldMetadataEntry | undefined
       blockShapeRef?: string | null
     }) => {
-      // LEARNING: Use existingMetadata as-is (like dehydrateEntity accepts fields as-is)
-      // WHY: Accept what's passed, don't filter or validate - declarative transformation only
       // PATTERN: Like entity mutations accept fields (primitives + relationships) and dehydrate together
-      //          Metadata mutations should accept existingMetadata and use it directly
       
-      // LEARNING: Get existingMetadata from metadata cache if not provided
-      // WHY: Ensure we're using the correct source for metadata entries
       // PATTERN: Use lazy-loaded metadata cache instead of globalData
       if (!existingMetadata) {
         existingMetadata = getFieldMetadata(entityType, fieldKey, blockShapeRef)
       }
 
-      // LEARNING: NO FALLBACKS - existingMetadata is required for new fields
-      // WHY: Canonical fields must be explicitly provided - no derivation from formFieldConfig
       // PATTERN: Fail explicitly if existingMetadata is missing
       if (!existingMetadata) {
         throw new Error(
@@ -80,13 +60,9 @@ export function useAdminMetadataMutations() {
         )
       }
 
-      // LEARNING: Determine if this is a relationship key (for buildMetadataEntry)
-      // WHY: buildMetadataEntry needs to know if it's a relationship for proper defaults
       // PATTERN: Check RELATIONSHIP_KEYS to determine type (matches backend logic)
       const isRelationship = fieldKey in RELATIONSHIP_KEYS
 
-      // LEARNING: Use shared utility to build metadata entry
-      // WHY: Eliminates duplication, consistent entry building
       // PATTERN: Extract common logic to shared utility function
       const fullEntry = {
         ...buildMetadataEntry({
@@ -101,8 +77,6 @@ export function useAdminMetadataMutations() {
 
       const endpoint = getAdminMetadataEndpoint(entityType, entityId)
       
-      // LEARNING: Debug logging to trace save flow
-      // WHY: Help diagnose why saves aren't persisting
       logger.debug('Saving metadata:', {
         endpoint,
         entityType,
@@ -122,7 +96,6 @@ export function useAdminMetadataMutations() {
     },
     onSuccess: () => {
       // LEARNING: Invalidate cache to mark as stale
-      // WHY: Ensures cache is marked stale so refetch will update it
       // PATTERN: Invalidate in mutation, refetch manually in component to await completion
       queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
     },
@@ -141,17 +114,13 @@ export function useAdminMetadataMutations() {
       blockShapeRef?: string | null
     }) => {
       const endpoint = `${getAdminMetadataEndpoint(entityType, entityId)}/${fieldKey}`
-      // Include blockShapeRef as query parameter for DELETE
       const url = blockShapeRef ? `${endpoint}?blockShapeRef=${blockShapeRef}` : endpoint
       await apiClient.delete(url)
     },
     onSuccess: () => {
       // LEARNING: Invalidate cache to mark as stale
-      // WHY: Ensures cache is marked stale so refetch will update it
       // PATTERN: Invalidate in mutation, refetch manually in component to await completion
       queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
-      // LEARNING: Invalidate globalData cache to ensure entity cards see updated metadata
-      // WHY: Metadata changes affect how entities are displayed, so globalData should refresh
       // PATTERN: Invalidate both adminMetadata and globalData after metadata saves
       queryClient.invalidateQueries({ queryKey: ['globalData'] })
     },

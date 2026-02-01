@@ -118,7 +118,6 @@ export interface BusinessRuleFormData {
  * PATTERN: Composable with loading states, error handling, and CRUD methods
  */
 export function useBusinessRules() {
-  // State
   const rules: Ref<BusinessRule[]> = ref([])
   const loading = ref(false)
   const saving = ref(false)
@@ -197,7 +196,6 @@ export function useBusinessRules() {
       
       if (response.data) {
         success.value = 'Business rule created successfully'
-        // Refresh rules list
         await fetchRules()
         return response.data
       }
@@ -228,7 +226,6 @@ export function useBusinessRules() {
       
       if (response.data) {
         success.value = 'Business rule updated successfully'
-        // Refresh rules list
         await fetchRules()
         return response.data
       }
@@ -257,7 +254,6 @@ export function useBusinessRules() {
     try {
       await apiClient.delete(`/internal/business-rules/${id}`)
       success.value = 'Business rule deleted successfully'
-      // Refresh rules list
       await fetchRules()
       return true
     } catch (err) {
@@ -282,7 +278,6 @@ export function useBusinessRules() {
     try {
       await apiClient.put(`/internal/business-rules/${id}`, { active })
       success.value = active ? 'Business rule enabled' : 'Business rule disabled'
-      // Refresh rules list
       await fetchRules()
       return true
     } catch (err) {
@@ -295,14 +290,12 @@ export function useBusinessRules() {
   }
   
   return {
-    // State
     rules,
     loading,
     saving,
     error,
     success,
     
-    // Methods
     fetchRules,
     fetchRulesByBlock,
     createRule,

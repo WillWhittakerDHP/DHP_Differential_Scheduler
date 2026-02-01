@@ -15,7 +15,6 @@ import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useAdmin } from '@/composables/useAdmin'
 import apiClient, { getRelationshipByParentChildEndpoint } from '@/utils/api'
 import type { QueryClient } from '@tanstack/vue-query'
-// Note: RelationshipFieldType removed - no longer needed
 
 /**
  * Clean up invalid active relationships based on dependencyImpact config
@@ -37,10 +36,8 @@ export async function cleanupInvalidActiveRelationships(
   newValidChildIds: GlobalEntityId[],
   queryClient: QueryClient
 ): Promise<void> {
-  // LEARNING: This function is deprecated - formFieldConfig no longer exists
   // WHY: formFieldConfig has been removed in favor of metadata-only approach
   // PATTERN: dependencyImpact configuration needs to be added to metadata schema
-  // TODO: Add dependencyImpact to metadata schema and reimplement this function
   throw new Error(
     `[cleanupInvalidActiveRelationships] DEPRECATED: This function uses formFieldConfig which has been removed. ` +
     `dependencyImpact configuration needs to be added to metadata schema. ` +
@@ -48,7 +45,6 @@ export async function cleanupInvalidActiveRelationships(
   )
   
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  // Dead code below - kept for reference when reimplementing with metadata
   const adminComp = useAdmin()
   const config = null as any
   if (!config || !config.dependencyImpact) {
@@ -57,7 +53,6 @@ export async function cleanupInvalidActiveRelationships(
   
   const { affectedEntityKey, affectedField, linkingField } = config.dependencyImpact
   
-  // Find all affected entities (e.g., all blockInstances with this blockShapeRef)
   const affectedEntities = adminComp.getEntitiesByKey(affectedEntityKey).filter(
     (entity) => {
       const entityRecord = entity as unknown as Record<string, unknown>
@@ -75,10 +70,8 @@ export async function cleanupInvalidActiveRelationships(
   // PATTERN: Use API client directly for relationship deletion, queryClient passed as parameter
   const activeRelationshipKey = affectedField as GlobalRelationshipKey
   
-  // Create Set for O(1) lookup of valid child IDs (these are blockShape/partShape IDs from validCascades/validParts)
   const validChildIdsSet = new Set(newValidChildIds.map(id => String(id)))
   
-    // For each affected entity, check its active relationships and remove invalid ones
     const cleanupPromises = affectedEntities.map(async (affectedEntity) => {
       const entityRecord = affectedEntity as unknown as Record<string, unknown>
       const activeRelationships = entityRecord[affectedField]
@@ -87,8 +80,6 @@ export async function cleanupInvalidActiveRelationships(
       return // No relationships to check
     }
     
-    // LEARNING: Determine child entity type and typeRef key based on relationship type
-    // WHY: validCascades → blockInstance (check blockShapeRef), validParts → partInstance (check partShapeRef)
     // PATTERN: Map relationship key to child entity type
     const childEntityKey = validRelationshipKey === 'validCascades' ? 'blockInstance' as GlobalEntityKey : 'partInstance' as GlobalEntityKey
     const typeRefKey = childEntityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
@@ -98,7 +89,6 @@ export async function cleanupInvalidActiveRelationships(
     for (const childId of activeRelationships) {
       const childEntity = adminComp.getEntity(childEntityKey, String(childId))
       if (!childEntity) {
-        // Child entity doesn't exist - mark for removal
         invalidRelationships.push({
           parentId: affectedEntity.id,
           childId: String(childId)
@@ -109,9 +99,7 @@ export async function cleanupInvalidActiveRelationships(
       const childRecord = childEntity as unknown as Record<string, unknown>
       const childTypeRef = childRecord[typeRefKey]
       
-      // Check if child's typeRef is in the valid child IDs
       if (!childTypeRef || !validChildIdsSet.has(String(childTypeRef))) {
-        // Child's typeRef is not in validCascades - mark for removal
         invalidRelationships.push({
           parentId: affectedEntity.id,
           childId: String(childId)
@@ -120,7 +108,6 @@ export async function cleanupInvalidActiveRelationships(
     }
     
     if (invalidRelationships.length > 0) {
-      // Remove invalid relationships using API client directly
       await Promise.all(
         invalidRelationships.map(async ({ parentId, childId }) => {
           try {
@@ -131,15 +118,11 @@ export async function cleanupInvalidActiveRelationships(
             )
             await apiClient.delete(deleteEndpoint)
             
-            // LEARNING: Invalidate queries after deletion
-            // WHY: Ensures UI reflects relationship changes
             // PATTERN: Invalidate relationship queries and related entity queries
             queryClient.invalidateQueries({ queryKey: [activeRelationshipKey] })
             queryClient.invalidateQueries({ queryKey: [affectedEntityKey] })
             queryClient.invalidateQueries({ queryKey: ['globalData'] })
           } catch (error) {
-            // LEARNING: Handle errors gracefully - relationship might already be deleted
-            // WHY: Multiple cleanup calls or concurrent operations might try to delete same relationship
             // PATTERN: Silently continue - relationship might already be deleted
           }
         })

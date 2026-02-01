@@ -4,7 +4,6 @@ import { VIcon } from 'vuetify/components/VIcon'
 import { defineThemeConfig } from '@core'
 import { Skins } from '@core/enums'
 
-// ❗ Logo SVG must be imported with ?raw suffix
 import logo from '@images/logo.svg?raw'
 
 import { AppContentLayoutNav, ContentWidth, FooterType, NavbarType } from '@layouts/enums'
@@ -47,10 +46,6 @@ export const { themeConfig, layoutConfig } = defineThemeConfig({
     popoverOffset: 6,
   },
 
-  /*
-  // ℹ️  In below Icons section, you can specify icon for each component. Also you can use other props of v-icon component like `color` and `size` for each icon.
-  // Such as: chevronDown: { icon: 'tabler-chevron-down', color:'primary', size: '24' },
-  */
   icons: {
     chevronDown: { icon: 'tabler-chevron-down' },
     chevronRight: { icon: 'tabler-chevron-right', size: 20 },

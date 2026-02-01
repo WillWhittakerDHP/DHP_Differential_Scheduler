@@ -1,7 +1,5 @@
 import app from "./app.js";
 
-// WHY: Use SERVER_PORT from env, fallback to PORT, then default to 3001
-// PATTERN: Support both SERVER_PORT and PORT for flexibility
 // Convert to number since app.listen() expects a number
 const PORT = Number(process.env.SERVER_PORT || process.env.PORT || 3001);
 

@@ -14,17 +14,11 @@ import {
   buildSelectionControlClasses,
 } from '@/utils/booking/selectionCardStyles'
 
-/**
- * useSelectionCardStyles composable parameters
- */
 export interface UseSelectionCardStylesParams {
   configWithDefaults: ComputedRef<SelectionCardConfig>
   isSelected: ComputedRef<boolean>
 }
 
-/**
- * useSelectionCardStyles composable return type
- */
 export interface UseSelectionCardStylesReturn {
   cardClasses: ComputedRef<string>
   controlClasses: ComputedRef<Record<string, boolean>>
@@ -44,23 +38,14 @@ export function useSelectionCardStyles(params: UseSelectionCardStylesParams): Us
     isSelected
   } = params
 
-  /**
-   * LEARNING: Card classes
-   */
   const cardClasses = computed(() => {
     return buildSelectionCardClasses(configWithDefaults.value, isSelected.value)
   })
 
-  /**
-   * LEARNING: Control classes
-   */
   const controlClasses = computed(() => {
     return buildSelectionControlClasses(configWithDefaults.value.controlPosition)
   })
 
-  /**
-   * LEARNING: Content container classes
-   */
   const contentContainerClasses = computed(() => {
     return buildSelectionContentContainerClasses(configWithDefaults.value)
   })

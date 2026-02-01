@@ -1,17 +1,8 @@
-/**
- * GLOBAL DATA FACTORY
- * 
- * Factory functions for generating complete GlobalData objects for testing.
- * Combines entities and relationships into realistic test scenarios.
- */
 
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { createBlockInstance, createPartInstance, createBlockShape, createPartShape } from './entityFactory'
 import { createPartAssignmentsRel, createActiveComponentsRel } from './relationshipFactory'
 
-/**
- * Create an empty GlobalData object
- */
 export function createEmptyGlobalData(): GlobalData {
   return {
     entities: {
@@ -31,9 +22,6 @@ export function createEmptyGlobalData(): GlobalData {
   }
 }
 
-/**
- * Create GlobalData with a single atomic block (no components)
- */
 export function createAtomicBlockGlobalData() {
   const blockShape = createBlockShape('shape-1', 'Base Service')
   const partShape1 = createPartShape('part-shape-1', 'Interior')
@@ -84,11 +72,7 @@ export function createAtomicBlockGlobalData() {
   }
 }
 
-/**
- * Create GlobalData with a composite block (with components)
- */
 export function createCompositeBlockGlobalData() {
-  // Shapes
   const compositeShape = createBlockShape('composite-shape', 'Full Inspection')
   const component1Shape = createBlockShape('component1-shape', 'Interior Service')
   const component2Shape = createBlockShape('component2-shape', 'Exterior Service')
@@ -97,7 +81,6 @@ export function createCompositeBlockGlobalData() {
   const partShape2 = createPartShape('part-shape-2', 'Roof Check')
   const partShape3 = createPartShape('part-shape-3', 'Foundation Check')
   
-  // Component parts
   const part1 = createPartInstance('part-1', 'Room Inspection', {
     partShapeRef: partShape1.id,
     baseTime: 30,
@@ -119,7 +102,6 @@ export function createCompositeBlockGlobalData() {
     orderIndex: 3,
   })
   
-  // Components
   const component1 = createBlockInstance('component-1', 'Interior Service', {
     blockShapeRef: component1Shape.id,
     orderIndex: 1,
@@ -130,7 +112,6 @@ export function createCompositeBlockGlobalData() {
     orderIndex: 2,
   })
   
-  // Composite block
   const composite = createBlockInstance('composite-1', 'Full Inspection Package', {
     blockShapeRef: compositeShape.id,
     composite: true,
@@ -160,9 +141,6 @@ export function createCompositeBlockGlobalData() {
   }
 }
 
-/**
- * Create GlobalData with multiple independent blocks
- */
 export function createMultipleBlocksGlobalData(count: number = 3) {
   const blockShape = createBlockShape('shape-1', 'Service')
   const partShape = createPartShape('part-shape-1', 'Task')
@@ -205,9 +183,6 @@ export function createMultipleBlocksGlobalData(count: number = 3) {
   }
 }
 
-/**
- * Create GlobalData with disabled entities for testing filters
- */
 export function createGlobalDataWithDisabledEntities() {
   const blockShape = createBlockShape('shape-1', 'Service')
   const partShape = createPartShape('part-shape-1', 'Task')

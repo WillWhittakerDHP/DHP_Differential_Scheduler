@@ -46,9 +46,6 @@ export function useShapeCreation(
   const newPartShapeInitialValues = ref<GlobalEntity<'partShape'> | null>(null)
   const newAnnotationShapeName = ref('')
 
-  /**
-   * LEARNING: Function to start inline BlockShape creation
-   */
   const createBlockShape = (): void => {
     const defaults = getDefaultEntityValues('blockShape')
     newBlockShapeInitialValues.value = {
@@ -59,9 +56,6 @@ export function useShapeCreation(
     expandedShapes.value = ['new-blockShape', ...expandedShapes.value]
   }
 
-  /**
-   * LEARNING: Function to start inline PartShape creation
-   */
   const createPartShape = (): void => {
     const defaults = getDefaultEntityValues('partShape')
     newPartShapeInitialValues.value = {
@@ -72,9 +66,6 @@ export function useShapeCreation(
     expandedShapes.value = ['new-partShape', ...expandedShapes.value]
   }
 
-  /**
-   * LEARNING: Function to start inline AnnotationShape creation
-   */
   const createAnnotationShape = (): void => {
     newAnnotationShapeName.value = ''
     isCreatingAnnotationShape.value = true

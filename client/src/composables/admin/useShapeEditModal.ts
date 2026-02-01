@@ -51,7 +51,6 @@ export function useShapeEditModal(
    * NOTE: MetadataEditModal emits 'saved' with no parameters, so we create a wrapper that captures shapeId
    */
   const handleExistingBlockShapeSaved = (shapeId: string): void => {
-    // Close the modal for this shape
     shapeEditModalOpen.value.set(shapeId, false)
     // Also collapse the card if it was expanded (for backward compatibility)
     expandedBlockShapes.value = expandedBlockShapes.value.filter(id => id !== shapeId)

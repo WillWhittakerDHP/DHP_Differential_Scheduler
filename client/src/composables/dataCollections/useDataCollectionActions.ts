@@ -25,7 +25,6 @@ export interface DataCollectionCrudConfig<
   }
   selectCollection: (data: DataType) => CollectionItem[] | readonly CollectionItem[] | undefined
   updateCollection: (data: DataType, collection: CollectionItem[] | readonly CollectionItem[]) => DataType
-  // Allow extra properties that may exist in specific config types
   [key: string]: unknown
 }
 
@@ -51,7 +50,6 @@ export function useDataCollectionActions<
 } {
   const queryClient = useQueryClient()
   
-  // LEARNING: Use shared mutation handler for refetching queries
   // WHY: Eliminates duplication of common refetch pattern
   // PATTERN: Extract shared handler to utility function
   const refetchQuery = createRefetchQueriesHandler(queryClient, [queryKey] as readonly (readonly unknown[])[])

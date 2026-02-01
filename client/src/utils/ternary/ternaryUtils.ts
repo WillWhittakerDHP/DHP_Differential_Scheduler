@@ -30,17 +30,14 @@ export function aggregate(values: TernaryBoolean[]): TernaryBoolean {
     return 'false'
   }
   
-  // If ANY value is 'override', return 'override'
   if (values.some(v => v === 'override')) {
     return 'override'
   }
   
-  // Otherwise, if ANY value is 'true', return 'true'
   if (values.some(v => v === 'true')) {
     return 'true'
   }
   
-  // Otherwise, all are 'false'
   return 'false'
 }
 
@@ -61,7 +58,6 @@ export function toBoolean(value: TernaryBoolean, mode: 'strict' | 'inclusive' = 
     return value === 'true'
   }
   
-  // 'inclusive' mode
   return value === 'true' || value === 'override'
 }
 

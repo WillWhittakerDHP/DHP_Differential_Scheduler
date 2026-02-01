@@ -30,7 +30,6 @@ import { ref, nextTick } from 'vue'
 import { useSelectionCard, useSelectionCardGroup } from '../useSelectionCard'
 import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
-// Helper to create mock selection card item
 function createItem(id: string, options: Partial<SelectionCardItem> = {}): SelectionCardItem {
   return {
     id,
@@ -43,7 +42,6 @@ function createItem(id: string, options: Partial<SelectionCardItem> = {}): Selec
   } as SelectionCardItem
 }
 
-// Helper to create mock config
 function createConfig(overrides: Partial<SelectionCardConfig> = {}): SelectionCardConfig {
   return {
     selectionType: 'radio',
@@ -162,7 +160,6 @@ describe('useSelectionCard', () => {
 
       const { hasChildren } = useSelectionCard({ item, modelValue, config })
 
-      // This depends on getVisibleSelectionCardChildren implementation
       expect(typeof hasChildren.value).toBe('boolean')
     })
   })
@@ -225,10 +222,8 @@ describe('useSelectionCardGroup', () => {
         modelValue,
       })
 
-      // Trigger expansion toggle - internal state management
       toggleCardExpansion('item-1')
 
-      // The function should work without errors
       expect(typeof shouldExpand).toBe('function')
     })
 
@@ -241,7 +236,6 @@ describe('useSelectionCardGroup', () => {
       toggleCardExpansion('item-1')
       toggleCardExpansion('item-1')
 
-      // The function should handle toggle correctly
       expect(true).toBe(true)
     })
   })
@@ -255,7 +249,6 @@ describe('useSelectionCardGroup', () => {
 
       handleNestedSelection('item-1', ['child-1', 'child-2'])
 
-      // The function should work without errors
       expect(true).toBe(true)
     })
   })

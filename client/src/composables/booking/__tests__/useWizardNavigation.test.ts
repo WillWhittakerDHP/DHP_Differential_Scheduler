@@ -1,22 +1,8 @@
-/**
- * USEWIZARDNAVIGATION TESTS
- * 
- * Unit tests for useWizardNavigation composable.
- * Tests step navigation, validation, and state management logic.
- * 
- * Coverage:
- * - activeStep tracking
- * - completedSteps set management
- * - isLastStep computed
- * - Navigation handlers (next, prev, step click)
- * - Step state and accessibility
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useWizardNavigation, type StepDefinition } from '../useWizardNavigation'
 
 describe('useWizardNavigation', () => {
-  // Test fixtures
   const mockSteps: StepDefinition[] = [
     { icon: 'mdi-home', title: 'Step 1', subtitle: 'First step' },
     { icon: 'mdi-account', title: 'Step 2', subtitle: 'Second step' },
@@ -385,7 +371,6 @@ describe('useWizardNavigation', () => {
         validateStep,
       })
 
-      // Navigate through all steps
       handleNext() // 0 -> 1
       expect(activeStep.value).toBe(1)
       expect(completedSteps.value.has(0)).toBe(true)
@@ -411,7 +396,6 @@ describe('useWizardNavigation', () => {
       handleStepClick(0) // Jump back to 0
       expect(activeStep.value).toBe(0)
 
-      // Completed steps should persist
       expect(completedSteps.value.has(0)).toBe(true)
       expect(completedSteps.value.has(1)).toBe(true)
     })

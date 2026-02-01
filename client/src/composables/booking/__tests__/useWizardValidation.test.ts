@@ -64,7 +64,6 @@ describe('useWizardValidation', () => {
       
       const { validateStep } = useWizardValidation({ stepValidators })
       
-      // Step 1 has no validator
       expect(validateStep(1)).toBe(true)
     })
 

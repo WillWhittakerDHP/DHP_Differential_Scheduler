@@ -1,9 +1,3 @@
-/**
- * APPOINTMENT TO WIZARD TRANSFORMER TESTS
- * 
- * Unit tests for transformAppointmentToWizard function.
- * Tests appointment data transformation to wizard state (edit mode).
- */
 
 import { describe, it, expect } from 'vitest'
 import { transformAppointmentToWizard } from '../appointmentToWizardTransformer'
@@ -122,7 +116,6 @@ describe('appointmentToWizardTransformer', () => {
       const result = transformAppointmentToWizard(appointment, bookingData)
       
       expect(result.services).toBeDefined()
-      // Composite services are filtered by blockShape, so may not match if shape doesn't match
       expect(result.services.length).toBeGreaterThanOrEqual(0)
     })
     
@@ -145,7 +138,6 @@ describe('appointmentToWizardTransformer', () => {
       
       expect(result).toBeDefined()
       expect(result.propertyTypeBlocks).toBeDefined()
-      // Property adjustments are filtered by blockShape
     })
     
     it('should handle appointment with user type', () => {
@@ -167,7 +159,6 @@ describe('appointmentToWizardTransformer', () => {
       
       expect(result).toBeDefined()
       expect(result.userTypeBlock).toBeDefined()
-      // User type is found by blockShape matching 'User Type'
     })
     
     it('should preserve appointment metadata', () => {
@@ -228,7 +219,6 @@ describe('appointmentToWizardTransformer', () => {
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      // Should not throw, should handle gracefully
       expect(() => transformAppointmentToWizard(appointment, bookingData)).not.toThrow()
     })
     
@@ -248,7 +238,6 @@ describe('appointmentToWizardTransformer', () => {
       
       const result = transformAppointmentToWizard(appointment, bookingData)
       
-      // Should return all matching services (filtered by blockShape)
       expect(result.services).toBeDefined()
       expect(Array.isArray(result.services)).toBe(true)
     })

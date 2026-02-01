@@ -31,11 +31,6 @@ const configStore = useLayoutConfigStore()
 
 const isGroupActive = ref(false)
 
-/*
-  Watch for route changes, more specifically route path. Do note that this won't trigger if route's query is updated.
-
-  updates isActive & isOpen based on active state of group.
-*/
 watch(
   () => route.path,
   () => {

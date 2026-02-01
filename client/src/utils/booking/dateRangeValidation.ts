@@ -25,12 +25,10 @@ const logger = createLogger('dateRangeValidation')
 export function validateDateRange(
   dateRange: { start: string | null; end: string | null } | null
 ): { start: RFC3339DateTime; end: RFC3339DateTime } | null {
-  // Check if dateRange exists and has required fields
   if (!dateRange?.start || !dateRange?.end) {
     return null
   }
 
-  // Parse dates
   const start = new Date(dateRange.start)
   const end = new Date(dateRange.end)
 
@@ -40,13 +38,11 @@ export function validateDateRange(
     return null
   }
 
-  // Validate start < end
   if (start >= end) {
     logger.warn('start must be before end', { start, end, dateRange })
     return null
   }
 
-  // Return normalized RFC3339 datetime range
   return {
     start: start.toISOString() as RFC3339DateTime,
     end: end.toISOString() as RFC3339DateTime

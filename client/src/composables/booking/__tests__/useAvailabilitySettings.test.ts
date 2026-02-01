@@ -1,26 +1,3 @@
-/**
- * USEAVAILABILITYSETTINGS TESTS
- * 
- * Unit tests for useAvailabilitySettings composable.
- * Tests availability settings loading, caching, and refresh logic.
- * 
- * What it covers:
- * - settings: Reactive availability settings
- * - isLoading: Loading state tracking
- * - error: Error state tracking
- * - hasError: Computed error state
- * - refresh: Manual refresh functionality
- * 
- * How it works:
- * - Tests initial settings loading via watchEffect
- * - Tests providing initial settings to skip fetching
- * - Tests manual refresh of settings
- * - Tests error handling during fetch
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref/computed/watchEffect for reactive state
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref, nextTick } from 'vue'
@@ -83,7 +60,6 @@ describe('useAvailabilitySettings', () => {
 
       const { settings, isLoading } = useAvailabilitySettings()
 
-      // Wait for watchEffect to run
       await nextTick()
       // Wait for async fetch to complete
       await new Promise(resolve => setTimeout(resolve, 0))
@@ -119,7 +95,6 @@ describe('useAvailabilitySettings', () => {
 
       await nextTick()
 
-      // Loading should be true while fetching
       expect(isLoading.value).toBe(true)
 
       resolvePromise!(mockSettings)

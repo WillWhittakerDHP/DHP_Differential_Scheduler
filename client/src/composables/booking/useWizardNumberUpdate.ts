@@ -39,7 +39,6 @@ export function useWizardNumberUpdate() {
   const updateNumber = (blockInstanceId: string, number: number | null) => {
     if (!wizard) return
     
-    // Update in selectedServiceTypeBlocks
     const serviceIndex = wizard.selectedServiceTypeBlocks.value.findIndex(s => s.id === blockInstanceId)
     if (serviceIndex !== -1) {
       wizard.selectedServiceTypeBlocks.value[serviceIndex] = {
@@ -49,7 +48,6 @@ export function useWizardNumberUpdate() {
       return
     }
     
-    // Update in selectedPropertyTypeBlocks
     const adjustmentIndex = wizard.selectedPropertyTypeBlocks.value.findIndex(a => a.id === blockInstanceId)
     if (adjustmentIndex !== -1) {
       wizard.selectedPropertyTypeBlocks.value[adjustmentIndex] = {
@@ -59,7 +57,6 @@ export function useWizardNumberUpdate() {
       return
     }
     
-    // Update in selectedOptionTypeBlocks
     const optionIndex = wizard.selectedOptionTypeBlocks.value.findIndex(o => o.id === blockInstanceId)
     if (optionIndex !== -1) {
       wizard.selectedOptionTypeBlocks.value[optionIndex] = {

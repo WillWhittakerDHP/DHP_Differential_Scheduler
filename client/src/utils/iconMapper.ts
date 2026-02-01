@@ -19,7 +19,6 @@ const iconMap: Record<string, string> = {
   'HomeOutlined': 'tabler-home',
   'EyeOutlined': 'tabler-eye',
   
-  // Additional common Ant Design → Tabler mappings
   'ShoppingCartOutlined': 'tabler-shopping-cart',
   'UserOutlined': 'tabler-user',
   'TeamOutlined': 'tabler-users',
@@ -34,7 +33,6 @@ const iconMap: Record<string, string> = {
   'WarningOutlined': 'tabler-alert-triangle',
   'QuestionCircleOutlined': 'tabler-help-circle',
   
-  // Add more mappings as needed
 }
 
 const DEFAULT_ICON = 'tabler-circle'
@@ -51,13 +49,8 @@ import { isDevModeEnabled } from '@/utils/env/devMode'
  * @returns Vuetify/Tabler icon name (e.g., "tabler-currency-dollar")
  */
 export function getIcon(iconString: string | null | undefined): string {
-  // Handle null/undefined/empty strings
   if (!iconString || iconString.trim() === '') {
     if (isDevModeEnabled()) {
-      // console.log('🔍 iconMapper.getIcon: Empty icon string, using default', {
-      //   input: iconString,
-      //   default: DEFAULT_ICON
-      // })
     }
     return DEFAULT_ICON
   }
@@ -65,7 +58,6 @@ export function getIcon(iconString: string | null | undefined): string {
   const trimmedIcon = iconString.trim()
   
   // LEARNING: Check if icon is in mapping (Ant Design format)
-  // WHY: Supports backward compatibility with Ant Design icon names
   // PATTERN: Lookup in mapping record first
   if (iconMap[trimmedIcon]) {
     return iconMap[trimmedIcon]
@@ -79,16 +71,10 @@ export function getIcon(iconString: string | null | undefined): string {
   }
   
   // LEARNING: Fallback to default icon for unknown formats
-  // WHY: Ensures UI always has an icon to display
   // PATTERN: Return default icon when format is unrecognized
   return DEFAULT_ICON
 }
 
-/**
- * Map icon function (alias for getIcon for consistency with session guide)
- * LEARNING: Alternative export name matching session guide terminology
- * WHY: Provides consistent naming across codebase
- */
 export function mapIcon(iconString: string | null | undefined): string {
   return getIcon(iconString)
 }

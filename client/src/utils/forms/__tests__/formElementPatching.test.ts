@@ -1,15 +1,3 @@
-/**
- * TEST: formElementPatching utilities
- *
- * Covers:
- * - `tryPatchFormImmediatelyBySelector` patches a form found via selector
- * - `patchFormFromVFormRef` patches directly via `$el`
- * - `setupFormMutationObserver` patches when the form appears later, and patches autocomplete on inserted controls
- *
- * Dependencies:
- * - JSDOM environment (configured in `vitest.config.ts`)
- * - Vue `ref` (for VForm ref shape)
- */
 
 import { describe, it, expect } from 'vitest'
 import { ref } from 'vue'
@@ -52,13 +40,11 @@ describe('formElementPatching utilities', () => {
       useMutationObserver: true,
     })
 
-    // Add a control first (should get autocomplete patched)
     const input = document.createElement('input')
     document.body.appendChild(input)
     await new Promise((r) => setTimeout(r, 0))
     expect(input.getAttribute('autocomplete')).toBe(AUTCOMPLETE_OFF)
 
-    // Now add the form (should be patched and observer disconnects)
     const form = document.createElement('form')
     form.className = 'observed-form'
     document.body.appendChild(form)

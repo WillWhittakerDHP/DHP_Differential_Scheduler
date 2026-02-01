@@ -9,16 +9,6 @@
 import { computed, type Ref } from 'vue'
 import type { StatePlugin, SelectionCardItem } from '../types/selectionCardTypes'
 
-/**
- * Create a local state plugin
- * LEARNING: Factory function that creates a state plugin for local ref state
- * WHY: Allows SelectionCard to work with local ref state (backward compatibility)
- * PATTERN: Returns StatePlugin interface implementation
- * 
- * @param modelValue - Reactive ref for current selected value
- * @param updateModelValue - Function to update the model value
- * @returns StatePlugin instance
- */
 export function createLocalStatePlugin(
   modelValue: Ref<string | null>,
   updateModelValue: (value: string | null) => void
@@ -26,11 +16,6 @@ export function createLocalStatePlugin(
   return {
     name: 'localState',
     
-    /**
-     * Get current value for an item
-     * LEARNING: Returns true if item.id matches modelValue
-     * WHY: Determines if item is selected
-     */
     getValue: (item: SelectionCardItem): boolean => {
       return modelValue.value === item.id
     },

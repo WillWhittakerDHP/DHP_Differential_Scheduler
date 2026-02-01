@@ -33,20 +33,17 @@ const emit = defineEmits<Emit>()
 
 const currentStep = ref(props.currentStep || 0)
 
-// check if step is completed or active and return class name accordingly
 const activeOrCompletedStepsClasses = computed(() => (index: number) => (
   index < currentStep.value
     ? 'stepper-steps-completed'
     : index === currentStep.value ? 'stepper-steps-active' : ''
 ))
 
-// check if step is horizontal and not last step
 const isHorizontalAndNotLastStep = computed(() => (index: number) => (
   props.direction === 'horizontal'
   && props.items.length - 1 !== index
 ))
 
-// check if validation is enabled
 const isValidationEnabled = computed(() => {
   return props.isActiveStepValid !== undefined
 })
@@ -219,7 +216,6 @@ watchEffect(() => {
 @use "@core/scss/template/mixins" as templateMixins;
 
 .app-stepper {
-  // 👉 stepper step with bg color
   &.stepper-icon-step-bg {
     .stepper-icon-step {
       .step-wrapper {
@@ -286,7 +282,6 @@ watchEffect(() => {
     }
   }
 
-  // 👉 stepper step with icon and  default
   .v-slide-group__content {
     row-gap: 1rem;
 
@@ -349,7 +344,6 @@ watchEffect(() => {
     }
   }
 
-  // 👉 stepper alignment
   &.app-stepper-center {
     .v-slide-group__content {
       justify-content: center;

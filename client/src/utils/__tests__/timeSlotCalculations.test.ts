@@ -1,16 +1,6 @@
-/**
- * TIME SLOT CALCULATIONS TESTS
- * 
- * Unit tests for time slot calculation utilities.
- * Tests duration calculation, time slot generation, and calendar availability integration.
- * Session 1.3.7: Client-Side Availability Calculations
- */
 
 import { describe, it, expect, vi } from 'vitest'
 
-// Mock availability settings before importing the module under test
-// LEARNING: Mock returns Promise to match async getAvailabilitySettings
-// WHY: getAvailabilitySettings is now async (fetches from API)
 vi.mock('@/configs/availabilitySettings', () => ({
   getAvailabilitySettings: async () => ({
     businessHours: {
@@ -34,13 +24,7 @@ import {
 } from '../timeSlotCalculations'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// ===================================================================
-// TEST DATA SETUP
-// ===================================================================
 
-/**
- * Helper to create a BookingPartInstance
- */
 function createPartInstance(
   id: string,
   baseTime: number,
@@ -66,9 +50,6 @@ function createPartInstance(
   }
 }
 
-/**
- * Helper to create a BookingBlockInstance
- */
 function createBlockInstance(
   id: string,
   partInstances: BookingBlockInstance['partInstances'] = []
@@ -90,9 +71,6 @@ function createBlockInstance(
   }
 }
 
-// ===================================================================
-// TESTS
-// ===================================================================
 
 describe('timeSlotCalculations', () => {
   describe('calculateDurationFromBlockInstances', () => {
@@ -201,7 +179,6 @@ describe('timeSlotCalculations', () => {
         end: '2026-01-10T00:00:00Z'
       }
       
-      // Should not throw
       expect(() => getCalendarAvailability(dateRange)).not.toThrow()
       const result = getCalendarAvailability(dateRange)
       expect(Array.isArray(result)).toBe(true)
@@ -220,9 +197,6 @@ describe('timeSlotCalculations', () => {
       const slots = await generateTimeSlots(dateRange, duration)
       
       expect(slots.length).toBeGreaterThan(0)
-      // Should have slots from 9:00 AM to 6:00 PM (last slot that fits 1-hour duration)
-      // 9:00-10:00, 9:15-10:15, ..., 18:00-19:00
-      // That's 37 slots (9:00 to 18:00 at 15-minute intervals)
       expect(slots.length).toBe(37)
     })
 
@@ -235,7 +209,6 @@ describe('timeSlotCalculations', () => {
       
       const slots = await generateTimeSlots(dateRange, duration)
       
-      // Should have slots for 2 days (Monday and Tuesday)
       expect(slots.length).toBeGreaterThan(0)
       expect(slots.length).toBe(37 * 2) // 37 slots per day
     })
@@ -250,7 +223,6 @@ describe('timeSlotCalculations', () => {
       const slots = await generateTimeSlots(dateRange, duration)
       
       expect(slots.length).toBeGreaterThan(0)
-      // First slot should be 1.5 hours long
       const firstSlot = slots[0]
       const start = new Date(firstSlot.startTime)
       const end = new Date(firstSlot.endTime)
@@ -267,18 +239,15 @@ describe('timeSlotCalculations', () => {
       
       const slots = await generateTimeSlots(dateRange, duration)
       
-      // Last slot should end at or before 7:00 PM (19:00)
       const lastSlot = slots[slots.length - 1]
       const endTime = new Date(lastSlot.endTime)
       const endHour = endTime.getHours()
       expect(endHour).toBeLessThanOrEqual(19)
       
-      // Should not have slots that start after 5:00 PM (17:00) for 2-hour duration
       const lateSlots = slots.filter(slot => {
         const start = new Date(slot.startTime)
         return start.getHours() >= 17
       })
-      // All late slots should end at or before 19:00
       lateSlots.forEach(slot => {
         const end = new Date(slot.endTime)
         expect(end.getHours()).toBeLessThanOrEqual(19)
@@ -304,7 +273,6 @@ describe('timeSlotCalculations', () => {
       
       const slots = await generateTimeSlots(dateRange, duration, busyTimes)
       
-      // Should not have slots that overlap with busy times
       slots.forEach(slot => {
         const slotStart = new Date(slot.startTime)
         const slotEnd = new Date(slot.endTime)
@@ -313,7 +281,6 @@ describe('timeSlotCalculations', () => {
           const busyStart = new Date(busy.start)
           const busyEnd = new Date(busy.end)
           
-          // Slot should not overlap with busy time
           const overlaps = (
             (slotStart >= busyStart && slotStart < busyEnd) ||
             (slotEnd > busyStart && slotEnd <= busyEnd) ||
@@ -325,9 +292,6 @@ describe('timeSlotCalculations', () => {
     })
 
     it('should handle different time increments', async () => {
-      // Note: This test verifies the function works with the mocked 15-minute increment
-      // To test different increments, you would need to create a separate test file
-      // or use vi.doMock() to change the mock for this specific test
       const dateRange = {
         start: '2026-01-06T00:00:00Z',
         end: '2026-01-07T00:00:00Z'
@@ -336,9 +300,7 @@ describe('timeSlotCalculations', () => {
       
       const slots = await generateTimeSlots(dateRange, duration)
       
-      // With 15-minute increments (from mock), should have slots
       expect(slots.length).toBeGreaterThan(0)
-      // Should have slots at :00, :15, :30, :45 of each hour
       const firstSlot = slots[0]
       const start = new Date(firstSlot.startTime)
       expect([0, 15, 30, 45]).toContain(start.getMinutes())
@@ -353,9 +315,7 @@ describe('timeSlotCalculations', () => {
       
       const slots = await generateTimeSlots(dateRange, duration)
       
-      // Should handle date boundary correctly
       expect(Array.isArray(slots)).toBe(true)
-      // Slots should have valid ISO date strings
       slots.forEach(slot => {
         expect(() => new Date(slot.startTime)).not.toThrow()
         expect(() => new Date(slot.endTime)).not.toThrow()
@@ -371,9 +331,7 @@ describe('timeSlotCalculations', () => {
       
       const slots = await generateTimeSlots(dateRange, duration)
       
-      // Should generate slots for multiple days including different days of week
       expect(slots.length).toBeGreaterThan(0)
-      // Should have slots for Sunday, Monday, Tuesday
       const uniqueDays = new Set(
         slots.map(slot => {
           const date = new Date(slot.startTime)
@@ -393,7 +351,6 @@ describe('timeSlotCalculations', () => {
       const slots = await generateTimeSlots(dateRange, duration)
       
       expect(slots.length).toBeGreaterThan(0)
-      // Slots should be 10 minutes long
       const firstSlot = slots[0]
       const start = new Date(firstSlot.startTime)
       const end = new Date(firstSlot.endTime)
@@ -410,10 +367,7 @@ describe('timeSlotCalculations', () => {
       
       const slots = await generateTimeSlots(dateRange, duration)
       
-      // Should only have slots that fit within business hours (9 AM - 7 PM = 10 hours)
-      // So should have very few or no slots
       expect(Array.isArray(slots)).toBe(true)
-      // All slots should end at or before 19:00
       slots.forEach(slot => {
         const end = new Date(slot.endTime)
         expect(end.getHours()).toBeLessThanOrEqual(19)

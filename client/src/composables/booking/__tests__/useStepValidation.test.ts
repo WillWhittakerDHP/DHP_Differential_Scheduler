@@ -25,7 +25,6 @@ import { ref, computed, nextTick } from 'vue'
 import { useStepValidation } from '../useStepValidation'
 import type { ValidationRule } from '@/composables/useFormValidation'
 
-// Simple validation rules for testing
 const required = (message: string): ValidationRule => 
   (value: unknown) => (value !== null && value !== undefined && value !== '') ? true : message
 

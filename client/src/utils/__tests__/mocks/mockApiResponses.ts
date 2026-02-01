@@ -1,15 +1,6 @@
-/**
- * MOCK API RESPONSES
- * 
- * Reusable mock API response builders for testing.
- * Provides consistent response structures across tests.
- */
 
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 
-/**
- * Success response wrapper
- */
 export function createSuccessResponse<T>(data: T) {
   return {
     success: true,
@@ -17,9 +8,6 @@ export function createSuccessResponse<T>(data: T) {
   }
 }
 
-/**
- * Error response wrapper
- */
 export function createErrorResponse(message: string, status: number = 400) {
   return {
     success: false,
@@ -28,9 +16,6 @@ export function createErrorResponse(message: string, status: number = 400) {
   }
 }
 
-/**
- * Paginated response wrapper
- */
 export function createPaginatedResponse<T>(
   data: T[],
   page: number = 1,
@@ -49,16 +34,10 @@ export function createPaginatedResponse<T>(
   }
 }
 
-/**
- * Mock API response for GlobalData
- */
 export function createGlobalDataResponse(globalData: GlobalData) {
   return createSuccessResponse(globalData)
 }
 
-/**
- * Mock validation error response
- */
 export function createValidationErrorResponse(fields: Record<string, string>) {
   return {
     success: false,
@@ -68,16 +47,10 @@ export function createValidationErrorResponse(fields: Record<string, string>) {
   }
 }
 
-/**
- * Mock 404 response
- */
 export function createNotFoundResponse(resource: string, id: string) {
   return createErrorResponse(`${resource} with id ${id} not found`, 404)
 }
 
-/**
- * Mock 500 response
- */
 export function createServerErrorResponse(message: string = 'Internal server error') {
   return createErrorResponse(message, 500)
 }

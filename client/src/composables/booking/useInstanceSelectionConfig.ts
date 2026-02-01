@@ -20,14 +20,7 @@ import { createWizardStatePlugin, type WizardStateField } from '@/components/boo
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import { buildServicesStackSelectionConfig, buildUserTypeBlockRowSelectionConfig } from '@/utils/booking/serviceSelectionConfigBuilders'
 
-/**
- * useInstanceSelectionConfig composable options
- */
 export interface UseInstanceSelectionConfigOptions {
-  /**
-   * Selection type for determining layout and behavior
-   * LEARNING: 'row' for horizontal grids (user types), 'stack' for vertical lists (services)
-   */
   selectionType?: 'row' | 'stack'
   
   /**
@@ -43,18 +36,9 @@ export interface UseInstanceSelectionConfigOptions {
   selectedValue?: ComputedRef<unknown>
 }
 
-/**
- * Return type for useInstanceSelectionConfig
- */
 export interface UseInstanceSelectionConfigReturn {
-  /**
-   * Selection config for the specified type
-   */
   selectionConfig: ComputedRef<SelectionCardConfig>
   
-  /**
-   * Wizard state plugin for the selection
-   */
   statePlugin: ReturnType<typeof createWizardStatePlugin>
 }
 
@@ -98,13 +82,7 @@ export function useInstanceSelectionConfig(
    */
   const statePlugin = createWizardStatePlugin(stateField)
 
-  /**
-   * Selection config based on type
-   * LEARNING: Row layout for grid, stack for vertical list
-   * WHY: Different block shapes need different visual layouts
-   */
   const selectionConfig = computed<SelectionCardConfig>(() => {
-    // Access selected value to make computed reactive
     if (selectedValue) {
       void selectedValue.value
     }

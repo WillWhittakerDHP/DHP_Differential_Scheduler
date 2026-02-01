@@ -1,10 +1,5 @@
-/**
- * Convert Hex color to rgb
- * @param hex
- */
 
 export const hexToRgb = (hex: string) => {
-// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
 
   hex = hex.replace(shorthandRegex, (_m: string, r: string, g: string, b: string) => {
@@ -16,9 +11,6 @@ export const hexToRgb = (hex: string) => {
   return result ? `${Number.parseInt(result[1], 16)},${Number.parseInt(result[2], 16)},${Number.parseInt(result[3], 16)}` : null
 }
 
-/**
- *RGBA color to Hex color with / without opacity
- */
 export const rgbaToHex = (rgba: string, forceRemoveAlpha = false) => {
   return (
     `#${

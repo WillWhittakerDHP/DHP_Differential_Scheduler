@@ -11,13 +11,7 @@ import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
-/**
- * useEntityFiltering composable return type
- */
 export interface UseEntityFilteringReturn<EntityKey extends GlobalEntityKey> {
-  /**
-   * Filtered and sorted entities
-   */
   filteredEntities: ComputedRef<GlobalEntity<EntityKey>[]>
 }
 
@@ -42,8 +36,6 @@ export function useEntityFiltering<EntityKey extends GlobalEntityKey>(
   const filteredEntities = computed(() => {
     const entities = getGlobalEntities(entityKey)
     
-    // LEARNING: Copy array before sorting to avoid readonly proxy errors
-    // WHY: Vue Query returns readonly proxies, we need mutable copy for sort()
     // PATTERN: Spread operator creates new array
     return [...entities].sort((a, b) => a.orderIndex - b.orderIndex)
   })

@@ -10,9 +10,6 @@ import { computed, type ComputedRef } from 'vue'
 import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import { buildSelectionComponentProps, getSelectionComponentName } from '@/utils/booking/selectionCardComponent'
 
-/**
- * useSelectionCardComponent composable parameters
- */
 export interface UseSelectionCardComponentParams {
   item: ComputedRef<SelectionCardItem>
   configWithDefaults: ComputedRef<SelectionCardConfig>
@@ -20,9 +17,6 @@ export interface UseSelectionCardComponentParams {
   controlClasses: ComputedRef<Record<string, boolean>>
 }
 
-/**
- * useSelectionCardComponent composable return type
- */
 export interface UseSelectionCardComponentReturn {
   selectionComponentName: ComputedRef<string>
   selectionComponentProps: ComputedRef<Record<string, unknown>>

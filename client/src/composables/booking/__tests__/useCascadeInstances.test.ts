@@ -30,7 +30,6 @@ import { ref, computed, nextTick } from 'vue'
 import { useCascadeInstances } from '../useCascadeInstances'
 import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Helper to create mock block instance
 function createInstance(
   id: string,
   options: {
@@ -60,7 +59,6 @@ function createInstance(
   }
 }
 
-// Helper to create mock booking data
 function createBookingData(
   instances: BookingBlockInstance[],
   shapes: Array<{ id: string; name: string }> = []

@@ -179,8 +179,6 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 
-// LEARNING: Use composable for metadata editor entity lookup
-// WHY: Extracts entity construction logic for global configs
 // PATTERN: Composable handles sentinel UUIDs and blockShapeRef inclusion
 const metadataEditorEntity = useMetadataEditorEntity(
   props.entityKey,
@@ -188,69 +186,42 @@ const metadataEditorEntity = useMetadataEditorEntity(
   props.blockShapeRef
 )
 
-// Get entity type and ID for metadata lookup
 const entityType = computed<EntityMetadataType | null>(() => {
   return getEntityTypeForMetadata(props.entityKey)
 })
 
-// LEARNING: Extract entityId from metadataEditorEntity
-// WHY: Save logic needs entityId, which is already computed in metadataEditorEntity
-// PATTERN: Extract id from entity computed ref
 const entityId = computed<string | null>(() => {
   return metadataEditorEntity.value?.id ?? null
 })
 
-// LEARNING: Use useEntityMetadata to get merged metadata (primitives + relationships) for display
 // WHY: Should display all metadata for visibility, matches EntityCard pattern
-// PATTERN: Use useEntityMetadata which calls getMetadata() that hydrates metadata
-// NOTE: Dehydration happens in mutations before save to ensure only primitives are saved
 const { fieldMetadata, isLoading } = useEntityMetadata(
   props.entityKey,
   metadataEditorEntity
 )
 
-// Mutations composables for saving/deleting (both primitive and relationship)
-// LEARNING: Editor displays merged metadata (primitives + relationships), so needs both mutations
-// LEARNING: Use unified mutations (no routing logic needed)
 // WHY: Backend determines metadataType by checking RELATIONSHIP_KEYS - matches entity pattern
-// PATTERN: Single mutation accepts all fieldKeys, backend routes based on type
 const { saveFieldMetadata, deleteFieldMetadata, isSaving } = useAdminMetadataMutations()
 
-// LEARNING: Query client for manual refetch control
-// WHY: Need to await refetch before clearing pendingChanges to prevent UI flash
-// PATTERN: Use queryClient to manually refetch after mutations complete
 const queryClient = useQueryClient()
 
-// LEARNING: Track pending changes for field metadata
-// WHY: Allows UI to show changes before saving
-// PATTERN: Reactive object to track pending updates
 const pendingChanges = reactive<Record<string, Partial<FieldMetadataEntry>>>({})
 
-// LEARNING: Clear pending changes
 // WHY: Reset state after successful save
 // PATTERN: Clear all reactive state
 function clearPendingState(): void {
   Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
 }
 
-// LEARNING: Use config-driven entity type label
-// WHY: Eliminates entityKey branching (if/else chain) - single source of truth
 // PATTERN: Use shared utility function instead of hardcoded if statements
-// Entity type label for display
 const entityTypeLabel = computed(() => {
   return getEntityTypeLabel(props.entityKey)
 })
 
-// LEARNING: Get field metadata entry
-// WHY: Simple accessor for field metadata
-// PATTERN: Direct access to fieldMetadata computed
 function getFieldMetadata(fieldKey: string) {
   return fieldMetadata.value[fieldKey]
 }
 
-// LEARNING: Get effective field metadata (existing + pending changes)
-// WHY: Merges existing metadata with pending changes for immediate UI feedback
-// PATTERN: Merge existing with pending, return existing if no pending
 function getEffectiveFieldMetadata(fieldKey: string) {
   const existing = getFieldMetadata(fieldKey)
   const pending = pendingChanges[fieldKey]
@@ -259,9 +230,7 @@ function getEffectiveFieldMetadata(fieldKey: string) {
     return existing
   }
   
-  // Merge existing with pending changes
   if (!existing) {
-    // If no existing metadata, return pending as-is (but we need to provide defaults)
     return pending as import('@/types/entityMetadata').FieldMetadataEntry | undefined
   }
   
@@ -271,25 +240,16 @@ function getEffectiveFieldMetadata(fieldKey: string) {
   } as import('@/types/entityMetadata').FieldMetadataEntry | undefined
 }
 
-// LEARNING: Metadata field updates with validation
-// WHY: Encapsulates field rendering update logic with renderAs computation and validation
-// PATTERN: Use composable for updating field metadata with automatic renderAs computation
 const { computeRenderAs, updateFieldRendering } = useMetadataFieldUpdates({
   getEffectiveFieldMetadata,
   pendingChanges,
 })
 
-// LEARNING: Input config editor
-// WHY: Handles parsing and updating inputConfig for select/multiselect/reference fields
-// PATTERN: Use composable for managing inputConfig editing
 const { getInputConfigData, updateInputConfigField } = useInputConfigEditor({
   getEffectiveFieldMetadata,
   updateFieldRendering,
 })
 
-// LEARNING: Check if renderAs is a select-related type
-// WHY: Type guard for checking if field uses inputConfig (select/multiselect/reference/relationshipCollection)
-// PATTERN: Helper function to check renderAs value against select-related constants
 function hasSelectRenderAs(fieldKey: string): boolean {
   const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
   if (!renderAs) return false
@@ -299,22 +259,17 @@ function hasSelectRenderAs(fieldKey: string): boolean {
          renderAs === FIELD_RENDER_AS.RELATIONSHIP_COLLECTION
 }
 
-// LEARNING: Metadata field ordering
-// WHY: Handles sorting by displayOrder and drag-and-drop reordering
-// PATTERN: Use composable for managing field ordering
 const { draggableFieldKeys, handleDragEnd } = useMetadataFieldOrdering({
   fieldMetadata,
   getFieldMetadata,
   updateFieldRendering,
 })
 
-// Check if field has metadata entry (exists in database)
 function hasMetadataEntry(fieldKey: string): boolean {
   return !!fieldMetadata.value[fieldKey]
 }
 
 
-// Save all changes
 async function handleSave() {
   if (!entityType.value || !entityId.value) {
     logger.error('Cannot save: invalid entityType or entityId')
@@ -322,8 +277,6 @@ async function handleSave() {
   }
 
   try {
-    // LEARNING: Debug logging to trace save flow
-    // WHY: Help diagnose why saves aren't persisting
     logger.debug('Starting save:', {
       entityType: entityType.value,
       entityId: entityId.value,
@@ -332,20 +285,15 @@ async function handleSave() {
       pendingChanges: Object.keys(pendingChanges),
     })
     
-    // Save pending changes
-    // LEARNING: Use unified mutation - backend routes based on fieldKey type
     // WHY: Matches entity pattern - mutations accept all fields, backend routes based on type
     // PATTERN: Single mutation call, no routing logic needed
     for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
       const existingMeta = getFieldMetadata(fieldKey)
       
-      // LEARNING: Ensure renderAs is computed before saving
-      // WHY: renderAs should always be computed from dataType and inputConfig
       // PATTERN: Compute renderAs if missing or if dataType/inputConfig changed
       const effectiveMeta = getEffectiveFieldMetadata(fieldKey)
       const finalUpdates = { ...updates }
       
-      // Ensure renderAs is computed if missing
       if (!finalUpdates.renderAs || updates.inputConfig !== undefined) {
         const dataType = effectiveMeta?.dataType
         const inputConfig = finalUpdates.inputConfig !== undefined ? finalUpdates.inputConfig : effectiveMeta?.inputConfig
@@ -370,22 +318,16 @@ async function handleSave() {
     }
 
 
-    // LEARNING: Refetch metadata cache before clearing pendingChanges
-    // WHY: Prevents UI flash - pendingChanges maintain display until fresh data arrives
     // PATTERN: Mutations already invalidate cache, just refetch and await completion before clearing pending state
-    // NOTE: Mutations invalidate cache in onSuccess, so we just need to refetch here
     try {
       await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
       logger.debug('Metadata cache refetched successfully')
     } catch (refetchError) {
       logger.error('Error refetching metadata cache:', refetchError)
-      // Still clear pending state even if refetch fails to prevent UI from being stuck
     }
 
-    // Clear pending changes AFTER refetch completes (or fails)
     clearPendingState()
 
-    // Emit saved event
     emit('saved')
   } catch (error) {
     logger.error('Error saving metadata:', error)
@@ -393,7 +335,6 @@ async function handleSave() {
   }
 }
 
-// Options for form fields
 const visibilityOptions = [
   { title: 'Not Configured', value: 'notConfigured' },
   { title: 'Title Row', value: 'titleRow' },
@@ -408,9 +349,6 @@ const layoutOptions = [
   { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
 ] as const
 
-// LEARNING: Status button color options ordered by ROY G BIV (Rainbow Order)
-// WHY: Makes it easier to identify colors - explicit color names instead of semantic names
-// PATTERN: ROY G BIV order: Red, Orange, Yellow, Green, Blue, Indigo, Violet, plus Grey and Brown
 
 const colorOptions = [
   { title: 'Red', value: 'error' },
@@ -424,9 +362,6 @@ const colorOptions = [
   { title: 'Brown', value: 'brown' },
 ] as const
 
-// LEARNING: Select Mode options for inputConfig
-// WHY: Allow admins to configure how select fields behave (single/multiple/required/nested)
-// PATTERN: Simple dropdown options
 const selectModeOptions = [
   { title: 'Single', value: 'Single' },
   { title: 'Multiple', value: 'Multiple' },
@@ -435,27 +370,17 @@ const selectModeOptions = [
 ] as const
 
 // LEARNING: Input config editing functions are provided by useInputConfigEditor composable
-// WHY: Encapsulates inputConfig parsing and updating logic
-// PATTERN: Use composable-provided functions
 
-// LEARNING: Template ref for expansion panels container
-// WHY: Need DOM reference to initialize drag-and-drop
 const expansionPanelsRef = ref<ComponentPublicInstance | HTMLElement | null>(null)
 
 // LEARNING: Drag end handler is provided by useMetadataFieldOrdering composable
-// WHY: Encapsulates display order update logic
-// PATTERN: Use composable-provided handler
 
-// LEARNING: Initialize drag-and-drop on expansion panels
-// WHY: Enable drag-and-drop reordering of fields
-// PATTERN: Set up drag-and-drop after component mounts, cleanup on unmount
 let dragInstance: ReturnType<typeof dragAndDrop> | null = null
 
 onMounted(() => {
   nextTick(() => {
     if (!expansionPanelsRef.value) return
     
-    // Get the actual DOM element from VExpansionPanels component
     const panelsElement = getPanelsElement(expansionPanelsRef.value, null)
     if (!panelsElement) return
     
@@ -464,7 +389,6 @@ onMounted(() => {
         parent: panelsElement,
         values: draggableFieldKeys,
         draggable: (el) => {
-          // Make all expansion panels draggable by checking for draggable-field-panel class
           return el instanceof HTMLElement && el.classList?.contains('draggable-field-panel')
         },
         plugins: [animations()],
@@ -479,14 +403,11 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  // Cleanup drag-and-drop instance
   if (dragInstance) {
-    // @formkit/drag-and-drop handles cleanup automatically, but we can clear the ref
     dragInstance = null
   }
 })
 
-// Expose save functionality to parent component
 defineExpose({
   save: handleSave,
   isSaving,

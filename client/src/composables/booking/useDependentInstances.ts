@@ -19,39 +19,17 @@ import type { GlobalRelationship } from '@/types/relationships'
 import { findRelationshipsByParent, extractChildIds } from '@/utils/transformers/relationshipTransformers'
 import { useGlobal } from '@/composables/useGlobal'
 
-/**
- * Options for useDependentInstances composable
- */
 export interface UseDependentInstancesOptions {
-  /**
-   * Parent block instance that may have dependent instances
-   */
   parentInstance: ComputedRef<BookingBlockInstance | null> | Ref<BookingBlockInstance | null>
   
-  /**
-   * Optional: Pre-filtered relationships (if available)
-   * LEARNING: Avoids re-fetching if caller already has relationships
-   */
   relationships?: ComputedRef<GlobalRelationship[]> | Ref<GlobalRelationship[]>
 }
 
-/**
- * Return type for useDependentInstances composable
- */
 export interface UseDependentInstancesReturn {
-  /**
-   * IDs of dependent instances
-   */
   dependentInstanceIds: ComputedRef<string[]>
   
-  /**
-   * Resolved dependent instances with full data
-   */
   dependentInstances: ComputedRef<BookingBlockInstance[]>
   
-  /**
-   * Whether parent has any dependent instances
-   */
   hasDependentInstances: ComputedRef<boolean>
 }
 
@@ -125,19 +103,15 @@ export function useDependentInstances(
     for (const id of ids) {
       const entity = getGlobalEntityById('blockInstance', id)
       if (entity) {
-        // Convert GlobalEntity to BookingBlockInstance format
         const instance: BookingBlockInstance = {
           id: entity.id,
           entityKey: 'blockInstance',
           name: entity.name,
           baseSqFt: (entity as unknown as Record<string, unknown>).baseSqFt as number || 0,
-          // LEARNING: descriptions property removed - deprecated in favor of annotation suites
-          // WHY: Descriptions are no longer part of BookingBlockInstance type
           icon: (entity as unknown as Record<string, unknown>).icon as string || '',
           active: (entity as unknown as Record<string, unknown>).active as boolean ?? true,
           bookingMode: ((entity as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
           // LEARNING: Convert boolean to TernaryBoolean for differential property
-          // WHY: BookingBlockInstance.differential is TernaryBoolean type, not boolean
           differential: ((entity as unknown as Record<string, unknown>).differential as boolean ?? false) ? 'true' as const : 'false' as const,
           orderIndex: entity.orderIndex ?? 0,
           blockShape: (entity as unknown as Record<string, unknown>).blockShape as string || '',
@@ -154,17 +128,11 @@ export function useDependentInstances(
       }
     }
     
-    // Filter out standalone-only services from add-on options
     const eligibleInstances = instances.filter(instance => instance.bookingMode !== 'standalone')
     
-    // Sort by orderIndex
     return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
   })
   
-  /**
-   * LEARNING: Convenience flag for conditional rendering
-   * WHY: Avoids length checks in templates
-   */
   const hasDependentInstances = computed((): boolean => {
     return dependentInstances.value.length > 0
   })

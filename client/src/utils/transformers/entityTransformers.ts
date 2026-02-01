@@ -24,11 +24,6 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
   rawEntity: Record<string, unknown>, 
   entityKey: GE
 ): GlobalEntity<GE> {
-  /**
-   * Generic snake_case → camelCase converter
-   * LEARNING: Defensive fallback for any remaining snake_case fields
-   * WHY: Most fields should already be camelCase, but this handles edge cases
-   */
   function snakeToCamel(str: string): string {
     return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
   }
@@ -38,15 +33,10 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
     entityKey,
   }
 
-  // NOTE: Attendees are now fetched via /relationships/attendeeAssignments endpoint
-  // They are attached to event shapes during transformation in globalToAdminTransformer
-  // No special handling needed here - attendees come through relationships
 
-  // Transform fields: convert any snake_case to camelCase (defensive)
   for (const [backendKey, value] of Object.entries(rawEntity)) {
     if (backendKey === 'id' || backendKey === 'entity_key' || backendKey === 'descriptions' || backendKey === 'event_shape_attendees') continue
     
-    // Convert snake_case to camelCase if needed (most fields should already be camelCase)
     const frontendKey = snakeToCamel(backendKey)
     transformed[frontendKey] = value
   }

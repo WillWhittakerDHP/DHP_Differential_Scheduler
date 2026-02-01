@@ -7,16 +7,11 @@
 
 import { getTestDb } from './testDb.js'
 
-/**
- * Seed basic test data (block shapes, part shapes, etc.)
- */
 export async function seedBasicTestData() {
   const sequelize = getTestDb()
   
-  // Import models
   const { BlockShape, PartShape, BlockInstance, PartInstance, Relationship } = sequelize.models
   
-  // Seed block shapes
   const blockShape1 = await BlockShape.create({
     id: 'block-shape-1',
     name: 'Standard Inspection',
@@ -33,7 +28,6 @@ export async function seedBasicTestData() {
     orderIndex: 2,
   })
   
-  // Seed part shapes
   const partShape1 = await PartShape.create({
     id: 'part-shape-1',
     name: 'Interior Inspection',
@@ -50,9 +44,6 @@ export async function seedBasicTestData() {
     orderIndex: 2,
   })
   
-  // Seed block instances
-  // LEARNING: Sequelize create() returns Model<any, any>, need type assertion to access .id
-  // WHY: TypeScript doesn't know about model instance properties
   // PATTERN: Use 'as any' cast to access model properties in test setup
   const blockInstance1 = await BlockInstance.create({
     id: 'block-1',
@@ -63,9 +54,6 @@ export async function seedBasicTestData() {
     baseSqFt: 2000,
   })
   
-  // Seed part instances
-  // LEARNING: Sequelize create() returns Model<any, any>, need type assertion to access .id
-  // WHY: TypeScript doesn't know about model instance properties
   // PATTERN: Use 'as any' cast to access model properties in test setup
   const partInstance1 = await PartInstance.create({
     id: 'part-1',
@@ -91,9 +79,6 @@ export async function seedBasicTestData() {
     clientPresent: false,
   })
   
-  // Seed relationships
-  // LEARNING: Sequelize create() returns Model<any, any>, need type assertion to access .id
-  // WHY: TypeScript doesn't know about model instance properties
   // PATTERN: Use 'as any' cast to access model properties in test setup
   await Relationship.create({
     relationshipKind: 'partAssignments',
@@ -119,9 +104,6 @@ export async function seedBasicTestData() {
   }
 }
 
-/**
- * Seed user test data
- */
 export async function seedUserTestData() {
   const sequelize = getTestDb()
   const { User } = sequelize.models
@@ -141,18 +123,10 @@ export async function seedUserTestData() {
   return { users: [user1, user2] }
 }
 
-/**
- * Seed appointment test data
- * LEARNING: Updated to use PropertyVersion instead of Property (three-table structure)
- * NOTE: Requires PropertyVersion to exist - should be seeded before appointments
- */
 export async function seedAppointmentTestData() {
   const sequelize = getTestDb()
   const { Appointment, PropertyVersion } = sequelize.models
   
-  // Get first property version if available
-  // LEARNING: Sequelize findAll() returns Model<any, any>[], need type assertion to access .id
-  // WHY: TypeScript doesn't know about model instance properties
   // PATTERN: Use 'as any' cast to access model properties in test setup
   const propertyVersions = await PropertyVersion.findAll({ limit: 1 })
   const propertyVersionId = propertyVersions.length > 0 ? (propertyVersions[0] as any).id : null
@@ -184,9 +158,6 @@ export async function seedAppointmentTestData() {
   return { appointments: [appointment1] }
 }
 
-/**
- * Seed all test data
- */
 export async function seedAllTestData() {
   const basic = await seedBasicTestData()
   const users = await seedUserTestData()

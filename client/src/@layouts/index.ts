@@ -5,12 +5,10 @@ import { cookieRef, useLayoutConfigStore } from '@layouts/stores/config'
 import type { LayoutConfig } from '@layouts/types'
 import { _setDirAttr } from '@layouts/utils'
 
-// 🔌 Plugin
 export const createLayouts = (userConfig: PartialDeep<LayoutConfig>): Plugin => {
   return (): void => {
     const configStore = useLayoutConfigStore()
 
-    // Non reactive Values
     layoutConfig.app.title = userConfig.app?.title ?? layoutConfig.app.title
     layoutConfig.app.logo = (userConfig.app?.logo ?? layoutConfig.app.logo) as typeof layoutConfig.app.logo
     layoutConfig.app.overlayNavFromBreakpoint = userConfig.app?.overlayNavFromBreakpoint ?? layoutConfig.app.overlayNavFromBreakpoint
@@ -26,7 +24,6 @@ export const createLayouts = (userConfig: PartialDeep<LayoutConfig>): Plugin => 
     layoutConfig.icons.verticalNavUnPinned = (userConfig.icons?.verticalNavUnPinned ?? layoutConfig.icons.verticalNavUnPinned) as LayoutConfig['icons']['verticalNavUnPinned']
     layoutConfig.icons.sectionTitlePlaceholder = (userConfig.icons?.sectionTitlePlaceholder ?? layoutConfig.icons.sectionTitlePlaceholder) as LayoutConfig['icons']['sectionTitlePlaceholder']
 
-    // Reactive Values (Store)
     configStore.$patch({
       appContentLayoutNav: cookieRef('appContentLayoutNav', userConfig.app?.contentLayoutNav ?? layoutConfig.app.contentLayoutNav).value,
       appContentWidth: cookieRef('appContentWidth', userConfig.app?.contentWidth ?? layoutConfig.app.contentWidth).value,
@@ -35,12 +32,9 @@ export const createLayouts = (userConfig: PartialDeep<LayoutConfig>): Plugin => 
       isNavbarBlurEnabled: cookieRef('isNavbarBlurEnabled', userConfig.navbar?.navbarBlur ?? layoutConfig.navbar.navbarBlur).value,
       isVerticalNavCollapsed: cookieRef('isVerticalNavCollapsed', userConfig.verticalNav?.isVerticalNavCollapsed ?? layoutConfig.verticalNav.isVerticalNavCollapsed).value,
 
-      // isAppRTL: userConfig.app?.isRTL ?? config.app.isRTL,
-      // isLessThanOverlayNavBreakpoint: false,
       horizontalNavType: cookieRef('horizontalNavType', userConfig.horizontalNav?.type ?? layoutConfig.horizontalNav.type).value,
     })
 
-    // _setDirAttr(config.app.isRTL ? 'rtl' : 'ltr')
     _setDirAttr(configStore.isAppRTL ? 'rtl' : 'ltr')
   }
 }

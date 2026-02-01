@@ -61,8 +61,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)
       
-      // LEARNING: Explicit error handling for API response
-      // WHY: Ensure response data exists before transformation
       // PATTERN: Check response data, log error if missing, throw explicit error
       if (!response.data) {
         const errorMessage = `API response missing data for ${entityKey} creation`
@@ -75,15 +73,12 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
     },
     onMutate: async () => {
       // LEARNING: Optimistic update pattern for create
-      // WHY: Cancel queries to prevent race conditions
       // PATTERN: Cancel → Snapshot → Return context for rollback
       await queryClient.cancelQueries({ queryKey: ['globalData'] })
       const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
       return { previousData }
     },
     onSuccess: (data) => {
-      // LEARNING: Add created entity to cache using response (not refetch)
-      // WHY: Server returns the created entity with ID, so we can add it directly
       // PATTERN: Update cache with response data, no refetch needed
       if (data && data.id) {
         queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
@@ -93,7 +88,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
           const entityExists = currentEntities.some((e) => e.id === data.id)
           
           if (!entityExists) {
-            // Add new entity to cache
             const updatedEntities = [...currentEntities, data as GlobalEntity<GlobalEntityTypeKey>]
             return {
               ...old,
@@ -104,11 +98,8 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
             }
           }
           
-          // Entity already exists (shouldn't happen, but handle gracefully)
           return old
         })
-        // LEARNING: Invalidate globalData cache to ensure all components see updated data
-        // WHY: Changes may affect other components that depend on globalData
         // PATTERN: Invalidate after cache update to trigger refetch in dependent components
         queryClient.invalidateQueries({ queryKey: ['globalData'] })
       } else {
@@ -120,20 +111,14 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       }
     },
     onError: (error: unknown, _variables: Partial<GlobalEntity<GlobalEntityTypeKey>>, context: { previousData?: GlobalData } | undefined) => {
-      // LEARNING: Explicit error logging and rollback
       // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
       // PATTERN: Log error, then use context from onMutate to restore previous data
-      // LEARNING: Extract detailed error message from AxiosError response
-      // WHY: Server returns helpful error messages in response.data.details for validation errors
       // PATTERN: Check for AxiosError and extract response.data.details or response.data.error
       let errorMessage = error instanceof Error ? error.message : String(error)
       let errorDetails: string | undefined
       
-      // LEARNING: Check if error is AxiosError to extract server response details
-      // WHY: AxiosError contains response.data with server error messages
       // PATTERN: Use type guard to check for AxiosError, then extract response.data
       if (error && typeof error === 'object') {
-        // Check if it's an AxiosError by checking for response property
         const possibleAxiosError = error as AxiosError<{ error?: string; details?: string; message?: string }>
         if (possibleAxiosError.response?.data) {
           errorDetails = possibleAxiosError.response.data.details || 
@@ -175,8 +160,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       const backendPayload = globalTransformer.dehydrateEntity(rawEntity)
       const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)
       
-      // LEARNING: Explicit error handling for API response
-      // WHY: Ensure response data exists before returning
       // PATTERN: Check response data, log error if missing, throw explicit error
       if (!response.data) {
         const errorMessage = `API response missing data for ${entityKey} update`
@@ -188,12 +171,10 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
     },
     onMutate: async (variables) => {
       // LEARNING: Optimistic update pattern for update
-      // WHY: Update cache immediately using mutation variables for instant UI feedback
       // PATTERN: Cancel → Snapshot → Update → Return context
       await queryClient.cancelQueries({ queryKey: ['globalData'] })
       const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
 
-      // Optimistically update cache using mutation variables
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
 
@@ -207,8 +188,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
           return old
         }
 
-        // LEARNING: Merge update variables into existing entity
-        // WHY: Update may only include changed fields, preserve other properties
         // PATTERN: Spread existing entity, then override with update fields
         const updatedEntities = [...currentEntities]
         updatedEntities[entityIndex] = {
@@ -229,12 +208,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       return { previousData }
     },
     onSuccess: (data, variables) => {
-      // LEARNING: Update cache with server response (may have server-side transformations)
-      // WHY: Server may apply additional transformations or validations
       // PATTERN: Update cache with response data to ensure consistency
-      // LEARNING: Merge server response with existing entity to preserve properties not in response
-      // WHY: Server response might not include all properties (e.g., fieldMetadata)
-      //      Optimistic update may have properties that server doesn't return
       // PATTERN: Spread existing entity first, then override with server response
       if (data && data.id) {
         queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
@@ -261,14 +235,11 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
             },
           }
         })
-        // LEARNING: Invalidate globalData cache to ensure all components see updated data
-        // WHY: Changes may affect other components that depend on globalData
         // PATTERN: Invalidate after cache update to trigger refetch in dependent components
         queryClient.invalidateQueries({ queryKey: ['globalData'] })
       }
     },
     onError: (error: unknown, _variables: { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, context: { previousData?: GlobalData } | undefined) => {
-      // LEARNING: Explicit error logging and rollback
       // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
       // PATTERN: Log error, then use context from onMutate to restore previous data
       logger.error(`Failed to update ${entityKey}:`, {
@@ -287,8 +258,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       const deleteEndpoint = getEntityByIdEndpoint(entityKey, String(id))
       const response = await apiClient.delete(deleteEndpoint)
       
-      // LEARNING: Explicit error handling for delete operation
-      // WHY: Verify delete succeeded - API should return success status
       // PATTERN: Check response status, log error if failed, throw explicit error
       if (response.status < 200 || response.status >= 300) {
         const errorMessage = `Delete operation failed for ${entityKey}`
@@ -318,7 +287,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       return { previousData }
     },
     onError: (error: unknown, _variables: GlobalEntityId, context: { previousData?: GlobalData } | undefined) => {
-      // LEARNING: Explicit error logging and rollback
       // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
       // PATTERN: Log error, then use context from onMutate to restore previous data
       logger.error(`Failed to remove ${entityKey}:`, {
@@ -333,8 +301,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
   const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({
     mutationFn: async (updates: OrderIndexUpdate) => {
-      // LEARNING: Send array directly with snake_case field names
-      // WHY: Server expects array (not wrapped) with order_index (snake_case)
       // PATTERN: Server transforms order_index → orderIndex for Sequelize, so send snake_case directly
       const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), 
         updates.map((update) => ({
@@ -370,7 +336,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       return { previousData }
     },
     onError: (error: unknown, _variables: OrderIndexUpdate, context: { previousData?: GlobalData } | undefined) => {
-      // LEARNING: Explicit error logging and rollback
       // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
       // PATTERN: Log error, then use context from onMutate to restore previous data
       logger.error(`Failed to update orderIndex for ${entityKey}:`, {
@@ -396,8 +361,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
         return globalTransformer.dehydrateEntity(updateWithEntityKey)
       })
       
-      // LEARNING: Send array directly, not wrapped in object
-      // WHY: Server expects req.body to be an array of update objects
       // PATTERN: Send array directly to match server expectation: [{ id: string, ...fields }]
       const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), dehydratedUpdates)
       if (!response?.data) {
@@ -432,7 +395,6 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       return { previousData }
     },
     onError: (error: unknown, _variables: BulkUpdate<GlobalEntityTypeKey>, context: { previousData?: GlobalData } | undefined) => {
-      // LEARNING: Explicit error logging and rollback
       // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
       // PATTERN: Log error, then use context from onMutate to restore previous data
       logger.error(`Failed to bulk update ${entityKey}:`, {

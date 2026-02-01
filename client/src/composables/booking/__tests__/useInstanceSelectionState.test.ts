@@ -1,15 +1,3 @@
-/**
- * USEINSTANCESELECTIONSTATE TESTS
- * 
- * Unit tests for useInstanceSelectionState composable.
- * Tests v-model bridges for single and multi-select block instance selection.
- * 
- * Coverage:
- * - selectedId computed (single-select v-model bridge)
- * - selectedIds computed (multi-select v-model bridge)
- * - Getter returns correct IDs
- * - Setter calls toggleSelection with resolved instances
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref, computed } from 'vue'
@@ -19,7 +7,6 @@ import {
 } from '../useInstanceSelectionState'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Mock findById and resolveByIds
 vi.mock('@/utils/collections/findById', () => ({
   findById: vi.fn((instances: BookingBlockInstance[], id: string) => 
     instances.find(i => i.id === id) || null
@@ -34,7 +21,6 @@ vi.mock('@/utils/collections/resolveByIds', () => ({
 }))
 
 describe('useInstanceSelectionState', () => {
-  // Test fixtures
   const mockInstances: BookingBlockInstance[] = [
     { id: 'block-1', name: 'Block 1' } as BookingBlockInstance,
     { id: 'block-2', name: 'Block 2' } as BookingBlockInstance,
@@ -98,7 +84,6 @@ describe('useInstanceSelectionState', () => {
     })
 
     it('should handle non-array selectedInstances', () => {
-      // When selectedInstances is a single value (not array)
       const selectedInstance = ref<BookingBlockInstance | null>(mockInstances[0])
       const params: UseInstanceSelectionStateParams = {
         availableInstances: computed(() => mockInstances),
@@ -144,7 +129,6 @@ describe('useInstanceSelectionState', () => {
       const { selectedIds } = useInstanceSelectionState(params)
       selectedIds.value = ['block-1', 'block-2']
 
-      // Should call toggle for each resolved instance with skipCascade=true
       expect(toggleSelection).toHaveBeenCalledTimes(2)
       expect(toggleSelection).toHaveBeenCalledWith(mockInstances[0], true)
       expect(toggleSelection).toHaveBeenCalledWith(mockInstances[1], true)
@@ -173,7 +157,6 @@ describe('useInstanceSelectionState', () => {
 
       const { selectedId, selectedIds } = useInstanceSelectionState(params)
 
-      // Setting values should not throw
       expect(() => { selectedId.value = 'block-1' }).not.toThrow()
       expect(() => { selectedIds.value = ['block-1'] }).not.toThrow()
     })

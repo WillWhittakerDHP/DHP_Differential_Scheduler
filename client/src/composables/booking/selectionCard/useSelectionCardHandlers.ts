@@ -10,9 +10,6 @@ import { type ComputedRef } from 'vue'
 import type { SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
 import { isNestedComponentsClick, toggleSelectionModelValue, updateNestedChildSelections } from '@/utils/booking/selectionCardHandlers'
 
-/**
- * useSelectionCardHandlers composable parameters
- */
 export interface UseSelectionCardHandlersParams {
   item: ComputedRef<SelectionCardItem>
   modelValue: ComputedRef<string | null | string[]>
@@ -28,9 +25,6 @@ export interface UseSelectionCardHandlersParams {
   localExpanded: { value: boolean }
 }
 
-/**
- * useSelectionCardHandlers composable return type
- */
 export interface UseSelectionCardHandlersReturn {
   handleSelection: () => void
   handleNestedChildUpdate: (childId: string, selected: boolean) => void
@@ -65,7 +59,6 @@ export function useSelectionCardHandlers(params: UseSelectionCardHandlersParams)
   const handleSelection = (): void => {
     const plugin = activeStatePlugin.value
     if (plugin) {
-      // Toggle selection: if already selected, deselect; otherwise select
       const newValue = !isSelected.value
       plugin.setValue(item.value, newValue)
       return
@@ -104,19 +97,14 @@ export function useSelectionCardHandlers(params: UseSelectionCardHandlersParams)
    * PATTERN: Check for nested clicks, then handle selection
    */
   const handleParentClick = (e: Event): void => {
-    // Don't select if clicking on nested components
     if (isNestedComponentsClick(e.target)) {
       e.stopPropagation()
       return
     }
     
-    // Handle selection explicitly
     handleSelection()
   }
 
-  /**
-   * LEARNING: Toggle expansion
-   */
   const toggleExpansion = (): void => {
     if (isExpanded.value !== undefined) {
       emit('toggle-expansion')

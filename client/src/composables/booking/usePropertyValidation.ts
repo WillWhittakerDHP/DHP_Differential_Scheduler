@@ -11,9 +11,6 @@ import type { ValidationRule } from '@/composables/useFormValidation'
 import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
 import { PROPERTY_VALIDATION_STRINGS } from '@/configs/propertyValidationStrings'
 
-/**
- * Property form data structure
- */
 export interface PropertyFormData {
   address: string
   city: string
@@ -23,9 +20,6 @@ export interface PropertyFormData {
   numberOfUnits: number | null
 }
 
-/**
- * usePropertyValidation composable parameters
- */
 export interface UsePropertyValidationParams {
   formData: {
     address: Ref<string>
@@ -39,9 +33,6 @@ export interface UsePropertyValidationParams {
   hasPropertyTypeBlock: ComputedRef<boolean>
 }
 
-/**
- * usePropertyValidation composable return type
- */
 export type UsePropertyValidationReturn = UseStepValidationReturn
 
 /**
@@ -81,7 +72,6 @@ export function usePropertyValidation(params: UsePropertyValidationParams): UseP
       ]
     }
     
-    // Add numberOfUnits validation only if multi-family property
     if (isMultiFamily.value) {
       baseRules.numberOfUnits = [
         required(PROPERTY_VALIDATION_STRINGS.numberOfUnits.required),
@@ -93,7 +83,6 @@ export function usePropertyValidation(params: UsePropertyValidationParams): UseP
     return baseRules
   })
 
-  // Custom validator for property type block selection
   const customValidators = {
     propertyTypeBlock: () => {
       if (!hasPropertyTypeBlock.value) {

@@ -24,39 +24,14 @@ const PART_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000002';
 const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003';
 const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
 
-/**
- * GET /admin-metadata/batch
- * Fetch ALL metadata in a single call (lazy-loaded by admin page only)
- * 
- * LEARNING: Batch endpoint for efficient admin page loading
- * WHY: Instead of N+4 individual calls, fetch all metadata in one request
- * PATTERN: Single endpoint returns structured metadata for all entity types
- * 
- * Returns:
- * {
- *   global: {
- *     blockShape: { [fieldKey]: FieldMetadataEntry },
- *     partShape: { [fieldKey]: FieldMetadataEntry },
- *     blockInstance: { [fieldKey]: FieldMetadataEntry },
- *     partInstance: { [fieldKey]: FieldMetadataEntry }
- *   },
- *   blockShapeSpecific: {
- *     [blockShapeId]: { [fieldKey]: FieldMetadataEntry }
- *   }
- * }
- */
 router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   try {
     console.log('[AdminMetadataRouter] GET /admin-metadata/batch');
 
-    // Fetch all metadata in a single query
-    // LEARNING: All metadata now uses entityType/entityId (configType removed)
-    // WHY: Everything is an entity, no need for configType discriminator
     const allMetadata = await AdminMetadata.findAll({
       order: [['display_order', 'ASC'], ['field_key', 'ASC']],
     });
 
-    // Group metadata by entityType and blockShapeRef
     const result: {
       global: {
         blockShape: Record<string, unknown>;
@@ -83,13 +58,11 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
       blockShapeSpecific: {},
     };
 
-    // Process each metadata entry
     for (const entry of allMetadata) {
       const entityType = entry.entityType as keyof typeof result.global;
       const fieldKey = entry.fieldKey;
       const blockShapeRef = entry.blockShapeRef;
 
-      // Transform entry to FieldMetadataEntry format
       const metadataEntry = {
         dataType: entry.dataType,
         label: entry.label,
@@ -104,15 +77,12 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
         inputConfig: entry.inputConfig,
       };
 
-      // Determine where to place this entry
       if (entityType === 'blockInstance' && blockShapeRef) {
-        // BlockShape-specific blockInstance metadata
         if (!result.blockShapeSpecific[blockShapeRef]) {
           result.blockShapeSpecific[blockShapeRef] = {};
         }
         result.blockShapeSpecific[blockShapeRef][fieldKey] = metadataEntry;
       } else {
-        // Global metadata for this entity type
         if (result.global[entityType]) {
           result.global[entityType][fieldKey] = metadataEntry;
         }
@@ -131,12 +101,6 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * GET /admin-metadata/:entityType/:entityId
- * Get unified metadata for an entity (primitives + relationships merged)
- * Returns merged metadata for the specified entity type
- * NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
- */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId } = req.params;
@@ -155,10 +119,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
       return;
     }
 
-    // Use unified composer to get metadata (returns merged primitives + relationships)
-    // LEARNING: Pass blockShapeRef to composer for BlockShape-specific instance metadata filtering
-    // WHY: Allows each BlockShape's instances to have their own metadata configuration
-    // NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
     const metadataRecord = await getAdminMetadata(
       entityType as 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
       entityId,
@@ -224,15 +184,12 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     }
 
     // LEARNING: Backend determines metadataType by checking RELATIONSHIP_KEYS (matches entity pattern)
-    // WHY: Frontend doesn't need to know type - backend routes based on fieldKey type
     // PATTERN: Check if fieldKey is in RELATIONSHIP_KEYS to determine metadataType
     const metadataType = isRelationshipKey(fieldKey) ? 'relationship' : 'primitive';
 
-    // Set default renderAs based on metadataType (relationships default to 'reference')
     const defaultRenderAs = metadataType === 'relationship' ? 'reference' : 'text';
     const finalRenderAs = renderAs || defaultRenderAs;
 
-    // Set default panel based on metadataType (relationships default to 'relationships')
     const defaultPanel = metadataType === 'relationship' ? 'relationships' : 'none';
     const finalPanel = panel || defaultPanel;
 
@@ -247,7 +204,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
 
     // Validate inputConfig - required for select/multiselect/reference/relationshipCollection fields
     // LEARNING: Accepts both FormFieldConfig structure (new format) and direct select config (old format)
-    // WHY: Supports backward compatibility during transition
     // PATTERN: Validate that inputConfig exists and is an object, accept any valid JSONB structure
     if (finalRenderAs === 'select' || finalRenderAs === 'multiselect' || finalRenderAs === 'reference' || finalRenderAs === 'relationshipCollection') {
       if (!inputConfig || typeof inputConfig !== 'object') {
@@ -260,8 +216,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       }
     }
 
-    // LEARNING: For blockInstance with blockShapeRef, use sentinel UUID + blockShapeRef combination
-    // WHY: BlockShape-specific metadata is stored with global config ID + blockShapeRef
     // PATTERN: When saving blockInstance metadata with blockShapeRef, use BLOCK_INSTANCE_GLOBAL_CONFIG_ID as entityId
     const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
     const finalEntityId = (entityType === 'blockInstance' && blockShapeRef) 
@@ -277,9 +231,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       finalEntityId,
     });
 
-    // Check if entry already exists (using entityType + entityId + metadataType + fieldKey + blockShapeRef)
-    // LEARNING: All metadata now uses entityType/entityId (configType removed)
-    // WHY: Everything is an entity, no need for configType discriminator
     const existingWhere: any = {
       entityType: entityType as any,
       entityId: finalEntityId,
@@ -287,7 +238,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       fieldKey: fieldKey,
     };
     
-    // Include blockShapeRef in WHERE clause (NULL for non-blockInstance or when not provided)
     if (entityType === 'blockInstance') {
       existingWhere.blockShapeRef = finalBlockShapeRef;
     } else {
@@ -299,7 +249,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     });
 
     if (existing) {
-      // Update existing entry
       await existing.update({
         dataType,
         label,
@@ -317,8 +266,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
 
       res.json(existing);
     } else {
-      // Create new entry
-      // LEARNING: All metadata uses entityType/entityId (configType/configId removed)
       const metadata = await AdminMetadata.create({
         entityType: entityType as any,
         entityId: finalEntityId,
@@ -349,14 +296,6 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
   }
 });
 
-/**
- * DELETE /admin-metadata/:entityType/:entityId/:fieldKey
- * Delete metadata for a specific field
- * 
- * LEARNING: Backend determines metadataType by checking if fieldKey is in RELATIONSHIP_KEYS
- * WHY: Matches entity pattern - backend routes based on field type
- * PATTERN: Frontend sends fieldKey, backend checks RELATIONSHIP_KEYS to determine metadataType
- */
 router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId, fieldKey } = req.params;
@@ -372,11 +311,9 @@ router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Resp
     }
 
     // LEARNING: Backend determines metadataType by checking RELATIONSHIP_KEYS (matches entity pattern)
-    // WHY: Frontend doesn't need to know type - backend routes based on fieldKey type
     // PATTERN: Check if fieldKey is in RELATIONSHIP_KEYS to determine metadataType
     const metadataType = isRelationshipKey(fieldKey) ? 'relationship' : 'primitive';
 
-    // LEARNING: For blockInstance with blockShapeRef, use sentinel UUID + blockShapeRef combination
     const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
     const finalEntityId = (entityType === 'blockInstance' && blockShapeRef) 
       ? BLOCK_INSTANCE_GLOBAL_CONFIG_ID 
@@ -385,7 +322,6 @@ router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Resp
       ? blockShapeRef 
       : null;
 
-    // LEARNING: All metadata now uses entityType/entityId (configType removed)
     const whereClause: any = {
       entityType: entityType as any,
       entityId: finalEntityId,
@@ -393,7 +329,6 @@ router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Resp
       fieldKey: fieldKey,
     };
 
-    // Include blockShapeRef in WHERE clause
     if (entityType === 'blockInstance') {
       whereClause.blockShapeRef = finalBlockShapeRef;
     } else {

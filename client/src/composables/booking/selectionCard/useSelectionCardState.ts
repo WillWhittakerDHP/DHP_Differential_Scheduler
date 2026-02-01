@@ -16,9 +16,6 @@ import {
   isSelectionCardItemSelectedByPlugin,
 } from '@/utils/booking/selectionCardState'
 
-/**
- * useSelectionCardState composable parameters
- */
 export interface UseSelectionCardStateParams {
   item: ComputedRef<SelectionCardItem>
   modelValue: ComputedRef<string | null | string[]>
@@ -26,9 +23,6 @@ export interface UseSelectionCardStateParams {
   emit: (event: 'update:modelValue', value: string | null | string[]) => void
 }
 
-/**
- * useSelectionCardState composable return type
- */
 export interface UseSelectionCardStateReturn {
   activeStatePlugin: ComputedRef<StatePlugin | null>
   isSelected: ComputedRef<boolean>
@@ -58,13 +52,11 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
   const activeStatePlugin = computed<StatePlugin | null>(() => {
     const config = configWithDefaults.value
     
-    // Use provided plugins if available
     const firstPlugin = getFirstStatePlugin(config.statePlugins)
     if (firstPlugin) return firstPlugin
     
     // Create local plugin for backward compatibility
     if (config.stateSource === 'local' || !config.stateSource) {
-      // Convert ComputedRef<string | string[] | null> to Ref<string | null> for local plugin
       const localModelValue = ref<string | null>(Array.isArray(modelValue.value) ? modelValue.value[0] ?? null : modelValue.value)
       watch(modelValue, (newVal) => {
         localModelValue.value = Array.isArray(newVal) ? newVal[0] ?? null : newVal
@@ -90,7 +82,6 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
     }
     
     // Fallback to modelValue for backward compatibility
-    // Handle both single value and array
     return isSelectionCardItemSelected({
       itemId: item.value.id,
       modelValue: modelValue.value,
@@ -114,11 +105,8 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
    */
   watch(() => {
     const watchSourceRef = pluginWatchSource.value
-    // Access the value to establish reactivity tracking
     return getWatchSourceValue(watchSourceRef)
   }, () => {
-    // Force reactivity by accessing isSelected
-    // This ensures the component updates when plugin state changes
     void isSelected.value
   }, { immediate: true })
 

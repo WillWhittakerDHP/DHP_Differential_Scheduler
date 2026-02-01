@@ -10,36 +10,18 @@ import { computed, type Component, type ComputedRef } from 'vue'
 import type { FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 
 export interface UseFieldRendererComponentOptions {
-  /**
-   * Field component type from useFieldComponent composable
-   */
   componentType: { value: FieldComponent }
   
-  /**
-   * Component map for dynamic rendering
-   */
   componentMap: Record<FieldComponent['type'], Component | null>
   
-  /**
-   * Whether field context exists (can be reactive)
-   */
   hasFieldContext: ComputedRef<boolean> | boolean
 }
 
 export interface UseFieldRendererComponentReturn {
-  /**
-   * Component to render (or null if invalid)
-   */
   componentToRender: ComputedRef<Component | null>
   
-  /**
-   * Whether component exists in map
-   */
   hasValidComponent: ComputedRef<boolean>
   
-  /**
-   * Whether error UI should show
-   */
   shouldShowError: ComputedRef<boolean>
 }
 
@@ -94,7 +76,6 @@ export function useFieldRendererComponent(
       return false
     }
     // LEARNING: Use same computed as template
-    // WHY: Ensures watch detects same condition that template uses
     // PATTERN: Negate hasValidComponent to match template v-else
     return !hasValidComponent.value
   })

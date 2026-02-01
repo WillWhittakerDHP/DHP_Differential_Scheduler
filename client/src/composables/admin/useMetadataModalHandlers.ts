@@ -25,21 +25,11 @@ export function useMetadataModalHandlers(): UseMetadataModalHandlersReturn {
    */
   const partInstanceMetadataModalOpen = ref(false)
 
-  /**
-   * LEARNING: Toggle global PartInstance metadata modal
-   * WHY: Opens/closes the modal for configuring all PartInstance field definitions
-   */
   const togglePartInstanceMetadataModal = (): void => {
     partInstanceMetadataModalOpen.value = !partInstanceMetadataModalOpen.value
   }
 
-  /**
-   * LEARNING: Handle PartInstance metadata saved
-   * WHY: Close modal after saving field definitions
-   */
   const handlePartInstanceMetadataSaved = (): void => {
-    // LEARNING: MetadataEditModal emits 'saved' with no parameters
-    // WHY: Modal doesn't need to pass entity back, just signals that save completed
     // PATTERN: Handler matches emit signature (no parameters)
     partInstanceMetadataModalOpen.value = false
   }

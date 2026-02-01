@@ -19,7 +19,6 @@ import { findRelationshipsByParent, extractChildIds } from './relationshipTransf
  * PATTERN: GlobalEntity + relationships + validated properties
  */
 export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
-  // Relationship arrays attached during transformation
   validCascades?: GlobalEntityId[]
   validParts?: GlobalEntityId[]
   validEvents?: GlobalEntityId[]
@@ -30,9 +29,6 @@ export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
   instanceComponents?: GlobalEntityId[]
 }
 
-/**
- * AdminObjectMap - Map of entity types to AdminObject arrays
- */
 export type AdminObjectMap = {
   [GE in GlobalEntityKey]: AdminObject<GE>[]
 }
@@ -65,11 +61,9 @@ export class AdminTransformer {
       annotationInstance: []
     }
 
-    // Extract entity map and relationships from GlobalData
     const globalEntityMap = globalData.entities
     const globalRelationships = globalData.relationships
 
-    // Transform each entity type using functional approach
     const transformed = Object.fromEntries(
         (Object.keys(globalEntityMap) as GlobalEntityKey[]).map(entityKey => {
           const globalEntities = globalEntityMap[entityKey]
@@ -109,50 +103,36 @@ export class AdminTransformer {
       entityKey: entityKey
     } as GlobalEntity<GE>
     
-    // Attach relationship data if available
     if (globalRelationships) {
       this.attachRelationshipData(entityWithKey, entityKey, globalRelationships)
     }
     
-    // Create AdminEntity instance with empty display config (not used for validation anymore)
-    // AdminEntity still needs displayConfig parameter for constructor compatibility
     // Use type assertion since we're not using displayConfig for validation
     const emptyDisplayConfig = { primitives: {}, relationships: {}, layout: {} } as AdminEntity<GE>['displayConfig']
     const adminEntity = new AdminEntity(entityWithKey, emptyDisplayConfig)
     
     // LEARNING: Field validation removed - metadata-driven approach
-    // WHY: formFieldConfig has been deprecated, metadata is the single source of truth
     // PATTERN: Trust entity data from server, no client-side field validation needed
-    // NOTE: Field metadata from /admin-input-metadata API controls what fields are visible/editable
     
-    // LEARNING: Preserve all original entity properties
-    // WHY: Tests expect all entity properties (name, orderIndex, baseTime, baseFee, etc.) to be preserved
     // PATTERN: Use all entity properties, no field filtering
     const plainObjectFromConfig = adminEntity.toPlainObject({})
     
-    // LEARNING: Merge original entity properties with validated properties from AdminEntity
-    // WHY: Ensures all original properties are preserved, while validated properties override defaults
     // PATTERN: Start with original entity, then merge validated properties
     const plainObject = {
       ...entityWithKey,
       ...plainObjectFromConfig,
     } as AdminObject<GE>
     
-    // LEARNING: Ensure relationships are included even if not in formFieldConfig
     // WHY: Relationships (validCascades, validParts, etc.) are attached as properties but may not be in formFieldConfig
     // PATTERN: Use reduce to build relationship object without mutations
-    //          Use type-safe property access - check if property exists before accessing
     // LEARNING: Handle 'attendees' separately because it only exists on EventShapeEntity
-    // WHY: 'attendees' is not on all entity types, so we need a type guard before accessing
     // PATTERN: Check entityKey before accessing entity-specific properties
     const relationshipKeys = ['validCascades', 'validParts', 'validEvents', 'bookingCascades', 'partAssignments', 'annotationAssignments', 'eventAssignments', 'instanceComponents'] as const
     const relationshipData = relationshipKeys.reduce((acc, relKey) => {
-      // LEARNING: Type-safe property access - check if property exists before accessing
       // WHY: entityWithKey is typed as GlobalEntity<GE> but has AdminObject<GE> properties after attachRelationshipData
       // PATTERN: Use hasOwnProperty check, then access with typed key
       if (Object.prototype.hasOwnProperty.call(entityWithKey, relKey)) {
         // Type assertion is safe here because we've verified the property exists
-        // and we know it's one of the relationship properties from AdminObject
         const relationshipValue = (entityWithKey as AdminObject<GE>)[relKey]
         if (relationshipValue !== undefined) {
           // LEARNING: Type assertion needed because TypeScript can't narrow relKey to specific relationship property
@@ -164,25 +144,19 @@ export class AdminTransformer {
       return acc
     }, {} as Partial<AdminObject<GE>>)
     
-    // LEARNING: Handle 'attendees' property separately for EventShapeEntity
-    // WHY: 'attendees' only exists on EventShapeEntity, not all entity types
     // PATTERN: Type guard to check entityKey before accessing entity-specific property
     if (entityKey === 'eventShape' && Object.prototype.hasOwnProperty.call(entityWithKey, 'attendees')) {
       const eventShapeEntity = entityWithKey as AdminObject<'eventShape'>
       if (eventShapeEntity.attendees !== undefined) {
         // LEARNING: Type assertion needed because relationshipData is Partial<AdminObject<GE>>
-        // WHY: TypeScript can't narrow GE to 'eventShape' in the reduce context
         // PATTERN: Assert the assignment is valid since we've verified entityKey is 'eventShape'
         ;(relationshipData as Record<string, unknown>).attendees = eventShapeEntity.attendees
       }
     }
     
-    // LEARNING: Merge relationship data into plainObject
-    // WHY: Spread relationship data into plainObject to include relationships
     // PATTERN: Object.assign or spread to merge relationship properties
     Object.assign(plainObject, relationshipData)
     
-    // Return as AdminObject (GlobalEntity + relationships)
     return plainObject as AdminObject<GE>
   }
 
@@ -205,7 +179,6 @@ export class AdminTransformer {
     _entityKey: GE,
     globalRelationships: Record<string, GlobalRelationship[]>
   ): void {
-    // Map relationship types to entity properties
     const relationshipMappings = {
       validCascades: 'validCascades',
       validParts: 'validParts',
@@ -218,51 +191,38 @@ export class AdminTransformer {
       instanceComponents: 'instanceComponents'
     }
 
-    // LEARNING: Use reduce to build relationship data object without mutations
     // WHY: Functional approach - build object first, then assign all at once
     // PATTERN: Reduce to transform relationshipMappings into relationship data object
     const relationshipData = Object.entries(relationshipMappings).reduce((acc, [relType, propName]) => {
-      // LEARNING: Always initialize to empty array for consistency
-      // WHY: Makes it clear that the property exists but has no relationships
       // PATTERN: Initialize first, then populate if relationships exist
       let relationshipValue: GlobalEntityId[] = []
       
       const relationships = globalRelationships[relType]
       if (relationships && Array.isArray(relationships)) {
-        // Find relationships where this entity is the parent
-        // LEARNING: Use shared utility for relationship finding
         // WHY: DRY principle - consistent relationship finding across transformers
         // PATTERN: Use findRelationshipsByParent() instead of manual filter()
         const parentRelationships = findRelationshipsByParent(entity.id, relationships)
 
         if (parentRelationships.length > 0) {
-          // Extract child IDs from all matching relationships
-          // LEARNING: Use shared utility for child ID extraction
           // WHY: DRY principle - consistent child ID extraction across transformers
           // PATTERN: Use extractChildIds() instead of manual flatMap()
           const childIds = extractChildIds(parentRelationships)
 
-          // Use child IDs if available
           if (childIds.length > 0) {
             relationshipValue = childIds
           }
         }
       }
       
-      // LEARNING: Build relationship data object
-      // WHY: Accumulate relationship properties in reduce
       // PATTERN: Assign relationship value to accumulator
       acc[propName as keyof GlobalEntity<GE>] = relationshipValue as unknown as GlobalEntity<GE>[keyof GlobalEntity<GE>]
       return acc
     }, {} as Partial<GlobalEntity<GE>>)
     
-    // LEARNING: Merge relationship data into entity
-    // WHY: Assign all relationship properties at once instead of mutating in loop
     // PATTERN: Object.assign to merge relationship data
     Object.assign(entity, relationshipData)
   }
 
 }
 
-// Export singleton
 export const adminTransformer = new AdminTransformer()

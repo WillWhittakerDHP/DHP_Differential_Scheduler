@@ -1,15 +1,7 @@
-/**
- * USE AVAILABILITY COMPOSABLE TESTS
- * 
- * Integration tests for useAvailability composable.
- * Tests reactive time slot calculation with various block instances and date ranges.
- * Session 1.3.7: Client-Side Availability Calculations
- */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { ref, computed, nextTick } from 'vue'
 
-// Mock the utility functions before importing useAvailability
 vi.mock('@/utils/timeSlotCalculations', () => {
   return {
     calculateDurationFromBlockInstances: vi.fn((blockInstances: BookingBlockInstance[]) => {
@@ -19,16 +11,12 @@ vi.mock('@/utils/timeSlotCalculations', () => {
       }, 0) || 90
     }),
     generateTimeSlots: vi.fn(async (dateRange, duration) => {
-      // Generate mock slots for testing
-      // LEARNING: Mock returns Promise to match async generateTimeSlots
-      // WHY: generateTimeSlots is now async (fetches settings from API)
       const slots = []
       const start = new Date(dateRange.start)
       const end = new Date(dateRange.end)
       const current = new Date(start)
       
       while (current < end) {
-        // Generate slots every 15 minutes from 9 AM to 7 PM
         for (let hour = 9; hour < 19; hour++) {
           for (let minute = 0; minute < 60; minute += 15) {
             const slotStart = new Date(current)
@@ -58,13 +46,7 @@ vi.mock('@/utils/timeSlotCalculations', () => {
 import { useAvailability } from '../useAvailability'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// ===================================================================
-// TEST DATA SETUP
-// ===================================================================
 
-/**
- * Helper to create a BookingPartInstance
- */
 function createPartInstance(
   id: string,
   baseTime: number,
@@ -90,9 +72,6 @@ function createPartInstance(
   }
 }
 
-/**
- * Helper to create a BookingBlockInstance
- */
 function createBlockInstance(
   id: string,
   partInstances: BookingBlockInstance['partInstances'] = [],
@@ -117,7 +96,6 @@ function createBlockInstance(
   }
 }
 
-// Mock the utility functions
 vi.mock('@/utils/timeSlotCalculations', () => ({
   calculateDurationFromBlockInstances: vi.fn((blockInstances: BookingBlockInstance[]) => {
     if (!blockInstances || blockInstances.length === 0) return 90
@@ -126,14 +104,12 @@ vi.mock('@/utils/timeSlotCalculations', () => ({
     }, 0) || 90
   }),
   generateTimeSlots: vi.fn((dateRange, duration) => {
-    // Generate mock slots for testing
     const slots = []
     const start = new Date(dateRange.start)
     const end = new Date(dateRange.end)
     const current = new Date(start)
     
     while (current < end) {
-      // Generate slots every 15 minutes from 9 AM to 7 PM
       for (let hour = 9; hour < 19; hour++) {
         for (let minute = 0; minute < 60; minute += 15) {
           const slotStart = new Date(current)
@@ -159,9 +135,6 @@ vi.mock('@/utils/timeSlotCalculations', () => ({
   getCalendarAvailability: vi.fn(() => [])
 }))
 
-// ===================================================================
-// TESTS
-// ===================================================================
 
 describe('useAvailability', () => {
   beforeEach(() => {
@@ -169,8 +142,6 @@ describe('useAvailability', () => {
   })
 
   // Helper function to wait for async watch callback to complete
-  // LEARNING: useAvailability uses watch with async callback, so tests need to wait
-  // WHY: generateTimeSlots is now async (fetches settings from API)
   const waitForTimeSlots = async () => {
     await nextTick()
     await new Promise(resolve => setTimeout(resolve, 10))
@@ -213,7 +184,6 @@ describe('useAvailability', () => {
       const { timeSlots } = useAvailability([service], dateRange)
       await waitForTimeSlots()
       
-      // Duration should be 90 minutes (60 + 30)
       expect(timeSlots.value[0].duration).toBe(90)
     })
 
@@ -230,7 +200,6 @@ describe('useAvailability', () => {
       const { timeSlots } = useAvailability([service], dateRange)
       await waitForTimeSlots()
       
-      // All slots should be within business hours (9 AM - 7 PM)
       timeSlots.value.forEach(slot => {
         const start = new Date(slot.slotStart)
         const end = new Date(slot.slotEnd)
@@ -257,7 +226,6 @@ describe('useAvailability', () => {
       await waitForTimeSlots()
       
       expect(timeSlots.value.length).toBeGreaterThan(0)
-      // Differential services should still generate slots (differential logic handled elsewhere)
     })
   })
 
@@ -282,7 +250,6 @@ describe('useAvailability', () => {
       const { timeSlots } = useAvailability([service, property], dateRange)
       await waitForTimeSlots()
       
-      // Duration should be 105 minutes (60 + 30 + 15)
       expect(timeSlots.value[0].duration).toBe(105)
     })
 
@@ -307,7 +274,6 @@ describe('useAvailability', () => {
       const { timeSlots } = useAvailability([service, availability1, availability2], dateRange)
       await waitForTimeSlots()
       
-      // Duration should be 75 minutes (60 + 10 + 5)
       expect(timeSlots.value[0].duration).toBe(75)
     })
 
@@ -334,7 +300,6 @@ describe('useAvailability', () => {
       const { timeSlots } = useAvailability([service, property, availability], dateRange)
       await waitForTimeSlots()
       
-      // Duration should be 85 minutes (60 + 15 + 10)
       expect(timeSlots.value[0].duration).toBe(85)
     })
   })
@@ -359,11 +324,8 @@ describe('useAvailability', () => {
        
       const _initialDuration = timeSlots.value[0]?.duration
       
-      // Change block instances
       blockInstances.value = [service2]
       
-      // Should update (though we need to wait for next tick in real Vue)
-      // For testing, we verify the computed is reactive
       expect(timeSlots.value).toBeDefined()
     })
 
@@ -382,13 +344,11 @@ describe('useAvailability', () => {
        
       const _initialCount = timeSlots.value.length
       
-      // Change date range to span more days
       dateRange.value = {
         start: '2026-01-06T00:00:00Z',
         end: '2026-01-09T00:00:00Z' // 3 days instead of 1
       }
       
-      // Should have more slots (though we need to wait for next tick in real Vue)
       expect(timeSlots.value).toBeDefined()
     })
   })
@@ -446,11 +406,9 @@ describe('useAvailability', () => {
     })
 
     it('should handle calculation errors gracefully', async () => {
-      // Import the mocked module
       const timeSlotCalculations = await import('@/utils/timeSlotCalculations')
       
       // Mock generateTimeSlots to reject (async error) for this test
-      // LEARNING: Async functions should reject Promises, not throw synchronously
       vi.mocked(timeSlotCalculations.generateTimeSlots).mockImplementationOnce(async () => {
         throw new Error('Calculation error')
       })
@@ -464,13 +422,11 @@ describe('useAvailability', () => {
         end: '2026-01-07T00:00:00Z'
       }
       
-      // Should not throw, should return empty array
       const { timeSlots } = useAvailability([service], dateRange)
       await waitForTimeSlots()
       
       expect(timeSlots.value).toEqual([])
       
-      // Restore mock for other tests
       vi.mocked(timeSlotCalculations.generateTimeSlots).mockRestore()
     })
   })
@@ -566,7 +522,6 @@ describe('useAvailability', () => {
       const { timeSlots } = useAvailability([service], dateRange)
       await waitForTimeSlots()
       
-      // Should use default duration (90 minutes)
       expect(timeSlots.value.length).toBeGreaterThan(0)
       expect(timeSlots.value[0].duration).toBe(90)
     })
@@ -601,7 +556,6 @@ describe('useAvailability', () => {
       const { timeSlots } = useAvailability([service], dateRange)
       await waitForTimeSlots()
       
-      // Should still generate slots, but they may be filtered if they extend past business hours
       expect(Array.isArray(timeSlots.value)).toBe(true)
     })
   })

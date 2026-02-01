@@ -14,42 +14,27 @@
 import { ref, watch, computed, type Ref } from 'vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
-/**
- * Contact form data structure
- */
 export interface ContactInfo {
   firstName: string
   lastName: string
   email: string
 }
 
-/**
- * Contacts Step Data Composable Options
- */
 export interface UseContactsStepDataOptions {
-  /**
-   * Loaded wizard state (for populating form fields)
-   */
   loadedWizardState?: Ref<WizardStateData | null>
 }
 
-/**
- * Contacts Step Data Composable Return Type
- */
 export interface UseContactsStepDataReturn {
-  // Contact form data
   clientInfo: Ref<ContactInfo>
   agentInfo: Ref<ContactInfo>
   anotherClientInfo: Ref<ContactInfo>
   transactionManagerInfo: Ref<ContactInfo>
   sellerInfo: Ref<ContactInfo>
   
-  // Optional section visibility
   showAnotherClient: Ref<boolean>
   showTransactionManager: Ref<boolean>
   showSeller: Ref<boolean>
   
-  // Step data
   stepData: Ref<{
     clientInfo: ContactInfo
     agentInfo: ContactInfo
@@ -61,7 +46,6 @@ export interface UseContactsStepDataReturn {
     showSeller: boolean
   }>
   
-  // Toggle section helper
   toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void
 }
 
@@ -78,7 +62,6 @@ export function useContactsStepData(
   const { loadedWizardState } = options
   
   // LEARNING: Reactive state for contact information
-  // WHY: Tracks form values for all contact types
   // PATTERN: Refs for always-visible contacts, reactive object for optional sections
   const clientInfo = ref<ContactInfo>({
     firstName: '',
@@ -111,7 +94,6 @@ export function useContactsStepData(
   })
 
   // LEARNING: Reactive state for optional section visibility
-  // WHY: Controls which optional contact sections are shown
   // PATTERN: Refs for boolean visibility flags
   const showAnotherClient = ref(false)
   const showTransactionManager = ref(false)
@@ -154,7 +136,6 @@ export function useContactsStepData(
       if (newState?.contacts) {
         const contacts = newState.contacts
         
-        // Populate client info
         if (contacts.client) {
           clientInfo.value = {
             firstName: contacts.client.firstName || '',
@@ -163,7 +144,6 @@ export function useContactsStepData(
           }
         }
         
-        // Populate agent info
         if (contacts.agent) {
           agentInfo.value = {
             firstName: contacts.agent.firstName || '',
@@ -172,8 +152,6 @@ export function useContactsStepData(
           }
         }
         
-        // Populate additional contacts
-        // LEARNING: Use find to locate contacts by role instead of forEach with mutations
         // WHY: Functional approach avoids forEach with property assignments
         // PATTERN: Find contacts by role and update refs conditionally
         if (contacts.additionalContacts && contacts.additionalContacts.length > 0) {

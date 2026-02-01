@@ -19,7 +19,6 @@ export type UseEntityCrudActionsReturn<GlobalEntityTypeKey extends GlobalEntityK
   patchOrderIndex: (updates: OrderIndexUpdate) => Promise<void>
   patchBulk: (updates: BulkUpdate<GlobalEntityTypeKey>) => Promise<void>
 
-  // Expose the raw update mutation for advanced orchestration (e.g. component-computed checks).
   updateMutation: {
     mutateAsync: (args: { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }) => Promise<unknown>
   }

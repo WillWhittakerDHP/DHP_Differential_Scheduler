@@ -21,17 +21,10 @@ export default defineComponent({
       element.style.visibility = ''
       element.style.height = '0px'
 
-      // Force repaint to make sure the
-      // animation is triggered correctly.
-      // WHY: Calling getComputedStyle forces browser to recalculate styles
       // PATTERN: Intentional side effect to trigger repaint, result is intentionally unused
       void getComputedStyle(element).height
 
-      // Trigger the animation.
       // We use `requestAnimationFrame` because we need
-      // to make sure the browser has finished
-      // painting after setting the `height`
-      // to `0` in the line above.
       requestAnimationFrame(() => {
         element.style.height = height
       })
@@ -46,9 +39,6 @@ export default defineComponent({
 
       element.style.height = height
 
-      // Force repaint to make sure the
-      // animation is triggered correctly.
-      // WHY: Calling getComputedStyle forces browser to recalculate styles
       // PATTERN: Intentional side effect to trigger repaint, result is intentionally unused
       void getComputedStyle(element).height
 

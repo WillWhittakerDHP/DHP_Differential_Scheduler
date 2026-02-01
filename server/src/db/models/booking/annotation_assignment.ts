@@ -39,12 +39,9 @@ export class AnnotationAssignment extends Model<
   declare blockInstanceId: ForeignKey<string>;
   declare annotationId: ForeignKey<string>;
   declare userTypeBlockInstanceId: ForeignKey<string> | null; // Optional override: BlockInstance ID for user type filtering
-  // NOTE: Metadata (orderIndex, isDefault) removed - now stored in annotation_shapes table
-  // Relationships just indicate which shapes are active - metadata lives in shape tables
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  // Associations
   declare blockInstance?: BlockInstance;
   declare annotation?: AnnotationInstance;
   declare userTypeBlockInstance?: BlockInstance; // The BlockInstance representing the user type
@@ -87,8 +84,6 @@ export function AnnotationAssignmentFactory(sequelize: Sequelize) {
         },
         comment: 'Optional user type override for this specific relationship (BlockInstance ID representing user type)',
       },
-      // NOTE: Metadata (orderIndex, isDefault) removed - now stored in annotation_shapes table
-      // Relationships just indicate which shapes are active - metadata lives in shape tables
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,

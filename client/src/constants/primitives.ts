@@ -1,19 +1,12 @@
-// Field key types - derived from GlobalEntity types (API-driven)
 import type { GlobalEntityKey } from "./entities";
 import type { GlobalEntity } from "@/types/entities";
 
-/**
- * Valid primitive values for form fields
- */
 export type ValidPrimitiveValues =
   | string
   | number
   | boolean
   | string[];
 
-/**
- * Valid admin form field values
- */
 export type ValidAdminValue = 
   | string 
   | number 

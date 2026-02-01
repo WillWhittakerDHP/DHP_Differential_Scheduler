@@ -54,20 +54,10 @@ const {
   totalRateOverBaseTime
 } = usePartsTotals(props.entityKey, props.entityId)
 
-/**
- * LEARNING: Format currency for display
- * WHY: Consistent currency formatting across the app
- * PATTERN: Use toFixed(2) and $ prefix
- */
 function formatCurrency(amount: number): string {
   return `$${amount.toFixed(2)}`
 }
 
-/**
- * LEARNING: Format rate for display (e.g., sq ft/hr)
- * WHY: Rates are numeric values that need decimal precision but aren't currency or duration
- * PATTERN: Use toFixed(2) for consistent decimal display
- */
 function formatRate(rate: number): string {
   return rate.toFixed(2)
 }

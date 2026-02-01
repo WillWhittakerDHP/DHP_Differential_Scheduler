@@ -13,9 +13,6 @@ import type { ContactInfo } from './useContactsStepData'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 import { CONTACTS_VALIDATION_STRINGS } from '@/configs/contactsValidationStrings'
 
-/**
- * useContactsValidation composable parameters
- */
 export interface UseContactsValidationParams {
   clientInfo: Ref<ContactInfo>
   agentInfo: Ref<ContactInfo>
@@ -28,9 +25,6 @@ export interface UseContactsValidationParams {
   requiresAgent?: ReadonlyVueRef<boolean> // Optional: if true, agent fields are required
 }
 
-/**
- * useContactsValidation composable return type
- */
 export type UseContactsValidationReturn = UseStepValidationReturn
 
 /**
@@ -63,7 +57,6 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     clientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
     clientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
     clientEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
-    // Agent fields: conditionally required based on selected services
     agentFirstName: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.firstName.required)] : [],
     agentLastName: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.lastName.required)] : [],
     agentEmail: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.email.required), email()] : [email()],
@@ -78,9 +71,7 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     sellerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()]
   }
 
-  // No custom validators needed - conditional rules handle optional contacts
 
-  // Flatten formData structure for generic validation
   const formData: Record<string, Ref<unknown>> = {
     clientFirstName: computed(() => clientInfo.value.firstName),
     clientLastName: computed(() => clientInfo.value.lastName),
@@ -110,14 +101,12 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
       clientEmail: validationRules.clientEmail
     }
     
-    // Add agent rules only if agent is required
     if (requiresAgent?.value) {
       rules.agentFirstName = validationRules.agentFirstName
       rules.agentLastName = validationRules.agentLastName
       rules.agentEmail = validationRules.agentEmail
     }
 
-    // Add optional contact rules only if visible
     if (showAnotherClient.value) {
       rules.anotherClientFirstName = validationRules.anotherClientFirstName
       rules.anotherClientLastName = validationRules.anotherClientLastName

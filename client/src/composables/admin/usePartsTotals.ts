@@ -46,25 +46,21 @@ export function usePartsTotals(
    * PATTERN: Check entity type, get blockShape, check canHaveParts property
    */
   const canHaveParts = computed((): boolean => {
-    // Only blockInstance entities can have parts
     if (entityKey !== 'blockInstance') {
       return false
     }
 
-    // Get blockInstance entity
     const blockInstance = getGlobalEntityById('blockInstance', entityId)
     if (!blockInstance) {
       return false
     }
 
-    // Get blockShape to check canHaveParts property
     const blockInstanceEntity = blockInstance as GlobalEntity<'blockInstance'>
     const blockShape = getGlobalEntityById('blockShape', blockInstanceEntity.blockShapeRef)
     if (!blockShape) {
       return false
     }
 
-    // Check if blockShape can have parts
     const blockShapeEntity = blockShape as GlobalEntity<'blockShape'>
     return blockShapeEntity.canHaveParts === true
   })
@@ -83,21 +79,14 @@ export function usePartsTotals(
       return []
     }
 
-    // Filter partAssignments relationships where parent_id matches entityId
     const relationships = partAssignments.value.filter(
       rel => String(rel.parent_id) === entityId && !rel.disabled
     )
 
-    // Resolve child_ids to partInstance entities
-    // LEARNING: Deduplicate childIds to ensure each part is only resolved once
-    // WHY: If childIds contains duplicates, resolveByIds will resolve the same part multiple times
-    //      This causes incorrect totals calculation (same part counted multiple times)
     // PATTERN: Use Set to deduplicate before resolving
     const childIdsBeforeDedup = relationships.map(rel => String(rel.child_id))
     const childIds = [...new Set(childIdsBeforeDedup)]
 
-    // LEARNING: Warn if duplicate child_ids found (should not happen with proper versioning)
-    // WHY: Indicates a data integrity issue that needs investigation
     if (childIdsBeforeDedup.length !== childIds.length) {
       console.warn(`[usePartsTotals] BlockInstance ${entityId} - Found duplicate child_ids!`, {
         beforeDedup: childIdsBeforeDedup,
@@ -108,8 +97,6 @@ export function usePartsTotals(
 
     const { resolved, missingIds } = resolveByIds(partInstances.value, childIds)
 
-    // LEARNING: Warn if part instances are missing (data integrity issue)
-    // WHY: Indicates relationships pointing to non-existent part instances
     if (missingIds.length > 0) {
       console.warn(`[usePartsTotals] BlockInstance ${entityId} - Missing part instances:`, missingIds)
     }

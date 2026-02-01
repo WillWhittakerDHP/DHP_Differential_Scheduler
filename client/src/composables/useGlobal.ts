@@ -12,27 +12,19 @@
 import { useQuery } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
-// Import GlobalData type and transformer from Vue transformer (no React dependencies)
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { globalTransformer } from '@/utils/transformers/fetchToGlobalTransformer'
 import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
-// DIAGNOSTICS: Track instance creation
 let instanceCount = 0
 let callCount = 0
 const instanceCallSites: Array<{ count: number; stack: string }> = []
 
-// SINGLETON: Shared instance created on first call
 let globalInstance: ReturnType<typeof createGlobalInstance> | null = null
 
-/**
- * Helper to extract call site info from stack trace
- */
 function getCallSiteInfo(): { caller: string; stack: string } {
   const stack = new Error().stack || ''
   const lines = stack.split('\n')
-  // Skip first 3 lines: Error, getCallSiteInfo, useGlobal
-  // Look for the actual caller (usually line 4 or 5)
   const callerLine = lines[3] || lines[4] || 'unknown'
   return {
     caller: callerLine.trim(),
@@ -40,11 +32,6 @@ function getCallSiteInfo(): { caller: string; stack: string } {
   }
 }
 
-/**
- * Create the actual composable instance
- * LEARNING: Separated from useGlobal to enable singleton pattern
- * WHY: Allows creating instance once and reusing it
- */
 function createGlobalInstance() {
   instanceCount++
   const callSite = getCallSiteInfo()
@@ -68,10 +55,8 @@ function createGlobalInstance() {
   const globalDataQuery = useQuery<GlobalData>({
     queryKey: ['globalData'],
     queryFn: async () => {
-      // LEARNING: Fetch and transform configuration entities/relationships from API
       // WHY: Matches main.ts prefetch pattern, ensures consistent data structure
       // PATTERN: Stage (fetch) then hydrate (transform) to GlobalData format
-      // NOTE: Only fetches config data (entities, relationships, annotations), not business entities
       const staged = await globalTransformer.stageForHydration()
       const hydrated = globalTransformer.hydrate(staged)
       return hydrated
@@ -125,7 +110,6 @@ function createGlobalInstance() {
     getGlobalEntityById,
     getGlobalData,
     globalData,
-    // Session 1.4.7: Expose loading and error states for derived composables
     isLoading: globalDataQuery.isLoading,
     error: globalDataQuery.error,
     refetch: () => globalDataQuery.refetch(), // Expose refetch to manually refresh cache
@@ -143,7 +127,6 @@ function createGlobalInstance() {
 export function useGlobal() {
   callCount++
   
-  // SINGLETON: Create instance on first call, reuse afterwards
   if (!globalInstance) {
     globalInstance = createGlobalInstance()
   }
@@ -151,7 +134,6 @@ export function useGlobal() {
   return globalInstance
 }
 
-// DIAGNOSTICS: Export instance count for debugging
 attachDebugToWindow('__useGlobalDebug', {
   instanceCount: () => instanceCount,
   callCount: () => callCount,

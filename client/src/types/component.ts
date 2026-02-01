@@ -1,12 +1,5 @@
 import { GlobalEntityId } from './entities';
 
-/**
- * WHY: Component Types
-
-Type definitions for entity component system
-
-NOTE: Renamed from ActiveComponent → InstanceComponent → InstanceComponent for domain clarity (2026-01-07)
- */
 export type ComponentStrategy = 'sum' | 'merge' | 'first' | 'every' | 'custom';
 
 /**
@@ -18,20 +11,11 @@ export type ComponentStrategy = 'sum' | 'merge' | 'first' | 'every' | 'custom';
  */
 export type DistributionStrategy = 'proportional' | 'equal' | 'manual';
 
-/**
- * Component configuration (matches backend config)
- */
 export interface ComponentConfig {
   enabled: boolean;
   componentRules?: Record<string, ComponentStrategy>;
 }
 
-/**
- * Fetched InstanceComponent (matches API response)
- * LEARNING: API returns snake_case format
- * WHY: Backend uses snake_case, frontend uses camelCase
- * PATTERN: Transform from FetchedInstanceComponent to InstanceComponent
- */
 export interface FetchedInstanceComponent {
   id: string;
   parent_id: string;
@@ -58,9 +42,6 @@ export interface InstanceComponent {
   updatedAt: Date;
 }
 
-/**
- * Component with entity reference
- */
 export interface Component {
   componentId: GlobalEntityId;
   entityId: GlobalEntityId;
@@ -68,9 +49,6 @@ export interface Component {
   disabled: boolean;
 }
 
-/**
- * Distribution preview for parent changes
- */
 export interface DistributionPreview {
   componentId: GlobalEntityId;
   currentValue: number;

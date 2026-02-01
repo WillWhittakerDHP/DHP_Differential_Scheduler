@@ -54,17 +54,9 @@ const { entities: blockInstances } = useEntityCrud('blockInstance')
 const { entities: partInstances } = useEntityCrud('partInstance')
 const { entities: blockShapes } = useEntityCrud('blockShape')
 
-/**
- * LEARNING: Get BlockShape name for relationship labels
- * WHY: Relationship summaries should show "{BlockShape} Components" format
- * PATTERN: Look up BlockShape by ref and return name
- */
 const blockShapeName = computed((): string => {
   if (props.entityKey !== 'blockInstance') return ''
   const entity = props.entity as GlobalEntity<'blockInstance'>
-  // LEARNING: Convert both IDs to strings for consistent comparison
-  // WHY: Ensures type-safe comparison (UUIDs might be strings or numbers)
-  //      Matches pattern used in useAdmin.getEntity for consistency
   const blockShape = blockShapes.value.find(bs => String(bs.id) === String(entity.blockShapeRef))
   return blockShape?.name || 'Block'
 })
@@ -94,11 +86,6 @@ function formatTruncatedList(items: string[], maxDisplay: number = MAX_DISPLAY_I
   return `${displayItems.join(', ')} +${remaining} more`
 }
 
-/**
- * LEARNING: Get names for entity IDs from the appropriate store
- * WHY: Relationship fields store entity IDs, we need to resolve to names
- * PATTERN: Look up entities by ID and extract name field
- */
 function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInstance'): string[] {
   if (!Array.isArray(ids)) return []
   
@@ -118,14 +105,11 @@ function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInsta
  * PATTERN: Extract IDs from form values, resolve to names, format as truncated list
  */
 const partsSummary = computed((): string => {
-  // For blockInstance, parts come from partAssignments (part instances that are components)
-  // For other entities, parts might be empty
   if (props.entityKey !== 'blockInstance') return ''
   
   const partAssignments = props.form.values.partAssignments
   if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''
   
-  // partAssignments are partInstance IDs that are components of this instance
   const names = getEntityNames(partAssignments, 'partInstance')
   return formatTruncatedList(names)
 })
@@ -142,44 +126,28 @@ function isRelationshipCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>
   if (!fieldMeta) return false
   
   // LEARNING: Use getFieldComponent() as single source of truth
-  // WHY: getFieldComponent() determines component type from metadata, supporting renderAs: 'relationshipCollection'
   // PATTERN: Check component type from dispatcher instead of duplicating logic
   const componentType = getFieldComponent(props.entityKey, fieldKey, fieldMeta)
   return componentType.type === 'relationshipCollection'
 }
 
-// Ref to RelationshipCollection component to access exposed bulk edit methods
-// LEARNING: When ref is used inside v-for, Vue 3 creates an array of refs
-// WHY: Need to handle both single ref and array cases
 // PATTERN: Type as array to match Vue 3 behavior, access first element when needed
-// NOTE: RelationshipCollection is the generic component, PartsCollection wraps it
 const partsCollectionRef = ref<(InstanceType<typeof RelationshipCollection> | null)[] | InstanceType<typeof RelationshipCollection> | null>(null)
 
-// Track expanded panels state
 const expandedPanels = ref<string[]>([])
 
-// LEARNING: Helper to get the RelationshipCollection component instance
-// WHY: Handles both array (from v-for) and single ref cases
-// PATTERN: Extract first element if array, otherwise use directly
 const getRelationshipCollectionInstance = (): InstanceType<typeof RelationshipCollection> | null => {
   const refValue = partsCollectionRef.value
   if (!refValue) return null
-  // If it's an array (from v-for), get the first element
   if (Array.isArray(refValue)) {
     return refValue[0] ?? null
   }
-  // Otherwise it's a single ref
   return refValue
 }
 
-// Computed properties for bulk edit state from RelationshipCollection
 // LEARNING: bulkEditMode is exposed as a Ref<boolean>
-// WHY: RelationshipCollection exposes bulkEditMode when enableBulkEdit is true
-// PATTERN: Access exposed property directly
 const partsBulkEditMode = computed(() => {
   const instance = getRelationshipCollectionInstance()
-  // LEARNING: bulkEditMode is a Ref<boolean>, so access .value
-  // WHY: TypeScript needs explicit check that bulkEditMode exists and is a Ref
   // PATTERN: Check if bulkEditMode exists and has a value property (is a Ref)
   if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {
     return (instance.bulkEditMode as { value: boolean }).value
@@ -189,11 +157,9 @@ const partsBulkEditMode = computed(() => {
 
 const togglePartsBulkEditMode = () => {
   // FIX: Expand panel first if not expanded, then toggle bulk edit mode
-  // WHY: RelationshipCollection is only mounted when panel is expanded, so we need to expand it first
   // PATTERN: Ensure panel is expanded, wait for nextTick for component to mount, then toggle
   if (!expandedPanels.value.includes('parts')) {
     expandedPanels.value.push('parts')
-    // Wait for next tick to ensure RelationshipCollection is mounted
     nextTick(() => {
       const instance = getRelationshipCollectionInstance()
       if (instance && typeof instance.toggleBulkEditMode === 'function') {
@@ -201,7 +167,6 @@ const togglePartsBulkEditMode = () => {
       }
     })
   } else {
-    // Panel is already expanded, RelationshipCollection should be mounted
     const instance = getRelationshipCollectionInstance()
     if (instance && typeof instance.toggleBulkEditMode === 'function') {
       instance.toggleBulkEditMode()
@@ -209,9 +174,6 @@ const togglePartsBulkEditMode = () => {
   }
 }
 
-// LEARNING: Auto-expand Parts panel when bulk edit mode is enabled
-// WHY: Bulk edit modal is inside PartsCollection, which only renders when panel is expanded
-// PATTERN: Watch bulk edit mode and automatically expand panel when enabled
 watch(partsBulkEditMode, (isEnabled) => {
   if (isEnabled && !expandedPanels.value.includes('parts')) {
     expandedPanels.value.push('parts')
@@ -227,13 +189,11 @@ const relationshipsSummary = computed((): string => {
   const formValues = props.form.values
   const relationshipTypes: string[] = []
   
-  // Collect relationship type labels based on entity type
   if (props.entityKey === 'blockInstance') {
     const cascades = Array.isArray(formValues.bookingCascades) ? formValues.bookingCascades : []
     const components = Array.isArray(formValues.instanceComponents) ? formValues.instanceComponents : []
     const dependentInstances = Array.isArray(formValues.dependentInstances) ? formValues.dependentInstances : []
     
-    // Add relationship type labels if they have values
     if (cascades.length > 0) {
       relationshipTypes.push('Booking Cascades')
     }
@@ -258,7 +218,6 @@ const relationshipsSummary = computed((): string => {
   return formatTruncatedList(relationshipTypes)
 })
 
-// NOTE: Annotation summary removed per user request - no annotation chips in panel title
 
 </script>
 

@@ -1,4 +1,3 @@
-// Ported from [Nuxt](https://github.com/nuxt/nuxt/blob/main/packages/nuxt/src/app/composables/cookie.ts)
 
 import { isRef, ref, watch } from 'vue'
 import type { Ref } from 'vue'
@@ -57,8 +56,6 @@ function serializeCookie<T>(
   value: T | undefined,
   opts: CookieOptions<T>
 ): string {
-  // LEARNING: Strip non-`cookie-es` options before passing to serialize.
-  // WHY: Our CookieOptions includes decode/encode/default/watch which `cookie-es` doesn't understand.
   const { decode: _decode, encode: _encode, default: _default, watch: _watch, ...serializeOpts } = opts
 
   if (value === null || value === undefined)

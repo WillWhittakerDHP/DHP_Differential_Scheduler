@@ -27,7 +27,6 @@ import { ref, computed, nextTick } from 'vue'
 import { useOptionTypeBlockSelection } from '../useOptionTypeBlockSelection'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Helper to create mock block instance
 function createBlock(id: string, name?: string): BookingBlockInstance {
   return {
     id,
@@ -96,7 +95,6 @@ describe('useOptionTypeBlockSelection', () => {
 
       expect(selectedOptionTypeBlockId.value).toBeNull()
 
-      // Select an option
       selectedOptionTypeBlocks.value = [createBlock('option-2')]
 
       await nextTick()
@@ -119,7 +117,6 @@ describe('useOptionTypeBlockSelection', () => {
         availableOptionTypeBlocks,
       })
 
-      // Single selection mode - returns first
       expect(selectedOptionTypeBlockId.value).toBe('option-1')
     })
   })

@@ -78,11 +78,9 @@ describe('useContactsStepData', () => {
     it('should hide and clear anotherClient section', () => {
       const { showAnotherClient, anotherClientInfo, toggleSection } = useContactsStepData()
       
-      // Show and populate
       toggleSection('anotherClient', true)
       anotherClientInfo.value = { firstName: 'Test', lastName: 'User', email: 'test@example.com' }
       
-      // Hide should clear data
       toggleSection('anotherClient', false)
       
       expect(showAnotherClient.value).toBe(false)
@@ -132,10 +130,8 @@ describe('useContactsStepData', () => {
     it('should not clear data when showing section', () => {
       const { anotherClientInfo, toggleSection } = useContactsStepData()
       
-      // Pre-populate data
       anotherClientInfo.value = { firstName: 'Existing', lastName: 'Data', email: 'existing@example.com' }
       
-      // Show section should not clear data
       toggleSection('anotherClient', true)
       
       expect(anotherClientInfo.value.firstName).toBe('Existing')
@@ -146,7 +142,6 @@ describe('useContactsStepData', () => {
     it('should aggregate all contact form data', () => {
       const { stepData, clientInfo, agentInfo, toggleSection } = useContactsStepData()
       
-      // Modify some values
       clientInfo.value.firstName = 'Modified'
       toggleSection('anotherClient', true)
       
@@ -184,7 +179,6 @@ describe('useContactsStepData', () => {
     function createWizardState(contacts: WizardStateData['contacts']): WizardStateData {
       return {
         contacts,
-        // Other fields not used in this composable
         selectedServices: [],
         selectedPropertyTypeBlocks: [],
         selectedOptionTypeBlocks: [],
@@ -339,7 +333,6 @@ describe('useContactsStepData', () => {
       
       await nextTick()
       
-      // Should default to empty strings
       expect(clientInfo.value.firstName).toBe('')
       expect(clientInfo.value.lastName).toBe('')
       expect(clientInfo.value.email).toBe('')
@@ -359,7 +352,6 @@ describe('useContactsStepData', () => {
       
       await nextTick()
       
-      // Should keep default values when no contacts provided
       expect(clientInfo.value.firstName).toBe(originalFirstName)
     })
 
@@ -379,7 +371,6 @@ describe('useContactsStepData', () => {
 
   describe('without loadedWizardState option', () => {
     it('should work without loadedWizardState option', () => {
-      // Should not throw when called without options
       const result = useContactsStepData()
       
       expect(result.clientInfo.value).toBeDefined()

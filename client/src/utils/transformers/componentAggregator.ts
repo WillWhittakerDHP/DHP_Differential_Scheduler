@@ -30,18 +30,13 @@ function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
 ): InstanceComponent[] {
   const relationships = globalData.relationships.instanceComponents || []
   
-  // Filter relationships for this entity kind and convert to InstanceComponent format
   const instanceComponents: InstanceComponent[] = []
   
   for (const rel of relationships) {
-    // Check if this relationship is for the correct entity kind
     if (rel.parent.entityKey !== entityKind || rel.relationshipKind !== 'instanceComponents') {
       continue
     }
     
-    // Convert each child to an InstanceComponent
-    // LEARNING: GlobalRelationship has parent/children structure, InstanceComponent is flat
-    // WHY: Need to flatten relationship structure for component functions
     // PATTERN: One InstanceComponent per child entity
     for (const child of rel.children) {
       instanceComponents.push({
@@ -59,13 +54,6 @@ function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
   return instanceComponents
 }
 
-/**
- * Get components recursively (handles hierarchical component relationships)
- * 
- * LEARNING: Components can themselves be composers
- * WHY: Enables complex component structures
- * PATTERN: Recursive traversal with visited set to prevent infinite loops
- */
 export function getComponentsRecursive(
   composerId: string,
   entityKind: GlobalEntityKey,
@@ -78,7 +66,6 @@ export function getComponentsRecursive(
   
   visited.add(composerId)
   
-  // Get direct components
   const directComponents = instanceComponents
     .filter(ac => 
       ac.parentId === composerId && 
@@ -86,20 +73,16 @@ export function getComponentsRecursive(
     )
     .map(ac => ac.childId)
   
-  // Get recursive components (components that are themselves composers)
   const recursiveComponents: string[] = []
   for (const componentId of directComponents) {
-    // Check if this component is itself a composer
     const isComponentAlsoComposer = instanceComponents.some(
       ac => ac.parentId === componentId && !ac.disabled
     )
     
     if (isComponentAlsoComposer) {
-      // Recursively get components of this component
       const nestedComponents = getComponentsRecursive(componentId, entityKind, instanceComponents, visited)
       recursiveComponents.push(...nestedComponents)
     } else {
-      // Direct component, not a composer
       recursiveComponents.push(componentId)
     }
   }
@@ -125,13 +108,11 @@ export function composePartInstances(
     const blockInstance = globalData.entities.blockInstance.find(bp => bp.id === blockId)
     if (!blockInstance) continue
     
-    // Get partAssignments relationships for this block
     const partAssignmentsRelationships = globalData.relationships.partAssignments || []
     const blockRelationships = partAssignmentsRelationships.filter(
       rel => rel.parent.id === blockId
     )
     
-    // Collect all part instance IDs from this block's partAssignments
     blockRelationships.forEach(rel => {
       rel.children.forEach(partInstance => {
         allPartInstanceIds.add(partInstance.id)
@@ -156,18 +137,14 @@ export function composeProperties<GE extends GlobalEntityKey>(
 ): Partial<GlobalEntity<GE>> {
   const instanceComponents = getActiveComponentsFromRelationships(entityKind, globalData)
   
-  // Get all components (recursive to handle hierarchical component)
   const componentIds = getComponentsRecursive(composerId, entityKind, instanceComponents)
   
   if (componentIds.length === 0) {
     return {}
   }
   
-  // Get component entities
   const { resolved: components, missingIds } = resolveByIds(globalData.entities[entityKind] || [], componentIds)
 
-  // LEARNING: Missing IDs can happen if relationships reference entities that were deleted or not loaded
-  // WHY: We want visibility in dev without crashing the UI
   // PATTERN: Log and continue with resolved entities only
   if (missingIds.length > 0 && isDevModeEnabled()) {
      
@@ -182,52 +159,34 @@ export function composeProperties<GE extends GlobalEntityKey>(
     return {}
   }
   
-  // Compose properties using shared utility
   const composed = composePropertiesFromComponents(
     components,
     entityKind,
     globalData.entities.blockShape
   )
   
-  // Special handling for blockInstance component: compose part instances
-  // Note: partAssignments is a relationship, not a direct property
-  // This will be handled separately in the relationship component
   if (entityKind === 'blockInstance') {
-    // Future: composePartInstances(componentIds, globalData) could be used here
-    // when we need to compose part instances from composed blocks
   }
   
   return composed as Partial<GlobalEntity<GE>>
 }
 
-/**
- * Get composed entity
- * 
- * LEARNING: Creates computed view of composer from components
- * WHY: Composers are computed views, not stored entities
- * PATTERN: Merge composer base properties with composed component properties
- */
 export function getComposedEntity<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
   globalData: GlobalData
 ): GlobalEntity<GE> | null {
-  // Get composer entity (base properties)
   const composerEntity = globalData.entities[entityKind]?.find(e => e.id === composerId)
   if (!composerEntity) {
     return null
   }
   
   // LEARNING: Type assertion needed because entities array is union type
-  // WHY: TypeScript can't infer specific entity type from union type array
   // PATTERN: Assert to specific entity type when we know the entityKind
   const composer = composerEntity as GlobalEntity<GE>
   
-  // Compose properties from components
   const composed = composeProperties(composerId, entityKind, globalData)
   
-  // Merge composer with composed properties
-  // Composed properties override composer properties (computed view)
   const composedEntity: GlobalEntity<GE> = {
     ...composer,
     ...composed,

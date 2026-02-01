@@ -11,24 +11,12 @@ import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import type { RFC3339DateTime } from '@/types/datetime'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 
-/**
- * useBusyTimes composable parameters
- */
 export interface UseBusyTimesParams {
-  /**
-   * Date range for API call (RFC3339 datetime format)
-   */
   dateRangeForApi: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
   
-  /**
-   * Refresh key for forcing mock calendar data regeneration
-   */
   mockRefreshKey: Ref<number>
 }
 
-/**
- * useBusyTimes composable return type
- */
 export interface UseBusyTimesReturn {
   /**
    * Busy times from calendar for availability checking
@@ -61,14 +49,11 @@ export function useBusyTimes(
     }
     
     // LEARNING: Include refreshKey in dependency to force recalculation
-    // WHY: Changing refreshKey forces mock data regeneration
     // PATTERN: Reference refreshKey in computed to trigger recalculation
     void mockRefreshKey.value // Force dependency tracking
     
     const dateRangeValue = dateRangeForApi.value
     
-    // LEARNING: Call getCalendarAvailability and immediately capture result
-    // WHY: Ensures we're using the exact return value, not a stale reference
     // PATTERN: Call function and store result in const
     const busyTimesResult = getCalendarAvailability({
       start: dateRangeValue.start,

@@ -12,7 +12,6 @@ import type { TimeSlot } from '@/types/appointment'
 import type { RFC3339DateTime, DayOfWeek } from '@/types/datetime'
 import {
   generateSlotsWithAvailability
-  // P3-3: Removed TimeSlotWithAvailability import - use TimeSlot directly
 } from './timeAvailabilityManager'
 import type { RangeConstraint } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
@@ -20,9 +19,6 @@ import type { OverlapConstraint, CapacityConstraint } from './constraintExtracto
 import { validateSlotGenerationParams } from './slotGenerationValidation'
 import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
 
-// LEARNING: Use scoped logger for controllable debug output
-// WHY: Prevents debug logs in production, allows scope-based filtering
-// PATTERN: createLogger(scope) provides debug/info/warn/error methods
 const logger = createLogger('timeSlotFitter')
 
 /**
@@ -66,20 +62,13 @@ interface DayBusinessHours {
  *   // Saturday (6) and Sunday (0) omitted = closed
  * }
  */
-// P3-4: Use DayOfWeek type instead of inline union type
 export type BusinessHoursMap = Partial<Record<DayOfWeek, DayBusinessHours>>
 
-/**
- * Busy time range to exclude from available slots
- */
 export interface BusyTimeRange {
   start: RFC3339DateTime  // RFC3339 datetime string (ISO 8601 with timezone)
   end: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
 }
 
-/**
- * Parameters for fitting time slots
- */
 export interface FitTimeSlotsParams {
   startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
   endBoundary: RFC3339DateTime           // RFC3339 datetime - latest possible end (slot must complete by this time)
@@ -87,38 +76,16 @@ export interface FitTimeSlotsParams {
   businessHours?: BusinessHoursMap        // Business hours by day of week (optional if rangeConstraints provided)
   minuteIncrement: number                 // Usually 15
   busyTimes?: BusyTimeRange[]             // Optional exclusions
-  /**
-   * Flags to include in TimeSlot objects
-   * @default { major: false, minor: false, moveable: false }
-   */
   includeFlags: {
     major: boolean
     minor: boolean
     moveable: boolean
   }
-  /**
-   * Range constraints (optional)
-   * LEARNING: Time-based restrictions that filter slots by when they can occur
-   * WHY: Consolidates business hours, leadTime, and date range boundaries into unified structure
-   */
   rangeConstraints?: RangeConstraint[]
-  /**
-   * Overlap constraints (optional)
-   * LEARNING: Time gaps around appointments to prevent overlaps
-   * WHY: Consolidates all buffer types (appointment, driveTime, lunch) into unified structure
-   */
   overlapConstraints?: OverlapConstraint[]
-  /**
-   * Capacity constraints (optional)
-   * LEARNING: If provided, applies capacity limits to filter slots
-   * WHY: Allows admin to configure work hours limits per day, calendar week, or rolling week
-   */
   capacityConstraints?: CapacityConstraint[]
 }
 
-/**
- * Result from fitting time slots
- */
 interface FitTimeSlotsResult {
   slots: TimeSlot[]
   earliestCompletion: RFC3339DateTime | null  // RFC3339 datetime of earliest possible end time
@@ -133,10 +100,7 @@ interface FitTimeSlotsResult {
  * PATTERN: Extract date part and create Date object in UTC using Date.UTC()
  */
 export function parseUTCDate(dateInput: string | Date): Date | null {
-  // LEARNING: Handle both string and Date object inputs
-  // WHY: selectedDate.value.start might be a Date object or string
   // PATTERN: Convert Date to string if needed, then parse
-  // P2-8: Enhanced with validation to prevent Invalid Date objects
   let dateString: string
   if (dateInput instanceof Date) {
     // Validate Date object is valid
@@ -144,7 +108,6 @@ export function parseUTCDate(dateInput: string | Date): Date | null {
       logger.warn('Invalid Date object passed to parseUTCDate:', dateInput)
       return null
     }
-    // Convert Date to YYYY-MM-DD string using UTC methods
     const year = dateInput.getUTCFullYear()
     const month = String(dateInput.getUTCMonth() + 1).padStart(2, '0')
     const day = String(dateInput.getUTCDate()).padStart(2, '0')
@@ -152,7 +115,6 @@ export function parseUTCDate(dateInput: string | Date): Date | null {
   } else if (typeof dateInput === 'string') {
     dateString = dateInput
   } else {
-    // Fallback: convert to string
     dateString = String(dateInput)
   }
   
@@ -160,7 +122,6 @@ export function parseUTCDate(dateInput: string | Date): Date | null {
   
   // P2-8: Validate date string format (YYYY-MM-DD)
   // LEARNING: Validate format before parsing to prevent Invalid Date objects
-  // WHY: Prevents NaN values and Invalid Date objects from malformed input
   // PATTERN: Check format regex, validate components, verify Date object
   if (!/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
     logger.warn('Invalid date string format:', datePart)
@@ -195,20 +156,11 @@ export function parseUTCDate(dateInput: string | Date): Date | null {
   return date
 }
 
-/**
- * Parse "HH:mm" time string to minutes from midnight
- * 
- * LEARNING: Converts time string to numeric minutes for calculations
- * WHY: Easier to work with minutes for time arithmetic
- */
 export function parseTimeToMinutes(timeString: string): number {
   const [hours, minutes] = timeString.split(':').map(Number)
   return hours * 60 + minutes
 }
 
-// Removed unused function: isClosedDay
-// LEARNING: Function was declared but never used
-// WHY: Removes dead code to improve maintainability
 
 /**
  * Check if two time ranges overlap
@@ -249,12 +201,10 @@ export function parseBusinessHours(
   dayOfWeek: number
 ): { startHour: number; startMinute: number; endHour: number; endMinute: number; dayStartMinutes: number; dayEndMinutes: number } | null {
   // LEARNING: Only accept RFC3339 format - no HH:mm support
-  // WHY: HH:mm conversion should only happen at UI boundary, not in business logic
   // PATTERN: Parse RFC3339 directly, extract UTC hours/minutes
   const startDate = new Date(dayHours.start as RFC3339DateTime)
   const endDate = new Date(dayHours.end as RFC3339DateTime)
   
-  // Validate Date objects
   if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
     logger.warn(`Invalid RFC3339 datetime for day ${dayOfWeek}:`, dayHours)
     return null
@@ -263,9 +213,6 @@ export function parseBusinessHours(
   // LEARNING: Business hours RFC3339 strings represent LOCAL time-of-day, not UTC
   // WHY: Admin sets business hours in their local timezone (e.g., "9 AM" = 9 AM local)
   // PATTERN: Use useLocalTime composable to extract local time-of-day
-  // NOTE: The RFC3339 string "2000-01-01T09:00:00Z" represents "9:00 AM local", not "9:00 AM UTC"
-  //       When admin sets 9:00 AM local, it's stored as 9:00 AM UTC in the RFC3339 string,
-  //       but we interpret it as local time-of-day for comparison with slots
   const startTime = extractBusinessHoursMinutes(dayHours.start as RFC3339DateTime)
   const endTime = extractBusinessHoursMinutes(dayHours.end as RFC3339DateTime)
   const startHour = startTime.hours
@@ -273,12 +220,10 @@ export function parseBusinessHours(
   const endHour = endTime.hours
   const endMinute = endTime.minutes
 
-  // Validate parsed times
   if (isNaN(startHour) || isNaN(startMinute) || isNaN(endHour) || isNaN(endMinute)) {
     return null
   }
 
-  // Calculate day start and end in minutes from midnight
   const dayStartMinutes = startHour * 60 + startMinute
   const dayEndMinutes = endHour * 60 + endMinute
 
@@ -332,7 +277,6 @@ export function parseBusinessHours(
  * @param params - Parameters for fitting time slots
  * @returns Result with valid slots and earliest available completion time
  */
-// P3-6: Renamed for clarity - returns only available slots
 export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise<FitTimeSlotsResult> {
   const {
     startBoundary,
@@ -344,9 +288,6 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
     includeFlags
   } = params
 
-  // P2-5: Use shared slot generation validation
-  // LEARNING: Comprehensive input validation prevents invalid slot generation
-  // WHY: Invalid inputs can cause infinite loops, incorrect calculations, or runtime errors
   // PATTERN: Use validateSlotGenerationParams to eliminate duplicate validation logic
   validateSlotGenerationParams({
     duration,
@@ -355,7 +296,6 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
     endBoundary
   })
 
-  // Parse boundaries as Date objects for validation
   const startBoundaryDate = new Date(startBoundary)
   const endBoundaryDate = new Date(endBoundary)
 
@@ -380,14 +320,11 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
     throw new Error('businessHours must be provided either directly or via rangeConstraints.businessHours.config.hours')
   }
 
-  // Check if at least one day has business hours
   const hasAnyHours = Object.keys(effectiveBusinessHours).length > 0
   if (!hasAnyHours) {
     return { slots: [], earliestCompletion: null }
   }
 
-  // LEARNING: Delegate to unified availability manager for slot generation
-  // WHY: Single source of truth for slot generation logic (Issue #20)
   // PATTERN: Generate all slots with availability, then filter to available only
   const result = await generateSlotsWithAvailability(
     {
@@ -403,13 +340,9 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
     params.capacityConstraints
   )
 
-  // LEARNING: Filter to only available slots
-  // WHY: fitTimeSlots returns only available slots (not all slots like generateSlotsWithAvailability)
   // PATTERN: Filter slots where isAvailable === true
   const availableSlots = result.slots.filter(slot => slot.isAvailable)
 
-  // LEARNING: earliestCompletion already tracks available slots only
-  // WHY: generateSlotsWithAvailability already filters to available slots for earliestCompletion
   // PATTERN: Use earliestCompletion directly from result
   return {
     slots: availableSlots,
@@ -417,9 +350,6 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
   }
 }
 
-/**
- * Result from fitting time slots with availability flags
- */
 interface FitTimeSlotsResultWithAvailability {
   slots: TimeSlot[]  // P3-3: Use TimeSlot directly instead of TimeSlotWithAvailability
   earliestCompletion: RFC3339DateTime | null  // RFC3339 datetime of earliest available slot end time
@@ -449,8 +379,6 @@ export async function fitAllTimeSlotsWithAvailability(
   overlapConstraints?: OverlapConstraint[],
   capacityConstraints?: CapacityConstraint[]
 ): Promise<FitTimeSlotsResultWithAvailability> {
-  // LEARNING: Use unified availability manager
-  // WHY: Single source of truth for all availability logic
   // PATTERN: Delegate to availability manager with constraint arrays
   return await generateSlotsWithAvailability(
     {

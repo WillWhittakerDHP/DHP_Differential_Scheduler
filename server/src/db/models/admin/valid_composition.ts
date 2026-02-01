@@ -56,14 +56,12 @@ export function ValidCompositionFactory(sequelize: Sequelize) {
       parent_shape_id: {
         type: DataTypes.UUID,
         allowNull: false,
-        // Note: Foreign key references are dynamic based on shape_kind
         // Actual table reference will be validated at runtime via entity registry
         // For now, we use a generic reference that will be validated by application logic
       },
       child_shape_id: {
         type: DataTypes.UUID,
         allowNull: false,
-        // Note: Foreign key references are dynamic based on shape_kind
         // Actual table reference will be validated at runtime via entity registry
       },
       shape_kind: {
@@ -75,7 +73,6 @@ export function ValidCompositionFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        // Used for ordering child shapes
       },
       disabled: {
         type: DataTypes.BOOLEAN,

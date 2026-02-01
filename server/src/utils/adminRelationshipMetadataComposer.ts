@@ -8,9 +8,6 @@
 
 import { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipMetadata.js';
 
-/**
- * Relationship metadata entry (matches client-side FieldMetadataEntry structure)
- */
 export interface RelationshipMetadataEntry {
   relationshipKey: string;
   dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
@@ -26,21 +23,10 @@ export interface RelationshipMetadataEntry {
   inputConfig?: Record<string, unknown> | null;
 }
 
-/**
- * Get admin relationship metadata for an entity
- * Instance entities fall back to global configs if no instance-specific metadata exists
- * 
- * NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
- * 
- * @param entityType - Entity type: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance'
- * @param entityId - Entity ID or sentinel UUID for global configs
- * @returns Array of relationship metadata entries
- */
 export async function getAdminRelationshipMetadata(
   entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
   entityId: string
 ): Promise<RelationshipMetadataEntry[]> {
-  // Fetch metadata for this entity
   const entityMetadata = await AdminRelationshipMetadata.findAll({
     where: {
       entityType: entityType,
@@ -49,19 +35,13 @@ export async function getAdminRelationshipMetadata(
     order: [['display_order', 'ASC'], ['relationship_key', 'ASC']],
   });
 
-  // If this is an instance entity, handle metadata
-  // LEARNING: Instances do NOT inherit relationship fields from shapes - they have their own relationships
-  // WHY: blockInstance has relationships like partAssignments that don't exist in blockShape
-  //      partInstance has relationships that don't exist in partShape
   // PATTERN: Return instance metadata directly, no inheritance merging
   if (entityType === 'blockInstance' || entityType === 'partInstance') {
-    // Check if this is a global config sentinel UUID
     const BLOCK_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000001';
     const PART_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000002';
     const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003';
     const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
     
-    // For global instance configs, return metadata directly without inheritance
     if (entityType === 'partInstance' && entityId === PART_INSTANCE_GLOBAL_CONFIG_ID) {
       return entityMetadata.map(meta => ({
         relationshipKey: meta.relationshipKey,
@@ -79,7 +59,6 @@ export async function getAdminRelationshipMetadata(
       }));
     }
     
-    // For global blockInstance config, return metadata directly without inheritance
     if (entityType === 'blockInstance' && entityId === BLOCK_INSTANCE_GLOBAL_CONFIG_ID) {
       return entityMetadata.map(meta => ({
         relationshipKey: meta.relationshipKey,
@@ -97,10 +76,7 @@ export async function getAdminRelationshipMetadata(
       }));
     }
     
-    // For non-sentinel instance entities, check if instance-specific metadata exists
-    // If no instance-specific metadata, fall back to global config
     if (entityMetadata.length === 0) {
-      // No instance-specific metadata found, fall back to global config
       const fallbackEntityId = entityType === 'blockInstance' 
         ? BLOCK_INSTANCE_GLOBAL_CONFIG_ID 
         : PART_INSTANCE_GLOBAL_CONFIG_ID;
@@ -129,8 +105,6 @@ export async function getAdminRelationshipMetadata(
       }));
     }
     
-    // Instance-specific metadata exists, return it directly (no inheritance)
-    // Instances have their own relationships, they don't inherit from shapes
     return entityMetadata.map(meta => ({
       relationshipKey: meta.relationshipKey,
       dataType: meta.dataType,
@@ -147,7 +121,6 @@ export async function getAdminRelationshipMetadata(
     }));
   }
 
-  // For shape entities, return entity metadata directly
   return entityMetadata.map(meta => ({
     relationshipKey: meta.relationshipKey,
     dataType: meta.dataType,

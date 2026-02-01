@@ -63,7 +63,6 @@ export class BusinessTransformer {
         users: usersResponse.data,
       }
     } catch (_error) {
-      // Return empty data on error; let consumers handle the empty state
       return {
         appointments: [],
         properties: [],
@@ -73,6 +72,5 @@ export class BusinessTransformer {
   }
 }
 
-// Export singleton
 export const businessTransformer = new BusinessTransformer()
 

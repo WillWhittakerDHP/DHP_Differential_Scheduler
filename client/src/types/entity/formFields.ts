@@ -1,17 +1,9 @@
-/**
- * LEARNING: Form Field Configuration Types
- * WHY: Type-safe form field configuration definitions
- * PATTERN: Types matching React structure for consistency
- */
 
 import type { GlobalEntityKey } from '../../constants/entities'
 import type { GlobalFieldKey } from '../../constants/primitives'
 import type { GlobalRelationshipKey } from '../../constants/relationships'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum, TypeSelectEnum, PrimitiveTypeEnum, PrimitiveModeEnum } from './formDataEnums'
 
-/**
- * Primitive form field configuration
- */
 export type PrimitiveFormField<GE extends GlobalEntityKey = GlobalEntityKey> = {
   primitiveType: PrimitiveTypeEnum;
   primitiveMode: PrimitiveModeEnum;
@@ -25,9 +17,6 @@ export type PrimitiveFormField<GE extends GlobalEntityKey = GlobalEntityKey> = {
 
 export type PrimitiveFieldType<GE extends GlobalEntityKey> = Partial<Record<GlobalFieldKey<GE>, PrimitiveFormField<GE>>>;
 
-/**
- * Relationship field type
- */
 type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInstance"> | GlobalFieldKey<"blockShape"> | GlobalFieldKey<"partShape">;
 
 export type RelationshipFieldType<
@@ -67,9 +56,6 @@ export type RelationshipFieldType<
   };
 };
 
-/**
- * Virtual field type (type-based select)
- */
 export type VirtualFieldType<
   GE extends GlobalEntityKey = GlobalEntityKey,
 > = {
@@ -104,9 +90,6 @@ export type SelectableFieldTypeSuite = {
   [GE in GlobalEntityKey]: Partial<Record<GlobalFieldKey<GE>, SelectableFormFieldType<GE>>>;
 };
 
-/**
- * Validation rule
- */
 export interface ValidationRule {
   required?: boolean;
   min?: number;
@@ -116,9 +99,6 @@ export interface ValidationRule {
   message?: string;
 }
 
-/**
- * Form field config - combines primitive and select configs
- */
  
 export type FormFieldConfig<GE extends GlobalEntityKey, _FieldKey extends GlobalFieldKey<GE>> = {
   primitiveInput?: PrimitiveFormField<GE>;

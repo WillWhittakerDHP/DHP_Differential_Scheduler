@@ -27,7 +27,6 @@ import { ref, computed, nextTick } from 'vue'
 import { usePropertyTypeBlockSelection } from '../usePropertyTypeBlockSelection'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-// Helper to create mock block instance
 function createBlock(id: string, name?: string): BookingBlockInstance {
   return {
     id,
@@ -102,7 +101,6 @@ describe('usePropertyTypeBlockSelection', () => {
 
       expect(selectedPropertyTypeBlockId.value).toBeNull()
 
-      // Select a block
       selectedPropertyTypeBlocks.value = [createBlock('block-2')]
 
       await nextTick()
@@ -127,7 +125,6 @@ describe('usePropertyTypeBlockSelection', () => {
         togglePropertyTypeBlock,
       })
 
-      // Single selection mode - returns first
       expect(selectedPropertyTypeBlockId.value).toBe('block-1')
     })
   })

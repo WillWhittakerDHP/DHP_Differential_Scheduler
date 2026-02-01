@@ -33,7 +33,6 @@ import {
 } from '../selectionCardStyles'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
-// Helper to create minimal config
 function createConfig(overrides: Partial<SelectionCardConfig> = {}): SelectionCardConfig {
   return {
     selectionType: 'radio',
@@ -151,7 +150,6 @@ describe('selectionCardStyles', () => {
         appearance: undefined,
       })
       
-      // Should not throw
       const result = buildSelectionCardClasses(config, false)
       
       expect(result).toContain('selection-card')
@@ -192,7 +190,6 @@ describe('selectionCardStyles', () => {
     it('should handle undefined position', () => {
       const result = buildSelectionControlClasses(undefined)
       
-      // All position-based classes should be false for undefined
       expect(result['mb-4']).toBe(false)
       expect(result['mt-4']).toBe(false)
       expect(result['mr-4']).toBe(false)

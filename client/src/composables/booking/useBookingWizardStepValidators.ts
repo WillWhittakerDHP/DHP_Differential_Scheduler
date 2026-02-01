@@ -25,12 +25,6 @@ export interface UseBookingWizardStepValidatorsOptions {
   contactsStepValidate: Ref<(() => boolean) | null> | (() => boolean) | null
 }
 
-/**
- * useBookingWizardStepValidators
- *
- * LEARNING: BookingWizard is a shell; it should not “own” validation rules.
- * WHY: Keeps all validation wiring in one place, and makes it easy to add steps without editing the shell.
- */
 export function useBookingWizardStepValidators(
   options: UseBookingWizardStepValidatorsOptions
 ): BookingWizardStepValidators {

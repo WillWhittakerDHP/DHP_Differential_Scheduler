@@ -29,7 +29,6 @@ import {
   type BuildBookingWizardStepValidatorsOptions,
 } from '../bookingWizardStepValidators'
 
-// Helper to create default options
 function createOptions(
   overrides: Partial<BuildBookingWizardStepValidatorsOptions> = {}
 ): BuildBookingWizardStepValidatorsOptions {

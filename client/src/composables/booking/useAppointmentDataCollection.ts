@@ -20,9 +20,6 @@ import type { PropertyDetailsData } from '@/types/propertyForm'
  */
 export type PropertyDetailsStepData = PropertyDetailsData
 
-/**
- * Contacts step data structure
- */
 export interface ContactsStepData {
   clientInfo: { firstName: string; lastName: string; email: string }
   agentInfo: { firstName: string; lastName: string; email: string }
@@ -34,17 +31,11 @@ export interface ContactsStepData {
   showSeller: boolean
 }
 
-/**
- * Availability step data structure
- */
 export interface AvailabilityStepData {
   selectedDate: { start: string | null; end: string | null }
   selectedTimeSlots: Array<{ time: string; duration: number }> | null
 }
 
-/**
- * useAppointmentDataCollection composable parameters
- */
 export interface UseAppointmentDataCollectionParams {
   wizard: {
     selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
@@ -65,9 +56,6 @@ export interface UseAppointmentDataCollectionParams {
   showError: (message: string) => void
 }
 
-/**
- * useAppointmentDataCollection composable return type
- */
 export interface UseAppointmentDataCollectionReturn {
   collectAppointmentData: () => Promise<AppointmentRequest | null>
 }
@@ -119,7 +107,6 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
     }
 
     try {
-      // Step 1: Create property
       const propertyData: PropertyRequest = {
         address: propertyDetailsStepData.value.address,
         unit: propertyDetailsStepData.value.unit || null,
@@ -137,10 +124,8 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       const createdProperty = await createProperty.mutateAsync(propertyData)
       const propertyVersionId = createdProperty.propertyVersionId || createdProperty.id // Use propertyVersionId, fallback to id for compatibility
 
-      // Step 2: Create users
       const contacts = contactsStepData.value
       
-      // Create client user
       const clientUserData: UserRequest = {
         firstName: contacts.clientInfo.firstName,
         lastName: contacts.clientInfo.lastName,
@@ -151,7 +136,6 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       const createdClient = await createUser.mutateAsync(clientUserData)
       const clientId = createdClient.id
 
-      // Create agent user
       const agentUserData: UserRequest = {
         firstName: contacts.agentInfo.firstName,
         lastName: contacts.agentInfo.lastName,
@@ -162,7 +146,6 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       const createdAgent = await createUser.mutateAsync(agentUserData)
       const agentId = createdAgent.id
 
-      // Create additional contacts if sections are visible
       const additionalContactIds: Array<{ id: string; role: string }> = []
 
       if (contacts.showAnotherClient && contacts.anotherClientInfo.firstName) {
@@ -201,13 +184,11 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         additionalContactIds.push({ id: createdSeller.id, role: 'seller' })
       }
 
-      // Step 3: Collect availability data
       const availability = availabilityStepData.value
       const selectedDate = availability.selectedDate.start
       const selectedDateRangeEnd = availability.selectedDate.end
       const selectedTimeSlots = availability.selectedTimeSlots
 
-      // Step 4: Collect property details object
       const propertyDetails = {
         address: propertyDetailsStepData.value.address,
         unit: propertyDetailsStepData.value.unit || null,
@@ -224,7 +205,6 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         additionalUnits: propertyDetailsStepData.value.additionalUnits
       }
 
-      // Step 5: Collect additional contacts array
       const additionalContacts = additionalContactIds.length > 0
         ? additionalContactIds.map(({ id, role }) => ({
             userId: id,
@@ -232,14 +212,9 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
           }))
         : null
 
-      // Step 6: Get quote mode from wizard state
       const isQuoteMode = wizard.isQuoteMode.value
 
-      // Step 7: Extract quantity multipliers from selected items
-      // LEARNING: Build quantity objects from items with number values
-      // WHY: Store per-item quantities for calculation on appointment load
       // PATTERN: Map array to object { id -> number } for items with number property
-      // NOTE: number property is added at runtime, not part of BookingBlockInstance type
       const serviceQuantities = wizard.selectedServices.value.reduce((acc, service) => {
         const number = (service as BookingBlockInstance & { number?: number | null }).number
         if (number != null) {
@@ -264,9 +239,6 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         return acc
       }, {} as Record<string, number>)
 
-      // Step 8: Build complete appointment request
-      // LEARNING: Snapshots are now created server-side when appointment is created
-      // WHY: Centralizes versioning logic and ensures consistency
       const appointmentData: AppointmentRequest = {
         propertyVersionId, // Use propertyVersionId (new field)
         userTypeBlockId: wizard.selectedUserTypeBlock.value?.id || null,

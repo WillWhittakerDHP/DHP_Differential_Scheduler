@@ -9,25 +9,11 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { PerspectiveKey } from '@/types/appointment'
 
-/**
- * usePerspectiveMapping composable parameters
- */
 export interface UsePerspectiveMappingParams {
-  /**
-   * Start time type (UI labels: 'major', 'minor', 'nonDifferential')
-   */
   startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
 }
 
-/**
- * usePerspectiveMapping composable return type
- */
 export interface UsePerspectiveMappingReturn {
-  /**
-   * Perspective key (logic names: 'major', 'minor', 'nonDifferential')
-   * LEARNING: Maps startTimeType to PerspectiveKey
-   * WHY: startTimeType uses UI labels, PerspectiveKey uses logic names
-   */
   perspective: ComputedRef<PerspectiveKey>
 }
 

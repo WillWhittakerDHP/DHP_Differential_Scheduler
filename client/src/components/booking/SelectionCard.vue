@@ -29,11 +29,6 @@ import { useSelectionCardHandlers } from '@/composables/booking/useSelectionCard
 import { useSelectionCardStyles } from '@/composables/booking/useSelectionCardStyles'
 import { useSelectionCardComponent } from '@/composables/booking/useSelectionCardComponent'
 
-/**
- * LEARNING: Component props interface
- * Session 1.3.9.4: Simplified - removed isParent, nestedConfig
- * WHY: Component separation - SelectionCard handles only parent cards
- */
 interface Props {
   item: SelectionCardItem
   config: SelectionCardConfig
@@ -45,13 +40,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   modelValue: null,
   nestedChildSelections: () => []
-  // Note: isExpanded intentionally has no default to distinguish controlled vs uncontrolled
 })
 
-/**
- * LEARNING: Component emits
- * Session 1.3.9.4: Added update:nestedChildSelections for nested child updates
- */
 interface Emits {
   (e: 'update:modelValue', value: string | null | string[]): void
   (e: 'update:nestedChildSelections', childIds: string[]): void
@@ -61,7 +51,6 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-// Local expansion state (only used if not controlled by parent)
 const localExpanded = ref(false)
 
 const isExpandedState = computed(() => {
@@ -69,14 +58,12 @@ const isExpandedState = computed(() => {
 })
 
 // LEARNING: Use selection card config composable
-// WHY: Extracts config merging logic from component to composable
 // PATTERN: Composable provides config with defaults
 const { configWithDefaults } = useSelectionCardConfig({
   config: computed(() => props.config)
 })
 
 // LEARNING: Use selection card state composable
-// WHY: Extracts state management logic from component to composable
 // PATTERN: Composable provides selection state management
 const {
   activeStatePlugin,
@@ -92,7 +79,6 @@ const {
 
 
 // LEARNING: Use selection card styles composable
-// WHY: Extracts CSS class computation logic from component to composable
 // PATTERN: Composable provides computed class strings
 const {
   cardClasses,
@@ -104,7 +90,6 @@ const {
 })
 
 // LEARNING: Use selection card component composable
-// WHY: Extracts component rendering logic from component to composable
 // PATTERN: Composable provides component name and props
 const {
   selectionComponentName,
@@ -129,7 +114,6 @@ const selectionCardComposable = useSelectionCard({
   isExpanded: computed(() => props.isExpanded)
 })
 
-// LEARNING: Extract computed properties from composable
 // WHY: Component uses composable's computed values
 // PATTERN: Destructure composable return values for use in template
 const {
@@ -138,7 +122,6 @@ const {
 } = selectionCardComposable
 
 // LEARNING: Use selection card handlers composable
-// WHY: Extracts handler logic from component to composable
 // PATTERN: Composable provides handler functions
 const {
   handleSelection,
@@ -165,22 +148,14 @@ const {
  */
 watch(isSelected, (newValue) => {
   if (newValue && hasChildren.value && props.isExpanded === undefined) {
-    // Only auto-expand if expansion is uncontrolled (not passed from parent)
-    // When controlled, parent (SelectionCardGroup) handles auto-expansion
     localExpanded.value = true
   }
 }, { immediate: true })
 
-/**
- * LEARNING: Handle number input updates for allowMultiple items
- * WHY: When allowMultiple is true, user can specify quantity to multiply fees
- * PATTERN: Convert string/number to number | null and emit to parent
- */
 const handleNumberUpdate = (value: string | number | null) => {
   const numValue = typeof value === 'string' ? (value === '' ? null : parseInt(value, 10)) : value
   const finalValue = numValue === null || isNaN(numValue as number) ? null : numValue
   
-  // Emit event to parent (SelectionCardGroup) to update wizard state
   emit('update:number', { itemId: props.item.id, number: finalValue })
 }
 </script>
@@ -273,9 +248,6 @@ const handleNumberUpdate = (value: string | number | null) => {
 </template>
 
 <style scoped lang="scss">
-// LEARNING: SelectionCard wrapper
-// WHY: Simple wrapper for card layout
-// PATTERN: Flex column layout
 .selection-card-wrapper {
   position: relative;
   width: 100%;
@@ -283,7 +255,6 @@ const handleNumberUpdate = (value: string | number | null) => {
   flex-direction: column;
 }
 
-// LEARNING: Selection card base styling
 .selection-card {
   display: flex;
   flex-direction: column;
@@ -294,7 +265,6 @@ const handleNumberUpdate = (value: string | number | null) => {
   box-sizing: border-box;
   border-radius: 4px;
   
-  // LEARNING: Bordered variant styling
   &.selection-card-bordered {
     border: 1px solid rgb(var(--v-theme-on-surface-variant));
     background-color: rgb(var(--v-theme-surface));
@@ -306,7 +276,6 @@ const handleNumberUpdate = (value: string | number | null) => {
     }
   }
   
-  // LEARNING: Radio button styling
   .v-radio {
     margin-block-end: -0.25rem;
     
@@ -340,7 +309,6 @@ const handleNumberUpdate = (value: string | number | null) => {
     }
   }
   
-  // LEARNING: Content container with width constraints
   .content-container {
     width: 100%;
     min-width: 0;
@@ -361,7 +329,6 @@ const handleNumberUpdate = (value: string | number | null) => {
   }
 }
 
-// LEARNING: Left-aligned radio button layout
 .selection-card-left-radio {
   flex-direction: row !important;
   align-items: flex-start !important;

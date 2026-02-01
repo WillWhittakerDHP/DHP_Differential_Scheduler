@@ -1,24 +1,14 @@
-/**
- * VITEST SETUP
- * 
- * Global test setup for all Vitest tests.
- * Configures mocks, test environment, and global utilities.
- */
 
 import { vi } from 'vitest'
 import { config } from '@vue/test-utils'
 
-// Reduce noisy debug logging during tests.
-// NOTE: `import.meta.env.*` in Vitest is derived from environment variables.
 vi.stubEnv('VITE_LOG_LEVEL', 'OFF')
 
-// Setup Vue Test Utils config
 config.global.stubs = {
   teleport: true,
   Transition: false,
 }
 
-// Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation(query => ({
@@ -33,7 +23,6 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 })
 
-// Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
   constructor() {}
   disconnect() {}
@@ -44,7 +33,6 @@ global.IntersectionObserver = class IntersectionObserver {
   unobserve() {}
 } as any
 
-// Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
   constructor() {}
   disconnect() {}
@@ -52,11 +40,9 @@ global.ResizeObserver = class ResizeObserver {
   unobserve() {}
 } as any
 
-// Suppress console errors during tests (can be overridden in individual tests)
 const originalError = console.error
 beforeAll(() => {
   console.error = (...args: any[]) => {
-    // Suppress known Vue warnings in tests
     if (
       typeof args[0] === 'string' &&
       (args[0].includes('Not implemented: HTMLFormElement.prototype.submit') ||

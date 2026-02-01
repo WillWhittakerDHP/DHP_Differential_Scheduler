@@ -42,14 +42,7 @@ async function findOrCreateAddress(addressData: {
   });
 }
 
-// LEARNING: transformPropertyVersion moved to utils/propertyTransformers.ts
-// WHY: Eliminates hardcoded field names, enables config-driven field mapping
-// PATTERN: Import utility function instead of inline transformation
 
-/**
- * GET /properties
- * Get all properties (PropertyVersions with Address and PropertyDetails)
- */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersions = await PropertyVersion.findAll({
@@ -70,10 +63,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * GET /properties/:id
- * Get a property by PropertyVersion ID
- */
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersion = await PropertyVersion.findByPk(req.params.id, {
@@ -136,9 +125,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Use transaction for atomic operation
     const result = await PropertyVersion.sequelize!.transaction(async (transaction) => {
-      // Step 1: Find or create Address
       const addressRecord = await findOrCreateAddress({
         address,
         unit,
@@ -147,12 +134,10 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         zipCode,
       });
 
-      // Step 2: Create PropertyVersion
       const propertyVersion = await PropertyVersion.create({
         addressId: addressRecord.id,
       }, { transaction });
 
-      // Step 3: Create PropertyDetails
       const propertyDetails = await PropertyDetails.create({
         propertyVersionId: propertyVersion.id,
         source: source as 'api' | 'manual' | 'client',
@@ -164,7 +149,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         additionalUnits: additionalUnits || null,
       }, { transaction });
 
-      // Step 4: Fetch complete property with relationships
       const completePropertyVersion = await PropertyVersion.findByPk(propertyVersion.id, {
         include: [
           { model: Address, as: 'address' },
@@ -187,11 +171,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PUT /properties/:id
- * Update a property by PropertyVersion ID
- * Updates PropertyDetails (address changes would require new PropertyVersion)
- */
 router.put('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersion = await PropertyVersion.findByPk(req.params.id, {
@@ -219,9 +198,6 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
       source,
     } = req.body;
 
-    // Update PropertyDetails (get first/latest details record)
-    // LEARNING: Sequelize associations are dynamically added, TypeScript doesn't know about them
-    // WHY: Need type assertion to access association property
     // PATTERN: Use 'as any' cast to access Sequelize associations (similar to relationshipRouter.ts)
     const propertyVersionWithAssociations = propertyVersion as any;
     const propertyDetails = Array.isArray(propertyVersionWithAssociations.propertyDetails) 
@@ -240,7 +216,6 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
       });
     }
 
-    // Refresh property with relationships
     await propertyVersion.reload({
       include: [
         { model: Address, as: 'address' },
@@ -259,10 +234,6 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * PATCH /properties/:id
- * Partially update a property by PropertyVersion ID
- */
 router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersion = await PropertyVersion.findByPk(req.params.id, {
@@ -280,9 +251,6 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Update PropertyDetails with partial data
-    // LEARNING: Sequelize associations are dynamically added, TypeScript doesn't know about them
-    // WHY: Need type assertion to access association property
     // PATTERN: Use 'as any' cast to access Sequelize associations (similar to relationshipRouter.ts)
     const propertyVersionWithAssociations = propertyVersion as any;
     const propertyDetails = Array.isArray(propertyVersionWithAssociations.propertyDetails) 
@@ -293,7 +261,6 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
       await propertyDetails.update(req.body);
     }
 
-    // Refresh property with relationships
     await propertyVersion.reload({
       include: [
         { model: Address, as: 'address' },
@@ -312,12 +279,6 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * DELETE /properties/:id
- * Delete a property by PropertyVersion ID
- * LEARNING: Cascades to PropertyDetails, but Address remains (may be reused)
- * WHY: Preserves address data for potential reuse, only removes versioned details
- */
 router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersion = await PropertyVersion.findByPk(req.params.id);
@@ -330,7 +291,6 @@ router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Delete PropertyVersion (cascades to PropertyDetails)
     await propertyVersion.destroy();
     
     res.status(204).send();
@@ -353,10 +313,6 @@ router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
  * PATTERN: Similar to instance_components relationship pattern
  */
 
-/**
- * GET /properties/:id/types
- * Get all property types for a property version
- */
 router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersionId = req.params.id;
@@ -404,7 +360,6 @@ router.post('/:id/types', async (req: Request, res: Response): Promise<void> => 
       return;
     }
     
-    // Verify property version exists
     const propertyVersion = await PropertyVersion.findByPk(propertyVersionId);
     if (!propertyVersion) {
       res.status(404).json({
@@ -414,7 +369,6 @@ router.post('/:id/types', async (req: Request, res: Response): Promise<void> => 
       return;
     }
     
-    // Application-level validation: Verify blockInstance has "Properties" block_shape
     const blockInstance = await BlockInstance.findByPk(blockInstanceId, {
       include: [{ model: BlockShape, as: 'block_shape' }],
     });
@@ -439,21 +393,18 @@ router.post('/:id/types', async (req: Request, res: Response): Promise<void> => 
       return;
     }
     
-    // Create property version type
     const propertyType = await PropertyVersionType.create({
       propertyVersionId,
       blockInstanceId,
       orderIndex,
     });
     
-    // Fetch with associations
     const completePropertyType = await PropertyVersionType.findByPk(propertyType.id, {
       include: [{ model: BlockInstance, as: 'blockInstance' }],
     });
     
     res.status(201).json(completePropertyType);
   } catch (error) {
-    // Check for trigger error
     if (error instanceof Error && error.message.includes('block_instance_id must reference')) {
       res.status(400).json({
         error: 'Block instance must have "Properties" block_shape',
@@ -478,10 +429,6 @@ router.post('/:id/types', async (req: Request, res: Response): Promise<void> => 
   }
 });
 
-/**
- * PATCH /properties/:id/types/:typeId
- * Update a property type (e.g., change order_index)
- */
 router.patch('/:id/types/:typeId', async (req: Request, res: Response): Promise<void> => {
   try {
     const { typeId } = req.params;
@@ -501,7 +448,6 @@ router.patch('/:id/types/:typeId', async (req: Request, res: Response): Promise<
       await propertyType.update({ orderIndex });
     }
     
-    // Fetch with associations
     const completePropertyType = await PropertyVersionType.findByPk(propertyType.id, {
       include: [{ model: BlockInstance, as: 'blockInstance' }],
     });
@@ -516,10 +462,6 @@ router.patch('/:id/types/:typeId', async (req: Request, res: Response): Promise<
   }
 });
 
-/**
- * DELETE /properties/:id/types/:typeId
- * Remove a property type from a property version
- */
 router.delete('/:id/types/:typeId', async (req: Request, res: Response): Promise<void> => {
   try {
     const { typeId } = req.params;
@@ -562,7 +504,6 @@ router.put('/:id/types', async (req: Request, res: Response): Promise<void> => {
     const propertyVersionId = req.params.id;
     const { blockInstanceIds = [] } = req.body;
     
-    // Verify property version exists
     const propertyVersion = await PropertyVersion.findByPk(propertyVersionId);
     if (!propertyVersion) {
       res.status(404).json({
@@ -603,15 +544,12 @@ router.put('/:id/types', async (req: Request, res: Response): Promise<void> => {
       }
     }
     
-    // Transaction: Delete existing, create new
     await PropertyVersion.sequelize!.transaction(async (transaction) => {
-      // Delete existing property types
       await PropertyVersionType.destroy({
         where: { propertyVersionId },
         transaction,
       });
       
-      // Create new property types
       if (blockInstanceIds.length > 0) {
         await PropertyVersionType.bulkCreate(
           blockInstanceIds.map((blockInstanceId: string, index: number) => ({
@@ -624,7 +562,6 @@ router.put('/:id/types', async (req: Request, res: Response): Promise<void> => {
       }
     });
     
-    // Fetch and return updated property types
     const propertyTypes = await PropertyVersionType.findAll({
       where: { propertyVersionId },
       include: [{ model: BlockInstance, as: 'blockInstance' }],

@@ -1,14 +1,3 @@
-/**
- * Form Validation Composable
- * 
- * LEARNING: Vue composable pattern for form validation utilities
- * WHY: Centralizes validation logic and provides reusable validation rules
- * PATTERN: Composable that returns validation functions and rule generators
- * COMPARISON: React uses libraries like Yup or Formik. Vue uses composables with Vuetify rules
- * 
- * Session 1.3.2: Form Validation Implementation
- * Phase 1.3: Interaction Fixes and Validation
- */
 
 import { computed, type Ref } from 'vue'
 
@@ -31,12 +20,6 @@ export interface ValidationResult {
   errors: Record<string, string>
 }
 
-/**
- * Form Validation Composable
- * LEARNING: Provides validation utilities and rule generators
- * WHY: Reusable validation logic across all forms
- * PATTERN: Composable that returns validation functions and rule generators
- */
 export function useFormValidation() {
   /**
    * Required field validation rule
@@ -84,7 +67,6 @@ export function useFormValidation() {
     return (value: unknown): string | boolean => {
       if (!value) return true // Allow empty if not required (combine with required rule)
       if (typeof value !== 'string') return message
-      // Accepts formats: XXX-XXX-XXXX, (XXX) XXX-XXXX, XXX.XXX.XXXX, XXXXXXXXXX
       const phoneRegex = /^[\d\s\-().]+$/
       const digitsOnly = value.replace(/\D/g, '')
       return (phoneRegex.test(value) && digitsOnly.length === 10) || message
@@ -179,13 +161,11 @@ export function useFormValidation() {
       if (!value) return true // Allow empty if not required
       if (typeof value !== 'string' && !(value instanceof Date)) return message
       
-      // LEARNING: Parse date string to local Date object
       // WHY: Ensures correct date comparison regardless of timezone
       // PATTERN: Extract date part if string contains time, create Date in local timezone
       let selectedDate: Date
       if (typeof value === 'string') {
         try {
-          // Extract date part (YYYY-MM-DD) if string contains time
           const datePart = value.includes('T') ? value.split('T')[0] : value
           const dateParts = datePart.split('-')
           if (dateParts.length !== 3) {
@@ -289,7 +269,6 @@ export function useFormValidation() {
   }
 
   return {
-    // Rule generators
     required,
     email,
     phone,
@@ -301,7 +280,6 @@ export function useFormValidation() {
     dateNotInPast,
     custom,
     combine,
-    // Validation functions
     validateForm,
     useFormValidity,
   }

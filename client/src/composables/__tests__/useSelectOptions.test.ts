@@ -1,10 +1,3 @@
-/**
- * USE SELECT OPTIONS TESTS
- * 
- * Unit tests for useSelectOptions composable.
- * Tests option transformation, grouping, value normalization, and group operations.
- * Phase 2: Select Option Transformations
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref } from 'vue'
@@ -13,7 +6,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 
-// Mock useAdmin
 const mockGetEntityMap = vi.fn(() => new Map())
 const mockUseAdmin = vi.fn(() => ({
   getEntityMap: mockGetEntityMap,
@@ -175,7 +167,6 @@ describe('useSelectOptions', () => {
         fieldKey: ref('testField'),
       })
 
-      // For multiple selection, options should be flattened
       expect(result.options.value).toEqual([
         { title: 'Block 1', value: 'block-1' },
         { title: 'Block 2', value: 'block-2' },

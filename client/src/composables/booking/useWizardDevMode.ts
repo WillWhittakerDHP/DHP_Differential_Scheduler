@@ -31,11 +31,6 @@ export interface UseWizardDevModeReturn {
   handleResetMocks: () => void
 }
 
-/**
- * LEARNING: Manage dev mode logic and dev panel buttons
- * WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
- * PATTERN: Composable that provides dev mode handlers and injects app-level buttons
- */
 export function useWizardDevMode(
   options: UseWizardDevModeOptions
 ): UseWizardDevModeReturn {
@@ -51,8 +46,6 @@ export function useWizardDevMode(
     wizard,
   } = options
 
-  // LEARNING: Reset mocks signal for provide/inject
-  // WHY: Allows BookingWizard to trigger mock reset in AvailabilityStep
   // PATTERN: Incrementing ref that AvailabilityStep watches
   const resetMocksSignal = ref(0)
   provide('resetMocksSignal', resetMocksSignal)
@@ -63,13 +56,9 @@ export function useWizardDevMode(
    * PATTERN: Provide reset function that AvailabilityStep can call via inject
    */
   const handleResetMocks = (): void => {
-    // Emit reset signal via provide/inject
-    // AvailabilityStep will inject this and call resetMocks when signal changes
     resetMocksSignal.value++
   }
 
-  // LEARNING: Update app-level dev panel buttons
-  // WHY: DevPanelsContainer is rendered in App.vue, so buttons must be provided at app level
   // PATTERN: Inject app-level ref and update it with button functions and state
   if (isDevMode) {
     const appDevPanelButtons = inject<Ref<{

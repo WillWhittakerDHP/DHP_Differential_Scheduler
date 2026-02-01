@@ -31,7 +31,6 @@ function filterInstancesByCascade(
   currentSelection: BookingBlockInstance[],
   relationshipName: string
 ): CascadeFilterResult {
-  // No booking data available
   if (!bookingData) {
     return { 
       success: false, 
@@ -40,12 +39,10 @@ function filterInstancesByCascade(
     }
   }
 
-  // Normalize to array for consistent processing
   const parents = parentInstances 
     ? (Array.isArray(parentInstances) ? parentInstances : [parentInstances])
     : []
 
-  // No parent selected - return empty unless there's a current selection
   if (parents.length === 0) {
     if (currentSelection.length > 0) {
       return { success: true, instances: currentSelection }
@@ -57,15 +54,12 @@ function filterInstancesByCascade(
     }
   }
 
-  // Collect cascade IDs from all parents
   const allowedIds = new Set<string>()
-  // LEARNING: Use flatMap to collect all activeBlockIds without forEach mutations
   // WHY: Functional approach avoids forEach with Set.add mutations
   const allActiveBlockIds = parents
     .flatMap(parent => parent.activeBlockIds || [])
   allActiveBlockIds.forEach(id => allowedIds.add(id))
 
-  // No cascades configured on parents
   if (allowedIds.size === 0) {
     return {
       success: false,
@@ -74,13 +68,10 @@ function filterInstancesByCascade(
     }
   }
 
-  // Filter instances by cascade IDs (generic - no hardcoded block shapes)
   const cascadedInstances = bookingData.blockInstances.filter(
     instance => allowedIds.has(instance.id)
   )
 
-  // Preserve currently selected items that aren't in filtered results
-  // WHY: Allows keeping selections when changing filters (better UX)
   const missingSelected = currentSelection.filter(
     selected => !cascadedInstances.some(instance => instance.id === selected.id)
   )
@@ -122,17 +113,13 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const availableUserTypeBlocks = computed((): BookingBlockInstance[] => {
     if (!bookingData.value) return []
 
-    // Get all state control block instances
     const allStateControlInstances = getStateControlBlockInstances(bookingData.value)
     
     if (allStateControlInstances.length === 0) return []
     
-    // Group by blockShapeRef to find which state control block shape has instances
-    // LEARNING: Dynamic filtering by blockShapeRef - no hardcoded names
     // WHY: Works with whatever state control block shape exists, regardless of name changes
     // PATTERN: Group instances by blockShapeRef, use the one that has instances
     const instancesByShapeRef = new Map<string, BookingBlockInstance[]>()
-    // LEARNING: Use reduce to build Map instead of forEach with Map.set mutations
     // WHY: Functional approach avoids forEach with Map mutations
     allStateControlInstances.reduce((map, instance) => {
       const existing = map.get(instance.blockShapeRef) || []
@@ -140,13 +127,10 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
       return map
     }, instancesByShapeRef)
     
-    // Use the blockShapeRef that has instances (if multiple, use first one)
-    // This is dynamic - works with whatever state control block shape exists
     const userTypeBlockShapeRef = Array.from(instancesByShapeRef.keys())[0]
     
     if (!userTypeBlockShapeRef) return []
     
-    // Return instances for that blockShapeRef
     const result = instancesByShapeRef.get(userTypeBlockShapeRef) || []
 
     return result
@@ -192,28 +176,20 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
       'availability options'
     )
     
-    // Always filter by block shape type - don't trust cascade configuration
     if (!bookingData.value) {
       return []
     }
     
-    // LEARNING: Get Option block shape ID by type (stable semantic identifier)
-    // WHY: Type is immutable and independent of display name, prevents wrong blocks from showing
     const optionBlockShapeId = getBlockShapeIdByType(bookingData.value, BLOCK_SHAPE_TYPES.OPTION)
     
     if (!optionBlockShapeId) {
-      // Block shape not found - log warning and return empty to prevent showing wrong blocks
       console.warn('[useWizardFilteredOptions] Option block shape (type="option") not found')
       return []
     }
     
-    // If cascade returned no results, check if we should fall back to all Option blocks
-    // LEARNING: Fallback to all Option blocks if no cascades configured
-    // WHY: Better UX than showing empty - allows selection even if cascades aren't set up
     if (result.instances.length === 0) {
       if (selectedServices.value.length > 0) {
         console.warn('[useWizardFilteredOptions] No cascade results from selected services. Falling back to all Option blocks.')
-        // Fallback: return all active Option blocks
         return bookingData.value.blockInstances.filter(
           instance => instance.blockShapeRef === optionBlockShapeId && instance.active
         )
@@ -221,7 +197,6 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
       return []
     }
     
-    // Filter cascade results by block shape ID (ensures only Option blocks are returned)
     const filtered = result.instances.filter(
       instance => instance.blockShapeRef === optionBlockShapeId
     )
@@ -231,8 +206,6 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
         totalCascadeResults: result.instances.length,
         optionBlockShapeId,
         cascadeInstanceTypes: result.instances.map(inst => {
-          // LEARNING: Convert both IDs to strings for consistent comparison
-          // WHY: Ensures type-safe comparison (UUIDs might be strings or numbers)
           const shape = bookingData.value?.blockShapes.find(bs => String(bs.id) === String(inst.blockShapeRef))
           return shape ? `${inst.name} (${shape.name}, type: ${shape.type})` : `${inst.name} (unknown shape)`
         })
@@ -267,22 +240,17 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
       'property types'
     )
     
-    // Always filter by block shape type - don't trust cascade configuration
     if (!bookingData.value || result.instances.length === 0) {
       return result.instances
     }
     
-    // LEARNING: Get Property block shape ID by type (stable semantic identifier)
-    // WHY: Type is immutable and independent of display name, ensures correct blocks are shown
     const propertyTypeBlockShapeId = getBlockShapeIdByType(bookingData.value, BLOCK_SHAPE_TYPES.PROPERTY)
     
     if (!propertyTypeBlockShapeId) {
-      // Block shape not found - log warning and return empty to prevent showing wrong blocks
       console.warn('[useWizardFilteredOptions] Property block shape (type="property") not found')
       return []
     }
     
-    // Filter cascade results by block shape ID (ensures only Property blocks are returned)
     return result.instances.filter(
       instance => instance.blockShapeRef === propertyTypeBlockShapeId
     )
@@ -307,8 +275,6 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const availableLineItemBlocks = computed((): BookingBlockInstance[] => {
     if (!bookingData.value) return []
     
-    // LEARNING: Return all line item blocks from booking data
-    // WHY: Line items are always available for selection (no cascade dependencies)
     // PATTERN: Return lineItemBlocks array directly, already filtered and sorted by transformer
     return bookingData.value.lineItemBlocks || []
   })

@@ -80,12 +80,7 @@ const props = withDefaults(defineProps<Props>(), {
   showLabel: true
 })
 
-// LEARNING: Determine field type from displayConfig (which comes from dataType only)
-// WHY: displayConfig.fieldType is set from metadata dataType - renderAs is checked separately
-// PATTERN: Use displayConfig.fieldType for data type, check renderAs from metadata for rendering
 const fieldType = computed(() => {
-  // LEARNING: displayConfig.fieldType is set from metadata dataType in useFormFieldsContext
-  // WHY: Metadata is the source of truth for field rendering
   // PATTERN: Fail explicitly if fieldType is missing - no fallbacks
   if (!props.fieldContext.displayConfig.fieldType) {
     throw new Error(
@@ -96,11 +91,6 @@ const fieldType = computed(() => {
   return props.fieldContext.displayConfig.fieldType
 })
 
-// LEARNING: Get renderAs from metadata to determine rendering
-// WHY: renderAs determines how to render (text input vs status button), not fieldType
-// PATTERN: Load metadata and read renderAs - component dispatcher already determined this is primitive
-// LEARNING: Use composable for entity lookup
-// WHY: Extracts entity lookup logic to reusable composable
 // PATTERN: Composable handles both temporary and existing entities
 const entityForMetadata = useFieldContextMetadataEntity(props.fieldContext)
 

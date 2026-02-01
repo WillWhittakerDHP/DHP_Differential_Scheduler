@@ -1,20 +1,3 @@
-/**
- * SELECTIONCARDCOMPONENT TESTS
- * 
- * Unit tests for selectionCardComponent utility.
- * Tests component name and props functions for selection cards.
- * 
- * What it covers:
- * - getSelectionComponentName: Get component name
- * - getSelectionControlOrder: Get control order based on position
- * - buildSelectionComponentProps: Build component props
- * 
- * How it works:
- * - Tests each function with various config inputs
- * 
- * Dependencies:
- * - vitest for testing
- */
 
 import { describe, it, expect } from 'vitest'
 import {

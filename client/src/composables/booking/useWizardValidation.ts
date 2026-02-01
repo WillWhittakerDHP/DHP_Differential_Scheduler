@@ -12,16 +12,10 @@ import type { StepValidator } from '@/utils/booking/wizardValidation'
 
 export type { StepValidator } from '@/utils/booking/wizardValidation'
 
-/**
- * useWizardValidation composable parameters
- */
 export interface UseWizardValidationParams {
   stepValidators: ComputedRef<Record<number, StepValidator | null>> | Ref<Record<number, StepValidator | null>> | Record<number, StepValidator | null>
 }
 
-/**
- * useWizardValidation composable return type
- */
 export interface UseWizardValidationReturn {
   validateStep: (stepIndex: number) => boolean
 }

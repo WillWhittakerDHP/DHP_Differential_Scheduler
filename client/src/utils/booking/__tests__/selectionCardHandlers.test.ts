@@ -230,7 +230,6 @@ describe('selectionCardHandlers', () => {
 
   describe('isNestedComponentsClick', () => {
     it('should return true when target is inside .nested-components', () => {
-      // Create DOM structure
       const container = document.createElement('div')
       container.className = 'nested-components'
       const button = document.createElement('button')
