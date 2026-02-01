@@ -409,7 +409,7 @@ function handleDeleteEventInstance(_id: string) {
         @click="activeTab = 'eventInstances'"
         class="event-instances-tab"
       >
-        Events
+        Events ({{ filteredEventInstances.length }})
       </VTab>
     </VTabs>
     
@@ -882,6 +882,11 @@ function handleDeleteEventInstance(_id: string) {
 
 .event-instances-tab {
   margin-left: auto;
+  background-color: rgba(var(--v-theme-primary), 0.05);
+}
+
+.event-instances-tab:hover {
+  background-color: rgba(var(--v-theme-primary), 0.1);
 }
 
 .event-instances-tab-content {
