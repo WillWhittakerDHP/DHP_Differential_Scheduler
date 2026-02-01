@@ -151,7 +151,7 @@ export function useBookingWizard(): UseBookingWizardReturn {
   } = useWizardFilteredOptions({
     bookingData,
     selectedUserType: selectedUserTypeBlock,
-    selectedServices: selectedServiceTypeBlocks,
+    selectedServiceTypeBlocks: selectedServiceTypeBlocks,
     selectedAvailabilityOptions: selectedOptionTypeBlocks,
     selectedPropertyTypeBlocks,
   })

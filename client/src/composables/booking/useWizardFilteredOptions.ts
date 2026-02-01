@@ -85,7 +85,7 @@ function filterInstancesByCascade(
 export type UseWizardFilteredOptionsParams = {
   bookingData: Ref<BookingData | null>
   selectedUserType: Ref<BookingBlockInstance | null>
-  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
+  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
   selectedAvailabilityOptions: Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
 }
@@ -105,7 +105,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const {
     bookingData,
     selectedUserType,
-    selectedServices,
+    selectedServiceTypeBlocks,
     selectedAvailabilityOptions,
     selectedPropertyTypeBlocks,
   } = params
@@ -145,7 +145,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     const result = filterInstancesByCascade(
       bookingData.value,
       selectedUserType.value,
-      selectedServices.value,
+      selectedServiceTypeBlocks.value,
       'services'
     )
     return result.instances
@@ -155,7 +155,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     const result = filterInstancesByCascade(
       bookingData.value,
       selectedUserType.value,
-      selectedServices.value,
+      selectedServiceTypeBlocks.value,
       'services'
     )
     return result.success ? null : result.error
@@ -171,7 +171,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const availableAvailabilityOptions = computed((): BookingBlockInstance[] => {
     const result = filterInstancesByCascade(
       bookingData.value,
-      selectedServices.value,
+      selectedServiceTypeBlocks.value,
       selectedAvailabilityOptions.value,
       'availability options'
     )
@@ -188,7 +188,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     }
     
     if (result.instances.length === 0) {
-      if (selectedServices.value.length > 0) {
+      if (selectedServiceTypeBlocks.value.length > 0) {
         console.warn('[useWizardFilteredOptions] No cascade results from selected services. Falling back to all Option blocks.')
         return bookingData.value.blockInstances.filter(
           instance => instance.blockShapeRef === optionBlockShapeId && instance.active
@@ -201,7 +201,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
       instance => instance.blockShapeRef === optionBlockShapeId
     )
     
-    if (selectedServices.value.length > 0 && filtered.length === 0 && result.instances.length > 0) {
+    if (selectedServiceTypeBlocks.value.length > 0 && filtered.length === 0 && result.instances.length > 0) {
       console.warn('[useWizardFilteredOptions] Cascade results filtered out - no Option blocks found in cascade results', {
         totalCascadeResults: result.instances.length,
         optionBlockShapeId,
@@ -218,7 +218,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const availabilityOptionsCascadeError = computed((): string | null => {
     const result = filterInstancesByCascade(
       bookingData.value,
-      selectedServices.value,
+      selectedServiceTypeBlocks.value,
       selectedAvailabilityOptions.value,
       'availability options'
     )
@@ -235,7 +235,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const availablePropertyTypeBlocks = computed((): BookingBlockInstance[] => {
     const result = filterInstancesByCascade(
       bookingData.value,
-      selectedServices.value,
+      selectedServiceTypeBlocks.value,
       selectedPropertyTypeBlocks.value,
       'property types'
     )
@@ -259,7 +259,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const propertyTypesCascadeError = computed((): string | null => {
     const result = filterInstancesByCascade(
       bookingData.value,
-      selectedServices.value,
+      selectedServiceTypeBlocks.value,
       selectedPropertyTypeBlocks.value,
       'property types'
     )
@@ -279,7 +279,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     return bookingData.value.lineItemBlocks || []
   })
 
-  const accServices = computed((): BookingBlockInstance[] => selectedServices.value)
+  const accServices = computed((): BookingBlockInstance[] => selectedServiceTypeBlocks.value)
   const accProperty = computed((): BookingBlockInstance[] => selectedPropertyTypeBlocks.value)
   const accAvailability = computed((): BookingBlockInstance[] => selectedAvailabilityOptions.value)
 

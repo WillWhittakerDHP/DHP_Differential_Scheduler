@@ -89,10 +89,13 @@ const logger = createLogger('AddressAutocomplete')
 /**
  * Props interface
  * LEARNING: Standard v-model pattern plus additional configuration
+ * Session 2.2.2: Added placeId prop for Routes API integration
  */
 interface Props {
   modelValue: string
   coordinates?: Coordinates
+  /** Google Place ID for accurate routing (Session 2.2.2) */
+  placeId?: string
   label?: string
   placeholder?: string
   hint?: string
@@ -108,6 +111,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
   coordinates: undefined,
+  placeId: undefined,
   label: 'Address',
   placeholder: 'Start typing an address...',
   hint: '',
@@ -121,10 +125,13 @@ const props = withDefaults(defineProps<Props>(), {
 /**
  * Emits
  * LEARNING: Standard v-model pattern with additional events
+ * Session 2.2.2: Added update:placeId for Routes API integration
  */
 const emit = defineEmits<{
   'update:modelValue': [value: string]
   'update:coordinates': [value: Coordinates | undefined]
+  /** Google Place ID for accurate routing (Session 2.2.2) */
+  'update:placeId': [value: string | undefined]
   'place-selected': [details: PlaceDetails]
   'error': [error: MapsApiError]
 }>()
@@ -136,6 +143,11 @@ const suggestions = ref<AutocompletePrediction[]>([])
 const isLoading = ref(false)
 const errorMessage = ref('')
 const sessionToken = ref<string>('')
+
+// LEARNING: Track if we're showing an existing address from props (no prediction object)
+// WHY: VAutocomplete with return-object emits null when there's no object, even if we have text
+// PATTERN: Skip clearing the modelValue when we're just displaying existing text
+const hasInitialAddressFromProps = ref(false)
 
 /**
  * Initialize session token on mount
@@ -154,12 +166,41 @@ onMounted(async () => {
 /**
  * Sync initial value from prop
  * LEARNING: When modelValue is provided, show it in the input
+ * Session 2.2.2: Create synthetic item for VAutocomplete to display existing address
+ * 
+ * WHY: VAutocomplete with return-object only displays items from its items array.
+ * When loading an existing address, we need to create a "fake" prediction object
+ * so VAutocomplete can display it properly.
  */
 watch(
   () => props.modelValue,
-  (newValue) => {
+  (newValue, oldValue) => {
     if (newValue && !selectedAddress.value) {
+      // Create a synthetic prediction object for the existing address
+      // This allows VAutocomplete to display it properly
+      const syntheticPrediction: AutocompletePrediction = {
+        placeId: props.placeId || `synthetic-${Date.now()}`,
+        description: newValue,
+        mainText: newValue,
+        secondaryText: ''
+      }
+      
+      // Add to suggestions so VAutocomplete can find it
+      suggestions.value = [syntheticPrediction]
+      
+      // Set as selected address
+      selectedAddress.value = syntheticPrediction
       searchInput.value = newValue
+      
+      // Mark that we have an address from props (not from selection)
+      hasInitialAddressFromProps.value = true
+      logger.debug('[watch:modelValue] Created synthetic item for initial address:', newValue)
+    }
+    // If modelValue was externally cleared, reset our flag
+    if (!newValue && oldValue) {
+      hasInitialAddressFromProps.value = false
+      selectedAddress.value = null
+      suggestions.value = []
     }
   },
   { immediate: true }
@@ -202,15 +243,25 @@ const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
 /**
  * Handle search input changes
  * LEARNING: Triggers debounced API call when user types
+ * Session 2.2.2: Also clears placeId when user types new address
  */
 const handleSearchUpdate = (value: string | null) => {
   const input = value || ''
   
   // If user is typing (not selecting), emit the raw value
   if (!selectedAddress.value || selectedAddress.value.description !== input) {
-    emit('update:modelValue', input)
-    // Clear coordinates when user is typing a new address
-    emit('update:coordinates', undefined)
+    // LEARNING: Only emit/clear if user is actually changing the text
+    // WHY: Avoid clearing when component is just initializing with existing address
+    const isUserTyping = input !== props.modelValue
+    
+    if (isUserTyping) {
+      // User is typing something new - clear the initial-from-props flag
+      hasInitialAddressFromProps.value = false
+      emit('update:modelValue', input)
+      // Clear coordinates and placeId when user is typing a new address
+      emit('update:coordinates', undefined)
+      emit('update:placeId', undefined)
+    }
   }
   
   // Fetch suggestions
@@ -224,20 +275,48 @@ const handleSearchUpdate = (value: string | null) => {
 /**
  * Handle selection from dropdown
  * LEARNING: When user selects a suggestion, fetch full details
+ * Session 2.2.2: Also emits placeId for Routes API integration
  */
 const handleSelectionChange = async (selection: AutocompletePrediction | null) => {
   if (!selection) {
-    // User cleared the selection
+    // LEARNING: Don't clear the address if we're just loading from props
+    // WHY: VAutocomplete with return-object emits null when there's no object
+    // but we have an existing address from props that we want to keep
+    if (hasInitialAddressFromProps.value && props.modelValue) {
+      logger.debug('[handleSelectionChange] Ignoring null selection - have initial address from props')
+      return
+    }
+    
+    // User explicitly cleared the selection
     selectedAddress.value = null
+    hasInitialAddressFromProps.value = false
     emit('update:modelValue', '')
     emit('update:coordinates', undefined)
+    emit('update:placeId', undefined)
     return
   }
   
   logger.debug('[handleSelectionChange] Selected:', selection.description)
   
+  // Check if this is a synthetic item (existing address from props)
+  // Don't fetch details for synthetic items - we already have the data
+  const isSyntheticItem = selection.placeId?.startsWith('synthetic-')
+  if (isSyntheticItem) {
+    logger.debug('[handleSelectionChange] Synthetic item selected, skipping API fetch')
+    hasInitialAddressFromProps.value = true
+    return
+  }
+  
+  // User made a new selection, clear the initial-from-props flag
+  hasInitialAddressFromProps.value = false
+  
   // Update display immediately
   emit('update:modelValue', selection.description)
+  
+  // Emit placeId immediately (before fetching details)
+  // LEARNING: placeId is available from autocomplete, no need to wait for details
+  // WHY: Routes API prefers placeId for accurate routing
+  emit('update:placeId', selection.placeId)
   
   // Fetch place details for coordinates
   isLoading.value = true
@@ -269,6 +348,7 @@ const handleSelectionChange = async (selection: AutocompletePrediction | null) =
     }
     
     // Still emit the address text even if coordinates failed
+    // Note: placeId was already emitted above
     emit('update:coordinates', undefined)
     
   } finally {

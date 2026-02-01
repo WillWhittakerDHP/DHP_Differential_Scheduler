@@ -18,6 +18,9 @@ async function findOrCreateAddress(addressData: {
   city: string;
   state: string;
   zipCode: string;
+  placeId?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
 }) {
   const existingAddress = await Address.findOne({
     where: {
@@ -39,6 +42,9 @@ async function findOrCreateAddress(addressData: {
     city: addressData.city,
     state: addressData.state,
     zipCode: addressData.zipCode,
+    placeId: addressData.placeId || null,
+    latitude: addressData.latitude || null,
+    longitude: addressData.longitude || null,
   });
 }
 
@@ -107,6 +113,9 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       city,
       state,
       zipCode,
+      placeId,
+      latitude,
+      longitude,
       mlsNumber,
       squareFootage,
       bedrooms,
@@ -132,6 +141,9 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         city,
         state,
         zipCode,
+        placeId: placeId || null,
+        latitude: latitude || null,
+        longitude: longitude || null,
       });
 
       const propertyVersion = await PropertyVersion.create({

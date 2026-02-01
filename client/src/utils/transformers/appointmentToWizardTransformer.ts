@@ -37,6 +37,8 @@ export interface WizardStateData {
     city: string
     state: string
     zipCode: string
+    placeId?: string
+    coordinates?: { lat: number; lng: number }
     propertySize: number | null
     numberOfUnits: number | null
     mlsNumber: string
@@ -425,6 +427,11 @@ export async function transformAppointmentToWizard(
     city: address?.city ?? '',
     state: address?.state ?? '',
     zipCode: address?.zipCode ?? '',
+    placeId: address?.placeId ?? undefined,
+    coordinates: (address?.latitude !== null && address?.latitude !== undefined && 
+                  address?.longitude !== null && address?.longitude !== undefined)
+      ? { lat: address.latitude, lng: address.longitude }
+      : undefined,
     
     propertySize: propertyDetailsRecord?.squareFootage ?? null,
     numberOfUnits: propertyDetailsRecord?.additionalUnits ?? null,

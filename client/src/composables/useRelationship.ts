@@ -35,7 +35,7 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
   
   /**
    * LEARNING: Transform GlobalRelationship[] to FetchedRelationship[] format
-   * WHY: Some code may expect FetchedRelationship[] format
+   * WHY: Callers expect FetchedRelationship[] format (flat list)
    * PATTERN: Flatten GlobalRelationship[] (parent -> children[]) to FetchedRelationship[] (flat list)
    * NOTE: GlobalRelationship doesn't have id, disabled flag - we'll use defaults
    */
@@ -246,8 +246,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
   
   return {
     relationships,
-    isLoading,
-    error,
     
     create: async (payload: CreateRelationshipPayload) => {
       const result = await createMutation.mutateAsync(payload)

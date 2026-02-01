@@ -27,13 +27,13 @@ describe('useBookingWizardStepValidators', () => {
         id: 'ut-1',
         name: 'User Type 1',
       } as BookingBlockInstance)
-      const selectedServices = ref<BookingBlockInstance[]>([
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([
         { id: 'service-1', name: 'Service 1' } as BookingBlockInstance,
       ])
 
       const { stepValidators } = useBookingWizardStepValidators({
         selectedUserTypeBlock,
-        selectedServices,
+        selectedServiceTypeBlocks,
         propertyDetailsStepValid: null,
         propertyDetailsStepValidate: null,
         availabilityStepValid: null,
@@ -53,13 +53,13 @@ describe('useBookingWizardStepValidators', () => {
 
     it('should pass hasServiceSelection as false when no user type selected', () => {
       const selectedUserTypeBlock = ref<BookingBlockInstance | null>(null)
-      const selectedServices = ref<BookingBlockInstance[]>([
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([
         { id: 'service-1', name: 'Service 1' } as BookingBlockInstance,
       ])
 
       const { stepValidators } = useBookingWizardStepValidators({
         selectedUserTypeBlock,
-        selectedServices,
+        selectedServiceTypeBlocks,
         propertyDetailsStepValid: null,
         propertyDetailsStepValidate: null,
         availabilityStepValid: null,
@@ -82,11 +82,11 @@ describe('useBookingWizardStepValidators', () => {
         id: 'ut-1',
         name: 'User Type 1',
       } as BookingBlockInstance)
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
 
       const { stepValidators } = useBookingWizardStepValidators({
         selectedUserTypeBlock,
-        selectedServices,
+        selectedServiceTypeBlocks,
         propertyDetailsStepValid: null,
         propertyDetailsStepValidate: null,
         availabilityStepValid: null,
@@ -110,7 +110,7 @@ describe('useBookingWizardStepValidators', () => {
 
       const { stepValidators } = useBookingWizardStepValidators({
         selectedUserTypeBlock: ref(null),
-        selectedServices: ref([]),
+        selectedServiceTypeBlocks: ref([]),
         propertyDetailsStepValid: ref(true),
         propertyDetailsStepValidate,
         availabilityStepValid: null,
@@ -134,7 +134,7 @@ describe('useBookingWizardStepValidators', () => {
 
       const { stepValidators } = useBookingWizardStepValidators({
         selectedUserTypeBlock: ref(null),
-        selectedServices: ref([]),
+        selectedServiceTypeBlocks: ref([]),
         propertyDetailsStepValid: null,
         propertyDetailsStepValidate: mockValidate,
         availabilityStepValid: null,
@@ -159,7 +159,7 @@ describe('useBookingWizardStepValidators', () => {
 
       const { stepValidators } = useBookingWizardStepValidators({
         selectedUserTypeBlock: ref(null),
-        selectedServices: ref([]),
+        selectedServiceTypeBlocks: ref([]),
         propertyDetailsStepValid,
         propertyDetailsStepValidate: null,
         availabilityStepValid,
@@ -190,7 +190,7 @@ describe('useBookingWizardStepValidators', () => {
 
       const { stepValidators } = useBookingWizardStepValidators({
         selectedUserTypeBlock: ref(null),
-        selectedServices: ref([]),
+        selectedServiceTypeBlocks: ref([]),
         propertyDetailsStepValid: null,
         propertyDetailsStepValidate: null,
         availabilityStepValid: null,
@@ -205,11 +205,11 @@ describe('useBookingWizardStepValidators', () => {
 
   describe('reactivity', () => {
     it('should recompute when selectedServices changes', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
 
       const { stepValidators } = useBookingWizardStepValidators({
         selectedUserTypeBlock: ref({ id: 'ut-1' } as BookingBlockInstance),
-        selectedServices,
+        selectedServiceTypeBlocks,
         propertyDetailsStepValid: null,
         propertyDetailsStepValidate: null,
         availabilityStepValid: null,
@@ -221,7 +221,7 @@ describe('useBookingWizardStepValidators', () => {
       stepValidators.value
       expect(buildBookingWizardStepValidators).toHaveBeenCalledTimes(1)
 
-      selectedServices.value = [{ id: 'service-1' } as BookingBlockInstance]
+      selectedServiceTypeBlocks.value = [{ id: 'service-1' } as BookingBlockInstance]
       stepValidators.value
       expect(buildBookingWizardStepValidators).toHaveBeenCalledTimes(2)
     })

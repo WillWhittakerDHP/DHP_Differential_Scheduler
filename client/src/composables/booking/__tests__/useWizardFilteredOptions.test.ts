@@ -61,7 +61,7 @@ function createBookingData(options: {
 describe('useWizardFilteredOptions', () => {
   let bookingData: ReturnType<typeof ref>
   let selectedUserType: ReturnType<typeof ref>
-  let selectedServices: ReturnType<typeof ref>
+  let selectedServiceTypeBlocks: ReturnType<typeof ref>
   let selectedAvailabilityOptions: ReturnType<typeof ref>
   let selectedPropertyTypeBlocks: ReturnType<typeof ref>
 
@@ -78,7 +78,7 @@ describe('useWizardFilteredOptions', () => {
       const { availableUserTypeBlocks } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -105,7 +105,7 @@ describe('useWizardFilteredOptions', () => {
       const { availableUserTypeBlocks } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -136,7 +136,7 @@ describe('useWizardFilteredOptions', () => {
       const { availableUserTypeBlocks } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -151,7 +151,7 @@ describe('useWizardFilteredOptions', () => {
       const { availableServices } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -176,7 +176,7 @@ describe('useWizardFilteredOptions', () => {
       const { availableServices } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -199,12 +199,12 @@ describe('useWizardFilteredOptions', () => {
         blockShapes: [],
       })
       selectedUserType.value = userType
-      selectedServices.value = [service2] // Currently selected but not in cascade
+      selectedServiceTypeBlocks.value = [service2] // Currently selected but not in cascade
       
       const { availableServices } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -231,7 +231,7 @@ describe('useWizardFilteredOptions', () => {
       const { servicesCascadeError } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -243,7 +243,7 @@ describe('useWizardFilteredOptions', () => {
       const { servicesCascadeError } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -260,7 +260,7 @@ describe('useWizardFilteredOptions', () => {
       const { servicesCascadeError } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -282,7 +282,7 @@ describe('useWizardFilteredOptions', () => {
       const { servicesCascadeError } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -313,12 +313,12 @@ describe('useWizardFilteredOptions', () => {
         blockInstances: [service1, option1, option2, option3],
         blockShapes: [optionShape],
       })
-      selectedServices.value = [service1]
+      selectedServiceTypeBlocks.value = [service1]
       
       const { availableOptionTypeBlocks } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -350,12 +350,12 @@ describe('useWizardFilteredOptions', () => {
         blockInstances: [service1, option1, property1],
         blockShapes: [optionShape, propertyShape],
       })
-      selectedServices.value = [service1]
+      selectedServiceTypeBlocks.value = [service1]
       
       const { availableOptionTypeBlocks } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -385,12 +385,12 @@ describe('useWizardFilteredOptions', () => {
         blockInstances: [service1, option1, option2],
         blockShapes: [optionShape],
       })
-      selectedServices.value = [service1]
+      selectedServiceTypeBlocks.value = [service1]
       
       const { availableOptionTypeBlocks } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -423,12 +423,12 @@ describe('useWizardFilteredOptions', () => {
         blockInstances: [service1, property1, property2, property3],
         blockShapes: [propertyShape],
       })
-      selectedServices.value = [service1]
+      selectedServiceTypeBlocks.value = [service1]
       
       const { availablePropertyTypeBlocks } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -460,12 +460,12 @@ describe('useWizardFilteredOptions', () => {
         blockInstances: [service1, property1, option1],
         blockShapes: [propertyShape, optionShape],
       })
-      selectedServices.value = [service1]
+      selectedServiceTypeBlocks.value = [service1]
       
       const { availablePropertyTypeBlocks } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -479,12 +479,12 @@ describe('useWizardFilteredOptions', () => {
   describe('accumulation aliases', () => {
     it('should provide accServices alias', () => {
       const service1 = createBookingBlockInstance('service-1')
-      selectedServices.value = [service1]
+      selectedServiceTypeBlocks.value = [service1]
       
       const { accServices } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -499,7 +499,7 @@ describe('useWizardFilteredOptions', () => {
       const { accProperty } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -514,7 +514,7 @@ describe('useWizardFilteredOptions', () => {
       const { accAvailability } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })
@@ -545,12 +545,12 @@ describe('useWizardFilteredOptions', () => {
         blockInstances: [service1, service2, option1, option2],
         blockShapes: [optionShape],
       })
-      selectedServices.value = [service1, service2]
+      selectedServiceTypeBlocks.value = [service1, service2]
       
       const { availableOptionTypeBlocks } = useWizardFilteredOptions({
         bookingData,
         selectedUserType,
-        selectedServices,
+        selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
       })

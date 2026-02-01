@@ -114,7 +114,6 @@ export function useDependentInstances(
           // LEARNING: Convert boolean to TernaryBoolean for differential property
           differential: ((entity as unknown as Record<string, unknown>).differential as boolean ?? false) ? 'true' as const : 'false' as const,
           orderIndex: entity.orderIndex ?? 0,
-          blockShape: (entity as unknown as Record<string, unknown>).blockShape as string || '',
           blockShapeRef: (entity as unknown as Record<string, unknown>).blockShapeRef as string || '',
           activeBlockIds: (entity as unknown as Record<string, unknown>).activeBlockIds as string[] || [],
           partInstances: [],

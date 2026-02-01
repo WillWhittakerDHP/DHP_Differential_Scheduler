@@ -167,7 +167,8 @@ export class GlobalTransformer {
         if (entityKey === 'annotationInstance') {
           const mappedEntities = normalizedEntities.map(entity => {
             const entityWithName = entity as unknown as Record<string, unknown>
-            if (entityWithName.text && !entityWithName.name) {
+            // Migrate text to name if name is missing
+            if (!entityWithName.name && entityWithName.text) {
               entityWithName.name = entityWithName.text
             }
             return entity

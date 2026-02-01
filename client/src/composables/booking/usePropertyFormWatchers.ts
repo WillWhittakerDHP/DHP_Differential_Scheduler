@@ -15,6 +15,7 @@ import type { PropertyFormData } from '@/types/propertyForm'
 export interface UsePropertyFormWatchersParams {
   formData: PropertyFormData
   loadedWizardState: Ref<WizardStateData | null> | null
+  isAddressExpanded: Ref<boolean>
 }
 
 export interface UsePropertyFormWatchersReturn {}
@@ -31,7 +32,8 @@ export function usePropertyFormWatchers(
 ): UsePropertyFormWatchersReturn {
   const {
     formData,
-    loadedWizardState
+    loadedWizardState,
+    isAddressExpanded
   } = params
 
   /**
@@ -73,6 +75,10 @@ export function usePropertyFormWatchers(
         formData.zipCode.value = typeof details.zipCode === 'string' ? details.zipCode : ''
         formData.mlsNumber.value = typeof details.mlsNumber === 'string' ? details.mlsNumber : ''
         
+        // Populate placeId and coordinates if available
+        formData.placeId.value = typeof details.placeId === 'string' ? details.placeId : undefined
+        formData.coordinates.value = details.coordinates || undefined
+        
         formData.propertySize.value = typeof details.propertySize === 'number' ? details.propertySize : null
         formData.numberOfUnits.value = typeof details.numberOfUnits === 'number' ? details.numberOfUnits : null
         formData.squareFootage.value = typeof details.squareFootage === 'number' ? details.squareFootage : null
@@ -84,6 +90,11 @@ export function usePropertyFormWatchers(
           (details.foundationAccess === 'basement' || details.foundationAccess === 'crawlspace' || details.foundationAccess === 'slab')
           ? details.foundationAccess as 'basement' | 'crawlspace' | 'slab'
           : null
+        
+        // Expand address fields if address exists (for existing appointments)
+        if (details.address) {
+          isAddressExpanded.value = true
+        }
       }
     }, { immediate: true })
   }

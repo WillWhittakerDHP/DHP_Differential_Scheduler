@@ -16,6 +16,7 @@ import type { PropertyFormData } from '@/types/propertyForm'
 
 export interface UsePropertyFormStateReturn {
   formData: PropertyFormData
+  isAddressExpanded: Ref<boolean>
 }
 
 /**
@@ -36,6 +37,8 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
   const city = ref('')
   const state = ref('')
   const zipCode = ref('')
+  const placeId = ref<string | undefined>(undefined)
+  const coordinates = ref<{ lat: number; lng: number } | undefined>(undefined)
   const propertySize = ref<number | null>(null)
   const numberOfUnits = ref<number | null>(null)
   const mlsNumber = ref<string>('')
@@ -44,6 +47,13 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
   const bathrooms = ref<number | null>(null)
   const foundationAccess = ref<'basement' | 'crawlspace' | 'slab' | null>(null)
   const additionalUnits = ref<number | null>(null)
+  
+  /**
+   * LEARNING: Track whether address fields are expanded (progressive disclosure)
+   * WHY: Start with autocomplete-only, expand to show all fields after selection
+   * PATTERN: Boolean ref to control UI state
+   */
+  const isAddressExpanded = ref(false)
 
   /**
    * LEARNING: Consolidate all form refs into single object
@@ -57,6 +67,8 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
     city,
     state,
     zipCode,
+    placeId,
+    coordinates,
     propertySize,
     numberOfUnits,
     mlsNumber,
@@ -68,7 +80,8 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
   }
 
   return {
-    formData
+    formData,
+    isAddressExpanded
   }
 }
 

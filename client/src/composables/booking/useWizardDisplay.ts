@@ -18,7 +18,7 @@ export interface StepDefinition {
 
 export interface UseWizardDisplayParams {
   steps: StepDefinition[]
-  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
+  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
   loadedWizardState: Ref<WizardStateData | null> | null
 }
 
@@ -38,7 +38,7 @@ export interface UseWizardDisplayReturn {
 export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDisplayReturn {
   const {
     steps,
-    selectedServices,
+    selectedServiceTypeBlocks,
     loadedWizardState
   } = params
 
@@ -51,12 +51,12 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
   const stepSubtitles = computed(() => {
     const baseSubtitles = steps.map(step => step.subtitle)
     
-    if (selectedServices.value.length > 0) {
-      const firstService = selectedServices.value[0]
-      if (selectedServices.value.length === 1) {
+    if (selectedServiceTypeBlocks.value.length > 0) {
+      const firstService = selectedServiceTypeBlocks.value[0]
+      if (selectedServiceTypeBlocks.value.length === 1) {
         baseSubtitles[0] = `Identifying your needs - ${firstService.name}`
       } else {
-        baseSubtitles[0] = `Identifying your needs - ${firstService.name} + ${selectedServices.value.length - 1} more`
+        baseSubtitles[0] = `Identifying your needs - ${firstService.name} + ${selectedServiceTypeBlocks.value.length - 1} more`
       }
     }
     
@@ -76,12 +76,12 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
       if (loadedServices.length === 1) return first.name
       return `${first.name} + ${loadedServices.length - 1} more`
     }
-    if (selectedServices.value.length > 0) {
-      const firstService = selectedServices.value[0]
-      if (selectedServices.value.length === 1) {
+    if (selectedServiceTypeBlocks.value.length > 0) {
+      const firstService = selectedServiceTypeBlocks.value[0]
+      if (selectedServiceTypeBlocks.value.length === 1) {
         return firstService.name
       }
-      return `${firstService.name} + ${selectedServices.value.length - 1} more`
+      return `${firstService.name} + ${selectedServiceTypeBlocks.value.length - 1} more`
     }
     return null
   })

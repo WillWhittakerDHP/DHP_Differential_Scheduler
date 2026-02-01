@@ -63,7 +63,7 @@ function createService(id: string, name: string): BookingBlockInstance {
 describe('useWizardDisplay', () => {
   describe('stepSubtitles', () => {
     it('should return base subtitles when no services selected', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>(null)
       
       const { stepSubtitles } = useWizardDisplay({
@@ -77,7 +77,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should update step 0 subtitle with single service name', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([
         createService('s1', 'Home Inspection'),
       ])
       const loadedWizardState = ref<WizardStateData | null>(null)
@@ -92,7 +92,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should show count for multiple services', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([
         createService('s1', 'Home Inspection'),
         createService('s2', 'Radon Test'),
         createService('s3', 'Termite Inspection'),
@@ -109,7 +109,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should be reactive to service selection changes', async () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>(null)
       
       const { stepSubtitles } = useWizardDisplay({
@@ -120,7 +120,7 @@ describe('useWizardDisplay', () => {
       
       expect(stepSubtitles.value[0]).toBe('Identifying your needs')
       
-      selectedServices.value = [createService('s1', 'Mold Test')]
+      selectedServiceTypeBlocks.value = [createService('s1', 'Mold Test')]
       await nextTick()
       
       expect(stepSubtitles.value[0]).toBe('Identifying your needs - Mold Test')
@@ -129,7 +129,7 @@ describe('useWizardDisplay', () => {
 
   describe('loadedServiceName', () => {
     it('should return null when no loaded state or selections', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>(null)
       
       const { loadedServiceName } = useWizardDisplay({
@@ -142,7 +142,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should return service name from loaded state', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>({
         services: [{ id: 's1', name: 'Loaded Service' }],
       } as WizardStateData)
@@ -157,7 +157,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should show count for multiple loaded services', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>({
         services: [
           { id: 's1', name: 'Service 1' },
@@ -175,7 +175,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should fall back to selected services when no loaded state', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([
         createService('s1', 'Selected Service'),
       ])
       const loadedWizardState = ref<WizardStateData | null>(null)
@@ -190,7 +190,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should show count for multiple selected services', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([
         createService('s1', 'Service A'),
         createService('s2', 'Service B'),
         createService('s3', 'Service C'),
@@ -209,7 +209,7 @@ describe('useWizardDisplay', () => {
 
   describe('loadedPropertyAddress', () => {
     it('should return null when no loaded state', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>(null)
       
       const { loadedPropertyAddress } = useWizardDisplay({
@@ -222,7 +222,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should return null when no property details', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>({
         services: [],
       } as WizardStateData)
@@ -237,7 +237,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should format full address with all parts', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>({
         propertyDetails: {
           address: '123 Main St',
@@ -258,7 +258,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should handle missing parts gracefully', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>({
         propertyDetails: {
           address: '456 Oak Ave',
@@ -277,7 +277,7 @@ describe('useWizardDisplay', () => {
     })
 
     it('should return just address when only address provided', () => {
-      const selectedServices = ref<BookingBlockInstance[]>([])
+      const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
       const loadedWizardState = ref<WizardStateData | null>({
         propertyDetails: {
           address: '789 Pine Rd',

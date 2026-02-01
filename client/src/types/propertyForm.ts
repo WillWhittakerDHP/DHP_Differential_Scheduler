@@ -22,6 +22,8 @@ export interface PropertyDetailsData {
   city: string
   state: string
   zipCode: string
+  placeId?: string
+  coordinates?: { lat: number; lng: number }
   propertySize: number | null
   numberOfUnits: number | null
   mlsNumber: string
@@ -43,6 +45,8 @@ export interface PropertyFormData {
   city: Ref<string>
   state: Ref<string>
   zipCode: Ref<string>
+  placeId: Ref<string | undefined>
+  coordinates: Ref<{ lat: number; lng: number } | undefined>
   propertySize: Ref<number | null>
   numberOfUnits: Ref<number | null>
   mlsNumber: Ref<string>

@@ -10,7 +10,6 @@ PATTERN: Uses dynamic builders to merge primitive + selectable configs
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { FormFieldConfigMap } from '../types/entity/formFields'
 import type { DisplayFieldConfigMap } from './field/display/fullFieldDisplayConfig'
-import { buildFormFieldConfig as buildDynamicFormFieldConfig } from './field/form/fullFieldFormConfig'
 import { buildDisplayFieldConfig as buildDynamicDisplayFieldConfig } from './field/display/fullFieldDisplayConfig'
 
 /**
@@ -108,8 +107,22 @@ function buildInstanceConfig() {
   }
 }
 
-export function buildFormFieldConfig() {
-  return buildDynamicFormFieldConfig()
+/**
+ * LEARNING: Returns empty configs - metadata is the source of truth
+ * WHY: All field configuration now comes from /admin-input-metadata, not hardcoded configs
+ * PATTERN: Return empty object - any code accessing this should use metadata instead
+ */
+export function buildFormFieldConfig(): FormFieldConfigMap {
+  return {
+    blockInstance: {},
+    blockShape: {},
+    partInstance: {},
+    partShape: {},
+    eventShape: {},
+    eventInstance: {},
+    annotationShape: {},
+    annotationInstance: {},
+  }
 }
 
 /**

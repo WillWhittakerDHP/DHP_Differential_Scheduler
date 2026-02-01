@@ -21,9 +21,14 @@ import { usePropertyTypeBlockConfig } from '@/composables/booking/usePropertyTyp
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import { createWizardStatePlugin } from '@/components/booking/plugins/wizardStatePlugin'
 import PropertyConfirmationModal from '@/components/booking/modals/PropertyConfirmationModal.vue'
+import AddressAutocomplete from '@/components/common/AddressAutocomplete.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import type { PropertyDetailsStepData } from '@/types/wizard'
+import { MapsApiError } from '@/services/mapsApiService'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('PropertyDetailsStep')
 
 const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
 if (!wizard) {
@@ -43,7 +48,7 @@ const { selectedPropertyTypeBlockId } = usePropertyTypeBlockSelection({
 
 // LEARNING: Use property form state composable
 // PATTERN: Composable manages all form state refs
-const { formData } = usePropertyFormState()
+const { formData, isAddressExpanded } = usePropertyFormState()
 
 // WHY: Watcher logic moved to usePropertyFormWatchers composable
 
@@ -62,6 +67,8 @@ const propertyDetailsLogic = usePropertyDetailsLogic({
     city: formData.city,
     state: formData.state,
     zipCode: formData.zipCode,
+    placeId: formData.placeId,
+    coordinates: formData.coordinates,
     propertySize: formData.propertySize,
     numberOfUnits: formData.numberOfUnits,
     mlsNumber: formData.mlsNumber,
@@ -70,14 +77,18 @@ const propertyDetailsLogic = usePropertyDetailsLogic({
     bathrooms: formData.bathrooms,
     foundationAccess: formData.foundationAccess,
     additionalUnits: formData.additionalUnits
-  }
+  },
+  isAddressExpanded
 })
 
 const {
   requiresUnitNumber,
   isMultiFamily,
   propertyTypeBlocksWithComponents,
-  stepData
+  stepData,
+  handlePlaceSelected,
+  handleAutocompleteError,
+  changeAddress
 } = propertyDetailsLogic
 
 // LEARNING: State options for dropdown
@@ -111,6 +122,8 @@ usePropertyFormWatchers({
     city: formData.city,
     state: formData.state,
     zipCode: formData.zipCode,
+    placeId: formData.placeId,
+    coordinates: formData.coordinates,
     propertySize: formData.propertySize,
     numberOfUnits: formData.numberOfUnits,
     mlsNumber: formData.mlsNumber,
@@ -120,7 +133,8 @@ usePropertyFormWatchers({
     foundationAccess: formData.foundationAccess,
     additionalUnits: formData.additionalUnits
   },
-  loadedWizardState
+  loadedWizardState,
+  isAddressExpanded
 })
 
 // LEARNING: Use property validation composable
@@ -226,76 +240,106 @@ function handlePropertyEdit(): void {
       </div>
     </div>
     
-    <!-- LEARNING: Location Section -->
-    <!-- WHY: Collects property address information -->
-    <!-- PATTERN: VRow/VCol grid layout with conditional Unit field -->
-    <!-- Address format: Street address + Unit on one line, City/State/Zip on one line -->
+    <!-- LEARNING: Location Section with Progressive Disclosure -->
+    <!-- WHY: Start with autocomplete-only for clean UI, expand to editable fields after selection -->
+    <!-- PATTERN: Conditional rendering based on isAddressExpanded state -->
     <VRow>
       <VCol cols="12">
         <h5 class="text-h5 mb-4">Location</h5>
       </VCol>
       
-      <!-- Street Address Row: Address + Unit (when required) -->
-      <VCol cols="12" :sm="requiresUnitNumber ? 9 : 12" :md="requiresUnitNumber ? 9 : 12">
-        <VTextField
+      <!-- Autocomplete-only mode (initial state) -->
+      <VCol v-if="!isAddressExpanded" cols="12">
+        <AddressAutocomplete
           v-model="formData.address.value"
-          label="Address"
-          placeholder="123 Pleasant St."
+          :coordinates="formData.coordinates.value"
+          :place-id="formData.placeId.value"
+          label="Property Address"
+          placeholder="Start typing the property address..."
           :rules="validationRules.address"
           :error-messages="fieldErrors.address ? [fieldErrors.address] : []"
-          full-width
-          required
+          @place-selected="handlePlaceSelected"
+          @update:coordinates="formData.coordinates.value = $event"
+          @update:place-id="formData.placeId.value = $event"
+          @error="handleAutocompleteError"
         />
       </VCol>
       
-      <VCol v-if="requiresUnitNumber" cols="12" sm="3" md="3">
-        <VTextField
-          v-model="formData.unit.value"
-          label="Unit"
-          placeholder="10"
-          full-width
-        />
-      </VCol>
-      
-      <!-- City/State/Zip Row: All three fields on one line -->
-      <VCol cols="12" sm="5" md="5">
-        <VTextField
-          v-model="formData.city.value"
-          label="City"
-          placeholder="Los Angeles"
-          :rules="validationRules.city"
-          :error-messages="fieldErrors.city ? [fieldErrors.city] : []"
-          full-width
-          required
-        />
-      </VCol>
-      
-      <VCol cols="12" sm="3" md="3">
-        <VSelect
-          v-model="formData.state.value"
-          :items="states"
-          item-title="title"
-          item-value="value"
-          label="State"
-          :rules="validationRules.state"
-          :error-messages="fieldErrors.state ? [fieldErrors.state] : []"
-          full-width
-          required
-        />
-      </VCol>
-      
-      <VCol cols="12" sm="4" md="4">
-        <VTextField
-          v-model="formData.zipCode.value"
-          label="Zip Code"
-          type="text"
-          placeholder="12345"
-          :rules="validationRules.zipCode"
-          :error-messages="fieldErrors.zipCode ? [fieldErrors.zipCode] : []"
-          full-width
-          required
-        />
-      </VCol>
+      <!-- Expanded mode (after selection or fallback) -->
+      <template v-else>
+        <!-- Editable address fields -->
+        <VCol cols="12" :sm="requiresUnitNumber ? 9 : 12" :md="requiresUnitNumber ? 9 : 12">
+          <VTextField
+            v-model="formData.address.value"
+            label="Street Address"
+            placeholder="123 Pleasant St."
+            :rules="validationRules.address"
+            :error-messages="fieldErrors.address ? [fieldErrors.address] : []"
+            full-width
+            required
+          />
+        </VCol>
+        
+        <VCol v-if="requiresUnitNumber" cols="12" sm="3" md="3">
+          <VTextField
+            v-model="formData.unit.value"
+            label="Unit"
+            placeholder="10"
+            full-width
+          />
+        </VCol>
+        
+        <VCol cols="12" sm="5" md="5">
+          <VTextField
+            v-model="formData.city.value"
+            label="City"
+            placeholder="Los Angeles"
+            :rules="validationRules.city"
+            :error-messages="fieldErrors.city ? [fieldErrors.city] : []"
+            full-width
+            required
+          />
+        </VCol>
+        
+        <VCol cols="12" sm="3" md="3">
+          <VSelect
+            v-model="formData.state.value"
+            :items="states"
+            item-title="title"
+            item-value="value"
+            label="State"
+            :rules="validationRules.state"
+            :error-messages="fieldErrors.state ? [fieldErrors.state] : []"
+            full-width
+            required
+          />
+        </VCol>
+        
+        <VCol cols="12" sm="4" md="4">
+          <VTextField
+            v-model="formData.zipCode.value"
+            label="Zip Code"
+            type="text"
+            placeholder="12345"
+            :rules="validationRules.zipCode"
+            :error-messages="fieldErrors.zipCode ? [fieldErrors.zipCode] : []"
+            full-width
+            required
+          />
+        </VCol>
+        
+        <!-- Change Address button -->
+        <VCol cols="12">
+          <VBtn
+            variant="text"
+            size="small"
+            prepend-icon="mdi-pencil"
+            @click="changeAddress"
+          >
+            Change Address
+          </VBtn>
+        </VCol>
+      </template>
     </VRow>
     
     <!-- LEARNING: Details Section -->

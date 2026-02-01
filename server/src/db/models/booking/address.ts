@@ -24,6 +24,9 @@ export class Address extends Model<
   declare city: string;
   declare state: string;
   declare zipCode: string;
+  declare placeId: string | null;
+  declare latitude: number | null;
+  declare longitude: number | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -57,6 +60,19 @@ export function AddressFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'zip_code',
+      },
+      placeId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: 'place_id',
+      },
+      latitude: {
+        type: DataTypes.DECIMAL(10, 8),
+        allowNull: true,
+      },
+      longitude: {
+        type: DataTypes.DECIMAL(11, 8),
+        allowNull: true,
       },
       createdAt: {
         type: DataTypes.DATE,

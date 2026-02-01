@@ -278,8 +278,6 @@ export class BookingTransformer {
     
     const blockInstanceWithShapeRef = blockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
     const blockShapeRef = blockInstanceWithShapeRef.blockShapeRef
-    const blockShapeEntity = blockShapeById.get(blockShapeRef)
-    const blockShape = blockShapeEntity?.name || blockShapeRef
     
     // WHY: DRY principle - consistent relationship operations across transformers
     // PATTERN: Use findRelationshipsByParent() and extractChildIds() instead of manual operations
@@ -318,8 +316,7 @@ export class BookingTransformer {
       bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
       differential: convertDifferentialToTernary(blockInstanceWithProps.differential),
       orderIndex: blockInstance.orderIndex,
-      blockShape, // Keep for backward compatibility
-      blockShapeRef, // Add block shape ID reference for filtering
+      blockShapeRef, // Block shape ID reference for filtering
       activeBlockIds,
       partInstances,
       allowMultiple: blockInstanceWithProps.allowMultiple ?? false,

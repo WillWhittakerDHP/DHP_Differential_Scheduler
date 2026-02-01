@@ -502,6 +502,21 @@ const defaultLocationCoordinates = computed({
   }
 })
 
+// LEARNING: Computed property for default location Place ID (Session 2.2.2)
+// WHY: Routes API uses Place IDs for more accurate routing than coordinates or addresses
+// PATTERN: placeId > coordinates > address (priority order for route calculations)
+const defaultLocationPlaceId = computed({
+  get: () => formData.value?.defaultLocation?.placeId,
+  set: (value: string | undefined) => {
+    if (formData.value) {
+      if (!formData.value.defaultLocation) {
+        formData.value.defaultLocation = { address: '' }
+      }
+      formData.value.defaultLocation.placeId = value
+    }
+  }
+})
+
 // LEARNING: Helper functions to initialize range constraints using functional patterns
 type RangeConstraints = NonNullable<AvailabilitySettings['rangeConstraints']>
 const ensureRangeConstraints = (current: RangeConstraints | undefined) => {
@@ -1063,47 +1078,6 @@ const emailValidationRule = (value: string): true | string => {
                     </VExpansionPanelText>
                   </VExpansionPanel>
                   
-                  <!-- Default Location -->
-                  <!-- LEARNING: Starting/ending point for first/last appointment drive times -->
-                  <!-- WHY: Needed to calculate travel time from home/office to first appointment and back -->
-                  <!-- PATTERN: Address with coordinates from Google Places API for drive time calculations -->
-                  <!-- SESSION: 2.2.1 - Updated to use AddressAutocomplete component -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.defaultLocation">
-                    <VExpansionPanelText>
-                      <div class="text-body-2 mb-4 text-medium-emphasis">
-                        {{ UI_STRINGS.help.defaultLocationDescription }}
-                      </div>
-                      <VRow>
-                        <VCol cols="12" md="8">
-                          <!-- LEARNING: AddressAutocomplete replaces plain TextField -->
-                          <!-- WHY: Provides address suggestions and extracts coordinates for distance calculations -->
-                          <AddressAutocomplete
-                            v-model="defaultLocationAddress"
-                            :coordinates="defaultLocationCoordinates"
-                            :label="UI_STRINGS.labels.defaultLocationAddress"
-                            :hint="UI_STRINGS.hints.defaultLocationAddress"
-                            placeholder="Start typing your address..."
-                            @update:coordinates="defaultLocationCoordinates = $event"
-                          />
-                          <!-- Show coordinates when available -->
-                          <div v-if="defaultLocationCoordinates" class="text-caption mt-1 text-medium-emphasis">
-                            <VIcon size="x-small" class="me-1">mdi-crosshairs-gps</VIcon>
-                            Coordinates: {{ defaultLocationCoordinates.lat.toFixed(6) }}, {{ defaultLocationCoordinates.lng.toFixed(6) }}
-                          </div>
-                        </VCol>
-                        <VCol cols="12" md="4">
-                          <VTextField
-                            v-model="defaultLocationLabel"
-                            :label="UI_STRINGS.labels.defaultLocationLabel"
-                            :hint="UI_STRINGS.hints.defaultLocationLabel"
-                            persistent-hint
-                            placeholder="Home Office"
-                          />
-                        </VCol>
-                      </VRow>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                  
                   <!-- Lunch Buffer -->
                   <!-- TODO: Implement Lunch Buffer UI
                     * When implementing, follow the pattern used for Appointment Buffers above
@@ -1154,7 +1128,7 @@ const emailValidationRule = (value: string): true | string => {
           <VTabs v-model="currentCalendarTab" class="mb-4">
             <VTab value="integration">Integration</VTab>
             <VTab value="rounding">{{ UI_STRINGS.tabs.rounding }}</VTab>
-            <VTab value="timezone">{{ UI_STRINGS.tabs.timezone }}</VTab>
+            <VTab value="places">Places</VTab>
             <VTab value="grid">Grid</VTab>
           </VTabs>
           
@@ -1327,8 +1301,60 @@ const emailValidationRule = (value: string): true | string => {
                 </div>
               </VWindowItem>
               
-              <!-- Timezone Tab -->
-              <VWindowItem key="timezone" value="timezone">
+              <!-- Places Tab -->
+              <!-- Session 2.2.2: Renamed from Timezone, added Default Location -->
+              <VWindowItem key="places" value="places">
+                <!-- Default Location Section -->
+                <!-- LEARNING: Starting/ending point for first/last appointment drive times -->
+                <!-- WHY: Needed to calculate travel time from home/office to first appointment and back -->
+                <!-- PATTERN: Address with coordinates from Google Places API for drive time calculations -->
+                <div class="mb-6">
+                  <div class="text-subtitle-1 mb-3">Default Location</div>
+                  <div class="text-body-2 mb-4 text-medium-emphasis">
+                    {{ UI_STRINGS.help.defaultLocationDescription }}
+                  </div>
+                  <VRow>
+                    <VCol cols="12" md="8">
+                      <!-- LEARNING: AddressAutocomplete replaces plain TextField -->
+                      <!-- WHY: Provides address suggestions and extracts coordinates + placeId for distance calculations -->
+                      <!-- Session 2.2.2: Added placeId binding for Routes API integration -->
+                      <AddressAutocomplete
+                        v-model="defaultLocationAddress"
+                        :coordinates="defaultLocationCoordinates"
+                        :place-id="defaultLocationPlaceId"
+                        :label="UI_STRINGS.labels.defaultLocationAddress"
+                        :hint="UI_STRINGS.hints.defaultLocationAddress"
+                        placeholder="Start typing your address..."
+                        @update:coordinates="defaultLocationCoordinates = $event"
+                        @update:place-id="defaultLocationPlaceId = $event"
+                      />
+                      <!-- Show coordinates and placeId when available -->
+                      <div v-if="defaultLocationCoordinates || defaultLocationPlaceId" class="text-caption mt-1 text-medium-emphasis">
+                        <div v-if="defaultLocationCoordinates">
+                          <VIcon size="x-small" class="me-1">mdi-crosshairs-gps</VIcon>
+                          Coordinates: {{ defaultLocationCoordinates.lat.toFixed(6) }}, {{ defaultLocationCoordinates.lng.toFixed(6) }}
+                        </div>
+                        <div v-if="defaultLocationPlaceId" class="mt-1">
+                          <VIcon size="x-small" class="me-1">mdi-map-marker-check</VIcon>
+                          Place ID: {{ defaultLocationPlaceId.substring(0, 20) }}...
+                        </div>
+                      </div>
+                    </VCol>
+                    <VCol cols="12" md="4">
+                      <VTextField
+                        v-model="defaultLocationLabel"
+                        :label="UI_STRINGS.labels.defaultLocationLabel"
+                        :hint="UI_STRINGS.hints.defaultLocationLabel"
+                        persistent-hint
+                        placeholder="Home Office"
+                      />
+                    </VCol>
+                  </VRow>
+                </div>
+                
+                <VDivider class="my-6" />
+                
+                <!-- Timezone Section -->
                 <div class="mb-4">
                   <div class="text-subtitle-1 mb-3">Timezone Settings</div>
                   <VSelect

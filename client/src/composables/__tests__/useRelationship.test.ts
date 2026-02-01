@@ -108,19 +108,6 @@ describe('useRelationshipCrud', () => {
     })
   })
 
-  describe('isLoading and error', () => {
-    it('should always return false for isLoading', () => {
-      const { isLoading } = useRelationshipCrud('partAssignments')
-      
-      expect(isLoading.value).toBe(false)
-    })
-
-    it('should always return undefined for error', () => {
-      const { error } = useRelationshipCrud('partAssignments')
-      
-      expect(error.value).toBeUndefined()
-    })
-  })
 
   describe('create mutation', () => {
     it('should create relationship', async () => {

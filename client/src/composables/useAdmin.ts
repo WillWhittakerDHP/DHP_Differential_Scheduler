@@ -40,7 +40,7 @@ function createAdminInstance() {
   instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
   
   
-  const { getGlobalEntities, getGlobalEntityById, globalData } = useGlobal()
+  const { globalData } = useGlobal()
   
   // LEARNING: Use metadata cache composable for lazy-loaded admin metadata
   // PATTERN: Separate cache key ['adminMetadata'] from globalData
@@ -203,8 +203,6 @@ function createAdminInstance() {
     getEntities,
     getEntitiesByKey,
     getEntityMap,
-    getGlobalEntities, // Keep for backward compatibility
-    getGlobalEntityById, // Keep for backward compatibility
     getMetadata,
     ensureMetadataLoaded, // Call on admin page mount to trigger metadata fetch
     isMetadataLoaded, // Check if metadata has been loaded

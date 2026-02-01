@@ -45,7 +45,9 @@ const errors = ref({
 })
 
 // API base URL for external routes
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
+// LEARNING: Use relative path to go through Vite proxy (configured in vite.config.ts)
+// WHY: Proxy handles CORS and routing to backend server
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 /**
  * Fetch OAuth status

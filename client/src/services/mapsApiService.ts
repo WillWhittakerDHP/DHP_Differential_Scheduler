@@ -292,3 +292,176 @@ function mapServerErrorType(serverType: string): MapsApiErrorType {
   }
   return typeMap[serverType] || 'unknown'
 }
+
+// =============================================================================
+// ROUTES API - Session 2.2.2
+// =============================================================================
+
+/**
+ * Location input for route calculations
+ * LEARNING: Routes API accepts placeId, coordinates, or address
+ * WHY: Provides flexibility in how locations are specified
+ * PATTERN: Priority order for accuracy: placeId > coordinates > address
+ */
+export interface RouteLocation {
+  placeId?: string
+  coordinates?: Coordinates
+  address?: string
+}
+
+/**
+ * Drive time result from Routes API
+ * LEARNING: Contains duration and distance for a route
+ */
+export interface DriveTimeResult {
+  durationMinutes: number
+  durationSeconds: number
+  distanceMeters: number
+  distanceMiles: number
+  _meta?: {
+    source: 'cache' | 'api'
+  }
+}
+
+/**
+ * Route matrix result for a single origin-destination pair
+ * LEARNING: Used for batch calculations
+ */
+export interface RouteMatrixResult {
+  originIndex: number
+  destinationIndex: number
+  durationSeconds: number
+  distanceMeters: number
+  status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS'
+}
+
+/**
+ * Fetch drive time between two locations
+ * 
+ * LEARNING: Get drive time from Routes API via server proxy
+ * WHY: Needed for dynamic drive time buffer calculations
+ * PATTERN: Location priority: placeId > coordinates > address
+ * 
+ * Session 2.2.2: Created for Routes API integration
+ * 
+ * @param origin Origin location (placeId, coordinates, or address)
+ * @param destination Destination location (placeId, coordinates, or address)
+ * @param useTraffic Whether to use real-time traffic (default: true)
+ * @returns Drive time result or null if route not found
+ * @throws MapsApiError on failure
+ */
+export async function fetchDriveTime(
+  origin: RouteLocation,
+  destination: RouteLocation,
+  useTraffic: boolean = true
+): Promise<DriveTimeResult | null> {
+  // Validate inputs
+  if (!origin.placeId && !origin.coordinates && !origin.address) {
+    throw new MapsApiError('invalid', 'Origin must have placeId, coordinates, or address')
+  }
+  if (!destination.placeId && !destination.coordinates && !destination.address) {
+    throw new MapsApiError('invalid', 'Destination must have placeId, coordinates, or address')
+  }
+  
+  logger.debug('[fetchDriveTime] Calculating drive time')
+  
+  try {
+    // Build URL with query params
+    const params = new URLSearchParams()
+    
+    // Add origin
+    if (origin.placeId) {
+      params.append('originPlaceId', origin.placeId)
+    } else if (origin.coordinates) {
+      params.append('originLat', origin.coordinates.lat.toString())
+      params.append('originLng', origin.coordinates.lng.toString())
+    } else if (origin.address) {
+      params.append('originAddress', origin.address)
+    }
+    
+    // Add destination
+    if (destination.placeId) {
+      params.append('destPlaceId', destination.placeId)
+    } else if (destination.coordinates) {
+      params.append('destLat', destination.coordinates.lat.toString())
+      params.append('destLng', destination.coordinates.lng.toString())
+    } else if (destination.address) {
+      params.append('destAddress', destination.address)
+    }
+    
+    // Add traffic preference
+    params.append('useTraffic', useTraffic.toString())
+    
+    const response = await axios.get<DriveTimeResult>(
+      `${API_BASE_URL}/api/v1/external/maps/drive-time?${params.toString()}`
+    )
+    
+    logger.debug('[fetchDriveTime] Got result:', response.data.durationMinutes, 'minutes')
+    
+    return response.data
+    
+  } catch (error) {
+    // Handle 404 as "not found" - return null instead of throwing
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      logger.warn('[fetchDriveTime] No route found between locations')
+      return null
+    }
+    
+    const apiError = handleApiError(error)
+    logger.error('[fetchDriveTime] Error:', apiError.type, apiError.message)
+    throw apiError
+  }
+}
+
+/**
+ * Fetch drive times for multiple origin-destination pairs (batch)
+ * 
+ * LEARNING: Batch calculation using Routes API computeRouteMatrix
+ * WHY: More efficient than multiple single calls for multiple routes
+ * PATTERN: Elements = origins × destinations (max 625)
+ * 
+ * Session 2.2.2: Created for Routes API integration
+ * 
+ * @param origins Array of origin locations
+ * @param destinations Array of destination locations
+ * @param useTraffic Whether to use real-time traffic (default: true)
+ * @returns Array of route results
+ * @throws MapsApiError on failure
+ */
+export async function fetchRouteMatrix(
+  origins: RouteLocation[],
+  destinations: RouteLocation[],
+  useTraffic: boolean = true
+): Promise<RouteMatrixResult[]> {
+  // Validate inputs
+  if (!origins.length) {
+    throw new MapsApiError('invalid', 'At least one origin is required')
+  }
+  if (!destinations.length) {
+    throw new MapsApiError('invalid', 'At least one destination is required')
+  }
+  
+  // Check element limit
+  const elementCount = origins.length * destinations.length
+  if (elementCount > 625) {
+    throw new MapsApiError('invalid', `Element count ${elementCount} exceeds maximum 625`)
+  }
+  
+  logger.debug('[fetchRouteMatrix] Calculating', elementCount, 'routes')
+  
+  try {
+    const response = await axios.post<{ results: RouteMatrixResult[] }>(
+      `${API_BASE_URL}/api/v1/external/maps/route-matrix`,
+      { origins, destinations, useTraffic }
+    )
+    
+    logger.debug('[fetchRouteMatrix] Got', response.data.results.length, 'results')
+    
+    return response.data.results
+    
+  } catch (error) {
+    const apiError = handleApiError(error)
+    logger.error('[fetchRouteMatrix] Error:', apiError.type, apiError.message)
+    throw apiError
+  }
+}

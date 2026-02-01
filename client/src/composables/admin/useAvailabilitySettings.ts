@@ -128,7 +128,9 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         timezone: rawSettings.timezone,
         durationRounding,
         differentialPerspectives: rawSettings.differentialPerspectives,
-        calendarConfig
+        calendarConfig,
+        // Session 2.2.2: Load defaultLocation for drive time calculations
+        defaultLocation: rawSettings.defaultLocation
       } as AvailabilitySettings
     } catch (err: any) {
       error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
@@ -276,6 +278,15 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
         const calendarConfig = (formData.value as Record<string, unknown>).calendarConfig
         if (calendarConfig) {
           ;(settingsToSave as Record<string, unknown>).calendarConfig = calendarConfig
+        }
+      }
+      
+      // PATTERN: Include defaultLocation if present in formData
+      // Session 2.2.2: Added for drive time calculations
+      if (formData.value && 'defaultLocation' in formData.value) {
+        const defaultLocation = (formData.value as Record<string, unknown>).defaultLocation
+        if (defaultLocation) {
+          ;(settingsToSave as Record<string, unknown>).defaultLocation = defaultLocation
         }
       }
       

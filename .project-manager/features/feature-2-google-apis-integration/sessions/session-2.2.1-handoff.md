@@ -26,6 +26,7 @@
 4. Create reusable `AddressAutocomplete.vue` component
 5. Integrate autocomplete with default location field in Business Controls
 6. Extract and store coordinates for distance calculations
+7. **Enhancement (for 2.2.2):** Store Place IDs for accurate route calculations with Routes API
 
 ---
 
@@ -385,5 +386,36 @@ curl "http://localhost:3001/api/v1/external/maps/autocomplete?input=1600%20Penns
 curl "http://localhost:3001/api/v1/external/maps/place-details?placeId=<PLACE_ID>"
 ```
 
+### Enhancement Needed: Store Place IDs
+
+**Why:** Routes API (Session 2.2.2) works best with Place IDs for accurate routing.
+
+**Current State:** The autocomplete component extracts and stores:
+- ✅ `address` (text string)
+- ✅ `coordinates` (lat/lng)
+- ⏳ `placeId` (not yet stored in DefaultLocation)
+
+**Required Change:** Update `DefaultLocation` interface and `AddressAutocomplete` component to also store the Place ID:
+
+```typescript
+// client/src/configs/availabilitySettings.ts
+interface DefaultLocation {
+  address: string
+  label?: string
+  placeId?: string      // ← ADD THIS
+  coordinates?: Coordinates
+}
+```
+
+This can be done at the start of Session 2.2.2 since:
+1. The placeId is already available in the Place Details response
+2. Just needs to be emitted and stored
+3. Enables better accuracy for drive time calculations
+
 ### Next Session
-Session 2.2.2: Drive Time Calculations (Distance Matrix API)
+Session 2.2.2: Drive Time Calculations (Routes API)
+
+**Note:** Session 2.2.2 will use the modern Routes API instead of the legacy Distance Matrix API.
+- Routes API is Google's recommended replacement
+- Same pricing, better accuracy with Place IDs
+- See `phases/phase-2.2-handoff.md` for architecture details

@@ -153,7 +153,7 @@ describe('BookingTransformer', () => {
       expect(result.blockInstances).toHaveLength(1)
       expect(result.blockInstances[0].id).toBe('block-1')
       expect(result.blockInstances[0].name).toBe('Atomic Block')
-      expect(result.blockInstances[0].blockShape).toBe('Block Shape 1')
+      expect(result.blockInstances[0].blockShapeRef).toBe('shape-1')
       expect(result.blockInstances[0].partInstances).toHaveLength(2)
       expect(result.blockInstances[0].partInstances[0].id).toBe('part-1')
       expect(result.blockInstances[0].partInstances[1].id).toBe('part-2')

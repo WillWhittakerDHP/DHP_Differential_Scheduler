@@ -11,6 +11,9 @@ export interface PropertyRequest {
   city: string;
   state: string;
   zipCode: string;
+  placeId?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   mlsNumber?: string | null;
   squareFootage?: number | null;
   bedrooms?: number | null;
@@ -29,6 +32,9 @@ export interface PropertyResponse {
   city: string;
   state: string;
   zipCode: string;
+  placeId?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   mlsNumber?: string | null;
   squareFootage?: number | null;
   bedrooms?: number | null;

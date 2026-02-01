@@ -40,7 +40,7 @@ function createBookingBlockInstance(
 
 describe('useAppointmentDataCollection', () => {
   let wizard: {
-    selectedServices: ReturnType<typeof ref>
+    selectedServiceTypeBlocks: ReturnType<typeof ref>
     selectedPropertyTypeBlocks: ReturnType<typeof ref>
     selectedOptionTypeBlocks: ReturnType<typeof ref>
     selectedUserTypeBlock: ReturnType<typeof ref>
@@ -55,7 +55,7 @@ describe('useAppointmentDataCollection', () => {
 
   beforeEach(() => {
     wizard = {
-      selectedServices: ref([]),
+      selectedServiceTypeBlocks: ref([]),
       selectedPropertyTypeBlocks: ref([]),
       selectedOptionTypeBlocks: ref([]),
       selectedUserTypeBlock: ref(null),
@@ -94,7 +94,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should return null and show error when property details missing', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       
       const { collectAppointmentData } = useAppointmentDataCollection({
         wizard,
@@ -113,7 +113,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should return null and show error when contacts missing', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       propertyDetailsStepData = ref({
         address: '123 Main St',
         unit: '',
@@ -147,7 +147,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should return null and show error when availability missing', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       propertyDetailsStepData = ref({
         address: '123 Main St',
         unit: '',
@@ -191,7 +191,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should collect appointment data successfully', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       wizard.selectedUserTypeBlock.value = { id: 'user-type-1' }
       wizard.isQuoteMode.value = false
       
@@ -253,7 +253,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should create property with correct data', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       propertyDetailsStepData = ref({
         address: '123 Main St',
         unit: 'Apt 1',
@@ -312,7 +312,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should create additional contacts when sections are visible', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       propertyDetailsStepData = ref({
         address: '123 Main St',
         unit: '',
@@ -364,7 +364,7 @@ describe('useAppointmentDataCollection', () => {
       const property1 = createBookingBlockInstance('property-1', { number: 3 })
       const option1 = createBookingBlockInstance('option-1', { number: 1 })
       
-      wizard.selectedServices.value = [service1, service2]
+      wizard.selectedServiceTypeBlocks.value = [service1, service2]
       wizard.selectedPropertyTypeBlocks.value = [property1]
       wizard.selectedOptionTypeBlocks.value = [option1]
       
@@ -420,7 +420,7 @@ describe('useAppointmentDataCollection', () => {
       const property1 = createBookingBlockInstance('property-1')
       const option1 = createBookingBlockInstance('option-1')
       
-      wizard.selectedServices.value = [service1]
+      wizard.selectedServiceTypeBlocks.value = [service1]
       wizard.selectedPropertyTypeBlocks.value = [property1]
       wizard.selectedOptionTypeBlocks.value = [option1]
       
@@ -478,7 +478,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should set status to quoted when in quote mode', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       wizard.isQuoteMode.value = true
       
       propertyDetailsStepData = ref({
@@ -528,7 +528,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should handle errors during property creation', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       propertyDetailsStepData = ref({
         address: '123 Main St',
         unit: '',
@@ -578,7 +578,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should use propertyVersionId when available, fallback to id', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       propertyDetailsStepData = ref({
         address: '123 Main St',
         unit: '',
@@ -631,7 +631,7 @@ describe('useAppointmentDataCollection', () => {
     })
 
     it('should include date range end when available', async () => {
-      wizard.selectedServices.value = [createBookingBlockInstance('service-1')]
+      wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       propertyDetailsStepData = ref({
         address: '123 Main St',
         unit: '',

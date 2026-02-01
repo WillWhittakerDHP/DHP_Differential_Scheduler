@@ -24,10 +24,8 @@ export type AnnotationShape = AnnotationShapeEntity
  * PATTERN: Extends BaseGlobalEntity via AnnotationInstanceEntity
  * NOTE: The "name" field from BaseGlobalEntity contains the text content
  * The transformer maps API "text" field to entity "name" field
- * For backward compatibility, "text" is included and equals "name"
  */
 export type AnnotationInstance = AnnotationInstanceEntity & {
-  text: string // Backward compatibility: same as "name" field
   userTypeBlock: UserTypeBlock // BlockInstance ID (GlobalEntityId) or null for generic annotations
   annotationShape?: AnnotationShape // Optional association from API (includes type name)
 }

@@ -95,8 +95,9 @@ Prerequisite for Phase 2.2 - Completed 2026-02-01
 **Prerequisite:** ✅ Drive Time Buffer Refactor (completed 2026-02-01)
 
 ### Phase 2.2 Overview
-- Set up Google Maps Places API for address autocomplete
-- Set up Google Maps Distance Matrix API for drive time calculations
+- Set up Google Maps Places API for address autocomplete (with Place ID storage)
+- Set up Google Maps Routes API for drive time calculations (modern replacement for legacy Distance Matrix)
+- Store Place IDs from autocomplete for accurate route calculations
 - Integrate with event locations from Phase 2.1
 - Use calculated drive times to populate buffer architecture
 
@@ -104,8 +105,8 @@ Prerequisite for Phase 2.2 - Completed 2026-02-01
 
 | Session | Name | Status |
 |---------|------|--------|
-| 2.2.1 | Address Autocomplete (Places API) | ⏳ Not Started |
-| 2.2.2 | Drive Time Calculations (Distance Matrix API) | ⏳ Not Started |
+| 2.2.1 | Address Autocomplete (Places API) | ✅ Complete |
+| 2.2.2 | Drive Time Calculations (Routes API) | ✅ Complete |
 | 2.2.3 | Error Handling & Fallbacks | ⏳ Not Started |
 
 ---
@@ -148,10 +149,15 @@ Prerequisite for Phase 2.2 - Completed 2026-02-01
    - Plan: `~/.cursor/plans/drive_time_buffer_refactor_f78512ee.plan.md`
 
 2. **Phase 2.2:** Google Maps API Integration (⏳ In Progress)
-   - **Session 2.2.1:** Address autocomplete (Places API) - Next
-   - **Session 2.2.2:** Drive time calculations (Distance Matrix API)
-   - **Session 2.2.3:** Error handling & fallbacks
+   - ✅ **Session 2.2.1:** Address autocomplete (Places API) - Complete
+   - ✅ **Session 2.2.2:** Drive time calculations (Routes API) - Complete
+   - **Session 2.2.3:** Error handling & fallbacks - Next
    - Handoff: `phases/phase-2.2-handoff.md`
+   
+   **Architecture Decision:** Using Routes API instead of legacy Distance Matrix API
+   - Routes API is Google's modern replacement (Distance Matrix marked "Legacy")
+   - Same pricing, better accuracy with Place IDs
+   - Real-time traffic data, improved ETAs
 
 ---
 

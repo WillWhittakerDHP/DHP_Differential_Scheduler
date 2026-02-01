@@ -14,22 +14,11 @@ Identifies deprecated code that should be cleaned up, including:
 
 ## Summary
 
-- Files scanned: **600**
-- Files with deprecations: **30**
-- Deprecation markers found: **40**
-- With replacement suggestion: 1
-- Without replacement: 39
-
-## Ready to Remove (have replacement suggestions)
-
-These deprecations specify what to use instead - good candidates for cleanup:
-
-### `client/src/configs/field/form/fullFieldFormConfig.ts`
-
-- **Line 37**: item → use `FieldMetadata`
-  ```
-  * @deprecated Use FieldMetadata from /admin-input-metadata instead
-  ```
+- Files scanned: **598**
+- Files with deprecations: **25**
+- Deprecation markers found: **32**
+- With replacement suggestion: 0
+- Without replacement: 32
 
 ## Needs Review (no replacement specified)
 
@@ -40,18 +29,6 @@ These deprecations need investigation to determine if they can be removed:
 - **Line 29** (info): Found Migration compatibility
   ```
   * PATTERN: Keep rendering defaulted to true for backward compatibility
-  ```
-
-### `client/src/components/booking/TimeSlotGrid.vue`
-
-- **Line 24** (info): Found Migration compatibility
-  ```
-  slots?: TimeSlot[] // Legacy prop for backward compatibility
-  ```
-
-- **Line 90** (info): Found Migration compatibility
-  ```
-  * WHY: Supports both new AppointmentSlots structure and legacy TimeSlot[] for backward compatibility
   ```
 
 ### `client/src/components/booking/types/selectionCardTypes.ts`
@@ -101,13 +78,6 @@ These deprecations need investigation to determine if they can be removed:
   // Fallback to modelValue for backward compatibility
   ```
 
-### `client/src/composables/booking/useAppointmentDataCollection.ts`
-
-- **Line 52** (info): Found Migration compatibility
-  ```
-  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...
-  ```
-
 ### `client/src/composables/booking/useAppointmentDuration.ts`
 
 - **Line 75** (info): Found Migration compatibility
@@ -127,25 +97,11 @@ These deprecations need investigation to determine if they can be removed:
   // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
   ```
 
-### `client/src/composables/booking/useBookingWizardStepValidators.ts`
-
-- **Line 16** (info): Found Migration compatibility
-  ```
-  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...
-  ```
-
 ### `client/src/composables/booking/useTimeSlotCalculations.ts`
 
 - **Line 29** (info): Found Migration compatibility
   ```
   * NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives
-  ```
-
-### `client/src/composables/booking/useWizardDisplay.ts`
-
-- **Line 21** (info): Found Migration compatibility
-  ```
-  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...
   ```
 
 ### `client/src/composables/booking/useWizardFilteredOptions.ts`
@@ -184,18 +140,6 @@ These deprecations need investigation to determine if they can be removed:
 - **Line 80** (info): Found Migration compatibility
   ```
   // For backward compatibility, provide isLoading and error (always false/undefined since we're reading from cache)
-  ```
-
-### `client/src/configs/field/form/fullFieldFormConfig.ts`
-
-- **Line 2** (warning): Found Parenthetical deprecation note
-  ```
-  * LEARNING: Full Form Field Config Builder (DEPRECATED - Metadata-only)
-  ```
-
-- **Line 39** (warning): Found Parenthetical deprecation note
-  ```
-  * Build form field configuration for a single entity (DEPRECATED)
   ```
 
 ### `client/src/types/annotations.ts`
@@ -294,9 +238,7 @@ These deprecations need investigation to determine if they can be removed:
 
 | File | Priority | Score | Deprecations | With Replacement |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/configs/field/form/fullFieldFormConfig.ts` | P1 | 6 | 3 | 1 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | P2 | 3 | 3 | 0 |
-| `client/src/components/booking/TimeSlotGrid.vue` | P2 | 2 | 2 | 0 |
 | `client/src/composables/booking/selectionCard/useSelectionCardState.ts` | P2 | 2 | 2 | 0 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | P2 | 2 | 2 | 0 |
 | `client/src/composables/useAdmin.ts` | P2 | 2 | 2 | 0 |
@@ -308,11 +250,8 @@ These deprecations need investigation to determine if they can be removed:
 | `client/src/composables/admin/useStatusButtonToggle.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/booking/selectionCard/useSelectionCardConfig.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/booking/selectionCard/useSelectionCardHandlers.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/booking/useAppointmentDuration.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/useBookingWizardStepValidators.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/booking/useTimeSlotCalculations.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/useWizardDisplay.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/useBookingWizard.ts` | P2 | 1 | 1 | 0 |
 | `client/src/types/annotations.ts` | P2 | 1 | 1 | 0 |

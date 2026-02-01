@@ -198,10 +198,15 @@ export interface Coordinates {
  * This is used as:
  * - Starting point for travel to first appointment of the day
  * - Ending point for travel from last appointment of the day
+ * 
+ * Session 2.2.2: Added placeId for Routes API integration
+ * WHY: Place IDs provide better accuracy than coordinates/addresses for routing
+ * PATTERN: placeId > coordinates > address (priority order for route calculations)
  */
 export interface DefaultLocation {
   address: string           // Full address string (e.g., "123 Main St, City, State ZIP")
   label?: string            // Optional label like "Home Office", "Shop", etc.
+  placeId?: string          // Optional - Google Place ID for accurate routing (Session 2.2.2)
   coordinates?: Coordinates // Optional - populated by Google Places API (Session 2.2.1)
 }
 

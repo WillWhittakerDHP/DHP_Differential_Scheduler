@@ -60,7 +60,6 @@ describe('annotationTransformers', () => {
       
       expect(result.id).toBe('annot-1')
       expect(result.name).toBe('Buyer')
-      expect(result.text).toBe('Buyer')
       expect(result.type).toBe('type-1')
     })
     

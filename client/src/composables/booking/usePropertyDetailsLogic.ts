@@ -14,6 +14,7 @@ import { useComponentEntity } from '@/composables/useComponentEntity'
 import type { GlobalEntity } from '@/types/entities'
 import type { PropertyDetailsData, PropertyFormData } from '@/types/propertyForm'
 import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
+import type { PlaceDetails } from '@/services/mapsApiService'
 
 // FIX: Use shared PropertyDetailsData type from propertyForm.ts
 
@@ -38,6 +39,7 @@ export interface UsePropertyDetailsLogicParams {
   }
   loadedWizardState: Ref<WizardStateData | null> | null
   formData: PropertyFormData
+  isAddressExpanded: Ref<boolean>
 }
 
 export interface UsePropertyDetailsLogicReturn {
@@ -47,6 +49,9 @@ export interface UsePropertyDetailsLogicReturn {
 
   stepData: ComputedRef<PropertyDetailsData>
   syncMLSData: () => void
+  handlePlaceSelected: (details: PlaceDetails) => void
+  handleAutocompleteError: (error: Error) => void
+  changeAddress: () => void
 }
 
 /**
@@ -59,7 +64,8 @@ export interface UsePropertyDetailsLogicReturn {
 export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): UsePropertyDetailsLogicReturn {
   const {
     wizard,
-    formData
+    formData,
+    isAddressExpanded
   } = params
 
   const { getGlobalEntityById, getGlobalData } = useGlobal()
@@ -155,6 +161,8 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     city: formData.city.value,
     state: formData.state.value,
     zipCode: formData.zipCode.value,
+    placeId: formData.placeId.value,
+    coordinates: formData.coordinates.value,
     propertySize: formData.propertySize.value,
     numberOfUnits: formData.numberOfUnits.value,
     mlsNumber: formData.mlsNumber.value,
@@ -165,6 +173,48 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     additionalUnits: formData.additionalUnits.value
   }))
 
+  /**
+   * LEARNING: Handle place selection from AddressAutocomplete
+   * WHY: Extracts address components and coordinates from Google Places API response
+   * PATTERN: Populates form fields and expands UI to show editable fields
+   */
+  const handlePlaceSelected = (details: PlaceDetails): void => {
+    const { addressComponents, coordinates, placeId } = details
+    
+    // Map address components to form fields
+    const streetNumber = addressComponents.streetNumber || ''
+    const streetName = addressComponents.streetName || ''
+    formData.address.value = `${streetNumber} ${streetName}`.trim()
+    formData.city.value = addressComponents.city || ''
+    formData.state.value = addressComponents.state || ''
+    formData.zipCode.value = addressComponents.postalCode || ''
+    
+    // Store location data for drive time calculations
+    formData.placeId.value = placeId
+    formData.coordinates.value = coordinates
+    
+    // Expand to show editable fields
+    isAddressExpanded.value = true
+  }
+
+  /**
+   * LEARNING: Handle autocomplete errors
+   * WHY: Fallback to manual entry if autocomplete API fails
+   * PATTERN: Expand fields to allow manual entry
+   */
+  const handleAutocompleteError = (error: Error): void => {
+    console.warn('[usePropertyDetailsLogic] Autocomplete error, showing manual fields:', error)
+    isAddressExpanded.value = true
+  }
+
+  /**
+   * LEARNING: Change address handler
+   * WHY: Returns to autocomplete-only mode when user wants to change address
+   * PATTERN: Collapse expanded fields back to autocomplete-only
+   */
+  const changeAddress = (): void => {
+    isAddressExpanded.value = false
+  }
 
   /**
    * LEARNING: Sync MLS data function
@@ -179,7 +229,10 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     isMultiFamily,
     propertyTypeBlocksWithComponents,
     stepData,
-    syncMLSData
+    syncMLSData,
+    handlePlaceSelected,
+    handleAutocompleteError,
+    changeAddress
   }
 }
 

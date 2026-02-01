@@ -12,9 +12,9 @@
 
 **Phase Number:** 2.2  
 **Phase Name:** Google Maps API Integration  
-**Description:** Integrate Google Maps API for address autocomplete (Places API) and drive time calculations (Distance Matrix API). This phase provides dynamic drive time calculations to replace static buffer values.
+**Description:** Integrate Google Maps API for address autocomplete (Places API) and drive time calculations (Routes API). This phase provides dynamic drive time calculations to replace static buffer values.
 
-**Current Status:** ⏳ In Progress - Session 2.2.1 Next  
+**Current Status:** ⏳ In Progress - Session 2.2.2 Next  
 **Prerequisites Completed:**
 - ✅ Phase 2.1 (Google Calendar API Integration) - Provides event locations for drive time calculations
 - ✅ Drive Time Buffer Refactor - Provides `driveTimeTo`/`driveTimeFrom` architecture with `applyTo` rules
@@ -24,7 +24,8 @@
 ## Objectives
 
 - Set up Google Maps Places API for address autocomplete
-- Set up Google Maps Distance Matrix API for drive time calculations
+- Set up Google Maps Routes API for drive time calculations (replaces legacy Distance Matrix API)
+- Store Place IDs from autocomplete for accurate route calculations
 - Calculate drive times between appointment locations
 - Calculate drive times from/to default location (home/office)
 - Integrate calculated drive times with the new buffer architecture
@@ -37,7 +38,7 @@
 | Session | Name | Status |
 |---------|------|--------|
 | 2.2.1 | Address Autocomplete (Places API) | ✅ Complete |
-| 2.2.2 | Drive Time Calculations (Distance Matrix API) | ⏳ Not Started |
+| 2.2.2 | Drive Time Calculations (Routes API) | ✅ Complete |
 | 2.2.3 | Error Handling & Fallbacks | ⏳ Not Started |
 
 ---
@@ -89,37 +90,55 @@ Enable Places API in Google Cloud Console:
 
 ---
 
-### Session 2.2.2: Drive Time Calculations (Distance Matrix API)
+### Session 2.2.2: Drive Time Calculations (Routes API)
 
 **Status:** ⏳ Not Started
 
 **Objectives:**
-- Set up Google Maps Distance Matrix API client
-- Calculate drive times between locations
+- Set up Google Maps Routes API client (modern replacement for legacy Distance Matrix)
+- Calculate drive times between locations using Place IDs when available
 - Integrate with event locations from Phase 2.1
 - Populate drive time values based on `applyTo` rules
 
+**Why Routes API Instead of Distance Matrix?**
+- **Distance Matrix API is now "Legacy"** - Google recommends Routes API for new development
+- **Better accuracy** with Place IDs (identifies actual access points, not just nearest road)
+- **Same pricing** as Distance Matrix ($5-10 per 1,000 elements depending on tier)
+- **Real-time traffic** data along each route segment
+- **Improved ETA accuracy** compared to legacy services
+- **Future-proof** - actively maintained and improved
+
 **Key Tasks:**
 1. **Server-Side Service**
-   - Create `server/src/services/googleMapsService.ts`
+   - Extend `server/src/services/googleMapsService.ts` with Routes API client
    - Implement `calculateDriveTime(origin, destination)` function
+   - Support multiple location formats with priority: **placeId > coordinates > address string**
    - Add caching for drive time results (TTL: 24 hours - routes don't change often)
-   - Add rate limiting (Google Maps has lower quotas than Calendar)
+   - Add rate limiting (3,000 elements per minute)
 
-2. **Distance Matrix API Integration**
-   - Create `GET /api/v1/external/maps/distance` endpoint
-   - Accept origin/destination as coordinates or addresses
-   - Return drive time in minutes
-   - Handle traffic considerations (optional: departure_time param)
+2. **Routes API Integration**
+   - Create `POST /api/v1/external/maps/route-matrix` endpoint
+   - Use `computeRouteMatrix` for multiple origin/destination pairs
+   - Accept locations as: `{ placeId }`, `{ lat, lng }`, or `{ address }`
+   - Return drive time in minutes and distance in meters
+   - Handle traffic considerations with `routingPreference: 'TRAFFIC_AWARE'`
 
-3. **Drive Time Calculation Logic**
+3. **Location Resolution Priority**
+   ```
+   When calculating drive time:
+   1. If placeId available → Use directly (best accuracy, no geocoding)
+   2. If coordinates available → Use lat/lng (good accuracy)
+   3. If only address string → Pass to API (it geocodes internally)
+   ```
+
+4. **Drive Time Calculation Logic**
    - **driveTimeTo (first_only)**: From `defaultLocation` → first appointment
    - **driveTimeTo (all)**: From previous appointment → current appointment
    - **driveTimeFrom (last_only)**: From last appointment → `defaultLocation`
    - **driveTimeFrom (all)**: From current appointment → next appointment
 
-4. **Client-Side Integration**
-   - Create `client/src/services/mapsApiService.ts`
+5. **Client-Side Integration**
+   - Extend `client/src/services/mapsApiService.ts` with route calculation
    - Update availability calculations to request drive times
    - Use event locations from cached calendar events
 
@@ -129,24 +148,45 @@ Slot Generation
     ↓
 Determine slot position (first/last of day)
     ↓
+Resolve location (placeId > coordinates > address)
+    ↓
 Apply driveTimeTo constraint?
-├── first_only + isFirstOfDay → Calculate from defaultLocation
+├── first_only + isFirstOfDay → Calculate from defaultLocation (use placeId if stored)
 ├── all → Calculate from previous appointment location
 └── none → Skip
     ↓
 Apply driveTimeFrom constraint?
-├── last_only + isLastOfDay → Calculate to defaultLocation
+├── last_only + isLastOfDay → Calculate to defaultLocation (use placeId if stored)
 ├── all → Calculate to next appointment location
 └── none → Skip
     ↓
 Use calculated drive time OR fallback to static minutes
 ```
 
+**Routes API Request Example:**
+```typescript
+// Using computeRouteMatrix endpoint
+POST https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix
+
+{
+  "origins": [
+    { "waypoint": { "placeId": "ChIJ..." } }  // Best: Place ID
+  ],
+  "destinations": [
+    { "waypoint": { "location": { "latLng": { "latitude": 37.42, "longitude": -122.08 } } } }  // Good: Coordinates
+  ],
+  "travelMode": "DRIVE",
+  "routingPreference": "TRAFFIC_AWARE"
+}
+```
+
 **Success Criteria:**
-- [ ] Distance Matrix API endpoint working
+- [ ] Routes API endpoint working
+- [ ] Place IDs used when available for better accuracy
 - [ ] Drive times calculated correctly between locations
 - [ ] Drive times integrate with buffer architecture
 - [ ] Caching reduces API calls for same routes
+- [ ] Fallback to coordinates/address when placeId unavailable
 
 ---
 
@@ -205,19 +245,32 @@ Use calculated drive time OR fallback to static minutes
 
 ### API Key Security
 - Google Maps API key should be restricted by HTTP referrer (client) or IP (server)
-- Consider server-side proxy to hide API key from client
+- Server-side proxy implemented to hide API key from client ✅
 - Set up billing alerts in Google Cloud Console
+
+### Location Identification Strategy (NEW)
+**Priority order for identifying locations:**
+1. **Place ID** (best) - Unique identifier from Places API, provides exact access point
+2. **Coordinates** (good) - Lat/lng, may snap to nearest road
+3. **Address string** (fallback) - Text address, requires geocoding
+
+**Why Place IDs are preferred:**
+- More accurate routing (identifies actual building entrances/access points)
+- No geocoding needed (faster, cheaper)
+- No ambiguity (exact location reference)
+- Session 2.2.1 already returns Place IDs from autocomplete
 
 ### Caching Strategy
 - Drive times between same locations don't change often
-- Cache key: `origin_coords:destination_coords`
+- Cache key: `origin_placeId:destination_placeId` (or coordinates if no placeId)
 - TTL: 24 hours (routes rarely change)
 - Invalidation: Manual refresh option in dev panel
 
 ### Rate Limiting
-- Google Maps has lower quotas than Calendar API
-- Default: 50 requests/second for Distance Matrix
-- Batch requests when possible (Distance Matrix supports multiple origins/destinations)
+- Routes API: 3,000 elements per minute (EPM)
+- Compute Route Matrix: Max 625 elements per request (origins × destinations)
+- TRAFFIC_AWARE_OPTIMAL: Max 100 elements per request
+- Batch requests when possible (Routes API supports multiple origins/destinations)
 
 ### Coordinate Precision
 - Store coordinates with 6 decimal places (accuracy ~11cm)
@@ -237,10 +290,11 @@ interface DriveTimeConfig {
   applyTo: DriveTimeApplyTo  // 'all' | 'first_only' | 'last_only' | 'none'
 }
 
-// DefaultLocation (from availabilitySettings.ts)
+// DefaultLocation (from availabilitySettings.ts) - ENHANCED with placeId
 interface DefaultLocation {
   address: string
   label?: string
+  placeId?: string          // NEW: Place ID for accurate routing
   coordinates?: {
     lat: number
     lng: number
@@ -248,11 +302,27 @@ interface DefaultLocation {
 }
 ```
 
+**Data Flow for Location Resolution:**
+```
+Session 2.2.1 (Autocomplete)          Session 2.2.2 (Routes)
+        ↓                                     ↓
+User selects address            Calculate drive time
+        ↓                                     ↓
+Places API returns:             Check available identifiers:
+- formattedAddress              1. placeId? → Use directly
+- placeId ← STORE THIS          2. coordinates? → Use lat/lng
+- coordinates                   3. address only? → Pass to API
+        ↓                                     ↓
+Store all three in              Routes API calculates
+DefaultLocation                 accurate drive time
+```
+
 Phase 2.2 will:
-1. Use `defaultLocation.coordinates` as origin/destination for first/last appointments
-2. Use event locations (from Phase 2.1 calendar events) for intermediate calculations
-3. Replace static `minutes` with calculated drive time when API succeeds
-4. Fall back to static `minutes` when API fails or coordinates unavailable
+1. **Store placeId** from autocomplete for accurate routing (Session 2.2.1 enhancement)
+2. Use `defaultLocation.placeId` (preferred) or `.coordinates` as origin/destination for first/last appointments
+3. Use event locations (from Phase 2.1 calendar events) for intermediate calculations
+4. Replace static `minutes` with calculated drive time when API succeeds
+5. Fall back to static `minutes` when API fails or location data unavailable
 
 ---
 
@@ -265,7 +335,8 @@ Phase 2.2 will:
 - [ ] Integration with default location field
 
 ### Session 2.2.2:
-- [ ] Google Maps Distance Matrix API configured
+- [ ] Google Maps Routes API configured (replaces legacy Distance Matrix)
+- [ ] Place IDs used when available for better accuracy
 - [ ] Drive times calculated between locations
 - [ ] Integration with buffer architecture
 - [ ] Caching working correctly
@@ -284,10 +355,13 @@ Phase 2.2 will:
 - **Phase 2.1 Handoff**: `phase-2.1-handoff.md`
 - **Drive Time Buffer Refactor Plan**: `~/.cursor/plans/drive_time_buffer_refactor_f78512ee.plan.md` ✅ Complete
 - **Google Maps Places API**: [developers.google.com/maps/documentation/places](https://developers.google.com/maps/documentation/places/web-service/overview)
-- **Google Maps Distance Matrix API**: [developers.google.com/maps/documentation/distance-matrix](https://developers.google.com/maps/documentation/distance-matrix/overview)
+- **Google Maps Routes API**: [developers.google.com/maps/documentation/routes](https://developers.google.com/maps/documentation/routes) (replaces legacy Distance Matrix)
+- **Routes API - Compute Route Matrix**: [developers.google.com/maps/documentation/routes/compute_route_matrix](https://developers.google.com/maps/documentation/routes/compute_route_matrix)
+- **Routes API - Specify Locations**: [developers.google.com/maps/documentation/routes/specify_location-rm](https://developers.google.com/maps/documentation/routes/specify_location-rm)
+- **Legacy Distance Matrix API** (deprecated): [developers.google.com/maps/documentation/distance-matrix](https://developers.google.com/maps/documentation/distance-matrix/overview)
 
 ---
 
 **Phase Status:** ⏳ In Progress  
-**Current Session:** Session 2.2.1 - Address Autocomplete  
+**Current Session:** Session 2.2.3 - Error Handling & Fallbacks  
 **Last Updated:** 2026-02-01

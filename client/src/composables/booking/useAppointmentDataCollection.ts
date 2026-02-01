@@ -49,7 +49,7 @@ export type { AvailabilityStepData }
 
 export interface UseAppointmentDataCollectionParams {
   wizard: {
-    selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
+    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
     selectedUserTypeBlock: Ref<{ id: string } | null>
@@ -96,7 +96,7 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
    */
   const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {
     // Validate required fields
-    if (wizard.selectedServices.value.length === 0) {
+    if (wizard.selectedServiceTypeBlocks.value.length === 0) {
       showError('Please select at least one service type')
       return null
     }
@@ -124,6 +124,9 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         city: propertyDetailsStepData.value.city,
         state: propertyDetailsStepData.value.state,
         zipCode: propertyDetailsStepData.value.zipCode,
+        placeId: propertyDetailsStepData.value.placeId || null,
+        latitude: propertyDetailsStepData.value.coordinates?.lat || null,
+        longitude: propertyDetailsStepData.value.coordinates?.lng || null,
         mlsNumber: propertyDetailsStepData.value.mlsNumber || null,
         squareFootage: propertyDetailsStepData.value.squareFootage || null,
         bedrooms: propertyDetailsStepData.value.bedrooms || null,
@@ -262,7 +265,7 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       const isQuoteMode = wizard.isQuoteMode.value
 
       // PATTERN: Map array to object { id -> number } for items with number property
-      const serviceQuantities = wizard.selectedServices.value.reduce((acc, service) => {
+      const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {
         const number = (service as BookingBlockInstance & { number?: number | null }).number
         if (number != null) {
           acc[service.id] = number
@@ -289,7 +292,7 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       const appointmentData: AppointmentRequest = {
         propertyVersionId, // Use propertyVersionId (new field)
         userTypeBlockId: wizard.selectedUserTypeBlock.value?.id || null,
-        selectedServiceIds: wizard.selectedServices.value.map(s => s.id),
+        selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),
         serviceQuantities: Object.keys(serviceQuantities).length > 0 ? serviceQuantities : null,
         selectedPropertyIds: wizard.selectedPropertyTypeBlocks.value.length > 0
           ? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)

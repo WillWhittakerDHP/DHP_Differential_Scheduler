@@ -56,7 +56,7 @@ const {
 // PATTERN: Composable provides validation function
 const { stepValidators } = useBookingWizardStepValidators({
   selectedUserTypeBlock: wizard.selectedUserTypeBlock,
-  selectedServices: wizard.selectedServiceTypeBlocks,
+  selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
   propertyDetailsStepValid: propertyDetailsStepValid,
   propertyDetailsStepValidate: propertyDetailsStepValidate,
   availabilityStepValid: availabilityStepValid,
@@ -126,7 +126,7 @@ const { appointmentDropdownItems } = useAppointmentDropdown({
 // PATTERN: Composable provides data collection function
 const { collectAppointmentData } = useAppointmentDataCollection({
   wizard: {
-    selectedServices: wizard.selectedServiceTypeBlocks,
+    selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
     selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
     selectedUserTypeBlock: wizard.selectedUserTypeBlock,
@@ -181,7 +181,7 @@ const {
   stepSubtitles,
 } = useWizardDisplay({
   steps,
-  selectedServices: wizard.selectedServiceTypeBlocks,
+  selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
   loadedWizardState
 })
 

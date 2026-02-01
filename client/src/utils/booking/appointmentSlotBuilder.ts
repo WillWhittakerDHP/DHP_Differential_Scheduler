@@ -139,7 +139,6 @@ export function createTimeRangesFromSlotShape(
  * @param partShapeById - Map of partShape ID → partShape entity
  * @param eventAssignmentsRelationships - Array of eventAssignments relationships (PartInstance → EventInstance)
  * @param eventInstances - Array of all EventInstance objects
- * @param validPartsRelationships - Array of validParts relationships (for backward compatibility, not used in new logic)
  * @param blockInstances - Array of block instances containing PartInstances
  * @returns Array of EventInstance objects for this partShape (aggregated from all PartInstances with this partShape)
  */

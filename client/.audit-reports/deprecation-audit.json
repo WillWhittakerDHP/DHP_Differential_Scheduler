@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-02-01T21:40:58.624Z",
+  "generatedAt": "2026-02-01T21:47:59.929Z",
   "check": "Deprecation",
-  "status": "warning",
+  "status": "pass",
   "summary": {
-    "totalFiles": 600,
-    "clientFiles": 483,
+    "totalFiles": 598,
+    "clientFiles": 481,
     "serverFiles": 117,
-    "totalDeprecations": 40,
-    "withReplacement": 1,
-    "withoutReplacement": 39
+    "totalDeprecations": 32,
+    "withReplacement": 0,
+    "withoutReplacement": 32
   },
   "issues": [
     {
@@ -17,26 +17,6 @@
       "file": "client/src/components/admin/generic/EntityFormContent.vue",
       "line": 29,
       "code": "* PATTERN: Keep rendering defaulted to true for backward compatibility",
-      "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/components/booking/TimeSlotGrid.vue",
-      "line": 24,
-      "code": "slots?: TimeSlot[] // Legacy prop for backward compatibility",
-      "deprecatedItem": "slots",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/components/booking/TimeSlotGrid.vue",
-      "line": 90,
-      "code": "* WHY: Supports both new AppointmentSlots structure and legacy TimeSlot[] for backward compatibility",
       "deprecatedItem": null,
       "replacement": null,
       "suggestion": "Review and remove deprecated code when safe"
@@ -114,16 +94,6 @@
     {
       "severity": "info",
       "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 52,
-      "code": "selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...",
-      "deprecatedItem": "selectedServices",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
       "file": "client/src/composables/booking/useAppointmentDuration.ts",
       "line": 75,
       "code": "// NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings",
@@ -154,30 +124,10 @@
     {
       "severity": "info",
       "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useBookingWizardStepValidators.ts",
-      "line": 16,
-      "code": "selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...",
-      "deprecatedItem": "selectedServices",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
       "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
       "line": 29,
       "code": "* NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives",
       "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "info",
-      "message": "Found Migration compatibility",
-      "file": "client/src/composables/booking/useWizardDisplay.ts",
-      "line": 21,
-      "code": "selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...",
-      "deprecatedItem": "selectedServices",
       "replacement": null,
       "suggestion": "Review and remove deprecated code when safe"
     },
@@ -238,36 +188,6 @@
       "line": 80,
       "code": "// For backward compatibility, provide isLoading and error (always false/undefined since we're reading from cache)",
       "deprecatedItem": "isLoading",
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Parenthetical deprecation note",
-      "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
-      "line": 2,
-      "code": "* LEARNING: Full Form Field Config Builder (DEPRECATED - Metadata-only)",
-      "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "warning",
-      "message": "Found JSDoc @deprecated",
-      "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
-      "line": 37,
-      "code": "* @deprecated Use FieldMetadata from /admin-input-metadata instead",
-      "deprecatedItem": null,
-      "replacement": "FieldMetadata",
-      "suggestion": "Replace with `FieldMetadata` and remove deprecated code"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Parenthetical deprecation note",
-      "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
-      "line": 39,
-      "code": "* Build form field configuration for a single entity (DEPRECATED)",
-      "deprecatedItem": null,
       "replacement": null,
       "suggestion": "Review and remove deprecated code when safe"
     },
@@ -431,33 +351,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/components/booking/TimeSlotGrid.vue",
-      "issues": [
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/components/booking/TimeSlotGrid.vue",
-          "line": 24,
-          "code": "slots?: TimeSlot[] // Legacy prop for backward compatibility",
-          "deprecatedItem": "slots",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/components/booking/TimeSlotGrid.vue",
-          "line": 90,
-          "code": "* WHY: Supports both new AppointmentSlots structure and legacy TimeSlot[] for backward compatibility",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
       "repoPath": "client/src/components/booking/types/selectionCardTypes.ts",
       "issues": [
         {
@@ -570,23 +463,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "issues": [
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-          "line": 52,
-          "code": "selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...",
-          "deprecatedItem": "selectedServices",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
       "repoPath": "client/src/composables/booking/useAppointmentDuration.ts",
       "issues": [
         {
@@ -631,23 +507,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/booking/useBookingWizardStepValidators.ts",
-      "issues": [
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useBookingWizardStepValidators.ts",
-          "line": 16,
-          "code": "selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...",
-          "deprecatedItem": "selectedServices",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
       "repoPath": "client/src/composables/booking/useTimeSlotCalculations.ts",
       "issues": [
         {
@@ -657,23 +516,6 @@
           "line": 29,
           "code": "* NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives",
           "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useWizardDisplay.ts",
-      "issues": [
-        {
-          "severity": "info",
-          "message": "Found Migration compatibility",
-          "file": "client/src/composables/booking/useWizardDisplay.ts",
-          "line": 21,
-          "code": "selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...",
-          "deprecatedItem": "selectedServices",
           "replacement": null,
           "suggestion": "Review and remove deprecated code when safe"
         }
@@ -768,43 +610,6 @@
       ],
       "score": 2,
       "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/configs/field/form/fullFieldFormConfig.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "message": "Found Parenthetical deprecation note",
-          "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
-          "line": 2,
-          "code": "* LEARNING: Full Form Field Config Builder (DEPRECATED - Metadata-only)",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "warning",
-          "message": "Found JSDoc @deprecated",
-          "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
-          "line": 37,
-          "code": "* @deprecated Use FieldMetadata from /admin-input-metadata instead",
-          "deprecatedItem": null,
-          "replacement": "FieldMetadata",
-          "suggestion": "Replace with `FieldMetadata` and remove deprecated code"
-        },
-        {
-          "severity": "warning",
-          "message": "Found Parenthetical deprecation note",
-          "file": "client/src/configs/field/form/fullFieldFormConfig.ts",
-          "line": 39,
-          "code": "* Build form field configuration for a single entity (DEPRECATED)",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
     },
     {
       "repoPath": "client/src/types/annotations.ts",
@@ -1025,7 +830,6 @@
     }
   ],
   "recommendations": [
-    "Found 1 deprecation(s) with replacement suggestions - these are ready for cleanup",
-    "Found 39 deprecation(s) without replacement - review before removing"
+    "Found 32 deprecation(s) without replacement - review before removing"
   ]
 }

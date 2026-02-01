@@ -13,7 +13,7 @@ export interface BookingWizardStepValidators {
 
 export interface UseBookingWizardStepValidatorsOptions {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
-  selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives selectedServiceTypeBlocks
+  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
 
   propertyDetailsStepValid: Ref<boolean> | null
   propertyDetailsStepValidate: Ref<(() => boolean) | null> | (() => boolean) | null
@@ -30,7 +30,7 @@ export function useBookingWizardStepValidators(
 ): BookingWizardStepValidators {
   const {
     selectedUserTypeBlock,
-    selectedServices,
+    selectedServiceTypeBlocks,
     propertyDetailsStepValid,
     propertyDetailsStepValidate,
     availabilityStepValid,
@@ -58,7 +58,7 @@ export function useBookingWizardStepValidators(
       : null
     
     return buildBookingWizardStepValidators({
-      hasServiceSelection: !!(selectedUserTypeBlock.value && selectedServices.value.length > 0),
+      hasServiceSelection: !!(selectedUserTypeBlock.value && selectedServiceTypeBlocks.value.length > 0),
       propertyDetailsStepValidate: propertyDetailsStepValidateFn,
       propertyDetailsStepValid: propertyDetailsStepValid ? propertyDetailsStepValid.value : null,
       availabilityStepValidate: availabilityStepValidateFn,

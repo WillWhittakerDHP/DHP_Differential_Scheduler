@@ -79,18 +79,16 @@ export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): 
     ?? rawAnnotation.annotationShape ?? rawAnnotation.annotation_type ?? rawAnnotation.AnnotationShape // Fallback for backward compatibility
   const transformedAnnotationShape = transformApiAnnotationShape(annotationShape)
 
-  // PATTERN: Use name if present, fallback to text
+  // PATTERN: Use name if present, fallback to text from API
   const name = rawAnnotation.name ?? rawAnnotation.Name ?? rawAnnotation.text ?? rawAnnotation.Text ?? ''
-  const text = rawAnnotation.text ?? rawAnnotation.Text ?? name
 
   // PATTERN: Include all BaseGlobalEntity properties when transforming API response
-  const result: AnnotationInstance & { name?: string } = {
+  const result: AnnotationInstance = {
     id: typeof rawAnnotation.id === 'string' ? rawAnnotation.id : '',
     entityKey: 'annotationInstance' as const,
     orderIndex: 0,
     active: true,
-    text: typeof text === 'string' ? text : '',
-    name: typeof name === 'string' ? name : (typeof text === 'string' ? text : ''),
+    name: typeof name === 'string' ? name : '',
     type: normalizedType,
     userTypeBlock: normalizedUserTypeBlock,
     annotationShape: transformedAnnotationShape ?? undefined,
